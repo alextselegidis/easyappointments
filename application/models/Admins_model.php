@@ -28,6 +28,26 @@ class Admins_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'firstName' => 'first_name',
+        'lastName' => 'last_name',
+        'email' => 'email',
+        'mobile' => 'mobile_number',
+        'phone' => 'phone_number',
+        'address' => 'address',
+        'city' => 'city',
+        'state' => 'state',
+        'zip' => 'zip_code',
+        'notes' => 'notes',
+        'timezone' => 'timezone',
+        'language' => 'language',
+        'roleId' => 'id_roles',
+    ];
+
+    /**
      * Save (insert or update) an admin.
      *
      * @param array $admin Associative array with the admin data.
@@ -560,7 +580,7 @@ class Admins_model extends EA_Model {
      * @param array &$admin API resource.
      * @param array|null $base Base admin data to be overwritten with the provided values (useful for updates).
      */
-    public function decode(array &$admin, array $base = NULL)
+    public function api_decode(array &$admin, array $base = NULL)
     {
         $decoded_response = $base ?? [];
 
