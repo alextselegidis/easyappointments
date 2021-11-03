@@ -11,81 +11,92 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-require_once __DIR__ . '/API_V1_Controller.php';
-
-use EA\Engine\Api\V1\Request;
-use EA\Engine\Api\V1\Response;
-use EA\Engine\Types\NonEmptyText;
-
 /**
- * Admins Controller
+ * Admins API v1 controller.
  *
  * @package Controllers
  */
-class Admins extends API_V1_Controller {
-    /**
-     * Admins Resource Parser
-     *
-     * @var \EA\Engine\Api\V1\Parsers\Admins
-     */
-    protected $parser;
-
+class Admins extends EA_Controller {
     /**
      * Class Constructor
      */
     public function __construct()
     {
         parent::__construct();
+
         $this->load->model('admins_model');
-        $this->parser = new \EA\Engine\Api\V1\Parsers\Admins;
+
+        $this->load->library('api');
+
+        $this->api->cors();
+
+        $this->api->auth();
+
+        $this->api->model('admins_model');
     }
 
     /**
-     * GET API Method
+     * Get a single admin or an admin collection.
      *
-     * @param int $id Optional (null), the record ID to be returned.
+     * @param int|null $id Admin ID.
      */
-    public function get($id = NULL)
+    public function get(int $id = NULL)
     {
         try
         {
-            $where = $id !== NULL ? ['id' => $id] : NULL;
+            $where = $id ? ['id' => $id] : NULL;
 
-            $admins = $this->admins_model->get($where);
+            $keyword = $this->api->request_keyword();
 
-            if ($id !== NULL && count($admins) === 0)
+            $limit = $this->api->request_limit();
+
+            $offset = $this->api->request_offset();
+
+            $order_by = $this->api->request_order_by();
+
+            $fields = $this->api->request_fields();
+
+            $admins = empty($keyword)
+                ? $this->admins_model->get($where, $limit, $offset, $order_by)
+                : $this->admins_model->search($keyword, $limit, $offset, $order_by);
+
+            foreach ($admins as &$admin)
             {
-                $this->throw_record_not_found();
+                $this->admins_model->api_encode($admin);
+
+                if ( ! empty($fields))
+                {
+                    $this->admins_model->only($admin, $fields);
+                }
             }
 
-            $response = new Response($admins);
+            $response = $id && ! empty($admins) ? $admins[0] : $admins;
 
-            $response->encode($this->parser)
-                ->search()
-                ->sort()
-                ->paginate()
-                ->minimize()
-                ->singleEntry($id)
-                ->output();
+            if ( ! $response)
+            {
+                response('Not Found', 404);
 
+                return;
+            }
+
+            json_response($response);
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($e);
+            json_exception($e);
         }
     }
 
     /**
-     * POST API Method
+     * Create an admin.
      */
     public function post()
     {
         try
         {
-            // Insert the admin to the database.
-            $request = new Request();
-            $admin = $request->get_body();
-            $this->parser->decode($admin);
+            $admin = request();
+
+            $this->admins_model->api_decode($admin);
 
             if (array_key_exists('id', $admin))
             {
@@ -97,76 +108,81 @@ class Admins extends API_V1_Controller {
                 throw new Exception('No settings property provided.');
             }
 
-            $id = $this->admins_model->save($admin);
+            $admin_id = $this->admins_model->save($admin);
 
-            // Fetch the new object from the database and return it to the client.
-            $batch = $this->admins_model->get(['id' => $id]);
-            $response = new Response($batch);
-            $status = new NonEmptyText('201 Created');
-            $response->encode($this->parser)->singleEntry(TRUE)->output($status);
+            $created_admin = $this->admins_model->find($admin_id);
+
+            $this->admins_model->api_encode($created_admin);
+
+            json_response($created_admin, 201);
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($e);
+            json_exception($e);
         }
     }
 
     /**
-     * PUT API Method
+     * Update an admin.
      *
-     * @param int $id The record ID to be updated.
+     * @param int $id Admin ID.
      */
-    public function put($id)
+    public function put(int $id)
     {
         try
         {
-            // Update the admin record.
-            $batch = $this->admins_model->get(['id' => $id]);
+            $occurrences = $this->admins_model->get(['id' => $id]);
 
-            if ($id !== NULL && count($batch) === 0)
+            if (empty($occurrences))
             {
-                $this->throw_record_not_found();
+                response('', 404);
+
+                return;
             }
 
-            $request = new Request();
-            $updatedAdmin = $request->get_body();
-            $baseAdmin = $batch[0];
-            $this->parser->decode($updatedAdmin, $baseAdmin);
-            $updatedAdmin['id'] = $id;
-            $id = $this->admins_model->save($updatedAdmin);
+            $original_admin = $occurrences[0];
 
-            // Fetch the updated object from the database and return it to the client.
-            $batch = $this->admins_model->get(['id' => $id]);
-            $response = new Response($batch);
-            $response->encode($this->parser)->singleEntry($id)->output();
+            $admin = request();
+
+            $this->admins_model->api_decode($admin, $original_admin);
+
+            $admin_id = $this->admins_model->save($admin);
+
+            $updated_admin = $this->admins_model->find($admin_id);
+
+            $this->admins_model->api_encode($updated_admin);
+
+            json_response($updated_admin);
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($e);
+            json_exception($e);
         }
     }
 
     /**
-     * DELETE API Method
+     * Delete an admin.
      *
-     * @param int $id The record ID to be deleted.
+     * @param int $id Admin ID.
      */
-    public function delete($id)
+    public function delete(int $id)
     {
         try
         {
+            $occurrences = $this->admins_model->get(['id' => $id]);
+
+            if (empty($occurrences))
+            {
+                response('', 404);
+
+                return;
+            }
+
             $this->admins_model->delete($id);
-
-            $response = new Response([
-                'code' => 200,
-                'message' => 'Record was deleted successfully!'
-            ]);
-
-            $response->output();
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($e);
+            json_exception($e);
         }
     }
 }
