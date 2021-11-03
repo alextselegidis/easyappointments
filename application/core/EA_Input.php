@@ -45,12 +45,12 @@ class EA_Input extends CI_Input {
     /**
      * Fetch an item from JSON data.
      *
-     * @param string $index Index for item to be fetched from the JSON payload.
+     * @param string|null $index Index for item to be fetched from the JSON payload.
      * @param bool|false $xss_clean Whether to apply XSS filtering
      *
      * @return mixed
      */
-    public function json(string $index, bool $xss_clean = FALSE)
+    public function json(string $index = NULL, bool $xss_clean = FALSE)
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -69,8 +69,19 @@ class EA_Input extends CI_Input {
 
         $payload = json_decode($input_stream, TRUE);
 
-        $value = $payload[$index] ?? NULL;
+        if ($xss_clean)
+        {
+            foreach ($payload as $name => $value)
+            {
+                $payload[$name] = $CI->security->xss_clean($value);
+            }
+        }
 
-        return $value && $xss_clean ? $CI->security->xss_clean($value) : $value;
+        if (empty($index))
+        {
+            return $payload;
+        }
+
+        return $payload[$index] ?? NULL;;
     }
 }

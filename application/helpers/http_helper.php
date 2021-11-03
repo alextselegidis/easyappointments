@@ -21,20 +21,27 @@ if ( ! function_exists('request'))
      * $first_name = request('first_name', 'John');
      *
      * @param string|null $key Request variable key.
-     * @param mixed $default Default value in case the requested variable has no value.
+     * @param mixed|null $default Default value in case the requested variable has no value.
      *
      * @return mixed
      *
      * @throws InvalidArgumentException
      */
-    function request(string $key, $default = NULL)
+    function request(string $key = NULL, $default = NULL)
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
         if (empty($key))
         {
-            throw new InvalidArgumentException('The $key argument cannot be empty.');
+            $payload = $CI->input->post_get($key);
+
+            if (empty($payload))
+            {
+                $payload = $CI->input->json($key);
+            }
+            
+            return $payload;
         }
 
         return $CI->input->post_get($key) ?? $CI->input->json($key) ?? $default;
