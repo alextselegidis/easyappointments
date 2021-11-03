@@ -1,16 +1,12 @@
-openapi: 3.0.1
-
+openapi: 3.0.3
 info:
     title: easyappointments-api
     version: 1.0.0
-
 externalDocs:
     description: Find out more about Easy!Appointments
     url: https://easyappointments.org/docs.html
-
 servers:
     - url: https://demo.easyappointments.org/index.php/api/v1/
-
 tags:
     - name: admins
     - name: providers
@@ -22,11 +18,7 @@ tags:
     - name: services
     - name: categories
     - name: settings
-
 paths:
-
-    # AVAILABILITIES 
-
     /availabilities:
         get:
             tags:
@@ -46,16 +38,12 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Availabilities'
-
-
-    # APPOINTMENTS 
-
     /appointments:
         get:
             tags:
@@ -83,10 +71,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -95,15 +83,15 @@ paths:
             summary: Create single appointment
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Appointment'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Appointment'
             x-codegen-request-body-name: body
@@ -119,10 +107,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Appointment'
         put:
@@ -137,15 +125,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Appointment'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Appointment'
             x-codegen-request-body-name: body
@@ -160,18 +148,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Appointment'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # UNAVAILABILITIES
-
     /unavailabilities:
         get:
             tags:
@@ -195,10 +180,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -207,15 +192,15 @@ paths:
             summary: Create single unavailability
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Unavailability'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Unavailability'
             x-codegen-request-body-name: body
@@ -231,10 +216,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Unavailability'
         put:
@@ -249,15 +234,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Unavailability'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Unavailability'
             x-codegen-request-body-name: body
@@ -272,18 +257,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Unavailability'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # CUSTOMERS
-
     /customers:
         get:
             tags:
@@ -307,10 +289,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -319,15 +301,15 @@ paths:
             summary: Create single customer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Customer'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Customer'
             x-codegen-request-body-name: body
@@ -343,10 +325,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Customer'
         put:
@@ -361,15 +343,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Customer'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Customer'
             x-codegen-request-body-name: body
@@ -384,18 +366,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Customer'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # SERVICES
-
     /services:
         get:
             tags:
@@ -419,10 +398,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -431,15 +410,15 @@ paths:
             summary: Create single service
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Service'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Service'
             x-codegen-request-body-name: body
@@ -455,10 +434,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Service'
         put:
@@ -473,15 +452,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Service'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Service'
             x-codegen-request-body-name: body
@@ -496,18 +475,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Service'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # CATEGORIES 
-
     /categories:
         get:
             tags:
@@ -531,10 +507,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -543,15 +519,15 @@ paths:
             summary: Create single category
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Category'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Category'
             x-codegen-request-body-name: body
@@ -567,10 +543,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Category'
         put:
@@ -585,15 +561,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Category'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Category'
             x-codegen-request-body-name: body
@@ -608,18 +584,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Category'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # ADMINS 
-
     /admins:
         get:
             tags:
@@ -647,27 +620,27 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
             tags:
                 - admins
-            summary: Create single admin
+            summary: Create an admin
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
-                            type: object
-                required: false
+                            $ref: '#/components/schemas/AdminCreate'
+                required: true
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Admin'
             x-codegen-request-body-name: body
@@ -683,10 +656,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Admin'
         put:
@@ -701,15 +674,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Admin'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Admin'
             x-codegen-request-body-name: body
@@ -724,18 +697,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Admin'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # PROVIDERS 
-
     /providers:
         get:
             tags:
@@ -759,10 +729,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -771,15 +741,15 @@ paths:
             summary: Create single provider
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Provider'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Provider'
             x-codegen-request-body-name: body
@@ -795,10 +765,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Provider'
         put:
@@ -813,15 +783,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Provider'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Provider'
             x-codegen-request-body-name: body
@@ -836,18 +806,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Provider'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # SECRETARIES 
-
     /secretaries:
         get:
             tags:
@@ -871,10 +838,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
         post:
@@ -883,15 +850,15 @@ paths:
             summary: Create single secretary
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Secretary'
                 required: false
             responses:
-                201:
+                '201':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Secretary'
             x-codegen-request-body-name: body
@@ -907,10 +874,10 @@ paths:
                   schema:
                       type: integer
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Secretary'
         put:
@@ -925,15 +892,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Secretary'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Secretary'
             x-codegen-request-body-name: body
@@ -948,18 +915,15 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Secretary'
-                404:
+                '404':
                     description: not found
                     content: {}
-
-    # SETTINGS 
-
     /settings:
         get:
             tags:
@@ -983,10 +947,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 type: object
     /settings/{settingName}:
@@ -1001,10 +965,10 @@ paths:
                   schema:
                       type: string
             responses:
-                200:
+                '200':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Setting'
         put:
@@ -1019,15 +983,15 @@ paths:
                       type: integer
             requestBody:
                 content:
-                    '*/*':
+                    application/json:
                         schema:
                             $ref: '#/components/schemas/Setting'
                 required: false
             responses:
-                200:
+                '200':
                     description: successful operation
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Setting'
             x-codegen-request-body-name: body
@@ -1042,23 +1006,21 @@ paths:
                   schema:
                       type: integer
             responses:
-                204:
+                '204':
                     description: success
                     content:
-                        '*/*':
+                        application/json:
                             schema:
                                 $ref: '#/components/schemas/Setting'
-                404:
+                '404':
                     description: not found
                     content: {}
-
 components:
     schemas:
         Availabilities:
             type: array
             items:
                 type: string
-
         Appointment:
             type: object
             properties:
@@ -1086,7 +1048,58 @@ components:
                     type: integer
                 googleCalendarId:
                     type: string
-
+        AppointmentCreate:
+            type: object
+            properties:
+                book:
+                    type: string
+                start:
+                    type: string
+                end:
+                    type: string
+                hash:
+                    type: string
+                location:
+                    type: string
+                status:
+                    type: string
+                notes:
+                    type: string
+                customerId:
+                    type: integer
+                providerId:
+                    type: integer
+                serviceId:
+                    type: integer
+                googleCalendarId:
+                    type: string
+        AppointmentUpdate:
+            type: object
+            properties:
+                id:
+                    type: integer
+                book:
+                    type: string
+                start:
+                    type: string
+                end:
+                    type: string
+                hash:
+                    type: string
+                location:
+                    type: string
+                status:
+                    type: string
+                notes:
+                    type: string
+                customerId:
+                    type: integer
+                providerId:
+                    type: integer
+                serviceId:
+                    type: integer
+                googleCalendarId:
+                    type: string
         Unavailability:
             type: object
             properties:
@@ -1102,7 +1115,6 @@ components:
                     type: string
                 providerId:
                     type: integer
-
         Customer:
             type: object
             properties:
@@ -1124,7 +1136,6 @@ components:
                     type: string
                 notes:
                     type: string
-
         Service:
             type: object
             properties:
@@ -1146,7 +1157,6 @@ components:
                     type: string
                 categoryId:
                     type: integer
-
         Category:
             type: object
             properties:
@@ -1156,7 +1166,6 @@ components:
                     type: string
                 description:
                     type: string
-
         Admin:
             type: object
             properties:
@@ -1193,7 +1202,107 @@ components:
                             type: boolean
                         calendarView:
                             type: string
-
+            example:
+                id: 1
+                firstName: John
+                lastName: Doe
+                email: john@example.org
+                mobile: '+10000000000'
+                phone: '+10000000000'
+                address: Str. 123
+                city: City
+                zip: '12345'
+                notes: This is an admin.
+                timezone: UTC
+                settings:
+                    username: johndoe
+                    password: johndoe
+                    notifications: true
+                    calendarView: default
+        AdminCreate:
+            type: object
+            properties:
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                mobile:
+                    type: string
+                phone:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zip:
+                    type: string
+                notes:
+                    type: string
+                timezone:
+                    type: string
+                settings:
+                    type: object
+                    properties:
+                        username:
+                            type: string
+                        password:
+                            type: string
+                        notifications:
+                            type: boolean
+                        calendarView:
+                            type: string
+            example:
+                firstName: John
+                lastName: Doe
+                email: john@example.org
+                mobile: '+10000000000'
+                phone: '+10000000000'
+                address: Str. 123
+                city: City
+                zip: '12345'
+                notes: This is an admin.
+                timezone: UTC
+                settings:
+                    username: johndoe
+                    password: johndoe
+                    notifications: true
+                    calendarView: default
+        AdminUpdate:
+            type: object
+            properties:
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                mobile:
+                    type: string
+                phone:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zip:
+                    type: string
+                notes:
+                    type: string
+                timezone:
+                    type: string
+                settings:
+                    type: object
+                    properties:
+                        username:
+                            type: string
+                        password:
+                            type: string
+                        notifications:
+                            type: boolean
+                        calendarView:
+                            type: string
         Provider:
             type: object
             properties:
@@ -1246,7 +1355,6 @@ components:
                             type: string
                         workingPlan:
                             type: string
-
         Secretary:
             type: object
             properties:
@@ -1287,7 +1395,6 @@ components:
                             type: boolean
                         calendarView:
                             type: string
-
         Setting:
             type: object
             properties:
@@ -1295,11 +1402,11 @@ components:
                     type: string
                 value:
                     type: string
-
     securitySchemes:
-        ApiKeyAuth:
-            type: apiKey
-            description: 'A bearer token is required when accessing or editing administrative
-        data. The value is required to have the following format "Bearer ##############"'
-            name: Authorization
-            in: header
+        BearerToken:
+            type: http
+            scheme: bearer
+        BasicAuth:
+            type: http
+            scheme: basic
+    
