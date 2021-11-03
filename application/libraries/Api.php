@@ -28,7 +28,12 @@ class Api {
     /**
      * @var int
      */
-    private $default_length = 20;
+    protected $default_length = 20;
+
+    /**
+     * @var EA_Model
+     */
+    protected $model;
 
     /**
      * Api constructor.
@@ -40,7 +45,54 @@ class Api {
         $this->CI->load->library('accounts');
     }
 
-    public function authorize()
+    /**
+     * Load and use the provided model class.
+     *
+     * @param string $model
+     */
+    public function model(string $model)
+    {
+        $this->CI->load->model($model);
+
+        $this->model = $this->CI->{$model};
+    }
+
+    /**
+     * Set the CORS headers for API requests.
+     */
+    public function cors()
+    {
+        // Allow from any origin.
+        if (isset($_SERVER['HTTP_ORIGIN']))
+        {
+            // Decide if the origin in $_SERVER['HTTP_ORIGIN'] is one you want to allow, and if so:
+            header('Access-Control-Allow-Origin: ' . $_SERVER['HTTP_ORIGIN']);
+            header('Access-Control-Allow-Credentials: true');
+            header('Access-Control-Max-Age: 86400'); // Cache for 1 day
+        }
+
+        // Access-Control headers are received during OPTIONS requests.
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
+        {
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+            {
+                // May also be using PUT, PATCH, HEAD etc
+                header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+            }
+
+            if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+            {
+                header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+            }
+
+            exit(0);
+        }
+    }
+
+    /**
+     * Authorize the API request (Basic Auth or Bearer Token supported).
+     */
+    public function auth()
     {
         try
         {
@@ -191,17 +243,19 @@ class Api {
             return NULL;
         }
 
-        $sort_tokens = explode(',', $sort);
+        $sort_tokens = array_map('trim', explode(',', $sort));
 
         $order_by = [];
 
         foreach ($sort_tokens as $sort_token)
         {
-            $field = substr($sort_token, 1);
+            $api_field = substr($sort_token, 1);
+
+            $db_field = $this->model->db_field($api_field);
 
             $direction = substr($sort_token, 0, 1) === '-' ? 'DESC' : 'ASC';
 
-            $order_by[] = $field . ' ' . $direction;
+            $order_by[] = $db_field . ' ' . $direction;
         }
 
         return implode(', ', $order_by);
@@ -221,6 +275,6 @@ class Api {
             return NULL;
         }
 
-        return explode(',', $fields);
+        return array_map('trim', explode(',', $fields));
     }
 }
