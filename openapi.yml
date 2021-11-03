@@ -1,0 +1,1305 @@
+openapi: 3.0.1
+
+info:
+    title: easyappointments-api
+    version: 1.0.0
+
+externalDocs:
+    description: Find out more about Easy!Appointments
+    url: https://easyappointments.org/docs.html
+
+servers:
+    - url: https://demo.easyappointments.org/index.php/api/v1/
+
+tags:
+    - name: admins
+    - name: providers
+    - name: secretaries
+    - name: customers
+    - name: availabilities
+    - name: unavailabilities
+    - name: appointments
+    - name: services
+    - name: categories
+    - name: settings
+
+paths:
+
+    # AVAILABILITIES 
+
+    /availabilities:
+        get:
+            tags:
+                - availabilities
+            summary: Gets availability
+            parameters:
+                - name: providerId
+                  in: query
+                  schema:
+                      type: integer
+                - name: serviceId
+                  in: query
+                  schema:
+                      type: integer
+                - name: date
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Availabilities'
+
+
+    # APPOINTMENTS 
+
+    /appointments:
+        get:
+            tags:
+                - appointments
+            summary: Get all appointments
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+                - name: aggregates
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - appointments
+            summary: Create single appointment
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Appointment'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Appointment'
+            x-codegen-request-body-name: body
+    /appointments/{appointmentId}:
+        get:
+            tags:
+                - appointments
+            summary: Get single appointment
+            parameters:
+                - name: appointmentId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Appointment'
+        put:
+            tags:
+                - appointments
+            summary: Update single appointment
+            parameters:
+                - name: appointmentId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Appointment'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Appointment'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - appointments
+            summary: Delete single appointment
+            parameters:
+                - name: appointmentId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Appointment'
+                404:
+                    description: not found
+                    content: {}
+
+    # UNAVAILABILITIES
+
+    /unavailabilities:
+        get:
+            tags:
+                - unavailabilities
+            summary: Get all unavailabilities
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - unavailabilities
+            summary: Create single unavailability
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Unavailability'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Unavailability'
+            x-codegen-request-body-name: body
+    /unavailabilities/{unavailabilityId}:
+        get:
+            tags:
+                - unavailabilities
+            summary: Get single unavailability
+            parameters:
+                - name: unavailabilityId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Unavailability'
+        put:
+            tags:
+                - unavailabilities
+            summary: Update single unavailability
+            parameters:
+                - name: unavailabilityId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Unavailability'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Unavailability'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - unavailabilities
+            summary: Delete single unavailability
+            parameters:
+                - name: unavailabilityId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Unavailability'
+                404:
+                    description: not found
+                    content: {}
+
+    # CUSTOMERS
+
+    /customers:
+        get:
+            tags:
+                - customers
+            summary: Get all customers
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - customers
+            summary: Create single customer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+            x-codegen-request-body-name: body
+    /customers/{customerId}:
+        get:
+            tags:
+                - customers
+            summary: Get single customer
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+        put:
+            tags:
+                - customers
+            summary: Update single customer
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Customer'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - customers
+            summary: Delete single customer
+            parameters:
+                - name: customerId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Customer'
+                404:
+                    description: not found
+                    content: {}
+
+    # SERVICES
+
+    /services:
+        get:
+            tags:
+                - services
+            summary: Get all services
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - services
+            summary: Create single service
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Service'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Service'
+            x-codegen-request-body-name: body
+    /services/{serviceId}:
+        get:
+            tags:
+                - services
+            summary: Get single service
+            parameters:
+                - name: serviceId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Service'
+        put:
+            tags:
+                - services
+            summary: Update single service
+            parameters:
+                - name: serviceId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Service'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Service'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - services
+            summary: Delete single service
+            parameters:
+                - name: serviceId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Service'
+                404:
+                    description: not found
+                    content: {}
+
+    # CATEGORIES 
+
+    /categories:
+        get:
+            tags:
+                - categories
+            summary: Get all categories
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - categories
+            summary: Create single category
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Category'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Category'
+            x-codegen-request-body-name: body
+    /categories/{categoryId}:
+        get:
+            tags:
+                - categories
+            summary: Get single category
+            parameters:
+                - name: categoryId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Category'
+        put:
+            tags:
+                - categories
+            summary: Update single category
+            parameters:
+                - name: categoryId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Category'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Category'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - categories
+            summary: Delete single category
+            parameters:
+                - name: categoryId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Category'
+                404:
+                    description: not found
+                    content: {}
+
+    # ADMINS 
+
+    /admins:
+        get:
+            tags:
+                - admins
+            summary: Get all admins
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+                - name: fields
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - admins
+            summary: Create single admin
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            type: object
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+            x-codegen-request-body-name: body
+    /admins/{adminId}:
+        get:
+            tags:
+                - admins
+            summary: Get single admin
+            parameters:
+                - name: adminId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+        put:
+            tags:
+                - admins
+            summary: Update single admin
+            parameters:
+                - name: adminId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Admin'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - admins
+            summary: Delete single admin
+            parameters:
+                - name: adminId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Admin'
+                404:
+                    description: not found
+                    content: {}
+
+    # PROVIDERS 
+
+    /providers:
+        get:
+            tags:
+                - providers
+            summary: Get all providers
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - providers
+            summary: Create single provider
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Provider'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Provider'
+            x-codegen-request-body-name: body
+    /providers/{providerId}:
+        get:
+            tags:
+                - providers
+            summary: Get single provider
+            parameters:
+                - name: providerId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Provider'
+        put:
+            tags:
+                - providers
+            summary: Update single provider
+            parameters:
+                - name: providerId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Provider'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Provider'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - providers
+            summary: Delete single provider
+            parameters:
+                - name: providerId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Provider'
+                404:
+                    description: not found
+                    content: {}
+
+    # SECRETARIES 
+
+    /secretaries:
+        get:
+            tags:
+                - secretaries
+            summary: Get all secretaries
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+        post:
+            tags:
+                - secretaries
+            summary: Create single secretary
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Secretary'
+                required: false
+            responses:
+                201:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Secretary'
+            x-codegen-request-body-name: body
+    /secretaries/{secretaryId}:
+        get:
+            tags:
+                - secretaries
+            summary: Get single secretary
+            parameters:
+                - name: secretaryId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Secretary'
+        put:
+            tags:
+                - secretaries
+            summary: Update single secretary
+            parameters:
+                - name: secretaryId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Secretary'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Secretary'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - secretaries
+            summary: Delete single secretary
+            parameters:
+                - name: secretaryId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Secretary'
+                404:
+                    description: not found
+                    content: {}
+
+    # SETTINGS 
+
+    /settings:
+        get:
+            tags:
+                - settings
+            summary: Get all settings
+            parameters:
+                - name: page
+                  in: query
+                  schema:
+                      type: integer
+                - name: length
+                  in: query
+                  schema:
+                      type: integer
+                - name: sort
+                  in: query
+                  schema:
+                      type: string
+                - name: q
+                  in: query
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                type: object
+    /settings/{settingName}:
+        get:
+            tags:
+                - settings
+            summary: Get single setting
+            parameters:
+                - name: settingName
+                  in: path
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Setting'
+        put:
+            tags:
+                - settings
+            summary: Update single setting
+            parameters:
+                - name: settingName
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            requestBody:
+                content:
+                    '*/*':
+                        schema:
+                            $ref: '#/components/schemas/Setting'
+                required: false
+            responses:
+                200:
+                    description: successful operation
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Setting'
+            x-codegen-request-body-name: body
+        delete:
+            tags:
+                - settings
+            summary: Delete single setting
+            parameters:
+                - name: settingName
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                204:
+                    description: success
+                    content:
+                        '*/*':
+                            schema:
+                                $ref: '#/components/schemas/Setting'
+                404:
+                    description: not found
+                    content: {}
+
+components:
+    schemas:
+        Availabilities:
+            type: array
+            items:
+                type: string
+
+        Appointment:
+            type: object
+            properties:
+                id:
+                    type: integer
+                book:
+                    type: string
+                start:
+                    type: string
+                end:
+                    type: string
+                hash:
+                    type: string
+                location:
+                    type: string
+                status:
+                    type: string
+                notes:
+                    type: string
+                customerId:
+                    type: integer
+                providerId:
+                    type: integer
+                serviceId:
+                    type: integer
+                googleCalendarId:
+                    type: string
+
+        Unavailability:
+            type: object
+            properties:
+                id:
+                    type: integer
+                book:
+                    type: string
+                start:
+                    type: string
+                end:
+                    type: string
+                notes:
+                    type: string
+                providerId:
+                    type: integer
+
+        Customer:
+            type: object
+            properties:
+                id:
+                    type: integer
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                phone:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zip:
+                    type: string
+                notes:
+                    type: string
+
+        Service:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                duration:
+                    type: integer
+                price:
+                    type: string
+                currency:
+                    type: string
+                description:
+                    type: string
+                availabilitiesType:
+                    type: string
+                attendantsNumber:
+                    type: string
+                categoryId:
+                    type: integer
+
+        Category:
+            type: object
+            properties:
+                id:
+                    type: integer
+                name:
+                    type: string
+                description:
+                    type: string
+
+        Admin:
+            type: object
+            properties:
+                id:
+                    type: integer
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                mobile:
+                    type: string
+                phone:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zip:
+                    type: string
+                notes:
+                    type: string
+                timezone:
+                    type: string
+                settings:
+                    type: object
+                    properties:
+                        username:
+                            type: string
+                        password:
+                            type: string
+                        notifications:
+                            type: boolean
+                        calendarView:
+                            type: string
+
+        Provider:
+            type: object
+            properties:
+                id:
+                    type: integer
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                mobile:
+                    type: string
+                phone:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zip:
+                    type: string
+                notes:
+                    type: string
+                timezone:
+                    type: string
+                services:
+                    type: array
+                    items:
+                        type: integer
+                settings:
+                    type: object
+                    properties:
+                        username:
+                            type: string
+                        password:
+                            type: string
+                        notifications:
+                            type: boolean
+                        calendarView:
+                            type: string
+                        googleSync:
+                            type: boolean
+                        googleCalendar:
+                            type: string
+                        googleToken:
+                            type: string
+                        syncFutureDays:
+                            type: string
+                        syncPastDays:
+                            type: string
+                        workingPlan:
+                            type: string
+
+        Secretary:
+            type: object
+            properties:
+                id:
+                    type: integer
+                firstName:
+                    type: string
+                lastName:
+                    type: string
+                email:
+                    type: string
+                mobile:
+                    type: string
+                phone:
+                    type: string
+                address:
+                    type: string
+                city:
+                    type: string
+                zip:
+                    type: string
+                notes:
+                    type: string
+                timezone:
+                    type: string
+                providers:
+                    type: array
+                    items:
+                        type: integer
+                settings:
+                    type: object
+                    properties:
+                        username:
+                            type: string
+                        password:
+                            type: string
+                        notifications:
+                            type: boolean
+                        calendarView:
+                            type: string
+
+        Setting:
+            type: object
+            properties:
+                name:
+                    type: string
+                value:
+                    type: string
+
+    securitySchemes:
+        ApiKeyAuth:
+            type: apiKey
+            description: 'A bearer token is required when accessing or editing administrative
+        data. The value is required to have the following format "Bearer ##############"'
+            name: Authorization
+            in: header
