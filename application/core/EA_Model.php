@@ -178,4 +178,16 @@ class EA_Model extends CI_Model {
             return in_array($field, $fields);
         }, ARRAY_FILTER_USE_KEY);
     }
+
+    /**
+     * Get the DB field name based on an API field name.
+     *
+     * @param string $api_field API resource key.
+     *
+     * @return string|null Returns the column field or null if non found.
+     */
+    public function db_field(string $api_field): ?string
+    {
+        return $this->api_resource[$api_field] ?? NULL;
+    }
 }
