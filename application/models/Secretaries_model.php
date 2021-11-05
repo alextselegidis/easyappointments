@@ -603,4 +603,142 @@ class Secretaries_model extends EA_Model {
             }
         }
     }
+
+    /**
+     * Convert the database secretary record to the equivalent API resource.
+     *
+     * @param array $secretary Secretary data.
+     */
+    public function api_encode(array &$secretary)
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $secretary) ? (int)$secretary['id'] : NULL,
+            'firstName' => $secretary['first_name'],
+            'lastName' => $secretary['last_name'],
+            'email' => $secretary['email'],
+            'mobile' => $secretary['mobile_number'],
+            'phone' => $secretary['phone_number'],
+            'address' => $secretary['address'],
+            'city' => $secretary['city'],
+            'state' => $secretary['state'],
+            'zip' => $secretary['zip_code'],
+            'notes' => $secretary['notes'],
+            'providers' => $secretary['providers'],
+            'timezone' => $secretary['timezone'],
+            'settings' => [
+                'username' => $secretary['settings']['username'],
+                'notifications' => filter_var($secretary['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
+                'calendarView' => $secretary['settings']['calendar_view']
+            ]
+        ];
+
+        $secretary = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database secretary record.
+     *
+     * @param array $secretary API resource.
+     * @param array|null $base Base secretary data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$secretary, array $base = NULL)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $secretary))
+        {
+            $decoded_resource['id'] = $secretary['id'];
+        }
+
+        if (array_key_exists('firstName', $secretary))
+        {
+            $decoded_resource['first_name'] = $secretary['firstName'];
+        }
+
+        if (array_key_exists('lastName', $secretary))
+        {
+            $decoded_resource['last_name'] = $secretary['lastName'];
+        }
+
+        if (array_key_exists('email', $secretary))
+        {
+            $decoded_resource['email'] = $secretary['email'];
+        }
+
+        if (array_key_exists('mobile', $secretary))
+        {
+            $decoded_resource['mobile_number'] = $secretary['mobile'];
+        }
+
+        if (array_key_exists('phone', $secretary))
+        {
+            $decoded_resource['phone_number'] = $secretary['phone'];
+        }
+
+        if (array_key_exists('address', $secretary))
+        {
+            $decoded_resource['address'] = $secretary['address'];
+        }
+
+        if (array_key_exists('city', $secretary))
+        {
+            $decoded_resource['city'] = $secretary['city'];
+        }
+
+        if (array_key_exists('state', $secretary))
+        {
+            $decoded_resource['state'] = $secretary['state'];
+        }
+
+        if (array_key_exists('zip', $secretary))
+        {
+            $decoded_resource['zip_code'] = $secretary['zip'];
+        }
+
+        if (array_key_exists('notes', $secretary))
+        {
+            $decoded_resource['notes'] = $secretary['notes'];
+        }
+
+        if (array_key_exists('timezone', $secretary))
+        {
+            $decoded_resource['timezone'] = $secretary['timezone'];
+        }
+
+        if (array_key_exists('providers', $secretary))
+        {
+            $decoded_resource['providers'] = $secretary['providers'];
+        }
+
+        if (array_key_exists('settings', $secretary))
+        {
+            if (empty($decoded_resource['settings']))
+            {
+                $decoded_resource['settings'] = [];
+            }
+
+            if (array_key_exists('username', $secretary['settings']))
+            {
+                $decoded_resource['settings']['username'] = $secretary['settings']['username'];
+            }
+
+            if (array_key_exists('password', $secretary['settings']))
+            {
+                $decoded_resource['settings']['password'] = $secretary['settings']['password'];
+            }
+
+            if (array_key_exists('notifications', $secretary['settings']))
+            {
+                $decoded_resource['settings']['notifications'] = filter_var($secretary['settings']['notifications'],
+                    FILTER_VALIDATE_BOOLEAN);
+            }
+
+            if (array_key_exists('calendarView', $secretary['settings']))
+            {
+                $decoded_resource['settings']['calendar_view'] = $secretary['settings']['calendarView'];
+            }
+        }
+
+        $secretary = $decoded_resource;
+    }
 }

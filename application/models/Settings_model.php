@@ -283,4 +283,42 @@ class Settings_model extends EA_Model {
     {
         // Users do not currently have any related resources. 
     }
+
+    /**
+     * Convert the database setting record to the equivalent API resource.
+     *
+     * @param array $setting Setting data.
+     */
+    public function api_encode(array &$setting)
+    {
+        $encoded_resource = [
+            'name' => $setting['name'],
+            'value' => $setting['value']
+        ];
+
+        $setting = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database setting record.
+     *
+     * @param array $setting API resource.
+     * @param array|null $base Base setting data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$setting, array $base = NULL)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('name', $setting))
+        {
+            $decoded_resource['name'] = $setting['name'];
+        }
+
+        if (array_key_exists('value', $setting))
+        {
+            $decoded_resource['value'] = $setting['value'];
+        }
+
+        $setting = $decoded_resource;
+    }
 }

@@ -551,7 +551,7 @@ class Admins_model extends EA_Model {
      */
     public function api_encode(array &$admin)
     {
-        $encoded_response = [
+        $encoded_resource = [
             'id' => array_key_exists('id', $admin) ? (int)$admin['id'] : NULL,
             'firstName' => $admin['first_name'],
             'lastName' => $admin['last_name'],
@@ -571,108 +571,108 @@ class Admins_model extends EA_Model {
             ]
         ];
 
-        $admin = $encoded_response;
+        $admin = $encoded_resource;
     }
 
     /**
      * Convert the API resource to the equivalent database admin record.
      *
-     * @param array &$admin API resource.
+     * @param array $admin API resource.
      * @param array|null $base Base admin data to be overwritten with the provided values (useful for updates).
      */
     public function api_decode(array &$admin, array $base = NULL)
     {
-        $decoded_response = $base ?? [];
+        $decoded_resource = $base ?? [];
 
         if (array_key_exists('id', $admin))
         {
-            $decoded_response['id'] = $admin['id'];
+            $decoded_resource['id'] = $admin['id'];
         }
 
         if (array_key_exists('firstName', $admin))
         {
-            $decoded_response['first_name'] = $admin['firstName'];
+            $decoded_resource['first_name'] = $admin['firstName'];
         }
 
         if (array_key_exists('lastName', $admin))
         {
-            $decoded_response['last_name'] = $admin['lastName'];
+            $decoded_resource['last_name'] = $admin['lastName'];
         }
 
         if (array_key_exists('email', $admin))
         {
-            $decoded_response['email'] = $admin['email'];
+            $decoded_resource['email'] = $admin['email'];
         }
 
         if (array_key_exists('mobile', $admin))
         {
-            $decoded_response['mobile_number'] = $admin['mobile'];
+            $decoded_resource['mobile_number'] = $admin['mobile'];
         }
 
         if (array_key_exists('phone', $admin))
         {
-            $decoded_response['phone_number'] = $admin['phone'];
+            $decoded_resource['phone_number'] = $admin['phone'];
         }
 
         if (array_key_exists('address', $admin))
         {
-            $decoded_response['address'] = $admin['address'];
+            $decoded_resource['address'] = $admin['address'];
         }
 
         if (array_key_exists('city', $admin))
         {
-            $decoded_response['city'] = $admin['city'];
+            $decoded_resource['city'] = $admin['city'];
         }
 
         if (array_key_exists('state', $admin))
         {
-            $decoded_response['state'] = $admin['state'];
+            $decoded_resource['state'] = $admin['state'];
         }
 
         if (array_key_exists('zip', $admin))
         {
-            $decoded_response['zip_code'] = $admin['zip'];
+            $decoded_resource['zip_code'] = $admin['zip'];
         }
 
         if (array_key_exists('notes', $admin))
         {
-            $decoded_response['notes'] = $admin['notes'];
+            $decoded_resource['notes'] = $admin['notes'];
         }
 
         if (array_key_exists('timezone', $admin))
         {
-            $decoded_response['timezone'] = $admin['timezone'];
+            $decoded_resource['timezone'] = $admin['timezone'];
         }
 
         if (array_key_exists('settings', $admin))
         {
-            if (empty($decoded_response['settings']))
+            if (empty($decoded_resource['settings']))
             {
-                $decoded_response['settings'] = [];
+                $decoded_resource['settings'] = [];
             }
 
             if (array_key_exists('username', $admin['settings']))
             {
-                $decoded_response['settings']['username'] = $admin['settings']['username'];
+                $decoded_resource['settings']['username'] = $admin['settings']['username'];
             }
 
             if (array_key_exists('password', $admin['settings']))
             {
-                $decoded_response['settings']['password'] = $admin['settings']['password'];
+                $decoded_resource['settings']['password'] = $admin['settings']['password'];
             }
 
             if (array_key_exists('notifications', $admin['settings']))
             {
-                $decoded_response['settings']['notifications'] = filter_var($admin['settings']['notifications'],
+                $decoded_resource['settings']['notifications'] = filter_var($admin['settings']['notifications'],
                     FILTER_VALIDATE_BOOLEAN);
             }
 
             if (array_key_exists('calendarView', $admin['settings']))
             {
-                $decoded_response['settings']['calendar_view'] = $admin['settings']['calendarView'];
+                $decoded_resource['settings']['calendar_view'] = $admin['settings']['calendarView'];
             }
         }
 
-        $admin = $decoded_response;
+        $admin = $decoded_resource;
     }
 }

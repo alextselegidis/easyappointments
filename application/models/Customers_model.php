@@ -416,4 +416,84 @@ class Customers_model extends EA_Model {
     {
         // Customers do not currently have any related resources. 
     }
+
+    /**
+     * Convert the database customer record to the equivalent API resource.
+     *
+     * @param array $customer Customer data.
+     */
+    public function api_encode(array &$customer)
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $customer) ? (int)$customer['id'] : NULL,
+            'firstName' => $customer['first_name'],
+            'lastName' => $customer['last_name'],
+            'email' => $customer['email'],
+            'phone' => $customer['phone_number'],
+            'address' => $customer['address'],
+            'city' => $customer['city'],
+            'zip' => $customer['zip_code'],
+            'notes' => $customer['notes']
+        ];
+
+        $customer = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database admin record.
+     *
+     * @param array $customer API resource.
+     * @param array|null $base Base customer data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$customer, array $base = NULL)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $customer))
+        {
+            $decoded_resource['id'] = $customer['id'];
+        }
+
+        if (array_key_exists('firstName', $customer))
+        {
+            $decoded_resource['first_name'] = $customer['firstName'];
+        }
+
+        if (array_key_exists('lastName', $customer))
+        {
+            $decoded_resource['last_name'] = $customer['lastName'];
+        }
+
+        if (array_key_exists('email', $customer))
+        {
+            $decoded_resource['email'] = $customer['email'];
+        }
+
+        if (array_key_exists('phone', $customer))
+        {
+            $decoded_resource['phone_number'] = $customer['phone'];
+        }
+
+        if (array_key_exists('address', $customer))
+        {
+            $decoded_resource['address'] = $customer['address'];
+        }
+
+        if (array_key_exists('city', $customer))
+        {
+            $decoded_resource['city'] = $customer['city'];
+        }
+
+        if (array_key_exists('zip', $customer))
+        {
+            $decoded_resource['zip_code'] = $customer['zip'];
+        }
+
+        if (array_key_exists('notes', $customer))
+        {
+            $decoded_resource['notes'] = $customer['notes'];
+        }
+
+        $customer = $decoded_resource;
+    }
 }

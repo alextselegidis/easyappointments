@@ -552,4 +552,98 @@ class Appointments_model extends EA_Model {
             }
         }
     }
+
+    /**
+     * Convert the database appointment record to the equivalent API resource.
+     *
+     * @param array $appointment Appointment data.
+     */
+    public function api_encode(array &$appointment)
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $appointment) ? (int)$appointment['id'] : NULL,
+            'book' => $appointment['book_datetime'],
+            'start' => $appointment['start_datetime'],
+            'end' => $appointment['end_datetime'],
+            'hash' => $appointment['hash'],
+            'location' => $appointment['location'],
+            'notes' => $appointment['notes'],
+            'customerId' => $appointment['id_users_customer'] !== NULL ? (int)$appointment['id_users_customer'] : NULL,
+            'providerId' => $appointment['id_users_provider'] !== NULL ? (int)$appointment['id_users_provider'] : NULL,
+            'serviceId' => $appointment['id_services'] !== NULL ? (int)$appointment['id_services'] : NULL,
+            'googleCalendarId' => $appointment['id_google_calendar'] !== NULL ? (int)$appointment['id_google_calendar'] : NULL
+        ];
+
+        $appointment = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database appointment record.
+     *
+     * @param array $appointment API resource.
+     * @param array|null $base Base appointment data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$appointment, array $base = NULL)
+    {
+        $decoded_request = $base ?: [];
+
+        if (array_key_exists('id', $appointment))
+        {
+            $decoded_request['id'] = $appointment['id'];
+        }
+
+        if (array_key_exists('book', $appointment))
+        {
+            $decoded_request['book_datetime'] = $appointment['book'];
+        }
+
+        if (array_key_exists('start', $appointment))
+        {
+            $decoded_request['start_datetime'] = $appointment['start'];
+        }
+
+        if (array_key_exists('end', $appointment))
+        {
+            $decoded_request['end_datetime'] = $appointment['end'];
+        }
+
+        if (array_key_exists('hash', $appointment))
+        {
+            $decoded_request['hash'] = $appointment['hash'];
+        }
+
+        if (array_key_exists('location', $appointment))
+        {
+            $decoded_request['location'] = $appointment['location'];
+        }
+
+        if (array_key_exists('notes', $appointment))
+        {
+            $decoded_request['notes'] = $appointment['notes'];
+        }
+
+        if (array_key_exists('customerId', $appointment))
+        {
+            $decoded_request['id_users_customer'] = $appointment['customerId'];
+        }
+
+        if (array_key_exists('providerId', $appointment))
+        {
+            $decoded_request['id_users_provider'] = $appointment['providerId'];
+        }
+
+        if (array_key_exists('serviceId', $appointment))
+        {
+            $decoded_request['id_services'] = $appointment['serviceId'];
+        }
+
+        if (array_key_exists('googleCalendarId', $appointment))
+        {
+            $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+        }
+
+        $decoded_request['is_unavailable'] = FALSE;
+
+        $appointment = $decoded_request;
+    }
 }

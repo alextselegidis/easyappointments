@@ -25,7 +25,7 @@ class Service_categories_model extends EA_Model {
     protected $casts = [
         'id' => 'integer',
     ];
-    
+
     /**
      * Save (insert or update) a service category.
      *
@@ -148,9 +148,9 @@ class Service_categories_model extends EA_Model {
         }
 
         $service_category = $this->db->get_where('service_categories', ['id' => $service_category_id])->row_array();
-        
-        $this->cast($service_category); 
-        
+
+        $this->cast($service_category);
+
         return $service_category;
     }
 
@@ -186,8 +186,8 @@ class Service_categories_model extends EA_Model {
 
         // Check if the required field is part of the service category data.
         $service_category = $query->row_array();
-        
-        $this->cast($service_category); 
+
+        $this->cast($service_category);
 
         if ( ! array_key_exists($field, $service_category))
         {
@@ -220,12 +220,12 @@ class Service_categories_model extends EA_Model {
         }
 
         $service_categories = $this->db->get('service_categories', $limit, $offset)->result_array();
-        
-        foreach($service_categories as $service_category)
+
+        foreach ($service_categories as $service_category)
         {
-            $this->cast($service_category); 
+            $this->cast($service_category);
         }
-        
+
         return $service_categories;
     }
 
@@ -262,12 +262,12 @@ class Service_categories_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
-        
-        foreach($service_categories as &$service_category)
+
+        foreach ($service_categories as &$service_category)
         {
-            $this->cast($service_category); 
+            $this->cast($service_category);
         }
-        
+
         return $service_categories;
     }
 
@@ -282,5 +282,49 @@ class Service_categories_model extends EA_Model {
     public function attach(array &$service_category, array $resources)
     {
         // Service categories do not currently have any related resources. 
+    }
+
+    /**
+     * Convert the database service category record to the equivalent API resource.
+     *
+     * @param array $service_category Service category data.
+     */
+    public function api_encode(array &$service_category)
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $service_category) ? (int)$service_category['id'] : NULL,
+            'name' => $service_category['name'],
+            'description' => array_key_exists('description', $service_category) ? $service_category['description'] : NULL
+        ];
+
+        $service_category = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database service category record.
+     *
+     * @param array $service_category API resource.
+     * @param array|null $base Base service category data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$service_category, array $base = NULL)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $service_category))
+        {
+            $decoded_resource['id'] = $service_category['id'];
+        }
+
+        if (array_key_exists('name', $service_category))
+        {
+            $decoded_resource['name'] = $service_category['name'];
+        }
+
+        if (array_key_exists('description', $service_category))
+        {
+            $decoded_resource['description'] = $service_category['description'];
+        }
+
+        $service_category = $decoded_resource;
     }
 }

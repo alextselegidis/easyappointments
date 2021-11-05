@@ -376,4 +376,90 @@ class Services_model extends EA_Model {
             }
         }
     }
+
+    /**
+     * Convert the database service record to the equivalent API resource.
+     *
+     * @param array $service Service data.
+     */
+    public function api_encode(array &$service)
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $service) ? (int)$service['id'] : NULL,
+            'name' => $service['name'],
+            'duration' => (int)$service['duration'],
+            'price' => (float)$service['price'],
+            'currency' => $service['currency'],
+            'description' => $service['description'],
+            'location' => $service['location'],
+            'availabilitiesType' => $service['availabilities_type'],
+            'attendantsNumber' => (int)$service['attendants_number'],
+            'categoryId' => $service['id_service_categories'] !== NULL ? (int)$service['id_service_categories'] : NULL
+        ];
+
+        $service = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database service record.
+     *
+     * @param array $service API resource.
+     * @param array|null $base Base service data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$service, array $base = NULL)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $service))
+        {
+            $decoded_resource['id'] = $service['id'];
+        }
+
+        if (array_key_exists('name', $service))
+        {
+            $decoded_resource['name'] = $service['name'];
+        }
+
+        if (array_key_exists('duration', $service))
+        {
+            $decoded_resource['duration'] = $service['duration'];
+        }
+
+        if (array_key_exists('price', $service))
+        {
+            $decoded_resource['price'] = $service['price'];
+        }
+
+        if (array_key_exists('currency', $service))
+        {
+            $decoded_resource['currency'] = $service['currency'];
+        }
+
+        if (array_key_exists('description', $service))
+        {
+            $decoded_resource['description'] = $service['description'];
+        }
+
+        if (array_key_exists('location', $service))
+        {
+            $decoded_resource['location'] = $service['location'];
+        }
+
+        if (array_key_exists('availabilitiesType', $service))
+        {
+            $decoded_resource['availabilities_type'] = $service['availabilitiesType'];
+        }
+
+        if (array_key_exists('attendantsNumber', $service))
+        {
+            $decoded_resource['attendants_number'] = $service['attendantsNumber'];
+        }
+
+        if (array_key_exists('categoryId', $service))
+        {
+            $decoded_resource['id_service_categories'] = $service['categoryId'];
+        }
+
+        $service = $decoded_resource;
+    }
 }

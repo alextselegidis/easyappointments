@@ -741,4 +741,207 @@ class Providers_model extends EA_Model {
             }
         }
     }
+
+    /**
+     * Convert the database provider record to the equivalent API resource.
+     *
+     * @param array $provider Provider data.
+     */
+    public function api_encode(array &$provider)
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $provider) ? (int)$provider['id'] : NULL,
+            'firstName' => $provider['first_name'],
+            'lastName' => $provider['last_name'],
+            'email' => $provider['email'],
+            'mobile' => $provider['mobile_number'],
+            'phone' => $provider['phone_number'],
+            'address' => $provider['address'],
+            'city' => $provider['city'],
+            'state' => $provider['state'],
+            'zip' => $provider['zip_code'],
+            'notes' => $provider['notes'],
+            'timezone' => $provider['timezone'],
+        ];
+
+        if (array_key_exists('services', $provider))
+        {
+            $encoded_resource['services'] = $provider['services'];
+        }
+
+        if (array_key_exists('settings', $provider))
+        {
+            $encoded_resource['settings'] = [
+                'username' => $provider['settings']['username'],
+                'notifications' => filter_var($provider['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
+                'calendarView' => $provider['settings']['calendar_view'],
+                'googleSync' => array_key_exists('google_sync', $provider['settings'])
+                    ? filter_var($provider['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN)
+                    : NULL,
+                'googleCalendar' => array_key_exists('google_calendar', $provider['settings'])
+                    ? $provider['settings']['google_calendar']
+                    : NULL,
+                'googleToken' => array_key_exists('google_token', $provider['settings'])
+                    ? $provider['settings']['google_token']
+                    : NULL,
+                'syncFutureDays' => array_key_exists('sync_future_days', $provider['settings'])
+                    ? (int)$provider['settings']['sync_future_days']
+                    : NULL,
+                'syncPastDays' => array_key_exists('sync_past_days', $provider['settings'])
+                    ? (int)$provider['settings']['sync_past_days']
+                    : NULL,
+                'workingPlan' => array_key_exists('working_plan', $provider['settings'])
+                    ? json_decode($provider['settings']['working_plan'], TRUE)
+                    : NULL,
+                'workingPlanExceptions' => array_key_exists('working_plan_exceptions', $provider['settings'])
+                    ? json_decode($provider['settings']['working_plan_exceptions'], TRUE)
+                    : NULL,
+            ];
+        }
+
+        $provider = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database provider record.
+     *
+     * @param array $provider API resource.
+     * @param array|null $base Base provider data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$provider, array $base = NULL)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $provider))
+        {
+            $decoded_resource['id'] = $provider['id'];
+        }
+
+        if (array_key_exists('firstName', $provider))
+        {
+            $decoded_resource['first_name'] = $provider['firstName'];
+        }
+
+        if (array_key_exists('lastName', $provider))
+        {
+            $decoded_resource['last_name'] = $provider['lastName'];
+        }
+
+        if (array_key_exists('email', $provider))
+        {
+            $decoded_resource['email'] = $provider['email'];
+        }
+
+        if (array_key_exists('mobile', $provider))
+        {
+            $decoded_resource['mobile_number'] = $provider['mobile'];
+        }
+
+        if (array_key_exists('phone', $provider))
+        {
+            $decoded_resource['phone_number'] = $provider['phone'];
+        }
+
+        if (array_key_exists('address', $provider))
+        {
+            $decoded_resource['address'] = $provider['address'];
+        }
+
+        if (array_key_exists('city', $provider))
+        {
+            $decoded_resource['city'] = $provider['city'];
+        }
+
+        if (array_key_exists('state', $provider))
+        {
+            $decoded_resource['state'] = $provider['state'];
+        }
+
+        if (array_key_exists('zip', $provider))
+        {
+            $decoded_resource['zip_code'] = $provider['zip'];
+        }
+
+        if (array_key_exists('notes', $provider))
+        {
+            $decoded_resource['notes'] = $provider['notes'];
+        }
+
+        if (array_key_exists('timezone', $provider))
+        {
+            $decoded_resource['timezone'] = $provider['timezone'];
+        }
+
+        if (array_key_exists('services', $provider))
+        {
+            $decoded_resource['services'] = $provider['services'];
+        }
+
+        if (array_key_exists('settings', $provider))
+        {
+            if (empty($decoded_resource['settings']))
+            {
+                $decoded_resource['settings'] = [];
+            }
+
+            if (array_key_exists('username', $provider['settings']))
+            {
+                $decoded_resource['settings']['username'] = $provider['settings']['username'];
+            }
+
+            if (array_key_exists('password', $provider['settings']))
+            {
+                $decoded_resource['settings']['password'] = $provider['settings']['password'];
+            }
+
+            if (array_key_exists('calendarView', $provider['settings']))
+            {
+                $decoded_resource['settings']['calendar_view'] = $provider['settings']['calendarView'];
+            }
+
+            if (array_key_exists('notifications', $provider['settings']))
+            {
+                $decoded_resource['settings']['notifications'] = filter_var($provider['settings']['notifications'],
+                    FILTER_VALIDATE_BOOLEAN);
+            }
+
+            if (array_key_exists('googleSync', $provider['settings']))
+            {
+                $decoded_resource['settings']['google_sync'] = filter_var($provider['settings']['googleSync'],
+                    FILTER_VALIDATE_BOOLEAN);
+            }
+
+            if (array_key_exists('googleCalendar', $provider['settings']))
+            {
+                $decoded_resource['settings']['google_calendar'] = $provider['settings']['googleCalendar'];
+            }
+
+            if (array_key_exists('googleToken', $provider['settings']))
+            {
+                $decoded_resource['settings']['google_token'] = $provider['settings']['googleToken'];
+            }
+
+            if (array_key_exists('syncFutureDays', $provider['settings']))
+            {
+                $decoded_resource['settings']['sync_future_days'] = $provider['settings']['syncFutureDays'];
+            }
+
+            if (array_key_exists('syncPastDays', $provider['settings']))
+            {
+                $decoded_resource['settings']['sync_past_days'] = $provider['settings']['syncPastDays'];
+            }
+
+            if (array_key_exists('workingPlan', $provider['settings']))
+            {
+                $decoded_resource['settings']['working_plan'] = json_encode($provider['settings']['workingPlan']);
+            }
+
+            if (array_key_exists('workingPlanExceptions', $provider['settings']))
+            {
+                $decoded_resource['settings']['working_plan_exceptions'] = json_encode($provider['settings']['workingPlanExceptions']);
+            }
+        }
+
+        $provider = $decoded_resource;
+    }
 }
