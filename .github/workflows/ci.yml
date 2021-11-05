@@ -7,11 +7,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - uses: php-actions/composer@v6
-      - uses: php-actions/phpunit@v3
+      - name: Git clone
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: 7.4
+          php_extensions: redis exif
+          version: 2
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@v2
+        uses: php-actions/phpunit@v3
         env:
           TEST_NAME: Test
         with:
