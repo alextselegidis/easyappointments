@@ -13,7 +13,7 @@ jobs:
         uses: php-actions/composer@v6
         with:
           php_version: 7.4
-          php_extensions: redis exif
+          php_extensions: gd
           version: 2
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
