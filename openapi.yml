@@ -18,15 +18,15 @@ servers:
   - url: https://demo.easyappointments.org/index.php/api/v1/
 tags:
   - name: admins
+  - name: appointments
+  - name: availabilities
+  - name: categories
+  - name: customers
   - name: providers
   - name: secretaries
-  - name: customers
-  - name: availabilities
-  - name: unavailabilities
-  - name: appointments
   - name: services
-  - name: categories
   - name: settings
+  - name: unavailabilities
 paths:
   /availabilities:
     get:
@@ -48,11 +48,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Availabilities'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -84,11 +90,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AppointmentCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -101,14 +113,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AppointmentPayload'
-        required: false
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppointmentEntry'
+                $ref: '#/components/schemas/AppointmentRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -126,11 +144,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppointmentEntry'
+                $ref: '#/components/schemas/AppointmentRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -149,14 +175,22 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/AppointmentPayload'
-        required: false
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppointmentEntry'
+                $ref: '#/components/schemas/AppointmentRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -173,9 +207,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -203,11 +243,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/UnavailabilityCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
     post:
       tags:
         - unavailabilities
@@ -216,15 +262,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UnavailabilityCreate'
-        required: false
+              $ref: '#/components/schemas/UnavailabilityPayload'
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unavailability'
+                $ref: '#/components/schemas/UnavailabilityRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -242,11 +294,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unavailability'
+                $ref: '#/components/schemas/UnavailabilityRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -264,15 +324,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UnavailabilityUpdate'
-        required: false
+              $ref: '#/components/schemas/UnavailabilityPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Unavailability'
+                $ref: '#/components/schemas/UnavailabilityRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -289,10 +357,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
-          content: {}
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -320,11 +393,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/CustomerCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -336,15 +415,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CustomerCreate'
-        required: false
+              $ref: '#/components/schemas/CustomerPayload'
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/CustomerRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -362,11 +447,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/CustomerRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -384,15 +477,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CustomerUpdate'
-        required: false
+              $ref: '#/components/schemas/CustomerPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Customer'
+                $ref: '#/components/schemas/CustomerRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -409,10 +510,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
-          content: {}
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -440,11 +546,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/ServiceCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -456,15 +568,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceCreate'
-        required: false
+              $ref: '#/components/schemas/ServiceCollection'
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Service'
+                $ref: '#/components/schemas/ServiceRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -482,11 +600,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Service'
+                $ref: '#/components/schemas/ServiceRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -504,15 +630,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceUpdate'
-        required: false
+              $ref: '#/components/schemas/ServicePayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Service'
+                $ref: '#/components/schemas/ServiceRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -529,10 +663,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
-          content: {}
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -560,11 +699,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/CategoryCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -576,15 +721,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryCreate'
-        required: false
+              $ref: '#/components/schemas/CategoryPayload'
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/CategoryRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -602,11 +753,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/CategoryRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -624,15 +783,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryUpdate'
-        required: false
+              $ref: '#/components/schemas/CategoryPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Category'
+                $ref: '#/components/schemas/CategoryRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -649,10 +816,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
-          content: {}
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -684,11 +856,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminAll'
+                $ref: '#/components/schemas/AdminCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -700,15 +878,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdminCreate'
+              $ref: '#/components/schemas/AdminPayload'
         required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Admin'
+                $ref: '#/components/schemas/AdminRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -726,11 +910,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Admin'
+                $ref: '#/components/schemas/AdminRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -748,15 +940,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdminUpdate'
-        required: false
+              $ref: '#/components/schemas/AdminPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Admin'
+                $ref: '#/components/schemas/AdminRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -773,9 +973,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
           description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -803,11 +1009,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/ProviderCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -819,15 +1031,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProviderCreate'
-        required: false
+              $ref: '#/components/schemas/ProviderPayload'
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Provider'
+                $ref: '#/components/schemas/ProviderRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -845,11 +1063,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Provider'
+                $ref: '#/components/schemas/ProviderRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -867,15 +1093,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProviderUpdate'
-        required: false
+              $ref: '#/components/schemas/ProviderPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Provider'
+                $ref: '#/components/schemas/ProviderRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -892,10 +1126,15 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
-          content: {}
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -923,11 +1162,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SecretaryCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -939,15 +1184,21 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SecretaryCreate'
-        required: false
+              $ref: '#/components/schemas/SecretaryPayload'
+        required: true
       responses:
         '201':
-          description: success
+          description: Created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Secretary'
+                $ref: '#/components/schemas/SecretaryRecord'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -965,11 +1216,19 @@ paths:
             type: integer
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Secretary'
+                $ref: '#/components/schemas/SecretaryRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -987,15 +1246,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SecretaryUpdate'
-        required: false
+              $ref: '#/components/schemas/SecretaryPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Secretary'
+                $ref: '#/components/schemas/SecretaryRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -1012,10 +1279,9 @@ paths:
             type: integer
       responses:
         '204':
-          description: success
+          description: No Content
         '404':
-          description: not found
-          content: {}
+          description: Not Found
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -1043,11 +1309,17 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/SettingCollection'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -1064,11 +1336,19 @@ paths:
             type: string
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Setting'
+                $ref: '#/components/schemas/SettingRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       security:
         - BearerToken: []
         - BasicAuth: []
@@ -1086,15 +1366,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SettingUpdate'
-        required: false
+              $ref: '#/components/schemas/SettingPayload'
+        required: true
       responses:
         '200':
-          description: success
+          description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Setting'
+                $ref: '#/components/schemas/SettingRecord'
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
         - BearerToken: []
@@ -1105,7 +1393,7 @@ components:
       type: array
       items:
         type: string
-    Appointment:
+    AppointmentRecord:
       type: object
       properties:
         id:
@@ -1142,7 +1430,7 @@ components:
         providerId: 2
         serviceId: 6
         googleCalendarId: null
-    AppointmentCreate:
+    AppointmentPayload:
       type: object
       properties:
         start:
@@ -1169,42 +1457,11 @@ components:
         customerId: 5
         providerId: 2
         serviceId: 6
-    AppointmentUpdate:
-      type: object
-      properties:
-        id:
-          type: integer
-        book:
-          type: string
-        start:
-          type: string
-        end:
-          type: string
-        hash:
-          type: string
-        location:
-          type: string
-        status:
-          type: string
-        notes:
-          type: string
-        customerId:
-          type: integer
-        providerId:
-          type: integer
-        serviceId:
-          type: integer
-        googleCalendarId:
-          type: string
-      example:
-        start: '2021-01-01 17:00:00'
-        end: '2021-01-01 18:00:00'
-        location: Test Street 1A
-        notes: This is an appointment.
-        customerId: 5
-        providerId: 2
-        serviceId: 6
-    Unavailability:
+    AppointmentCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppointmentRecord'
+    UnavailabilityRecord:
       type: object
       properties:
         id:
@@ -1226,7 +1483,7 @@ components:
         end: '2021-01-01 17:00:00'
         notes: This is an unavailability.
         providerId: 2
-    UnavailabilityCreate:
+    UnavailabilityPayload:
       type: object
       properties:
         start:
@@ -1242,23 +1499,11 @@ components:
         end: '2021-01-01 17:00:00'
         notes: This is an unavailability.
         providerId: 2
-    UnavailabilityUpdate:
-      type: object
-      properties:
-        start:
-          type: string
-        end:
-          type: string
-        notes:
-          type: string
-        providerId:
-          type: integer
-      example:
-        start: '2021-01-01 17:00:00'
-        end: '2021-01-01 17:00:00'
-        notes: This is an unavailability.
-        providerId: 2
-    Customer:
+    UnavailabilityCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/UnavailabilityRecord'
+    CustomerRecord:
       type: object
       properties:
         id:
@@ -1287,8 +1532,8 @@ components:
         phone: Test Street 1A
         city: Some Place
         zip: '12345'
-        notes: This is a customer
-    CustomerCreate:
+        notes: This is a test customer.
+    CustomerPayload:
       type: object
       properties:
         firstName:
@@ -1314,35 +1559,12 @@ components:
         phone: Test Street 1A
         city: Some Place
         zip: '12345'
-        notes: This is a customer
-    CustomerUpdate:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        phone:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        notes:
-          type: string
-      example:
-        firstName: John
-        lastName: Doe
-        email: john@example.org
-        phone: Test Street 1A
-        city: Some Place
-        zip: '12345'
-        notes: This is a customer
-    Service:
+        notes: This is a test customer.
+    CustomerCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/CustomerRecord'
+    ServiceRecord:
       type: object
       properties:
         id:
@@ -1374,7 +1596,7 @@ components:
         availabilitiesType: Flexible
         attendantsNumber: 1
         categoryId: null
-    ServiceCreate:
+    ServicePayload:
       type: object
       properties:
         name:
@@ -1402,228 +1624,147 @@ components:
         availabilitiesType: Flexible
         attendantsNumber: 1
         categoryId: null
-    ServiceUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        duration:
-          type: integer
-        price:
-          type: number
-        currency:
-          type: string
-        description:
-          type: string
-        availabilitiesType:
-          type: string
-        attendantsNumber:
-          type: integer
-        categoryId:
-          type: integer
-      example:
-        name: Test Service
-        duration: 30
-        price: 10
-        currency: USD
-        description: This is a test service.
-        availabilitiesType: Flexible
-        attendantsNumber: 1
-        categoryId: null
-    Category:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        description:
-          type: string
-      example:
-        id: 1
-        name: Test Category
-        description: This is a test category.
-    CategoryCreate:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      example:
-        name: Test Category
-        description: This is a test category.
-    CategoryUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-      example:
-        name: Test Category
-        description: This is a test category.
-    Admin:
-      type: object
-      properties:
-        id:
-          type: integer
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        mobile:
-          type: string
-        phone:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        notes:
-          type: string
-        timezone:
-          type: string
-        settings:
-          type: object
-          properties:
-            username:
-              type: string
-            password:
-              type: string
-              format: password
-            notifications:
-              type: boolean
-            calendarView:
-              type: string
-      example:
-        id: 1
-        firstName: John
-        lastName: Doe
-        email: john@example.org
-        mobile: '+10000000000'
-        phone: '+10000000000'
-        address: Test Street 1A
-        city: Some Place
-        zip: '12345'
-        notes: This is a test admin.
-        timezone: UTC
-        settings:
-          username: johndoe
-          password: johndoe
-          notifications: true
-          calendarView: default
-    AdminCreate:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        mobile:
-          type: string
-        phone:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        notes:
-          type: string
-        timezone:
-          type: string
-        settings:
-          type: object
-          properties:
-            username:
-              type: string
-            password:
-              type: string
-              format: password
-            notifications:
-              type: boolean
-            calendarView:
-              type: string
-      example:
-        firstName: John
-        lastName: Doe
-        email: john@example.org
-        mobile: '+10000000000'
-        phone: '+10000000000'
-        address: Test Street 1A
-        city: Some Place
-        zip: '12345'
-        notes: This is a test admin.
-        timezone: UTC
-        settings:
-          username: johndoe
-          password: johndoe
-          notifications: true
-          calendarView: default
-    AdminUpdate:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        mobile:
-          type: string
-        phone:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        notes:
-          type: string
-        timezone:
-          type: string
-        settings:
-          type: object
-          properties:
-            username:
-              type: string
-            password:
-              type: string
-              format: password
-            notifications:
-              type: boolean
-            calendarView:
-              type: string
-      example:
-        firstName: John
-        lastName: Doe
-        email: john@example.org
-        mobile: '+10000000000'
-        phone: '+10000000000'
-        address: Test Street 1A
-        city: Some Place
-        zip: '12345'
-        notes: This is a test admin.
-        timezone: UTC
-        settings:
-          username: johndoe
-          password: johndoe
-          notifications: true
-          calendarView: default
-    AdminAll:
+    ServiceCollection:
       type: array
       items:
-        $ref: '#/components/schemas/Admin'
-    Provider:
+        $ref: '#/components/schemas/ServiceRecord'
+    CategoryRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        id: 1
+        name: Test Category
+        description: This is a test category.
+    CategoryPayload:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        name: Test Category
+        description: This is a test category.
+    CategoryCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/CategoryRecord'
+    AdminRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+      example:
+        id: 1
+        firstName: John
+        lastName: Doe
+        email: john@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test admin.
+        timezone: UTC
+        settings:
+          username: johndoe
+          password: johndoe
+          notifications: true
+          calendarView: default
+    AdminPayload:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+      example:
+        firstName: John
+        lastName: Doe
+        email: john@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test admin.
+        timezone: UTC
+        settings:
+          username: johndoe
+          password: johndoe
+          notifications: true
+          calendarView: default
+    AdminCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/AdminRecord'
+    ProviderRecord:
       type: object
       properties:
         id:
@@ -1720,7 +1861,7 @@ components:
               end: '17:00'
               breaks: []
             saturday: null
-    ProviderCreate:
+    ProviderPayload:
       type: object
       properties:
         firstName:
@@ -1815,102 +1956,11 @@ components:
               end: '17:00'
               breaks: []
             saturday: null
-    ProviderUpdate:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        mobile:
-          type: string
-        phone:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        notes:
-          type: string
-        timezone:
-          type: string
-        services:
-          type: array
-          items:
-            type: integer
-        settings:
-          type: object
-          properties:
-            username:
-              type: string
-            password:
-              type: string
-              format: password
-            notifications:
-              type: boolean
-            calendarView:
-              type: string
-            googleSync:
-              type: boolean
-            googleCalendar:
-              type: string
-            googleToken:
-              type: string
-            syncFutureDays:
-              type: string
-            syncPastDays:
-              type: string
-            workingPlan:
-              type: string
-      example:
-        firstName: John
-        lastName: Doe
-        email: john@example.org
-        mobile: '+10000000000'
-        phone: '+10000000000'
-        address: Test Street 1A
-        city: Some Place
-        zip: '12345'
-        notes: This is a test provider.
-        timezone: UTC
-        settings:
-          username: johndoe
-          password: johndoe
-          notifications: true
-          calendarView: default
-          googleSync: false
-          googleCalendar: null
-          googleToken: null
-          syncFutureDays: 90
-          syncPastDays: 30
-          workingPlan:
-            sunday: null
-            monday:
-              start: '09:00'
-              end: '17:00'
-              breaks: []
-            tuesday:
-              start: '09:00'
-              end: '17:00'
-              breaks: []
-            wednesday:
-              start: '09:00'
-              end: '17:00'
-              breaks: []
-            thursday:
-              start: '09:00'
-              end: '17:00'
-              breaks: []
-            friday:
-              start: '09:00'
-              end: '17:00'
-              breaks: []
-            saturday: null
-    Secretary:
+    ProviderCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/ProviderRecord'
+    SecretaryRecord:
       type: object
       properties:
         id:
@@ -1968,7 +2018,7 @@ components:
           password: johndoe
           notifications: true
           calendarView: default
-    SecretaryCreate:
+    SecretaryPayload:
       type: object
       properties:
         firstName:
@@ -2019,58 +2069,11 @@ components:
           password: johndoe
           notifications: true
           calendarView: default
-    SecretaryUpdate:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-        email:
-          type: string
-        mobile:
-          type: string
-        phone:
-          type: string
-        address:
-          type: string
-        city:
-          type: string
-        zip:
-          type: string
-        notes:
-          type: string
-        timezone:
-          type: string
-        settings:
-          type: object
-          properties:
-            username:
-              type: string
-            password:
-              type: string
-              format: password
-            notifications:
-              type: boolean
-            calendarView:
-              type: string
-      example:
-        firstName: John
-        lastName: Doe
-        email: john@example.org
-        mobile: '+10000000000'
-        phone: '+10000000000'
-        address: Test Street 1A
-        city: Some Place
-        zip: '12345'
-        notes: This is a test service.
-        timezone: UTC
-        settings:
-          username: johndoe
-          password: johndoe
-          notifications: true
-          calendarView: default
-    Setting:
+    SecretaryCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/SecretaryRecord'
+    SettingRecord:
       type: object
       properties:
         name:
@@ -2080,13 +2083,27 @@ components:
       example:
         name: company_name
         value: ACME Inc
-    SettingUpdate:
+    SettingPayload:
       type: object
       properties:
         value:
           type: string
       example:
         value: ACME Inc
+    SettingCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/SettingRecord'
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      example:
+        success: false
+        message: Test error message with debug info.
   securitySchemes:
     BearerToken:
       type: http
