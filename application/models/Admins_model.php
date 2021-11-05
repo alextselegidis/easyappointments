@@ -438,9 +438,9 @@ class Admins_model extends EA_Model {
      *
      * @param int $admin_id Admin ID.
      * @param string $name Setting name.
-     * @param string $value Setting value.
+     * @param string|null $value Setting value.
      */
-    public function set_setting(int $admin_id, string $name, string $value)
+    public function set_setting(int $admin_id, string $name, string $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id]))
         {

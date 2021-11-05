@@ -280,7 +280,7 @@ class Secretaries_model extends EA_Model {
     {
         if ( ! $this->db->get_where('users', ['id' => $secretary_id])->num_rows())
         {
-            throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $provider_id);
+            throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $secretary_id);
         }
 
         $secretary = $this->db->get_where('users', ['id' => $secretary_id])->row_array();
@@ -332,7 +332,7 @@ class Secretaries_model extends EA_Model {
 
         if ( ! $query->num_rows())
         {
-            throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $provider_id);
+            throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $secretary_id);
         }
 
         // Check if the required field is part of the secretary data.
@@ -446,9 +446,9 @@ class Secretaries_model extends EA_Model {
      *
      * @param int $secretary_id Secretary ID.
      * @param string $name Setting name.
-     * @param string $value Setting value.
+     * @param string|null $value Setting value.
      */
-    public function set_setting(int $secretary_id, string $name, string $value)
+    public function set_setting(int $secretary_id, string $name, string $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $secretary_id]))
         {

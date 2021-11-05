@@ -464,9 +464,9 @@ class Providers_model extends EA_Model {
      *
      * @param int $provider_id Provider ID.
      * @param string $name Setting name.
-     * @param string $value Setting value.
+     * @param string|null $value Setting value.
      */
-    public function set_setting(int $provider_id, string $name, string $value)
+    public function set_setting(int $provider_id, string $name, string $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id]))
         {
