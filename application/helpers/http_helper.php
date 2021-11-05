@@ -66,8 +66,14 @@ if ( ! function_exists('response'))
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
+        foreach ($headers as $header)
+        {
+            $CI->output->set_header($header);
+        }
+
         $CI
             ->output
+            ->set_status_header($status)
             ->set_output($content);
     }
 }
