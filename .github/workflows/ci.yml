@@ -1,0 +1,19 @@
+name: CI
+
+on: [ push ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: php-actions/composer@v5 
+      - uses: php-actions/phpunit@v3
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v2
+        env:
+          TEST_NAME: Test
+        with:
+          bootstrap: tests/bootstrap.php
+          configuration: phpunit.xml
