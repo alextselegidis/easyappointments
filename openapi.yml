@@ -1581,7 +1581,7 @@ components:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
         hash: apTWVbSvBJXR
-        location: Test Street 1A, 12345 Some Place
+        location: Test Street 1A, 12345 Some State, Some Place
         notes: This is a test appointment.
         customerId: 5
         providerId: 2
@@ -1596,8 +1596,6 @@ components:
           type: string
         location:
           type: string
-        status:
-          type: string
         notes:
           type: string
         customerId:
@@ -1609,7 +1607,7 @@ components:
       example:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
-        location: Test Street 1A, 12345 Some Place
+        location: Test Street 1A, 12345 Some State, Some Place
         notes: This is a test appointment.
         customerId: 5
         providerId: 2
@@ -1644,8 +1642,8 @@ components:
         book: '2021-01-01 12:00:00'
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
-        hash: 'z9nhNwtI4QOV'
-        location: Test Street 1A, 12345 Some Place
+        hash: apTWVbSvBJXR
+        location: Test Street 1A, 12345 Some State, Some Place
         notes: This is a test unavailability.
         providerId: 2
         googleCalendarId: null
@@ -1658,8 +1656,6 @@ components:
           type: string
         location:
           type: string
-        status:
-          type: string
         notes:
           type: string
         providerId:
@@ -1667,7 +1663,7 @@ components:
       example:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
-        location: Test Street 1A, 12345 Some Place
+        location: Test Street 1A, 12345 Some State, Some Place
         notes: This is a test appointment.
         providerId: 2
     UnavailabilityCollection:
@@ -1701,9 +1697,9 @@ components:
           type: string
       example:
         id: 1
-        firstName: John
+        firstName: Steve
         lastName: Doe
-        email: john@example.org
+        email: steve@example.org
         phone: Test Street 1A
         city: Some Place
         zip: '12345'
@@ -1734,9 +1730,9 @@ components:
         notes:
           type: string
       example:
-        firstName: John
+        firstName: Steve
         lastName: Doe
-        email: john@example.org
+        email: steve@example.org
         phone: Test Street 1A
         city: Some Place
         zip: '12345'
@@ -1777,7 +1773,7 @@ components:
         duration: 30
         price: 10
         currency: USD
-        location: Test Street 1A, 12345 Some Place
+        location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
@@ -1808,7 +1804,7 @@ components:
         duration: 30
         price: 10
         currency: USD
-        location: Test Street 1A, 12345 Some Place
+        location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
@@ -1883,9 +1879,9 @@ components:
               type: string
       example:
         id: 1
-        firstName: John
+        firstName: Jason
         lastName: Doe
-        email: john@example.org
+        email: jason@example.org
         mobile: '+10000000000'
         phone: '+10000000000'
         address: Test Street 1A
@@ -1894,8 +1890,8 @@ components:
         notes: This is a test admin.
         timezone: UTC
         settings:
-          username: johndoe
-          password: johndoe
+          username: jasondoe
+          password: Password@123
           notifications: true
           calendarView: default
     AdminPayload:
@@ -1936,9 +1932,9 @@ components:
             calendarView:
               type: string
       example:
-        firstName: John
+        firstName: Jason
         lastName: Doe
-        email: john@example.org
+        email: jason@example.org
         mobile: '+10000000000'
         phone: '+10000000000'
         address: Test Street 1A
@@ -1948,8 +1944,8 @@ components:
         timezone: UTC
         language: english
         settings:
-          username: johndoe
-          password: johndoe
+          username: jasondoe
+          password: Password@123
           notifications: true
           calendarView: default
     AdminCollection:
@@ -2012,9 +2008,9 @@ components:
               type: string
       example:
         id: 1
-        firstName: John
+        firstName: Chris
         lastName: Doe
-        email: john@example.org
+        email: chris@example.org
         mobile: '+10000000000'
         phone: '+10000000000'
         address: Test Street 1A
@@ -2025,8 +2021,8 @@ components:
         language: english
         services: []
         settings:
-          username: johndoe
-          password: johndoe
+          username: chrisdoe
+          password: Password@123
           notifications: true
           calendarView: default
           googleSync: false
@@ -2111,9 +2107,9 @@ components:
             workingPlan:
               type: string
       example:
-        firstName: John
+        firstName: Chris
         lastName: Doe
-        email: john@example.org
+        email: chris@example.org
         mobile: '+10000000000'
         phone: '+10000000000'
         address: Test Street 1A
@@ -2124,8 +2120,8 @@ components:
         language: english
         services: []
         settings:
-          username: johndoe
-          password: johndoe
+          username: chrisdoe
+          password: Password@123
           notifications: true
           calendarView: default
           googleSync: false
@@ -2205,9 +2201,9 @@ components:
               type: string
       example:
         id: 1
-        firstName: John
+        firstName: Jessy
         lastName: Doe
-        email: john@example.org
+        email: jessy@example.org
         mobile: '+10000000000'
         phone: '+10000000000'
         address: Test Street 1A
@@ -2218,8 +2214,8 @@ components:
         language: english
         providers: []
         settings:
-          username: johndoe
-          password: johndoe
+          username: jessydoe
+          password: Password@123
           notifications: true
           calendarView: default
     SecretaryPayload:
@@ -2264,9 +2260,9 @@ components:
             calendarView:
               type: string
       example:
-        firstName: John
+        firstName: Jessy
         lastName: Doe
-        email: john@example.org
+        email: jessy@example.org
         mobile: '+10000000000'
         phone: '+10000000000'
         address: Test Street 1A
@@ -2277,8 +2273,8 @@ components:
         language: english
         providers: []
         settings:
-          username: johndoe
-          password: johndoe
+          username: jessydoe
+          password: Password@123
           notifications: true
           calendarView: default
     SecretaryCollection:
