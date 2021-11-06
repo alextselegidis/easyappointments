@@ -52,6 +52,8 @@ class Customers_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
 
+            $attach = $this->api->request_attach();
+
             $customers = empty($keyword)
                 ? $this->customers_model->get(NULL, $limit, $offset, $order_by)
                 : $this->customers_model->search($keyword, $limit, $offset, $order_by);
@@ -63,6 +65,11 @@ class Customers_api_v1 extends EA_Controller {
                 if ( ! empty($fields))
                 {
                     $this->customers_model->only($customer, $fields);
+                }
+
+                if ( ! empty($attach))
+                {
+                    $this->customers_model->attach($customer, $attach);
                 }
             }
 

@@ -51,6 +51,8 @@ class Services_api_v1 extends EA_Controller {
             $order_by = $this->api->request_order_by();
 
             $fields = $this->api->request_fields();
+            
+            $attach = $this->api->request_attach();
 
             $services = empty($keyword)
                 ? $this->services_model->get(NULL, $limit, $offset, $order_by)
@@ -63,6 +65,11 @@ class Services_api_v1 extends EA_Controller {
                 if ( ! empty($fields))
                 {
                     $this->services_model->only($service, $fields);
+                }
+
+                if ( ! empty($attach))
+                {
+                    $this->services_model->attach($service, $attach);
                 }
             }
 
@@ -84,6 +91,8 @@ class Services_api_v1 extends EA_Controller {
         try
         {
             $fields = $this->api->request_fields();
+            
+            $attach = $this->api->request_attach();
 
             $service = $this->services_model->find($id);
 
@@ -92,6 +101,11 @@ class Services_api_v1 extends EA_Controller {
             if ( ! empty($fields))
             {
                 $this->services_model->only($service, $fields);
+            }
+            
+            if ( ! empty($attach))
+            {
+                $this->services_model->attach($service, $attach);
             }
 
             if ( ! $service)

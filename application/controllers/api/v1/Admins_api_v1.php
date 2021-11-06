@@ -52,6 +52,8 @@ class Admins_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
 
+            $attach = $this->api->request_attach();
+
             $admins = empty($keyword)
                 ? $this->admins_model->get(NULL, $limit, $offset, $order_by)
                 : $this->admins_model->search($keyword, $limit, $offset, $order_by);
@@ -63,6 +65,11 @@ class Admins_api_v1 extends EA_Controller {
                 if ( ! empty($fields))
                 {
                     $this->admins_model->only($admin, $fields);
+                }
+
+                if ( ! empty($attach))
+                {
+                    $this->admins_model->attach($admin, $attach);
                 }
             }
 
@@ -85,6 +92,8 @@ class Admins_api_v1 extends EA_Controller {
         {
             $fields = $this->api->request_fields();
 
+            $attach = $this->api->request_attach();
+
             $admin = $this->admins_model->find($id);
 
             $this->admins_model->api_encode($admin);
@@ -92,6 +101,11 @@ class Admins_api_v1 extends EA_Controller {
             if ( ! empty($fields))
             {
                 $this->admins_model->only($admin, $fields);
+            }
+
+            if ( ! empty($attach))
+            {
+                $this->admins_model->attach($admin, $attach);
             }
 
             if ( ! $admin)
@@ -201,7 +215,7 @@ class Admins_api_v1 extends EA_Controller {
             }
 
             $this->admins_model->delete($id);
-            
+
             response('', 204);
         }
         catch (Throwable $e)

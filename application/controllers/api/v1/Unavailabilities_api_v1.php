@@ -52,6 +52,8 @@ class Unavailabilities_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
 
+            $attach = $this->api->request_attach();
+
             $unavailabilities = empty($keyword)
                 ? $this->unavailabilities_model->get(NULL, $limit, $offset, $order_by)
                 : $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
@@ -63,6 +65,11 @@ class Unavailabilities_api_v1 extends EA_Controller {
                 if ( ! empty($fields))
                 {
                     $this->unavailabilities_model->only($unavailability, $fields);
+                }
+
+                if ( ! empty($attach))
+                {
+                    $this->unavailabilities_model->attach($unavailability, $attach);
                 }
             }
 
@@ -85,6 +92,8 @@ class Unavailabilities_api_v1 extends EA_Controller {
         {
             $fields = $this->api->request_fields();
 
+            $attach = $this->api->request_attach();
+
             $unavailability = $this->unavailabilities_model->find($id);
 
             $this->unavailabilities_model->api_encode($unavailability);
@@ -92,6 +101,11 @@ class Unavailabilities_api_v1 extends EA_Controller {
             if ( ! empty($fields))
             {
                 $this->unavailabilities_model->only($unavailability, $fields);
+            }
+
+            if ( ! empty($attach))
+            {
+                $this->unavailabilities_model->attach($unavailability, $attach);
             }
 
             if ( ! $unavailability)

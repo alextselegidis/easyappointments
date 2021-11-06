@@ -58,6 +58,8 @@ class Appointments_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
 
+            $attach = $this->api->request_attach();
+
             $appointments = empty($keyword)
                 ? $this->appointments_model->get(NULL, $limit, $offset, $order_by)
                 : $this->appointments_model->search($keyword, $limit, $offset, $order_by);
@@ -71,6 +73,11 @@ class Appointments_api_v1 extends EA_Controller {
                 if ( ! empty($fields))
                 {
                     $this->appointments_model->only($appointment, $fields);
+                }
+
+                if ( ! empty($attach))
+                {
+                    $this->appointments_model->attach($appointment, $attach);
                 }
             }
 
@@ -92,6 +99,8 @@ class Appointments_api_v1 extends EA_Controller {
         try
         {
             $fields = $this->api->request_fields();
+            
+            $attach = $this->api->request_attach();
 
             $appointment = $this->appointments_model->find($id);
 
@@ -100,6 +109,11 @@ class Appointments_api_v1 extends EA_Controller {
             if ( ! empty($fields))
             {
                 $this->appointments_model->only($appointment, $fields);
+            }
+
+            if ( ! empty($attach))
+            {
+                $this->appointments_model->attach($appointment, $attach);
             }
 
             if ( ! $appointment)
@@ -308,9 +322,9 @@ class Appointments_api_v1 extends EA_Controller {
 
         if ($aggregates)
         {
-            $appointment['service'] = $this->services_model->find($appointment['serviceId'] ?? $appointment['id_services']);
-            $appointment['provider'] = $this->providers_model->find($appointment['providerId'] ?? $appointment['id_users_provider']);
-            $appointment['customer'] = $this->customers_model->find($appointment['customerId'] ?? $appointment['id_users_customer']);
+            $appointment['service'] = $this->services_model->find($appointment['id_services'] ?? $appointment['serviceId'] ?? NULL);
+            $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider'] ?? $appointment['providerId'] ?? NULL);
+            $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer'] ?? $appointment['customerId']) ?? NULL;
             $this->services_model->api_encode($appointment['service']);
             $this->providers_model->api_encode($appointment['provider']);
             $this->customers_model->api_encode($appointment['customer']);

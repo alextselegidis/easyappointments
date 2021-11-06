@@ -264,7 +264,7 @@ class Api {
     }
 
     /**
-     * Get the chosen fields array of the current request.
+     * Get the chosen "fields" array of the current request.
      *
      * @return array|null
      */
@@ -278,5 +278,22 @@ class Api {
         }
 
         return array_map('trim', explode(',', $fields));
+    }
+
+    /**
+     * Get the provided "attach" array of the current request.
+     *
+     * @return array|null
+     */
+    public function request_attach(): ?array
+    {
+        $attach = request('attach');
+
+        if ( ! $attach)
+        {
+            return NULL;
+        }
+
+        return array_map('trim', explode(',', $attach));
     }
 }
