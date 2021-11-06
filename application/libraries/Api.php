@@ -104,11 +104,6 @@ class Api {
                 return;
             }
 
-            if ( ! isset($_SERVER['PHP_AUTH_USER']))
-            {
-                return;
-            }
-
             // Basic auth.  
             $username = $_SERVER['PHP_AUTH_USER'];
 
