@@ -1,7 +1,7 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
-    bootstrap="tests/bootstrap.php"
+    bootstrap="vendor/autoload.php"
     colors="true"
     cacheResult="false"
 >
