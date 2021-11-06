@@ -11,6 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
+require_once __DIR__ . '/../core/EA_Migration.php';
 
 /**
  * Instance library.
@@ -38,6 +39,7 @@ class Instance {
         $this->CI->load->model('customers_model');
 
         $this->CI->load->library('timezones');
+        $this->CI->load->library('migration');
     }
 
     /**
