@@ -26,6 +26,26 @@ class Users_model extends EA_Model {
         'id' => 'integer',
         'id_roles' => 'integer',
     ];
+
+    /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'firstName' => 'first_name',
+        'lastName' => 'last_name',
+        'email' => 'email',
+        'mobile' => 'mobile_number',
+        'phone' => 'phone_number',
+        'address' => 'address',
+        'city' => 'city',
+        'state' => 'state',
+        'zip' => 'zip_code',
+        'timezone' => 'timezone',
+        'language' => 'language',
+        'notes' => 'notes',
+        'roleId' => 'id_roles',
+    ];
     
     /**
      * Save (insert or update) a user.

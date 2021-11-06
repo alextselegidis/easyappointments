@@ -27,6 +27,15 @@ class Service_categories_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'name' => 'name',
+        'description' => 'description',
+    ];
+
+    /**
      * Save (insert or update) a service category.
      *
      * @param array $service_category Associative array with the service category data.

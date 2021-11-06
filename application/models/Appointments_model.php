@@ -29,6 +29,22 @@ class Appointments_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'book' => 'book_datetime',
+        'start' => 'start_datetime',
+        'end' => 'end_datetime',
+        'location' => 'location',
+        'notes' => 'notes',
+        'hash' => 'hash',
+        'providerId' => 'id_users_provider',
+        'googleCalendarId' => 'id_google_calendar',
+    ];
+
+
+    /**
      * Save (insert or update) an appointment.
      *
      * @param array $appointment Associative array with the appointment data.
@@ -179,8 +195,6 @@ class Appointments_model extends EA_Model {
      */
     protected function update(array $appointment): int
     {
-        $this->db->where('id', $appointment['id']);
-
         if ( ! $this->db->update('appointments', $appointment, ['id' => $appointment['id']]))
         {
             throw new RuntimeException('Could not update appointment record.');
@@ -292,7 +306,7 @@ class Appointments_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        $appointments = $this->db->get('appointments', $limit, $offset)->result_array();
+        $appointments = $this->db->get_where('appointments', ['is_unavailable' => FALSE], $limit, $offset)->result_array();
 
         foreach ($appointments as &$appointment)
         {
@@ -300,56 +314,6 @@ class Appointments_model extends EA_Model {
         }
 
         return $appointments;
-    }
-
-    /**
-     * Save (insert or update) an unavailable.
-     *
-     * @param array $unavailable Associative array with the unavailable data.
-     *
-     * @return int Returns the unavailable ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function save_unavailable(array $unavailable): int
-    {
-        // Make sure the start date time is before the end date time.
-        $start = strtotime($unavailable['start_datetime']);
-
-        $end = strtotime($unavailable['end_datetime']);
-
-        if ($start > $end)
-        {
-            throw new InvalidArgumentException('Unavailable period start date time must be before the end date time.');
-        }
-
-        // Make sure the provider ID really exists in the database.
-        $role = $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row_array();
-
-        $count = $this->db->get_where('users', [
-            'id' => $unavailable['id_users_provider'],
-            'id_roles' => $role['id'],
-        ])->num_rows();
-
-        if ( ! $count)
-        {
-            throw new InvalidArgumentException('Provider id was not found in database.');
-        }
-
-        if (empty($unavailable['id']))
-        {
-            $unavailable['book_datetime'] = date('Y-m-d H:i:s');
-
-            $unavailable['is_unavailable'] = TRUE;
-
-            $this->db->insert('appointments', $unavailable);
-
-            return $this->db->insert_id();
-        }
-        else
-        {
-            return $this->db->update('appointments', $unavailable, ['id' => $unavailable['id']]);
-        }
     }
 
     /**
@@ -472,6 +436,8 @@ class Appointments_model extends EA_Model {
             ->join('services', 'services.id = appointments.id_services', 'left')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
             ->join('users AS customers', 'customers.id = appointment.id_users_customer', 'left')
+            ->where('is_unavailable', FALSE)
+            ->group_start()
             ->like('appointments.start_datetime', $keyword)
             ->or_like('appointments.end_datetime', $keyword)
             ->or_like('appointments.location', $keyword)
@@ -487,6 +453,7 @@ class Appointments_model extends EA_Model {
             ->or_like('customers.last_name', $keyword)
             ->or_like('customers.email', $keyword)
             ->or_like('customers.phone_number', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)

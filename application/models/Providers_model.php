@@ -27,6 +27,25 @@ class Providers_model extends EA_Model {
         'id_roles' => 'integer',
     ];
 
+    /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'firstName' => 'first_name',
+        'lastName' => 'last_name',
+        'email' => 'email',
+        'mobile' => 'mobile_number',
+        'phone' => 'phone_number',
+        'address' => 'address',
+        'city' => 'city',
+        'state' => 'state',
+        'zip' => 'zip_code',
+        'timezone' => 'timezone',
+        'language' => 'language',
+        'notes' => 'notes',
+        'roleId' => 'id_roles',
+    ];
 
     /**
      * Save (insert or update) a provider.
@@ -89,11 +108,7 @@ class Providers_model extends EA_Model {
         }
 
         // Validate provider services.
-        if (empty($provider['services']) || ! is_array($provider['services']))
-        {
-            throw new InvalidArgumentException('The provided provider services are invalid: ' . print_r($provider, TRUE));
-        }
-        else
+        if ( ! empty($provider['services']))
         {
             // Make sure the provided service entries are numeric values.
             foreach ($provider['services'] as $service_id)
@@ -464,9 +479,9 @@ class Providers_model extends EA_Model {
      *
      * @param int $provider_id Provider ID.
      * @param string $name Setting name.
-     * @param string|null $value Setting value.
+     * @param mixed $value Setting value.
      */
-    public function set_setting(int $provider_id, string $name, string $value = NULL)
+    public function set_setting(int $provider_id, string $name, $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id]))
         {
@@ -665,6 +680,7 @@ class Providers_model extends EA_Model {
             ->select()
             ->from('users')
             ->where('id_roles', $role_id)
+            ->group_start()
             ->like('first_name', $keyword)
             ->or_like('last_name', $keyword)
             ->or_like('email', $keyword)
@@ -675,6 +691,7 @@ class Providers_model extends EA_Model {
             ->or_like('state', $keyword)
             ->or_like('zip_code', $keyword)
             ->or_like('notes', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)

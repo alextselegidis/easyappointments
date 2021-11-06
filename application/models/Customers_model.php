@@ -28,6 +28,24 @@ class Customers_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'firstName' => 'first_name',
+        'lastName' => 'last_name',
+        'email' => 'email',
+        'phone' => 'phone_number',
+        'address' => 'address',
+        'city' => 'city',
+        'state' => 'state',
+        'zip' => 'zip_code',
+        'timezone' => 'timezone',
+        'language' => 'language',
+        'notes' => 'notes',
+    ];
+
+    /**
      * Save (insert or update) a customer.
      *
      * @param array $customer Associative array with the customer data.
@@ -380,6 +398,7 @@ class Customers_model extends EA_Model {
             ->select()
             ->from('users')
             ->where('id_roles', $role_id)
+            ->group_start()
             ->like('first_name', $keyword)
             ->or_like('last_name', $keyword)
             ->or_like('email', $keyword)
@@ -390,6 +409,7 @@ class Customers_model extends EA_Model {
             ->or_like('state', $keyword)
             ->or_like('zip_code', $keyword)
             ->or_like('notes', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)

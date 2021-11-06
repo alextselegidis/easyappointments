@@ -27,6 +27,14 @@ class Settings_model extends EA_Model {
     ];
 
     /**
+     * @var array 
+     */
+    protected $api_resource = [
+        'name' => 'name',  
+        'value' => 'value',  
+    ];
+
+    /**
      * Save (insert or update) a setting.
      *
      * @param array $setting Associative array with the setting data.

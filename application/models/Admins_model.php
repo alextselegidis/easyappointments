@@ -41,9 +41,9 @@ class Admins_model extends EA_Model {
         'city' => 'city',
         'state' => 'state',
         'zip' => 'zip_code',
-        'notes' => 'notes',
         'timezone' => 'timezone',
         'language' => 'language',
+        'notes' => 'notes',
         'roleId' => 'id_roles',
     ];
 
@@ -499,6 +499,7 @@ class Admins_model extends EA_Model {
             ->select()
             ->from('users')
             ->where('id_roles', $role_id)
+            ->group_start()
             ->like('first_name', $keyword)
             ->or_like('last_name', $keyword)
             ->or_like('email', $keyword)
@@ -509,6 +510,7 @@ class Admins_model extends EA_Model {
             ->or_like('state', $keyword)
             ->or_like('zip_code', $keyword)
             ->or_like('notes', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)

@@ -30,6 +30,22 @@ class Services_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'name' => 'name',
+        'duration' => 'duration',
+        'price' => 'price',
+        'currency' => 'currency',
+        'description' => 'description',
+        'location' => 'location',
+        'availabilitiesType' => 'availabilities_type',
+        'attendantsNumber' => 'attendants_number',
+        'categoryId' => 'id_service_categories',
+    ];
+
+    /**
      * Save (insert or update) a service.
      *
      * @param array $service Associative array with the service data.

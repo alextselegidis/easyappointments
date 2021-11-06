@@ -28,6 +28,26 @@ class Secretaries_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'firstName' => 'first_name',
+        'lastName' => 'last_name',
+        'email' => 'email',
+        'mobile' => 'mobile_number',
+        'phone' => 'phone_number',
+        'address' => 'address',
+        'city' => 'city',
+        'state' => 'state',
+        'zip' => 'zip_code',
+        'timezone' => 'timezone',
+        'language' => 'language',
+        'notes' => 'notes',
+        'roleId' => 'id_roles',
+    ];
+
+    /**
      * Save (insert or update) a secretary.
      *
      * @param array $secretary Associative array with the secretary data.
@@ -88,11 +108,7 @@ class Secretaries_model extends EA_Model {
         }
 
         // Validate secretary providers.
-        if (empty($secretary['providers']) || ! is_array($secretary['providers']))
-        {
-            throw new InvalidArgumentException('The provided secretary providers are invalid: ' . print_r($secretary, TRUE));
-        }
-        else
+        if ( ! empty($secretary['providers']))
         {
             // Make sure the provided provider entries are numeric values.
             foreach ($secretary['providers'] as $secretary_id)
@@ -529,6 +545,7 @@ class Secretaries_model extends EA_Model {
             ->select()
             ->from('users')
             ->where('id_roles', $role_id)
+            ->group_start()
             ->like('first_name', $keyword)
             ->or_like('last_name', $keyword)
             ->or_like('email', $keyword)
@@ -539,6 +556,7 @@ class Secretaries_model extends EA_Model {
             ->or_like('state', $keyword)
             ->or_like('zip_code', $keyword)
             ->or_like('notes', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)
