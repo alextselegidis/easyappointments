@@ -458,7 +458,7 @@ class Backend_api extends EA_Controller {
 
                 foreach ($appointments as &$appointment)
                 {
-                    $this->appointments_model->attach($appointment, [
+                    $this->appointments_model->load($appointment, [
                         'service',
                         'provider',
                     ]);
