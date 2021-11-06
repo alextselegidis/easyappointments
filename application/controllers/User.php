@@ -11,10 +11,6 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use EA\Engine\Notifications\Email as EmailClient;
-use EA\Engine\Types\Email;
-use EA\Engine\Types\NonEmptyText;
-
 /**
  * User controller
  *
@@ -31,6 +27,7 @@ class User extends EA_Controller {
         parent::__construct();
 
         $this->load->library('accounts');
+        $this->load->library('email_messages');
     }
 
     /**
@@ -95,41 +92,37 @@ class User extends EA_Controller {
     {
         try
         {
-            if ( ! request('username') || ! request('password'))
-            {
-                throw new Exception('Invalid credentials given!');
-            }
-
             $username = request('username');
+
+            if (empty($username))
+            {
+                throw new InvalidArgumentException('Empty username provided.');
+            }
 
             $password = request('password');
 
+            if (empty($password))
+            {
+                throw new InvalidArgumentException('Empty password provided.');
+            }
+
             $user_data = $this->accounts->check_login($username, $password);
 
-            if ($user_data)
+            if (empty($user_data))
             {
-                session($user_data); // Save data in the session.
+                throw new InvalidArgumentException('Invalid credentials provided, please try again.');
+            }
 
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = AJAX_FAILURE;
-            }
+            session($user_data); // Save data in the session.
+
+            json_encode([
+                'success' => TRUE,
+            ]);
         }
         catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $e->getMessage(),
-                'trace' => config('debug') ? $e->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
