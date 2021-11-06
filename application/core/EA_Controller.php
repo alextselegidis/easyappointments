@@ -49,6 +49,7 @@
  * @property Service_categories_model $service_categories_model
  * @property Services_model $services_model
  * @property Settings_model $settings_model
+ * @property Unavailabilities_model $unavailabilities_model
  * @property Users_model $users_model
  *
  * @property Accounts $accounts
