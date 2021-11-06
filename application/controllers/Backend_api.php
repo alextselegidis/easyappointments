@@ -41,6 +41,7 @@ class Backend_api extends EA_Controller {
         $this->load->model('service_categories_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+        $this->load->model('unavailabilities_model');
         $this->load->model('users_model');
 
         $this->load->library('google_sync');
@@ -496,8 +497,9 @@ class Backend_api extends EA_Controller {
             $provider = $this->providers_model->find($unavailable['id_users_provider']);
 
             // Add appointment
-            $unavailable['id'] = $this->appointments_model->save_unavailable($unavailable);
-            $unavailable = $this->appointments_model->find($unavailable['id']); // fetch all inserted data
+            $unavailable['id'] = $this->unavailabilities_model->save($unavailable);
+            
+            $unavailable = $this->unavailabilities_model->find($unavailable['id']); // fetch all inserted data
 
             // Google Sync
             try
@@ -514,7 +516,7 @@ class Backend_api extends EA_Controller {
                     {
                         $google_event = $this->google_sync->add_unavailable($provider, $unavailable);
                         $unavailable['id_google_calendar'] = $google_event->id;
-                        $this->appointments_model->save_unavailable($unavailable);
+                        $this->unavailabilities_model->save($unavailable);
                     }
                     else
                     {
