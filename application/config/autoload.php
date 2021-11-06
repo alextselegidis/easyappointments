@@ -102,6 +102,7 @@ $autoload['helper'] = [
 */
 
 $autoload['config'] = [
+    'app',
     'google',
     'email'
 ];

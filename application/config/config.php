@@ -2,18 +2,6 @@
 
 /*
 |--------------------------------------------------------------------------
-| Easy!Appointments - Internal Configuration
-|--------------------------------------------------------------------------
-|
-| Declare some of the global config values of Easy!Appointments.
-|
-*/
-$config['version'] = '1.4.2'; // This must be changed manually.
-$config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
-$config['debug'] = Config::DEBUG_MODE;
-
-/*
-|--------------------------------------------------------------------------
 | Base Site URL
 |--------------------------------------------------------------------------
 |
@@ -364,9 +352,9 @@ $config['sess_regenerate_destroy'] = FALSE;
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
 |
 */
-$config['cookie_prefix'] = "";
-$config['cookie_domain'] = "";
-$config['cookie_path'] = "/";
+$config['cookie_prefix'] = '';
+$config['cookie_domain'] = '';
+$config['cookie_path'] = '/';
 $config['cookie_secure'] = FALSE;
 
 /*
