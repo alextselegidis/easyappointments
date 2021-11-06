@@ -39,46 +39,68 @@
 |
 */
 
-$route['default_controller'] = 'appointments';
-$route['404_override'] = 'errors/error404';
+require_once __DIR__ . '/../helpers/routes_helper.php';
 
+$route['default_controller'] = 'appointments';
+
+$route['404_override'] = 'errors/error404';
 
 /*
 | -------------------------------------------------------------------------
 | REST API ROUTING
 | -------------------------------------------------------------------------
-| The following routes will point the API calls into the correct controller
-| callback methods. This routes also define the HTTP verbs that they are
-| used for each operation.
+| Define the API resource routes using the routing helper function. By 
+| default, each resource will have by default the following actions: 
+| 
+|   - index [GET]
+|
+|   - show/:id [GET]
+|
+|   - store [POST]
+|
+|   - update [PUT]
+|
+|   - destroy [DELETE]
+|
+| Some resources like the availabilities and the settings do not follow this 
+| pattern and are explicitly defined. 
 |
 */
 
-$resources = [
-    'appointments',
-    'unavailabilities',
-    'customers',
-    'services',
-    'categories',
-    'admins',
-    'providers',
-    'secretaries'
-];
+route_api_resource($route, 'appointments', 'api/v1/');
 
-foreach ($resources as $resource)
-{
-    $route['api/v1/' . $resource]['post'] = 'api/v1/' . $resource . '/post';
-    $route['api/v1/' . $resource . '/(:num)']['put'] = 'api/v1/' . $resource . '/put/$1';
-    $route['api/v1/' . $resource . '/(:num)']['delete'] = 'api/v1/' . $resource . '/delete/$1';
-    $route['api/v1/' . $resource]['get'] = 'api/v1/' . $resource . '/get';
-    $route['api/v1/' . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '/get/$1';
-}
+route_api_resource($route, 'admins', 'api/v1/');
+
+route_api_resource($route, 'categories', 'api/v1/');
+
+route_api_resource($route, 'customers', 'api/v1/');
+
+route_api_resource($route, 'providers', 'api/v1/');
+
+route_api_resource($route, 'secretaries', 'api/v1/');
+
+route_api_resource($route, 'services', 'api/v1/');
+
+route_api_resource($route, 'unavailabilities', 'api/v1/');
 
 $route['api/v1/settings']['get'] = 'api/v1/settings/get';
+
 $route['api/v1/settings/(:any)']['get'] = 'api/v1/settings/get/$1';
+
 $route['api/v1/settings/(:any)']['put'] = 'api/v1/settings/put/$1';
+
 $route['api/v1/settings/(:any)']['delete'] = 'api/v1/settings/delete/$1';
 
 $route['api/v1/availabilities']['get'] = 'api/v1/availabilities/get';
+
+/*
+| -------------------------------------------------------------------------
+| CUSTOM ROUTING
+| -------------------------------------------------------------------------
+| You can add custom routes to the following section to define URL patterns
+| that are later mapped to the available controllers in the filesystem. 
+|
+*/
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
