@@ -8,7 +8,7 @@
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.2.0
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
 /**
@@ -16,9 +16,9 @@
  *
  * @package Controllers
  */
-class Admins extends EA_Controller {
+class Admins_api_v1 extends EA_Controller {
     /**
-     * Class Constructor
+     * Admins_api_v1 constructor.
      */
     public function __construct()
     {
@@ -36,16 +36,12 @@ class Admins extends EA_Controller {
     }
 
     /**
-     * Get a single admin or an admin collection.
-     *
-     * @param int|null $id Admin ID.
+     * Get an admin collection.
      */
-    public function get(int $id = NULL)
+    public function index()
     {
         try
         {
-            $where = $id ? ['id' => $id] : NULL;
-
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -57,7 +53,7 @@ class Admins extends EA_Controller {
             $fields = $this->api->request_fields();
 
             $admins = empty($keyword)
-                ? $this->admins_model->get($where, $limit, $offset, $order_by)
+                ? $this->admins_model->get(NULL, $limit, $offset, $order_by)
                 : $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
             foreach ($admins as &$admin)
@@ -70,16 +66,42 @@ class Admins extends EA_Controller {
                 }
             }
 
-            $response = $id && ! empty($admins) ? $admins[0] : $admins;
+            json_response($admins);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 
-            if ( ! $response)
+    /**
+     * Get a single admin.
+     *
+     * @param int|null $id Admin ID.
+     */
+    public function show(int $id = NULL)
+    {
+        try
+        {
+            $fields = $this->api->request_fields();
+
+            $admin = $this->admins_model->find($id);
+
+            $this->admins_model->api_encode($admin);
+
+            if ( ! empty($fields))
             {
-                response('Not Found', 404);
+                $this->admins_model->only($admin, $fields);
+            }
+
+            if ( ! $admin)
+            {
+                response('', 404);
 
                 return;
             }
 
-            json_response($response);
+            json_response($admin);
         }
         catch (Throwable $e)
         {
@@ -90,7 +112,7 @@ class Admins extends EA_Controller {
     /**
      * Create an admin.
      */
-    public function post()
+    public function store()
     {
         try
         {
@@ -105,7 +127,7 @@ class Admins extends EA_Controller {
 
             if ( ! array_key_exists('settings', $admin))
             {
-                throw new Exception('No settings property provided.');
+                throw new InvalidArgumentException('No settings property provided.');
             }
 
             $admin_id = $this->admins_model->save($admin);
@@ -127,7 +149,7 @@ class Admins extends EA_Controller {
      *
      * @param int $id Admin ID.
      */
-    public function put(int $id)
+    public function update(int $id)
     {
         try
         {
@@ -165,7 +187,7 @@ class Admins extends EA_Controller {
      *
      * @param int $id Admin ID.
      */
-    public function delete(int $id)
+    public function destroy(int $id)
     {
         try
         {
@@ -179,6 +201,8 @@ class Admins extends EA_Controller {
             }
 
             $this->admins_model->delete($id);
+            
+            response('', 204);
         }
         catch (Throwable $e)
         {

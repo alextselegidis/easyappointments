@@ -8,36 +8,46 @@
  * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.2.0
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-require_once __DIR__ . '/API_V1_Controller.php';
-require_once __DIR__ . '/../../Appointments.php';
-
 /**
- * Availabilities Controller
+ * Availabilities API v1 controller.
  *
  * @package Controllers
  */
-class Availabilities extends API_V1_Controller {
+class Availabilities_api_v1 extends EA_Controller {
     /**
-     * Class Constructor
+     * Availabilities_api_v1 constructor.
      */
     public function __construct()
     {
         parent::__construct();
+
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+
         $this->load->library('availability');
     }
 
     /**
-     * GET API Method
+     * Generate the available hours based on the selected date, service and provider.
      *
-     * Provide the "providerId", "serviceId" and "date" GET parameters to get the availabilities for a specific date.
-     * If no "date" was provided then the current date will be used.
+     * This resource requires the following query parameters:
+     *
+     *   - serviceId
+     *   - providerI
+     *   - date
+     *
+     * Based on those values it will generate the available hours, just like how the booking page works.
+     *
+     * You can then safely create a new appointment starting on one of the selected hours.
+     *
+     * Notice: The returned hours are in the provider's timezone.
+     *
+     * If no date parameter is provided then the current date will be used.
      */
     public function get()
     {
@@ -60,13 +70,11 @@ class Availabilities extends API_V1_Controller {
 
             $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 
-            $this->output
-                ->set_content_type('application/json')
-                ->set_output(json_encode($available_hours));
+            json_response($available_hours);
         }
         catch (Throwable $e)
         {
-            $this->handle_exception($e);
+            json_exception($e);
         }
     }
 }
