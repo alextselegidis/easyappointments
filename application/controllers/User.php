@@ -115,7 +115,7 @@ class User extends EA_Controller {
 
             session($user_data); // Save data in the session.
 
-            json_encode([
+            json_response([
                 'success' => TRUE,
             ]);
         }

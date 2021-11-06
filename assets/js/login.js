@@ -37,7 +37,7 @@ $(function () {
 
         $.post(url, data)
             .done(function (response) {
-                if (response === GlobalVariables.AJAX_SUCCESS) {
+                if (response.success) {
                     window.location.href = GlobalVariables.destUrl;
                 } else {
                     $alert.text(EALang['login_failed']);
