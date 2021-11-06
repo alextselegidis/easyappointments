@@ -5,4 +5,12 @@
     colors="true"
     cacheResult="false"
 >
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+    </php>
 </phpunit>
