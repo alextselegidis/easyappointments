@@ -53,6 +53,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Availabilities'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -88,6 +90,7 @@ paths:
           in: query
           schema:
             type: string
+          deprecated: true
       responses:
         '200':
           description: OK
@@ -95,6 +98,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AppointmentCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -121,6 +126,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -149,6 +156,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -183,6 +192,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -208,6 +219,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -248,6 +261,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnavailabilityCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -271,6 +286,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -299,6 +316,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -333,6 +352,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -358,6 +379,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -398,6 +421,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -424,6 +449,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -452,6 +479,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -486,6 +515,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -511,6 +542,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -551,6 +584,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -568,7 +603,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ServiceCollection'
+              $ref: '#/components/schemas/ServicePayload'
         required: true
       responses:
         '201':
@@ -577,6 +612,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -605,6 +642,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -639,6 +678,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -664,6 +705,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -704,6 +747,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -730,6 +775,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -758,6 +805,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -792,6 +841,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CategoryRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -817,6 +868,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -861,6 +914,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdminCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -887,6 +942,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -915,6 +972,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -949,6 +1008,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -974,6 +1035,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1014,6 +1077,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProviderCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -1040,6 +1105,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -1068,6 +1135,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1102,6 +1171,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1127,6 +1198,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1167,6 +1240,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecretaryCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -1193,6 +1268,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -1221,6 +1298,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1255,6 +1334,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1280,6 +1361,8 @@ paths:
       responses:
         '204':
           description: No Content
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
       security:
@@ -1314,6 +1397,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SettingCollection'
+        '401':
+          description: Unauthorized
         '500':
           description: Internal Server Error
           content:
@@ -1341,6 +1426,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SettingRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1361,7 +1448,7 @@ paths:
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       requestBody:
         content:
           application/json:
@@ -1375,6 +1462,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SettingRecord'
+        '401':
+          description: Unauthorized
         '404':
           description: Not Found
         '500':
@@ -1424,8 +1513,8 @@ components:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
         hash: apTWVbSvBJXR
-        location: Test Street 1A
-        notes: This is an appointment.
+        location: Test Street 1A, 12345 Some Place
+        notes: This is a test appointment.
         customerId: 5
         providerId: 2
         serviceId: 6
@@ -1452,8 +1541,8 @@ components:
       example:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
-        location: Test Street 1A
-        notes: This is an appointment.
+        location: Test Street 1A, 12345 Some Place
+        notes: This is a test appointment.
         customerId: 5
         providerId: 2
         serviceId: 6
@@ -1472,17 +1561,26 @@ components:
           type: string
         end:
           type: string
+        hash:
+          type: string
+        location:
+          type: string
         notes:
           type: string
         providerId:
+          type: integer
+        googleCalendarId:
           type: integer
       example:
         id: 1
         book: '2021-01-01 12:00:00'
         start: '2021-01-01 17:00:00'
-        end: '2021-01-01 17:00:00'
-        notes: This is an unavailability.
+        end: '2021-01-01 18:00:00'
+        hash: 'z9nhNwtI4QOV'
+        location: Test Street 1A, 12345 Some Place
+        notes: This is a test unavailability.
         providerId: 2
+        googleCalendarId: null
     UnavailabilityPayload:
       type: object
       properties:
@@ -1490,14 +1588,19 @@ components:
           type: string
         end:
           type: string
+        location:
+          type: string
+        status:
+          type: string
         notes:
           type: string
         providerId:
           type: integer
       example:
         start: '2021-01-01 17:00:00'
-        end: '2021-01-01 17:00:00'
-        notes: This is an unavailability.
+        end: '2021-01-01 18:00:00'
+        location: Test Street 1A, 12345 Some Place
+        notes: This is a test appointment.
         providerId: 2
     UnavailabilityCollection:
       type: array
@@ -1522,6 +1625,10 @@ components:
           type: string
         zip:
           type: string
+        timezone:
+          type: string
+        language:
+          type: string
         notes:
           type: string
       example:
@@ -1532,6 +1639,8 @@ components:
         phone: Test Street 1A
         city: Some Place
         zip: '12345'
+        timezone: UTC
+        language: english
         notes: This is a test customer.
     CustomerPayload:
       type: object
@@ -1550,6 +1659,10 @@ components:
           type: string
         zip:
           type: string
+        timezone:
+          type: string
+        language:
+          type: string
         notes:
           type: string
       example:
@@ -1559,6 +1672,8 @@ components:
         phone: Test Street 1A
         city: Some Place
         zip: '12345'
+        timezone: UTC
+        language: english
         notes: This is a test customer.
     CustomerCollection:
       type: array
@@ -1578,6 +1693,8 @@ components:
           format: float
         currency:
           type: string
+        location:
+          type: string
         description:
           type: string
         availabilitiesType:
@@ -1592,8 +1709,9 @@ components:
         duration: 30
         price: 10
         currency: USD
+        location: Test Street 1A, 12345 Some Place
         description: This is a test service.
-        availabilitiesType: Flexible
+        availabilitiesType: flexible
         attendantsNumber: 1
         categoryId: null
     ServicePayload:
@@ -1606,6 +1724,8 @@ components:
         price:
           type: number
         currency:
+          type: string
+        location:
           type: string
         description:
           type: string
@@ -1620,8 +1740,9 @@ components:
         duration: 30
         price: 10
         currency: USD
+        location: Test Street 1A, 12345 Some Place
         description: This is a test service.
-        availabilitiesType: Flexible
+        availabilitiesType: flexible
         attendantsNumber: 1
         categoryId: null
     ServiceCollection:
@@ -1732,6 +1853,8 @@ components:
           type: string
         timezone:
           type: string
+        language:
+          type: string
         settings:
           type: object
           properties:
@@ -1755,6 +1878,7 @@ components:
         zip: '12345'
         notes: This is a test admin.
         timezone: UTC
+        language: english
         settings:
           username: johndoe
           password: johndoe
@@ -1788,6 +1912,8 @@ components:
         notes:
           type: string
         timezone:
+          type: string
+        language:
           type: string
         services:
           type: array
@@ -1828,6 +1954,8 @@ components:
         zip: '12345'
         notes: This is a test provider.
         timezone: UTC
+        language: english
+        services: []
         settings:
           username: johndoe
           password: johndoe
@@ -1884,6 +2012,8 @@ components:
           type: string
         timezone:
           type: string
+        language:
+          type: string
         services:
           type: array
           items:
@@ -1923,6 +2053,8 @@ components:
         zip: '12345'
         notes: This is a test provider.
         timezone: UTC
+        language: english
+        services: []
         settings:
           username: johndoe
           password: johndoe
@@ -1985,6 +2117,8 @@ components:
           type: string
         timezone:
           type: string
+        language:
+          type: string
         providers:
           type: array
           items:
@@ -2013,6 +2147,8 @@ components:
         zip: '12345'
         notes: This is a test service.
         timezone: UTC
+        language: english
+        providers: []
         settings:
           username: johndoe
           password: johndoe
@@ -2041,6 +2177,12 @@ components:
           type: string
         timezone:
           type: string
+        language:
+          type: string
+        providers:
+          type: array
+          items:
+            type: integer
         settings:
           type: object
           properties:
@@ -2064,6 +2206,8 @@ components:
         zip: '12345'
         notes: This is a test service.
         timezone: UTC
+        language: english
+        providers: []
         settings:
           username: johndoe
           password: johndoe
