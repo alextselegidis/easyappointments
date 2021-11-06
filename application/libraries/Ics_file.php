@@ -23,7 +23,7 @@ use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Utility\Formatter;
 
 /**
- * Ics file library
+ * Ics file library.
  *
  * Handle ICS related functionality.
  *

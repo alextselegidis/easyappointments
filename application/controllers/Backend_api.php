@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend API controller
+ * Backend API controller.
  *
  * Handles the backend API related operations.
  *

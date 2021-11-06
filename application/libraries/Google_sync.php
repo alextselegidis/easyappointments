@@ -14,7 +14,7 @@
 use Google\Service\Calendar\Events;
 
 /**
- * Google sync library
+ * Google sync library.
  *
  * Handles Google Calendar API related functionality.
  *

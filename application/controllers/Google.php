@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Google controller
+ * Google controller.
  *
  * Handles the Google Calendar synchronization related operations.
  *

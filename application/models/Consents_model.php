@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Consents model
+ * Consents model.
  *
  * Handles all the database operations of the consent resource.
  *

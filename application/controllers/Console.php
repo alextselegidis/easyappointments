@@ -14,7 +14,7 @@
 require_once __DIR__ . '/Google.php';
 
 /**
- * Console controller
+ * Console controller.
  *
  * Handles all the Console related operations.
  */

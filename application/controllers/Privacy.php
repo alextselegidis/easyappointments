@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Privacy controller
+ * Privacy controller.
  *
  * Handles the privacy related operations.
  *
@@ -20,7 +20,7 @@
  */
 class Privacy extends EA_Controller {
     /**
-     * Privacy constructor
+     * Privacy constructor.
      */
     public function __construct()
     {

@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Consents controller
+ * Consents controller.
  *
  * Handles user consent related operations.
  *

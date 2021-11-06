@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Customers model
+ * Customers model.
  *
  * Handles all the database operations of the customer resource.
  *

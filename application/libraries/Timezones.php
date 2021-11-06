@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Timezones library
+ * Timezones library.
  *
  * Handles timezone related functionality.
  *

@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Settings model
+ * Settings model.
  *
  * Handles all the database operations of the setting resource.
  *

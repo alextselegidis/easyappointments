@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Notifications library
+ * Notifications library.
  *
  * Handles the notifications related functionality.
  *

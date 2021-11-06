@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Installation controller
+ * Installation controller.
  *
  * Handles the installation related operations.
  *

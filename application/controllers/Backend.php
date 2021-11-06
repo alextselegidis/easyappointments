@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend controller
+ * Backend controller.
  *
  * Handles the backend related operations.
  *
@@ -20,7 +20,7 @@
  */
 class Backend extends EA_Controller {
     /**
-     * Class Constructor
+     * Backend constructor.
      */
     public function __construct()
     {

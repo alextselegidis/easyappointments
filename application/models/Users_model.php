@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Users model
+ * Users model.
  *
  * Handles all the database operations of the user resource.
  *

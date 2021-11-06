@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Errors controller
+ * Errors controller.
  *
  * Handles the app error related operations.
  *

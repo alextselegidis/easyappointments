@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Secretaries model
+ * Secretaries model.
  *
  * Handles all the database operations of the secretary resource.
  *

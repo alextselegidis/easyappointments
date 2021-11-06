@@ -13,7 +13,7 @@
 
 
 /**
- * Accounts library
+ * Accounts library.
  *
  * Handles account related functionality.
  * 

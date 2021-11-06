@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Admins model
+ * Admins model.
  *
  * Handles all the database operations of the admin resource.
  *

@@ -13,7 +13,7 @@
 
 
 /**
- * Availability library
+ * Availability library.
  *
  * Handles availability related functionality.
  * 

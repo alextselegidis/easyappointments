@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Services model
+ * Services model.
  *
  * Handles all the database operations of the service resource.
  *

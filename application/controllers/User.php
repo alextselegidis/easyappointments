@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * User controller
+ * User controller.
  *
  * Handles the user related operations.
  *

@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Providers model
+ * Providers model.
  *
  * Handles all the database operations of the provider resource.
  *

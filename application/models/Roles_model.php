@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Roles model
+ * Roles model.
  *
  * Handles all the database operations of the role resource.
  *

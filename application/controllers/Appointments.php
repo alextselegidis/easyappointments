@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Appointments controller
+ * Appointments controller.
  *
  * Handles the appointment related operations.
  *
@@ -20,7 +20,7 @@
  */
 class Appointments extends EA_Controller {
     /**
-     * Class Constructor
+     * Appointments constructor.
      */
     public function __construct()
     {

@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Synchronization library
+ * Synchronization library.
  *
  * Handles external calendar synchronization functionality.
  *

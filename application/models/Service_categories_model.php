@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Services categories model
+ * Services categories model.
  *
  * Handles all the database operations of the service category resource.
  *

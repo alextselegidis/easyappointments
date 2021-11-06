@@ -14,7 +14,7 @@
 use Gregwar\Captcha\CaptchaBuilder;
 
 /**
- * Captcha controller
+ * Captcha controller.
  * 
  * Handles the captcha operations.
  *
