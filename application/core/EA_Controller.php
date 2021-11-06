@@ -55,6 +55,7 @@
  * @property Accounts $accounts
  * @property Api $api
  * @property Availability $availability
+ * @property Email_messages $email_messages
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
  * @property Instance $instance
