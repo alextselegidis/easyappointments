@@ -20,5 +20,4 @@ jobs:
         env:
           TEST_NAME: Test
         with:
-          bootstrap: tests/bootstrap.php
           configuration: phpunit.xml
