@@ -382,7 +382,7 @@ class Services_model extends EA_Model {
                     $service['service_category'] = $this
                         ->db
                         ->get_where('service_categories', [
-                            'id' => $service['id_service_categories']
+                            'id' => $service['id_service_categories'] ?? $service['categoryId'] ?? NULL
                         ])
                         ->row_array();
                     break;

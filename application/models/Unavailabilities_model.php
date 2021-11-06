@@ -348,7 +348,7 @@ class Unavailabilities_model extends EA_Model {
                     $unavailability['provider'] = $this
                         ->db
                         ->get_where('users', [
-                            'id' => $unavailability['id_users_provider']
+                            'id' => $unavailability['id_users_provider'] ?? $unavailability['providerId'] ?? NULL
                         ])
                         ->row_array();
                     break;
