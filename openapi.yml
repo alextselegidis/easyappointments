@@ -86,6 +86,14 @@ paths:
           in: query
           schema:
             type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
         - name: aggregates
           in: query
           schema:
@@ -254,6 +262,14 @@ paths:
           in: query
           schema:
             type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -411,6 +427,14 @@ paths:
           schema:
             type: string
         - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
           in: query
           schema:
             type: string
@@ -577,6 +601,14 @@ paths:
           in: query
           schema:
             type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -737,6 +769,14 @@ paths:
           schema:
             type: string
         - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
           in: query
           schema:
             type: string
@@ -907,6 +947,10 @@ paths:
           in: query
           schema:
             type: string
+        - name: with
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -1067,6 +1111,14 @@ paths:
           schema:
             type: string
         - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
           in: query
           schema:
             type: string
@@ -1233,6 +1285,14 @@ paths:
           in: query
           schema:
             type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -1387,6 +1447,14 @@ paths:
           schema:
             type: string
         - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
           in: query
           schema:
             type: string
