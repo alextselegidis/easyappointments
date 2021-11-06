@@ -11,6 +11,8 @@
 
 $config['version'] = '1.5.0'; // This must be changed manually.
 
+$config['url'] = Config::BASE_URL;  
+
 $config['release_label'] = 'DEV'; // Leave empty or add ALPHA, BEST, CUSTOM etc ...
 
 $config['debug'] = Config::DEBUG_MODE;
