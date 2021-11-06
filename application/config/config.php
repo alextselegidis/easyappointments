@@ -14,7 +14,18 @@
 | path to your installation.
 |
 */
-$config['base_url'] = Config::BASE_URL;
+
+$protocol =
+    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+    || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
+    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        ? 'https://' : 'http://';
+
+$domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
+
+$request_uri = dirname($_SERVER['SCRIPT_NAME']);
+
+$config['base_url'] = $protocol . $domain . $request_uri;
 
 /*
 |--------------------------------------------------------------------------
