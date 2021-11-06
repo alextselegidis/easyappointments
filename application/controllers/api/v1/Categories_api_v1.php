@@ -52,7 +52,7 @@ class Categories_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
             
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $service_categories = empty($keyword)
                 ? $this->service_categories_model->get(NULL, $limit, $offset, $order_by)
@@ -67,9 +67,9 @@ class Categories_api_v1 extends EA_Controller {
                     $this->service_categories_model->only($service_category, $fields);
                 }
 
-                if ( ! empty($attach))
+                if ( ! empty($with))
                 {
-                    $this->service_categories_model->attach($service_category, $attach);
+                    $this->service_categories_model->load($service_category, $with);
                 }
             }
 
@@ -92,7 +92,7 @@ class Categories_api_v1 extends EA_Controller {
         {
             $fields = $this->api->request_fields();
             
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $service_category = $this->service_categories_model->find($id);
 
@@ -103,9 +103,9 @@ class Categories_api_v1 extends EA_Controller {
                 $this->service_categories_model->only($service_category, $fields);
             }
 
-            if ( ! empty($attach))
+            if ( ! empty($with))
             {
-                $this->service_categories_model->attach($service_category, $attach);
+                $this->service_categories_model->load($service_category, $with);
             }
 
             if ( ! $service_category)

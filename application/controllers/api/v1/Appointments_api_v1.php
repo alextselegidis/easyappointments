@@ -58,7 +58,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
 
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $appointments = empty($keyword)
                 ? $this->appointments_model->get(NULL, $limit, $offset, $order_by)
@@ -75,9 +75,9 @@ class Appointments_api_v1 extends EA_Controller {
                     $this->appointments_model->only($appointment, $fields);
                 }
 
-                if ( ! empty($attach))
+                if ( ! empty($with))
                 {
-                    $this->appointments_model->attach($appointment, $attach);
+                    $this->appointments_model->load($appointment, $with);
                 }
             }
 
@@ -100,7 +100,7 @@ class Appointments_api_v1 extends EA_Controller {
         {
             $fields = $this->api->request_fields();
             
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $appointment = $this->appointments_model->find($id);
 
@@ -111,9 +111,9 @@ class Appointments_api_v1 extends EA_Controller {
                 $this->appointments_model->only($appointment, $fields);
             }
 
-            if ( ! empty($attach))
+            if ( ! empty($with))
             {
-                $this->appointments_model->attach($appointment, $attach);
+                $this->appointments_model->load($appointment, $with);
             }
 
             if ( ! $appointment)

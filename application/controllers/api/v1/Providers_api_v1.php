@@ -52,7 +52,7 @@ class Providers_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
             
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $providers = empty($keyword)
                 ? $this->providers_model->get(NULL, $limit, $offset, $order_by)
@@ -67,9 +67,9 @@ class Providers_api_v1 extends EA_Controller {
                     $this->providers_model->only($provider, $fields);
                 }
 
-                if ( ! empty($attach))
+                if ( ! empty($with))
                 {
-                    $this->providers_model->attach($provider, $attach);
+                    $this->providers_model->load($provider, $with);
                 }
             }
 
@@ -92,7 +92,7 @@ class Providers_api_v1 extends EA_Controller {
         {
             $fields = $this->api->request_fields();
             
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $provider = $this->providers_model->find($id);
 
@@ -103,9 +103,9 @@ class Providers_api_v1 extends EA_Controller {
                 $this->providers_model->only($provider, $fields);
             }
 
-            if ( ! empty($attach))
+            if ( ! empty($with))
             {
-                $this->providers_model->attach($provider, $attach);
+                $this->providers_model->load($provider, $with);
             }
 
             if ( ! $provider)

@@ -281,19 +281,19 @@ class Api {
     }
 
     /**
-     * Get the provided "attach" array of the current request.
+     * Get the provided "with" array of the current request.
      *
      * @return array|null
      */
-    public function request_attach(): ?array
+    public function request_with(): ?array
     {
-        $attach = request('attach');
+        $with = request('with');
 
-        if ( ! $attach)
+        if ( ! $with)
         {
             return NULL;
         }
 
-        return array_map('trim', explode(',', $attach));
+        return array_map('trim', explode(',', $with));
     }
 }

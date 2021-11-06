@@ -52,7 +52,7 @@ class Secretaries_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
             
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $secretaries = empty($keyword)
                 ? $this->secretaries_model->get(NULL, $limit, $offset, $order_by)
@@ -67,9 +67,9 @@ class Secretaries_api_v1 extends EA_Controller {
                     $this->secretaries_model->only($secretary, $fields);
                 }
 
-                if ( ! empty($attach))
+                if ( ! empty($with))
                 {
-                    $this->secretaries_model->attach($secretary, $attach);
+                    $this->secretaries_model->load($secretary, $with);
                 }
             }
 

@@ -52,7 +52,7 @@ class Admins_api_v1 extends EA_Controller {
 
             $fields = $this->api->request_fields();
 
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $admins = empty($keyword)
                 ? $this->admins_model->get(NULL, $limit, $offset, $order_by)
@@ -67,9 +67,9 @@ class Admins_api_v1 extends EA_Controller {
                     $this->admins_model->only($admin, $fields);
                 }
 
-                if ( ! empty($attach))
+                if ( ! empty($with))
                 {
-                    $this->admins_model->attach($admin, $attach);
+                    $this->admins_model->load($admin, $with);
                 }
             }
 
@@ -92,7 +92,7 @@ class Admins_api_v1 extends EA_Controller {
         {
             $fields = $this->api->request_fields();
 
-            $attach = $this->api->request_attach();
+            $with = $this->api->request_with();
 
             $admin = $this->admins_model->find($id);
 
@@ -103,9 +103,9 @@ class Admins_api_v1 extends EA_Controller {
                 $this->admins_model->only($admin, $fields);
             }
 
-            if ( ! empty($attach))
+            if ( ! empty($with))
             {
-                $this->admins_model->attach($admin, $attach);
+                $this->admins_model->load($admin, $with);
             }
 
             if ( ! $admin)
