@@ -83,15 +83,15 @@ route_api_resource($route, 'services', 'api/v1/');
 
 route_api_resource($route, 'unavailabilities', 'api/v1/');
 
-$route['api/v1/settings']['get'] = 'api/v1/settings/get';
+$route['api/v1/settings']['get'] = 'api/v1/settings_api_v1/get';
 
-$route['api/v1/settings/(:any)']['get'] = 'api/v1/settings/get/$1';
+$route['api/v1/settings/(:any)']['get'] = 'api/v1/settings_api_v1/get/$1';
 
-$route['api/v1/settings/(:any)']['put'] = 'api/v1/settings/put/$1';
+$route['api/v1/settings/(:any)']['put'] = 'api/v1/settings_api_v1/put/$1';
 
-$route['api/v1/settings/(:any)']['delete'] = 'api/v1/settings/delete/$1';
+$route['api/v1/settings/(:any)']['delete'] = 'api/v1/settings_api_v1/delete/$1';
 
-$route['api/v1/availabilities']['get'] = 'api/v1/availabilities/get';
+$route['api/v1/availabilities']['get'] = 'api/v1/availabilities_api_v1/get';
 
 /*
 | -------------------------------------------------------------------------
