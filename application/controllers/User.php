@@ -96,14 +96,14 @@ class User extends EA_Controller {
 
             if (empty($username))
             {
-                throw new InvalidArgumentException('Empty username provided.');
+                throw new InvalidArgumentException('No username value provided.');
             }
 
             $password = request('password');
 
             if (empty($password))
             {
-                throw new InvalidArgumentException('Empty password provided.');
+                throw new InvalidArgumentException('No password value provided.');
             }
 
             $user_data = $this->accounts->check_login($username, $password);
@@ -153,15 +153,13 @@ class User extends EA_Controller {
 
             if ($new_password)
             {
-                $email = new EmailClient($this, $this->config->config);
-
                 $settings = [
                     'company_name' => setting('company_name'),
                     'company_link' => setting('company_link'),
                     'company_email' => setting('company_email')
                 ];
 
-                $email->send_password(new NonEmptyText($new_password), new Email(request('email')), $settings);
+                $this->email_messages->send_password($new_password, $email, $settings);
             }
 
             json_response([
