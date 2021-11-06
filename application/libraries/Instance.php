@@ -45,10 +45,32 @@ class Instance {
     /**
      * Migrate the database to the latest state.
      *
-     * @param string $type Provide "fresh" to revert previous migrations and start from the beginning.
+     * @param string $type Provide "fresh" to revert previous migrations and start from the beginning or "up"/"down" to step.
      */
     public function migrate(string $type = '')
     {
+        $current_version = $this->CI->migration->current_version();
+
+        if ($type === 'up')
+        {
+            if ( ! $this->CI->migration->version($current_version + 1))
+            {
+                show_error($this->CI->migration->error_string());
+            }
+
+            return;
+        }
+
+        if ($type === 'down')
+        {
+            if ( ! $this->CI->migration->version($current_version - 1))
+            {
+                show_error($this->CI->migration->error_string());
+            }
+
+            return;
+        }
+
         if ($type === 'fresh' && ! $this->CI->migration->version(0))
         {
             show_error($this->CI->migration->error_string());

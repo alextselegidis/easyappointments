@@ -167,6 +167,8 @@ class Console extends EA_Controller {
             '',
             '⇾ php index.php console migrate',
             '⇾ php index.php console migrate fresh',
+            '⇾ php index.php console migrate up',
+            '⇾ php index.php console migrate down',
             '⇾ php index.php console seed',
             '⇾ php index.php console install',
             '⇾ php index.php console backup',

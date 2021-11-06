@@ -42,5 +42,13 @@ require_once __DIR__ . '/../../system/libraries/Migration.php';
  * @property EA_URI $uri
  */
 class EA_Migration extends CI_Migration {
-    // 
+    /**
+     * Get the current migration version.
+     *
+     * @return int
+     */
+    public function current_version(): int
+    {
+        return $this->_get_version();
+    }
 }
