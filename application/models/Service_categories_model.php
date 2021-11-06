@@ -281,14 +281,14 @@ class Service_categories_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a service category.
+     * Load related resources to a service category.
      *
      * @param array $service_category Associative array with the service category data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$service_category, array $resources)
+    public function load(array &$service_category, array $resources)
     {
         // Service categories do not currently have any related resources. 
     }

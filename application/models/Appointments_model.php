@@ -469,14 +469,14 @@ class Appointments_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to an appointment.
+     * Load related resources to an appointment.
      *
      * @param array $appointment Associative array with the appointment data.
      * @param array $resources Resource names to be attached ("service", "provider", "customer" supported).
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$appointment, array $resources)
+    public function load(array &$appointment, array $resources)
     {
         if (empty($appointment) || empty($resources))
         {

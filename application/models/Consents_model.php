@@ -272,14 +272,14 @@ class Consents_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a consent.
+     * Load related resources to a consent.
      *
      * @param array $consent Associative array with the consent data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$consent, array $resources)
+    public function load(array &$consent, array $resources)
     {
         // Consents do not currently have any related resources. 
     }

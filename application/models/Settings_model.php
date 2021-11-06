@@ -280,14 +280,14 @@ class Settings_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a setting.
+     * Load related resources to a setting.
      *
      * @param array $setting Associative array with the setting data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$setting, array $resources)
+    public function load(array &$setting, array $resources)
     {
         // Users do not currently have any related resources. 
     }

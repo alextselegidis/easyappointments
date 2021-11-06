@@ -534,14 +534,14 @@ class Admins_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to an admin.
+     * Load related resources to an admin.
      *
      * @param array $admin Associative array with the admin data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$admin, array $resources)
+    public function load(array &$admin, array $resources)
     {
         // Admins do not currently have any related resources (settings are already part of the admins). 
     }

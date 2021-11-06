@@ -406,14 +406,14 @@ class Users_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a user.
+     * Load related resources to a user.
      *
      * @param array $user Associative array with the user data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$user, array $resources)
+    public function load(array &$user, array $resources)
     {
         // Users do not currently have any related resources. 
     }

@@ -724,14 +724,14 @@ class Providers_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a provider.
+     * Load related resources to a provider.
      *
      * @param array $provider Associative array with the provider data.
      * @param array $resources Resource names to be attached ("services" supported).
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$provider, array $resources)
+    public function load(array &$provider, array $resources)
     {
         if (empty($provider) || empty($resources))
         {

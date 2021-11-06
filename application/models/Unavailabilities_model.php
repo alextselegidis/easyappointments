@@ -326,14 +326,14 @@ class Unavailabilities_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to an unavailability.
+     * Load related resources to an unavailability.
      *
      * @param array $unavailability Associative array with the unavailability data.
      * @param array $resources Resource names to be attached ("service", "provider", "customer" supported).
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$unavailability, array $resources)
+    public function load(array &$unavailability, array $resources)
     {
         if (empty($unavailability) || empty($resources))
         {

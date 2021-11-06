@@ -425,14 +425,14 @@ class Customers_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a customer.
+     * Load related resources to a customer.
      *
      * @param array $customer Associative array with the customer data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$customer, array $resources)
+    public function load(array &$customer, array $resources)
     {
         // Customers do not currently have any related resources. 
     }

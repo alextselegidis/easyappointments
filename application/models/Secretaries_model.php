@@ -587,14 +587,14 @@ class Secretaries_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a secretary.
+     * Load related resources to a secretary.
      *
      * @param array $secretary Associative array with the secretary data.
      * @param array $resources Resource names to be attached ("providers" supported).
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$secretary, array $resources)
+    public function load(array &$secretary, array $resources)
     {
         if (empty($secretary) || empty($resources))
         {

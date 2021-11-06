@@ -347,14 +347,14 @@ class Roles_model extends EA_Model {
     }
 
     /**
-     * Attach related resources to a role.
+     * Load related resources to a role.
      *
      * @param array $role Associative array with the role data.
      * @param array $resources Resource names to be attached.
      *
      * @throws InvalidArgumentException
      */
-    public function attach(array &$role, array $resources)
+    public function load(array &$role, array $resources)
     {
         // Roles do not currently have any related resources. 
     }
