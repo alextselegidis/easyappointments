@@ -35,17 +35,14 @@ $(function () {
 
         $alert.addClass('d-none');
 
-        $.post(url, data)
-            .done(function (response) {
-                if (response.success) {
-                    window.location.href = GlobalVariables.destUrl;
-                } else {
-                    $alert.text(EALang['login_failed']);
-                    $alert
-                        .removeClass('d-none alert-danger alert-success')
-                        .addClass('alert-danger');
-                }
-            });
+        $.post(url, data).done(function (response) {
+            if (response.success) {
+                window.location.href = GlobalVariables.destUrl;
+            } else {
+                $alert.text(EALang['login_failed']);
+                $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');
+            }
+        });
     }
 
     $loginForm.on('submit', onLoginFormSubmit);

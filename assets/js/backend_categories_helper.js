@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -119,11 +118,10 @@
                         instance.delete(categoryId);
                         $('#message-box').dialog('close');
                     }
-                },
+                }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_category,
-                EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_category, EALang.delete_record_prompt, buttons);
         });
 
         /**
@@ -190,17 +188,17 @@
             limit: this.filterLimit
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 this.filterResults = response;
 
                 $('#filter-categories .results').empty();
 
-                response.forEach(function (category) {
-                    $('#filter-categories .results')
-                        .append(this.getFilterHtml(category))
-                        .append($('<hr/>'));
-                }.bind(this));
+                response.forEach(
+                    function (category) {
+                        $('#filter-categories .results').append(this.getFilterHtml(category)).append($('<hr/>'));
+                    }.bind(this)
+                );
 
                 if (response.length === 0) {
                     $('#filter-categories .results').append(
@@ -217,14 +215,14 @@
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);
                         }.bind(this)
-                    })
-                        .appendTo('#filter-categories .results');
+                    }).appendTo('#filter-categories .results');
                 }
 
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -240,14 +238,15 @@
             category: JSON.stringify(category)
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 Backend.displayNotification(EALang.service_category_saved);
                 this.resetForm();
                 $('#filter-categories .key').val('');
                 this.filter('', response.id, true);
                 BackendServices.updateAvailableCategories();
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -263,14 +262,15 @@
             category_id: id
         };
 
-        $.post(url, data)
-            .done(function () {
+        $.post(url, data).done(
+            function () {
                 Backend.displayNotification(EALang.service_category_deleted);
 
                 this.resetForm();
                 this.filter($('#filter-categories .key').val());
                 BackendServices.updateAvailableCategories();
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -291,9 +291,7 @@
      */
     CategoriesHelper.prototype.validate = function () {
         $('#categories .has-error').removeClass('has-error');
-        $('#categories .form-message')
-            .removeClass('alert-danger')
-            .hide();
+        $('#categories .form-message').removeClass('alert-danger').hide();
 
         try {
             var missingRequired = false;
@@ -311,10 +309,7 @@
 
             return true;
         } catch (error) {
-            $('#categories .form-message')
-                .addClass('alert-danger')
-                .text(error.message)
-                .show();
+            $('#categories .form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     };
@@ -329,10 +324,7 @@
 
         $('#categories .add-edit-delete-group').show();
         $('#categories .save-cancel-group').hide();
-        $('#categories .record-details')
-            .find('input, select, textarea')
-            .val('')
-            .prop('disabled', true);
+        $('#categories .record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
         $('#categories .record-details .has-error').removeClass('has-error');
@@ -354,7 +346,7 @@
                 $('<strong/>', {
                     'text': category.name
                 }),
-                $('<br/>'),
+                $('<br/>')
             ]
         });
     };
@@ -376,9 +368,11 @@
         $('#filter-categories .category-row[data-id="' + id + '"]').addClass('selected');
 
         if (display) {
-            var category = this.filterResults.find(function (category) {
-                return Number(category.id) === Number(id);
-            }.bind(this));
+            var category = this.filterResults.find(
+                function (category) {
+                    return Number(category.id) === Number(id);
+                }.bind(this)
+            );
 
             this.display(category);
 

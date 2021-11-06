@@ -19,7 +19,6 @@ window.Backend = window.Backend || {};
  * @module Backend
  */
 (function (exports) {
-
     'use strict';
 
     /**
@@ -126,8 +125,7 @@ window.Backend = window.Backend || {};
                     'html': message
                 })
             ]
-        })
-            .appendTo($notification);
+        }).appendTo($notification);
 
         actions.forEach(function (action) {
             $('<button/>', {
@@ -136,11 +134,9 @@ window.Backend = window.Backend || {};
                 'on': {
                     'click': action.function
                 }
-            })
-                .appendTo($instance);
+            }).appendTo($instance);
         });
 
         $notification.show('fade');
-    }
-
+    };
 })(window.Backend);

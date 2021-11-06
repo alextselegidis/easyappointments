@@ -19,7 +19,6 @@
 window.BackendCalendar = window.BackendCalendar || {};
 
 (function (exports) {
-
     'use strict';
 
     /**
@@ -45,9 +44,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                     document.webkitExitFullscreen();
                 }
 
-                $toggleFullscreen
-                    .removeClass('btn-success')
-                    .addClass('btn-light');
+                $toggleFullscreen.removeClass('btn-success').addClass('btn-light');
             } else {
                 // Switch to fullscreen mode.
                 if (element.requestFullscreen) {
@@ -59,9 +56,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                 } else if (element.webkitRequestFullscreen) {
                     element.webkitRequestFullscreen();
                 }
-                $toggleFullscreen
-                    .removeClass('btn-light')
-                    .addClass('btn-success');
+                $toggleFullscreen.removeClass('btn-light').addClass('btn-success');
             }
         });
 
@@ -76,30 +71,35 @@ window.BackendCalendar = window.BackendCalendar || {};
                 throw new Error('Provider could not be found: ' + providerId);
             }
 
-            WorkingPlanExceptionsModal
-                .add()
-                .done(function (date, workingPlanException) {
-                    var successCallback = function () {
-                        Backend.displayNotification(EALang.working_plan_exception_saved);
+            WorkingPlanExceptionsModal.add().done(function (date, workingPlanException) {
+                var successCallback = function () {
+                    Backend.displayNotification(EALang.working_plan_exception_saved);
 
-                        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                    var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
-                        workingPlanExceptions[date] = workingPlanException;
+                    workingPlanExceptions[date] = workingPlanException;
 
-                        for (var index in GlobalVariables.availableProviders) {
-                            var availableProvider = GlobalVariables.availableProviders[index];
+                    for (var index in GlobalVariables.availableProviders) {
+                        var availableProvider = GlobalVariables.availableProviders[index];
 
-                            if (Number(availableProvider.id) === Number(providerId)) {
-                                GlobalVariables.availableProviders[index].settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
-                                break;
-                            }
+                        if (Number(availableProvider.id) === Number(providerId)) {
+                            GlobalVariables.availableProviders[index].settings.working_plan_exceptions =
+                                JSON.stringify(workingPlanExceptions);
+                            break;
                         }
+                    }
 
-                        $('#select-filter-item').trigger('change'); // Update the calendar.
-                    };
+                    $('#select-filter-item').trigger('change'); // Update the calendar.
+                };
 
-                    BackendCalendarApi.saveWorkingPlanException(date, workingPlanException, providerId, successCallback, null);
-                });
+                BackendCalendarApi.saveWorkingPlanException(
+                    date,
+                    workingPlanException,
+                    providerId,
+                    successCallback,
+                    null
+                );
+            });
         });
     }
 
@@ -125,5 +125,4 @@ window.BackendCalendar = window.BackendCalendar || {};
 
         bindEventHandlers();
     };
-
 })(window.BackendCalendar);

@@ -19,7 +19,6 @@
 window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
 
 (function (exports) {
-
     'use strict';
 
     /**
@@ -35,13 +34,11 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
         $('#enable-sync').on('click', function () {
             if ($('#enable-sync').hasClass('enabled') === false) {
                 // Enable synchronization for selected provider.
-                var authUrl = GlobalVariables.baseUrl + '/index.php/google/oauth/'
-                    + $('#select-filter-item').val();
+                var authUrl = GlobalVariables.baseUrl + '/index.php/google/oauth/' + $('#select-filter-item').val();
 
                 var redirectUrl = GlobalVariables.baseUrl + '/index.php/google/oauth_callback';
 
-                var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments',
-                    'width=800, height=600');
+                var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments', 'width=800, height=600');
 
                 var authInterval = window.setInterval(function () {
                     // When the browser redirects to the google user consent page the "window.document" variable
@@ -68,16 +65,15 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                     provider_id: $('#select-filter-item').val()
                                 };
 
-                                $.post(url, data)
-                                    .done(function (response) {
-                                        $('#google-calendar').empty();
+                                $.post(url, data).done(function (response) {
+                                    $('#google-calendar').empty();
 
-                                        response.forEach(function (calendar) {
-                                            $('#google-calendar').append(new Option(calendar.summary, calendar.id));
-                                        });
-
-                                        $('#select-google-calendar').modal('show');
+                                    response.forEach(function (calendar) {
+                                        $('#google-calendar').append(new Option(calendar.summary, calendar.id));
                                     });
+
+                                    $('#select-google-calendar').modal('show');
+                                });
                             }
                         }
                     } catch (Error) {
@@ -86,7 +82,6 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                         // possible due to CORS restrictions.
                     }
                 }, 100);
-
             } else {
                 var buttons = [
                     {
@@ -139,11 +134,10 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 provider_id: $('#select-filter-item').val(),
                 calendar_id: $('#google-calendar').val()
             };
-            $.post(url, data)
-                .done(function () {
-                    Backend.displayNotification(EALang.google_calendar_selected);
-                    $('#select-google-calendar').modal('hide');
-                });
+            $.post(url, data).done(function () {
+                Backend.displayNotification(EALang.google_calendar_selected);
+                $('#select-google-calendar').modal('hide');
+            });
         });
 
         /**
@@ -188,9 +182,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
         $.post(url, data);
     }
 
-
     exports.initialize = function () {
         bindEventHandlers();
     };
-
 })(window.BackendCalendarGoogleSync);

@@ -10,19 +10,20 @@
  * ---------------------------------------------------------------------------- */
 
 @-moz-document url-prefix() {
-    body .checkbox input[type="checkbox"] {
+    body .checkbox input[type='checkbox'] {
         float: left;
     }
 }
 
 body .ui-widget {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     font-size: 1.1em;
 }
 
 body .ui-widget-overlay {
     background: #000 50% 50% repeat-x;
-    opacity: .5;
+    opacity: 0.5;
     filter: Alpha(Opacity=50);
 }
 
@@ -32,7 +33,7 @@ body .ui-dialog .ui-dialog-titlebar-close {
 
 body .ui-draggable .ui-dialog-titlebar {
     background: #429a82;
-    color: #FFF;
+    color: #fff;
     font-size: 1.2em;
     font-weight: lighter;
     padding: 12px 10px;
@@ -49,7 +50,7 @@ body .ui-dialog {
 }
 
 body .ui-dialog .ui-dialog-buttonpane {
-    padding: .3em 1em .3em .4em;
+    padding: 0.3em 1em 0.3em 0.4em;
     border: none;
 }
 
@@ -88,7 +89,7 @@ body .ui-datepicker .ui-widget-header {
 }
 
 body .ui-datepicker .ui-widget-header .ui-icon {
-    background-image: url("../ext/jquery-ui/images/ui-icons_ffffff_256x240.png")
+    background-image: url('../ext/jquery-ui/images/ui-icons_ffffff_256x240.png');
 }
 
 body .ui-datepicker .ui-datepicker-title {
@@ -98,7 +99,7 @@ body .ui-datepicker .ui-datepicker-title {
 
 body .ui-datepicker th {
     background: #429a82;
-    color: #FFF;
+    color: #fff;
 }
 
 body .ui-datepicker tbody tr:first-child td {
@@ -109,7 +110,7 @@ body .ui-datepicker td a,
 body .ui-datepicker td span {
     border: none !important;
     background: none !important;
-    color: #1A865F !important;
+    color: #1a865f !important;
     text-align: center !important;
     width: 32px;
     height: 32px;
@@ -117,7 +118,7 @@ body .ui-datepicker td span {
 }
 
 html body .ui-datepicker td a.ui-state-active {
-    color: #FFF !important;
+    color: #fff !important;
     font-weight: bold !important;
     background: #429a82 !important;
     border-radius: 50px;
@@ -128,14 +129,13 @@ html body .ui-datepicker td a.ui-state-active {
 }
 
 body .ui-datepicker td a.ui-state-highlight {
-    background: #80E3AD !important;
+    background: #80e3ad !important;
     border-radius: 67px;
-    color: #FFF !important;
+    color: #fff !important;
     width: 24px;
     height: 24px;
     line-height: 1.2;
     margin: 4px;
-
 }
 
 body .ui-datepicker .ui-datepicker-prev-hover {
@@ -168,10 +168,12 @@ body .ui-widget-header .ui-priority-primary {
     font-weight: normal;
 }
 
-body .ui-widget input, .ui-widget select,
+body .ui-widget input,
+.ui-widget select,
 body .ui-widget textarea,
 body .ui-widget button {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     font-size: 1rem;
 }
 
@@ -180,7 +182,7 @@ body .ui-datepicker .ui-datepicker-buttonpane button {
 }
 
 .breaks tr:hover td {
-    background: #FFFFC2 !important;
+    background: #ffffc2 !important;
 }
 
 .working-plan td {
@@ -349,7 +351,7 @@ li.language:hover {
     height: 60px;
     margin: -25px 0 0 -25px;
 
-    border: 5px solid rgba(0, 0, 0, .4);
+    border: 5px solid rgba(0, 0, 0, 0.4);
     border-radius: 50px;
 }
 
@@ -406,7 +408,7 @@ body .popover-body button {
     box-sizing: border-box;
     margin: 0;
     height: 2.1em;
-    padding: 0 .6em;
+    padding: 0 0.6em;
 }
 
 body .popover-body a {

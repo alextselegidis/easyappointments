@@ -21,7 +21,6 @@ window.BackendCustomers = window.BackendCustomers || {};
  * @module BackendCustomers
  */
 (function (exports) {
-
     'use strict';
 
     /**
@@ -63,5 +62,4 @@ window.BackendCustomers = window.BackendCustomers || {};
     function bindEventHandlers() {
         //
     }
-
 })(window.BackendCustomers);

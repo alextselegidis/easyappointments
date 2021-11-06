@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -18,8 +17,7 @@
      *
      * @class SystemSettings
      */
-    var SystemSettings = function () {
-    };
+    var SystemSettings = function () {};
 
     /**
      * Save the system settings.
@@ -41,30 +39,32 @@
             type: BackendSettings.SETTINGS_SYSTEM
         };
 
-        $.post(url, data)
-            .done(function () {
-                Backend.displayNotification(EALang.settings_saved);
+        $.post(url, data).done(function () {
+            Backend.displayNotification(EALang.settings_saved);
 
-                // Update the logo title on the header.
-                $('#header-logo span').text($('#company-name').val());
+            // Update the logo title on the header.
+            $('#header-logo span').text($('#company-name').val());
 
-                // Update book_advance_timeout preview
-                var totalMinutes = $('#book-advance-timeout').val();
-                var hours = Math.floor(totalMinutes / 60);
-                var minutes = totalMinutes % 60;
-                $('#book-advance-timeout-helper').text(
-                    EALang.book_advance_timeout_hint.replace('{$limit}', ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2))
-                );
+            // Update book_advance_timeout preview
+            var totalMinutes = $('#book-advance-timeout').val();
+            var hours = Math.floor(totalMinutes / 60);
+            var minutes = totalMinutes % 60;
+            $('#book-advance-timeout-helper').text(
+                EALang.book_advance_timeout_hint.replace(
+                    '{$limit}',
+                    ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2)
+                )
+            );
 
-                // Update variables also used in other setting tabs
-                GlobalVariables.timeFormat = $('#time-format').val();
-                GlobalVariables.firstWeekday = $('#first-weekday').val();
+            // Update variables also used in other setting tabs
+            GlobalVariables.timeFormat = $('#time-format').val();
+            GlobalVariables.firstWeekday = $('#first-weekday').val();
 
-                // We need to refresh the working plan.
-                var workingPlan = BackendSettings.wp.get();
-                BackendSettings.wp.setup(workingPlan);
-                BackendSettings.wp.timepickers(false);
-            });
+            // We need to refresh the working plan.
+            var workingPlan = BackendSettings.wp.get();
+            BackendSettings.wp.setup(workingPlan);
+            BackendSettings.wp.timepickers(false);
+        });
     };
 
     /**
@@ -77,16 +77,18 @@
      * @return '0' when the button shows 'invisible' and '1' when the button shows 'visible'. Will always return '0' on an error.
      */
     function getToggleButtonState($element) {
-        var visiblePartArray = $element.find(".hide-toggle-visible");
-        var invisiblePartArray = $element.find(".hide-toggle-hidden");
+        var visiblePartArray = $element.find('.hide-toggle-visible');
+        var invisiblePartArray = $element.find('.hide-toggle-hidden');
         if (!(visiblePartArray.length === 0 || invisiblePartArray.length === 0)) {
-            if (visiblePartArray.hasClass("hidden")) {//our button is currently invisible
-                return '0';//invisible
-            } else {//our button is currently visible
-                return '1';//visible
+            if (visiblePartArray.hasClass('hidden')) {
+                //our button is currently invisible
+                return '0'; //invisible
+            } else {
+                //our button is currently visible
+                return '1'; //visible
             }
         } else {
-            return '0';//invisible
+            return '0'; //invisible
         }
     }
 
@@ -102,12 +104,15 @@
 
         // General Settings Tab
 
-        $('#general').find('input, select').not('input:checkbox').each(function (index, field) {
-            settings.push({
-                name: $(field).attr('data-field'),
-                value: $(field).val()
+        $('#general')
+            .find('input, select')
+            .not('input:checkbox')
+            .each(function (index, field) {
+                settings.push({
+                    name: $(field).attr('data-field'),
+                    value: $(field).val()
+                });
             });
-        });
 
         settings.push({
             name: 'customer_notifications',
@@ -155,7 +160,6 @@
             name: 'show_notes',
             value: getToggleButtonState($('#show-notes'))
         });
-
 
         // Business Logic Tab
 

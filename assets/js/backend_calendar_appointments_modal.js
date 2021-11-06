@@ -19,7 +19,6 @@
 window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModal || {};
 
 (function (exports) {
-
     'use strict';
 
     function updateTimezone() {
@@ -52,7 +51,10 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // ID must exist on the object in order for the model to update the record and not to perform
             // an insert operation.
 
-            var startDatetime = $dialog.find('#start-datetime').datetimepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
+            var startDatetime = $dialog
+                .find('#start-datetime')
+                .datetimepicker('getDate')
+                .toString('yyyy-MM-dd HH:mm:ss');
             var endDatetime = $dialog.find('#end-datetime').datetimepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
 
             var appointment = {
@@ -134,12 +136,11 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     $dialog.find('#select-provider').val(providerId);
                 }
             } else if ($('#select-filter-item option:selected').attr('type') === 'service') {
-                $dialog.find('#select-service option[value="' + $('#select-filter-item').val() + '"]')
+                $dialog
+                    .find('#select-service option[value="' + $('#select-filter-item').val() + '"]')
                     .prop('selected', true);
             } else {
-                $dialog.find('#select-service option:first')
-                    .prop('selected', true)
-                    .trigger('change');
+                $dialog.find('#select-service option:first').prop('selected', true).trigger('change');
             }
 
             var serviceId = $dialog.find('#select-service').val();
@@ -164,8 +165,9 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             }
 
             $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
-            $dialog.find('#end-datetime').val(GeneralFunctions.formatDate(start.addMinutes(duration),
-                GlobalVariables.dateFormat, true));
+            $dialog
+                .find('#end-datetime')
+                .val(GeneralFunctions.formatDate(start.addMinutes(duration), GlobalVariables.dateFormat, true));
 
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang.new_appointment_title);
@@ -188,8 +190,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     $('<div/>', {
                         'data-id': customer.id,
                         'text': customer.first_name + ' ' + customer.last_name
-                    })
-                        .appendTo($list);
+                    }).appendTo($list);
                 });
             } else {
                 $list.slideUp('slow');
@@ -256,8 +257,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                             $('<div/>', {
                                 'data-id': customer.id,
                                 'text': customer.first_name + ' ' + customer.last_name
-                            })
-                                .appendTo($list);
+                            }).appendTo($list);
 
                             // Verify if this customer is on the old customer list.
                             var result = GlobalVariables.customers.filter(function (globalVariablesCustomer) {
@@ -268,26 +268,27 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                             if (!result.length) {
                                 GlobalVariables.customers.push(customer);
                             }
-                        })
+                        });
                     })
                     .fail(function (jqXHR, textStatus, errorThrown) {
                         // If there is any error on the request, search by the local client database.
                         $list.empty();
 
                         GlobalVariables.customers.forEach(function (customer, index) {
-                            if (customer.first_name.toLowerCase().indexOf(key) !== -1
-                                || customer.last_name.toLowerCase().indexOf(key) !== -1
-                                || customer.email.toLowerCase().indexOf(key) !== -1
-                                || customer.phone_number.toLowerCase().indexOf(key) !== -1
-                                || customer.address.toLowerCase().indexOf(key) !== -1
-                                || customer.city.toLowerCase().indexOf(key) !== -1
-                                || customer.zip_code.toLowerCase().indexOf(key) !== -1
-                                || customer.notes.toLowerCase().indexOf(key) !== -1) {
+                            if (
+                                customer.first_name.toLowerCase().indexOf(key) !== -1 ||
+                                customer.last_name.toLowerCase().indexOf(key) !== -1 ||
+                                customer.email.toLowerCase().indexOf(key) !== -1 ||
+                                customer.phone_number.toLowerCase().indexOf(key) !== -1 ||
+                                customer.address.toLowerCase().indexOf(key) !== -1 ||
+                                customer.city.toLowerCase().indexOf(key) !== -1 ||
+                                customer.zip_code.toLowerCase().indexOf(key) !== -1 ||
+                                customer.notes.toLowerCase().indexOf(key) !== -1
+                            ) {
                                 $('<div/>', {
                                     'data-id': customer.id,
                                     'text': customer.first_name + ' ' + customer.last_name
-                                })
-                                    .appendTo($list);
+                                }).appendTo($list);
                             }
                         });
                     })
@@ -322,18 +323,25 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             GlobalVariables.availableProviders.forEach(function (provider) {
                 provider.services.forEach(function (providerServiceId) {
-                    if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && Number(provider.id) !== GlobalVariables.user.id) {
+                    if (
+                        GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER &&
+                        Number(provider.id) !== GlobalVariables.user.id
+                    ) {
                         return; // continue
                     }
 
-                    if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY && GlobalVariables.secretaryProviders.indexOf(provider.id) === -1) {
+                    if (
+                        GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY &&
+                        GlobalVariables.secretaryProviders.indexOf(provider.id) === -1
+                    ) {
                         return; // continue
                     }
 
                     // If the current provider is able to provide the selected service, add him to the listbox.
                     if (Number(providerServiceId) === Number(serviceId)) {
-                        $('#select-provider')
-                            .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+                        $('#select-provider').append(
+                            new Option(provider.first_name + ' ' + provider.last_name, provider.id)
+                        );
                     }
                 });
             });
@@ -350,8 +358,12 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
          * Event: Enter New Customer Button "Click"
          */
         $('#new-customer').on('click', function () {
-            $('#manage-appointment').find('#customer-id, #first-name, #last-name, #email, '
-                + '#phone-number, #address, #city, #zip-code, #customer-notes').val('');
+            $('#manage-appointment')
+                .find(
+                    '#customer-id, #first-name, #last-name, #email, ' +
+                        '#phone-number, #address, #city, #zip-code, #customer-notes'
+                )
+                .val('');
         });
     }
 
@@ -369,8 +381,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         $dialog.find('.modal-message').fadeOut();
 
         // Prepare service and provider select boxes.
-        $dialog.find('#select-service').val(
-            $dialog.find('#select-service').eq(0).attr('value'));
+        $dialog.find('#select-service').val($dialog.find('#select-service').eq(0).attr('value'));
 
         // Fill the providers listbox with providers that can serve the appointment's
         // service and then select the user's provider.
@@ -380,12 +391,15 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var serviceId = $dialog.find('#select-service').val();
 
-            var canProvideService = provider.services.filter(function (providerServiceId) {
-                return Number(providerServiceId) === Number(serviceId)
-            }).length > 0;
+            var canProvideService =
+                provider.services.filter(function (providerServiceId) {
+                    return Number(providerServiceId) === Number(serviceId);
+                }).length > 0;
 
-            if (canProvideService) { // Add the provider to the listbox.
-                $dialog.find('#select-provider')
+            if (canProvideService) {
+                // Add the provider to the listbox.
+                $dialog
+                    .find('#select-provider')
                     .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             }
         });
@@ -431,19 +445,47 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
-            dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
-                EALang.thursday, EALang.friday, EALang.saturday],
-            dayNamesShort: [EALang.sunday.substr(0, 3), EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3), EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3), EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)],
-            dayNamesMin: [EALang.sunday.substr(0, 2), EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2), EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2), EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)],
-            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
-                EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
-                EALang.october, EALang.november, EALang.december],
+            dayNames: [
+                EALang.sunday,
+                EALang.monday,
+                EALang.tuesday,
+                EALang.wednesday,
+                EALang.thursday,
+                EALang.friday,
+                EALang.saturday
+            ],
+            dayNamesShort: [
+                EALang.sunday.substr(0, 3),
+                EALang.monday.substr(0, 3),
+                EALang.tuesday.substr(0, 3),
+                EALang.wednesday.substr(0, 3),
+                EALang.thursday.substr(0, 3),
+                EALang.friday.substr(0, 3),
+                EALang.saturday.substr(0, 3)
+            ],
+            dayNamesMin: [
+                EALang.sunday.substr(0, 2),
+                EALang.monday.substr(0, 2),
+                EALang.tuesday.substr(0, 2),
+                EALang.wednesday.substr(0, 2),
+                EALang.thursday.substr(0, 2),
+                EALang.friday.substr(0, 2),
+                EALang.saturday.substr(0, 2)
+            ],
+            monthNames: [
+                EALang.january,
+                EALang.february,
+                EALang.march,
+                EALang.april,
+                EALang.may,
+                EALang.june,
+                EALang.july,
+                EALang.august,
+                EALang.september,
+                EALang.october,
+                EALang.november,
+                EALang.december
+            ],
             prevText: EALang.previous,
             nextText: EALang.next,
             currentText: EALang.now,
@@ -472,19 +514,47 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
 
             // Translation
-            dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
-                EALang.thursday, EALang.friday, EALang.saturday],
-            dayNamesShort: [EALang.sunday.substr(0, 3), EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3), EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3), EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)],
-            dayNamesMin: [EALang.sunday.substr(0, 2), EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2), EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2), EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)],
-            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
-                EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
-                EALang.october, EALang.november, EALang.december],
+            dayNames: [
+                EALang.sunday,
+                EALang.monday,
+                EALang.tuesday,
+                EALang.wednesday,
+                EALang.thursday,
+                EALang.friday,
+                EALang.saturday
+            ],
+            dayNamesShort: [
+                EALang.sunday.substr(0, 3),
+                EALang.monday.substr(0, 3),
+                EALang.tuesday.substr(0, 3),
+                EALang.wednesday.substr(0, 3),
+                EALang.thursday.substr(0, 3),
+                EALang.friday.substr(0, 3),
+                EALang.saturday.substr(0, 3)
+            ],
+            dayNamesMin: [
+                EALang.sunday.substr(0, 2),
+                EALang.monday.substr(0, 2),
+                EALang.tuesday.substr(0, 2),
+                EALang.wednesday.substr(0, 2),
+                EALang.thursday.substr(0, 2),
+                EALang.friday.substr(0, 2),
+                EALang.saturday.substr(0, 2)
+            ],
+            monthNames: [
+                EALang.january,
+                EALang.february,
+                EALang.march,
+                EALang.april,
+                EALang.may,
+                EALang.june,
+                EALang.july,
+                EALang.august,
+                EALang.september,
+                EALang.october,
+                EALang.november,
+                EALang.december
+            ],
             prevText: EALang.previous,
             nextText: EALang.next,
             currentText: EALang.now,
@@ -550,5 +620,4 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     exports.initialize = function () {
         bindEventHandlers();
     };
-
 })(window.BackendCalendarAppointmentsModal);

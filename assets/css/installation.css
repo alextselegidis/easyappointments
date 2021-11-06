@@ -1,5 +1,5 @@
 header {
-    background: #DAFFEB;
+    background: #daffeb;
     margin-bottom: 25px;
 }
 
@@ -19,9 +19,9 @@ header .page-title {
 
 footer {
     padding: 10px 35px;
-    background-color: #FAFAFA;
+    background-color: #fafafa;
     margin-top: 20px;
-    border-top: 1px solid #EEE;
+    border-top: 1px solid #eee;
 }
 
 #loading {

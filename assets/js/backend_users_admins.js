@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -36,59 +35,75 @@
          *
          * @param {jQuery.Event} event
          */
-        $('#admins').on('submit', '#filter-admins form', function (event) {
-            event.preventDefault();
-            var key = $('#filter-admins .key').val();
-            $('#filter-admins .selected').removeClass('selected');
-            this.resetForm();
-            this.filter(key);
-        }.bind(this));
+        $('#admins').on(
+            'submit',
+            '#filter-admins form',
+            function (event) {
+                event.preventDefault();
+                var key = $('#filter-admins .key').val();
+                $('#filter-admins .selected').removeClass('selected');
+                this.resetForm();
+                this.filter(key);
+            }.bind(this)
+        );
 
         /**
          * Event: Clear Filter Results Button "Click"
          */
-        $('#admins').on('click', '#filter-admins .clear', function () {
-            this.filter('');
-            $('#filter-admins .key').val('');
-            this.resetForm();
-        }.bind(this));
+        $('#admins').on(
+            'click',
+            '#filter-admins .clear',
+            function () {
+                this.filter('');
+                $('#filter-admins .key').val('');
+                this.resetForm();
+            }.bind(this)
+        );
 
         /**
          * Event: Filter Admin Row "Click"
          *
          * Display the selected admin data to the user.
          */
-        $('#admins').on('click', '.admin-row', function (event) {
-            if ($('#filter-admins .filter').prop('disabled')) {
-                $('#filter-admins .results').css('color', '#AAA');
-                return; // exit because we are currently on edit mode
-            }
+        $('#admins').on(
+            'click',
+            '.admin-row',
+            function (event) {
+                if ($('#filter-admins .filter').prop('disabled')) {
+                    $('#filter-admins .results').css('color', '#AAA');
+                    return; // exit because we are currently on edit mode
+                }
 
-            var adminId = $(event.currentTarget).attr('data-id');
+                var adminId = $(event.currentTarget).attr('data-id');
 
-            var admin = this.filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(adminId);
-            });
+                var admin = this.filterResults.find(function (filterResult) {
+                    return Number(filterResult.id) === Number(adminId);
+                });
 
-            this.display(admin);
-            $('#filter-admins .selected').removeClass('selected');
-            $(event.currentTarget).addClass('selected');
-            $('#edit-admin, #delete-admin').prop('disabled', false);
-        }.bind(this));
+                this.display(admin);
+                $('#filter-admins .selected').removeClass('selected');
+                $(event.currentTarget).addClass('selected');
+                $('#edit-admin, #delete-admin').prop('disabled', false);
+            }.bind(this)
+        );
 
         /**
          * Event: Add New Admin Button "Click"
          */
-        $('#admins').on('click', '#add-admin', function () {
-            this.resetForm();
-            $('#admins .add-edit-delete-group').hide();
-            $('#admins .save-cancel-group').show();
-            $('#admins .record-details').find('input, textarea').prop('disabled', false);
-            $('#admins .record-details').find('select').prop('disabled', false);
-            $('#admin-password, #admin-password-confirm').addClass('required');
-            $('#filter-admins button').prop('disabled', true);
-            $('#filter-admins .results').css('color', '#AAA');
-        }.bind(this));
+        $('#admins').on(
+            'click',
+            '#add-admin',
+            function () {
+                this.resetForm();
+                $('#admins .add-edit-delete-group').hide();
+                $('#admins .save-cancel-group').show();
+                $('#admins .record-details').find('input, textarea').prop('disabled', false);
+                $('#admins .record-details').find('select').prop('disabled', false);
+                $('#admin-password, #admin-password-confirm').addClass('required');
+                $('#filter-admins button').prop('disabled', true);
+                $('#filter-admins .results').css('color', '#AAA');
+            }.bind(this)
+        );
 
         /**
          * Event: Edit Admin Button "Click"
@@ -106,80 +121,92 @@
         /**
          * Event: Delete Admin Button "Click"
          */
-        $('#admins').on('click', '#delete-admin', function () {
-            var adminId = $('#admin-id').val();
+        $('#admins').on(
+            'click',
+            '#delete-admin',
+            function () {
+                var adminId = $('#admin-id').val();
 
-            var buttons = [
-                {
-                    text: EALang.cancel,
-                    click: function () {
-                        $('#message-box').dialog('close');
+                var buttons = [
+                    {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
+                        text: EALang.delete,
+                        click: function () {
+                            this.delete(adminId);
+                            $('#message-box').dialog('close');
+                        }.bind(this)
                     }
-                },
-                {
-                    text: EALang.delete,
-                    click: function () {
-                        this.delete(adminId);
-                        $('#message-box').dialog('close');
-                    }.bind(this)
-                }
-            ];
+                ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_admin, EALang.delete_record_prompt, buttons);
-        }.bind(this));
+                GeneralFunctions.displayMessageBox(EALang.delete_admin, EALang.delete_record_prompt, buttons);
+            }.bind(this)
+        );
 
         /**
          * Event: Save Admin Button "Click"
          */
-        $('#admins').on('click', '#save-admin', function () {
-            var admin = {
-                first_name: $('#admin-first-name').val(),
-                last_name: $('#admin-last-name').val(),
-                email: $('#admin-email').val(),
-                mobile_number: $('#admin-mobile-number').val(),
-                phone_number: $('#admin-phone-number').val(),
-                address: $('#admin-address').val(),
-                city: $('#admin-city').val(),
-                state: $('#admin-state').val(),
-                zip_code: $('#admin-zip-code').val(),
-                notes: $('#admin-notes').val(),
-                timezone: $('#admin-timezone').val(),
-                settings: {
-                    username: $('#admin-username').val(),
-                    notifications: $('#admin-notifications').prop('checked'),
-                    calendar_view: $('#admin-calendar-view').val()
+        $('#admins').on(
+            'click',
+            '#save-admin',
+            function () {
+                var admin = {
+                    first_name: $('#admin-first-name').val(),
+                    last_name: $('#admin-last-name').val(),
+                    email: $('#admin-email').val(),
+                    mobile_number: $('#admin-mobile-number').val(),
+                    phone_number: $('#admin-phone-number').val(),
+                    address: $('#admin-address').val(),
+                    city: $('#admin-city').val(),
+                    state: $('#admin-state').val(),
+                    zip_code: $('#admin-zip-code').val(),
+                    notes: $('#admin-notes').val(),
+                    timezone: $('#admin-timezone').val(),
+                    settings: {
+                        username: $('#admin-username').val(),
+                        notifications: $('#admin-notifications').prop('checked'),
+                        calendar_view: $('#admin-calendar-view').val()
+                    }
+                };
+
+                // Include password if changed.
+                if ($('#admin-password').val() !== '') {
+                    admin.settings.password = $('#admin-password').val();
                 }
-            };
 
-            // Include password if changed.
-            if ($('#admin-password').val() !== '') {
-                admin.settings.password = $('#admin-password').val();
-            }
+                // Include id if changed.
+                if ($('#admin-id').val() !== '') {
+                    admin.id = $('#admin-id').val();
+                }
 
-            // Include id if changed.
-            if ($('#admin-id').val() !== '') {
-                admin.id = $('#admin-id').val();
-            }
+                if (!this.validate()) {
+                    return;
+                }
 
-            if (!this.validate()) {
-                return;
-            }
-
-            this.save(admin);
-        }.bind(this));
+                this.save(admin);
+            }.bind(this)
+        );
 
         /**
          * Event: Cancel Admin Button "Click"
          *
          * Cancel add or edit of an admin record.
          */
-        $('#admins').on('click', '#cancel-admin', function () {
-            var id = $('#admin-id').val();
-            this.resetForm();
-            if (id) {
-                this.select(id, true);
-            }
-        }.bind(this));
+        $('#admins').on(
+            'click',
+            '#cancel-admin',
+            function () {
+                var id = $('#admin-id').val();
+                this.resetForm();
+                if (id) {
+                    this.select(id, true);
+                }
+            }.bind(this)
+        );
     };
 
     /**
@@ -211,13 +238,14 @@
             admin: JSON.stringify(admin)
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 Backend.displayNotification(EALang.admin_saved);
                 this.resetForm();
                 $('#filter-admins .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -233,12 +261,13 @@
             admin_id: id
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 Backend.displayNotification(EALang.admin_deleted);
                 this.resetForm();
                 this.filter($('#filter-admins .key').val());
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -270,8 +299,10 @@
                 throw new Error(EALang.passwords_mismatch);
             }
 
-            if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#admin-password').val() !== '') {
+            if (
+                $('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH &&
+                $('#admin-password').val() !== ''
+            ) {
                 $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
                 throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
             }
@@ -290,10 +321,7 @@
 
             return true;
         } catch (error) {
-            $('#admins .form-message')
-                .addClass('alert-danger')
-                .text(error.message)
-                .show();
+            $('#admins .form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     };
@@ -308,10 +336,7 @@
 
         $('#admins .add-edit-delete-group').show();
         $('#admins .save-cancel-group').hide();
-        $('#admins .record-details')
-            .find('input, select, textarea')
-            .val('')
-            .prop('disabled', true);
+        $('#admins .record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('#admins .record-details #admin-calendar-view').val('default');
         $('#admins .record-details #admin-timezone').val('UTC');
         $('#edit-admin, #delete-admin').prop('disabled', true);
@@ -364,17 +389,17 @@
             limit: this.filterLimit
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 this.filterResults = response;
 
                 $('#filter-admins .results').empty();
 
-                response.forEach(function (admin) {
-                    $('#filter-admins .results')
-                        .append(this.getFilterHtml(admin))
-                        .append($('<hr/>'));
-                }.bind(this));
+                response.forEach(
+                    function (admin) {
+                        $('#filter-admins .results').append(this.getFilterHtml(admin)).append($('<hr/>'));
+                    }.bind(this)
+                );
 
                 if (!response.length) {
                     $('#filter-admins .results').append(
@@ -391,14 +416,14 @@
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);
                         }.bind(this)
-                    })
-                        .appendTo('#filter-admins .results');
+                    }).appendTo('#filter-admins .results');
                 }
 
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -428,7 +453,7 @@
                 $('<span/>', {
                     'text': info
                 }),
-                $('<br/>'),
+                $('<br/>')
             ]
         });
     };
@@ -460,5 +485,4 @@
     };
 
     window.AdminsHelper = AdminsHelper;
-
 })();

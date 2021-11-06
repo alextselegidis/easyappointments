@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -83,9 +82,7 @@
             instance.resetForm();
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
-            $('.record-details')
-                .find('input, select, textarea')
-                .prop('disabled', false);
+            $('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#filter-customers button').prop('disabled', true);
             $('#filter-customers .results').css('color', '#AAA');
         });
@@ -94,9 +91,7 @@
          * Event: Edit Customer Button "Click"
          */
         $('#customers').on('click', '#edit-customer', function () {
-            $('.record-details')
-                .find('input, select, textarea')
-                .prop('disabled', false);
+            $('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
             $('#filter-customers button').prop('disabled', true);
@@ -163,8 +158,7 @@
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_customer,
-                EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_customer, EALang.delete_record_prompt, buttons);
         });
     };
 
@@ -181,13 +175,14 @@
             customer: JSON.stringify(customer)
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 Backend.displayNotification(EALang.customer_saved);
                 this.resetForm();
                 $('#filter-customers .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -203,21 +198,20 @@
             customer_id: id
         };
 
-        $.post(url, data)
-            .done(function () {
+        $.post(url, data).done(
+            function () {
                 Backend.displayNotification(EALang.customer_deleted);
                 this.resetForm();
                 this.filter($('#filter-customers .key').val());
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
      * Validate customer data before save (insert or update).
      */
     CustomersHelper.prototype.validate = function () {
-        $('#form-message')
-            .removeClass('alert-danger')
-            .hide();
+        $('#form-message').removeClass('alert-danger').hide();
         $('.has-error').removeClass('has-error');
 
         try {
@@ -243,10 +237,7 @@
 
             return true;
         } catch (error) {
-            $('#form-message')
-                .addClass('alert-danger')
-                .text(error.message)
-                .show();
+            $('#form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     };
@@ -255,10 +246,7 @@
      * Bring the customer form back to its initial state.
      */
     CustomersHelper.prototype.resetForm = function () {
-        $('.record-details')
-            .find('input, select, textarea')
-            .val('')
-            .prop('disabled', true);
+        $('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('.record-details #timezone').val('UTC');
 
         $('#language').val('english');
@@ -299,21 +287,34 @@
         if (!customer.appointments.length) {
             $('<p/>', {
                 'text': EALang.no_records_found
-            })
-                .appendTo('#customer-appointments');
+            }).appendTo('#customer-appointments');
         }
 
         customer.appointments.forEach(function (appointment) {
-            if (GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER && parseInt(appointment.id_users_provider) !== GlobalVariables.user.id) {
+            if (
+                GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER &&
+                parseInt(appointment.id_users_provider) !== GlobalVariables.user.id
+            ) {
                 return;
             }
 
-            if (GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY && GlobalVariables.secretaryProviders.indexOf(appointment.id_users_provider) === -1) {
+            if (
+                GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY &&
+                GlobalVariables.secretaryProviders.indexOf(appointment.id_users_provider) === -1
+            ) {
                 return;
             }
 
-            var start = GeneralFunctions.formatDate(Date.parse(appointment.start_datetime), GlobalVariables.dateFormat, true);
-            var end = GeneralFunctions.formatDate(Date.parse(appointment.end_datetime), GlobalVariables.dateFormat, true);
+            var start = GeneralFunctions.formatDate(
+                Date.parse(appointment.start_datetime),
+                GlobalVariables.dateFormat,
+                true
+            );
+            var end = GeneralFunctions.formatDate(
+                Date.parse(appointment.end_datetime),
+                GlobalVariables.dateFormat,
+                true
+            );
 
             $('<div/>', {
                 'class': 'appointment-row',
@@ -328,9 +329,14 @@
                                 'class': 'fas fa-edit mr-1'
                             }),
                             $('<strong/>', {
-                                'text': appointment.service.name + ' - ' + appointment.provider.first_name + ' ' + appointment.provider.last_name
+                                'text':
+                                    appointment.service.name +
+                                    ' - ' +
+                                    appointment.provider.first_name +
+                                    ' ' +
+                                    appointment.provider.last_name
                             }),
-                            $('<br/>'),
+                            $('<br/>')
                         ]
                     }),
 
@@ -354,8 +360,7 @@
                         'text': GlobalVariables.timezones[appointment.provider.timezone]
                     })
                 ]
-            })
-                .appendTo('#customer-appointments');
+            }).appendTo('#customer-appointments');
         });
     };
 
@@ -378,17 +383,17 @@
             limit: this.filterLimit
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 this.filterResults = response;
 
                 $('#filter-customers .results').empty();
 
-                response.forEach(function (customer) {
-                    $('#filter-customers .results')
-                        .append(this.getFilterHtml(customer))
-                        .append($('<hr/>'));
-                }.bind(this));
+                response.forEach(
+                    function (customer) {
+                        $('#filter-customers .results').append(this.getFilterHtml(customer)).append($('<hr/>'));
+                    }.bind(this)
+                );
 
                 if (!response.length) {
                     $('#filter-customers .results').append(
@@ -405,15 +410,14 @@
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);
                         }.bind(this)
-                    })
-                        .appendTo('#filter-customers .results');
+                    }).appendTo('#filter-customers .results');
                 }
 
                 if (selectId) {
                     this.select(selectId, display);
                 }
-
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -441,7 +445,7 @@
                 $('<span/>', {
                     'text': info
                 }),
-                $('<br/>'),
+                $('<br/>')
             ]
         });
     };

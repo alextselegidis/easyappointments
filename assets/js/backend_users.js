@@ -20,7 +20,6 @@ window.BackendUsers = window.BackendUsers || {};
  * @module BackendUsers
  */
 (function (exports) {
-
     'use strict';
 
     /**
@@ -85,8 +84,7 @@ window.BackendUsers = window.BackendUsers || {};
                         ]
                     })
                 ]
-            })
-                .appendTo('#provider-services');
+            }).appendTo('#provider-services');
         });
 
         GlobalVariables.providers.forEach(function (provider) {
@@ -109,8 +107,7 @@ window.BackendUsers = window.BackendUsers || {};
                         ]
                     })
                 ]
-            })
-                .appendTo('#secretary-providers');
+            }).appendTo('#secretary-providers');
         });
 
         // Bind event handlers.
@@ -153,39 +150,37 @@ window.BackendUsers = window.BackendUsers || {};
                     key: ''
                 };
 
-                $.post(url, data)
-                    .done(function (response) {
-                        GlobalVariables.providers = response;
+                $.post(url, data).done(function (response) {
+                    GlobalVariables.providers = response;
 
-                        $('#secretary-providers').empty();
+                    $('#secretary-providers').empty();
 
-                        GlobalVariables.providers.forEach(function (provider) {
-                            $('<div/>', {
-                                'class': 'checkbox',
-                                'html': [
-                                    $('<div/>', {
-                                        'class': 'checkbox form-check',
-                                        'html': [
-                                            $('<input/>', {
-                                                'class': 'form-check-input',
-                                                'type': 'checkbox',
-                                                'data-id': provider.id,
-                                                'prop': {
-                                                    'disabled': true
-                                                }
-                                            }),
-                                            $('<label/>', {
-                                                'class': 'form-check-label',
-                                                'text': provider.first_name + ' ' + provider.last_name,
-                                                'for': provider.id
-                                            }),
-                                        ]
-                                    })
-                                ]
-                            })
-                                .appendTo('#secretary-providers');
-                        });
+                    GlobalVariables.providers.forEach(function (provider) {
+                        $('<div/>', {
+                            'class': 'checkbox',
+                            'html': [
+                                $('<div/>', {
+                                    'class': 'checkbox form-check',
+                                    'html': [
+                                        $('<input/>', {
+                                            'class': 'form-check-input',
+                                            'type': 'checkbox',
+                                            'data-id': provider.id,
+                                            'prop': {
+                                                'disabled': true
+                                            }
+                                        }),
+                                        $('<label/>', {
+                                            'class': 'form-check-label',
+                                            'text': provider.first_name + ' ' + provider.last_name,
+                                            'for': provider.id
+                                        })
+                                    ]
+                                })
+                            ]
+                        }).appendTo('#secretary-providers');
                     });
+                });
             }
 
             helper.resetForm();
@@ -222,22 +217,20 @@ window.BackendUsers = window.BackendUsers || {};
                 user_id: userId
             };
 
-            $.post(url, data)
-                .done(function (response) {
-                    if (response.is_valid === 'false') {
-                        $input.closest('.form-group').addClass('has-error');
-                        $input.attr('already-exists', 'true');
-                        $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
-                        $input.parents().eq(3).find('.form-message').show();
-                    } else {
-                        $input.closest('.form-group').removeClass('has-error');
-                        $input.attr('already-exists', 'false');
-                        if ($input.parents().eq(3).find('.form-message').text() === EALang.username_already_exists) {
-                            $input.parents().eq(3).find('.form-message').hide();
-                        }
+            $.post(url, data).done(function (response) {
+                if (response.is_valid === 'false') {
+                    $input.closest('.form-group').addClass('has-error');
+                    $input.attr('already-exists', 'true');
+                    $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
+                    $input.parents().eq(3).find('.form-message').show();
+                } else {
+                    $input.closest('.form-group').removeClass('has-error');
+                    $input.attr('already-exists', 'false');
+                    if ($input.parents().eq(3).find('.form-message').text() === EALang.username_already_exists) {
+                        $input.parents().eq(3).find('.form-message').hide();
                     }
-                });
+                }
+            });
         });
     }
-
 })(window.BackendUsers);

@@ -19,11 +19,14 @@ $(document).ready(function () {
      */
     $('#add-to-google-calendar').on('click', function () {
         gapi.client.setApiKey(GlobalVariables.googleApiKey);
-        gapi.auth.authorize({
-            client_id: GlobalVariables.googleClientId,
-            scope: GlobalVariables.googleApiScope,
-            immediate: false
-        }, handleAuthResult);
+        gapi.auth.authorize(
+            {
+                client_id: GlobalVariables.googleClientId,
+                scope: GlobalVariables.googleApiScope,
+                immediate: false
+            },
+            handleAuthResult
+        );
     });
 
     /**
@@ -59,8 +62,8 @@ $(document).ready(function () {
                 attendees: [
                     {
                         email: GlobalVariables.providerData.email,
-                        displayName: GlobalVariables.providerData.first_name + ' '
-                            + GlobalVariables.providerData.last_name
+                        displayName:
+                            GlobalVariables.providerData.first_name + ' ' + GlobalVariables.providerData.last_name
                     }
                 ]
             };
@@ -112,7 +115,7 @@ $(document).ready(function () {
                         }),
                         $('<pre/>', {
                             'text': error.message
-                        }),
+                        })
                     ]
                 })
             );

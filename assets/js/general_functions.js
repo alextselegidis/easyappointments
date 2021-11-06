@@ -19,7 +19,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
  * @module GeneralFunctions
  */
 (function (exports) {
-
     'use strict';
 
     /**
@@ -54,16 +53,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     text: EALang.close,
                     click: function () {
                         $('#message-box').dialog('close');
-
                     }
                 }
             ];
         }
 
         // Destroy previous dialog instances.
-        $('#message-box')
-            .dialog('destroy')
-            .remove();
+        $('#message-box').dialog('destroy').remove();
 
         // Create the html of the message box.
         $('<div/>', {
@@ -74,10 +70,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'html': message
                 })
             ]
-        })
-            .appendTo('body');
+        }).appendTo('body');
 
-        $("#message-box").dialog({
+        $('#message-box').dialog({
             autoOpen: false,
             modal: true,
             resize: 'auto',
@@ -157,12 +152,20 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             return n < 10 ? '0' + n : n;
         }
 
-        return date.getUTCFullYear() + '-'
-            + pad(date.getUTCMonth() + 1) + '-'
-            + pad(date.getUTCDate()) + 'T'
-            + pad(date.getUTCHours()) + ':'
-            + pad(date.getUTCMinutes()) + ':'
-            + pad(date.getUTCSeconds()) + 'Z';
+        return (
+            date.getUTCFullYear() +
+            '-' +
+            pad(date.getUTCMonth() + 1) +
+            '-' +
+            pad(date.getUTCDate()) +
+            'T' +
+            pad(date.getUTCHours()) +
+            ':' +
+            pad(date.getUTCMinutes()) +
+            ':' +
+            pad(date.getUTCSeconds()) +
+            'Z'
+        );
     };
 
     /**
@@ -205,13 +208,12 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         if (originalObject instanceof Object) {
             copy = {};
             for (var attr in originalObject) {
-                if (originalObject.hasOwnProperty(attr))
-                    copy[attr] = GeneralFunctions.clone(originalObject[attr]);
+                if (originalObject.hasOwnProperty(attr)) copy[attr] = GeneralFunctions.clone(originalObject[attr]);
             }
             return copy;
         }
 
-        throw new Error('Unable to copy obj! Its type isn\'t supported.');
+        throw new Error("Unable to copy obj! Its type isn't supported.");
     };
 
     /**
@@ -227,10 +229,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {Boolean} Returns the validation result.
      */
     exports.validateEmail = function (email) {
-        var re = /(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+        var re =
+            /(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
         return re.test(email);
     };
-
 
     /**
      * Makes the first letter of the string upper case.
@@ -260,7 +262,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'class': 'language',
                     'data-language': availableLanguage,
                     'text': GeneralFunctions.upperCaseFirstLetter(availableLanguage)
-                })
+                });
             })
         });
 
@@ -294,10 +296,9 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 language: $(this).attr('data-language')
             };
 
-            $.post(url, data)
-                .done(function () {
-                    document.location.reload(true);
-                });
+            $.post(url, data).done(function () {
+                document.location.reload(true);
+            });
         });
 
         $(document).on('click', function () {
@@ -337,8 +338,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     'html': response.message || '→ No error information provided.'
                 })
             ]
-        })
-            .appendTo('#message-box');
+        }).appendTo('#message-box');
     };
 
     /**
@@ -388,7 +388,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         return result;
     };
 
-
     /**
      * Get the Id of a Weekday using the US week format and day names (Sunday=0) as used in the JS code of the
      * application, case insensitive, short and long names supported.
@@ -402,7 +401,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         var result;
 
         switch (weekDayName.toLowerCase()) {
-
             case 'sunday':
             case 'sun':
                 result = 0;
@@ -456,7 +454,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         var result;
 
         switch (weekDayId) {
-
             case 0:
                 result = 'sunday';
                 break;
@@ -553,8 +550,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     ]
                 })
             ]
-        })
-            .html();
+        }).html();
     };
 
     /**
@@ -577,8 +573,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     ]
                 })
             ]
-        })
-            .html();
+        }).html();
     };
 
     /**
@@ -601,8 +596,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                     ]
                 })
             ]
-        })
-            .html();
+        }).html();
     };
 
     /**
@@ -634,6 +628,5 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 throw new Error('Invalid date format setting provided:' + dateFormatSetting);
         }
         return date;
-    }
-
+    };
 })(window.GeneralFunctions);

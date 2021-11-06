@@ -47,7 +47,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#select-filter-item').val(),
                 $('#select-filter-item').find('option:selected').attr('type'),
                 calendarView.start,
-                calendarView.end);
+                calendarView.end
+            );
         });
 
         /**
@@ -76,30 +77,35 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 var workingPlanException = lastFocusedEventData.data.workingPlanException;
                 var provider = lastFocusedEventData.data.provider;
 
-                WorkingPlanExceptionsModal
-                    .edit(date, workingPlanException)
-                    .done(function (date, workingPlanException) {
-                        var successCallback = function () {
-                            Backend.displayNotification(EALang.working_plan_exception_saved);
+                WorkingPlanExceptionsModal.edit(date, workingPlanException).done(function (date, workingPlanException) {
+                    var successCallback = function () {
+                        Backend.displayNotification(EALang.working_plan_exception_saved);
 
-                            var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                        var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
-                            workingPlanExceptions[date] = workingPlanException;
+                        workingPlanExceptions[date] = workingPlanException;
 
-                            for (var index in GlobalVariables.availableProviders) {
-                                var availableProvider = GlobalVariables.availableProviders[index];
+                        for (var index in GlobalVariables.availableProviders) {
+                            var availableProvider = GlobalVariables.availableProviders[index];
 
-                                if (Number(availableProvider.id) === Number(provider.id)) {
-                                    availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
-                                    break;
-                                }
+                            if (Number(availableProvider.id) === Number(provider.id)) {
+                                availableProvider.settings.working_plan_exceptions =
+                                    JSON.stringify(workingPlanExceptions);
+                                break;
                             }
+                        }
 
-                            $('#select-filter-item').trigger('change'); // Update the calendar.
-                        };
+                        $('#select-filter-item').trigger('change'); // Update the calendar.
+                    };
 
-                        BackendCalendarApi.saveWorkingPlanException(date, workingPlanException, provider.id, successCallback, null);
-                    });
+                    BackendCalendarApi.saveWorkingPlanException(
+                        date,
+                        workingPlanException,
+                        provider.id,
+                        successCallback,
+                        null
+                    );
+                });
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var appointment = lastFocusedEventData.data;
                 $dialog = $('#manage-appointment');
@@ -218,26 +224,27 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 delete_reason: $('#delete-reason').val()
                             };
 
-                            $.post(url, data)
-                                .done(function () {
-                                    $('#message-box').dialog('close');
+                            $.post(url, data).done(function () {
+                                $('#message-box').dialog('close');
 
-                                    // Refresh calendar event items.
-                                    $('#select-filter-item').trigger('change');
-                                });
+                                // Refresh calendar event items.
+                                $('#select-filter-item').trigger('change');
+                            });
                         }
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(EALang.delete_appointment_title,
-                    EALang.write_appointment_removal_reason, buttons);
+                GeneralFunctions.displayMessageBox(
+                    EALang.delete_appointment_title,
+                    EALang.write_appointment_removal_reason,
+                    buttons
+                );
 
                 $('<textarea/>', {
                     'class': 'form-control w-100',
                     'id': 'delete-reason',
                     'rows': '3'
-                })
-                    .appendTo('#message-box');
+                }).appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
                 url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
@@ -247,13 +254,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     unavailable_id: lastFocusedEventData.data.id
                 };
 
-                $.post(url, data)
-                    .done(function () {
-                        $('#message-box').dialog('close');
+                $.post(url, data).done(function () {
+                    $('#message-box').dialog('close');
 
-                        // Refresh calendar event items.
-                        $('#select-filter-item').trigger('change');
-                    });
+                    // Refresh calendar event items.
+                    $('#select-filter-item').trigger('change');
+                });
             }
         });
 
@@ -268,13 +274,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
                 $('#calendar').fullCalendar('option', {
                     selectable: false,
-                    editable: false,
+                    editable: false
                 });
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
                 $('#calendar').fullCalendar('option', {
                     selectable: true,
-                    editable: true,
+                    editable: true
                 });
 
                 var providerId = $('#select-filter-item').val();
@@ -310,9 +316,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * @return {Number} Returns the calendar element height in pixels.
      */
     function getCalendarHeight() {
-        var result = window.innerHeight - $('#footer').outerHeight() - $('#header').outerHeight()
-            - $('#calendar-toolbar').outerHeight() - 60; // 60 for fine tuning
-        return (result > 500) ? result : 500; // Minimum height is 500px
+        var result =
+            window.innerHeight -
+            $('#footer').outerHeight() -
+            $('#header').outerHeight() -
+            $('#calendar-toolbar').outerHeight() -
+            60; // 60 for fine tuning
+        return result > 500 ? result : 500; // Minimum height is 500px
     }
 
     /**
@@ -348,13 +358,21 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         var $parent = $(jsEvent.target.offsetParent);
         var $altParent = $(jsEvent.target).parents().eq(1);
 
-        if ($(this).hasClass('fc-unavailable') || $parent.hasClass('fc-unavailable') || $altParent.hasClass('fc-unavailable')) {
-            displayEdit = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.edit === true)
-                ? 'mr-2' : 'd-none';
-            displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.delete === true)
-                ? 'mr-2' : 'd-none'; // Same value at the time.
+        if (
+            $(this).hasClass('fc-unavailable') ||
+            $parent.hasClass('fc-unavailable') ||
+            $altParent.hasClass('fc-unavailable')
+        ) {
+            displayEdit =
+                ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
+                GlobalVariables.user.privileges.appointments.edit === true
+                    ? 'mr-2'
+                    : 'd-none';
+            displayDelete =
+                ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
+                GlobalVariables.user.privileges.appointments.delete === true
+                    ? 'mr-2'
+                    : 'd-none'; // Same value at the time.
 
             $html = $('<div/>', {
                 'html': [
@@ -363,7 +381,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.start
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(
+                            event.start.format('YYYY-MM-DD HH:mm:ss'),
+                            GlobalVariables.dateFormat,
+                            true
+                        )
                     }),
                     $('<br/>'),
 
@@ -372,7 +394,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.end
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(
+                            event.end.format('YYYY-MM-DD HH:mm:ss'),
+                            GlobalVariables.dateFormat,
+                            true
+                        )
                     }),
                     $('<br/>'),
 
@@ -426,10 +452,16 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     })
                 ]
             });
-        } else if ($(this).hasClass('fc-working-plan-exception') || $parent.hasClass('fc-working-plan-exception') || $altParent.hasClass('fc-working-plan-exception')) {
-            displayDelete = (($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom'))
-                && GlobalVariables.user.privileges.appointments.delete === true)
-                ? 'mr-2' : 'd-none'; // Same value at the time.
+        } else if (
+            $(this).hasClass('fc-working-plan-exception') ||
+            $parent.hasClass('fc-working-plan-exception') ||
+            $altParent.hasClass('fc-working-plan-exception')
+        ) {
+            displayDelete =
+                ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
+                GlobalVariables.user.privileges.appointments.delete === true
+                    ? 'mr-2'
+                    : 'd-none'; // Same value at the time.
 
             $html = $('<div/>', {
                 'html': [
@@ -447,7 +479,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.start
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.data.date + ' ' + event.data.workingPlanException.start, GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(
+                            event.data.date + ' ' + event.data.workingPlanException.start,
+                            GlobalVariables.dateFormat,
+                            true
+                        )
                     }),
                     $('<br/>'),
 
@@ -456,7 +492,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.end
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.data.date + ' ' + event.data.workingPlanException.end, GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(
+                            event.data.date + ' ' + event.data.workingPlanException.end,
+                            GlobalVariables.dateFormat,
+                            true
+                        )
                     }),
                     $('<br/>'),
 
@@ -506,16 +546,14 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                         'text': EALang.edit
                                     })
                                 ]
-                            }),
+                            })
                         ]
                     })
                 ]
             });
         } else {
-            displayEdit = (GlobalVariables.user.privileges.appointments.edit === true)
-                ? 'mr-2' : 'd-none';
-            displayDelete = (GlobalVariables.user.privileges.appointments.delete === true)
-                ? 'mr-2' : 'd-none';
+            displayEdit = GlobalVariables.user.privileges.appointments.edit === true ? 'mr-2' : 'd-none';
+            displayDelete = GlobalVariables.user.privileges.appointments.delete === true ? 'mr-2' : 'd-none';
 
             $html = $('<div/>', {
                 'html': [
@@ -524,7 +562,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.start
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.start.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(
+                            event.start.format('YYYY-MM-DD HH:mm:ss'),
+                            GlobalVariables.dateFormat,
+                            true
+                        )
                     }),
                     $('<br/>'),
 
@@ -533,7 +575,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'text': EALang.end
                     }),
                     $('<span/>', {
-                        'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
+                        'text': GeneralFunctions.formatDate(
+                            event.end.format('YYYY-MM-DD HH:mm:ss'),
+                            GlobalVariables.dateFormat,
+                            true
+                        )
                     }),
                     $('<br/>'),
 
@@ -693,8 +739,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
         if (Boolean(Number(event.data.is_unavailable)) === false) {
             // Prepare appointment data.
-            event.data.end_datetime = Date.parseExact(
-                event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+            event.data.end_datetime = Date.parseExact(event.data.end_datetime, 'yyyy-MM-dd HH:mm:ss')
                 .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -710,7 +755,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 // Display success notification to user.
                 var undoFunction = function () {
                     appointment.end_datetime = event.data.end_datetime = Date.parseExact(
-                        appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+                        appointment.end_datetime,
+                        'yyyy-MM-dd HH:mm:ss'
+                    )
                         .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -721,10 +768,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                        });
+                    $.post(url, data).done(function () {
+                        $('#notification').hide('blind');
+                    });
 
                     revertFunc();
                 };
@@ -759,7 +805,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 // Display success notification to user.
                 var undoFunction = function () {
                     unavailable.end_datetime = event.data.end_datetime = Date.parseExact(
-                        unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+                        unavailable.end_datetime,
+                        'yyyy-MM-dd HH:mm:ss'
+                    )
                         .add({minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -770,10 +818,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                        });
+                    $.post(url, data).done(function () {
+                        $('#notification').hide('blind');
+                    });
 
                     revertFunc();
                 };
@@ -854,13 +901,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             delete appointment.provider;
             delete appointment.service;
 
-            appointment.start_datetime = Date.parseExact(
-                appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
+            appointment.start_datetime = Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
                 .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
-            appointment.end_datetime = Date.parseExact(
-                appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+            appointment.end_datetime = Date.parseExact(appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
                 .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -871,13 +916,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             successCallback = function () {
                 // Define the undo function, if the user needs to reset the last change.
                 var undoFunction = function () {
-                    appointment.start_datetime = Date.parseExact(
-                        appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
+                    appointment.start_datetime = Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss')
                         .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
-                    appointment.end_datetime = Date.parseExact(
-                        appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+                    appointment.end_datetime = Date.parseExact(appointment.end_datetime, 'yyyy-MM-dd HH:mm:ss')
                         .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -891,10 +934,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                        });
+                    $.post(url, data).done(function () {
+                        $('#notification').hide('blind');
+                    });
 
                     revertFunc();
                 };
@@ -922,13 +964,11 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
 
             successCallback = function () {
                 var undoFunction = function () {
-                    unavailable.start_datetime = Date.parseExact(
-                        unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss')
+                    unavailable.start_datetime = Date.parseExact(unavailable.start_datetime, 'yyyy-MM-dd HH:mm:ss')
                         .add({days: -delta.days(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
-                    unavailable.end_datetime = Date.parseExact(
-                        unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
+                    unavailable.end_datetime = Date.parseExact(unavailable.end_datetime, 'yyyy-MM-dd HH:mm:ss')
                         .add({days: -delta.days(), minutes: -delta.minutes()})
                         .toString('yyyy-MM-dd HH:mm:ss');
 
@@ -941,10 +981,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         unavailable: JSON.stringify(unavailable)
                     };
 
-                    $.post(url, data)
-                        .done(function () {
-                            $('#notification').hide('blind');
-                        });
+                    $.post(url, data).done(function () {
+                        $('#notification').hide('blind');
+                    });
 
                     revertFunc();
                 };
@@ -979,7 +1018,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             $('#select-filter-item').val(),
             $('#select-filter-item option:selected').attr('type'),
             $('#calendar').fullCalendar('getView').start,
-            $('#calendar').fullCalendar('getView').end);
+            $('#calendar').fullCalendar('getView').end
+        );
 
         $(window).trigger('resize'); // Places the footer on the bottom.
 
@@ -1049,9 +1089,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 response.appointments.forEach(function (appointment) {
                     var appointmentEvent = {
                         id: appointment.id,
-                        title: appointment.service.name + ' - '
-                            + appointment.customer.first_name + ' '
-                            + appointment.customer.last_name,
+                        title:
+                            appointment.service.name +
+                            ' - ' +
+                            appointment.customer.first_name +
+                            ' ' +
+                            appointment.customer.last_name,
                         start: moment(appointment.start_datetime),
                         end: moment(appointment.end_datetime),
                         allDay: false,
@@ -1239,7 +1282,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                             var calendarDate = calendarView.start.clone();
 
                             while (calendarDate < calendarView.end) {
-                                weekdayNumber = parseInt(calendarDate.format('d'))
+                                weekdayNumber = parseInt(calendarDate.format('d'));
                                 weekdayName = GeneralFunctions.getWeekdayName(weekdayNumber);
                                 weekdayDate = calendarDate.format('YYYY-MM-DD');
 
@@ -1247,7 +1290,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 if (workingPlanExceptions && workingPlanExceptions[weekdayDate]) {
                                     sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
 
-                                    workingPlanExceptionStart = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].start;
+                                    workingPlanExceptionStart =
+                                        weekdayDate + ' ' + sortedWorkingPlan[weekdayName].start;
                                     workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
 
                                     workingPlanExceptionEvent = {
@@ -1298,7 +1342,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                     unavailabilityEvent = {
                                         title: EALang.not_working,
                                         start: calendarDate.clone(),
-                                        end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + sortedWorkingPlan[weekdayName].start + ':00'),
+                                        end: moment(
+                                            calendarDate.format('YYYY-MM-DD') +
+                                                ' ' +
+                                                sortedWorkingPlan[weekdayName].start +
+                                                ':00'
+                                        ),
                                         allDay: false,
                                         color: '#BEBEBE',
                                         editable: false,
@@ -1317,7 +1366,12 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 if (calendarView.end > workDateEnd) {
                                     unavailabilityEvent = {
                                         title: EALang.not_working,
-                                        start: moment(calendarDate.format('YYYY-MM-DD') + ' ' + sortedWorkingPlan[weekdayName].end + ':00'),
+                                        start: moment(
+                                            calendarDate.format('YYYY-MM-DD') +
+                                                ' ' +
+                                                sortedWorkingPlan[weekdayName].end +
+                                                ':00'
+                                        ),
                                         end: calendarDate.clone().add(1, 'day'),
                                         allDay: false,
                                         color: '#BEBEBE',
@@ -1361,11 +1415,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 }
             })
             .always(function () {
-                $('#loading').css('visibility', '')
+                $('#loading').css('visibility', '');
                 $calendar.fullCalendar('addEventSource', calendarEventSource);
             });
     }
-
 
     exports.initialize = function () {
         // Dynamic date formats.
@@ -1444,14 +1497,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         return Number(service.id) === Number($('#select-filter-item').val());
                     });
                     $('#select-service').val(service.id).trigger('change');
-
                 } else {
                     var provider = GlobalVariables.availableProviders.find(function (provider) {
                         return Number(provider.id) === Number($('#select-filter-item').val());
                     });
 
                     service = GlobalVariables.availableServices.find(function (service) {
-                        return provider.services.indexOf(service.id) !== -1
+                        return provider.services.indexOf(service.id) !== -1;
                     });
 
                     if (service) {
@@ -1483,26 +1535,61 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             },
 
             // Translations
-            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
-                EALang.may, EALang.june, EALang.july, EALang.august,
-                EALang.september, EALang.october, EALang.november,
-                EALang.december],
-            monthNamesShort: [EALang.january.substr(0, 3), EALang.february.substr(0, 3),
-                EALang.march.substr(0, 3), EALang.april.substr(0, 3),
-                EALang.may.substr(0, 3), EALang.june.substr(0, 3),
-                EALang.july.substr(0, 3), EALang.august.substr(0, 3),
-                EALang.september.substr(0, 3), EALang.october.substr(0, 3),
-                EALang.november.substr(0, 3), EALang.december.substr(0, 3)],
-            dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
-                EALang.thursday, EALang.friday, EALang.saturday],
-            dayNamesShort: [EALang.sunday.substr(0, 3), EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3), EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3), EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)],
-            dayNamesMin: [EALang.sunday.substr(0, 2), EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2), EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2), EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)],
+            monthNames: [
+                EALang.january,
+                EALang.february,
+                EALang.march,
+                EALang.april,
+                EALang.may,
+                EALang.june,
+                EALang.july,
+                EALang.august,
+                EALang.september,
+                EALang.october,
+                EALang.november,
+                EALang.december
+            ],
+            monthNamesShort: [
+                EALang.january.substr(0, 3),
+                EALang.february.substr(0, 3),
+                EALang.march.substr(0, 3),
+                EALang.april.substr(0, 3),
+                EALang.may.substr(0, 3),
+                EALang.june.substr(0, 3),
+                EALang.july.substr(0, 3),
+                EALang.august.substr(0, 3),
+                EALang.september.substr(0, 3),
+                EALang.october.substr(0, 3),
+                EALang.november.substr(0, 3),
+                EALang.december.substr(0, 3)
+            ],
+            dayNames: [
+                EALang.sunday,
+                EALang.monday,
+                EALang.tuesday,
+                EALang.wednesday,
+                EALang.thursday,
+                EALang.friday,
+                EALang.saturday
+            ],
+            dayNamesShort: [
+                EALang.sunday.substr(0, 3),
+                EALang.monday.substr(0, 3),
+                EALang.tuesday.substr(0, 3),
+                EALang.wednesday.substr(0, 3),
+                EALang.thursday.substr(0, 3),
+                EALang.friday.substr(0, 3),
+                EALang.saturday.substr(0, 3)
+            ],
+            dayNamesMin: [
+                EALang.sunday.substr(0, 2),
+                EALang.monday.substr(0, 2),
+                EALang.tuesday.substr(0, 2),
+                EALang.wednesday.substr(0, 2),
+                EALang.thursday.substr(0, 2),
+                EALang.friday.substr(0, 2),
+                EALang.saturday.substr(0, 2)
+            ],
             buttonText: {
                 today: EALang.today,
                 day: EALang.day,
@@ -1536,10 +1623,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'type': FILTER_TYPE_PROVIDER,
                         'google-sync': hasGoogleSync,
                         'text': availableProvider.first_name + ' ' + availableProvider.last_name
-                    })
+                    });
                 })
-            })
-                .appendTo('#select-filter-item');
+            }).appendTo('#select-filter-item');
         }
 
         if (GlobalVariables.availableServices.length > 0) {
@@ -1551,10 +1637,9 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'value': availableService.id,
                         'type': FILTER_TYPE_SERVICE,
                         'text': availableService.name
-                    })
+                    });
                 })
-            })
-                .appendTo('#select-filter-item');
+            }).appendTo('#select-filter-item');
         }
 
         // Check permissions.
@@ -1646,8 +1731,8 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),
                 calendarView.start,
-                calendarView.end);
+                calendarView.end
+            );
         }, 60000);
     };
-
 })(window.BackendCalendarDefaultView);

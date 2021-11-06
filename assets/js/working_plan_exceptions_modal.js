@@ -68,7 +68,7 @@ $(function () {
         // Sort breaks increasingly by hour within day
         breaks.sort(function (break1, break2) {
             // We can do a direct string comparison since we have time based on 24 hours clock.
-            return (break1.start).localeCompare(break2.start);
+            return break1.start.localeCompare(break2.start);
         });
 
         return breaks;
@@ -98,38 +98,37 @@ $(function () {
     }
 
     function editableTimeCell($target) {
-        $target.editable(function (value) {
-            // Do not return the value because the user needs to press the "Save" button.
-            return value;
-        }, {
-            event: 'edit',
-            height: '30px',
-            submit: $('<button/>', {
-                'type': 'button',
-                'class': 'd-none submit-editable',
-                'text': EALang.save
-            })
-                .get(0)
-                .outerHTML,
-            cancel: $('<button/>', {
-                'type': 'button',
-                'class': 'd-none cancel-editable',
-                'text': EALang.cancel
-            })
-                .get(0)
-                .outerHTML,
-            onblur: 'ignore',
-            onreset: function () {
-                if (!enableCancel) {
-                    return false; // disable ESC button
-                }
+        $target.editable(
+            function (value) {
+                // Do not return the value because the user needs to press the "Save" button.
+                return value;
             },
-            onsubmit: function () {
-                if (!enableSubmit) {
-                    return false; // disable Enter button
+            {
+                event: 'edit',
+                height: '30px',
+                submit: $('<button/>', {
+                    'type': 'button',
+                    'class': 'd-none submit-editable',
+                    'text': EALang.save
+                }).get(0).outerHTML,
+                cancel: $('<button/>', {
+                    'type': 'button',
+                    'class': 'd-none cancel-editable',
+                    'text': EALang.cancel
+                }).get(0).outerHTML,
+                onblur: 'ignore',
+                onreset: function () {
+                    if (!enableCancel) {
+                        return false; // disable ESC button
+                    }
+                },
+                onsubmit: function () {
+                    if (!enableSubmit) {
+                        return false; // disable Enter button
+                    }
                 }
             }
-        });
+        );
     }
 
     function add() {
@@ -152,11 +151,12 @@ $(function () {
         $end.timepicker('setDate', moment(workingPlanException.end, 'HH:mm').toDate());
 
         workingPlanException.breaks.forEach(function (workingPlanExceptionBreak) {
-            renderBreakRow(workingPlanExceptionBreak)
-                .appendTo($breaks.find('tbody'));
+            renderBreakRow(workingPlanExceptionBreak).appendTo($breaks.find('tbody'));
         });
 
-        editableTimeCell($breaks.find('tbody .working-plan-exceptions-break-start, tbody .working-plan-exceptions-break-end'));
+        editableTimeCell(
+            $breaks.find('tbody .working-plan-exceptions-break-start, tbody .working-plan-exceptions-break-end')
+        );
 
         $modal.modal('show');
 
@@ -228,8 +228,7 @@ $(function () {
         var $newBreak = renderBreakRow({
             start: '12:00',
             end: '14:00'
-        })
-            .appendTo('#working-plan-exceptions-breaks tbody');
+        }).appendTo('#working-plan-exceptions-breaks tbody');
 
         // Bind editable and event handlers.
         editableTimeCell($newBreak.find('.working-plan-exceptions-break-start, .working-plan-exceptions-break-end'));
@@ -250,14 +249,16 @@ $(function () {
         // Make all cells in current row editable.
         var $tr = $(this).closest('tr');
         $tr.children().trigger('edit');
-        initializeTimepicker($tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input'));
+        initializeTimepicker(
+            $tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input')
+        );
         $(this).closest('tr').find('.working-plan-exceptions-break-start').focus();
 
         // Show save - cancel buttons.
         $tr = $(this).closest('tr');
         $tr.find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break').addClass('d-none');
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').removeClass('d-none');
-        $tr.find('select,input:text').addClass('form-control input-sm')
+        $tr.find('select,input:text').addClass('form-control input-sm');
 
         $('.working-plan-exceptions-add-break').prop('disabled', true);
     }
@@ -273,8 +274,9 @@ $(function () {
         var end = Date.parse($tr.find('.working-plan-exceptions-break-end input').val());
 
         if (start > end) {
-            $tr.find('.working-plan-exceptions-break-end input')
-                .val(start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm'));
+            $tr.find('.working-plan-exceptions-break-end input').val(
+                start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm')
+            );
         }
 
         enableSubmit = true;
@@ -282,7 +284,9 @@ $(function () {
         enableSubmit = false;
 
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').addClass('d-none');
-        $tr.closest('table').find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break').removeClass('d-none');
+        $tr.closest('table')
+            .find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break')
+            .removeClass('d-none');
         $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
 
@@ -292,7 +296,9 @@ $(function () {
         $tr.find('.cancel-editable').trigger('click');
         enableCancel = false;
 
-        $breaks.find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break').removeClass('d-none');
+        $breaks
+            .find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break')
+            .removeClass('d-none');
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').addClass('d-none');
         $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
@@ -323,23 +329,50 @@ $(function () {
             minDate: 0,
             defaultDate: Date.today(),
             dayNames: [
-                EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
-                EALang.thursday, EALang.friday, EALang.saturday],
-            dayNamesShort: [EALang.sunday.substr(0, 3), EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3), EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3), EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)],
-            dayNamesMin: [EALang.sunday.substr(0, 2), EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2), EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2), EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)],
-            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
-                EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
-                EALang.october, EALang.november, EALang.december],
+                EALang.sunday,
+                EALang.monday,
+                EALang.tuesday,
+                EALang.wednesday,
+                EALang.thursday,
+                EALang.friday,
+                EALang.saturday
+            ],
+            dayNamesShort: [
+                EALang.sunday.substr(0, 3),
+                EALang.monday.substr(0, 3),
+                EALang.tuesday.substr(0, 3),
+                EALang.wednesday.substr(0, 3),
+                EALang.thursday.substr(0, 3),
+                EALang.friday.substr(0, 3),
+                EALang.saturday.substr(0, 3)
+            ],
+            dayNamesMin: [
+                EALang.sunday.substr(0, 2),
+                EALang.monday.substr(0, 2),
+                EALang.tuesday.substr(0, 2),
+                EALang.wednesday.substr(0, 2),
+                EALang.thursday.substr(0, 2),
+                EALang.friday.substr(0, 2),
+                EALang.saturday.substr(0, 2)
+            ],
+            monthNames: [
+                EALang.january,
+                EALang.february,
+                EALang.march,
+                EALang.april,
+                EALang.may,
+                EALang.june,
+                EALang.july,
+                EALang.august,
+                EALang.september,
+                EALang.october,
+                EALang.november,
+                EALang.december
+            ],
             prevText: EALang.previous,
             nextText: EALang.next,
             currentText: EALang.now,
-            closeText: EALang.close,
+            closeText: EALang.close
         });
     }
 
@@ -371,6 +404,6 @@ $(function () {
 
     window.WorkingPlanExceptionsModal = {
         add: add,
-        edit: edit,
+        edit: edit
     };
 });

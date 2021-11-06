@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -18,8 +17,7 @@
      *
      * @class UserSettings
      */
-    var UserSettings = function () {
-    };
+    var UserSettings = function () {};
 
     /**
      * Get the settings data for the user settings.
@@ -73,13 +71,12 @@
             settings: JSON.stringify(settings)
         };
 
-        $.post(url, data)
-            .done(function () {
-                Backend.displayNotification(EALang.settings_saved);
+        $.post(url, data).done(function () {
+            Backend.displayNotification(EALang.settings_saved);
 
-                // Update footer greetings.
-                $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
-            });
+            // Update footer greetings.
+            $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
+        });
     };
 
     /**
@@ -131,5 +128,4 @@
     };
 
     window.UserSettings = UserSettings;
-
 })();

@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -38,63 +37,83 @@
          *
          * @param {jQuery.Event} event
          */
-        $('#providers').on('submit', '#filter-providers form', function (event) {
-            event.preventDefault();
-            var key = $('#filter-providers .key').val();
-            $('.selected').removeClass('selected');
-            this.resetForm();
-            this.filter(key);
-        }.bind(this));
+        $('#providers').on(
+            'submit',
+            '#filter-providers form',
+            function (event) {
+                event.preventDefault();
+                var key = $('#filter-providers .key').val();
+                $('.selected').removeClass('selected');
+                this.resetForm();
+                this.filter(key);
+            }.bind(this)
+        );
 
         /**
          * Event: Clear Filter Button "Click"
          */
-        $('#providers').on('click', '#filter-providers .clear', function () {
-            this.filter('');
-            $('#filter-providers .key').val('');
-            this.resetForm();
-        }.bind(this));
+        $('#providers').on(
+            'click',
+            '#filter-providers .clear',
+            function () {
+                this.filter('');
+                $('#filter-providers .key').val('');
+                this.resetForm();
+            }.bind(this)
+        );
 
         /**
          * Event: Filter Provider Row "Click"
          *
          * Display the selected provider data to the user.
          */
-        $('#providers').on('click', '.provider-row', function (event) {
-            if ($('#filter-providers .filter').prop('disabled')) {
-                $('#filter-providers .results').css('color', '#AAA');
-                return; // Exit because we are currently on edit mode.
-            }
+        $('#providers').on(
+            'click',
+            '.provider-row',
+            function (event) {
+                if ($('#filter-providers .filter').prop('disabled')) {
+                    $('#filter-providers .results').css('color', '#AAA');
+                    return; // Exit because we are currently on edit mode.
+                }
 
-            var providerId = $(event.currentTarget).attr('data-id');
-            var provider = this.filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(providerId);
-            });
+                var providerId = $(event.currentTarget).attr('data-id');
+                var provider = this.filterResults.find(function (filterResult) {
+                    return Number(filterResult.id) === Number(providerId);
+                });
 
-            this.display(provider);
-            $('#filter-providers .selected').removeClass('selected');
-            $(event.currentTarget).addClass('selected');
-            $('#edit-provider, #delete-provider').prop('disabled', false);
-        }.bind(this));
+                this.display(provider);
+                $('#filter-providers .selected').removeClass('selected');
+                $(event.currentTarget).addClass('selected');
+                $('#edit-provider, #delete-provider').prop('disabled', false);
+            }.bind(this)
+        );
 
         /**
          * Event: Add New Provider Button "Click"
          */
-        $('#providers').on('click', '#add-provider', function () {
-            this.resetForm();
-            $('#filter-providers button').prop('disabled', true);
-            $('#filter-providers .results').css('color', '#AAA');
-            $('#providers .add-edit-delete-group').hide();
-            $('#providers .save-cancel-group').show();
-            $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
-            $('#provider-password, #provider-password-confirm').addClass('required');
-            $('#providers').find('.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan').prop('disabled', false);
-            $('#provider-services input:checkbox').prop('disabled', false);
+        $('#providers').on(
+            'click',
+            '#add-provider',
+            function () {
+                this.resetForm();
+                $('#filter-providers button').prop('disabled', true);
+                $('#filter-providers .results').css('color', '#AAA');
+                $('#providers .add-edit-delete-group').hide();
+                $('#providers .save-cancel-group').show();
+                $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
+                $('#provider-password, #provider-password-confirm').addClass('required');
+                $('#providers')
+                    .find(
+                        '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan'
+                    )
+                    .prop('disabled', false);
+                $('#provider-services input:checkbox').prop('disabled', false);
 
-            // Apply default working plan
-            BackendUsers.wp.setup(GlobalVariables.workingPlan);
-            BackendUsers.wp.timepickers(false);
-        }.bind(this));
+                // Apply default working plan
+                BackendUsers.wp.setup(GlobalVariables.workingPlan);
+                BackendUsers.wp.timepickers(false);
+            }.bind(this)
+        );
 
         /**
          * Event: Edit Provider Button "Click"
@@ -107,7 +126,11 @@
             $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
-            $('#providers').find('.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan').prop('disabled', false);
+            $('#providers')
+                .find(
+                    '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan'
+                )
+                .prop('disabled', false);
             $('#providers input:checkbox').prop('disabled', false);
             BackendUsers.wp.timepickers(false);
         });
@@ -115,90 +138,102 @@
         /**
          * Event: Delete Provider Button "Click"
          */
-        $('#providers').on('click', '#delete-provider', function () {
-            var providerId = $('#provider-id').val();
+        $('#providers').on(
+            'click',
+            '#delete-provider',
+            function () {
+                var providerId = $('#provider-id').val();
 
-            var buttons = [
-                {
-                    text: EALang.cancel,
-                    click: function () {
-                        $('#message-box').dialog('close');
+                var buttons = [
+                    {
+                        text: EALang.cancel,
+                        click: function () {
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
+                        text: EALang.delete,
+                        click: function () {
+                            this.delete(providerId);
+                            $('#message-box').dialog('close');
+                        }.bind(this)
                     }
-                },
-                {
-                    text: EALang.delete,
-                    click: function () {
-                        this.delete(providerId);
-                        $('#message-box').dialog('close');
-                    }.bind(this)
-                }
-            ];
+                ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_provider, EALang.delete_record_prompt, buttons);
-        }.bind(this));
+                GeneralFunctions.displayMessageBox(EALang.delete_provider, EALang.delete_record_prompt, buttons);
+            }.bind(this)
+        );
 
         /**
          * Event: Save Provider Button "Click"
          */
-        $('#providers').on('click', '#save-provider', function () {
-            var provider = {
-                first_name: $('#provider-first-name').val(),
-                last_name: $('#provider-last-name').val(),
-                email: $('#provider-email').val(),
-                mobile_number: $('#provider-mobile-number').val(),
-                phone_number: $('#provider-phone-number').val(),
-                address: $('#provider-address').val(),
-                city: $('#provider-city').val(),
-                state: $('#provider-state').val(),
-                zip_code: $('#provider-zip-code').val(),
-                notes: $('#provider-notes').val(),
-                timezone: $('#provider-timezone').val(),
-                settings: {
-                    username: $('#provider-username').val(),
-                    working_plan: JSON.stringify(BackendUsers.wp.get()),
-                    working_plan_exceptions: JSON.stringify(BackendUsers.wp.getWorkingPlanExceptions()),
-                    notifications: $('#provider-notifications').prop('checked'),
-                    calendar_view: $('#provider-calendar-view').val()
+        $('#providers').on(
+            'click',
+            '#save-provider',
+            function () {
+                var provider = {
+                    first_name: $('#provider-first-name').val(),
+                    last_name: $('#provider-last-name').val(),
+                    email: $('#provider-email').val(),
+                    mobile_number: $('#provider-mobile-number').val(),
+                    phone_number: $('#provider-phone-number').val(),
+                    address: $('#provider-address').val(),
+                    city: $('#provider-city').val(),
+                    state: $('#provider-state').val(),
+                    zip_code: $('#provider-zip-code').val(),
+                    notes: $('#provider-notes').val(),
+                    timezone: $('#provider-timezone').val(),
+                    settings: {
+                        username: $('#provider-username').val(),
+                        working_plan: JSON.stringify(BackendUsers.wp.get()),
+                        working_plan_exceptions: JSON.stringify(BackendUsers.wp.getWorkingPlanExceptions()),
+                        notifications: $('#provider-notifications').prop('checked'),
+                        calendar_view: $('#provider-calendar-view').val()
+                    }
+                };
+
+                // Include provider services.
+                provider.services = [];
+                $('#provider-services input:checkbox').each(function (index, checkbox) {
+                    if ($(checkbox).prop('checked')) {
+                        provider.services.push($(checkbox).attr('data-id'));
+                    }
+                });
+
+                // Include password if changed.
+                if ($('#provider-password').val() !== '') {
+                    provider.settings.password = $('#provider-password').val();
                 }
-            };
 
-            // Include provider services.
-            provider.services = [];
-            $('#provider-services input:checkbox').each(function (index, checkbox) {
-                if ($(checkbox).prop('checked')) {
-                    provider.services.push($(checkbox).attr('data-id'));
+                // Include id if changed.
+                if ($('#provider-id').val() !== '') {
+                    provider.id = $('#provider-id').val();
                 }
-            });
 
-            // Include password if changed.
-            if ($('#provider-password').val() !== '') {
-                provider.settings.password = $('#provider-password').val();
-            }
+                if (!this.validate()) {
+                    return;
+                }
 
-            // Include id if changed.
-            if ($('#provider-id').val() !== '') {
-                provider.id = $('#provider-id').val();
-            }
-
-            if (!this.validate()) {
-                return;
-            }
-
-            this.save(provider);
-        }.bind(this));
+                this.save(provider);
+            }.bind(this)
+        );
 
         /**
          * Event: Cancel Provider Button "Click"
          *
          * Cancel add or edit of an provider record.
          */
-        $('#providers').on('click', '#cancel-provider', function () {
-            var id = $('#filter-providers .selected').attr('data-id');
-            this.resetForm();
-            if (id) {
-                this.select(id, true);
-            }
-        }.bind(this));
+        $('#providers').on(
+            'click',
+            '#cancel-provider',
+            function () {
+                var id = $('#filter-providers .selected').attr('data-id');
+                this.resetForm();
+                if (id) {
+                    this.select(id, true);
+                }
+            }.bind(this)
+        );
 
         /**
          * Event: Display Provider Details "Click"
@@ -249,13 +284,14 @@
             provider: JSON.stringify(provider)
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 Backend.displayNotification(EALang.provider_saved);
                 this.resetForm();
                 $('#filter-providers .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -270,12 +306,13 @@
             provider_id: id
         };
 
-        $.post(url, data)
-            .done(function () {
+        $.post(url, data).done(
+            function () {
                 Backend.displayNotification(EALang.provider_deleted);
                 this.resetForm();
                 this.filter($('#filter-providers .key').val());
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -285,9 +322,7 @@
      */
     ProvidersHelper.prototype.validate = function () {
         $('#providers .has-error').removeClass('has-error');
-        $('#providers .form-message')
-            .removeClass('alert-danger')
-            .hide();
+        $('#providers .form-message').removeClass('alert-danger').hide();
 
         try {
             // Validate required fields.
@@ -308,8 +343,10 @@
                 throw new Error(EALang.passwords_mismatch);
             }
 
-            if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#provider-password').val() !== '') {
+            if (
+                $('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH &&
+                $('#provider-password').val() !== ''
+            ) {
                 $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
                 throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
             }
@@ -328,10 +365,7 @@
 
             return true;
         } catch (error) {
-            $('#providers .form-message')
-                .addClass('alert-danger')
-                .text(error.message)
-                .show();
+            $('#providers .form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     };
@@ -347,9 +381,7 @@
         $('#providers .add-edit-delete-group').show();
         $('#providers .save-cancel-group').hide();
         $('#providers .record-details h3 a').remove();
-        $('#providers .record-details').find('input, select, textarea')
-            .val('')
-            .prop('disabled', true);
+        $('#providers .record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('#providers .record-details #provider-calendar-view').val('default');
         $('#providers .record-details #provider-timezone').val('UTC');
         $('#providers .add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
@@ -357,15 +389,15 @@
         $('#providers .working-plan input:text').timepicker('destroy');
         $('#providers .working-plan input:checkbox').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
-        $('.working-plan-exceptions').find('.edit-working-plan-exception, .delete-working-plan-exception').prop('disabled', true);
+        $('.working-plan-exceptions')
+            .find('.edit-working-plan-exception, .delete-working-plan-exception')
+            .prop('disabled', true);
 
         $('#providers .record-details .has-error').removeClass('has-error');
         $('#providers .record-details .form-message').hide();
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
-        $('#provider-services input:checkbox')
-            .prop('disabled', true)
-            .prop('checked', false);
+        $('#provider-services input:checkbox').prop('disabled', true).prop('checked', false);
         $('#provider-services a').remove();
         $('#providers .working-plan tbody').empty();
         $('#providers .breaks tbody').empty();
@@ -406,11 +438,7 @@
             ]
         });
 
-        $('#providers .details-view h3')
-            .find('a')
-            .remove()
-            .end()
-            .append($link);
+        $('#providers .details-view h3').find('a').remove().end().append($link);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
@@ -425,8 +453,12 @@
             $checkbox.prop('checked', true);
 
             // Add dedicated service-provider link.
-            dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id)
-                + '&service=' + encodeURIComponent(providerServiceId);
+            dedicatedUrl =
+                GlobalVariables.baseUrl +
+                '/index.php?provider=' +
+                encodeURIComponent(provider.id) +
+                '&service=' +
+                encodeURIComponent(providerServiceId);
 
             $link = $('<a/>', {
                 'href': dedicatedUrl,
@@ -448,7 +480,9 @@
         $('#providers .working-plan-exceptions tbody').empty();
         var workingPlanExceptions = $.parseJSON(provider.settings.working_plan_exceptions);
         BackendUsers.wp.setupWorkingPlanExceptions(workingPlanExceptions);
-        $('.working-plan-exceptions').find('.edit-working-plan-exception, .delete-working-plan-exception').prop('disabled', true);
+        $('.working-plan-exceptions')
+            .find('.edit-working-plan-exception, .delete-working-plan-exception')
+            .prop('disabled', true);
         $('#providers .working-plan input:checkbox').prop('disabled', true);
         Backend.placeFooterToBottom();
     };
@@ -470,16 +504,16 @@
             limit: this.filterLimit
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 this.filterResults = response;
 
                 $('#filter-providers .results').empty();
-                response.forEach(function (provider) {
-                    $('#filter-providers .results')
-                        .append(this.getFilterHtml(provider))
-                        .append($('<hr/>'));
-                }.bind(this));
+                response.forEach(
+                    function (provider) {
+                        $('#filter-providers .results').append(this.getFilterHtml(provider)).append($('<hr/>'));
+                    }.bind(this)
+                );
 
                 if (!response.length) {
                     $('#filter-providers .results').append(
@@ -496,14 +530,14 @@
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);
                         }.bind(this)
-                    })
-                        .appendTo('#filter-providers .results');
+                    }).appendTo('#filter-providers .results');
                 }
 
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -533,7 +567,7 @@
                 $('<span/>', {
                     'text': info
                 }),
-                $('<br/>'),
+                $('<br/>')
             ]
         });
     };
@@ -553,28 +587,30 @@
         weekDays[EALang.saturday] = 'Saturday';
         weekDays[EALang.sunday] = 'Sunday';
 
-
-        $selector.editable(function (value, settings) {
-            return value;
-        }, {
-            type: 'select',
-            data: weekDays,
-            event: 'edit',
-            height: '30px',
-            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
-            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
-            onblur: 'ignore',
-            onreset: function (settings, td) {
-                if (!BackendUsers.enableCancel) {
-                    return false; // disable ESC button
-                }
+        $selector.editable(
+            function (value, settings) {
+                return value;
             },
-            onsubmit: function (settings, td) {
-                if (!BackendUsers.enableSubmit) {
-                    return false; // disable Enter button
+            {
+                type: 'select',
+                data: weekDays,
+                event: 'edit',
+                height: '30px',
+                submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+                cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
+                onblur: 'ignore',
+                onreset: function (settings, td) {
+                    if (!BackendUsers.enableCancel) {
+                        return false; // disable ESC button
+                    }
+                },
+                onsubmit: function (settings, td) {
+                    if (!BackendUsers.enableSubmit) {
+                        return false; // disable Enter button
+                    }
                 }
             }
-        });
+        );
     };
 
     /**
@@ -583,26 +619,29 @@
      * @param {jQuery} $selector The cells to be initialized.
      */
     ProvidersHelper.prototype.editableTimeCell = function ($selector) {
-        $selector.editable(function (value, settings) {
-            // Do not return the value because the user needs to press the "Save" button.
-            return value;
-        }, {
-            event: 'edit',
-            height: '25px',
-            submit: '<button type="button" class="d-none submit-editable">Submit</button>',
-            cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
-            onblur: 'ignore',
-            onreset: function (settings, td) {
-                if (!BackendUsers.enableCancel) {
-                    return false; // disable ESC button
-                }
+        $selector.editable(
+            function (value, settings) {
+                // Do not return the value because the user needs to press the "Save" button.
+                return value;
             },
-            onsubmit: function (settings, td) {
-                if (!BackendUsers.enableSubmit) {
-                    return false; // disable Enter button
+            {
+                event: 'edit',
+                height: '25px',
+                submit: '<button type="button" class="d-none submit-editable">Submit</button>',
+                cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
+                onblur: 'ignore',
+                onreset: function (settings, td) {
+                    if (!BackendUsers.enableCancel) {
+                        return false; // disable ESC button
+                    }
+                },
+                onsubmit: function (settings, td) {
+                    if (!BackendUsers.enableSubmit) {
+                        return false; // disable Enter button
+                    }
                 }
             }
-        });
+        );
     };
 
     /**
@@ -619,9 +658,11 @@
 
         // Display record in form (if display = true).
         if (display) {
-            var provider = this.filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(id);
-            }.bind(this));
+            var provider = this.filterResults.find(
+                function (filterResult) {
+                    return Number(filterResult.id) === Number(id);
+                }.bind(this)
+            );
 
             this.display(provider);
 
@@ -630,5 +671,4 @@
     };
 
     window.ProvidersHelper = ProvidersHelper;
-
 })();

@@ -19,7 +19,6 @@ window.BackendServices = window.BackendServices || {};
  * @module BackendServices
  */
 (function (exports) {
-
     'use strict';
 
     /**
@@ -45,7 +44,9 @@ window.BackendServices = window.BackendServices || {};
             $('#service-category').append(new Option(category.name, category.id));
         });
 
-        $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+        $('#service-category')
+            .append(new Option('- ' + EALang.no_category + ' -', null))
+            .val('null');
 
         // Instantiate helper object (service helper by default).
         helper = servicesHelper;
@@ -101,18 +102,17 @@ window.BackendServices = window.BackendServices || {};
             key: ''
         };
 
-        $.post(url, data)
-            .done(function (response) {
-                GlobalVariables.categories = response;
-                var $select = $('#service-category');
+        $.post(url, data).done(function (response) {
+            GlobalVariables.categories = response;
+            var $select = $('#service-category');
 
-                $select.empty();
+            $select.empty();
 
-                response.forEach(function (category) {
-                    $select.append(new Option(category.name, category.id));
-                });
-
-                $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+            response.forEach(function (category) {
+                $select.append(new Option(category.name, category.id));
             });
+
+            $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+        });
     };
 })(window.BackendServices);

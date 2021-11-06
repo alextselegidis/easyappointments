@@ -46,17 +46,16 @@ $(function () {
             type: 'POST',
             data: data,
             dataType: 'json'
-        })
-            .done(function (response) {
-                $alert
-                    .text('Easy!Appointments has been successfully installed!')
-                    .addClass('alert-success')
-                    .removeClass('hidden');
+        }).done(function (response) {
+            $alert
+                .text('Easy!Appointments has been successfully installed!')
+                .addClass('alert-success')
+                .removeClass('hidden');
 
-                setTimeout(function () {
-                    window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
-                }, 1000);
-            });
+            setTimeout(function () {
+                window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
+            }, 1000);
+        });
     });
 
     /**
@@ -68,9 +67,7 @@ $(function () {
      */
     function validate() {
         try {
-            $alert
-                .removeClass('alert-danger')
-                .addClass('hidden');
+            $alert.removeClass('alert-danger').addClass('hidden');
             $('input').closest('.form-group').removeClass('has-error');
 
             // Check for empty fields.
@@ -112,10 +109,7 @@ $(function () {
 
             return true;
         } catch (error) {
-            $alert
-                .addClass('alert-danger')
-                .text(error.message)
-                .removeClass('hidden');
+            $alert.addClass('alert-danger').text(error.message).removeClass('hidden');
 
             return false;
         }
@@ -152,10 +146,11 @@ $(function () {
 
     // Validate the base URL setting (must not contain any trailing slash).
     if (GlobalVariables.baseUrl.slice(-1) === '/') {
-        GeneralFunctions.displayMessageBox('Misconfiguration Detected', 'Please remove any trailing '
-            + 'slashes from your BASE_URL setting of the root config.php file and try again.');
-        $install
-            .prop('disabled', true)
-            .fadeTo('0.4');
+        GeneralFunctions.displayMessageBox(
+            'Misconfiguration Detected',
+            'Please remove any trailing ' +
+                'slashes from your BASE_URL setting of the root config.php file and try again.'
+        );
+        $install.prop('disabled', true).fadeTo('0.4');
     }
 });

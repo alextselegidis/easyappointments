@@ -19,7 +19,6 @@
 window.BackendCalendarApi = window.BackendCalendarApi || {};
 
 (function (exports) {
-
     'use strict';
 
     /**
@@ -95,8 +94,13 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */
-    exports.saveWorkingPlanException = function (date, workingPlanException, providerId,
-                                                 successCallback, errorCallback) {
+    exports.saveWorkingPlanException = function (
+        date,
+        workingPlanException,
+        providerId,
+        successCallback,
+        errorCallback
+    ) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_working_plan_exception';
 
         var data = {
@@ -117,7 +121,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                     errorCallback();
                 }
             });
-    }
+    };
 
     exports.deleteWorkingPlanException = function (date, providerId, successCallback, errorCallback) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_working_plan_exception';
@@ -139,5 +143,5 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
                     errorCallback();
                 }
             });
-    }
+    };
 })(window.BackendCalendarApi);

@@ -19,7 +19,6 @@
 window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorkingPlanExceptionsModal || {};
 
 (function (exports) {
-
     'use strict';
 
     function bindEventHandlers() {
@@ -95,7 +94,7 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                 workingPlanExceptions[selectedDate] = {
                     start: start.toString('HH:mm'),
                     end: end.toString('HH:mm'),
-                    breaks: [],
+                    breaks: []
                 };
 
                 provider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
@@ -116,13 +115,16 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
             BackendCalendarWorkingPlanExceptionsModal.resetWorkingPlanExceptionModal();
 
             if ($('.calendar-view').length === 0) {
-                $('#manage-working-plan-exceptions').find('#working-plan-exception-provider')
+                $('#manage-working-plan-exceptions')
+                    .find('#working-plan-exception-provider')
                     .val($('#select-filter-item').val())
                     .closest('.form-group')
                     .hide();
             }
 
-            $('#working-plan-exception-date').val(GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false));
+            $('#working-plan-exception-date').val(
+                GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false)
+            );
             $('#working-plan-exception-start').val(GlobalVariables.timeFormat === 'regular' ? '8:00 AM' : '08:00');
             $('#working-plan-exception-end').val(GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '20:00');
             $('#manage-working-plan-exceptions').find('.modal-header h3').text(EALang.new_working_plan_exception_title);
@@ -141,8 +143,8 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
 
         // Set the default datetime values.
         var date = new Date();
-        var start = GlobalVariables.timeFormat === 'regular' ? '8:00 AM' : '08:00'
-        var end = GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '20:00'
+        var start = GlobalVariables.timeFormat === 'regular' ? '8:00 AM' : '08:00';
+        var end = GlobalVariables.timeFormat === 'regular' ? '8:00 PM' : '20:00';
 
         var dateFormat;
 
@@ -162,19 +164,47 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
             dateFormat: dateFormat,
 
             // Translation
-            dayNames: [EALang.sunday, EALang.monday, EALang.tuesday, EALang.wednesday,
-                EALang.thursday, EALang.friday, EALang.saturday],
-            dayNamesShort: [EALang.sunday.substr(0, 3), EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3), EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3), EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)],
-            dayNamesMin: [EALang.sunday.substr(0, 2), EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2), EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2), EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)],
-            monthNames: [EALang.january, EALang.february, EALang.march, EALang.april,
-                EALang.may, EALang.june, EALang.july, EALang.august, EALang.september,
-                EALang.october, EALang.november, EALang.december],
+            dayNames: [
+                EALang.sunday,
+                EALang.monday,
+                EALang.tuesday,
+                EALang.wednesday,
+                EALang.thursday,
+                EALang.friday,
+                EALang.saturday
+            ],
+            dayNamesShort: [
+                EALang.sunday.substr(0, 3),
+                EALang.monday.substr(0, 3),
+                EALang.tuesday.substr(0, 3),
+                EALang.wednesday.substr(0, 3),
+                EALang.thursday.substr(0, 3),
+                EALang.friday.substr(0, 3),
+                EALang.saturday.substr(0, 3)
+            ],
+            dayNamesMin: [
+                EALang.sunday.substr(0, 2),
+                EALang.monday.substr(0, 2),
+                EALang.tuesday.substr(0, 2),
+                EALang.wednesday.substr(0, 2),
+                EALang.thursday.substr(0, 2),
+                EALang.friday.substr(0, 2),
+                EALang.saturday.substr(0, 2)
+            ],
+            monthNames: [
+                EALang.january,
+                EALang.february,
+                EALang.march,
+                EALang.april,
+                EALang.may,
+                EALang.june,
+                EALang.july,
+                EALang.august,
+                EALang.september,
+                EALang.october,
+                EALang.november,
+                EALang.december
+            ],
             prevText: EALang.previous,
             nextText: EALang.next,
             currentText: EALang.now,
@@ -221,10 +251,11 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
 
     exports.initialize = function () {
         GlobalVariables.availableProviders.forEach(function (availableProvider) {
-            $('#working-plan-exception-provider').append(new Option(availableProvider.first_name + ' ' + availableProvider.last_name, availableProvider.id));
+            $('#working-plan-exception-provider').append(
+                new Option(availableProvider.first_name + ' ' + availableProvider.last_name, availableProvider.id)
+            );
         });
 
         bindEventHandlers();
     };
-
 })(window.BackendCalendarWorkingPlanExceptionsModal);

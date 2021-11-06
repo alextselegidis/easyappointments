@@ -10,7 +10,6 @@
  * ---------------------------------------------------------------------------- */
 
 (function () {
-
     'use strict';
 
     /**
@@ -78,11 +77,7 @@
                 ]
             });
 
-            $('#services .record-details h3')
-                .find('a')
-                .remove()
-                .end()
-                .append($link);
+            $('#services .record-details h3').find('a').remove().end().append($link);
 
             instance.display(service);
             $('#filter-services .selected').removeClass('selected');
@@ -97,9 +92,7 @@
             instance.resetForm();
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .record-details')
-                .find('input, select, textarea')
-                .prop('disabled', false);
+            $('#services .record-details').find('input, select, textarea').prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
 
@@ -164,9 +157,7 @@
         $('#services').on('click', '#edit-service', function () {
             $('#services .add-edit-delete-group').hide();
             $('#services .save-cancel-group').show();
-            $('#services .record-details')
-                .find('input, select, textarea')
-                .prop('disabled', false);
+            $('#services .record-details').find('input, select, textarea').prop('disabled', false);
             $('#filter-services button').prop('disabled', true);
             $('#filter-services .results').css('color', '#AAA');
         });
@@ -192,8 +183,7 @@
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_service,
-                EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(EALang.delete_service, EALang.delete_record_prompt, buttons);
         });
     };
 
@@ -226,13 +216,14 @@
             service: JSON.stringify(service)
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 Backend.displayNotification(EALang.service_saved);
                 this.resetForm();
                 $('#filter-services .key').val('');
                 this.filter('', response.id, true);
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -248,13 +239,14 @@
             service_id: id
         };
 
-        $.post(url, data)
-            .done(function () {
+        $.post(url, data).done(
+            function () {
                 Backend.displayNotification(EALang.service_deleted);
 
                 this.resetForm();
                 this.filter($('#filter-services .key').val());
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
@@ -264,9 +256,7 @@
      */
     ServicesHelper.prototype.validate = function () {
         $('#services .has-error').removeClass('has-error');
-        $('#services .form-message')
-            .removeClass('alert-danger')
-            .hide();
+        $('#services .form-message').removeClass('alert-danger').hide();
 
         try {
             // Validate required fields.
@@ -291,10 +281,7 @@
 
             return true;
         } catch (error) {
-            $('#services .form-message')
-                .addClass('alert-danger')
-                .text(error.message)
-                .show();
+            $('#services .form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     };
@@ -307,10 +294,7 @@
         $('#filter-services button').prop('disabled', false);
         $('#filter-services .results').css('color', '');
 
-        $('#services .record-details')
-            .find('input, select, textarea')
-            .val('')
-            .prop('disabled', true);
+        $('#services .record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('#services .record-details h3 a').remove();
 
         $('#services .add-edit-delete-group').show();
@@ -337,7 +321,7 @@
         $('#service-availabilities-type').val(service.availabilities_type);
         $('#service-attendants-number').val(service.attendants_number);
 
-        var categoryId = (service.id_service_categories !== null) ? service.id_service_categories : 'null';
+        var categoryId = service.id_service_categories !== null ? service.id_service_categories : 'null';
         $('#service-category').val(categoryId);
     };
 
@@ -360,8 +344,8 @@
             limit: this.filterLimit
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        $.post(url, data).done(
+            function (response) {
                 this.filterResults = response;
 
                 $('#filter-services .results').empty();
@@ -369,7 +353,7 @@
                 response.forEach(function (service, index) {
                     $('#filter-services .results')
                         .append(ServicesHelper.prototype.getFilterHtml(service))
-                        .append($('<hr/>'))
+                        .append($('<hr/>'));
                 });
 
                 if (response.length === 0) {
@@ -387,14 +371,14 @@
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);
                         }.bind(this)
-                    })
-                        .appendTo('#filter-services .results');
+                    }).appendTo('#filter-services .results');
                 }
 
                 if (selectId) {
                     this.select(selectId, display);
                 }
-            }.bind(this));
+            }.bind(this)
+        );
     };
 
     /**
