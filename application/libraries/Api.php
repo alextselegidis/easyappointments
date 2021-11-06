@@ -253,7 +253,14 @@ class Api {
 
             $db_field = $this->model->db_field($api_field);
 
-            $direction = substr($sort_token, 0, 1) === '-' ? 'DESC' : 'ASC';
+            $direction_operator = substr($sort_token, 0, 1);
+
+            if ( ! in_array($direction_operator, ['-', '+']))
+            {
+                throw new InvalidArgumentException('Invalid sort direction operator provided (expected "-" or "+"): ' . $direction_operator);
+            }
+
+            $direction = $direction_operator === '-' ? 'DESC' : 'ASC';
 
             $order_by[] = $db_field . ' ' . $direction;
         }
