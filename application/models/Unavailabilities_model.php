@@ -344,15 +344,6 @@ class Unavailabilities_model extends EA_Model {
         {
             switch ($resource)
             {
-                case 'service':
-                    $unavailability['service'] = $this
-                        ->db
-                        ->get_where('services', [
-                            'id' => $unavailability['id_services']
-                        ])
-                        ->row_array();
-                    break;
-
                 case 'provider':
                     $unavailability['provider'] = $this
                         ->db
@@ -361,16 +352,7 @@ class Unavailabilities_model extends EA_Model {
                         ])
                         ->row_array();
                     break;
-
-                case 'customer':
-                    $unavailability['customer'] = $this
-                        ->db
-                        ->get_where('users', [
-                            'id' => $unavailability['id_users_customer']
-                        ])
-                        ->row_array();
-                    break;
-
+                    
                 default:
                     throw new InvalidArgumentException('The requested unavailability relation is not supported: ' . $resource);
             }
