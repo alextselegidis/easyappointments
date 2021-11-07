@@ -9,15 +9,16 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
+const babel = require('gulp-babel');
 const changed = require('gulp-changed');
 const childProcess = require('child_process');
-const sass = require('gulp-sass')(require('sass'));
 const css = require('gulp-clean-css');
 const del = require('del');
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
+const sass = require('gulp-sass')(require('sass'));
 const uglify = require('gulp-uglify');
 const zip = require('zip-dir');
 
@@ -82,13 +83,16 @@ function clean(done) {
 }
 
 function scripts() {
-    return gulp
-        .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
-        .pipe(plumber())
-        .pipe(changed('assets/js/**/*'))
-        .pipe(uglify().on('error', console.log))
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/js'));
+    return (
+        gulp
+            .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
+            .pipe(plumber())
+            .pipe(changed('assets/js/**/*'))
+            .pipe(babel())
+            // .pipe(uglify().on('error', console.log))
+            .pipe(rename({suffix: '.min'}))
+            .pipe(gulp.dest('assets/js'))
+    );
 }
 
 function styles() {

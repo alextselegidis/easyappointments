@@ -37,9 +37,12 @@
     "trumbowyg": "^2.21.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
     "del": "^6.0.0",
     "fs-extra": "^10.0.0",
     "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
     "gulp-changed": "^3.2.0",
     "gulp-clean-css": "^3.10.0",
     "gulp-debug": "^4.0.0",
