@@ -9,33 +9,26 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-// Gulp instance and plugins.
-const gulp = require('gulp');
-const fs = require('fs-extra');
-const zip = require('zip-dir');
-const plugins = require('gulp-load-plugins')();
-const {execSync} = require('child_process');
+const changed = require('gulp-changed');
+const childProcess = require('child_process');
+const cleanCss = require('gulp-clean-css');
 const del = require('del');
+const fs = require('fs-extra');
+const gulp = require('gulp');
+const plumber = require('gulp-plumber');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
+const zip = require('zip-dir');
 
-// Gulp error handling.
-const source = gulp.src;
-gulp.src = function () {
-    return source.apply(gulp, arguments)
-        .pipe(plugins.plumber({
-            errorHandler: plugins.notify.onError('Error: <%= error.message %>')
-        }));
-};
-
-gulp.task('package', (done) => {
-    const archive = 'easyappointments-0.0.0.zip';
+function archive(done) {
+    const filename = 'easyappointments-0.0.0.zip';
 
     fs.removeSync('build');
-    fs.removeSync(archive);
+    fs.removeSync(filename);
 
     fs.mkdirsSync('build');
     fs.copySync('application', 'build/application');
     fs.copySync('assets', 'build/assets');
-    fs.copySync('engine', 'build/engine');
     fs.copySync('system', 'build/system');
 
     fs.ensureDirSync('build/storage/backups');
@@ -65,101 +58,56 @@ gulp.task('package', (done) => {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
-    execSync('cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-    });
+    childProcess.execSync('cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader');
 
     del.sync('**/.DS_Store');
-
     fs.removeSync('build/composer.lock');
-
     del.sync('**/.DS_Store');
-
     del.sync('build/vendor/codeigniter/framework/user_guide');
 
-    zip('build', {saveTo: archive}, function (err) {
-        if (err) {
-            console.log('Zip Error', err);
+    zip('build', {saveTo: filename}, function (error) {
+        if (error) {
+            console.log('Zip Error', error);
         }
 
         done();
     });
-});
+}
 
-gulp.task('clean', (done) => {
+function clean(done) {
     fs.removeSync('assets/js/**/*.min.js');
     fs.removeSync('assets/css/**/*.min.css');
     done();
-});
+}
 
-gulp.task('docs', (done) => {
-    fs.removeSync('docs/apigen/html');
-    fs.removeSync('docs/jsdoc/html');
-    fs.removeSync('docs/plato/html');
-
-    fs.mkdirSync('docs/apigen/html');
-    fs.mkdirSync('docs/jsdoc/html');
-    fs.mkdirSync('docs/plato/html');
-
-    const commands = [
-        'php docs/apigen/apigen.phar generate ' +
-        '-s "application/controllers,application/models,application/libraries" ' +
-        '-d "docs/apigen/html" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
-
-        'npx jsdoc "assets/js" -d "docs/jsdoc/html"',
-
-        'npx plato -r -d "docs/plato/html" "assets/js"'
-    ];
-
-    commands.forEach(function (command) {
-        execSync(command, function (err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
-        });
-    });
-
-    done();
-});
-
-gulp.task('scripts', (done) => {
-    return gulp.src([
-        'assets/js/**/*.js',
-        '!assets/js/**/*.min.js'
-    ])
-        .pipe(plugins.changed('assets/js/**/*'))
-        .pipe(plugins.uglify().on('error', console.log))
-        .pipe(plugins.rename({suffix: '.min'}))
+function scripts() {
+    return gulp
+        .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
+        .pipe(plumber())
+        .pipe(changed('assets/js/**/*'))
+        .pipe(uglify().on('error', console.log))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/js'));
-});
+}
 
-gulp.task('styles', () => {
-    return gulp.src([
-        'assets/css/**/*.css',
-        '!assets/css/**/*.min.css'
-    ])
-        .pipe(plugins.changed('assets/css/**/*'))
-        .pipe(plugins.cleanCss())
-        .pipe(plugins.rename({suffix: '.min'}))
+function styles() {
+    return gulp
+        .src(['assets/css/**/*.css', '!assets/css/**/*.min.css'])
+        .pipe(plumber())
+        .pipe(changed('assets/css/**/*'))
+        .pipe(cleanCss())
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/css'));
-});
+}
 
-gulp.task('watch', (done) => {
-    gulp.watch([
-        'assets/js/**/*.js',
-        '!assets/js/**/*.min.js'
-    ], gulp.parallel('scripts'));
-
-    gulp.watch([
-        'assets/css/**/*.css',
-        '!assets/css/**/*.min.css'
-    ], gulp.parallel('styles'));
-
+function watch(done) {
+    gulp.watch(['assets/js/**/*.js', '!assets/js/**/*.min.js'], gulp.parallel(scripts));
+    gulp.watch(['assets/css/**/*.css', '!assets/css/**/*.min.css'], gulp.parallel(styles));
     done();
-});
+}
 
-gulp.task('dev', gulp.series('clean', 'scripts', 'styles', 'watch'));
-
-gulp.task('build', gulp.series('clean', 'scripts', 'styles', 'package'));
-
-gulp.task('default', gulp.parallel('dev'));
+exports.scripts = gulp.series(clean, scripts);
+exports.styles = gulp.series(clean, scripts);
+exports.dev = gulp.series(clean, scripts, styles, watch);
+exports.build = gulp.series(clean, scripts, styles, archive);
+exports.default = exports.dev;
