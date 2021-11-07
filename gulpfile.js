@@ -14,7 +14,6 @@ const changed = require('gulp-changed');
 const childProcess = require('child_process');
 const css = require('gulp-clean-css');
 const del = require('del');
-const dist = require('gulp-npm-dist');
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
@@ -82,16 +81,13 @@ function clean(done) {
 }
 
 function scripts() {
-    return (
-        gulp
-            .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
-            .pipe(plumber())
-            .pipe(changed('assets/js/**/*'))
-            .pipe(babel())
-            // .pipe(uglify().on('error', console.log))
-            .pipe(rename({suffix: '.min'}))
-            .pipe(gulp.dest('assets/js'))
-    );
+    return gulp
+        .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
+        .pipe(plumber())
+        .pipe(changed('assets/js/**/*'))
+        .pipe(babel())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/js'));
 }
 
 function styles() {
@@ -112,27 +108,79 @@ function watch(done) {
     done();
 }
 
-function vendor() {
+function vendor(done) {
     del.sync(['assets/vendor/**', '!assets/vendor/index.html']);
 
-    const excludes = [
-        'less',
-        'metadata',
-        'scss',
-        'attribution.js',
-        'examples',
-        'src',
-        'test',
-        'esm',
-        'cjs',
-        'external',
-        'build'
-    ];
+    // Bootstrap
+    gulp.src([
+        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/bootstrap/dist/css/bootstrap.min.css'
+    ]).pipe(gulp.dest('assets/vendor/bootstrap'));
 
-    return gulp
-        .src(dist({excludes}), {base: './node_modules'})
-        .pipe(rename((path) => (path.dirname = path.dirname.replace(/\/dist/, '').replace(/\\dist/, ''))))
-        .pipe(gulp.dest('./assets/vendor'));
+    // FontAwesome
+    gulp.src([
+        'node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js',
+        'node_modules/@fortawesome/fontawesome-free/js/solid.min.js'
+    ]).pipe(gulp.dest('assets/vendor/fontawesome'));
+
+    // Cookie Consent
+    gulp.src([
+        'node_modules/cookieconsent/build/cookieconsent.min.js',
+        'node_modules/cookieconsent/build/cookieconsent.min.css'
+    ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
+
+    // DateJS
+    gulp.src(['node_modules/datejs/lib/date.js'])
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/vendor/datejs'));
+
+    // FullCalendar
+    gulp.src([
+        'node_modules/fullcalendar/dist/fullcalendar.min.js',
+        'node_modules/fullcalendar/dist/fullcalendar.min.css'
+    ]).pipe(gulp.dest('assets/vendor/fullcalendar'));
+
+    // jQuery JEditable
+    gulp.src(['node_modules/jquery-jeditable/dist/jquery.jeditable.min.js']).pipe(
+        gulp.dest('assets/vendor/jquery-jeditable')
+    );
+
+    // jQuery UI
+    gulp.src(['node_modules/jquery-ui-dist/jquery-ui.min.js', 'node_modules/jquery-ui-dist/jquery-ui.min.css']).pipe(
+        gulp.dest('assets/vendor/jquery-ui')
+    );
+
+    // jQuery UI Timepicker Addon
+    gulp.src([
+        'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
+        'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css'
+    ]).pipe(gulp.dest('assets/vendor/jquery-ui-timepicker-addon'));
+
+    // jQuery UI Touch Punch
+    gulp.src(['node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js']).pipe(
+        gulp.dest('assets/vendor/jquery-ui-touch-punch')
+    );
+
+    // Moment
+    gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('assets/vendor/moment'));
+
+    // Moment Timezone
+    gulp.src(['node_modules/moment-timezone/builds/moment-timezone.min.js']).pipe(
+        gulp.dest('assets/vendor/moment-timezone')
+    );
+
+    // Select2
+    gulp.src(['node_modules/select2/dist/js/select2.min.js']).pipe(gulp.dest('assets/vendor/select2'));
+
+    // Tippy.js
+    gulp.src(['node_modules/tippy.js/dist/tippy-bundle.umd.min.js']).pipe(gulp.dest('assets/vendor/tippy.js'));
+
+    // Trumbowyg
+    gulp.src(['node_modules/trumbowyg/dist/trumbowyg.min.js', 'node_modules/trumbowyg/dist/ui/trumbowyg.min.css']).pipe(
+        gulp.dest('assets/vendor/trumbowyg')
+    );
+
+    done();
 }
 
 exports.clean = gulp.series(clean);
