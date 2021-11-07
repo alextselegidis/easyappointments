@@ -37,20 +37,15 @@
     "trumbowyg": "^2.21.0"
   },
   "devDependencies": {
-    "del": "^6.0.0",
-    "fs-extra": "^0.26.7",
+    "fs-extra": "^10.0.0",
     "gulp": "^4.0.2",
     "gulp-changed": "^3.2.0",
     "gulp-clean-css": "^3.10.0",
     "gulp-debug": "^4.0.0",
     "gulp-load-plugins": "^1.6.0",
     "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
     "gulp-uglify": "^3.0.2",
-    "jsdoc": "^3.6.6",
-    "node-notifier": "^8.0.1",
-    "plato": "^1.7.0",
     "prettier": "^2.4.1",
     "zip-dir": "^1.0.2"
   },
