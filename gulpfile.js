@@ -14,12 +14,12 @@ const changed = require('gulp-changed');
 const childProcess = require('child_process');
 const css = require('gulp-clean-css');
 const del = require('del');
+const dist = require('gulp-npm-dist');
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
-const uglify = require('gulp-uglify');
 const zip = require('zip-dir');
 
 function archive(done) {
@@ -65,7 +65,6 @@ function archive(done) {
     del.sync('**/.DS_Store');
     fs.removeSync('build/composer.lock');
     del.sync('**/.DS_Store');
-    del.sync('build/vendor/codeigniter/framework/user_guide');
 
     zip('build', {saveTo: filename}, function (error) {
         if (error) {
@@ -113,9 +112,33 @@ function watch(done) {
     done();
 }
 
+function vendor() {
+    del.sync(['assets/vendor/**', '!assets/vendor/index.html']);
+
+    const excludes = [
+        'less',
+        'metadata',
+        'scss',
+        'attribution.js',
+        'examples',
+        'src',
+        'test',
+        'esm',
+        'cjs',
+        'external',
+        'build'
+    ];
+
+    return gulp
+        .src(dist({excludes}), {base: './node_modules'})
+        .pipe(rename((path) => (path.dirname = path.dirname.replace(/\/dist/, '').replace(/\\dist/, ''))))
+        .pipe(gulp.dest('./assets/vendor'));
+}
+
 exports.clean = gulp.series(clean);
-exports.scripts = gulp.series(clean, scripts);
-exports.styles = gulp.series(clean, styles);
-exports.dev = gulp.series(clean, scripts, styles, watch);
-exports.build = gulp.series(clean, scripts, styles, archive);
+exports.vendor = gulp.series(vendor);
+exports.scripts = gulp.series(scripts);
+exports.styles = gulp.series(styles);
+exports.dev = gulp.series(clean, vendor, scripts, styles, watch);
+exports.build = gulp.series(clean, vendor, scripts, styles, archive);
 exports.default = exports.dev;
