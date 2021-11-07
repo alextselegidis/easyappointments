@@ -10,7 +10,7 @@
 /node_modules/
 /npm-debug.log
 /assets/js/**/*.min.js
-/assets/css/**/*.min.css
+/assets/css/**/*.css
 /config.php
 /storage/backups/*
 !/storage/backups/.htaccess

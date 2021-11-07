@@ -45,8 +45,10 @@
     "gulp-debug": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
+    "gulp-sass": "^5.0.0",
     "gulp-uglify": "^3.0.2",
     "prettier": "^2.4.1",
+    "sass": "^1.43.4",
     "zip-dir": "^1.0.2"
   },
   "scripts": {

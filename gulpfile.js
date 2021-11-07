@@ -11,7 +11,8 @@
 
 const changed = require('gulp-changed');
 const childProcess = require('child_process');
-const cleanCss = require('gulp-clean-css');
+const sass = require('gulp-sass')(require('sass'));
+const css = require('gulp-clean-css');
 const del = require('del');
 const fs = require('fs-extra');
 const gulp = require('gulp');
@@ -92,10 +93,12 @@ function scripts() {
 
 function styles() {
     return gulp
-        .src(['assets/css/**/*.css', '!assets/css/**/*.min.css'])
+        .src(['assets/css/**/*.scss', '!assets/css/**/*.min.css'])
         .pipe(plumber())
         .pipe(changed('assets/css/**/*'))
-        .pipe(cleanCss())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('assets/css'))
+        .pipe(css())
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/css'));
 }
@@ -106,8 +109,9 @@ function watch(done) {
     done();
 }
 
+exports.clean = gulp.series(clean);
 exports.scripts = gulp.series(clean, scripts);
-exports.styles = gulp.series(clean, scripts);
+exports.styles = gulp.series(clean, styles);
 exports.dev = gulp.series(clean, scripts, styles, watch);
 exports.build = gulp.series(clean, scripts, styles, archive);
 exports.default = exports.dev;
