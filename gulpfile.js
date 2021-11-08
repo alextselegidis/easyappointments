@@ -104,7 +104,7 @@ function styles() {
 
 function watch(done) {
     gulp.watch(['assets/js/**/*.js', '!assets/js/**/*.min.js'], gulp.parallel(scripts));
-    gulp.watch(['assets/css/**/*.css', '!assets/css/**/*.min.css'], gulp.parallel(styles));
+    gulp.watch(['assets/css/**/*.scss', '!assets/css/**/*.css'], gulp.parallel(styles));
     done();
 }
 
