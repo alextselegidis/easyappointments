@@ -117,11 +117,11 @@ function vendor(done) {
         'node_modules/bootstrap/dist/css/bootstrap.min.css'
     ]).pipe(gulp.dest('assets/vendor/bootstrap'));
 
-    // fontawesome-free
+    // @fortawesome-fontawesome-free
     gulp.src([
         'node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js',
         'node_modules/@fortawesome/fontawesome-free/js/solid.min.js'
-    ]).pipe(gulp.dest('assets/vendor/fontawesome-free'));
+    ]).pipe(gulp.dest('assets/vendor/@fortawesome-fontawesome-free'));
 
     // cookieconsent
     gulp.src([
@@ -168,9 +168,12 @@ function vendor(done) {
     gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('assets/vendor/moment'));
 
     // moment-timezone
-    gulp.src(['node_modules/moment-timezone/builds/moment-timezone.min.js']).pipe(
+    gulp.src(['node_modules/moment-timezone/builds/moment-timezone-with-data.min.js']).pipe(
         gulp.dest('assets/vendor/moment-timezone')
     );
+
+    // @popperjs-core
+    gulp.src(['node_modules/@popperjs/core/dist/umd/popper.min.js']).pipe(gulp.dest('assets/vendor/@popperjs-core'));
 
     // select2
     gulp.src(['node_modules/select2/dist/js/select2.min.js']).pipe(gulp.dest('assets/vendor/select2'));
