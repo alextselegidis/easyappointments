@@ -111,71 +111,74 @@ function watch(done) {
 function vendor(done) {
     del.sync(['assets/vendor/**', '!assets/vendor/index.html']);
 
-    // Bootstrap
+    // bootstrap
     gulp.src([
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         'node_modules/bootstrap/dist/css/bootstrap.min.css'
     ]).pipe(gulp.dest('assets/vendor/bootstrap'));
 
-    // FontAwesome
+    // fontawesome-free
     gulp.src([
         'node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js',
         'node_modules/@fortawesome/fontawesome-free/js/solid.min.js'
-    ]).pipe(gulp.dest('assets/vendor/fontawesome'));
+    ]).pipe(gulp.dest('assets/vendor/fontawesome-free'));
 
-    // Cookie Consent
+    // cookieconsent
     gulp.src([
         'node_modules/cookieconsent/build/cookieconsent.min.js',
         'node_modules/cookieconsent/build/cookieconsent.min.css'
     ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
 
-    // DateJS
+    // datejs
     gulp.src(['node_modules/datejs/lib/date.js'])
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/vendor/datejs'));
 
-    // FullCalendar
+    // fullcalendar
     gulp.src([
         'node_modules/fullcalendar/dist/fullcalendar.min.js',
         'node_modules/fullcalendar/dist/fullcalendar.min.css'
     ]).pipe(gulp.dest('assets/vendor/fullcalendar'));
 
-    // jQuery JEditable
+    // jquery
+    gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('assets/vendor/jquery'));
+
+    // jquery-jeditable
     gulp.src(['node_modules/jquery-jeditable/dist/jquery.jeditable.min.js']).pipe(
         gulp.dest('assets/vendor/jquery-jeditable')
     );
 
-    // jQuery UI
+    // jquery-ui-dist
     gulp.src(['node_modules/jquery-ui-dist/jquery-ui.min.js', 'node_modules/jquery-ui-dist/jquery-ui.min.css']).pipe(
-        gulp.dest('assets/vendor/jquery-ui')
+        gulp.dest('assets/vendor/jquery-ui-dist')
     );
 
-    // jQuery UI Timepicker Addon
+    // jquery-ui-timepicker-addon
     gulp.src([
         'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
         'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css'
     ]).pipe(gulp.dest('assets/vendor/jquery-ui-timepicker-addon'));
 
-    // jQuery UI Touch Punch
+    // jquery-ui-touch-punch
     gulp.src(['node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js']).pipe(
         gulp.dest('assets/vendor/jquery-ui-touch-punch')
     );
 
-    // Moment
+    // moment
     gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('assets/vendor/moment'));
 
-    // Moment Timezone
+    // moment-timezone
     gulp.src(['node_modules/moment-timezone/builds/moment-timezone.min.js']).pipe(
         gulp.dest('assets/vendor/moment-timezone')
     );
 
-    // Select2
+    // select2
     gulp.src(['node_modules/select2/dist/js/select2.min.js']).pipe(gulp.dest('assets/vendor/select2'));
 
-    // Tippy.js
+    // tippy.js
     gulp.src(['node_modules/tippy.js/dist/tippy-bundle.umd.min.js']).pipe(gulp.dest('assets/vendor/tippy.js'));
 
-    // Trumbowyg
+    // trumbowyg
     gulp.src(['node_modules/trumbowyg/dist/trumbowyg.min.js', 'node_modules/trumbowyg/dist/ui/trumbowyg.min.css']).pipe(
         gulp.dest('assets/vendor/trumbowyg')
     );
