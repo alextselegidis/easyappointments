@@ -176,7 +176,9 @@ function vendor(done) {
     gulp.src(['node_modules/@popperjs/core/dist/umd/popper.min.js']).pipe(gulp.dest('assets/vendor/@popperjs-core'));
 
     // select2
-    gulp.src(['node_modules/select2/dist/js/select2.min.js']).pipe(gulp.dest('assets/vendor/select2'));
+    gulp.src(['node_modules/select2/dist/js/select2.min.js', 'node_modules/select2/dist/css/select2.min.css']).pipe(
+        gulp.dest('assets/vendor/select2')
+    );
 
     // tippy.js
     gulp.src(['node_modules/tippy.js/dist/tippy-bundle.umd.min.js']).pipe(gulp.dest('assets/vendor/tippy.js'));
@@ -185,6 +187,8 @@ function vendor(done) {
     gulp.src(['node_modules/trumbowyg/dist/trumbowyg.min.js', 'node_modules/trumbowyg/dist/ui/trumbowyg.min.css']).pipe(
         gulp.dest('assets/vendor/trumbowyg')
     );
+
+    gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg']).pipe(gulp.dest('assets/vendor/trumbowyg/ui'));
 
     done();
 }
