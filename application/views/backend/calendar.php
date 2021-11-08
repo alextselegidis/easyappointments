@@ -1,8 +1,8 @@
-<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/ext/jquery-fullcalendar/fullcalendar.min.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/vendor/fullcalendar/fullcalendar.min.css') ?>">
 
-<script src="<?= asset_url('assets/ext/jquery-fullcalendar/fullcalendar.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/fullcalendar/fullcalendar.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_calendar_default_view.js') ?>"></script>

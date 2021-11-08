@@ -8,7 +8,7 @@
 
     <title><?= lang('page_not_found') ?> | Easy!Appointments</title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/error404.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
@@ -19,11 +19,12 @@
         var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
     <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 </head>

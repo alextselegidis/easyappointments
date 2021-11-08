@@ -4,8 +4,8 @@
 <script src="<?= asset_url('assets/js/backend_users.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui-timepicker-addon.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,

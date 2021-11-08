@@ -5,9 +5,9 @@
 
     <title>Update | Easy!Appointments</title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/update.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 </head>
@@ -68,7 +68,7 @@
     Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
 </footer>
 
-<script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 </body>
 </html>

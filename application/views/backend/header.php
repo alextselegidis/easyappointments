@@ -6,10 +6,10 @@
 
     <title><?= isset($page_title) ? $page_title : lang('backend_section') ?> | Easy!Appointments</title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/trumbowyg/ui/trumbowyg.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/select2/select2.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/select2/select2.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
@@ -22,19 +22,19 @@
         var EALang = <?= json_encode($this->lang->language) ?>;
     </script>
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/popper/popper.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/tippy/tippy-bundle.umd.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.touch-punch.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/trumbowyg/trumbowyg.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/select2/select2.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 </head>
 
 <body>

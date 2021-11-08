@@ -8,15 +8,16 @@
 
     <title><?= lang('no_privileges') ?> | Easy!Appointments</title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/no_privileges.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
 </head>
 <body>
 <div id="no-priv-frame" class="frame-container">

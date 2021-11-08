@@ -7,18 +7,19 @@
     <meta name="theme-color" content="#35A768">
     <title><?= lang('login') ?> | Easy!Appointments</title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/login.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <script src="<?= asset_url('assets/ext/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/jquery-ui/jquery-ui.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/bootstrap/js/bootstrap.bundle.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
 
     <script>
         var GlobalVariables = {
@@ -81,8 +82,8 @@
     </form>
 </div>
 
-<script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>
-<script src="<?= asset_url('assets/ext/fontawesome/js/solid.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/login.js') ?>"></script>
