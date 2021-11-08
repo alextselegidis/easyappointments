@@ -401,11 +401,11 @@ class Appointments extends EA_Controller {
      * @param string $date Selected date (Y-m-d).
      * @param string|null $hour Selected hour (H:i).
      *
-     * @return int Returns the ID of the provider that can provide the service at the selected date.
+     * @return int|null Returns the ID of the provider that can provide the service at the selected date.
      *
      * @throws Exception
      */
-    protected function search_any_provider(int $service_id, string $date, string $hour = NULL): int
+    protected function search_any_provider(int $service_id, string $date, string $hour = NULL): ?int
     {
         $available_providers = $this->providers_model->get_available_providers();
 
