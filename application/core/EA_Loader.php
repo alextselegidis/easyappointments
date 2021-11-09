@@ -40,5 +40,20 @@
  * @property EA_URI $uri
  */
 class EA_Loader extends CI_Loader {
-    // 
+    /**
+     * Loads "layout" files.
+     *
+     * @param string $layout
+     * @param string $template
+     * @param array $vars An associative array of data to be extracted for use in the view
+     * @param bool $return Whether to return the view output or leave it to the Output class
+     *
+     * @return object|string
+     */
+    public function layout(string $layout, string $template, array $vars = [], bool $return = FALSE)
+    {
+        $vars['template'] = APPPATH . 'views/' . $template . '.php';
+
+        return $this->view($layout, $vars, $return);
+    }
 }
