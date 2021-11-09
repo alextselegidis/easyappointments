@@ -147,7 +147,6 @@
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/polyfill.js') ?>"></script>
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/installation.js') ?>"></script>
 </body>
