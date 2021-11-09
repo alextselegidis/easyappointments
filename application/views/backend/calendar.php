@@ -495,5 +495,5 @@
 
 <!-- WORKING PLAN EXCEPTIONS MODAL -->
 
-<?php require __DIR__ . '/working_plan_exceptions_modal.php' ?>
+<?php require __DIR__ . '/../modals/working_plan_exceptions_modal.php' ?>
 

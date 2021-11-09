@@ -419,15 +419,15 @@
 </div>
 
 <?php if ($display_cookie_notice === '1'): ?>
-    <?php require 'cookie_notice_modal.php' ?>
+    <?php require __DIR__ . '/../modals/cookie_notice_modal.php' ?>
 <?php endif ?>
 
 <?php if ($display_terms_and_conditions === '1'): ?>
-    <?php require 'terms_and_conditions_modal.php' ?>
+    <?php require __DIR__ . '/../modals/terms_and_conditions_modal.php' ?>
 <?php endif ?>
 
 <?php if ($display_privacy_policy === '1'): ?>
-    <?php require 'privacy_policy_modal.php' ?>
+    <?php require __DIR__ . '/../modals/privacy_policy_modal.php' ?>
 <?php endif ?>
 
 <script>

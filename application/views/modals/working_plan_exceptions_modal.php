@@ -1,3 +1,4 @@
+
 <div class="modal" id="working-plan-exceptions-modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
