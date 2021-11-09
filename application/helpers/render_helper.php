@@ -18,7 +18,7 @@
  *
  * @return string
  */
-function render_timezone_dropdown($attributes = '')
+function render_timezone_dropdown(string $attributes = ''): string
 {
     $CI = get_instance();
 
@@ -28,6 +28,38 @@ function render_timezone_dropdown($attributes = '')
 
     return $CI->load->view('partials/timezone_dropdown', [
         'timezones' => $timezones,
+        'attributes' => $attributes
+    ], TRUE);
+}
+
+/**
+ * Render the language script tag.
+ *
+ * @param string $attributes HTML element attributes of the script element.
+ *
+ * @return string
+ */
+function render_language_script(string $attributes = ''): string
+{
+    $CI = get_instance();
+
+    return $CI->load->view('partials/language_script', [
+        'attributes' => $attributes
+    ], TRUE);
+}
+
+/**
+ * Render the global variables script tag.
+ *
+ * @param string $attributes HTML element attributes of the script element.
+ *
+ * @return string
+ */
+function render_global_variables_script(string $attributes = ''): string
+{
+    $CI = get_instance();
+
+    return $CI->load->view('partials/global_variables_script', [
         'attributes' => $attributes
     ], TRUE);
 }
