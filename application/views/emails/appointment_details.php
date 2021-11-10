@@ -1,3 +1,22 @@
+<?php
+/**
+ * @var string $company_name
+ * @var string $email_title
+ * @var string $email_message
+ * @var array $appointment_service
+ * @var string $appointment_provider
+ * @var string $appointment_start_date
+ * @var string $appointment_end_date
+ * @var string $appointment_timezone
+ * @var string $customer_name
+ * @var string $customer_email
+ * @var string $customer_phone
+ * @var string $customer_address
+ * @var string $appointment_link
+ * @var string $company_link
+ */
+?>
+
 <html lang="en">
 <head>
     <title><?= lang('appointment_details_title') ?> | Easy!Appointments</title>

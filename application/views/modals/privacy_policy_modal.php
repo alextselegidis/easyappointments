@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var string $privacy_policy_content
+ */
+?>
+
 <div id="privacy-policy-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

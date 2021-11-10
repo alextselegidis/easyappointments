@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var string $page_title
+ * @var array $active_menu
+ * @var array $privileges
+ */
+?>
+
 <!doctype html>
 <html lang="en">
 <head>

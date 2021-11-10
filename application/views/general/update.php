@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var bool $success
+ * @var string $exception
+ */
+?>
+
 <!doctype html>
 <html lang="en">
 <head>

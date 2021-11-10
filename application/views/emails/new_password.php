@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var string $company_name
+ * @var string $email_title
+ * @var string $email_message
+ * @var string $company_link
+ */
+?>
 <html lang="en">
 <head>
     <title>New Password | Easy!Appointments</title>

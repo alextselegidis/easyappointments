@@ -1,3 +1,24 @@
+<?php
+/**
+ * @var string $company_name
+ * @var string $customer_token
+ * @var string $date_format
+ * @var string $time_format
+ * @var string $first_weekday
+ * @var bool $manage_mode
+ * @var array $appointment_data
+ * @var array $provider_data
+ * @var array $customer_data
+ * @var array $available_services
+ * @var array $available_providers
+ * @var array $show_field
+ * @var bool $require_phone_number
+ * @var string $display_any_provider
+ * @var string $display_terms_and_conditions
+ * @var string $display_privacy_policy
+ * @var string $display_cookie_notice
+ */
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -62,7 +83,7 @@
 
                             <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
 
-                            <textarea name="cancel_reason" style="display:none"></textarea>
+                            <input id="cancel-reason" name="cancel_reason" type="hidden">
 
                             <button id="cancel-appointment" class="btn btn-warning btn-sm">
                                 <?= lang('cancel') ?>
@@ -360,14 +381,14 @@
                     <?php if (setting('require_captcha')): ?>
                         <div class="row frame-content">
                             <div class="col-12 col-md-6">
-                                <h4 class="captcha-title">
+                                <label class="captcha-title" for="captcha-text">
                                     CAPTCHA
                                     <button class="btn btn-link text-dark text-decoration-none py-0">
                                         <i class="fas fa-sync-alt"></i>
                                     </button>
-                                </h4>
-                                <img class="captcha-image" src="<?= site_url('captcha') ?>">
-                                <input class="captcha-text form-control" type="text" value=""/>
+                                </label>
+                                <img class="captcha-image" src="<?= site_url('captcha') ?>" alt="CAPTCHA">
+                                <input id="captcha-text" class="captcha-text form-control" type="text" value=""/>
                                 <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
                             </div>
                         </div>

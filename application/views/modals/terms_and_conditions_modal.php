@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var string $terms_and_conditions_content
+ */
+?>
+
 <div id="terms-and-conditions-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

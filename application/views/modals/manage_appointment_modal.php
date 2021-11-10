@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var array $available_services
+ * @var array $timezones
+ * @var string $require_phone_number
+ */
+?>
 <div id="manage-appointment" class="modal fade" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

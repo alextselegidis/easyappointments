@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var string $user_display_name
+ */
+?>
 <div id="footer">
     <div id="footer-content" class="col-12 col-sm-8">
         <img class="mr-1" src="<?= base_url('assets/img/logo-16x16.png') ?>" alt="Easy!Appointments Logo">

@@ -1,3 +1,10 @@
+<?php
+/**
+ * @var string $base_url
+ * @var string $dest_url
+ */
+?>
+
 <!doctype html>
 <html lang="en">
 <head>

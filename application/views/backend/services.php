@@ -1,3 +1,18 @@
+<?php
+/**
+ * @var array $categories
+ * @var array $services
+ * @var string $date_format
+ * @var string $time_format
+ * @var string $base_url
+ * @var string $timezones
+ * @var string $user_id
+ * @var string $user_email
+ * @var string $timezone
+ * @var string $role_slug
+ * @var array $privileges
+ */
+?>
 <script src="<?= asset_url('assets/js/backend_services_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_categories_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_services.js') ?>"></script>

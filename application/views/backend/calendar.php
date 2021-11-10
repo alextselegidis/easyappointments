@@ -1,3 +1,24 @@
+<?php
+/**
+ * @var array $available_providers
+ * @var array $available_services
+ * @var string $base_url
+ * @var string $date_format
+ * @var string $time_format
+ * @var string $first_weekday
+ * @var array $edit_appointment
+ * @var array $customers
+ * @var array $secretary_providers
+ * @var string $calendar_view
+ * @var string $timezones
+ * @var string $user_id
+ * @var string $user_email
+ * @var string $timezone
+ * @var string $role_slug
+ * @var array $privileges
+ */
+?>
+
 <link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/vendor/fullcalendar/fullcalendar.min.css') ?>">
 
 <script src="<?= asset_url('assets/vendor/fullcalendar/fullcalendar.min.js') ?>"></script>

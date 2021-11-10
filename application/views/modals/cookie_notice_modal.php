@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var string $cookie_notice_content
+ */
+?>
 <div id="cookie-notice-modal" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">

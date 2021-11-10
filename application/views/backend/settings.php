@@ -1,3 +1,19 @@
+<?php
+/**
+ * @var string $first_weekday
+ * @var array $system_settings
+ * @var array $user_settings
+ * @var string $date_format
+ * @var string $time_format
+ * @var string $base_url
+ * @var string $timezones
+ * @var string $user_id
+ * @var string $user_email
+ * @var string $timezone
+ * @var string $role_slug
+ * @var array $privileges
+ */
+?>
 <script src="<?= asset_url('assets/js/backend_settings_system.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_settings_user.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_settings.js') ?>"></script>
@@ -206,36 +222,36 @@
                         <div class="form-group">
                                     <label for="show-phone-number"><?= lang('phone_number') ?></label>
                                 <button id="show-phone-number" data-field="show_phone_number" type="button" class="hide-toggle form-control form-sub-button">
-                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
-                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                    <span class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></span>
+                                    <span class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></span>
                                 </button>
                             </div>
                             <div class="form-group">
                                     <label for="show-address"><?= lang('address') ?></label>
                                 <button id="show-address" data-field="show_address" type="button" class="hide-toggle form-control form-sub-button">
-                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
-                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                    <span class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></span>
+                                    <span class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></span>
                                 </button>
                             </div>
                             <div class="form-group">
                                     <label for="show-city"><?= lang('city') ?></label>
                                 <button id="show-city" data-field="show_city" type="button" class="hide-toggle form-control form-sub-button">
-                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
-                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                    <span class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></span>
+                                    <span class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></span>
                                 </button>
                             </div>
                             <div class="form-group">
                                     <label for="show-zip-code"><?= lang('zip_code') ?></label>
                                 <button id="show-zip-code" data-field="show_zip_code" type="button" class="hide-toggle form-control form-sub-button">
-                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
-                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                    <span class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></span>
+                                    <span class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></span>
                                 </button>
                             </div>
                             <div class="form-group">
                                     <label for="show-notes"><?= lang('notes') ?></label>
                                 <button id="show-notes" data-field="show_notes" type="button" class="hide-toggle form-control form-sub-button">
-                                    <div class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></div>
-                                    <div class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></div>
+                                    <span class="hide-toggle-visible hidden"><img src="<?= base_url('assets/img/eye.svg') ?>"/> <?= lang('visible') ?></span>
+                                    <span class="hide-toggle-hidden"><img src="<?= base_url('assets/img/eye-hidden.svg') ?>"/> <?= lang('hidden') ?></span>
                                 </button>
                             </div>
                         </div>

@@ -1,3 +1,20 @@
+<?php
+/**
+ * @var array $available_providers
+ * @var array $available_services
+ * @var array $secretary_providers
+ * @var string $date_format
+ * @var string $time_format
+ * @var string $base_url
+ * @var array $customers
+ * @var string $timezones
+ * @var string $user_id
+ * @var string $user_email
+ * @var string $timezone
+ * @var string $role_slug
+ * @var array $privileges
+ */
+?>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_customers_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_customers.js') ?>"></script>

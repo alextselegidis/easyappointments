@@ -1,3 +1,19 @@
+<?php
+/**
+ * @var string $company_name
+ * @var string $appointment_service
+ * @var string $appointment_provider
+ * @var string $appointment_duration
+ * @var string $appointment_timezone
+ * @var string $customer_name
+ * @var string $customer_email
+ * @var string $customer_phone
+ * @var string $customer_address
+ * @var string $reason
+ * @var string $company_link
+ */
+?>
+
 <html lang="en">
 <head>
     <title><?= lang('appointment_cancelled_title') ?> | Easy!Appointments</title>

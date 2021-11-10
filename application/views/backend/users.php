@@ -1,3 +1,25 @@
+<?php
+/**
+ * @var array $providers
+ * @var array $services
+ * @var array $secretaries
+ * @var array $admins
+ * @var string $date_format
+ * @var string $time_format
+ * @var string $first_weekday
+ * @var string $base_url
+ * @var array $customers
+ * @var string $timezones
+ * @var string $user_id
+ * @var string $user_email
+ * @var string $timezone
+ * @var string $role_slug
+ * @var array $privileges
+ * @var string $working_plan
+ * @var array $working_plan_exceptions
+ */
+?>
+
 <script src="<?= asset_url('assets/js/backend_users_admins.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_users_providers.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_users_secretaries.js') ?>"></script>
@@ -374,18 +396,18 @@
                         <div class="input-group">
                             <input type="text" class="key form-control">
 
-                            <span class="input-group-addon">
-                        <div>
-                            <button class="filter btn btn-outline-secondary" type="submit"
-                                    data-tippy-content="<?= lang('filter') ?>">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="clear btn btn-outline-secondary" type="button"
-                                    data-tippy-content="<?= lang('clear') ?>">
-                                <i class="fas fa-redo-alt"></i>
-                            </button>
-                        </div>
-                    </span>
+                            <div class="input-group-addon">
+                                <div>
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
+                                        <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
@@ -582,18 +604,18 @@
                         <div class="input-group">
                             <input type="text" class="key form-control">
 
-                            <span class="input-group-addon">
-                        <div>
-                            <button class="filter btn btn-outline-secondary" type="submit"
-                                    data-tippy-content="<?= lang('filter') ?>">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="clear btn btn-outline-secondary" type="button"
-                                    data-tippy-content="<?= lang('clear') ?>">
-                                <i class="fas fa-redo-alt"></i>
-                            </button>
-                        </div>
-                    </span>
+                            <div class="input-group-addon">
+                                <div>
+                                    <button class="filter btn btn-outline-secondary" type="submit"
+                                            data-tippy-content="<?= lang('filter') ?>">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="clear btn btn-outline-secondary" type="button"
+                                            data-tippy-content="<?= lang('clear') ?>">
+                                        <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </form>
 
@@ -640,7 +662,7 @@
                     <div class="row">
                         <div class="admin-details col-12 col-md-6">
                             <div class="form-group">
-                                <label for="first-name">
+                                <label for="admin-first-name">
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>

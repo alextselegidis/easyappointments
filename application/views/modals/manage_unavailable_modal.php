@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var array $timezones
+ */
+?>
+
 <div id="manage-unavailable" class="modal fade" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
