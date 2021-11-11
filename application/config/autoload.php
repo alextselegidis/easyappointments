@@ -67,6 +67,7 @@ $autoload['libraries'] = ['database', 'session'];
 
 $autoload['helper'] = [
     'asset',
+    'component',
     'config',
     'debug',
     'env',
