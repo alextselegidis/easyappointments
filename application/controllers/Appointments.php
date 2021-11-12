@@ -274,6 +274,7 @@ class Appointments extends EA_Controller {
         $exceptions = $this->session->flashdata('book_success') ?? [];
 
         $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_success_page', [
+            'page_title' => lang('success'),
             'appointment_data' => $appointment,
             'provider_data' => [
                 'id' => $provider['id'],
@@ -293,10 +294,10 @@ class Appointments extends EA_Controller {
             'company_name' => $company_name,
             'exceptions' => $exceptions,
             'scripts' => [
+                'https://apis.google.com/js/client.js',
                 asset_url('assets/vendor/datejs/date.min.js'),
                 asset_url('assets/vendor/moment/moment.min.js'),
                 asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js'),
-                'https://apis.google.com/js/client.js',
                 asset_url('assets/js/frontend_book_success.js'),
                 asset_url('assets/js/general_functions.js')
             ]
