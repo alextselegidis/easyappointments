@@ -4,6 +4,7 @@
  * @var array $appointment_data
  * @var array $provider_data
  * @var array $customer_data
+ * @var array $service_data
  */
 ?>
 
@@ -39,7 +40,7 @@
 
 <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/moment/moment-timezone-with-data.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
 <script src="https://apis.google.com/js/client.js"></script>
 
 <script>
