@@ -503,7 +503,6 @@
                             <div class="form-group">
                                 <label for="secretary-city">
                                     <?= lang('city') ?>
-
                                 </label>
                                 <input id="secretary-city" class="form-control" maxlength="256">
                             </div>
@@ -518,7 +517,6 @@
                             <div class="form-group">
                                 <label for="secretary-zip-code">
                                     <?= lang('zip_code') ?>
-
                                 </label>
                                 <input id="secretary-zip-code" class="form-control" maxlength="64">
                             </div>
@@ -726,7 +724,6 @@
                             <div class="form-group">
                                 <label for="admin-zip-code">
                                     <?= lang('zip_code') ?>
-
                                 </label>
                                 <input id="admin-zip-code" class="form-control" maxlength="64">
                             </div>

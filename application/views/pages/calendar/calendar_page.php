@@ -133,23 +133,16 @@
         </div>
     </div>
 
-    <div id="calendar"><!-- Dynamically Generated Content --></div>
+    <div id="calendar">
+        <!-- Dynamically Generated Content -->
+    </div>
 </div>
 
+<!-- Page Components -->
 
-<!-- MANAGE APPOINTMENT MODAL -->
-
-<?php require __DIR__ . '/../modals/manage_appointment_modal.php' ?>
-
-<!-- MANAGE UNAVAILABLE MODAL -->
-
-<?php require __DIR__ . '/../modals/manage_unavailable_modal.php' ?>
-
-<!-- SELECT GOOGLE CALENDAR MODAL -->
-
-<?php require __DIR__ . '/../modals/select_google_calendar_modal.php' ?>
-
-<!-- WORKING PLAN EXCEPTIONS MODAL -->
-
-<?php require __DIR__ . '/../modals/working_plan_exceptions_modal.php' ?>
+<?= component('manage_appointment_modal') ?>
+<?= component('manage_appointment_modal') ?>
+<?= component('manage_unavailable_modal') ?>
+<?= component('select_google_calendar_modal') ?>
+<?= component('working_plan_exceptions_modal') ?>
 

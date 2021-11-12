@@ -1,48 +1,10 @@
 <?php
 /**
- * @var string $page_title
- * @var array $active_menu
  * @var array $privileges
+ * @var string $active_menu
  */
 ?>
 
-<!doctype html>
-<html lang="en">
-<head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title><?= isset($page_title) ? $page_title : lang('backend_section') ?> | Easy!Appointments</title>
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/select2/select2.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
-
-    <script>
-        // Global JavaScript Variables - Used in all backend pages.
-        var availableLanguages = <?= json_encode(config('available_languages')) ?>;
-        var EALang = <?= json_encode($this->lang->language) ?>;
-    </script>
-
-    <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
-</head>
-
-<body>
 <nav id="header" class="navbar navbar-expand-md navbar-dark">
     <div id="header-logo" class="navbar-brand">
         <img src="<?= base_url('assets/img/logo.png') ?>">
