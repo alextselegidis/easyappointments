@@ -105,9 +105,7 @@ class Backend extends EA_Controller {
             $view['edit_appointment'] = NULL;
         }
 
-        $this->load->view('backend/header', $view);
-        $this->load->view('backend/calendar', $view);
-        $this->load->view('backend/footer', $view);
+        $this->load->layout('layouts/backend/backend_layout', 'pages/calendar/calendar_page', $view);
     }
 
     /**
@@ -210,9 +208,7 @@ class Backend extends EA_Controller {
 
         $this->set_user_data($view);
 
-        $this->load->view('backend/header', $view);
-        $this->load->view('backend/customers', $view);
-        $this->load->view('backend/footer', $view);
+        $this->load->layout('layouts/backend/backend_layout', 'pages/customers/customers_page', $view);
     }
 
     /**
@@ -245,9 +241,7 @@ class Backend extends EA_Controller {
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
-        $this->load->view('backend/header', $view);
-        $this->load->view('backend/services', $view);
-        $this->load->view('backend/footer', $view);
+        $this->load->layout('layouts/backend/backend_layout', 'pages/services/services_page', $view);
     }
 
     /**
@@ -282,9 +276,7 @@ class Backend extends EA_Controller {
         $view['working_plan_exceptions'] = '{}';
         $this->set_user_data($view);
 
-        $this->load->view('backend/header', $view);
-        $this->load->view('backend/users', $view);
-        $this->load->view('backend/footer', $view);
+        $this->load->layout('layouts/backend/backend_layout', 'pages/users/users_page', $view);
     }
 
     /**
@@ -328,9 +320,7 @@ class Backend extends EA_Controller {
 
         $this->set_user_data($view);
 
-        $this->load->view('backend/header', $view);
-        $this->load->view('backend/settings', $view);
-        $this->load->view('backend/footer', $view);
+        $this->load->layout('layouts/backend/backend_layout', 'pages/settings/settings_page', $view);
     }
 
     /**
