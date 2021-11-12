@@ -118,7 +118,7 @@ class Email_messages {
             $appointment_end->setTimezone($appointment_timezone);
         }
 
-        $html = $this->CI->load->view('emails/appointment_details', [
+        $html = $this->CI->load->view('emails/appointment_saved_email', [
             'email_title' => $subject,
             'email_message' => $message,
             'appointment_service' => $service['name'],
@@ -216,7 +216,7 @@ class Email_messages {
             $appointment_start->setTimezone($appointment_timezone);
         }
 
-        $html = $this->CI->load->view('emails/delete_appointment', [
+        $html = $this->CI->load->view('emails/appointment_deleted_email', [
             'appointment_service' => $service['name'],
             'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
             'appointment_date' => $appointment_start->format($date_format . ' ' . $time_format),
@@ -258,7 +258,7 @@ class Email_messages {
         array $settings
     )
     {
-        $html = $this->CI->load->view('emails/new_password', [
+        $html = $this->CI->load->view('emails/account_recovery_email', [
             'email_title' => lang('new_account_password'),
             'email_message' => str_replace('$password', '<strong>' . $password . '</strong>', lang('new_password_is')),
             'company_name' => $settings['company_name'],
