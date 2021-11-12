@@ -3,6 +3,7 @@
  * @var array $available_services
  * @var array $timezones
  * @var string $require_phone_number
+ * @var string $timezone
  */
 ?>
 <div id="manage-appointment" class="modal fade" tabindex="-1">
