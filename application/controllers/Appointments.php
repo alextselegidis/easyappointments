@@ -53,149 +53,135 @@ class Appointments extends EA_Controller {
      */
     public function index(string $appointment_hash = '')
     {
-        try
+        if ( ! is_app_installed())
         {
-            if ( ! is_app_installed())
+            redirect('installation');
+            
+            return;
+        }
+
+        $available_services = $this->services_model->get_available_services();
+        $available_providers = $this->providers_model->get_available_providers();
+        $company_name = setting('company_name');
+        $book_advance_timeout = setting('book_advance_timeout');
+        $date_format = setting('date_format');
+        $time_format = setting('time_format');
+        $first_weekday = setting('first_weekday');
+        $require_phone_number = setting('require_phone_number');
+        $show_field['phone-number'] = setting('show_phone_number');
+        $show_field['address'] = setting('show_address');
+        $show_field['city'] = setting('show_city');
+        $show_field['zip-code'] = setting('show_zip_code');
+        $show_field['notes'] = setting('show_notes');
+        $display_cookie_notice = setting('display_cookie_notice');
+        $cookie_notice_content = setting('cookie_notice_content');
+        $display_terms_and_conditions = setting('display_terms_and_conditions');
+        $terms_and_conditions_content = setting('terms_and_conditions_content');
+        $display_privacy_policy = setting('display_privacy_policy');
+        $privacy_policy_content = setting('privacy_policy_content');
+        $display_any_provider = setting('display_any_provider');
+        $timezones = $this->timezones->to_array();
+
+        // Remove the data that are not needed inside the $available_providers array.
+        foreach ($available_providers as &$available_provider)
+        {
+            $this->providers_model->only($available_provider, [
+                'id',
+                'first_name',
+                'last_name',
+                'services',
+                'timezone'
+            ]);
+        }
+
+        // If an appointment hash is provided then it means that the customer is trying to edit a registered appointment
+        // record.
+        if ($appointment_hash !== '')
+        {
+            // Load the appointments data and enable the manage mode of the page.
+            $manage_mode = TRUE;
+
+            $results = $this->appointments_model->get(['hash' => $appointment_hash]);
+
+            if (empty($results))
             {
-                redirect('installation');
+                // The requested appointment was not found in the database. 
+                $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', [
+                    'message_title' => lang('appointment_not_found'),
+                    'message_text' => lang('appointment_does_not_exist_in_db'),
+                    'message_icon' => base_url('assets/img/error.png')
+                ]);
+
                 return;
             }
 
-            $available_services = $this->services_model->get_available_services();
-            $available_providers = $this->providers_model->get_available_providers();
-            $company_name = setting('company_name');
-            $book_advance_timeout = setting('book_advance_timeout');
-            $date_format = setting('date_format');
-            $time_format = setting('time_format');
-            $first_weekday = setting('first_weekday');
-            $require_phone_number = setting('require_phone_number');
-            $show_field['phone-number'] = setting('show_phone_number');
-            $show_field['address'] = setting('show_address');
-            $show_field['city'] = setting('show_city');
-            $show_field['zip-code'] = setting('show_zip_code');
-            $show_field['notes'] = setting('show_notes');
-            $display_cookie_notice = setting('display_cookie_notice');
-            $cookie_notice_content = setting('cookie_notice_content');
-            $display_terms_and_conditions = setting('display_terms_and_conditions');
-            $terms_and_conditions_content = setting('terms_and_conditions_content');
-            $display_privacy_policy = setting('display_privacy_policy');
-            $privacy_policy_content = setting('privacy_policy_content');
-            $display_any_provider = setting('display_any_provider');
-            $timezones = $this->timezones->to_array();
+            // If the requested appointment begin date is lower than book_advance_timeout. Display a message to the
+            // customer.
+            $start_datetime = strtotime($results[0]['start_datetime']);
 
-            // Remove the data that are not needed inside the $available_providers array.
-            foreach ($available_providers as $index => $provider)
+            $limit = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
+
+            if ($start_datetime < $limit)
             {
-                $stripped_data = [
-                    'id' => $provider['id'],
-                    'first_name' => $provider['first_name'],
-                    'last_name' => $provider['last_name'],
-                    'services' => $provider['services'],
-                    'timezone' => $provider['timezone']
-                ];
-                $available_providers[$index] = $stripped_data;
+                $hours = floor($book_advance_timeout / 60);
+                $minutes = ($book_advance_timeout % 60);
+
+                $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', [
+                    'message_title' => lang('appointment_locked'),
+                    'message_text' => strtr(lang('appointment_locked_message'), [
+                        '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
+                    ]),
+                    'message_icon' => base_url('assets/img/error.png')
+                ]);
+
+                return;
             }
 
-            // If an appointment hash is provided then it means that the customer is trying to edit a registered
-            // appointment record.
-            if ($appointment_hash !== '')
-            {
-                // Load the appointments data and enable the manage mode of the page.
-                $manage_mode = TRUE;
+            $appointment = $results[0];
 
-                $results = $this->appointments_model->get(['hash' => $appointment_hash]);
+            $provider = $this->providers_model->find($appointment['id_users_provider']);
 
-                if (empty($results))
-                {
-                    // The requested appointment was not found in the database. 
-                    $view = [
-                        'message_title' => lang('appointment_not_found'),
-                        'message_text' => lang('appointment_does_not_exist_in_db'),
-                        'message_icon' => base_url('assets/img/error.png')
-                    ];
+            $customer = $this->customers_model->find($appointment['id_users_customer']);
 
-                    $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', $view);
+            $customer_token = md5(uniqid(mt_rand(), TRUE));
 
-                    return;
-                }
-
-                // If the requested appointment begin date is lower than book_advance_timeout. Display a message to the
-                // customer.
-                $start_datetime = strtotime($results[0]['start_datetime']);
-
-                $limit = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
-
-                if ($start_datetime < $limit)
-                {
-                    $hours = floor($book_advance_timeout / 60);
-                    $minutes = ($book_advance_timeout % 60);
-
-                    $view = [
-                        'message_title' => lang('appointment_locked'),
-                        'message_text' => strtr(lang('appointment_locked_message'), [
-                            '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
-                        ]),
-                        'message_icon' => base_url('assets/img/error.png')
-                    ];
-
-                    $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', $view);
-
-                    return;
-                }
-
-                $appointment = $results[0];
-
-                $provider = $this->providers_model->find($appointment['id_users_provider']);
-
-                $customer = $this->customers_model->find($appointment['id_users_customer']);
-
-                $customer_token = md5(uniqid(mt_rand(), TRUE));
-
-                // Save the token for 10 minutes.
-                $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600);
-            }
-            else
-            {
-                // The customer is going to book a new appointment so there is no need for the manage functionality to
-                // be initialized.
-                $manage_mode = FALSE;
-                $customer_token = FALSE;
-                $appointment = [];
-                $provider = [];
-                $customer = [];
-            }
-
-            // Load the book appointment view.
-            $view = [
-                'available_services' => $available_services,
-                'available_providers' => $available_providers,
-                'company_name' => $company_name,
-                'manage_mode' => $manage_mode,
-                'customer_token' => $customer_token,
-                'date_format' => $date_format,
-                'time_format' => $time_format,
-                'first_weekday' => $first_weekday,
-                'require_phone_number' => $require_phone_number,
-                'show_field' => $show_field,
-                'appointment_data' => $appointment,
-                'provider_data' => $provider,
-                'customer_data' => $customer,
-                'display_cookie_notice' => $display_cookie_notice,
-                'cookie_notice_content' => $cookie_notice_content,
-                'display_terms_and_conditions' => $display_terms_and_conditions,
-                'terms_and_conditions_content' => $terms_and_conditions_content,
-                'display_privacy_policy' => $display_privacy_policy,
-                'privacy_policy_content' => $privacy_policy_content,
-                'timezones' => $timezones,
-                'display_any_provider' => $display_any_provider,
-            ];
+            // Cache the token for 10 minutes.
+            $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600);
         }
-        catch (Throwable $e)
+        else
         {
-            $view['exceptions'][] = $e;
+            // The customer is going to book a new appointment so there is no need for the manage functionality to
+            // be initialized.
+            $manage_mode = FALSE;
+            $customer_token = FALSE;
+            $appointment = [];
+            $provider = [];
+            $customer = [];
         }
 
-        $this->load->layout('layouts/booking/booking_layout', 'pages/booking/booking_page', $view);
+        $this->load->layout('layouts/booking/booking_layout', 'pages/booking/booking_page', [
+            'available_services' => $available_services,
+            'available_providers' => $available_providers,
+            'company_name' => $company_name,
+            'manage_mode' => $manage_mode,
+            'customer_token' => $customer_token,
+            'date_format' => $date_format,
+            'time_format' => $time_format,
+            'first_weekday' => $first_weekday,
+            'require_phone_number' => $require_phone_number,
+            'show_field' => $show_field,
+            'appointment_data' => $appointment,
+            'provider_data' => $provider,
+            'customer_data' => $customer,
+            'display_cookie_notice' => $display_cookie_notice,
+            'cookie_notice_content' => $cookie_notice_content,
+            'display_terms_and_conditions' => $display_terms_and_conditions,
+            'terms_and_conditions_content' => $terms_and_conditions_content,
+            'display_privacy_policy' => $display_privacy_policy,
+            'privacy_policy_content' => $privacy_policy_content,
+            'timezones' => $timezones,
+            'display_any_provider' => $display_any_provider,
+        ]);
     }
 
     /**
