@@ -18,13 +18,13 @@
 |
 | Please see the user guide for complete details:
 |
-|	http://codeigniter.com/user_guide/general/routing.html
+|	https://codeigniter.com/userguide3/general/routing.html
 |
 | -------------------------------------------------------------------------
 | RESERVED ROUTES
 | -------------------------------------------------------------------------
 |
-| There area two reserved routes:
+| There are three reserved routes:
 |
 |	$route['default_controller'] = 'welcome';
 |
@@ -34,9 +34,19 @@
 |
 |	$route['404_override'] = 'errors/page_missing';
 |
-| This route will tell the Router what URI segments to use if those provided
-| in the URL cannot be matched to a valid route.
+| This route will tell the Router which controller/method to use if those
+| provided in the URL cannot be matched to a valid route.
 |
+|	$route['translate_uri_dashes'] = FALSE;
+|
+| This is not exactly a route, but allows you to automatically route
+| controller and method names that contain dashes. '-' isn't a valid
+| class or method name character, so it requires translation.
+| When you set this option to TRUE, it will replace ALL dashes with
+| underscores in the controller and method URI segments.
+|
+| Examples:	my-controller/index	-> my_controller/index
+|		my-controller/my-method	-> my_controller/my_method
 */
 
 require_once __DIR__ . '/../helpers/routes_helper.php';
@@ -44,6 +54,8 @@ require_once __DIR__ . '/../helpers/routes_helper.php';
 $route['default_controller'] = 'appointments';
 
 $route['404_override'] = '';
+
+$route['translate_uri_dashes'] = FALSE;
 
 /*
 | -------------------------------------------------------------------------
