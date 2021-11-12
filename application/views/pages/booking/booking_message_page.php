@@ -15,5 +15,3 @@
 
     <p><?= $message_text ?></p>
 </div>
-
-<?php google_analytics_script() ?>
