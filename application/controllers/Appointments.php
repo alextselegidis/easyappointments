@@ -107,14 +107,14 @@ class Appointments extends EA_Controller {
 
                 if (empty($results))
                 {
-                    // The requested appointment doesn't exist in the database. Display a message to the customer.
-                    $variables = [
+                    // The requested appointment was not found in the database. 
+                    $view = [
                         'message_title' => lang('appointment_not_found'),
                         'message_text' => lang('appointment_does_not_exist_in_db'),
                         'message_icon' => base_url('assets/img/error.png')
                     ];
 
-                    $this->load->view('appointments/message', $variables);
+                    $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', $view);
 
                     return;
                 }
@@ -138,7 +138,7 @@ class Appointments extends EA_Controller {
                         'message_icon' => base_url('assets/img/error.png')
                     ];
 
-                    $this->load->view('appointments/message', $view);
+                    $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', $view);
 
                     return;
                 }
@@ -166,7 +166,7 @@ class Appointments extends EA_Controller {
             }
 
             // Load the book appointment view.
-            $variables = [
+            $view = [
                 'available_services' => $available_services,
                 'available_providers' => $available_providers,
                 'company_name' => $company_name,
@@ -192,10 +192,10 @@ class Appointments extends EA_Controller {
         }
         catch (Throwable $e)
         {
-            $variables['exceptions'][] = $e;
+            $view['exceptions'][] = $e;
         }
 
-        $this->load->layout('layouts/booking/booking_layout', 'pages/booking/booking_page', $variables);
+        $this->load->layout('layouts/booking/booking_layout', 'pages/booking/booking_page', $view);
     }
 
     /**
@@ -256,7 +256,7 @@ class Appointments extends EA_Controller {
             $view['exceptions'] = $exceptions;
         }
 
-        $this->load->view('appointments/message', $view);
+        $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', $view);
     }
 
     /**
