@@ -43,7 +43,7 @@ class User extends EA_Controller {
      */
     public function login()
     {
-        $this->load->view('user/login', [
+        $this->load->layout('layouts/account/account_layout', 'pages/account/account_login_page', [
             'base_url' => config('base_url'),
             'company_name' => setting('company_name'),
             'dest_url' => session('dest_url', site_url('backend'))
@@ -57,7 +57,7 @@ class User extends EA_Controller {
     {
         $this->session->sess_destroy();
 
-        $this->load->view('user/logout', [
+        $this->load->layout('layouts/account/account_layout', 'pages/account/account_logout_page', [
             'base_url' => config('base_url'),
             'company_name' => setting('company_name')
         ]);
@@ -68,7 +68,7 @@ class User extends EA_Controller {
      */
     public function forgot_password()
     {
-        $this->load->view('user/forgot_password', [
+        $this->load->layout('layouts/account/account_layout', 'pages/account/account_recovery_page', [
             'base_url' => config('base_url'),
             'company_name' => setting('company_name')
         ]);
