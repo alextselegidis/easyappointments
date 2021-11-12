@@ -291,7 +291,15 @@ class Appointments extends EA_Controller {
             ],
             'service_data' => $service,
             'company_name' => $company_name,
-            'exceptions' => $exceptions
+            'exceptions' => $exceptions,
+            'scripts' => [
+                asset_url('assets/vendor/datejs/date.min.js'),
+                asset_url('assets/vendor/moment/moment.min.js'),
+                asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js'),
+                'https://apis.google.com/js/client.js',
+                asset_url('assets/js/frontend_book_success.js'),
+                asset_url('assets/js/general_functions.js')
+            ]
         ]);
     }
 

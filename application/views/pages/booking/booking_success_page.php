@@ -38,11 +38,6 @@
     <?php endif ?>
 </div>
 
-<script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
-<script src="https://apis.google.com/js/client.js"></script>
-
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
@@ -56,6 +51,3 @@
         googleApiScope: 'https://www.googleapis.com/auth/calendar'
     };
 </script>
-
-<script src="<?= asset_url('assets/js/frontend_book_success.js') ?>"></script>
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
