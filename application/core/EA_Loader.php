@@ -53,6 +53,12 @@ class EA_Loader extends CI_Loader {
     public function layout(string $layout, string $page, array $vars = [], bool $return = FALSE)
     {
         $vars['page_path'] = APPPATH . 'views/' . $page . '.php';
+        
+        $vars['styles'] = $vars['styles'] ?? []; 
+        
+        $vars['scripts'] = $vars['scripts'] ?? []; 
+        
+        $vars['global_variables'] = $vars['global_variables'] ?? []; 
 
         return $this->view($layout, $vars, $return);
     }
