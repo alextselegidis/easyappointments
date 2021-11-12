@@ -46,7 +46,7 @@ class Installation extends EA_Controller {
             return;
         }
 
-        $this->load->view('general/installation', [
+        $this->load->view('pages/instance/instance_installation_page', [
             'base_url' => config('base_url')
         ]);
     }

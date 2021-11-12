@@ -350,6 +350,6 @@ class Backend extends EA_Controller {
             $view = ['success' => FALSE, 'exception' => $e->getMessage()];
         }
 
-        $this->load->view('general/update', $view);
+        $this->load->view('pages/instance/instance_update_page', $view);
     }
 }
