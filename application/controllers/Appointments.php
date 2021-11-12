@@ -315,7 +315,7 @@ class Appointments extends EA_Controller {
             $view['exceptions'] = $exceptions;
         }
 
-        $this->load->view('appointments/book_success', $view);
+        $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_success_page', $view);
     }
 
     /**
