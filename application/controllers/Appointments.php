@@ -56,7 +56,7 @@ class Appointments extends EA_Controller {
         if ( ! is_app_installed())
         {
             redirect('installation');
-            
+
             return;
         }
 
@@ -197,6 +197,8 @@ class Appointments extends EA_Controller {
     {
         try
         {
+            $exceptions = []; 
+            
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
             if (empty($occurrences))
@@ -231,18 +233,12 @@ class Appointments extends EA_Controller {
             $exceptions[] = $e;
         }
 
-        $view = [
+        $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', [
             'message_title' => lang('appointment_cancelled_title'),
             'message_text' => lang('appointment_cancelled'),
-            'message_icon' => base_url('assets/img/success.png')
-        ];
-
-        if (isset($exceptions))
-        {
-            $view['exceptions'] = $exceptions;
-        }
-
-        $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_message_page', $view);
+            'message_icon' => base_url('assets/img/success.png'),
+            'exceptions' => $exceptions
+        ]);
     }
 
     /**
@@ -259,6 +255,7 @@ class Appointments extends EA_Controller {
         if (empty($occurrences))
         {
             redirect('appointments'); // The appointment does not exist.
+            
             return;
         }
 
@@ -274,9 +271,9 @@ class Appointments extends EA_Controller {
 
         $company_name = setting('company_name');
 
-        $exceptions = $this->session->flashdata('book_success');
+        $exceptions = $this->session->flashdata('book_success') ?? [];
 
-        $view = [
+        $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_success_page', [
             'appointment_data' => $appointment,
             'provider_data' => [
                 'id' => $provider['id'],
@@ -294,14 +291,8 @@ class Appointments extends EA_Controller {
             ],
             'service_data' => $service,
             'company_name' => $company_name,
-        ];
-
-        if ($exceptions)
-        {
-            $view['exceptions'] = $exceptions;
-        }
-
-        $this->load->layout('layouts/message/message_layout', 'pages/booking/booking_success_page', $view);
+            'exceptions' => $exceptions
+        ]);
     }
 
     /**
@@ -321,9 +312,7 @@ class Appointments extends EA_Controller {
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
             if (empty($provider_id))
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode([]));
+                json_response([]);
 
                 return;
             }
@@ -362,20 +351,13 @@ class Appointments extends EA_Controller {
 
                 $response = $this->availability->get_available_hours($selected_date, $service, $provider, $exclude_appointment_id);
             }
+            
+            json_response($response);
         }
         catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $e->getMessage(),
-                'trace' => config('debug') ? $e->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -441,18 +423,22 @@ class Appointments extends EA_Controller {
             {
                 $customer['address'] = '';
             }
+            
             if ( ! array_key_exists('city', $customer))
             {
                 $customer['city'] = '';
             }
+            
             if ( ! array_key_exists('zip_code', $customer))
             {
                 $customer['zip_code'] = '';
             }
+            
             if ( ! array_key_exists('notes', $customer))
             {
                 $customer['notes'] = '';
             }
+            
             if ( ! array_key_exists('phone_number', $customer))
             {
                 $customer['address'] = '';
@@ -477,11 +463,9 @@ class Appointments extends EA_Controller {
             // Validate the CAPTCHA string.
             if ($require_captcha && $captcha_phrase !== $captcha)
             {
-                $this->output
-                    ->set_content_type('application/json')
-                    ->set_output(json_encode([
-                        'captcha_verification' => FALSE
-                    ]));
+                json_response([
+                    'captcha_verification' => FALSE
+                ]);
 
                 return;
             }
@@ -521,20 +505,13 @@ class Appointments extends EA_Controller {
                 'appointment_id' => $appointment['id'],
                 'appointment_hash' => $appointment['hash']
             ];
+            
+            json_response($response);
         }
         catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $e->getMessage(),
-                'trace' => config('debug') ? $e->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -661,21 +638,12 @@ class Appointments extends EA_Controller {
                 }
             }
 
-            $response = $unavailable_dates;
+            json_response($unavailable_dates);
         }
         catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $e->getMessage(),
-                'trace' => config('debug') ? $e->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 
     /**
@@ -706,6 +674,4 @@ class Appointments extends EA_Controller {
 
         return $provider_list;
     }
-
-
 }
