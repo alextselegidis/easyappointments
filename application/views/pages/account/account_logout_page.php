@@ -1,4 +1,9 @@
+<?php extend('layouts/account/account_layout') ?>
+
+<?php section('content') ?>
+
 <h3><?= lang('log_out') ?></h3>
+
 <p>
     <?= lang('logout_success') ?>
 </p>
@@ -14,4 +19,7 @@
     <i class="fas fa-wrench mr-2"></i>
     <?= lang('backend_section') ?>
 </a>
+
+<?php section('content') ?>
+
 

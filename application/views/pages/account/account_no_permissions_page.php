@@ -1,3 +1,7 @@
+<?php extend('layouts/account/account_layout') ?>
+
+<?php section('content') ?>
+
 <h3><?= lang('no_privileges') ?></h3>
 <p>
     <?= lang('no_privileges_message') ?>
@@ -9,3 +13,5 @@
     <i class="icon-calendar icon-white mr-2"></i>
     <?= lang('backend_calendar') ?>
 </a>
+
+<?php section('content') ?>

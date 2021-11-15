@@ -15,6 +15,11 @@
  * @var array $privileges
  */
 ?>
+
+<?php extend('layouts/backend/backend_layout') ?>
+
+<?php section('content') ?>
+
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_customers_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_customers.js') ?>"></script>
@@ -202,3 +207,5 @@
         </div>
     </div>
 </div>
+
+<?php section('content') ?>

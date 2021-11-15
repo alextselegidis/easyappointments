@@ -13,6 +13,11 @@
  * @var array $privileges
  */
 ?>
+
+<?php extend('layouts/backend/backend_layout') ?>
+
+<?php section('content') ?>
+
 <script src="<?= asset_url('assets/js/backend_services_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_categories_helper.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_services.js') ?>"></script>
@@ -281,3 +286,5 @@
         </div>
     </div>
 </div>
+
+<?php section('content') ?>

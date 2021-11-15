@@ -5,8 +5,14 @@
  */
 ?>
 
+<?php extend('layouts/account/account_layout') ?>
+
+<?php section('content') ?>
+
 <h2><?= lang('backend_section') ?></h2>
+
 <p><?= lang('you_need_to_login') ?></p>
+
 <hr>
 <div class="alert d-none"></div>
 
@@ -32,15 +38,21 @@
     </div>
 
     <a href="<?= site_url('user/forgot_password') ?>" class="forgot-password">
-        <?= lang('forgot_your_password') ?></a>
+        <?= lang('forgot_your_password') ?>
+    </a>
     |
     <span id="select-language" class="badge badge-success">
-          <?= ucfirst(config('language')) ?>
-        </span>
+        <?= ucfirst(config('language')) ?>
+    </span>
 
 </form>
+<?php section('content') ?>
+
+<?php section('scripts') ?>
 
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/login.js') ?>"></script>
+
+<?php section('scripts') ?>

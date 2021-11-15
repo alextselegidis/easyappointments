@@ -6,6 +6,10 @@
  */
 ?>
 
+<?php extend('layouts/message/message_layout') ?>
+
+<?php section('content') ?>
+
 <div>
     <img id="message-icon" src="<?= $message_icon ?>" alt="warning">
 </div>
@@ -15,3 +19,6 @@
 
     <p><?= $message_text ?></p>
 </div>
+
+<?php section('content') ?>
+

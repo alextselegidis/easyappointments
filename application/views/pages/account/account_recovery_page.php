@@ -1,3 +1,7 @@
+<?php extend('layouts/account/account_layout') ?>
+
+<?php section('content') ?>
+
 <h2><?= lang('forgot_your_password') ?></h2>
 <p><?= lang('type_username_and_email_for_new_password') ?></p>
 <hr>
@@ -22,3 +26,5 @@
     <a href="<?= site_url('user/login') ?>" class="user-login">
         <?= lang('go_to_login') ?></a>
 </form>
+
+<?php section('content') ?>

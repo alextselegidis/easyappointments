@@ -8,6 +8,10 @@
  */
 ?>
 
+<?php extend('layouts/message/message_layout') ?>
+
+<?php section('content') ?>
+
 <div>
     <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" alt="success"/>
 </div>
@@ -51,3 +55,6 @@
         googleApiScope: 'https://www.googleapis.com/auth/calendar'
     };
 </script>
+
+<?php section('content') ?>
+

@@ -33,4 +33,4 @@
                     class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
         </div>
     </div>
-<?php endif; ?>
+<?php endif ?>

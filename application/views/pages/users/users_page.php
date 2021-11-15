@@ -20,6 +20,10 @@
  */
 ?>
 
+<?php extend('layouts/backend/backend_layout') ?>
+
+<?php section('content') ?>
+
 <script src="<?= asset_url('assets/js/backend_users_admins.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_users_providers.js') ?>"></script>
 <script src="<?= asset_url('assets/js/backend_users_secretaries.js') ?>"></script>
@@ -796,3 +800,6 @@
         </div>
     </div>
 </div>
+
+<?php section('content') ?>
+

@@ -20,6 +20,10 @@
  */
 ?>
 
+<?php extend('layouts/booking/booking_layout') ?>
+
+<?php section('content') ?>
+
 <!-- Booking Cancellation Frame -->
 
 <?php require __DIR__ . '/booking_cancellation.php' ?>
@@ -39,3 +43,6 @@
 <!-- Appointment Data Confirmation -->
 
 <?php require __DIR__ . '/booking_step_4.php' ?>
+
+<?php section('content') ?>
+
