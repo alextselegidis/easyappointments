@@ -48,7 +48,8 @@
 </head>
 <body>
 <div id="login-frame" class="frame-container">
-    <?php require $page_path ?>
+    
+    <?php slot('content') ?>
 
     <div class="mt-4">
         <small>

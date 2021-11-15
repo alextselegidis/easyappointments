@@ -46,11 +46,11 @@
 <script src="<?= asset_url('assets/js/backend.js') ?>"></script>
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 
-<?php require __DIR__ . '/backend_header.php' ?>
+<?php require 'backend_header.php' ?>
 
-<?php require $page_path ?>
+<?php slot('content') ?>
 
-<?php require __DIR__ . '/backend_footer.php' ?>
+<?php require 'backend_footer.php' ?>
 
 </body>
 </html>

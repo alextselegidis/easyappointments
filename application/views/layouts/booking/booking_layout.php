@@ -47,26 +47,26 @@
     <div class="row wrapper">
         <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8">
 
-            <?php require __DIR__ . '/booking_header.php' ?>
+            <?php require 'booking_header.php' ?>
 
-            <?php require $page_path ?>
-            
-            <?php require __DIR__ . '/booking_footer.php' ?>
-            </div>
+            <?php slot('content') ?>
+
+            <?php require 'booking_footer.php' ?>
+
         </div>
     </div>
 </div>
 
 <?php if ($display_cookie_notice === '1'): ?>
-    <?php require __DIR__ . '/../modals/cookie_notice_modal.php' ?>
+    <?php component('cooking_notice_modal') ?>
 <?php endif ?>
 
 <?php if ($display_terms_and_conditions === '1'): ?>
-    <?php require __DIR__ . '/../modals/terms_and_conditions_modal.php' ?>
+    <?php component('terms_and_conditions_modal') ?>
 <?php endif ?>
 
 <?php if ($display_privacy_policy === '1'): ?>
-    <?php require __DIR__ . '/../modals/privacy_policy_modal.php' ?>
+    <?php component('privacy_policy_modal') ?>
 <?php endif ?>
 
 <script>
@@ -91,7 +91,6 @@
     var availableLanguages = <?= json_encode(config('available_languages')) ?>;
 </script>
 
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.js') ?>"></script>
@@ -101,6 +100,7 @@
 <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>
 <script src="<?= asset_url('assets/js/frontend_book.js') ?>"></script>
 
@@ -111,6 +111,7 @@
     });
 </script>
 
-<?php google_analytics_script(); ?>
+<?php google_analytics_script() ?>
+
 </body>
 </html>

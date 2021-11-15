@@ -1,9 +1,6 @@
 <?php
 /**
  * @var string $title
- * @var array $styles
- * @var string $template
- * @var array $scripts
  * @var array $global_variables
  */
 ?>
@@ -19,16 +16,17 @@
     <title><?= $page_title ?> | Easy!Appointments</title>
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
-    <?php foreach ($styles as $style): ?>
-        <link rel="stylesheet" type="text/css" href="<?= $style ?>">
-    <?php endforeach ?>
+    
+    <?php slot('meta') ?>
+    
+    <?php slot('styles') ?>
 </head>
 <body>
 <div id="main" class="container">
     <div class="row wrapper">
         <div id="message-frame" class="col-12 border my-auto frame-container">
             
-            <?php require $page_path ?>
+            <?php slot('content') ?>
             
             <div class="mt-2">
                 <small>
@@ -50,10 +48,9 @@
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 
-<?php foreach ($scripts as $script): ?>
-    <script src="<?= $script ?>"></script>
-<?php endforeach ?>
-
 <?php google_analytics_script() ?>
+
+<?php slot('scripts') ?>
+
 </body>
 </html>
