@@ -41,40 +41,15 @@
  */
 class EA_Loader extends CI_Loader {
     /**
-     * Loads "layout" files.
-     *
-     * @param string $layout Path to the layout view file.
-     * @param string $page Path to the page view file.
-     * @param array $vars An associative array of data to be extracted for use in the view
-     * @param bool $return Whether to return the view output or leave it to the Output class
-     *
-     * @return object|string
-     *
-     * remove this
-     */
-    public function layout(string $layout, string $page, array $vars = [], bool $return = FALSE)
-    {
-        $vars['page_path'] = APPPATH . 'views/' . $page . '.php';
-
-        $vars['styles'] = $vars['styles'] ?? [];
-
-        $vars['scripts'] = $vars['scripts'] ?? [];
-
-        $vars['global_variables'] = $vars['global_variables'] ?? [];
-
-        return $this->view($layout, $vars, $return);
-    }
-
-    /**
      * Override the original view loader method so that layouts are also supported. 
      * 
      * @param string $view View filename.
      * @param array $vars An associative array of data to be extracted for use in the view.
      * @param bool $return Whether to return the view output or leave it to the Output class.
      * 
-     * @return object
+     * @return object|string
      */
-    public function view($view, $vars = [], $return = FALSE): object
+    public function view($view, $vars = [], $return = FALSE)
     {
         $result = $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return]);
 
