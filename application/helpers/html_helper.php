@@ -28,10 +28,8 @@ if ( ! function_exists('component'))
      * @param string $component Component template file name.
      * @param string $attributes HTML attributes for the parent component element.
      * @param array $params Additional parameters for the component.
-     *
-     * @return string
      */
-    function component(string $component, string $attributes = '', array $params = []): string
+    function component(string $component, string $attributes = '', array $params = [])
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -40,7 +38,7 @@ if ( ! function_exists('component'))
             'attributes' => $attributes
         ]);
 
-        return $CI->load->view('components/' . $component, $vars, TRUE);
+        echo $CI->load->view('components/' . $component, $vars, true);
     }
 }
 
