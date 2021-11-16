@@ -19,7 +19,15 @@
  */
 ?>
 
+<?php extend('layouts/backend/backend_layout') ?>
+
+<?php section('styles') ?>
+
 <link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/vendor/fullcalendar/fullcalendar.min.css') ?>">
+
+<?php section('styles') ?>
+
+<?php section('scripts') ?>
 
 <script src="<?= asset_url('assets/vendor/fullcalendar/fullcalendar.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
@@ -59,6 +67,10 @@
         BackendCalendar.initialize(GlobalVariables.calendarView);
     });
 </script>
+
+<?php section('scripts') ?>
+
+<?php section('content') ?>
 
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
@@ -140,9 +152,11 @@
 
 <!-- Page Components -->
 
-<?= component('manage_appointment_modal') ?>
-<?= component('manage_appointment_modal') ?>
-<?= component('manage_unavailable_modal') ?>
-<?= component('select_google_calendar_modal') ?>
-<?= component('working_plan_exceptions_modal') ?>
+<?php component('manage_appointment_modal', '', ['timezones' => $timezones]) ?>
+<?php component('manage_appointment_modal') ?>
+<?php component('manage_unavailable_modal') ?>
+<?php component('select_google_calendar_modal') ?>
+<?php component('working_plan_exceptions_modal') ?>
+
+<?php section('content') ?> 
 
