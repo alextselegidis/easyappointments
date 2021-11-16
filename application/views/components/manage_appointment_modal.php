@@ -2,8 +2,6 @@
 /**
  * @var array $available_services
  * @var array $timezones
- * @var string $require_phone_number
- * @var string $timezone
  */
 ?>
 <div id="manage-appointment" class="modal fade" tabindex="-1">
@@ -150,7 +148,7 @@
                                         <li>
                                             <?= lang('current_user') ?>:
                                             <span>
-                                                <?= $timezones[$timezone] ?>
+                                                <?= $timezones[session('timezone', 'UTC')] ?>
                                             </span>
                                         </li>
                                     </ul>
@@ -213,12 +211,12 @@
                                 <div class="form-group">
                                     <label for="phone-number" class="control-label">
                                         <?= lang('phone_number') ?>
-                                        <?php if ($require_phone_number === '1'): ?>
+                                        <?php if (setting('require_phone_number') === '1'): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
-                                    <input id="phone-number"
-                                           class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
+                                    <input id="phone-number" 
+                                           class="form-control <?= setting('require_phone_number') === '1' ? 'required' : '' ?>">
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
