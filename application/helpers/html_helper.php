@@ -28,17 +28,34 @@ if ( ! function_exists('component'))
      * @param string $component Component template file name.
      * @param string $attributes HTML attributes for the parent component element.
      * @param array $params Additional parameters for the component.
+     * @param bool $return Whether to return the HTML or echo it directly. 
+     * 
+     * @return string Return the HTML if the $return argument is TRUE or NULL. 
      */
-    function component(string $component, string $attributes = '', array $params = [])
+    function component(string $component, string $attributes = '', array $params = [], bool $return = FALSE): ?string
     {
-        /** @var EA_Controller $CI */
-        $CI = &get_instance();
-
         $vars = array_merge($params, [
             'attributes' => $attributes
         ]);
-
-        echo $CI->load->view('components/' . $component, $vars, true);
+        
+        extract($vars); 
+        
+        ob_start(); 
+        
+        require APPPATH . 'views/components/' . $component . '.php'; 
+        
+        $html = ob_get_clean();
+        
+        if ($return)
+        {
+            return $html;
+        }
+        else
+        {
+            echo $html; 
+            
+            return NULL;
+        }
     }
 }
 
@@ -113,6 +130,6 @@ if ( ! function_exists('slot'))
     {
         $layout = config('layout');
 
-        echo $layout['sections'][$name];
+        echo $layout['sections'][$name] ?? '';
     }
 }
