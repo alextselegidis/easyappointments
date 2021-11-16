@@ -59,5 +59,7 @@
     </div>
 </div>
 
+<?php slot('scripts') ?>
+
 </body>
 </html>
