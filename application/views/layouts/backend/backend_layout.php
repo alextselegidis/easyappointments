@@ -13,6 +13,9 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title><?= $page_title ?? lang('backend_section') ?> | Easy!Appointments</title>
+
+    <?php slot('meta') ?>
+
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
@@ -21,6 +24,8 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
+
+    <?php slot('styles') ?>
 
     <script>
         // Global JavaScript Variables - Used in all backend pages.
@@ -52,5 +57,6 @@
 
 <?php require 'backend_footer.php' ?>
 
+<?php slot('scripts') ?>
 </body>
 </html>
