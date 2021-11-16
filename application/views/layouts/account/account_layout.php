@@ -13,6 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#35A768">
     <title><?= lang('login') ?> | Easy!Appointments</title>
+    
+    <?php slot('meta') ?>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
@@ -21,6 +23,8 @@
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
+    
+    <?php slot('styles') ?>
 
     <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
