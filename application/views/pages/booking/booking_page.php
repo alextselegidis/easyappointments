@@ -26,23 +26,23 @@
 
 <!-- Booking Cancellation Frame -->
 
-<?php require __DIR__ . '/booking_cancellation.php' ?>
+<?php require 'booking_cancellation.php' ?>
 
 <!-- Select Service & Provider -->
 
-<?php require __DIR__ . '/booking_step_1.php' ?>
+<?php require 'booking_step_1.php' ?>
 
 <!-- Pick An Appointment Date -->
 
-<?php require __DIR__ .'/booking_step_2.php' ?>
+<?php require 'booking_step_2.php' ?>
 
 <!-- Enter Customer Information -->
 
-<?php require __DIR__ . '/booking_step_3.php' ?>
+<?php require 'booking_step_3.php' ?>
 
 <!-- Appointment Data Confirmation -->
 
-<?php require __DIR__ . '/booking_step_4.php' ?>
+<?php require 'booking_step_4.php' ?>
 
 <?php section('content') ?>
 
