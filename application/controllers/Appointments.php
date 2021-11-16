@@ -81,6 +81,7 @@ class Appointments extends EA_Controller {
         $privacy_policy_content = setting('privacy_policy_content');
         $display_any_provider = setting('display_any_provider');
         $timezones = $this->timezones->to_array();
+        $grouped_timezones = $this->timezones->to_grouped_array();
 
         // Remove the data that are not needed inside the $available_providers array.
         foreach ($available_providers as &$available_provider)
@@ -180,6 +181,7 @@ class Appointments extends EA_Controller {
             'display_privacy_policy' => $display_privacy_policy,
             'privacy_policy_content' => $privacy_policy_content,
             'timezones' => $timezones,
+            'grouped_timezones' => $grouped_timezones,
             'display_any_provider' => $display_any_provider,
         ]);
     }

@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var array $grouped_timezones
+ */
+?>
+
 <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
     <div class="frame-container">
 
@@ -12,7 +18,7 @@
                 <div id="select-time">
                     <div class="form-group">
                         <label for="select-timezone"><?= lang('timezone') ?></label>
-                        <?= render_timezone_dropdown('id="select-timezone" class="form-control" value="UTC"'); ?>
+                        <?php component('timezone_dropdown','id="select-timezone" class="form-control" value="UTC"', ['timezones' => $grouped_timezones]) ?>
                     </div>
 
                     <div id="available-hours"></div>
