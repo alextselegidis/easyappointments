@@ -384,7 +384,7 @@
                                 <tbody><!-- Dynamic Content --></tbody>
                             </table>
 
-                            <?php require __DIR__ . '/../modals/working_plan_exceptions_modal.php' ?>
+                            <?php component('working_plan_exceptions_modal') ?>
                         </div>
                     </div>
                 </div>
