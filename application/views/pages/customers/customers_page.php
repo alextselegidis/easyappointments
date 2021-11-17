@@ -13,6 +13,7 @@
  * @var string $timezone
  * @var string $role_slug
  * @var array $privileges
+ * @var string $require_phone_number
  */
 ?>
 
@@ -186,13 +187,12 @@
                             <?= lang('timezone') ?>
                             <span class="text-danger">*</span>
                         </label>
-                        <?= render_timezone_dropdown('id="timezone" class="form-control required"') ?>
+                        <?php component('timezone_dropdown', 'id="timezone" class="form-control required"') ?>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label" for="notes">
                             <?= lang('notes') ?>
-
                         </label>
                         <textarea id="notes" rows="4" class="form-control"></textarea>
                     </div>
