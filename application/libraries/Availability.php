@@ -54,13 +54,15 @@ class Availability {
      */
     public function get_available_hours(string $date, array $service, array $provider, int $exclude_appointment_id = NULL): array
     {
-        $available_periods = $this->get_available_periods($date, $provider, $exclude_appointment_id);
-
-        $available_hours = $this->generate_available_hours($date, $service, $available_periods);
-
         if ($service['attendants_number'] > 1)
         {
             $available_hours = $this->consider_multiple_attendants($date, $service, $provider, $exclude_appointment_id);
+        }
+        else
+        {
+            $available_periods = $this->get_available_periods($date, $provider, $exclude_appointment_id);
+
+            $available_hours = $this->generate_available_hours($date, $service, $available_periods);
         }
 
         return $this->consider_book_advance_timeout($date, $available_hours, $provider);
@@ -89,9 +91,12 @@ class Availability {
         // Get the provider's working plan exceptions.
         $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
-        $where = [
-            'id_users_provider' => $provider['id'],
-        ];
+        $escaped_provider_id = $this->CI->db->escape($provider['id']);
+        
+        $escaped_date = $this->CI->db->escape($date); 
+        
+        $where = 'id_users_provider = ' . $escaped_provider_id 
+            . ' AND DATE(start_datetime) <= ' . $escaped_date . ' AND DATE(end_datetime) >= ' . $escaped_date;
 
         // Sometimes it might be necessary to exclude an appointment from the calculation (e.g. when editing an
         // existing appointment).
