@@ -35,7 +35,7 @@
 
     <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
