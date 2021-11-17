@@ -16,6 +16,7 @@
     <title>Error | Easy!Appointments</title>
     <style>
         #error-container {
+            background: #ffffff;
             min-width: 450px;
             max-width: 600px;
             margin: auto;
@@ -61,6 +62,7 @@
     padding: 0;
     margin: 0;
     display: flex;
+    background: #f5f8fa;
 ">
 <div id="error-container">
     <h1>
