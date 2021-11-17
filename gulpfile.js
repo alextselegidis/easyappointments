@@ -113,7 +113,7 @@ function vendor(done) {
 
     // bootstrap
     gulp.src([
-        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
         'node_modules/bootstrap/dist/css/bootstrap.min.css'
     ]).pipe(gulp.dest('assets/vendor/bootstrap'));
 
