@@ -8,12 +8,11 @@
 ?>
 
 <div style="
-        border: 1px solid #dfdfdf; 
-        margin: 0 0 10px 0; 
-        padding: 15px;
-        font-size: 14px;
-    "
->
+    border: 1px solid #dfdfdf; 
+    margin: 0 0 10px 0; 
+    padding: 15px;
+    font-size: 14px;
+">
 
     <h4>
         An uncaught Exception was encountered
@@ -26,7 +25,7 @@
     <p>
         <?= get_class($exception) ?>
     </p>
-    
+
     <h6>
         Message
     </h6>
@@ -34,19 +33,19 @@
     <p>
         <?= $message ?>
     </p>
-    
+
     <h6>
         Filename
     </h6>
-    
+
     <p>
         <?= $exception->getFile() ?>
     </p>
-    
+
     <h6>
         Line Number
     </h6>
-    
+
     <p>
         <?= $exception->getLine() ?>
     </p>

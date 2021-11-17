@@ -8,12 +8,11 @@
 ?>
 
 <div style="
-        border: 1px solid #dfdfdf; 
-        margin: 0 0 10px 0; 
-        padding: 15px;
-        font-size: 14px;
-    "
->
+    border: 1px solid #dfdfdf; 
+    margin: 0 0 10px 0; 
+    padding: 15px;
+    font-size: 14px;
+">
 
     <h4>
         A PHP Error was encountered
