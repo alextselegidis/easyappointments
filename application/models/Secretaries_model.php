@@ -462,9 +462,9 @@ class Secretaries_model extends EA_Model {
      *
      * @param int $secretary_id Secretary ID.
      * @param string $name Setting name.
-     * @param string|null $value Setting value.
+     * @param mixed $value Setting value.
      */
-    public function set_setting(int $secretary_id, string $name, string $value = NULL)
+    public function set_setting(int $secretary_id, string $name, $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $secretary_id]))
         {
