@@ -32,30 +32,16 @@ if ( ! function_exists('component'))
      * 
      * @return string Return the HTML if the $return argument is TRUE or NULL. 
      */
-    function component(string $component, string $attributes = '', array $params = [], bool $return = FALSE): ?string
+    function component(string $component, string $attributes = '', array $params = [], bool $return = FALSE)
     {
+        /** @var EA_Controller $CI */
+        $CI = get_instance();
+        
         $vars = array_merge($params, [
             'attributes' => $attributes
         ]);
         
-        extract($vars); 
-        
-        ob_start(); 
-        
-        require APPPATH . 'views/components/' . $component . '.php'; 
-        
-        $html = ob_get_clean();
-        
-        if ($return)
-        {
-            return $html;
-        }
-        else
-        {
-            echo $html; 
-            
-            return NULL;
-        }
+        return $CI->load->view('components/' . $component, $vars, $return);
     }
 }
 
