@@ -40,7 +40,7 @@
     });
 </script>
 
-<div class="container-fluid backend-page" id="users-page">
+<div class="container-fluid backend-page" id="providers-page">
     <div class="row" id="providers">
         <div id="filter-providers" class="filter-records column col-12 col-md-5">
             <form class="mb-4">
