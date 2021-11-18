@@ -314,7 +314,7 @@ class Appointments_api_v1 extends EA_Controller {
      *
      * @param array $appointment Appointment data.
      *
-     * @deprecated 1.5.0
+     * @deprecated Since 1.5
      */
     private function aggregates(array &$appointment)
     {
