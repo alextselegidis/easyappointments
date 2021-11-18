@@ -59,12 +59,23 @@
 
             <?php $hidden = ($privileges[PRIV_USERS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_USERS) ? 'active' : '' ?>
-            <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('backend/users') ?>" class="nav-link"
+            <li class="nav-item dropdown <?= $active . $hidden ?>">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_users_hint') ?>">
-                    <i class="fas fa-users-cog mr-2"></i>
+                    <i class="fas fa-business-time mr-2"></i>
                     <?= lang('users') ?>
                 </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?= site_url('providers') ?>">
+                        <?= lang('providers') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('secretaries') ?>">
+                        <?= lang('secretaries') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('admins') ?>">
+                        <?= lang('admins') ?>
+                    </a>
+                </div>
             </li>
 
             <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
