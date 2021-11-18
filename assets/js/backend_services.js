@@ -24,12 +24,11 @@ window.BackendServices = window.BackendServices || {};
     /**
      * Contains the basic record methods for the page.
      *
-     * @type {ServicesHelper|CategoriesHelper}
+     * @type {ServicesHelper}
      */
     var helper;
 
     var servicesHelper = new ServicesHelper();
-    var categoriesHelper = new CategoriesHelper();
 
     /**
      * Default initialize method of the page.
@@ -48,8 +47,10 @@ window.BackendServices = window.BackendServices || {};
         if (defaultEventHandlers) {
             bindEventHandlers();
         }
-        
-        exports.updateAvailableCategories();
+
+        BackendServices.updateAvailableCategories();
+
+        Backend.placeFooterToBottom();
     };
 
     /**
@@ -58,28 +59,7 @@ window.BackendServices = window.BackendServices || {};
      * Do not use this method if you include the "BackendServices" namespace on another page.
      */
     function bindEventHandlers() {
-        /**
-         * Event: Page Tab Button "Click"
-         *
-         * Changes the displayed tab.
-         */
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
-            if (helper) {
-                helper.unbindEventHandlers();
-            }
-
-            if ($(this).attr('href') === '#services') {
-                helper = servicesHelper;
-            } else if ($(this).attr('href') === '#categories') {
-                helper = categoriesHelper;
-            }
-
-            helper.resetForm();
-            helper.filter('');
-            helper.bindEventHandlers();
-            $('.filter-key').val('');
-            Backend.placeFooterToBottom();
-        });
+        //
     }
 
     /**
@@ -88,7 +68,7 @@ window.BackendServices = window.BackendServices || {};
      * Use this method every time a change is made to the service categories db table.
      */
     exports.updateAvailableCategories = function () {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
+        var url = GlobalVariables.baseUrl + '/index.php/service_categories/search';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
