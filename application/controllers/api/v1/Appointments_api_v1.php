@@ -34,8 +34,6 @@ class Appointments_api_v1 extends EA_Controller {
         $this->load->library('synchronization');
         $this->load->library('notifications');
 
-        $this->api->cors();
-
         $this->api->auth();
 
         $this->api->model('appointments_model');

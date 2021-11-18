@@ -28,8 +28,6 @@ class Settings_api_v1 extends EA_Controller {
 
         $this->load->library('api');
 
-        $this->api->cors();
-
         $this->api->auth();
 
         $this->api->model('settings_model');
