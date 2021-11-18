@@ -54,7 +54,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : null;
 
         // Make ajax post request and get the available hours.
-        var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
+        var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_get_available_hours';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -173,7 +173,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             data.exclude_appointment_id = GlobalVariables.appointmentData.id;
         }
 
-        var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_register_appointment';
+        var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_register_appointment';
 
         var $layer = $('<div/>');
 
@@ -242,7 +242,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : null;
 
-        var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_unavailable_dates';
+        var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_get_unavailable_dates';
 
         var data = {
             provider_id: providerId,
