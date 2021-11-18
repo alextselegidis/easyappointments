@@ -1,15 +1,6 @@
 <?php
 /**
- * @var array $categories
- * @var array $services
- * @var string $date_format
- * @var string $time_format
- * @var string $base_url
  * @var string $timezones
- * @var string $user_id
- * @var string $user_email
- * @var string $timezone
- * @var string $role_slug
  * @var array $privileges
  */
 ?>
@@ -24,17 +15,15 @@
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode($base_url) ?>,
-        dateFormat: <?= json_encode($date_format) ?>,
-        timeFormat: <?= json_encode($time_format) ?>,
-        services: <?= json_encode($services) ?>,
-        categories: <?= json_encode($categories) ?>,
+        baseUrl: <?= json_encode(config('base_url')) ?>,
+        dateFormat: <?= json_encode(setting('date_format')) ?>,
+        timeFormat: <?= json_encode(setting('time_format')) ?>,
         timezones: <?= json_encode($timezones) ?>,
         user: {
-            id: <?= $user_id ?>,
-            email: <?= json_encode($user_email) ?>,
-            timezone: <?= json_encode($timezone) ?>,
-            role_slug: <?= json_encode($role_slug) ?>,
+            id: <?= session('user_id') ?>,
+            email: <?= json_encode(session('user_email')) ?>,
+            timezone: <?= json_encode(session('timezone')) ?>,
+            role_slug: <?= json_encode(session('role_slug')) ?>,
             privileges: <?= json_encode($privileges) ?>
         }
     };

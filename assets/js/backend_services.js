@@ -39,15 +39,6 @@ window.BackendServices = window.BackendServices || {};
     exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
 
-        // Fill available service categories listbox.
-        GlobalVariables.categories.forEach(function (category) {
-            $('#service-category').append(new Option(category.name, category.id));
-        });
-
-        $('#service-category')
-            .append(new Option('- ' + EALang.no_category + ' -', null))
-            .val('null');
-
         // Instantiate helper object (service helper by default).
         helper = servicesHelper;
         helper.resetForm();
@@ -57,6 +48,8 @@ window.BackendServices = window.BackendServices || {};
         if (defaultEventHandlers) {
             bindEventHandlers();
         }
+        
+        exports.updateAvailableCategories();
     };
 
     /**

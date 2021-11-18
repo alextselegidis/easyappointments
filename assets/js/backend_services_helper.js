@@ -209,7 +209,7 @@
      * then the update operation is going to be executed.
      */
     ServicesHelper.prototype.save = function (service) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service';
+        var url = GlobalVariables.baseUrl + '/index.php/services/' + (service.id ? 'update' : 'create');
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -232,7 +232,7 @@
      * @param {Number} id Record ID to be deleted.
      */
     ServicesHelper.prototype.delete = function (id) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service';
+        var url = GlobalVariables.baseUrl + '/index.php/services/destroy';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -326,21 +326,21 @@
     };
 
     /**
-     * Filters service records depending a string key.
+     * Filters service records depending a string keyword.
      *
-     * @param {String} key This is used to filter the service records of the database.
+     * @param {String} keyword This is used to filter the service records of the database.
      * @param {Number} selectId Optional, if set then after the filter operation the record with this
      * ID will be selected (but not displayed).
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
-    ServicesHelper.prototype.filter = function (key, selectId, display) {
+    ServicesHelper.prototype.filter = function (keyword, selectId, display) {
         display = display || false;
 
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_services';
+        var url = GlobalVariables.baseUrl + '/index.php/services/search';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            key: key,
+            keyword: keyword,
             limit: this.filterLimit
         };
 
@@ -369,7 +369,7 @@
                         'text': EALang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
-                            this.filter(key, selectId, display);
+                            this.filter(keyword, selectId, display);
                         }.bind(this)
                     }).appendTo('#filter-services .results');
                 }

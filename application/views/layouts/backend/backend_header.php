@@ -42,7 +42,7 @@
             <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('backend/services') ?>" class="nav-link"
+                <a href="<?= site_url('services') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_services_hint') ?>">
                     <i class="fas fa-business-time mr-2"></i>
                     <?= lang('services') ?>
