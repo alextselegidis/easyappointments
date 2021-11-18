@@ -168,7 +168,7 @@
      * @param {Object} customer Contains the customer data.
      */
     CustomersHelper.prototype.save = function (customer) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_customer';
+        var url = GlobalVariables.baseUrl + '/index.php/customers/' + (customer.id ? 'update' : 'create');
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -191,7 +191,7 @@
      * @param {Number} id Record id to be deleted.
      */
     CustomersHelper.prototype.delete = function (id) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_customer';
+        var url = GlobalVariables.baseUrl + '/index.php/customers/destroy';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -367,19 +367,19 @@
     /**
      * Filter customer records.
      *
-     * @param {String} key This key string is used to filter the customer records.
+     * @param {String} keyword This keyword string is used to filter the customer records.
      * @param {Number} selectId Optional, if set then after the filter operation the record with the given
      * ID will be selected (but not displayed).
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
-    CustomersHelper.prototype.filter = function (key, selectId, display) {
+    CustomersHelper.prototype.filter = function (keyword, selectId, display) {
         display = display || false;
 
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
+        var url = GlobalVariables.baseUrl + '/index.php/customers/search';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            key: key,
+            keyword: keyword,
             limit: this.filterLimit
         };
 
@@ -408,7 +408,7 @@
                         'text': EALang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
-                            this.filter(key, selectId, display);
+                            this.filter(keyword, selectId, display);
                         }.bind(this)
                     }).appendTo('#filter-customers .results');
                 }
