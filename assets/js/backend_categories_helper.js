@@ -244,7 +244,6 @@
                 this.resetForm();
                 $('#filter-categories .key').val('');
                 this.filter('', response.id, true);
-                BackendServices.updateAvailableCategories();
             }.bind(this)
         );
     };
@@ -268,7 +267,6 @@
 
                 this.resetForm();
                 this.filter($('#filter-categories .key').val());
-                BackendServices.updateAvailableCategories();
             }.bind(this)
         );
     };
