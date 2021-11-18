@@ -44,31 +44,10 @@ window.BackendSettingsGeneral = window.BackendSettingsGeneral || {};
         GlobalVariables.settings.system.forEach(function (setting) {
             $('input[data-field="' + setting.name + '"]').val(setting.value);
             $('select[data-field="' + setting.name + '"]').val(setting.value);
-
-            if (setting.name === 'customer_notifications') {
-                $('#customer-notifications').prop('checked', Boolean(Number(setting.value)));
-            }
-
-            if (setting.name === 'require_captcha') {
-                $('#require-captcha').prop('checked', Boolean(Number(setting.value)));
-            }
-
-            if (setting.name === 'require_phone_number') {
-                $('#require-phone-number').prop('checked', Boolean(Number(setting.value)));
-            }
-
-            if (setting.name === 'display_any_provider') {
-                $('#display-any-provider').prop('checked', Boolean(Number(setting.value)));
-            }
-
-            if (setting.name === 'display_cookie_notice') {
-                $('#display-cookie-notice').prop('checked', Boolean(Number(setting.value)));
-            }
-
         });
 
         // Set default settings helper.
-        settings = new SystemSettingsGeneral();
+        settings = new SystemSettingsGeneralHelper();
 
         if (defaultEventHandlers) {
             bindEventHandlers();

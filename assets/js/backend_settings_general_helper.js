@@ -15,9 +15,9 @@
     /**
      * "System Settings" Tab Helper Class
      *
-     * @class SystemSettingsGeneral
+     * @class SystemSettingsGeneralHelper
      */
-    var SystemSettingsGeneral = function () {};
+    var SystemSettingsGeneralHelper = function () {};
 
     /**
      * Save the system settings.
@@ -26,7 +26,7 @@
      *
      * @param {Array} settings Contains the system settings data.
      */
-    SystemSettingsGeneral.prototype.save = function (settings) {
+    SystemSettingsGeneralHelper.prototype.save = function (settings) {
         if (!this.validate()) {
             return; // Validation failed, do not proceed.
         }
@@ -69,7 +69,7 @@
      *
      * @return {Array} Returns the system settings array.
      */
-    SystemSettingsGeneral.prototype.get = function () {
+    SystemSettingsGeneralHelper.prototype.get = function () {
         var settings = [];
 
         // General Settings Tab
@@ -84,26 +84,6 @@
                 });
             });
 
-        settings.push({
-            name: 'customer_notifications',
-            value: $('#customer-notifications').prop('checked') ? '1' : '0'
-        });
-
-        settings.push({
-            name: 'require_captcha',
-            value: $('#require-captcha').prop('checked') ? '1' : '0'
-        });
-
-        settings.push({
-            name: 'require_phone_number',
-            value: $('#require-phone-number').prop('checked') ? '1' : '0'
-        });
-
-        settings.push({
-            name: 'display_any_provider',
-            value: $('#display-any-provider').prop('checked') ? '1' : '0'
-        });
-
         return settings;
     };
 
@@ -114,7 +94,7 @@
      *
      * @return {Boolean} Returns the validation result.
      */
-    SystemSettingsGeneral.prototype.validate = function () {
+    SystemSettingsGeneralHelper.prototype.validate = function () {
         $('#general .has-error').removeClass('has-error');
 
         try {
@@ -144,5 +124,5 @@
         }
     };
 
-    window.SystemSettingsGeneral = SystemSettingsGeneral;
+    window.SystemSettingsGeneralHelper = SystemSettingsGeneralHelper;
 })();
