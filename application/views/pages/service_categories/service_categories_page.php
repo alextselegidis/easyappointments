@@ -32,7 +32,7 @@
     });
 </script>
 
-<div class="container-fluid backend-page" id="service-page">
+<div class="container-fluid backend-page" id="service-categories-page">
 
     <div class="row" id="categories">
         <div id="filter-categories" class="filter-records column col-12 col-md-5">
