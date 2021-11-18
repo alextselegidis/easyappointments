@@ -25,8 +25,19 @@ class Google extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
+        
         $this->load->library('google_sync');
+        
+        $this->load->model('appointments_model');
         $this->load->model('providers_model');
+        $this->load->model('roles_model');
+
+        $role_slug = session('role_slug');
+
+        if ($role_slug)
+        {
+            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
+        }
     }
 
     /**
@@ -298,6 +309,124 @@ class Google extends EA_Controller {
         else
         {
             response('Sync provider id not specified.');
+        }
+    }
+
+    /**
+     * This method will return a list of the available Google Calendars.
+     *
+     * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
+     * be already granted for the specific provider.
+     */
+    public function ajax_get_google_calendars()
+    {
+        try
+        {
+            if ( ! request('provider_id'))
+            {
+                throw new Exception('Provider id is required in order to fetch the google calendars.');
+            }
+
+            // Check if selected provider has sync enabled.
+            $provider_id = request('provider_id');
+
+            $google_sync = $this->providers_model->get_setting($provider_id, 'google_sync');
+
+            if ( ! $google_sync)
+            {
+                json_response([
+                    'success' => FALSE
+                ]);
+
+                return;
+            }
+
+            $google_token = json_decode($this->providers_model->get_setting($provider_id, 'google_token'));
+
+            $this->google_sync->refresh_token($google_token->refresh_token);
+
+            $calendars = $this->google_sync->get_google_calendars();
+
+            json_response($calendars);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Select a specific google calendar for a provider.
+     *
+     * All the appointments will be synced with this particular calendar.
+     */
+    public function ajax_select_google_calendar()
+    {
+        try
+        {
+            $provider_id = request('provider_id');
+
+            $user_id = session('user_id');
+
+            if ($this->permissions[PRIV_USERS]['edit'] == FALSE && (int)$user_id !== (int)$provider_id)
+            {
+                throw new Exception('You do not have the required permissions for this task.');
+            }
+
+            $calendar_id = request('calendar_id');
+
+            $this->providers_model->set_setting($provider_id, 'google_calendar', $calendar_id);
+
+            json_response([
+                'success' => TRUE
+            ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Disable a providers sync setting.
+     *
+     * This method deletes the "google_sync" and "google_token" settings from the database.
+     *
+     * After that the provider's appointments will be no longer synced with Google Calendar.
+     */
+    public function ajax_disable_provider_sync()
+    {
+        try
+        {
+            $provider_id = request('provider_id');
+
+            if ( ! $provider_id)
+            {
+                throw new Exception('Provider id not specified.');
+            }
+
+            $user_id = session('user_id');
+
+            if (
+                $this->permissions[PRIV_USERS]['edit'] === FALSE
+                && (int)$user_id !== (int)$provider_id)
+            {
+                throw new Exception('You do not have the required permissions for this task.');
+            }
+
+            $this->providers_model->set_setting($provider_id, 'google_sync', FALSE);
+
+            $this->providers_model->set_setting($provider_id, 'google_token', NULL);
+
+            $this->appointments_model->clear_google_sync_ids($provider_id);
+
+            json_response([
+                'success' => TRUE,
+            ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
         }
     }
 }
