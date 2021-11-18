@@ -51,7 +51,7 @@
 
 require_once __DIR__ . '/../helpers/routes_helper.php';
 
-$route['default_controller'] = 'appointments';
+$route['default_controller'] = 'booking';
 
 $route['404_override'] = '';
 
