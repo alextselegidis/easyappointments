@@ -709,42 +709,42 @@ body .form-horizontal .controls {
     margin-bottom: 20px;
 }
 
-#users-page #providers .switch-view {
+#providers-page #providers .switch-view {
     overflow: auto;
     background: none;
     padding: 0;
     margin: 0;
 }
 
-#users-page #providers .switch-view .nav-item {
+#providers-page #providers .switch-view .nav-item {
     margin: 0;
 }
 
-#users-page #providers .working-plan-view .work-start,
-#users-page #providers .working-plan-view .work-end {
+#providers-page #providers .working-plan-view .work-start,
+#providers-page #providers .working-plan-view .work-end {
     max-width: 100px;
 }
 
-#users-page .btn-toolbar {
+#providers-page .btn-toolbar {
     margin-top: 0;
     margin-bottom: 15px;
 }
 
-#users-page #providers .form-message {
+#providers-page #providers .form-message {
     clear: both;
 }
 
-#users-page #providers .breaks.table,
+#providers-page #providers .breaks.table,
 #settings-page .breaks.table {
     table-layout: fixed;
 }
 
-#users-page #providers .breaks .btn {
+#providers-page #providers .breaks .btn {
     margin-right: 5px;
     padding: 4px 7px;
 }
 
-#users-page #providers .working-plan-exceptions .btn {
+#providers-page #providers .working-plan-exceptions .btn {
     margin-right: 5px;
     padding: 4px 7px;
 }
@@ -759,28 +759,28 @@ body .form-horizontal .controls {
     }
 }
 
-#users-page .working-plan .checkbox,
-#users-page .working-plan input[type='text'],
-#users-page .working-plan button {
+#providers-page .working-plan .checkbox,
+#providers-page .working-plan input[type='text'],
+#providers-page .working-plan button {
     margin: 2px 0;
 }
 
-#users-page .working-plan td input[type='text'] {
+#providers-page .working-plan td input[type='text'] {
     width: 55px;
 }
 
-#users-page .editable form,
-#users-page .editable select,
-#users-page .editable input {
+#providers-page .editable form,
+#providers-page .editable select,
+#providers-page .editable input {
     margin: 0;
 }
 
-#users-page #providers .record-details h3 a {
+#providers-page #providers .record-details h3 a {
     font-size: 24px;
     margin-left: 10px;
 }
 
-#users-page #providers .record-details #provider-services .checkbox a {
+#providers-page #providers .record-details #provider-services .checkbox a {
     margin-left: 5px;
 }
 
