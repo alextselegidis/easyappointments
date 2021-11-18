@@ -174,17 +174,17 @@
     /**
      * Filter service categories records.
      *
-     * @param {String} key This key string is used to filter the category records.
+     * @param {String} keyword This key string is used to filter the category records.
      * @param {Number} selectId Optional, if set then after the filter operation the record with the given
      * ID will be selected (but not displayed).
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
-    CategoriesHelper.prototype.filter = function (key, selectId, display) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_service_categories';
+    CategoriesHelper.prototype.filter = function (keyword, selectId, display) {
+        var url = GlobalVariables.baseUrl + '/index.php/service_categories/search';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            key: key,
+            keyword: keyword,
             limit: this.filterLimit
         };
 
@@ -213,7 +213,7 @@
                         'text': EALang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
-                            this.filter(key, selectId, display);
+                            this.filter(keyword, selectId, display);
                         }.bind(this)
                     }).appendTo('#filter-categories .results');
                 }
@@ -231,11 +231,11 @@
      * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.save = function (category) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_service_category';
+        var url = GlobalVariables.baseUrl + '/index.php/service_categories/' + (category.id ? 'update' : 'create');
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            category: JSON.stringify(category)
+            service_category: JSON.stringify(category)
         };
 
         $.post(url, data).done(
@@ -252,14 +252,14 @@
     /**
      * Delete category record.
      *
-     * @param Number} id Record ID to be deleted.
+     * @param {Number} id Record ID to be deleted.
      */
     CategoriesHelper.prototype.delete = function (id) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_service_category';
+        var url = GlobalVariables.baseUrl + '/index.php/service_categories/destroy';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            category_id: id
+            service_category_id: id
         };
 
         $.post(url, data).done(
