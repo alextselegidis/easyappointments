@@ -22,7 +22,7 @@
         baseUrl: <?= json_encode(config('base_url')) ?>,
         dateFormat: <?= json_encode(setting('date_format')) ?>,
         timeFormat: <?= json_encode(setting('time_format')) ?>,
-        firstWeekday: <?= json_encode(setting('first_weekday')); ?>,
+        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
         services: <?= json_encode($services) ?>,
         timezones: <?= json_encode($timezones) ?>,
         workingPlan: <?= json_encode(json_decode(setting('company_working_plan'))) ?>,
