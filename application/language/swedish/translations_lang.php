@@ -332,4 +332,5 @@ $lang['list'] = 'Lista';
 $lang['default'] = 'Standard';
 $lang['table'] = 'Tabell';
 $lang['date'] = 'Date';
+$lang['about'] = 'About';
 // End

@@ -332,4 +332,5 @@ $lang['list'] = 'Λίστα';
 $lang['default'] = 'Προεπιλεγμένο';
 $lang['table'] = 'Πίνακας';
 $lang['date'] = 'Ημερομηνία';
+$lang['about'] = 'About';
 // End

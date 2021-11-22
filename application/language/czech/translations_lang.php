@@ -332,4 +332,5 @@ $lang['list'] = 'Seznam';
 $lang['default'] = 'Výchozí';
 $lang['table'] = 'Tabulka';
 $lang['date'] = 'Datum';
+$lang['about'] = 'About';
 // End

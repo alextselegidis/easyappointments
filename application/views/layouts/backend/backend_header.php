@@ -17,7 +17,7 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div id="header-menu" class="collapse navbar-collapse flex-row-reverse">
+    <div id="header-menu" class="collapse navbar-collapse flex-row-reverse px-2">
         <ul class="navbar-nav">
             <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
@@ -47,7 +47,7 @@
                     <i class="fas fa-business-time mr-2"></i>
                     <?= lang('services') ?>
                 </a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="<?= site_url('services') ?>">
                         <?= lang('services') ?>
                     </a>
@@ -65,7 +65,7 @@
                     <i class="fas fa-business-time mr-2"></i>
                     <?= lang('users') ?>
                 </a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="<?= site_url('providers') ?>">
                         <?= lang('providers') ?>
                     </a>
@@ -81,20 +81,35 @@
             <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
                 || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
-            <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('backend/settings') ?>" class="nav-link"
+            <li class="nav-item dropdown <?= $active . $hidden ?>">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
                     <i class="fas fa-cogs mr-2"></i>
                     <?= lang('settings') ?>
                 </a>
-            </li>
-
-            <li class="nav-item">
-                <a href="<?= site_url('user/logout') ?>" class="nav-link"
-                   data-tippy-content="<?= lang('log_out_hint') ?>">
-                    <i class="fas fa-sign-out-alt mr-2"></i>
-                    <?= lang('log_out') ?>
-                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
+                    <a class="dropdown-item" href="<?= site_url('settings/general') ?>">
+                        <?= lang('general') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('settings/business_logic') ?>">
+                        <?= lang('business_logic') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('settings/client_form') ?>">
+                        <?= lang('client_form') ?>
+                    </a>
+                    <?php endif ?>
+                    <a class="dropdown-item" href="<?= site_url('settings/current_user') ?>">
+                        <?= lang('current_user') ?>
+                    </a>
+                    <a class="dropdown-item" href="<?= site_url('settings/about') ?>">
+                        <?= lang('about') ?>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<?= site_url('user/logout') ?>">
+                        <?= lang('log_out') ?>
+                    </a>
+                </div>
             </li>
         </ul>
     </div>

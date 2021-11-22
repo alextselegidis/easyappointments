@@ -332,4 +332,5 @@ $lang['list'] = 'רשימה';
 $lang['default'] = 'בְּרִירַת מֶחדָל';
 $lang['table'] = 'טבלה';
 $lang['date'] = 'תאריך';
+$lang['about'] = 'About';
 // End

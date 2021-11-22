@@ -331,4 +331,5 @@ $lang['list'] = 'Lista';
 $lang['default'] = 'Padrão';
 $lang['table'] = 'Tabela';
 $lang['date'] = 'Data';
+$lang['about'] = 'About';
 // End
