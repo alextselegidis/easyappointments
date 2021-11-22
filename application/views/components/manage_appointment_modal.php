@@ -4,7 +4,7 @@
  * @var array $timezones
  */
 ?>
-<div id="manage-appointment" class="modal fade" tabindex="-1">
+<div id="manage-appointment" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">

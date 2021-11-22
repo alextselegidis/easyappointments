@@ -4,7 +4,7 @@
  */
 ?>
 
-<div id="privacy-policy-modal" class="modal fade" tabindex="-1">
+<div id="privacy-policy-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

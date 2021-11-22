@@ -3,7 +3,7 @@
  * @var string $cookie_notice_content
  */
 ?>
-<div id="cookie-notice-modal" class="modal fade" tabindex="-1">
+<div id="cookie-notice-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
