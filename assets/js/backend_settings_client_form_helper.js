@@ -135,14 +135,14 @@
      * @return {Boolean} Returns the validation result.
      */
     SystemSettingsClientFormHelper.prototype.validate = function () {
-        $('#client-form .has-error').removeClass('has-error');
+        $('#client-form .is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#client-form .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });

@@ -95,14 +95,14 @@
      * @return {Boolean} Returns the validation result.
      */
     SystemSettingsGeneralHelper.prototype.validate = function () {
-        $('#general .has-error').removeClass('has-error');
+        $('#general .is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#general .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -113,7 +113,7 @@
 
             // Validate company email address.
             if (!GeneralFunctions.validateEmail($('#company-email').val())) {
-                $('#company-email').closest('.form-group').addClass('has-error');
+                $('#company-email').addClass('is-invalid');
                 throw new Error(EALang.invalid_email);
             }
 

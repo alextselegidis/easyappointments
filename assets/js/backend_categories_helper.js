@@ -288,7 +288,7 @@
      * @return {Boolean} Returns the validation result.
      */
     CategoriesHelper.prototype.validate = function () {
-        $('#categories .has-error').removeClass('has-error');
+        $('#categories .is-invalid').removeClass('is-invalid');
         $('#categories .form-message').removeClass('alert-danger').hide();
 
         try {
@@ -296,7 +296,7 @@
 
             $('#categories .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -325,7 +325,7 @@
         $('#categories .record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
-        $('#categories .record-details .has-error').removeClass('has-error');
+        $('#categories .record-details .is-invalid').removeClass('is-invalid');
         $('#categories .record-details .form-message').hide();
     };
 

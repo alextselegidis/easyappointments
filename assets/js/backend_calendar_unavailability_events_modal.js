@@ -30,19 +30,19 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
         $('#manage-unavailable #save-unavailable').on('click', function () {
             var $dialog = $('#manage-unavailable');
             $dialog.find('.modal-message').addClass('d-none');
-            $dialog.find('.has-error').removeClass('has-error');
+            $dialog.find('.is-invalid').removeClass('is-invalid');
 
             var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
 
             if (!start) {
-                $dialog.find('#unavailable-start').closest('.form-group').addClass('has-error');
+                $dialog.find('#unavailable-start').addClass('is-invalid');
                 return;
             }
 
             var end = Date.parse($dialog.find('#unavailable-end').datetimepicker('getDate'));
 
             if (!end) {
-                $dialog.find('#unavailable-end').closest('.form-group').addClass('has-error');
+                $dialog.find('#unavailable-end').addClass('is-invalid');
                 return;
             }
 
@@ -54,7 +54,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
                     .addClass('alert-danger')
                     .removeClass('d-none');
 
-                $dialog.find('#unavailable-start, #unavailable-end').closest('.form-group').addClass('has-error');
+                $dialog.find('#unavailable-start, #unavailable-end').addClass('is-invalid');
                 return;
             }
 

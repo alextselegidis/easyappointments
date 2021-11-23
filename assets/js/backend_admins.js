@@ -90,12 +90,12 @@ window.BackendAdmins = window.BackendAdmins || {};
 
             $.post(url, data).done(function (response) {
                 if (response.is_valid === 'false') {
-                    $input.closest('.form-group').addClass('has-error');
+                    $input.addClass('is-invalid');
                     $input.attr('already-exists', 'true');
                     $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
-                    $input.closest('.form-group').removeClass('has-error');
+                    $input.removeClass('is-invalid');
                     $input.attr('already-exists', 'false');
                     if ($input.parents().eq(3).find('.form-message').text() === EALang.username_already_exists) {
                         $input.parents().eq(3).find('.form-message').hide();

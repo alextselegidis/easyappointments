@@ -68,13 +68,13 @@ $(function () {
     function validate() {
         try {
             $alert.removeClass('alert-danger').prop('hidden', true);
-            $('input').closest('.form-group').removeClass('has-error');
+            $('input').removeClass('is-invalid');
 
             // Check for empty fields.
             var missingRequired = false;
             $('input').each(function (index, field) {
                 if (!$(field).val()) {
-                    $(field).closest('.form-group').addClass('has-error');
+                    $(field).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -85,25 +85,25 @@ $(function () {
 
             // Validate Passwords
             if ($('#password').val() !== $('#retype-password').val()) {
-                $('#password').closest('.form-group').addClass('has-error');
-                $('#retype-password').closest('.form-group').addClass('has-error');
+                $('#password').addClass('is-invalid');
+                $('#retype-password').addClass('is-invalid');
                 throw new Error('Passwords do not match!');
             }
 
             if ($('#password').val().length < MIN_PASSWORD_LENGTH) {
-                $('#password').closest('.form-group').addClass('has-error');
-                $('#retype-password').closest('.form-group').addClass('has-error');
+                $('#password').addClass('is-invalid');
+                $('#retype-password').addClass('is-invalid');
                 throw new Error('The password must be at least ' + MIN_PASSWORD_LENGTH + ' characters long.');
             }
 
             // Validate Email
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').closest('.form-group').addClass('has-error');
+                $('#email').addClass('is-invalid');
                 throw new Error('The email address is invalid!');
             }
 
             if (!GeneralFunctions.validateEmail($('#company-email').val())) {
-                $('#company-email').closest('.form-group').addClass('has-error');
+                $('#company-email').addClass('is-invalid');
                 throw new Error('The email address is invalid!');
             }
 

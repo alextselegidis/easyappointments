@@ -30,26 +30,26 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
         $('#manage-working-plan-exceptions #save-working-plan-exception').on('click', function () {
             $('#manage-working-plan-exceptions .modal-message').prop('hidden', true);
 
-            $('#manage-working-plan-exceptions').find('.has-error').removeClass('has-error');
+            $('#manage-working-plan-exceptions').find('.is-invalid').removeClass('is-invalid');
 
             var date = $('#working-plan-exception-date').datetimepicker('getDate');
 
             if (!date) {
-                $('#working-plan-exception-date').closest('.form-group').addClass('has-error');
+                $('#working-plan-exception-date').addClass('is-invalid');
                 return;
             }
 
             var start = $('#working-plan-exception-start').datetimepicker('getDate');
 
             if (!start) {
-                $('#working-plan-exception-start').closest('.form-group').addClass('has-error');
+                $('#working-plan-exception-start').addClass('is-invalid');
                 return;
             }
 
             var end = Date.parse($('#working-plan-exception-end').datetimepicker('getDate'));
 
             if (!end) {
-                $('#working-plan-exception-end').closest('.form-group').addClass('has-error');
+                $('#working-plan-exception-end').addClass('is-invalid');
                 return;
             }
 
@@ -60,8 +60,8 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                     .addClass('alert-danger')
                     .prop('hidden', false);
 
-                $('#working-plan-exception-start').addClass('has-error');
-                $('#working-plan-exception-end').addClass('has-error');
+                $('#working-plan-exception-start').addClass('is-invalid');
+                $('#working-plan-exception-end').addClass('is-invalid');
                 return;
             }
 

@@ -87,14 +87,14 @@
      * @return {Boolean} Returns the validation result.
      */
     SystemSettingsCurrentUserHelper.prototype.validate = function () {
-        $('#current-user .has-error').removeClass('has-error');
+        $('#current-user .is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#current-user .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -105,18 +105,18 @@
 
             // Validate passwords (if provided).
             if ($('#password').val() !== $('#retype-password').val()) {
-                $('#password, #retype-password').closest('.form-group').addClass('has-error');
+                $('#password, #retype-password').addClass('is-invalid');
                 throw new Error(EALang.passwords_mismatch);
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').closest('.form-group').addClass('has-error');
+                $('#email').addClass('is-invalid');
                 throw new Error(EALang.invalid_email);
             }
 
             if ($('#username').attr('already-exists') === 'true') {
-                $('#username').closest('.form-group').addClass('has-error');
+                $('#username').addClass('is-invalid');
                 throw new Error(EALang.username_already_exists);
             }
 

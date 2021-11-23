@@ -96,14 +96,14 @@
      * @return {Boolean} Returns the validation result.
      */
     SystemSettingsBusinessLogicHelper.prototype.validate = function () {
-        $('#business-logic .has-error').removeClass('has-error');
+        $('#business-logic .is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#business-logic .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });

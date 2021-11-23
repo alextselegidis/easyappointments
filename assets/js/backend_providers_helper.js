@@ -322,7 +322,7 @@
      * @return {Boolean} Returns the validation result.
      */
     ProvidersHelper.prototype.validate = function () {
-        $('#providers .has-error').removeClass('has-error');
+        $('#providers .is-invalid').removeClass('is-invalid');
         $('#providers .form-message').removeClass('alert-danger').hide();
 
         try {
@@ -330,7 +330,7 @@
             var missingRequired = false;
             $('#providers .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -340,7 +340,7 @@
 
             // Validate passwords.
             if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
-                $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
+                $('#provider-password, #provider-password-confirm').addClass('is-invalid');
                 throw new Error(EALang.passwords_mismatch);
             }
 
@@ -348,19 +348,19 @@
                 $('#provider-password').val().length < BackendProviders.MIN_PASSWORD_LENGTH &&
                 $('#provider-password').val() !== ''
             ) {
-                $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
+                $('#provider-password, #provider-password-confirm').addClass('is-invalid');
                 throw new Error(EALang.password_length_notice.replace('$number', BackendProviders.MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
-                $('#provider-email').closest('.form-group').addClass('has-error');
+                $('#provider-email').addClass('is-invalid');
                 throw new Error(EALang.invalid_email);
             }
 
             // Check if username exists
             if ($('#provider-username').attr('already-exists') === 'true') {
-                $('#provider-username').closest('.form-group').addClass('has-error');
+                $('#provider-username').addClass('is-invalid');
                 throw new Error(EALang.username_already_exists);
             }
 
@@ -394,7 +394,7 @@
             .find('.edit-working-plan-exception, .delete-working-plan-exception')
             .prop('disabled', true);
 
-        $('#providers .record-details .has-error').removeClass('has-error');
+        $('#providers .record-details .is-invalid').removeClass('is-invalid');
         $('#providers .record-details .form-message').hide();
 
         $('#edit-provider, #delete-provider').prop('disabled', true);

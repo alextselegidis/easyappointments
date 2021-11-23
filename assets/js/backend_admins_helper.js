@@ -276,7 +276,7 @@
      * @return {Boolean} Returns the validation result.
      */
     AdminsHelper.prototype.validate = function () {
-        $('#admins .has-error').removeClass('has-error');
+        $('#admins .is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
@@ -284,7 +284,7 @@
 
             $('#admins .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -295,7 +295,7 @@
 
             // Validate passwords.
             if ($('#admin-password').val() !== $('#admin-password-confirm').val()) {
-                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
+                $('#admin-password, #admin-password-confirm').addClass('is-invalid');
                 throw new Error(EALang.passwords_mismatch);
             }
 
@@ -303,19 +303,19 @@
                 $('#admin-password').val().length < BackendAdmins.MIN_PASSWORD_LENGTH &&
                 $('#admin-password').val() !== ''
             ) {
-                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
+                $('#admin-password, #admin-password-confirm').addClass('is-invalid');
                 throw new Error(EALang.password_length_notice.replace('$number', BackendAdmins.MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
-                $('#admin-email').closest('.form-group').addClass('has-error');
+                $('#admin-email').addClass('is-invalid');
                 throw new Error(EALang.invalid_email);
             }
 
             // Check if username exists
             if ($('#admin-username').attr('already-exists') === 'true') {
-                $('#admin-username').closest('.form-group').addClass('has-error');
+                $('#admin-username').addClass('is-invalid');
                 throw new Error(EALang.username_already_exists);
             }
 
@@ -341,7 +341,7 @@
         $('#admins .record-details #admin-timezone').val('UTC');
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
-        $('#admins .has-error').removeClass('has-error');
+        $('#admins .is-invalid').removeClass('is-invalid');
         $('#admins .form-message').hide();
     };
 

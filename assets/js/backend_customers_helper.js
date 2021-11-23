@@ -212,7 +212,7 @@
      */
     CustomersHelper.prototype.validate = function () {
         $('#form-message').removeClass('alert-danger').hide();
-        $('.has-error').removeClass('has-error');
+        $('.is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
@@ -220,7 +220,7 @@
 
             $('.required').each(function (index, requiredField) {
                 if ($(requiredField).val() === '') {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -231,7 +231,7 @@
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').closest('.form-group').addClass('has-error');
+                $('#email').addClass('is-invalid');
                 throw new Error(EALang.invalid_email);
             }
 
@@ -256,7 +256,7 @@
         $('#add-edit-delete-group').show();
         $('#save-cancel-group').hide();
 
-        $('.record-details .has-error').removeClass('has-error');
+        $('.record-details .is-invalid').removeClass('is-invalid');
         $('.record-details #form-message').hide();
 
         $('#filter-customers button').prop('disabled', false);

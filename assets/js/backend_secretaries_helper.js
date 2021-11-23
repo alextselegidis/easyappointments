@@ -289,7 +289,7 @@
      * @return {Boolean} Returns the validation result.
      */
     SecretariesHelper.prototype.validate = function () {
-        $('#secretaries .has-error').removeClass('has-error');
+        $('#secretaries .is-invalid').removeClass('is-invalid');
         $('#secretaries .form-message').removeClass('alert-danger');
 
         try {
@@ -297,7 +297,7 @@
             var missingRequired = false;
             $('#secretaries .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -307,7 +307,7 @@
 
             // Validate passwords.
             if ($('#secretary-password').val() !== $('#secretary-password-confirm').val()) {
-                $('#secretary-password, #secretary-password-confirm').closest('.form-group').addClass('has-error');
+                $('#secretary-password, #secretary-password-confirm').addClass('is-invalid');
                 throw new Error('Passwords mismatch!');
             }
 
@@ -315,19 +315,19 @@
                 $('#secretary-password').val().length < BackendSecretaries.MIN_PASSWORD_LENGTH &&
                 $('#secretary-password').val() !== ''
             ) {
-                $('#secretary-password, #secretary-password-confirm').closest('.form-group').addClass('has-error');
+                $('#secretary-password, #secretary-password-confirm').addClass('is-invalid');
                 throw new Error('Password must be at least ' + BackendSecretaries.MIN_PASSWORD_LENGTH + ' characters long.');
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
-                $('#secretary-email').closest('.form-group').addClass('has-error');
+                $('#secretary-email').addClass('is-invalid');
                 throw new Error('Invalid email address!');
             }
 
             // Check if username exists
             if ($('#secretary-username').attr('already-exists') === 'true') {
-                $('#secretary-username').closest('.form-group').addClass('has-error');
+                $('#secretary-username').addClass('is-invalid');
                 throw new Error('Username already exists.');
             }
 
@@ -354,7 +354,7 @@
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
         $('#secretaries .form-message').hide();
         $('#secretary-providers input:checkbox').prop('checked', false);
-        $('#secretaries .has-error').removeClass('has-error');
+        $('#secretaries .is-invalid').removeClass('is-invalid');
     };
 
     /**

@@ -97,14 +97,14 @@
      * @return {Boolean} Returns the validation result.
      */
     SystemSettingsLegalContentsHelper.prototype.validate = function () {
-        $('#legal-contents .has-error').removeClass('has-error');
+        $('#legal-contents .is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
             var missingRequired = false;
             $('#general .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });

@@ -501,7 +501,7 @@ window.FrontendBook = window.FrontendBook || {};
      * @return {Boolean} Returns the validation result.
      */
     function validateCustomerForm() {
-        $('#wizard-frame-3 .has-error').removeClass('has-error');
+        $('#wizard-frame-3 .is-invalid').removeClass('is-invalid');
         $('#wizard-frame-3 label.text-danger').removeClass('text-danger');
 
         try {
@@ -509,7 +509,7 @@ window.FrontendBook = window.FrontendBook || {};
             var missingRequiredField = false;
             $('.required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).parents('.form-group').addClass('has-error');
+                    $(requiredField).parents('.form-group').addClass('is-invalid');
                     missingRequiredField = true;
                 }
             });
@@ -531,7 +531,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').parents('.form-group').addClass('has-error');
+                $('#email').parents('.form-group').addClass('is-invalid');
                 throw new Error(EALang.invalid_email);
             }
 

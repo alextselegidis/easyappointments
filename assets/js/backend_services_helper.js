@@ -255,7 +255,7 @@
      * @return {Boolean} Returns the validation result.
      */
     ServicesHelper.prototype.validate = function () {
-        $('#services .has-error').removeClass('has-error');
+        $('#services .is-invalid').removeClass('is-invalid');
         $('#services .form-message').removeClass('alert-danger').hide();
 
         try {
@@ -264,7 +264,7 @@
 
             $('#services .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
-                    $(requiredField).closest('.form-group').addClass('has-error');
+                    $(requiredField).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -275,7 +275,7 @@
 
             // Validate the duration.
             if (Number($('#service-duration').val()) < 5) {
-                $('#service-duration').closest('.form-group').addClass('has-error');
+                $('#service-duration').addClass('is-invalid');
                 throw new Error(EALang.invalid_duration);
             }
 
@@ -301,7 +301,7 @@
         $('#services .save-cancel-group').hide();
         $('#edit-service, #delete-service').prop('disabled', true);
 
-        $('#services .record-details .has-error').removeClass('has-error');
+        $('#services .record-details .is-invalid').removeClass('is-invalid');
         $('#services .record-details .form-message').hide();
     };
 
