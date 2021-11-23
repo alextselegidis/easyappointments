@@ -54,58 +54,58 @@
                     <div class="col-12 col-sm-11 col-md-10 col-lg-9">
                         <h4><?= lang('cookie_notice') ?></h4>
 
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="custom-control custom-checkbox">
                                 <input class="custom-control-input" type="checkbox" id="display-cookie-notice">
-                                <label class="custom-control-label" for="display-cookie-notice">
+                                <label class="custom-form-label" for="display-cookie-notice">
                                     <?= lang('display_cookie_notice') ?>
                                 </label>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label><?= lang('cookie_notice_content') ?></label>
-                            <textarea id="cookie-notice-content" cols="30" rows="10" class="form-group"></textarea>
+                            <textarea id="cookie-notice-content" cols="30" rows="10" class="mb-3"></textarea>
                         </div>
 
                         <br>
 
                         <h4><?= lang('terms_and_conditions') ?></h4>
 
-                        <div class="form-group">
-                            <div class="form-group">
+                        <div class="mb-3">
+                            <div class="mb-3">
                                 <div class="custom-control custom-checkbox">
                                     <input class="custom-control-input" type="checkbox"
                                            id="display-terms-and-conditions">
-                                    <label class="custom-control-label" for="display-terms-and-conditions">
+                                    <label class="custom-form-label" for="display-terms-and-conditions">
                                         <?= lang('display_terms_and_conditions') ?>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label><?= lang('terms_and_conditions_content') ?></label>
                             <textarea id="terms-and-conditions-content" cols="30" rows="10"
-                                      class="form-group"></textarea>
+                                      class="mb-3"></textarea>
                         </div>
 
                         <h4><?= lang('privacy_policy') ?></h4>
 
-                        <div class="form-group">
-                            <div class="form-group">
+                        <div class="mb-3">
+                            <div class="mb-3">
                                 <div class="custom-control custom-checkbox">
                                     <input class="custom-control-input" type="checkbox" id="display-privacy-policy">
-                                    <label class="custom-control-label" for="display-privacy-policy">
+                                    <label class="custom-form-label" for="display-privacy-policy">
                                         <?= lang('display_privacy_policy') ?>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label><?= lang('privacy_policy_content') ?></label>
-                            <textarea id="privacy-policy-content" cols="30" rows="10" class="form-group"></textarea>
+                            <textarea id="privacy-policy-content" cols="30" rows="10" class="mb-3"></textarea>
                         </div>
                     </div>
                 </div>

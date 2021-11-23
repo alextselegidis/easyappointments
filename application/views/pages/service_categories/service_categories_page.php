@@ -94,16 +94,16 @@
 
             <input type="hidden" id="category-id">
 
-            <div class="form-group">
-                <label for="category-name">
+            <div class="mb-3">
+                <label class="form-label" for="category-name">
                     <?= lang('name') ?>
                     <span class="text-danger">*</span>
                 </label>
                 <input id="category-name" class="form-control required">
             </div>
 
-            <div class="form-group">
-                <label for="category-description">
+            <div class="mb-3">
+                <label class="form-label" for="category-description">
                     <?= lang('description') ?>
 
                 </label>

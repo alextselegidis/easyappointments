@@ -56,7 +56,7 @@
 
                 <div class="wrapper row">
                     <div class="col-12 col-sm-3">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="show-phone-number">
                                 <?= lang('phone_number') ?>
                             </label>
@@ -72,7 +72,7 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="show-address">
                                 <?= lang('address') ?>
                             </label>
@@ -88,7 +88,7 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="show-city">
                                 <?= lang('city') ?>
                             </label>
@@ -104,7 +104,7 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="show-zip-code">
                                 <?= lang('zip_code') ?>
                             </label>
@@ -120,7 +120,7 @@
                                 </span>
                             </button>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <label for="show-notes">
                                 <?= lang('notes') ?>
                             </label>
@@ -139,10 +139,10 @@
                     </div>
 
                     <div class="col-12 col-sm-9">
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="customer-notifications">
-                                <label class="custom-control-label" for="customer-notifications">
+                                <label class="custom-form-label" for="customer-notifications">
                                     <?= lang('customer_notifications') ?>
                                 </label>
                             </div>
@@ -150,10 +150,10 @@
                                     <?= lang('customer_notifications_hint') ?>
                                 </span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="require-captcha">
-                                <label class="custom-control-label" for="require-captcha">
+                                <label class="custom-form-label" for="require-captcha">
                                     CAPTCHA
                                 </label>
                             </div>
@@ -161,10 +161,10 @@
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="require-phone-number">
-                                <label class="custom-control-label" for="require-phone-number">
+                                <label class="custom-form-label" for="require-phone-number">
                                     <?= lang('phone_number') ?>
                                 </label>
                             </div>
@@ -172,10 +172,10 @@
                                     <?= lang('require_phone_number_hint') ?>
                                 </span>
                         </div>
-                        <div class="form-group">
+                        <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="display-any-provider">
-                                <label class="custom-control-label" for="display-any-provider">
+                                <label class="custom-form-label" for="display-any-provider">
                                     <?= lang('any_provider') ?>
                                 </label>
                             </div>

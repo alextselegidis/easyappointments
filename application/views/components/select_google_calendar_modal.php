@@ -6,8 +6,8 @@
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="google-calendar" class="control-label">
+                <div class="mb-3">
+                    <label for="google-calendar" class="form-label">
                         <?= lang('select_google_calendar_prompt') ?>
                     </label>
                     <select id="google-calendar" class="form-control"></select>

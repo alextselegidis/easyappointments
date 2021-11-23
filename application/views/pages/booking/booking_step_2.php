@@ -16,7 +16,7 @@
 
             <div class="col-12 col-md-6">
                 <div id="select-time">
-                    <div class="form-group">
+                    <div class="mb-3">
                         <label for="select-timezone"><?= lang('timezone') ?></label>
                         <?php component('timezone_dropdown','id="select-timezone" class="form-control" value="UTC"', ['timezones' => $grouped_timezones]) ?>
                     </div>

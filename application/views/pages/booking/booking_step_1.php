@@ -4,7 +4,7 @@
 
         <div class="row frame-content">
             <div class="col">
-                <div class="form-group">
+                <div class="mb-3">
                     <label for="select-service">
                         <strong><?= lang('service') ?></strong>
                     </label>
@@ -79,7 +79,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
+                <div class="mb-3">
                     <label for="select-provider">
                         <strong><?= lang('provider') ?></strong>
                     </label>

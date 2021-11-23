@@ -97,93 +97,93 @@
 
             <div class="row">
                 <div class="admin-details col-12 col-md-6">
-                    <div class="form-group">
-                        <label for="admin-first-name">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-first-name">
                             <?= lang('first_name') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="admin-first-name" class="form-control required" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-last-name">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-last-name">
                             <?= lang('last_name') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="admin-last-name" class="form-control required" maxlength="512">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-email">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-email">
                             <?= lang('email') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="admin-email" class="form-control required" maxlength="512">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-phone-number">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-phone-number">
                             <?= lang('phone_number') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="admin-phone-number" class="form-control required" maxlength="128">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-mobile-number">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-mobile-number">
                             <?= lang('mobile_number') ?>
 
                         </label>
                         <input id="admin-mobile-number" class="form-control" maxlength="128">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-address">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-address">
                             <?= lang('address') ?>
                         </label>
                         <input id="admin-address" class="form-control" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-city">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-city">
                             <?= lang('city') ?>
 
                         </label>
                         <input id="admin-city" class="form-control" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-state">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-state">
                             <?= lang('state') ?>
                         </label>
                         <input id="admin-state" class="form-control" maxlength="128">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-zip-code">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-zip-code">
                             <?= lang('zip_code') ?>
                         </label>
                         <input id="admin-zip-code" class="form-control" maxlength="64">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-notes">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-notes">
                             <?= lang('notes') ?>
                         </label>
                         <textarea id="admin-notes" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="admin-settings col-12 col-md-6">
-                    <div class="form-group">
-                        <label for="admin-username">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-username">
                             <?= lang('username') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="admin-username" class="form-control required" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-password">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-password">
                             <?= lang('password') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -191,8 +191,8 @@
                                autocomplete="new-password">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-password-confirm">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-password-confirm">
                             <?= lang('retype_password') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -200,8 +200,8 @@
                                maxlength="512" autocomplete="new-password">
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-calendar-view">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-calendar-view">
                             <?= lang('calendar') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -211,8 +211,8 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="admin-timezone">
+                    <div class="mb-3">
+                        <label class="form-label" for="admin-timezone">
                             <?= lang('timezone') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -223,7 +223,7 @@
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="admin-notifications">
-                        <label class="custom-control-label" for="admin-notifications">
+                        <label class="custom-form-label" for="admin-notifications">
                             <?= lang('receive_notifications') ?>
                         </label>
                     </div>

@@ -17,20 +17,20 @@
 <div class="alert d-none"></div>
 
 <form id="login-form">
-    <div class="form-group">
+    <div class="mb-3">
         <label for="username"><?= lang('username') ?></label>
         <input type="text" id="username"
                placeholder="<?= lang('enter_username_here') ?>"
                class="form-control"/>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <label for="password"><?= lang('password') ?></label>
         <input type="password" id="password"
                placeholder="<?= lang('enter_password_here') ?>"
                class="form-control"/>
     </div>
 
-    <div class="form-group">
+    <div class="mb-3">
         <button type="submit" id="login" class="btn btn-primary">
             <i class="fas fa-sign-in-alt me-2"></i>
             <?= lang('login') ?>

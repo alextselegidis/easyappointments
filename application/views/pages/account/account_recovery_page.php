@@ -11,11 +11,11 @@
 <div class="alert d-none"></div>
 
 <form>
-    <div class="form-group">
+    <div class="mb-3">
         <label for="username"><?= lang('username') ?></label>
         <input type="text" id="username" placeholder="<?= lang('enter_username_here') ?>" class="form-control"/>
     </div>
-    <div class="form-group">
+    <div class="mb-3">
         <label for="email"><?= lang('email') ?></label>
         <input type="text" id="email" placeholder="<?= lang('enter_email_here') ?>" class="form-control"/>
     </div>

@@ -59,9 +59,10 @@
                 <div class="row">
                     <div class="col-12 col-sm-7 working-plan-wrapper">
                         <h4><?= lang('working_plan') ?></h4>
-                        <span class="form-text text-muted mb-4">
-                                <?= lang('edit_working_plan_hint') ?>
-                            </span>
+                        
+                        <div class="form-text text-muted mb-4">
+                            <?= lang('edit_working_plan_hint') ?>
+                        </div>
 
                         <table class="working-plan table table-striped">
                             <thead>
@@ -84,22 +85,23 @@
                         <br>
 
                         <h4><?= lang('book_advance_timeout') ?></h4>
-                        <div class="form-group">
-                            <label for="book-advance-timeout"
-                                   class="control-label"><?= lang('timeout_minutes') ?></label>
+                        <div class="mb-3">
+                            <label for="book-advance-timeout" class="form-label">
+                                <?= lang('timeout_minutes') ?>
+                            </label>
                             <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control"
                                    type="number" min="15">
-                            <p class="form-text text-muted">
+                            <div class="form-text text-muted">
                                 <?= lang('book_advance_timeout_hint') ?>
-                            </p>
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-sm-5 breaks-wrapper">
                         <h4><?= lang('breaks') ?></h4>
 
                         <span class="form-text text-muted">
-                                <?= lang('edit_breaks_hint') ?>
-                            </span>
+                            <?= lang('edit_breaks_hint') ?>
+                        </span>
 
                         <div class="mt-2">
                             <button type="button" class="add-break btn btn-primary">

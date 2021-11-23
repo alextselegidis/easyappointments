@@ -46,38 +46,38 @@
         <div class="admin-settings col-12 col-sm-5">
             <h3>Administrator</h3>
 
-            <div class="form-group">
-                <label for="first-name" class="control-label">First Name</label>
+            <div class="mb-3">
+                <label for="first-name" class="form-label">First Name</label>
                 <input type="text" id="first-name" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="last-name" class="control-label">Last Name</label>
+            <div class="mb-3">
+                <label for="last-name" class="form-label">Last Name</label>
                 <input type="text" id="last-name" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="email" class="control-label">Email</label>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
                 <input type="text" id="email" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="phone-number" class="control-label">Phone Number</label>
+            <div class="mb-3">
+                <label for="phone-number" class="form-label">Phone Number</label>
                 <input type="text" id="phone-number" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="username" class="control-label">Username</label>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
                 <input type="text" id="username" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="password" class="control-label">Password</label>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
                 <input type="password" id="password" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="retype-password" class="control-label">Retype Password</label>
+            <div class="mb-3">
+                <label for="retype-password" class="form-label">Retype Password</label>
                 <input type="password" id="retype-password" class="form-control"/>
             </div>
         </div>
@@ -85,18 +85,18 @@
         <div class="company-settings col-12 col-sm-5">
             <h3>Company</h3>
 
-            <div class="form-group">
-                <label for="company-name" class="control-label">Company Name</label>
+            <div class="mb-3">
+                <label for="company-name" class="form-label">Company Name</label>
                 <input type="text" id="company-name" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="company-email" class="control-label">Company Email</label>
+            <div class="mb-3">
+                <label for="company-email" class="form-label">Company Email</label>
                 <input type="text" id="company-email" class="form-control"/>
             </div>
 
-            <div class="form-group">
-                <label for="company-link" class="control-label">Company Link</label>
+            <div class="mb-3">
+                <label for="company-link" class="form-label">Company Link</label>
                 <input type="text" id="company-link" class="form-control"/>
             </div>
         </div>

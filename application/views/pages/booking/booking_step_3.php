@@ -5,30 +5,30 @@
 
         <div class="row frame-content">
             <div class="col-12 col-md-6">
-                <div class="form-group">
-                    <label for="first-name" class="control-label">
+                <div class="mb-3">
+                    <label for="first-name" class="form-label">
                         <?= lang('first_name') ?>
                         <span class="text-danger">*</span>
                     </label>
                     <input type="text" id="first-name" class="required form-control" maxlength="100"/>
                 </div>
-                <div class="form-group">
-                    <label for="last-name" class="control-label">
+                <div class="mb-3">
+                    <label for="last-name" class="form-label">
                         <?= lang('last_name') ?>
                         <span class="text-danger">*</span>
                     </label>
                     <input type="text" id="last-name" class="required form-control" maxlength="120"/>
                 </div>
-                <div class="form-group">
-                    <label for="email" class="control-label">
+                <div class="mb-3">
+                    <label for="email" class="form-label">
                         <?= lang('email') ?>
                         <span class="text-danger">*</span>
                     </label>
                     <input type="text" id="email" class="required form-control" maxlength="120"/>
                 </div>
                 <?php if ($show_field['phone-number']) : ?>
-                    <div class="form-group">
-                        <label for="phone-number" class="control-label">
+                    <div class="mb-3">
+                        <label for="phone-number" class="form-label">
                             <?= lang('phone_number') ?>
                             <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                         </label>
@@ -40,32 +40,32 @@
 
             <div class="col-12 col-md-6">
                 <?php if ($show_field['address']) : ?>
-                    <div class="form-group">
-                        <label for="address" class="control-label">
+                    <div class="mb-3">
+                        <label for="address" class="form-label">
                             <?= lang('address') ?>
                         </label>
                         <input type="text" id="address" class="form-control" maxlength="120"/>
                     </div>
                 <?php endif; ?>
                 <?php if ($show_field['city']): ?>
-                    <div class="form-group">
-                        <label for="city" class="control-label">
+                    <div class="mb-3">
+                        <label for="city" class="form-label">
                             <?= lang('city') ?>
                         </label>
                         <input type="text" id="city" class="form-control" maxlength="120"/>
                     </div>
                 <?php endif; ?>
                 <?php if ($show_field['zip-code']) : ?>
-                    <div class="form-group">
-                        <label for="zip-code" class="control-label">
+                    <div class="mb-3">
+                        <label for="zip-code" class="form-label">
                             <?= lang('zip_code') ?>
                         </label>
                         <input type="text" id="zip-code" class="form-control" maxlength="120"/>
                     </div>
                 <?php endif; ?>
                 <?php if ($show_field['notes']) : ?>
-                    <div class="form-group">
-                        <label for="notes" class="control-label">
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">
                             <?= lang('notes') ?>
                         </label>
                         <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>

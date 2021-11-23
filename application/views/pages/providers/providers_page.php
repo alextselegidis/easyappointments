@@ -123,94 +123,94 @@
 
                     <div class="row">
                         <div class="provider-details col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="provider-first-name">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-first-name">
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="provider-first-name" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-last-name">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-last-name">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="provider-last-name" class="form-control required" maxlength="512">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-email">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-email">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="provider-email" class="form-control required" max="512">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-phone-number">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-phone-number">
                                     <?= lang('phone_number') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="provider-phone-number" class="form-control required" max="128">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-mobile-number">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-mobile-number">
                                     <?= lang('mobile_number') ?>
 
                                 </label>
                                 <input id="provider-mobile-number" class="form-control" maxlength="128">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-address">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-address">
                                     <?= lang('address') ?>
                                 </label>
                                 <input id="provider-address" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-city">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-city">
                                     <?= lang('city') ?>
 
                                 </label>
                                 <input id="provider-city" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-state">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-state">
                                     <?= lang('state') ?>
                                 </label>
                                 <input id="provider-state" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-zip-code">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-zip-code">
                                     <?= lang('zip_code') ?>
 
                                 </label>
                                 <input id="provider-zip-code" class="form-control" maxlength="64">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-notes">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-notes">
                                     <?= lang('notes') ?>
                                 </label>
                                 <textarea id="provider-notes" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="provider-settings col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="provider-username">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-username">
                                     <?= lang('username') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="provider-username" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-password">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-password">
                                     <?= lang('password') ?>
                                     <span class="text-danger">*</span>
                                 </label>
@@ -218,8 +218,8 @@
                                        maxlength="512" autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-password-confirm">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-password-confirm">
                                     <?= lang('retype_password') ?>
                                     <span class="text-danger">*</span>
                                 </label>
@@ -228,8 +228,8 @@
                                        autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-calendar-view">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-calendar-view">
                                     <?= lang('calendar') ?>
                                     <span class="text-danger">*</span>
                                 </label>
@@ -239,8 +239,8 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
-                                <label for="provider-timezone">
+                            <div class="mb-3">
+                                <label class="form-label" for="provider-timezone">
                                     <?= lang('timezone') ?>
                                     <span class="text-danger">*</span>
                                 </label>
@@ -251,7 +251,7 @@
 
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="provider-notifications">
-                                <label class="custom-control-label" for="provider-notifications">
+                                <label class="custom-form-label" for="provider-notifications">
                                     <?= lang('receive_notifications') ?>
                                 </label>
                             </div>

@@ -99,92 +99,92 @@
 
             <div class="row">
                 <div class="secretary-details col-12 col-md-6">
-                    <div class="form-group">
-                        <label for="secretary-first-name">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-first-name">
                             <?= lang('first_name') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="secretary-first-name" class="form-control required" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-last-name">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-last-name">
                             <?= lang('last_name') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="secretary-last-name" class="form-control required" maxlength="512">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-email">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-email">
                             <?= lang('email') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="secretary-email" class="form-control required" maxlength="512">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-phone-number">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-phone-number">
                             <?= lang('phone_number') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="secretary-phone-number" class="form-control required" maxlength="128">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-mobile-number">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-mobile-number">
                             <?= lang('mobile_number') ?>
 
                         </label>
                         <input id="secretary-mobile-number" class="form-control" maxlength="128">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-address">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-address">
                             <?= lang('address') ?>
                         </label>
                         <input id="secretary-address" class="form-control" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-city">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-city">
                             <?= lang('city') ?>
                         </label>
                         <input id="secretary-city" class="form-control" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-state">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-state">
                             <?= lang('state') ?>
                         </label>
                         <input id="secretary-state" class="form-control" maxlength="128">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-zip-code">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-zip-code">
                             <?= lang('zip_code') ?>
                         </label>
                         <input id="secretary-zip-code" class="form-control" maxlength="64">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-notes">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-notes">
                             <?= lang('notes') ?>
                         </label>
                         <textarea id="secretary-notes" class="form-control" rows="3"></textarea>
                     </div>
                 </div>
                 <div class="secretary-settings col-12 col-md-6">
-                    <div class="form-group">
-                        <label for="secretary-username">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-username">
                             <?= lang('username') ?>
                             <span class="text-danger">*</span>
                         </label>
                         <input id="secretary-username" class="form-control required" maxlength="256">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-password">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-password">
                             <?= lang('password') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -192,8 +192,8 @@
                                maxlength="512" autocomplete="new-password">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-password-confirm">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-password-confirm">
                             <?= lang('retype_password') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -201,8 +201,8 @@
                                maxlength="512" autocomplete="new-password">
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-calendar-view">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-calendar-view">
                             <?= lang('calendar') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -212,8 +212,8 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label for="secretary-timezone">
+                    <div class="mb-3">
+                        <label class="form-label" for="secretary-timezone">
                             <?= lang('timezone') ?>
                             <span class="text-danger">*</span>
                         </label>
@@ -224,7 +224,7 @@
 
                     <div class="custom-control custom-switch">
                         <input type="checkbox" class="custom-control-input" id="secretary-notifications">
-                        <label class="custom-control-label" for="secretary-notifications">
+                        <label class="custom-form-label" for="secretary-notifications">
                             <?= lang('receive_notifications') ?>
                         </label>
                     </div>

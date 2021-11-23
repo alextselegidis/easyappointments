@@ -7,18 +7,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="working-plan-exceptions-date"><?= lang('date') ?></label>
+                <div class="mb-3">
+                    <label class="form-label" for="working-plan-exceptions-date"><?= lang('date') ?></label>
                     <input class="form-control" id="working-plan-exceptions-date">
                 </div>
 
-                <div class="form-group">
-                    <label for="working-plan-exceptions-start"><?= lang('start') ?></label>
+                <div class="mb-3">
+                    <label class="form-label" for="working-plan-exceptions-start"><?= lang('start') ?></label>
                     <input class="form-control" id="working-plan-exceptions-start">
                 </div>
 
-                <div class="form-group">
-                    <label for="working-plan-exceptions-end"><?= lang('end') ?></label>
+                <div class="mb-3">
+                    <label class="form-label" for="working-plan-exceptions-end"><?= lang('end') ?></label>
                     <input class="form-control" id="working-plan-exceptions-end">
                 </div>
 

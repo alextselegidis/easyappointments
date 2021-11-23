@@ -18,31 +18,31 @@
                     <fieldset>
                         <input id="unavailable-id" type="hidden">
 
-                        <div class="form-group">
-                            <label for="unavailable-provider" class="control-label">
+                        <div class="mb-3">
+                            <label for="unavailable-provider" class="form-label">
                                 <?= lang('provider') ?>
                             </label>
                             <select id="unavailable-provider" class="form-control"></select>
                         </div>
 
-                        <div class="form-group">
-                            <label for="unavailable-start" class="control-label">
+                        <div class="mb-3">
+                            <label for="unavailable-start" class="form-label">
                                 <?= lang('start') ?>
                                 <span class="text-danger">*</span>
                             </label>
                             <input id="unavailable-start" class="form-control">
                         </div>
 
-                        <div class="form-group">
-                            <label for="unavailable-end" class="control-label">
+                        <div class="mb-3">
+                            <label for="unavailable-end" class="form-label">
                                 <?= lang('end') ?>
                                 <span class="text-danger">*</span>
                             </label>
                             <input id="unavailable-end" class="form-control">
                         </div>
 
-                        <div class="form-group">
-                            <label class="control-label"><?= lang('timezone') ?></label>
+                        <div class="mb-3">
+                            <label class="form-label"><?= lang('timezone') ?></label>
 
                             <ul>
                                 <li>
@@ -60,8 +60,8 @@
                             </ul>
                         </div>
 
-                        <div class="form-group">
-                            <label for="unavailable-notes" class="control-label">
+                        <div class="mb-3">
+                            <label for="unavailable-notes" class="form-label">
                                 <?= lang('notes') ?>
                             </label>
                             <textarea id="unavailable-notes" rows="3" class="form-control"></textarea>

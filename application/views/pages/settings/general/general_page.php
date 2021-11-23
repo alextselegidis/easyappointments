@@ -54,40 +54,40 @@
 
                     <div class="wrapper row">
                         <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="company-name">
+                            <div class="mb-3">
+                                <label class="form-label" for="company-name">
                                     <?= lang('company_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="company-name" data-field="company_name" class="required form-control">
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('company_name_hint') ?>
-                                </span>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="company-email">
+                            <div class="mb-3">
+                                <label class="form-label" for="company-email">
                                     <?= lang('company_email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="company-email" data-field="company_email" class="required form-control">
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('company_email_hint') ?>
-                                </span>
+                                </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="company-link">
+                            <div class="mb-3">
+                                <label class="form-label" for="company-link">
                                     <?= lang('company_link') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="company-link" data-field="company_link" class="required form-control">
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('company_link_hint') ?>
-                                </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="date-format">
+                            <div class="mb-3">
+                                <label class="form-label" for="date-format">
                                     <?= lang('date_format') ?>
                                 </label>
                                 <select class="form-control" id="date-format" data-field="date_format">
@@ -95,24 +95,24 @@
                                     <option value="MDY">MDY</option>
                                     <option value="YMD">YMD</option>
                                 </select>
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('date_format_hint') ?>
-                                </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="time-format">
+                            <div class="mb-3">
+                                <label class="form-label" for="time-format">
                                     <?= lang('time_format') ?>
                                 </label>
                                 <select class="form-control" id="time-format" data-field="time_format">
                                     <option value="<?= TIME_FORMAT_REGULAR ?>">H:MM AM/PM</option>
                                     <option value="<?= TIME_FORMAT_MILITARY ?>">HH:MM</option>
                                 </select>
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('time_format_hint') ?>
-                                </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="first-weekday">
+                            <div class="mb-3">
+                                <label class="form-label" for="first-weekday">
                                     <?= lang('first_weekday') ?>
                                 </label>
                                 <select class="form-control" id="first-weekday" data-field="first_weekday">
@@ -124,27 +124,27 @@
                                     <option value="friday"><?= lang('friday') ?></option>
                                     <option value="saturday"><?= lang('saturday') ?></option>
                                 </select>
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('first_weekday_hint') ?>
-                                </span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <div class="form-group">
-                                <label for="google-analytics-code">
+                            <div class="mb-3">
+                                <label class="form-label" for="google-analytics-code">
                                     Google Analytics ID</label>
                                 <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
                                        data-field="google_analytics_code" class="form-control">
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('google_analytics_code_hint') ?>
-                                </span>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="api-token">API Token</label>
+                            <div class="mb-3">
+                                <label class="form-label" for="api-token">API Token</label>
                                 <input id="api-token" data-field="api_token" class="form-control">
-                                <span class="form-text text-muted">
+                                <div class="form-text text-muted">
                                     <?= lang('api_token_hint') ?>
-                                </span>
+                                </div>
                             </div>
 
 

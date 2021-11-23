@@ -168,7 +168,7 @@
 
                             <div class="row">
                                 <div class="provider-details col-12 col-md-6">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-first-name">
                                             <?= lang('first_name') ?>
                                             <span class="text-danger">*</span>
@@ -176,7 +176,7 @@
                                         <input id="provider-first-name" class="form-control required" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-last-name">
                                             <?= lang('last_name') ?>
                                             <span class="text-danger">*</span>
@@ -184,7 +184,7 @@
                                         <input id="provider-last-name" class="form-control required" maxlength="512">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-email">
                                             <?= lang('email') ?>
                                             <span class="text-danger">*</span>
@@ -192,7 +192,7 @@
                                         <input id="provider-email" class="form-control required" max="512">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-phone-number">
                                             <?= lang('phone_number') ?>
                                             <span class="text-danger">*</span>
@@ -200,7 +200,7 @@
                                         <input id="provider-phone-number" class="form-control required" max="128">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-mobile-number">
                                             <?= lang('mobile_number') ?>
 
@@ -208,14 +208,14 @@
                                         <input id="provider-mobile-number" class="form-control" maxlength="128">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-address">
                                             <?= lang('address') ?>
                                         </label>
                                         <input id="provider-address" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-city">
                                             <?= lang('city') ?>
 
@@ -223,14 +223,14 @@
                                         <input id="provider-city" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-state">
                                             <?= lang('state') ?>
                                         </label>
                                         <input id="provider-state" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-zip-code">
                                             <?= lang('zip_code') ?>
 
@@ -238,7 +238,7 @@
                                         <input id="provider-zip-code" class="form-control" maxlength="64">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-notes">
                                             <?= lang('notes') ?>
                                         </label>
@@ -246,7 +246,7 @@
                                     </div>
                                 </div>
                                 <div class="provider-settings col-12 col-md-6">
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-username">
                                             <?= lang('username') ?>
                                             <span class="text-danger">*</span>
@@ -254,7 +254,7 @@
                                         <input id="provider-username" class="form-control required" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-password">
                                             <?= lang('password') ?>
                                             <span class="text-danger">*</span>
@@ -263,7 +263,7 @@
                                                maxlength="512" autocomplete="new-password">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-password-confirm">
                                             <?= lang('retype_password') ?>
                                             <span class="text-danger">*</span>
@@ -273,7 +273,7 @@
                                                autocomplete="new-password">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-calendar-view">
                                             <?= lang('calendar') ?>
                                             <span class="text-danger">*</span>
@@ -284,7 +284,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="mb-3">
                                         <label for="provider-timezone">
                                             <?= lang('timezone') ?>
                                             <span class="text-danger">*</span>
@@ -296,7 +296,7 @@
 
                                     <div class="custom-control custom-switch">
                                         <input type="checkbox" class="custom-control-input" id="provider-notifications">
-                                        <label class="custom-control-label" for="provider-notifications">
+                                        <label class="custom-form-label" for="provider-notifications">
                                             <?= lang('receive_notifications') ?>
                                         </label>
                                     </div>
@@ -457,7 +457,7 @@
 
                     <div class="row">
                         <div class="secretary-details col-12 col-md-6">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-first-name">
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
@@ -465,7 +465,7 @@
                                 <input id="secretary-first-name" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-last-name">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
@@ -473,7 +473,7 @@
                                 <input id="secretary-last-name" class="form-control required" maxlength="512">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-email">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
@@ -481,7 +481,7 @@
                                 <input id="secretary-email" class="form-control required" maxlength="512">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-phone-number">
                                     <?= lang('phone_number') ?>
                                     <span class="text-danger">*</span>
@@ -489,7 +489,7 @@
                                 <input id="secretary-phone-number" class="form-control required" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-mobile-number">
                                     <?= lang('mobile_number') ?>
 
@@ -497,35 +497,35 @@
                                 <input id="secretary-mobile-number" class="form-control" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-address">
                                     <?= lang('address') ?>
                                 </label>
                                 <input id="secretary-address" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-city">
                                     <?= lang('city') ?>
                                 </label>
                                 <input id="secretary-city" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-state">
                                     <?= lang('state') ?>
                                 </label>
                                 <input id="secretary-state" class="form-control" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-zip-code">
                                     <?= lang('zip_code') ?>
                                 </label>
                                 <input id="secretary-zip-code" class="form-control" maxlength="64">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-notes">
                                     <?= lang('notes') ?>
                                 </label>
@@ -533,7 +533,7 @@
                             </div>
                         </div>
                         <div class="secretary-settings col-12 col-md-6">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-username">
                                     <?= lang('username') ?>
                                     <span class="text-danger">*</span>
@@ -541,7 +541,7 @@
                                 <input id="secretary-username" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-password">
                                     <?= lang('password') ?>
                                     <span class="text-danger">*</span>
@@ -550,7 +550,7 @@
                                        maxlength="512" autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-password-confirm">
                                     <?= lang('retype_password') ?>
                                     <span class="text-danger">*</span>
@@ -559,7 +559,7 @@
                                        maxlength="512" autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-calendar-view">
                                     <?= lang('calendar') ?>
                                     <span class="text-danger">*</span>
@@ -570,7 +570,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="secretary-timezone">
                                     <?= lang('timezone') ?>
                                     <span class="text-danger">*</span>
@@ -582,7 +582,7 @@
 
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="secretary-notifications">
-                                <label class="custom-control-label" for="secretary-notifications">
+                                <label class="custom-form-label" for="secretary-notifications">
                                     <?= lang('receive_notifications') ?>
                                 </label>
                             </div>
@@ -663,7 +663,7 @@
 
                     <div class="row">
                         <div class="admin-details col-12 col-md-6">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-first-name">
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
@@ -671,7 +671,7 @@
                                 <input id="admin-first-name" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-last-name">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
@@ -679,7 +679,7 @@
                                 <input id="admin-last-name" class="form-control required" maxlength="512">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-email">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
@@ -687,7 +687,7 @@
                                 <input id="admin-email" class="form-control required" maxlength="512">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-phone-number">
                                     <?= lang('phone_number') ?>
                                     <span class="text-danger">*</span>
@@ -695,7 +695,7 @@
                                 <input id="admin-phone-number" class="form-control required" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-mobile-number">
                                     <?= lang('mobile_number') ?>
 
@@ -703,14 +703,14 @@
                                 <input id="admin-mobile-number" class="form-control" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-address">
                                     <?= lang('address') ?>
                                 </label>
                                 <input id="admin-address" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-city">
                                     <?= lang('city') ?>
 
@@ -718,21 +718,21 @@
                                 <input id="admin-city" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-state">
                                     <?= lang('state') ?>
                                 </label>
                                 <input id="admin-state" class="form-control" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-zip-code">
                                     <?= lang('zip_code') ?>
                                 </label>
                                 <input id="admin-zip-code" class="form-control" maxlength="64">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-notes">
                                     <?= lang('notes') ?>
                                 </label>
@@ -740,7 +740,7 @@
                             </div>
                         </div>
                         <div class="admin-settings col-12 col-md-6">
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-username">
                                     <?= lang('username') ?>
                                     <span class="text-danger">*</span>
@@ -748,7 +748,7 @@
                                 <input id="admin-username" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-password">
                                     <?= lang('password') ?>
                                     <span class="text-danger">*</span>
@@ -757,7 +757,7 @@
                                        autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-password-confirm">
                                     <?= lang('retype_password') ?>
                                     <span class="text-danger">*</span>
@@ -766,7 +766,7 @@
                                        maxlength="512" autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-calendar-view">
                                     <?= lang('calendar') ?>
                                     <span class="text-danger">*</span>
@@ -777,7 +777,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="mb-3">
                                 <label for="admin-timezone">
                                     <?= lang('timezone') ?>
                                     <span class="text-danger">*</span>
@@ -789,7 +789,7 @@
 
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="admin-notifications">
-                                <label class="custom-control-label" for="admin-notifications">
+                                <label class="custom-form-label" for="admin-notifications">
                                     <?= lang('receive_notifications') ?>
                                 </label>
                             </div>

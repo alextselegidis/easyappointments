@@ -23,8 +23,8 @@
 
                         <div class="row">
                             <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="select-service" class="control-label">
+                                <div class="mb-3">
+                                    <label for="select-service" class="form-label">
                                         <?= lang('service') ?>
                                         <span class="text-danger">*</span>
                                     </label>
@@ -102,41 +102,41 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="select-provider" class="control-label">
+                                <div class="mb-3">
+                                    <label for="select-provider" class="form-label">
                                         <?= lang('provider') ?>
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="appointment-location" class="control-label">
+                                <div class="mb-3">
+                                    <label for="appointment-location" class="form-label">
                                         <?= lang('location') ?>
                                     </label>
                                     <input id="appointment-location" class="form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="appointment-notes" class="control-label"><?= lang('notes') ?></label>
+                                <div class="mb-3">
+                                    <label for="appointment-notes" class="form-label"><?= lang('notes') ?></label>
                                     <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-12 col-sm-6">
-                                <div class="form-group">
+                                <div class="mb-3">
                                     <label for="start-datetime"
-                                           class="control-label"><?= lang('start_date_time') ?></label>
+                                           class="form-label"><?= lang('start_date_time') ?></label>
                                     <input id="start-datetime" class="required form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="end-datetime" class="control-label"><?= lang('end_date_time') ?></label>
+                                <div class="mb-3">
+                                    <label for="end-datetime" class="form-label"><?= lang('end_date_time') ?></label>
                                     <input id="end-datetime" class="required form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label class="control-label"><?= lang('timezone') ?></label>
+                                <div class="mb-3">
+                                    <label class="form-label"><?= lang('timezone') ?></label>
 
                                     <ul>
                                         <li>
@@ -184,32 +184,32 @@
 
                         <div class="row">
                             <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="first-name" class="control-label">
+                                <div class="mb-3">
+                                    <label for="first-name" class="form-label">
                                         <?= lang('first_name') ?>
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input id="first-name" class="required form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="last-name" class="control-label">
+                                <div class="mb-3">
+                                    <label for="last-name" class="form-label">
                                         <?= lang('last_name') ?>
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input id="last-name" class="required form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="email" class="control-label">
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
                                         <?= lang('email') ?>
                                         <span class="text-danger">*</span>
                                     </label>
                                     <input id="email" class="required form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="phone-number" class="control-label">
+                                <div class="mb-3">
+                                    <label for="phone-number" class="form-label">
                                         <?= lang('phone_number') ?>
                                         <?php if (setting('require_phone_number') === '1'): ?>
                                             <span class="text-danger">*</span>
@@ -220,29 +220,29 @@
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
-                                <div class="form-group">
-                                    <label for="address" class="control-label">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">
                                         <?= lang('address') ?>
                                     </label>
                                     <input id="address" class="form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="city" class="control-label">
+                                <div class="mb-3">
+                                    <label for="city" class="form-label">
                                         <?= lang('city') ?>
                                     </label>
                                     <input id="city" class="form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="zip-code" class="control-label">
+                                <div class="mb-3">
+                                    <label for="zip-code" class="form-label">
                                         <?= lang('zip_code') ?>
                                     </label>
                                     <input id="zip-code" class="form-control">
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="customer-notes" class="control-label">
+                                <div class="mb-3">
+                                    <label for="customer-notes" class="form-label">
                                         <?= lang('notes') ?>
                                     </label>
                                     <textarea id="customer-notes" rows="2" class="form-control"></textarea>
