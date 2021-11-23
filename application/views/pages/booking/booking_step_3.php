@@ -81,7 +81,7 @@
             <label class="form-check-label" for="accept-to-terms-and-conditions">
                 <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
                     [
-                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#terms-and-conditions-modal">',
+                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-target="#terms-and-conditions-modal">',
                         '{/$link}' => '</a>'
                     ])
                 ?>
@@ -95,7 +95,7 @@
             <label class="form-check-label" for="accept-to-privacy-policy">
                 <?= strtr(lang('read_and_agree_to_privacy_policy'),
                     [
-                        '{$link}' => '<a href="#" data-toggle="modal" data-target="#privacy-policy-modal">',
+                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-target="#privacy-policy-modal">',
                         '{/$link}' => '</a>'
                     ])
                 ?>

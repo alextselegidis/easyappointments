@@ -97,12 +97,12 @@
 
             <ul class="nav nav-pills switch-view">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#details" data-toggle="tab">
+                    <a class="nav-link active" href="#details" data-bs-toggle="tab">
                         <?= lang('details') ?>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#working-plan" data-toggle="tab">
+                    <a class="nav-link" href="#working-plan" data-bs-toggle="tab">
                         <?= lang('working_plan') ?>
                     </a>
                 </li>

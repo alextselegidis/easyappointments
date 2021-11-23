@@ -13,15 +13,15 @@
             <strong>1</strong>
         </div>
 
-        <div id="step-2" class="book-step" data-toggle="tooltip"
+        <div id="step-2" class="book-step" data-bs-toggle="tooltip"
              data-tippy-content="<?= lang('appointment_date_and_time') ?>">
             <strong>2</strong>
         </div>
-        <div id="step-3" class="book-step" data-toggle="tooltip"
+        <div id="step-3" class="book-step" data-bs-toggle="tooltip"
              data-tippy-content="<?= lang('customer_information') ?>">
             <strong>3</strong>
         </div>
-        <div id="step-4" class="book-step" data-toggle="tooltip"
+        <div id="step-4" class="book-step" data-bs-toggle="tooltip"
              data-tippy-content="<?= lang('appointment_confirmation') ?>">
             <strong>4</strong>
         </div>

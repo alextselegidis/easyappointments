@@ -12,7 +12,7 @@
         <small>Open Source Appointment Scheduler</small>
     </div>
 
-    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#header-menu">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-target="#header-menu">
         <span class="sr-only">Toggle navigation</span>
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -42,7 +42,7 @@
             <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" 
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" 
                    data-tippy-content="<?= lang('manage_services_hint') ?>">
                     <i class="fas fa-business-time mr-2"></i>
                     <?= lang('services') ?>
@@ -60,7 +60,7 @@
             <?php $hidden = ($privileges[PRIV_USERS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_USERS) ? 'active' : '' ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_users_hint') ?>">
                     <i class="fas fa-business-time mr-2"></i>
                     <?= lang('users') ?>
@@ -82,7 +82,7 @@
                 || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
                     <i class="fas fa-cogs mr-2"></i>
                     <?= lang('settings') ?>

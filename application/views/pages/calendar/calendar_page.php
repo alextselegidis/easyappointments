@@ -91,7 +91,7 @@
                     <span><?= lang('synchronize') ?></span>
                 </button>
 
-                <button id="enable-sync" class="btn btn-light" data-toggle="button"
+                <button id="enable-sync" class="btn btn-light" data-bs-toggle="button"
                         data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>">
                     <i class="fas fa-calendar-alt mr-2"></i>
                     <span><?= lang('enable_sync') ?></span>
@@ -105,7 +105,7 @@
                         <?= lang('appointment') ?>
                     </button>
 
-                    <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-toggle="dropdown">
+                    <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-bs-toggle="dropdown">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
