@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('select_google_calendar') ?></h3>
-                <button class="close" data-dismiss="modal">&times;</button>
+                <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <div class="form-group">
