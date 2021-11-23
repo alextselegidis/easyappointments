@@ -75,7 +75,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-unavailable" class="btn btn-primary">
-                    <i class="fas fa-check-square mr-2"></i>
+                    <i class="fas fa-check-square me-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>

@@ -39,7 +39,7 @@
                         You can now use the latest Easy!Appointments version.
                     </p>
                     <a href="<?= site_url('backend') ?>" class="btn btn-success btn-large">
-                        <i class="fas fa-wrench mr-2"></i>
+                        <i class="fas fa-wrench me-2"></i>
                         <?= lang('backend_section') ?>
                     </a>
                 </div>
@@ -54,7 +54,7 @@
                         Please restore your database backup.
                     </p>
                     <a href="<?= site_url('backend') ?>" class="btn btn-success btn-large">
-                        <i class="fas fa-wrench mr-2"></i>
+                        <i class="fas fa-wrench me-2"></i>
                         <?= lang('backend_section') ?>
                     </a>
 

@@ -30,7 +30,7 @@
 
                 <div>
                     <button type="button" class="btn btn-primary working-plan-exceptions-add-break">
-                        <i class="fas fa-plus-square mr-2"></i>
+                        <i class="fas fa-plus-square me-2"></i>
                         <?= lang('add_break') ?>
                     </button>
                 </div>

@@ -93,7 +93,7 @@
 
                 <button id="enable-sync" class="btn btn-light" data-bs-toggle="button"
                         data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>">
-                    <i class="fas fa-calendar-alt mr-2"></i>
+                    <i class="fas fa-calendar-alt me-2"></i>
                     <span><?= lang('enable_sync') ?></span>
                 </button>
             <?php endif ?>
@@ -101,7 +101,7 @@
             <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
                 <div class="btn-group">
                     <button class="btn btn-light" id="insert-appointment">
-                        <i class="fas fa-plus-square mr-2"></i>
+                        <i class="fas fa-plus-square me-2"></i>
                         <?= lang('appointment') ?>
                     </button>
 
@@ -112,12 +112,12 @@
 
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#" id="insert-unavailable">
-                            <i class="fas fa-plus-square mr-2"></i>
+                            <i class="fas fa-plus-square me-2"></i>
                             <?= lang('unavailable') ?>
                         </a>
                         <a class="dropdown-item" href="#" id="insert-working-plan-exception"
                             <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
-                            <i class="fas fa-plus-square mr-2"></i>
+                            <i class="fas fa-plus-square me-2"></i>
                             <?= lang('working_plan_exception') ?>
                         </a>
                     </div>

@@ -30,13 +30,13 @@
     <div class="command-buttons">
         <button type="button" id="button-back-2" class="btn button-back btn-outline-secondary"
                 data-step_index="2">
-            <i class="fas fa-chevron-left mr-2"></i>
+            <i class="fas fa-chevron-left me-2"></i>
             <?= lang('back') ?>
         </button>
         <button type="button" id="button-next-2" class="btn button-next btn-dark"
                 data-step_index="2">
             <?= lang('next') ?>
-            <i class="fas fa-chevron-right ml-2"></i>
+            <i class="fas fa-chevron-right ms-2"></i>
         </button>
     </div>
 </div>

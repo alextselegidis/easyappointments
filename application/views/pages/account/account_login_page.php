@@ -32,7 +32,7 @@
 
     <div class="form-group">
         <button type="submit" id="login" class="btn btn-primary">
-            <i class="fas fa-sign-in-alt mr-2"></i>
+            <i class="fas fa-sign-in-alt me-2"></i>
             <?= lang('login') ?>
         </button>
     </div>

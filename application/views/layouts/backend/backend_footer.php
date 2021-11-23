@@ -5,7 +5,7 @@
 ?>
 <div id="footer">
     <div id="footer-content" class="col-12 col-sm-8">
-        <img class="mr-1" src="<?= base_url('assets/img/logo-16x16.png') ?>" alt="Easy!Appointments Logo">
+        <img class="me-1" src="<?= base_url('assets/img/logo-16x16.png') ?>" alt="Easy!Appointments Logo">
         <a href="https://easyappointments.org">
             Easy!Appointments
         </a>
@@ -33,7 +33,7 @@
         |
 
         <span id="select-language" class="badge bg-secondary">
-            <i class="fas fa-language mr-2"></i>
+            <i class="fas fa-language me-2"></i>
         	<?= ucfirst(config('language')) ?>
         </span>
 

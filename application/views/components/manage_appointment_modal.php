@@ -164,12 +164,12 @@
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
-                                <i class="fas fa-plus-square mr-2"></i>
+                                <i class="fas fa-plus-square me-2"></i>
                                 <?= lang('new') ?>
                             </button>
                             <button id="select-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('pick_existing_customer_hint') ?>">
-                                <i class="fas fa-hand-pointer mr-2"></i>
+                                <i class="fas fa-hand-pointer me-2"></i>
                                 <span>
                                     <?= lang('select') ?>
                                 </span>
@@ -259,7 +259,7 @@
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-appointment" class="btn btn-primary">
-                    <i class="fas fa-check-square mr-2"></i>
+                    <i class="fas fa-check-square me-2"></i>
                     <?= lang('save') ?>
                 </button>
             </div>

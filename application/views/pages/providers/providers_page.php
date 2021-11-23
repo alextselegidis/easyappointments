@@ -67,29 +67,29 @@
         </div>
 
         <div class="record-details column col-12 col-md-7">
-            <div class="float-md-left mb-4 mr-4">
+            <div class="float-md-left mb-4 me-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn btn-primary">
-                        <i class="fas fa-plus-square mr-2"></i>
+                        <i class="fas fa-plus-square me-2"></i>
                         <?= lang('add') ?>
                     </button>
                     <button id="edit-provider" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-edit mr-2"></i>
+                        <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
                     </button>
                     <button id="delete-provider" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-trash-alt mr-2"></i>
+                        <i class="fas fa-trash-alt me-2"></i>
                         <?= lang('delete') ?>
                     </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-provider" class="btn btn-primary">
-                        <i class="fas fa-check-square mr-2"></i>
+                        <i class="fas fa-check-square me-2"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-provider" class="btn btn-outline-secondary">
-                        <i class="fas fa-ban mr-2"></i>
+                        <i class="fas fa-ban me-2"></i>
                         <?= lang('cancel') ?>
                     </button>
                 </div>
@@ -268,7 +268,7 @@
                     <h3><?= lang('working_plan') ?></h3>
                     <button id="reset-working-plan" class="btn btn-primary"
                             data-tippy-content="<?= lang('reset_working_plan') ?>">
-                        <i class="fas fa-redo-alt mr-2"></i>
+                        <i class="fas fa-redo-alt me-2"></i>
                         <?= lang('reset_plan') ?></button>
                     <table class="working-plan table table-striped mt-2">
                         <thead>
@@ -291,7 +291,7 @@
 
                     <div>
                         <button type="button" class="add-break btn btn-primary">
-                            <i class="fas fa-plus-square mr-2"></i>
+                            <i class="fas fa-plus-square me-2"></i>
                             <?= lang('add_break') ?>
                         </button>
                     </div>
@@ -319,7 +319,7 @@
                     </p>
 
                     <div>
-                        <button type="button" class="add-working-plan-exception btn btn-primary mr-2">
+                        <button type="button" class="add-working-plan-exception btn btn-primary me-2">
                             <i class="fas fa-plus-square"></i>
                             <?= lang('add_working_plan_exception') ?>
                         </button>

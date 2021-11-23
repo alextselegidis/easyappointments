@@ -80,21 +80,21 @@
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
                         <button id="add-customer" class="btn btn-primary">
-                            <i class="fas fa-plus-square mr-2"></i>
+                            <i class="fas fa-plus-square me-2"></i>
                             <?= lang('add') ?>
                         </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
                         <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
-                            <i class="fas fa-edit mr-2"></i>
+                            <i class="fas fa-edit me-2"></i>
                             <?= lang('edit') ?>
                         </button>
                     <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['delete'] === TRUE): ?>
                         <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
-                            <i class="fas fa-trash-alt mr-2"></i>
+                            <i class="fas fa-trash-alt me-2"></i>
                             <?= lang('delete') ?>
                         </button>
                     <?php endif ?>
@@ -102,11 +102,11 @@
 
                 <div id="save-cancel-group" class="btn-group" style="display:none;">
                     <button id="save-customer" class="btn btn-primary">
-                        <i class="fas fa-check-square mr-2"></i>
+                        <i class="fas fa-check-square me-2"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-customer" class="btn btn-outline-secondary">
-                        <i class="fas fa-ban mr-2"></i>
+                        <i class="fas fa-ban me-2"></i>
                         <?= lang('cancel') ?>
                     </button>
                 </div>

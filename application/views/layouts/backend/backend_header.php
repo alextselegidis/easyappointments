@@ -12,7 +12,7 @@
         <small>Open Source Appointment Scheduler</small>
     </div>
 
-    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-target="#header-menu">
+    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#header-menu">
         <span class="sr-only">Toggle navigation</span>
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,7 +24,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_appointment_record_hint') ?>">
-                    <i class="fas fa-calendar-alt mr-2"></i>
+                    <i class="fas fa-calendar-alt me-2"></i>
                     <?= lang('calendar') ?>
                 </a>
             </li>
@@ -34,7 +34,7 @@
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/customers') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_customers_hint') ?>">
-                    <i class="fas fa-user-friends mr-2"></i>
+                    <i class="fas fa-user-friends me-2"></i>
                     <?= lang('customers') ?>
                 </a>
             </li>
@@ -44,7 +44,7 @@
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" 
                    data-tippy-content="<?= lang('manage_services_hint') ?>">
-                    <i class="fas fa-business-time mr-2"></i>
+                    <i class="fas fa-business-time me-2"></i>
                     <?= lang('services') ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -62,7 +62,7 @@
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_users_hint') ?>">
-                    <i class="fas fa-business-time mr-2"></i>
+                    <i class="fas fa-business-time me-2"></i>
                     <?= lang('users') ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
@@ -84,7 +84,7 @@
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
-                    <i class="fas fa-cogs mr-2"></i>
+                    <i class="fas fa-cogs me-2"></i>
                     <?= lang('settings') ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">

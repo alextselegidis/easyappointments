@@ -44,7 +44,7 @@
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                         <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                 data-tippy-content="<?= lang('save') ?>">
-                            <i class="fas fa-check-square mr-2"></i>
+                            <i class="fas fa-check-square me-2"></i>
                             <?= lang('save') ?>
                         </button>
                     <?php endif ?>

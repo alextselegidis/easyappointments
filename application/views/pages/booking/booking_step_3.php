@@ -81,7 +81,7 @@
             <label class="form-check-label" for="accept-to-terms-and-conditions">
                 <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
                     [
-                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-target="#terms-and-conditions-modal">',
+                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-bs-target="#terms-and-conditions-modal">',
                         '{/$link}' => '</a>'
                     ])
                 ?>
@@ -95,7 +95,7 @@
             <label class="form-check-label" for="accept-to-privacy-policy">
                 <?= strtr(lang('read_and_agree_to_privacy_policy'),
                     [
-                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-target="#privacy-policy-modal">',
+                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-bs-target="#privacy-policy-modal">',
                         '{/$link}' => '</a>'
                     ])
                 ?>
@@ -106,13 +106,13 @@
     <div class="command-buttons">
         <button type="button" id="button-back-3" class="btn button-back btn-outline-secondary"
                 data-step_index="3">
-            <i class="fas fa-chevron-left mr-2"></i>
+            <i class="fas fa-chevron-left me-2"></i>
             <?= lang('back') ?>
         </button>
         <button type="button" id="button-next-3" class="btn button-next btn-dark"
                 data-step_index="3">
             <?= lang('next') ?>
-            <i class="fas fa-chevron-right ml-2"></i>
+            <i class="fas fa-chevron-right ms-2"></i>
         </button>
     </div>
 </div>

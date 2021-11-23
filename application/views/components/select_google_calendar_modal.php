@@ -15,11 +15,11 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-outline-secondary" data-dismiss="modal">
-                    <i class="fas fa-ban mr-2"></i>
+                    <i class="fas fa-ban me-2"></i>
                     <?= lang('cancel') ?>
                 </button>
                 <button id="select-calendar" class="btn btn-primary">
-                    <i class="fas fa-check-square mr-2"></i>
+                    <i class="fas fa-check-square me-2"></i>
                     <?= lang('select') ?>
                 </button>
             </div>

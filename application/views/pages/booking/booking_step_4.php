@@ -25,12 +25,12 @@
     <div class="command-buttons">
         <button type="button" id="button-back-4" class="btn button-back btn-outline-secondary"
                 data-step_index="4">
-            <i class="fas fa-chevron-left mr-2"></i>
+            <i class="fas fa-chevron-left me-2"></i>
             <?= lang('back') ?>
         </button>
         <form id="book-appointment-form" style="display:inline-block" method="post">
             <button id="book-appointment-submit" type="button" class="btn btn-success">
-                <i class="fas fa-check-square mr-2"></i>
+                <i class="fas fa-check-square me-2"></i>
                 <?= ! $manage_mode ? lang('confirm') : lang('update') ?>
             </button>
             <input type="hidden" name="csrfToken"/>

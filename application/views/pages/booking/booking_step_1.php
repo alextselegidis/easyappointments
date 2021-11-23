@@ -98,7 +98,7 @@
         <button type="button" id="button-next-1" class="btn button-next btn-dark"
                 data-step_index="1">
             <?= lang('next') ?>
-            <i class="fas fa-chevron-right ml-2"></i>
+            <i class="fas fa-chevron-right ms-2"></i>
         </button>
     </div>
 </div>

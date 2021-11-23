@@ -10,7 +10,7 @@
 <br>
 
 <a href="<?= site_url('backend') ?>" class="btn btn-success btn-large">
-    <i class="icon-calendar icon-white mr-2"></i>
+    <i class="icon-calendar icon-white me-2"></i>
     <?= lang('backend_calendar') ?>
 </a>
 

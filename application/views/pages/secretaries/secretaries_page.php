@@ -66,26 +66,26 @@
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-secretary" class="btn btn-primary">
-                        <i class="fas fa-plus-square mr-2"></i>
+                        <i class="fas fa-plus-square me-2"></i>
                         <?= lang('add') ?>
                     </button>
                     <button id="edit-secretary" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-edit mr-2"></i>
+                        <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
                     </button>
                     <button id="delete-secretary" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-trash-alt mr-2"></i>
+                        <i class="fas fa-trash-alt me-2"></i>
                         <?= lang('delete') ?>
                     </button>
                 </div>
 
                 <div class="save-cancel-group btn-group" style="display:none;">
                     <button id="save-secretary" class="btn btn-primary">
-                        <i class="fas fa-check-square mr-2"></i>
+                        <i class="fas fa-check-square me-2"></i>
                         <?= lang('save') ?>
                     </button>
                     <button id="cancel-secretary" class="btn btn-outline-secondary">
-                        <i class="fas fa-ban mr-2"></i>
+                        <i class="fas fa-ban me-2"></i>
                         <?= lang('cancel') ?>
                     </button>
                 </div>
