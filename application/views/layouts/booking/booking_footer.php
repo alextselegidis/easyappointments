@@ -7,12 +7,12 @@
         </span>
 
         <span class="footer-options">
-            <span id="select-language" class="badge badge-secondary">
+            <span id="select-language" class="badge bg-secondary">
                 <i class="fas fa-language mr-2"></i>
                 <?= ucfirst(config('language')) ?>
             </span>
     
-            <a class="backend-link badge badge-primary" href="<?= site_url('backend'); ?>">
+            <a class="backend-link badge bg-primary" href="<?= site_url('backend'); ?>">
                 <i class="fas fa-sign-in-alt mr-2"></i>
                 <?= session('user_id') ? lang('backend_section') : lang('login') ?>
             </a>

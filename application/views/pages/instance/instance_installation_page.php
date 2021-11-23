@@ -115,7 +115,7 @@
 
     <p>
     <h3>License</h3>
-    Easy!Appointments is licensed under the <span class="badge badge-default">GPL-3.0 license</span>.
+    Easy!Appointments is licensed under the <span class="badge bg-secondary">GPL-3.0 license</span>.
     By using the code of Easy!Appointments in any way <br> you agree with the terms described in the
     following url:
     <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a>

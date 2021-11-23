@@ -41,7 +41,7 @@
         <?= lang('forgot_your_password') ?>
     </a>
     |
-    <span id="select-language" class="badge badge-success">
+    <span id="select-language" class="badge bg-success">
         <?= ucfirst(config('language')) ?>
     </span>
 
