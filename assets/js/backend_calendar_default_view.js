@@ -366,18 +366,18 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             displayEdit =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
                 GlobalVariables.user.privileges.appointments.edit === true
-                    ? 'mr-2'
+                    ? 'me-2'
                     : 'd-none';
             displayDelete =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
                 GlobalVariables.user.privileges.appointments.delete === true
-                    ? 'mr-2'
+                    ? 'me-2'
                     : 'd-none'; // Same value at the time.
 
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.start
                     }),
                     $('<span/>', {
@@ -390,7 +390,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.end
                     }),
                     $('<span/>', {
@@ -416,10 +416,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.close
@@ -430,7 +430,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -441,7 +441,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit mr-2'
+                                        'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -460,13 +460,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
             displayDelete =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
                 GlobalVariables.user.privileges.appointments.delete === true
-                    ? 'mr-2'
+                    ? 'me-2'
                     : 'd-none'; // Same value at the time.
 
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.provider
                     }),
                     $('<span/>', {
@@ -475,7 +475,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.start
                     }),
                     $('<span/>', {
@@ -488,7 +488,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.end
                     }),
                     $('<span/>', {
@@ -501,7 +501,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.timezone
                     }),
                     $('<span/>', {
@@ -515,10 +515,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'class': 'd-flex justify-content-between',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.close
@@ -529,7 +529,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -540,7 +540,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit mr-2'
+                                        'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -552,13 +552,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 ]
             });
         } else {
-            displayEdit = GlobalVariables.user.privileges.appointments.edit === true ? 'mr-2' : 'd-none';
-            displayDelete = GlobalVariables.user.privileges.appointments.delete === true ? 'mr-2' : 'd-none';
+            displayEdit = GlobalVariables.user.privileges.appointments.edit === true ? 'me-2' : 'd-none';
+            displayDelete = GlobalVariables.user.privileges.appointments.delete === true ? 'me-2' : 'd-none';
 
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.start
                     }),
                     $('<span/>', {
@@ -571,7 +571,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.end
                     }),
                     $('<span/>', {
@@ -584,7 +584,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.timezone
                     }),
                     $('<span/>', {
@@ -593,7 +593,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.service
                     }),
                     $('<span/>', {
@@ -602,7 +602,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.provider
                     }),
                     GeneralFunctions.renderMapIcon(event.data.provider),
@@ -612,34 +612,34 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.customer
                     }),
                     GeneralFunctions.renderMapIcon(event.data.customer),
                     $('<span/>', {
-                        'class': 'd-inline-block ml-1',
+                        'class': 'd-inline-block ms-1',
                         'text': event.data.customer.first_name + ' ' + event.data.customer.last_name
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.email
                     }),
                     GeneralFunctions.renderMailIcon(event.data.customer.email),
                     $('<span/>', {
-                        'class': 'd-inline-block ml-1',
+                        'class': 'd-inline-block ms-1',
                         'text': event.data.customer.email
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'class': 'd-inline-block mr-2',
+                        'class': 'd-inline-block me-2',
                         'text': EALang.phone
                     }),
                     GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
-                        'class': 'd-inline-block ml-1',
+                        'class': 'd-inline-block ms-1',
                         'text': event.data.customer.phone_number
                     }),
                     $('<br/>'),
@@ -658,10 +658,10 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.close
@@ -672,7 +672,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -683,7 +683,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit mr-2'
+                                        'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit

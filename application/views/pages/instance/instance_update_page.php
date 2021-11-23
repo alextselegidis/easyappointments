@@ -63,7 +63,7 @@
                     </p>
                 </div>
 
-                <div class="well text-left">
+                <div class="well text-start">
                     Error Message: <?= $exception ?>
                 </div>
             <?php endif; ?>

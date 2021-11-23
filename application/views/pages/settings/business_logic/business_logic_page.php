@@ -74,7 +74,7 @@
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
 
-                        <div class="text-right">
+                        <div class="text-end">
                             <button class="btn btn-outline-secondary" id="apply-global-working-plan" type="button">
                                 <i class="fas fa-check"></i>
                                 <?= lang('apply_to_all_providers') ?>

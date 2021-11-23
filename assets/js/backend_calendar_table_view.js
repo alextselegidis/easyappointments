@@ -349,7 +349,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }).appendTo('#calendar');
 
         $('<button/>', {
-            'class': 'btn btn-xs btn-outline-secondary previous mr-2',
+            'class': 'btn btn-xs btn-outline-secondary previous me-2',
             'html': [
                 $('<span/>', {
                     'class': 'fas fa-chevron-left'
@@ -359,7 +359,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         $('<input/>', {
             'type': 'text',
-            'class': 'form-control d-inline-block select-date mr-2',
+            'class': 'form-control d-inline-block select-date me-2',
             'value': GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, false)
         }).appendTo($calendarHeader);
 
@@ -1190,10 +1190,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.close
@@ -1201,10 +1201,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary me-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -1215,7 +1215,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit mr-2'
+                                        'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -1291,10 +1291,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.close
@@ -1302,10 +1302,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary me-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -1316,7 +1316,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit mr-2'
+                                        'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit
@@ -1423,10 +1423,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                         'class': 'd-flex justify-content-center',
                         'html': [
                             $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary mr-2',
+                                'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban mr-2'
+                                        'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.close
@@ -1434,10 +1434,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary mr-2 ' + displayDelete,
+                                'class': 'delete-popover btn btn-outline-secondary me-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt mr-2'
+                                        'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.delete
@@ -1448,7 +1448,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit mr-2'
+                                        'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
                                         'text': EALang.edit

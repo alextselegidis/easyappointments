@@ -180,7 +180,7 @@ $(function () {
                     'html': [
                         $('<button/>', {
                             'type': 'button',
-                            'class': 'btn btn-outline-secondary btn-sm mr-2 working-plan-exceptions-edit-break',
+                            'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-edit-break',
                             'title': EALang.edit,
                             'html': [
                                 $('<span/>', {
@@ -200,7 +200,7 @@ $(function () {
                         }),
                         $('<button/>', {
                             'type': 'button',
-                            'class': 'btn btn-outline-secondary btn-sm mr-2 working-plan-exceptions-save-break d-none',
+                            'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-save-break d-none',
                             'title': EALang.save,
                             'html': [
                                 $('<span/>', {

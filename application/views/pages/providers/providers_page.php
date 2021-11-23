@@ -67,7 +67,7 @@
         </div>
 
         <div class="record-details column col-12 col-md-7">
-            <div class="float-md-left mb-4 me-4">
+            <div class="float-md-start mb-4 me-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>
