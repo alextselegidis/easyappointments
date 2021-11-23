@@ -57,12 +57,12 @@
                 <div class="wrapper row">
                     <div class="col-12 col-sm-3">
                         <div class="mb-3">
-                            <label for="show-phone-number">
+                            <label class="form-label" for="show-phone-number">
                                 <?= lang('phone_number') ?>
                             </label>
                             <button id="show-phone-number" data-field="show_phone_number" type="button"
                                     class="hide-toggle form-control form-sub-button">
-                                <span class="hide-toggle-visible hidden">
+                                <span class="hide-toggle-visible" hidden>
                                     <img src="<?= base_url('assets/img/eye.svg') ?>" alt="eye"/>
                                     <?= lang('visible') ?>
                                 </span>
@@ -73,12 +73,12 @@
                             </button>
                         </div>
                         <div class="mb-3">
-                            <label for="show-address">
+                            <label class="form-label" for="show-address">
                                 <?= lang('address') ?>
                             </label>
                             <button id="show-address" data-field="show_address" type="button"
                                     class="hide-toggle form-control form-sub-button">
-                                <span class="hide-toggle-visible hidden">
+                                <span class="hide-toggle-visible" hidden>
                                     <img src="<?= base_url('assets/img/eye.svg') ?>" alt="eye"/>
                                     <?= lang('visible') ?>
                                 </span>
@@ -89,12 +89,12 @@
                             </button>
                         </div>
                         <div class="mb-3">
-                            <label for="show-city">
+                            <label class="form-label" for="show-city">
                                 <?= lang('city') ?>
                             </label>
                             <button id="show-city" data-field="show_city" type="button"
                                     class="hide-toggle form-control form-sub-button">
-                                <span class="hide-toggle-visible hidden">
+                                <span class="hide-toggle-visible" hidden>
                                     <img src="<?= base_url('assets/img/eye.svg') ?>" alt="eye"/>
                                     <?= lang('visible') ?>
                                 </span>
@@ -105,12 +105,12 @@
                             </button>
                         </div>
                         <div class="mb-3">
-                            <label for="show-zip-code">
+                            <label class="form-label" for="show-zip-code">
                                 <?= lang('zip_code') ?>
                             </label>
                             <button id="show-zip-code" data-field="show_zip_code" type="button"
                                     class="hide-toggle form-control form-sub-button">
-                                <span class="hide-toggle-visible hidden">
+                                <span class="hide-toggle-visible" hidden>
                                     <img src="<?= base_url('assets/img/eye.svg') ?>" alt="eye"/>
                                     <?= lang('visible') ?>
                                 </span>
@@ -121,12 +121,12 @@
                             </button>
                         </div>
                         <div class="mb-3">
-                            <label for="show-notes">
+                            <label class="form-label" for="show-notes">
                                 <?= lang('notes') ?>
                             </label>
                             <button id="show-notes" data-field="show_notes" type="button"
                                     class="hide-toggle form-control form-sub-button">
-                                <span class="hide-toggle-visible hidden">
+                                <span class="hide-toggle-visible" hidden>
                                     <img src="<?= base_url('assets/img/eye.svg') ?>" alt="eye"/>
                                     <?= lang('visible') ?>
                                 </span>
@@ -142,7 +142,7 @@
                         <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="customer-notifications">
-                                <label class="custom-form-label" for="customer-notifications">
+                                <label class="form-label" class="custom-form-label" for="customer-notifications">
                                     <?= lang('customer_notifications') ?>
                                 </label>
                             </div>
@@ -153,7 +153,7 @@
                         <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="require-captcha">
-                                <label class="custom-form-label" for="require-captcha">
+                                <label class="form-label" class="custom-form-label" for="require-captcha">
                                     CAPTCHA
                                 </label>
                             </div>
@@ -164,7 +164,7 @@
                         <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="require-phone-number">
-                                <label class="custom-form-label" for="require-phone-number">
+                                <label class="form-label" class="custom-form-label" for="require-phone-number">
                                     <?= lang('phone_number') ?>
                                 </label>
                             </div>
@@ -175,7 +175,7 @@
                         <div class="mb-3">
                             <div class="custom-control custom-switch">
                                 <input type="checkbox" class="custom-control-input" id="display-any-provider">
-                                <label class="custom-form-label" for="display-any-provider">
+                                <label class="form-label" class="custom-form-label" for="display-any-provider">
                                     <?= lang('any_provider') ?>
                                 </label>
                             </div>

@@ -99,33 +99,45 @@ window.BackendSettingsClientForm = window.BackendSettingsClientForm || {};
          * Change the state of the Visible/Hidden button
          */
         $('.hide-toggle').on('click', function () {
-            var $input = $(this);
-            $input.find('span').toggleClass('hidden');
+            var $target = $(this);
+            
+            $target.find('span').each(function (index, span) {
+                var $span = $(span); 
+                
+                var isHidden = $span.prop('hidden');
+
+                $span.prop('hidden', !isHidden);
+            });
         });
 
         /**
-         * set a Visible/Hidden toggle button to a certain state
+         * Set a Visible/Hidden toggle button to a certain state. 
          *
-         * @argument $element for which jquery element to set the state for
-         * @argument isVisible a boolean which is true if the button should display 'visible' and false when the button should display 'hidden'
-         *
+         * @param {jQuery} $target Target element selector. 
+         * @param {Boolean} isVisible a boolean which is true if the button should display 'visible' and false when the button should display 'hidden'
          */
-        function setShowToggleValue($element, isVisible) {
-            if (getShowToggleValue($element) !== isVisible) {
-                $element.find('span').toggleClass('hidden');
+        function setShowToggleValue($target, isVisible) {
+            if (getShowToggleValue($target) !== isVisible) {
+                $target.find('span').each(function (index, span) {
+                    var $span = $(span);
+
+                    var isHidden = $span.prop('hidden');
+
+                    $span.prop('hidden', !isHidden);
+                });
             }
         }
 
         /**
-         * get the Visible/Hidden toggle button
+         * Get the Visible/Hidden toggle button
          *
-         * @argument $element for which jquery element to set the state for
+         * @param {jQuery} $target Target element selector. 
          *
          * @return the state of the button. True for visible, false for hidden.
          */
-        function getShowToggleValue($element) {
-            var visiblePartArray = $element.find('.hide-toggle-visible');
-            return !visiblePartArray.hasClass('hidden');
+        function getShowToggleValue($target) {
+            var visiblePartArray = $target.find('.hide-toggle-visible');
+            return !visiblePartArray.prop('hidden');
         }
 
         /**

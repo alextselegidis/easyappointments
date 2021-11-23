@@ -28,7 +28,7 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
          * Stores the working plan exception changes or inserts a new record.
          */
         $('#manage-working-plan-exceptions #save-working-plan-exception').on('click', function () {
-            $('#manage-working-plan-exceptions .modal-message').addClass('hidden');
+            $('#manage-working-plan-exceptions .modal-message').prop('hidden', true);
 
             $('#manage-working-plan-exceptions').find('.has-error').removeClass('has-error');
 
@@ -58,7 +58,7 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                 $('#manage-working-plan-exceptions .modal-message')
                     .text(EALang.start_date_before_end_error)
                     .addClass('alert-danger')
-                    .removeClass('hidden');
+                    .prop('hidden', false);
 
                 $('#working-plan-exception-start').addClass('has-error');
                 $('#working-plan-exception-end').addClass('has-error');
@@ -76,7 +76,7 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                 Backend.displayNotification(EALang.working_plan_exception_saved);
 
                 // Close the modal modal and update the local provider.
-                $('#manage-working-plan-exceptions .modal-message').addClass('hidden');
+                $('#manage-working-plan-exceptions .modal-message').prop('hidden', true);
                 $('#manage-working-plan-exceptions').modal('hide');
 
                 var providerId = $('#working-plan-exception-provider').val();

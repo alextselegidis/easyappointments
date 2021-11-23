@@ -57,7 +57,7 @@
         var visiblePartArray = $element.find('.hide-toggle-visible');
         var invisiblePartArray = $element.find('.hide-toggle-hidden');
         if (!(visiblePartArray.length === 0 || invisiblePartArray.length === 0)) {
-            if (visiblePartArray.hasClass('hidden')) {
+            if (visiblePartArray.prop('hidden')) {
                 //our button is currently invisible
                 return '0'; //invisible
             } else {

@@ -50,7 +50,7 @@ $(function () {
             $alert
                 .text('Easy!Appointments has been successfully installed!')
                 .addClass('alert-success')
-                .removeClass('hidden');
+                .prop('hidden', false);
 
             setTimeout(function () {
                 window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
@@ -67,7 +67,7 @@ $(function () {
      */
     function validate() {
         try {
-            $alert.removeClass('alert-danger').addClass('hidden');
+            $alert.removeClass('alert-danger').prop('hidden', true);
             $('input').closest('.form-group').removeClass('has-error');
 
             // Check for empty fields.
@@ -109,7 +109,7 @@ $(function () {
 
             return true;
         } catch (error) {
-            $alert.addClass('alert-danger').text(error.message).removeClass('hidden');
+            $alert.addClass('alert-danger').text(error.message).prop('hidden', false);
 
             return false;
         }
