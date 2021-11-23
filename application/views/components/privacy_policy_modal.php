@@ -16,7 +16,7 @@
                 <p><?= $privacy_policy_content ?></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     <?= lang('close') ?>
                 </button>
             </div>

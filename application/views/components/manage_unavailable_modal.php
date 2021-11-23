@@ -70,7 +70,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-secondary" data-dismiss="modal">
+                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
