@@ -58,7 +58,7 @@
 </div>
 
 <?php if ($display_cookie_notice === '1'): ?>
-    <?php component('cooking_notice_modal') ?>
+    <?php component('cookie_notice_modal') ?>
 <?php endif ?>
 
 <?php if ($display_terms_and_conditions === '1'): ?>
