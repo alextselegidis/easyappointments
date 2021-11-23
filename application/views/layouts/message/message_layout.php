@@ -45,7 +45,7 @@
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.bundle.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
 
 <?php google_analytics_script() ?>
