@@ -32,21 +32,23 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
             $dialog.find('.modal-message').addClass('d-none');
             $dialog.find('.is-invalid').removeClass('is-invalid');
 
-            var start = $dialog.find('#unavailable-start').datetimepicker('getDate');
+            var startMoment = moment($dialog.find('#unavailable-start').datetimepicker('getDate'));
 
-            if (!start) {
+            if (!startMoment.isValid()) {
                 $dialog.find('#unavailable-start').addClass('is-invalid');
+
                 return;
             }
 
-            var end = moment($dialog.find('#unavailable-end').datetimepicker('getDate')).toDate();
+            var endMoment = moment($dialog.find('#unavailable-end').datetimepicker('getDate'));
 
-            if (!end) {
+            if (!endMoment.isValid()) {
                 $dialog.find('#unavailable-end').addClass('is-invalid');
+
                 return;
             }
 
-            if (start > end) {
+            if (startMoment.isAfter(endMoment)) {
                 // Start time is after end time - display message to user.
                 $dialog
                     .find('.modal-message')
@@ -55,15 +57,16 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
                     .removeClass('d-none');
 
                 $dialog.find('#unavailable-start, #unavailable-end').addClass('is-invalid');
+
                 return;
             }
 
             // Unavailable period records go to the appointments table.
             var unavailable = {
-                start_datetime: start.toString('yyyy-MM-dd HH:mm'),
-                end_datetime: end.toString('yyyy-MM-dd HH:mm'),
+                start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
                 notes: $dialog.find('#unavailable-notes').val(),
-                id_users_provider: $('#unavailable-provider').val() // curr provider
+                id_users_provider: $('#unavailable-provider').val()
             };
 
             if ($dialog.find('#unavailable-id').val() !== '') {
@@ -77,7 +80,9 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $dialog.find('.alert').addClass('d-none');
+
                 $dialog.modal('hide');
+
                 $('#select-filter-item').trigger('change');
             };
 
@@ -95,9 +100,9 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
             var $dialog = $('#manage-unavailable');
 
             // Set the default datetime values.
-            var startMoment = new Date();
+            var startMoment = moment();
 
-            var currentMin = parseInt(startMoment.toString('mm'));
+            var currentMin = parseInt(startMoment.format('mm'));
 
             if (currentMin > 0 && currentMin < 15) {
                 startMoment.set({minutes: 15});
