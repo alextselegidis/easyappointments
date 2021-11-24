@@ -28,7 +28,6 @@
     "@popperjs/core": "^2.10.2",
     "bootstrap": "^5.1.3",
     "cookieconsent": "^3.1.1",
-    "datejs": "0.0.2",
     "fullcalendar": "^3.10.4",
     "jquery": "^3.5.1",
     "jquery-jeditable": "^2.0.19",
