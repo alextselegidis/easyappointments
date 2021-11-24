@@ -216,7 +216,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     {
                         text: 'OK',
                         click: function () {
-                            url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
+                            url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_delete_appointment';
 
                             data = {
                                 csrfToken: GlobalVariables.csrfToken,
@@ -247,7 +247,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                 }).appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
-                url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
+                url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_delete_unavailable';
 
                 data = {
                     csrfToken: GlobalVariables.csrfToken,
@@ -758,7 +758,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+                    var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_appointment';
 
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
@@ -805,7 +805,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                         .add({minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+                    var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_unavailable';
 
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
@@ -921,7 +921,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     event.data.start_datetime = appointment.start_datetime;
                     event.data.end_datetime = appointment.end_datetime;
 
-                    var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+                    var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_appointment';
 
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
@@ -969,7 +969,7 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
                     event.data.start_datetime = unavailable.start_datetime;
                     event.data.end_datetime = unavailable.end_datetime;
 
-                    var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+                    var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_unavailable';
                     var data = {
                         csrfToken: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
@@ -1058,13 +1058,13 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
      * @param {Date} endDate Visible end date of the calendar.
      */
     function refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_appointments';
+        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_get_calendar_appointments';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             record_id: recordId,
-            start_date: startDate.format('YYYY-MM-DD'),
-            end_date: endDate.format('YYYY-MM-DD'),
+            start_date: moment(startDate).format('YYYY-MM-DD'),
+            end_date: moment(endDate).format('YYYY-MM-DD'),
             filter_type: filterType
         };
 
