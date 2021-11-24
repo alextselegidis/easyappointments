@@ -35,6 +35,7 @@ class Calendar extends EA_Controller {
         $this->load->model('customers_model'); 
         $this->load->model('services_model'); 
         $this->load->model('providers_model');
+        $this->load->model('roles_model');
 
         $this->load->library('google_sync');
         $this->load->library('notifications');
