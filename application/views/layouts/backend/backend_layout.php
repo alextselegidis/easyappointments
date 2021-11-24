@@ -41,7 +41,6 @@
     <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
     <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
