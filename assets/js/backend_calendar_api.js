@@ -33,7 +33,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
      */
     exports.saveAppointment = function (appointment, customer, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
+        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_appointment';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -65,7 +65,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} errorCallback The ajax failure callback function.
      */
     exports.saveUnavailable = function (unavailable, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
+        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_unavailable';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -101,7 +101,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         successCallback,
         errorCallback
     ) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_working_plan_exception';
+        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_working_plan_exception';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
@@ -124,7 +124,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
     };
 
     exports.deleteWorkingPlanException = function (date, providerId, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_working_plan_exception';
+        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_delete_working_plan_exception';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
