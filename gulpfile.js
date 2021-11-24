@@ -129,11 +129,6 @@ function vendor(done) {
         'node_modules/cookieconsent/build/cookieconsent.min.css'
     ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
 
-    // datejs
-    gulp.src(['node_modules/datejs/lib/date.js'])
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/vendor/datejs'));
-
     // fullcalendar
     gulp.src([
         'node_modules/fullcalendar/dist/fullcalendar.min.js',
