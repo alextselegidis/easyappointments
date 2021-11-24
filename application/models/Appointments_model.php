@@ -212,7 +212,7 @@ class Appointments_model extends EA_Model {
      */
     public function delete(int $appointment_id)
     {
-        if ( ! $this->db->delete('users', ['id' => $appointment_id]))
+        if ( ! $this->db->delete('appointments', ['id' => $appointment_id]))
         {
             throw new RuntimeException('Could not delete appointment.');
         }
