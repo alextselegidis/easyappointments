@@ -51,7 +51,7 @@
         $('.breaks tbody').empty();
 
         // Build working plan day list starting with the first weekday as set in the General settings
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
         $.each(
             workingPlanSorted,
@@ -102,8 +102,8 @@
 
                 if (workingDay) {
                     $('#' + index).prop('checked', true);
-                    $('#' + index + '-start').val(Date.parse(workingDay.start).toString(timeFormat).toLowerCase());
-                    $('#' + index + '-end').val(Date.parse(workingDay.end).toString(timeFormat).toLowerCase());
+                    $('#' + index + '-start').val(moment(workingDay.start, 'HH:mm').format(timeFormat).toLowerCase());
+                    $('#' + index + '-end').val(moment(workingDay.end, 'HH:mm').format(timeFormat).toLowerCase());
 
                     // Sort day's breaks according to the starting hour
                     workingDay.breaks.sort(function (break1, break2) {
@@ -120,11 +120,11 @@
                                 }),
                                 $('<td/>', {
                                     'class': 'break-start editable',
-                                    'text': Date.parse(workingDayBreak.start).toString(timeFormat).toLowerCase()
+                                    'text': moment(workingDayBreak.start, 'HH:mm').format(timeFormat).toLowerCase()
                                 }),
                                 $('<td/>', {
                                     'class': 'break-end editable',
-                                    'text': Date.parse(workingDayBreak.end).toString(timeFormat).toLowerCase()
+                                    'text': moment(workingDayBreak.end, 'HH:mm').format(timeFormat).toLowerCase()
                                 }),
                                 $('<td/>', {
                                     'html': [
@@ -292,7 +292,7 @@
      * @param {Object} workingPlanException Contains exception information.
      */
     WorkingPlan.prototype.renderWorkingPlanExceptionRow = function (date, workingPlanException) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'data': {
@@ -306,11 +306,11 @@
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exception--start',
-                    'text': Date.parse(workingPlanException.start).toString(timeFormat).toLowerCase()
+                    'text': moment(workingPlanException.start, 'HH:mm').format(timeFormat).toLowerCase()
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exception--end',
-                    'text': Date.parse(workingPlanException.end).toString(timeFormat).toLowerCase()
+                    'text': moment(workingPlanException.end, 'HH:mm').format(timeFormat).toLowerCase()
                 }),
                 $('<td/>', {
                     'html': [
@@ -378,7 +378,7 @@
         $('.add-break').on(
             'click',
             function () {
-                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
                 var $newBreak = $('<tr/>', {
                     'html': [
@@ -388,11 +388,11 @@
                         }),
                         $('<td/>', {
                             'class': 'break-start editable',
-                            'text': Date.parse('12:00:00').toString(timeFormat).toLowerCase()
+                            'text': moment('12:00', 'HH:mm').format(timeFormat).toLowerCase()
                         }),
                         $('<td/>', {
                             'class': 'break-end editable',
-                            'text': Date.parse('14:00:00').toString(timeFormat).toLowerCase()
+                            'text': moment('14:00', 'HH:mm').format(timeFormat).toLowerCase()
                         }),
                         $('<td/>', {
                             'html': [
@@ -523,7 +523,7 @@
          *
          * Save the editable values and restore the table to its initial state.
          *
-         * @param {jQuery.Event} e
+         * @param {jQuery.Event} event
          */
         $(document).on(
             'click',
@@ -531,15 +531,18 @@
             function (event) {
                 // Break's start time must always be prior to break's end.
                 var element = event.target;
-                var $modifiedRow = $(element).closest('tr');
-                var start = Date.parse($modifiedRow.find('.break-start input').val());
-                var end = Date.parse($modifiedRow.find('.break-end input').val());
 
-                if (start > end) {
+                var $modifiedRow = $(element).closest('tr');
+
+                var startMoment = moment($modifiedRow.find('.break-start input').val(), 'HH:mm');
+
+                var endMoment = moment($modifiedRow.find('.break-end input').val(), 'HH:mm');
+
+                if (startMoment.isAfter(endMoment)) {
                     $modifiedRow.find('.break-end input').val(
-                        start
-                            .addHours(1)
-                            .toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm')
+                        startMoment
+                            .add(1, 'hour')
+                            .format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
                             .toLowerCase()
                     );
                 }
@@ -631,8 +634,8 @@
                 var id = $(checkbox).attr('id');
                 if ($(checkbox).prop('checked') === true) {
                     workingPlan[id] = {
-                        start: Date.parse($('#' + id + '-start').val()).toString('HH:mm'),
-                        end: Date.parse($('#' + id + '-end').val()).toString('HH:mm'),
+                        start: moment($('#' + id + '-start').val(), 'HH:mm').format('HH:mm'),
+                        end: moment($('#' + id + '-end').val(), 'HH:mm').format('HH:mm'),
                         breaks: []
                     };
 
@@ -645,8 +648,14 @@
                                 var end = $(tr).find('.break-end').text();
 
                                 workingPlan[id].breaks.push({
-                                    start: Date.parse(start).toString('HH:mm'),
-                                    end: Date.parse(end).toString('HH:mm')
+                                    start: moment(
+                                        start,
+                                        GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+                                    ).format('HH:mm'),
+                                    end: moment(
+                                        end,
+                                        GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+                                    ).format('HH:mm')
                                 });
                             }
                         }.bind(this)
@@ -704,18 +713,19 @@
 
                 onSelect: function (datetime, inst) {
                     // Start time must be earlier than end time.
-                    var start = Date.parse($(this).parent().parent().find('.work-start').val()),
-                        end = Date.parse($(this).parent().parent().find('.work-end').val());
+                    var startMoment = moment($(this).parent().parent().find('.work-start').val(), 'HH:mm');
 
-                    if (start > end) {
+                    var endMoment = moment($(this).parent().parent().find('.work-end').val(), 'HH:mm');
+
+                    if (startMoment > endMoment) {
                         $(this)
                             .parent()
                             .parent()
                             .find('.work-end')
                             .val(
-                                start
-                                    .addHours(1)
-                                    .toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm')
+                                startMoment
+                                    .add(1, 'hour')
+                                    .format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
                                     .toLowerCase()
                             );
                     }

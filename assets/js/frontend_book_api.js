@@ -120,10 +120,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                         .filter(function () {
                             return (
                                 $(this).text() ===
-                                Date.parseExact(
-                                    GlobalVariables.appointmentData.start_datetime,
-                                    'yyyy-MM-dd HH:mm:ss'
-                                ).toString(timeFormat)
+                                moment(GlobalVariables.appointmentData.start_datetime).format(timeFormat)
                             );
                         })
                         .addClass('selected-hour');
@@ -275,8 +272,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         processingUnavailabilities = true;
 
         // Select first enabled date.
-        var selectedDate = Date.parse(selectedDateString);
-        var numberOfDays = moment(selectedDate).daysInMonth();
+        var selectedDate = moment(selectedDateString).toDate();
+        var numberOfDays = moment(selectedDateString).daysInMonth();
 
         if (setDate && !GlobalVariables.manageMode) {
             for (var i = 1; i <= numberOfDays; i++) {

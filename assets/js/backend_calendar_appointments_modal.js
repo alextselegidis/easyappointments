@@ -51,11 +51,12 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // ID must exist on the object in order for the model to update the record and not to perform
             // an insert operation.
 
-            var startDatetime = $dialog
-                .find('#start-datetime')
-                .datetimepicker('getDate')
-                .toString('yyyy-MM-dd HH:mm:ss');
-            var endDatetime = $dialog.find('#end-datetime').datetimepicker('getDate').toString('yyyy-MM-dd HH:mm:ss');
+            var startDatetime = moment($dialog.find('#start-datetime').datetimepicker('getDate')).format(
+                'YYYY-MM-DD HH:mm:ss'
+            );
+            var endDatetime = moment($dialog.find('#end-datetime').datetimepicker('getDate')).format(
+                'YYYY-MM-DD HH:mm:ss'
+            );
 
             var appointment = {
                 id_services: $dialog.find('#select-service').val(),
@@ -151,26 +152,37 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             var duration = service ? service.duration : 60;
 
-            var start = new Date();
-            var currentMin = parseInt(start.toString('mm'));
+            var startMoment = moment();
+
+            var currentMin = parseInt(startMoment.format('mm'));
 
             if (currentMin > 0 && currentMin < 15) {
-                start.set({'minute': 15});
+                startMoment.set({minutes: 15});
             } else if (currentMin > 15 && currentMin < 30) {
-                start.set({'minute': 30});
+                startMoment.set({minutes: 30});
             } else if (currentMin > 30 && currentMin < 45) {
-                start.set({'minute': 45});
+                startMoment.set({minutes: 45});
             } else {
-                start.addHours(1).set({'minute': 0});
+                startMoment.add(1, 'hour').set({minutes: 0});
             }
 
-            $dialog.find('#start-datetime').val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
+            $dialog
+                .find('#start-datetime')
+                .val(GeneralFunctions.formatDate(startMoment.toDate(), GlobalVariables.dateFormat, true));
+
             $dialog
                 .find('#end-datetime')
-                .val(GeneralFunctions.formatDate(start.addMinutes(duration), GlobalVariables.dateFormat, true));
+                .val(
+                    GeneralFunctions.formatDate(
+                        startMoment.add(duration, 'minutes').toDate(),
+                        GlobalVariables.dateFormat,
+                        true
+                    )
+                );
 
             // Display modal form.
             $dialog.find('.modal-header h3').text(EALang.new_appointment_title);
+
             $dialog.modal('show');
         });
 
@@ -420,7 +432,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         var duration = service ? service.duration : 0;
 
         var startDatetime = new Date();
-        var endDatetime = new Date().addMinutes(duration);
+        var endDatetime = moment().add(duration, 'minutes').toDate();
         var dateFormat;
 
         switch (GlobalVariables.dateFormat) {
@@ -442,7 +454,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#start-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [
@@ -511,7 +523,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
         $dialog.find('#end-datetime').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [

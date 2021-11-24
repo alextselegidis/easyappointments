@@ -60,8 +60,8 @@ $(function () {
             var end = $tr.find('.working-plan-exceptions-break-end').text();
 
             breaks.push({
-                start: Date.parse(start).toString('HH:mm'),
-                end: Date.parse(end).toString('HH:mm')
+                start: moment(start, GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
+                end: moment(end, GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
             });
         });
 
@@ -164,17 +164,17 @@ $(function () {
     }
 
     function renderBreakRow(breakPeriod) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'html': [
                 $('<td/>', {
                     'class': 'working-plan-exceptions-break-start editable',
-                    'text': Date.parse(breakPeriod.start).toString(timeFormat)
+                    'text': moment(breakPeriod.start, 'HH:mm').toString(timeFormat)
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exceptions-break-end editable',
-                    'text': Date.parse(breakPeriod.end).toString(timeFormat)
+                    'text': moment(breakPeriod.end, 'HH:mm').toString(timeFormat)
                 }),
                 $('<td/>', {
                     'html': [
@@ -270,12 +270,18 @@ $(function () {
     function onSaveBreakClick() {
         // Break's start time must always be prior to break's end.
         var $tr = $(this).closest('tr');
-        var start = Date.parse($tr.find('.working-plan-exceptions-break-start input').val());
-        var end = Date.parse($tr.find('.working-plan-exceptions-break-end input').val());
+        var start = moment(
+            $tr.find('.working-plan-exceptions-break-start input').val(),
+            GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+        );
+        var end = moment(
+            $tr.find('.working-plan-exceptions-break-end input').val(),
+            GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+        );
 
         if (start > end) {
             $tr.find('.working-plan-exceptions-break-end input').val(
-                start.addHours(1).toString(GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm')
+                start.add(1, 'hour').format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
             );
         }
 
@@ -327,7 +333,7 @@ $(function () {
             dateFormat: dateFormat,
             firstDay: GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday),
             minDate: 0,
-            defaultDate: Date.today(),
+            defaultDate: moment().toDate(),
             dayNames: [
                 EALang.sunday,
                 EALang.monday,
@@ -378,7 +384,7 @@ $(function () {
 
     function initializeTimepicker($target) {
         $target.timepicker({
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
             currentText: EALang.now,
             closeText: EALang.close,
             timeOnlyTitle: EALang.select_time,

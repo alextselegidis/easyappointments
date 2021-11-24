@@ -306,12 +306,12 @@
             }
 
             var start = GeneralFunctions.formatDate(
-                Date.parse(appointment.start_datetime),
+                moment(appointment.start_datetime).toDate(),
                 GlobalVariables.dateFormat,
                 true
             );
             var end = GeneralFunctions.formatDate(
-                Date.parse(appointment.end_datetime),
+                moment(appointment.end_datetime).toDate(),
                 GlobalVariables.dateFormat,
                 true
             );

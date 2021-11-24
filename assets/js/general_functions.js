@@ -362,24 +362,24 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {String} Returns the formatted date string.
      */
     exports.formatDate = function (date, dateFormatSetting, addHours) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm';
+        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
         var hours = addHours ? ' ' + timeFormat : '';
         var result;
-        var parsedDate = Date.parse(date);
+        var parsedDateMoment = moment(date);
 
-        if (!parsedDate) {
+        if (!parsedDateMoment.isValid()) {
             return date;
         }
 
         switch (dateFormatSetting) {
             case 'DMY':
-                result = parsedDate.toString('dd/MM/yyyy' + hours);
+                result = parsedDateMoment.format('DD/MM/YYYY' + hours);
                 break;
             case 'MDY':
-                result = parsedDate.toString('MM/dd/yyyy' + hours);
+                result = parsedDateMoment.format('MM/DD/YYYY' + hours);
                 break;
             case 'YMD':
-                result = parsedDate.toString('yyyy/MM/dd' + hours);
+                result = parsedDateMoment.format('YYYY/MM/DD' + hours);
                 break;
             default:
                 throw new Error('Invalid date format setting provided!', dateFormatSetting);
@@ -597,36 +597,5 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 })
             ]
         }).html();
-    };
-
-    /**
-     * Format a given date according to ISO 8601 date format string yyyy-mm-dd
-     *
-     * @param {String} date The date to be formatted.
-     * @param {String} dateFormatSetting The setting provided by PHP must be one of the "DMY", "MDY" or "YMD".
-     *
-     * @return {String} Returns the formatted date string.
-     */
-    exports.ISO8601DateString = function (date, dateFormatSetting) {
-        var dayArray;
-
-        // It's necessary to manually parse the date because Date.parse() not support some formats tha instead are
-        // supported by Easy!Appointments. The unsupported format is dd/MM/yyyy.
-        switch (dateFormatSetting) {
-            case 'DMY':
-                dayArray = date.split('/');
-                date = dayArray[2] + '-' + dayArray[1] + '-' + dayArray[0];
-                break;
-            case 'MDY':
-                dayArray = date.split('/');
-                date = dayArray[2] + '-' + dayArray[0] + '-' + dayArray[1];
-                break;
-            case 'YMD':
-                date = date.replace('/', '-');
-                break;
-            default:
-                throw new Error('Invalid date format setting provided:' + dateFormatSetting);
-        }
-        return date;
     };
 })(window.GeneralFunctions);

@@ -39,7 +39,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
                 return;
             }
 
-            var end = Date.parse($dialog.find('#unavailable-end').datetimepicker('getDate'));
+            var end = moment($dialog.find('#unavailable-end').datetimepicker('getDate')).toDate();
 
             if (!end) {
                 $dialog.find('#unavailable-end').addClass('is-invalid');
@@ -95,17 +95,18 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
             var $dialog = $('#manage-unavailable');
 
             // Set the default datetime values.
-            var start = new Date();
-            var currentMin = parseInt(start.toString('mm'));
+            var startMoment = new Date();
+
+            var currentMin = parseInt(startMoment.toString('mm'));
 
             if (currentMin > 0 && currentMin < 15) {
-                start.set({'minute': 15});
+                startMoment.set({minutes: 15});
             } else if (currentMin > 15 && currentMin < 30) {
-                start.set({'minute': 30});
+                startMoment.set({minutes: 30});
             } else if (currentMin > 30 && currentMin < 45) {
-                start.set({'minute': 45});
+                startMoment.set({minutes: 45});
             } else {
-                start.addHours(1).set({'minute': 0});
+                startMoment.add(1, 'hour').set({minutes: 0});
             }
 
             if ($('.calendar-view').length === 0) {
@@ -114,10 +115,12 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
             $dialog
                 .find('#unavailable-start')
-                .val(GeneralFunctions.formatDate(start, GlobalVariables.dateFormat, true));
+                .val(GeneralFunctions.formatDate(startMoment.toDate(), GlobalVariables.dateFormat, true));
             $dialog
                 .find('#unavailable-end')
-                .val(GeneralFunctions.formatDate(start.addHours(1), GlobalVariables.dateFormat, true));
+                .val(
+                    GeneralFunctions.formatDate(startMoment.add(1, 'hour').toDate(), GlobalVariables.dateFormat, true)
+                );
             $dialog.find('.modal-header h3').text(EALang.new_unavailable_title);
             $dialog.modal('show');
         });
@@ -135,8 +138,10 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
         $dialog.find('#unavailable-id').val('');
 
         // Set default time values
-        var start = GeneralFunctions.formatDate(new Date(), GlobalVariables.dateFormat, true);
-        var end = GeneralFunctions.formatDate(new Date().addHours(1), GlobalVariables.dateFormat, true);
+        var start = GeneralFunctions.formatDate(moment().toDate(), GlobalVariables.dateFormat, true);
+
+        var end = GeneralFunctions.formatDate(moment().add(1, 'hour').toDate(), GlobalVariables.dateFormat, true);
+
         var dateFormat;
 
         switch (GlobalVariables.dateFormat) {
@@ -156,7 +161,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
         $dialog.find('#unavailable-start').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [
@@ -214,7 +219,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
         $dialog.find('#unavailable-end').datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm TT' : 'HH:mm',
+            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [

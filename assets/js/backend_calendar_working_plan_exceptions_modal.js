@@ -46,7 +46,7 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                 return;
             }
 
-            var end = Date.parse($('#working-plan-exception-end').datetimepicker('getDate'));
+            var end = moment($('#working-plan-exception-end').datetimepicker('getDate')).toDate();
 
             if (!end) {
                 $('#working-plan-exception-end').addClass('is-invalid');

@@ -113,13 +113,8 @@ window.Backend = window.Backend || {};
             'html': [
                 $('<button/>', {
                     'type': 'button',
-                    'class': 'close',
-                    'data-dismiss': 'alert',
-                    'html': [
-                        $('<span/>', {
-                            'html': '&times;'
-                        })
-                    ]
+                    'class': 'btn-close',
+                    'data-dismiss': 'alert'
                 }),
                 $('<strong/>', {
                     'html': message

@@ -96,7 +96,7 @@ window.FrontendBook = window.FrontendBook || {};
             dateFormat: 'dd-mm-yy',
             firstDay: weekDayId,
             minDate: 0,
-            defaultDate: Date.today(),
+            defaultDate: moment().toDate(),
 
             dayNames: [
                 EALang.sunday,
@@ -669,9 +669,9 @@ window.FrontendBook = window.FrontendBook || {};
 
         data.appointment = {
             start_datetime:
-                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd') +
+                moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD') +
                 ' ' +
-                Date.parse($('.selected-hour').data('value') || '').toString('HH:mm') +
+                moment($('.selected-hour').data('value') || '').format('HH:mm') +
                 ':00',
             end_datetime: calculateEndDatetime(),
             notes: $('#notes').val(),
@@ -705,20 +705,21 @@ window.FrontendBook = window.FrontendBook || {};
         });
 
         // Add the duration to the start datetime.
-        var startDatetime =
-            $('#select-date').datepicker('getDate').toString('dd-MM-yyyy') +
-            ' ' +
-            Date.parse($('.selected-hour').data('value') || '').toString('HH:mm');
-        startDatetime = Date.parseExact(startDatetime, 'dd-MM-yyyy HH:mm');
-        var endDatetime;
+        var selectedDate = moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD');
 
-        if (service.duration && startDatetime) {
-            endDatetime = startDatetime.add({'minutes': parseInt(service.duration)});
+        var selectedHour = $('.selected-hour').data('value'); // HH:mm
+
+        var startMoment = moment(selectedDate + ' ' + selectedHour);
+
+        var endMoment;
+
+        if (service.duration && startMoment) {
+            endMoment = startMoment.clone().add({'minutes': parseInt(service.duration)});
         } else {
-            endDatetime = new Date();
+            endMoment = moment();
         }
 
-        return endDatetime.toString('yyyy-MM-dd HH:mm:ss');
+        return endMoment.format('YYYY-MM-DD HH:mm:ss');
     }
 
     /**
@@ -738,8 +739,9 @@ window.FrontendBook = window.FrontendBook || {};
             $('#select-provider').val(appointment.id_users_provider);
 
             // Set Appointment Date
-            $('#select-date').datepicker('setDate', Date.parseExact(appointment.start_datetime, 'yyyy-MM-dd HH:mm:ss'));
-            FrontendBookApi.getAvailableHours(moment(appointment.start_datetime).format('YYYY-MM-DD'));
+            var startMoment = moment(appointment.start_datetime);
+            $('#select-date').datepicker('setDate', startMoment.toDate());
+            FrontendBookApi.getAvailableHours(startMoment.format('YYYY-MM-DD'));
 
             // Apply Customer's Data
             $('#last-name').val(customer.last_name);
