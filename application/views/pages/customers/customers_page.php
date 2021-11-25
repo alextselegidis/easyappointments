@@ -20,7 +20,7 @@
         timeFormat: <?= json_encode(setting('time_format')) ?>,
         timezones: <?= json_encode($timezones) ?>,
         user: {
-            d: <?= session('user_id') ?>,
+            id: <?= session('user_id') ?>,
             email: <?= json_encode(session('user_email')) ?>,
             timezone: <?= json_encode(session('timezone')) ?>,
             role_slug: <?= json_encode(session('role_slug')) ?>,
