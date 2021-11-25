@@ -497,11 +497,12 @@ class Booking extends EA_Controller {
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
             $customer_id = $this->customers_model->save($customer);
+            $customer = $this->customers_model->find($customer_id);
 
             $appointment['id_users_customer'] = $customer_id;
             $appointment['is_unavailable'] = (int)$appointment['is_unavailable'];
-            $appointment['id'] = $this->appointments_model->save($appointment);
-            $appointment['hash'] = $this->appointments_model->value($appointment['id'], 'hash');
+            $appointment_id = $this->appointments_model->save($appointment);
+            $appointment = $this->appointments_model->find($appointment_id);
 
             $settings = [
                 'company_name' => setting('company_name'),
