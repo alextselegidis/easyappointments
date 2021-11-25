@@ -83,11 +83,11 @@ $(function () {
             return;
         }
 
-        var date = $date.datepicker('getDate').toString('yyyy-MM-dd');
+        var date = moment($date.datepicker('getDate')).format('YYYY-MM-DD');
 
         var workingPlanException = {
-            start: $start.datetimepicker('getDate').toString('HH:mm'),
-            end: $end.datetimepicker('getDate').toString('HH:mm'),
+            start: moment($start.datetimepicker('getDate')).format('HH:mm'),
+            end: moment($end.datetimepicker('getDate')).format('HH:mm'),
             breaks: getBreaks()
         };
 
@@ -170,11 +170,11 @@ $(function () {
             'html': [
                 $('<td/>', {
                     'class': 'working-plan-exceptions-break-start editable',
-                    'text': moment(breakPeriod.start, 'HH:mm').toString(timeFormat)
+                    'text': moment(breakPeriod.start, 'HH:mm').format(timeFormat)
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exceptions-break-end editable',
-                    'text': moment(breakPeriod.end, 'HH:mm').toString(timeFormat)
+                    'text': moment(breakPeriod.end, 'HH:mm').format(timeFormat)
                 }),
                 $('<td/>', {
                     'html': [

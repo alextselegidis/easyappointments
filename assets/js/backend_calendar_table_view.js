@@ -105,7 +105,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                             // Add the provider breaks to the column.
                             var workingPlan = JSON.parse(provider.settings.working_plan);
-                            var day = date.toString('dddd').toLowerCase();
+                            var day = moment(date).format('dddd').toLowerCase();
                             if (workingPlan[day]) {
                                 var breaks = workingPlan[day].breaks;
                                 createBreaks($providerColumn, breaks);
@@ -505,8 +505,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }).appendTo('#calendar');
 
         $calendarView.data({
-            startDate: startDate.toString('yyyy-MM-dd'),
-            endDate: endDate.toString('yyyy-MM-dd')
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD')
         });
 
         var $wrapper = $('<div/>').appendTo($calendarView);
@@ -846,7 +846,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var view = $calendar.fullCalendar('getView');
         var start = view.start.clone();
         var end = view.end.clone();
-        var selDayName = start.toDate().toString('dddd').toLowerCase();
+        var selDayName = start.format('dddd').toLowerCase();
         var selDayDate = start.format('YYYY-MM-DD');
         var calendarEventSource = [];
 
@@ -892,7 +892,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             return;
         }
 
-        var workDateStart = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + workingPlan[selDayName].start);
+        var workDateStart = moment(start.format('YYYY-MM-DD') + ' ' + workingPlan[selDayName].start);
 
         if (start < workDateStart) {
             unavailablePeriod = {
@@ -909,7 +909,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         }
 
         // Add unavailable period after work ends.
-        var workDateEnd = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + workingPlan[selDayName].end);
+        var workDateEnd = moment(start.format('YYYY-MM-DD') + ' ' + workingPlan[selDayName].end);
 
         if (end > workDateEnd) {
             var unavailablePeriod = {
@@ -930,8 +930,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var breakEnd;
 
         workingPlan[selDayName].breaks.forEach(function (currentBreak) {
-            breakStart = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + currentBreak.start);
-            breakEnd = moment(start.toDate().toString('yyyy-MM-dd') + ' ' + currentBreak.end);
+            breakStart = moment(start.format('YYYY-MM-DD') + ' ' + currentBreak.start);
+            breakEnd = moment(start.format('YYYY-MM-DD') + ' ' + currentBreak.end);
 
             var unavailablePeriod = {
                 title: EALang.break,
@@ -1072,7 +1072,12 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             });
 
             $event.html(
-                EALang.break + ' <span class="hour">' + eventDate.toString('HH:mm') + '</span> (' + eventDuration + "')"
+                EALang.break +
+                    ' <span class="hour">' +
+                    moment(eventDate).format('HH:mm') +
+                    '</span> (' +
+                    eventDuration +
+                    "')"
             );
 
             $event.data(entry);
@@ -1087,7 +1092,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 if (eventDate < cellDate) {
                     // Remove the hour from the event if it is the same as the row.
-                    if (eventDate.toString('HH:mm') === $(tr).prev().find('td').eq(0).text()) {
+                    if (moment(eventDate).format('HH:mm') === $(tr).prev().find('td').eq(0).text()) {
                         $event.find('.hour').remove();
                     }
 
@@ -1784,8 +1789,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
-            startDate: startDate.toString('yyyy-MM-dd'),
-            endDate: endDate.toString('yyyy-MM-dd')
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD')
         };
 
         return $.ajax({

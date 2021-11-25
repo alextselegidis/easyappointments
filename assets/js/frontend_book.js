@@ -145,16 +145,17 @@ window.FrontendBook = window.FrontendBook || {};
             closeText: EALang.close,
 
             onSelect: function (dateText, instance) {
-                FrontendBookApi.getAvailableHours($(this).datepicker('getDate').toString('yyyy-MM-dd'));
+                FrontendBookApi.getAvailableHours(moment($(this).datepicker('getDate')).format('YYYY-MM-DD'));
                 FrontendBook.updateConfirmFrame();
             },
 
             onChangeMonthYear: function (year, month, instance) {
                 var currentDate = new Date(year, month - 1, 1);
+
                 FrontendBookApi.getUnavailableDates(
                     $('#select-provider').val(),
                     $('#select-service').val(),
-                    currentDate.toString('yyyy-MM-dd')
+                    moment(currentDate).format('YYYY-MM-DD')
                 );
             }
         });
@@ -220,7 +221,7 @@ window.FrontendBook = window.FrontendBook || {};
                 return;
             }
 
-            FrontendBookApi.getAvailableHours(date.toString('yyyy-MM-dd'));
+            FrontendBookApi.getAvailableHours(moment(date).format('YYYY-MM-DD'));
 
             FrontendBook.updateConfirmFrame();
         });
@@ -234,7 +235,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getUnavailableDates(
                 $(this).val(),
                 $('#select-service').val(),
-                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
+                moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD')
             );
             FrontendBook.updateConfirmFrame();
         });
@@ -274,7 +275,7 @@ window.FrontendBook = window.FrontendBook || {};
             FrontendBookApi.getUnavailableDates(
                 $('#select-provider').val(),
                 $(this).val(),
-                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
+                moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD')
             );
             FrontendBook.updateConfirmFrame();
             updateServiceDescription(serviceId);
@@ -671,7 +672,7 @@ window.FrontendBook = window.FrontendBook || {};
             start_datetime:
                 moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD') +
                 ' ' +
-                moment($('.selected-hour').data('value') || '').format('HH:mm') +
+                moment($('.selected-hour').data('value'), 'HH:mm').format('HH:mm') +
                 ':00',
             end_datetime: calculateEndDatetime(),
             notes: $('#notes').val(),

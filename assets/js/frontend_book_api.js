@@ -272,15 +272,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         processingUnavailabilities = true;
 
         // Select first enabled date.
-        var selectedDate = moment(selectedDateString).toDate();
-        var numberOfDays = moment(selectedDateString).daysInMonth();
+        var selectedDateMoment = moment(selectedDateString);
+        var selectedDate = selectedDateMoment.toDate();
+        var numberOfDays = selectedDateMoment.daysInMonth();
 
         if (setDate && !GlobalVariables.manageMode) {
             for (var i = 1; i <= numberOfDays; i++) {
                 var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-                if (unavailableDates.indexOf(currentDate.toString('yyyy-MM-dd')) === -1) {
+                if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
                     $('#select-date').datepicker('setDate', currentDate);
-                    FrontendBookApi.getAvailableHours(currentDate.toString('yyyy-MM-dd'));
+                    FrontendBookApi.getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
                     break;
                 }
             }
@@ -293,8 +294,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         // Grey out unavailable dates.
         $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function (index, td) {
-            selectedDate.set({day: index + 1});
-            if (unavailableDates.indexOf(selectedDate.toString('yyyy-MM-dd')) !== -1) {
+            selectedDateMoment.set({day: index + 1});
+            if (unavailableDates.indexOf(selectedDateMoment.format('YYYY-MM-DD')) !== -1) {
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
             }
         });

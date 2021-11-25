@@ -66,8 +66,8 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
             }
 
             var workingPlanException = {
-                start: start.toString('HH:mm'),
-                end: end.toString('HH:mm'),
+                start: moment(start).format('HH:mm'),
+                end: moment(end).format('HH:mm'),
                 breaks: []
             };
 
@@ -88,12 +88,12 @@ window.BackendCalendarWorkingPlanExceptionsModal = window.BackendCalendarWorking
                     throw new Error('Provider could not be found: ' + providerId);
                 }
 
-                var selectedDate = date.toString('yyyy-MM-dd');
+                var selectedDate = moment(date).format('yyyy-MM-dd');
                 var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
 
                 workingPlanExceptions[selectedDate] = {
-                    start: start.toString('HH:mm'),
-                    end: end.toString('HH:mm'),
+                    start: moment(start).format('HH:mm'),
+                    end: moment(end).format('HH:mm'),
                     breaks: []
                 };
 
