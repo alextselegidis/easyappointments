@@ -22,7 +22,7 @@
             <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('backend') ?>" class="nav-link"
+                <a href="<?= site_url('calendar') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_appointment_record_hint') ?>">
                     <i class="fas fa-calendar-alt me-2"></i>
                     <?= lang('calendar') ?>
