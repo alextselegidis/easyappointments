@@ -1,19 +1,7 @@
 <?php
 /**
- * @var array $available_providers
- * @var array $available_services
- * @var array $secretary_providers
- * @var string $date_format
- * @var string $time_format
- * @var string $base_url
- * @var array $customers
  * @var string $timezones
- * @var string $user_id
- * @var string $user_email
- * @var string $timezone
- * @var string $role_slug
  * @var array $privileges
- * @var string $require_phone_number
  */
 ?>
 
@@ -27,19 +15,15 @@
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        availableProviders: <?= json_encode($available_providers) ?>,
-        availableServices: <?= json_encode($available_services) ?>,
-        secretaryProviders: <?= json_encode($secretary_providers) ?>,
-        dateFormat: <?= json_encode($date_format) ?>,
-        timeFormat: <?= json_encode($time_format) ?>,
-        baseUrl: <?= json_encode($base_url) ?>,
-        customers: <?= json_encode($customers) ?>,
+        baseUrl: <?= json_encode(config('base_url')) ?>,
+        dateFormat: <?= json_encode(setting('date_format')) ?>,
+        timeFormat: <?= json_encode(setting('time_format')) ?>,
         timezones: <?= json_encode($timezones) ?>,
         user: {
-            id: <?= $user_id ?>,
-            email: <?= json_encode($user_email) ?>,
-            timezone: <?= json_encode($timezone) ?>,
-            role_slug: <?= json_encode($role_slug) ?>,
+            d: <?= session('user_id') ?>,
+            email: <?= json_encode(session('user_email')) ?>,
+            timezone: <?= json_encode(session('timezone')) ?>,
+            role_slug: <?= json_encode(session('role_slug')) ?>,
             privileges: <?= json_encode($privileges) ?>
         }
     };
@@ -147,9 +131,9 @@
                     <div class="mb-3">
                         <label class="form-label" for="phone-number">
                             <?= lang('phone_number') ?>
-                            <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : ''; ?></label>
+                            <?= setting('require_phone_number') === '1' ? '<span class="text-danger">*</span>' : '' ?></label>
                         <input id="phone-number" class="form-control
-                            <?= $require_phone_number === '1' ? 'required' : '' ?>">
+                            <?= setting('require_phone_number') === '1' ? 'required' : '' ?>">
                     </div>
 
                     <div class="mb-3">

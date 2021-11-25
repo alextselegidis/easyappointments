@@ -32,7 +32,7 @@
             <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('backend/customers') ?>" class="nav-link"
+                <a href="<?= site_url('customers') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_customers_hint') ?>">
                     <i class="fas fa-user-friends me-2"></i>
                     <?= lang('customers') ?>
