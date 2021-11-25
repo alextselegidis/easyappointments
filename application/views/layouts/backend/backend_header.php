@@ -98,6 +98,9 @@
                     <a class="dropdown-item" href="<?= site_url('settings/client_form') ?>">
                         <?= lang('client_form') ?>
                     </a>
+                    <a class="dropdown-item" href="<?= site_url('settings/legal_contents') ?>">
+                        <?= lang('legal_contents') ?>
+                    </a>
                     <?php endif ?>
                     <a class="dropdown-item" href="<?= site_url('settings/current_user') ?>">
                         <?= lang('current_user') ?>
