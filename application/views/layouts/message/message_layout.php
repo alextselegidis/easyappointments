@@ -14,7 +14,7 @@
     <link rel="icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" href="<?= asset_url('assets/img/logo.png') ?>" sizes="192x192" type="image/png">
     <title><?= $page_title ?> | Easy!Appointments</title>
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
     
     <?php slot('meta') ?>
