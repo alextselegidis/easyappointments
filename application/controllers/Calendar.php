@@ -12,31 +12,32 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Calendar controller. 
- * 
+ * Calendar controller.
+ *
  * Handles calendar related operations.
  *
- * @package Controllers 
+ * @package Controllers
  */
 class Calendar extends EA_Controller {
     /**
      * @var array
      */
     protected $permissions;
-    
+
     /**
      * Calendar constructor.
      */
     public function __construct()
     {
-        parent::__construct(); 
-        
-        $this->load->model('appointments_model'); 
-        $this->load->model('customers_model'); 
-        $this->load->model('services_model'); 
+        parent::__construct();
+
+        $this->load->model('appointments_model');
+        $this->load->model('customers_model');
+        $this->load->model('services_model');
         $this->load->model('providers_model');
         $this->load->model('roles_model');
 
+        $this->load->library('accounts');
         $this->load->library('google_sync');
         $this->load->library('notifications');
         $this->load->library('synchronization');
@@ -48,6 +49,64 @@ class Calendar extends EA_Controller {
         {
             $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
         }
+    }
+
+    /**
+     * Display the main backend page.
+     *
+     * This method displays the main backend page. All login permission can view this page which displays a
+     * calendar with the events of the selected provider or service. If a user has more privileges he will see more
+     * menus at the top of the page.
+     *
+     * @param string $appointment_hash Appointment edit dialog will appear when the page loads (default '').
+     */
+    public function index(string $appointment_hash = '')
+    {
+        session(['dest_url' => site_url('backend/index' . (! empty($appointment_hash) ? '/' . $appointment_hash : ''))]);
+
+        if (cannot('view', PRIV_APPOINTMENTS))
+        {
+            return;
+        }
+
+        $user_id = session('user_id');
+
+        $role_slug = session('role_slug');
+
+        $user = $this->users_model->find($user_id);
+
+        $secretary_providers = [];
+
+        if ($role_slug === DB_SLUG_SECRETARY)
+        {
+            $secretary = $this->secretaries_model->find(session('user_id'));
+
+            $secretary_providers = $secretary['providers'];
+        }
+
+        $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
+
+        $edit_appointment = NULL;
+
+        if ($appointment_hash !== '' && ! empty($occurrences))
+        {
+            $edit_appointment = $occurrences[0];
+            
+            $this->appointments_model->load($edit_appointment, ['customer']);
+        }
+
+        $this->load->view('pages/calendar/calendar_page', [
+            'page_title' => lang('calendar'),
+            'active_menu' => PRIV_APPOINTMENTS,
+            'user_display_name' => $this->accounts->get_user_display_name($user_id),
+            'timezones' => $this->timezones->to_array(),
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'calendar_view' => request('view', $user['settings']['calendar_view']),
+            'available_providers' => $this->providers_model->get_available_providers(),
+            'available_services' => $this->services_model->get_available_services(),
+            'secretary_providers' => $secretary_providers,
+            'edit_appointment' => $edit_appointment,
+        ]);
     }
 
     /**
