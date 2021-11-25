@@ -43,23 +43,22 @@
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+        baseUrl: <?= json_encode(config('base_url')) ?>,
+        dateFormat: <?= json_encode(setting('date_format')) ?>,
+        timeFormat: <?= json_encode(setting('time_format')) ?>,
+        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
+        timezones: <?= json_encode($timezones) ?>,
         availableProviders: <?= json_encode($available_providers) ?>,
         availableServices: <?= json_encode($available_services) ?>,
-        baseUrl: <?= json_encode($base_url) ?>,
-        dateFormat: <?= json_encode($date_format) ?>,
-        timeFormat: <?= json_encode($time_format) ?>,
-        firstWeekday: <?= json_encode($first_weekday) ?>,
-        editAppointment: <?= json_encode($edit_appointment) ?>,
-        customers: <?= json_encode($customers) ?>,
         secretaryProviders: <?= json_encode($secretary_providers) ?>,
         calendarView: <?= json_encode($calendar_view) ?>,
-        timezones: <?= json_encode($timezones) ?>,
+        editAppointment: <?= json_encode($edit_appointment) ?>,
         user: {
-            id: <?= $user_id ?>,
-            email: <?= json_encode($user_email) ?>,
-            timezone: <?= json_encode($timezone) ?>,
-            role_slug: <?= json_encode($role_slug) ?>,
-            privileges: <?= json_encode($privileges) ?>,
+            id: <?= session('user_id') ?>,
+            email: <?= json_encode(session('user_email')) ?>,
+            timezone: <?= json_encode(session('timezone')) ?>,
+            role_slug: <?= json_encode(session('role_slug')) ?>,
+            privileges: <?= json_encode($privileges) ?>
         }
     };
 
@@ -75,7 +74,7 @@
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
         <div id="calendar-filter" class="col-12 col-sm-5">
-            <div class="mb-3 calendar-filter-items">
+            <div class="calendar-filter-items">
                 <select id="select-filter-item" class="form-control col"
                         data-tippy-content="<?= lang('select_filter_item_hint') ?>">
                 </select>
@@ -83,7 +82,7 @@
         </div>
 
         <div id="calendar-actions" class="col-12 col-sm-7">
-            <?php if (($role_slug == DB_SLUG_ADMIN || $role_slug == DB_SLUG_PROVIDER)
+            <?php if ((session('role_slug') == DB_SLUG_ADMIN || session('role_slug') == DB_SLUG_PROVIDER)
                 && config('google_sync_feature') == TRUE): ?>
                 <button id="google-sync" class="btn btn-primary"
                         data-tippy-content="<?= lang('trigger_google_sync_hint') ?>">
@@ -98,7 +97,7 @@
                 </button>
             <?php endif ?>
 
-            <?php if ($privileges[PRIV_APPOINTMENTS]['add'] == TRUE): ?>
+            <?php if (can('add', PRIV_APPOINTMENTS)): ?>
                 <div class="btn-group">
                     <button class="btn btn-light" id="insert-appointment">
                         <i class="fas fa-plus-square me-2"></i>
@@ -116,7 +115,7 @@
                             <?= lang('unavailable') ?>
                         </a>
                         <a class="dropdown-item" href="#" id="insert-working-plan-exception"
-                            <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
+                            <?= session('role_slug') !== DB_SLUG_ADMIN ? 'hidden' : '' ?>>
                             <i class="fas fa-plus-square me-2"></i>
                             <?= lang('working_plan_exception') ?>
                         </a>
@@ -153,9 +152,13 @@
 <!-- Page Components -->
 
 <?php component('manage_appointment_modal', '', ['timezones' => $timezones]) ?>
+
 <?php component('manage_appointment_modal') ?>
+
 <?php component('manage_unavailable_modal') ?>
+
 <?php component('select_google_calendar_modal') ?>
+
 <?php component('working_plan_exceptions_modal') ?>
 
 <?php section('content') ?> 
