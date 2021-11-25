@@ -7,7 +7,7 @@
 
 <nav id="header" class="navbar navbar-expand-md navbar-dark">
     <div id="header-logo" class="navbar-brand">
-        <img src="<?= base_url('assets/img/logo.png') ?>">
+        <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
         <h6>EASY!APPOINTMENTS</h6>
         <small>Open Source Appointment Scheduler</small>
     </div>
@@ -19,8 +19,8 @@
 
     <div id="header-menu" class="collapse navbar-collapse flex-row-reverse px-2">
         <ul class="navbar-nav">
-            <?php $hidden = ($privileges[PRIV_APPOINTMENTS]['view'] == TRUE) ? '' : 'd-none' ?>
-            <?php $active = ($active_menu == PRIV_APPOINTMENTS) ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_APPOINTMENTS) ? '' : 'd-none' ?>
+            <?php $active = $active_menu == PRIV_APPOINTMENTS ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('calendar') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_appointment_record_hint') ?>">
@@ -29,8 +29,8 @@
                 </a>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_CUSTOMERS]['view'] == TRUE) ? '' : 'd-none' ?>
-            <?php $active = ($active_menu == PRIV_CUSTOMERS) ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_CUSTOMERS) ? '' : 'd-none' ?>
+            <?php $active = $active_menu == PRIV_CUSTOMERS ? 'active' : '' ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('customers') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_customers_hint') ?>">
@@ -39,10 +39,10 @@
                 </a>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'd-none' ?>
-            <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_SERVICES) ? '' : 'd-none' ?>
+            <?php $active = $active_menu == PRIV_SERVICES ? 'active' : '' ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
-                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" 
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_services_hint') ?>">
                     <i class="fas fa-business-time me-2"></i>
                     <?= lang('services') ?>
@@ -57,8 +57,8 @@
                 </div>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_USERS]['view'] == TRUE) ? '' : 'd-none' ?>
-            <?php $active = ($active_menu == PRIV_USERS) ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_USERS) ? '' : 'd-none' ?>
+            <?php $active = $active_menu == PRIV_USERS ? 'active' : '' ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_users_hint') ?>">
@@ -78,9 +78,8 @@
                 </div>
             </li>
 
-            <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
-                || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
-            <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_SYSTEM_SETTINGS) || can('view', PRIV_USER_SETTINGS) ? '' : 'd-none' ?>
+            <?php $active = $active_menu == PRIV_SYSTEM_SETTINGS ? 'active' : '' ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
@@ -89,18 +88,18 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
-                    <a class="dropdown-item" href="<?= site_url('settings/general') ?>">
-                        <?= lang('general') ?>
-                    </a>
-                    <a class="dropdown-item" href="<?= site_url('settings/business_logic') ?>">
-                        <?= lang('business_logic') ?>
-                    </a>
-                    <a class="dropdown-item" href="<?= site_url('settings/client_form') ?>">
-                        <?= lang('client_form') ?>
-                    </a>
-                    <a class="dropdown-item" href="<?= site_url('settings/legal_contents') ?>">
-                        <?= lang('legal_contents') ?>
-                    </a>
+                        <a class="dropdown-item" href="<?= site_url('settings/general') ?>">
+                            <?= lang('general') ?>
+                        </a>
+                        <a class="dropdown-item" href="<?= site_url('settings/business_logic') ?>">
+                            <?= lang('business_logic') ?>
+                        </a>
+                        <a class="dropdown-item" href="<?= site_url('settings/client_form') ?>">
+                            <?= lang('client_form') ?>
+                        </a>
+                        <a class="dropdown-item" href="<?= site_url('settings/legal_contents') ?>">
+                            <?= lang('legal_contents') ?>
+                        </a>
                     <?php endif ?>
                     <a class="dropdown-item" href="<?= site_url('settings/current_user') ?>">
                         <?= lang('current_user') ?>
