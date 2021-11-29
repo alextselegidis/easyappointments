@@ -15,7 +15,7 @@
     <link rel="icon" href="<?= asset_url('assets/img/logo.png') ?>" sizes="192x192" type="image/png">
     <title><?= $page_title ?> | Easy!Appointments</title>
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking/booking_layout.css') ?>">
     
     <?php slot('meta') ?>
     
@@ -46,7 +46,7 @@
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
 <?php google_analytics_script() ?>
 

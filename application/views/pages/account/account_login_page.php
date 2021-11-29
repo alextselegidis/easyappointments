@@ -50,7 +50,7 @@
 
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/login.js') ?>"></script>
 
 <?php section('scripts') ?>

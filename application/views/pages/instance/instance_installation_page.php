@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/installation.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/pages/instance/instance_installation_page.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 </head>
 <body>
@@ -147,7 +147,7 @@
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/installation.js') ?>"></script>
 </body>
 </html>

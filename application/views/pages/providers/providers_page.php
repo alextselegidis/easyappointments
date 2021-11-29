@@ -10,10 +10,10 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/backend_providers_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_providers.js') ?>"></script>
-<script src="<?= asset_url('assets/js/working_plan.js') ?>"></script>
-<script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/providers/backend_providers_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/providers/backend_providers.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
+<script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script>

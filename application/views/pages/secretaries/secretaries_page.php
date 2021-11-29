@@ -10,8 +10,8 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/backend_secretaries_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_secretaries.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/secretaries/backend_secretaries_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/secretaries/backend_secretaries.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,

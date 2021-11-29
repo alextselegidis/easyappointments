@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking/booking_layout.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
@@ -99,9 +99,9 @@
 <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
-<script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>
-<script src="<?= asset_url('assets/js/frontend_book.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/booking/frontend_book_api.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/booking/frontend_book.js') ?>"></script>
 
 <script>
     $(function () {

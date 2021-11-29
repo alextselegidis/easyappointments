@@ -9,8 +9,8 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/backend_services_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_services.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/services/backend_services_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/services/backend_services.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,

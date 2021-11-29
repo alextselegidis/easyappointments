@@ -10,8 +10,8 @@
 <?php section('content') ?>
 
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_customers_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/backend_customers.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/customers/backend_customers_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/customers/backend_customers.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,

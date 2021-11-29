@@ -20,7 +20,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/select2/select2.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/backend/backend_layout.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -47,8 +47,8 @@
     <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 </head>
 <body>
-<script src="<?= asset_url('assets/js/backend.js') ?>"></script>
-<script src="<?= asset_url('assets/js/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/backend/backend.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
 <?php require 'backend_header.php' ?>
 

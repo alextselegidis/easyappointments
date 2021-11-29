@@ -370,7 +370,7 @@ body legend {
 }
 
 #calendar-page #calendar .fc-unavailable {
-    background-image: url('../img/unavailable.jpg');
+    background-image: url('../../../img/unavailable.jpg');
     font-size: 14px;
     border-radius: 0;
     font-weight: bold;
@@ -389,11 +389,11 @@ body legend {
 }
 
 #calendar-page #calendar .fc-break {
-    background-image: url('../img/break.jpg');
+    background-image: url('../../../img/break.jpg');
 }
 
 #calendar-page #calendar .fc-custom {
-    background-image: url('../img/custom.jpg');
+    background-image: url('../../../img/custom.jpg');
 }
 
 #calendar-page .fc-header {
@@ -533,7 +533,7 @@ body .form-horizontal .controls {
 }
 
 #calendar .fc-unavailable {
-    background: #eaeaea url('../img/unavailable.jpg');
+    background: #eaeaea url('../../../img/unavailable.jpg');
 }
 
 #calendar .calendar-view .date-column .provider-column {
