@@ -62,7 +62,7 @@
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_users_hint') ?>">
-                    <i class="fas fa-business-time me-2"></i>
+                    <i class="fas fa-users me-2"></i>
                     <?= lang('users') ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
