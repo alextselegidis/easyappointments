@@ -3,8 +3,8 @@
  * @var string $user_display_name
  */
 ?>
-<div id="footer">
-    <div id="footer-content" class="col-12 col-sm-8">
+<div id="footer" class="d-md-flex justify-content-md-between">
+    <div id="footer-content">
         <img class="me-1" src="<?= base_url('assets/img/logo-16x16.png') ?>" alt="Easy!Appointments Logo">
         <a href="https://easyappointments.org">
             Easy!Appointments
@@ -44,7 +44,7 @@
         </a>
     </div>
 
-    <div id="footer-user-display-name" class="col-12 col-sm-4">
+    <div id="footer-user-display-name">
         <?= lang('hello') . ', ' . $user_display_name ?>!
     </div>
 </div>
