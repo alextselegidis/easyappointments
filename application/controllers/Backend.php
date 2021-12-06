@@ -105,7 +105,7 @@ class Backend extends EA_Controller {
             $view['edit_appointment'] = NULL;
         }
 
-        $this->load->view('pages/calendar/calendar_page', $view);
+        $this->load->view('pages/calendar_page', $view);
     }
 
     /**
@@ -208,7 +208,7 @@ class Backend extends EA_Controller {
 
         $this->set_user_data($view);
 
-        $this->load->view('pages/customers/customers_page', $view);
+        $this->load->view('pages/customers_page', $view);
     }
 
     /**
@@ -241,7 +241,7 @@ class Backend extends EA_Controller {
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 
-        $this->load->view('pages/services/services_page', $view);
+        $this->load->view('pages/services_page', $view);
     }
 
     /**
@@ -276,7 +276,7 @@ class Backend extends EA_Controller {
         $view['working_plan_exceptions'] = '{}';
         $this->set_user_data($view);
 
-        $this->load->view('pages/users/users_page', $view);
+        $this->load->view('pages/users_page', $view);
     }
 
     /**
@@ -320,7 +320,7 @@ class Backend extends EA_Controller {
 
         $this->set_user_data($view);
 
-        $this->load->view('pages/settings/settings_page', $view);
+        $this->load->view('pages/settings_page', $view);
     }
 
     /**
@@ -350,6 +350,6 @@ class Backend extends EA_Controller {
             $view = ['success' => FALSE, 'exception' => $e->getMessage()];
         }
 
-        $this->load->view('pages/instance/instance_update_page', $view);
+        $this->load->view('pages/instance_update_page', $view);
     }
 }

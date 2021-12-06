@@ -50,7 +50,7 @@ class Migration_Remove_prefix_from_fkey_constraints extends EA_Migration {
             ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services') . '`
-            ADD CONSTRAINT `services_service_categories` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('service_categories') . '` (`id`)
+            ADD CONSTRAINT `services_service_categories` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('Categories') . '` (`id`)
             ON DELETE SET NULL
             ON UPDATE CASCADE');
 
@@ -101,7 +101,7 @@ class Migration_Remove_prefix_from_fkey_constraints extends EA_Migration {
             ADD CONSTRAINT `fk_' . $this->db->dbprefix('secretaries_providers') . '_2` FOREIGN KEY (`id_users_provider`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services') . '`
-            ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('service_categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
+            ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('Categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services_providers') . '`
             ADD CONSTRAINT `' . $this->db->dbprefix('services_providers') . '_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,

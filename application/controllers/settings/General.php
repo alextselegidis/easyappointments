@@ -68,7 +68,7 @@ class General extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/settings/general/general_page', [
+        $this->load->view('pages/settings/general_page', [
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

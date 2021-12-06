@@ -53,7 +53,7 @@ class Providers extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/providers/providers_page', [
+        $this->load->view('pages/providers_page', [
             'page_title' => lang('providers'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

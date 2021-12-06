@@ -52,7 +52,7 @@ class Admins extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/admins/admins_page', [
+        $this->load->view('pages/admins_page', [
             'page_title' => lang('admins'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

@@ -53,7 +53,7 @@ class Secretaries extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/secretaries/secretaries_page', [
+        $this->load->view('pages/secretaries_page', [
             'page_title' => lang('secretaries'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

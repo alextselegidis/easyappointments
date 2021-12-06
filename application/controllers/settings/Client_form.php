@@ -68,7 +68,7 @@ class Client_form extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/settings/client_form/client_form_page', [
+        $this->load->view('pages/settings/client_form_page', [
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
