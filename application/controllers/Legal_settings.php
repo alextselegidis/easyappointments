@@ -18,7 +18,7 @@
  *
  * @package Controllers
  */
-class Legal_contents extends EA_Controller {
+class Legal_settings extends EA_Controller {
     /**
      * @var array
      */
@@ -57,9 +57,9 @@ class Legal_contents extends EA_Controller {
      */
     public function index()
     {
-        session(['dest_url' => site_url('services')]);
+        session(['dest_url' => site_url('legal_settings')]);
 
-        if (cannot('view', 'services'))
+        if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
             show_error('Forbidden', 403);
         }
@@ -68,7 +68,7 @@ class Legal_contents extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/settings/legal_contents_page', [
+        $this->load->view('pages/legal_settings', [
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

@@ -46,7 +46,7 @@
         <form>
             <fieldset>
                 <legend class="border-bottom mb-4">
-                    <?= lang('business_logic') ?>
+                    <?= lang('Business_settings') ?>
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                         <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                 data-tippy-content="<?= lang('save') ?>">

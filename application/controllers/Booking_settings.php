@@ -12,13 +12,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Client form controller.
+ * Booking settings controller.
  *
- * Handles client form settings related operations.
+ * Handles booking settings related operations.
  *
  * @package Controllers
  */
-class Client_form extends EA_Controller {
+class Booking_settings extends EA_Controller {
     /**
      * @var array
      */
@@ -57,9 +57,9 @@ class Client_form extends EA_Controller {
      */
     public function index()
     {
-        session(['dest_url' => site_url('services')]);
+        session(['dest_url' => site_url('booking_settings')]);
 
-        if (cannot('view', 'services'))
+        if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
             show_error('Forbidden', 403);
         }
@@ -68,7 +68,7 @@ class Client_form extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/settings/client_form_page', [
+        $this->load->view('pages/booking_settings', [
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

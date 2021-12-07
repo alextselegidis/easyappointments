@@ -12,20 +12,20 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * General controller.
+ * Business logic controller.
  *
  * Handles general settings related operations.
  *
  * @package Controllers
  */
-class General extends EA_Controller {
+class Business_settings extends EA_Controller {
     /**
      * @var array
      */
     protected $permissions;
 
     /**
-     * Calendar constructor.
+     * Business_logic constructor.
      */
     public function __construct()
     {
@@ -57,9 +57,9 @@ class General extends EA_Controller {
      */
     public function index()
     {
-        session(['dest_url' => site_url('services')]);
+        session(['dest_url' => site_url('business_settings')]);
 
-        if (cannot('view', 'services'))
+        if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
             show_error('Forbidden', 403);
         }
@@ -68,7 +68,7 @@ class General extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/settings/general_page', [
+        $this->load->view('pages/business_settings', [
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
@@ -91,30 +91,6 @@ class General extends EA_Controller {
             }
 
             $settings = json_decode(request('settings', FALSE), TRUE);
-
-            // Check if phone number settings are valid.
-
-            $phone_number_required = FALSE;
-
-            $phone_number_shown = FALSE;
-
-            foreach ($settings as $setting)
-            {
-                if ($setting['name'] === 'require_phone_number')
-                {
-                    $phone_number_required = $setting['value'];
-                }
-
-                if ($setting['name'] === 'show_phone_number')
-                {
-                    $phone_number_shown = $setting['value'];
-                }
-            }
-
-            if ($phone_number_required && ! $phone_number_shown)
-            {
-                throw new RuntimeException('You cannot hide the phone number in the booking form while it\'s also required!');
-            }
 
             foreach ($settings as $setting)
             {

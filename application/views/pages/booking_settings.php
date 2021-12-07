@@ -43,7 +43,7 @@
         <form>
             <fieldset>
                 <legend class="border-bottom mb-4">
-                    <?= lang('client_form') ?>
+                    <?= lang('Bookingsettings') ?>
                     
                     <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                         <button type="button" class="save-settings btn btn-primary btn-sm mb-2"

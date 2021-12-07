@@ -88,27 +88,27 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
-                        <a class="dropdown-item" href="<?= site_url('settings/general') ?>">
+                        <a class="dropdown-item" href="<?= site_url('general_settings') ?>">
                             <?= lang('general') ?>
                         </a>
-                        <a class="dropdown-item" href="<?= site_url('settings/business_logic') ?>">
+                        <a class="dropdown-item" href="<?= site_url('business_settings') ?>">
                             <?= lang('business_logic') ?>
                         </a>
-                        <a class="dropdown-item" href="<?= site_url('settings/client_form') ?>">
+                        <a class="dropdown-item" href="<?= site_url('booking_settings') ?>">
                             <?= lang('client_form') ?>
                         </a>
-                        <a class="dropdown-item" href="<?= site_url('settings/legal_contents') ?>">
+                        <a class="dropdown-item" href="<?= site_url('legal_settings') ?>">
                             <?= lang('legal_contents') ?>
                         </a>
                     <?php endif ?>
-                    <a class="dropdown-item" href="<?= site_url('settings/current_user') ?>">
+                    <a class="dropdown-item" href="<?= site_url('account_settings') ?>">
                         <?= lang('current_user') ?>
                     </a>
-                    <a class="dropdown-item" href="<?= site_url('settings/about') ?>">
+                    <a class="dropdown-item" href="<?= site_url('about') ?>">
                         <?= lang('about') ?>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="<?= site_url('user/logout') ?>">
+                    <a class="dropdown-item" href="<?= site_url('logout') ?>">
                         <?= lang('log_out') ?>
                     </a>
                 </div>

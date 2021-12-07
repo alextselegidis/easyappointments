@@ -42,7 +42,7 @@
             <form>
                 <fieldset>
                     <legend class="border-bottom mb-4">
-                        <?= lang('general_settings') ?>
+                        <?= lang('General_settings') ?>
                         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
                             <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
                                     data-tippy-content="<?= lang('save') ?>">

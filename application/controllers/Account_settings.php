@@ -12,13 +12,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Current user controller.
+ * Account settings controller.
  *
  * Handles current user settings related operations.
  *
  * @package Controllers
  */
-class Current_user extends EA_Controller {
+class Account_settings extends EA_Controller {
     /**
      * @var array
      */
@@ -57,9 +57,9 @@ class Current_user extends EA_Controller {
      */
     public function index()
     {
-        session(['dest_url' => site_url('services')]);
+        session(['dest_url' => site_url('account_settings')]);
 
-        if (cannot('view', 'services'))
+        if (cannot('view', PRIV_USER_SETTINGS))
         {
             show_error('Forbidden', 403);
         }
@@ -68,7 +68,7 @@ class Current_user extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/settings/current_user_page', [
+        $this->load->view('pages/account_settings', [
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
@@ -85,7 +85,7 @@ class Current_user extends EA_Controller {
     {
         try
         {
-            if ($this->permissions[PRIV_USER_SETTINGS]['edit'] == FALSE)
+            if (cannot('edit', PRIV_USER_SETTINGS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }
