@@ -11,8 +11,8 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/pages/backend_settings_general_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_settings_general.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/settings/backend_settings_general_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/settings/backend_settings_general.js') ?>"></script>
 <script>
     var GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,

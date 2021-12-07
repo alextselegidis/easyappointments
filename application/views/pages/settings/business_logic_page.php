@@ -11,8 +11,8 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/settings/backend_settings_business_logic_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/settings/backend_settings_business_logic.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
