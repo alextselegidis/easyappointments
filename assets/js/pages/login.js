@@ -9,10 +9,8 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-$(function () {
-    'use strict';
-
-    var $loginForm = $('#login-form');
+(function () {
+    const $loginForm = $('#login-form');
 
     /**
      * Login Button "Click"
@@ -23,19 +21,19 @@ $(function () {
     function onLoginFormSubmit(event) {
         event.preventDefault();
 
-        var url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
+        const url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
 
-        var data = {
+        const data = {
             'csrfToken': GlobalVariables.csrfToken,
             'username': $('#username').val(),
             'password': $('#password').val()
         };
 
-        var $alert = $('.alert');
+        const $alert = $('.alert');
 
         $alert.addClass('d-none');
 
-        $.post(url, data).done(function (response) {
+        $.post(url, data).done((response) => {
             if (response.success) {
                 window.location.href = GlobalVariables.destUrl;
             } else {
@@ -46,4 +44,4 @@ $(function () {
     }
 
     $loginForm.on('submit', onLoginFormSubmit);
-});
+})();

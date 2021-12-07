@@ -35,19 +35,17 @@ class User extends EA_Controller {
      */
     public function index()
     {
-        redirect('user/login');
+        redirect('login');
     }
 
     /**
      * Display the login page.
+     * 
+     * @deprecated Since 1.5 Use the Login controller instead.
      */
     public function login()
     {
-        $this->load->view('pages/account_login_page', [
-            'base_url' => config('base_url'),
-            'company_name' => setting('company_name'),
-            'dest_url' => session('dest_url', site_url('backend'))
-        ]);
+        redirect('login');
     }
 
     /**
