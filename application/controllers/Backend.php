@@ -145,7 +145,7 @@ class Backend extends EA_Controller {
             // User does not have the permission to view the page.
             if ($redirect)
             {
-                redirect('user/no_permissions');
+                show_error(lang('no_privileges_message'), 403, lang('no_privileges'));
             }
 
             return FALSE;
