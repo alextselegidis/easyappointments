@@ -37,8 +37,8 @@ class Login extends EA_Controller {
     {
         $this->load->view('pages/login', [
             'base_url' => config('base_url'),
-            'company_name' => setting('company_name'),
-            'dest_url' => session('dest_url', site_url('backend'))
+            'dest_url' => session('dest_url', site_url('backend')),
+            'company_name' => setting('company_name')
         ]);
     }
 
