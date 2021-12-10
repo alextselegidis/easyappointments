@@ -1,7 +1,16 @@
-$(function () {
-    'use strict';
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        http://easyappointments.org
+ * @since       v1.5.0
+ * ---------------------------------------------------------------------------- */
 
-    var $form = $('form');
+(function () {
+    const $form = $('form');
 
     /**
      * Event: Login Button "Click"
@@ -12,23 +21,26 @@ $(function () {
     function onFormSubmit(event) {
         event.preventDefault();
 
-        var url = GlobalVariables.baseUrl + '/index.php/user/ajax_forgot_password';
+        const url = GlobalVariables.baseUrl + '/index.php/recovery/perform';
 
-        var data = {
-            'csrfToken': GlobalVariables.csrfToken,
-            'username': $('#username').val(),
-            'email': $('#email').val()
+        const data = {
+            csrfToken: GlobalVariables.csrfToken,
+            username: $('#username').val(),
+            email: $('#email').val()
         };
 
-        var $alert = $('.alert');
+        const $alert = $('.alert');
 
         $alert.addClass('d-none');
+
         $('#get-new-password').prop('disabled', true);
 
-        $.post(url, data).done(function (response) {
+        $.post(url, data).done((response) => {
             $alert.removeClass('d-none alert-danger alert-success');
+
             $('#get-new-password').prop('disabled', false);
-            if (response === GlobalVariables.AJAX_SUCCESS) {
+
+            if (response.success) {
                 $alert.addClass('alert-success');
                 $alert.text(EALang['new_password_sent_with_email']);
             } else {
@@ -42,4 +54,4 @@ $(function () {
     }
 
     $form.on('submit', onFormSubmit);
-});
+})();
