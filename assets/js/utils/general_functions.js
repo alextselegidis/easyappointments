@@ -38,7 +38,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {String} message The message of the dialog.
      * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
-    exports.displayMessageBox = function (title, message, buttons) {
+    exports.displayMessageBox = function (title, message, buttons = null) {
         if (!title) {
             title = '- No Title Provided -';
         }
