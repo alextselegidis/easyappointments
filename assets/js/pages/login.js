@@ -21,7 +21,7 @@
     function onLoginFormSubmit(event) {
         event.preventDefault();
 
-        const url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
+        const url = GlobalVariables.baseUrl + '/index.php/login/validate';
 
         const data = {
             csrfToken: GlobalVariables.csrfToken,
