@@ -63,7 +63,7 @@
             return; // Validation failed, do not proceed.
         }
 
-        var url = GlobalVariables.baseUrl + '/index.php/settings/current_user/save';
+        var url = GlobalVariables.baseUrl + '/index.php/account_settings/save';
 
         var data = {
             csrfToken: GlobalVariables.csrfToken,
