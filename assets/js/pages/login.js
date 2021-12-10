@@ -24,9 +24,9 @@
         const url = GlobalVariables.baseUrl + '/index.php/user/ajax_check_login';
 
         const data = {
-            'csrfToken': GlobalVariables.csrfToken,
-            'username': $('#username').val(),
-            'password': $('#password').val()
+            csrfToken: GlobalVariables.csrfToken,
+            username: $('#username').val(),
+            password: $('#password').val()
         };
 
         const $alert = $('.alert');
