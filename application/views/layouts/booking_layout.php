@@ -11,15 +11,13 @@
  * @var array $customer_data
  * @var array $available_services
  * @var array $available_providers
- * @var array $show_field
- * @var bool $require_phone_number
  * @var string $display_any_provider
  * @var string $display_terms_and_conditions
  * @var string $display_privacy_policy
  * @var string $display_cookie_notice
- * @var string $page_path
  */
 ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,19 +25,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#35A768">
-    <title><?= lang('page_title') . ' ' . $company_name ?></title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking_layout.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <?php slot('meta') ?>
+
+    <title><?= lang('page_title') . ' ' . $company_name ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
-
-    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
-    <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
+    
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking_layout.css') ?>">
 </head>
 
 <body>
@@ -70,7 +68,7 @@
 <?php endif ?>
 
 <script>
-    var GlobalVariables = {
+    const GlobalVariables = {
         availableServices: <?= json_encode($available_services) ?>,
         availableProviders: <?= json_encode($available_providers) ?>,
         baseUrl: <?= json_encode(config('base_url')) ?>,
@@ -87,8 +85,9 @@
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>
     };
 
-    var EALang = <?= json_encode($this->lang->language) ?>;
-    var availableLanguages = <?= json_encode(config('available_languages')) ?>;
+    const EALang = <?= json_encode($this->lang->language) ?>;
+    
+    const availableLanguages = <?= json_encode(config('available_languages')) ?>;
 </script>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
@@ -96,9 +95,11 @@
 <script src="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/frontend_book_api.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/frontend_book.js') ?>"></script>
