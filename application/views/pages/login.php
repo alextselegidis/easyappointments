@@ -37,7 +37,7 @@
         </button>
     </div>
 
-    <a href="<?= site_url('user/forgot_password') ?>" class="forgot-password"><?= lang('forgot_your_password') ?></a>
+    <a href="<?= site_url('recovery') ?>" class="forgot-password"><?= lang('forgot_your_password') ?></a>
     |
     <span id="select-language" class="badge bg-success">
         <?= ucfirst(config('language')) ?>
