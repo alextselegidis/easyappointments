@@ -5,15 +5,15 @@
 
     <title>Installation | Easy!Appointments</title>
 
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/instance_installation_page.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/pages/installation.css') ?>">
 </head>
 <body>
 <div id="loading" class="d-none">
-    <img src="<?= base_url('assets/img/loading.gif') ?>">
+    <img src="<?= base_url('assets/img/loading.gif') ?>" alt="loading">
 </div>
 
 <header>
@@ -26,15 +26,15 @@
     <div class="welcome">
         <h3>Welcome to the Easy!Appointments installation page.</h3>
         <p>
-            This page will help you set the main settings of your Easy!Appointments installation.
-            You will be able to edit these settings and many more in the backend session of your
-            system. Remember to use the <strong class="text-primary"><?= site_url('backend') ?></strong>
-            url to connect to the backend section of Easy!Appointments.
+            This page will help you set the main settings of your Easy!Appointments installation. You will be able to 
+            edit these settings and many more in the backend session of your system. Remember to use the 
+            <strong class="text-primary"><?= site_url('calendar') ?></strong> URL to connect to the backend section 
+            of Easy!Appointments.
 
             If you face any problems during the usage of Easy!Appointments you can always check the
-            <a href="http://easyappointments.org/docs.html">Documentation</a>
-            and <a href="http://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You
-            may also submit new issues on
+            <a href="https://easyappointments.org/docs.html">Documentation</a> and 
+            <a href="https://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You may also 
+            submit new issues on
             <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
             in order to help our development process.
         </p>
@@ -105,21 +105,19 @@
     <br>
 
     <p>
-        You will be able to set your business logic in the backend settings page
-        after the installation is complete.
+        You will be able to set your business logic in the backend settings page after the installation is complete.
         <br>
         Press the following button to complete the installation process.
     </p>
 
     <br>
 
-    <p>
-    <h3>License</h3>
-    Easy!Appointments is licensed under the <span class="badge bg-secondary">GPL-3.0 license</span>.
-    By using the code of Easy!Appointments in any way <br> you agree with the terms described in the
-    following url:
-    <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a>
-    </p>
+    <div class="mb-2">
+        <h3>License</h3>
+        Easy!Appointments is licensed under the <span class="badge bg-secondary">GPL-3.0 license</span>. By using the code 
+        of Easy!Appointments in any way <br> you agree with the terms described in the following url:
+        <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a>
+    </div>
 
     <br>
 
@@ -134,20 +132,19 @@
 </footer>
 
 <script>
-    var GlobalVariables = {
+    const GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl: <?= json_encode(config('base_url')) ?>
     };
 
-    var EALang = <?= json_encode($this->lang->language) ?>;
+    const EALang = <?= json_encode($this->lang->language) ?>;
 </script>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/datejs/date.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
-<script src="<?= asset_url('assets/js/installation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
 </body>
 </html>

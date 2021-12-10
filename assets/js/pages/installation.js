@@ -9,20 +9,28 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-$(function () {
-    'use strict';
-
-    var MIN_PASSWORD_LENGTH = 7;
-
-    var $install = $('#install');
-    var $alert = $('.alert');
+(function () {
+    const MIN_PASSWORD_LENGTH = 7;
+    const $install = $('#install');
+    const $alert = $('.alert');
+    const $loading = $('#loading');
+    const $firstName = $('#first-name');
+    const $lastName = $('#last-name');
+    const $email = $('#email');
+    const $phoneNumber = $('#phone-number');
+    const $username = $('#username');
+    const $password = $('#password');
+    const $retypePassword = $('#retype-password');
+    const $companyName = $('#company-name');
+    const $companyEmail = $('#company-email');
+    const $companyLink = $('#company-link');
 
     $(document).ajaxStart(function () {
-        $('#loading').removeClass('d-none');
+        $loading.removeClass('d-none');
     });
 
     $(document).ajaxStop(function () {
-        $('#loading').addClass('d-none');
+        $loading.addClass('d-none');
     });
 
     /**
@@ -33,9 +41,9 @@ $(function () {
             return;
         }
 
-        var url = GlobalVariables.baseUrl + '/index.php/installation/ajax_install';
+        const url = GlobalVariables.baseUrl + '/index.php/installation/perform';
 
-        var data = {
+        const data = {
             csrfToken: GlobalVariables.csrfToken,
             admin: getAdminData(),
             company: getCompanyData()
@@ -46,14 +54,14 @@ $(function () {
             type: 'POST',
             data: data,
             dataType: 'json'
-        }).done(function (response) {
+        }).done(() => {
             $alert
                 .text('Easy!Appointments has been successfully installed!')
                 .addClass('alert-success')
                 .prop('hidden', false);
 
             setTimeout(function () {
-                window.location.href = GlobalVariables.baseUrl + '/index.php/backend';
+                window.location.href = GlobalVariables.baseUrl + '/index.php/calendar';
             }, 1000);
         });
     });
@@ -61,18 +69,22 @@ $(function () {
     /**
      * Validates the user input.
      *
-     *   Use this before executing the installation procedure.
+     * Use this before executing the installation procedure.
      *
      * @return {Boolean} Returns the validation result.
      */
     function validate() {
         try {
+            const $fields = $('input');
+
             $alert.removeClass('alert-danger').prop('hidden', true);
-            $('input').removeClass('is-invalid');
+
+            $fields.removeClass('is-invalid');
 
             // Check for empty fields.
-            var missingRequired = false;
-            $('input').each(function (index, field) {
+            let missingRequired = false;
+
+            $fields.each((index, field) => {
                 if (!$(field).val()) {
                     $(field).addClass('is-invalid');
                     missingRequired = true;
@@ -84,26 +96,26 @@ $(function () {
             }
 
             // Validate Passwords
-            if ($('#password').val() !== $('#retype-password').val()) {
-                $('#password').addClass('is-invalid');
-                $('#retype-password').addClass('is-invalid');
+            if ($password.val() !== $retypePassword.val()) {
+                $password.addClass('is-invalid');
+                $retypePassword.addClass('is-invalid');
                 throw new Error('Passwords do not match!');
             }
 
-            if ($('#password').val().length < MIN_PASSWORD_LENGTH) {
-                $('#password').addClass('is-invalid');
-                $('#retype-password').addClass('is-invalid');
-                throw new Error('The password must be at least ' + MIN_PASSWORD_LENGTH + ' characters long.');
+            if ($password.val().length < MIN_PASSWORD_LENGTH) {
+                $password.addClass('is-invalid');
+                $retypePassword.addClass('is-invalid');
+                throw new Error(`The password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
             }
 
             // Validate Email
-            if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').addClass('is-invalid');
+            if (!GeneralFunctions.validateEmail($email.val())) {
+                $email.addClass('is-invalid');
                 throw new Error('The email address is invalid!');
             }
 
-            if (!GeneralFunctions.validateEmail($('#company-email').val())) {
-                $('#company-email').addClass('is-invalid');
+            if (!GeneralFunctions.validateEmail($companyEmail.val())) {
+                $companyEmail.addClass('is-invalid');
                 throw new Error('The email address is invalid!');
             }
 
@@ -122,12 +134,12 @@ $(function () {
      */
     function getAdminData() {
         return {
-            first_name: $('#first-name').val(),
-            last_name: $('#last-name').val(),
-            email: $('#email').val(),
-            phone_number: $('#phone-number').val(),
-            username: $('#username').val(),
-            password: $('#password').val()
+            first_name: $firstName.val(),
+            last_name: $lastName.val(),
+            email: $email.val(),
+            phone_number: $phoneNumber.val(),
+            username: $username.val(),
+            password: $password.val()
         };
     }
 
@@ -138,18 +150,17 @@ $(function () {
      */
     function getCompanyData() {
         return {
-            company_name: $('#company-name').val(),
-            company_email: $('#company-email').val(),
-            company_link: $('#company-link').val()
+            company_name: $companyName.val(),
+            company_email: $companyEmail.val(),
+            company_link: $companyLink.val()
         };
     }
 
     // Validate the base URL setting (must not contain any trailing slash).
     if (GlobalVariables.baseUrl.slice(-1) === '/') {
         GeneralFunctions.displayMessageBox(
-            'Misconfiguration Detected',
-            'Please remove any trailing ' +
-                'slashes from your BASE_URL setting of the root config.php file and try again.'
+            'Invalid Configuration Detected',
+            'Please remove any trailing slashes from your "BASE_URL" setting of the root "config.php" file and try again.'
         );
         $install.prop('disabled', true).fadeTo('0.4');
     }

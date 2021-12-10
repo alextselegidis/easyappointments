@@ -46,7 +46,7 @@ class Installation extends EA_Controller {
             return;
         }
 
-        $this->load->view('pages/instance_installation_page', [
+        $this->load->view('pages/installation', [
             'base_url' => config('base_url')
         ]);
     }
@@ -54,7 +54,7 @@ class Installation extends EA_Controller {
     /**
      * Installs Easy!Appointments on the server.
      */
-    public function ajax_install()
+    public function perform()
     {
         try
         {
