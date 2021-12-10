@@ -50,15 +50,12 @@ class User extends EA_Controller {
 
     /**
      * Display the logout page.
+     * 
+     * @deprecated Since 1.5 Use the Logout controller instead.
      */
     public function logout()
     {
-        $this->session->sess_destroy();
-
-        $this->load->view('pages/account_logout_page', [
-            'base_url' => config('base_url'),
-            'company_name' => setting('company_name')
-        ]);
+        redirect('logout'); 
     }
 
     /**
