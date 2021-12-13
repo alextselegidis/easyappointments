@@ -50,7 +50,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
         if (!buttons) {
             buttons = [
                 {
-                    text: EALang.close,
+                    text: App.Lang.close,
                     click: function () {
                         $('#message-box').dialog('close');
                     }
@@ -328,7 +328,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             return;
         }
 
-        GeneralFunctions.displayMessageBox(EALang.unexpected_issues, EALang.unexpected_issues_message);
+        GeneralFunctions.displayMessageBox(App.Lang.unexpected_issues, App.Lang.unexpected_issues_message);
 
         $('<div/>', {
             'class': 'card',

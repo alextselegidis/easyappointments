@@ -44,10 +44,6 @@
     </div>
 </div>
 
-<script>
-    const EALang = <?= json_encode($this->lang->language) ?>;
-</script>
-
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>

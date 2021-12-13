@@ -131,7 +131,7 @@
                                         $('<button/>', {
                                             'type': 'button',
                                             'class': 'btn btn-outline-secondary btn-sm edit-break',
-                                            'title': EALang.edit,
+                                            'title': App.Lang.edit,
                                             'html': [
                                                 $('<span/>', {
                                                     'class': 'fas fa-edit'
@@ -141,7 +141,7 @@
                                         $('<button/>', {
                                             'type': 'button',
                                             'class': 'btn btn-outline-secondary btn-sm delete-break',
-                                            'title': EALang.delete,
+                                            'title': App.Lang.delete,
                                             'html': [
                                                 $('<span/>', {
                                                     'class': 'fas fa-trash-alt'
@@ -151,7 +151,7 @@
                                         $('<button/>', {
                                             'type': 'button',
                                             'class': 'btn btn-outline-secondary btn-sm save-break d-none',
-                                            'title': EALang.save,
+                                            'title': App.Lang.save,
                                             'html': [
                                                 $('<span/>', {
                                                     'class': 'fas fa-check-circle'
@@ -161,7 +161,7 @@
                                         $('<button/>', {
                                             'type': 'button',
                                             'class': 'btn btn-outline-secondary btn-sm cancel-break d-none',
-                                            'title': EALang.cancel,
+                                            'title': App.Lang.cancel,
                                             'html': [
                                                 $('<span/>', {
                                                     'class': 'fas fa-ban'
@@ -208,13 +208,13 @@
      */
     WorkingPlan.prototype.editableDayCell = function ($selector) {
         var weekDays = {};
-        weekDays[EALang.sunday] = EALang.sunday; //'Sunday';
-        weekDays[EALang.monday] = EALang.monday; //'Monday';
-        weekDays[EALang.tuesday] = EALang.tuesday; //'Tuesday';
-        weekDays[EALang.wednesday] = EALang.wednesday; //'Wednesday';
-        weekDays[EALang.thursday] = EALang.thursday; //'Thursday';
-        weekDays[EALang.friday] = EALang.friday; //'Friday';
-        weekDays[EALang.saturday] = EALang.saturday; //'Saturday';
+        weekDays[App.Lang.sunday] = App.Lang.sunday; //'Sunday';
+        weekDays[App.Lang.monday] = App.Lang.monday; //'Monday';
+        weekDays[App.Lang.tuesday] = App.Lang.tuesday; //'Tuesday';
+        weekDays[App.Lang.wednesday] = App.Lang.wednesday; //'Wednesday';
+        weekDays[App.Lang.thursday] = App.Lang.thursday; //'Thursday';
+        weekDays[App.Lang.friday] = App.Lang.friday; //'Friday';
+        weekDays[App.Lang.saturday] = App.Lang.saturday; //'Saturday';
 
         $selector.editable(
             function (value, settings) {
@@ -261,12 +261,12 @@
                 submit: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none submit-editable',
-                    'text': EALang.save
+                    'text': App.Lang.save
                 }).get(0).outerHTML,
                 cancel: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none cancel-editable',
-                    'text': EALang.cancel
+                    'text': App.Lang.cancel
                 }).get(0).outerHTML,
                 onblur: 'ignore',
                 onreset: function (settings, td) {
@@ -317,7 +317,7 @@
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm edit-working-plan-exception',
-                            'title': EALang.edit,
+                            'title': App.Lang.edit,
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-edit'
@@ -327,7 +327,7 @@
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm delete-working-plan-exception',
-                            'title': EALang.delete,
+                            'title': App.Lang.delete,
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-trash-alt'
@@ -384,7 +384,7 @@
                     'html': [
                         $('<td/>', {
                             'class': 'break-day editable',
-                            'text': EALang.sunday
+                            'text': App.Lang.sunday
                         }),
                         $('<td/>', {
                             'class': 'break-start editable',
@@ -399,7 +399,7 @@
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-outline-secondary btn-sm edit-break',
-                                    'title': EALang.edit,
+                                    'title': App.Lang.edit,
                                     'html': [
                                         $('<span/>', {
                                             'class': 'fas fa-edit'
@@ -409,7 +409,7 @@
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-outline-secondary btn-sm delete-break',
-                                    'title': EALang.delete,
+                                    'title': App.Lang.delete,
                                     'html': [
                                         $('<span/>', {
                                             'class': 'fas fa-trash-alt'
@@ -419,7 +419,7 @@
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-outline-secondary btn-sm save-break d-none',
-                                    'title': EALang.save,
+                                    'title': App.Lang.save,
                                     'html': [
                                         $('<span/>', {
                                             'class': 'fas fa-check-circle'
@@ -429,7 +429,7 @@
                                 $('<button/>', {
                                     'type': 'button',
                                     'class': 'btn btn-outline-secondary btn-sm cancel-break d-none',
-                                    'title': EALang.cancel,
+                                    'title': App.Lang.cancel,
                                     'html': [
                                         $('<span/>', {
                                             'class': 'fas fa-ban'
@@ -471,12 +471,12 @@
                 .find('.break-start input, .break-end input')
                 .timepicker({
                     timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
-                    currentText: EALang.now,
-                    closeText: EALang.close,
-                    timeOnlyTitle: EALang.select_time,
-                    timeText: EALang.time,
-                    hourText: EALang.hour,
-                    minuteText: EALang.minutes
+                    currentText: App.Lang.now,
+                    closeText: App.Lang.close,
+                    timeOnlyTitle: App.Lang.select_time,
+                    timeText: App.Lang.time,
+                    hourText: App.Lang.hour,
+                    minuteText: App.Lang.minutes
                 });
             $(this).parent().parent().find('.break-day select').focus();
 
@@ -704,12 +704,12 @@
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
                 timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
-                currentText: EALang.now,
-                closeText: EALang.close,
-                timeOnlyTitle: EALang.select_time,
-                timeText: EALang.time,
-                hourText: EALang.hour,
-                minuteText: EALang.minutes,
+                currentText: App.Lang.now,
+                closeText: App.Lang.close,
+                timeOnlyTitle: App.Lang.select_time,
+                timeText: App.Lang.time,
+                hourText: App.Lang.hour,
+                minuteText: App.Lang.minutes,
 
                 onSelect: function (datetime, inst) {
                     // Start time must be earlier than end time.
@@ -749,19 +749,19 @@
     WorkingPlan.prototype.convertValueToDay = function (value) {
         switch (value) {
             case 'sunday':
-                return EALang.sunday;
+                return App.Lang.sunday;
             case 'monday':
-                return EALang.monday;
+                return App.Lang.monday;
             case 'tuesday':
-                return EALang.tuesday;
+                return App.Lang.tuesday;
             case 'wednesday':
-                return EALang.wednesday;
+                return App.Lang.wednesday;
             case 'thursday':
-                return EALang.thursday;
+                return App.Lang.thursday;
             case 'friday':
-                return EALang.friday;
+                return App.Lang.friday;
             case 'saturday':
-                return EALang.saturday;
+                return App.Lang.saturday;
         }
     };
 
@@ -772,19 +772,19 @@
      */
     WorkingPlan.prototype.convertDayToValue = function (day) {
         switch (day) {
-            case EALang.sunday:
+            case App.Lang.sunday:
                 return 'sunday';
-            case EALang.monday:
+            case App.Lang.monday:
                 return 'monday';
-            case EALang.tuesday:
+            case App.Lang.tuesday:
                 return 'tuesday';
-            case EALang.wednesday:
+            case App.Lang.wednesday:
                 return 'wednesday';
-            case EALang.thursday:
+            case App.Lang.thursday:
                 return 'thursday';
-            case EALang.friday:
+            case App.Lang.friday:
                 return 'friday';
-            case EALang.saturday:
+            case App.Lang.saturday:
                 return 'saturday';
         }
     };

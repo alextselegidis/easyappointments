@@ -40,7 +40,7 @@
         };
 
         $.post(url, data).done(function () {
-            Backend.displayNotification(EALang.settings_saved);
+            Backend.displayNotification(App.Lang.settings_saved);
 
             // Update the logo title on the header.
             $('#header-logo span').text($('#company-name').val());
@@ -50,7 +50,7 @@
             var hours = Math.floor(totalMinutes / 60);
             var minutes = totalMinutes % 60;
             $('#book-advance-timeout-helper').text(
-                EALang.book_advance_timeout_hint.replace(
+                App.Lang.book_advance_timeout_hint.replace(
                     '{$limit}',
                     ('0' + hours).slice(-2) + ':' + ('0' + minutes).slice(-2)
                 )
@@ -109,7 +109,7 @@
             });
 
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             return true;

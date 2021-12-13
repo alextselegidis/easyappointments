@@ -105,7 +105,7 @@ window.BackendSettingsBusinessLogic = window.BackendSettingsBusinessLogic || {};
         $('#apply-global-working-plan').on('click', function () {
             var buttons = [
                 {
-                    text: EALang.cancel,
+                    text: App.Lang.cancel,
                     click: function () {
                         $('#message-box').dialog('close');
                     }
@@ -122,7 +122,7 @@ window.BackendSettingsBusinessLogic = window.BackendSettingsBusinessLogic || {};
 
                         $.post(url, data)
                             .done(function () {
-                                Backend.displayNotification(EALang.working_plans_got_updated);
+                                Backend.displayNotification(App.Lang.working_plans_got_updated);
                             })
                             .always(function () {
                                 $('#message-box').dialog('close');
@@ -131,7 +131,11 @@ window.BackendSettingsBusinessLogic = window.BackendSettingsBusinessLogic || {};
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.working_plan, EALang.overwrite_existing_working_plans, buttons);
+            GeneralFunctions.displayMessageBox(
+                App.Lang.working_plan,
+                App.Lang.overwrite_existing_working_plans,
+                buttons
+            );
         });
     }
 })(window.BackendSettingsBusinessLogic);

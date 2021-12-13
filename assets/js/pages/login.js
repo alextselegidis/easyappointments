@@ -37,7 +37,7 @@
             if (response.success) {
                 window.location.href = GlobalVariables.destUrl;
             } else {
-                $alert.text(EALang['login_failed']);
+                $alert.text(App.Lang.login_failed);
                 $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');
             }
         });

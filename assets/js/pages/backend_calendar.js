@@ -73,7 +73,7 @@ window.BackendCalendar = window.BackendCalendar || {};
 
             WorkingPlanExceptionsModal.add().done(function (date, workingPlanException) {
                 var successCallback = function () {
-                    Backend.displayNotification(EALang.working_plan_exception_saved);
+                    Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
                     var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 

@@ -169,13 +169,13 @@
             var serviceId = $('#service-id').val();
             var buttons = [
                 {
-                    text: EALang.cancel,
+                    text: App.Lang.cancel,
                     click: function () {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: EALang.delete,
+                    text: App.Lang.delete,
                     click: function () {
                         instance.delete(serviceId);
                         $('#message-box').dialog('close');
@@ -183,7 +183,7 @@
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_service, EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(App.Lang.delete_service, App.Lang.delete_record_prompt, buttons);
         });
     };
 
@@ -218,7 +218,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.service_saved);
+                Backend.displayNotification(App.Lang.service_saved);
                 this.resetForm();
                 $('#filter-services .key').val('');
                 this.filter('', response.id, true);
@@ -241,7 +241,7 @@
 
         $.post(url, data).done(
             function () {
-                Backend.displayNotification(EALang.service_deleted);
+                Backend.displayNotification(App.Lang.service_deleted);
 
                 this.resetForm();
                 this.filter($('#filter-services .key').val());
@@ -270,13 +270,13 @@
             });
 
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             // Validate the duration.
             if (Number($('#service-duration').val()) < 5) {
                 $('#service-duration').addClass('is-invalid');
-                throw new Error(EALang.invalid_duration);
+                throw new Error(App.Lang.invalid_duration);
             }
 
             return true;
@@ -359,14 +359,14 @@
                 if (response.length === 0) {
                     $('#filter-services .results').append(
                         $('<em/>', {
-                            'text': EALang.no_records_found
+                            'text': App.Lang.no_records_found
                         })
                     );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
                         'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': EALang.load_more,
+                        'text': App.Lang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
                             this.filter(keyword, selectId, display);

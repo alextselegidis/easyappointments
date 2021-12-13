@@ -85,7 +85,7 @@ window.BackendServices = window.BackendServices || {};
                 $select.append(new Option(category.name, category.id));
             });
 
-            $select.append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+            $select.append(new Option('- ' + App.Lang.no_category + ' -', null)).val('null');
         });
     };
 })(window.BackendServices);

@@ -65,8 +65,6 @@
         AJAX_FAILURE: 'FAILURE'
     };
 
-    const EALang = <?= json_encode($this->lang->language) ?>;
-
     const availableLanguages = <?= json_encode(config('available_languages')) ?>;
 
     $(function () {

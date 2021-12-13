@@ -93,7 +93,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             // Define success callback.
             var successCallback = function (response) {
                 // Display success message to the user.
-                Backend.displayNotification(EALang.appointment_saved);
+                Backend.displayNotification(App.Lang.appointment_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $dialog.find('.alert').addClass('d-none');
@@ -103,7 +103,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Define error callback.
             var errorCallback = function () {
-                $dialog.find('.modal-message').text(EALang.service_communication_error);
+                $dialog.find('.modal-message').text(App.Lang.service_communication_error);
                 $dialog.find('.modal-message').addClass('alert-danger').removeClass('d-none');
                 $dialog.find('.modal-body').scrollTop(0);
             };
@@ -181,7 +181,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 );
 
             // Display modal form.
-            $dialog.find('.modal-header h3').text(EALang.new_appointment_title);
+            $dialog.find('.modal-header h3').text(App.Lang.new_appointment_title);
 
             $dialog.modal('show');
         });
@@ -193,7 +193,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var $list = $('#existing-customers-list');
 
             if (!$list.is(':visible')) {
-                $(this).find('span').text(EALang.hide);
+                $(this).find('span').text(App.Lang.hide);
                 $list.empty();
                 $list.slideDown('slow');
                 $('#filter-existing-customers').fadeIn('slow');
@@ -207,7 +207,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             } else {
                 $list.slideUp('slow');
                 $('#filter-existing-customers').fadeOut('slow');
-                $(this).find('span').text(EALang.select);
+                $(this).find('span').text(App.Lang.select);
             }
         });
 
@@ -419,7 +419,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         // Close existing customers-filter frame.
         $('#existing-customers-list').slideUp('slow');
         $('#filter-existing-customers').fadeOut('slow');
-        $('#select-customer span').text(EALang.select);
+        $('#select-customer span').text(App.Lang.select);
 
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
@@ -458,54 +458,54 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Translation
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close,
-            timeOnlyTitle: EALang.select_time,
-            timeText: EALang.time,
-            hourText: EALang.hour,
-            minuteText: EALang.minutes,
+            prevText: App.Lang.previous,
+            nextText: App.Lang.next,
+            currentText: App.Lang.now,
+            closeText: App.Lang.close,
+            timeOnlyTitle: App.Lang.select_time,
+            timeText: App.Lang.time,
+            hourText: App.Lang.hour,
+            minuteText: App.Lang.minutes,
             firstDay: firstWeekDayNumber,
             onClose: function () {
                 var serviceId = $('#select-service').val();
@@ -527,54 +527,54 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Translation
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close,
-            timeOnlyTitle: EALang.select_time,
-            timeText: EALang.time,
-            hourText: EALang.hour,
-            minuteText: EALang.minutes,
+            prevText: App.Lang.previous,
+            nextText: App.Lang.next,
+            currentText: App.Lang.now,
+            closeText: App.Lang.close,
+            timeOnlyTitle: App.Lang.select_time,
+            timeText: App.Lang.time,
+            hourText: App.Lang.hour,
+            minuteText: App.Lang.minutes,
             firstDay: firstWeekDayNumber
         });
         $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
@@ -605,13 +605,13 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             });
 
             if (missingRequiredField) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             // Check email address.
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
                 $dialog.find('#email').addClass('is-invalid');
-                throw new Error(EALang.invalid_email);
+                throw new Error(App.Lang.invalid_email);
             }
 
             // Check appointment start and end time.
@@ -619,7 +619,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             var end = $('#end-datetime').datetimepicker('getDate');
             if (start > end) {
                 $dialog.find('#start-datetime, #end-datetime').addClass('is-invalid');
-                throw new Error(EALang.start_date_before_end_error);
+                throw new Error(App.Lang.start_date_before_end_error);
             }
 
             return true;

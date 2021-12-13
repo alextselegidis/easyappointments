@@ -69,7 +69,7 @@ window.FrontendBook = window.FrontendBook || {};
                     }
                 },
                 content: {
-                    message: EALang.website_using_cookies_to_ensure_best_experience,
+                    message: App.Lang.website_using_cookies_to_ensure_best_experience,
                     dismiss: 'OK'
                 }
             });
@@ -99,50 +99,50 @@ window.FrontendBook = window.FrontendBook || {};
             defaultDate: moment().toDate(),
 
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close,
+            prevText: App.Lang.previous,
+            nextText: App.Lang.next,
+            currentText: App.Lang.now,
+            closeText: App.Lang.close,
 
             onSelect: function (dateText, instance) {
                 FrontendBookApi.getAvailableHours(moment($(this).datepicker('getDate')).format('YYYY-MM-DD'));
@@ -268,7 +268,7 @@ window.FrontendBook = window.FrontendBook || {};
             // Add the "Any Provider" entry.
             if ($('#select-provider option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
                 $('#select-provider').prepend(
-                    new Option('- ' + EALang.any_provider + ' -', 'any-provider', true, true)
+                    new Option('- ' + App.Lang.any_provider + ' -', 'any-provider', true, true)
                 );
             }
 
@@ -300,7 +300,7 @@ window.FrontendBook = window.FrontendBook || {};
                         $('<div/>', {
                             'id': 'select-hour-prompt',
                             'class': 'text-danger mb-4',
-                            'text': EALang.appointment_hour_missing
+                            'text': App.Lang.appointment_hour_missing
                         }).prependTo('#available-hours');
                     }
                     return;
@@ -406,7 +406,7 @@ window.FrontendBook = window.FrontendBook || {};
             $('#cancel-appointment').on('click', function (event) {
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
@@ -425,8 +425,8 @@ window.FrontendBook = window.FrontendBook || {};
                 ];
 
                 GeneralFunctions.displayMessageBox(
-                    EALang.cancel_appointment_title,
-                    EALang.write_appointment_removal_reason,
+                    App.Lang.cancel_appointment_title,
+                    App.Lang.write_appointment_removal_reason,
                     buttons
                 );
 
@@ -445,13 +445,13 @@ window.FrontendBook = window.FrontendBook || {};
             $('#delete-personal-information').on('click', function () {
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
-                        text: EALang.delete,
+                        text: App.Lang.delete,
                         click: function () {
                             FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
                         }
@@ -459,8 +459,8 @@ window.FrontendBook = window.FrontendBook || {};
                 ];
 
                 GeneralFunctions.displayMessageBox(
-                    EALang.delete_personal_information,
-                    EALang.delete_personal_information_prompt,
+                    App.Lang.delete_personal_information,
+                    App.Lang.delete_personal_information_prompt,
                     buttons
                 );
             });
@@ -515,25 +515,25 @@ window.FrontendBook = window.FrontendBook || {};
                 }
             });
             if (missingRequiredField) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
             if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
                 $acceptToTermsAndConditions.parents('.form-check').addClass('text-danger');
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
             if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
                 $acceptToPrivacyPolicy.parents('.form-check').addClass('text-danger');
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').parents('.form-group').addClass('is-invalid');
-                throw new Error(EALang.invalid_email);
+                throw new Error(App.Lang.invalid_email);
             }
 
             return true;
@@ -576,28 +576,28 @@ window.FrontendBook = window.FrontendBook || {};
         $('<div/>', {
             'html': [
                 $('<h4/>', {
-                    'text': EALang.appointment
+                    'text': App.Lang.appointment
                 }),
                 $('<p/>', {
                     'html': [
                         $('<span/>', {
-                            'text': EALang.service + ': ' + $('#select-service option:selected').text()
+                            'text': App.Lang.service + ': ' + $('#select-service option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.provider + ': ' + $('#select-provider option:selected').text()
+                            'text': App.Lang.provider + ': ' + $('#select-provider option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.start + ': ' + selectedDate + ' ' + $('.selected-hour').text()
+                            'text': App.Lang.start + ': ' + selectedDate + ' ' + $('.selected-hour').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.timezone + ': ' + $('#select-timezone option:selected').text()
+                            'text': App.Lang.timezone + ': ' + $('#select-timezone option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.price + ': ' + servicePrice + ' ' + serviceCurrency,
+                            'text': App.Lang.price + ': ' + servicePrice + ' ' + serviceCurrency,
                             'prop': {
                                 'hidden': !servicePrice
                             }
@@ -621,32 +621,32 @@ window.FrontendBook = window.FrontendBook || {};
         $('<div/>', {
             'html': [
                 $('<h4/>)', {
-                    'text': EALang.customer
+                    'text': App.Lang.customer
                 }),
                 $('<p/>', {
                     'html': [
                         $('<span/>', {
-                            'text': EALang.customer + ': ' + firstName + ' ' + lastName
+                            'text': App.Lang.customer + ': ' + firstName + ' ' + lastName
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.phone_number + ': ' + phoneNumber
+                            'text': App.Lang.phone_number + ': ' + phoneNumber
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.email + ': ' + email
+                            'text': App.Lang.email + ': ' + email
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': address ? EALang.address + ': ' + address : ''
+                            'text': address ? App.Lang.address + ': ' + address : ''
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': city ? EALang.city + ': ' + city : ''
+                            'text': city ? App.Lang.city + ': ' + city : ''
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': zipCode ? EALang.zip_code + ': ' + zipCode : ''
+                            'text': zipCode ? App.Lang.zip_code + ': ' + zipCode : ''
                         }),
                         $('<br/>')
                     ]
@@ -804,19 +804,19 @@ window.FrontendBook = window.FrontendBook || {};
 
         if (service.duration) {
             $('<span/>', {
-                'text': '[' + EALang.duration + ' ' + service.duration + ' ' + EALang.minutes + ']'
+                'text': '[' + App.Lang.duration + ' ' + service.duration + ' ' + App.Lang.minutes + ']'
             }).appendTo($serviceDescription);
         }
 
         if (Number(service.price) > 0) {
             $('<span/>', {
-                'text': '[' + EALang.price + ' ' + service.price + ' ' + service.currency + ']'
+                'text': '[' + App.Lang.price + ' ' + service.price + ' ' + service.currency + ']'
             }).appendTo($serviceDescription);
         }
 
         if (service.location) {
             $('<span/>', {
-                'text': '[' + EALang.location + ' ' + service.location + ']'
+                'text': '[' + App.Lang.location + ' ' + service.location + ']'
             }).appendTo($serviceDescription);
         }
     }

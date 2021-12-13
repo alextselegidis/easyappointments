@@ -40,7 +40,7 @@
         };
 
         $.post(url, data).done(function () {
-            Backend.displayNotification(EALang.settings_saved);
+            Backend.displayNotification(App.Lang.settings_saved);
         });
     };
 
@@ -110,7 +110,7 @@
             });
 
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             return true;

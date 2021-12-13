@@ -134,13 +134,13 @@
                 var secretaryId = $('#secretary-id').val();
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
-                        text: EALang.delete,
+                        text: App.Lang.delete,
                         click: function () {
                             this.delete(secretaryId);
                             $('#message-box').dialog('close');
@@ -148,7 +148,7 @@
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(EALang.delete_secretary, EALang.delete_record_prompt, buttons);
+                GeneralFunctions.displayMessageBox(App.Lang.delete_secretary, App.Lang.delete_record_prompt, buttons);
             }.bind(this)
         );
 
@@ -253,7 +253,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.secretary_saved);
+                Backend.displayNotification(App.Lang.secretary_saved);
                 this.resetForm();
                 $('#filter-secretaries .key').val('');
                 this.filter('', response.id, true);
@@ -276,7 +276,7 @@
 
         $.post(url, data).done(
             function () {
-                Backend.displayNotification(EALang.secretary_deleted);
+                Backend.displayNotification(App.Lang.secretary_deleted);
                 this.resetForm();
                 this.filter($('#filter-secretaries .key').val());
             }.bind(this)
@@ -427,14 +427,14 @@
                 if (!response.length) {
                     $('#filter-secretaries .results').append(
                         $('<em/>', {
-                            'text': EALang.no_records_found
+                            'text': App.Lang.no_records_found
                         })
                     );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
                         'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': EALang.load_more,
+                        'text': App.Lang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);

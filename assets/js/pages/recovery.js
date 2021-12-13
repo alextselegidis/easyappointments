@@ -42,7 +42,7 @@
 
             if (response.success) {
                 $alert.addClass('alert-success');
-                $alert.text(EALang['new_password_sent_with_email']);
+                $alert.text(App.Lang.new_password_sent_with_email);
             } else {
                 $alert.addClass('alert-danger');
                 $alert.text(

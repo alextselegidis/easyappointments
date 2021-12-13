@@ -129,13 +129,13 @@
 
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
-                        text: EALang.delete,
+                        text: App.Lang.delete,
                         click: function () {
                             this.delete(adminId);
                             $('#message-box').dialog('close');
@@ -143,7 +143,7 @@
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(EALang.delete_admin, EALang.delete_record_prompt, buttons);
+                GeneralFunctions.displayMessageBox(App.Lang.delete_admin, App.Lang.delete_record_prompt, buttons);
             }.bind(this)
         );
 
@@ -240,7 +240,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.admin_saved);
+                Backend.displayNotification(App.Lang.admin_saved);
                 this.resetForm();
                 $('#filter-admins .key').val('');
                 this.filter('', response.id, true);
@@ -263,7 +263,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.admin_deleted);
+                Backend.displayNotification(App.Lang.admin_deleted);
                 this.resetForm();
                 this.filter($('#filter-admins .key').val());
             }.bind(this)
@@ -296,7 +296,7 @@
             // Validate passwords.
             if ($('#admin-password').val() !== $('#admin-password-confirm').val()) {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
-                throw new Error(EALang.passwords_mismatch);
+                throw new Error(App.Lang.passwords_mismatch);
             }
 
             if (
@@ -304,19 +304,19 @@
                 $('#admin-password').val() !== ''
             ) {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
-                throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
+                throw new Error(App.Lang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
                 $('#admin-email').addClass('is-invalid');
-                throw new Error(EALang.invalid_email);
+                throw new Error(App.Lang.invalid_email);
             }
 
             // Check if username exists
             if ($('#admin-username').attr('already-exists') === 'true') {
                 $('#admin-username').addClass('is-invalid');
-                throw new Error(EALang.username_already_exists);
+                throw new Error(App.Lang.username_already_exists);
             }
 
             return true;
@@ -404,14 +404,14 @@
                 if (!response.length) {
                     $('#filter-admins .results').append(
                         $('<em/>', {
-                            'text': EALang.no_records_found
+                            'text': App.Lang.no_records_found
                         })
                     );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
                         'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': EALang.load_more,
+                        'text': App.Lang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
                             this.filter(key, selectId, display);

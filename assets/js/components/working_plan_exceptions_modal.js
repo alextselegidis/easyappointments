@@ -109,12 +109,12 @@ $(function () {
                 submit: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none submit-editable',
-                    'text': EALang.save
+                    'text': App.Lang.save
                 }).get(0).outerHTML,
                 cancel: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none cancel-editable',
-                    'text': EALang.cancel
+                    'text': App.Lang.cancel
                 }).get(0).outerHTML,
                 onblur: 'ignore',
                 onreset: function () {
@@ -181,7 +181,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-edit-break',
-                            'title': EALang.edit,
+                            'title': App.Lang.edit,
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-edit'
@@ -191,7 +191,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm working-plan-exceptions-delete-break',
-                            'title': EALang.delete,
+                            'title': App.Lang.delete,
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-trash-alt'
@@ -201,7 +201,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-save-break d-none',
-                            'title': EALang.save,
+                            'title': App.Lang.save,
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-check-circle'
@@ -211,7 +211,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm working-plan-exceptions-cancel-break d-none',
-                            'title': EALang.cancel,
+                            'title': App.Lang.cancel,
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-ban'
@@ -335,62 +335,62 @@ $(function () {
             minDate: 0,
             defaultDate: moment().toDate(),
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close
+            prevText: App.Lang.previous,
+            nextText: App.Lang.next,
+            currentText: App.Lang.now,
+            closeText: App.Lang.close
         });
     }
 
     function initializeTimepicker($target) {
         $target.timepicker({
             timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
-            currentText: EALang.now,
-            closeText: EALang.close,
-            timeOnlyTitle: EALang.select_time,
-            timeText: EALang.time,
-            hourText: EALang.hour,
-            minuteText: EALang.minutes
+            currentText: App.Lang.now,
+            closeText: App.Lang.close,
+            timeOnlyTitle: App.Lang.select_time,
+            timeText: App.Lang.time,
+            hourText: App.Lang.hour,
+            minuteText: App.Lang.minutes
         });
     }
 

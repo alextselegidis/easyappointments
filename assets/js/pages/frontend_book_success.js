@@ -85,14 +85,14 @@ $(document).ready(function () {
                             'class': 'alert alert-success col-xs-12',
                             'html': [
                                 $('<h4/>', {
-                                    'text': EALang.success
+                                    'text': App.Lang.success
                                 }),
                                 $('<p/>', {
-                                    'text': EALang.appointment_added_to_google_calendar
+                                    'text': App.Lang.appointment_added_to_google_calendar
                                 }),
                                 $('<a/>', {
                                     'href': response.htmlLink,
-                                    'text': EALang.view_appointment_in_google_calendar
+                                    'text': App.Lang.view_appointment_in_google_calendar
                                 })
                             ]
                         })
@@ -108,10 +108,10 @@ $(document).ready(function () {
                     'class': 'alert alert-danger col-xs-12',
                     'html': [
                         $('<h4/>', {
-                            'text': EALang.oops_something_went_wrong
+                            'text': App.Lang.oops_something_went_wrong
                         }),
                         $('<p/>', {
-                            'text': EALang.could_not_add_to_google_calendar
+                            'text': App.Lang.could_not_add_to_google_calendar
                         }),
                         $('<pre/>', {
                             'text': error.message

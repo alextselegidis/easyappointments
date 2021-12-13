@@ -59,7 +59,7 @@
      */
     SystemSettingsCurrentUserHelper.prototype.save = function (settings) {
         if (!this.validate(settings)) {
-            Backend.displayNotification(EALang.user_settings_are_invalid);
+            Backend.displayNotification(App.Lang.user_settings_are_invalid);
             return; // Validation failed, do not proceed.
         }
 
@@ -72,7 +72,7 @@
         };
 
         $.post(url, data).done(function () {
-            Backend.displayNotification(EALang.settings_saved);
+            Backend.displayNotification(App.Lang.settings_saved);
 
             // Update footer greetings.
             $('#footer-user-display-name').text('Hello, ' + $('#first-name').val() + ' ' + $('#last-name').val() + '!');
@@ -100,24 +100,24 @@
             });
 
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             // Validate passwords (if provided).
             if ($('#password').val() !== $('#retype-password').val()) {
                 $('#password, #retype-password').addClass('is-invalid');
-                throw new Error(EALang.passwords_mismatch);
+                throw new Error(App.Lang.passwords_mismatch);
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').addClass('is-invalid');
-                throw new Error(EALang.invalid_email);
+                throw new Error(App.Lang.invalid_email);
             }
 
             if ($('#username').attr('already-exists') === 'true') {
                 $('#username').addClass('is-invalid');
-                throw new Error(EALang.username_already_exists);
+                throw new Error(App.Lang.username_already_exists);
             }
 
             return true;

@@ -144,13 +144,13 @@
             var customerId = $('#customer-id').val();
             var buttons = [
                 {
-                    text: EALang.cancel,
+                    text: App.Lang.cancel,
                     click: function () {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: EALang.delete,
+                    text: App.Lang.delete,
                     click: function () {
                         instance.delete(customerId);
                         $('#message-box').dialog('close');
@@ -158,7 +158,7 @@
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_customer, EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(App.Lang.delete_customer, App.Lang.delete_record_prompt, buttons);
         });
     };
 
@@ -177,7 +177,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.customer_saved);
+                Backend.displayNotification(App.Lang.customer_saved);
                 this.resetForm();
                 $('#filter-customers .key').val('');
                 this.filter('', response.id, true);
@@ -200,7 +200,7 @@
 
         $.post(url, data).done(
             function () {
-                Backend.displayNotification(EALang.customer_deleted);
+                Backend.displayNotification(App.Lang.customer_deleted);
                 this.resetForm();
                 this.filter($('#filter-customers .key').val());
             }.bind(this)
@@ -226,13 +226,13 @@
             });
 
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').addClass('is-invalid');
-                throw new Error(EALang.invalid_email);
+                throw new Error(App.Lang.invalid_email);
             }
 
             return true;
@@ -286,7 +286,7 @@
 
         if (!customer.appointments.length) {
             $('<p/>', {
-                'text': EALang.no_records_found
+                'text': App.Lang.no_records_found
             }).appendTo('#customer-appointments');
         }
 
@@ -398,14 +398,14 @@
                 if (!response.length) {
                     $('#filter-customers .results').append(
                         $('<em/>', {
-                            'text': EALang.no_records_found
+                            'text': App.Lang.no_records_found
                         })
                     );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
                         'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': EALang.load_more,
+                        'text': App.Lang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
                             this.filter(keyword, selectId, display);

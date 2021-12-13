@@ -136,15 +136,18 @@
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl: <?= json_encode(config('base_url')) ?>
     };
-
-    const EALang = <?= json_encode($this->lang->language) ?>;
 </script>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+
+<script src="<?= asset_url('assets/js/app.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+
+<?php component('language_script') ?>
+
 </body>
 </html>

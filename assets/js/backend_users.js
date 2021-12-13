@@ -221,12 +221,12 @@ window.BackendUsers = window.BackendUsers || {};
                 if (response.is_valid === 'false') {
                     $input.addClass('is-invalid');
                     $input.attr('already-exists', 'true');
-                    $input.parents().eq(3).find('.form-message').text(EALang.username_already_exists);
+                    $input.parents().eq(3).find('.form-message').text(App.Lang.username_already_exists);
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
                     $input.removeClass('is-invalid');
                     $input.attr('already-exists', 'false');
-                    if ($input.parents().eq(3).find('.form-message').text() === EALang.username_already_exists) {
+                    if ($input.parents().eq(3).find('.form-message').text() === App.Lang.username_already_exists) {
                         $input.parents().eq(3).find('.form-message').hide();
                     }
                 }

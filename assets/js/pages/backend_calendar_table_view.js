@@ -156,7 +156,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
                 WorkingPlanExceptionsModal.edit(date, workingPlanException).done(function (date, workingPlanException) {
                     var successCallback = function () {
-                        Backend.displayNotification(EALang.working_plan_exception_saved);
+                        Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
                         var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
@@ -190,7 +190,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
                 // Apply appointment data and show modal dialog.
-                $dialog.find('.modal-header h3').text(EALang.edit_appointment_title);
+                $dialog.find('.modal-header h3').text(App.Lang.edit_appointment_title);
                 $dialog.find('#appointment-id').val(appointment.id);
                 $dialog.find('#select-service').val(appointment.id_services).trigger('change');
                 $dialog.find('#select-provider').val(appointment.id_users_provider);
@@ -276,7 +276,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
@@ -303,8 +303,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 ];
 
                 GeneralFunctions.displayMessageBox(
-                    EALang.delete_appointment_title,
-                    EALang.write_appointment_removal_reason,
+                    App.Lang.delete_appointment_title,
+                    App.Lang.write_appointment_removal_reason,
                     buttons
                 );
 
@@ -343,8 +343,8 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         $calendarFilter
             .find('select')
             .empty()
-            .append(new Option('1 ' + EALang.day, 1))
-            .append(new Option('3 ' + EALang.days, 3));
+            .append(new Option('1 ' + App.Lang.day, 1))
+            .append(new Option('3 ' + App.Lang.days, 3));
 
         var $calendarHeader = $('<div/>', {
             'class': 'calendar-header'
@@ -415,7 +415,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         // Create providers and service filters.
         $('<label/>', {
-            'text': EALang.provider
+            'text': App.Lang.provider
         }).appendTo($calendarHeader);
 
         $filterProvider = $('<select/>', {
@@ -453,7 +453,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         });
 
         $('<label/>', {
-            'text': EALang.service
+            'text': App.Lang.service
         }).appendTo($calendarHeader);
 
         $filterService = $('<select/>', {
@@ -759,67 +759,67 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
             // Translations
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
             monthNamesShort: [
-                EALang.january.substr(0, 3),
-                EALang.february.substr(0, 3),
-                EALang.march.substr(0, 3),
-                EALang.april.substr(0, 3),
-                EALang.may.substr(0, 3),
-                EALang.june.substr(0, 3),
-                EALang.july.substr(0, 3),
-                EALang.august.substr(0, 3),
-                EALang.september.substr(0, 3),
-                EALang.october.substr(0, 3),
-                EALang.november.substr(0, 3),
-                EALang.december.substr(0, 3)
+                App.Lang.january.substr(0, 3),
+                App.Lang.february.substr(0, 3),
+                App.Lang.march.substr(0, 3),
+                App.Lang.april.substr(0, 3),
+                App.Lang.may.substr(0, 3),
+                App.Lang.june.substr(0, 3),
+                App.Lang.july.substr(0, 3),
+                App.Lang.august.substr(0, 3),
+                App.Lang.september.substr(0, 3),
+                App.Lang.october.substr(0, 3),
+                App.Lang.november.substr(0, 3),
+                App.Lang.december.substr(0, 3)
             ],
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             buttonText: {
-                today: EALang.today,
-                day: EALang.day,
-                week: EALang.week,
-                month: EALang.month,
-                agendaDay: EALang.calendar,
-                listDay: EALang.list
+                today: App.Lang.today,
+                day: App.Lang.day,
+                week: App.Lang.week,
+                month: App.Lang.month,
+                agendaDay: App.Lang.calendar,
+                listDay: App.Lang.list
             },
 
             // Calendar events need to be declared on initialization.
@@ -857,7 +857,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             var workingPlanExceptionEnd = selDayDate + ' ' + workingPlan[selDayName].end;
 
             var workingPlanExceptionEvent = {
-                title: EALang.working_plan_exception,
+                title: App.Lang.working_plan_exception,
                 start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true),
                 end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                 allDay: true,
@@ -876,7 +876,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         if (workingPlan[selDayName] === null) {
             var nonWorkingDay = {
-                title: EALang.not_working,
+                title: App.Lang.not_working,
                 start: start,
                 end: end,
                 allDay: false,
@@ -896,7 +896,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         if (start < workDateStart) {
             unavailablePeriod = {
-                title: EALang.not_working,
+                title: App.Lang.not_working,
                 start: start,
                 end: workDateStart,
                 allDay: false,
@@ -913,7 +913,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
 
         if (end > workDateEnd) {
             var unavailablePeriod = {
-                title: EALang.not_working,
+                title: App.Lang.not_working,
                 start: workDateEnd,
                 end: end,
                 allDay: false,
@@ -934,7 +934,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             breakEnd = moment(start.format('YYYY-MM-DD') + ' ' + currentBreak.end);
 
             var unavailablePeriod = {
-                title: EALang.break,
+                title: App.Lang.break,
                 start: breakStart,
                 end: breakEnd,
                 allDay: false,
@@ -1018,7 +1018,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             }
 
             var event = {
-                title: EALang.unavailable,
+                title: App.Lang.unavailable,
                 start: moment(unavailability.start_datetime),
                 end: moment(unavailability.end_datetime),
                 allDay: false,
@@ -1072,7 +1072,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             });
 
             $event.html(
-                EALang.break +
+                App.Lang.break +
                     ' <span class="hour">' +
                     moment(eventDate).format('HH:mm') +
                     '</span> (' +
@@ -1160,7 +1160,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'text': EALang.start
+                        'text': App.Lang.start
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(
@@ -1172,7 +1172,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.end
+                        'text': App.Lang.end
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(
@@ -1184,7 +1184,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.notes
+                        'text': App.Lang.notes
                     }),
                     $('<span/>', {
                         'text': getEventNotes(event)
@@ -1203,7 +1203,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': App.Lang.close
                                     })
                                 ]
                             }),
@@ -1214,7 +1214,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.delete
+                                        'text': App.Lang.delete
                                     })
                                 ]
                             }),
@@ -1225,7 +1225,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': App.Lang.edit
                                     })
                                 ]
                             })
@@ -1253,7 +1253,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'text': EALang.provider
+                        'text': App.Lang.provider
                     }),
                     $('<span/>', {
                         'text': event.data ? event.data.provider.first_name + ' ' + event.data.provider.last_name : '-'
@@ -1261,7 +1261,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.start
+                        'text': App.Lang.start
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(
@@ -1273,7 +1273,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.end
+                        'text': App.Lang.end
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(
@@ -1285,7 +1285,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.timezone
+                        'text': App.Lang.timezone
                     }),
                     $('<span/>', {
                         'text': GlobalVariables.timezones[event.data.provider.timezone]
@@ -1304,7 +1304,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': App.Lang.close
                                     })
                                 ]
                             }),
@@ -1315,7 +1315,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.delete
+                                        'text': App.Lang.delete
                                     })
                                 ]
                             }),
@@ -1326,7 +1326,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': App.Lang.edit
                                     })
                                 ]
                             })
@@ -1341,7 +1341,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'text': EALang.start
+                        'text': App.Lang.start
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(
@@ -1353,7 +1353,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.end
+                        'text': App.Lang.end
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(
@@ -1365,7 +1365,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.timezone
+                        'text': App.Lang.timezone
                     }),
                     $('<span/>', {
                         'text': GlobalVariables.timezones[event.data.provider.timezone]
@@ -1373,7 +1373,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.service
+                        'text': App.Lang.service
                     }),
                     $('<span/>', {
                         'text': event.data.service.name
@@ -1381,7 +1381,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.provider
+                        'text': App.Lang.provider
                     }),
                     GeneralFunctions.renderMapIcon(event.data.provider),
                     $('<span/>', {
@@ -1390,7 +1390,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.customer
+                        'text': App.Lang.customer
                     }),
                     GeneralFunctions.renderMapIcon(event.data.customer),
                     $('<span/>', {
@@ -1399,7 +1399,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.email
+                        'text': App.Lang.email
                     }),
                     GeneralFunctions.renderMailIcon(event.data.customer.email),
                     $('<span/>', {
@@ -1408,7 +1408,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.phone
+                        'text': App.Lang.phone
                     }),
                     GeneralFunctions.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
@@ -1417,7 +1417,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': EALang.notes
+                        'text': App.Lang.notes
                     }),
                     $('<span/>', {
                         'text': getEventNotes(event)
@@ -1436,7 +1436,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.close
+                                        'text': App.Lang.close
                                     })
                                 ]
                             }),
@@ -1447,7 +1447,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.delete
+                                        'text': App.Lang.delete
                                     })
                                 ]
                             }),
@@ -1458,7 +1458,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': App.Lang.edit
                                     })
                                 ]
                             })
@@ -1498,7 +1498,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     function onEventResize(event, delta, revertFunc) {
         if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
-            Backend.displayNotification(EALang.no_privileges_edit_appointments);
+            Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
         }
 
@@ -1545,9 +1545,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     revertFunc();
                 };
 
-                Backend.displayNotification(EALang.appointment_updated, [
+                Backend.displayNotification(App.Lang.appointment_updated, [
                     {
-                        'label': EALang.undo,
+                        'label': App.Lang.undo,
                         'function': undoFunction
                     }
                 ]);
@@ -1592,9 +1592,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     revertFunc();
                 };
 
-                Backend.displayNotification(EALang.unavailable_updated, [
+                Backend.displayNotification(App.Lang.unavailable_updated, [
                     {
-                        'label': EALang.undo,
+                        'label': App.Lang.undo,
                         'function': undoFunction
                     }
                 ]);
@@ -1618,7 +1618,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
     function onEventDrop(event, delta, revertFunc) {
         if (GlobalVariables.user.privileges.appointments.edit === false) {
             revertFunc();
-            Backend.displayNotification(EALang.no_privileges_edit_appointments);
+            Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
         }
 
@@ -1677,9 +1677,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     revertFunc();
                 };
 
-                Backend.displayNotification(EALang.appointment_updated, [
+                Backend.displayNotification(App.Lang.appointment_updated, [
                     {
-                        'label': EALang.undo,
+                        'label': App.Lang.undo,
                         'function': undoFunction
                     }
                 ]);
@@ -1725,9 +1725,9 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     revertFunc();
                 };
 
-                Backend.displayNotification(EALang.unavailable_updated, [
+                Backend.displayNotification(App.Lang.unavailable_updated, [
                     {
-                        label: EALang.undo,
+                        label: App.Lang.undo,
                         function: undoFunction
                     }
                 ]);

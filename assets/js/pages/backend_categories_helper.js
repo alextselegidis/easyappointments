@@ -107,13 +107,13 @@
 
             var buttons = [
                 {
-                    text: EALang.cancel,
+                    text: App.Lang.cancel,
                     click: function () {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: EALang.delete,
+                    text: App.Lang.delete,
                     click: function () {
                         instance.delete(categoryId);
                         $('#message-box').dialog('close');
@@ -121,7 +121,7 @@
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(EALang.delete_category, EALang.delete_record_prompt, buttons);
+            GeneralFunctions.displayMessageBox(App.Lang.delete_category, App.Lang.delete_record_prompt, buttons);
         });
 
         /**
@@ -203,14 +203,14 @@
                 if (response.length === 0) {
                     $('#filter-categories .results').append(
                         $('<em/>', {
-                            'text': EALang.no_records_found
+                            'text': App.Lang.no_records_found
                         })
                     );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
                         'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': EALang.load_more,
+                        'text': App.Lang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
                             this.filter(keyword, selectId, display);
@@ -240,7 +240,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.service_category_saved);
+                Backend.displayNotification(App.Lang.service_category_saved);
                 this.resetForm();
                 $('#filter-categories .key').val('');
                 this.filter('', response.id, true);
@@ -263,7 +263,7 @@
 
         $.post(url, data).done(
             function () {
-                Backend.displayNotification(EALang.service_category_deleted);
+                Backend.displayNotification(App.Lang.service_category_deleted);
 
                 this.resetForm();
                 this.filter($('#filter-categories .key').val());
@@ -302,7 +302,7 @@
             });
 
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             return true;

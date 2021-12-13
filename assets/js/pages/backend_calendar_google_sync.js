@@ -51,7 +51,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 windowHandle.close();
                                 window.clearInterval(authInterval);
                                 $('#enable-sync').addClass('btn-secondary enabled').removeClass('btn-light');
-                                $('#enable-sync span').text(EALang.disable_sync);
+                                $('#enable-sync span').text(App.Lang.disable_sync);
                                 $('#google-sync').prop('disabled', false);
                                 $('#select-filter-item option:selected').attr('google-sync', 'true');
 
@@ -85,7 +85,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
             } else {
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
@@ -110,7 +110,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                             disableProviderSync(provider.id);
 
                             $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
-                            $('#enable-sync span').text(EALang.enable_sync);
+                            $('#enable-sync span').text(App.Lang.enable_sync);
                             $('#google-sync').prop('disabled', true);
                             $('#select-filter-item option:selected').attr('google-sync', 'false');
 
@@ -119,7 +119,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(EALang.disable_sync, EALang.disable_sync_prompt, buttons);
+                GeneralFunctions.displayMessageBox(App.Lang.disable_sync, App.Lang.disable_sync_prompt, buttons);
             }
         });
 
@@ -135,7 +135,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 calendar_id: $('#google-calendar').val()
             };
             $.post(url, data).done(function () {
-                Backend.displayNotification(EALang.google_calendar_selected);
+                Backend.displayNotification(App.Lang.google_calendar_selected);
                 $('#select-google-calendar').modal('hide');
             });
         });
@@ -154,11 +154,11 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                 dataType: 'json'
             })
                 .done(function (response) {
-                    Backend.displayNotification(EALang.google_sync_completed);
+                    Backend.displayNotification(App.Lang.google_sync_completed);
                     $('#reload-appointments').trigger('click');
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
-                    Backend.displayNotification(EALang.google_sync_failed);
+                    Backend.displayNotification(App.Lang.google_sync_failed);
                 });
         });
     }

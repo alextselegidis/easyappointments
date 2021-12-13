@@ -146,13 +146,13 @@
 
                 var buttons = [
                     {
-                        text: EALang.cancel,
+                        text: App.Lang.cancel,
                         click: function () {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
-                        text: EALang.delete,
+                        text: App.Lang.delete,
                         click: function () {
                             this.delete(providerId);
                             $('#message-box').dialog('close');
@@ -160,7 +160,7 @@
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(EALang.delete_provider, EALang.delete_record_prompt, buttons);
+                GeneralFunctions.displayMessageBox(App.Lang.delete_provider, App.Lang.delete_record_prompt, buttons);
             }.bind(this)
         );
 
@@ -279,7 +279,7 @@
      */
     ProvidersHelper.prototype.save = function (provider) {
         var url = GlobalVariables.baseUrl + '/index.php/providers/' + (provider.id ? 'update' : 'create');
-        
+
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             provider: JSON.stringify(provider)
@@ -287,7 +287,7 @@
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(EALang.provider_saved);
+                Backend.displayNotification(App.Lang.provider_saved);
                 this.resetForm();
                 $('#filter-providers .key').val('');
                 this.filter('', response.id, true);
@@ -309,7 +309,7 @@
 
         $.post(url, data).done(
             function () {
-                Backend.displayNotification(EALang.provider_deleted);
+                Backend.displayNotification(App.Lang.provider_deleted);
                 this.resetForm();
                 this.filter($('#filter-providers .key').val());
             }.bind(this)
@@ -335,13 +335,13 @@
                 }
             });
             if (missingRequired) {
-                throw new Error(EALang.fields_are_required);
+                throw new Error(App.Lang.fields_are_required);
             }
 
             // Validate passwords.
             if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
-                throw new Error(EALang.passwords_mismatch);
+                throw new Error(App.Lang.passwords_mismatch);
             }
 
             if (
@@ -349,19 +349,21 @@
                 $('#provider-password').val() !== ''
             ) {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
-                throw new Error(EALang.password_length_notice.replace('$number', BackendProviders.MIN_PASSWORD_LENGTH));
+                throw new Error(
+                    App.Lang.password_length_notice.replace('$number', BackendProviders.MIN_PASSWORD_LENGTH)
+                );
             }
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
                 $('#provider-email').addClass('is-invalid');
-                throw new Error(EALang.invalid_email);
+                throw new Error(App.Lang.invalid_email);
             }
 
             // Check if username exists
             if ($('#provider-username').attr('already-exists') === 'true') {
                 $('#provider-username').addClass('is-invalid');
-                throw new Error(EALang.username_already_exists);
+                throw new Error(App.Lang.username_already_exists);
             }
 
             return true;
@@ -519,14 +521,14 @@
                 if (!response.length) {
                     $('#filter-providers .results').append(
                         $('<em/>', {
-                            'text': EALang.no_records_found
+                            'text': App.Lang.no_records_found
                         })
                     );
                 } else if (response.length === this.filterLimit) {
                     $('<button/>', {
                         'type': 'button',
                         'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': EALang.load_more,
+                        'text': App.Lang.load_more,
                         'click': function () {
                             this.filterLimit += 20;
                             this.filter(keyword, selectId, display);
@@ -580,13 +582,13 @@
      */
     ProvidersHelper.prototype.editableDayCell = function ($selector) {
         var weekDays = {};
-        weekDays[EALang.monday] = 'Monday';
-        weekDays[EALang.tuesday] = 'Tuesday';
-        weekDays[EALang.wednesday] = 'Wednesday';
-        weekDays[EALang.thursday] = 'Thursday';
-        weekDays[EALang.friday] = 'Friday';
-        weekDays[EALang.saturday] = 'Saturday';
-        weekDays[EALang.sunday] = 'Sunday';
+        weekDays[App.Lang.monday] = 'Monday';
+        weekDays[App.Lang.tuesday] = 'Tuesday';
+        weekDays[App.Lang.wednesday] = 'Wednesday';
+        weekDays[App.Lang.thursday] = 'Thursday';
+        weekDays[App.Lang.friday] = 'Friday';
+        weekDays[App.Lang.saturday] = 'Saturday';
+        weekDays[App.Lang.sunday] = 'Sunday';
 
         $selector.editable(
             function (value, settings) {

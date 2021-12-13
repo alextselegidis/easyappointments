@@ -52,7 +52,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
                 // Start time is after end time - display message to user.
                 $dialog
                     .find('.modal-message')
-                    .text(EALang.start_date_before_end_error)
+                    .text(App.Lang.start_date_before_end_error)
                     .addClass('alert-danger')
                     .removeClass('d-none');
 
@@ -76,7 +76,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
             var successCallback = function () {
                 // Display success message to the user.
-                Backend.displayNotification(EALang.unavailable_saved);
+                Backend.displayNotification(App.Lang.unavailable_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $dialog.find('.alert').addClass('d-none');
@@ -126,7 +126,7 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
                 .val(
                     GeneralFunctions.formatDate(startMoment.add(1, 'hour').toDate(), GlobalVariables.dateFormat, true)
                 );
-            $dialog.find('.modal-header h3').text(EALang.new_unavailable_title);
+            $dialog.find('.modal-header h3').text(App.Lang.new_unavailable_title);
             $dialog.modal('show');
         });
     }
@@ -170,54 +170,54 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
             // Translation
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close,
-            timeOnlyTitle: EALang.select_time,
-            timeText: EALang.time,
-            hourText: EALang.hour,
-            minuteText: EALang.minutes,
+            prevText: App.Lang.previous,
+            nextText: App.Lang.next,
+            currentText: App.Lang.now,
+            closeText: App.Lang.close,
+            timeOnlyTitle: App.Lang.select_time,
+            timeText: App.Lang.time,
+            hourText: App.Lang.hour,
+            minuteText: App.Lang.minutes,
             firstDay: fDaynum
         });
         $dialog.find('#unavailable-start').val(start);
@@ -228,54 +228,54 @@ window.BackendCalendarUnavailabilityEventsModal = window.BackendCalendarUnavaila
 
             // Translation
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                App.Lang.sunday,
+                App.Lang.monday,
+                App.Lang.tuesday,
+                App.Lang.wednesday,
+                App.Lang.thursday,
+                App.Lang.friday,
+                App.Lang.saturday
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                App.Lang.sunday.substr(0, 3),
+                App.Lang.monday.substr(0, 3),
+                App.Lang.tuesday.substr(0, 3),
+                App.Lang.wednesday.substr(0, 3),
+                App.Lang.thursday.substr(0, 3),
+                App.Lang.friday.substr(0, 3),
+                App.Lang.saturday.substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                App.Lang.sunday.substr(0, 2),
+                App.Lang.monday.substr(0, 2),
+                App.Lang.tuesday.substr(0, 2),
+                App.Lang.wednesday.substr(0, 2),
+                App.Lang.thursday.substr(0, 2),
+                App.Lang.friday.substr(0, 2),
+                App.Lang.saturday.substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                App.Lang.january,
+                App.Lang.february,
+                App.Lang.march,
+                App.Lang.april,
+                App.Lang.may,
+                App.Lang.june,
+                App.Lang.july,
+                App.Lang.august,
+                App.Lang.september,
+                App.Lang.october,
+                App.Lang.november,
+                App.Lang.december
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close,
-            timeOnlyTitle: EALang.select_time,
-            timeText: EALang.time,
-            hourText: EALang.hour,
-            minuteText: EALang.minutes,
+            prevText: App.Lang.previous,
+            nextText: App.Lang.next,
+            currentText: App.Lang.now,
+            closeText: App.Lang.close,
+            timeOnlyTitle: App.Lang.select_time,
+            timeText: App.Lang.time,
+            hourText: App.Lang.hour,
+            minuteText: App.Lang.minutes,
             firstDay: fDaynum
         });
         $dialog.find('#unavailable-end').val(end);
