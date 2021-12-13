@@ -100,9 +100,11 @@
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
+
+<script src="<?= asset_url('assets/js/app.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/booking_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/frontend_book_api.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/frontend_book.js') ?>"></script>
+
 
 <script>
     $(function () {
@@ -112,6 +114,8 @@
 </script>
 
 <?php google_analytics_script() ?>
+
+<?php slot('scripts') ?>
 
 </body>
 </html>

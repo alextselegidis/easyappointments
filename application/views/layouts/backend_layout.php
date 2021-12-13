@@ -54,9 +54,13 @@
 <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
+
+<script src="<?= asset_url('assets/js/app.js') ?>"></script>
 <script src="<?= asset_url('assets/js/layouts/backend.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
 <?php slot('scripts') ?>
+
 </body>
 </html>

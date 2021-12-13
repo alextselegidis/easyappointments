@@ -46,3 +46,10 @@
 
 <?php section('content') ?>
 
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/pages/frontend_book_api.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/frontend_book.js') ?>"></script>
+
+<?php section('scripts') ?>
