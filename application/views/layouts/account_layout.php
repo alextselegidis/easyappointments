@@ -54,6 +54,8 @@
 <script src="<?= asset_url('assets/js/layouts/account_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
+<?php component('language_script') ?>
+
 <script>
     const GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,

@@ -4,6 +4,6 @@
  */
 ?>
 <script <?= $attributes ?>>
-    const EALang = <?= json_encode($this->lang->language) ?>
+    window.App.Lang = <?= json_encode($this->lang->language) ?>
 </script>
 

@@ -63,6 +63,8 @@
 <script src="<?= asset_url('assets/js/layouts/message_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
+<?php component('language_script') ?>
+
 <?php google_analytics_script() ?>
 
 <?php slot('scripts') ?>
