@@ -30,11 +30,11 @@
 </head>
 <body>
 
-<?php require 'backend_header.php' ?>
+<?php component('backend_header') ?>
 
 <?php slot('content') ?>
 
-<?php require 'backend_footer.php' ?>
+<?php component('backend_footer') ?>
 
 <script>
     const EALang = <?= json_encode($this->lang->language) ?>;

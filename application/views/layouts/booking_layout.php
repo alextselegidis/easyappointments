@@ -45,11 +45,11 @@
     <div class="row wrapper">
         <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8">
 
-            <?php require 'booking_header.php' ?>
+            <?php component('booking_header') ?>
 
             <?php slot('content') ?>
 
-            <?php require 'booking_footer.php' ?>
+            <?php component('booking_footer') ?>
 
         </div>
     </div>
