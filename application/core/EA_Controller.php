@@ -72,6 +72,8 @@ class EA_Controller extends CI_Controller {
         parent::__construct();
 
         $this->configure_language();
+        
+        $this->load_common_js_config();
     }
 
     /**
@@ -87,5 +89,17 @@ class EA_Controller extends CI_Controller {
         }
 
         $this->lang->load('translations');
+    }
+
+    /**
+     * Load common JS config for all requests. 
+     */
+    private function load_common_js_config()
+    {
+        js_config([
+            'base_url' => config('base_url'),
+            'index_page' => config('index_page'),
+            'csrf_token' => config('csrf_token'),
+        ]);
     }
 }
