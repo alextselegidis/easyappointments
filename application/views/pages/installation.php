@@ -147,6 +147,7 @@
 <script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
+<?php component('config_script') ?>
 <?php component('language_script') ?>
 
 </body>

@@ -54,13 +54,14 @@
 <script src="<?= asset_url('assets/js/layouts/account_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
+<?php component('config_script') ?>
 <?php component('language_script') ?>
 
 <script>
     const GlobalVariables = {
         csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl: <?= json_encode($base_url) ?>,
-        destUrl: <?= json_encode($dest_url) ?>,
+        destUrl: <?= json_encode($dest_url) ?>,e
         AJAX_SUCCESS: 'SUCCESS',
         AJAX_FAILURE: 'FAILURE'
     };
