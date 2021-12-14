@@ -94,6 +94,8 @@ if ( ! function_exists('js_config'))
                 $js_config[$item] = $value;
             }
 
+            config(['js_config' => $js_config]);
+
             return NULL;
         }
 
