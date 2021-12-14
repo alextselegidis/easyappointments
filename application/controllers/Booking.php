@@ -110,7 +110,7 @@ class Booking extends EA_Controller {
             if (empty($results))
             {
                 // The requested appointment was not found in the database. 
-                $this->load->view('pages/booking_message_page', [
+                $this->load->view('pages/booking_message', [
                     'message_title' => lang('appointment_not_found'),
                     'message_text' => lang('appointment_does_not_exist_in_db'),
                     'message_icon' => base_url('assets/img/error.png')
@@ -130,7 +130,7 @@ class Booking extends EA_Controller {
                 $hours = floor($book_advance_timeout / 60);
                 $minutes = ($book_advance_timeout % 60);
 
-                $this->load->view('pages/booking_message_page', [
+                $this->load->view('pages/booking_message', [
                     'message_title' => lang('appointment_locked'),
                     'message_text' => strtr(lang('appointment_locked_message'), [
                         '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
@@ -163,7 +163,7 @@ class Booking extends EA_Controller {
             $customer = [];
         }
 
-        $this->load->view('pages/booking_page', [
+        $this->load->view('pages/booking', [
             'available_services' => $available_services,
             'available_providers' => $available_providers,
             'company_name' => $company_name,
@@ -238,7 +238,7 @@ class Booking extends EA_Controller {
             $exceptions[] = $e;
         }
 
-        $this->load->view('pages/booking_message_page', [
+        $this->load->view('pages/booking_message', [
             'message_title' => lang('appointment_cancelled_title'),
             'message_text' => lang('appointment_cancelled'),
             'message_icon' => base_url('assets/img/success.png'),
@@ -278,7 +278,7 @@ class Booking extends EA_Controller {
 
         $exceptions = $this->session->flashdata('book_success') ?? [];
 
-        $this->load->view('pages/booking_success_page', [
+        $this->load->view('pages/booking_success', [
             'page_title' => lang('success'),
             'appointment_data' => $appointment,
             'provider_data' => [

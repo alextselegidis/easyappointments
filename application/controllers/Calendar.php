@@ -95,7 +95,7 @@ class Calendar extends EA_Controller {
             $this->appointments_model->load($edit_appointment, ['customer']);
         }
 
-        $this->load->view('pages/calendar_page', [
+        $this->load->view('pages/calendar', [
             'page_title' => lang('calendar'),
             'active_menu' => PRIV_APPOINTMENTS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

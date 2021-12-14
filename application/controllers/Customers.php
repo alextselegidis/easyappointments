@@ -53,7 +53,7 @@ class Customers extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/customers_page', [
+        $this->load->view('pages/customers', [
             'page_title' => lang('customers'),
             'active_menu' => PRIV_CUSTOMERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),

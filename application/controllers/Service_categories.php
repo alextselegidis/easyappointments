@@ -52,7 +52,7 @@ class Service_categories extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/service_categories_page', [
+        $this->load->view('pages/service_categories', [
             'page_title' => lang('services'),
             'active_menu' => PRIV_SERVICES,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
