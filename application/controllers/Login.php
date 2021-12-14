@@ -28,6 +28,10 @@ class Login extends EA_Controller {
 
         $this->load->library('accounts');
         $this->load->library('email_messages');
+
+        js_config([
+            'dest_url' => session('dest_url', site_url('backend')),
+        ]);
     }
 
     /**
