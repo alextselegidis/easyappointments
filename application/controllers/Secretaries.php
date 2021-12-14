@@ -172,4 +172,28 @@ class Secretaries extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Find a secretary.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_USERS))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $secretary_id = request('secretary_id');
+
+            $secretary = $this->secretaries_model->find($secretary_id);
+
+            json_response($secretary);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

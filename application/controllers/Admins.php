@@ -92,7 +92,7 @@ class Admins extends EA_Controller {
     }
 
     /**
-     * Create a admin.
+     * Create an admin.
      */
     public function create()
     {
@@ -119,7 +119,7 @@ class Admins extends EA_Controller {
     }
 
     /**
-     * Update a admin.
+     * Update an admin.
      */
     public function update()
     {
@@ -146,7 +146,7 @@ class Admins extends EA_Controller {
     }
 
     /**
-     * Remove a admin.
+     * Remove an admin.
      */
     public function destroy()
     {
@@ -164,6 +164,30 @@ class Admins extends EA_Controller {
             json_response([
                 'success' => TRUE,
             ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Find an admin.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_USERS))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $admin_id = request('admin_id');
+
+            $admin = $this->admins_model->find($admin_id);
+
+            json_response($admin);
         }
         catch (Throwable $e)
         {

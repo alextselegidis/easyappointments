@@ -170,4 +170,28 @@ class Service_categories extends EA_Controller {
             json_exception($e);
         }
     }
+    
+    /**
+     * Find a service category.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_SERVICES))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $category_id = request('category_id');
+
+            $category = $this->service_categories_model->find($category_id);
+
+            json_response($category);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

@@ -186,4 +186,28 @@ class Customers extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Find a customer.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_USERS))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $customer_id = request('customer_id');
+
+            $customer = $this->customers_model->find($customer_id);
+
+            json_response($customer);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

@@ -170,4 +170,28 @@ class Services extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Find a service.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_SERVICES))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $service_id = request('service_id');
+
+            $service = $this->services_model->find($service_id);
+
+            json_response($service);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

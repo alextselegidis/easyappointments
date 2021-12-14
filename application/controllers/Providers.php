@@ -172,4 +172,28 @@ class Providers extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Find a provider.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_USERS))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $provider_id = request('provider_id');
+
+            $provider = $this->providers_model->find($provider_id);
+
+            json_response($provider);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

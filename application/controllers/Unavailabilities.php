@@ -142,4 +142,28 @@ class Unavailabilities extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Find an unavailability.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', 'users'))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $unavailability_id = request('unavailability_id');
+
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
+
+            json_response($unavailability);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

@@ -157,4 +157,28 @@ class Appointments extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Find an appointment.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('delete', PRIV_APPOINTMENTS))
+            {
+                show_error('Forbidden', 403);
+            }
+
+            $appointment_id = request('appointment_id');
+
+            $appointment = $this->appointments_model->find($appointment_id);
+
+            json_response($appointment);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }
