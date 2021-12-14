@@ -11,36 +11,6 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
-        timezones: <?= json_encode($timezones) ?>,
-        settings: {
-            system: <?= json_encode($system_settings) ?>,
-        },
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-
-    $(function () {
-        BackendSettingsBusinessLogic.initialize(true);
-    });
-</script>
-
 <div id="business-logic-page" class="container-fluid backend-page">
     <div id="business-logic">
         <form>
@@ -131,3 +101,38 @@
 </div>
 
 <?php section('content') ?>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
+<script>
+    var GlobalVariables = {
+        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+        baseUrl: <?= json_encode(config('base_url')) ?>,
+        dateFormat: <?= json_encode(setting('date_format')) ?>,
+        timeFormat: <?= json_encode(setting('time_format')) ?>,
+        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
+        timezones: <?= json_encode($timezones) ?>,
+        settings: {
+            system: <?= json_encode($system_settings) ?>,
+        },
+        user: {
+            id: <?= session('user_id') ?>,
+            email: <?= json_encode(session('user_email')) ?>,
+            timezone: <?= json_encode(session('timezone')) ?>,
+            role_slug: <?= json_encode(session('role_slug')) ?>,
+            privileges: <?= json_encode($privileges) ?>
+        }
+    };
+
+    $(function () {
+        BackendSettingsBusinessLogic.initialize(true);
+    });
+</script>
+
+<?php section('scripts') ?>
+

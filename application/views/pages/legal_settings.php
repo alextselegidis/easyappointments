@@ -9,32 +9,6 @@
 
 <?php section('content') ?>
 
-<script src="<?= asset_url('assets/js/pages/backend_settings_legal_contents_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_settings_legal_contents.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
-        settings: {
-            system: <?= json_encode($system_settings) ?>,
-        },
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-
-    $(function () {
-        BackendSettingsLegalContents.initialize(true);
-    });
-</script>
-
 <div id="legal-contents-page" class="container-fluid backend-page">
     <div id="legal-contents">
         <form>
@@ -115,3 +89,33 @@
 </div>
 
 <?php section('content') ?>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/pages/backend_settings_legal_contents_helper.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/backend_settings_legal_contents.js') ?>"></script>
+<script>
+    var GlobalVariables = {
+        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+        baseUrl: <?= json_encode(config('base_url')) ?>,
+        dateFormat: <?= json_encode(setting('date_format')) ?>,
+        timeFormat: <?= json_encode(setting('time_format')) ?>,
+        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
+        settings: {
+            system: <?= json_encode($system_settings) ?>,
+        },
+        user: {
+            id: <?= session('user_id') ?>,
+            email: <?= json_encode(session('user_email')) ?>,
+            timezone: <?= json_encode(session('timezone')) ?>,
+            role_slug: <?= json_encode(session('role_slug')) ?>,
+            privileges: <?= json_encode($privileges) ?>
+        }
+    };
+
+    $(function () {
+        BackendSettingsLegalContents.initialize(true);
+    });
+</script>
+
+<?php section('scripts') ?>
