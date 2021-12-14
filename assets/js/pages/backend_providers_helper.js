@@ -281,7 +281,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/providers/' + (provider.id ? 'update' : 'create');
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             provider: JSON.stringify(provider)
         };
 
@@ -303,7 +303,7 @@
     ProvidersHelper.prototype.delete = function (id) {
         var url = GlobalVariables.baseUrl + '/index.php/providers/destroy';
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             provider_id: id
         };
 
@@ -502,7 +502,7 @@
 
         var url = GlobalVariables.baseUrl + '/index.php/providers/search';
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             keyword: keyword,
             limit: this.filterLimit
         };

@@ -34,7 +34,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_settings';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             settings: JSON.stringify(settings),
             type: BackendSettingsBusinessLogic.SETTINGS_SYSTEM
         };

@@ -183,7 +183,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/service_categories/search';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             keyword: keyword,
             limit: this.filterLimit
         };
@@ -234,7 +234,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/service_categories/' + (category.id ? 'update' : 'create');
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             service_category: JSON.stringify(category)
         };
 
@@ -257,7 +257,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/service_categories/destroy';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             service_category_id: id
         };
 

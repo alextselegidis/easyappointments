@@ -24,7 +24,7 @@
         const url = GlobalVariables.baseUrl + '/index.php/recovery/perform';
 
         const data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             username: $('#username').val(),
             email: $('#email').val()
         };

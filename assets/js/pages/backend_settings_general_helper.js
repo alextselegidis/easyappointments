@@ -34,7 +34,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/settings/general/save';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             settings: JSON.stringify(settings),
             type: BackendSettingsGeneral.SETTINGS_SYSTEM
         };

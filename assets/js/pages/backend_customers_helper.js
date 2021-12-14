@@ -171,7 +171,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/customers/' + (customer.id ? 'update' : 'create');
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             customer: JSON.stringify(customer)
         };
 
@@ -194,7 +194,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/customers/destroy';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             customer_id: id
         };
 
@@ -378,7 +378,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/customers/search';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             keyword: keyword,
             limit: this.filterLimit
         };

@@ -247,7 +247,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_secretary';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             secretary: JSON.stringify(secretary)
         };
 
@@ -270,7 +270,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_secretary';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             secretary_id: id
         };
 
@@ -407,7 +407,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_secretaries';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };

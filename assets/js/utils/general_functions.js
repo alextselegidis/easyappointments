@@ -292,7 +292,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
 
             var data = {
-                csrfToken: GlobalVariables.csrfToken,
+                csrf_token: GlobalVariables.csrfToken,
                 language: $(this).attr('data-language')
             };
 

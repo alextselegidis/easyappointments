@@ -116,7 +116,7 @@ window.BackendSettingsBusinessLogic = window.BackendSettingsBusinessLogic || {};
                         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_apply_global_working_plan';
 
                         var data = {
-                            csrfToken: GlobalVariables.csrfToken,
+                            csrf_token: GlobalVariables.csrfToken,
                             working_plan: JSON.stringify(exports.wp.get())
                         };
 

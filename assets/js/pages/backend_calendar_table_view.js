@@ -258,7 +258,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_working_plan_exception';
 
                 data = {
-                    csrfToken: GlobalVariables.csrfToken,
+                    csrf_token: GlobalVariables.csrfToken,
                     working_plan_exception: lastFocusedEventData.start.format('YYYY-MM-DD'),
                     provider_id: lastFocusedEventData.data.id
                 };
@@ -287,7 +287,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                             url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_appointment';
 
                             data = {
-                                csrfToken: GlobalVariables.csrfToken,
+                                csrf_token: GlobalVariables.csrfToken,
                                 appointment_id: lastFocusedEventData.data.id,
                                 delete_reason: $('#delete-reason').val()
                             };
@@ -318,7 +318,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_unavailable';
 
                 data = {
-                    csrfToken: GlobalVariables.csrfToken,
+                    csrf_token: GlobalVariables.csrfToken,
                     unavailable_id: lastFocusedEventData.data.id
                 };
 
@@ -1534,7 +1534,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
 
                     var data = {
-                        csrfToken: GlobalVariables.csrfToken,
+                        csrf_token: GlobalVariables.csrfToken,
                         appointment_data: JSON.stringify(appointment)
                     };
 
@@ -1581,7 +1581,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
 
                     var data = {
-                        csrfToken: GlobalVariables.csrfToken,
+                        csrf_token: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
@@ -1666,7 +1666,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_appointment';
 
                     var data = {
-                        csrfToken: GlobalVariables.csrfToken,
+                        csrf_token: GlobalVariables.csrfToken,
                         appointment_data: JSON.stringify(appointment)
                     };
 
@@ -1714,7 +1714,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_unavailable';
 
                     var data = {
-                        csrfToken: GlobalVariables.csrfToken,
+                        csrf_token: GlobalVariables.csrfToken,
                         unavailable: JSON.stringify(unavailable)
                     };
 
@@ -1788,7 +1788,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_calendar_events';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             startDate: moment(startDate).format('YYYY-MM-DD'),
             endDate: moment(endDate).format('YYYY-MM-DD')
         };

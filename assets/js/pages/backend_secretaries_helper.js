@@ -247,7 +247,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/secretaries/' + (secretary.id ? 'update' : 'create');
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             secretary: JSON.stringify(secretary)
         };
 
@@ -270,7 +270,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/secretaries/destroy';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             secretary_id: id
         };
 
@@ -409,7 +409,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/secretaries/search';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             keyword: keyword,
             limit: this.filterLimit
         };

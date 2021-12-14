@@ -212,7 +212,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/services/' + (service.id ? 'update' : 'create');
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             service: JSON.stringify(service)
         };
 
@@ -235,7 +235,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/services/destroy';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             service_id: id
         };
 
@@ -339,7 +339,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/services/search';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             keyword: keyword,
             limit: this.filterLimit
         };

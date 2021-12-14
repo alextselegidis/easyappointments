@@ -61,7 +61,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_google_calendars';
 
                                 var data = {
-                                    csrfToken: GlobalVariables.csrfToken,
+                                    csrf_token: GlobalVariables.csrfToken,
                                     provider_id: $('#select-filter-item').val()
                                 };
 
@@ -130,7 +130,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
 
             var data = {
-                csrfToken: GlobalVariables.csrfToken,
+                csrf_token: GlobalVariables.csrfToken,
                 provider_id: $('#select-filter-item').val(),
                 calendar_id: $('#google-calendar').val()
             };
@@ -175,7 +175,7 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             provider_id: providerId
         };
 

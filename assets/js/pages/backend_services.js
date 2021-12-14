@@ -71,7 +71,7 @@ window.BackendServices = window.BackendServices || {};
         var url = GlobalVariables.baseUrl + '/index.php/service_categories/search';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             key: ''
         };
 

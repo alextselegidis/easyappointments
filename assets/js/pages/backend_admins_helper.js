@@ -234,7 +234,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_admin';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             admin: JSON.stringify(admin)
         };
 
@@ -257,7 +257,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_admin';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             admin_id: id
         };
 
@@ -384,7 +384,7 @@
         var url = GlobalVariables.baseUrl + '/index.php/admins/search';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             keyword: keyword,
             limit: this.filterLimit
         };

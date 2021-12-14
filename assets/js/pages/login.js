@@ -24,7 +24,7 @@
         const url = GlobalVariables.baseUrl + '/index.php/login/validate';
 
         const data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             username: $('#username').val(),
             password: $('#password').val()
         };

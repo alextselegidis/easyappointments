@@ -44,7 +44,7 @@
         const url = GlobalVariables.baseUrl + '/index.php/installation/perform';
 
         const data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             admin: getAdminData(),
             company: getCompanyData()
         };

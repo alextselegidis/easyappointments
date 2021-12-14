@@ -57,7 +57,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_get_available_hours';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             service_id: $('#select-service').val(),
             provider_id: $('#select-provider').val(),
             selected_date: selectedDate,
@@ -158,7 +158,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var formData = JSON.parse($('input[name="post_data"]').val());
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             post_data: formData
         };
 
@@ -245,7 +245,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             manage_mode: FrontendBook.manageMode,
             appointment_id: appointmentId
         };
@@ -312,7 +312,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/consents/ajax_save_consent';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             consent: consent
         };
 
@@ -328,7 +328,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/privacy/ajax_delete_personal_information';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             customer_token: customerToken
         };
 

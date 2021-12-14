@@ -83,7 +83,7 @@ window.BackendAdmins = window.BackendAdmins || {};
             var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_validate_username';
 
             var data = {
-                csrfToken: GlobalVariables.csrfToken,
+                csrf_token: GlobalVariables.csrfToken,
                 username: $input.val(),
                 user_id: adminId
             };

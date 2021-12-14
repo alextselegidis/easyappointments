@@ -254,7 +254,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                 var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_customers';
 
                 var data = {
-                    csrfToken: GlobalVariables.csrfToken,
+                    csrf_token: GlobalVariables.csrfToken,
                     key: key
                 };
 

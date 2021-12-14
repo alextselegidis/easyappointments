@@ -280,7 +280,7 @@
     ProvidersHelper.prototype.save = function (provider) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_save_provider';
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             provider: JSON.stringify(provider)
         };
 
@@ -302,7 +302,7 @@
     ProvidersHelper.prototype.delete = function (id) {
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_delete_provider';
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             provider_id: id
         };
 
@@ -499,7 +499,7 @@
 
         var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_filter_providers';
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             key: key,
             limit: this.filterLimit
         };

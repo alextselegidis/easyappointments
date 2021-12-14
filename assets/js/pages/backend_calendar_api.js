@@ -36,7 +36,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_appointment';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             appointment_data: JSON.stringify(appointment)
         };
 
@@ -68,7 +68,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_unavailable';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             unavailable: JSON.stringify(unavailable)
         };
 
@@ -104,7 +104,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_working_plan_exception';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             date: date,
             working_plan_exception: workingPlanException,
             provider_id: providerId
@@ -127,7 +127,7 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
         var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_delete_working_plan_exception';
 
         var data = {
-            csrfToken: GlobalVariables.csrfToken,
+            csrf_token: GlobalVariables.csrfToken,
             date: date,
             provider_id: providerId
         };
