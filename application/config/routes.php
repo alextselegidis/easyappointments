@@ -66,7 +66,7 @@ $route['translate_uri_dashes'] = FALSE;
 |
 */
 
-if (isset($_SERVER) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
 {
     header('Access-Control-Allow-Origin: *');
 
