@@ -157,7 +157,7 @@ class Migration_Change_column_types extends EA_Migration {
             ]
         ];
 
-        $this->dbforge->modify_column('Categories', $fields);
+        $this->dbforge->modify_column('service_categories', $fields);
 
         // Settings
         $fields = [
@@ -210,7 +210,7 @@ class Migration_Change_column_types extends EA_Migration {
             ADD CONSTRAINT `fk_' . $this->db->dbprefix('secretaries_providers') . '_2` FOREIGN KEY (`id_users_provider`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services') . '`
-            ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('Categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
+            ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('service_categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services_providers') . '`
             ADD CONSTRAINT `' . $this->db->dbprefix('services_providers') . '_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -371,7 +371,7 @@ class Migration_Change_column_types extends EA_Migration {
             ]
         ];
 
-        $this->dbforge->modify_column('Categories', $fields);
+        $this->dbforge->modify_column('service_categories', $fields);
 
         // Settings
         $fields = [
@@ -424,7 +424,7 @@ class Migration_Change_column_types extends EA_Migration {
             ADD CONSTRAINT `fk_' . $this->db->dbprefix('secretaries_providers') . '_2` FOREIGN KEY (`id_users_provider`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services') . '`
-            ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('Categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
+            ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('service_categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE');
 
         $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services_providers') . '`
             ADD CONSTRAINT `' . $this->db->dbprefix('services_providers') . '_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
