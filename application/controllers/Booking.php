@@ -33,7 +33,7 @@ class Booking extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('admins_model');
         $this->load->model('secretaries_model');
-        $this->load->model('service_categories_model');
+        $this->load->model('categories_model');
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');

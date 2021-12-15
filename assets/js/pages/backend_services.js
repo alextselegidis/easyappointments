@@ -68,7 +68,7 @@ window.BackendServices = window.BackendServices || {};
      * Use this method every time a change is made to the service categories db table.
      */
     exports.updateAvailableCategories = function () {
-        var url = GlobalVariables.baseUrl + '/index.php/service_categories/search';
+        var url = GlobalVariables.baseUrl + '/index.php/categories/search';
 
         var data = {
             csrf_token: GlobalVariables.csrfToken,

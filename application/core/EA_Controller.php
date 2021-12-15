@@ -41,12 +41,12 @@
  *
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
+ * @property Categories_model $categories_model
  * @property Consents_model $consents_model
  * @property Customers_model $customers_model
  * @property Providers_model $providers_model
  * @property Roles_model $roles_model
  * @property Secretaries_model $secretaries_model
- * @property Service_categories_model $service_categories_model
  * @property Services_model $services_model
  * @property Settings_model $settings_model
  * @property Unavailabilities_model $unavailabilities_model

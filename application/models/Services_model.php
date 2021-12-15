@@ -26,7 +26,7 @@ class Services_model extends EA_Model {
         'id' => 'integer',
         'price' => 'float',
         'attendants_number' => 'integer',
-        'id_service_categories' => 'boolean',
+        'id_categories' => 'integer',
     ];
 
     /**
@@ -42,7 +42,7 @@ class Services_model extends EA_Model {
         'location' => 'location',
         'availabilitiesType' => 'availabilities_type',
         'attendantsNumber' => 'attendants_number',
-        'categoryId' => 'id_service_categories',
+        'categoryId' => 'id_categories',
     ];
 
     /**
@@ -97,13 +97,13 @@ class Services_model extends EA_Model {
         }
 
         // If a category was provided then make sure it really exists in the database. 
-        if ( ! empty($service['id_service_categories']))
+        if ( ! empty($service['id_categories']))
         {
-            $count = $this->db->get_where('service_categories', ['id' => $service['id_service_categories']])->num_rows();
+            $count = $this->db->get_where('categories', ['id' => $service['id_categories']])->num_rows();
 
             if ( ! $count)
             {
-                throw new InvalidArgumentException('The provided category ID was not found in the database: ' . $service['id_service_categories']);
+                throw new InvalidArgumentException('The provided category ID was not found in the database: ' . $service['id_categories']);
             }
         }
 
@@ -301,10 +301,10 @@ class Services_model extends EA_Model {
         $services = $this
             ->db
             ->distinct()
-            ->select('services.*, service_categories.name AS category_name, service_categories.id AS category_id')
+            ->select('services.*, categories.name AS category_name, categories.id AS category_id')
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
-            ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
+            ->join('categories', 'categories.id = services.id_categories', 'left')
             ->order_by('name ASC')
             ->get()
             ->result_array();
@@ -363,7 +363,7 @@ class Services_model extends EA_Model {
      * Load related resources to a service.
      *
      * @param array $service Associative array with the service data.
-     * @param array $resources Resource names to be attached ("service_category" supported).
+     * @param array $resources Resource names to be attached ("category" supported).
      *
      * @throws InvalidArgumentException
      */
@@ -378,11 +378,11 @@ class Services_model extends EA_Model {
         {
             switch ($resource)
             {
-                case 'service_category':
-                    $service['service_category'] = $this
+                case 'category':
+                    $service['category'] = $this
                         ->db
-                        ->get_where('service_categories', [
-                            'id' => $service['id_service_categories'] ?? $service['categoryId'] ?? NULL
+                        ->get_where('categories', [
+                            'id' => $service['id_categories'] ?? $service['categoryId'] ?? NULL
                         ])
                         ->row_array();
                     break;
@@ -410,7 +410,7 @@ class Services_model extends EA_Model {
             'location' => $service['location'],
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int)$service['attendants_number'],
-            'categoryId' => $service['id_service_categories'] !== NULL ? (int)$service['id_service_categories'] : NULL
+            'categoryId' => $service['id_categories'] !== NULL ? (int)$service['id_categories'] : NULL
         ];
 
         $service = $encoded_resource;
@@ -473,7 +473,7 @@ class Services_model extends EA_Model {
 
         if (array_key_exists('categoryId', $service))
         {
-            $decoded_resource['id_service_categories'] = $service['categoryId'];
+            $decoded_resource['id_categories'] = $service['categoryId'];
         }
 
         $service = $decoded_resource;

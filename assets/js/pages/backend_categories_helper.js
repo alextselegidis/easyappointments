@@ -180,7 +180,7 @@
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
     CategoriesHelper.prototype.filter = function (keyword, selectId, display) {
-        var url = GlobalVariables.baseUrl + '/index.php/service_categories/search';
+        var url = GlobalVariables.baseUrl + '/index.php/categories/search';
 
         var data = {
             csrf_token: GlobalVariables.csrfToken,
@@ -231,16 +231,16 @@
      * @param {Object} category Contains the category data.
      */
     CategoriesHelper.prototype.save = function (category) {
-        var url = GlobalVariables.baseUrl + '/index.php/service_categories/' + (category.id ? 'update' : 'create');
+        var url = GlobalVariables.baseUrl + '/index.php/categories/' + (category.id ? 'update' : 'create');
 
         var data = {
             csrf_token: GlobalVariables.csrfToken,
-            service_category: JSON.stringify(category)
+            category: JSON.stringify(category)
         };
 
         $.post(url, data).done(
             function (response) {
-                Backend.displayNotification(App.Lang.service_category_saved);
+                Backend.displayNotification(App.Lang.category_saved);
                 this.resetForm();
                 $('#filter-categories .key').val('');
                 this.filter('', response.id, true);
@@ -254,16 +254,16 @@
      * @param {Number} id Record ID to be deleted.
      */
     CategoriesHelper.prototype.delete = function (id) {
-        var url = GlobalVariables.baseUrl + '/index.php/service_categories/destroy';
+        var url = GlobalVariables.baseUrl + '/index.php/categories/destroy';
 
         var data = {
             csrf_token: GlobalVariables.csrfToken,
-            service_category_id: id
+            category_id: id
         };
 
         $.post(url, data).done(
             function () {
-                Backend.displayNotification(App.Lang.service_category_deleted);
+                Backend.displayNotification(App.Lang.category_deleted);
 
                 this.resetForm();
                 this.filter($('#filter-categories .key').val());

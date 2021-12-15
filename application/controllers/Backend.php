@@ -32,7 +32,7 @@ class Backend extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('roles_model');
         $this->load->model('secretaries_model');
-        $this->load->model('service_categories_model');
+        $this->load->model('categories_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('users_model');
@@ -237,7 +237,7 @@ class Backend extends EA_Controller {
         $view['time_format'] = setting('time_format');
         $view['first_weekday'] = setting('first_weekday');
         $view['services'] = $this->services_model->get();
-        $view['categories'] = $this->service_categories_model->get();
+        $view['categories'] = $this->categories_model->get();
         $view['timezones'] = $this->timezones->to_array();
         $this->set_user_data($view);
 

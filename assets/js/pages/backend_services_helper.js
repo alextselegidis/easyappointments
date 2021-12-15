@@ -135,9 +135,9 @@
             };
 
             if ($('#service-category').val() !== 'null') {
-                service.id_service_categories = $('#service-category').val();
+                service.id_categories = $('#service-category').val();
             } else {
-                service.id_service_categories = null;
+                service.id_categories = null;
             }
 
             if ($('#service-id').val() !== '') {
@@ -321,7 +321,7 @@
         $('#service-availabilities-type').val(service.availabilities_type);
         $('#service-attendants-number').val(service.attendants_number);
 
-        var categoryId = service.id_service_categories !== null ? service.id_service_categories : 'null';
+        var categoryId = service.id_categories !== null ? service.id_categories : 'null';
         $('#service-category').val(categoryId);
     };
 

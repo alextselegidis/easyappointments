@@ -12,21 +12,21 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Service categories controller.
+ * Categories controller.
  *
- * Handles the service categories related operations.
+ * Handles the categories related operations.
  *
  * @package Controllers
  */
-class Service_categories extends EA_Controller {
+class Categories extends EA_Controller {
     /**
-     * Service_categories constructor.
+     * Categories constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->model('service_categories_model');
+        $this->load->model('categories_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
@@ -34,16 +34,16 @@ class Service_categories extends EA_Controller {
     }
 
     /**
-     * Render the backend services page.
+     * Render the backend categories page.
      *
-     * On this page admin users will be able to manage services, which are eventually selected by customers during the 
+     * On this page admin users will be able to manage categories, which are eventually selected by customers during the 
      * booking process.
      */
     public function index()
     {
-        session(['dest_url' => site_url('service_categories')]);
+        session(['dest_url' => site_url('categories')]);
 
-        if (cannot('view', 'services'))
+        if (cannot('view', PRIV_SERVICES))
         {
             show_error('Forbidden', 403);
         }
@@ -52,8 +52,8 @@ class Service_categories extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/service_categories', [
-            'page_title' => lang('services'),
+        $this->load->view('pages/categories', [
+            'page_title' => lang('categories'),
             'active_menu' => PRIV_SERVICES,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
@@ -62,13 +62,13 @@ class Service_categories extends EA_Controller {
     }
 
     /**
-     * Filter services by the provided keyword.
+     * Filter categories by the provided keyword.
      */
     public function search()
     {
         try
         {
-            if (cannot('view', 'services'))
+            if (cannot('view', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
@@ -81,9 +81,9 @@ class Service_categories extends EA_Controller {
             
             $offset = 0; 
 
-            $service_categories = $this->service_categories_model->search($keyword, $limit, $offset, $order_by);
+            $categories = $this->categories_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($service_categories);
+            json_response($categories);
         }
         catch (Throwable $e)
         {
@@ -92,24 +92,24 @@ class Service_categories extends EA_Controller {
     }
 
     /**
-     * Create a service.
+     * Create a category.
      */
     public function create()
     {
         try
         {
-            $service_category = json_decode(request('service_category'), TRUE);
+            $category = json_decode(request('category'), TRUE);
 
-            if (cannot('add', 'services'))
+            if (cannot('add', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
 
-            $service_category_id = $this->service_categories_model->save($service_category);
+            $category_id = $this->categories_model->save($category);
 
             json_response([
                 'success' => TRUE,
-                'id' => $service_category_id
+                'id' => $category_id
             ]);
         }
         catch (Throwable $e)
@@ -119,24 +119,24 @@ class Service_categories extends EA_Controller {
     }
 
     /**
-     * Update a service.
+     * Update a category.
      */
     public function update()
     {
         try
         {
-            $service_category = json_decode(request('service_category'), TRUE);
+            $category = json_decode(request('category'), TRUE);
 
-            if (cannot('edit', 'services'))
+            if (cannot('edit', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
 
-            $service_category_id = $this->service_categories_model->save($service_category);
+            $category_id = $this->categories_model->save($category);
 
             json_response([
                 'success' => TRUE,
-                'id' => $service_category_id
+                'id' => $category_id
             ]);
         }
         catch (Throwable $e)
@@ -146,20 +146,20 @@ class Service_categories extends EA_Controller {
     }
 
     /**
-     * Remove a service.
+     * Remove a category.
      */
     public function destroy()
     {
         try
         {
-            if (cannot('delete', 'services'))
+            if (cannot('delete', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
 
-            $service_category_id = request('service_category_id');
+            $category_id = request('category_id');
 
-            $this->service_categories_model->delete($service_category_id);
+            $this->categories_model->delete($category_id);
 
             json_response([
                 'success' => TRUE,
@@ -172,7 +172,7 @@ class Service_categories extends EA_Controller {
     }
     
     /**
-     * Find a service category.
+     * Find a category.
      */
     public function find()
     {
@@ -185,7 +185,7 @@ class Service_categories extends EA_Controller {
 
             $category_id = request('category_id');
 
-            $category = $this->service_categories_model->find($category_id);
+            $category = $this->categories_model->find($category_id);
 
             json_response($category);
         }

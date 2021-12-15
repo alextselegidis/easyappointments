@@ -38,7 +38,7 @@ class Backend_api extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('roles_model');
         $this->load->model('secretaries_model');
-        $this->load->model('service_categories_model');
+        $this->load->model('categories_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
         $this->load->model('unavailabilities_model');
@@ -809,7 +809,7 @@ class Backend_api extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $category_id = $this->service_categories_model->save($category);
+            $category_id = $this->categories_model->save($category);
 
             json_response([
                 'success' => TRUE,
@@ -836,7 +836,7 @@ class Backend_api extends EA_Controller {
 
             $service_category_id = request('category_id');
 
-            $this->service_categories_model->delete($service_category_id);
+            $this->categories_model->delete($service_category_id);
 
             json_response([
                 'success' => TRUE
@@ -864,7 +864,7 @@ class Backend_api extends EA_Controller {
 
             $where = '(name LIKE "%' . $key . '%" OR description LIKE "%' . $key . '%")';
 
-            $service_categories = $this->service_categories_model->get($where);
+            $service_categories = $this->categories_model->get($where);
 
             json_response($service_categories);
         }
