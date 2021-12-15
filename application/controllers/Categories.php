@@ -178,7 +178,7 @@ class Categories extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', PRIV_SERVICES))
+            if (cannot('view', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }

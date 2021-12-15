@@ -43,7 +43,7 @@ class Services extends EA_Controller {
     {
         session(['dest_url' => site_url('services')]);
 
-        if (cannot('view', 'services'))
+        if (cannot('view', PRIV_SERVICES))
         {
             show_error('Forbidden', 403);
         }
@@ -68,7 +68,7 @@ class Services extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'services'))
+            if (cannot('view', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
@@ -100,7 +100,7 @@ class Services extends EA_Controller {
         {
             $service = json_decode(request('service'), TRUE);
 
-            if (cannot('add', 'services'))
+            if (cannot('add', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
@@ -127,7 +127,7 @@ class Services extends EA_Controller {
         {
             $service = json_decode(request('service'), TRUE);
 
-            if (cannot('edit', 'services'))
+            if (cannot('edit', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }
@@ -152,7 +152,7 @@ class Services extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'services'))
+            if (cannot('delete', PRIV_SERVICES))
             {
                 show_error('Forbidden', 403);
             }

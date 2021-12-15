@@ -59,7 +59,7 @@ class About extends EA_Controller {
     {
         session(['dest_url' => site_url('about')]);
 
-        if (cannot('view', 'user_settings'))
+        if (cannot('view', PRIV_USER_SETTINGS))
         {
             show_error('Forbidden', 403);
         }

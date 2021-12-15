@@ -55,7 +55,7 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'appointments'))
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -87,7 +87,7 @@ class Appointments extends EA_Controller {
         {
             $appointment = json_decode(request('appointment'), TRUE);
 
-            if (cannot('add', 'appointments'))
+            if (cannot('add', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -114,7 +114,7 @@ class Appointments extends EA_Controller {
         {
             $appointment = json_decode(request('appointment'), TRUE);
 
-            if (cannot('edit', 'appointments'))
+            if (cannot('edit', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -139,7 +139,7 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'appointments'))
+            if (cannot('delete', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -165,7 +165,7 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', PRIV_APPOINTMENTS))
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }

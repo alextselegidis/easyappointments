@@ -43,7 +43,7 @@ class Admins extends EA_Controller {
     {
         session(['dest_url' => site_url('admins')]);
 
-        if (cannot('view', 'users'))
+        if (cannot('view', PRIV_USERS))
         {
             show_error('Forbidden', 403);
         }
@@ -68,7 +68,7 @@ class Admins extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'users'))
+            if (cannot('view', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -100,7 +100,7 @@ class Admins extends EA_Controller {
         {
             $admin = json_decode(request('admin'), TRUE);
 
-            if (cannot('add', 'users'))
+            if (cannot('add', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -127,7 +127,7 @@ class Admins extends EA_Controller {
         {
             $admin = json_decode(request('admin'), TRUE);
 
-            if (cannot('edit', 'users'))
+            if (cannot('edit', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -152,7 +152,7 @@ class Admins extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'users'))
+            if (cannot('delete', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -178,7 +178,7 @@ class Admins extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', PRIV_USERS))
+            if (cannot('view', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }

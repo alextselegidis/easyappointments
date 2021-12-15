@@ -329,7 +329,7 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'appointments'))
+            if (cannot('delete', PRIV_APPOINTMENTS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }

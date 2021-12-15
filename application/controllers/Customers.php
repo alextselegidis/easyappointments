@@ -44,7 +44,7 @@ class Customers extends EA_Controller {
     {
         session(['dest_url' => site_url('customers')]);
 
-        if (cannot('view', 'customers'))
+        if (cannot('view', PRIV_USERS))
         {
             show_error('Forbidden', 403);
         }
@@ -69,7 +69,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'customers'))
+            if (cannot('view', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -116,7 +116,7 @@ class Customers extends EA_Controller {
         {
             $customer = json_decode(request('customer'), TRUE);
 
-            if (cannot('add', 'customers'))
+            if (cannot('add', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -143,7 +143,7 @@ class Customers extends EA_Controller {
         {
             $customer = json_decode(request('customer'), TRUE);
 
-            if (cannot('edit', 'customers'))
+            if (cannot('edit', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -168,7 +168,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'customers'))
+            if (cannot('delete', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }
@@ -194,7 +194,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', PRIV_USERS))
+            if (cannot('view', PRIV_USERS))
             {
                 show_error('Forbidden', 403);
             }

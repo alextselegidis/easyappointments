@@ -40,7 +40,7 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'unavailabilities'))
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -72,7 +72,7 @@ class Unavailabilities extends EA_Controller {
         {
             $unavailability = json_decode(request('unavailability'), TRUE);
 
-            if (cannot('add', 'unavailabilities'))
+            if (cannot('add', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -99,7 +99,7 @@ class Unavailabilities extends EA_Controller {
         {
             $unavailability = json_decode(request('unavailability'), TRUE);
 
-            if (cannot('edit', 'unavailabilities'))
+            if (cannot('edit', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -124,7 +124,7 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'unavailabilities'))
+            if (cannot('delete', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
@@ -150,7 +150,7 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'users'))
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
                 show_error('Forbidden', 403);
             }
