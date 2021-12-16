@@ -30,19 +30,19 @@
 
 <!-- Select Service & Provider -->
 
-<?php component('booking_step_1_section') ?>
+<?php component('booking_type_step') ?>
 
 <!-- Pick An Appointment Date -->
 
-<?php component('booking_step_2_section') ?>
+<?php component('booking_time_step') ?>
 
 <!-- Enter Customer Information -->
 
-<?php component('booking_step_3_section') ?>
+<?php component('booking_info_step') ?>
 
 <!-- Appointment Data Confirmation -->
 
-<?php component('booking_step_4_section') ?>
+<?php component('booking_final_step') ?>
 
 <?php section('content') ?>
 
