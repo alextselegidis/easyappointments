@@ -99,7 +99,7 @@ class EA_Controller extends CI_Controller {
         js_config([
             'base_url' => config('base_url'),
             'index_page' => config('index_page'),
-            'csrf_token' => config('csrf_token'),
+            'csrf_token' => $this->security->get_csrf_hash(),
         ]);
     }
 }
