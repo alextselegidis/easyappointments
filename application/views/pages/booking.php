@@ -26,23 +26,23 @@
 
 <!-- Booking Cancellation Frame -->
 
-<?php require 'booking_cancellation.php' ?>
+<?php component('booking_cancellation_section') ?>
 
 <!-- Select Service & Provider -->
 
-<?php require 'booking_step_1.php' ?>
+<?php component('booking_step_1_section') ?>
 
 <!-- Pick An Appointment Date -->
 
-<?php require 'booking_step_2.php' ?>
+<?php component('booking_step_2_section') ?>
 
 <!-- Enter Customer Information -->
 
-<?php require 'booking_step_3.php' ?>
+<?php component('booking_step_3_section') ?>
 
 <!-- Appointment Data Confirmation -->
 
-<?php require 'booking_step_4.php' ?>
+<?php component('booking_step_4_section') ?>
 
 <?php section('content') ?>
 
