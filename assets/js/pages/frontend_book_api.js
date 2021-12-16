@@ -207,7 +207,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 }
 
                 window.location.href =
-                    GlobalVariables.baseUrl + '/index.php/booking/book_success/' + response.appointment_hash;
+                    GlobalVariables.baseUrl + '/index.php/booking_confirmation/of/' + response.appointment_hash;
             })
             .fail(function (jqxhr, textStatus, errorThrown) {
                 $('.captcha-title button').trigger('click');

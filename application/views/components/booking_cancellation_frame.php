@@ -12,7 +12,7 @@
         </div>
         <div class="col-12 col-md-2">
             <form id="cancel-appointment-form" method="post"
-                  action="<?= site_url('booking/cancel/' . $appointment_data['hash']) ?>">
+                  action="<?= site_url('booking_cancellation/of/' . $appointment_data['hash']) ?>">
 
                 <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
 
