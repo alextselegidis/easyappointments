@@ -26,7 +26,7 @@
 
 <!-- Booking Cancellation Frame -->
 
-<?php component('booking_cancellation_section') ?>
+<?php component('booking_cancellation_frame') ?>
 
 <!-- Select Service & Provider -->
 
