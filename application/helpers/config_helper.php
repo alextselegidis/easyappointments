@@ -56,7 +56,7 @@ function config($key, $default = NULL)
     return $value ?? $default;
 }
 
-if ( ! function_exists('js_config'))
+if ( ! function_exists('script_vars'))
 {
     /**
      * Get / set the specified JS config value.
@@ -65,11 +65,11 @@ if ( ! function_exists('js_config'))
      *
      * Example "Get":
      *
-     * $version = js_config('version', '1.0.0');
+     * $version = script_vars('version', '1.0.0');
      *
      * Example "Set":
      *
-     * js_config(['version' => '1.0.0']);
+     * script_vars(['version' => '1.0.0']);
      *
      * @param array|string $key Configuration key.
      * @param mixed $default Default value in case the requested config has no value.
@@ -78,77 +78,77 @@ if ( ! function_exists('js_config'))
      *
      * @throws InvalidArgumentException
      */
-    function js_config($key = NULL, $default = NULL)
+    function script_vars($key = NULL, $default = NULL)
     {
-        $js_config = config('js_config', []);
+        $script_vars = config('script_vars', []);
 
         if (empty($key))
         {
-            return $js_config;
+            return $script_vars;
         }
 
         if (is_array($key))
         {
             foreach ($key as $item => $value)
             {
-                $js_config[$item] = $value;
+                $script_vars[$item] = $value;
             }
 
-            config(['js_config' => $js_config]);
+            config(['script_vars' => $script_vars]);
 
             return NULL;
         }
 
-        $value = $js_config[$key] ?? NULL;
+        $value = $script_vars[$key] ?? NULL;
 
         return $value ?? $default;
     }
 }
 
-if ( ! function_exists('page_vars'))
+if ( ! function_exists('html_vars'))
 {
     /**
-     * Get / set the specified JS config value.
+     * Get / set the specified HTML variable.
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
      * Example "Get":
      *
-     * $version = page_vars('title', 'Default Title');
+     * $version = html_vars('title', 'Default Title');
      *
      * Example "Set":
      *
-     * page_vars(['title' => 'Test Title']);
+     * html_vars(['title' => 'Test Title']);
      *
-     * @param array|string $key Configuration key.
-     * @param mixed $default Default value in case the requested config has no value.
+     * @param array|string $key Variable key.
+     * @param mixed $default Default value in case the requested variable has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
      *
      * @throws InvalidArgumentException
      */
-    function page_vars($key = NULL, $default = NULL)
+    function html_vars($key = NULL, $default = NULL)
     {
-        $page_vars = config('page_vars', []);
+        $html_vars = config('html_vars', []);
 
         if (empty($key))
         {
-            return $page_vars;
+            return $html_vars;
         }
 
         if (is_array($key))
         {
             foreach ($key as $item => $value)
             {
-                $page_vars[$item] = $value;
+                $html_vars[$item] = $value;
             }
 
-            config(['page_vars' => $page_vars]);
+            config(['html_vars' => $html_vars]);
 
             return NULL;
         }
 
-        $value = $page_vars[$key] ?? NULL;
+        $value = $html_vars[$key] ?? NULL;
 
         return $value ?? $default;
     }
