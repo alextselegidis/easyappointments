@@ -110,6 +110,18 @@ class Calendar extends EA_Controller {
     }
 
     /**
+     * Render the calendar page and display the selected appointment.
+     * 
+     * This method will call the "index" callback to handle the page rendering.
+     *
+     * @param string $appointment_hash Appointment hash.
+     */
+    public function reschedule(string $appointment_hash)
+    {
+        $this->index($appointment_hash);
+    }
+
+    /**
      * Save appointment changes that are made from the backend calendar page.
      */
     public function ajax_save_appointment()
