@@ -30,18 +30,21 @@ if ( ! function_exists('route_api_resource'))
     }
 }
 
-if ( ! function_exists('is_route'))
+if ( ! function_exists('is_callback'))
 {
     /**
-     * Check whether the current request matches the provided routed URI.
+     * Check whether the current request matches the provided controller/method callback.
      *
-     * @param string $uri Routed URI (as in controller/method).
+     * @param string $class Controller class name. 
+     * @param string $method Controller method name.
+     * 
+     * @return bool
      */
-    function is_route(string $uri): bool
+    function is_callback(string $class, string $method): bool
     {
         /** @var EA_Controller $CI */
         $CI =& get_instance();
 
-        return $CI->uri->ruri_string() === $uri;
+        return $CI->router->class === $class && $CI->router->method === $method;
     }
 }
