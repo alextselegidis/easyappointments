@@ -99,7 +99,7 @@ if ( ! function_exists('js_config'))
             return NULL;
         }
 
-        $value = $js_config[$key];
+        $value = $js_config[$key] ?? NULL;
 
         return $value ?? $default;
     }
@@ -148,7 +148,7 @@ if ( ! function_exists('page_vars'))
             return NULL;
         }
 
-        $value = $page_vars[$key];
+        $value = $page_vars[$key] ?? NULL;
 
         return $value ?? $default;
     }
