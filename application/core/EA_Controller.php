@@ -73,7 +73,7 @@ class EA_Controller extends CI_Controller {
 
         $this->configure_language();
         
-        $this->load_common_js_config();
+        $this->load_common_script_vars();
     }
 
     /**
@@ -92,11 +92,11 @@ class EA_Controller extends CI_Controller {
     }
 
     /**
-     * Load common JS config for all requests. 
+     * Load common script vars for all requests. 
      */
-    private function load_common_js_config()
+    private function load_common_script_vars()
     {
-        js_config([
+        script_vars([
             'base_url' => config('base_url'),
             'index_page' => config('index_page'),
             'csrf_token' => $this->security->get_csrf_hash(),
