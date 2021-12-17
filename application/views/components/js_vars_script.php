@@ -4,6 +4,6 @@
  */
 ?>
 <script <?= $attributes ?>>
-    window.App.Config = <?= json_encode(js_config()) ?>
+    window.App.Vars = <?= json_encode(script_vars()) ?>
 </script>
 

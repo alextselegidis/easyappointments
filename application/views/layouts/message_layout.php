@@ -59,8 +59,8 @@
 <script src="<?= asset_url('assets/js/layouts/message_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
-<?php component('js_config_script') ?>
-<?php component('js_language_script') ?>
+<?php component('js_vars_script') ?>
+<?php component('js_lang_script') ?>
 
 <?php google_analytics_script() ?>
 

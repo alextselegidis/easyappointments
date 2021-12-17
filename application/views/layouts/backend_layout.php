@@ -58,8 +58,8 @@
 <script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
-<?php component('js_config_script') ?>
-<?php component('js_language_script') ?>
+<?php component('js_vars_script') ?>
+<?php component('js_lang_script') ?>
 
 <?php slot('scripts') ?>
 

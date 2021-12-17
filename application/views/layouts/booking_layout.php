@@ -69,10 +69,11 @@
 
 <script>
     const GlobalVariables = {
-        availableServices: <?= json_encode($available_services) ?>,
-        availableProviders: <?= json_encode($available_providers) ?>,
+        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
         baseUrl: <?= json_encode(config('base_url')) ?>,
         manageMode: <?= $manage_mode ? 'true' : 'false' ?>,
+        availableServices: <?= json_encode($available_services) ?>,
+        availableProviders: <?= json_encode($available_providers) ?>,
         customerToken: <?= json_encode($customer_token) ?>,
         dateFormat: <?= json_encode($date_format) ?>,
         timeFormat: <?= json_encode($time_format) ?>,
@@ -81,8 +82,6 @@
         appointmentData: <?= json_encode($appointment_data) ?>,
         providerData: <?= json_encode($provider_data) ?>,
         customerData: <?= json_encode($customer_data) ?>,
-        displayAnyProvider: <?= json_encode($display_any_provider) ?>,
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>
     };
 
     const availableLanguages = <?= json_encode(config('available_languages')) ?>;
@@ -103,8 +102,8 @@
 <script src="<?= asset_url('assets/js/layouts/booking_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
-<?php component('js_config_script') ?>
-<?php component('js_language_script') ?>
+<?php component('js_vars_script') ?>
+<?php component('js_lang_script') ?>
 
 <script>
     $(function () {
