@@ -104,3 +104,52 @@ if ( ! function_exists('js_config'))
         return $value ?? $default;
     }
 }
+
+if ( ! function_exists('page_vars'))
+{
+    /**
+     * Get / set the specified JS config value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * Example "Get":
+     *
+     * $version = page_vars('title', 'Default Title');
+     *
+     * Example "Set":
+     *
+     * page_vars(['title' => 'Test Title']);
+     *
+     * @param array|string $key Configuration key.
+     * @param mixed $default Default value in case the requested config has no value.
+     *
+     * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
+     *
+     * @throws InvalidArgumentException
+     */
+    function page_vars($key = NULL, $default = NULL)
+    {
+        $page_vars = config('page_vars', []);
+
+        if (empty($key))
+        {
+            return $page_vars;
+        }
+
+        if (is_array($key))
+        {
+            foreach ($key as $item => $value)
+            {
+                $page_vars[$item] = $value;
+            }
+
+            config(['page_vars' => $page_vars]);
+
+            return NULL;
+        }
+
+        $value = $page_vars[$key];
+
+        return $value ?? $default;
+    }
+}
