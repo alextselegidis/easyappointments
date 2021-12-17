@@ -45,6 +45,8 @@ if ( ! function_exists('setting'))
             throw new InvalidArgumentException('The $key argument cannot be empty.');
         }
 
+        $cache = config('settings');
+
         if (is_array($key))
         {
             foreach ($key as $name => $value)
@@ -60,13 +62,22 @@ if ( ! function_exists('setting'))
                 }
 
                 $CI->settings_model->save($setting);
+
+                $cache[$name] = $value;
             }
+
+            config(['settings' => $cache]);
 
             return NULL;
         }
 
-        $setting = $CI->settings_model->query()->where('name', $key)->get()->row_array();
+        if (empty($cache[$key]))
+        {
+            $setting = $CI->settings_model->query()->where('name', $key)->get()->row_array();
 
-        return $setting['value'] ?? $default;
+            $cache[$key] = $setting['value'] ?? NULL;
+        }
+
+        return $cache[$key] ?? $default;
     }
 }
