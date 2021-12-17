@@ -29,3 +29,19 @@ if ( ! function_exists('route_api_resource'))
         $route[$prefix . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '_api_v1/show/$1';
     }
 }
+
+if ( ! function_exists('is_route'))
+{
+    /**
+     * Check whether the current request matches the provided routed URI.
+     *
+     * @param string $uri Routed URI (as in controller/method).
+     */
+    function is_route(string $uri): bool
+    {
+        /** @var EA_Controller $CI */
+        $CI =& get_instance();
+
+        return $CI->uri->ruri_string() === $uri;
+    }
+}
