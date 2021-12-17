@@ -1,3 +1,16 @@
+<?php
+/**
+ * @var string $require_phone_number
+ * @var string $show_phone_number
+ * @var string $show_address
+ * @var string $show_city
+ * @var string $show_zip_code
+ * @var string $show_notes
+ * @var string $display_terms_and_conditions
+ * @var string $display_privacy_policy
+ */
+?>
+
 <div id="wizard-frame-3" class="wizard-frame" style="display:none;">
     <div class="frame-container">
 

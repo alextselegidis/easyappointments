@@ -1,3 +1,9 @@
+<?php
+/**
+ * @property bool $manage_mode
+ */
+?>
+
 <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
     <div class="frame-container">
         <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>

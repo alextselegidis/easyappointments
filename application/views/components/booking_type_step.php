@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var array $available_services
+ */
+?>
+
 <div id="wizard-frame-1" class="wizard-frame">
     <div class="frame-container">
         <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
@@ -39,8 +45,8 @@
                                 }
                             }
 
-                            // We need the uncategorized services at the end of the list so we will use
-                            // another iteration only for the uncategorized services.
+                            // We need the uncategorized services at the end of the list, so we will use another
+                            // iteration only for the uncategorized services.
                             $grouped_services['uncategorized'] = [];
                             foreach ($available_services as $service)
                             {
