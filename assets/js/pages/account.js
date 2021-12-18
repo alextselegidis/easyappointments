@@ -48,7 +48,7 @@ App.Pages.Account = (function () {
 
             let missingRequiredFields = false;
 
-            $('#account .required').each(function (index, requiredField) {
+            $('#account .required').each((index, requiredField) => {
                 const $requiredField = $(requiredField);
 
                 if (!$requiredField.val()) {
@@ -154,7 +154,7 @@ App.Pages.Account = (function () {
 
         const account = serialize();
 
-        App.Http.Account.save(account).done(function () {
+        App.Http.Account.save(account).done(() => {
             Backend.displayNotification(App.Lang.settings_saved);
 
             $footerUserDisplayName.text('Hello, ' + $firstName.val() + ' ' + $lastName.val() + '!');

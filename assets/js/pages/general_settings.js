@@ -30,7 +30,7 @@ App.Pages.GeneralSettings = (function () {
 
             let missingRequiredFields = false;
 
-            $('#general-settings .required').each(function (index, requiredField) {
+            $('#general-settings .required').each((index, requiredField) => {
                 const $requiredField = $(requiredField);
 
                 if (!$requiredField.val()) {
@@ -51,7 +51,7 @@ App.Pages.GeneralSettings = (function () {
     }
 
     function serialize(generalSettings) {
-        generalSettings.forEach(function (generalSetting) {
+        generalSettings.forEach((generalSetting) => {
             $('[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
         });
     }
@@ -59,7 +59,7 @@ App.Pages.GeneralSettings = (function () {
     function deserialize() {
         const generalSettings = [];
 
-        $('[data-field]').each(function (index, field) {
+        $('[data-field]').each((index, field) => {
             const $field = $(field);
 
             generalSettings.push({
@@ -83,7 +83,7 @@ App.Pages.GeneralSettings = (function () {
 
         const generalSettings = deserialize();
 
-        App.Http.GeneralSettings.save(generalSettings).done(function () {
+        App.Http.GeneralSettings.save(generalSettings).done(() => {
             Backend.displayNotification(App.Lang.settings_saved);
         });
     }
