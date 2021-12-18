@@ -42,7 +42,7 @@ class Unavailabilities extends EA_Controller {
         {
             if (cannot('view', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -74,7 +74,7 @@ class Unavailabilities extends EA_Controller {
 
             if (cannot('add', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
@@ -101,7 +101,7 @@ class Unavailabilities extends EA_Controller {
 
             if (cannot('edit', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
@@ -126,7 +126,7 @@ class Unavailabilities extends EA_Controller {
         {
             if (cannot('delete', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = request('unavailability_id');
@@ -152,7 +152,7 @@ class Unavailabilities extends EA_Controller {
         {
             if (cannot('view', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = request('unavailability_id');

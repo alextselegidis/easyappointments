@@ -45,7 +45,7 @@ class Admins extends EA_Controller {
 
         if (cannot('view', PRIV_USERS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
@@ -104,7 +104,7 @@ class Admins extends EA_Controller {
 
             if (cannot('add', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $admin_id = $this->admins_model->save($admin);
@@ -131,7 +131,7 @@ class Admins extends EA_Controller {
 
             if (cannot('edit', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $admin_id = $this->admins_model->save($admin);
@@ -156,7 +156,7 @@ class Admins extends EA_Controller {
         {
             if (cannot('delete', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $admin_id = request('admin_id');
@@ -182,7 +182,7 @@ class Admins extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $admin_id = request('admin_id');

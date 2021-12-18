@@ -57,7 +57,7 @@ class Appointments extends EA_Controller {
         {
             if (cannot('view', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -89,7 +89,7 @@ class Appointments extends EA_Controller {
 
             if (cannot('add', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -116,7 +116,7 @@ class Appointments extends EA_Controller {
 
             if (cannot('edit', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -141,7 +141,7 @@ class Appointments extends EA_Controller {
         {
             if (cannot('delete', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = request('appointment_id');
@@ -167,7 +167,7 @@ class Appointments extends EA_Controller {
         {
             if (cannot('view', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = request('appointment_id');

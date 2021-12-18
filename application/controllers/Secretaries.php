@@ -46,7 +46,7 @@ class Secretaries extends EA_Controller {
 
         if (cannot('view', PRIV_USERS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
@@ -74,7 +74,7 @@ class Secretaries extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -106,7 +106,7 @@ class Secretaries extends EA_Controller {
 
             if (cannot('add', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = $this->secretaries_model->save($secretary);
@@ -133,7 +133,7 @@ class Secretaries extends EA_Controller {
 
             if (cannot('edit', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = $this->secretaries_model->save($secretary);
@@ -158,7 +158,7 @@ class Secretaries extends EA_Controller {
         {
             if (cannot('delete', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = request('secretary_id');
@@ -184,7 +184,7 @@ class Secretaries extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = request('secretary_id');

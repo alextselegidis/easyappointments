@@ -54,7 +54,7 @@ class Legal_settings extends EA_Controller {
 
         if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
