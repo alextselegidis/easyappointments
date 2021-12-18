@@ -6,44 +6,16 @@
  * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.0.0
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Account
+ * General Settings
  *
  * Contains the functionality of the general settings page.
  */
 App.Pages.GeneralSettings = (function () {
     const $saveSettings = $('#save-settings');
-
-    /**
-     * Bind the backend/settings default event handlers.
-     *
-     * This method depends on the backend/settings html, so do not use this method on a different page.
-     */
-    function bindEventHandlers() {
-        /**
-         * Event: Save Settings Button "Click"
-         *
-         * Store the setting changes into the database.
-         */
-        $('.save-settings').on('click', function () {
-            var data = settings.get();
-            settings.save(data);
-        });
-
-        /**
-         * Event: require phone number switch "Click"
-         *
-         * make sure that our phone number is visible when it is required.
-         */
-        $('#require-phone-number').on('click', function () {
-            if ($(this).prop('checked')) {
-                setShowToggleValue($('#show-phone-number'), true);
-            }
-        });
-    }
 
     /**
      * Check if the form has invalid values.
@@ -80,8 +52,7 @@ App.Pages.GeneralSettings = (function () {
 
     function serialize(generalSettings) {
         generalSettings.forEach(function (generalSetting) {
-            $('input[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
-            $('select[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
+            $('[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
         });
     }
 
