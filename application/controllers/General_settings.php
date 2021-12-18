@@ -79,7 +79,7 @@ class General_settings extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $settings = request('general_settings', FALSE);
+            $settings = request('general_settings', []);
 
             // Check if phone number settings are valid.
 
