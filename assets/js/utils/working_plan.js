@@ -44,14 +44,14 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        var weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+        var weekDayId = GeneralFunctions.getWeekDayId(App.Vars.first_weekday);
         var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan, weekDayId);
 
         $('.working-plan tbody').empty();
         $('.breaks tbody').empty();
 
         // Build working plan day list starting with the first weekday as set in the General settings
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+        var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
         $.each(
             workingPlanSorted,
@@ -292,7 +292,7 @@
      * @param {Object} workingPlanException Contains exception information.
      */
     WorkingPlan.prototype.renderWorkingPlanExceptionRow = function (date, workingPlanException) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+        var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'data': {
@@ -302,7 +302,7 @@
             'html': [
                 $('<td/>', {
                     'class': 'working-plan-exception-date',
-                    'text': GeneralFunctions.formatDate(date, GlobalVariables.dateFormat, false)
+                    'text': GeneralFunctions.formatDate(date, App.Vars.dateFormat, false)
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exception--start',
@@ -378,7 +378,7 @@
         $('.add-break').on(
             'click',
             function () {
-                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+                var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
                 var $newBreak = $('<tr/>', {
                     'html': [
@@ -470,7 +470,7 @@
                 .parent()
                 .find('.break-start input, .break-end input')
                 .timepicker({
-                    timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
+                    timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
                     currentText: App.Lang.now,
                     closeText: App.Lang.close,
                     timeOnlyTitle: App.Lang.select_time,
@@ -542,7 +542,7 @@
                     $modifiedRow.find('.break-end input').val(
                         startMoment
                             .add(1, 'hour')
-                            .format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
+                            .format(App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm')
                             .toLowerCase()
                     );
                 }
@@ -650,12 +650,11 @@
                                 workingPlan[id].breaks.push({
                                     start: moment(
                                         start,
-                                        GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+                                        App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm'
                                     ).format('HH:mm'),
-                                    end: moment(
-                                        end,
-                                        GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
-                                    ).format('HH:mm')
+                                    end: moment(end, App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm').format(
+                                        'HH:mm'
+                                    )
                                 });
                             }
                         }.bind(this)
@@ -703,7 +702,7 @@
         if (disabled === false) {
             // Set timepickers where needed.
             $('.working-plan input:text').timepicker({
-                timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
+                timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
                 currentText: App.Lang.now,
                 closeText: App.Lang.close,
                 timeOnlyTitle: App.Lang.select_time,
@@ -725,7 +724,7 @@
                             .val(
                                 startMoment
                                     .add(1, 'hour')
-                                    .format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
+                                    .format(App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm')
                                     .toLowerCase()
                             );
                     }

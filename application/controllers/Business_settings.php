@@ -54,15 +54,16 @@ class Business_settings extends EA_Controller {
 
         $user_id = session('user_id');
 
-        $role_slug = session('role_slug');
+        script_vars([
+            'business_settings' => $this->settings_model->get(),
+            'first_weekday' => setting('first_weekday'),
+            'time_format' => setting('time_format'),
+        ]);
 
         html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'system_settings' => $this->settings_model->get(),
         ]);
 
         $this->load->view('pages/business_settings', html_vars());
@@ -80,7 +81,7 @@ class Business_settings extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $settings = json_decode(request('settings', FALSE), TRUE);
+            $settings = request('business_settings', []);
 
             foreach ($settings as $setting)
             {
@@ -92,6 +93,35 @@ class Business_settings extends EA_Controller {
                 }
 
                 $this->settings_model->save($setting);
+            }
+
+            response();
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Apply global working plan to all providers.
+     */
+    public function apply_global_working_plan()
+    {
+        try
+        {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
+            {
+                throw new Exception('You do not have the required permissions for this task.');
+            }
+
+            $working_plan = request('working_plan');
+
+            $providers = $this->providers_model->get();
+
+            foreach ($providers as $provider)
+            {
+                $this->providers_model->set_setting($provider['id'], 'working_plan', $working_plan);
             }
 
             response();

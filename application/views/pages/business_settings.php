@@ -1,46 +1,37 @@
-<?php
-/**
- * @var array $system_settings
- * @var array $user_settings
- * @var string $timezones
- * @var array $privileges
- */
-?>
-
 <?php extend('layouts/backend_layout') ?>
 
 <?php section('content') ?>
 
-<div id="business-logic-page" class="container-fluid backend-page">
+<div id="business-logic-page" class="container backend-page">
     <div id="business-logic">
-        <form>
-            <fieldset>
-                <legend class="border-bottom mb-4">
-                    <?= lang('Business_settings') ?>
-                    <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['edit'] == TRUE): ?>
-                        <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
-                                data-tippy-content="<?= lang('save') ?>">
-                            <i class="fas fa-check-square me-2"></i>
-                            <?= lang('save') ?>
-                        </button>
-                    <?php endif ?>
-                </legend>
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <form>
+                    <fieldset>
+                        <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
+                            <?= lang('business_logic') ?>
 
-                <div class="row">
-                    <div class="col-12 col-sm-7 working-plan-wrapper">
+                            <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
+                                <button type="button" id="save-settings" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-check-square me-2"></i>
+                                    <?= lang('save') ?>
+                                </button>
+                            <?php endif ?>
+                        </legend>
+
                         <h4><?= lang('working_plan') ?></h4>
-                        
+
                         <div class="form-text text-muted mb-4">
                             <?= lang('edit_working_plan_hint') ?>
                         </div>
 
                         <table class="working-plan table table-striped">
                             <thead>
-                            <tr>
-                                <th><?= lang('day') ?></th>
-                                <th><?= lang('start') ?></th>
-                                <th><?= lang('end') ?></th>
-                            </tr>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                </tr>
                             </thead>
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
@@ -52,21 +43,6 @@
                             </button>
                         </div>
 
-                        <br>
-
-                        <h4><?= lang('book_advance_timeout') ?></h4>
-                        <div class="mb-3">
-                            <label for="book-advance-timeout" class="form-label">
-                                <?= lang('timeout_minutes') ?>
-                            </label>
-                            <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control"
-                                   type="number" min="15">
-                            <div class="form-text text-muted">
-                                <?= lang('book_advance_timeout_hint') ?>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-5 breaks-wrapper">
                         <h4><?= lang('breaks') ?></h4>
 
                         <span class="form-text text-muted">
@@ -82,7 +58,7 @@
 
                         <br>
 
-                        <table class="breaks table table-striped">
+                        <table class="breaks table table-striped mb-4">
                             <thead>
                             <tr>
                                 <th><?= lang('day') ?></th>
@@ -93,10 +69,25 @@
                             </thead>
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
+                        
+                        <h4><?= lang('book_advance_timeout') ?></h4>
+                        
+                        <div class="mb-3">
+                            <label for="book-advance-timeout" class="form-label">
+                                <?= lang('timeout_minutes') ?>
+                            </label>
+                            <input id="book-advance-timeout" data-field="book_advance_timeout" class="form-control"
+                                   type="number" min="15">
+                            <div class="form-text text-muted">
+                                <small>
+                                    <?= lang('book_advance_timeout_hint') ?>
+                                </small>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -104,35 +95,12 @@
 
 <?php section('scripts') ?>
 
-<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_settings_business_logic.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
-        timezones: <?= json_encode($timezones) ?>,
-        settings: {
-            system: <?= json_encode($system_settings) ?>,
-        },
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-
-    $(function () {
-        BackendSettingsBusinessLogic.initialize(true);
-    });
-</script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/business_settings_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/business_settings.js') ?>"></script>
 
 <?php section('scripts') ?>
 
