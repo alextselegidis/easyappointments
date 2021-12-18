@@ -2,8 +2,8 @@
 
 <?php section('content') ?>
 
-<div id="current-user-page" class="container-fluid backend-page">
-    <div id="current-user">
+<div id="account-page" class="container backend-page">
+    <div id="account">
         <form>
             <div class="row">
                 <fieldset class="col-12 col-sm-6 personal-info-wrapper">
@@ -157,6 +157,7 @@
 <?php section('scripts') ?>
 
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/account.js') ?>"></script>
 
