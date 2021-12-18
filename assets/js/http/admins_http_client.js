@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Admins = (function () {
+App.Http.Admins = (function () {
     /**
      * Create an admin.
      *

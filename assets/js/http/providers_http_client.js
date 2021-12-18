@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Providers = (function () {
+App.Http.Providers = (function () {
     /**
      * Create an provider.
      *

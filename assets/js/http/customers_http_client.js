@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Customers = (function () {
+App.Http.Customers = (function () {
     /**
      * Create an customer.
      *

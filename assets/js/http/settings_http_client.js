@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Settings = (function () {
+App.Http.Settings = (function () {
     /**
      * Create an setting.
      *

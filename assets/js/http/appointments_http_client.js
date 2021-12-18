@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Appointments = (function () {
+App.Http.Appointments = (function () {
     /**
      * Create an appointment.
      *

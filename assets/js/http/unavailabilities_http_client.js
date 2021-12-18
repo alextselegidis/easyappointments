@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Unavailabilities = (function () {
+App.Http.Unavailabilities = (function () {
     /**
      * Create an unavailability.
      *

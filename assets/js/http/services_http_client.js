@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Services = (function () {
+App.Http.Services = (function () {
     /**
      * Create an service.
      *

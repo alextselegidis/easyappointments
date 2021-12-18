@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Secretaries = (function () {
+App.Http.Secretaries = (function () {
     /**
      * Create an secretary.
      *

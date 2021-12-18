@@ -9,7 +9,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-window.App.Http.Categories = (function () {
+App.Http.Categories = (function () {
     /**
      * Create an category.
      *
