@@ -20,11 +20,6 @@
  */
 class Calendar extends EA_Controller {
     /**
-     * @var array
-     */
-    protected $permissions;
-
-    /**
      * Calendar constructor.
      */
     public function __construct()

@@ -20,11 +20,6 @@
  */
 class Legal_settings extends EA_Controller {
     /**
-     * @var array
-     */
-    protected array $permissions;
-
-    /**
      * Legal_contents constructor.
      */
     public function __construct()

@@ -20,11 +20,6 @@
  */
 class Account_settings extends EA_Controller {
     /**
-     * @var array
-     */
-    protected array $permissions;
-
-    /**
      * Current_user constructor.
      */
     public function __construct()

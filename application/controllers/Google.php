@@ -31,13 +31,6 @@ class Google extends EA_Controller {
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('roles_model');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
@@ -368,7 +361,7 @@ class Google extends EA_Controller {
 
             $user_id = session('user_id');
 
-            if ($this->permissions[PRIV_USERS]['edit'] == FALSE && (int)$user_id !== (int)$provider_id)
+            if (cannot('edit', PRIV_USERS) && (int)$user_id !== (int)$provider_id)
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }
@@ -408,7 +401,7 @@ class Google extends EA_Controller {
             $user_id = session('user_id');
 
             if (
-                $this->permissions[PRIV_USERS]['edit'] === FALSE
+                cannot('edit', PRIV_USERS)
                 && (int)$user_id !== (int)$provider_id)
             {
                 throw new Exception('You do not have the required permissions for this task.');
