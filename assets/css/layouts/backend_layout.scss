@@ -77,20 +77,6 @@ root {
     background-color: #f7f7f7;
     border-top: 1px solid #ddd;
     font-size: 11px;
-    overflow: auto;
-}
-
-#footer #footer-content {
-    padding: 10px 15px;
-    display: inline-block;
-    float: left;
-    line-height: 2;
-}
-
-#footer #footer-user-display-name {
-    display: inline-block;
-    padding: 10px 15px;
-    font-weight: bold;
 }
 
 #notification strong {
@@ -205,13 +191,6 @@ body .jspTrack {
 
 body legend {
     color: #666;
-}
-
-@media (min-width: 768px) {
-    #footer #footer-user-display-name {
-        float: right;
-        text-align: right;
-    }
 }
 
 /* BACKEND COMPONENTS
