@@ -54,15 +54,14 @@ class General_settings extends EA_Controller {
 
         $user_id = session('user_id');
 
-        $role_slug = session('role_slug');
+        script_vars([
+            'general_settings' => $this->settings_model->get(),
+        ]);
 
         html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'system_settings' => $this->settings_model->get(),
         ]);
 
         $this->load->view('pages/general_settings', html_vars());
@@ -80,7 +79,7 @@ class General_settings extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $settings = json_decode(request('settings', FALSE), TRUE);
+            $settings = request('general_settings', FALSE);
 
             // Check if phone number settings are valid.
 
