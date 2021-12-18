@@ -78,8 +78,7 @@ App.Pages.Account = (function () {
                 throw new Error(App.Lang.invalid_email);
             }
 
-            if ($username.attr('already-exists') === 'true') {
-                $username.addClass('is-invalid');
+            if ($username.hasClass('is-invalid')) {
                 throw new Error(App.Lang.username_already_exists);
             }
 
@@ -169,10 +168,10 @@ App.Pages.Account = (function () {
         const username = $username.val();
 
         App.Http.Account.validateUsername(username).done((response) => {
-            if (response.is_valid) {
-                $username.removeClass('is-invalid already-exists');
-            } else {
-                $username.addClass('is-invalid already-exists');
+            const isValid = response.is_valid;
+            $username.toggleClass('is-invalid', !isValid);
+            if (!isValid) {
+                Backend.displayNotification(App.Lang.username_already_exists);
             }
         });
     }
