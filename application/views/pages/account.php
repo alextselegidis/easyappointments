@@ -1,12 +1,3 @@
-<?php
-/**
- * @var array $system_settings
- * @var array $user_settings
- * @var string $timezones
- * @var array $privileges
- */
-?>
-
 <?php extend('layouts/backend_layout') ?>
 
 <?php section('content') ?>
@@ -18,8 +9,8 @@
                 <fieldset class="col-12 col-sm-6 personal-info-wrapper">
                     <legend class="border-bottom mb-4">
                         <?= lang('personal_information') ?>
-                        <?php if ($privileges[PRIV_USER_SETTINGS]['edit'] == TRUE): ?>
-                            <button type="button" class="save-settings btn btn-primary btn-sm mb-2"
+                        <?php if (can('edit', PRIV_USER_SETTINGS)): ?>
+                            <button type="button" id="save-settings" class="btn btn-primary btn-sm mb-2"
                                     data-tippy-content="<?= lang('save') ?>">
                                 <i class="fas fa-check-square me-2"></i>
                                 <?= lang('save') ?>
@@ -150,8 +141,8 @@
                     </div>
 
                     <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="user-notifications">
-                        <label class="custom-form-label" for="user-notifications">
+                        <input type="checkbox" class="custom-control-input" id="notifications">
+                        <label class="custom-form-label" for="notifications">
                             <?= lang('receive_notifications') ?>
                         </label>
                     </div>
@@ -165,31 +156,8 @@
 
 <?php section('scripts') ?>
 
-<script src="<?= asset_url('assets/js/pages/backend_settings_current_user_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_settings_current_user.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
-        timezones: <?= json_encode($timezones) ?>,
-        settings: {
-            user: <?= json_encode($user_settings) ?>,
-        },
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-
-    $(function () {
-        BackendSettingsCurrentUser.initialize(true);
-    });
-</script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/account.js') ?>"></script>
 
 <?php section('scripts') ?>

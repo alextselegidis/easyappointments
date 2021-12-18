@@ -101,7 +101,7 @@
                             <?= lang('legal_contents') ?>
                         </a>
                     <?php endif ?>
-                    <a class="dropdown-item" href="<?= site_url('account_settings') ?>">
+                    <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('current_user') ?>
                     </a>
                     <a class="dropdown-item" href="<?= site_url('about') ?>">
