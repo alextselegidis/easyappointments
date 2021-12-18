@@ -34,19 +34,17 @@ class Booking_confirmation extends EA_Controller {
 
     /**
      * Display the appointment registration success page.
-     *
-     * @param string $appointment_hash The appointment hash identifier.
-     *
-     * @throws Exception
      */
-    public function of(string $appointment_hash)
+    public function of()
     {
+        $appointment_hash = $this->uri->segment(2);
+
         $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
         if (empty($occurrences))
         {
             redirect('appointments'); // The appointment does not exist.
-            
+
             return;
         }
 
@@ -58,40 +56,35 @@ class Booking_confirmation extends EA_Controller {
 
         $provider = $this->providers_model->find($appointment['id_users_provider']);
 
+        $this->providers_model->only($provider, [
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'timezone'
+        ]);
+
         $service = $this->services_model->find($appointment['id_services']);
+
+        $this->services_model->only($service, [
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'timezone'
+        ]);
 
         $company_name = setting('company_name');
 
-        $exceptions = $this->session->flashdata('book_success') ?? [];
-
-        $this->load->view('pages/booking_confirmation', [
+        html_vars([
             'page_title' => lang('success'),
             'appointment_data' => $appointment,
-            'provider_data' => [
-                'id' => $provider['id'],
-                'first_name' => $provider['first_name'],
-                'last_name' => $provider['last_name'],
-                'email' => $provider['email'],
-                'timezone' => $provider['timezone'],
-            ],
-            'customer_data' => [
-                'id' => $customer['id'],
-                'first_name' => $customer['first_name'],
-                'last_name' => $customer['last_name'],
-                'email' => $customer['email'],
-                'timezone' => $customer['timezone'],
-            ],
+            'provider_data' => $provider,
+            'customer_data' => $customer,
             'service_data' => $service,
             'company_name' => $company_name,
-            'exceptions' => $exceptions,
-            'scripts' => [
-                'https://apis.google.com/js/client.js',
-                asset_url('assets/vendor/datejs/date.min.js'),
-                asset_url('assets/vendor/moment/moment.min.js'),
-                asset_url('assets/vendor/moment-timezone/moment-timezone-with-data.min.js'),
-                asset_url('assets/js/frontend_book_success.js'),
-                asset_url('assets/js/general_functions.js')
-            ]
         ]);
+        
+        $this->load->view('pages/booking_confirmation', html_vars());
     }
 }

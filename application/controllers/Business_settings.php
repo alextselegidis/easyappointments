@@ -20,11 +20,6 @@
  */
 class Business_settings extends EA_Controller {
     /**
-     * @var array
-     */
-    protected $permissions;
-
-    /**
      * Business_logic constructor.
      */
     public function __construct()
@@ -43,13 +38,6 @@ class Business_settings extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
@@ -61,14 +49,14 @@ class Business_settings extends EA_Controller {
 
         if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/business_settings', [
+        html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
@@ -76,6 +64,8 @@ class Business_settings extends EA_Controller {
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'system_settings' => $this->settings_model->get(),
         ]);
+
+        $this->load->view('pages/business_settings', html_vars());
     }
 
     /**
@@ -85,7 +75,7 @@ class Business_settings extends EA_Controller {
     {
         try
         {
-            if ($this->permissions[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }

@@ -44,17 +44,19 @@ class Booking extends EA_Controller {
         $this->load->library('availability');
 
         $this->load->driver('cache', ['adapter' => 'file']);
-
-        $this->preload();
     }
 
     /**
-     * Preload the page config and variables.
+     * Render the booking page.
+     *
+     * This method creates the appointment book wizard.
      */
-    protected function preload()
+    public function index()
     {
-        if ( ! is_callback('booking', 'index') && ! is_callback('booking', 'reschedule'))
+        if ( ! is_app_installed())
         {
+            redirect('installation');
+
             return;
         }
 
@@ -64,7 +66,7 @@ class Booking extends EA_Controller {
         foreach ($available_providers as &$available_provider)
         {
             // Only expose the required provider data. 
-            
+
             $this->providers_model->only($available_provider, [
                 'id',
                 'first_name',
@@ -96,11 +98,9 @@ class Booking extends EA_Controller {
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();
 
-        if (is_callback('booking', 'reschedule'))
+        if (!empty($appointment_hash))
         {
             // Load the appointments data and enable the manage mode of the booking page.
-            
-            $appointment_hash = $this->uri->segment(3);
 
             $manage_mode = TRUE;
 
@@ -116,11 +116,13 @@ class Booking extends EA_Controller {
                     'message_icon' => base_url('assets/img/error.png')
                 ]);
 
+                $this->load->view('pages/booking_message', html_vars());
+
                 return;
             }
 
             // Make sure the appointment can still be rescheduled. 
-            
+
             $start_datetime = strtotime($results[0]['start_datetime']);
 
             $limit = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
@@ -140,6 +142,8 @@ class Booking extends EA_Controller {
                     ]),
                     'message_icon' => base_url('assets/img/error.png')
                 ]);
+
+                $this->load->view('pages/booking_message', html_vars());
 
                 return;
             }
@@ -199,29 +203,6 @@ class Booking extends EA_Controller {
             'provider_data' => $provider,
             'customer_data' => $customer,
         ]);
-    }
-
-    /**
-     * Render the booking page.
-     *
-     * This method creates the appointment book wizard.
-     */
-    public function index()
-    {
-        if ( ! is_app_installed())
-        {
-            redirect('installation');
-
-            return;
-        }
-
-        if (html_vars('show_message'))
-        {
-            // The requested appointment was not found in the database. 
-            $this->load->view('pages/booking_message', html_vars());
-
-            return;
-        }
 
         $this->load->view('pages/booking', html_vars());
     }
@@ -251,6 +232,7 @@ class Booking extends EA_Controller {
             $selected_date = request('selected_date');
 
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
+            
             if (empty($provider_id))
             {
                 json_response([]);
@@ -260,10 +242,12 @@ class Booking extends EA_Controller {
 
             // If manage mode is TRUE then the following we should not consider the selected appointment when
             // calculating the available time periods of the provider.
+            
             $exclude_appointment_id = request('manage_mode') === 'true' ? request('appointment_id') : NULL;
 
             // If the user has selected the "any-provider" option then we will need to search for an available provider
             // that will provide the requested service.
+            
             $service = $this->services_model->find($service_id);
 
             if ($provider_id === ANY_PROVIDER)

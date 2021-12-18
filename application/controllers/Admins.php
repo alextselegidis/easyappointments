@@ -36,7 +36,7 @@ class Admins extends EA_Controller {
     /**
      * Render the backend admins page.
      *
-     * On this page admin users will be able to manage admins, which are eventually selected by customers during the 
+     * On this page admin users will be able to manage admins, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
@@ -52,13 +52,15 @@ class Admins extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/admins', [
+        html_vars([
             'page_title' => lang('admins'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
+
+        $this->load->view('pages/admins', html_vars());
     }
 
     /**
@@ -70,7 +72,7 @@ class Admins extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403,'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -78,7 +80,7 @@ class Admins extends EA_Controller {
             $order_by = 'first_name ASC, last_name ASC, email ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $admins = $this->admins_model->search($keyword, $limit, $offset, $order_by);

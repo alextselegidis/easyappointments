@@ -50,7 +50,7 @@ class Update extends EA_Controller {
         {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $this->instance->migrate();

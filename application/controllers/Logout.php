@@ -25,10 +25,13 @@ class Logout extends EA_Controller {
     public function index()
     {
         $this->session->sess_destroy();
-
-        $this->load->view('pages/logout', [
-            'base_url' => config('base_url'),
-            'company_name' => setting('company_name')
+        
+        $company_name = setting('company_name'); 
+        
+        html_vars([
+            'company_name' => $company_name
         ]);
+
+        $this->load->view('pages/logout', html_vars());
     }
 }

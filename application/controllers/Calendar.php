@@ -42,23 +42,16 @@ class Calendar extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
      * Display the main backend page.
      *
-     * This method displays the main backend page. All login permission can view this page which displays a
-     * calendar with the events of the selected provider or service. If a user has more privileges he will see more
-     * menus at the top of the page.
+     * This method displays the main backend page. All login permission can view this page which displays a calendar
+     * with the events of the selected provider or service. If a user has more privileges he will see more menus at the
+     * top of the page.
      *
-     * @param string $appointment_hash Appointment edit dialog will appear when the page loads (default '').
+     * @param string $appointment_hash Appointment hash.
      */
     public function index(string $appointment_hash = '')
     {
@@ -84,18 +77,21 @@ class Calendar extends EA_Controller {
             $secretary_providers = $secretary['providers'];
         }
 
-        $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
-
         $edit_appointment = NULL;
 
-        if ($appointment_hash !== '' && ! empty($occurrences))
+        if ( ! empty($appointment_hash))
         {
-            $edit_appointment = $occurrences[0];
-            
-            $this->appointments_model->load($edit_appointment, ['customer']);
+            $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
+
+            if ($appointment_hash !== '' && ! empty($occurrences))
+            {
+                $edit_appointment = $occurrences[0];
+
+                $this->appointments_model->load($edit_appointment, ['customer']);
+            }
         }
 
-        $this->load->view('pages/calendar', [
+        html_vars([
             'page_title' => lang('calendar'),
             'active_menu' => PRIV_APPOINTMENTS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
@@ -107,11 +103,13 @@ class Calendar extends EA_Controller {
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
         ]);
+
+        $this->load->view('pages/calendar', html_vars());
     }
 
     /**
      * Render the calendar page and display the selected appointment.
-     * 
+     *
      * This method will call the "index" callback to handle the page rendering.
      *
      * @param string $appointment_hash Appointment hash.
@@ -135,11 +133,11 @@ class Calendar extends EA_Controller {
             {
                 $customer = json_decode($customer_data, TRUE);
 
-                $required_permissions = ( ! isset($customer['id']))
-                    ? $this->permissions[PRIV_CUSTOMERS]['add']
-                    : $this->permissions[PRIV_CUSTOMERS]['edit'];
+                $required_permissions = ! empty($customer['id'])
+                    ? can('add', PRIV_CUSTOMERS)
+                    : can('edit', PRIV_CUSTOMERS);
 
-                if ($required_permissions == FALSE)
+                if ( ! $required_permissions)
                 {
                     throw new Exception('You do not have the required permissions for this task.');
                 }
@@ -156,9 +154,9 @@ class Calendar extends EA_Controller {
             {
                 $appointment = json_decode($appointment_data, TRUE);
 
-                $required_permissions = ( ! isset($appointment['id']))
-                    ? $this->permissions[PRIV_APPOINTMENTS]['add']
-                    : $this->permissions[PRIV_APPOINTMENTS]['edit'];
+                $required_permissions = ! empty($appointment['id'])
+                    ? can('add', PRIV_APPOINTMENTS)
+                    : can('edit', PRIV_APPOINTMENTS);
 
                 if ($required_permissions == FALSE)
                 {
@@ -272,8 +270,8 @@ class Calendar extends EA_Controller {
             $unavailable = json_decode(request('unavailable'), TRUE);
 
             $required_permissions = ( ! isset($unavailable['id']))
-                ? $this->permissions[PRIV_APPOINTMENTS]['add']
-                : $this->permissions[PRIV_APPOINTMENTS]['edit'];
+                ? can('add', PRIV_APPOINTMENTS)
+                : can('edit', PRIV_APPOINTMENTS);
 
             if ( ! $required_permissions)
             {
@@ -333,7 +331,7 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            if ($this->permissions[PRIV_APPOINTMENTS]['delete'] == FALSE)
+            if (can('delete', PRIV_APPOINTMENTS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }
@@ -383,7 +381,7 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            $required_permissions = $this->permissions[PRIV_USERS]['edit'];
+            $required_permissions = can('edit', PRIV_USERS);
 
             if ( ! $required_permissions)
             {
@@ -415,7 +413,7 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            $required_permissions = $this->permissions[PRIV_USERS]['edit'];
+            $required_permissions = can('edit', PRIV_CUSTOMERS);
 
             if ( ! $required_permissions)
             {
@@ -537,7 +535,7 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            if ($this->permissions[PRIV_APPOINTMENTS]['view'] == FALSE)
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }

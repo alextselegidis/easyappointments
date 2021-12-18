@@ -45,20 +45,22 @@ class Services extends EA_Controller {
 
         if (cannot('view', PRIV_SERVICES))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
 
         $role_slug = session('role_slug');
-
-        $this->load->view('pages/services', [
+        
+        html_vars([
             'page_title' => lang('services'),
             'active_menu' => PRIV_SERVICES,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
+
+        $this->load->view('pages/services', html_vars());
     }
 
     /**
@@ -70,7 +72,7 @@ class Services extends EA_Controller {
         {
             if (cannot('view', PRIV_SERVICES))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -102,7 +104,7 @@ class Services extends EA_Controller {
 
             if (cannot('add', PRIV_SERVICES))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $service_id = $this->services_model->save($service);
@@ -129,7 +131,7 @@ class Services extends EA_Controller {
 
             if (cannot('edit', PRIV_SERVICES))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $service_id = $this->services_model->save($service);
@@ -154,7 +156,7 @@ class Services extends EA_Controller {
         {
             if (cannot('delete', PRIV_SERVICES))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $service_id = request('service_id');
@@ -180,7 +182,7 @@ class Services extends EA_Controller {
         {
             if (cannot('delete', PRIV_SERVICES))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $service_id = request('service_id');

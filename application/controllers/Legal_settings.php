@@ -43,13 +43,6 @@ class Legal_settings extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
@@ -68,13 +61,15 @@ class Legal_settings extends EA_Controller {
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/legal_settings', [
+        html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'system_settings' => $this->settings_model->get(),
         ]);
+
+        $this->load->view('pages/legal_settings', html_vars());
     }
 
     /**
@@ -84,7 +79,7 @@ class Legal_settings extends EA_Controller {
     {
         try
         {
-            if ($this->permissions[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }

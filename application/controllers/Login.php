@@ -39,11 +39,13 @@ class Login extends EA_Controller {
      */
     public function index()
     {
-        $this->load->view('pages/login', [
+        html_vars([
             'base_url' => config('base_url'),
             'dest_url' => session('dest_url', site_url('backend')),
             'company_name' => setting('company_name')
         ]);
+        
+        $this->load->view('pages/login', html_vars());
     }
 
     /**

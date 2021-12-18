@@ -46,14 +46,14 @@ class Providers extends EA_Controller {
 
         if (cannot('view', PRIV_USERS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
 
         $role_slug = session('role_slug');
-
-        $this->load->view('pages/providers', [
+        
+        html_vars([
             'page_title' => lang('providers'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
@@ -61,6 +61,8 @@ class Providers extends EA_Controller {
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'services' => $this->services_model->get(),
         ]);
+
+        $this->load->view('pages/providers', html_vars());
     }
 
     /**
@@ -72,7 +74,7 @@ class Providers extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -104,7 +106,7 @@ class Providers extends EA_Controller {
 
             if (cannot('add', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = $this->providers_model->save($provider);
@@ -131,7 +133,7 @@ class Providers extends EA_Controller {
 
             if (cannot('edit', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = $this->providers_model->save($provider);
@@ -156,7 +158,7 @@ class Providers extends EA_Controller {
         {
             if (cannot('delete', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = request('provider_id');
@@ -182,7 +184,7 @@ class Providers extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = request('provider_id');

@@ -46,20 +46,22 @@ class Customers extends EA_Controller {
 
         if (cannot('view', PRIV_USERS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/customers', [
+        html_vars([
             'page_title' => lang('customers'),
             'active_menu' => PRIV_CUSTOMERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
+
+        $this->load->view('pages/customers', html_vars());
     }
 
     /**
@@ -71,7 +73,7 @@ class Customers extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -118,7 +120,7 @@ class Customers extends EA_Controller {
 
             if (cannot('add', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $customer_id = $this->customers_model->save($customer);
@@ -145,7 +147,7 @@ class Customers extends EA_Controller {
 
             if (cannot('edit', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $customer_id = $this->customers_model->save($customer);
@@ -170,7 +172,7 @@ class Customers extends EA_Controller {
         {
             if (cannot('delete', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $customer_id = request('customer_id');
@@ -196,7 +198,7 @@ class Customers extends EA_Controller {
         {
             if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $customer_id = request('customer_id');

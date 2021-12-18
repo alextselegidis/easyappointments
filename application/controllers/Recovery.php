@@ -35,11 +35,14 @@ class Recovery extends EA_Controller {
      */
     public function index()
     {
-        $this->load->view('pages/recovery', [
-            'base_url' => config('base_url'),
+        $company_name = setting('company_name'); 
+        
+        html_vars([
             'dest_url' => session('dest_url', site_url('backend')),
-            'company_name' => setting('company_name')
-        ]);
+            'company_name' => $company_name
+        ]); 
+        
+        $this->load->view('pages/recovery', html_vars());
     }
     
     /**

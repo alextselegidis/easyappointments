@@ -48,8 +48,8 @@ class Booking_cancellation extends EA_Controller {
     {
         try
         {
-            $exceptions = []; 
-            
+            $exceptions = [];
+
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
             if (empty($occurrences))
@@ -84,11 +84,13 @@ class Booking_cancellation extends EA_Controller {
             $exceptions[] = $e;
         }
 
-        $this->load->view('pages/booking_message', [
+        html_vars([
             'message_title' => lang('appointment_cancelled_title'),
             'message_text' => lang('appointment_cancelled'),
             'message_icon' => base_url('assets/img/success.png'),
             'exceptions' => $exceptions
         ]);
+
+        $this->load->view('pages/booking_message', html_vars());
     }
 }

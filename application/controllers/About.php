@@ -20,11 +20,6 @@
  */
 class About extends EA_Controller {
     /**
-     * @var array
-     */
-    protected $permissions;
-
-    /**
      * Calendar constructor.
      */
     public function __construct()
@@ -43,13 +38,6 @@ class About extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
@@ -61,18 +49,20 @@ class About extends EA_Controller {
 
         if (cannot('view', PRIV_USER_SETTINGS))
         {
-            show_error('Forbidden', 403);
+            abort(403, 'Forbidden');
         }
 
         $user_id = session('user_id');
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/about', [
+        html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
+
+        $this->load->view('pages/about', html_vars());
     }
 }
