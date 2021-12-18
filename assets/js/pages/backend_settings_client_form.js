@@ -3,9 +3,9 @@
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -64,7 +64,6 @@ window.BackendSettingsClientForm = window.BackendSettingsClientForm || {};
             if (setting.name === 'display_cookie_notice') {
                 $('#display-cookie-notice').prop('checked', Boolean(Number(setting.value)));
             }
-
         });
 
         // Set default settings helper.
@@ -100,10 +99,10 @@ window.BackendSettingsClientForm = window.BackendSettingsClientForm || {};
          */
         $('.hide-toggle').on('click', function () {
             var $target = $(this);
-            
+
             $target.find('span').each(function (index, span) {
-                var $span = $(span); 
-                
+                var $span = $(span);
+
                 var isHidden = $span.prop('hidden');
 
                 $span.prop('hidden', !isHidden);
@@ -111,9 +110,9 @@ window.BackendSettingsClientForm = window.BackendSettingsClientForm || {};
         });
 
         /**
-         * Set a Visible/Hidden toggle button to a certain state. 
+         * Set a Visible/Hidden toggle button to a certain state.
          *
-         * @param {jQuery} $target Target element selector. 
+         * @param {jQuery} $target Target element selector.
          * @param {Boolean} isVisible a boolean which is true if the button should display 'visible' and false when the button should display 'hidden'
          */
         function setShowToggleValue($target, isVisible) {
@@ -131,7 +130,7 @@ window.BackendSettingsClientForm = window.BackendSettingsClientForm || {};
         /**
          * Get the Visible/Hidden toggle button
          *
-         * @param {jQuery} $target Target element selector. 
+         * @param {jQuery} $target Target element selector.
          *
          * @return the state of the button. True for visible, false for hidden.
          */
