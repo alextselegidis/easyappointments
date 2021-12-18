@@ -46,7 +46,7 @@ class Users_model extends EA_Model {
         'notes' => 'notes',
         'roleId' => 'id_roles',
     ];
-    
+
     /**
      * Save (insert or update) a user.
      *
@@ -198,7 +198,7 @@ class Users_model extends EA_Model {
         }
 
         $user = $this->db->get_where('users', ['id' => $user_id])->row_array();
-        
+
         $this->cast($user);
 
         $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
@@ -240,7 +240,7 @@ class Users_model extends EA_Model {
 
         // Check if the required field is part of the user data.
         $user = $query->row_array();
-        
+
         $this->cast($user);
 
         if ( ! array_key_exists($field, $user))
@@ -278,7 +278,7 @@ class Users_model extends EA_Model {
         foreach ($users as &$user)
         {
             $this->cast($user);
-            
+
             $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row_array();
 
             unset(
@@ -416,5 +416,23 @@ class Users_model extends EA_Model {
     public function load(array &$user, array $resources)
     {
         // Users do not currently have any related resources. 
+    }
+
+    /**
+     * Validate the username.
+     *
+     * @param string $username Username.
+     * @param int|null $user_id Exclude user ID.
+     *
+     * @return bool Returns the validation result.
+     */
+    public function validate_username(string $username, int $user_id = NULL): bool
+    {
+        if ( ! empty($user_id))
+        {
+            $this->db->where('id_users !=', $user_id);
+        }
+
+        return $this->db->get_where('user_settings', ['username' => $username])->num_rows() === 0;
     }
 }
