@@ -21,7 +21,7 @@ window.App.Http.Categories = (function () {
         const url = App.Utils.Url.siteUrl('categories/create');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             category: category
         };
 
@@ -39,7 +39,7 @@ window.App.Http.Categories = (function () {
         const url = App.Utils.Url.siteUrl('categories/update');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             category: category
         };
 
@@ -57,7 +57,7 @@ window.App.Http.Categories = (function () {
         const url = App.Utils.Url.siteUrl('categories/destroy');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             category_id: categoryId
         };
 
@@ -78,7 +78,7 @@ window.App.Http.Categories = (function () {
         const url = App.Utils.Url.siteUrl('categories/search');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             keyword,
             limit,
             offset,
@@ -99,7 +99,7 @@ window.App.Http.Categories = (function () {
         const url = App.Utils.Url.siteUrl('categories/find');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             category_id: categoryId
         };
 

@@ -18,7 +18,7 @@ window.App.Utils.Url = (function () {
      * @return {String}
      */
     function baseUrl(uri) {
-        return `${App.Config.base_url}/${uri}`;
+        return `${App.Vars.base_url}/${uri}`;
     }
 
     /**
@@ -29,7 +29,7 @@ window.App.Utils.Url = (function () {
      * @returns {String}
      */
     function siteUrl(uri) {
-        return `${App.Config.base_url}${App.Config.index_page ? '/' + App.Config.index_page : ''}/${uri}`;
+        return `${App.Vars.base_url}${App.Vars.index_page ? '/' + App.Vars.index_page : ''}/${uri}`;
     }
 
     /**

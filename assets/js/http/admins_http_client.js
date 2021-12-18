@@ -21,7 +21,7 @@ window.App.Http.Admins = (function () {
         const url = App.Utils.Url.siteUrl('admins/create');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             admin: admin
         };
 
@@ -39,7 +39,7 @@ window.App.Http.Admins = (function () {
         const url = App.Utils.Url.siteUrl('admins/update');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             admin: admin
         };
 
@@ -57,7 +57,7 @@ window.App.Http.Admins = (function () {
         const url = App.Utils.Url.siteUrl('admins/destroy');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             admin_id: adminId
         };
 
@@ -78,7 +78,7 @@ window.App.Http.Admins = (function () {
         const url = App.Utils.Url.siteUrl('admins/search');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             keyword,
             limit,
             offset,
@@ -99,7 +99,7 @@ window.App.Http.Admins = (function () {
         const url = App.Utils.Url.siteUrl('admins/find');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             admin_id: adminId
         };
 

@@ -21,7 +21,7 @@ window.App.Http.Settings = (function () {
         const url = App.Utils.Url.siteUrl('settings/create');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             setting: setting
         };
 
@@ -39,7 +39,7 @@ window.App.Http.Settings = (function () {
         const url = App.Utils.Url.siteUrl('settings/update');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             setting: setting
         };
 
@@ -57,7 +57,7 @@ window.App.Http.Settings = (function () {
         const url = App.Utils.Url.siteUrl('settings/destroy');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             setting_id: settingId
         };
 
@@ -78,7 +78,7 @@ window.App.Http.Settings = (function () {
         const url = App.Utils.Url.siteUrl('settings/search');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             keyword,
             limit,
             offset,
@@ -99,7 +99,7 @@ window.App.Http.Settings = (function () {
         const url = App.Utils.Url.siteUrl('settings/find');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             setting_id: settingId
         };
 

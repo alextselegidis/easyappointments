@@ -21,7 +21,7 @@ window.App.Http.Providers = (function () {
         const url = App.Utils.Url.siteUrl('providers/create');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             provider: provider
         };
 
@@ -39,7 +39,7 @@ window.App.Http.Providers = (function () {
         const url = App.Utils.Url.siteUrl('providers/update');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             provider: provider
         };
 
@@ -57,7 +57,7 @@ window.App.Http.Providers = (function () {
         const url = App.Utils.Url.siteUrl('providers/destroy');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             provider_id: providerId
         };
 
@@ -78,7 +78,7 @@ window.App.Http.Providers = (function () {
         const url = App.Utils.Url.siteUrl('providers/search');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             keyword,
             limit,
             offset,
@@ -99,7 +99,7 @@ window.App.Http.Providers = (function () {
         const url = App.Utils.Url.siteUrl('providers/find');
 
         const data = {
-            csrf_token: App.Config.csrf_token,
+            csrf_token: App.Vars.csrf_token,
             provider_id: providerId
         };
 
