@@ -33,7 +33,68 @@ App.Pages.Account = (function () {
     const $calendarView = $('#calendar-view');
     const notifications = $('#notifications');
     const $saveSettings = $('#save-settings');
+    const $footerUserDisplayName = $('#footer-user-display-name');
 
+    /**
+     * Check if the form has invalid values.
+     *
+     * @return {Boolean}
+     */
+    function isInvalid() {
+        try {
+            $('#account .is-invalid').removeClass('is-invalid');
+
+            // Validate required fields.
+
+            let missingRequiredFields = false;
+
+            $('#account .required').each(function (index, requiredField) {
+                const $requiredField = $(requiredField);
+
+                if (!$requiredField.val()) {
+                    $requiredField.addClass('is-invalid');
+                    missingRequiredFields = true;
+                }
+            });
+
+            if (missingRequiredFields) {
+                throw new Error(App.Lang.fields_are_required);
+            }
+
+            // Validate passwords (if values provided).
+
+            if ($password.val() && $password.val() !== $retypePassword.val()) {
+                $password.addClass('is-invalid');
+                $retypePassword.addClass('is-invalid');
+                throw new Error(App.Lang.passwords_mismatch);
+            }
+
+            // Validate user email.
+
+            const emailValue = $email.val();
+
+            if (!App.Utils.Validation.email(emailValue)) {
+                $email.addClass('is-invalid');
+                throw new Error(App.Lang.invalid_email);
+            }
+
+            if ($username.attr('already-exists') === 'true') {
+                $username.addClass('is-invalid');
+                throw new Error(App.Lang.username_already_exists);
+            }
+
+            return false;
+        } catch (error) {
+            Backend.displayNotification(error.message);
+            return true;
+        }
+    }
+
+    /**
+     * Apply the account values to the form.
+     *
+     * @param {Object} account
+     */
     function deserialize(account) {
         $userId.val(account.id);
         $firstName.val(account.first_name);
@@ -54,6 +115,11 @@ App.Pages.Account = (function () {
         notifications.prop('checked', Boolean(Number(account.settings.notifications)));
     }
 
+    /**
+     * Get the account information from the form.
+     *
+     * @return {Object}
+     */
     function serialize() {
         return {
             id: $userId.val(),
@@ -70,27 +136,58 @@ App.Pages.Account = (function () {
             timezone: $timezones.val(),
             settings: {
                 username: $username.val(),
-                password: $password.val(),
+                password: $password.val() || null,
                 calendar_view: $calendarView.val(),
                 notifications: Number(notifications.prop('checked'))
             }
         };
     }
 
+    /**
+     * Save the account information.
+     */
     function onSaveSettingsClick() {
+        if (isInvalid()) {
+            Backend.displayNotification(App.Lang.user_settings_are_invalid);
+
+            return;
+        }
+
         const account = serialize();
 
         App.Http.Account.save(account).done(function () {
-            Backend.displayNotification(App.Lang.account_saved);
+            Backend.displayNotification(App.Lang.settings_saved);
+
+            $footerUserDisplayName.text('Hello, ' + $firstName.val() + ' ' + $lastName.val() + '!');
         });
     }
 
+    /**
+     * Make sure the username is unique.
+     */
+    function onUsernameChange() {
+        const username = $username.val();
+
+        App.Http.Account.validateUsername(username).done((response) => {
+            if (response.is_valid) {
+                $username.removeClass('is-invalid already-exists');
+            } else {
+                $username.addClass('is-invalid already-exists');
+            }
+        });
+    }
+
+    /**
+     * Initialize the page.
+     */
     function init() {
         const account = App.Vars.account;
 
         deserialize(account);
 
         $saveSettings.on('click', onSaveSettingsClick);
+
+        $username.on('change', onUsernameChange);
 
         Backend.placeFooterToBottom();
     }
