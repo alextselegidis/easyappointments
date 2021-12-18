@@ -15,7 +15,7 @@ App.Http.Categories = (function () {
      *
      * @param {Object} category
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(category) {
         const url = App.Utils.Url.siteUrl('categories/create');
@@ -33,7 +33,7 @@ App.Http.Categories = (function () {
      *
      * @param {Object} category
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(category) {
         const url = App.Utils.Url.siteUrl('categories/update');
@@ -51,7 +51,7 @@ App.Http.Categories = (function () {
      *
      * @param {Number} categoryId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(categoryId) {
         const url = App.Utils.Url.siteUrl('categories/destroy');
@@ -72,7 +72,7 @@ App.Http.Categories = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('categories/search');
@@ -93,7 +93,7 @@ App.Http.Categories = (function () {
      *
      * @param {Number} categoryId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(categoryId) {
         const url = App.Utils.Url.siteUrl('categories/find');

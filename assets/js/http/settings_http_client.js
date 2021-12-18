@@ -15,7 +15,7 @@ App.Http.Settings = (function () {
      *
      * @param {Object} setting
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(setting) {
         const url = App.Utils.Url.siteUrl('settings/create');
@@ -33,7 +33,7 @@ App.Http.Settings = (function () {
      *
      * @param {Object} setting
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(setting) {
         const url = App.Utils.Url.siteUrl('settings/update');
@@ -51,7 +51,7 @@ App.Http.Settings = (function () {
      *
      * @param {Number} settingId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(settingId) {
         const url = App.Utils.Url.siteUrl('settings/destroy');
@@ -72,7 +72,7 @@ App.Http.Settings = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('settings/search');
@@ -93,7 +93,7 @@ App.Http.Settings = (function () {
      *
      * @param {Number} settingId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(settingId) {
         const url = App.Utils.Url.siteUrl('settings/find');

@@ -15,7 +15,7 @@ App.Http.Providers = (function () {
      *
      * @param {Object} provider
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(provider) {
         const url = App.Utils.Url.siteUrl('providers/create');
@@ -33,7 +33,7 @@ App.Http.Providers = (function () {
      *
      * @param {Object} provider
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(provider) {
         const url = App.Utils.Url.siteUrl('providers/update');
@@ -51,7 +51,7 @@ App.Http.Providers = (function () {
      *
      * @param {Number} providerId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(providerId) {
         const url = App.Utils.Url.siteUrl('providers/destroy');
@@ -72,7 +72,7 @@ App.Http.Providers = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('providers/search');
@@ -93,7 +93,7 @@ App.Http.Providers = (function () {
      *
      * @param {Number} providerId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(providerId) {
         const url = App.Utils.Url.siteUrl('providers/find');

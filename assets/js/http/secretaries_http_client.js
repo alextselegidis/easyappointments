@@ -15,7 +15,7 @@ App.Http.Secretaries = (function () {
      *
      * @param {Object} secretary
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(secretary) {
         const url = App.Utils.Url.siteUrl('secretaries/create');
@@ -33,7 +33,7 @@ App.Http.Secretaries = (function () {
      *
      * @param {Object} secretary
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(secretary) {
         const url = App.Utils.Url.siteUrl('secretaries/update');
@@ -51,7 +51,7 @@ App.Http.Secretaries = (function () {
      *
      * @param {Number} secretaryId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(secretaryId) {
         const url = App.Utils.Url.siteUrl('secretaries/destroy');
@@ -72,7 +72,7 @@ App.Http.Secretaries = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('secretaries/search');
@@ -93,7 +93,7 @@ App.Http.Secretaries = (function () {
      *
      * @param {Number} secretaryId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(secretaryId) {
         const url = App.Utils.Url.siteUrl('secretaries/find');

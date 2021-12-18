@@ -15,7 +15,7 @@ App.Http.Account = (function () {
      *
      * @param {Object} account
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function save(account) {
         const url = App.Utils.Url.siteUrl('account/save');

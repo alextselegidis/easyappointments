@@ -15,7 +15,7 @@ App.Http.Admins = (function () {
      *
      * @param {Object} admin
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(admin) {
         const url = App.Utils.Url.siteUrl('admins/create');
@@ -33,7 +33,7 @@ App.Http.Admins = (function () {
      *
      * @param {Object} admin
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(admin) {
         const url = App.Utils.Url.siteUrl('admins/update');
@@ -51,7 +51,7 @@ App.Http.Admins = (function () {
      *
      * @param {Number} adminId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(adminId) {
         const url = App.Utils.Url.siteUrl('admins/destroy');
@@ -72,7 +72,7 @@ App.Http.Admins = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('admins/search');
@@ -93,7 +93,7 @@ App.Http.Admins = (function () {
      *
      * @param {Number} adminId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(adminId) {
         const url = App.Utils.Url.siteUrl('admins/find');

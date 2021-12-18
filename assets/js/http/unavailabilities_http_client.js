@@ -15,7 +15,7 @@ App.Http.Unavailabilities = (function () {
      *
      * @param {Object} unavailability
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(unavailability) {
         const url = App.Utils.Url.siteUrl('unavailabilities/create');
@@ -33,7 +33,7 @@ App.Http.Unavailabilities = (function () {
      *
      * @param {Object} unavailability
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(unavailability) {
         const url = App.Utils.Url.siteUrl('unavailabilities/update');
@@ -51,7 +51,7 @@ App.Http.Unavailabilities = (function () {
      *
      * @param {Number} unavailabilityId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(unavailabilityId) {
         const url = App.Utils.Url.siteUrl('unavailabilities/destroy');
@@ -72,7 +72,7 @@ App.Http.Unavailabilities = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('unavailabilities/search');
@@ -93,7 +93,7 @@ App.Http.Unavailabilities = (function () {
      *
      * @param {Number} unavailabilityId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(unavailabilityId) {
         const url = App.Utils.Url.siteUrl('unavailabilities/find');

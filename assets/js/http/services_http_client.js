@@ -15,7 +15,7 @@ App.Http.Services = (function () {
      *
      * @param {Object} service
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(service) {
         const url = App.Utils.Url.siteUrl('services/create');
@@ -33,7 +33,7 @@ App.Http.Services = (function () {
      *
      * @param {Object} service
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(service) {
         const url = App.Utils.Url.siteUrl('services/update');
@@ -51,7 +51,7 @@ App.Http.Services = (function () {
      *
      * @param {Number} serviceId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(serviceId) {
         const url = App.Utils.Url.siteUrl('services/destroy');
@@ -72,7 +72,7 @@ App.Http.Services = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('services/search');
@@ -93,7 +93,7 @@ App.Http.Services = (function () {
      *
      * @param {Number} serviceId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(serviceId) {
         const url = App.Utils.Url.siteUrl('services/find');

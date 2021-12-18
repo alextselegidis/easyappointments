@@ -15,7 +15,7 @@ App.Http.Customers = (function () {
      *
      * @param {Object} customer
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(customer) {
         const url = App.Utils.Url.siteUrl('customers/create');
@@ -33,7 +33,7 @@ App.Http.Customers = (function () {
      *
      * @param {Object} customer
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(customer) {
         const url = App.Utils.Url.siteUrl('customers/update');
@@ -51,7 +51,7 @@ App.Http.Customers = (function () {
      *
      * @param {Number} customerId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(customerId) {
         const url = App.Utils.Url.siteUrl('customers/destroy');
@@ -72,7 +72,7 @@ App.Http.Customers = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('customers/search');
@@ -93,7 +93,7 @@ App.Http.Customers = (function () {
      *
      * @param {Number} customerId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(customerId) {
         const url = App.Utils.Url.siteUrl('customers/find');

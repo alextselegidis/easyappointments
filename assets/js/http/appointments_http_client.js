@@ -15,7 +15,7 @@ App.Http.Appointments = (function () {
      *
      * @param {Object} appointment
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function create(appointment) {
         const url = App.Utils.Url.siteUrl('appointments/create');
@@ -33,7 +33,7 @@ App.Http.Appointments = (function () {
      *
      * @param {Object} appointment
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function update(appointment) {
         const url = App.Utils.Url.siteUrl('appointments/update');
@@ -51,7 +51,7 @@ App.Http.Appointments = (function () {
      *
      * @param {Number} appointmentId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function destroy(appointmentId) {
         const url = App.Utils.Url.siteUrl('appointments/destroy');
@@ -72,7 +72,7 @@ App.Http.Appointments = (function () {
      * @param {Number} offset
      * @param {String} orderBy
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function search(keyword, limit, offset, orderBy) {
         const url = App.Utils.Url.siteUrl('appointments/search');
@@ -93,7 +93,7 @@ App.Http.Appointments = (function () {
      *
      * @param {Number} appointmentId
      *
-     * @return {jQuery.Deferred}
+     * @return {Object}
      */
     function find(appointmentId) {
         const url = App.Utils.Url.siteUrl('appointments/find');
