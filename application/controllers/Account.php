@@ -102,4 +102,27 @@ class Account extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Make sure the username is valid and unique in the database. 
+     */
+    public function validate_username()
+    {
+        try
+        {
+            $username = request('username');
+
+            $user_id = request('user_id');
+
+            $is_valid = $this->users_model->validate_username($username, $user_id);
+
+            json_response([
+                'is_valid' => $is_valid,
+            ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }

@@ -28,7 +28,26 @@ App.Http.Account = (function () {
         return $.post(url, data);
     }
 
+    /**
+     * Validate username.
+     *
+     * @param {String} username
+     *
+     * @return {Object}
+     */
+    function validateUsername(username) {
+        const url = App.Utils.Url.siteUrl('account/validate_username');
+
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            username
+        };
+
+        return $.post(url, data);
+    }
+
     return {
-        save
+        save,
+        validateUsername
     };
 })();
