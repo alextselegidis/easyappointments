@@ -58,7 +58,7 @@ class Migration_Rename_id_service_categories_column_of_services_table extends EA
             $this->dbforge->modify_column('services', $fields);
 
             $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services') . '`
-                ADD CONSTRAINT `services_service_categories` FOREIGN KEY (`id_categories`) REFERENCES `' . $this->db->dbprefix('categories') . '` (`id`)
+                ADD CONSTRAINT `services_service_categories` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('categories') . '` (`id`)
                 ON DELETE SET NULL
                 ON UPDATE CASCADE');
         }
