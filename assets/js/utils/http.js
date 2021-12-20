@@ -53,7 +53,7 @@ window.App.Utils.Http = (function () {
         });
     }
 
-    export function upload(user, method, url, file) {
+    function upload(user, method, url, file) {
         const formData = new FormData();
 
         formData.append('file', file, file.name);
@@ -95,7 +95,7 @@ window.App.Utils.Http = (function () {
         });
     }
 
-    export function download(user, method, url) {
+    function download(user, method, url) {
         return new Promise((resolve, reject) => {
             fetch(App.Utils.Url.siteUrl(url), {
                 method,
