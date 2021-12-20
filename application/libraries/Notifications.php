@@ -85,10 +85,10 @@ class Notifications {
             $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
 
             // Notify customer.
-            $send_customer = filter_var(
-                setting('customer_notifications'),
-                FILTER_VALIDATE_BOOLEAN
-            );
+            $send_customer = ! empty($customer['email']) && filter_var(
+                    setting('customer_notifications'),
+                    FILTER_VALIDATE_BOOLEAN
+                );
 
             if ($send_customer === TRUE)
             {
@@ -232,10 +232,10 @@ class Notifications {
             }
 
             // Notify customer.
-            $send_customer = filter_var(
-                setting('customer_notifications'),
-                FILTER_VALIDATE_BOOLEAN
-            );
+            $send_customer = ! empty($customer['email']) && filter_var(
+                    setting('customer_notifications'),
+                    FILTER_VALIDATE_BOOLEAN
+                );
 
             if ($send_customer === TRUE)
             {
