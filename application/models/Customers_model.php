@@ -94,41 +94,55 @@ class Customers_model extends EA_Model {
         }
 
         // Make sure all required fields are provided.
-        $phone_number_required = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
+        $require_first_name = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
+        $require_last_name = filter_var(setting('require_last'), FILTER_VALIDATE_BOOLEAN);
+        $require_email = filter_var(setting('require_email'), FILTER_VALIDATE_BOOLEAN);
+        $require_phone_number = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
+        $require_address = filter_var(setting('require_address'), FILTER_VALIDATE_BOOLEAN);
+        $require_city = filter_var(setting('require_city'), FILTER_VALIDATE_BOOLEAN);
+        $require_zip_code = filter_var(setting('require_zip_code'), FILTER_VALIDATE_BOOLEAN);
+        $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
 
         if (
-            empty($customer['first_name'])
-            || empty($customer['last_name'])
-            || empty($customer['email'])
-            || (empty($customer['phone_number']) && $phone_number_required)
+            (empty($customer['first_name']) && $require_first_name)
+            || (empty($customer['last_name']) && $require_last_name)
+            || (empty($customer['email']) && $require_email)
+            || (empty($customer['phone_number']) && $require_phone_number)
+            || (empty($customer['address']) && $require_address)
+            || (empty($customer['city']) && $require_city)
+            || (empty($customer['zip_code']) && $require_zip_code)
+            || (empty($customer['notes']) && $require_notes)
         )
         {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($customer, TRUE));
         }
 
-        // Validate the email address.
-        if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
+        if ( ! empty($customer['email']))
         {
-            throw new InvalidArgumentException('Invalid email address provided: ' . $customer['email']);
-        }
+            // Validate the email address.
+            if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
+            {
+                throw new InvalidArgumentException('Invalid email address provided: ' . $customer['email']);
+            }
 
-        // Make sure the email address is unique.
-        $customer_id = $customer['id'] ?? NULL;
+            // Make sure the email address is unique.
+            $customer_id = $customer['id'] ?? NULL;
 
-        $count = $this
-            ->db
-            ->select()
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('roles.slug', DB_SLUG_CUSTOMER)
-            ->where('users.email', $customer['email'])
-            ->where('users.id !=', $customer_id)
-            ->get()
-            ->num_rows();
+            $count = $this
+                ->db
+                ->select()
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('roles.slug', DB_SLUG_CUSTOMER)
+                ->where('users.email', $customer['email'])
+                ->where('users.id !=', $customer_id)
+                ->get()
+                ->num_rows();
 
-        if ($count > 0)
-        {
-            throw new InvalidArgumentException('The provided email address is already in use, please use a different one.');
+            if ($count > 0)
+            {
+                throw new InvalidArgumentException('The provided email address is already in use, please use a different one.');
+            }
         }
     }
 
@@ -317,7 +331,7 @@ class Customers_model extends EA_Model {
     {
         if (empty($customer['email']))
         {
-            throw new InvalidArgumentException('The customer email was not provided: ' . print_r($customer, TRUE));
+            return FALSE;
         }
 
         $count = $this
