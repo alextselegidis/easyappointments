@@ -50,13 +50,13 @@ App.Pages.GeneralSettings = (function () {
         }
     }
 
-    function serialize(generalSettings) {
+    function deserialize(generalSettings) {
         generalSettings.forEach((generalSetting) => {
             $('[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
         });
     }
 
-    function deserialize() {
+    function serialize() {
         const generalSettings = [];
 
         $('[data-field]').each((index, field) => {
@@ -81,7 +81,7 @@ App.Pages.GeneralSettings = (function () {
             return;
         }
 
-        const generalSettings = deserialize();
+        const generalSettings = serialize();
 
         App.Http.GeneralSettings.save(generalSettings).done(() => {
             Backend.displayNotification(App.Lang.settings_saved);
@@ -91,7 +91,7 @@ App.Pages.GeneralSettings = (function () {
     function init() {
         const generalSettings = App.Vars.general_settings;
 
-        serialize(generalSettings);
+        deserialize(generalSettings);
 
         $saveSettings.on('click', onSaveSettingsClick);
 

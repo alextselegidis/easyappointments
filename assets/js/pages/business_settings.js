@@ -53,13 +53,13 @@ App.Pages.BusinessSettings = (function () {
         }
     }
 
-    function serialize(businessSettings) {
+    function deserialize(businessSettings) {
         businessSettings.forEach((businessSetting) => {
             $('[data-field="' + businessSetting.name + '"]').val(businessSetting.value);
         });
     }
 
-    function deserialize() {
+    function serialize() {
         const businessSettings = [];
 
         $('[data-field]').each((index, field) => {
@@ -91,7 +91,7 @@ App.Pages.BusinessSettings = (function () {
             return;
         }
 
-        const businessSettings = deserialize();
+        const businessSettings = serialize();
 
         App.Http.BusinessSettings.save(businessSettings).done(() => {
             Backend.displayNotification(App.Lang.settings_saved);
@@ -131,7 +131,7 @@ App.Pages.BusinessSettings = (function () {
     function init() {
         const businessSettings = App.Vars.business_settings;
 
-        serialize(businessSettings);
+        deserialize(businessSettings);
 
         let workingPlan = {};
 
