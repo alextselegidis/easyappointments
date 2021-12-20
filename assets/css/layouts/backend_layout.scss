@@ -721,6 +721,10 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
+.breaks.table {
+    table-layout: fixed;
+}
+
 @-moz-document url-prefix() {
     .breaks .break-day select {
         height: 36px;
