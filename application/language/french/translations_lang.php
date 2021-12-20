@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Le lien de la société doit pointer vers le site 
 $lang['go_to_booking_page'] = 'Aller à la page de rendez-vous';
 $lang['settings_saved'] = 'Paramètres sauvegardés avec succès.';
 $lang['general'] = 'Général';
-$lang['client_form'] = 'Formulaire de clientèle';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Visible';
 $lang['hidden'] = 'Caché';
 $lang['business_logic'] = 'Logique commerciale';
@@ -333,4 +333,7 @@ $lang['default'] = 'Défaut';
 $lang['table'] = 'Tableau';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'De link naar het bedrijf moet verwijzen naar de of
 $lang['go_to_booking_page'] = 'Ga naar de boekingspagina';
 $lang['settings_saved'] = 'Instellingen succesvol opgeslagen.';
 $lang['general'] = 'Algemeen';
-$lang['client_form'] = 'Klantformulier';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Zichtbaar';
 $lang['hidden'] = 'Verborgen';
 $lang['business_logic'] = 'Bedrijfsinstellingen';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

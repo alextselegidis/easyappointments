@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Länk till företagets hemsida. (obligatorisk)';
 $lang['go_to_booking_page'] = 'Gå till bokningssidan.';
 $lang['settings_saved'] = 'Inställningarna är sparade.';
 $lang['general'] = 'Generellt';
-$lang['client_form'] = 'Klientform';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Synlig';
 $lang['hidden'] = 'Dold';
 $lang['business_logic'] = 'Affärsregler';
@@ -333,4 +333,7 @@ $lang['default'] = 'Standard';
 $lang['table'] = 'Tabell';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

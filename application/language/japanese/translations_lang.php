@@ -170,7 +170,7 @@ $lang['company_link_hint'] = '会社のウェブサイトへのリンクを設�
 $lang['go_to_booking_page'] = '予約ページへ';
 $lang['settings_saved'] = '設定は保存されました。';
 $lang['general'] = '一般';
-$lang['client_form'] = 'お客様のフォーム';
+$lang['booking'] = 'Booking';
 $lang['visible'] = '目に見える';
 $lang['hidden'] = '目に見えません';
 $lang['business_logic'] = '勤務時間設定';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'الموقع الالكتروني للشركة ي�
 $lang['go_to_booking_page'] = 'الذهاب الى صفحة الحجوزات';
 $lang['settings_saved'] = 'تم حفظ الاعدادات بنجاح';
 $lang['general'] = 'عام';
-$lang['client_form'] = 'نموذج العميل';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'مرئي';
 $lang['hidden'] = 'مختفي';
 $lang['business_logic'] = 'منطق الأعمال';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

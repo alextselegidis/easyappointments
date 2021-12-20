@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'कंपनी दुव्याने कंप
 $lang['go_to_booking_page'] = 'आरक्षण पृष्ठावर जा';
 $lang['settings_saved'] = 'सेव्ह यशस्वीरित्या सेट करीत आहे.';
 $lang['general'] = 'सामान्य';
-$lang['client_form'] = 'क्लायंट फॉर्म';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'दृश्यमान';
 $lang['hidden'] = 'लपलेले';
 $lang['business_logic'] = 'व्यवसाय तर्कशास्त्र';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

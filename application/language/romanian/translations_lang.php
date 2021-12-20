@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Linkul trebuie sa indice website-ul oficial al com
 $lang['go_to_booking_page'] = 'La pagina de înregistrari';
 $lang['settings_saved'] = 'Setari salvate.';
 $lang['general'] = 'General';
-$lang['client_form'] = 'Client Formular';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Vizibil';
 $lang['hidden'] = 'Ascuns';
 $lang['business_logic'] = 'Logica afacerii';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

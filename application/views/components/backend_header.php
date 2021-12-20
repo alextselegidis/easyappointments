@@ -95,7 +95,7 @@
                             <?= lang('business_logic') ?>
                         </a>
                         <a class="dropdown-item" href="<?= site_url('booking_settings') ?>">
-                            <?= lang('client_form') ?>
+                            <?= lang('booking') ?>
                         </a>
                         <a class="dropdown-item" href="<?= site_url('legal_settings') ?>">
                             <?= lang('legal_contents') ?>

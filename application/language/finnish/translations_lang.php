@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Kotisivulinkin tulisi ohjata yrityksen kotisivuill
 $lang['go_to_booking_page'] = 'Palaa ajanvaraussivulle';
 $lang['settings_saved'] = 'Asetukset tallennettiin onnistuneesti.';
 $lang['general'] = 'Yleinen';
-$lang['client_form'] = 'Asiakaslomake';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Näkyvä';
 $lang['hidden'] = 'Piilotettu';
 $lang['business_logic'] = 'Työajat';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

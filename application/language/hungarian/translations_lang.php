@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'A vállalkozás linkje a cég hivatalos weblapjár
 $lang['go_to_booking_page'] = 'Ugrás a foglalási oldalra';
 $lang['settings_saved'] = 'Beállítások sikeresen mentve.';
 $lang['general'] = 'Általános';
-$lang['client_form'] = 'Ügyfélforma';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Látható';
 $lang['hidden'] = 'Rejtett';
 $lang['business_logic'] = 'Business Logic';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

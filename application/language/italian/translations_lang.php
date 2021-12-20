@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Il link aziendale dovrebbe puntare al sito ufficia
 $lang['go_to_booking_page'] = 'Vai alla pagina delle prenotazioni';
 $lang['settings_saved'] = 'Impostazioni salvate con successo.';
 $lang['general'] = 'Generale';
-$lang['client_form'] = 'Forma del cliente';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Visible';
 $lang['hidden'] = 'Nascosto';
 $lang['business_logic'] = 'Business Logic';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Tabella';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

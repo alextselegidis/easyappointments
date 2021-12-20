@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Link firmy by mal odkazovať na oficiálnu stránk
 $lang['go_to_booking_page'] = 'Prejsť na stránku rezervácií';
 $lang['settings_saved'] = 'Nastavenie úspešne uložené.';
 $lang['general'] = 'Všeobecný';
-$lang['client_form'] = 'Tvar klienta';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Viditeľný';
 $lang['hidden'] = 'Skrytý';
 $lang['business_logic'] = 'Firemné údaje';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

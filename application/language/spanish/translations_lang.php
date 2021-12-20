@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'El enlace de la empresa debe dirigir al sitio web 
 $lang['go_to_booking_page'] = 'Ir a la página para agendar';
 $lang['settings_saved'] = 'Configuración guardada exitosamente';
 $lang['general'] = 'General';
-$lang['client_form'] = 'Formulario del cliente';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Visible';
 $lang['hidden'] = 'Oculto';
 $lang['business_logic'] = 'Lógica del negocio';
@@ -333,4 +333,7 @@ $lang['default'] = 'Predeterminado';
 $lang['table'] = 'Tabla';
 $lang['date'] = 'Fecha';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

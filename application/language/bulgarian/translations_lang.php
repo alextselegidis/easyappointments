@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Препратката на организация
 $lang['go_to_booking_page'] = 'Към страница за запазване.';
 $lang['settings_saved'] = 'Настройките записани успешно.';
 $lang['general'] = 'Общи';
-$lang['client_form'] = 'Клиентска форма';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'видим';
 $lang['hidden'] = 'Скрит';
 $lang['business_logic'] = 'Бизнес логика';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

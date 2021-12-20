@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Ο σύνδεσμος εταιρείας θα πρ
 $lang['go_to_booking_page'] = 'Πλοήγηση Στην Σελίδα Κράτησης';
 $lang['settings_saved'] = 'Οι ρυθμίσεις αποθηκεύτηκαν επιτυχώς.';
 $lang['general'] = 'Γενικά';
-$lang['client_form'] = 'Μορφή πελάτη';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Ορατός';
 $lang['hidden'] = 'Κρυμμένος';
 $lang['business_logic'] = 'Επιχειρηματική Λογική';
@@ -333,4 +333,7 @@ $lang['default'] = 'Προεπιλεγμένο';
 $lang['table'] = 'Πίνακας';
 $lang['date'] = 'Ημερομηνία';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

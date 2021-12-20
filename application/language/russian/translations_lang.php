@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Сайт компании должен указы�
 $lang['go_to_booking_page'] = 'Перейти на страницу заказов';
 $lang['settings_saved'] = 'Настройки сохранены.';
 $lang['general'] = 'Основные';
-$lang['client_form'] = 'Форма клиента';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Видимый';
 $lang['hidden'] = 'Скрытый';
 $lang['business_logic'] = 'Бизнес-логика';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

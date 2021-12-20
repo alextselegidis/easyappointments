@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'De Firmelink sollt op déi offiziell Websäit vun 
 $lang['go_to_booking_page'] = 'Gitt op d\'Buchungssäit';
 $lang['settings_saved'] = 'Astellungen erfollegräich gespäichert.';
 $lang['general'] = 'Allgemenges';
-$lang['client_form'] = 'Client Form';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Fir siichtbar';
 $lang['hidden'] = 'Verstoppen';
 $lang['business_logic'] = 'Business Logik';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

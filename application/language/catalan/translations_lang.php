@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'L\'enllaç a l\'organització hauria d\'enllaçar 
 $lang['go_to_booking_page'] = 'Ves a la pàgina de reserves';
 $lang['settings_saved'] = 'Les configuracions s\'han desat correctament.';
 $lang['general'] = 'General';
-$lang['client_form'] = 'Formulari del client';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Visible';
 $lang['hidden'] = 'Amagat';
 $lang['business_logic'] = 'Lògica de negoci';
@@ -333,4 +333,7 @@ $lang['default'] = 'Per defecte';
 $lang['table'] = 'Taula';
 $lang['date'] = 'Data';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

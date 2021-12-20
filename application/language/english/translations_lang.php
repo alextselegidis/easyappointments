@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Company link should point to the official website 
 $lang['go_to_booking_page'] = 'Go To Booking Page';
 $lang['settings_saved'] = 'Settings saved successfully.';
 $lang['general'] = 'General';
-$lang['client_form'] = 'Client Form';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Visible';
 $lang['hidden'] = 'Hidden';
 $lang['business_logic'] = 'Business Logic';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

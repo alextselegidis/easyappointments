@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Şirket web sitesi, şirketin resmi web sitesine y
 $lang['go_to_booking_page'] = 'Rezervasyon Sayfasına Git';
 $lang['settings_saved'] = 'Ayarlar başarıyla kaydedildi.';
 $lang['general'] = 'Genel';
-$lang['client_form'] = 'Müşteri formu';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Gözle görülür';
 $lang['hidden'] = 'Gizli';
 $lang['business_logic'] = 'İş Mantığı';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

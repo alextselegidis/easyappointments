@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'קישור החברה צריך לקשר לאתר �
 $lang['go_to_booking_page'] = 'עבור לדף ההזמנות';
 $lang['settings_saved'] = 'ההגדרות נשמרו בהצלחה!';
 $lang['general'] = 'כללי';
-$lang['client_form'] = 'טופס הלקוח';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'גלוי';
 $lang['hidden'] = 'מוּסתָר';
 $lang['business_logic'] = 'לוגיקה עסקית';
@@ -333,4 +333,7 @@ $lang['default'] = 'בְּרִירַת מֶחדָל';
 $lang['table'] = 'טבלה';
 $lang['date'] = 'תאריך';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

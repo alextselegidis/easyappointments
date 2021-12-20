@@ -170,7 +170,7 @@ $lang['company_link_hint'] = 'Link firmowy powinien wskazywać na firmowe www. (
 $lang['go_to_booking_page'] = 'Idź do strony bookowania';
 $lang['settings_saved'] = 'Ustawienia zapisano.';
 $lang['general'] = 'Ogólne';
-$lang['client_form'] = 'Formularz klienta';
+$lang['booking'] = 'Booking';
 $lang['visible'] = 'Widoczny';
 $lang['hidden'] = 'Ukryty';
 $lang['business_logic'] = 'Podział Firmy';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End

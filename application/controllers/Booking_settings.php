@@ -20,7 +20,7 @@
  */
 class Booking_settings extends EA_Controller {
     /**
-     * Calendar constructor.
+     * Booking_settings constructor.
      */
     public function __construct()
     {
@@ -54,22 +54,21 @@ class Booking_settings extends EA_Controller {
 
         $user_id = session('user_id');
 
-        $role_slug = session('role_slug');
+        script_vars([
+            'booking_settings' => $this->settings_model->get_batch()
+        ]);
 
         html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'system_settings' => $this->settings_model->get(),
         ]);
 
         $this->load->view('pages/booking_settings', html_vars());
     }
 
     /**
-     * Save general settings.
+     * Save booking settings.
      */
     public function save()
     {
@@ -80,26 +79,7 @@ class Booking_settings extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $settings = json_decode(request('settings', FALSE), TRUE);
-
-            // Check if phone number settings are valid.
-
-            $phone_number_required = setting('phone_number_required');
-
-            $phone_number_shown = FALSE;
-
-            foreach ($settings as $setting)
-            {
-                if ($setting['name'] === 'show_phone_number')
-                {
-                    $phone_number_shown = $setting['value'];
-                }
-            }
-
-            if ($phone_number_required && ! $phone_number_shown)
-            {
-                throw new RuntimeException('You cannot hide the phone number in the booking form while it\'s also required!');
-            }
+            $settings = request('booking_settings', []);
 
             foreach ($settings as $setting)
             {

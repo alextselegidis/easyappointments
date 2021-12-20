@@ -170,7 +170,7 @@ $lang['company_link_hint'] = '公司的网址应当指向公司的官方网页 (
 $lang['go_to_booking_page'] = '进入预约页面';
 $lang['settings_saved'] = '设置成功保存.';
 $lang['general'] = '一般设置';
-$lang['client_form'] = '客户形态';
+$lang['booking'] = 'Booking';
 $lang['visible'] = '可见的';
 $lang['hidden'] = '隐';
 $lang['business_logic'] = '工作时间';
@@ -333,4 +333,7 @@ $lang['default'] = 'Default';
 $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
+$lang['booking_settings'] = 'Booking Settings';
+$lang['display'] = 'Display';
+$lang['require'] = 'Require';
 // End
