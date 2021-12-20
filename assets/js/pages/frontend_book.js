@@ -531,7 +531,7 @@ window.FrontendBook = window.FrontendBook || {};
             }
 
             // Validate email address.
-            if (!GeneralFunctions.validateEmail($('#email').val())) {
+            if ($('#email').val() && !GeneralFunctions.validateEmail($('#email').val())) {
                 $('#email').parents('.form-group').addClass('is-invalid');
                 throw new Error(App.Lang.invalid_email);
             }
