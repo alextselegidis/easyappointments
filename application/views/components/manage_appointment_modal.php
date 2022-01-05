@@ -2,6 +2,13 @@
 /**
  * @var array $available_services
  * @var array $timezones
+ * @var array $require_first_name
+ * @var array $require_last_name
+ * @var array $require_email
+ * @var array $require_phone_number
+ * @var array $require_address
+ * @var array $require_city
+ * @var array $require_zip_code
  */
 ?>
 <div id="manage-appointment" class="modal fade">
@@ -187,65 +194,96 @@
                                 <div class="mb-3">
                                     <label for="first-name" class="form-label">
                                         <?= lang('first_name') ?>
-                                        <span class="text-danger">*</span>
+                                        <?php if ($require_first_name): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="first-name" class="required form-control">
+                                    <input type="text" id="first-name"
+                                           class="<?= $require_first_name ? 'required' : '' ?> form-control"
+                                           maxlength="100"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="last-name" class="form-label">
                                         <?= lang('last_name') ?>
-                                        <span class="text-danger">*</span>
+                                        <?php if ($require_last_name): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="last-name" class="required form-control">
+                                    <input type="text" id="last-name"
+                                           class="<?= $require_last_name ? 'required' : '' ?> form-control"
+                                           maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">
                                         <?= lang('email') ?>
-                                        <span class="text-danger">*</span>
+                                        <?php if ($require_email): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="email" class="required form-control">
+                                    <input type="text" id="email"
+                                           class="<?= $require_email ? 'required' : '' ?> form-control"
+                                           maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="phone-number" class="form-label">
                                         <?= lang('phone_number') ?>
-                                        <?php if (setting('require_phone_number') === '1'): ?>
+                                        <?php if ($require_phone_number): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
-                                    <input id="phone-number" 
-                                           class="form-control <?= setting('require_phone_number') === '1' ? 'required' : '' ?>">
+                                    <input type="text" id="phone-number" maxlength="60"
+                                           class="<?= $require_phone_number ? 'required' : '' ?> form-control"/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
                                     <label for="address" class="form-label">
                                         <?= lang('address') ?>
+                                        <?php if ($require_address): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="address" class="form-control">
+                                    <input type="text" id="address"
+                                           class="<?= $require_address ? 'required' : '' ?> form-control"
+                                           maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="city" class="form-label">
                                         <?= lang('city') ?>
+                                        <?php if ($require_city): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="city" class="form-control">
+                                    <input type="text" id="city"
+                                           class="<?= $require_city ? 'required' : '' ?> form-control"
+                                           maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="zip-code" class="form-label">
                                         <?= lang('zip_code') ?>
+                                        <?php if ($require_zip_code): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <input id="zip-code" class="form-control">
+                                    <input type="text" id="zip-code"
+                                           class="<?= $require_zip_code ? 'required' : '' ?> form-control"
+                                           maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="customer-notes" class="form-label">
                                         <?= lang('notes') ?>
+                                        <?php if ($require_zip_code): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif ?>
                                     </label>
-                                    <textarea id="customer-notes" rows="2" class="form-control"></textarea>
+                                    <textarea id="customer-notes" rows="2"
+                                              class="<?= $require_zip_code ? 'required' : '' ?> form-control"></textarea>
                                 </div>
                             </div>
                         </div>

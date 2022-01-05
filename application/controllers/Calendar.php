@@ -97,6 +97,14 @@ class Calendar extends EA_Controller {
             'available_services' => $this->services_model->get_available_services(),
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
+            'require_first_name' => setting('require_first_name'),
+            'require_last_name' => setting('require_last_name'),
+            'require_email' => setting('require_email'),
+            'require_phone_number' => setting('require_phone_number'),
+            'require_address' => setting('require_address'),
+            'require_city' => setting('require_city'),
+            'require_zip_code' => setting('require_zip_code'),
+            'require_notes' => setting('require_notes'),
         ]);
 
         $this->load->view('pages/calendar', html_vars());
