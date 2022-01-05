@@ -49,16 +49,30 @@ class Customers extends EA_Controller {
             abort(403, 'Forbidden');
         }
 
-        $user_id = session('user_id');
-
+        $user_id = session('user_id');#
         $role_slug = session('role_slug');
+        
+        $require_first_name = setting('require_first_name');
+        $require_last_name = setting('require_last_name');
+        $require_email = setting('require_email');
+        $require_phone_number = setting('require_phone_number');
+        $require_address = setting('require_address');
+        $require_city = setting('require_city');
+        $require_zip_code = setting('require_zip_code');
 
         html_vars([
             'page_title' => lang('customers'),
             'active_menu' => PRIV_CUSTOMERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
+            'timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'require_first_name' => $require_first_name,
+            'require_last_name' => $require_last_name,
+            'require_email' => $require_email,
+            'require_phone_number' => $require_phone_number,
+            'require_address' => $require_address,
+            'require_city' => $require_city,
+            'require_zip_code' => $require_zip_code,
         ]);
 
         $this->load->view('pages/customers', html_vars());
