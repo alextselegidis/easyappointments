@@ -54,8 +54,6 @@ class Account extends EA_Controller {
 
         $user_id = session('user_id');
 
-        $role_slug = session('role_slug');
-
         $account = $this->users_model->find($user_id);
 
         script_vars([
