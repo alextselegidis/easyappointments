@@ -26,18 +26,9 @@ class General_settings extends EA_Controller {
     {
         parent::__construct();
 
-        $this->load->model('appointments_model');
-        $this->load->model('customers_model');
-        $this->load->model('services_model');
-        $this->load->model('providers_model');
-        $this->load->model('roles_model');
         $this->load->model('settings_model');
 
         $this->load->library('accounts');
-        $this->load->library('google_sync');
-        $this->load->library('notifications');
-        $this->load->library('synchronization');
-        $this->load->library('timezones');
     }
 
     /**
