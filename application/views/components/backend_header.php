@@ -91,11 +91,11 @@
                         <a class="dropdown-item" href="<?= site_url('general_settings') ?>">
                             <?= lang('general') ?>
                         </a>
-                        <a class="dropdown-item" href="<?= site_url('business_settings') ?>">
-                            <?= lang('business_logic') ?>
-                        </a>
                         <a class="dropdown-item" href="<?= site_url('booking_settings') ?>">
                             <?= lang('booking') ?>
+                        </a>
+                        <a class="dropdown-item" href="<?= site_url('business_settings') ?>">
+                            <?= lang('business_logic') ?>
                         </a>
                         <a class="dropdown-item" href="<?= site_url('legal_settings') ?>">
                             <?= lang('legal_contents') ?>
