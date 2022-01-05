@@ -24,45 +24,67 @@
     };
 </script>
 
-<div id="about-page" class="container-fluid backend-page">
-    <div id="about">
+<div id="about-page" class="container backend-page">
+    <div id="about" class="col-lg-8 offset-lg-2">
         <h3>Easy!Appointments</h3>
 
         <p>
             <?= lang('about_app_info') ?>
         </p>
 
-        <div class="current-version card card-body bg-light border-light mb-3">
-            <?= lang('current_version') ?>
-            <?= config('version') ?>
+        <div class="card mb-3">
+            <div class="card-header">
+                <?= lang('current_version') ?>
+            </div>
+            <div class="card-body">
+                <strong>
+                    <?= config('version') ?>
+                </strong>
+            </div>
         </div>
-
+        
         <h3><?= lang('support') ?></h3>
+        
         <p>
             <?= lang('about_app_support') ?>
-
-            <br><br>
-
-            <a href="https://easyappointments.org">
-                <?= lang('official_website') ?>
-            </a>
-            |
-            <a href="https://groups.google.com/forum/#!forum/easy-appointments">
-                <?= lang('support_group') ?>
-            </a>
-            |
-            <a href="https://github.com/alextselegidis/easyappointments/issues">
-                <?= lang('project_issues') ?>
-            </a>
-            |
-            <a href="https://facebook.com/easyappts">
-                Facebook
-            </a>
-            |
-            <a href="https://twitter.com/easyappts">
-                Twitter
-            </a>
         </p>
+
+        <div class="d-lg-flex justify-content-between flex-wrap alight-items-center">
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block" href="https://easyappointments.org">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    <?= lang('official_website') ?>
+                </a>    
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block" href="https://groups.google.com/forum/#!forum/easy-appointments">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    <?= lang('support_group') ?>
+                </a>
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block" href="https://github.com/alextselegidis/easyappointments/issues">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    <?= lang('project_issues') ?>
+                </a>
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block" href="https://facebook.com/easyappts">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Facebook
+                </a>
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block" href="https://twitter.com/easyappts">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Twitter
+                </a>
+            </div>
+        </div>
 
         <h3><?= lang('license') ?></h3>
 
