@@ -200,7 +200,7 @@
 
 <?php section('content') ?>
 
-<?php section('script') ?>
+<?php section('scripts') ?>
 
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/backend_customers_helper.js') ?>"></script>
@@ -226,4 +226,4 @@
     });
 </script>
 
-<?php section('script') ?>
+<?php section('scripts') ?>
