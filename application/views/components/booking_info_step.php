@@ -92,7 +92,7 @@
                         </label>
                         <input type="text" id="address" class="<?= $require_address ? 'required' : '' ?> form-control" maxlength="120"/>
                     </div>
-                <?php endif; ?>
+                <?php endif ?>
                 <?php if ($display_city): ?>
                     <div class="mb-3">
                         <label for="city" class="form-label">
@@ -103,7 +103,7 @@
                         </label>
                         <input type="text" id="city" class="<?= $require_city ? 'required' : '' ?> form-control" maxlength="120"/>
                     </div>
-                <?php endif; ?>
+                <?php endif ?>
                 <?php if ($display_zip_code): ?>
                     <div class="mb-3">
                         <label for="zip-code" class="form-label">
@@ -114,7 +114,7 @@
                         </label>
                         <input type="text" id="zip-code" class="<?= $require_zip_code ? 'required' : '' ?> form-control" maxlength="120"/>
                     </div>
-                <?php endif; ?>
+                <?php endif ?>
                 <?php if ($display_notes): ?>
                     <div class="mb-3">
                         <label for="notes" class="form-label">
@@ -125,7 +125,7 @@
                         </label>
                         <textarea id="notes" maxlength="500" class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
                     </div>
-                <?php endif; ?>
+                <?php endif ?>
             </div>
         </div>
     </div>
