@@ -9,6 +9,7 @@
  * @var array $require_address
  * @var array $require_city
  * @var array $require_zip_code
+ * @var array $available_languages
  */
 ?>
 
@@ -169,7 +170,13 @@
                             <?= lang('language') ?>
                             <span class="text-danger">*</span>
                         </label>
-                        <select id="language" class="form-control required"></select>
+                        <select id="language" class="form-control required">
+                            <?php foreach ($available_languages as $available_language): ?>
+                                <option value="<?= $available_language ?>">
+                                    <?= $available_language ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
                     </div>
 
                     <div class="mb-3">
@@ -202,28 +209,12 @@
 
 <?php section('scripts') ?>
 
-<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_customers_helper.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_customers.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        timezones: <?= json_encode($timezones) ?>,
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/customers.js') ?>"></script>
 
-    $(function () {
-        BackendCustomers.initialize(true);
-    });
 </script>
 
 <?php section('scripts') ?>
