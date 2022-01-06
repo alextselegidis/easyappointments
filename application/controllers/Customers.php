@@ -37,7 +37,7 @@ class Customers extends EA_Controller {
     /**
      * Render the backend customers page.
      *
-     * On this page admin users will be able to manage customers, which are eventually selected by customers during the 
+     * On this page admin users will be able to manage customers, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
@@ -49,9 +49,11 @@ class Customers extends EA_Controller {
             abort(403, 'Forbidden');
         }
 
-        $user_id = session('user_id');#
+        $user_id = session('user_id');
         $role_slug = session('role_slug');
-        
+
+        $date_format = setting('date_format');
+        $time_format = setting('time_format');
         $require_first_name = setting('require_first_name');
         $require_last_name = setting('require_last_name');
         $require_email = setting('require_email');
@@ -59,6 +61,24 @@ class Customers extends EA_Controller {
         $require_address = setting('require_address');
         $require_city = setting('require_city');
         $require_zip_code = setting('require_zip_code');
+        
+        $secretary_providers = []; 
+        
+        if ($role_slug === DB_SLUG_SECRETARY)
+        {
+            $secretary = $this->secretaries_model->find($user_id);
+            
+            $secretary_providers = $secretary['providers'];
+        }
+
+        script_vars([
+            'date_format' => $date_format,
+            'time_format' => $time_format,
+            'timezones' => $this->timezones->to_array(),
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'secretary_providers' => $secretary_providers,
+        ]);
 
         html_vars([
             'page_title' => lang('customers'),
@@ -73,6 +93,7 @@ class Customers extends EA_Controller {
             'require_address' => $require_address,
             'require_city' => $require_city,
             'require_zip_code' => $require_zip_code,
+            'available_languages' => config('available_languages'),
         ]);
 
         $this->load->view('pages/customers', html_vars());
@@ -95,7 +116,7 @@ class Customers extends EA_Controller {
             $order_by = 'first_name ASC, last_name ASC, email ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $customers = $this->customers_model->search($keyword, $limit, $offset, $order_by);
@@ -130,7 +151,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            $customer = json_decode(request('customer'), TRUE);
+            $customer = request('customer');
 
             if (cannot('add', PRIV_USERS))
             {
@@ -157,7 +178,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            $customer = json_decode(request('customer'), TRUE);
+            $customer = request('customer');
 
             if (cannot('edit', PRIV_USERS))
             {
