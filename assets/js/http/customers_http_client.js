@@ -11,7 +11,18 @@
 
 App.Http.Customers = (function () {
     /**
-     * Create an customer.
+     * Save (create or update) a customer.
+     *
+     * @param {Object} customer
+     *
+     * @return {Object}
+     */
+    function save(customer) {
+        return customer.id ? update(customer) : create(customer);
+    }
+
+    /**
+     * Create a customer.
      *
      * @param {Object} customer
      *
@@ -29,7 +40,7 @@ App.Http.Customers = (function () {
     }
 
     /**
-     * Update an customer.
+     * Update a customer.
      *
      * @param {Object} customer
      *
@@ -47,7 +58,7 @@ App.Http.Customers = (function () {
     }
 
     /**
-     * Delete an customer.
+     * Delete a customer.
      *
      * @param {Number} customerId
      *
@@ -68,13 +79,13 @@ App.Http.Customers = (function () {
      * Search customers by keyword.
      *
      * @param {String} keyword
-     * @param {Number} limit
-     * @param {Number} offset
-     * @param {String} orderBy
+     * @param {Number} [limit]
+     * @param {Number} [offset]
+     * @param {String} [orderBy]
      *
      * @return {Object}
      */
-    function search(keyword, limit, offset, orderBy) {
+    function search(keyword, limit = null, offset = null, orderBy = null) {
         const url = App.Utils.Url.siteUrl('customers/search');
 
         const data = {
@@ -89,7 +100,7 @@ App.Http.Customers = (function () {
     }
 
     /**
-     * Find an customer.
+     * Find a customer.
      *
      * @param {Number} customerId
      *
@@ -107,6 +118,7 @@ App.Http.Customers = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,
