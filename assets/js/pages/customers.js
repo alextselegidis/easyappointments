@@ -6,52 +6,45 @@
  * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.0.0
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
-    'use strict';
-
-    /**
-     * CustomersHelper Class
-     *
-     * This class contains the methods that are used in the backend customers page.
-     *
-     * @class CustomersHelper
-     */
-    function CustomersHelper() {
-        this.filterResults = {};
-        this.filterLimit = 20;
-    }
+/**
+ * Customers page module.
+ *
+ * This class contains the methods that are used in the backend customers page.
+ */
+App.Pages.Customers = (function () {
+    const $customers = $('#customers');
+    let filterResults = {};
+    let filterLimit = 20;
 
     /**
      * Binds the default event handlers of the backend customers page.
      */
-    CustomersHelper.prototype.bindEventHandlers = function () {
-        var instance = this;
-
+    function bindEventHandlers() {
         /**
          * Event: Filter Customers Form "Submit"
          *
          * @param {jQuery.Event} event
          */
-        $('#customers').on('submit', '#filter-customers form', function (event) {
+        $customers.on('submit', '#filter-customers form', function (event) {
             event.preventDefault();
-            var key = $('#filter-customers .key').val();
+            const key = $('#filter-customers .key').val();
             $('#filter-customers .selected').removeClass('selected');
-            instance.filterLimit = 20;
-            instance.resetForm();
-            instance.filter(key);
+            filterLimit = 20;
+            resetForm();
+            filter(key);
         });
 
         /**
          * Event: Filter Customers Clear Button "Click"
          */
-        $('#customers').on('click', '#filter-customers .clear', function () {
+        $customers.on('click', '#filter-customers .clear', function () {
             $('#filter-customers .key').val('');
-            instance.filterLimit = 20;
-            instance.filter('');
-            instance.resetForm();
+            filterLimit = 20;
+            filter('');
+            resetForm();
         });
 
         /**
@@ -59,17 +52,17 @@
          *
          * Display the customer data of the selected row.
          */
-        $('#customers').on('click', '.customer-row', function () {
+        $customers.on('click', '.customer-row', function () {
             if ($('#filter-customers .filter').prop('disabled')) {
                 return; // Do nothing when user edits a customer record.
             }
 
             var customerId = $(this).attr('data-id');
-            var customer = instance.filterResults.find(function (filterResult) {
+            var customer = filterResults.find(function (filterResult) {
                 return Number(filterResult.id) === Number(customerId);
             });
 
-            instance.display(customer);
+            display(customer);
             $('#filter-customers .selected').removeClass('selected');
             $(this).addClass('selected');
             $('#edit-customer, #delete-customer').prop('disabled', false);
@@ -78,8 +71,8 @@
         /**
          * Event: Add Customer Button "Click"
          */
-        $('#customers').on('click', '#add-customer', function () {
-            instance.resetForm();
+        $customers.on('click', '#add-customer', function () {
+            resetForm();
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
             $('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -90,7 +83,7 @@
         /**
          * Event: Edit Customer Button "Click"
          */
-        $('#customers').on('click', '#edit-customer', function () {
+        $customers.on('click', '#edit-customer', function () {
             $('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#add-edit-delete-group').hide();
             $('#save-cancel-group').show();
@@ -101,18 +94,18 @@
         /**
          * Event: Cancel Customer Add/Edit Operation Button "Click"
          */
-        $('#customers').on('click', '#cancel-customer', function () {
+        $customers.on('click', '#cancel-customer', function () {
             var id = $('#customer-id').val();
-            instance.resetForm();
+            resetForm();
             if (id) {
-                instance.select(id, true);
+                select(id, true);
             }
         });
 
         /**
          * Event: Save Add/Edit Customer Operation "Click"
          */
-        $('#customers').on('click', '#save-customer', function () {
+        $customers.on('click', '#save-customer', function () {
             var customer = {
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
@@ -130,17 +123,17 @@
                 customer.id = $('#customer-id').val();
             }
 
-            if (!instance.validate()) {
+            if (!validate()) {
                 return;
             }
 
-            instance.save(customer);
+            save(customer);
         });
 
         /**
          * Event: Delete Customer Button "Click"
          */
-        $('#customers').on('click', '#delete-customer', function () {
+        $customers.on('click', '#delete-customer', function () {
             var customerId = $('#customer-id').val();
             var buttons = [
                 {
@@ -152,65 +145,47 @@
                 {
                     text: App.Lang.delete,
                     click: function () {
-                        instance.delete(customerId);
+                        remove(customerId);
                         $('#message-box').dialog('close');
                     }
                 }
             ];
 
-            GeneralFunctions.displayMessageBox(App.Lang.delete_customer, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(App.Lang.delete_customer, App.Lang.delete_record_prompt, buttons);
         });
-    };
+    }
 
     /**
      * Save a customer record to the database (via ajax post).
      *
      * @param {Object} customer Contains the customer data.
      */
-    CustomersHelper.prototype.save = function (customer) {
-        var url = GlobalVariables.baseUrl + '/index.php/customers/' + (customer.id ? 'update' : 'create');
-
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            customer: JSON.stringify(customer)
-        };
-
-        $.post(url, data).done(
-            function (response) {
-                Backend.displayNotification(App.Lang.customer_saved);
-                this.resetForm();
-                $('#filter-customers .key').val('');
-                this.filter('', response.id, true);
-            }.bind(this)
-        );
-    };
+    function save(customer) {
+        App.Http.Customers.save(customer).then((response) => {
+            Backend.displayNotification(App.Lang.customer_saved);
+            resetForm();
+            $('#filter-customers .key').val('');
+            filter('', response.id, true);
+        });
+    }
 
     /**
      * Delete a customer record from database.
      *
      * @param {Number} id Record id to be deleted.
      */
-    CustomersHelper.prototype.delete = function (id) {
-        var url = GlobalVariables.baseUrl + '/index.php/customers/destroy';
-
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            customer_id: id
-        };
-
-        $.post(url, data).done(
-            function () {
-                Backend.displayNotification(App.Lang.customer_deleted);
-                this.resetForm();
-                this.filter($('#filter-customers .key').val());
-            }.bind(this)
-        );
-    };
+    function remove(id) {
+        App.Http.Customers.destroy(id).then(() => {
+            Backend.displayNotification(App.Lang.customer_deleted);
+            resetForm();
+            filter($('#filter-customers .key').val());
+        });
+    }
 
     /**
      * Validate customer data before save (insert or update).
      */
-    CustomersHelper.prototype.validate = function () {
+    function validate() {
         $('#form-message').removeClass('alert-danger').hide();
         $('.is-invalid').removeClass('is-invalid');
 
@@ -240,12 +215,12 @@
             $('#form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
-    };
+    }
 
     /**
      * Bring the customer form back to its initial state.
      */
-    CustomersHelper.prototype.resetForm = function () {
+    function resetForm() {
         $('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('.record-details #timezone').val('UTC');
 
@@ -262,14 +237,14 @@
         $('#filter-customers button').prop('disabled', false);
         $('#filter-customers .selected').removeClass('selected');
         $('#filter-customers .results').css('color', '');
-    };
+    }
 
     /**
      * Display a customer record into the form.
      *
      * @param {Object} customer Contains the customer record data.
      */
-    CustomersHelper.prototype.display = function (customer) {
+    function display(customer) {
         $('#customer-id').val(customer.id);
         $('#first-name').val(customer.first_name);
         $('#last-name').val(customer.last_name);
@@ -292,27 +267,27 @@
 
         customer.appointments.forEach(function (appointment) {
             if (
-                GlobalVariables.user.role_slug === Backend.DB_SLUG_PROVIDER &&
-                parseInt(appointment.id_users_provider) !== GlobalVariables.user.id
+                App.Vars.role_slug === Backend.DB_SLUG_PROVIDER &&
+                parseInt(appointment.id_users_provider) !== App.Vars.user_id
             ) {
                 return;
             }
 
             if (
-                GlobalVariables.user.role_slug === Backend.DB_SLUG_SECRETARY &&
-                GlobalVariables.secretaryProviders.indexOf(appointment.id_users_provider) === -1
+                App.Vars.role_slug === Backend.DB_SLUG_SECRETARY &&
+                App.Vars.secretary_providers.indexOf(appointment.id_users_provider) === -1
             ) {
                 return;
             }
 
             var start = GeneralFunctions.formatDate(
                 moment(appointment.start_datetime).toDate(),
-                GlobalVariables.dateFormat,
+                App.Vars.date_format,
                 true
             );
             var end = GeneralFunctions.formatDate(
                 moment(appointment.end_datetime).toDate(),
-                GlobalVariables.dateFormat,
+                App.Vars.date_format,
                 true
             );
 
@@ -323,7 +298,7 @@
                     // Service - Provider
 
                     $('<a/>', {
-                        'href': GlobalVariables.baseUrl + '/index.php/backend/index/' + appointment.hash,
+                        'href': App.Utils.Url.siteUrl(`backend/index/${appointment.hash}`),
                         'html': [
                             $('<i/>', {
                                 'class': 'fas fa-edit me-1'
@@ -357,12 +332,12 @@
                     // Timezone
 
                     $('<small/>', {
-                        'text': GlobalVariables.timezones[appointment.provider.timezone]
+                        'text': App.Vars.timezones[appointment.provider.timezone]
                     })
                 ]
             }).appendTo('#customer-appointments');
         });
-    };
+    }
 
     /**
      * Filter customer records.
@@ -372,53 +347,41 @@
      * ID will be selected (but not displayed).
      * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
      */
-    CustomersHelper.prototype.filter = function (keyword, selectId, display) {
-        display = display || false;
+    function filter(keyword, selectId = null, display = false) {
+        App.Http.Customers.search(keyword, filterLimit).then((response) => {
+            filterResults = response;
 
-        var url = GlobalVariables.baseUrl + '/index.php/customers/search';
+            $('#filter-customers .results').empty();
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            keyword: keyword,
-            limit: this.filterLimit
-        };
+            response.forEach(
+                function (customer) {
+                    $('#filter-customers .results').append(getFilterHtml(customer)).append($('<hr/>'));
+                }.bind(this)
+            );
 
-        $.post(url, data).done(
-            function (response) {
-                this.filterResults = response;
-
-                $('#filter-customers .results').empty();
-
-                response.forEach(
-                    function (customer) {
-                        $('#filter-customers .results').append(this.getFilterHtml(customer)).append($('<hr/>'));
-                    }.bind(this)
+            if (!response.length) {
+                $('#filter-customers .results').append(
+                    $('<em/>', {
+                        'text': App.Lang.no_records_found
+                    })
                 );
+            } else if (response.length === filterLimit) {
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'btn btn-outline-secondary w-100 load-more text-center',
+                    'text': App.Lang.load_more,
+                    'click': function () {
+                        filterLimit += 20;
+                        filter(keyword, selectId, display);
+                    }.bind(this)
+                }).appendTo('#filter-customers .results');
+            }
 
-                if (!response.length) {
-                    $('#filter-customers .results').append(
-                        $('<em/>', {
-                            'text': App.Lang.no_records_found
-                        })
-                    );
-                } else if (response.length === this.filterLimit) {
-                    $('<button/>', {
-                        'type': 'button',
-                        'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': App.Lang.load_more,
-                        'click': function () {
-                            this.filterLimit += 20;
-                            this.filter(keyword, selectId, display);
-                        }.bind(this)
-                    }).appendTo('#filter-customers .results');
-                }
-
-                if (selectId) {
-                    this.select(selectId, display);
-                }
-            }.bind(this)
-        );
-    };
+            if (selectId) {
+                select(selectId, display);
+            }
+        });
+    }
 
     /**
      * Get the filter results row HTML code.
@@ -427,7 +390,7 @@
      *
      * @return {String} Returns the record HTML code.
      */
-    CustomersHelper.prototype.getFilterHtml = function (customer) {
+    function getFilterHtml(customer) {
         var name = customer.first_name + ' ' + customer.last_name;
 
         var info = customer.email;
@@ -448,7 +411,7 @@
                 $('<br/>')
             ]
         });
-    };
+    }
 
     /**
      * Select a specific record from the current filter results.
@@ -456,26 +419,39 @@
      * If the customer id does not exist in the list then no record will be selected.
      *
      * @param {Number} id The record id to be selected from the filter results.
-     * @param {Boolean} display Optional (false), if true then the method will display the record
+     * @param {Boolean} show Optional (false), if true then the method will display the record
      * on the form.
      */
-    CustomersHelper.prototype.select = function (id, display) {
-        display = display || false;
-
+    function select(id, show = false) {
         $('#filter-customers .selected').removeClass('selected');
 
         $('#filter-customers .entry[data-id="' + id + '"]').addClass('selected');
 
-        if (display) {
-            var customer = this.filterResults.find(function (filterResult) {
+        if (show) {
+            const customer = filterResults.find(function (filterResult) {
                 return Number(filterResult.id) === Number(id);
             });
 
-            this.display(customer);
+            display(customer);
 
             $('#edit-customer, #delete-customer').prop('disabled', false);
         }
-    };
+    }
 
-    window.CustomersHelper = CustomersHelper;
+    function init() {
+        resetForm();
+        bindEventHandlers();
+        filter('');
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    return {
+        filter,
+        save,
+        remove,
+        getFilterHtml,
+        resetForm,
+        select
+    };
 })();
