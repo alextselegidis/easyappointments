@@ -206,7 +206,7 @@ class Secretaries_model extends EA_Model {
     {
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
-        $providers = $secretary['providers'];
+        $providers = $secretary['providers'] ?? [];
         unset($secretary['providers']);
 
         $settings = $secretary['settings'];
@@ -239,7 +239,7 @@ class Secretaries_model extends EA_Model {
      */
     protected function update(array $secretary): int
     {
-        $provider_ids = $secretary['providers'];
+        $provider_ids = $secretary['providers'] ?? [];
         unset($secretary['providers']);
 
         $settings = $secretary['settings'];

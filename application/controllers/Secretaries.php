@@ -37,7 +37,7 @@ class Secretaries extends EA_Controller {
     /**
      * Render the backend secretaries page.
      *
-     * On this page secretary users will be able to manage secretaries, which are eventually selected by customers during the 
+     * On this page secretary users will be able to manage secretaries, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
@@ -53,6 +53,25 @@ class Secretaries extends EA_Controller {
 
         $role_slug = session('role_slug');
 
+        $providers = $this->providers_model->get();
+
+        foreach ($providers as &$provider)
+        {
+            $this->providers_model->only($provider, [
+                'id',
+                'first_name',
+                'last_name'
+            ]);
+        }
+
+        script_vars([
+            'timezones' => $this->timezones->to_array(),
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'min_password_length' => MIN_PASSWORD_LENGTH,
+            'providers' => $providers,
+        ]);
+
         html_vars([
             'page_title' => lang('secretaries'),
             'active_menu' => PRIV_USERS,
@@ -60,8 +79,8 @@ class Secretaries extends EA_Controller {
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'providers' => $this->providers_model->get(),
-        ]); 
-        
+        ]);
+
         $this->load->view('pages/secretaries', html_vars());
     }
 
@@ -82,7 +101,7 @@ class Secretaries extends EA_Controller {
             $order_by = 'first_name ASC, last_name ASC, email ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $secretaries = $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
@@ -102,7 +121,7 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            $secretary = json_decode(request('secretary'), TRUE);
+            $secretary = request('secretary');
 
             if (cannot('add', PRIV_USERS))
             {
@@ -129,7 +148,7 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            $secretary = json_decode(request('secretary'), TRUE);
+            $secretary = request('secretary');
 
             if (cannot('edit', PRIV_USERS))
             {

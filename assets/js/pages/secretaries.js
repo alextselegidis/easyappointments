@@ -9,27 +9,57 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
-    'use strict';
-
-    /**
-     * Secretaries Helper
-     *
-     * This class contains the Secretaries helper class declaration, along with the "Secretaries"
-     * tab event handlers. By dividing the backend/users tab functionality into separate files
-     * it is easier to maintain the code.
-     *
-     * @class SecretariesHelper
-     */
-    var SecretariesHelper = function () {
-        this.filterResults = {}; // Store the results for later use.
-        this.filterLimit = 20;
-    };
+/**
+ * Secretaries page module.
+ *
+ * This module contains the methods that are used in the admins page.
+ */
+App.Pages.Secretaries = (function () {
+    const $secretaries = $('#secretaries');
+    let filterResults = {};
+    let filterLimit = 20;
 
     /**
      * Bind the event handlers for the backend/users "Secretaries" tab.
      */
-    SecretariesHelper.prototype.bindEventHandlers = function () {
+    function bindEventHandlers() {
+        /**
+         * Event: Admin Username "Blur"
+         *
+         * When the admin leaves the username input field we will need to check if the username
+         * is not taken by another record in the system.
+         */
+        $secretaries.on('blur', '#secretary-username', function () {
+            const $input = $(this);
+
+            if ($input.prop('readonly') === true || $input.val() === '') {
+                return;
+            }
+
+            const secretaryId = $input.parents().eq(2).find('.record-id').val();
+
+            if (!secretaryId) {
+                return;
+            }
+
+            const username = $input.val();
+
+            App.Http.Account.validateUsername(secretaryId, username).done((response) => {
+                if (response.is_valid === 'false') {
+                    $input.addClass('is-invalid');
+                    $input.attr('already-exists', 'true');
+                    $input.parents().eq(3).find('.form-message').text(App.Lang.username_already_exists);
+                    $input.parents().eq(3).find('.form-message').show();
+                } else {
+                    $input.removeClass('is-invalid');
+                    $input.attr('already-exists', 'false');
+                    if ($input.parents().eq(3).find('.form-message').text() === App.Lang.username_already_exists) {
+                        $input.parents().eq(3).find('.form-message').hide();
+                    }
+                }
+            });
+        });
+
         /**
          * Event: Filter Secretaries Form "Submit"
          *
@@ -37,15 +67,15 @@
          *
          * @param {jQuery.Event} event
          */
-        $('#secretaries').on(
+        $secretaries.on(
             'submit',
             '#filter-secretaries form',
             function (event) {
                 event.preventDefault();
-                var key = $('#filter-secretaries .key').val();
+                const key = $('#filter-secretaries .key').val();
                 $('#filter-secretaries .selected').removeClass('selected');
-                this.resetForm();
-                this.filter(key);
+                resetForm();
+                filter(key);
             }.bind(this)
         );
 
@@ -54,7 +84,7 @@
          *
          * Display the selected secretary data to the user.
          */
-        $('#secretaries').on(
+        $secretaries.on(
             'click',
             '.secretary-row',
             function (event) {
@@ -63,13 +93,13 @@
                     return; // exit because we are currently on edit mode
                 }
 
-                var secretaryId = $(event.currentTarget).attr('data-id');
+                const secretaryId = $(event.currentTarget).attr('data-id');
 
-                var secretary = this.filterResults.find(function (filterResult) {
+                const secretary = filterResults.find(function (filterResult) {
                     return Number(filterResult.id) === Number(secretaryId);
                 });
 
-                this.display(secretary);
+                display(secretary);
 
                 $('#filter-secretaries .selected').removeClass('selected');
                 $(event.currentTarget).addClass('selected');
@@ -80,11 +110,11 @@
         /**
          * Event: Add New Secretary Button "Click"
          */
-        $('#secretaries').on(
+        $secretaries.on(
             'click',
             '#add-secretary',
             function () {
-                this.resetForm();
+                resetForm();
                 $('#filter-secretaries button').prop('disabled', true);
                 $('#filter-secretaries .results').css('color', '#AAA');
 
@@ -100,7 +130,7 @@
         /**
          * Event: Edit Secretary Button "Click"
          */
-        $('#secretaries').on('click', '#edit-secretary', function () {
+        $secretaries.on('click', '#edit-secretary', function () {
             $('#filter-secretaries button').prop('disabled', true);
             $('#filter-secretaries .results').css('color', '#AAA');
             $('#secretaries .add-edit-delete-group').hide();
@@ -114,12 +144,12 @@
         /**
          * Event: Delete Secretary Button "Click"
          */
-        $('#secretaries').on(
+        $secretaries.on(
             'click',
             '#delete-secretary',
             function () {
-                var secretaryId = $('#secretary-id').val();
-                var buttons = [
+                const secretaryId = $('#secretary-id').val();
+                const buttons = [
                     {
                         text: App.Lang.cancel,
                         click: function () {
@@ -129,24 +159,24 @@
                     {
                         text: App.Lang.delete,
                         click: function () {
-                            this.delete(secretaryId);
+                            remove(secretaryId);
                             $('#message-box').dialog('close');
                         }.bind(this)
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(App.Lang.delete_secretary, App.Lang.delete_record_prompt, buttons);
+                App.Utils.Message.show(App.Lang.delete_secretary, App.Lang.delete_record_prompt, buttons);
             }.bind(this)
         );
 
         /**
          * Event: Save Secretary Button "Click"
          */
-        $('#secretaries').on(
+        $secretaries.on(
             'click',
             '#save-secretary',
             function () {
-                var secretary = {
+                const secretary = {
                     first_name: $('#secretary-first-name').val(),
                     last_name: $('#secretary-last-name').val(),
                     email: $('#secretary-email').val(),
@@ -160,13 +190,14 @@
                     timezone: $('#secretary-timezone').val(),
                     settings: {
                         username: $('#secretary-username').val(),
-                        notifications: $('#secretary-notifications').prop('checked'),
+                        notifications: Number($('#secretary-notifications').prop('checked')),
                         calendar_view: $('#secretary-calendar-view').val()
                     }
                 };
 
                 // Include secretary services.
                 secretary.providers = [];
+
                 $('#secretary-providers input:checkbox').each(function (index, checkbox) {
                     if ($(checkbox).prop('checked')) {
                         secretary.providers.push($(checkbox).attr('data-id'));
@@ -183,11 +214,11 @@
                     secretary.id = $('#secretary-id').val();
                 }
 
-                if (!this.validate()) {
+                if (!validate()) {
                     return;
                 }
 
-                this.save(secretary);
+                save(secretary);
             }.bind(this)
         );
 
@@ -196,33 +227,18 @@
          *
          * Cancel add or edit of an secretary record.
          */
-        $('#secretaries').on(
+        $secretaries.on(
             'click',
             '#cancel-secretary',
             function () {
-                var id = $('#secretary-id').val();
-                this.resetForm();
+                const id = $('#secretary-id').val();
+                resetForm();
                 if (id) {
-                    this.select(id, true);
+                    select(id, true);
                 }
             }.bind(this)
         );
-    };
-
-    /**
-     * Remove the previously registered event handlers.
-     */
-    SecretariesHelper.prototype.unbindEventHandlers = function () {
-        $('#secretaries')
-            .off('submit', '#filter-secretaries form')
-            .off('click', '#filter-secretaries .clear')
-            .off('click', '.secretary-row')
-            .off('click', '#add-secretary')
-            .off('click', '#edit-secretary')
-            .off('click', '#delete-secretary')
-            .off('click', '#save-secretary')
-            .off('click', '#cancel-secretary');
-    };
+    }
 
     /**
      * Save secretary record to database.
@@ -230,58 +246,41 @@
      * @param {Object} secretary Contains the secretary record data. If an 'id' value is provided
      * then the update operation is going to be executed.
      */
-    SecretariesHelper.prototype.save = function (secretary) {
-        var url = GlobalVariables.baseUrl + '/index.php/secretaries/' + (secretary.id ? 'update' : 'create');
-
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            secretary: JSON.stringify(secretary)
-        };
-
-        $.post(url, data).done(
-            function (response) {
-                Backend.displayNotification(App.Lang.secretary_saved);
-                this.resetForm();
-                $('#filter-secretaries .key').val('');
-                this.filter('', response.id, true);
-            }.bind(this)
-        );
-    };
+    function save(secretary) {
+        App.Http.Secretaries.save(secretary).done((response) => {
+            Backend.displayNotification(App.Lang.secretary_saved);
+            resetForm();
+            $('#filter-secretaries .key').val('');
+            filter('', response.id, true);
+        });
+    }
 
     /**
      * Delete a secretary record from database.
      *
      * @param {Number} id Record id to be deleted.
      */
-    SecretariesHelper.prototype.delete = function (id) {
-        var url = GlobalVariables.baseUrl + '/index.php/secretaries/destroy';
-
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            secretary_id: id
-        };
-
-        $.post(url, data).done(
-            function () {
-                Backend.displayNotification(App.Lang.secretary_deleted);
-                this.resetForm();
-                this.filter($('#filter-secretaries .key').val());
-            }.bind(this)
-        );
-    };
+    function remove(id) {
+        App.Http.Secretaries.destroy(id).done(() => {
+            Backend.displayNotification(App.Lang.secretary_deleted);
+            resetForm();
+            filter($('#filter-secretaries .key').val());
+        });
+    }
 
     /**
      * Validates a secretary record.
      *
      * @return {Boolean} Returns the validation result.
      */
-    SecretariesHelper.prototype.validate = function () {
+    function validate() {
         $('#secretaries .is-invalid').removeClass('is-invalid');
         $('#secretaries .form-message').removeClass('alert-danger');
 
         try {
             // Validate required fields.
-            var missingRequired = false;
+            let missingRequired = false;
+
             $('#secretaries .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
                     $(requiredField).addClass('is-invalid');
@@ -299,7 +298,7 @@
             }
 
             if (
-                $('#secretary-password').val().length < BackendSecretaries.MIN_PASSWORD_LENGTH &&
+                $('#secretary-password').val().length < App.Vars.min_password_length &&
                 $('#secretary-password').val() !== ''
             ) {
                 $('#secretary-password, #secretary-password-confirm').addClass('is-invalid');
@@ -309,7 +308,7 @@
             }
 
             // Validate user email.
-            if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
+            if (!App.Utils.Validation.email($('#secretary-email').val())) {
                 $('#secretary-email').addClass('is-invalid');
                 throw new Error('Invalid email address!');
             }
@@ -325,12 +324,12 @@
             $('#secretaries .form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
-    };
+    }
 
     /**
      * Resets the secretary tab form back to its initial state.
      */
-    SecretariesHelper.prototype.resetForm = function () {
+    function resetForm() {
         $('#filter-secretaries .selected').removeClass('selected');
         $('#filter-secretaries button').prop('disabled', false);
         $('#filter-secretaries .results').css('color', '');
@@ -344,14 +343,14 @@
         $('#secretaries .form-message').hide();
         $('#secretary-providers input:checkbox').prop('checked', false);
         $('#secretaries .is-invalid').removeClass('is-invalid');
-    };
+    }
 
     /**
      * Display a secretary record into the secretary form.
      *
      * @param {Object} secretary Contains the secretary record data.
      */
-    SecretariesHelper.prototype.display = function (secretary) {
+    function display(secretary) {
         $('#secretary-id').val(secretary.id);
         $('#secretary-first-name').val(secretary.first_name);
         $('#secretary-last-name').val(secretary.last_name);
@@ -372,7 +371,7 @@
         $('#secretary-providers input:checkbox').prop('checked', false);
 
         secretary.providers.forEach(function (secretaryProviderId) {
-            var $checkbox = $('#secretary-providers input[data-id="' + secretaryProviderId + '"]');
+            const $checkbox = $('#secretary-providers input[data-id="' + secretaryProviderId + '"]');
 
             if (!$checkbox.length) {
                 return;
@@ -380,63 +379,51 @@
 
             $checkbox.prop('checked', true);
         });
-    };
+    }
 
     /**
-     * Filters secretary records depending a string keyword.
+     * Filters secretary records based on a string keyword.
      *
      * @param {String} keyword This is used to filter the secretary records of the database.
-     * @param {Numeric} selectId Optional, if provided the given ID will be selected in the filter results
+     * @param {Number} selectId Optional, if provided the given ID will be selected in the filter results
      * (only selected, not displayed).
-     * @param {Bool} display Optional (false).
+     * @param {Boolean} show Optional (false).
      */
-    SecretariesHelper.prototype.filter = function (keyword, selectId, display) {
-        display = display || false;
+    function filter(keyword, selectId = null, show = false) {
+        App.Http.Secretaries.search(keyword, filterLimit).done((response) => {
+            filterResults = response;
 
-        var url = GlobalVariables.baseUrl + '/index.php/secretaries/search';
+            $('#filter-secretaries .results').empty();
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            keyword: keyword,
-            limit: this.filterLimit
-        };
+            response.forEach(
+                function (secretary) {
+                    $('#filter-secretaries .results').append(getFilterHtml(secretary)).append($('<hr/>'));
+                }.bind(this)
+            );
 
-        $.post(url, data).done(
-            function (response) {
-                this.filterResults = response;
-
-                $('#filter-secretaries .results').empty();
-
-                response.forEach(
-                    function (secretary) {
-                        $('#filter-secretaries .results').append(this.getFilterHtml(secretary)).append($('<hr/>'));
-                    }.bind(this)
+            if (!response.length) {
+                $('#filter-secretaries .results').append(
+                    $('<em/>', {
+                        'text': App.Lang.no_records_found
+                    })
                 );
+            } else if (response.length === filterLimit) {
+                $('<button/>', {
+                    'type': 'button',
+                    'class': 'btn btn-outline-secondary w-100 load-more text-center',
+                    'text': App.Lang.load_more,
+                    'click': function () {
+                        filterLimit += 20;
+                        filter(keyword, selectId, show);
+                    }.bind(this)
+                }).appendTo('#filter-secretaries .results');
+            }
 
-                if (!response.length) {
-                    $('#filter-secretaries .results').append(
-                        $('<em/>', {
-                            'text': App.Lang.no_records_found
-                        })
-                    );
-                } else if (response.length === this.filterLimit) {
-                    $('<button/>', {
-                        'type': 'button',
-                        'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                        'text': App.Lang.load_more,
-                        'click': function () {
-                            this.filterLimit += 20;
-                            this.filter(keyword, selectId, display);
-                        }.bind(this)
-                    }).appendTo('#filter-secretaries .results');
-                }
-
-                if (selectId) {
-                    this.select(selectId, display);
-                }
-            }.bind(this)
-        );
-    };
+            if (selectId) {
+                select(selectId, show);
+            }
+        });
+    }
 
     /**
      * Get an secretary row html code that is going to be displayed on the filter results list.
@@ -445,10 +432,10 @@
      *
      * @return {String} The html code that represents the record on the filter results list.
      */
-    SecretariesHelper.prototype.getFilterHtml = function (secretary) {
-        var name = secretary.first_name + ' ' + secretary.last_name;
+    function getFilterHtml(secretary) {
+        const name = secretary.first_name + ' ' + secretary.last_name;
 
-        var info = secretary.email;
+        let info = secretary.email;
 
         info = secretary.mobile_number ? info + ', ' + secretary.mobile_number : info;
 
@@ -468,34 +455,63 @@
                 $('<br/>')
             ]
         });
-    };
+    }
 
     /**
      * Select a specific record from the current filter results. If the secretary id does not exist
      * in the list then no record will be selected.
      *
      * @param {Number} id The record id to be selected from the filter results.
-     * @param {Boolean} display Optional (false), if true the method will display the record in the form.
+     * @param {Boolean} show Optional (false), if true the method will display the record in the form.
      */
-    SecretariesHelper.prototype.select = function (id, display) {
-        display = display || false;
-
+    function select(id, show = false) {
         $('#filter-secretaries .selected').removeClass('selected');
 
         $('#filter-secretaries .secretary-row[data-id="' + id + '"]').addClass('selected');
 
-        if (display) {
-            var secretary = this.filterResults.find(
+        if (show) {
+            const secretary = filterResults.find(
                 function (filterResult) {
                     return Number(filterResult.id) === Number(id);
                 }.bind(this)
             );
 
-            this.display(secretary);
+            display(secretary);
 
             $('#edit-secretary, #delete-secretary').prop('disabled', false);
         }
-    };
+    }
 
-    window.SecretariesHelper = SecretariesHelper;
+    function init() {
+        resetForm();
+        filter('');
+        bindEventHandlers();
+
+        App.Vars.providers.forEach(function (provider) {
+            $('<div/>', {
+                'class': 'checkbox',
+                'html': [
+                    $('<div/>', {
+                        'class': 'checkbox form-check',
+                        'html': [
+                            $('<input/>', {
+                                'class': 'form-check-input',
+                                'type': 'checkbox',
+                                'data-id': provider.id
+                            }),
+                            $('<label/>', {
+                                'class': 'form-check-label',
+                                'text': provider.first_name + ' ' + provider.last_name,
+                                'for': provider.id
+                            })
+                        ]
+                    })
+                ]
+            }).appendTo('#secretary-providers');
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+
+    return {};
 })();

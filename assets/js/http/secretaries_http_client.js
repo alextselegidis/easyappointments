@@ -11,7 +11,18 @@
 
 App.Http.Secretaries = (function () {
     /**
-     * Create an secretary.
+     * Save (create or update) a secretary.
+     *
+     * @param {Object} secretary
+     *
+     * @return {Object}
+     */
+    function save(secretary) {
+        return secretary.id ? update(secretary) : create(secretary);
+    }
+
+    /**
+     * Create a secretary.
      *
      * @param {Object} secretary
      *
@@ -29,7 +40,7 @@ App.Http.Secretaries = (function () {
     }
 
     /**
-     * Update an secretary.
+     * Update a secretary.
      *
      * @param {Object} secretary
      *
@@ -47,7 +58,7 @@ App.Http.Secretaries = (function () {
     }
 
     /**
-     * Delete an secretary.
+     * Delete a secretary.
      *
      * @param {Number} secretaryId
      *
@@ -89,7 +100,7 @@ App.Http.Secretaries = (function () {
     }
 
     /**
-     * Find an secretary.
+     * Find a secretary.
      *
      * @param {Number} secretaryId
      *
@@ -107,6 +118,7 @@ App.Http.Secretaries = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,
