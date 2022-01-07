@@ -12,7 +12,7 @@
 /**
  * Customers page module.
  *
- * This class contains the methods that are used in the backend customers page.
+ * This module contains the methods that are used in the customers page.
  */
 App.Pages.Customers = (function () {
     const $customers = $('#customers');
