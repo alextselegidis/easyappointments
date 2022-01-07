@@ -205,7 +205,7 @@ App.Pages.Customers = (function () {
             }
 
             // Validate email address.
-            if (!GeneralFunctions.validateEmail($('#email').val())) {
+            if (!App.Utils.Validation.email($('#email').val())) {
                 $('#email').addClass('is-invalid');
                 throw new Error(App.Lang.invalid_email);
             }
@@ -280,14 +280,16 @@ App.Pages.Customers = (function () {
                 return;
             }
 
-            var start = GeneralFunctions.formatDate(
+            var start = App.Utils.Date.format(
                 moment(appointment.start_datetime).toDate(),
                 App.Vars.date_format,
+                App.Vars.time_format,
                 true
             );
-            var end = GeneralFunctions.formatDate(
+            var end = App.Utils.Date.format(
                 moment(appointment.end_datetime).toDate(),
                 App.Vars.date_format,
+                App.Vars.time_format,
                 true
             );
 
