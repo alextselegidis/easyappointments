@@ -38,16 +38,6 @@ App.Pages.Customers = (function () {
         });
 
         /**
-         * Event: Filter Customers Clear Button "Click"
-         */
-        $customers.on('click', '#filter-customers .clear', function () {
-            $('#filter-customers .key').val('');
-            filterLimit = 20;
-            filter('');
-            resetForm();
-        });
-
-        /**
          * Event: Filter Entry "Click"
          *
          * Display the customer data of the selected row.
