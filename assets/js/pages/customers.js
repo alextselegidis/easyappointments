@@ -47,8 +47,8 @@ App.Pages.Customers = (function () {
                 return; // Do nothing when user edits a customer record.
             }
 
-            var customerId = $(this).attr('data-id');
-            var customer = filterResults.find(function (filterResult) {
+            const customerId = $(this).attr('data-id');
+            const customer = filterResults.find(function (filterResult) {
                 return Number(filterResult.id) === Number(customerId);
             });
 
@@ -85,7 +85,7 @@ App.Pages.Customers = (function () {
          * Event: Cancel Customer Add/Edit Operation Button "Click"
          */
         $customers.on('click', '#cancel-customer', function () {
-            var id = $('#customer-id').val();
+            const id = $('#customer-id').val();
             resetForm();
             if (id) {
                 select(id, true);
@@ -96,7 +96,7 @@ App.Pages.Customers = (function () {
          * Event: Save Add/Edit Customer Operation "Click"
          */
         $customers.on('click', '#save-customer', function () {
-            var customer = {
+            const customer = {
                 first_name: $('#first-name').val(),
                 last_name: $('#last-name').val(),
                 email: $('#email').val(),
@@ -124,8 +124,8 @@ App.Pages.Customers = (function () {
          * Event: Delete Customer Button "Click"
          */
         $customers.on('click', '#delete-customer', function () {
-            var customerId = $('#customer-id').val();
-            var buttons = [
+            const customerId = $('#customer-id').val();
+            const buttons = [
                 {
                     text: App.Lang.cancel,
                     click: function () {
@@ -181,7 +181,7 @@ App.Pages.Customers = (function () {
 
         try {
             // Validate required fields.
-            var missingRequired = false;
+            let missingRequired = false;
 
             $('.required').each(function (index, requiredField) {
                 if ($(requiredField).val() === '') {
@@ -270,13 +270,14 @@ App.Pages.Customers = (function () {
                 return;
             }
 
-            var start = App.Utils.Date.format(
+            const start = App.Utils.Date.format(
                 moment(appointment.start_datetime).toDate(),
                 App.Vars.date_format,
                 App.Vars.time_format,
                 true
             );
-            var end = App.Utils.Date.format(
+
+            const end = App.Utils.Date.format(
                 moment(appointment.end_datetime).toDate(),
                 App.Vars.date_format,
                 App.Vars.time_format,
@@ -383,9 +384,9 @@ App.Pages.Customers = (function () {
      * @return {String} Returns the record HTML code.
      */
     function getFilterHtml(customer) {
-        var name = customer.first_name + ' ' + customer.last_name;
+        const name = customer.first_name + ' ' + customer.last_name;
 
-        var info = customer.email;
+        let info = customer.email;
 
         info = customer.phone_number ? info + ', ' + customer.phone_number : info;
 
