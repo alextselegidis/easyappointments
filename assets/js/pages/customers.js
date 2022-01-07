@@ -338,9 +338,9 @@ App.Pages.Customers = (function () {
      * @param {String} keyword This keyword string is used to filter the customer records.
      * @param {Number} selectId Optional, if set then after the filter operation the record with the given
      * ID will be selected (but not displayed).
-     * @param {Boolean} display Optional (false), if true then the selected record will be displayed on the form.
+     * @param {Boolean} show Optional (false), if true then the selected record will be displayed on the form.
      */
-    function filter(keyword, selectId = null, display = false) {
+    function filter(keyword, selectId = null, show = false) {
         App.Http.Customers.search(keyword, filterLimit).then((response) => {
             filterResults = response;
 
@@ -365,13 +365,13 @@ App.Pages.Customers = (function () {
                     'text': App.Lang.load_more,
                     'click': function () {
                         filterLimit += 20;
-                        filter(keyword, selectId, display);
+                        filter(keyword, selectId, show);
                     }.bind(this)
                 }).appendTo('#filter-customers .results');
             }
 
             if (selectId) {
-                select(selectId, display);
+                select(selectId, show);
             }
         });
     }
