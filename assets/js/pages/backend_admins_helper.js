@@ -48,19 +48,6 @@
         );
 
         /**
-         * Event: Clear Filter Results Button "Click"
-         */
-        $('#admins').on(
-            'click',
-            '#filter-admins .clear',
-            function () {
-                this.filter('');
-                $('#filter-admins .key').val('');
-                this.resetForm();
-            }.bind(this)
-        );
-
-        /**
          * Event: Filter Admin Row "Click"
          *
          * Display the selected admin data to the user.

@@ -41,15 +41,6 @@
         });
 
         /**
-         * Event: Filter Service Cancel Button "Click"
-         */
-        $('#services').on('click', '#filter-services .clear', function () {
-            $('#filter-services .key').val('');
-            instance.filter('');
-            instance.resetForm();
-        });
-
-        /**
          * Event: Filter Service Row "Click"
          *
          * Display the selected service data to the user.

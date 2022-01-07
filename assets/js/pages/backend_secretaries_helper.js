@@ -50,19 +50,6 @@
         );
 
         /**
-         * Event: Clear Filter Results Button "Click"
-         */
-        $('#secretaries').on(
-            'click',
-            '#filter-secretaries .clear',
-            function () {
-                this.filter('');
-                $('#filter-secretaries .key').val('');
-                this.resetForm();
-            }.bind(this)
-        );
-
-        /**
          * Event: Filter Secretary Row "Click"
          *
          * Display the selected secretary data to the user.

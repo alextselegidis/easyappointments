@@ -32,15 +32,6 @@
         var instance = this;
 
         /**
-         * Event: Filter Categories Cancel Button "Click"
-         */
-        $('#categories').on('click', '#filter-categories .clear', function () {
-            $('#filter-categories .key').val('');
-            instance.filter('');
-            instance.resetForm();
-        });
-
-        /**
          * Event: Filter Categories Form "Submit"
          *
          * @param {jQuery.Event} event

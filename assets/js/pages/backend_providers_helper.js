@@ -50,19 +50,6 @@
         );
 
         /**
-         * Event: Clear Filter Button "Click"
-         */
-        $('#providers').on(
-            'click',
-            '#filter-providers .clear',
-            function () {
-                this.filter('');
-                $('#filter-providers .key').val('');
-                this.resetForm();
-            }.bind(this)
-        );
-
-        /**
          * Event: Filter Provider Row "Click"
          *
          * Display the selected provider data to the user.
