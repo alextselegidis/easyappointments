@@ -31,15 +31,17 @@ App.Http.Account = (function () {
     /**
      * Validate username.
      *
+     * @param {Number} userId
      * @param {String} username
      *
      * @return {Object}
      */
-    function validateUsername(username) {
+    function validateUsername(userId, username) {
         const url = App.Utils.Url.siteUrl('account/validate_username');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
+            user_id: userId,
             username
         };
 

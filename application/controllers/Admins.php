@@ -52,6 +52,13 @@ class Admins extends EA_Controller {
 
         $role_slug = session('role_slug');
 
+        script_vars([
+            'timezones' => $this->timezones->to_array(),
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'min_password_length' => MIN_PASSWORD_LENGTH,
+        ]);
+        
         html_vars([
             'page_title' => lang('admins'),
             'active_menu' => PRIV_USERS,
@@ -100,7 +107,7 @@ class Admins extends EA_Controller {
     {
         try
         {
-            $admin = json_decode(request('admin'), TRUE);
+            $admin = request('admin');
 
             if (cannot('add', PRIV_USERS))
             {
@@ -127,7 +134,7 @@ class Admins extends EA_Controller {
     {
         try
         {
-            $admin = json_decode(request('admin'), TRUE);
+            $admin = request('admin');
 
             if (cannot('edit', PRIV_USERS))
             {

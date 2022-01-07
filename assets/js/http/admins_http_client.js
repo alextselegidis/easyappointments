@@ -11,6 +11,17 @@
 
 App.Http.Admins = (function () {
     /**
+     * Save (create or update) a admin.
+     *
+     * @param {Object} admin
+     *
+     * @return {Object}
+     */
+    function save(admin) {
+        return admin.id ? update(admin) : create(admin);
+    }
+
+    /**
      * Create an admin.
      *
      * @param {Object} admin
@@ -107,6 +118,7 @@ App.Http.Admins = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,
