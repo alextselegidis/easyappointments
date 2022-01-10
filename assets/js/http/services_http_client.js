@@ -11,6 +11,17 @@
 
 App.Http.Services = (function () {
     /**
+     * Save (create or update) a service.
+     *
+     * @param {Object} service
+     *
+     * @return {Object}
+     */
+    function save(service) {
+        return service.id ? update(service) : create(service);
+    }
+
+    /**
      * Create an service.
      *
      * @param {Object} service
@@ -107,6 +118,7 @@ App.Http.Services = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,

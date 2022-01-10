@@ -36,7 +36,7 @@ class Services extends EA_Controller {
     /**
      * Render the backend services page.
      *
-     * On this page admin users will be able to manage services, which are eventually selected by customers during the 
+     * On this page admin users will be able to manage services, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
@@ -51,7 +51,12 @@ class Services extends EA_Controller {
         $user_id = session('user_id');
 
         $role_slug = session('role_slug');
-        
+
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+        ]);
+
         html_vars([
             'page_title' => lang('services'),
             'active_menu' => PRIV_SERVICES,
@@ -80,7 +85,7 @@ class Services extends EA_Controller {
             $order_by = 'name ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $services = $this->services_model->search($keyword, $limit, $offset, $order_by);
@@ -100,7 +105,9 @@ class Services extends EA_Controller {
     {
         try
         {
-            $service = json_decode(request('service'), TRUE);
+            $service = request('service');
+
+            $service['id_categories'] = $service['id_categories'] ?: null;
 
             if (cannot('add', PRIV_SERVICES))
             {
@@ -127,13 +134,15 @@ class Services extends EA_Controller {
     {
         try
         {
-            $service = json_decode(request('service'), TRUE);
+            $service = request('service');
+            
+            $service['id_categories'] = $service['id_categories'] ?: null; 
 
             if (cannot('edit', PRIV_SERVICES))
             {
                 abort(403, 'Forbidden');
             }
-
+            
             $service_id = $this->services_model->save($service);
 
             json_response([
