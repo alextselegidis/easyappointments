@@ -1,4 +1,3 @@
-
 <div class="modal" id="working-plan-exceptions-modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -56,3 +55,9 @@
         </div>
     </div>
 </div>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
+
+<?php section('scripts') ?>
