@@ -53,8 +53,12 @@ class Business_settings extends EA_Controller {
         }
 
         $user_id = session('user_id');
+        
+        $role_slug = session('role_slug');
 
         script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
             'business_settings' => $this->settings_model->get(),
             'first_weekday' => setting('first_weekday'),
             'time_format' => setting('time_format'),

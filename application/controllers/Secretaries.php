@@ -65,9 +65,9 @@ class Secretaries extends EA_Controller {
         }
 
         script_vars([
-            'timezones' => $this->timezones->to_array(),
             'user_id' => $user_id,
             'role_slug' => $role_slug,
+            'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
             'providers' => $providers,
         ]);

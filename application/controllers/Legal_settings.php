@@ -44,8 +44,12 @@ class Legal_settings extends EA_Controller {
         }
 
         $user_id = session('user_id');
+        
+        $role_slug = session('role_slug');
 
         script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
             'legal_settings' => $this->settings_model->get(),
         ]);
 

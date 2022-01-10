@@ -72,11 +72,11 @@ class Customers extends EA_Controller {
         }
 
         script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
             'date_format' => $date_format,
             'time_format' => $time_format,
             'timezones' => $this->timezones->to_array(),
-            'user_id' => $user_id,
-            'role_slug' => $role_slug,
             'secretary_providers' => $secretary_providers,
         ]);
 

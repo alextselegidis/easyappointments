@@ -46,6 +46,8 @@ class General_settings extends EA_Controller {
         $user_id = session('user_id');
 
         script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
             'general_settings' => $this->settings_model->get(),
         ]);
 
