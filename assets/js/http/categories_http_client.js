@@ -11,7 +11,18 @@
 
 App.Http.Categories = (function () {
     /**
-     * Create an category.
+     * Save (create or update) a category.
+     *
+     * @param {Object} category
+     *
+     * @return {Object}
+     */
+    function save(category) {
+        return category.id ? update(category) : create(category);
+    }
+
+    /**
+     * Create a category.
      *
      * @param {Object} category
      *
@@ -29,7 +40,7 @@ App.Http.Categories = (function () {
     }
 
     /**
-     * Update an category.
+     * Update a category.
      *
      * @param {Object} category
      *
@@ -47,7 +58,7 @@ App.Http.Categories = (function () {
     }
 
     /**
-     * Delete an category.
+     * Delete a category.
      *
      * @param {Number} categoryId
      *
@@ -89,7 +100,7 @@ App.Http.Categories = (function () {
     }
 
     /**
-     * Find an category.
+     * Find a category.
      *
      * @param {Number} categoryId
      *
@@ -107,6 +118,7 @@ App.Http.Categories = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,

@@ -52,6 +52,11 @@ class Categories extends EA_Controller {
 
         $role_slug = session('role_slug');
 
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+        ]);
+
         html_vars([
             'page_title' => lang('categories'),
             'active_menu' => PRIV_SERVICES,
@@ -100,7 +105,7 @@ class Categories extends EA_Controller {
     {
         try
         {
-            $category = json_decode(request('category'), TRUE);
+            $category = request('category');
 
             if (cannot('add', PRIV_SERVICES))
             {
@@ -127,7 +132,7 @@ class Categories extends EA_Controller {
     {
         try
         {
-            $category = json_decode(request('category'), TRUE);
+            $category = request('category');
 
             if (cannot('edit', PRIV_SERVICES))
             {
