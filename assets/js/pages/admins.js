@@ -435,5 +435,12 @@ App.Pages.Admins = (function () {
 
     document.addEventListener('DOMContentLoaded', init);
 
-    return {};
+    return {
+        filter,
+        save,
+        remove,
+        getFilterHtml,
+        resetForm,
+        select
+    };
 })();
