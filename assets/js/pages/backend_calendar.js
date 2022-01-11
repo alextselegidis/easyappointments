@@ -71,7 +71,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                 throw new Error('Provider could not be found: ' + providerId);
             }
 
-            WorkingPlanExceptionsModal.add().done(function (date, workingPlanException) {
+            App.Components.WorkingPlanExceptionsModal.add().done(function (date, workingPlanException) {
                 var successCallback = function () {
                     Backend.displayNotification(App.Lang.working_plan_exception_saved);
 

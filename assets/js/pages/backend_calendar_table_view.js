@@ -154,7 +154,10 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                 var workingPlanException = lastFocusedEventData.data.workingPlanException;
                 var provider = lastFocusedEventData.data.provider;
 
-                WorkingPlanExceptionsModal.edit(date, workingPlanException).done(function (date, workingPlanException) {
+                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(function (
+                    date,
+                    workingPlanException
+                ) {
                     var successCallback = function () {
                         Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
