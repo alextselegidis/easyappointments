@@ -97,6 +97,8 @@
 
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/business_settings_http_client.js') ?>"></script>
