@@ -37,7 +37,7 @@ class Providers extends EA_Controller {
     /**
      * Render the backend providers page.
      *
-     * On this page admin users will be able to manage providers, which are eventually selected by customers during the 
+     * On this page admin users will be able to manage providers, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
@@ -53,6 +53,25 @@ class Providers extends EA_Controller {
 
         $role_slug = session('role_slug');
         
+        $services = $this->services_model->get(); 
+        
+        foreach($services as &$service)
+        {
+            $this->services_model->only($service, ['id', 'name']);            
+        }
+
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'company_working_plan' => setting('company_working_plan'),
+            'date_format' => setting('date_format'),
+            'time_format' => setting('time_format'),
+            'first_weekday' => setting('first_weekday'),
+            'min_password_length' => MIN_PASSWORD_LENGTH,
+            'timezones' => $this->timezones->to_array(),
+            'services' => $services,
+        ]);
+
         html_vars([
             'page_title' => lang('providers'),
             'active_menu' => PRIV_USERS,
@@ -82,7 +101,7 @@ class Providers extends EA_Controller {
             $order_by = 'first_name ASC, last_name ASC, email ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $providers = $this->providers_model->search($keyword, $limit, $offset, $order_by);
@@ -102,7 +121,7 @@ class Providers extends EA_Controller {
     {
         try
         {
-            $provider = json_decode(request('provider'), TRUE);
+            $provider = request('provider');
 
             if (cannot('add', PRIV_USERS))
             {
@@ -129,7 +148,7 @@ class Providers extends EA_Controller {
     {
         try
         {
-            $provider = json_decode(request('provider'), TRUE);
+            $provider = request('provider');
 
             if (cannot('edit', PRIV_USERS))
             {

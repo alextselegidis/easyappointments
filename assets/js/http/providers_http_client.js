@@ -11,7 +11,18 @@
 
 App.Http.Providers = (function () {
     /**
-     * Create an provider.
+     * Save (create or update) a provider.
+     *
+     * @param {Object} provider
+     *
+     * @return {Object}
+     */
+    function save(provider) {
+        return provider.id ? update(provider) : create(provider);
+    }
+
+    /**
+     * Create a provider.
      *
      * @param {Object} provider
      *
@@ -29,7 +40,7 @@ App.Http.Providers = (function () {
     }
 
     /**
-     * Update an provider.
+     * Update a provider.
      *
      * @param {Object} provider
      *
@@ -47,7 +58,7 @@ App.Http.Providers = (function () {
     }
 
     /**
-     * Delete an provider.
+     * Delete a provider.
      *
      * @param {Number} providerId
      *
@@ -89,7 +100,7 @@ App.Http.Providers = (function () {
     }
 
     /**
-     * Find an provider.
+     * Find a provider.
      *
      * @param {Number} providerId
      *
@@ -107,6 +118,7 @@ App.Http.Providers = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,
