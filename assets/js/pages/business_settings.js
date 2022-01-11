@@ -133,16 +133,16 @@ App.Pages.BusinessSettings = (function () {
 
         deserialize(businessSettings);
 
-        let workingPlan = {};
+        let companyWorkingPlan = {};
 
         App.Vars.business_settings.forEach((generalSetting) => {
             if (generalSetting.name === 'company_working_plan') {
-                workingPlan = JSON.parse(generalSetting.value);
+                companyWorkingPlan = JSON.parse(generalSetting.value);
             }
         });
 
-        workingPlanManager = new WorkingPlan();
-        workingPlanManager.setup(workingPlan);
+        workingPlanManager = new App.Utils.WorkingPlan();
+        workingPlanManager.setup(companyWorkingPlan);
         workingPlanManager.timepickers(false);
         workingPlanManager.bindEventHandlers();
 
