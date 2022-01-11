@@ -1,15 +1,24 @@
-$(function () {
-    'use strict';
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Open Source Web Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
+ * @since       v1.5.0
+ * ---------------------------------------------------------------------------- */
 
-    var $modal = $('#working-plan-exceptions-modal');
-    var $date = $('#working-plan-exceptions-date');
-    var $start = $('#working-plan-exceptions-start');
-    var $end = $('#working-plan-exceptions-end');
-    var $breaks = $('#working-plan-exceptions-breaks');
-    var $save = $('#working-plan-exceptions-save');
-    var deferred = null;
-    var enableSubmit = false;
-    var enableCancel = false;
+App.Components.WorkingPlanExceptionsModal = (function () {
+    const $modal = $('#working-plan-exceptions-modal');
+    const $date = $('#working-plan-exceptions-date');
+    const $start = $('#working-plan-exceptions-start');
+    const $end = $('#working-plan-exceptions-end');
+    const $breaks = $('#working-plan-exceptions-breaks');
+    const $save = $('#working-plan-exceptions-save');
+    let deferred = null;
+    let enableSubmit = false;
+    let enableCancel = false;
 
     function resetModal() {
         $date.val('');
@@ -21,19 +30,19 @@ $(function () {
     function validate() {
         $modal.find('.is-invalid').removeClass('is-invalid');
 
-        var date = $date.datepicker('getDate');
+        const date = $date.datepicker('getDate');
 
         if (!date) {
             $date.addClass('is-invalid');
         }
 
-        var start = $start.timepicker('getDate');
+        const start = $start.timepicker('getDate');
 
         if (!start) {
             $start.addClass('is-invalid');
         }
 
-        var end = $end.timepicker('getDate');
+        const end = $end.timepicker('getDate');
 
         if (!end) {
             $end.addClass('is-invalid');
@@ -47,21 +56,21 @@ $(function () {
     }
 
     function getBreaks() {
-        var breaks = [];
+        const breaks = [];
 
         $breaks.find('tbody tr').each(function (index, tr) {
-            var $tr = $(tr);
+            const $tr = $(tr);
 
             if ($tr.find('input:text').length) {
                 return true;
             }
 
-            var start = $tr.find('.working-plan-exceptions-break-start').text();
-            var end = $tr.find('.working-plan-exceptions-break-end').text();
+            const start = $tr.find('.working-plan-exceptions-break-start').text();
+            const end = $tr.find('.working-plan-exceptions-break-end').text();
 
             breaks.push({
-                start: moment(start, GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
-                end: moment(end, GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
+                start: moment(start, App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
+                end: moment(end, App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
             });
         });
 
@@ -83,9 +92,9 @@ $(function () {
             return;
         }
 
-        var date = moment($date.datepicker('getDate')).format('YYYY-MM-DD');
+        const date = moment($date.datepicker('getDate')).format('YYYY-MM-DD');
 
-        var workingPlanException = {
+        const workingPlanException = {
             start: moment($start.datetimepicker('getDate')).format('HH:mm'),
             end: moment($end.datetimepicker('getDate')).format('HH:mm'),
             breaks: getBreaks()
@@ -132,7 +141,7 @@ $(function () {
     }
 
     function add() {
-        deferred = jQuery.Deferred();
+        deferred = $.Deferred();
 
         $date.datepicker('setDate', new Date());
         $start.timepicker('setDate', moment('08:00', 'HH:mm').toDate());
@@ -144,7 +153,7 @@ $(function () {
     }
 
     function edit(date, workingPlanException) {
-        deferred = jQuery.Deferred();
+        deferred = $.Deferred();
 
         $date.datepicker('setDate', moment(date, 'YYYY-MM-DD').toDate());
         $start.timepicker('setDate', moment(workingPlanException.start, 'HH:mm').toDate());
@@ -164,7 +173,7 @@ $(function () {
     }
 
     function renderBreakRow(breakPeriod) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+        const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'html': [
@@ -225,7 +234,7 @@ $(function () {
     }
 
     function onAddBreakClick() {
-        var $newBreak = renderBreakRow({
+        const $newBreak = renderBreakRow({
             start: '12:00',
             end: '14:00'
         }).appendTo('#working-plan-exceptions-breaks tbody');
@@ -238,7 +247,7 @@ $(function () {
 
     function onEditBreakClick() {
         // Reset previous editable table cells.
-        var $previousEdits = $(this).closest('table').find('.editable');
+        const $previousEdits = $(this).closest('table').find('.editable');
 
         $previousEdits.each(function (index, editable) {
             if (editable.reset) {
@@ -247,7 +256,7 @@ $(function () {
         });
 
         // Make all cells in current row editable.
-        var $tr = $(this).closest('tr');
+        let $tr = $(this).closest('tr');
         $tr.children().trigger('edit');
         initializeTimepicker(
             $tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input')
@@ -269,19 +278,19 @@ $(function () {
 
     function onSaveBreakClick() {
         // Break's start time must always be prior to break's end.
-        var $tr = $(this).closest('tr');
-        var start = moment(
+        const $tr = $(this).closest('tr');
+        const start = moment(
             $tr.find('.working-plan-exceptions-break-start input').val(),
-            GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+            App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm'
         );
-        var end = moment(
+        const end = moment(
             $tr.find('.working-plan-exceptions-break-end input').val(),
-            GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+            App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm'
         );
 
         if (start > end) {
             $tr.find('.working-plan-exceptions-break-end input').val(
-                start.add(1, 'hour').format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
+                start.add(1, 'hour').format(App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm')
             );
         }
 
@@ -297,7 +306,7 @@ $(function () {
     }
 
     function onCancelBreakClick() {
-        var $tr = $(this).closest('tr');
+        const $tr = $(this).closest('tr');
         enableCancel = true;
         $tr.find('.cancel-editable').trigger('click');
         enableCancel = false;
@@ -310,9 +319,9 @@ $(function () {
     }
 
     function initializeDatepicker($target) {
-        var dateFormat;
+        let dateFormat;
 
-        switch (GlobalVariables.dateFormat) {
+        switch (App.Vars.date_format) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -326,12 +335,12 @@ $(function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided: ' + GlobalVariables.dateFormat);
+                throw new Error('Invalid date format setting provided: ' + App.Vars.date_format);
         }
 
         $target.datepicker({
             dateFormat: dateFormat,
-            firstDay: GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday),
+            firstDay: GeneralFunctions.getWeekDayId(App.Vars.first_weekday),
             minDate: 0,
             defaultDate: moment().toDate(),
             dayNames: [
@@ -384,7 +393,7 @@ $(function () {
 
     function initializeTimepicker($target) {
         $target.timepicker({
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
+            timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
             currentText: App.Lang.now,
             closeText: App.Lang.close,
             timeOnlyTitle: App.Lang.select_time,
@@ -394,22 +403,26 @@ $(function () {
         });
     }
 
-    initializeDatepicker($date);
-    initializeTimepicker($start);
-    initializeTimepicker($end);
+    function init() {
+        initializeDatepicker($date);
+        initializeTimepicker($start);
+        initializeTimepicker($end);
 
-    $modal
-        .on('hidden.bs.modal', onModalHidden)
-        .on('click', '.working-plan-exceptions-add-break', onAddBreakClick)
-        .on('click', '.working-plan-exceptions-edit-break', onEditBreakClick)
-        .on('click', '.working-plan-exceptions-delete-break', onDeleteBreakClick)
-        .on('click', '.working-plan-exceptions-save-break', onSaveBreakClick)
-        .on('click', '.working-plan-exceptions-cancel-break', onCancelBreakClick);
+        $modal
+            .on('hidden.bs.modal', onModalHidden)
+            .on('click', '.working-plan-exceptions-add-break', onAddBreakClick)
+            .on('click', '.working-plan-exceptions-edit-break', onEditBreakClick)
+            .on('click', '.working-plan-exceptions-delete-break', onDeleteBreakClick)
+            .on('click', '.working-plan-exceptions-save-break', onSaveBreakClick)
+            .on('click', '.working-plan-exceptions-cancel-break', onCancelBreakClick);
 
-    $save.on('click', onSaveClick);
+        $save.on('click', onSaveClick);
+    }
 
-    window.WorkingPlanExceptionsModal = {
-        add: add,
-        edit: edit
+    document.addEventListener('DOMContentLoaded', init);
+
+    return {
+        add,
+        edit
     };
-});
+})();
