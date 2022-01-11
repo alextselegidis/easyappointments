@@ -58,6 +58,7 @@ if ( ! function_exists('extend'))
             'layout' => [
                 'filename' => $layout,
                 'sections' => [],
+                'tmp' => [],
             ]
         ]);
     }
@@ -88,16 +89,23 @@ if ( ! function_exists('section'))
     {
         $layout = config('layout');
 
-        if (array_key_exists($name, $layout['sections']))
+        if (array_key_exists($name, $layout['tmp']))
         {
             $layout['sections'][$name][] = ob_get_clean();
 
+            unset($layout['tmp'][$name]);
+            
             config(['layout' => $layout]);
 
             return;
         }
 
-        $layout['sections'][$name] = [];
+        if (empty($layout['sections'][$name]))
+        {
+            $layout['sections'][$name] = [];
+        }
+
+        $layout['tmp'][$name] = '';
 
         config(['layout' => $layout]);
 
