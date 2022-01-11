@@ -9,9 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
-    'use strict';
-
+App.Utils.WorkingPlan = (function () {
     /**
      * Class WorkingPlan
      *
@@ -20,7 +18,7 @@
      *
      * @class WorkingPlan
      */
-    var WorkingPlan = function () {
+    const WorkingPlan = function () {
         /**
          * This flag is used when trying to cancel row editing. It is
          * true only whenever the user presses the cancel button.
@@ -44,21 +42,21 @@
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        var weekDayId = GeneralFunctions.getWeekDayId(App.Vars.first_weekday);
-        var workingPlanSorted = GeneralFunctions.sortWeekDictionary(workingPlan, weekDayId);
+        const weekDayId = App.Utils.Date.getWeekDayId(App.Vars.first_weekday);
+        const workingPlanSorted = App.Utils.Date.sortWeekDictionary(workingPlan, weekDayId);
 
         $('.working-plan tbody').empty();
         $('.breaks tbody').empty();
 
         // Build working plan day list starting with the first weekday as set in the General settings
-        var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+        const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
         $.each(
             workingPlanSorted,
             function (index, workingDay) {
-                var day = this.convertValueToDay(index);
+                const day = this.convertValueToDay(index);
 
-                var dayDisplayName = GeneralFunctions.upperCaseFirstLetter(day);
+                const dayDisplayName = App.Utils.String.upperCaseFirstLetter(day);
 
                 $('<tr/>', {
                     'html': [
@@ -192,8 +190,8 @@
      * @param {Object} workingPlanExceptions Contains the working plan exception.
      */
     WorkingPlan.prototype.setupWorkingPlanExceptions = function (workingPlanExceptions) {
-        for (var date in workingPlanExceptions) {
-            var workingPlanException = workingPlanExceptions[date];
+        for (const date in workingPlanExceptions) {
+            const workingPlanException = workingPlanExceptions[date];
 
             this.renderWorkingPlanExceptionRow(date, workingPlanException).appendTo('.working-plan-exceptions tbody');
         }
@@ -207,7 +205,7 @@
      * @param {Object} $selector The jquery selector ready for use.
      */
     WorkingPlan.prototype.editableDayCell = function ($selector) {
-        var weekDays = {};
+        const weekDays = {};
         weekDays[App.Lang.sunday] = App.Lang.sunday; //'Sunday';
         weekDays[App.Lang.monday] = App.Lang.monday; //'Monday';
         weekDays[App.Lang.tuesday] = App.Lang.tuesday; //'Tuesday';
@@ -292,7 +290,7 @@
      * @param {Object} workingPlanException Contains exception information.
      */
     WorkingPlan.prototype.renderWorkingPlanExceptionRow = function (date, workingPlanException) {
-        var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+        const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'data': {
@@ -302,7 +300,7 @@
             'html': [
                 $('<td/>', {
                     'class': 'working-plan-exception-date',
-                    'text': GeneralFunctions.formatDate(date, App.Vars.dateFormat, false)
+                    'text': App.Utils.Date.format(date, App.Vars.date_format, App.Vars.time_format, false)
                 }),
                 $('<td/>', {
                     'class': 'working-plan-exception--start',
@@ -350,7 +348,7 @@
          * Enable or disable the time selection for each day.
          */
         $('.working-plan tbody').on('click', 'input:checkbox', function () {
-            var id = $(this).attr('id');
+            const id = $(this).attr('id');
 
             if ($(this).prop('checked') === true) {
                 $('#' + id + '-start')
@@ -378,9 +376,9 @@
         $('.add-break').on(
             'click',
             function () {
-                var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+                const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
-                var $newBreak = $('<tr/>', {
+                const $newBreak = $('<tr/>', {
                     'html': [
                         $('<td/>', {
                             'class': 'break-day editable',
@@ -455,7 +453,7 @@
          */
         $(document).on('click', '.edit-break', function () {
             // Reset previous editable table cells.
-            var $previousEdits = $(this).closest('table').find('.editable');
+            const $previousEdits = $(this).closest('table').find('.editable');
 
             $previousEdits.each(function (index, editable) {
                 if (editable.reset) {
@@ -481,7 +479,7 @@
             $(this).parent().parent().find('.break-day select').focus();
 
             // Show save - cancel buttons.
-            var $tr = $(this).closest('tr');
+            const $tr = $(this).closest('tr');
             $tr.find('.edit-break, .delete-break').addClass('d-none');
             $tr.find('.save-break, .cancel-break').removeClass('d-none');
             $tr.find('select,input:text').addClass('form-control form-control-sm');
@@ -507,8 +505,8 @@
             'click',
             '.cancel-break',
             function (event) {
-                var element = event.target;
-                var $modifiedRow = $(element).closest('tr');
+                const element = event.target;
+                const $modifiedRow = $(element).closest('tr');
                 this.enableCancel = true;
                 $modifiedRow.find('.cancel-editable').trigger('click');
                 this.enableCancel = false;
@@ -530,13 +528,13 @@
             '.save-break',
             function (event) {
                 // Break's start time must always be prior to break's end.
-                var element = event.target;
+                const element = event.target;
 
-                var $modifiedRow = $(element).closest('tr');
+                const $modifiedRow = $(element).closest('tr');
 
-                var startMoment = moment($modifiedRow.find('.break-start input').val(), 'HH:mm');
+                const startMoment = moment($modifiedRow.find('.break-start input').val(), 'HH:mm');
 
-                var endMoment = moment($modifiedRow.find('.break-end input').val(), 'HH:mm');
+                const endMoment = moment($modifiedRow.find('.break-end input').val(), 'HH:mm');
 
                 if (startMoment.isAfter(endMoment)) {
                     $modifiedRow.find('.break-end input').val(
@@ -565,9 +563,9 @@
             'click',
             '.add-working-plan-exception',
             function () {
-                WorkingPlanExceptionsModal.add().done(
+                App.Components.WorkingPlanExceptionsModal.add().done(
                     function (date, workingPlanException) {
-                        var $tr = null;
+                        const $tr = null;
 
                         $('.working-plan-exceptions tbody tr').each(function (index, tr) {
                             if (date === $(tr).data('date')) {
@@ -576,7 +574,7 @@
                             }
                         });
 
-                        var $newTr = this.renderWorkingPlanExceptionRow(date, workingPlanException);
+                        let $newTr = this.renderWorkingPlanExceptionRow(date, workingPlanException);
 
                         if ($tr) {
                             $tr.replaceWith($newTr);
@@ -599,11 +597,11 @@
             'click',
             '.edit-working-plan-exception',
             function (event) {
-                var $tr = $(event.target).closest('tr');
-                var date = $tr.data('date');
-                var workingPlanException = $tr.data('workingPlanException');
+                const $tr = $(event.target).closest('tr');
+                const date = $tr.data('date');
+                const workingPlanException = $tr.data('workingPlanException');
 
-                WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
+                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
                     function (date, workingPlanException) {
                         $tr.replaceWith(this.renderWorkingPlanExceptionRow(date, workingPlanException));
                     }.bind(this)
@@ -627,11 +625,11 @@
      * @return {Object} Returns the working plan settings object.
      */
     WorkingPlan.prototype.get = function () {
-        var workingPlan = {};
+        const workingPlan = {};
 
         $('.working-plan input:checkbox').each(
             function (index, checkbox) {
-                var id = $(checkbox).attr('id');
+                const id = $(checkbox).attr('id');
                 if ($(checkbox).prop('checked') === true) {
                     workingPlan[id] = {
                         start: moment($('#' + id + '-start').val(), 'HH:mm').format('HH:mm'),
@@ -641,11 +639,11 @@
 
                     $('.breaks tr').each(
                         function (index, tr) {
-                            var day = this.convertDayToValue($(tr).find('.break-day').text());
+                            const day = this.convertDayToValue($(tr).find('.break-day').text());
 
                             if (day === id) {
-                                var start = $(tr).find('.break-start').text();
-                                var end = $(tr).find('.break-end').text();
+                                const start = $(tr).find('.break-start').text();
+                                const end = $(tr).find('.break-end').text();
 
                                 workingPlan[id].breaks.push({
                                     start: moment(
@@ -680,11 +678,11 @@
      * @return {Object} Returns the working plan exceptions settings object.
      */
     WorkingPlan.prototype.getWorkingPlanExceptions = function () {
-        var workingPlanExceptions = {};
+        const workingPlanExceptions = {};
 
         $('.working-plan-exceptions tbody tr').each(function (index, tr) {
-            var $tr = $(tr);
-            var date = $tr.data('date');
+            const $tr = $(tr);
+            const date = $tr.data('date');
             workingPlanExceptions[date] = $tr.data('workingPlanException');
         });
 
@@ -712,9 +710,9 @@
 
                 onSelect: function (datetime, inst) {
                     // Start time must be earlier than end time.
-                    var startMoment = moment($(this).parent().parent().find('.work-start').val(), 'HH:mm');
+                    const startMoment = moment($(this).parent().parent().find('.work-start').val(), 'HH:mm');
 
-                    var endMoment = moment($(this).parent().parent().find('.work-end').val(), 'HH:mm');
+                    const endMoment = moment($(this).parent().parent().find('.work-end').val(), 'HH:mm');
 
                     if (startMoment > endMoment) {
                         $(this)
@@ -788,5 +786,5 @@
         }
     };
 
-    window.WorkingPlan = WorkingPlan;
+    return WorkingPlan;
 })();
