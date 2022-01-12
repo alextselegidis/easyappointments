@@ -9,7 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
+App.Pages.Installation = (function () {
     const MIN_PASSWORD_LENGTH = 7;
     const $install = $('#install');
     const $alert = $('.alert');
@@ -25,26 +25,26 @@
     const $companyEmail = $('#company-email');
     const $companyLink = $('#company-link');
 
-    $(document).ajaxStart(function () {
+    $(document).ajaxStart(() => {
         $loading.removeClass('d-none');
     });
 
-    $(document).ajaxStop(function () {
+    $(document).ajaxStop(() => {
         $loading.addClass('d-none');
     });
 
     /**
      * Event: Install Easy!Appointments Button "Click"
      */
-    $install.on('click', function () {
+    $install.on('click', () => {
         if (!validate()) {
             return;
         }
 
-        const url = GlobalVariables.baseUrl + '/index.php/installation/perform';
+        const url = App.Utils.Url.siteUrl('installation/perform');
 
         const data = {
-            csrf_token: GlobalVariables.csrfToken,
+            csrf_token: App.Vars.csrf_token,
             admin: getAdminData(),
             company: getCompanyData()
         };
@@ -61,7 +61,7 @@
                 .prop('hidden', false);
 
             setTimeout(function () {
-                window.location.href = GlobalVariables.baseUrl + '/index.php/calendar';
+                window.location.href = App.Utils.Url.siteUrl('calendar');
             }, 1000);
         });
     });
@@ -109,12 +109,12 @@
             }
 
             // Validate Email
-            if (!GeneralFunctions.validateEmail($email.val())) {
+            if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
                 throw new Error('The email address is invalid!');
             }
 
-            if (!GeneralFunctions.validateEmail($companyEmail.val())) {
+            if (!App.Utils.Validation.email($companyEmail.val())) {
                 $companyEmail.addClass('is-invalid');
                 throw new Error('The email address is invalid!');
             }
@@ -158,10 +158,12 @@
 
     // Validate the base URL setting (must not contain any trailing slash).
     if (GlobalVariables.baseUrl.slice(-1) === '/') {
-        GeneralFunctions.displayMessageBox(
+        App.Utils.Message.show(
             'Invalid Configuration Detected',
             'Please remove any trailing slashes from your "BASE_URL" setting of the root "config.php" file and try again.'
         );
         $install.prop('disabled', true).fadeTo('0.4');
     }
-});
+
+    return {};
+})();
