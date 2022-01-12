@@ -42,7 +42,7 @@ App.Utils.WorkingPlan = (function () {
      * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
      */
     WorkingPlan.prototype.setup = function (workingPlan) {
-        const weekDayId = App.Utils.Date.getWeekDayId(App.Vars.first_weekday);
+        const weekDayId = App.Utils.Date.getWeekdayId(App.Vars.first_weekday);
         const workingPlanSorted = App.Utils.Date.sortWeekDictionary(workingPlan, weekDayId);
 
         $('.working-plan tbody').empty();
