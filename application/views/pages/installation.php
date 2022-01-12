@@ -144,8 +144,9 @@
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
 
 <script src="<?= asset_url('assets/js/app.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
 
 <?php component('config_script') ?>
 <?php component('language_script') ?>
