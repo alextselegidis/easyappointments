@@ -66,14 +66,14 @@ window.App.Utils.Date = (function () {
 
     /**
      * Get the Id of a Weekday using the US week format and day names (Sunday=0) as used in the JS code of the
-     * application, case insensitive, short and long names supported.
+     * application, case-insensitive, short and long names supported.
      *
      * @param {String} weekDayName The weekday name among Sunday, Monday, Tuesday, Wednesday, Thursday, Friday,
      * Saturday.
 
      * @return {Number} Returns the ID of the weekday.
      */
-    function getWeekDayId(weekDayName) {
+    function getWeekdayId(weekDayName) {
         let result;
 
         switch (weekDayName.toLowerCase()) {
@@ -186,7 +186,7 @@ window.App.Utils.Date = (function () {
 
     return {
         format,
-        getWeekDayId,
+        getWeekdayId,
         sortWeekDictionary,
         getWeekdayName
     };
