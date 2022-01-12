@@ -10,27 +10,21 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar
+ * Calendar Page
  *
  * This module contains functions that are used by the backend calendar page.
- *
- * @module BackendCalendar
  */
-window.BackendCalendar = window.BackendCalendar || {};
-
-(function (exports) {
-    'use strict';
-
+App.Pages.Calendar = (function () {
     /**
      * Bind common event handlers.
      */
     function bindEventHandlers() {
-        var $calendarPage = $('#calendar-page');
+        const $calendarPage = $('#calendar-page');
 
-        $calendarPage.on('click', '#toggle-fullscreen', function () {
-            var $toggleFullscreen = $(this);
-            var element = document.documentElement;
-            var isFullScreen = document.fullScreenElement || document.mozFullScreen || document.webkitIsFullScreen;
+        $calendarPage.on('click', '#toggle-fullscreen', (event) => {
+            const $toggleFullscreen = $(event.target);
+            const element = document.documentElement;
+            const isFullScreen = document.fullScreenElement || document.mozFullScreen || document.webkitIsFullScreen;
 
             if (isFullScreen) {
                 // Exit fullscreen mode.
@@ -60,10 +54,10 @@ window.BackendCalendar = window.BackendCalendar || {};
             }
         });
 
-        $('#insert-working-plan-exception').on('click', function () {
-            var providerId = $('#select-filter-item').val();
+        $('#insert-working-plan-exception').on('click', () => {
+            const providerId = $('#select-filter-item').val();
 
-            var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
+            const provider = App.Vars.available_providers.find((availableProvider) => {
                 return Number(availableProvider.id) === Number(providerId);
             });
 
@@ -71,19 +65,19 @@ window.BackendCalendar = window.BackendCalendar || {};
                 throw new Error('Provider could not be found: ' + providerId);
             }
 
-            App.Components.WorkingPlanExceptionsModal.add().done(function (date, workingPlanException) {
-                var successCallback = function () {
+            App.Components.WorkingPlanExceptionsModal.add().done((date, workingPlanException) => {
+                const successCallback = () => {
                     Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
-                    var workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                    const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                     workingPlanExceptions[date] = workingPlanException;
 
-                    for (var index in GlobalVariables.availableProviders) {
-                        var availableProvider = GlobalVariables.availableProviders[index];
+                    for (let index in App.Vars.available_providers) {
+                        const availableProvider = App.Vars.available_providers[index];
 
                         if (Number(availableProvider.id) === Number(providerId)) {
-                            GlobalVariables.availableProviders[index].settings.working_plan_exceptions =
+                            App.Vars.available_providers[index].settings.working_plan_exceptions =
                                 JSON.stringify(workingPlanExceptions);
                             break;
                         }
@@ -92,7 +86,7 @@ window.BackendCalendar = window.BackendCalendar || {};
                     $('#select-filter-item').trigger('change'); // Update the calendar.
                 };
 
-                BackendCalendarApi.saveWorkingPlanException(
+                App.Http.Calendar.saveWorkingPlanException(
                     date,
                     workingPlanException,
                     providerId,
@@ -111,18 +105,26 @@ window.BackendCalendar = window.BackendCalendar || {};
      *
      * @param {String} view Optional (default), the calendar view to be loaded.
      */
-    exports.initialize = function (view) {
-        BackendCalendarGoogleSync.initialize();
-        BackendCalendarAppointmentsModal.initialize();
-        BackendCalendarUnavailabilityEventsModal.initialize();
+    function initialize(view) {
+        App.Utils.CalendarGoogleSync.initialize();
+
+        App.Components.ManageAppointmentsModal.initialize();
+
+        App.Components.ManageUnavailabilitiesModal.initialize();
 
         // Load and initialize the calendar view.
         if (view === 'table') {
-            BackendCalendarTableView.initialize();
+            App.Utils.CalendarTableView.initialize();
         } else {
-            BackendCalendarDefaultView.initialize();
+            App.Utils.CalendarDefaultView.initialize();
         }
 
         bindEventHandlers();
+    }
+
+    document.addEventListener('DOMContentLoaded', initialize);
+
+    return {
+        initialize
     };
-})(window.BackendCalendar);
+})();

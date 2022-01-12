@@ -16,6 +16,15 @@
  * @var string $timezone
  * @var string $role_slug
  * @var array $privileges
+ * @var array $available_services
+ * @var array $timezones
+ * @var array $require_first_name
+ * @var array $require_last_name
+ * @var array $require_email
+ * @var array $require_phone_number
+ * @var array $require_address
+ * @var array $require_city
+ * @var array $require_zip_code
  */
 ?>
 
@@ -33,39 +42,19 @@
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar_default_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar_table_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar_google_sync.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar_appointments_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar_unavailability_events_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/backend_calendar_api.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        firstWeekday: <?= json_encode(setting('first_weekday')) ?>,
-        timezones: <?= json_encode($timezones) ?>,
-        availableProviders: <?= json_encode($available_providers) ?>,
-        availableServices: <?= json_encode($available_services) ?>,
-        secretaryProviders: <?= json_encode($secretary_providers) ?>,
-        calendarView: <?= json_encode($calendar_view) ?>,
-        editAppointment: <?= json_encode($edit_appointment) ?>,
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-
-    $(function () {
-        BackendCalendar.initialize(GlobalVariables.calendarView);
-    });
-</script>
+<script src="<?= asset_url('assets/js/components/manage_appointments_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/components/manage_unavailabilities_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_google_sync.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/calendar_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/calendar.js') ?>"></script>
 
 <?php section('scripts') ?>
 
@@ -151,11 +140,34 @@
 
 <!-- Page Components -->
 
-<?php component('manage_appointment_modal', '', ['timezones' => $timezones]) ?>
+<?php 
+    component(
+        'manage_appointment_modal', 
+        '',
+        [
+            'available_services' => $available_services,
+            'timezones' => $timezones,
+            'require_first_name' => $require_first_name,
+            'require_last_name' => $require_last_name,
+            'require_email' => $require_email,
+            'require_phone_number' => $require_phone_number,
+            'require_address' => $require_address,
+            'require_city' => $require_city,
+            'require_zip_code' => $require_zip_code
+        ]
+    ) 
+?>
 
-<?php component('manage_appointment_modal') ?>
-
-<?php component('manage_unavailable_modal') ?>
+<?php 
+    component(
+        'manage_unavailable_modal', 
+        '',
+        [
+            'timezones' => $timezones,
+            'timezone' => $timezone
+        ]
+    ) 
+?>
 
 <?php component('select_google_calendar_modal') ?>
 

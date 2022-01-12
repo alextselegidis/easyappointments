@@ -14,13 +14,9 @@
  *
  * This module implements the Google Calendar sync operations.
  *
- * @module BackendCalendarGoogleSync
+ * Old Name: BackendCalendarGoogleSync
  */
-window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
-
-(function (exports) {
-    'use strict';
-
+App.Utils.CalendarGoogleSync = (function () {
     /**
      * Bind event handlers.
      */
@@ -31,19 +27,19 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          * When the user clicks on the "Enable Sync" button, a popup should appear
          * that is going to follow the web server authorization flow of OAuth.
          */
-        $('#enable-sync').on('click', function () {
+        $('#enable-sync').on('click', () => {
             if ($('#enable-sync').hasClass('enabled') === false) {
                 // Enable synchronization for selected provider.
-                var authUrl = GlobalVariables.baseUrl + '/index.php/google/oauth/' + $('#select-filter-item').val();
+                const authUrl = App.Utils.Url.siteUrl('google/oauth/' + $('#select-filter-item').val());
 
-                var redirectUrl = GlobalVariables.baseUrl + '/index.php/google/oauth_callback';
+                const redirectUrl = App.Utils.Url.siteUrl('google/oauth_callback');
 
-                var windowHandle = window.open(authUrl, 'Authorize Easy!Appointments', 'width=800, height=600');
+                const windowHandle = window.open(authUrl, 'Authorize Easy!Appointments', 'width=800, height=600');
 
-                var authInterval = window.setInterval(function () {
-                    // When the browser redirects to the google user consent page the "window.document" variable
+                const authInterval = window.setInterval(() => {
+                    // When the browser redirects to the google user consent page the "window.document" constiable
                     // becomes "undefined" and when it comes back to the redirect URL it changes back. So check
-                    // whether the variable is undefined to avoid javascript errors.
+                    // whether the constiable is undefined to avoid javascript errors.
                     try {
                         if (windowHandle.document) {
                             if (windowHandle.document.URL.indexOf(redirectUrl) !== -1) {
@@ -58,17 +54,17 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                                 // Display the calendar selection dialog. First we will get a list of the available
                                 // user's calendars and then we will display a selection modal so the user can select
                                 // the sync calendar.
-                                var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_get_google_calendars';
+                                const url = App.Utils.Url.siteUrl('backend_api/ajax_get_google_calendars');
 
-                                var data = {
-                                    csrf_token: GlobalVariables.csrfToken,
+                                const data = {
+                                    csrf_token: App.Vars.csrf_token,
                                     provider_id: $('#select-filter-item').val()
                                 };
 
-                                $.post(url, data).done(function (response) {
+                                $.post(url, data).done((response) => {
                                     $('#google-calendar').empty();
 
-                                    response.forEach(function (calendar) {
+                                    response.forEach((calendar) => {
                                         $('#google-calendar').append(new Option(calendar.summary, calendar.id));
                                     });
 
@@ -83,22 +79,22 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                     }
                 }, 100);
             } else {
-                var buttons = [
+                const buttons = [
                     {
                         text: App.Lang.cancel,
-                        click: function () {
+                        click: () => {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
                         text: 'OK',
-                        click: function () {
+                        click: () => {
                             // Disable synchronization for selected provider.
-                            var providerId = $('#select-filter-item').val();
+                            const providerId = $('#select-filter-item').val();
 
-                            var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
-                                return Number(availableProvider.id) === Number(providerId);
-                            });
+                            const provider = App.Vars.available_providers.find(
+                                (availableProvider) => Number(availableProvider.id) === Number(providerId)
+                            );
 
                             if (!provider) {
                                 throw new Error('Provider not found: ' + providerId);
@@ -119,22 +115,22 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(App.Lang.disable_sync, App.Lang.disable_sync_prompt, buttons);
+                App.Utils.Message.show(App.Lang.disable_sync, App.Lang.disable_sync_prompt, buttons);
             }
         });
 
         /**
          * Event: Select Google Calendar "Click"
          */
-        $('#select-calendar').on('click', function () {
-            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_select_google_calendar';
+        $('#select-calendar').on('click', () => {
+            const url = App.Utils.Url.siteUrl('backend_api/ajax_select_google_calendar');
 
-            var data = {
-                csrf_token: GlobalVariables.csrfToken,
+            const data = {
+                csrf_token: App.Vars.csrf_token,
                 provider_id: $('#select-filter-item').val(),
                 calendar_id: $('#google-calendar').val()
             };
-            $.post(url, data).done(function () {
+            $.post(url, data).done(() => {
                 Backend.displayNotification(App.Lang.google_calendar_selected);
                 $('#select-google-calendar').modal('hide');
             });
@@ -145,19 +141,19 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
          *
          * Trigger the synchronization algorithm.
          */
-        $('#google-sync').on('click', function () {
-            var url = GlobalVariables.baseUrl + '/index.php/google/sync/' + $('#select-filter-item').val();
+        $('#google-sync').on('click', () => {
+            const url = App.Utils.Url.siteUrl('google/sync/' + $('#select-filter-item').val());
 
             $.ajax({
                 url: url,
                 type: 'GET',
                 dataType: 'json'
             })
-                .done(function (response) {
+                .done(() => {
                     Backend.displayNotification(App.Lang.google_sync_completed);
                     $('#reload-appointments').trigger('click');
                 })
-                .fail(function (jqXHR, textStatus, errorThrown) {
+                .fail(() => {
                     Backend.displayNotification(App.Lang.google_sync_failed);
                 });
         });
@@ -166,23 +162,27 @@ window.BackendCalendarGoogleSync = window.BackendCalendarGoogleSync || {};
     /**
      * Disable Provider Sync
      *
-     * This method disables the google synchronization for a specific provider.
+     * This method disables the Google synchronization for a specific provider.
      *
      * @param {Number} providerId The selected provider record ID.
      */
     function disableProviderSync(providerId) {
         // Make an ajax call to the server in order to disable the setting from the database.
-        var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_disable_provider_sync';
+        const url = App.Utils.Url.siteUrl('backend_api/ajax_disable_provider_sync');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             provider_id: providerId
         };
 
         $.post(url, data);
     }
 
-    exports.initialize = function () {
+    function initialize() {
         bindEventHandlers();
+    }
+
+    return {
+        initialize
     };
-})(window.BackendCalendarGoogleSync);
+})();

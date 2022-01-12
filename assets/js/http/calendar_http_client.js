@@ -10,52 +10,46 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar API
+ * Calendar HTTP Client
  *
- * This module implements the AJAX requests for the calendar page.
- *
- * @module BackendCalendarApi
+ * Old Module Name: BackendCalendarApi
  */
-window.BackendCalendarApi = window.BackendCalendarApi || {};
-
-(function (exports) {
-    'use strict';
-
+App.Http.Calendar = (function () {
     /**
      * Save Appointment
      *
      * This method stores the changes of an already registered appointment into the database, via an ajax call.
      *
-     * @param {Object} appointment Contain the new appointment data. The ID of the appointment MUST be already included.
+     * @param {Object} appointment Contain the new appointment data. The ID of the appointment must be already included.
      * The rest values must follow the database structure.
      * @param {Object} [customer] Optional, contains the customer data.
      * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
      */
-    exports.saveAppointment = function (appointment, customer, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_appointment';
+    function saveAppointment(appointment, customer, successCallback, errorCallback) {
+        const url = App.Utils.Url.siteUrl('calendar/ajax_save_appointment');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            appointment_data: JSON.stringify(appointment)
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            appointment_data: appointment
         };
 
         if (customer) {
-            data.customer_data = JSON.stringify(customer);
+            data.customer_data = customer;
         }
 
-        $.post(url, data)
-            .done(function (response) {
+        return $.post(url, data)
+            .done((response) => {
                 if (successCallback) {
                     successCallback(response);
                 }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(() => {
                 if (errorCallback) {
                     errorCallback();
                 }
             });
-    };
+    }
 
     /**
      * Save unavailable period to database.
@@ -64,26 +58,26 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */
-    exports.saveUnavailable = function (unavailable, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_unavailable';
+    function saveUnavailable(unavailable, successCallback, errorCallback) {
+        const url = App.Utils.Url.siteUrl('calendar/ajax_save_unavailable');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
-            unavailable: JSON.stringify(unavailable)
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            unavailable: unavailable
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        return $.post(url, data)
+            .done((response) => {
                 if (successCallback) {
                     successCallback(response);
                 }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(() => {
                 if (errorCallback) {
                     errorCallback();
                 }
             });
-    };
+    }
 
     /**
      * Save working plan exception of work to database.
@@ -94,54 +88,55 @@ window.BackendCalendarApi = window.BackendCalendarApi || {};
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      */
-    exports.saveWorkingPlanException = function (
-        date,
-        workingPlanException,
-        providerId,
-        successCallback,
-        errorCallback
-    ) {
-        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_save_working_plan_exception';
+    function saveWorkingPlanException(date, workingPlanException, providerId, successCallback, errorCallback) {
+        const url = App.Utils.Url.siteUrl('calendar/ajax_save_working_plan_exception');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             date: date,
             working_plan_exception: workingPlanException,
             provider_id: providerId
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        return $.post(url, data)
+            .done((response) => {
                 if (successCallback) {
                     successCallback(response);
                 }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(() => {
                 if (errorCallback) {
                     errorCallback();
                 }
             });
-    };
+    }
 
-    exports.deleteWorkingPlanException = function (date, providerId, successCallback, errorCallback) {
-        var url = GlobalVariables.baseUrl + '/index.php/calendar/ajax_delete_working_plan_exception';
+    function deleteWorkingPlanException(date, providerId, successCallback, errorCallback) {
+        const url = App.Utils.Url.siteUrl('calendar/ajax_delete_working_plan_exception');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             date: date,
             provider_id: providerId
         };
 
-        $.post(url, data)
-            .done(function (response) {
+        return $.post(url, data)
+            .done((response) => {
                 if (successCallback) {
                     successCallback(response);
                 }
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(() => {
                 if (errorCallback) {
                     errorCallback();
                 }
             });
+    }
+
+    return {
+        saveAppointment,
+        saveUnavailable,
+        saveWorkingPlanException,
+        deleteWorkingPlanException
     };
-})(window.BackendCalendarApi);
+})();

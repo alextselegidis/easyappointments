@@ -27,6 +27,7 @@ class Calendar extends EA_Controller {
         parent::__construct();
 
         $this->load->model('appointments_model');
+        $this->load->model('unavailabilities_model');
         $this->load->model('customers_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
@@ -86,15 +87,35 @@ class Calendar extends EA_Controller {
             }
         }
 
+        $privileges = $this->roles_model->get_permissions_by_slug($role_slug);
+
+        $available_providers = $this->providers_model->get_available_providers();
+
+        $available_services = $this->services_model->get_available_services();
+
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'date_format' => setting('date_format'),
+            'time_format' => setting('time_format'),
+            'first_weekday' => setting('first_weekday'),
+            'timezones' => $this->timezones->to_array(),
+            'privileges' => $privileges,
+            'available_providers' => $available_providers,
+            'available_services' => $available_services,
+            'customers' => [], // TODO: Remove the use of the pre-rendered customer set and only work with asynchronously fetched customer records. 
+        ]);
+
         html_vars([
             'page_title' => lang('calendar'),
             'active_menu' => PRIV_APPOINTMENTS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
+            'timezone' => session('timezone'),
             'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'privileges' => $privileges,
             'calendar_view' => request('view', $user['settings']['calendar_view']),
-            'available_providers' => $this->providers_model->get_available_providers(),
-            'available_services' => $this->services_model->get_available_services(),
+            'available_providers' => $available_providers,
+            'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
             'require_first_name' => setting('require_first_name'),
@@ -134,7 +155,7 @@ class Calendar extends EA_Controller {
 
             if ($customer_data)
             {
-                $customer = json_decode($customer_data, TRUE);
+                $customer = $customer_data;
 
                 $required_permissions = ! empty($customer['id'])
                     ? can('add', PRIV_CUSTOMERS)
@@ -155,7 +176,7 @@ class Calendar extends EA_Controller {
 
             if ($appointment_data)
             {
-                $appointment = json_decode($appointment_data, TRUE);
+                $appointment = $appointment_data;
 
                 $required_permissions = ! empty($appointment['id'])
                     ? can('add', PRIV_APPOINTMENTS)
@@ -270,7 +291,7 @@ class Calendar extends EA_Controller {
         try
         {
             // Check privileges
-            $unavailable = json_decode(request('unavailable'), TRUE);
+            $unavailable = request('unavailable');
 
             $required_permissions = ( ! isset($unavailable['id']))
                 ? can('add', PRIV_APPOINTMENTS)
@@ -597,7 +618,7 @@ class Calendar extends EA_Controller {
                     AND is_unavailable = 1
                 ';
 
-                $response['unavailables'] = $this->appointments_model->get($where_clause);
+                $response['unavailables'] = $this->unavailabilities_model->get($where_clause);
             }
 
             foreach ($response['unavailables'] as &$unavailable)
