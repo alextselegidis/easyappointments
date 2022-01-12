@@ -14,9 +14,8 @@ window.FrontendBook = window.FrontendBook || {};
 /**
  * Frontend Book
  *
- * This module contains functions that implement the book appointment page functionality. Once the
- * initialize() method is called the page is fully functional and can serve the appointment booking
- * process.
+ * This module contains functions that implement the book appointment page functionality. Once the "initialize" method
+ * is called the page is fully functional and can serve the appointment booking process.
  *
  * @module FrontendBook
  */
@@ -424,7 +423,7 @@ window.FrontendBook = window.FrontendBook || {};
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(
+                App.Utils.Message.show(
                     App.Lang.cancel_appointment_title,
                     App.Lang.write_appointment_removal_reason,
                     buttons
@@ -458,7 +457,7 @@ window.FrontendBook = window.FrontendBook || {};
                     }
                 ];
 
-                GeneralFunctions.displayMessageBox(
+                App.Utils.Message.show(
                     App.Lang.delete_personal_information,
                     App.Lang.delete_personal_information_prompt,
                     buttons
