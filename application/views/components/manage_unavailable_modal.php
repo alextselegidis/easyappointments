@@ -1,6 +1,7 @@
 <?php
 /**
  * @var array $timezones
+ * @var string $timezone
  */
 ?>
 
