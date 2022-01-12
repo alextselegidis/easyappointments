@@ -17,7 +17,6 @@
 App.Pages.BusinessSettings = (function () {
     const $saveSettings = $('#save-settings');
     const $applyGlobalWorkingPlan = $('#apply-global-working-plan');
-
     let workingPlanManager = null;
 
     /**
@@ -125,7 +124,7 @@ App.Pages.BusinessSettings = (function () {
             }
         ];
 
-        GeneralFunctions.displayMessageBox(App.Lang.working_plan, App.Lang.overwrite_existing_working_plans, buttons);
+        App.Utils.Message.show(App.Lang.working_plan, App.Lang.overwrite_existing_working_plans, buttons);
     }
 
     function init() {
