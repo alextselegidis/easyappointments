@@ -107,7 +107,6 @@
 
 <script>
     $(function () {
-        FrontendBook.initialize(true, GlobalVariables.manageMode);
         GeneralFunctions.enableLanguageSelection($('#select-language'));
     });
 </script>

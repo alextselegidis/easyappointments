@@ -176,6 +176,7 @@ class Booking extends EA_Controller {
         }
 
         script_vars([
+            'manage_mode' => $manage_mode,
             'available_services' => $available_services,
             'available_providers' => $available_providers,
             'date_format' => $date_format,
@@ -354,7 +355,7 @@ class Booking extends EA_Controller {
     /**
      * Register the appointment to the database.
      */
-    public function ajax_register_appointment()
+    public function register()
     {
         try
         {

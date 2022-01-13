@@ -9,21 +9,17 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-window.FrontendBookApi = window.FrontendBookApi || {};
-
 /**
- * Frontend Book API
+ * Booking HTTP Client
  *
  * This module serves as the API consumer for the booking wizard of the app.
  *
- * @module FrontendBookApi
+ * Old Name: FrontendBookApi
  */
-(function (exports) {
-    'use strict';
-
-    var unavailableDatesBackup;
-    var selectedDateStringBackup;
-    var processingUnavailabilities = false;
+App.Http.Booking = (function () {
+    let unavailableDatesBackup;
+    let selectedDateStringBackup;
+    let processingUnavailabilities = false;
 
     /**
      * Get Available Hours
@@ -33,47 +29,47 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      *
      * @param {String} selectedDate The selected date of the available hours we need.
      */
-    exports.getAvailableHours = function (selectedDate) {
+    function getAvailableHours(selectedDate) {
         $('#available-hours').empty();
 
         // Find the selected service duration (it is going to be send within the "data" object).
-        var serviceId = $('#select-service').val();
+        const serviceId = $('#select-service').val();
 
         // Default value of duration (in minutes).
-        var serviceDuration = 15;
+        let serviceDuration = 15;
 
-        var service = GlobalVariables.availableServices.find(function (availableService) {
-            return Number(availableService.id) === Number(serviceId);
-        });
+        const service = App.Vars.available_services.find(
+            (availableService) => Number(availableService.id) === Number(serviceId)
+        );
 
         if (service) {
             serviceDuration = service.duration;
         }
 
         // If the manage mode is true then the appointment's start date should return as available too.
-        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : null;
+        const appointmentId = App.Pages.Booking.manageMode ? App.Vars.appointment_data.id : null;
 
         // Make ajax post request and get the available hours.
-        var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_get_available_hours';
+        const url = App.Utils.Url.siteUrl('booking/ajax_get_available_hours');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             service_id: $('#select-service').val(),
             provider_id: $('#select-provider').val(),
             selected_date: selectedDate,
             service_duration: serviceDuration,
-            manage_mode: FrontendBook.manageMode,
+            manage_mode: App.Pages.Booking.manageMode,
             appointment_id: appointmentId
         };
 
-        $.post(url, data).done(function (response) {
+        $.post(url, data).done((response) => {
             // The response contains the available hours for the selected provider and service. Fill the available
             // hours div with response data.
             if (response.length > 0) {
-                var providerId = $('#select-provider').val();
+                let providerId = $('#select-provider').val();
 
                 if (providerId === 'any-provider') {
-                    for (var availableProvider of GlobalVariables.availableProviders) {
+                    for (const availableProvider of App.Vars.available_providers) {
                         if (availableProvider.services.indexOf(Number(serviceId)) !== -1) {
                             providerId = availableProvider.id; // Use first available provider.
                             break;
@@ -81,20 +77,20 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     }
                 }
 
-                var provider = GlobalVariables.availableProviders.find(function (availableProvider) {
-                    return Number(providerId) === Number(availableProvider.id);
-                });
+                const provider = App.Vars.available_providers.find(
+                    (availableProvider) => Number(providerId) === Number(availableProvider.id)
+                );
 
                 if (!provider) {
                     throw new Error('Could not find provider.');
                 }
 
-                var providerTimezone = provider.timezone;
-                var selectedTimezone = $('#select-timezone').val();
-                var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+                const providerTimezone = provider.timezone;
+                const selectedTimezone = $('#select-timezone').val();
+                const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
-                response.forEach(function (availableHour) {
-                    var availableHourMoment = moment
+                response.forEach((availableHour) => {
+                    const availableHourMoment = moment
                         .tz(selectedDate + ' ' + availableHour + ':00', providerTimezone)
                         .tz(selectedTimezone);
 
@@ -113,30 +109,29 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     );
                 });
 
-                if (FrontendBook.manageMode) {
+                if (App.Pages.Booking.manageMode) {
                     // Set the appointment's start time as the default selection.
                     $('.available-hour')
                         .removeClass('selected-hour')
-                        .filter(function () {
-                            return (
-                                $(this).text() ===
-                                moment(GlobalVariables.appointmentData.start_datetime).format(timeFormat)
-                            );
-                        })
+                        .filter(
+                            (index, availableHourEl) =>
+                                $(availableHourEl).text() ===
+                                moment(App.Vars.appointment_data.start_datetime).format(timeFormat)
+                        )
                         .addClass('selected-hour');
                 } else {
                     // Set the first available hour as the default selection.
                     $('.available-hour:eq(0)').addClass('selected-hour');
                 }
 
-                FrontendBook.updateConfirmFrame();
+                App.Pages.Booking.updateConfirmFrame();
             }
 
             if (!$('.available-hour').length) {
                 $('#available-hours').text(App.Lang.no_available_hours);
             }
         });
-    };
+    }
 
     /**
      * Register an appointment to the database.
@@ -144,8 +139,8 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * This method will make an ajax call to the appointments controller that will register
      * the appointment to the database.
      */
-    exports.registerAppointment = function () {
-        var $captchaText = $('.captcha-text');
+    function registerAppointment() {
+        const $captchaText = $('.captcha-text');
 
         if ($captchaText.length > 0) {
             $captchaText.removeClass('is-invalid');
@@ -155,10 +150,10 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             }
         }
 
-        var formData = JSON.parse($('input[name="post_data"]').val());
+        const formData = JSON.parse($('input[name="post_data"]').val());
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             post_data: formData
         };
 
@@ -166,20 +161,20 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             data.captcha = $captchaText.val();
         }
 
-        if (GlobalVariables.manageMode) {
-            data.exclude_appointment_id = GlobalVariables.appointmentData.id;
+        if (App.Vars.manage_mode) {
+            data.exclude_appointment_id = App.Vars.appointment_data.id;
         }
 
-        var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_register_appointment';
+        const url = App.Utils.Url.siteUrl('booking/register');
 
-        var $layer = $('<div/>');
+        const $layer = $('<div/>');
 
         $.ajax({
             url: url,
             method: 'post',
             data: data,
             dataType: 'json',
-            beforeSend: function (jqxhr, settings) {
+            beforeSend: () => {
                 $layer.appendTo('body').css({
                     background: 'white',
                     position: 'fixed',
@@ -191,11 +186,11 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                 });
             }
         })
-            .done(function (response) {
+            .done((response) => {
                 if (response.captcha_verification === false) {
                     $('#captcha-hint').text(App.Lang.captcha_is_wrong).fadeTo(400, 1);
 
-                    setTimeout(function () {
+                    setTimeout(() => {
                         $('#captcha-hint').fadeTo(400, 0);
                     }, 3000);
 
@@ -206,16 +201,15 @@ window.FrontendBookApi = window.FrontendBookApi || {};
                     return false;
                 }
 
-                window.location.href =
-                    GlobalVariables.baseUrl + '/index.php/booking_confirmation/of/' + response.appointment_hash;
+                window.location.href = App.Utils.Url.siteUrl('booking_confirmation/of/' + response.appointment_hash);
             })
-            .fail(function (jqxhr, textStatus, errorThrown) {
+            .fail(() => {
                 $('.captcha-title button').trigger('click');
             })
-            .always(function () {
+            .always(() => {
                 $layer.remove();
             });
-    };
+    }
 
     /**
      * Get the unavailable dates of a provider.
@@ -228,7 +222,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      * @param {Number} serviceId The selected service ID.
      * @param {String} selectedDateString Y-m-d value of the selected date.
      */
-    exports.getUnavailableDates = function (providerId, serviceId, selectedDateString) {
+    function getUnavailableDates(providerId, serviceId, selectedDateString) {
         if (processingUnavailabilities) {
             return;
         }
@@ -237,16 +231,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             return;
         }
 
-        var appointmentId = FrontendBook.manageMode ? GlobalVariables.appointmentData.id : null;
+        const appointmentId = App.Pages.Booking.manageMode ? App.Vars.appointment_data.id : null;
 
-        var url = GlobalVariables.baseUrl + '/index.php/booking/ajax_get_unavailable_dates';
+        const url = App.Utils.Url.siteUrl('booking/ajax_get_unavailable_dates');
 
-        var data = {
+        const data = {
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrf_token: GlobalVariables.csrfToken,
-            manage_mode: FrontendBook.manageMode,
+            csrf_token: App.Vars.csrf_token,
+            manage_mode: App.Pages.Booking.manageMode,
             appointment_id: appointmentId
         };
 
@@ -255,16 +249,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
             type: 'GET',
             data: data,
             dataType: 'json'
-        }).done(function (response) {
+        }).done((response) => {
             unavailableDatesBackup = response;
             selectedDateStringBackup = selectedDateString;
             applyUnavailableDates(response, selectedDateString, true);
         });
-    };
+    }
 
-    exports.applyPreviousUnavailableDates = function () {
+    function applyPreviousUnavailableDates() {
         applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
-    };
+    }
 
     function applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
         setDate = setDate || false;
@@ -272,16 +266,16 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         processingUnavailabilities = true;
 
         // Select first enabled date.
-        var selectedDateMoment = moment(selectedDateString);
-        var selectedDate = selectedDateMoment.toDate();
-        var numberOfDays = selectedDateMoment.daysInMonth();
+        const selectedDateMoment = moment(selectedDateString);
+        const selectedDate = selectedDateMoment.toDate();
+        const numberOfDays = selectedDateMoment.daysInMonth();
 
-        if (setDate && !GlobalVariables.manageMode) {
-            for (var i = 1; i <= numberOfDays; i++) {
-                var currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+        if (setDate && !App.Vars.manage_mode) {
+            for (let i = 1; i <= numberOfDays; i++) {
+                const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
                     $('#select-date').datepicker('setDate', currentDate);
-                    FrontendBookApi.getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
+                    getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
                     break;
                 }
             }
@@ -293,7 +287,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         }
 
         // Grey out unavailable dates.
-        $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each(function (index, td) {
+        $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each((index, td) => {
             selectedDateMoment.set({day: index + 1});
             if (unavailableDates.indexOf(selectedDateMoment.format('YYYY-MM-DD')) !== -1) {
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
@@ -308,32 +302,41 @@ window.FrontendBookApi = window.FrontendBookApi || {};
      *
      * @param {Object} consent Contains user's consents.
      */
-    exports.saveConsent = function (consent) {
-        var url = GlobalVariables.baseUrl + '/index.php/consents/ajax_save_consent';
+    function saveConsent(consent) {
+        const url = App.Utils.Url.siteUrl('consents/ajax_save_consent');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             consent: consent
         };
 
         $.post(url, data);
-    };
+    }
 
     /**
      * Delete personal information.
      *
      * @param {Number} customerToken Customer unique token.
      */
-    exports.deletePersonalInformation = function (customerToken) {
-        var url = GlobalVariables.baseUrl + '/index.php/privacy/ajax_delete_personal_information';
+    function deletePersonalInformation(customerToken) {
+        const url = App.Utils.Url.siteUrl('privacy/ajax_delete_personal_information');
 
-        var data = {
-            csrf_token: GlobalVariables.csrfToken,
+        const data = {
+            csrf_token: App.Vars.csrf_token,
             customer_token: customerToken
         };
 
-        $.post(url, data).done(function () {
-            window.location.href = GlobalVariables.baseUrl;
+        $.post(url, data).done(() => {
+            window.location.href = App.Vars.base_url;
         });
+    }
+
+    return {
+        registerAppointment,
+        getAvailableHours,
+        getUnavailableDates,
+        applyPreviousUnavailableDates,
+        saveConsent,
+        deletePersonalInformation
     };
-})(window.FrontendBookApi);
+})();

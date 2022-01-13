@@ -9,53 +9,41 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-window.FrontendBook = window.FrontendBook || {};
-
 /**
- * Frontend Book
+ * Booking Page
  *
  * This module contains functions that implement the book appointment page functionality. Once the "initialize" method
  * is called the page is fully functional and can serve the appointment booking process.
  *
- * @module FrontendBook
+ * Old Name: FrontendBook
  */
-(function (exports) {
-    'use strict';
-
+App.Pages.Booking = (function () {
     /**
      * Contains terms and conditions consent.
      *
      * @type {Object}
      */
-    var termsAndConditionsConsent;
+    let termsAndConditionsConsent;
 
     /**
      * Contains privacy policy consent.
      *
      * @type {Object}
      */
-    var privacyPolicyConsent;
+    let privacyPolicyConsent;
 
     /**
      * Determines the functionality of the page.
      *
      * @type {Boolean}
      */
-    exports.manageMode = false;
+    let manageMode = false;
 
     /**
      * This method initializes the book appointment page.
-     *
-     * @param {Boolean} defaultEventHandlers (OPTIONAL) Determines whether the default
-     * event handlers will be bound to the dom elements.
-     * @param {Boolean} manageMode (OPTIONAL) Determines whether the customer is going
-     * to make  changes to an existing appointment rather than booking a new one.
      */
-    exports.initialize = function (defaultEventHandlers, manageMode) {
-        defaultEventHandlers = defaultEventHandlers || true;
-        manageMode = manageMode || false;
-
-        if (GlobalVariables.displayCookieNotice) {
+    function initialize() {
+        if (App.Vars.display_cookie_notice) {
             cookieconsent.initialise({
                 palette: {
                     popup: {
@@ -84,12 +72,12 @@ window.FrontendBook = window.FrontendBook || {};
             );
         }
 
-        FrontendBook.manageMode = manageMode;
+        manageMode = App.Vars.manage_mode;
 
         // Initialize page's components (tooltips, datepickers etc).
         tippy('[data-tippy-content]');
 
-        var weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+        const weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
 
         $('#select-date').datepicker({
             dateFormat: 'dd-mm-yy',
@@ -144,14 +132,14 @@ window.FrontendBook = window.FrontendBook || {};
             closeText: App.Lang.close,
 
             onSelect: function (dateText, instance) {
-                FrontendBookApi.getAvailableHours(moment($(this).datepicker('getDate')).format('YYYY-MM-DD'));
-                FrontendBook.updateConfirmFrame();
+                App.Http.Booking.getAvailableHours(moment($(this).datepicker('getDate')).format('YYYY-MM-DD'));
+                updateConfirmFrame();
             },
 
-            onChangeMonthYear: function (year, month, instance) {
-                var currentDate = new Date(year, month - 1, 1);
+            onChangeMonthYear: (year, month) => {
+                const currentDate = new Date(year, month - 1, 1);
 
-                FrontendBookApi.getUnavailableDates(
+                App.Http.Booking.getUnavailableDates(
                     $('#select-provider').val(),
                     $('#select-service').val(),
                     moment(currentDate).format('YYYY-MM-DD')
@@ -162,23 +150,21 @@ window.FrontendBook = window.FrontendBook || {};
         $('#select-timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
         // Bind the event handlers (might not be necessary every time we use this class).
-        if (defaultEventHandlers) {
-            bindEventHandlers();
-        }
+        bindEventHandlers();
 
         // If the manage mode is true, the appointments data should be loaded by default.
-        if (FrontendBook.manageMode) {
+        if (manageMode) {
             applyAppointmentData(
                 GlobalVariables.appointmentData,
                 GlobalVariables.providerData,
                 GlobalVariables.customerData
             );
         } else {
-            var $selectProvider = $('#select-provider');
-            var $selectService = $('#select-service');
+            const $selectProvider = $('#select-provider');
+            const $selectService = $('#select-service');
 
             // Check if a specific service was selected (via URL parameter).
-            var selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
+            const selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
 
             if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
                 $selectService.val(selectedServiceId);
@@ -187,12 +173,12 @@ window.FrontendBook = window.FrontendBook || {};
             $selectService.trigger('change'); // Load the available hours.
 
             // Check if a specific provider was selected.
-            var selectedProviderId = GeneralFunctions.getUrlParameter(location.href, 'provider');
+            const selectedProviderId = GeneralFunctions.getUrlParameter(location.href, 'provider');
 
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length === 0) {
                 // Select a service of this provider in order to make the provider available in the select box.
-                for (var index in GlobalVariables.availableProviders) {
-                    var provider = GlobalVariables.availableProviders[index];
+                for (const index in GlobalVariables.availableProviders) {
+                    const provider = GlobalVariables.availableProviders[index];
 
                     if (provider.id === selectedProviderId && provider.services.length > 0) {
                         $selectService.val(provider.services[0]).trigger('change');
@@ -204,7 +190,7 @@ window.FrontendBook = window.FrontendBook || {};
                 $selectProvider.val(selectedProviderId).trigger('change');
             }
         }
-    };
+    }
 
     /**
      * This method binds the necessary event handlers for the book appointments page.
@@ -213,16 +199,16 @@ window.FrontendBook = window.FrontendBook || {};
         /**
          * Event: Timezone "Changed"
          */
-        $('#select-timezone').on('change', function () {
-            var date = $('#select-date').datepicker('getDate');
+        $('#select-timezone').on('change', () => {
+            const date = $('#select-date').datepicker('getDate');
 
             if (!date) {
                 return;
             }
 
-            FrontendBookApi.getAvailableHours(moment(date).format('YYYY-MM-DD'));
+            App.Http.Booking.getAvailableHours(moment(date).format('YYYY-MM-DD'));
 
-            FrontendBook.updateConfirmFrame();
+            updateConfirmFrame();
         });
 
         /**
@@ -230,13 +216,13 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $('#select-provider').on('change', function () {
-            FrontendBookApi.getUnavailableDates(
-                $(this).val(),
+        $('#select-provider').on('change', (event) => {
+            App.Http.Booking.getUnavailableDates(
+                $(event.target).val(),
                 $('#select-service').val(),
                 moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD')
             );
-            FrontendBook.updateConfirmFrame();
+            updateConfirmFrame();
         });
 
         /**
@@ -245,17 +231,16 @@ window.FrontendBook = window.FrontendBook || {};
          * When the user clicks on a service, its available providers should
          * become visible.
          */
-        $('#select-service').on('change', function () {
-            var serviceId = $('#select-service').val();
+        $('#select-service').on('change', (event) => {
+            const serviceId = $('#select-service').val();
 
             $('#select-provider').empty();
 
-            GlobalVariables.availableProviders.forEach(function (provider) {
+            GlobalVariables.availableProviders.forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
-                var canServeService =
-                    provider.services.filter(function (providerServiceId) {
-                        return Number(providerServiceId) === Number(serviceId);
-                    }).length > 0;
+                const canServeService =
+                    provider.services.filter((providerServiceId) => Number(providerServiceId) === Number(serviceId))
+                        .length > 0;
 
                 if (canServeService) {
                     $('#select-provider').append(
@@ -271,12 +256,14 @@ window.FrontendBook = window.FrontendBook || {};
                 );
             }
 
-            FrontendBookApi.getUnavailableDates(
+            App.Http.Booking.getUnavailableDates(
                 $('#select-provider').val(),
-                $(this).val(),
+                $(event.target).val(),
                 moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD')
             );
-            FrontendBook.updateConfirmFrame();
+
+            updateConfirmFrame();
+
             updateServiceDescription(serviceId);
         });
 
@@ -284,16 +271,16 @@ window.FrontendBook = window.FrontendBook || {};
          * Event: Next Step Button "Clicked"
          *
          * This handler is triggered every time the user pressed the "next" button on the book wizard.
-         * Some special tasks might be performed, depending the current wizard step.
+         * Some special tasks might be performed, depending on the current wizard step.
          */
-        $('.button-next').on('click', function () {
+        $('.button-next').on('click', (event) => {
             // If we are on the first step and there is not provider selected do not continue with the next step.
-            if ($(this).attr('data-step_index') === '1' && !$('#select-provider').val()) {
+            if ($(event.target).attr('data-step_index') === '1' && !$('#select-provider').val()) {
                 return;
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
-            if ($(this).attr('data-step_index') === '2') {
+            if ($(event.target).attr('data-step_index') === '2') {
                 if (!$('.selected-hour').length) {
                     if (!$('#select-hour-prompt').length) {
                         $('<div/>', {
@@ -308,15 +295,15 @@ window.FrontendBook = window.FrontendBook || {};
 
             // If we are on the 3rd tab then we will need to validate the user's input before proceeding to the next
             // step.
-            if ($(this).attr('data-step_index') === '3') {
+            if ($(event.target).attr('data-step_index') === '3') {
                 if (!validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
-                    FrontendBook.updateConfirmFrame();
+                    updateConfirmFrame();
 
-                    var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+                    const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
                     if ($acceptToTermsAndConditions.length && $acceptToTermsAndConditions.prop('checked') === true) {
-                        var newTermsAndConditionsConsent = {
+                        const newTermsAndConditionsConsent = {
                             first_name: $('#first-name').val(),
                             last_name: $('#last-name').val(),
                             email: $('#email').val(),
@@ -327,13 +314,13 @@ window.FrontendBook = window.FrontendBook || {};
                             JSON.stringify(newTermsAndConditionsConsent) !== JSON.stringify(termsAndConditionsConsent)
                         ) {
                             termsAndConditionsConsent = newTermsAndConditionsConsent;
-                            FrontendBookApi.saveConsent(termsAndConditionsConsent);
+                            App.Http.Booking.saveConsent(termsAndConditionsConsent);
                         }
                     }
 
-                    var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+                    const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
                     if ($acceptToPrivacyPolicy.length && $acceptToPrivacyPolicy.prop('checked') === true) {
-                        var newPrivacyPolicyConsent = {
+                        const newPrivacyPolicyConsent = {
                             first_name: $('#first-name').val(),
                             last_name: $('#last-name').val(),
                             email: $('#email').val(),
@@ -342,19 +329,19 @@ window.FrontendBook = window.FrontendBook || {};
 
                         if (JSON.stringify(newPrivacyPolicyConsent) !== JSON.stringify(privacyPolicyConsent)) {
                             privacyPolicyConsent = newPrivacyPolicyConsent;
-                            FrontendBookApi.saveConsent(privacyPolicyConsent);
+                            App.Http.Booking.saveConsent(privacyPolicyConsent);
                         }
                     }
                 }
             }
 
             // Display the next step tab (uses jquery animation effect).
-            var nextTabIndex = parseInt($(this).attr('data-step_index')) + 1;
+            const nextTabIndex = parseInt($(event.target).attr('data-step_index')) + 1;
 
-            $(this)
+            $(event.target)
                 .parents()
                 .eq(1)
-                .hide('fade', function () {
+                .hide('fade', () => {
                     $('.active-step').removeClass('active-step');
                     $('#step-' + nextTabIndex).addClass('active-step');
                     $('#wizard-frame-' + nextTabIndex).show('fade');
@@ -367,13 +354,13 @@ window.FrontendBook = window.FrontendBook || {};
          * This handler is triggered every time the user pressed the "back" button on the
          * book wizard.
          */
-        $('.button-back').on('click', function () {
-            var prevTabIndex = parseInt($(this).attr('data-step_index')) - 1;
+        $('.button-back').on('click', (event) => {
+            const prevTabIndex = parseInt($(event.target).attr('data-step_index')) - 1;
 
-            $(this)
+            $(event.target)
                 .parents()
                 .eq(1)
-                .hide('fade', function () {
+                .hide('fade', () => {
                     $('.active-step').removeClass('active-step');
                     $('#step-' + prevTabIndex).addClass('active-step');
                     $('#wizard-frame-' + prevTabIndex).show('fade');
@@ -386,13 +373,13 @@ window.FrontendBook = window.FrontendBook || {};
          * Triggered whenever the user clicks on an available hour
          * for his appointment.
          */
-        $('#available-hours').on('click', '.available-hour', function () {
+        $('#available-hours').on('click', '.available-hour', (event) => {
             $('.selected-hour').removeClass('selected-hour');
-            $(this).addClass('selected-hour');
-            FrontendBook.updateConfirmFrame();
+            $(event.target).addClass('selected-hour');
+            updateConfirmFrame();
         });
 
-        if (FrontendBook.manageMode) {
+        if (manageMode) {
             /**
              * Event: Cancel Appointment Button "Click"
              *
@@ -402,8 +389,8 @@ window.FrontendBook = window.FrontendBook || {};
              *
              * @param {jQuery.Event} event
              */
-            $('#cancel-appointment').on('click', function (event) {
-                var buttons = [
+            $('#cancel-appointment').on('click', () => {
+                const buttons = [
                     {
                         text: App.Lang.cancel,
                         click: function () {
@@ -441,18 +428,18 @@ window.FrontendBook = window.FrontendBook || {};
                 return false;
             });
 
-            $('#delete-personal-information').on('click', function () {
-                var buttons = [
+            $('#delete-personal-information').on('click', () => {
+                const buttons = [
                     {
                         text: App.Lang.cancel,
-                        click: function () {
+                        click: () => {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
                         text: App.Lang.delete,
-                        click: function () {
-                            FrontendBookApi.deletePersonalInformation(GlobalVariables.customerToken);
+                        click: () => {
+                            App.Http.Booking.deletePersonalInformation(GlobalVariables.customerToken);
                         }
                     }
                 ];
@@ -474,22 +461,20 @@ window.FrontendBook = window.FrontendBook || {};
          *
          * @param {jQuery.Event} event
          */
-        $('#book-appointment-submit').on('click', function () {
-            FrontendBookApi.registerAppointment();
+        $('#book-appointment-submit').on('click', () => {
+            App.Http.Booking.registerAppointment();
         });
 
         /**
          * Event: Refresh captcha image.
-         *
-         * @param {jQuery.Event} event
          */
-        $('.captcha-title button').on('click', function (event) {
+        $('.captcha-title button').on('click', () => {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 
-        $('#select-date').on('mousedown', '.ui-datepicker-calendar td', function (event) {
-            setTimeout(function () {
-                FrontendBookApi.applyPreviousUnavailableDates(); // New jQuery UI version will replace the td elements.
+        $('#select-date').on('mousedown', '.ui-datepicker-calendar td', () => {
+            setTimeout(() => {
+                App.Http.Booking.applyPreviousUnavailableDates(); // New jQuery UI version will replace the td elements.
             }, 300); // There is no draw event unfortunately.
         });
     }
@@ -506,24 +491,26 @@ window.FrontendBook = window.FrontendBook || {};
 
         try {
             // Validate required fields.
-            var missingRequiredField = false;
-            $('.required').each(function (index, requiredField) {
+            let missingRequiredField = false;
+
+            $('.required').each((index, requiredField) => {
                 if (!$(requiredField).val()) {
                     $(requiredField).parents('.form-group').addClass('is-invalid');
                     missingRequiredField = true;
                 }
             });
+
             if (missingRequiredField) {
                 throw new Error(App.Lang.fields_are_required);
             }
 
-            var $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+            const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
             if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
                 $acceptToTermsAndConditions.parents('.form-check').addClass('text-danger');
                 throw new Error(App.Lang.fields_are_required);
             }
 
-            var $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+            const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
             if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
                 $acceptToPrivacyPolicy.parents('.form-check').addClass('text-danger');
                 throw new Error(App.Lang.fields_are_required);
@@ -546,27 +533,27 @@ window.FrontendBook = window.FrontendBook || {};
      * Every time this function is executed, it updates the confirmation page with the latest
      * customer settings and input for the appointment booking.
      */
-    exports.updateConfirmFrame = function () {
+    function updateConfirmFrame() {
         if ($('.selected-hour').text() === '') {
             return;
         }
 
         // Appointment Details
-        var selectedDate = $('#select-date').datepicker('getDate');
+        let selectedDate = $('#select-date').datepicker('getDate');
 
         if (selectedDate !== null) {
-            selectedDate = GeneralFunctions.formatDate(selectedDate, GlobalVariables.dateFormat);
+            selectedDate = App.Utils.Date.format(selectedDate, App.Vars.date_format, App.Vars.time_format);
         }
 
-        var serviceId = $('#select-service').val();
-        var servicePrice = '';
-        var serviceCurrency = '';
+        const serviceId = $('#select-service').val();
+        let servicePrice = '';
+        let serviceCurrency = '';
 
-        GlobalVariables.availableServices.forEach(function (service, index) {
+        App.Vars.available_services.forEach((service) => {
             if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
                 servicePrice = service.price;
                 serviceCurrency = service.currency;
-                return false; // break loop
+                return false; // Break loop
             }
         });
 
@@ -607,13 +594,13 @@ window.FrontendBook = window.FrontendBook || {};
         }).appendTo('#appointment-details');
 
         // Customer Details
-        var firstName = GeneralFunctions.escapeHtml($('#first-name').val());
-        var lastName = GeneralFunctions.escapeHtml($('#last-name').val());
-        var phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val());
-        var email = GeneralFunctions.escapeHtml($('#email').val());
-        var address = GeneralFunctions.escapeHtml($('#address').val());
-        var city = GeneralFunctions.escapeHtml($('#city').val());
-        var zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
+        const firstName = GeneralFunctions.escapeHtml($('#first-name').val());
+        const lastName = GeneralFunctions.escapeHtml($('#last-name').val());
+        const phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val());
+        const email = GeneralFunctions.escapeHtml($('#email').val());
+        const address = GeneralFunctions.escapeHtml($('#address').val());
+        const city = GeneralFunctions.escapeHtml($('#city').val());
+        const zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
 
         $('#customer-details').empty();
 
@@ -654,7 +641,7 @@ window.FrontendBook = window.FrontendBook || {};
         }).appendTo('#customer-details');
 
         // Update appointment form data for submission to server when the user confirms the appointment.
-        var data = {};
+        const data = {};
 
         data.customer = {
             last_name: $('#last-name').val(),
@@ -680,38 +667,39 @@ window.FrontendBook = window.FrontendBook || {};
             id_services: $('#select-service').val()
         };
 
-        data.manage_mode = FrontendBook.manageMode;
+        data.manage_mode = manageMode;
 
-        if (FrontendBook.manageMode) {
+        if (manageMode) {
             data.appointment.id = GlobalVariables.appointmentData.id;
             data.customer.id = GlobalVariables.customerData.id;
         }
         $('input[name="csrfToken"]').val(GlobalVariables.csrfToken);
         $('input[name="post_data"]').val(JSON.stringify(data));
-    };
+    }
 
     /**
      * This method calculates the end datetime of the current appointment.
+     *
      * End datetime is depending on the service and start datetime fields.
      *
      * @return {String} Returns the end datetime in string format.
      */
     function calculateEndDatetime() {
         // Find selected service duration.
-        var serviceId = $('#select-service').val();
+        const serviceId = $('#select-service').val();
 
-        var service = GlobalVariables.availableServices.find(function (availableService) {
-            return Number(availableService.id) === Number(serviceId);
-        });
+        const service = App.Vars.available_services.find(
+            (availableService) => Number(availableService.id) === Number(serviceId)
+        );
 
         // Add the duration to the start datetime.
-        var selectedDate = moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD');
+        const selectedDate = moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD');
 
-        var selectedHour = $('.selected-hour').data('value'); // HH:mm
+        const selectedHour = $('.selected-hour').data('value'); // HH:mm
 
-        var startMoment = moment(selectedDate + ' ' + selectedHour);
+        const startMoment = moment(selectedDate + ' ' + selectedHour);
 
-        var endMoment;
+        let endMoment;
 
         if (service.duration && startMoment) {
             endMoment = startMoment.clone().add({'minutes': parseInt(service.duration)});
@@ -739,9 +727,9 @@ window.FrontendBook = window.FrontendBook || {};
             $('#select-provider').val(appointment.id_users_provider);
 
             // Set Appointment Date
-            var startMoment = moment(appointment.start_datetime);
+            const startMoment = moment(appointment.start_datetime);
             $('#select-date').datepicker('setDate', startMoment.toDate());
-            FrontendBookApi.getAvailableHours(startMoment.format('YYYY-MM-DD'));
+            App.Http.Booking.getAvailableHours(startMoment.format('YYYY-MM-DD'));
 
             // Apply Customer's Data
             $('#last-name').val(customer.last_name);
@@ -754,10 +742,10 @@ window.FrontendBook = window.FrontendBook || {};
             if (customer.timezone) {
                 $('#select-timezone').val(customer.timezone);
             }
-            var appointmentNotes = appointment.notes !== null ? appointment.notes : '';
+            const appointmentNotes = appointment.notes !== null ? appointment.notes : '';
             $('#notes').val(appointmentNotes);
 
-            FrontendBook.updateConfirmFrame();
+            updateConfirmFrame();
 
             return true;
         } catch (exc) {
@@ -766,18 +754,18 @@ window.FrontendBook = window.FrontendBook || {};
     }
 
     /**
-     * This method updates a div's html content with a brief description of the
+     * This method updates a div's HTML content with a brief description of the
      * user selected service (only if available in db). This is useful for the
      * customers upon selecting the correct service.
      *
      * @param {Number} serviceId The selected service record id.
      */
     function updateServiceDescription(serviceId) {
-        var $serviceDescription = $('#service-description');
+        const $serviceDescription = $('#service-description');
 
         $serviceDescription.empty();
 
-        var service = GlobalVariables.availableServices.find(function (availableService) {
+        const service = App.Vars.available_services.find(function (availableService) {
             return Number(availableService.id) === Number(serviceId);
         });
 
@@ -819,4 +807,12 @@ window.FrontendBook = window.FrontendBook || {};
             }).appendTo($serviceDescription);
         }
     }
-})(window.FrontendBook);
+
+    document.addEventListener('DOMContentLoaded', initialize);
+
+    return {
+        manageMode,
+        initialize,
+        updateConfirmFrame
+    };
+})();
