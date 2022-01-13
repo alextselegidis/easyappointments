@@ -12,7 +12,7 @@
                 <?= ucfirst(config('language')) ?>
             </span>
     
-            <a class="backend-link badge bg-primary" href="<?= site_url('backend'); ?>">
+            <a class="backend-link badge bg-primary text-decoration-none" href="<?= site_url('calendar'); ?>">
                 <i class="fas fa-sign-in-alt me-2"></i>
                 <?= session('user_id') ? lang('backend_section') : lang('login') ?>
             </a>
