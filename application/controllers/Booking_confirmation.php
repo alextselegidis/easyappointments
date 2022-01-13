@@ -37,7 +37,7 @@ class Booking_confirmation extends EA_Controller {
      */
     public function of()
     {
-        $appointment_hash = $this->uri->segment(2);
+        $appointment_hash = $this->uri->segment(3);
 
         $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
@@ -51,8 +51,6 @@ class Booking_confirmation extends EA_Controller {
         $appointment = $occurrences[0];
 
         unset($appointment['notes']);
-
-        $customer = $this->customers_model->find($appointment['id_users_customer']);
 
         $provider = $this->providers_model->find($appointment['id_users_provider']);
 
@@ -76,15 +74,20 @@ class Booking_confirmation extends EA_Controller {
 
         $company_name = setting('company_name');
 
-        html_vars([
-            'page_title' => lang('success'),
+        script_vars([
             'appointment_data' => $appointment,
             'provider_data' => $provider,
-            'customer_data' => $customer,
             'service_data' => $service,
             'company_name' => $company_name,
+            'google_api_scope' => 'https://www.googleapis.com/auth/calendar',
+            'google_api_key' => config('google_api_key'),
+            'google_client_id' => config('google_api_key'),
         ]);
-        
+
+        html_vars([
+            'page_title' => lang('success'),
+        ]);
+
         $this->load->view('pages/booking_confirmation', html_vars());
     }
 }

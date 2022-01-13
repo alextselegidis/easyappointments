@@ -9,26 +9,7 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-$(document).ready(function () {
-    /**
-     * Event: Add Appointment to Google Calendar "Click"
-     *
-     * This event handler adds the appointment to the users Google Calendar Account. The event is going to
-     * be added to the "primary" calendar. In order to use the API the javascript client library provided by
-     * Google is necessary.
-     */
-    $('#add-to-google-calendar').on('click', function () {
-        gapi.client.setApiKey(GlobalVariables.googleApiKey);
-        gapi.auth.authorize(
-            {
-                client_id: GlobalVariables.googleClientId,
-                scope: GlobalVariables.googleApiScope,
-                immediate: false
-            },
-            handleAuthResult
-        );
-    });
-
+App.Pages.BookingConfirmation = (function () {
     /**
      * Handle Authorization Result
      *
@@ -45,14 +26,14 @@ $(document).ready(function () {
 
             // The user has granted access, add the appointment to his calendar. Before making the event.insert request
             // the the event resource data must be prepared.
-            var providerData = GlobalVariables.providerData;
+            var providerData = App.Vars.provider_data;
 
-            var appointmentData = GlobalVariables.appointmentData;
+            var appointmentData = App.Vars.appointment_data;
 
             // Create a valid Google Calendar API resource for the new event.
             var resource = {
-                summary: GlobalVariables.serviceData.name,
-                location: GlobalVariables.companyName,
+                summary: App.Vars.service_data.name,
+                location: App.Vars.company_name,
                 start: {
                     dateTime: moment.tz(appointmentData.start_datetime, providerData.timezone).format()
                 },
@@ -61,9 +42,8 @@ $(document).ready(function () {
                 },
                 attendees: [
                     {
-                        email: GlobalVariables.providerData.email,
-                        displayName:
-                            GlobalVariables.providerData.first_name + ' ' + GlobalVariables.providerData.last_name
+                        email: App.Vars.provider_data.email,
+                        displayName: App.Vars.provider_data.first_name + ' ' + App.Vars.provider_data.last_name
                     }
                 ]
             };
@@ -121,4 +101,34 @@ $(document).ready(function () {
             );
         }
     }
-});
+
+    function bindEventHandlers() {
+        /**
+         * Event: Add Appointment to Google Calendar "Click"
+         *
+         * This event handler adds the appointment to the users Google Calendar Account. The event is going to
+         * be added to the "primary" calendar. In order to use the API the javascript client library provided by
+         * Google is necessary.
+         */
+        $('#add-to-google-calendar').on('click', function () {
+            gapi.client.setApiKey(App.Vars.google_api_key);
+
+            gapi.auth.authorize(
+                {
+                    client_id: App.Vars.google_client_id,
+                    scope: App.Vars.google_api_scope,
+                    immediate: false
+                },
+                handleAuthResult
+            );
+        });
+    }
+
+    function initialize() {
+        bindEventHandlers();
+    }
+
+    document.addEventListener('DOMContentLoaded', initialize);
+
+    return {};
+})();

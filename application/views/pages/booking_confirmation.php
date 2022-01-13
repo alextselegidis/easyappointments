@@ -1,13 +1,3 @@
-<?php
-/**
- * @var string $company_name
- * @var array $appointment_data
- * @var array $provider_data
- * @var array $customer_data
- * @var array $service_data
- */
-?>
-
 <?php extend('layouts/message_layout') ?>
 
 <?php section('content') ?>
@@ -42,19 +32,15 @@
     <?php endif ?>
 </div>
 
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        appointmentData: <?= json_encode($appointment_data) ?>,
-        providerData: <?= json_encode($provider_data) ?>,
-        customerData: <?= json_encode($customer_data) ?>,
-        serviceData: <?= json_encode($service_data) ?>,
-        companyName: <?= json_encode($company_name) ?>,
-        googleApiKey: <?= json_encode(config('google_api_key')) ?>,
-        googleClientId: <?= json_encode(config('google_client_id')) ?>,
-        googleApiScope: 'https://www.googleapis.com/auth/calendar'
-    };
-</script>
-
 <?php section('content') ?>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/booking_confirmation.js') ?>"></script>
+
+<?php section('scripts') ?>
 
