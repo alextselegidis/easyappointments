@@ -183,7 +183,7 @@ App.Utils.CalendarTableView = (function () {
                 );
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 const appointment = lastFocusedEventData.data;
-                $dialog = $('#manage-appointment');
+                $dialog = $('#appointments-modal');
 
                 BackendCalendarAppointmentsModal.resetAppointmentDialog();
 

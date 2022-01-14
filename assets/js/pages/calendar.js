@@ -108,7 +108,7 @@ App.Pages.Calendar = (function () {
     function initialize(view) {
         App.Utils.CalendarGoogleSync.initialize();
 
-        App.Components.ManageAppointmentsModal.initialize();
+        App.Components.AppointmentsModal.initialize();
 
         App.Components.ManageUnavailabilitiesModal.initialize();
 

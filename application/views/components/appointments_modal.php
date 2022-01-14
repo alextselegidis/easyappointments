@@ -11,7 +11,7 @@
  * @var array $require_zip_code
  */
 ?>
-<div id="manage-appointment" class="modal fade">
+<div id="appointments-modal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -304,3 +304,9 @@
         </div>
     </div>
 </div>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/components/appointments_modal.js') ?>"></script>
+
+<?php section('scripts') ?>

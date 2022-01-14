@@ -14,9 +14,9 @@
  *
  * This module implements the appointments modal functionality.
  *
- * Old Module Name: BackendCalendarAppointmentsModal
+ * Old Name: BackendCalendarAppointmentsModal
  */
-App.Components.ManageAppointmentsModal = (function () {
+App.Components.AppointmentsModal = (function () {
     function updateTimezone() {
         const providerId = $('#select-provider').val();
 
@@ -35,14 +35,14 @@ App.Components.ManageAppointmentsModal = (function () {
          *
          * Stores the appointment changes or inserts a new appointment depending on the dialog mode.
          */
-        $('#manage-appointment #save-appointment').on('click', () => {
+        $('#appointments-modal #save-appointment').on('click', () => {
             // Before doing anything the appointment data need to be validated.
             if (!validateAppointmentForm()) {
                 return;
             }
 
             // Prepare appointment data for AJAX request.
-            const $dialog = $('#manage-appointment');
+            const $dialog = $('#appointments-modal');
 
             // ID must exist on the object in order for the model to update the record and not to perform
             // an insert operation.
@@ -119,7 +119,7 @@ App.Components.ManageAppointmentsModal = (function () {
 
             resetAppointmentDialog();
 
-            const $dialog = $('#manage-appointment');
+            const $dialog = $('#appointments-modal');
 
             // Set the selected filter item and find the next appointment time as the default modal values.
             if ($('#select-filter-item option:selected').attr('type') === 'provider') {
@@ -214,7 +214,7 @@ App.Components.ManageAppointmentsModal = (function () {
         /**
          * Event: Select Existing Customer From List "Click"
          */
-        $('#manage-appointment').on('click', '#existing-customers-list div', (event) => {
+        $('#appointments-modal').on('click', '#existing-customers-list div', (event) => {
             const customerId = $(event.target).attr('data-id');
 
             const customer = App.Vars.customers.find(function (customer) {
@@ -359,7 +359,7 @@ App.Components.ManageAppointmentsModal = (function () {
          * Event: Enter New Customer Button "Click"
          */
         $('#new-customer').on('click', () => {
-            $('#manage-appointment')
+            $('#appointments-modal')
                 .find(
                     '#customer-id, #first-name, #last-name, #email, ' +
                         '#phone-number, #address, #city, #zip-code, #customer-notes'
@@ -375,7 +375,7 @@ App.Components.ManageAppointmentsModal = (function () {
      * any modification might be necessary in order to bring the dialog to the desired state.
      */
     function resetAppointmentDialog() {
-        const $dialog = $('#manage-appointment');
+        const $dialog = $('#appointments-modal');
 
         // Empty form fields.
         $dialog.find('input, textarea').val('');
@@ -574,7 +574,7 @@ App.Components.ManageAppointmentsModal = (function () {
      * @return {Boolean} Returns the validation result.
      */
     function validateAppointmentForm() {
-        const $dialog = $('#manage-appointment');
+        const $dialog = $('#appointments-modal');
 
         // Reset previous validation css formatting.
         $dialog.find('.is-invalid').removeClass('is-invalid');

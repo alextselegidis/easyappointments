@@ -104,9 +104,9 @@ App.Utils.CalendarDefaultView = (function () {
                 });
             } else if (!lastFocusedEventData.data.is_unavailable) {
                 const appointment = lastFocusedEventData.data;
-                $dialog = $('#manage-appointment');
+                $dialog = $('#appointments-modal');
 
-                App.Components.ManageAppointmentsModal.resetAppointmentDialog();
+                App.Components.AppointmentsModal.resetAppointmentDialog();
 
                 // Apply appointment data and show modal dialog.
                 $dialog.find('.modal-header h3').text(App.Lang.edit_appointment_title);
@@ -1681,7 +1681,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Display the edit dialog if an appointment hash is provided.
         if (App.Vars.edit_appointment) {
-            const $dialog = $('#manage-appointment');
+            const $dialog = $('#appointments-modal');
             const appointment = App.Vars.edit_appointment;
             App.Components.resetAppointmentDialog();
 
