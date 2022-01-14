@@ -42,7 +42,6 @@
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/components/manage_unavailabilities_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
@@ -159,7 +158,7 @@
 
 <?php 
     component(
-        'manage_unavailable_modal', 
+        'unavailabilities_modal', 
         '',
         [
             'timezones' => $timezones,

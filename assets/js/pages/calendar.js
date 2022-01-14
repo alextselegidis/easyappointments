@@ -110,7 +110,7 @@ App.Pages.Calendar = (function () {
 
         App.Components.AppointmentsModal.initialize();
 
-        App.Components.ManageUnavailabilitiesModal.initialize();
+        App.Components.UnavailabilitiesModal.initialize();
 
         // Load and initialize the calendar view.
         if (view === 'table') {

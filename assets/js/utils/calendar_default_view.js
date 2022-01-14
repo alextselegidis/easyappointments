@@ -143,8 +143,8 @@ App.Utils.CalendarDefaultView = (function () {
                 unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
                 endMoment = moment(unavailable.end_datetime);
 
-                $dialog = $('#manage-unavailable');
-                App.Components.ManageUnavailabilitiesModal.resetUnavailableDialog();
+                $dialog = $('#unavailabilities-modal');
+                App.Components.UnavailabilitiesModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');

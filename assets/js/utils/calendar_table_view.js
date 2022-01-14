@@ -223,7 +223,7 @@ App.Utils.CalendarTableView = (function () {
                 unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
                 endMoment = moment(unavailable.end_datetime);
 
-                $dialog = $('#manage-unavailable');
+                $dialog = $('#unavailabilities-modal');
                 BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.

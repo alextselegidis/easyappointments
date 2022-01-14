@@ -10,21 +10,21 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar Unavailability Events Modal
+ * Unavailabilities Modal
  *
  * This module implements the unavailability events modal functionality.
  *
- * Old Module Name: BackendCalendarUnavailabilityEventsModal
+ * Old Name: BackendCalendarUnavailabilityEventsModal
  */
-App.Components.ManageUnavailabilitiesModal = (function () {
+App.Components.UnavailabilitiesModal = (function () {
     function bindEventHandlers() {
         /**
          * Event: Manage Unavailable Dialog Save Button "Click"
          *
          * Stores the unavailable period changes or inserts a new record.
          */
-        $('#manage-unavailable #save-unavailable').on('click', () => {
-            const $dialog = $('#manage-unavailable');
+        $('#unavailabilities-modal #save-unavailable').on('click', () => {
+            const $dialog = $('#unavailabilities-modal');
             $dialog.find('.modal-message').addClass('d-none');
             $dialog.find('.is-invalid').removeClass('is-invalid');
 
@@ -94,7 +94,7 @@ App.Components.ManageUnavailabilitiesModal = (function () {
         $('#insert-unavailable').on('click', () => {
             resetUnavailableDialog();
 
-            const $dialog = $('#manage-unavailable');
+            const $dialog = $('#unavailabilities-modal');
 
             // Set the default datetime values.
             const startMoment = moment();
@@ -136,11 +136,11 @@ App.Components.ManageUnavailabilitiesModal = (function () {
     /**
      * Reset unavailable dialog form.
      *
-     * Reset the "#manage-unavailable" dialog. Use this method to bring the dialog to the initial state
+     * Reset the "#unavailabilities-modal" dialog. Use this method to bring the dialog to the initial state
      * before it becomes visible to the user.
      */
     function resetUnavailableDialog() {
-        const $dialog = $('#manage-unavailable');
+        const $dialog = $('#unavailabilities-modal');
 
         $dialog.find('#unavailable-id').val('');
 

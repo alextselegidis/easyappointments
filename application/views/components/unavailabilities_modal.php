@@ -5,7 +5,7 @@
  */
 ?>
 
-<div id="manage-unavailable" class="modal fade">
+<div id="unavailabilities-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -83,3 +83,9 @@
         </div>
     </div>
 </div>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/components/unavailabilities_modal.js') ?>"></script>
+
+<?php section('scripts') ?> 
