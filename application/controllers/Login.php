@@ -30,7 +30,7 @@ class Login extends EA_Controller {
         $this->load->library('email_messages');
 
         script_vars([
-            'dest_url' => session('dest_url', site_url('backend')),
+            'dest_url' => session('dest_url', site_url('calendar')),
         ]);
     }
 
@@ -41,7 +41,7 @@ class Login extends EA_Controller {
     {
         html_vars([
             'base_url' => config('base_url'),
-            'dest_url' => session('dest_url', site_url('backend')),
+            'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name')
         ]);
         
