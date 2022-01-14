@@ -21,10 +21,10 @@
     function onLoginFormSubmit(event) {
         event.preventDefault();
 
-        const url = GlobalVariables.baseUrl + '/index.php/login/validate';
+        const url = App.Vars.baseUrl + '/index.php/login/validate';
 
         const data = {
-            csrf_token: GlobalVariables.csrfToken,
+            csrf_token: App.Vars.csrf_token,
             username: $('#username').val(),
             password: $('#password').val()
         };
@@ -35,7 +35,7 @@
 
         $.post(url, data).done((response) => {
             if (response.success) {
-                window.location.href = GlobalVariables.destUrl;
+                window.location.href = App.Vars.dest_url;
             } else {
                 $alert.text(App.Lang.login_failed);
                 $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');
