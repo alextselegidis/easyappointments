@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Customers page module.
+ * Customers page.
  *
- * This module contains the methods that are used in the customers page.
+ * This module implements the functionality of the customers page.
  */
 App.Pages.Customers = (function () {
     const $customers = $('#customers');
@@ -20,7 +20,7 @@ App.Pages.Customers = (function () {
     let filterLimit = 20;
 
     /**
-     * Binds the default event handlers of the backend customers page.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**
@@ -431,6 +431,9 @@ App.Pages.Customers = (function () {
         }
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         resetForm();
         bindEventHandlers();

@@ -9,7 +9,19 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Strings utility.
+ *
+ * This module implements the functionality of strings.
+ */
 window.App.Utils.String = (function () {
+    /**
+     * Upper case the first letter of the provided string.
+     *
+     * @param {String} value
+     *
+     * @returns {string}
+     */
     function upperCaseFirstLetter(value) {
         return value.charAt(0).toUpperCase() + value.slice(1);
     }

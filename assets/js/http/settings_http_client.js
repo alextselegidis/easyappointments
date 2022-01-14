@@ -9,7 +9,23 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Settings HTTP client.
+ *
+ * This module implements the settings related HTTP requests.
+ */
 App.Http.Settings = (function () {
+    /**
+     * Save (create or update) a setting.
+     *
+     * @param {Object} setting
+     *
+     * @return {Object}
+     */
+    function save(setting) {
+        return setting.id ? update(setting) : create(setting);
+    }
+
     /**
      * Create an setting.
      *
@@ -107,6 +123,7 @@ App.Http.Settings = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,

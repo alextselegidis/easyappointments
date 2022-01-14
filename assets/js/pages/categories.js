@@ -9,13 +9,18 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Categories page.
+ *
+ * This module implements the functionality of the categories page.
+ */
 App.Pages.Categories = (function () {
     const $categories = $('#categories');
     let filterResults = {};
     let filterLimit = 20;
 
     /**
-     * Binds the default event handlers of the categories tab.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**
@@ -325,6 +330,9 @@ App.Pages.Categories = (function () {
         }
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         resetForm();
         filter('');

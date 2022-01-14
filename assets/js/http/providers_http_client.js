@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Providers HTTP client.
+ *
+ * This module implements the providers related HTTP requests.
+ */
 App.Http.Providers = (function () {
     /**
      * Save (create or update) a provider.

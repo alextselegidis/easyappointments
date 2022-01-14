@@ -9,6 +9,11 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Calendar event popover utility.
+ *
+ * This module implements the functionality of calendar event popovers.
+ */
 App.Utils.CalendarEventPopover = (function () {
     /**
      * Render a map icon that links to Google maps.

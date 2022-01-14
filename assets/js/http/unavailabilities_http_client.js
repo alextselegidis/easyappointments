@@ -9,7 +9,23 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Unavailabilities HTTP client.
+ *
+ * This module implements the unavailabilities related HTTP requests.
+ */
 App.Http.Unavailabilities = (function () {
+    /**
+     * Save (create or update) an unavailability.
+     *
+     * @param {Object} unavailability
+     *
+     * @return {Object}
+     */
+    function save(unavailability) {
+        return unavailability.id ? update(unavailability) : create(unavailability);
+    }
+
     /**
      * Create an unavailability.
      *
@@ -107,6 +123,7 @@ App.Http.Unavailabilities = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,

@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Secretaries page module.
+ * Secretaries page.
  *
- * This module contains the methods that are used in the admins page.
+ * This module implements the functionality of the secretaries page.
  */
 App.Pages.Secretaries = (function () {
     const $secretaries = $('#secretaries');
@@ -20,7 +20,7 @@ App.Pages.Secretaries = (function () {
     let filterLimit = 20;
 
     /**
-     * Bind the event handlers for the backend/users "Secretaries" tab.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**
@@ -482,6 +482,9 @@ App.Pages.Secretaries = (function () {
         }
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         resetForm();
         filter('');

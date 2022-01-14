@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * General Settings
+ * General settings page.
  *
- * Contains the functionality of the general settings page.
+ * This module implements the functionality of the general settings page.
  */
 App.Pages.GeneralSettings = (function () {
     const $saveSettings = $('#save-settings');
@@ -88,6 +88,9 @@ App.Pages.GeneralSettings = (function () {
         });
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         const generalSettings = App.Vars.general_settings;
 

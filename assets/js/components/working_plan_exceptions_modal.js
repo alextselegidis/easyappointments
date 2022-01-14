@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Working plan exceptions modal component.
+ *
+ * This module implements the working plan exceptions modal functionality.
+ */
 App.Components.WorkingPlanExceptionsModal = (function () {
     const $modal = $('#working-plan-exceptions-modal');
     const $date = $('#working-plan-exceptions-date');
@@ -20,6 +25,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     let enableSubmit = false;
     let enableCancel = false;
 
+    /**
+     * Reset the modal fields back to the original empty state.
+     */
     function resetModal() {
         $date.val('');
         $start.val('');
@@ -27,6 +35,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $breaks.find('tbody').empty();
     }
 
+    /**
+     * Validate the modal form fields and return false if the validation fails.
+     *
+     * @returns {Boolean}
+     */
     function validate() {
         $modal.find('.is-invalid').removeClass('is-invalid');
 
@@ -51,10 +64,20 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         return !$modal.find('.is-invalid').length;
     }
 
+    /**
+     * Event: On Modal "Hidden"
+     *
+     * This event is used to automatically reset the modal back to the original state.
+     */
     function onModalHidden() {
         resetModal();
     }
 
+    /**
+     * Serialize the entered break entries.
+     *
+     * @returns {Array}
+     */
     function getBreaks() {
         const breaks = [];
 
@@ -83,6 +106,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         return breaks;
     }
 
+    /**
+     * Event: On Save "Click"
+     *
+     * Serialize the entire working plan exception and resolved the promise so that external code can save it.
+     */
     function onSaveClick() {
         if (!deferred) {
             return;
@@ -106,6 +134,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         resetModal();
     }
 
+    /**
+     * Enable the inline-editable table cell functionality for the provided target element..
+     *
+     * @param {jQuery} $target
+     */
     function editableTimeCell($target) {
         $target.editable(
             function (value) {
@@ -140,6 +173,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         );
     }
 
+    /**
+     * Open the modal and start adding a new working plan exception.
+     *
+     * @returns {jQuery.Deferred}
+     */
     function add() {
         deferred = $.Deferred();
 
@@ -152,6 +190,14 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         return deferred.promise();
     }
 
+    /**
+     * Modify the provided working plan exception for the selected date.
+     *
+     * @param {String} date
+     * @param {Object} workingPlanException
+     *
+     * @return {jQuery.Deferred}
+     */
     function edit(date, workingPlanException) {
         deferred = $.Deferred();
 
@@ -172,6 +218,13 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         return deferred.promise();
     }
 
+    /**
+     * Render a break table row based on the provided break period object.
+     *
+     * @param {Object} breakPeriod
+     *
+     * @return {jQuery}
+     */
     function renderBreakRow(breakPeriod) {
         const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
 
@@ -233,6 +286,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         });
     }
 
+    /**
+     * Event: Add Break "Click"
+     */
     function onAddBreakClick() {
         const $newBreak = renderBreakRow({
             start: '12:00',
@@ -245,6 +301,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $('.working-plan-exceptions-add-break').prop('disabled', true);
     }
 
+    /**
+     * Event: Edit Break "Click"
+     */
     function onEditBreakClick() {
         // Reset previous editable table cells.
         const $previousEdits = $(this).closest('table').find('.editable');
@@ -272,10 +331,16 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $('.working-plan-exceptions-add-break').prop('disabled', true);
     }
 
+    /**
+     * Event: Delete Break "Click"
+     */
     function onDeleteBreakClick() {
         $(this).closest('tr').remove();
     }
 
+    /**
+     * Event: Save Break "Click"
+     */
     function onSaveBreakClick() {
         // Break's start time must always be prior to break's end.
         const $tr = $(this).closest('tr');
@@ -305,6 +370,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
 
+    /**
+     * Event: Cancel Break "Click"
+     */
     function onCancelBreakClick() {
         const $tr = $(this).closest('tr');
         enableCancel = true;
@@ -318,6 +386,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
 
+    /**
+     * Initialize a datepicker instance on the provided target selector.
+     *
+     * @param {jQuery} $target
+     */
     function initializeDatepicker($target) {
         let dateFormat;
 
@@ -391,6 +464,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         });
     }
 
+    /**
+     * Initialize a timepicker on the provided target selector.
+     *
+     * @param {jQuery} $target
+     */
     function initializeTimepicker($target) {
         $target.timepicker({
             timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
@@ -403,6 +481,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         });
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         initializeDatepicker($date);
         initializeTimepicker($start);

@@ -10,9 +10,11 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Calendar HTTP Client
+ * Calendar HTTP client.
  *
- * Old Module Name: BackendCalendarApi
+ * This module implements the calendar related HTTP requests.
+ *
+ * Old Name: BackendCalendarApi
  */
 App.Http.Calendar = (function () {
     /**

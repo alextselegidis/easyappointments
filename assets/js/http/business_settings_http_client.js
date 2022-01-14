@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Business Settings HTTP client.
+ *
+ * This module implements the business settings related HTTP requests.
+ */
 App.Http.BusinessSettings = (function () {
     /**
      * Save business settings.

@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Categories HTTP client.
+ *
+ * This module implements the categories related HTTP requests.
+ */
 App.Http.Categories = (function () {
     /**
      * Save (create or update) a category.

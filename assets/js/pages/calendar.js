@@ -10,13 +10,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Calendar Page
+ * Calendar page.
  *
- * This module contains functions that are used by the backend calendar page.
+ * This module implements the functionality of the backend calendar page.
  */
 App.Pages.Calendar = (function () {
     /**
-     * Bind common event handlers.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         const $calendarPage = $('#calendar-page');
@@ -98,10 +98,11 @@ App.Pages.Calendar = (function () {
     }
 
     /**
-     * Initialize Module
+     * Initialize the module.
      *
-     * This function makes the necessary initialization for the default backend calendar page. If this module
-     * is used in another page then this function might not be needed.
+     * This function makes the necessary initialization for the default backend calendar page.
+     *
+     * If this module is used in another page then this function might not be needed.
      *
      * @param {String} view Optional (default), the calendar view to be loaded.
      */

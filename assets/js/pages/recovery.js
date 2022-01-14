@@ -9,7 +9,12 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
+/**
+ * Recovery page.
+ *
+ * This module implements the functionality of the recovery page.
+ */
+App.Pages.Recovery = (function () {
     const $form = $('form');
 
     /**
@@ -54,4 +59,6 @@
     }
 
     $form.on('submit', onFormSubmit);
+
+    return {};
 })();

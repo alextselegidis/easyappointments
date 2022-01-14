@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Booking Settings
+ * Booking settings page.
  *
- * Contains the functionality of the booking settings page.
+ * This module implements the functionality of the booking settings page.
  */
 App.Pages.BookingSettings = (function () {
     const $bookingSettings = $('#booking-settings');
@@ -178,7 +178,7 @@ App.Pages.BookingSettings = (function () {
     }
 
     /**
-     * Initialize on document ready.
+     * Initialize the module.
      */
     function initialize() {
         const bookingSettings = App.Vars.booking_settings;

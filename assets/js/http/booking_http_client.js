@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Booking HTTP Client
+ * Booking HTTP client.
  *
- * This module serves as the API consumer for the booking wizard of the app.
+ * This module implements the booking related HTTP requests.
  *
  * Old Name: FrontendBookApi
  */

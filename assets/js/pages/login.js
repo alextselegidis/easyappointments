@@ -9,7 +9,12 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
+/**
+ * Login page.
+ *
+ * This module implements the functionality of the login page.
+ */
+App.Pages.Login = (function () {
     const $loginForm = $('#login-form');
 
     /**
@@ -44,4 +49,6 @@
     }
 
     $loginForm.on('submit', onLoginFormSubmit);
+
+    return {};
 })();

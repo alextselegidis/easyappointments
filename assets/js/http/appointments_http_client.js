@@ -9,7 +9,23 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Appointments HTTP client.
+ *
+ * This module implements the appointments related HTTP requests.
+ */
 App.Http.Appointments = (function () {
+    /**
+     * Save (create or update) an appointment.
+     *
+     * @param {Object} appointment
+     *
+     * @return {Object}
+     */
+    function save(appointment) {
+        return appointment.id ? update(appointment) : create(appointment);
+    }
+
     /**
      * Create an appointment.
      *
@@ -107,6 +123,7 @@ App.Http.Appointments = (function () {
     }
 
     return {
+        save,
         create,
         update,
         destroy,

@@ -9,16 +9,19 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Providers page.
+ *
+ * This module implements the functionality of the providers page.
+ */
 App.Pages.Providers = (function () {
     const $providers = $('#providers');
     let filterResults = {};
     let filterLimit = 20;
-    let enableSubmit;
-    let enableCancel;
     let workingPlanManager;
 
     /**
-     * Bind the event handlers for the backend/users "Providers" tab.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**
@@ -503,6 +506,9 @@ App.Pages.Providers = (function () {
         }
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         workingPlanManager = new App.Utils.WorkingPlan();
         workingPlanManager.bindEventHandlers();

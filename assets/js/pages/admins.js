@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Admins page module.
+ * Admins page.
  *
- * This module contains the methods that are used in the admins page.
+ * This module implements the functionality of admins page.
  */
 App.Pages.Admins = (function () {
     const $admins = $('#admins');
@@ -20,7 +20,7 @@ App.Pages.Admins = (function () {
     let filterLimit = 20;
 
     /**
-     * Bind the event handlers for the backend/users "Admins" tab.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**
@@ -427,6 +427,9 @@ App.Pages.Admins = (function () {
         }
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         resetForm();
         filter('');

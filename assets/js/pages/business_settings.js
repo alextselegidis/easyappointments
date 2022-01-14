@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Business Settings
+ * Business settings page.
  *
- * Contains the functionality of the business settings page.
+ * This module implements the functionality of the business settings page.
  */
 App.Pages.BusinessSettings = (function () {
     const $saveSettings = $('#save-settings');
@@ -127,6 +127,9 @@ App.Pages.BusinessSettings = (function () {
         App.Utils.Message.show(App.Lang.working_plan, App.Lang.overwrite_existing_working_plans, buttons);
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         const businessSettings = App.Vars.business_settings;
 

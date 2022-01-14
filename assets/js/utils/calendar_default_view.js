@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Calendar Default View
+ * Working plan utility.
  *
- * This module implements the default calendar view of backend.
+ * This module implements the functionality of the default calendar view.
  *
  * Old Name: BackendCalendarDefaultView
  */
@@ -22,7 +22,7 @@ App.Utils.CalendarDefaultView = (function () {
     let lastFocusedEventData; // Contains event data for later use.
 
     /**
-     * Bind event handlers for the calendar view.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         const $calendarPage = $('#calendar-page');

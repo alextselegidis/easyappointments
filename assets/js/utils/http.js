@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * HTTP requests utility.
+ *
+ * This module implements the functionality of HTTP requests.
+ */
 window.App.Utils.Http = (function () {
     function request(method, url, data) {
         return new Promise((resolve, reject) => {

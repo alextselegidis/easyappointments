@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Legal Settings HTTP client.
+ *
+ * This module implements the legal settings related HTTP requests.
+ */
 App.Http.LegalSettings = (function () {
     /**
      * Save legal settings.

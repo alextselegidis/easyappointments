@@ -10,13 +10,16 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar Appointments Modal
+ * Appointments modal component.
  *
  * This module implements the appointments modal functionality.
  *
  * Old Name: BackendCalendarAppointmentsModal
  */
 App.Components.AppointmentsModal = (function () {
+    /**
+     * Update the displayed timezone.
+     */
     function updateTimezone() {
         const providerId = $('#select-provider').val();
 
@@ -29,6 +32,9 @@ App.Components.AppointmentsModal = (function () {
         }
     }
 
+    /**
+     * Bind the event handlers.
+     */
     function bindEventHandlers() {
         /**
          * Event: Manage Appointments Dialog Save Button "Click"
@@ -213,6 +219,8 @@ App.Components.AppointmentsModal = (function () {
 
         /**
          * Event: Select Existing Customer From List "Click"
+         *
+         * @param {jQuery.Event}
          */
         $('#appointments-modal').on('click', '#existing-customers-list div', (event) => {
             const customerId = $(event.target).attr('data-id');
@@ -240,6 +248,8 @@ App.Components.AppointmentsModal = (function () {
 
         /**
          * Event: Filter Existing Customers "Change"
+         *
+         * @param {jQuery.Event}
          */
         $('#filter-existing-customers').on('keyup', (event) => {
             if (filterExistingCustomersTimeout) {
@@ -616,6 +626,9 @@ App.Components.AppointmentsModal = (function () {
         }
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         bindEventHandlers();
     }

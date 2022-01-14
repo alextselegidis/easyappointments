@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * URLs utility.
+ *
+ * This module implements the functionality of URLs.
+ */
 window.App.Utils.Url = (function () {
     /**
      * Get complete URL of the provided URI segment.

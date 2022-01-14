@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Account HTTP client.
+ *
+ * This module implements the account related HTTP requests.
+ */
 App.Http.Account = (function () {
     /**
      * Save account.

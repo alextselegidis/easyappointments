@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Validation utility.
+ *
+ * This module implements the functionality of validation.
+ */
 window.App.Utils.Validation = (function () {
     /**
      * Validate the provided email.

@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Account
+ * Account page.
  *
- * Contains the functionality of the account page.
+ * This module implements the functionality of the account page.
  */
 App.Pages.Account = (function () {
     const $userId = $('#user-id');

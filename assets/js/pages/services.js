@@ -9,11 +9,19 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Services page.
+ *
+ * This module implements the functionality of the services page.
+ */
 App.Pages.Services = (function () {
     const $services = $('#services');
     let filterResults = {};
     let filterLimit = 20;
 
+    /**
+     * Bind the event handlers.
+     */
     function bindEventHandlers() {
         /**
          * Event: Filter Services Form "Submit"
@@ -380,6 +388,9 @@ App.Pages.Services = (function () {
         });
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         resetForm();
         filter('');

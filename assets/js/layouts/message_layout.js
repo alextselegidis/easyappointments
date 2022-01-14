@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Message layout.
+ *
+ * This module implements the message layout functionality.
+ */
 window.App.Layouts.Message = (function () {
     return {};
 })();

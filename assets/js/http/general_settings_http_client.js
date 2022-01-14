@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * General Settings HTTP client.
+ *
+ * This module implements the general settings related HTTP requests.
+ */
 App.Http.GeneralSettings = (function () {
     /**
      * Save general settings.

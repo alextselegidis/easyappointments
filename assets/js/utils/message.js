@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Messages utility.
+ *
+ * This module implements the functionality of messages.
+ */
 window.App.Utils.Message = (function () {
     /**
      * Show a message box to the user.

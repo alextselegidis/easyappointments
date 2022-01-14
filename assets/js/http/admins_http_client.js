@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Admins HTTP client.
+ *
+ * This module implements the admins related HTTP requests.
+ */
 App.Http.Admins = (function () {
     /**
      * Save (create or update) a admin.

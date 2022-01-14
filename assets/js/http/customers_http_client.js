@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Customers HTTP client.
+ *
+ * This module implements the customers related HTTP requests.
+ */
 App.Http.Customers = (function () {
     /**
      * Save (create or update) a customer.

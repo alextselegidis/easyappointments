@@ -9,6 +9,11 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Working plan utility.
+ *
+ * This module implements the functionality of working plans.
+ */
 App.Utils.WorkingPlan = (function () {
     /**
      * Class WorkingPlan
@@ -339,7 +344,7 @@ App.Utils.WorkingPlan = (function () {
     };
 
     /**
-     * Binds the event handlers for the working plan dom elements.
+     * Bind the event handlers.
      */
     WorkingPlan.prototype.bindEventHandlers = function () {
         /**

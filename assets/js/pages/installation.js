@@ -9,6 +9,11 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Installation page.
+ *
+ * This module implements the functionality of the installation page.
+ */
 App.Pages.Installation = (function () {
     const MIN_PASSWORD_LENGTH = 7;
     const $install = $('#install');

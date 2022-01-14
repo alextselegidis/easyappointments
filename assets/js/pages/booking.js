@@ -10,10 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Booking Page
+ * Booking page.
  *
- * This module contains functions that implement the book appointment page functionality. Once the "initialize" method
- * is called the page is fully functional and can serve the appointment booking process.
+ * This module implements the functionality of the booking page
  *
  * Old Name: FrontendBook
  */
@@ -40,7 +39,7 @@ App.Pages.Booking = (function () {
     let manageMode = false;
 
     /**
-     * This method initializes the book appointment page.
+     * Initialize the module.
      */
     function initialize() {
         if (App.Vars.display_cookie_notice) {
@@ -193,7 +192,7 @@ App.Pages.Booking = (function () {
     }
 
     /**
-     * This method binds the necessary event handlers for the book appointments page.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**

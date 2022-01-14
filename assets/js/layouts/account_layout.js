@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Account layout.
+ *
+ * This module implements the account layout functionality.
+ */
 window.App.Layouts.Account = (function () {
     return {};
 })();

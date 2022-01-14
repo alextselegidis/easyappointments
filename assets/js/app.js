@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * App global namespace object.
+ *
+ * This script should be loaded before the other modules in order to define the global application namespace.
+ */
 window.App = (function () {
     return {
         Components: {},

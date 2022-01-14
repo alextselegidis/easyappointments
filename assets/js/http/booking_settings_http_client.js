@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Booking Settings HTTP client.
+ *
+ * This module implements the booking settings related HTTP requests.
+ */
 App.Http.BookingSettings = (function () {
     /**
      * Save booking settings.

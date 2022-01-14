@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Date utility.
+ *
+ * This module implements the functionality of dates.
+ */
 window.App.Utils.Date = (function () {
     /**
      * Format a YYYY-MM-DD HH:mm:ss date string.

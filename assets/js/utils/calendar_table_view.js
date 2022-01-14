@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar
+ * Working plan utility.
  *
- * This module implements the table calendar view of backend.
+ * This module implements the functionality of table calendar view.
  *
  * Old Name: BackendCalendarTableView
  */
@@ -22,7 +22,7 @@ App.Utils.CalendarTableView = (function () {
     let lastFocusedEventData;
 
     /**
-     * Bind page event handlers.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         const $calendarToolbar = $('#calendar-toolbar');

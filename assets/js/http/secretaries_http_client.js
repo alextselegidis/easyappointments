@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Secretaries HTTP client.
+ *
+ * This module implements the secretaries related HTTP requests.
+ */
 App.Http.Secretaries = (function () {
     /**
      * Save (create or update) a secretary.

@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Backend layout.
+ *
+ * This module implements the backend layout functionality.
+ */
 window.App.Layouts.Backend = (function () {
     return {};
 })();

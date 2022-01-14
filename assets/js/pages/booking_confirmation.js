@@ -9,6 +9,11 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Booking confirmation page.
+ *
+ * This module implements the functionality of the booking confirmation page.
+ */
 App.Pages.BookingConfirmation = (function () {
     /**
      * Handle Authorization Result
@@ -102,6 +107,9 @@ App.Pages.BookingConfirmation = (function () {
         }
     }
 
+    /**
+     * Bind the event handlers.
+     */
     function bindEventHandlers() {
         /**
          * Event: Add Appointment to Google Calendar "Click"
@@ -124,6 +132,9 @@ App.Pages.BookingConfirmation = (function () {
         });
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         bindEventHandlers();
     }

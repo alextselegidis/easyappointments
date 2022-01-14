@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Services HTTP client.
+ *
+ * This module implements the services related HTTP requests.
+ */
 App.Http.Services = (function () {
     /**
      * Save (create or update) a service.

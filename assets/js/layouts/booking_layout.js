@@ -9,6 +9,11 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+/**
+ * Booking layout.
+ *
+ * This module implements the booking layout functionality.
+ */
 window.App.Layouts.Booking = (function () {
     return {};
 })();

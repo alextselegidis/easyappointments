@@ -10,9 +10,9 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Legal Settings
+ * Legal settings page.
  *
- * Contains the functionality of the legal settings page.
+ * This module implements the functionality of the legal settings page.
  */
 App.Pages.LegalSettings = (function () {
     const $saveSettings = $('#save-settings');
@@ -137,6 +137,9 @@ App.Pages.LegalSettings = (function () {
         });
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         $cookieNoticeContent.trumbowyg();
         $termsAndConditionsContent.trumbowyg();

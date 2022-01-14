@@ -10,15 +10,15 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Backend Calendar Google Sync
+ * Calendar Google sync utility.
  *
- * This module implements the Google Calendar sync operations.
+ * This module implements the functionality of calendar google sync.
  *
  * Old Name: BackendCalendarGoogleSync
  */
 App.Utils.CalendarGoogleSync = (function () {
     /**
-     * Bind event handlers.
+     * Bind the event handlers.
      */
     function bindEventHandlers() {
         /**

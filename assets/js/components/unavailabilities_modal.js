@@ -10,13 +10,16 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Unavailabilities Modal
+ * Unavailabilities modal component.
  *
- * This module implements the unavailability events modal functionality.
+ * This module implements the unavailabilities modal functionality.
  *
  * Old Name: BackendCalendarUnavailabilityEventsModal
  */
 App.Components.UnavailabilitiesModal = (function () {
+    /**
+     * Bind the event handlers.
+     */
     function bindEventHandlers() {
         /**
          * Event: Manage Unavailable Dialog Save Button "Click"
@@ -292,6 +295,9 @@ App.Components.UnavailabilitiesModal = (function () {
         $dialog.find('#unavailable-notes').val('');
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         const $unavailabilityProvider = $('#unavailable-provider');
 
