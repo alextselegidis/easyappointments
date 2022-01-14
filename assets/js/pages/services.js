@@ -380,14 +380,14 @@ App.Pages.Services = (function () {
         });
     }
 
-    function init() {
+    function initialize() {
         resetForm();
         filter('');
         bindEventHandlers();
         updateAvailableCategories();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {
         filter,

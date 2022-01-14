@@ -88,7 +88,7 @@ App.Pages.GeneralSettings = (function () {
         });
     }
 
-    function init() {
+    function initialize() {
         const generalSettings = App.Vars.general_settings;
 
         deserialize(generalSettings);
@@ -98,7 +98,7 @@ App.Pages.GeneralSettings = (function () {
         Backend.placeFooterToBottom();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {};
 })();

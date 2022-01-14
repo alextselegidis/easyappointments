@@ -482,7 +482,7 @@ App.Pages.Secretaries = (function () {
         }
     }
 
-    function init() {
+    function initialize() {
         resetForm();
         filter('');
         bindEventHandlers();
@@ -511,7 +511,7 @@ App.Pages.Secretaries = (function () {
         });
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {};
 })();

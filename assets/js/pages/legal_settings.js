@@ -137,7 +137,7 @@ App.Pages.LegalSettings = (function () {
         });
     }
 
-    function init() {
+    function initialize() {
         $cookieNoticeContent.trumbowyg();
         $termsAndConditionsContent.trumbowyg();
         $privacyPolicyContent.trumbowyg();
@@ -151,7 +151,7 @@ App.Pages.LegalSettings = (function () {
         Backend.placeFooterToBottom();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {};
 })();

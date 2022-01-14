@@ -180,7 +180,7 @@ App.Pages.BookingSettings = (function () {
     /**
      * Initialize on document ready.
      */
-    function init() {
+    function initialize() {
         const bookingSettings = App.Vars.booking_settings;
 
         deserialize(bookingSettings);
@@ -196,7 +196,7 @@ App.Pages.BookingSettings = (function () {
         Backend.placeFooterToBottom();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {};
 })();

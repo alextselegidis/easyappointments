@@ -403,7 +403,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         });
     }
 
-    function init() {
+    function initialize() {
         initializeDatepicker($date);
         initializeTimepicker($start);
         initializeTimepicker($end);
@@ -419,7 +419,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $save.on('click', onSaveClick);
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {
         add,

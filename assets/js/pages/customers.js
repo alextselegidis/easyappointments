@@ -431,13 +431,13 @@ App.Pages.Customers = (function () {
         }
     }
 
-    function init() {
+    function initialize() {
         resetForm();
         bindEventHandlers();
         filter('');
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {
         filter,

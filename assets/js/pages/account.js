@@ -179,7 +179,7 @@ App.Pages.Account = (function () {
     /**
      * Initialize the page.
      */
-    function init() {
+    function initialize() {
         const account = App.Vars.account;
 
         deserialize(account);
@@ -191,7 +191,7 @@ App.Pages.Account = (function () {
         Backend.placeFooterToBottom();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {};
 })();

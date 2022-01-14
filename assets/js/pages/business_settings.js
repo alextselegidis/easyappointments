@@ -127,7 +127,7 @@ App.Pages.BusinessSettings = (function () {
         App.Utils.Message.show(App.Lang.working_plan, App.Lang.overwrite_existing_working_plans, buttons);
     }
 
-    function init() {
+    function initialize() {
         const businessSettings = App.Vars.business_settings;
 
         deserialize(businessSettings);
@@ -152,7 +152,7 @@ App.Pages.BusinessSettings = (function () {
         Backend.placeFooterToBottom();
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {};
 })();

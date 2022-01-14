@@ -503,7 +503,7 @@ App.Pages.Providers = (function () {
         }
     }
 
-    function init() {
+    function initialize() {
         workingPlanManager = new App.Utils.WorkingPlan();
         workingPlanManager.bindEventHandlers();
 
@@ -538,7 +538,7 @@ App.Pages.Providers = (function () {
         });
     }
 
-    document.addEventListener('DOMContentLoaded', init);
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {
         filter,
