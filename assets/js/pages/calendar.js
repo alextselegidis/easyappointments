@@ -15,6 +15,8 @@
  * This module implements the functionality of the backend calendar page.
  */
 App.Pages.Calendar = (function () {
+    const $insertWorkingPlanException = $('#insert-working-plan-exception');
+
     /**
      * Add the page event listeners.
      */
@@ -54,7 +56,7 @@ App.Pages.Calendar = (function () {
             }
         });
 
-        $('#insert-working-plan-exception').on('click', () => {
+        $insertWorkingPlanException.on('click', () => {
             const providerId = $('#select-filter-item').val();
 
             const provider = App.Vars.available_providers.find((availableProvider) => {
