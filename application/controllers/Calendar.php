@@ -99,6 +99,8 @@ class Calendar extends EA_Controller {
         $available_providers = $this->providers_model->get_available_providers();
 
         $available_services = $this->services_model->get_available_services();
+        
+        $calendar_view = request('view', $user['settings']['calendar_view']); 
 
         script_vars([
             'user_id' => $user_id,
@@ -108,8 +110,10 @@ class Calendar extends EA_Controller {
             'first_weekday' => setting('first_weekday'),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $privileges,
+            'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,
             'available_services' => $available_services,
+            'edit_appointment' => $edit_appointment,
             'customers' => [], // TODO: Remove the use of the pre-rendered customer set and only work with asynchronously fetched customer records. 
         ]);
 
@@ -120,11 +124,10 @@ class Calendar extends EA_Controller {
             'timezone' => session('timezone'),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $privileges,
-            'calendar_view' => request('view', $user['settings']['calendar_view']),
+            'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
-            'edit_appointment' => $edit_appointment,
             'require_first_name' => setting('require_first_name'),
             'require_last_name' => setting('require_last_name'),
             'require_email' => setting('require_email'),
@@ -476,9 +479,9 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            $start_date = request('startDate') . ' 00:00:00';
+            $start_date = request('start_date') . ' 00:00:00';
 
-            $end_date = request('endDate') . ' 23:59:59';
+            $end_date = request('end_date') . ' 23:59:59';
 
             $response = [
                 'appointments' => $this->appointments_model->get([
