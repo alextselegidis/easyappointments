@@ -10,35 +10,43 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Working plan utility.
+ * Default calendar view utility.
  *
  * This module implements the functionality of the default calendar view.
  *
  * Old Name: BackendCalendarDefaultView
  */
 App.Utils.CalendarDefaultView = (function () {
+    const $calendarPage = $('#calendar-page');
+    const $reloadAppointments = $('#reload-appointments');
+    const $calendar = $('#calendar');
+    const $selectFilterItem = $('#select-filter-item');
+    const $appointmentsModal = $('#appointments-modal');
+    const $unavailabilitiesModal = $('#unavailabilities-modal');
+    const $header = $('#header');
+    const $footer = $('#footer');
+    const $notification = $('#notification');
+    const $calendarToolbar = $('#calendar-toolbar');
     const FILTER_TYPE_PROVIDER = 'provider';
     const FILTER_TYPE_SERVICE = 'service';
     let lastFocusedEventData; // Contains event data for later use.
 
     /**
-     * Bind the event handlers.
+     * Add the utility event listeners.
      */
-    function bindEventHandlers() {
-        const $calendarPage = $('#calendar-page');
-
+    function addEventListeners() {
         /**
          * Event: Reload Button "Click"
          *
          * When the user clicks the reload button, the calendar items need to be refreshed.
          */
-        $('#reload-appointments').on('click', () => {
-            const calendarView = $('#calendar').fullCalendar('getView');
+        $reloadAppointments.on('click', () => {
+            const calendarView = $calendar.fullCalendar('getView');
 
             refreshCalendarAppointments(
-                $('#calendar'),
-                $('#select-filter-item').val(),
-                $('#select-filter-item').find('option:selected').attr('type'),
+                $calendar,
+                $selectFilterItem.val(),
+                $selectFilterItem.find('option:selected').attr('type'),
                 calendarView.start,
                 calendarView.end
             );
@@ -57,11 +65,14 @@ App.Utils.CalendarDefaultView = (function () {
          * Event: Popover Edit Button "Click"
          *
          * Enables the edit dialog of the selected calendar event.
+         *
+         * @param {jQuery.Event} event
          */
-        $calendarPage.on('click', '.edit-popover', () => {
-            $(event.target).parents('.popover').popover('dispose');
+        $calendarPage.on('click', '.edit-popover', (event) => {
+            const $target = $(event.target);
 
-            let $dialog;
+            $target.closest('.popover').popover('dispose');
+
             let startMoment;
             let endMoment;
 
@@ -91,7 +102,7 @@ App.Utils.CalendarDefaultView = (function () {
                             }
                         }
 
-                        $('#select-filter-item').trigger('change'); // Update the calendar.
+                        $selectFilterItem.trigger('change'); // Update the calendar.
                     };
 
                     App.Http.Calendar.saveWorkingPlanException(
@@ -104,36 +115,35 @@ App.Utils.CalendarDefaultView = (function () {
                 });
             } else if (!lastFocusedEventData.data.is_unavailable) {
                 const appointment = lastFocusedEventData.data;
-                $dialog = $('#appointments-modal');
 
                 App.Components.AppointmentsModal.resetModal();
 
                 // Apply appointment data and show modal dialog.
-                $dialog.find('.modal-header h3').text(App.Lang.edit_appointment_title);
-                $dialog.find('#appointment-id').val(appointment.id);
-                $dialog.find('#select-service').val(appointment.id_services).trigger('change');
-                $dialog.find('#select-provider').val(appointment.id_users_provider);
+                $appointmentsModal.find('.modal-header h3').text(App.Lang.edit_appointment_title);
+                $appointmentsModal.find('#appointment-id').val(appointment.id);
+                $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
+                $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
 
                 // Set the start and end datetime of the appointment.
                 startMoment = moment(appointment.start_datetime);
-                $dialog.find('#start-datetime').datetimepicker('setDate', startMoment.toDate());
+                $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startMoment.toDate());
 
                 endMoment = moment(appointment.end_datetime);
-                $dialog.find('#end-datetime').datetimepicker('setDate', endMoment.toDate());
+                $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endMoment.toDate());
 
                 const customer = appointment.customer;
-                $dialog.find('#customer-id').val(appointment.id_users_customer);
-                $dialog.find('#first-name').val(customer.first_name);
-                $dialog.find('#last-name').val(customer.last_name);
-                $dialog.find('#email').val(customer.email);
-                $dialog.find('#phone-number').val(customer.phone_number);
-                $dialog.find('#address').val(customer.address);
-                $dialog.find('#city').val(customer.city);
-                $dialog.find('#zip-code').val(customer.zip_code);
-                $dialog.find('#appointment-location').val(appointment.location);
-                $dialog.find('#appointment-notes').val(appointment.notes);
-                $dialog.find('#customer-notes').val(customer.notes);
-                $dialog.modal('show');
+                $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+                $appointmentsModal.find('#first-name').val(customer.first_name);
+                $appointmentsModal.find('#last-name').val(customer.last_name);
+                $appointmentsModal.find('#email').val(customer.email);
+                $appointmentsModal.find('#phone-number').val(customer.phone_number);
+                $appointmentsModal.find('#address').val(customer.address);
+                $appointmentsModal.find('#city').val(customer.city);
+                $appointmentsModal.find('#zip-code').val(customer.zip_code);
+                $appointmentsModal.find('#appointment-location').val(appointment.location);
+                $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+                $appointmentsModal.find('#customer-notes').val(customer.notes);
+                $appointmentsModal.modal('show');
             } else {
                 const unavailable = lastFocusedEventData.data;
 
@@ -143,17 +153,16 @@ App.Utils.CalendarDefaultView = (function () {
                 unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
                 endMoment = moment(unavailable.end_datetime);
 
-                $dialog = $('#unavailabilities-modal');
                 App.Components.UnavailabilitiesModal.resetModal();
 
                 // Apply unavailable data to dialog.
-                $dialog.find('.modal-header h3').text('Edit Unavailable Period');
-                $dialog.find('#unavailable-start').datetimepicker('setDate', startMoment.toDate());
-                $dialog.find('#unavailable-id').val(unavailable.id);
-                $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
-                $dialog.find('#unavailable-end').datetimepicker('setDate', endMoment.toDate());
-                $dialog.find('#unavailable-notes').val(unavailable.notes);
-                $dialog.modal('show');
+                $unavailabilitiesModal.find('.modal-header h3').text('Edit Unavailable Period');
+                $unavailabilitiesModal.find('#unavailable-start').datetimepicker('setDate', startMoment.toDate());
+                $unavailabilitiesModal.find('#unavailable-id').val(unavailable.id);
+                $unavailabilitiesModal.find('#unavailable-provider').val(unavailable.id_users_provider);
+                $unavailabilitiesModal.find('#unavailable-end').datetimepicker('setDate', endMoment.toDate());
+                $unavailabilitiesModal.find('#unavailable-notes').val(unavailable.notes);
+                $unavailabilitiesModal.modal('show');
             }
         });
 
@@ -162,15 +171,19 @@ App.Utils.CalendarDefaultView = (function () {
          *
          * Displays a prompt on whether the user wants the appointment to be deleted. If he confirms the
          * deletion then an AJAX call is made to the server and deletes the appointment from the database.
+         *
+         * @param {jQuery.Event} event
          */
         $calendarPage.on('click', '.delete-popover', (event) => {
-            $(event.target).parents('.popover').popover('dispose');
+            const $target = $(event.target);
+
+            $target.parents('.popover').popover('dispose');
 
             let url;
             let data;
 
             if (lastFocusedEventData.data.workingPlanException) {
-                const providerId = $('#select-filter-item').val();
+                const providerId = $selectFilterItem.val();
 
                 const provider = App.Vars.available_providers.find(
                     (availableProvider) => Number(availableProvider.id) === Number(providerId)
@@ -195,7 +208,7 @@ App.Utils.CalendarDefaultView = (function () {
                         }
                     }
 
-                    $('#select-filter-item').trigger('change'); // Update the calendar.
+                    $selectFilterItem.trigger('change'); // Update the calendar.
                 };
 
                 const date = lastFocusedEventData.start.format('YYYY-MM-DD');
@@ -224,7 +237,7 @@ App.Utils.CalendarDefaultView = (function () {
                                 $('#message-box').dialog('close');
 
                                 // Refresh calendar event items.
-                                $('#select-filter-item').trigger('change');
+                                $selectFilterItem.trigger('change');
                             });
                         }
                     }
@@ -254,7 +267,7 @@ App.Utils.CalendarDefaultView = (function () {
                     $('#message-box').dialog('close');
 
                     // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
+                    $selectFilterItem.trigger('change');
                 });
             }
         });
@@ -264,22 +277,22 @@ App.Utils.CalendarDefaultView = (function () {
          *
          * Load the appointments that correspond to the select filter item and display them on the calendar.
          */
-        $('#select-filter-item').on('change', () => {
+        $selectFilterItem.on('change', () => {
             // If current value is service, then the sync buttons must be disabled.
-            if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
+            if ($selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
-                $('#calendar').fullCalendar('option', {
+                $calendar.fullCalendar('option', {
                     selectable: false,
                     editable: false
                 });
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
-                $('#calendar').fullCalendar('option', {
+                $calendar.fullCalendar('option', {
                     selectable: true,
                     editable: true
                 });
 
-                const providerId = $('#select-filter-item').val();
+                const providerId = $selectFilterItem.val();
 
                 const provider = App.Vars.available_providers.find(function (availableProvider) {
                     return Number(availableProvider.id) === Number(providerId);
@@ -290,7 +303,7 @@ App.Utils.CalendarDefaultView = (function () {
                 }
 
                 // If the user has already the sync enabled then apply the proper style changes.
-                if ($('#select-filter-item option:selected').attr('google-sync') === 'true') {
+                if ($selectFilterItem('option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
                     $('#enable-sync span').text(App.Lang.disable_sync);
                     $('#google-sync').prop('disabled', false);
@@ -313,11 +326,7 @@ App.Utils.CalendarDefaultView = (function () {
      */
     function getCalendarHeight() {
         const result =
-            window.innerHeight -
-            $('#footer').outerHeight() -
-            $('#header').outerHeight() -
-            $('#calendar-toolbar').outerHeight() -
-            60; // 60 for fine tuning
+            window.innerHeight - $footer.outerHeight() - $header.outerHeight() - $calendarToolbar.outerHeight() - 60; // 60 for fine tuning
         return result > 500 ? result : 500; // Minimum height is 500px
     }
 
@@ -343,7 +352,9 @@ App.Utils.CalendarDefaultView = (function () {
      * above the calendar item.
      */
     function calendarEventClick(event, jsEvent) {
-        $('.popover').popover('dispose'); // Close all open popovers.
+        const $target = $(jsEvent.target);
+
+        $calendarPage.find('.popover').popover('dispose'); // Close all open popovers.
 
         let $html;
         let displayEdit;
@@ -355,7 +366,7 @@ App.Utils.CalendarDefaultView = (function () {
         const $altParent = $(jsEvent.target).parents().eq(1);
 
         if (
-            $(this).hasClass('fc-unavailable') ||
+            $target.hasClass('fc-unavailable') ||
             $parent.hasClass('fc-unavailable') ||
             $altParent.hasClass('fc-unavailable')
         ) {
@@ -451,7 +462,7 @@ App.Utils.CalendarDefaultView = (function () {
                 ]
             });
         } else if (
-            $(this).hasClass('fc-working-plan-exception') ||
+            $target.hasClass('fc-working-plan-exception') ||
             $parent.hasClass('fc-working-plan-exception') ||
             $altParent.hasClass('fc-working-plan-exception')
         ) {
@@ -459,7 +470,7 @@ App.Utils.CalendarDefaultView = (function () {
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
                 App.Vars.privileges.appointments.delete === true
                     ? 'me-2'
-                    : 'd-none'; // Same value at the time.
+                    : 'd-none';
 
             $html = $('<div/>', {
                 'html': [
@@ -537,7 +548,7 @@ App.Utils.CalendarDefaultView = (function () {
                                 ]
                             }),
                             $('<button/>', {
-                                'class': 'edit-popover btn btn-primary ' + displayEdit,
+                                'class': 'edit-popover btn btn-primary',
                                 'html': [
                                     $('<i/>', {
                                         'class': 'fas fa-edit me-2'
@@ -698,7 +709,7 @@ App.Utils.CalendarDefaultView = (function () {
             });
         }
 
-        $(jsEvent.target).popover({
+        $target.popover({
             placement: 'top',
             title: event.title,
             content: $html,
@@ -709,11 +720,13 @@ App.Utils.CalendarDefaultView = (function () {
 
         lastFocusedEventData = event;
 
-        $(jsEvent.target).popover('toggle');
+        $target.popover('toggle');
 
         // Fix popover position.
-        if ($('.popover').length > 0 && $('.popover').position().top < 200) {
-            $('.popover').css('top', '200px');
+        const $popover = $calendarPage.find('.popover');
+
+        if ($popover.length > 0 && $popover.position().top < 200) {
+            $popover.css('top', '200px');
         }
     }
 
@@ -732,12 +745,10 @@ App.Utils.CalendarDefaultView = (function () {
             return;
         }
 
-        const $calendar = $('#calendar');
-
         let successCallback;
 
-        if ($('#notification').is(':visible')) {
-            $('#notification').hide('bind');
+        if ($notification.is(':visible')) {
+            $notification.hide('bind');
         }
 
         if (!event.data.is_unavailable) {
@@ -771,7 +782,7 @@ App.Utils.CalendarDefaultView = (function () {
                     };
 
                     $.post(url, data).done(() => {
-                        $('#notification').hide('blind');
+                        $notification.hide('blind');
                     });
 
                     revertFunc();
@@ -783,7 +794,7 @@ App.Utils.CalendarDefaultView = (function () {
                         'function': undoFunction
                     }
                 ]);
-                $('#footer').css('position', 'static'); // Footer position fix.
+                $footer.css('position', 'static'); // Footer position fix.
 
                 // Update the event data for later use.
                 $calendar.fullCalendar('updateEvent', event);
@@ -820,7 +831,7 @@ App.Utils.CalendarDefaultView = (function () {
                     };
 
                     $.post(url, data).done(() => {
-                        $('#notification').hide('blind');
+                        $notification.hide('blind');
                     });
 
                     revertFunc();
@@ -833,7 +844,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }
                 ]);
 
-                $('#footer').css('position', 'static'); // Footer position fix.
+                $footer.css('position', 'static'); // Footer position fix.
 
                 // Update the event data for later use.
                 $calendar.fullCalendar('updateEvent', event);
@@ -852,7 +863,7 @@ App.Utils.CalendarDefaultView = (function () {
      * @see getCalendarHeight()
      */
     function calendarWindowResize() {
-        $('#calendar').fullCalendar('option', 'height', getCalendarHeight());
+        $calendar.fullCalendar('option', 'height', getCalendarHeight());
     }
 
     /**
@@ -865,8 +876,8 @@ App.Utils.CalendarDefaultView = (function () {
      */
     function calendarDayClick(date) {
         if (!date.hasTime()) {
-            $('#calendar').fullCalendar('changeView', 'agendaDay');
-            $('#calendar').fullCalendar('gotoDate', date);
+            $calendar.fullCalendar('changeView', 'agendaDay');
+            $calendar.fullCalendar('gotoDate', date);
         }
     }
 
@@ -887,8 +898,8 @@ App.Utils.CalendarDefaultView = (function () {
             return;
         }
 
-        if ($('#notification').is(':visible')) {
-            $('#notification').hide('bind');
+        if ($notification.is(':visible')) {
+            $notification.hide('bind');
         }
 
         let successCallback;
@@ -938,7 +949,7 @@ App.Utils.CalendarDefaultView = (function () {
                     };
 
                     $.post(url, data).done(() => {
-                        $('#notification').hide('blind');
+                        $notification.hide('blind');
                     });
 
                     revertFunc();
@@ -951,7 +962,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }
                 ]);
 
-                $('#footer').css('position', 'static'); // Footer position fix.
+                $footer.css('position', 'static'); // Footer position fix.
             };
 
             // Update appointment data.
@@ -988,7 +999,7 @@ App.Utils.CalendarDefaultView = (function () {
                     };
 
                     $.post(url, data).done(() => {
-                        $('#notification').hide('blind');
+                        $notification.hide('blind');
                     });
 
                     revertFunc();
@@ -1001,7 +1012,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }
                 ]);
 
-                $('#footer').css('position', 'static'); // Footer position fix.
+                $footer.css('position', 'static'); // Footer position fix.
             };
 
             App.Http.Calendar.saveUnavailable(unavailable, successCallback);
@@ -1015,16 +1026,16 @@ App.Utils.CalendarDefaultView = (function () {
      * display proper information to the user.
      */
     function calendarViewRender() {
-        if ($('#select-filter-item').val() === null) {
+        if ($selectFilterItem.val() === null) {
             return;
         }
 
         refreshCalendarAppointments(
-            $('#calendar'),
-            $('#select-filter-item').val(),
+            $calendar,
+            $selectFilterItem.val(),
             $('#select-filter-item option:selected').attr('type'),
-            $('#calendar').fullCalendar('getView').start,
-            $('#calendar').fullCalendar('getView').end
+            $calendar.fullCalendar('getView').start,
+            $calendar.fullCalendar('getView').end
         );
 
         $(window).trigger('resize'); // Places the footer on the bottom.
@@ -1086,8 +1097,6 @@ App.Utils.CalendarDefaultView = (function () {
 
         return $.post(url, data)
             .done((response) => {
-                const $calendar = $('#calendar');
-
                 $calendar.fullCalendar('removeEvents');
 
                 // Add appointments to calendar.
@@ -1132,7 +1141,7 @@ App.Utils.CalendarDefaultView = (function () {
                     calendarEventSource.push(unavailabilityEvent);
                 });
 
-                const calendarView = $('#calendar').fullCalendar('getView');
+                const calendarView = $calendar.fullCalendar('getView');
 
                 if (filterType === FILTER_TYPE_PROVIDER && calendarView.name !== 'month') {
                     const provider = App.Vars.available_providers.find(
@@ -1466,7 +1475,7 @@ App.Utils.CalendarDefaultView = (function () {
         const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
 
         // Initialize page calendar
-        $('#calendar').fullCalendar({
+        $calendar.fullCalendar({
             defaultView: defaultView,
             height: getCalendarHeight(),
             editable: true,
@@ -1499,12 +1508,12 @@ App.Utils.CalendarDefaultView = (function () {
 
                 if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                     service = App.Vars.available_services.find(
-                        (availableService) => Number(availableService.id) === Number($('#select-filter-item').val())
+                        (availableService) => Number(availableService.id) === Number($selectFilterItem.val())
                     );
-                    $('#select-service').val(service.id).trigger('change');
+                    $appointmentsModal.find('#select-service').val(service.id).trigger('change');
                 } else {
                     const provider = App.Vars.available_providers.find(
-                        (availableProvider) => Number(availableProvider.id) === Number($('#select-filter-item').val())
+                        (availableProvider) => Number(availableProvider.id) === Number($selectFilterItem.val())
                     );
 
                     service = App.Vars.available_services.find(
@@ -1512,24 +1521,24 @@ App.Utils.CalendarDefaultView = (function () {
                     );
 
                     if (service) {
-                        $('#select-service').val(service.id);
+                        $appointmentsModal.find('#select-service').val(service.id);
                     }
 
-                    if (!$('#select-service').val()) {
+                    if (!$appointmentsModal.find('#select-service').val()) {
                         $('#select-service option:first').prop('selected', true);
                     }
 
-                    $('#select-service').trigger('change');
+                    $appointmentsModal.find('#select-service').trigger('change');
 
                     if (provider) {
-                        $('#select-provider').val(provider.id);
+                        $appointmentsModal.find('#select-provider').val(provider.id);
                     }
 
-                    if (!$('#select-provider').val()) {
-                        $('#select-provider option:first').prop('selected', true);
+                    if (!$appointmentsModal.find('#select-provider').val()) {
+                        $appointmentsModal.find('#select-provider option:first').prop('selected', true);
                     }
 
-                    $('#select-provider').trigger('change');
+                    $appointmentsModal.find('#select-provider').trigger('change');
                 }
 
                 // Preselect time
@@ -1617,7 +1626,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Fill the select list boxes of the page.
         if (App.Vars.available_providers.length > 0) {
-            $('<optgroup/>', {
+            $('<optgroup label=""/>', {
                 'label': App.Lang.providers,
                 'type': 'providers-group',
                 'html': App.Vars.available_providers.map(function (availableProvider) {
@@ -1634,7 +1643,7 @@ App.Utils.CalendarDefaultView = (function () {
         }
 
         if (App.Vars.available_services.length > 0) {
-            $('<optgroup/>', {
+            $('<optgroup label=""/>', {
                 'label': App.Lang.services,
                 'type': 'services-group',
                 'html': App.Vars.available_services.map((availableService) =>
@@ -1649,17 +1658,18 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Check permissions.
         if (App.Vars.role_slug === Backend.DB_SLUG_PROVIDER) {
-            $('#select-filter-item optgroup:eq(0)')
+            $selectFilterItem
+                .find('optgroup:eq(0)')
                 .find('option[value="' + App.Vars.user_id + '"]')
                 .prop('selected', true);
-            $('#select-filter-item').prop('disabled', true);
+            $selectFilterItem.prop('disabled', true);
         }
 
         if (App.Vars.role_slug === Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
-            $('#select-filter-item optgroup:eq(1)').remove();
+            $selectFilterItem.find('optgroup:eq(1)').remove();
 
-            $('#select-filter-item option[type="provider"]').each((index, option) => {
+            $selectFilterItem.find('option[type="provider"]').each((index, option) => {
                 const provider = App.Vars.secretary_providers.find(
                     (secretaryProviderId) => Number($(option).val()) === Number(secretaryProviderId)
                 );
@@ -1669,65 +1679,62 @@ App.Utils.CalendarDefaultView = (function () {
                 }
             });
 
-            if (!$('#select-filter-item option[type="provider"]').length) {
-                $('#select-filter-item optgroup[type="providers-group"]').remove();
+            if (!$selectFilterItem.find('option[type="provider"]').length) {
+                $selectFilterItem('optgroup[type="providers-group"]').remove();
             }
         }
 
         // Bind the default event handlers.
-        bindEventHandlers();
+        addEventListeners();
 
-        $('#select-filter-item').trigger('change');
+        $selectFilterItem.trigger('change');
 
         // Display the edit dialog if an appointment hash is provided.
         if (App.Vars.edit_appointment) {
-            const $dialog = $('#appointments-modal');
             const appointment = App.Vars.edit_appointment;
-            App.Components.resetAppointmentDialog();
 
-            $dialog.find('.modal-header h3').text(App.Lang.edit_appointment_title);
-            $dialog.find('#appointment-id').val(appointment.id);
-            $dialog.find('#select-service').val(appointment.id_services).trigger('change');
-            $dialog.find('#select-provider').val(appointment.id_users_provider);
+            App.Components.AppointmentsModal.resetModal();
+
+            $appointmentsModal.find('.modal-header h3').text(App.Lang.edit_appointment_title);
+            $appointmentsModal.find('#appointment-id').val(appointment.id);
+            $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
+            $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
 
             // Set the start and end datetime of the appointment.
             const startDatetime = moment(appointment.start_datetime);
-            $dialog.find('#start-datetime').datetimepicker('setDate', startDatetime);
+            $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startDatetime);
 
             const endDatetime = moment(appointment.end_datetime);
-            $dialog.find('#end-datetime').datetimepicker('setDate', endDatetime);
+            $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endDatetime);
 
             const customer = appointment.customer;
-            $dialog.find('#customer-id').val(appointment.id_users_customer);
-            $dialog.find('#first-name').val(customer.first_name);
-            $dialog.find('#last-name').val(customer.last_name);
-            $dialog.find('#email').val(customer.email);
-            $dialog.find('#phone-number').val(customer.phone_number);
-            $dialog.find('#address').val(customer.address);
-            $dialog.find('#city').val(customer.city);
-            $dialog.find('#zip-code').val(customer.zip_code);
-            $dialog.find('#appointment-location').val(appointment.location);
-            $dialog.find('#appointment-notes').val(appointment.notes);
-            $dialog.find('#customer-notes').val(customer.notes);
+            $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+            $appointmentsModal.find('#first-name').val(customer.first_name);
+            $appointmentsModal.find('#last-name').val(customer.last_name);
+            $appointmentsModal.find('#email').val(customer.email);
+            $appointmentsModal.find('#phone-number').val(customer.phone_number);
+            $appointmentsModal.find('#address').val(customer.address);
+            $appointmentsModal.find('#city').val(customer.city);
+            $appointmentsModal.find('#zip-code').val(customer.zip_code);
+            $appointmentsModal.find('#appointment-location').val(appointment.location);
+            $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+            $appointmentsModal.find('#customer-notes').val(customer.notes);
 
-            $dialog.modal('show');
+            $appointmentsModal.modal('show');
 
-            $('#calendar').fullCalendar('gotoDate', moment(appointment.start_datetime));
+            $calendar.fullCalendar('gotoDate', moment(appointment.start_datetime));
         }
 
-        if (!$('#select-filter-item option').length) {
+        if (!$selectFilterItem.find('option').length) {
             $('#calendar-actions button').prop('disabled', true);
         }
 
         // Fine tune the footer's position only for this page.
         if (window.innerHeight < 700) {
-            $('#footer').css('position', 'static');
+            $footer.css('position', 'static');
         }
 
         // Automatically refresh the calendar page every 10 seconds (without loading animation).
-        const $calendar = $('#calendar');
-        const $selectFilterItem = $('#select-filter-item');
-
         setInterval(() => {
             const calendarView = $calendar.fullCalendar('getView');
 
