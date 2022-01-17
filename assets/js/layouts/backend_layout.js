@@ -73,15 +73,15 @@ window.App.Layouts.Backend = (function () {
         $notification.empty();
 
         const $instance = $('<div/>', {
-            'class': 'notification alert',
+            'class': 'notification alert alert-dismissible fade show',
             'html': [
+                $('<strong/>', {
+                    'html': message
+                }),
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn-close',
-                    'data-dismiss': 'alert'
-                }),
-                $('<strong/>', {
-                    'html': message
+                    'data-bs-dismiss': 'alert'
                 })
             ]
         }).appendTo($notification);
@@ -93,7 +93,7 @@ window.App.Layouts.Backend = (function () {
                 'on': {
                     'click': action.function
                 }
-            }).appendTo($instance);
+            }).prependTo($instance);
         });
 
         $notification.show('fade');

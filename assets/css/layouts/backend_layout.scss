@@ -83,8 +83,12 @@ root {
     margin-right: 15px;
 }
 
-#notification .alert button {
+#notification .alert button:not(.btn-close) {
     margin-right: 15px;
+}
+
+#notification .alert .btn-close {
+    margin-top: 5px;
 }
 
 #notification .alert {
@@ -92,13 +96,10 @@ root {
     background-color: #f5e8a8;
     color: #9e9980;
     box-shadow: 1px 1px 1px #a0a0a0;
-    padding: 15px;
     position: fixed;
     z-index: 200;
     right: 15px;
     bottom: 15px;
-    min-width: 300px;
-    max-width: 750px;
 }
 
 #notification .close {
