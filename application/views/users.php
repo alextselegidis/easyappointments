@@ -32,33 +32,6 @@
 <script src="<?= asset_url('assets/js/working_plan_exceptions_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode($base_url) ?>,
-        dateFormat: <?= json_encode($date_format) ?>,
-        firstWeekday: <?= json_encode($first_weekday); ?>,
-        timeFormat: <?= json_encode($time_format) ?>,
-        admins: <?= json_encode($admins) ?>,
-        providers: <?= json_encode($providers) ?>,
-        secretaries: <?= json_encode($secretaries) ?>,
-        services: <?= json_encode($services) ?>,
-        timezones: <?= json_encode($timezones) ?>,
-        workingPlan: <?= json_encode(json_decode($working_plan)) ?>,
-        workingPlanExceptions: <?= json_encode(json_decode($working_plan_exceptions)) ?>,
-        user: {
-            id: <?= $user_id ?>,
-            email: <?= json_encode($user_email) ?>,
-            timezone: <?= json_encode($timezone) ?>,
-            role_slug: <?= json_encode($role_slug) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-
-    $(function () {
-        BackendUsers.initialize(true);
-    });
-</script>
 
 <div class="container-fluid backend-page" id="users-page">
 

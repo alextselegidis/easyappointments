@@ -131,13 +131,6 @@
     Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
 </footer>
 
-<script>
-    const GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>
-    };
-</script>
-
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>

@@ -67,26 +67,6 @@
     <?php component('privacy_policy_modal') ?>
 <?php endif ?>
 
-<script>
-    const GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        manageMode: <?= $manage_mode ? 'true' : 'false' ?>,
-        availableServices: <?= json_encode($available_services) ?>,
-        availableProviders: <?= json_encode($available_providers) ?>,
-        customerToken: <?= json_encode($customer_token) ?>,
-        dateFormat: <?= json_encode($date_format) ?>,
-        timeFormat: <?= json_encode($time_format) ?>,
-        firstWeekday: <?= json_encode($first_weekday) ?>,
-        displayCookieNotice: <?= json_encode($display_cookie_notice === '1') ?>,
-        appointmentData: <?= json_encode($appointment_data) ?>,
-        providerData: <?= json_encode($provider_data) ?>,
-        customerData: <?= json_encode($customer_data) ?>,
-    };
-
-    const availableLanguages = <?= json_encode(config('available_languages')) ?>;
-</script>
-
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.js') ?>"></script>
