@@ -22,9 +22,9 @@ App.Utils.CalendarTableView = (function () {
     let lastFocusedEventData;
 
     /**
-     * Bind the event handlers.
+     * Add the utility event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         const $calendarToolbar = $('#calendar-toolbar');
         const $calendar = $('#calendar');
 
@@ -82,7 +82,7 @@ App.Utils.CalendarTableView = (function () {
                             .find('.date-column-title')
                             .text(App.Utils.Date.format(date, App.Vars.date_format, App.Vars.time_format));
 
-                        $dateColumn.find('.provider-column').each(function (index, providerColumn) {
+                        $dateColumn.find('.provider-column').each((index, providerColumn) => {
                             const $providerColumn = $(providerColumn);
                             const provider = $providerColumn.data('provider');
 
@@ -277,7 +277,7 @@ App.Utils.CalendarTableView = (function () {
                 const buttons = [
                     {
                         text: App.Lang.cancel,
-                        click: function () {
+                        click: () => {
                             $('#message-box').dialog('close');
                         }
                     },
@@ -444,9 +444,7 @@ App.Utils.CalendarTableView = (function () {
         $filterProvider.select2();
 
         const services = GlobalVariables.availableServices.filter((service) => {
-            const provider = providers.find(function (provider) {
-                return provider.services.indexOf(service.id) !== -1;
-            });
+            const provider = providers.find((provider) => provider.services.indexOf(service.id) !== -1);
 
             return App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN || provider;
         });
@@ -689,8 +687,8 @@ App.Utils.CalendarTableView = (function () {
                 throw new Error('Invalid time format setting provided!' + GlobalVariables.timeFormat);
         }
 
-        const firstWeekday = GlobalVariables.firstWeekday;
-        const firstWeekdayNumber = GeneralFunctions.getWeekDayId(firstWeekday);
+        const firstWeekday = App.Vars.first_weekday;
+        const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
 
         $wrapper.fullCalendar({
             defaultView: 'agendaDay',
@@ -1517,7 +1515,7 @@ App.Utils.CalendarTableView = (function () {
                 .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
                 .format('YYYY-MM-DD HH:mm:ss');
 
-            const appointment = GeneralFunctions.clone(event.data);
+            const appointment = {...event.data};
 
             // Must delete the following because only appointment data should be provided to the AJAX call.
             delete appointment.customer;
@@ -1631,7 +1629,7 @@ App.Utils.CalendarTableView = (function () {
 
         if (event.data.is_unavailable === '0') {
             // Prepare appointment data.
-            const appointment = GeneralFunctions.clone(event.data);
+            const appointment = {...event.data};
 
             // Must delete the following because only appointment data should be provided to the ajax call.
             delete appointment.customer;
@@ -1671,7 +1669,7 @@ App.Utils.CalendarTableView = (function () {
                         appointment_data: JSON.stringify(appointment)
                     };
 
-                    $.post(url, data).done(function () {
+                    $.post(url, data).done(() => {
                         $('#notification').hide('blind');
                     });
 
@@ -1766,7 +1764,7 @@ App.Utils.CalendarTableView = (function () {
 
         let width = 0;
 
-        $dateColumn.each(function (index, dateColumn) {
+        $dateColumn.each((index, dateColumn) => {
             width += $(dateColumn).outerWidth();
         });
 
@@ -1823,7 +1821,7 @@ App.Utils.CalendarTableView = (function () {
 
         $('#insert-working-plan-exception').hide();
 
-        bindEventHandlers();
+        addEventListeners();
 
         // Hide Google Calendar Sync buttons cause they can not be used within this view.
         $('#enable-sync, #google-sync').hide();

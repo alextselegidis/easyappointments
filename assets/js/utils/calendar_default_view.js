@@ -81,38 +81,37 @@ App.Utils.CalendarDefaultView = (function () {
                 const workingPlanException = lastFocusedEventData.data.workingPlanException;
                 const provider = lastFocusedEventData.data.provider;
 
-                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(function (
-                    date,
-                    workingPlanException
-                ) {
-                    const successCallback = function () {
-                        App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
+                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
+                    (date, workingPlanException) => {
+                        const successCallback = () => {
+                            App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
-                        const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                            const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
-                        workingPlanExceptions[date] = workingPlanException;
+                            workingPlanExceptions[date] = workingPlanException;
 
-                        for (const index in App.Vars.available_providers) {
-                            const availableProvider = App.Vars.available_providers[index];
+                            for (const index in App.Vars.available_providers) {
+                                const availableProvider = App.Vars.available_providers[index];
 
-                            if (Number(availableProvider.id) === Number(provider.id)) {
-                                availableProvider.settings.working_plan_exceptions =
-                                    JSON.stringify(workingPlanExceptions);
-                                break;
+                                if (Number(availableProvider.id) === Number(provider.id)) {
+                                    availableProvider.settings.working_plan_exceptions =
+                                        JSON.stringify(workingPlanExceptions);
+                                    break;
+                                }
                             }
-                        }
 
-                        $selectFilterItem.trigger('change'); // Update the calendar.
-                    };
+                            $selectFilterItem.trigger('change'); // Update the calendar.
+                        };
 
-                    App.Http.Calendar.saveWorkingPlanException(
-                        date,
-                        workingPlanException,
-                        provider.id,
-                        successCallback,
-                        null
-                    );
-                });
+                        App.Http.Calendar.saveWorkingPlanException(
+                            date,
+                            workingPlanException,
+                            provider.id,
+                            successCallback,
+                            null
+                        );
+                    }
+                );
             } else if (!lastFocusedEventData.data.is_unavailable) {
                 const appointment = lastFocusedEventData.data;
 
@@ -224,7 +223,7 @@ App.Utils.CalendarDefaultView = (function () {
                     },
                     {
                         text: 'OK',
-                        click: function () {
+                        click: () => {
                             url = App.Utils.Url.siteUrl('calendar/ajax_delete_appointment');
 
                             data = {
@@ -294,9 +293,9 @@ App.Utils.CalendarDefaultView = (function () {
 
                 const providerId = $selectFilterItem.val();
 
-                const provider = App.Vars.available_providers.find(function (availableProvider) {
-                    return Number(availableProvider.id) === Number(providerId);
-                });
+                const provider = App.Vars.available_providers.find(
+                    (availableProvider) => Number(availableProvider.id) === Number(providerId)
+                );
 
                 if (provider && provider.timezone) {
                     $('.provider-timezone').text(App.Vars.timezones[provider.timezone]);
@@ -1629,7 +1628,7 @@ App.Utils.CalendarDefaultView = (function () {
             $('<optgroup label=""/>', {
                 'label': App.Lang.providers,
                 'type': 'providers-group',
-                'html': App.Vars.available_providers.map(function (availableProvider) {
+                'html': App.Vars.available_providers.map((availableProvider) => {
                     const hasGoogleSync = availableProvider.settings.google_sync === '1' ? 'true' : 'false';
 
                     return $('<option/>', {

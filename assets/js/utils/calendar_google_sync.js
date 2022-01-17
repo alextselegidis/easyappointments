@@ -18,9 +18,9 @@
  */
 App.Utils.CalendarGoogleSync = (function () {
     /**
-     * Bind the event handlers.
+     * Add the utility event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Enable - Disable Synchronization Button "Click"
          *
@@ -182,7 +182,7 @@ App.Utils.CalendarGoogleSync = (function () {
      * Initialize the module.
      */
     function initialize() {
-        bindEventHandlers();
+        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
