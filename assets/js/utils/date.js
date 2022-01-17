@@ -18,7 +18,7 @@ window.App.Utils.Date = (function () {
     /**
      * Format a YYYY-MM-DD HH:mm:ss date string.
      *
-     * @param {String} dateValue The date string to be formatted.
+     * @param {String|Date} dateValue The date string to be formatted.
      * @param {String} [dateFormatType] The date format type value ("DMY", "MDY" or "YMD").
      * @param {String} [timeFormatType] The time format type value ("regular", "military").
      * @param {Boolean} [withHours] Whether to add hours to the returned string.
