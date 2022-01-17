@@ -16,7 +16,7 @@
  */
 App.Pages.Admins = (function () {
     const $admins = $('#admins');
-    const $adminId = $('#admin-id');
+    const $id = $('#admin-id');
     const $firstName = $('#admin-first-name');
     const $lastName = $('#admin-last-name');
     const $email = $('#admin-email');
@@ -197,7 +197,7 @@ App.Pages.Admins = (function () {
             }
 
             // Include id if changed.
-            if ($adminId.val() !== '') {
+            if ($id.val() !== '') {
                 admin.id = $('#admin-id').val();
             }
 
@@ -214,7 +214,7 @@ App.Pages.Admins = (function () {
          * Cancel add or edit of an admin record.
          */
         $admins.on('click', '#cancel-admin', function () {
-            const id = $adminId.val();
+            const id = $id.val();
 
             resetForm();
 
@@ -330,7 +330,7 @@ App.Pages.Admins = (function () {
      * @param {Object} admin Contains the admin record data.
      */
     function display(admin) {
-        $adminId.val(admin.id);
+        $id.val(admin.id);
         $firstName.val(admin.first_name);
         $lastName.val(admin.last_name);
         $email.val(admin.email);
