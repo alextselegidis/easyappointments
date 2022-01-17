@@ -17,6 +17,8 @@
  * Old Name: BackendCalendarGoogleSync
  */
 App.Utils.CalendarGoogleSync = (function () {
+    const $selectFilterItem = $('#select-filter-item');
+
     /**
      * Add the utility event listeners.
      */
@@ -54,14 +56,9 @@ App.Utils.CalendarGoogleSync = (function () {
                                 // Display the calendar selection dialog. First we will get a list of the available
                                 // user's calendars and then we will display a selection modal so the user can select
                                 // the sync calendar.
-                                const url = App.Utils.Url.siteUrl('backend_api/ajax_get_google_calendars');
+                                const providerId = $('#select-filter-item').val();
 
-                                const data = {
-                                    csrf_token: App.Vars.csrf_token,
-                                    provider_id: $('#select-filter-item').val()
-                                };
-
-                                $.post(url, data).done((response) => {
+                                App.Http.Google.getGoogleCalendars(providerId).done((response) => {
                                     $('#google-calendar').empty();
 
                                     response.forEach((calendar) => {
@@ -103,7 +100,7 @@ App.Utils.CalendarGoogleSync = (function () {
                             provider.settings.google_sync = '0';
                             provider.settings.google_token = null;
 
-                            disableProviderSync(provider.id);
+                            App.Http.Google.disableProviderSync(provider.id);
 
                             $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
                             $('#enable-sync span').text(App.Lang.enable_sync);
@@ -123,14 +120,11 @@ App.Utils.CalendarGoogleSync = (function () {
          * Event: Select Google Calendar "Click"
          */
         $('#select-calendar').on('click', () => {
-            const url = App.Utils.Url.siteUrl('backend_api/ajax_select_google_calendar');
+            const providerId = $('#select-filter-item').val();
 
-            const data = {
-                csrf_token: App.Vars.csrf_token,
-                provider_id: $('#select-filter-item').val(),
-                calendar_id: $('#google-calendar').val()
-            };
-            $.post(url, data).done(() => {
+            const calendarId = $('#google-calendar').val();
+
+            App.Http.Google.selectGoogleCalendar(providerId, calendarId).done(() => {
                 App.Layouts.Backend.displayNotification(App.Lang.google_calendar_selected);
                 $('#select-google-calendar').modal('hide');
             });
@@ -142,13 +136,9 @@ App.Utils.CalendarGoogleSync = (function () {
          * Trigger the synchronization algorithm.
          */
         $('#google-sync').on('click', () => {
-            const url = App.Utils.Url.siteUrl('google/sync/' + $('#select-filter-item').val());
+            const providerId = $selectFilterItem.val();
 
-            $.ajax({
-                url: url,
-                type: 'GET',
-                dataType: 'json'
-            })
+            App.Http.Google.syncWithGoogle(providerId)
                 .done(() => {
                     App.Layouts.Backend.displayNotification(App.Lang.google_sync_completed);
                     $('#reload-appointments').trigger('click');
@@ -157,25 +147,6 @@ App.Utils.CalendarGoogleSync = (function () {
                     App.Layouts.Backend.displayNotification(App.Lang.google_sync_failed);
                 });
         });
-    }
-
-    /**
-     * Disable Provider Sync
-     *
-     * This method disables the Google synchronization for a specific provider.
-     *
-     * @param {Number} providerId The selected provider record ID.
-     */
-    function disableProviderSync(providerId) {
-        // Make an ajax call to the server in order to disable the setting from the database.
-        const url = App.Utils.Url.siteUrl('backend_api/ajax_disable_provider_sync');
-
-        const data = {
-            csrf_token: App.Vars.csrf_token,
-            provider_id: providerId
-        };
-
-        $.post(url, data);
     }
 
     /**

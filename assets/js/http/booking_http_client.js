@@ -55,7 +55,7 @@ App.Http.Booking = (function () {
         const appointmentId = App.Pages.Booking.manageMode ? App.Vars.appointment_data.id : null;
 
         // Make ajax post request and get the available hours.
-        const url = App.Utils.Url.siteUrl('booking/ajax_get_available_hours');
+        const url = App.Utils.Url.siteUrl('booking/get_available_hours');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
@@ -238,7 +238,7 @@ App.Http.Booking = (function () {
 
         const appointmentId = App.Pages.Booking.manageMode ? App.Vars.appointment_data.id : null;
 
-        const url = App.Utils.Url.siteUrl('booking/ajax_get_unavailable_dates');
+        const url = App.Utils.Url.siteUrl('booking/get_unavailable_dates');
 
         const data = {
             provider_id: providerId,
@@ -308,7 +308,7 @@ App.Http.Booking = (function () {
      * @param {Object} consent Contains user's consents.
      */
     function saveConsent(consent) {
-        const url = App.Utils.Url.siteUrl('consents/ajax_save_consent');
+        const url = App.Utils.Url.siteUrl('consents/save_consent');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
@@ -324,7 +324,7 @@ App.Http.Booking = (function () {
      * @param {Number} customerToken Customer unique token.
      */
     function deletePersonalInformation(customerToken) {
-        const url = App.Utils.Url.siteUrl('privacy/ajax_delete_personal_information');
+        const url = App.Utils.Url.siteUrl('privacy/delete_personal_information');
 
         const data = {
             csrf_token: App.Vars.csrf_token,

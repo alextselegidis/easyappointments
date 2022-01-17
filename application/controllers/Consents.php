@@ -32,7 +32,7 @@ class Consents extends EA_Controller {
     /**
      * Save (insert or update) the consent
      */
-    public function ajax_save_consent()
+    public function save_consent()
     {
         try
         {

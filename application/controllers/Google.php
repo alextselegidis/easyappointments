@@ -25,9 +25,9 @@ class Google extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->load->library('google_sync');
-        
+
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('roles_model');
@@ -311,18 +311,18 @@ class Google extends EA_Controller {
      * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
      * be already granted for the specific provider.
      */
-    public function ajax_get_google_calendars()
+    public function get_google_calendars()
     {
         try
         {
-            if ( ! request('provider_id'))
+            $provider_id = request('provider_id');
+
+            if (empty($provider_id))
             {
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
             }
 
             // Check if selected provider has sync enabled.
-            $provider_id = request('provider_id');
-
             $google_sync = $this->providers_model->get_setting($provider_id, 'google_sync');
 
             if ( ! $google_sync)
@@ -353,7 +353,7 @@ class Google extends EA_Controller {
      *
      * All the appointments will be synced with this particular calendar.
      */
-    public function ajax_select_google_calendar()
+    public function select_google_calendar()
     {
         try
         {
@@ -387,7 +387,7 @@ class Google extends EA_Controller {
      *
      * After that the provider's appointments will be no longer synced with Google Calendar.
      */
-    public function ajax_disable_provider_sync()
+    public function disable_provider_sync()
     {
         try
         {

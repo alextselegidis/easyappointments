@@ -252,58 +252,14 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * This method requires the global variable 'availableLanguages' to be initialized before the execution.
      *
      * @param {Object} $element Selected element button for the language selection.
+     *
+     * @deprecated Since 1.5
      */
     exports.enableLanguageSelection = function ($element) {
-        // Select Language
-        var $languageList = $('<ul/>', {
-            'id': 'language-list',
-            'html': availableLanguages.map(function (availableLanguage) {
-                return $('<li/>', {
-                    'class': 'language',
-                    'data-language': availableLanguage,
-                    'text': GeneralFunctions.upperCaseFirstLetter(availableLanguage)
-                });
-            })
-        });
-
-        $element.popover({
-            placement: 'top',
-            title: 'Select Language',
-            content: $languageList[0],
-            html: true,
-            container: 'body',
-            trigger: 'manual'
-        });
-
-        $element.on('click', function (event) {
-            event.stopPropagation();
-
-            if ($('#language-list').length === 0) {
-                $(this).popover('show');
-            } else {
-                $(this).popover('hide');
-            }
-
-            $(this).toggleClass('active');
-        });
-
-        $(document).on('click', 'li.language', function () {
-            // Change language with ajax call and refresh page.
-            var url = App.Vars.base_url + '/index.php/backend_api/ajax_change_language';
-
-            var data = {
-                csrf_token: App.Vars.csrf_token,
-                language: $(this).attr('data-language')
-            };
-
-            $.post(url, data).done(function () {
-                document.location.reload(true);
-            });
-        });
-
-        $(document).on('click', function () {
-            $element.popover('hide');
-        });
+        console.warn(
+            `Call of deprecated GeneralFunctions.enableLanguageSelection method! Please use the App.Utils.Lang.enableLanguageSelection instead as this method will be removed soon.`
+        );
+        App.Utils.Lang.enableLanguageSelection($element);
     };
 
     /**

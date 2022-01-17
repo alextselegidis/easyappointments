@@ -153,7 +153,7 @@ class Calendar extends EA_Controller {
     /**
      * Save appointment changes that are made from the backend calendar page.
      */
-    public function ajax_save_appointment()
+    public function save_appointment()
     {
         try
         {
@@ -293,7 +293,7 @@ class Calendar extends EA_Controller {
     /**
      * Insert of update unavailable time period to database.
      */
-    public function ajax_save_unavailable()
+    public function save_unavailable()
     {
         try
         {
@@ -408,7 +408,7 @@ class Calendar extends EA_Controller {
     /**
      * Insert of update working plan exceptions to database.
      */
-    public function ajax_save_working_plan_exception()
+    public function save_working_plan_exception()
     {
         try
         {
@@ -440,7 +440,7 @@ class Calendar extends EA_Controller {
     /**
      * Delete a working plan exceptions time period to database.
      */
-    public function ajax_delete_working_plan_exception()
+    public function delete_working_plan_exception()
     {
         try
         {
@@ -472,7 +472,7 @@ class Calendar extends EA_Controller {
      *
      * This method will return all the calendar events within a specified period.
      */
-    public function ajax_get_calendar_events()
+    public function get_calendar_appointments_for_table_view()
     {
         try
         {
@@ -562,7 +562,7 @@ class Calendar extends EA_Controller {
      * This method returns the database appointments and unavailable periods for the user selected date period and
      * record type (provider or service).
      */
-    public function ajax_get_calendar_appointments()
+    public function get_calendar_appointments()
     {
         try
         {

@@ -66,7 +66,7 @@ App.Utils.CalendarTableView = (function () {
             const endDateMoment = startDateMoment.clone().add(dayInterval - 1, 'days');
             const endDate = endDateMoment.toDate();
 
-            getCalendarEvents(startDate, endDate).done((response) => {
+            App.Http.Calendar.getCalendarAppointmentsForTableView(startDate, endDate).done((response) => {
                 const currentDate = startDate;
 
                 while (currentDate <= endDate) {
@@ -247,27 +247,23 @@ App.Utils.CalendarTableView = (function () {
         $calendar.on('click', '.delete-popover', (event) => {
             $(event.target).parents('.popover').popover('dispose'); // Hide the popover.
 
-            let url;
-            let data;
-
             // If id_role parameter exists the popover is an working plan exception.
             if (lastFocusedEventData.data.hasOwnProperty('id_roles')) {
                 // Do not display confirmation prompt.
-                url = App.Utils.Url.siteUrl + '/index.php/backend_api/ajax_delete_working_plan_exception';
 
-                data = {
-                    csrf_token: App.Vars.csrf_token,
-                    working_plan_exception: lastFocusedEventData.start.format('YYYY-MM-DD'),
-                    provider_id: lastFocusedEventData.data.id
-                };
+                const date = lastFocusedEventData.start.format('YYYY-MM-DD');
 
-                $.post(url, data).done(() => {
+                const providerId = lastFocusedEventData.data.id;
+
+                App.Http.Calendar.deleteWorkingPlanException(date, providerId).done(() => {
                     $('#message-box').dialog('close');
 
                     const workingPlanExceptions = JSON.parse(
                         lastFocusedEventData.data.settings.working_plan_exceptions
                     );
+
                     delete workingPlanExceptions[lastFocusedEventData.start.format('YYYY-MM-DD')];
+
                     lastFocusedEventData.data.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
 
                     // Refresh calendar event items.
@@ -284,15 +280,11 @@ App.Utils.CalendarTableView = (function () {
                     {
                         text: 'OK',
                         click: () => {
-                            url = App.Utils.Url.siteUrl('backend_api/ajax_delete_appointment');
+                            const appointmentId = lastFocusedEventData.data.id;
 
-                            data = {
-                                csrf_token: App.Vars.csrf_token,
-                                appointment_id: lastFocusedEventData.data.id,
-                                delete_reason: $('#delete-reason').val()
-                            };
+                            const deleteReason = $('#delete-reason').val();
 
-                            $.post(url, data).done(() => {
+                            App.Http.Calendar.deleteAppointment(appointmentId, deleteReason).done(() => {
                                 $('#message-box').dialog('close');
 
                                 // Refresh calendar event items.
@@ -315,14 +307,9 @@ App.Utils.CalendarTableView = (function () {
                 }).appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
-                url = App.Utils.Url.siteUrl + '/index.php/backend_api/ajax_delete_unavailable';
+                const unavailableId = lastFocusedEventData.data.id;
 
-                data = {
-                    csrf_token: App.Vars.csrf_token,
-                    unavailable_id: lastFocusedEventData.data.id
-                };
-
-                $.post(url, data).done(() => {
+                App.Http.Calendar.deleteUnavailable(unavailableId).done(() => {
                     $('#message-box').dialog('close');
 
                     // Refresh calendar event items.
@@ -1530,14 +1517,7 @@ App.Utils.CalendarTableView = (function () {
                         .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    const url = App.Utils.Url.siteUrl('backend_api/ajax_save_appointment');
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        appointment_data: JSON.stringify(appointment)
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveAppointment(appointment).done(() => {
                         $('#notification').hide('blind');
                     });
 
@@ -1577,14 +1557,7 @@ App.Utils.CalendarTableView = (function () {
                         .add({minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    const url = App.Utils.Url.siteUrl + '/index.php/backend_api/ajax_save_unavailable';
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        unavailable: JSON.stringify(unavailable)
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveUnavailable(unavailable).done(() => {
                         $('#notification').hide('blind');
                     });
 
@@ -1662,14 +1635,7 @@ App.Utils.CalendarTableView = (function () {
                     event.data.start_datetime = appointment.start_datetime;
                     event.data.end_datetime = appointment.end_datetime;
 
-                    const url = App.Utils.Url.siteUrl('backend_api/ajax_save_appointment');
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        appointment_data: JSON.stringify(appointment)
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveAppointment(appointment).done(() => {
                         $('#notification').hide('blind');
                     });
 
@@ -1710,14 +1676,7 @@ App.Utils.CalendarTableView = (function () {
                     event.data.start_datetime = unavailable.start_datetime;
                     event.data.end_datetime = unavailable.end_datetime;
 
-                    const url = App.Utils.Url.siteUrl + '/index.php/backend_api/ajax_save_unavailable';
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        unavailable: JSON.stringify(unavailable)
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveUnavailable(unavailable).done(() => {
                         $('#notification').hide('blind');
                     });
 
@@ -1773,36 +1732,6 @@ App.Utils.CalendarTableView = (function () {
         const dateColumnHeight = $dateColumn.outerHeight();
 
         $('.calendar-view .not-working').outerHeight((dateColumnHeight > height ? dateColumnHeight : height) - 70);
-    }
-
-    /**
-     * Get the calendar events.
-     *
-     * @param {Date} startDate The start date of the selected period.
-     * @param {Date} endDate The end date of the selected period.
-     *
-     * @return {jQuery.jqXHR}
-     */
-    function getCalendarEvents(startDate, endDate) {
-        const url = App.Utils.Url.siteUrl('backend_api/ajax_get_calendar_events');
-
-        const data = {
-            csrf_token: App.Vars.csrf_token,
-            startDate: moment(startDate).format('YYYY-MM-DD'),
-            endDate: moment(endDate).format('YYYY-MM-DD')
-        };
-
-        return $.ajax({
-            url: url,
-            data: data,
-            method: 'POST',
-            beforeSend: () => {
-                // $('#loading').css('visibility', 'hidden');
-            },
-            complete: () => {
-                // $('#loading').css('visibility', '');
-            }
-        });
     }
 
     /**

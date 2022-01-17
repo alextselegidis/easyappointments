@@ -244,7 +244,7 @@ class Booking extends EA_Controller {
      * This method answers to an AJAX request. It calculates the available hours for the given service, provider and
      * date.
      */
-    public function ajax_get_available_hours()
+    public function get_available_hours()
     {
         try
         {
@@ -527,7 +527,7 @@ class Booking extends EA_Controller {
      *
      * Outputs a JSON string with the unavailable dates. that are unavailable.
      */
-    public function ajax_get_unavailable_dates()
+    public function get_unavailable_dates()
     {
         try
         {

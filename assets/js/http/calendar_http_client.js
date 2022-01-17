@@ -27,9 +27,11 @@ App.Http.Calendar = (function () {
      * @param {Object} [customer] Optional, contains the customer data.
      * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
+     *
+     * @return {*|jQuery.jqXHR}
      */
     function saveAppointment(appointment, customer, successCallback, errorCallback) {
-        const url = App.Utils.Url.siteUrl('calendar/ajax_save_appointment');
+        const url = App.Utils.Url.siteUrl('calendar/save_appointment');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
@@ -54,14 +56,34 @@ App.Http.Calendar = (function () {
     }
 
     /**
+     * Remove an appointment.
+     *
+     * @param {Number} appointmentId
+     * @param {String} deleteReason
+     *
+     * @return {jQuery.jqXHR}
+     */
+    function deleteAppointment(appointmentId, deleteReason) {
+        const url = App.Utils.Url.siteUrl('calendar/delete_appointment');
+
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            appointment_id: appointmentId,
+            delete_reason: deleteReason
+        };
+
+        return $.post(url, data);
+    }
+
+    /**
      * Save unavailable period to database.
      *
      * @param {Object} unavailable Contains the unavailable period data.
-     * @param {Function} successCallback The ajax success callback function.
-     * @param {Function} errorCallback The ajax failure callback function.
+     * @param {Function} [successCallback] The ajax success callback function.
+     * @param {Function} [errorCallback] The ajax failure callback function.
      */
     function saveUnavailable(unavailable, successCallback, errorCallback) {
-        const url = App.Utils.Url.siteUrl('calendar/ajax_save_unavailable');
+        const url = App.Utils.Url.siteUrl('calendar/save_unavailable');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
@@ -82,6 +104,24 @@ App.Http.Calendar = (function () {
     }
 
     /**
+     * Remove an unavailable.
+     *
+     * @param {Number} unavailableId
+     *
+     * @return {jQuery.jqXHR}
+     */
+    function deleteUnavailable(unavailableId) {
+        const url = App.Utils.Url.siteUrl('calendar/delete_unavailable');
+
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            unavailable_id: unavailableId
+        };
+
+        return $.post(url, data);
+    }
+
+    /**
      * Save working plan exception of work to database.
      *
      * @param {Date} date Contains the working plan exceptions data.
@@ -91,7 +131,7 @@ App.Http.Calendar = (function () {
      * @param {Function} errorCallback The ajax failure callback function.
      */
     function saveWorkingPlanException(date, workingPlanException, providerId, successCallback, errorCallback) {
-        const url = App.Utils.Url.siteUrl('calendar/ajax_save_working_plan_exception');
+        const url = App.Utils.Url.siteUrl('calendar/save_working_plan_exception');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
@@ -113,8 +153,18 @@ App.Http.Calendar = (function () {
             });
     }
 
+    /**
+     * Delete working plan exception
+     *
+     * @param {String} date
+     * @param {Number} providerId
+     * @param {Function} [successCallback]
+     * @param {Function} [errorCallback]
+     *
+     * @return {*|jQuery.jqXHR}
+     */
     function deleteWorkingPlanException(date, providerId, successCallback, errorCallback) {
-        const url = App.Utils.Url.siteUrl('calendar/ajax_delete_working_plan_exception');
+        const url = App.Utils.Url.siteUrl('calendar/delete_working_plan_exception');
 
         const data = {
             csrf_token: App.Vars.csrf_token,
@@ -135,10 +185,58 @@ App.Http.Calendar = (function () {
             });
     }
 
+    /**
+     * Get the appointments for the displayed calendar period.
+     *
+     * @param {Number} recordId Record ID (provider or service).
+     * @param {String} filterType The filter type, could be either "provider" or "service".
+     * @param {String} startDate Visible start date of the calendar.
+     * @param {String} endDate Visible end date of the calendar.
+     *
+     * @returns {jQuery.jqXHR}
+     */
+    function getCalendarAppointments(recordId, startDate, endDate, filterType) {
+        const url = App.Utils.Url.siteUrl('calendar/get_calendar_appointments');
+
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            record_id: recordId,
+            start_date: moment(startDate).format('YYYY-MM-DD'),
+            end_date: moment(endDate).format('YYYY-MM-DD'),
+            filter_type: filterType
+        };
+
+        return $.post(url, data);
+    }
+
+    /**
+     * Get the calendar appointments for the table view (different data structure).
+     *
+     * @param {Date} startDate
+     * @param {Date} endDate
+     *
+     * @return {*|jQuery.jqXHR}
+     */
+    function getCalendarAppointmentsForTableView(startDate, endDate) {
+        const url = App.Utils.Url.siteUrl('calendar/get_calendar_appointments_for_table_view');
+
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD')
+        };
+
+        return $.post(url, data);
+    }
+
     return {
         saveAppointment,
+        deleteAppointment,
         saveUnavailable,
+        deleteUnavailable,
         saveWorkingPlanException,
-        deleteWorkingPlanException
+        deleteWorkingPlanException,
+        getCalendarAppointments,
+        getCalendarAppointmentsForTableView
     };
 })();

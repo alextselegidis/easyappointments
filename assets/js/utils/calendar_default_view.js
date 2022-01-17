@@ -178,9 +178,6 @@ App.Utils.CalendarDefaultView = (function () {
 
             $target.parents('.popover').popover('dispose');
 
-            let url;
-            let data;
-
             if (lastFocusedEventData.data.workingPlanException) {
                 const providerId = $selectFilterItem.val();
 
@@ -224,15 +221,11 @@ App.Utils.CalendarDefaultView = (function () {
                     {
                         text: 'OK',
                         click: () => {
-                            url = App.Utils.Url.siteUrl('calendar/ajax_delete_appointment');
+                            const appointmentId = lastFocusedEventData.data.id;
 
-                            data = {
-                                csrf_token: App.Vars.csrf_token,
-                                appointment_id: lastFocusedEventData.data.id,
-                                delete_reason: $('#delete-reason').val()
-                            };
+                            const deleteReason = $('#delete-reason').val();
 
-                            $.post(url, data).done(() => {
+                            App.Http.Calendar.deleteAppointment(appointmentId, deleteReason).done(() => {
                                 $('#message-box').dialog('close');
 
                                 // Refresh calendar event items.
@@ -255,14 +248,10 @@ App.Utils.CalendarDefaultView = (function () {
                 }).appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
-                url = App.Utils.Url.siteUrl('calendar/ajax_delete_unavailable');
 
-                data = {
-                    csrf_token: App.Vars.csrf_token,
-                    unavailable_id: lastFocusedEventData.data.id
-                };
+                const unavailableId = lastFocusedEventData.data.id;
 
-                $.post(url, data).done(() => {
+                App.Http.Calendar.deleteUnavailable(unavailableId).done(() => {
                     $('#message-box').dialog('close');
 
                     // Refresh calendar event items.
@@ -773,14 +762,7 @@ App.Utils.CalendarDefaultView = (function () {
                         .add({days: -delta.days(), hours: -delta.hours(), minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    const url = App.Utils.Url.siteUrl('calendar/ajax_save_appointment');
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        appointment_data: appointment
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveAppointment(appointment).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -822,14 +804,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     unavailable.is_unavailable = Number(unavailable.is_unavailable);
 
-                    const url = App.Utils.Url.siteUrl('calendar/ajax_save_unavailable');
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        unavailable: unavailable
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveAppointment(unavailable).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -940,14 +915,7 @@ App.Utils.CalendarDefaultView = (function () {
                     event.data.start_datetime = appointment.start_datetime;
                     event.data.end_datetime = appointment.end_datetime;
 
-                    const url = App.Utils.Url.siteUrl('calendar/ajax_save_appointment');
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        appointment_data: appointment
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveAppointment(appointment).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -990,14 +958,7 @@ App.Utils.CalendarDefaultView = (function () {
                     event.data.start_datetime = unavailable.start_datetime;
                     event.data.end_datetime = unavailable.end_datetime;
 
-                    const url = App.Utils.Url.siteUrl('calendar/ajax_save_unavailable');
-
-                    const data = {
-                        csrf_token: App.Vars.csrf_token,
-                        unavailable: unavailable
-                    };
-
-                    $.post(url, data).done(() => {
+                    App.Http.Calendar.saveUnavailable(unavailable).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -1076,25 +1037,19 @@ App.Utils.CalendarDefaultView = (function () {
      * @param {Object} $calendar The calendar jQuery object.
      * @param {Number} recordId The selected record id.
      * @param {String} filterType The filter type, could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
-     * @param {Date} startDate Visible start date of the calendar.
-     * @param {Date} endDate Visible end date of the calendar.
+     * @param {String} startDate Visible start date of the calendar.
+     * @param {String} endDate Visible end date of the calendar.
      */
     function refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
-        const url = App.Utils.Url.siteUrl('calendar/ajax_get_calendar_appointments');
-
-        const data = {
-            csrf_token: App.Vars.csrf_token,
-            record_id: recordId,
-            start_date: moment(startDate).format('YYYY-MM-DD'),
-            end_date: moment(endDate).format('YYYY-MM-DD'),
-            filter_type: filterType
-        };
-
         $('#loading').css('visibility', 'hidden');
 
         const calendarEventSource = [];
 
-        return $.post(url, data)
+        startDate = moment(startDate).format('YYYY-MM-DD');
+
+        endDate = moment(endDate).format('YYYY-MM-DD');
+
+        App.Http.Calendar.getCalendarAppointments(recordId, filterType, startDate, endDate)
             .done((response) => {
                 $calendar.fullCalendar('removeEvents');
 

@@ -34,7 +34,7 @@ class Privacy extends EA_Controller {
     /**
      * Remove all customer data (including appointments) from the system.
      */
-    public function ajax_delete_personal_information()
+    public function delete_personal_information()
     {
         try
         {
