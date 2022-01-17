@@ -51,9 +51,14 @@
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 
 <script src="<?= asset_url('assets/js/app.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/http.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/layouts/account_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 

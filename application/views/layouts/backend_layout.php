@@ -54,9 +54,15 @@
 <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
 
 <script src="<?= asset_url('assets/js/app.js') ?>"></script>
-<script src="<?= asset_url('assets/js/layouts/backend.js') ?>"></script>
-<script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/http.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
 
 <?php component('js_vars_script') ?>
 <?php component('js_lang_script') ?>
