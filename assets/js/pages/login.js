@@ -16,6 +16,8 @@
  */
 App.Pages.Login = (function () {
     const $loginForm = $('#login-form');
+    const $username = $('#username');
+    const $password = $('#password');
 
     /**
      * Login Button "Click"
@@ -30,8 +32,8 @@ App.Pages.Login = (function () {
 
         const data = {
             csrf_token: App.Vars.csrf_token,
-            username: $('#username').val(),
-            password: $('#password').val()
+            username: $username.val(),
+            password: $password.val()
         };
 
         const $alert = $('.alert');
