@@ -94,7 +94,7 @@ App.Pages.Booking = (function () {
         // Initialize page's components (tooltips, datepickers etc).
         tippy('[data-tippy-content]');
 
-        const weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
+        const weekDayId = App.Utils.Date.getWeekdayId(GlobalVariables.firstWeekday);
 
         $selectDate.datepicker({
             dateFormat: 'dd-mm-yy',
@@ -178,7 +178,7 @@ App.Pages.Booking = (function () {
             );
         } else {
             // Check if a specific service was selected (via URL parameter).
-            const selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
+            const selectedServiceId = App.Utils.Url.queryParam('service');
 
             if (selectedServiceId && $selectService.find('option[value="' + selectedServiceId + '"]').length > 0) {
                 $selectService.val(selectedServiceId);
@@ -187,7 +187,7 @@ App.Pages.Booking = (function () {
             $selectService.trigger('change'); // Load the available hours.
 
             // Check if a specific provider was selected.
-            const selectedProviderId = GeneralFunctions.getUrlParameter(location.href, 'provider');
+            const selectedProviderId = App.Utils.Url.queryParam('provider');
 
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length === 0) {
                 // Select a service of this provider in order to make the provider available in the select box.
@@ -535,7 +535,7 @@ App.Pages.Booking = (function () {
             }
 
             // Validate email address.
-            if ($email.val() && !GeneralFunctions.validateEmail($email.val())) {
+            if ($email.val() && !App.Utils.Validation.email($email.val())) {
                 $email.parents('.form-group').addClass('is-invalid');
                 throw new Error(App.Lang.invalid_email);
             }
@@ -617,13 +617,13 @@ App.Pages.Booking = (function () {
         }).appendTo('#appointment-details');
 
         // Customer Details
-        const firstName = GeneralFunctions.escapeHtml($firstName.val());
-        const lastName = GeneralFunctions.escapeHtml($lastName.val());
-        const phoneNumber = GeneralFunctions.escapeHtml($phoneNumber.val());
-        const email = GeneralFunctions.escapeHtml($email.val());
-        const address = GeneralFunctions.escapeHtml($address.val());
-        const city = GeneralFunctions.escapeHtml($city.val());
-        const zipCode = GeneralFunctions.escapeHtml($zipCode.val());
+        const firstName = App.Utils.String.escapeHtml($firstName.val());
+        const lastName = App.Utils.String.escapeHtml($lastName.val());
+        const phoneNumber = App.Utils.String.escapeHtml($phoneNumber.val());
+        const email = App.Utils.String.escapeHtml($email.val());
+        const address = App.Utils.String.escapeHtml($address.val());
+        const city = App.Utils.String.escapeHtml($city.val());
+        const zipCode = App.Utils.String.escapeHtml($zipCode.val());
 
         $('#customer-details').empty();
 
@@ -804,7 +804,7 @@ App.Pages.Booking = (function () {
             $('<br/>').appendTo($serviceDescription);
 
             $('<span/>', {
-                'html': GeneralFunctions.escapeHtml(service.description).replaceAll('\n', '<br/>')
+                'html': App.Utils.String.escapeHtml(service.description).replaceAll('\n', '<br/>')
             }).appendTo($serviceDescription);
         }
 

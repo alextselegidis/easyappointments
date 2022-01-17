@@ -105,12 +105,6 @@
 <?php component('js_vars_script') ?>
 <?php component('js_lang_script') ?>
 
-<script>
-    $(function () {
-        GeneralFunctions.enableLanguageSelection($('#select-language'));
-    });
-</script>
-
 <?php google_analytics_script() ?>
 
 <?php slot('scripts') ?>

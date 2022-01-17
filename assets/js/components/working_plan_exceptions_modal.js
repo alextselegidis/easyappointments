@@ -413,7 +413,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
 
         $target.datepicker({
             dateFormat: dateFormat,
-            firstDay: GeneralFunctions.getWeekDayId(App.Vars.first_weekday),
+            firstDay: App.Utils.Date.getWeekdayId(App.Vars.first_weekday),
             minDate: 0,
             defaultDate: moment().toDate(),
             dayNames: [
