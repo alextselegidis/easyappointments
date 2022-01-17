@@ -44,12 +44,20 @@ class Providers extends EA_Controller {
     {
         session(['dest_url' => site_url('providers')]);
 
+        $user_id = session('user_id');
+
         if (cannot('view', PRIV_USERS))
         {
-            abort(403, 'Forbidden');
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
+
+            redirect('login');
+
+            return;
         }
 
-        $user_id = session('user_id');
 
         $role_slug = session('role_slug');
         

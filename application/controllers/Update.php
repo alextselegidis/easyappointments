@@ -48,9 +48,18 @@ class Update extends EA_Controller {
     {
         try
         {
+            $user_id = session('user_id');
+
             if (cannot('edit', PRIV_SYSTEM_SETTINGS))
             {
-                abort(403, 'Forbidden');
+                if ($user_id)
+                {
+                    abort(403, 'Forbidden');
+                }
+
+                redirect('login');
+
+                return;
             }
 
             $this->instance->migrate();

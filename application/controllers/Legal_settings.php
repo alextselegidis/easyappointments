@@ -38,12 +38,19 @@ class Legal_settings extends EA_Controller {
     {
         session(['dest_url' => site_url('legal_settings')]);
 
+        $user_id = session('user_id');
+        
         if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
-            abort(403, 'Forbidden');
-        }
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
 
-        $user_id = session('user_id');
+            redirect('login');
+
+            return;
+        }
         
         $role_slug = session('role_slug');
 

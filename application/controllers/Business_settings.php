@@ -47,13 +47,20 @@ class Business_settings extends EA_Controller {
     {
         session(['dest_url' => site_url('business_settings')]);
 
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            abort(403, 'Forbidden');
-        }
-
         $user_id = session('user_id');
         
+        if (cannot('view', PRIV_SYSTEM_SETTINGS))
+        {
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
+
+            redirect('login');
+
+            return;
+        }
+
         $role_slug = session('role_slug');
 
         script_vars([

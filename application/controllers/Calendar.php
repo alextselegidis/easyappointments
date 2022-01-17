@@ -53,12 +53,19 @@ class Calendar extends EA_Controller {
     {
         session(['dest_url' => site_url('backend/index' . (! empty($appointment_hash) ? '/' . $appointment_hash : ''))]);
 
+        $user_id = session('user_id');
+
         if (cannot('view', PRIV_APPOINTMENTS))
         {
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
+
+            redirect('login');
+
             return;
         }
-
-        $user_id = session('user_id');
 
         $role_slug = session('role_slug');
 

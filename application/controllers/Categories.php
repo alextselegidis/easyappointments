@@ -43,12 +43,19 @@ class Categories extends EA_Controller {
     {
         session(['dest_url' => site_url('categories')]);
 
+        $user_id = session('user_id');
+        
         if (cannot('view', PRIV_SERVICES))
         {
-            abort(403, 'Forbidden');
-        }
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
 
-        $user_id = session('user_id');
+            redirect('login');
+
+            return;
+        }
 
         $role_slug = session('role_slug');
 
