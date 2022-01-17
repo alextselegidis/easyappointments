@@ -636,6 +636,8 @@ App.Components.AppointmentsModal = (function () {
         addEventListeners();
     }
 
+    document.addEventListener('DOMContentLoaded', initialize);
+
     return {
         resetModal,
         initialize

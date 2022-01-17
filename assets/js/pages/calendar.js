@@ -107,12 +107,6 @@ App.Pages.Calendar = (function () {
      * @param {String} view Optional (default), the calendar view to be loaded.
      */
     function initialize(view) {
-        App.Utils.CalendarGoogleSync.initialize();
-
-        App.Components.AppointmentsModal.initialize();
-
-        App.Components.UnavailabilitiesModal.initialize();
-
         // Load and initialize the calendar view.
         if (view === 'table') {
             App.Utils.CalendarTableView.initialize();

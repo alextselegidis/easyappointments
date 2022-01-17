@@ -178,9 +178,14 @@ App.Utils.CalendarGoogleSync = (function () {
         $.post(url, data);
     }
 
+    /**
+     * Initialize the module.
+     */
     function initialize() {
         bindEventHandlers();
     }
+
+    document.addEventListener('DOMContentLoaded', initialize);
 
     return {
         initialize
