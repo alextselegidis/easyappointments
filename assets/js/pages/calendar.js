@@ -16,9 +16,9 @@
  */
 App.Pages.Calendar = (function () {
     /**
-     * Bind the event handlers.
+     * Add the page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         const $calendarPage = $('#calendar-page');
 
         $calendarPage.on('click', '#toggle-fullscreen', (event) => {
@@ -114,7 +114,7 @@ App.Pages.Calendar = (function () {
             App.Utils.CalendarDefaultView.initialize();
         }
 
-        bindEventHandlers();
+        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
