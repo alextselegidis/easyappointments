@@ -222,8 +222,8 @@ App.Http.Calendar = (function () {
 
         const data = {
             csrf_token: App.Vars.csrf_token,
-            startDate: moment(startDate).format('YYYY-MM-DD'),
-            endDate: moment(endDate).format('YYYY-MM-DD')
+            start_date: moment(startDate).format('YYYY-MM-DD'),
+            end_date: moment(endDate).format('YYYY-MM-DD')
         };
 
         return $.post(url, data);
