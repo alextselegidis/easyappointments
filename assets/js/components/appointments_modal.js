@@ -116,7 +116,8 @@ App.Components.AppointmentsModal = (function () {
                 App.Layouts.Backend.displayNotification(App.Lang.appointment_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
-                $appointmentsModal.find('.alert').addClass('d-none').modal('hide');
+                $appointmentsModal.find('.alert').addClass('d-none');
+                $appointmentsModal.modal('hide');
                 $selectFilterItem.trigger('change');
             };
 
@@ -143,7 +144,7 @@ App.Components.AppointmentsModal = (function () {
             resetModal();
 
             // Set the selected filter item and find the next appointment time as the default modal values.
-            if ($$selectFilterItem.find('option:selected').attr('type') === 'provider') {
+            if ($selectFilterItem.find('option:selected').attr('type') === 'provider') {
                 const providerId = $('#select-filter-item').val();
 
                 const providers = App.Vars.available_providers.filter(
