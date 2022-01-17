@@ -16,19 +16,23 @@
  */
 App.Pages.Categories = (function () {
     const $categories = $('#categories');
+    const $filterCategories = $('#filter-categories');
+    const $id = $('#category-id');
+    const $name = $('#category-name');
+    const $description = $('#category-description');
     let filterResults = {};
     let filterLimit = 20;
 
     /**
-     * Bind the event handlers.
+     * Add the page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Filter Categories Form "Submit"
          *
          * @param {jQuery.Event} event
          */
-        $categories.on('submit', '#filter-categories form', function (event) {
+        $categories.on('submit', '#filter-categories form', (event) => {
             event.preventDefault();
             const key = $('#filter-categories .key').val();
             $('.selected').removeClass('selected');
@@ -40,64 +44,64 @@ App.Pages.Categories = (function () {
          * Event: Filter Categories Row "Click"
          *
          * Displays the selected row data on the right side of the page.
+         *
+         * @param {jQuery.Event} event
          */
-        $categories.on('click', '.category-row', function () {
+        $categories.on('click', '.category-row', (event) => {
             if ($('#filter-categories .filter').prop('disabled')) {
                 $('#filter-categories .results').css('color', '#AAA');
                 return; // exit because we are on edit mode
             }
 
-            const categoryId = $(this).attr('data-id');
+            const categoryId = $(event.target).attr('data-id');
 
-            const category = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(categoryId);
-            });
+            const category = filterResults.find((filterResult) => Number(filterResult.id) === Number(categoryId));
 
             display(category);
             $('#filter-categories .selected').removeClass('selected');
-            $(this).addClass('selected');
+            $(event.target).addClass('selected');
             $('#edit-category, #delete-category').prop('disabled', false);
         });
 
         /**
          * Event: Add Category Button "Click"
          */
-        $categories.on('click', '#add-category', function () {
+        $categories.on('click', '#add-category', () => {
             resetForm();
-            $('#categories .add-edit-delete-group').hide();
-            $('#categories .save-cancel-group').show();
-            $('#categories .record-details').find('input, select, textarea').prop('disabled', false);
-            $('#filter-categories button').prop('disabled', true);
-            $('#filter-categories .results').css('color', '#AAA');
+            $categories.find('.add-edit-delete-group').hide();
+            $categories.find('.save-cancel-group').show();
+            $categories.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $filterCategories.find('button').prop('disabled', true);
+            $filterCategories.find('.results').css('color', '#AAA');
         });
 
         /**
          * Event: Edit Category Button "Click"
          */
-        $categories.on('click', '#edit-category', function () {
-            $('#categories .add-edit-delete-group').hide();
-            $('#categories .save-cancel-group').show();
-            $('#categories .record-details').find('input, select, textarea').prop('disabled', false);
-            $('#filter-categories button').prop('disabled', true);
-            $('#filter-categories .results').css('color', '#AAA');
+        $categories.on('click', '#edit-category', () => {
+            $categories.find('.add-edit-delete-group').hide();
+            $categories.find('.save-cancel-group').show();
+            $categories.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $filterCategories.find('button').prop('disabled', true);
+            $filterCategories.find('.results').css('color', '#AAA');
         });
 
         /**
          * Event: Delete Category Button "Click"
          */
-        $categories.on('click', '#delete-category', function () {
-            const categoryId = $('#category-id').val();
+        $categories.on('click', '#delete-category', () => {
+            const categoryId = $id.val();
 
             const buttons = [
                 {
                     text: App.Lang.cancel,
-                    click: function () {
+                    click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
                     text: App.Lang.delete,
-                    click: function () {
+                    click: () => {
                         remove(categoryId);
                         $('#message-box').dialog('close');
                     }
@@ -110,14 +114,14 @@ App.Pages.Categories = (function () {
         /**
          * Event: Categories Save Button "Click"
          */
-        $categories.on('click', '#save-category', function () {
+        $categories.on('click', '#save-category', () => {
             const category = {
-                name: $('#category-name').val(),
-                description: $('#category-description').val()
+                name: $name.val(),
+                description: $description.val()
             };
 
-            if ($('#category-id').val() !== '') {
-                category.id = $('#category-id').val();
+            if ($id.val() !== '') {
+                category.id = $id.val();
             }
 
             if (!validate()) {
@@ -130,28 +134,13 @@ App.Pages.Categories = (function () {
         /**
          * Event: Cancel Category Button "Click"
          */
-        $categories.on('click', '#cancel-category', function () {
-            const id = $('#category-id').val();
+        $categories.on('click', '#cancel-category', () => {
+            const id = $id.val();
             resetForm();
             if (id !== '') {
                 select(id, true);
             }
         });
-    }
-
-    /**
-     * Remove the previously registered event handlers.
-     */
-    function unbindEventHandlers() {
-        $categories
-            .off('click', '#filter-categories .clear')
-            .off('submit', '#filter-categories form')
-            .off('click', '.category-row')
-            .off('click', '#add-category')
-            .off('click', '#edit-category')
-            .off('click', '#delete-category')
-            .off('click', '#save-category')
-            .off('click', '#cancel-category');
     }
 
     /**
@@ -168,11 +157,9 @@ App.Pages.Categories = (function () {
 
             $('#filter-categories .results').empty();
 
-            response.forEach(
-                function (category) {
-                    $('#filter-categories .results').append(getFilterHtml(category)).append($('<hr/>'));
-                }.bind(this)
-            );
+            response.forEach((category) => {
+                $('#filter-categories .results').append(getFilterHtml(category)).append($('<hr/>'));
+            });
 
             if (response.length === 0) {
                 $('#filter-categories .results').append(
@@ -185,10 +172,10 @@ App.Pages.Categories = (function () {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
                     'text': App.Lang.load_more,
-                    'click': function () {
+                    'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }.bind(this)
+                    }
                 }).appendTo('#filter-categories .results');
             }
 
@@ -207,7 +194,7 @@ App.Pages.Categories = (function () {
         App.Http.Categories.save(category).then((response) => {
             App.Layouts.Backend.displayNotification(App.Lang.category_saved);
             resetForm();
-            $('#filter-categories .key').val('');
+            $filterCategories.find('.key').val('');
             filter('', response.id, true);
         });
     }
@@ -231,9 +218,9 @@ App.Pages.Categories = (function () {
      * @param {Object} category Contains the category data.
      */
     function display(category) {
-        $('#category-id').val(category.id);
-        $('#category-name').val(category.name);
-        $('#category-description').val(category.description);
+        $id.val(category.id);
+        $name.val(category.name);
+        $description.val(category.description);
     }
 
     /**
@@ -242,15 +229,15 @@ App.Pages.Categories = (function () {
      * @return {Boolean} Returns the validation result.
      */
     function validate() {
-        $('#categories .is-invalid').removeClass('is-invalid');
-        $('#categories .form-message').removeClass('alert-danger').hide();
+        $categories.find('.is-invalid').removeClass('is-invalid');
+        $categories.find('.form-message').removeClass('alert-danger').hide();
 
         try {
             let missingRequired = false;
 
-            $('#categories .required').each(function (index, requiredField) {
-                if (!$(requiredField).val()) {
-                    $(requiredField).addClass('is-invalid');
+            $categories.find('.required').each((index, fieldEl) => {
+                if (!$(fieldEl).val()) {
+                    $(fieldEl).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -261,7 +248,7 @@ App.Pages.Categories = (function () {
 
             return true;
         } catch (error) {
-            $('#categories .form-message').addClass('alert-danger').text(error.message).show();
+            $categories.find('.form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     }
@@ -270,17 +257,17 @@ App.Pages.Categories = (function () {
      * Bring the category form back to its initial state.
      */
     function resetForm() {
-        $('#filter-categories .selected').removeClass('selected');
-        $('#filter-categories button').prop('disabled', false);
-        $('#filter-categories .results').css('color', '');
+        $filterCategories.find('.selected').removeClass('selected');
+        $filterCategories.find('button').prop('disabled', false);
+        $filterCategories.find('.results').css('color', '');
 
-        $('#categories .add-edit-delete-group').show();
-        $('#categories .save-cancel-group').hide();
-        $('#categories .record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $categories.find('.add-edit-delete-group').show();
+        $categories.find('.save-cancel-group').hide();
+        $categories.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
-        $('#categories .record-details .is-invalid').removeClass('is-invalid');
-        $('#categories .record-details .form-message').hide();
+        $categories.find('.record-details .is-invalid').removeClass('is-invalid');
+        $categories.find('.record-details .form-message').hide();
     }
 
     /**
@@ -309,20 +296,15 @@ App.Pages.Categories = (function () {
      * If the category ID does not exist in the list then no record will be selected.
      *
      * @param {Number} id The record ID to be selected from the filter results.
-     * @param {Boolean} show Optional (false), if true then the method will display the record
-     * on the form.
+     * @param {Boolean} show Optional (false), if true then the method will display the record on the form.
      */
     function select(id, show = false) {
-        $('#filter-categories .selected').removeClass('selected');
+        $filterCategories.find('.selected').removeClass('selected');
 
-        $('#filter-categories .category-row[data-id="' + id + '"]').addClass('selected');
+        $filterCategories.find('.category-row[data-id="' + id + '"]').addClass('selected');
 
         if (show) {
-            const category = filterResults.find(
-                function (category) {
-                    return Number(category.id) === Number(id);
-                }.bind(this)
-            );
+            const category = filterResults.find((category) => Number(category.id) === Number(id));
 
             display(category);
 
@@ -336,7 +318,7 @@ App.Pages.Categories = (function () {
     function initialize() {
         resetForm();
         filter('');
-        bindEventHandlers();
+        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
