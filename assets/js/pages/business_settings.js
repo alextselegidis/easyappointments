@@ -101,16 +101,16 @@ App.Pages.BusinessSettings = (function () {
      * Save the global working plan information.
      */
     function onApplyGlobalWorkingPlan() {
-        var buttons = [
+        const buttons = [
             {
                 text: App.Lang.cancel,
-                click: function () {
+                click: () => {
                     $('#message-box').dialog('close');
                 }
             },
             {
                 text: 'OK',
-                click: function () {
+                click: () => {
                     const workingPlan = workingPlanManager.get();
 
                     App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan)
@@ -137,9 +137,9 @@ App.Pages.BusinessSettings = (function () {
 
         let companyWorkingPlan = {};
 
-        App.Vars.business_settings.forEach((generalSetting) => {
-            if (generalSetting.name === 'company_working_plan') {
-                companyWorkingPlan = JSON.parse(generalSetting.value);
+        App.Vars.business_settings.forEach((businessSetting) => {
+            if (businessSetting.name === 'company_working_plan') {
+                companyWorkingPlan = JSON.parse(businessSetting.value);
             }
         });
 
