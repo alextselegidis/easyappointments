@@ -108,9 +108,9 @@ App.Pages.Calendar = (function () {
      *
      * @param {String} view Optional (default), the calendar view to be loaded.
      */
-    function initialize(view) {
+    function initialize() {
         // Load and initialize the calendar view.
-        if (view === 'table') {
+        if (App.Vars.calendar_view === 'table') {
             App.Utils.CalendarTableView.initialize();
         } else {
             App.Utils.CalendarDefaultView.initialize();

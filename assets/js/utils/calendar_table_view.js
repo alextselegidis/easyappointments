@@ -17,8 +17,14 @@
  * Old Name: BackendCalendarTableView
  */
 App.Utils.CalendarTableView = (function () {
+    const $selectFilterItem = $('#select-filter-item');
+    const $selectService = $('#select-service');
+    const $selectProvider = $('#select-provider');
+    const $appointmentsModal = $('#appointments-modal');
+    const $unavailabilitiesModal = $('#unavailabilities-modal');
     let $filterProvider;
     let $filterService;
+    let $selectDate;
     let lastFocusedEventData;
 
     /**
@@ -29,26 +35,26 @@ App.Utils.CalendarTableView = (function () {
         const $calendar = $('#calendar');
 
         $calendar.on('click', '.calendar-header .btn.previous', () => {
-            const dayInterval = $('#select-filter-item').val();
-            const currentDate = $('.select-date').datepicker('getDate');
+            const dayInterval = $selectFilterItem.val();
+            const currentDate = $selectDate.datepicker('getDate');
             const startDate = moment(currentDate).subtract(1, 'days');
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
-            $('.select-date').datepicker('setDate', startDate.toDate());
+            $selectDate.datepicker('setDate', startDate.toDate());
             createView(startDate.toDate(), endDate.toDate());
         });
 
         $calendar.on('click', '.calendar-header .btn.next', () => {
-            const dayInterval = $('#select-filter-item').val();
-            const currentDate = $('.select-date').datepicker('getDate');
+            const dayInterval = $selectFilterItem.val();
+            const currentDate = $selectDate.datepicker('getDate');
             const startDate = moment(currentDate).add(1, 'days');
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
-            $('.select-date').datepicker('setDate', startDate.toDate());
+            $selectDate.datepicker('setDate', startDate.toDate());
             createView(startDate.toDate(), endDate.toDate());
         });
 
         $calendarToolbar.on('change', '#select-filter-item', () => {
-            const dayInterval = $('#select-filter-item').val();
-            const currentDate = $('.select-date').datepicker('getDate');
+            const dayInterval = $selectFilterItem.val();
+            const currentDate = $selectDate.datepicker('getDate');
             const startDate = moment(currentDate);
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
             createView(startDate.toDate(), endDate.toDate());
@@ -59,22 +65,22 @@ App.Utils.CalendarTableView = (function () {
             $('.calendar-view .event').remove();
 
             // Fetch the events and place them in the existing HTML format.
-            const dayInterval = $('#select-filter-item').val();
-            const currentDate = $('.select-date').datepicker('getDate');
+            const dayInterval = $selectFilterItem.val();
+            const currentDate = $selectDate.datepicker('getDate');
             const startDateMoment = moment(currentDate);
             const startDate = startDateMoment.toDate();
             const endDateMoment = startDateMoment.clone().add(dayInterval - 1, 'days');
             const endDate = endDateMoment.toDate();
 
             App.Http.Calendar.getCalendarAppointmentsForTableView(startDate, endDate).done((response) => {
-                const currentDate = startDate;
+                let currentDate = startDate;
 
                 while (currentDate <= endDate) {
                     $('.calendar-view .date-column').each((index, dateColumn) => {
                         const $dateColumn = $(dateColumn);
                         const date = new Date($dateColumn.data('date'));
 
-                        if (currentDate.getTime() !== date.getTime()) {
+                        if (moment(currentDate).format('YYYY-MM-DD') !== moment(date).format('YYYY-MM-DD')) {
                             return true;
                         }
 
@@ -109,7 +115,7 @@ App.Utils.CalendarTableView = (function () {
                         });
                     });
 
-                    currentDate.add({days: 1});
+                    currentDate = moment(currentDate).add({days: 1}).toDate();
                 }
 
                 // setCalendarViewSize();
@@ -141,7 +147,6 @@ App.Utils.CalendarTableView = (function () {
         $calendar.on('click', '.edit-popover', (event) => {
             $(event.target).parents('.popover').popover('dispose');
 
-            let $dialog;
             let startMoment;
             let endMoment;
 
@@ -169,7 +174,7 @@ App.Utils.CalendarTableView = (function () {
                                 }
                             }
 
-                            $('#select-filter-item').trigger('change'); // Update the calendar.
+                            $selectFilterItem.trigger('change'); // Update the calendar.
                         };
 
                         App.Http.Calendar.saveWorkingPlanException(
@@ -183,37 +188,35 @@ App.Utils.CalendarTableView = (function () {
                 );
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 const appointment = lastFocusedEventData.data;
-                $dialog = $('#appointments-modal');
-
                 BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
                 // Apply appointment data and show modal dialog.
-                $dialog.find('.modal-header h3').text(App.Lang.edit_appointment_title);
-                $dialog.find('#appointment-id').val(appointment.id);
-                $dialog.find('#select-service').val(appointment.id_services).trigger('change');
-                $dialog.find('#select-provider').val(appointment.id_users_provider);
+                $appointmentsModal.find('.modal-header h3').text(App.Lang.edit_appointment_title);
+                $appointmentsModal.find('#appointment-id').val(appointment.id);
+                $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
+                $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
 
                 // Set the start and end datetime of the appointment.
                 startMoment = moment(appointment.start_datetime);
-                $dialog.find('#start-datetime').datetimepicker('setDate', startMoment);
+                $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startMoment);
 
                 endMoment = moment(appointment.end_datetime);
-                $dialog.find('#end-datetime').datetimepicker('setDate', endMoment);
+                $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endMoment);
 
                 const customer = appointment.customer;
-                $dialog.find('#customer-id').val(appointment.id_users_customer);
-                $dialog.find('#first-name').val(customer.first_name);
-                $dialog.find('#last-name').val(customer.last_name);
-                $dialog.find('#email').val(customer.email);
-                $dialog.find('#phone-number').val(customer.phone_number);
-                $dialog.find('#address').val(customer.address);
-                $dialog.find('#city').val(customer.city);
-                $dialog.find('#zip-code').val(customer.zip_code);
-                $dialog.find('#appointment-location').val(appointment.location);
-                $dialog.find('#appointment-notes').val(appointment.notes);
-                $dialog.find('#customer-notes').val(customer.notes);
+                $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+                $appointmentsModal.find('#first-name').val(customer.first_name);
+                $appointmentsModal.find('#last-name').val(customer.last_name);
+                $appointmentsModal.find('#email').val(customer.email);
+                $appointmentsModal.find('#phone-number').val(customer.phone_number);
+                $appointmentsModal.find('#address').val(customer.address);
+                $appointmentsModal.find('#city').val(customer.city);
+                $appointmentsModal.find('#zip-code').val(customer.zip_code);
+                $appointmentsModal.find('#appointment-location').val(appointment.location);
+                $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+                $appointmentsModal.find('#customer-notes').val(customer.notes);
 
-                $dialog.modal('show');
+                $appointmentsModal.modal('show');
             } else {
                 const unavailable = lastFocusedEventData.data;
 
@@ -223,18 +226,17 @@ App.Utils.CalendarTableView = (function () {
                 unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
                 endMoment = moment(unavailable.end_datetime);
 
-                $dialog = $('#unavailabilities-modal');
                 BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
 
                 // Apply unavailable data to dialog.
-                $dialog.find('.modal-header h3').text('Edit Unavailable Period');
-                $dialog.find('#unavailable-start').datetimepicker('setDate', startMoment);
-                $dialog.find('#unavailable-id').val(unavailable.id);
-                $dialog.find('#unavailable-provider').val(unavailable.id_users_provider);
-                $dialog.find('#unavailable-end').datetimepicker('setDate', endMoment);
-                $dialog.find('#unavailable-notes').val(unavailable.notes);
+                $unavailabilitiesModal.find('.modal-header h3').text('Edit Unavailable Period');
+                $unavailabilitiesModal.find('#unavailable-start').datetimepicker('setDate', startMoment);
+                $unavailabilitiesModal.find('#unavailable-id').val(unavailable.id);
+                $unavailabilitiesModal.find('#unavailable-provider').val(unavailable.id_users_provider);
+                $unavailabilitiesModal.find('#unavailable-end').datetimepicker('setDate', endMoment);
+                $unavailabilitiesModal.find('#unavailable-notes').val(unavailable.notes);
 
-                $dialog.modal('show');
+                $unavailabilitiesModal.modal('show');
             }
         });
 
@@ -267,7 +269,7 @@ App.Utils.CalendarTableView = (function () {
                     lastFocusedEventData.data.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
 
                     // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
+                    $selectFilterItem.trigger('change');
                 });
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 const buttons = [
@@ -288,7 +290,7 @@ App.Utils.CalendarTableView = (function () {
                                 $('#message-box').dialog('close');
 
                                 // Refresh calendar event items.
-                                $('#select-filter-item').trigger('change');
+                                $selectFilterItem.trigger('change');
                             });
                         }
                     }
@@ -313,7 +315,7 @@ App.Utils.CalendarTableView = (function () {
                     $('#message-box').dialog('close');
 
                     // Refresh calendar event items.
-                    $('#select-filter-item').trigger('change');
+                    $selectFilterItem.trigger('change');
                 });
             }
         });
@@ -346,10 +348,10 @@ App.Utils.CalendarTableView = (function () {
             ]
         }).appendTo($calendarHeader);
 
-        $('<input/>', {
+        $selectDate = $('<input/>', {
             'type': 'text',
             'class': 'form-control d-inline-block select-date me-2',
-            'value': App.Utils.Date.format(new Date(), App.Vars.date_format, false)
+            'value': App.Utils.Date.format(new Date(), App.Vars.date_format, App.Vars.time_format, false)
         }).appendTo($calendarHeader);
 
         $('<button/>', {
@@ -385,7 +387,7 @@ App.Utils.CalendarTableView = (function () {
             dateFormat: dateFormat,
             onSelect: (dateText, instance) => {
                 const startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
-                const endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-filter-item').val()) - 1});
+                const endDate = new Date(startDate.getTime()).add({days: parseInt($selectFilterItem.val()) - 1});
                 createView(startDate, endDate);
             }
         });
@@ -409,9 +411,12 @@ App.Utils.CalendarTableView = (function () {
             'multiple': 'multiple',
             'on': {
                 'change': () => {
-                    const startDate = new Date($('.calendar-view .date-column:first').data('date'));
-                    const endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-date').val()) - 1});
-                    createView(startDate, endDate);
+                    const firstColumnDate = $('.calendar-view .date-column:first').data('date');
+                    const startDateMoment = moment(firstColumnDate);
+                    const endDateMoment = moment(firstColumnDate).add({
+                        days: parseInt($selectDate.val()) - 1
+                    });
+                    createView(startDateMoment.toDate(), endDateMoment.toDate());
                 }
             }
         }).appendTo($calendarHeader);
@@ -445,9 +450,10 @@ App.Utils.CalendarTableView = (function () {
             'multiple': 'multiple',
             'on': {
                 'change': () => {
-                    const startDate = new Date($('.calendar-view .date-column:first').data('date'));
-                    const endDate = new Date(startDate.getTime()).add({days: parseInt($('#select-date').val()) - 1});
-                    createView(startDate, endDate);
+                    const firstColumnDate = $('.calendar-view .date-column:first').data('date');
+                    const startDateMoment = moment(firstColumnDate);
+                    const endDateMoment = moment(firstColumnDate).add({days: parseInt($selectDate.val()) - 1});
+                    createView(startDateMoment.toDate(), endDateMoment.toDate());
                 }
             }
         }).appendTo($calendarHeader);
@@ -495,12 +501,12 @@ App.Utils.CalendarTableView = (function () {
 
         const $wrapper = $('<div/>').appendTo($calendarView);
 
-        getCalendarEvents(startDate, endDate).done((response) => {
-            const currentDate = startDate;
+        App.Http.Calendar.getCalendarAppointmentsForTableView(startDate, endDate).done((response) => {
+            let currentDate = startDate;
 
             while (currentDate <= endDate) {
                 createDateColumn($wrapper, currentDate, response);
-                currentDate.add({days: 1});
+                currentDate = moment(currentDate).add({days: 1}).toDate();
             }
 
             setCalendarViewSize();
@@ -539,7 +545,7 @@ App.Utils.CalendarTableView = (function () {
 
         $('<h5/>', {
             'class': 'date-column-title',
-            'text': App.Utils.Date.format(date, App.Vars.date_format)
+            'text': App.Utils.Date.format(date, App.Vars.date_format, App.Vars.time_format)
         }).appendTo($dateColumn);
 
         const filterProviderIds = $filterProvider.val();
@@ -715,24 +721,24 @@ App.Utils.CalendarTableView = (function () {
                 );
 
                 if (service) {
-                    $('#select-service').val(service.id);
+                    $selectService.val(service.id);
                 }
 
-                if (!$('#select-service').val()) {
-                    $('#select-service option:first').prop('selected', true);
+                if (!$selectService.val()) {
+                    $selectService.find('option:first').prop('selected', true);
                 }
 
-                $('#select-service').trigger('change');
+                $selectService.trigger('change');
 
                 if (provider) {
-                    $('#select-provider').val(provider.id);
+                    $selectProvider.val(provider.id);
                 }
 
-                if (!$('#select-provider').val()) {
+                if (!$selectProvider.val()) {
                     $('#select-provider option:first').prop('selected', true);
                 }
 
-                $('#select-provider').trigger('change');
+                $selectProvider.trigger('change');
 
                 // Preselect time
                 $('#start-datetime').datepicker('setDate', new Date(start.format('YYYY/MM/DD HH:mm:ss')));
@@ -957,7 +963,7 @@ App.Utils.CalendarTableView = (function () {
         for (const index in appointments) {
             const appointment = appointments[index];
 
-            if (appointment.id_users_provider !== $providerColumn.data('provider').id) {
+            if (Number(appointment.id_users_provider) !== Number($providerColumn.data('provider').id)) {
                 continue;
             }
 
@@ -1069,10 +1075,12 @@ App.Utils.CalendarTableView = (function () {
             $tbody.find('tr').each((index, tr) => {
                 const $td = $(tr).find('td:first');
 
-                const cellDate = new Date(currentDate.getTime()).set({
-                    hour: parseInt($td.text().split(':')[0]),
-                    minute: parseInt($td.text().split(':')[1])
-                });
+                const cellDate = moment(currentDate)
+                    .set({
+                        hour: parseInt($td.text().split(':')[0]),
+                        minute: parseInt($td.text().split(':')[1])
+                    })
+                    .toDate();
 
                 if (eventDate < cellDate) {
                     // Remove the hour from the event if it is the same as the row.
@@ -1114,14 +1122,16 @@ App.Utils.CalendarTableView = (function () {
      * above the calendar item.
      */
     function onEventClick(event, jsEvent) {
-        $('.popover').popover('dispose'); // Close all open popovers.
+        const $popover = $('.popover');
+
+        $popover.popover('dispose'); // Close all open popovers.
 
         let $html;
         let displayEdit;
         let displayDelete;
 
-        // Depending where the user clicked the event (title or empty space) we
-        // need to use different selectors to reach the parent element.
+        // Depending on where the user clicked the event (title or empty space) we need to use different selectors to
+        // reach the parent element.
         const $parent = $(jsEvent.target.offsetParent);
         const $altParent = $(jsEvent.target).parents().eq(1);
 
@@ -1150,6 +1160,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': App.Utils.Date.format(
                             event.start.format('YYYY-MM-DD HH:mm:ss'),
                             App.Vars.date_format,
+                            App.Vars.time_format,
                             true
                         )
                     }),
@@ -1162,6 +1173,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': App.Utils.Date.format(
                             event.end.format('YYYY-MM-DD HH:mm:ss'),
                             App.Vars.date_format,
+                            App.Vars.time_format,
                             true
                         )
                     }),
@@ -1251,6 +1263,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': App.Utils.Date.format(
                             event.data.date + ' ' + event.data.workingPlanException.start,
                             App.Vars.date_format,
+                            App.Vars.time_format,
                             true
                         )
                     }),
@@ -1263,6 +1276,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': App.Utils.Date.format(
                             event.data.date + ' ' + event.data.workingPlanException.end,
                             App.Vars.date_format,
+                            App.Vars.time_format,
                             true
                         )
                     }),
@@ -1468,8 +1482,8 @@ App.Utils.CalendarTableView = (function () {
         $(jsEvent.target).popover('toggle');
 
         // Fix popover position.
-        if ($('.popover').length > 0 && $('.popover').position().top < 200) {
-            $('.popover').css('top', '200px');
+        if ($popover.length > 0 && $popover.position().top < 200) {
+            $popover.css('top', '200px');
         }
     }
 
@@ -1490,8 +1504,10 @@ App.Utils.CalendarTableView = (function () {
 
         const $calendar = $('#calendar');
 
-        if ($('#notification').is(':visible')) {
-            $('#notification').hide('bind');
+        const $notification = $('#notification');
+
+        if ($notification.is(':visible')) {
+            $notification.hide('bind');
         }
 
         let successCallback;
@@ -1594,8 +1610,10 @@ App.Utils.CalendarTableView = (function () {
             return;
         }
 
-        if ($('#notification').is(':visible')) {
-            $('#notification').hide('bind');
+        const $notification = $('#notification');
+
+        if ($notification.is(':visible')) {
+            $notification.hide('bind');
         }
 
         let successCallback;
@@ -1743,7 +1761,7 @@ App.Utils.CalendarTableView = (function () {
         const startDate = moment().toDate();
 
         const endDate = moment()
-            .add(Number($('#select-filter-item').val()) - 1, 'days')
+            .add(Number($selectFilterItem.val()) - 1, 'days')
             .toDate();
 
         createView(startDate, endDate);

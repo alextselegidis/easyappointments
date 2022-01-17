@@ -291,7 +291,7 @@ App.Utils.CalendarDefaultView = (function () {
                 }
 
                 // If the user has already the sync enabled then apply the proper style changes.
-                if ($selectFilterItem('option:selected').attr('google-sync') === 'true') {
+                if ($selectFilterItem.find('option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
                     $('#enable-sync span').text(App.Lang.disable_sync);
                     $('#google-sync').prop('disabled', false);
@@ -1049,7 +1049,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         endDate = moment(endDate).format('YYYY-MM-DD');
 
-        App.Http.Calendar.getCalendarAppointments(recordId, filterType, startDate, endDate)
+        App.Http.Calendar.getCalendarAppointments(recordId, startDate, endDate, filterType)
             .done((response) => {
                 $calendar.fullCalendar('removeEvents');
 
@@ -1460,7 +1460,7 @@ App.Utils.CalendarDefaultView = (function () {
                 // Preselect service & provider.
                 let service;
 
-                if ($('#select-filter-item option:selected').attr('type') === FILTER_TYPE_SERVICE) {
+                if ($selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_SERVICE) {
                     service = App.Vars.available_services.find(
                         (availableService) => Number(availableService.id) === Number($selectFilterItem.val())
                     );
@@ -1580,7 +1580,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Fill the select list boxes of the page.
         if (App.Vars.available_providers.length > 0) {
-            $('<optgroup label=""/>', {
+            $('<optgroup/>', {
                 'label': App.Lang.providers,
                 'type': 'providers-group',
                 'html': App.Vars.available_providers.map((availableProvider) => {
@@ -1597,7 +1597,7 @@ App.Utils.CalendarDefaultView = (function () {
         }
 
         if (App.Vars.available_services.length > 0) {
-            $('<optgroup label=""/>', {
+            $('<optgroup/>', {
                 'label': App.Lang.services,
                 'type': 'services-group',
                 'html': App.Vars.available_services.map((availableService) =>
@@ -1638,7 +1638,7 @@ App.Utils.CalendarDefaultView = (function () {
             }
         }
 
-        // Bind the default event handlers.
+        // Add the page event listeners.
         addEventListeners();
 
         $selectFilterItem.trigger('change');
@@ -1655,11 +1655,11 @@ App.Utils.CalendarDefaultView = (function () {
             $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
 
             // Set the start and end datetime of the appointment.
-            const startDatetime = moment(appointment.start_datetime);
-            $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startDatetime);
+            const startDatetimeMoment = moment(appointment.start_datetime);
+            $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startDatetimeMoment.toDate());
 
-            const endDatetime = moment(appointment.end_datetime);
-            $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endDatetime);
+            const endDatetimeMoment = moment(appointment.end_datetime);
+            $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endDatetimeMoment.toDate());
 
             const customer = appointment.customer;
             $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
