@@ -17,6 +17,24 @@
  * Old Name: FrontendBook
  */
 App.Pages.Booking = (function () {
+    const $cookieNoticeLink = $('.cc-link');
+    const $selectDate = $('#select-date');
+    const $selectService = $('#select-service');
+    const $selectProvider = $('#select-provider');
+    const $selectTimezone = $('#select-timezone');
+    const $firstName = $('#first-name');
+    const $lastName = $('#last-name');
+    const $email = $('#email');
+    const $phoneNumber = $('#phone-number');
+    const $address = $('#address');
+    const $city = $('#city');
+    const $zipCode = $('#zip-code');
+    const $notes = $('#notes');
+    const $captchaTitle = $('.captcha-title');
+    const $availableHours = $('#available-hours');
+    const $bookAppointmentSubmit = $('#book-appointment-submit');
+    const $deletePersonalInformation = $('#delete-personal-information');
+
     /**
      * Contains terms and conditions consent.
      *
@@ -60,13 +78,13 @@ App.Pages.Booking = (function () {
                 }
             });
 
-            $('.cc-link').replaceWith(
+            $cookieNoticeLink.replaceWith(
                 $('<a/>', {
                     'data-toggle': 'modal',
                     'data-target': '#cookie-notice-modal',
                     'href': '#',
                     'class': 'cc-link',
-                    'text': $('.cc-link').text()
+                    'text': $cookieNoticeLink.text()
                 })
             );
         }
@@ -78,7 +96,7 @@ App.Pages.Booking = (function () {
 
         const weekDayId = GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday);
 
-        $('#select-date').datepicker({
+        $selectDate.datepicker({
             dateFormat: 'dd-mm-yy',
             firstDay: weekDayId,
             minDate: 0,
@@ -130,8 +148,8 @@ App.Pages.Booking = (function () {
             currentText: App.Lang.now,
             closeText: App.Lang.close,
 
-            onSelect: function (dateText, instance) {
-                App.Http.Booking.getAvailableHours(moment($(this).datepicker('getDate')).format('YYYY-MM-DD'));
+            onSelect: () => {
+                App.Http.Booking.getAvailableHours(moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD'));
                 updateConfirmFrame();
             },
 
@@ -139,17 +157,17 @@ App.Pages.Booking = (function () {
                 const currentDate = new Date(year, month - 1, 1);
 
                 App.Http.Booking.getUnavailableDates(
-                    $('#select-provider').val(),
-                    $('#select-service').val(),
+                    $selectProvider.val(),
+                    $selectService.val(),
                     moment(currentDate).format('YYYY-MM-DD')
                 );
             }
         });
 
-        $('#select-timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        $selectTimezone.val(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
         // Bind the event handlers (might not be necessary every time we use this class).
-        bindEventHandlers();
+        addEventListeners();
 
         // If the manage mode is true, the appointments data should be loaded by default.
         if (manageMode) {
@@ -159,9 +177,6 @@ App.Pages.Booking = (function () {
                 GlobalVariables.customerData
             );
         } else {
-            const $selectProvider = $('#select-provider');
-            const $selectService = $('#select-service');
-
             // Check if a specific service was selected (via URL parameter).
             const selectedServiceId = GeneralFunctions.getUrlParameter(location.href, 'service');
 
@@ -192,14 +207,14 @@ App.Pages.Booking = (function () {
     }
 
     /**
-     * Bind the event handlers.
+     * Add the page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Timezone "Changed"
          */
-        $('#select-timezone').on('change', () => {
-            const date = $('#select-date').datepicker('getDate');
+        $selectTimezone.on('change', () => {
+            const date = $selectDate.datepicker('getDate');
 
             if (!date) {
                 return;
@@ -215,11 +230,13 @@ App.Pages.Booking = (function () {
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $('#select-provider').on('change', (event) => {
+        $selectProvider.on('change', (event) => {
+            const $target = $(event.target);
+
             App.Http.Booking.getUnavailableDates(
-                $(event.target).val(),
-                $('#select-service').val(),
-                moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD')
+                $target,
+                $selectService.val(),
+                moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
             );
             updateConfirmFrame();
         });
@@ -230,10 +247,11 @@ App.Pages.Booking = (function () {
          * When the user clicks on a service, its available providers should
          * become visible.
          */
-        $('#select-service').on('change', (event) => {
-            const serviceId = $('#select-service').val();
+        $selectService.on('change', (event) => {
+            const $target = $(event.target);
+            const serviceId = $selectService.val();
 
-            $('#select-provider').empty();
+            $selectProvider.empty();
 
             GlobalVariables.availableProviders.forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
@@ -242,23 +260,19 @@ App.Pages.Booking = (function () {
                         .length > 0;
 
                 if (canServeService) {
-                    $('#select-provider').append(
-                        new Option(provider.first_name + ' ' + provider.last_name, provider.id)
-                    );
+                    $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                 }
             });
 
             // Add the "Any Provider" entry.
-            if ($('#select-provider option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
-                $('#select-provider').prepend(
-                    new Option('- ' + App.Lang.any_provider + ' -', 'any-provider', true, true)
-                );
+            if ($selectProvider.find('option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
+                $selectProvider.prepend(new Option('- ' + App.Lang.any_provider + ' -', 'any-provider', true, true));
             }
 
             App.Http.Booking.getUnavailableDates(
-                $('#select-provider').val(),
-                $(event.target).val(),
-                moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD')
+                $selectProvider.val(),
+                $target.val(),
+                moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
             );
 
             updateConfirmFrame();
@@ -273,13 +287,15 @@ App.Pages.Booking = (function () {
          * Some special tasks might be performed, depending on the current wizard step.
          */
         $('.button-next').on('click', (event) => {
-            // If we are on the first step and there is not provider selected do not continue with the next step.
-            if ($(event.target).attr('data-step_index') === '1' && !$('#select-provider').val()) {
+            const $target = $(event.target);
+
+            // If we are on the first step and there is no provider selected do not continue with the next step.
+            if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
                 return;
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
-            if ($(event.target).attr('data-step_index') === '2') {
+            if ($target.attr('data-step_index') === '2') {
                 if (!$('.selected-hour').length) {
                     if (!$('#select-hour-prompt').length) {
                         $('<div/>', {
@@ -294,7 +310,7 @@ App.Pages.Booking = (function () {
 
             // If we are on the 3rd tab then we will need to validate the user's input before proceeding to the next
             // step.
-            if ($(event.target).attr('data-step_index') === '3') {
+            if ($target.attr('data-step_index') === '3') {
                 if (!validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
@@ -303,9 +319,9 @@ App.Pages.Booking = (function () {
                     const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
                     if ($acceptToTermsAndConditions.length && $acceptToTermsAndConditions.prop('checked') === true) {
                         const newTermsAndConditionsConsent = {
-                            first_name: $('#first-name').val(),
-                            last_name: $('#last-name').val(),
-                            email: $('#email').val(),
+                            first_name: $firstName.val(),
+                            last_name: $lastName.val(),
+                            email: $email.val(),
                             type: 'terms-and-conditions'
                         };
 
@@ -320,9 +336,9 @@ App.Pages.Booking = (function () {
                     const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
                     if ($acceptToPrivacyPolicy.length && $acceptToPrivacyPolicy.prop('checked') === true) {
                         const newPrivacyPolicyConsent = {
-                            first_name: $('#first-name').val(),
-                            last_name: $('#last-name').val(),
-                            email: $('#email').val(),
+                            first_name: $firstName.val(),
+                            last_name: $lastName.val(),
+                            email: $email.val(),
                             type: 'privacy-policy'
                         };
 
@@ -335,9 +351,9 @@ App.Pages.Booking = (function () {
             }
 
             // Display the next step tab (uses jquery animation effect).
-            const nextTabIndex = parseInt($(event.target).attr('data-step_index')) + 1;
+            const nextTabIndex = parseInt($target.attr('data-step_index')) + 1;
 
-            $(event.target)
+            $target
                 .parents()
                 .eq(1)
                 .hide('fade', () => {
@@ -369,11 +385,10 @@ App.Pages.Booking = (function () {
         /**
          * Event: Available Hour "Click"
          *
-         * Triggered whenever the user clicks on an available hour
-         * for his appointment.
+         * Triggered whenever the user clicks on an available hour for his appointment.
          */
-        $('#available-hours').on('click', '.available-hour', (event) => {
-            $('.selected-hour').removeClass('selected-hour');
+        $availableHours.on('click', '.available-hour', (event) => {
+            $availableHours.find('.selected-hour').removeClass('selected-hour');
             $(event.target).addClass('selected-hour');
             updateConfirmFrame();
         });
@@ -389,22 +404,26 @@ App.Pages.Booking = (function () {
              * @param {jQuery.Event} event
              */
             $('#cancel-appointment').on('click', () => {
+                const $cancelAppointmentForm = $('#cancel-appointment-form');
+
+                let $cancelReason;
+
                 const buttons = [
                     {
                         text: App.Lang.cancel,
-                        click: function () {
+                        click: () => {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
                         text: 'OK',
-                        click: function () {
-                            if ($('#cancel-reason').val() === '') {
-                                $('#cancel-reason').css('border', '2px solid #DC3545');
+                        click: () => {
+                            if ($cancelReason.val() === '') {
+                                $cancelReason.css('border', '2px solid #DC3545');
                                 return;
                             }
-                            $('#cancel-appointment-form textarea').val($('#cancel-reason').val());
-                            $('#cancel-appointment-form').submit();
+                            $cancelAppointmentForm.find('textarea').val($cancelReason.val());
+                            $cancelAppointmentForm.submit();
                         }
                     }
                 ];
@@ -415,7 +434,7 @@ App.Pages.Booking = (function () {
                     buttons
                 );
 
-                $('<textarea/>', {
+                $cancelReason = $('<textarea/>', {
                     'class': 'form-control',
                     'id': 'cancel-reason',
                     'rows': '3',
@@ -427,7 +446,7 @@ App.Pages.Booking = (function () {
                 return false;
             });
 
-            $('#delete-personal-information').on('click', () => {
+            $deletePersonalInformation.on('click', () => {
                 const buttons = [
                     {
                         text: App.Lang.cancel,
@@ -460,27 +479,27 @@ App.Pages.Booking = (function () {
          *
          * @param {jQuery.Event} event
          */
-        $('#book-appointment-submit').on('click', () => {
+        $bookAppointmentSubmit.on('click', () => {
             App.Http.Booking.registerAppointment();
         });
 
         /**
          * Event: Refresh captcha image.
          */
-        $('.captcha-title button').on('click', () => {
+        $captchaTitle.on('click', 'button', () => {
             $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
         });
 
-        $('#select-date').on('mousedown', '.ui-datepicker-calendar td', () => {
+        $selectDate.on('mousedown', '.ui-datepicker-calendar td', () => {
             setTimeout(() => {
-                App.Http.Booking.applyPreviousUnavailableDates(); // New jQuery UI version will replace the td elements.
-            }, 300); // There is no draw event unfortunately.
+                App.Http.Booking.applyPreviousUnavailableDates();
+            }, 300);
         });
     }
 
     /**
-     * This function validates the customer's data input. The user cannot continue
-     * without passing all the validation checks.
+     * This function validates the customer's data input. The user cannot continue without passing all the validation
+     * checks.
      *
      * @return {Boolean} Returns the validation result.
      */
@@ -516,8 +535,8 @@ App.Pages.Booking = (function () {
             }
 
             // Validate email address.
-            if ($('#email').val() && !GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').parents('.form-group').addClass('is-invalid');
+            if ($email.val() && !GeneralFunctions.validateEmail($email.val())) {
+                $email.parents('.form-group').addClass('is-invalid');
                 throw new Error(App.Lang.invalid_email);
             }
 
@@ -533,18 +552,18 @@ App.Pages.Booking = (function () {
      * customer settings and input for the appointment booking.
      */
     function updateConfirmFrame() {
-        if ($('.selected-hour').text() === '') {
+        if ($availableHours.find('.selected-hour').text() === '') {
             return;
         }
 
         // Appointment Details
-        let selectedDate = $('#select-date').datepicker('getDate');
+        let selectedDate = $selectDate.datepicker('getDate');
 
         if (selectedDate !== null) {
             selectedDate = App.Utils.Date.format(selectedDate, App.Vars.date_format, App.Vars.time_format);
         }
 
-        const serviceId = $('#select-service').val();
+        const serviceId = $selectService.val();
         let servicePrice = '';
         let serviceCurrency = '';
 
@@ -566,19 +585,24 @@ App.Pages.Booking = (function () {
                 $('<p/>', {
                     'html': [
                         $('<span/>', {
-                            'text': App.Lang.service + ': ' + $('#select-service option:selected').text()
+                            'text': App.Lang.service + ': ' + $selectService.find('option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.provider + ': ' + $('#select-provider option:selected').text()
+                            'text': App.Lang.provider + ': ' + $selectProvider.find('option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.start + ': ' + selectedDate + ' ' + $('.selected-hour').text()
+                            'text':
+                                App.Lang.start +
+                                ': ' +
+                                selectedDate +
+                                ' ' +
+                                $availableHours.find('.selected-hour').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.timezone + ': ' + $('#select-timezone option:selected').text()
+                            'text': App.Lang.timezone + ': ' + $selectTimezone.find('option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
@@ -593,13 +617,13 @@ App.Pages.Booking = (function () {
         }).appendTo('#appointment-details');
 
         // Customer Details
-        const firstName = GeneralFunctions.escapeHtml($('#first-name').val());
-        const lastName = GeneralFunctions.escapeHtml($('#last-name').val());
-        const phoneNumber = GeneralFunctions.escapeHtml($('#phone-number').val());
-        const email = GeneralFunctions.escapeHtml($('#email').val());
-        const address = GeneralFunctions.escapeHtml($('#address').val());
-        const city = GeneralFunctions.escapeHtml($('#city').val());
-        const zipCode = GeneralFunctions.escapeHtml($('#zip-code').val());
+        const firstName = GeneralFunctions.escapeHtml($firstName.val());
+        const lastName = GeneralFunctions.escapeHtml($lastName.val());
+        const phoneNumber = GeneralFunctions.escapeHtml($phoneNumber.val());
+        const email = GeneralFunctions.escapeHtml($email.val());
+        const address = GeneralFunctions.escapeHtml($address.val());
+        const city = GeneralFunctions.escapeHtml($city.val());
+        const zipCode = GeneralFunctions.escapeHtml($zipCode.val());
 
         $('#customer-details').empty();
 
@@ -643,27 +667,27 @@ App.Pages.Booking = (function () {
         const data = {};
 
         data.customer = {
-            last_name: $('#last-name').val(),
-            first_name: $('#first-name').val(),
-            email: $('#email').val(),
-            phone_number: $('#phone-number').val(),
-            address: $('#address').val(),
-            city: $('#city').val(),
-            zip_code: $('#zip-code').val(),
-            timezone: $('#select-timezone').val()
+            last_name: $lastName.val(),
+            first_name: $firstName.val(),
+            email: $email.val(),
+            phone_number: $phoneNumber.val(),
+            address: $address.val(),
+            city: $city.val(),
+            zip_code: $zipCode.val(),
+            timezone: $selectTimezone.val()
         };
 
         data.appointment = {
             start_datetime:
-                moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD') +
+                moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD') +
                 ' ' +
                 moment($('.selected-hour').data('value'), 'HH:mm').format('HH:mm') +
                 ':00',
             end_datetime: calculateEndDatetime(),
-            notes: $('#notes').val(),
+            notes: $notes.val(),
             is_unavailable: false,
-            id_users_provider: $('#select-provider').val(),
-            id_services: $('#select-service').val()
+            id_users_provider: $selectProvider.val(),
+            id_services: $selectService.val()
         };
 
         data.manage_mode = manageMode;
@@ -685,14 +709,14 @@ App.Pages.Booking = (function () {
      */
     function calculateEndDatetime() {
         // Find selected service duration.
-        const serviceId = $('#select-service').val();
+        const serviceId = $selectService.val();
 
         const service = App.Vars.available_services.find(
             (availableService) => Number(availableService.id) === Number(serviceId)
         );
 
         // Add the duration to the start datetime.
-        const selectedDate = moment($('#select-date').datepicker('getDate')).format('YYYY-MM-DD');
+        const selectedDate = moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD');
 
         const selectedHour = $('.selected-hour').data('value'); // HH:mm
 
@@ -722,27 +746,27 @@ App.Pages.Booking = (function () {
     function applyAppointmentData(appointment, provider, customer) {
         try {
             // Select Service & Provider
-            $('#select-service').val(appointment.id_services).trigger('change');
-            $('#select-provider').val(appointment.id_users_provider);
+            $selectService.val(appointment.id_services).trigger('change');
+            $selectProvider.val(appointment.id_users_provider);
 
             // Set Appointment Date
             const startMoment = moment(appointment.start_datetime);
-            $('#select-date').datepicker('setDate', startMoment.toDate());
+            $selectDate.datepicker('setDate', startMoment.toDate());
             App.Http.Booking.getAvailableHours(startMoment.format('YYYY-MM-DD'));
 
             // Apply Customer's Data
-            $('#last-name').val(customer.last_name);
-            $('#first-name').val(customer.first_name);
-            $('#email').val(customer.email);
-            $('#phone-number').val(customer.phone_number);
-            $('#address').val(customer.address);
-            $('#city').val(customer.city);
-            $('#zip-code').val(customer.zip_code);
+            $lastName.val(customer.last_name);
+            $firstName.val(customer.first_name);
+            $email.val(customer.email);
+            $phoneNumber.val(customer.phone_number);
+            $address.val(customer.address);
+            $city.val(customer.city);
+            $zipCode.val(customer.zip_code);
             if (customer.timezone) {
-                $('#select-timezone').val(customer.timezone);
+                $selectTimezone.val(customer.timezone);
             }
             const appointmentNotes = appointment.notes !== null ? appointment.notes : '';
-            $('#notes').val(appointmentNotes);
+            $notes.val(appointmentNotes);
 
             updateConfirmFrame();
 
