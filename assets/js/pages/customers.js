@@ -63,12 +63,12 @@ App.Pages.Customers = (function () {
                 return; // Do nothing when user edits a customer record.
             }
 
-            const customerId = $(event.target).attr('data-id');
+            const customerId = $(event.currentTarget).attr('data-id');
             const customer = filterResults.find((filterResult) => Number(filterResult.id) === Number(customerId));
 
             display(customer);
             $('#filter-customers .selected').removeClass('selected');
-            $(event.target).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-customer, #delete-customer').prop('disabled', false);
         });
 
@@ -308,7 +308,7 @@ App.Pages.Customers = (function () {
                     // Service - Provider
 
                     $('<a/>', {
-                        'href': App.Utils.Url.siteUrl(`backend/index/${appointment.hash}`),
+                        'href': App.Utils.Url.siteUrl(`calendar/reschedule/${appointment.hash}`),
                         'html': [
                             $('<i/>', {
                                 'class': 'fas fa-edit me-1'
