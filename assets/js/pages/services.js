@@ -16,13 +16,23 @@
  */
 App.Pages.Services = (function () {
     const $services = $('#services');
+    const $name = $('#service-name');
+    const $duration = $('#service-duration');
+    const $price = $('#service-price');
+    const $currency = $('#service-currency');
+    const $category = $('#service-category');
+    const $availabilitiesType = $('#service-availabilities-type');
+    const $attendantsNumber = $('#service-attendants-number');
+    const $location = $('#service-location');
+    const $description = $('#service-description');
+    const $filterServices = $('#filter-services');
     let filterResults = {};
     let filterLimit = 20;
 
     /**
-     * Bind the event handlers.
+     * Add page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Filter Services Form "Submit"
          *
@@ -30,8 +40,8 @@ App.Pages.Services = (function () {
          */
         $services.on('submit', '#filter-services form', function (event) {
             event.preventDefault();
-            const key = $('#filter-services .key').val();
-            $('#filter-services .selected').removeClass('selected');
+            const key = $filterServices.find('.key').val();
+            $filterServices.find('.selected').removeClass('selected');
             resetForm();
             filter(key);
         });
@@ -42,8 +52,8 @@ App.Pages.Services = (function () {
          * Display the selected service data to the user.
          */
         $services.on('click', '.service-row', function () {
-            if ($('#filter-services .filter').prop('disabled')) {
-                $('#filter-services .results').css('color', '#AAA');
+            if ($filterServices.find('.filter').prop('disabled')) {
+                $filterServices.find('.results').css('color', '#AAA');
                 return; // exit because we are on edit mode
             }
 
@@ -65,10 +75,10 @@ App.Pages.Services = (function () {
                 ]
             });
 
-            $('#services .record-details h3').find('a').remove().end().append($link);
+            $services.find('.record-details h3').find('a').remove().end().append($link);
 
             display(service);
-            $('#filter-services .selected').removeClass('selected');
+            $filterServices.find('.selected').removeClass('selected');
             $(this).addClass('selected');
             $('#edit-service, #delete-service').prop('disabled', false);
         });
@@ -78,20 +88,20 @@ App.Pages.Services = (function () {
          */
         $services.on('click', '#add-service', function () {
             resetForm();
-            $('#services .add-edit-delete-group').hide();
-            $('#services .save-cancel-group').show();
-            $('#services .record-details').find('input, select, textarea').prop('disabled', false);
-            $('#filter-services button').prop('disabled', true);
-            $('#filter-services .results').css('color', '#AAA');
+            $services.find('.add-edit-delete-group').hide();
+            $services.find('.save-cancel-group').show();
+            $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $filterServices.find('button').prop('disabled', true);
+            $filterServices.find('.results').css('color', '#AAA');
 
             // Default values
-            $('#service-name').val('Service');
-            $('#service-duration').val('30');
-            $('#service-price').val('0');
-            $('#service-currency').val('');
-            $('#service-category').val('');
-            $('#service-availabilities-type').val('flexible');
-            $('#service-attendants-number').val('1');
+            $name.val('Service');
+            $duration.val('30');
+            $price.val('0');
+            $currency.val('');
+            $category.val('');
+            $availabilitiesType.val('flexible');
+            $attendantsNumber.val('1');
         });
 
         /**
@@ -100,8 +110,10 @@ App.Pages.Services = (function () {
          * Cancel add or edit of a service record.
          */
         $services.on('click', '#cancel-service', function () {
-            const id = $('#service-id').val();
+            const id = $id.val();
+
             resetForm();
+
             if (id !== '') {
                 select(id, true);
             }
@@ -112,19 +124,19 @@ App.Pages.Services = (function () {
          */
         $services.on('click', '#save-service', function () {
             const service = {
-                name: $('#service-name').val(),
-                duration: $('#service-duration').val(),
-                price: $('#service-price').val(),
-                currency: $('#service-currency').val(),
-                description: $('#service-description').val(),
-                location: $('#service-location').val(),
-                availabilities_type: $('#service-availabilities-type').val(),
-                attendants_number: $('#service-attendants-number').val(),
-                id_categories: $('#service-category').val() || null
+                name: $name.val(),
+                duration: $duration.val(),
+                price: $price.val(),
+                currency: $currency.val(),
+                description: $description.val(),
+                location: $location.val(),
+                availabilities_type: $availabilitiesType.val(),
+                attendants_number: $attendantsNumber.val(),
+                id_categories: $category.val() || null
             };
 
-            if ($('#service-id').val() !== '') {
-                service.id = $('#service-id').val();
+            if ($id.val() !== '') {
+                service.id = $id.val();
             }
 
             if (!validate()) {
@@ -138,28 +150,28 @@ App.Pages.Services = (function () {
          * Event: Edit Service Button "Click"
          */
         $services.on('click', '#edit-service', function () {
-            $('#services .add-edit-delete-group').hide();
-            $('#services .save-cancel-group').show();
-            $('#services .record-details').find('input, select, textarea').prop('disabled', false);
-            $('#filter-services button').prop('disabled', true);
-            $('#filter-services .results').css('color', '#AAA');
+            $services.find('.add-edit-delete-group').hide();
+            $services.find('.save-cancel-group').show();
+            $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $filterServices.find('button').prop('disabled', true);
+            $filterServices.find('.results').css('color', '#AAA');
         });
 
         /**
          * Event: Delete Service Button "Click"
          */
         $services.on('click', '#delete-service', function () {
-            const serviceId = $('#service-id').val();
+            const serviceId = $id.val();
             const buttons = [
                 {
                     text: App.Lang.cancel,
-                    click: function () {
+                    click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
                     text: App.Lang.delete,
-                    click: function () {
+                    click: () => {
                         remove(serviceId);
                         $('#message-box').dialog('close');
                     }
@@ -180,7 +192,7 @@ App.Pages.Services = (function () {
         App.Http.Services.save(service).then((response) => {
             App.Layouts.Backend.displayNotification(App.Lang.service_saved);
             resetForm();
-            $('#filter-services .key').val('');
+            $filterServices.find('.key').val('');
             filter('', response.id, true);
         });
     }
@@ -194,7 +206,7 @@ App.Pages.Services = (function () {
         App.Http.Services.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(App.Lang.service_deleted);
             resetForm();
-            filter($('#filter-services .key').val());
+            filter($filterServices.find('.key').val());
         });
     }
 
@@ -204,14 +216,14 @@ App.Pages.Services = (function () {
      * @return {Boolean} Returns the validation result.
      */
     function validate() {
-        $('#services .is-invalid').removeClass('is-invalid');
-        $('#services .form-message').removeClass('alert-danger').hide();
+        $services.find('.is-invalid').removeClass('is-invalid');
+        $services.find('.form-message').removeClass('alert-danger').hide();
 
         try {
             // Validate required fields.
             let missingRequired = false;
 
-            $('#services .required').each(function (index, requiredField) {
+            $services.find('.required').each((index, requiredField) => {
                 if (!$(requiredField).val()) {
                     $(requiredField).addClass('is-invalid');
                     missingRequired = true;
@@ -223,14 +235,14 @@ App.Pages.Services = (function () {
             }
 
             // Validate the duration.
-            if (Number($('#service-duration').val()) < 5) {
-                $('#service-duration').addClass('is-invalid');
+            if (Number($duration.val()) < 5) {
+                $duration.addClass('is-invalid');
                 throw new Error(App.Lang.invalid_duration);
             }
 
             return true;
         } catch (error) {
-            $('#services .form-message').addClass('alert-danger').text(error.message).show();
+            $services.find('.form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     }
@@ -239,19 +251,19 @@ App.Pages.Services = (function () {
      * Resets the service tab form back to its initial state.
      */
     function resetForm() {
-        $('#filter-services .selected').removeClass('selected');
-        $('#filter-services button').prop('disabled', false);
-        $('#filter-services .results').css('color', '');
+        $filterServices.find('.selected').removeClass('selected');
+        $filterServices.find('button').prop('disabled', false);
+        $filterServices.find('.results').css('color', '');
 
-        $('#services .record-details').find('input, select, textarea').val('').prop('disabled', true);
-        $('#services .record-details h3 a').remove();
+        $services.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $services.find('.record-details h3 a').remove();
 
-        $('#services .add-edit-delete-group').show();
-        $('#services .save-cancel-group').hide();
+        $services.find('.add-edit-delete-group').show();
+        $services.find('.save-cancel-group').hide();
         $('#edit-service, #delete-service').prop('disabled', true);
 
-        $('#services .record-details .is-invalid').removeClass('is-invalid');
-        $('#services .record-details .form-message').hide();
+        $services.find('.record-details .is-invalid').removeClass('is-invalid');
+        $services.find('.record-details .form-message').hide();
     }
 
     /**
@@ -260,18 +272,18 @@ App.Pages.Services = (function () {
      * @param {Object} service Contains the service record data.
      */
     function display(service) {
-        $('#service-id').val(service.id);
-        $('#service-name').val(service.name);
-        $('#service-duration').val(service.duration);
-        $('#service-price').val(service.price);
-        $('#service-currency').val(service.currency);
-        $('#service-description').val(service.description);
-        $('#service-location').val(service.location);
-        $('#service-availabilities-type').val(service.availabilities_type);
-        $('#service-attendants-number').val(service.attendants_number);
+        $id.val(service.id);
+        $name.val(service.name);
+        $duration.val(service.duration);
+        $price.val(service.price);
+        $currency.val(service.currency);
+        $description.val(service.description);
+        $location.val(service.location);
+        $availabilitiesType.val(service.availabilities_type);
+        $attendantsNumber.val(service.attendants_number);
 
         const categoryId = service.id_categories !== null ? service.id_categories : '';
-        $('#service-category').val(categoryId);
+        $category.val(categoryId);
     }
 
     /**
@@ -286,14 +298,14 @@ App.Pages.Services = (function () {
         App.Http.Services.search(keyword, filterLimit).then((response) => {
             filterResults = response;
 
-            $('#filter-services .results').empty();
+            $filterServices.find('.results').empty();
 
-            response.forEach(function (service, index) {
-                $('#filter-services .results').append(getFilterHtml(service)).append($('<hr/>'));
+            response.forEach((service) => {
+                $filterServices.find('.results').append(getFilterHtml(service)).append($('<hr/>'));
             });
 
             if (response.length === 0) {
-                $('#filter-services .results').append(
+                $filterServices.find('.results').append(
                     $('<em/>', {
                         'text': App.Lang.no_records_found
                     })
@@ -303,10 +315,10 @@ App.Pages.Services = (function () {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
                     'text': App.Lang.load_more,
-                    'click': function () {
+                    'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }.bind(this)
+                    }
                 }).appendTo('#filter-services .results');
             }
 
@@ -354,9 +366,9 @@ App.Pages.Services = (function () {
      * @param {Boolean} show Optional (false), if true then the method will display the record on the form.
      */
     function select(id, show = false) {
-        $('#filter-services .selected').removeClass('selected');
+        $filterServices.find('.selected').removeClass('selected');
 
-        $('#filter-services .service-row[data-id="' + id + '"]').addClass('selected');
+        $filterServices.find('.service-row[data-id="' + id + '"]').addClass('selected');
 
         if (show) {
             const service = filterResults.find(function (filterResult) {
@@ -380,7 +392,7 @@ App.Pages.Services = (function () {
 
             $select.empty();
 
-            response.forEach(function (category) {
+            response.forEach((category) => {
                 $select.append(new Option(category.name, category.id));
             });
 
@@ -394,7 +406,7 @@ App.Pages.Services = (function () {
     function initialize() {
         resetForm();
         filter('');
-        bindEventHandlers();
+        addEventListeners();
         updateAvailableCategories();
     }
 
