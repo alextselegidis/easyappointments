@@ -15,6 +15,15 @@
  * This module implements the functionality of HTTP requests.
  */
 window.App.Utils.Http = (function () {
+    /**
+     * Perform an HTTP request.
+     *
+     * @param {String} method
+     * @param {String} url
+     * @param {Object} data
+     *
+     * @return {Promise}
+     */
     function request(method, url, data) {
         return new Promise((resolve, reject) => {
             fetch(App.Utils.Url.siteUrl(url), {
@@ -58,7 +67,16 @@ window.App.Utils.Http = (function () {
         });
     }
 
-    function upload(user, method, url, file) {
+    /**
+     * Upload the provided file.
+     *
+     * @param {String} method
+     * @param {String} url
+     * @param {File} file
+     *
+     * @return {Promise}
+     */
+    function upload(method, url, file) {
         const formData = new FormData();
 
         formData.append('file', file, file.name);
@@ -100,7 +118,15 @@ window.App.Utils.Http = (function () {
         });
     }
 
-    function download(user, method, url) {
+    /**
+     * Download the requested URL.
+     *
+     * @param {String} method
+     * @param {String} url
+     *
+     * @return {Promise}
+     */
+    function download(method, url) {
         return new Promise((resolve, reject) => {
             fetch(App.Utils.Url.siteUrl(url), {
                 method,
