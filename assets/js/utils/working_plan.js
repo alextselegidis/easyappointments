@@ -629,13 +629,15 @@ App.Utils.WorkingPlan = (function () {
         get() {
             const workingPlan = {};
 
+            const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+
             $('.working-plan input:checkbox').each(
                 function (index, checkbox) {
                     const id = $(checkbox).attr('id');
                     if ($(checkbox).prop('checked') === true) {
                         workingPlan[id] = {
-                            start: moment($('#' + id + '-start').val(), 'HH:mm').format('HH:mm'),
-                            end: moment($('#' + id + '-end').val(), 'HH:mm').format('HH:mm'),
+                            start: moment($('#' + id + '-start').val(), timeFormat).format('HH:mm'),
+                            end: moment($('#' + id + '-end').val(), timeFormat).format('HH:mm'),
                             breaks: []
                         };
 
