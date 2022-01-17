@@ -23,24 +23,20 @@ App.Pages.Login = (function () {
      * Login Button "Click"
      *
      * Make an ajax call to the server and check whether the user's credentials are right.
+     *
      * If yes then redirect him to his desired page, otherwise display a message.
      */
     function onLoginFormSubmit(event) {
         event.preventDefault();
 
-        const url = App.Vars.baseUrl + '/index.php/login/validate';
-
-        const data = {
-            csrf_token: App.Vars.csrf_token,
-            username: $username.val(),
-            password: $password.val()
-        };
+        const username = $username.val();
+        const password = $password.val();
 
         const $alert = $('.alert');
 
         $alert.addClass('d-none');
 
-        $.post(url, data).done((response) => {
+        App.Http.Login.validate(username, password).done((response) => {
             if (response.success) {
                 window.location.href = App.Vars.dest_url;
             } else {
