@@ -16,13 +16,31 @@
  */
 App.Pages.Admins = (function () {
     const $admins = $('#admins');
+    const $adminId = $('#admin-id');
+    const $firstName = $('#admin-first-name');
+    const $lastName = $('#admin-last-name');
+    const $email = $('#admin-email');
+    const $mobileNumber = $('#admin-mobile-number');
+    const $phoneNumber = $('#admin-phone-number');
+    const $address = $('#admin-address');
+    const $city = $('#admin-city');
+    const $state = $('#admin-state');
+    const $zipCode = $('#admin-zip-code');
+    const $notes = $('#admin-notes');
+    const $timezone = $('#admin-timezone');
+    const $username = $('#admin-username');
+    const $password = $('#admin-password');
+    const $passwordConfirmation = $('#admin-password-confirm');
+    const $notifications = $('#admin-notifications');
+    const $calendarView = $('#admin-calendar-view');
+    const $filterAdmins = $('#filter-admins');
     let filterResults = {};
     let filterLimit = 20;
 
     /**
-     * Bind the event handlers.
+     * Add the page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Admin Username "Blur"
          *
@@ -103,10 +121,10 @@ App.Pages.Admins = (function () {
          */
         $admins.on('click', '#add-admin', function () {
             resetForm();
-            $('#admins .add-edit-delete-group').hide();
-            $('#admins .save-cancel-group').show();
-            $('#admins .record-details').find('input, textarea').prop('disabled', false);
-            $('#admins .record-details').find('select').prop('disabled', false);
+            $admins.find('.add-edit-delete-group').hide();
+            $admins.find('.save-cancel-group').show();
+            $admins.find('.record-details').find('input, textarea').prop('disabled', false);
+            $admins.find('.record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').addClass('required');
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
@@ -116,10 +134,10 @@ App.Pages.Admins = (function () {
          * Event: Edit Admin Button "Click"
          */
         $admins.on('click', '#edit-admin', function () {
-            $('#admins .add-edit-delete-group').hide();
-            $('#admins .save-cancel-group').show();
-            $('#admins .record-details').find('input, textarea').prop('disabled', false);
-            $('#admins .record-details').find('select').prop('disabled', false);
+            $admins.find('.add-edit-delete-group').hide();
+            $admins.find('.save-cancel-group').show();
+            $admins.find('.record-details').find('input, textarea').prop('disabled', false);
+            $admins.find('.record-details').find('select').prop('disabled', false);
             $('#admin-password, #admin-password-confirm').removeClass('required');
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
@@ -155,31 +173,31 @@ App.Pages.Admins = (function () {
          */
         $admins.on('click', '#save-admin', function () {
             const admin = {
-                first_name: $('#admin-first-name').val(),
-                last_name: $('#admin-last-name').val(),
-                email: $('#admin-email').val(),
-                mobile_number: $('#admin-mobile-number').val(),
-                phone_number: $('#admin-phone-number').val(),
-                address: $('#admin-address').val(),
-                city: $('#admin-city').val(),
-                state: $('#admin-state').val(),
-                zip_code: $('#admin-zip-code').val(),
-                notes: $('#admin-notes').val(),
-                timezone: $('#admin-timezone').val(),
+                first_name: $firstName.val(),
+                last_name: $lastName.val(),
+                email: $email.val(),
+                mobile_number: $mobileNumber.val(),
+                phone_number: $phoneNumber.val(),
+                address: $address.val(),
+                city: $city.val(),
+                state: $state.val(),
+                zip_code: $zipCode.val(),
+                notes: $notes.val(),
+                timezone: $timezone.val(),
                 settings: {
-                    username: $('#admin-username').val(),
-                    notifications: Number($('#admin-notifications').prop('checked')),
-                    calendar_view: $('#admin-calendar-view').val()
+                    username: $username.val(),
+                    notifications: Number($notifications.prop('checked')),
+                    calendar_view: $calendarView.val()
                 }
             };
 
             // Include password if changed.
-            if ($('#admin-password').val() !== '') {
-                admin.settings.password = $('#admin-password').val();
+            if ($password.val() !== '') {
+                admin.settings.password = $password.val();
             }
 
             // Include id if changed.
-            if ($('#admin-id').val() !== '') {
+            if ($adminId.val() !== '') {
                 admin.id = $('#admin-id').val();
             }
 
@@ -196,8 +214,10 @@ App.Pages.Admins = (function () {
          * Cancel add or edit of an admin record.
          */
         $admins.on('click', '#cancel-admin', function () {
-            const id = $('#admin-id').val();
+            const id = $adminId.val();
+
             resetForm();
+
             if (id) {
                 select(id, true);
             }
@@ -238,13 +258,13 @@ App.Pages.Admins = (function () {
      * @return {Boolean} Returns the validation result.
      */
     function validate() {
-        $('#admins .is-invalid').removeClass('is-invalid');
+        $admins.find('.is-invalid').removeClass('is-invalid');
 
         try {
             // Validate required fields.
             let missingRequired = false;
 
-            $('#admins .required').each(function (index, requiredField) {
+            $admins.find('.required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
                     $(requiredField).addClass('is-invalid');
                     missingRequired = true;
@@ -256,31 +276,31 @@ App.Pages.Admins = (function () {
             }
 
             // Validate passwords.
-            if ($('#admin-password').val() !== $('#admin-password-confirm').val()) {
+            if ($password.val() !== $passwordConfirmation.val()) {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
                 throw new Error(App.Lang.passwords_mismatch);
             }
 
-            if ($('#admin-password').val().length < App.Vars.min_password_length && $('#admin-password').val() !== '') {
+            if ($password.val().length < App.Vars.min_password_length && $password.val() !== '') {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
                 throw new Error(App.Lang.password_length_notice.replace('$number', BackendAdmins.MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
-            if (!App.Utils.Validation.email($('#admin-email').val())) {
-                $('#admin-email').addClass('is-invalid');
+            if (!App.Utils.Validation.email($email.val())) {
+                $email.addClass('is-invalid');
                 throw new Error(App.Lang.invalid_email);
             }
 
             // Check if username exists
-            if ($('#admin-username').attr('already-exists') === 'true') {
-                $('#admin-username').addClass('is-invalid');
+            if ($username.attr('already-exists') === 'true') {
+                $username.addClass('is-invalid');
                 throw new Error(App.Lang.username_already_exists);
             }
 
             return true;
         } catch (error) {
-            $('#admins .form-message').addClass('alert-danger').text(error.message).show();
+            $admins.find('.form-message').addClass('alert-danger').text(error.message).show();
             return false;
         }
     }
@@ -293,11 +313,11 @@ App.Pages.Admins = (function () {
         $('#filter-admins button').prop('disabled', false);
         $('#filter-admins .results').css('color', '');
 
-        $('#admins .add-edit-delete-group').show();
-        $('#admins .save-cancel-group').hide();
-        $('#admins .record-details').find('input, select, textarea').val('').prop('disabled', true);
-        $('#admins .record-details #admin-calendar-view').val('default');
-        $('#admins .record-details #admin-timezone').val('UTC');
+        $admins.find('.add-edit-delete-group').show();
+        $admins.find('.save-cancel-group').hide();
+        $admins.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $admins.find('.record-details #admin-calendar-view').val('default');
+        $admins.find('.record-details #admin-timezone').val('UTC');
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
         $('#admins .is-invalid').removeClass('is-invalid');
@@ -310,22 +330,22 @@ App.Pages.Admins = (function () {
      * @param {Object} admin Contains the admin record data.
      */
     function display(admin) {
-        $('#admin-id').val(admin.id);
-        $('#admin-first-name').val(admin.first_name);
-        $('#admin-last-name').val(admin.last_name);
-        $('#admin-email').val(admin.email);
-        $('#admin-mobile-number').val(admin.mobile_number);
-        $('#admin-phone-number').val(admin.phone_number);
-        $('#admin-address').val(admin.address);
-        $('#admin-city').val(admin.city);
-        $('#admin-state').val(admin.state);
-        $('#admin-zip-code').val(admin.zip_code);
-        $('#admin-notes').val(admin.notes);
-        $('#admin-timezone').val(admin.timezone);
+        $adminId.val(admin.id);
+        $firstName.val(admin.first_name);
+        $lastName.val(admin.last_name);
+        $email.val(admin.email);
+        $mobileNumber.val(admin.mobile_number);
+        $phoneNumber.val(admin.phone_number);
+        $address.val(admin.address);
+        $city.val(admin.city);
+        $state.val(admin.state);
+        $zipCode.val(admin.zip_code);
+        $notes.val(admin.notes);
+        $timezone.val(admin.timezone);
 
-        $('#admin-username').val(admin.settings.username);
-        $('#admin-calendar-view').val(admin.settings.calendar_view);
-        $('#admin-notifications').prop('checked', Boolean(Number(admin.settings.notifications)));
+        $username.val(admin.settings.username);
+        $calendarView.val(admin.settings.calendar_view);
+        $notifications.prop('checked', Boolean(Number(admin.settings.notifications)));
     }
 
     /**
@@ -341,14 +361,14 @@ App.Pages.Admins = (function () {
         App.Http.Admins.search(keyword, filterLimit).then((response) => {
             filterResults = response;
 
-            $('#filter-admins .results').empty();
+            $filterAdmins.find('.results').empty();
 
             response.forEach(function (admin) {
                 $('#filter-admins .results').append(getFilterHtml(admin)).append($('<hr/>'));
             });
 
             if (!response.length) {
-                $('#filter-admins .results').append(
+                $filterAdmins.find('.results').append(
                     $('<em/>', {
                         'text': App.Lang.no_records_found
                     })
@@ -412,9 +432,9 @@ App.Pages.Admins = (function () {
      * on the form.
      */
     function select(id, show = false) {
-        $('#filter-admins .selected').removeClass('selected');
+        $filterAdmins.find('.selected').removeClass('selected');
 
-        $('#filter-admins .admin-row[data-id="' + id + '"]').addClass('selected');
+        $filterAdmins.find('.admin-row[data-id="' + id + '"]').addClass('selected');
 
         if (show) {
             const admin = filterResults.find(function (filterResult) {
@@ -433,7 +453,7 @@ App.Pages.Admins = (function () {
     function initialize() {
         resetForm();
         filter('');
-        bindEventHandlers();
+        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
