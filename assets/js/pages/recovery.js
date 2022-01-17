@@ -16,6 +16,9 @@
  */
 App.Pages.Recovery = (function () {
     const $form = $('form');
+    const $username = $('#username');
+    const $email = $('#email');
+    const $getNewPassword = $('#get-new-password');
 
     /**
      * Event: Login Button "Click"
@@ -26,24 +29,19 @@ App.Pages.Recovery = (function () {
     function onFormSubmit(event) {
         event.preventDefault();
 
-        const url = GlobalVariables.baseUrl + '/index.php/recovery/perform';
-
-        const data = {
-            csrf_token: GlobalVariables.csrfToken,
-            username: $('#username').val(),
-            email: $('#email').val()
-        };
-
         const $alert = $('.alert');
 
         $alert.addClass('d-none');
 
-        $('#get-new-password').prop('disabled', true);
+        $getNewPassword.prop('disabled', true);
 
-        $.post(url, data).done((response) => {
+        const username = $username.val();
+        const email = $email.val();
+
+        App.Http.Recovery.perform(username, email).done((response) => {
             $alert.removeClass('d-none alert-danger alert-success');
 
-            $('#get-new-password').prop('disabled', false);
+            $getNewPassword.prop('disabled', false);
 
             if (response.success) {
                 $alert.addClass('alert-success');

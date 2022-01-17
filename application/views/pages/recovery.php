@@ -39,6 +39,8 @@
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/recovery_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/recovery.js') ?>"></script>
 
 <?php section('scripts') ?>
