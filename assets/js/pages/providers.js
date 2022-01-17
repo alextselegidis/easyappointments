@@ -16,14 +16,32 @@
  */
 App.Pages.Providers = (function () {
     const $providers = $('#providers');
+    const $id = $('#provider-id');
+    const $firstName = $('#provider-first-name');
+    const $lastName = $('#provider-last-name');
+    const $email = $('#provider-email');
+    const $mobileNumber = $('#provider-mobile-number');
+    const $phoneNumber = $('#provider-phone-number');
+    const $address = $('#provider-address');
+    const $city = $('#provider-city');
+    const $state = $('#provider-state');
+    const $zipCode = $('#provider-zip-code');
+    const $notes = $('#provider-notes');
+    const $timezone = $('#provider-timezone');
+    const $username = $('#provider-username');
+    const $password = $('#provider-password');
+    const $passwordConfirmation = $('#provider-password-confirm');
+    const $notifications = $('#provider-notifications');
+    const $calendarView = $('#provider-calendar-view');
+    const $filterProviders = $('#filter-providers');
     let filterResults = {};
     let filterLimit = 20;
     let workingPlanManager;
 
     /**
-     * Bind the event handlers.
+     * Add the page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Filter Providers Form "Submit"
          *
@@ -45,8 +63,8 @@ App.Pages.Providers = (function () {
          * Display the selected provider data to the user.
          */
         $providers.on('click', '.provider-row', function (event) {
-            if ($('#filter-providers .filter').prop('disabled')) {
-                $('#filter-providers .results').css('color', '#AAA');
+            if ($filterProviders.find('.filter').prop('disabled')) {
+                $filterProviders.find('.results').css('color', '#AAA');
                 return; // Exit because we are currently on edit mode.
             }
 
@@ -56,7 +74,7 @@ App.Pages.Providers = (function () {
             });
 
             display(provider);
-            $('#filter-providers .selected').removeClass('selected');
+            $filterProviders.find('.selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-provider, #delete-provider').prop('disabled', false);
         });
@@ -66,11 +84,11 @@ App.Pages.Providers = (function () {
          */
         $providers.on('click', '#add-provider', function () {
             resetForm();
-            $('#filter-providers button').prop('disabled', true);
-            $('#filter-providers .results').css('color', '#AAA');
-            $('#providers .add-edit-delete-group').hide();
-            $('#providers .save-cancel-group').show();
-            $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
+            $filterProviders.find('button').prop('disabled', true);
+            $filterProviders.find('.results').css('color', '#AAA');
+            $providers.find('.add-edit-delete-group').hide();
+            $providers.find('.save-cancel-group').show();
+            $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').addClass('required');
             $providers
                 .find(
@@ -89,11 +107,11 @@ App.Pages.Providers = (function () {
          * Event: Edit Provider Button "Click"
          */
         $providers.on('click', '#edit-provider', function () {
-            $('#providers .add-edit-delete-group').hide();
-            $('#providers .save-cancel-group').show();
-            $('#filter-providers button').prop('disabled', true);
-            $('#filter-providers .results').css('color', '#AAA');
-            $('#providers .record-details').find('input, select, textarea').prop('disabled', false);
+            $providers.find('.add-edit-delete-group').hide();
+            $providers.find('.save-cancel-group').show();
+            $filterProviders.find('button').prop('disabled', true);
+            $filterProviders.find('.results').css('color', '#AAA');
+            $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#provider-password, #provider-password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
             $providers
@@ -109,7 +127,7 @@ App.Pages.Providers = (function () {
          * Event: Delete Provider Button "Click"
          */
         $providers.on('click', '#delete-provider', function () {
-            const providerId = $('#provider-id').val();
+            const providerId = $id.val();
 
             const buttons = [
                 {
@@ -135,23 +153,23 @@ App.Pages.Providers = (function () {
          */
         $providers.on('click', '#save-provider', function () {
             const provider = {
-                first_name: $('#provider-first-name').val(),
-                last_name: $('#provider-last-name').val(),
-                email: $('#provider-email').val(),
-                mobile_number: $('#provider-mobile-number').val(),
-                phone_number: $('#provider-phone-number').val(),
-                address: $('#provider-address').val(),
-                city: $('#provider-city').val(),
-                state: $('#provider-state').val(),
-                zip_code: $('#provider-zip-code').val(),
-                notes: $('#provider-notes').val(),
-                timezone: $('#provider-timezone').val(),
+                first_name: $firstName.val(),
+                last_name: $lastName.val(),
+                email: $email.val(),
+                mobile_number: $mobileNumber.val(),
+                phone_number: $phoneNumber.val(),
+                address: $address.val(),
+                city: $city.val(),
+                state: $state.val(),
+                zip_code: $zipCode.val(),
+                notes: $notes.val(),
+                timezone: $timezone.val(),
                 settings: {
-                    username: $('#provider-username').val(),
+                    username: $username.val(),
                     working_plan: JSON.stringify(workingPlanManager.get()),
                     working_plan_exceptions: JSON.stringify(workingPlanManager.getWorkingPlanExceptions()),
-                    notifications: Number($('#provider-notifications').prop('checked')),
-                    calendar_view: $('#provider-calendar-view').val()
+                    notifications: Number($notifications.prop('checked')),
+                    calendar_view: $calendarView.val()
                 }
             };
 
@@ -164,13 +182,13 @@ App.Pages.Providers = (function () {
             });
 
             // Include password if changed.
-            if ($('#provider-password').val() !== '') {
-                provider.settings.password = $('#provider-password').val();
+            if ($password.val() !== '') {
+                provider.settings.password = $password.val();
             }
 
             // Include id if changed.
-            if ($('#provider-id').val() !== '') {
-                provider.id = $('#provider-id').val();
+            if ($id.val() !== '') {
+                provider.id = $id.val();
             }
 
             if (!validate()) {
@@ -247,14 +265,14 @@ App.Pages.Providers = (function () {
      * @return {Boolean} Returns the validation result.
      */
     function validate() {
-        $('#providers .is-invalid').removeClass('is-invalid');
-        $('#providers .form-message').removeClass('alert-danger').hide();
+        $providers.find('.is-invalid').removeClass('is-invalid');
+        $providers.find('.form-message').removeClass('alert-danger').hide();
 
         try {
             // Validate required fields.
             let missingRequired = false;
 
-            $('#providers .required').each(function (index, requiredField) {
+            $providers.find('.required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
                     $(requiredField).addClass('is-invalid');
                     missingRequired = true;
@@ -266,28 +284,25 @@ App.Pages.Providers = (function () {
             }
 
             // Validate passwords.
-            if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
+            if ($password.val() !== $passwordConfirmation.val()) {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
                 throw new Error(App.Lang.passwords_mismatch);
             }
 
-            if (
-                $('#provider-password').val().length < App.Vars.min_password_length &&
-                $('#provider-password').val() !== ''
-            ) {
+            if ($password.val().length < App.Vars.min_password_length && $password.val() !== '') {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
                 throw new Error(App.Lang.password_length_notice.replace('$number', MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
-            if (!App.Utils.Validation.email($('#provider-email').val())) {
-                $('#provider-email').addClass('is-invalid');
+            if (!App.Utils.Validation.email($email.val())) {
+                $email.addClass('is-invalid');
                 throw new Error(App.Lang.invalid_email);
             }
 
             // Check if username exists
-            if ($('#provider-username').attr('already-exists') === 'true') {
-                $('#provider-username').addClass('is-invalid');
+            if ($username.attr('already-exists') === 'true') {
+                $username.addClass('is-invalid');
                 throw new Error(App.Lang.username_already_exists);
             }
 
@@ -302,27 +317,28 @@ App.Pages.Providers = (function () {
      * Resets the provider tab form back to its initial state.
      */
     function resetForm() {
-        $('#filter-providers .selected').removeClass('selected');
-        $('#filter-providers button').prop('disabled', false);
-        $('#filter-providers .results').css('color', '');
+        $filterProviders.find('.selected').removeClass('selected');
+        $filterProviders.find('button').prop('disabled', false);
+        $filterProviders.find('.results').css('color', '');
 
-        $('#providers .add-edit-delete-group').show();
-        $('#providers .save-cancel-group').hide();
-        $('#providers .record-details h3 a').remove();
-        $('#providers .record-details').find('input, select, textarea').val('').prop('disabled', true);
-        $('#providers .record-details #provider-calendar-view').val('default');
-        $('#providers .record-details #provider-timezone').val('UTC');
-        $('#providers .add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
+        $providers.find('.add-edit-delete-group').show();
+        $providers.find('.save-cancel-group').hide();
+        $providers.find('.record-details h3 a').remove();
+        $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $providers.find('.record-details #provider-calendar-view').val('default');
+        $providers.find('.record-details #provider-timezone').val('UTC');
+        $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
+
         workingPlanManager.timepickers(true);
-        $('#providers .working-plan input:text').timepicker('destroy');
-        $('#providers .working-plan input:checkbox').prop('disabled', true);
+        $providers.find('#providers .working-plan input:text').timepicker('destroy');
+        $providers.find('#providers .working-plan input:checkbox').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
         $('.working-plan-exceptions')
             .find('.edit-working-plan-exception, .delete-working-plan-exception')
             .prop('disabled', true);
 
-        $('#providers .record-details .is-invalid').removeClass('is-invalid');
-        $('#providers .record-details .form-message').hide();
+        $providers.find('.record-details .is-invalid').removeClass('is-invalid');
+        $providers.find('.record-details .form-message').hide();
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#provider-services input:checkbox').prop('disabled', true).prop('checked', false);
@@ -338,22 +354,22 @@ App.Pages.Providers = (function () {
      * @param {Object} provider Contains the provider record data.
      */
     function display(provider) {
-        $('#provider-id').val(provider.id);
-        $('#provider-first-name').val(provider.first_name);
-        $('#provider-last-name').val(provider.last_name);
-        $('#provider-email').val(provider.email);
-        $('#provider-mobile-number').val(provider.mobile_number);
-        $('#provider-phone-number').val(provider.phone_number);
-        $('#provider-address').val(provider.address);
-        $('#provider-city').val(provider.city);
-        $('#provider-state').val(provider.state);
-        $('#provider-zip-code').val(provider.zip_code);
-        $('#provider-notes').val(provider.notes);
-        $('#provider-timezone').val(provider.timezone);
+        $id.val(provider.id);
+        $firstName.val(provider.first_name);
+        $lastName.val(provider.last_name);
+        $email.val(provider.email);
+        $mobileNumber.val(provider.mobile_number);
+        $phoneNumber.val(provider.phone_number);
+        $address.val(provider.address);
+        $city.val(provider.city);
+        $state.val(provider.state);
+        $zipCode.val(provider.zip_code);
+        $notes.val(provider.notes);
+        $timezone.val(provider.timezone);
 
-        $('#provider-username').val(provider.settings.username);
-        $('#provider-calendar-view').val(provider.settings.calendar_view);
-        $('#provider-notifications').prop('checked', Boolean(Number(provider.settings.notifications)));
+        $username.val(provider.settings.username);
+        $calendarView.val(provider.settings.calendar_view);
+        $notifications.prop('checked', Boolean(Number(provider.settings.notifications)));
 
         // Add dedicated provider link.
         let dedicatedUrl = App.Utils.Url.siteUrl('?provider=' + encodeURIComponent(provider.id));
@@ -366,7 +382,7 @@ App.Pages.Providers = (function () {
             ]
         });
 
-        $('#providers .details-view h3').find('a').remove().end().append($link);
+        $providers.find('.details-view h3').find('a').remove().end().append($link);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
@@ -402,13 +418,13 @@ App.Pages.Providers = (function () {
         workingPlanManager.setup(workingPlan);
         $('.working-plan').find('input').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
-        $('#providers .working-plan-exceptions tbody').empty();
+        $providers.find('.working-plan-exceptions tbody').empty();
         const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions);
         workingPlanManager.setupWorkingPlanExceptions(workingPlanExceptions);
         $('.working-plan-exceptions')
             .find('.edit-working-plan-exception, .delete-working-plan-exception')
             .prop('disabled', true);
-        $('#providers .working-plan input:checkbox').prop('disabled', true);
+        $providers.find('.working-plan input:checkbox').prop('disabled', true);
         App.Layouts.Backend.placeFooterToBottom();
     }
 
@@ -423,13 +439,13 @@ App.Pages.Providers = (function () {
         App.Http.Providers.search(keyword, filterLimit).then((response) => {
             filterResults = response;
 
-            $('#filter-providers .results').empty();
+            $filterProviders.find('.results').empty();
             response.forEach(function (provider) {
                 $('#filter-providers .results').append(getFilterHtml(provider)).append($('<hr/>'));
             });
 
             if (!response.length) {
-                $('#filter-providers .results').append(
+                $filterProviders.find('.results').append(
                     $('<em/>', {
                         'text': App.Lang.no_records_found
                     })
@@ -492,7 +508,7 @@ App.Pages.Providers = (function () {
      */
     function select(id, show = false) {
         // Select record in filter results.
-        $('#filter-providers .provider-row[data-id="' + id + '"]').addClass('selected');
+        $filterProviders.find('.provider-row[data-id="' + id + '"]').addClass('selected');
 
         // Display record in form (if display = true).
         if (show) {
@@ -515,7 +531,7 @@ App.Pages.Providers = (function () {
 
         resetForm();
         filter('');
-        bindEventHandlers();
+        addEventListeners();
 
         App.Vars.services.forEach(function (service) {
             $('<div/>', {
