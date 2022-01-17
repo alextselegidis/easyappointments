@@ -36,26 +36,6 @@
 
 <?php section('styles') ?>
 
-<?php section('scripts') ?>
-
-<script src="<?= asset_url('assets/vendor/fullcalendar/fullcalendar.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_google_sync.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/calendar_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/calendar.js') ?>"></script>
-
-<?php section('scripts') ?>
-
 <?php section('content') ?>
 
 <div class="container-fluid backend-page" id="calendar-page">
@@ -116,14 +96,14 @@
             </button>
 
             <?php if ($calendar_view === 'default'): ?>
-                <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
+                <a class="btn btn-light" href="<?= site_url('calendar?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
             <?php if ($calendar_view === 'table'): ?>
-                <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
+                <a class="btn btn-light" href="<?= site_url('calendar?view=default') ?>"
                    data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
                 </a>
@@ -171,5 +151,26 @@
 
 <?php component('working_plan_exceptions_modal') ?>
 
-<?php section('content') ?> 
+<?php section('content') ?>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/vendor/fullcalendar/fullcalendar.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_google_sync.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/calendar_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/google_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/calendar.js') ?>"></script>
+
+<?php section('scripts') ?>
 
