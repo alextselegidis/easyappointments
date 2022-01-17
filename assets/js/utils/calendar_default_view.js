@@ -144,7 +144,7 @@ App.Utils.CalendarDefaultView = (function () {
                 endMoment = moment(unavailable.end_datetime);
 
                 $dialog = $('#unavailabilities-modal');
-                App.Components.UnavailabilitiesModal.resetUnavailableDialog();
+                App.Components.UnavailabilitiesModal.resetModal();
 
                 // Apply unavailable data to dialog.
                 $dialog.find('.modal-header h3').text('Edit Unavailable Period');

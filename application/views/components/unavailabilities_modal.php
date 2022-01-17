@@ -17,29 +17,29 @@
 
                 <form>
                     <fieldset>
-                        <input id="unavailable-id" type="hidden">
+                        <input id="unavailability-id" type="hidden">
 
                         <div class="mb-3">
-                            <label for="unavailable-provider" class="form-label">
+                            <label for="unavailability-provider" class="form-label">
                                 <?= lang('provider') ?>
                             </label>
-                            <select id="unavailable-provider" class="form-control"></select>
+                            <select id="unavailability-provider" class="form-control"></select>
                         </div>
 
                         <div class="mb-3">
-                            <label for="unavailable-start" class="form-label">
+                            <label for="unavailability-start" class="form-label">
                                 <?= lang('start') ?>
                                 <span class="text-danger">*</span>
                             </label>
-                            <input id="unavailable-start" class="form-control">
+                            <input id="unavailability-start" class="form-control">
                         </div>
 
                         <div class="mb-3">
-                            <label for="unavailable-end" class="form-label">
+                            <label for="unavailability-end" class="form-label">
                                 <?= lang('end') ?>
                                 <span class="text-danger">*</span>
                             </label>
-                            <input id="unavailable-end" class="form-control">
+                            <input id="unavailability-end" class="form-control">
                         </div>
 
                         <div class="mb-3">
@@ -62,10 +62,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="unavailable-notes" class="form-label">
+                            <label for="unavailability-notes" class="form-label">
                                 <?= lang('notes') ?>
                             </label>
-                            <textarea id="unavailable-notes" rows="3" class="form-control"></textarea>
+                            <textarea id="unavailability-notes" rows="3" class="form-control"></textarea>
                         </div>
                     </fieldset>
                 </form>
@@ -75,7 +75,7 @@
                     <i class="fas fa-ban"></i>
                     <?= lang('cancel') ?>
                 </button>
-                <button id="save-unavailable" class="btn btn-primary">
+                <button id="save-unavailability" class="btn btn-primary">
                     <i class="fas fa-check-square me-2"></i>
                     <?= lang('save') ?>
                 </button>

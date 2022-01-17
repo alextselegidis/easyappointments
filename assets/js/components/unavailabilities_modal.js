@@ -17,60 +17,70 @@
  * Old Name: BackendCalendarUnavailabilityEventsModal
  */
 App.Components.UnavailabilitiesModal = (function () {
+    const $unavailabilitiesModal = $('#unavailabilities-modal');
+    const $unavailabilityId = $('#unavailability-id');
+    const $unavailabilityStart = $('#unavailability-start');
+    const $unavailabilityEnd = $('#unavailability-end');
+    const $unavailabilityProvider = $('#unavailability-provider');
+    const $unavailabilityNotes = $('#unavailability-notes');
+    const $saveUnavailability = $('#save-unavailability');
+    const $insertUnavailability = $('#insert-unavailability');
+    const $selectFilterItem = $('#select-filter-item');
+
     /**
-     * Bind the event handlers.
+     * Add the component event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Manage Unavailable Dialog Save Button "Click"
          *
          * Stores the unavailable period changes or inserts a new record.
          */
-        $('#unavailabilities-modal #save-unavailable').on('click', () => {
-            const $dialog = $('#unavailabilities-modal');
-            $dialog.find('.modal-message').addClass('d-none');
-            $dialog.find('.is-invalid').removeClass('is-invalid');
+        $saveUnavailability.on('click', () => {
+            $unavailabilitiesModal.find('.modal-message').addClass('d-none');
+            $unavailabilitiesModal.find('.is-invalid').removeClass('is-invalid');
 
-            const startMoment = moment($dialog.find('#unavailable-start').datetimepicker('getDate'));
+            const startMoment = moment($unavailabilityStart.datetimepicker('getDate'));
 
             if (!startMoment.isValid()) {
-                $dialog.find('#unavailable-start').addClass('is-invalid');
-
+                $unavailabilityStart.addClass('is-invalid');
                 return;
             }
 
-            const endMoment = moment($dialog.find('#unavailable-end').datetimepicker('getDate'));
+            const endMoment = moment($unavailabilityEnd.datetimepicker('getDate'));
 
             if (!endMoment.isValid()) {
-                $dialog.find('#unavailable-end').addClass('is-invalid');
+                $unavailabilityEnd.addClass('is-invalid');
 
                 return;
             }
 
             if (startMoment.isAfter(endMoment)) {
                 // Start time is after end time - display message to user.
-                $dialog
+                $unavailabilitiesModal
                     .find('.modal-message')
                     .text(App.Lang.start_date_before_end_error)
                     .addClass('alert-danger')
                     .removeClass('d-none');
 
-                $dialog.find('#unavailable-start, #unavailable-end').addClass('is-invalid');
+                $unavailabilityStart.addClass('is-invalid');
+
+                $unavailabilityEnd.addClass('is-invalid');
 
                 return;
             }
 
             // Unavailable period records go to the appointments table.
-            const unavailable = {
+            const unavailability = {
                 start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
-                notes: $dialog.find('#unavailable-notes').val(),
-                id_users_provider: $('#unavailable-provider').val()
+                notes: $unavailabilitiesModal.find('#unavailability-notes').val(),
+                id_users_provider: $('#unavailability-provider').val()
             };
 
-            if ($dialog.find('#unavailable-id').val() !== '') {
+            if ($unavailabilityId.val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                unavailable.id = $dialog.find('#unavailable-id').val();
+                unavailability.id = $unavailabilityId.val();
             }
 
             const successCallback = () => {
@@ -78,14 +88,14 @@ App.Components.UnavailabilitiesModal = (function () {
                 Backend.displayNotification(App.Lang.unavailable_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
-                $dialog.find('.alert').addClass('d-none');
+                $unavailabilitiesModal.find('.alert').addClass('d-none');
 
-                $dialog.modal('hide');
+                $unavailabilitiesModal.modal('hide');
 
-                $('#select-filter-item').trigger('change');
+                $selectFilterItem.trigger('change');
             };
 
-            App.Http.Calendar.saveUnavailable(unavailable, successCallback, null);
+            App.Http.Calendar.saveUnavailable(unavailability, successCallback, null);
         });
 
         /**
@@ -94,8 +104,8 @@ App.Components.UnavailabilitiesModal = (function () {
          * When the user clicks this button a popup dialog appears and the use can set a time period where
          * he cannot accept any appointments.
          */
-        $('#insert-unavailable').on('click', () => {
-            resetUnavailableDialog();
+        $insertUnavailability.on('click', () => {
+            resetModal();
 
             const $dialog = $('#unavailabilities-modal');
 
@@ -115,22 +125,20 @@ App.Components.UnavailabilitiesModal = (function () {
             }
 
             if ($('.calendar-view').length === 0) {
-                $dialog.find('#unavailable-provider').val($('#select-filter-item').val()).closest('.form-group').hide();
+                $unavailabilityProvider.val($selectFilterItem.val()).closest('.form-group').hide();
             }
 
-            $dialog
-                .find('#unavailable-start')
-                .val(App.Utils.Date.format(startMoment.toDate(), App.Vars.date_format, App.Vars.time_format, true));
-            $dialog
-                .find('#unavailable-end')
-                .val(
-                    App.Utils.Date.format(
-                        startMoment.add(1, 'hour').toDate(),
-                        App.Vars.date_format,
-                        App.Vars.time_format,
-                        true
-                    )
-                );
+            $unavailabilityStart.val(
+                App.Utils.Date.format(startMoment.toDate(), App.Vars.date_format, App.Vars.time_format, true)
+            );
+            $unavailabilityEnd.val(
+                App.Utils.Date.format(
+                    startMoment.add(1, 'hour').toDate(),
+                    App.Vars.date_format,
+                    App.Vars.time_format,
+                    true
+                )
+            );
             $dialog.find('.modal-header h3').text(App.Lang.new_unavailable_title);
             $dialog.modal('show');
         });
@@ -142,10 +150,8 @@ App.Components.UnavailabilitiesModal = (function () {
      * Reset the "#unavailabilities-modal" dialog. Use this method to bring the dialog to the initial state
      * before it becomes visible to the user.
      */
-    function resetUnavailableDialog() {
-        const $dialog = $('#unavailabilities-modal');
-
-        $dialog.find('#unavailable-id').val('');
+    function resetModal() {
+        $unavailabilityId.val('');
 
         // Set default time values
         const start = App.Utils.Date.format(moment().toDate(), App.Vars.date_format, App.Vars.time_format, true);
@@ -175,7 +181,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
         const firstWeekdayId = App.Utils.Date.getWeekdayId(firstWeekday);
 
-        $dialog.find('#unavailable-start').datetimepicker({
+        $unavailabilityStart.datetimepicker({
             dateFormat: dateFormat,
             timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
 
@@ -231,9 +237,9 @@ App.Components.UnavailabilitiesModal = (function () {
             minuteText: App.Lang.minutes,
             firstDay: firstWeekdayId
         });
-        $dialog.find('#unavailable-start').val(start);
+        $unavailabilityStart.val(start);
 
-        $dialog.find('#unavailable-end').datetimepicker({
+        $unavailabilityEnd.datetimepicker({
             dateFormat: dateFormat,
             timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
 
@@ -289,29 +295,29 @@ App.Components.UnavailabilitiesModal = (function () {
             minuteText: App.Lang.minutes,
             firstDay: firstWeekdayId
         });
-        $dialog.find('#unavailable-end').val(end);
+        $unavailabilityEnd.val(end);
 
         // Clear the unavailable notes field.
-        $dialog.find('#unavailable-notes').val('');
+        $unavailabilityNotes.val('');
     }
 
     /**
      * Initialize the module.
      */
     function initialize() {
-        const $unavailabilityProvider = $('#unavailable-provider');
-
         for (const index in App.Vars.available_providers) {
             const provider = App.Vars.available_providers[index];
 
             $unavailabilityProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }
 
-        bindEventHandlers();
+        addEventListeners();
     }
 
+    document.addEventListener('DOMContentLoaded', initialize);
+
     return {
-        resetUnavailableDialog,
+        resetModal,
         initialize
     };
 })();
