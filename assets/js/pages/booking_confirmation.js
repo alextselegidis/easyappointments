@@ -15,6 +15,7 @@
  * This module implements the functionality of the booking confirmation page.
  */
 App.Pages.BookingConfirmation = (function () {
+    const $addToGoogleCalendar = $('#add-to-google-calendar');
     /**
      * Handle Authorization Result
      *
@@ -31,12 +32,12 @@ App.Pages.BookingConfirmation = (function () {
 
             // The user has granted access, add the appointment to his calendar. Before making the event.insert request
             // the the event resource data must be prepared.
-            var providerData = App.Vars.provider_data;
+            const providerData = App.Vars.provider_data;
 
-            var appointmentData = App.Vars.appointment_data;
+            const appointmentData = App.Vars.appointment_data;
 
             // Create a valid Google Calendar API resource for the new event.
-            var resource = {
+            const resource = {
                 summary: App.Vars.service_data.name,
                 location: App.Vars.company_name,
                 start: {
@@ -54,7 +55,7 @@ App.Pages.BookingConfirmation = (function () {
             };
 
             gapi.client.load('calendar', 'v3', function () {
-                var request = gapi.client.calendar.events.insert({
+                const request = gapi.client.calendar.events.insert({
                     calendarId: 'primary',
                     resource: resource
                 });
@@ -82,7 +83,7 @@ App.Pages.BookingConfirmation = (function () {
                             ]
                         })
                     );
-                    $('#add-to-google-calendar').hide();
+                    $addToGoogleCalendar.hide();
                 });
             });
         } catch (error) {
@@ -108,9 +109,9 @@ App.Pages.BookingConfirmation = (function () {
     }
 
     /**
-     * Bind the event handlers.
+     * Add the page event listeners.
      */
-    function bindEventHandlers() {
+    function addEventListeners() {
         /**
          * Event: Add Appointment to Google Calendar "Click"
          *
@@ -118,7 +119,7 @@ App.Pages.BookingConfirmation = (function () {
          * be added to the "primary" calendar. In order to use the API the javascript client library provided by
          * Google is necessary.
          */
-        $('#add-to-google-calendar').on('click', function () {
+        $addToGoogleCalendar.on('click', function () {
             gapi.client.setApiKey(App.Vars.google_api_key);
 
             gapi.auth.authorize(
@@ -136,7 +137,7 @@ App.Pages.BookingConfirmation = (function () {
      * Initialize the module.
      */
     function initialize() {
-        bindEventHandlers();
+        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
