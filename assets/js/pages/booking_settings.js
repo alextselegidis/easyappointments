@@ -46,7 +46,7 @@ App.Pages.BookingSettings = (function () {
 
             return false;
         } catch (error) {
-            Backend.displayNotification(error.message);
+            App.Layouts.Backend.displayNotification(error.message);
             return true;
         }
     }
@@ -143,7 +143,7 @@ App.Pages.BookingSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            Backend.displayNotification(App.Lang.settings_are_invalid);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_are_invalid);
 
             return;
         }
@@ -151,7 +151,7 @@ App.Pages.BookingSettings = (function () {
         const bookingSettings = serialize();
 
         App.Http.BookingSettings.save(bookingSettings).done(() => {
-            Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
         });
     }
 
@@ -193,7 +193,7 @@ App.Pages.BookingSettings = (function () {
 
         applyInitialState();
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

@@ -105,7 +105,7 @@ window.App.Layouts.Backend = (function () {
     function initialize() {
         $(window)
             .on('resize', () => {
-                Backend.placeFooterToBottom();
+                App.Layouts.Backend.placeFooterToBottom();
             })
             .trigger('resize');
 

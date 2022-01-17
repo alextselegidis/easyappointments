@@ -205,7 +205,7 @@ App.Pages.Categories = (function () {
      */
     function save(category) {
         App.Http.Categories.save(category).then((response) => {
-            Backend.displayNotification(App.Lang.category_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.category_saved);
             resetForm();
             $('#filter-categories .key').val('');
             filter('', response.id, true);
@@ -219,7 +219,7 @@ App.Pages.Categories = (function () {
      */
     function remove(id) {
         App.Http.Categories.destroy(id).then(() => {
-            Backend.displayNotification(App.Lang.category_deleted);
+            App.Layouts.Backend.displayNotification(App.Lang.category_deleted);
             resetForm();
             filter($('#filter-categories .key').val());
         });

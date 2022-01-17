@@ -212,7 +212,7 @@ App.Pages.Admins = (function () {
      */
     function save(admin) {
         App.Http.Admins.save(admin).then((response) => {
-            Backend.displayNotification(App.Lang.admin_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.admin_saved);
             resetForm();
             $('#filter-admins .key').val('');
             filter('', response.id, true);
@@ -226,7 +226,7 @@ App.Pages.Admins = (function () {
      */
     function remove(id) {
         App.Http.Admins.destroy(id).then(() => {
-            Backend.displayNotification(App.Lang.admin_deleted);
+            App.Layouts.Backend.displayNotification(App.Lang.admin_deleted);
             resetForm();
             filter($('#filter-admins .key').val());
         });

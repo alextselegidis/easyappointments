@@ -113,7 +113,7 @@ App.Components.AppointmentsModal = (function () {
             // Define success callback.
             const successCallback = () => {
                 // Display success message to the user.
-                Backend.displayNotification(App.Lang.appointment_saved);
+                App.Layouts.Backend.displayNotification(App.Lang.appointment_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $appointmentsModal.find('.alert').addClass('d-none').modal('hide');
@@ -343,12 +343,15 @@ App.Components.AppointmentsModal = (function () {
 
             App.Vars.available_providers.forEach((provider) => {
                 provider.services.forEach((providerServiceId) => {
-                    if (App.Vars.role_slug === Backend.DB_SLUG_PROVIDER && Number(provider.id) !== App.Vars.user_id) {
+                    if (
+                        App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
+                        Number(provider.id) !== App.Vars.user_id
+                    ) {
                         return; // continue
                     }
 
                     if (
-                        App.Vars.role_slug === Backend.DB_SLUG_SECRETARY &&
+                        App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
                         App.Vars.secretaryProviders.indexOf(provider.id) === -1
                     ) {
                         return; // continue

@@ -152,7 +152,7 @@ App.Pages.Customers = (function () {
      */
     function save(customer) {
         App.Http.Customers.save(customer).then((response) => {
-            Backend.displayNotification(App.Lang.customer_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.customer_saved);
             resetForm();
             $('#filter-customers .key').val('');
             filter('', response.id, true);
@@ -166,7 +166,7 @@ App.Pages.Customers = (function () {
      */
     function remove(id) {
         App.Http.Customers.destroy(id).then(() => {
-            Backend.displayNotification(App.Lang.customer_deleted);
+            App.Layouts.Backend.displayNotification(App.Lang.customer_deleted);
             resetForm();
             filter($('#filter-customers .key').val());
         });
@@ -257,14 +257,14 @@ App.Pages.Customers = (function () {
 
         customer.appointments.forEach(function (appointment) {
             if (
-                App.Vars.role_slug === Backend.DB_SLUG_PROVIDER &&
+                App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
                 parseInt(appointment.id_users_provider) !== App.Vars.user_id
             ) {
                 return;
             }
 
             if (
-                App.Vars.role_slug === Backend.DB_SLUG_SECRETARY &&
+                App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
                 App.Vars.secretary_providers.indexOf(appointment.id_users_provider) === -1
             ) {
                 return;

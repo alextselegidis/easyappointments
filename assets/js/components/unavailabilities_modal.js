@@ -85,7 +85,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
             const successCallback = () => {
                 // Display success message to the user.
-                Backend.displayNotification(App.Lang.unavailable_saved);
+                App.Layouts.Backend.displayNotification(App.Lang.unavailable_saved);
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $unavailabilitiesModal.find('.alert').addClass('d-none');

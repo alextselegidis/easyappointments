@@ -178,7 +178,7 @@ App.Pages.Services = (function () {
      */
     function save(service) {
         App.Http.Services.save(service).then((response) => {
-            Backend.displayNotification(App.Lang.service_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.service_saved);
             resetForm();
             $('#filter-services .key').val('');
             filter('', response.id, true);
@@ -192,7 +192,7 @@ App.Pages.Services = (function () {
      */
     function remove(id) {
         App.Http.Services.destroy(id).then(() => {
-            Backend.displayNotification(App.Lang.service_deleted);
+            App.Layouts.Backend.displayNotification(App.Lang.service_deleted);
             resetForm();
             filter($('#filter-services .key').val());
         });

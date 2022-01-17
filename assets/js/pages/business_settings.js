@@ -47,7 +47,7 @@ App.Pages.BusinessSettings = (function () {
 
             return false;
         } catch (error) {
-            Backend.displayNotification(error.message);
+            App.Layouts.Backend.displayNotification(error.message);
             return true;
         }
     }
@@ -85,7 +85,7 @@ App.Pages.BusinessSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            Backend.displayNotification(App.Lang.settings_are_invalid);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_are_invalid);
 
             return;
         }
@@ -93,7 +93,7 @@ App.Pages.BusinessSettings = (function () {
         const businessSettings = serialize();
 
         App.Http.BusinessSettings.save(businessSettings).done(() => {
-            Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
         });
     }
 
@@ -115,7 +115,7 @@ App.Pages.BusinessSettings = (function () {
 
                     App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan)
                         .done(() => {
-                            Backend.displayNotification(App.Lang.working_plans_got_updated);
+                            App.Layouts.Backend.displayNotification(App.Lang.working_plans_got_updated);
                         })
                         .always(function () {
                             $('#message-box').dialog('close');
@@ -152,7 +152,7 @@ App.Pages.BusinessSettings = (function () {
 
         $applyGlobalWorkingPlan.on('click', onApplyGlobalWorkingPlan);
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

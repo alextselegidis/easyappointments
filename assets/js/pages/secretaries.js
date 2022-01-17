@@ -248,7 +248,7 @@ App.Pages.Secretaries = (function () {
      */
     function save(secretary) {
         App.Http.Secretaries.save(secretary).done((response) => {
-            Backend.displayNotification(App.Lang.secretary_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.secretary_saved);
             resetForm();
             $('#filter-secretaries .key').val('');
             filter('', response.id, true);
@@ -262,7 +262,7 @@ App.Pages.Secretaries = (function () {
      */
     function remove(id) {
         App.Http.Secretaries.destroy(id).done(() => {
-            Backend.displayNotification(App.Lang.secretary_deleted);
+            App.Layouts.Backend.displayNotification(App.Lang.secretary_deleted);
             resetForm();
             filter($('#filter-secretaries .key').val());
         });

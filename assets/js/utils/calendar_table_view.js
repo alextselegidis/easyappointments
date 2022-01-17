@@ -113,7 +113,7 @@ App.Utils.CalendarTableView = (function () {
                 }
 
                 // setCalendarViewSize();
-                Backend.placeFooterToBottom();
+                App.Layouts.Backend.placeFooterToBottom();
             });
         });
 
@@ -153,7 +153,7 @@ App.Utils.CalendarTableView = (function () {
                 App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
                     (date, workingPlanException) => {
                         const successCallback = () => {
-                            Backend.displayNotification(App.Lang.working_plan_exception_saved);
+                            App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
                             const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
@@ -405,10 +405,10 @@ App.Utils.CalendarTableView = (function () {
 
         const providers = GlobalVariables.availableProviders.filter(
             (provider) =>
-                App.Vars.role_slug === Backend.DB_SLUG_ADMIN ||
-                (App.Vars.role_slug === Backend.DB_SLUG_SECRETARY &&
+                App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN ||
+                (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
                     GlobalVariables.secretaryProviders.indexOf(provider.id) !== -1) ||
-                (App.Vars.role_slug === Backend.DB_SLUG_PROVIDER &&
+                (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
                     Number(provider.id) === Number(GlobalVariables.user.id))
         );
 
@@ -429,7 +429,7 @@ App.Utils.CalendarTableView = (function () {
             }
         }).appendTo($calendarHeader);
 
-        if (App.Vars.role_slug !== Backend.DB_SLUG_PROVIDER) {
+        if (App.Vars.role_slug !== App.Layouts.Backend.DB_SLUG_PROVIDER) {
             providers.forEach((provider) => {
                 $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             });
@@ -448,7 +448,7 @@ App.Utils.CalendarTableView = (function () {
                 return provider.services.indexOf(service.id) !== -1;
             });
 
-            return App.Vars.role_slug === Backend.DB_SLUG_ADMIN || provider;
+            return App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN || provider;
         });
 
         $('<label/>', {
@@ -497,7 +497,7 @@ App.Utils.CalendarTableView = (function () {
 
         $('#calendar .calendar-view').remove();
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
 
         const $calendarView = $('<div/>', {
             'class': 'calendar-view'
@@ -520,7 +520,7 @@ App.Utils.CalendarTableView = (function () {
 
             setCalendarViewSize();
 
-            Backend.placeFooterToBottom();
+            App.Layouts.Backend.placeFooterToBottom();
 
             // Activate calendar navigation.
             $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false);
@@ -635,7 +635,7 @@ App.Utils.CalendarTableView = (function () {
         // Add the unavailability events to the column.
         createUnavailabilityEvents($providerColumn, events.unavailability_events);
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     /**
@@ -1499,7 +1499,7 @@ App.Utils.CalendarTableView = (function () {
     function onEventResize(event, delta, revertFunc) {
         if (App.Vars.privileges.appointments.edit === false) {
             revertFunc();
-            Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
         }
 
@@ -1546,7 +1546,7 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
                     {
                         'label': App.Lang.undo,
                         'function': undoFunction
@@ -1593,7 +1593,7 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
                     {
                         'label': App.Lang.undo,
                         'function': undoFunction
@@ -1619,7 +1619,7 @@ App.Utils.CalendarTableView = (function () {
     function onEventDrop(event, delta, revertFunc) {
         if (App.Vars.privileges.appointments.edit === false) {
             revertFunc();
-            Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
         }
 
@@ -1678,7 +1678,7 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
                     {
                         'label': App.Lang.undo,
                         'function': undoFunction
@@ -1726,7 +1726,7 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
                     {
                         label: App.Lang.undo,
                         function: undoFunction

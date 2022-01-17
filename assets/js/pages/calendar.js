@@ -67,7 +67,7 @@ App.Pages.Calendar = (function () {
 
             App.Components.WorkingPlanExceptionsModal.add().done((date, workingPlanException) => {
                 const successCallback = () => {
-                    Backend.displayNotification(App.Lang.working_plan_exception_saved);
+                    App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
                     const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 

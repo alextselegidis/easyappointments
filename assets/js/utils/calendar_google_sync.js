@@ -131,7 +131,7 @@ App.Utils.CalendarGoogleSync = (function () {
                 calendar_id: $('#google-calendar').val()
             };
             $.post(url, data).done(() => {
-                Backend.displayNotification(App.Lang.google_calendar_selected);
+                App.Layouts.Backend.displayNotification(App.Lang.google_calendar_selected);
                 $('#select-google-calendar').modal('hide');
             });
         });
@@ -150,11 +150,11 @@ App.Utils.CalendarGoogleSync = (function () {
                 dataType: 'json'
             })
                 .done(() => {
-                    Backend.displayNotification(App.Lang.google_sync_completed);
+                    App.Layouts.Backend.displayNotification(App.Lang.google_sync_completed);
                     $('#reload-appointments').trigger('click');
                 })
                 .fail(() => {
-                    Backend.displayNotification(App.Lang.google_sync_failed);
+                    App.Layouts.Backend.displayNotification(App.Lang.google_sync_failed);
                 });
         });
     }

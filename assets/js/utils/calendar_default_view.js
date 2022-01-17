@@ -86,7 +86,7 @@ App.Utils.CalendarDefaultView = (function () {
                     workingPlanException
                 ) {
                     const successCallback = function () {
-                        Backend.displayNotification(App.Lang.working_plan_exception_saved);
+                        App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
 
                         const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
@@ -194,7 +194,7 @@ App.Utils.CalendarDefaultView = (function () {
                 }
 
                 const successCallback = () => {
-                    Backend.displayNotification(App.Lang.working_plan_exception_deleted);
+                    App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_deleted);
 
                     const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
                     delete workingPlanExceptions[date];
@@ -741,7 +741,7 @@ App.Utils.CalendarDefaultView = (function () {
     function calendarEventResize(event, delta, revertFunc) {
         if (App.Vars.privileges.appointments.edit === false) {
             revertFunc();
-            Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
         }
 
@@ -788,7 +788,7 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
                     {
                         'label': App.Lang.undo,
                         'function': undoFunction
@@ -837,7 +837,7 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
                     {
                         'label': App.Lang.undo,
                         'function': undoFunction
@@ -894,7 +894,7 @@ App.Utils.CalendarDefaultView = (function () {
     function calendarEventDrop(event, delta, revertFunc) {
         if (App.Vars.privileges.appointments.edit === false) {
             revertFunc();
-            Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
         }
 
@@ -955,7 +955,7 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
                     {
                         'label': App.Lang.undo,
                         'function': undoFunction
@@ -1005,7 +1005,7 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
                     {
                         label: App.Lang.undo,
                         function: undoFunction
@@ -1657,7 +1657,7 @@ App.Utils.CalendarDefaultView = (function () {
         }
 
         // Check permissions.
-        if (App.Vars.role_slug === Backend.DB_SLUG_PROVIDER) {
+        if (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER) {
             $selectFilterItem
                 .find('optgroup:eq(0)')
                 .find('option[value="' + App.Vars.user_id + '"]')
@@ -1665,7 +1665,7 @@ App.Utils.CalendarDefaultView = (function () {
             $selectFilterItem.prop('disabled', true);
         }
 
-        if (App.Vars.role_slug === Backend.DB_SLUG_SECRETARY) {
+        if (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY) {
             // Remove the providers that are not connected to the secretary.
             $selectFilterItem.find('optgroup:eq(1)').remove();
 

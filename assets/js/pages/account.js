@@ -84,7 +84,7 @@ App.Pages.Account = (function () {
 
             return false;
         } catch (error) {
-            Backend.displayNotification(error.message);
+            App.Layouts.Backend.displayNotification(error.message);
             return true;
         }
     }
@@ -147,7 +147,7 @@ App.Pages.Account = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            Backend.displayNotification(App.Lang.user_settings_are_invalid);
+            App.Layouts.Backend.displayNotification(App.Lang.user_settings_are_invalid);
 
             return;
         }
@@ -155,7 +155,7 @@ App.Pages.Account = (function () {
         const account = serialize();
 
         App.Http.Account.save(account).done(() => {
-            Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
 
             $footerUserDisplayName.text('Hello, ' + $firstName.val() + ' ' + $lastName.val() + '!');
         });
@@ -171,7 +171,7 @@ App.Pages.Account = (function () {
             const isValid = response.is_valid;
             $username.toggleClass('is-invalid', !isValid);
             if (!isValid) {
-                Backend.displayNotification(App.Lang.username_already_exists);
+                App.Layouts.Backend.displayNotification(App.Lang.username_already_exists);
             }
         });
     }
@@ -188,7 +188,7 @@ App.Pages.Account = (function () {
 
         $username.on('change', onUsernameChange);
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

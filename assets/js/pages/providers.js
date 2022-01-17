@@ -197,7 +197,7 @@ App.Pages.Providers = (function () {
          * Event: Display Provider Details "Click"
          */
         $providers.on('shown.bs.tab', 'a[data-toggle="tab"]', function () {
-            Backend.placeFooterToBottom();
+            App.Layouts.Backend.placeFooterToBottom();
         });
 
         /**
@@ -221,7 +221,7 @@ App.Pages.Providers = (function () {
      */
     function save(provider) {
         App.Http.Providers.save(provider).then((response) => {
-            Backend.displayNotification(App.Lang.provider_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.provider_saved);
             resetForm();
             $('#filter-providers .key').val('');
             filter('', response.id, true);
@@ -235,7 +235,7 @@ App.Pages.Providers = (function () {
      */
     function remove(id) {
         App.Http.Providers.destroy(id).then(() => {
-            Backend.displayNotification(App.Lang.provider_deleted);
+            App.Layouts.Backend.displayNotification(App.Lang.provider_deleted);
             resetForm();
             filter($('#filter-providers .key').val());
         });
@@ -409,7 +409,7 @@ App.Pages.Providers = (function () {
             .find('.edit-working-plan-exception, .delete-working-plan-exception')
             .prop('disabled', true);
         $('#providers .working-plan input:checkbox').prop('disabled', true);
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     /**

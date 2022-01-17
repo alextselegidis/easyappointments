@@ -45,7 +45,7 @@ App.Pages.GeneralSettings = (function () {
 
             return false;
         } catch (error) {
-            Backend.displayNotification(error.message);
+            App.Layouts.Backend.displayNotification(error.message);
             return true;
         }
     }
@@ -76,7 +76,7 @@ App.Pages.GeneralSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            Backend.displayNotification(App.Lang.settings_are_invalid);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_are_invalid);
 
             return;
         }
@@ -84,7 +84,7 @@ App.Pages.GeneralSettings = (function () {
         const generalSettings = serialize();
 
         App.Http.GeneralSettings.save(generalSettings).done(() => {
-            Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
         });
     }
 
@@ -98,7 +98,7 @@ App.Pages.GeneralSettings = (function () {
 
         $saveSettings.on('click', onSaveSettingsClick);
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

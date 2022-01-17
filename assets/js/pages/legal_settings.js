@@ -51,7 +51,7 @@ App.Pages.LegalSettings = (function () {
 
             return false;
         } catch (error) {
-            Backend.displayNotification(error.message);
+            App.Layouts.Backend.displayNotification(error.message);
             return true;
         }
     }
@@ -125,7 +125,7 @@ App.Pages.LegalSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            Backend.displayNotification(App.Lang.settings_are_invalid);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_are_invalid);
 
             return;
         }
@@ -133,7 +133,7 @@ App.Pages.LegalSettings = (function () {
         const legalSettings = serialize();
 
         App.Http.LegalSettings.save(legalSettings).done(() => {
-            Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
         });
     }
 
@@ -151,7 +151,7 @@ App.Pages.LegalSettings = (function () {
 
         $saveSettings.on('click', onSaveSettingsClick);
 
-        Backend.placeFooterToBottom();
+        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
