@@ -17,6 +17,11 @@
  * Old Name: FrontendBookApi
  */
 App.Http.Booking = (function () {
+    const $selectService = $('#select-service');
+    const $selectProvider = $('#select-provider');
+    const $availableHours = $('#available-hours');
+    const $captchaHint = $('#captcha-hint');
+    const $captchaTitle = $('.captcha-title');
     let unavailableDatesBackup;
     let selectedDateStringBackup;
     let processingUnavailabilities = false;
@@ -30,10 +35,10 @@ App.Http.Booking = (function () {
      * @param {String} selectedDate The selected date of the available hours we need.
      */
     function getAvailableHours(selectedDate) {
-        $('#available-hours').empty();
+        $availableHours.empty();
 
         // Find the selected service duration (it is going to be send within the "data" object).
-        const serviceId = $('#select-service').val();
+        const serviceId = $selectService.val();
 
         // Default value of duration (in minutes).
         let serviceDuration = 15;
@@ -54,8 +59,8 @@ App.Http.Booking = (function () {
 
         const data = {
             csrf_token: App.Vars.csrf_token,
-            service_id: $('#select-service').val(),
-            provider_id: $('#select-provider').val(),
+            service_id: $selectService.val(),
+            provider_id: $selectProvider.val(),
             selected_date: selectedDate,
             service_duration: serviceDuration,
             manage_mode: App.Pages.Booking.manageMode,
@@ -66,7 +71,7 @@ App.Http.Booking = (function () {
             // The response contains the available hours for the selected provider and service. Fill the available
             // hours div with response data.
             if (response.length > 0) {
-                let providerId = $('#select-provider').val();
+                let providerId = $selectProvider.val();
 
                 if (providerId === 'any-provider') {
                     for (const availableProvider of App.Vars.available_providers) {
@@ -98,7 +103,7 @@ App.Http.Booking = (function () {
                         return; // Due to the selected timezone the available hour belongs to another date.
                     }
 
-                    $('#available-hours').append(
+                    $availableHours.append(
                         $('<button/>', {
                             'class': 'btn btn-outline-secondary w-100 shadow-none available-hour',
                             'data': {
@@ -127,8 +132,8 @@ App.Http.Booking = (function () {
                 App.Pages.Booking.updateConfirmFrame();
             }
 
-            if (!$('.available-hour').length) {
-                $('#available-hours').text(App.Lang.no_available_hours);
+            if (!$availableHours.find('.available-hour').length) {
+                $availableHours.text(App.Lang.no_available_hours);
             }
         });
     }
@@ -188,13 +193,13 @@ App.Http.Booking = (function () {
         })
             .done((response) => {
                 if (response.captcha_verification === false) {
-                    $('#captcha-hint').text(App.Lang.captcha_is_wrong).fadeTo(400, 1);
+                    $captchaHint.text(App.Lang.captcha_is_wrong).fadeTo(400, 1);
 
                     setTimeout(() => {
-                        $('#captcha-hint').fadeTo(400, 0);
+                        $captchaHint.fadeTo(400, 0);
                     }, 3000);
 
-                    $('.captcha-title button').trigger('click');
+                    $captchaTitle.find('button').trigger('click');
 
                     $captchaText.addClass('is-invalid');
 
@@ -204,7 +209,7 @@ App.Http.Booking = (function () {
                 window.location.href = App.Utils.Url.siteUrl('booking_confirmation/of/' + response.appointment_hash);
             })
             .fail(() => {
-                $('.captcha-title button').trigger('click');
+                $captchaTitle.find('button').trigger('click');
             })
             .always(() => {
                 $layer.remove();
@@ -283,7 +288,7 @@ App.Http.Booking = (function () {
 
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
-            $('#available-hours').text(App.Lang.no_available_hours);
+            $availableHours.text(App.Lang.no_available_hours);
         }
 
         // Grey out unavailable dates.
