@@ -159,8 +159,8 @@ App.Utils.CalendarTableView = (function () {
 
                             workingPlanExceptions[date] = workingPlanException;
 
-                            for (const index in GlobalVariables.availableProviders) {
-                                const availableProvider = GlobalVariables.availableProviders[index];
+                            for (const index in App.Vars.available_providers) {
+                                const availableProvider = App.Vars.available_providers[index];
 
                                 if (Number(availableProvider.id) === Number(provider.id)) {
                                     availableProvider.settings.working_plan_exceptions =
@@ -403,13 +403,13 @@ App.Utils.CalendarTableView = (function () {
             }
         });
 
-        const providers = GlobalVariables.availableProviders.filter(
+        const providers = App.Vars.available_providers.filter(
             (provider) =>
                 App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN ||
                 (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
-                    GlobalVariables.secretaryProviders.indexOf(provider.id) !== -1) ||
+                    App.Vars.secretary_providers.indexOf(provider.id) !== -1) ||
                 (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
-                    Number(provider.id) === Number(GlobalVariables.user.id))
+                    Number(provider.id) === Number(App.Vars.user_id))
         );
 
         // Create providers and service filters.
@@ -435,7 +435,7 @@ App.Utils.CalendarTableView = (function () {
             });
         } else {
             providers.forEach((provider) => {
-                if (Number(provider.id) === Number(GlobalVariables.user.id)) {
+                if (Number(provider.id) === Number(App.Vars.user_id)) {
                     $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                 }
             });
@@ -443,7 +443,7 @@ App.Utils.CalendarTableView = (function () {
 
         $filterProvider.select2();
 
-        const services = GlobalVariables.availableServices.filter((service) => {
+        const services = App.Vars.available_services.filter((service) => {
             const provider = providers.find((provider) => provider.services.indexOf(service.id) !== -1);
 
             return App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN || provider;
@@ -558,7 +558,7 @@ App.Utils.CalendarTableView = (function () {
         const filterProviderIds = $filterProvider.val();
         const filterServiceIds = $filterService.val();
 
-        let providers = GlobalVariables.availableProviders.filter((provider) => {
+        let providers = App.Vars.available_providers.filter((provider) => {
             const servedServiceIds = provider.services.filter((serviceId) => {
                 const matches = filterServiceIds.filter(
                     (filterServiceId) => Number(serviceId) === Number(filterServiceId)
@@ -581,8 +581,8 @@ App.Utils.CalendarTableView = (function () {
         });
 
         if (App.Vars.role_slug === 'provider') {
-            GlobalVariables.availableProviders.forEach((provider) => {
-                if (Number(provider.id) === Number(GlobalVariables.user.id)) {
+            App.Vars.available_providers.forEach((provider) => {
+                if (Number(provider.id) === Number(App.Vars.user_id)) {
                     providers = [provider];
                 }
             });
@@ -590,8 +590,8 @@ App.Utils.CalendarTableView = (function () {
 
         if (App.Vars.role_slug === 'secretary') {
             providers = [];
-            GlobalVariables.availableProviders.forEach((provider) => {
-                if (GlobalVariables.secretaryProviders.indexOf(provider.id) > -1) {
+            App.Vars.available_providers.forEach((provider) => {
+                if (App.Vars.secretary_providers.indexOf(provider.id) > -1) {
                     providers.push(provider);
                 }
             });
@@ -674,7 +674,7 @@ App.Utils.CalendarTableView = (function () {
         let timeFormat = '';
         let slotTimeFormat = '';
 
-        switch (GlobalVariables.timeFormat) {
+        switch (App.Vars.time_format) {
             case 'military':
                 timeFormat = 'H:mm';
                 slotTimeFormat = 'H(:mm)';
@@ -684,7 +684,7 @@ App.Utils.CalendarTableView = (function () {
                 slotTimeFormat = 'h(:mm) a';
                 break;
             default:
-                throw new Error('Invalid time format setting provided!' + GlobalVariables.timeFormat);
+                throw new Error('Invalid time format setting provided!' + App.Vars.time_format);
         }
 
         const firstWeekday = App.Vars.first_weekday;
@@ -719,11 +719,11 @@ App.Utils.CalendarTableView = (function () {
                 const $providerColumn = $(jsEvent.target).parents('.provider-column');
                 const providerId = $providerColumn.data('provider').id;
 
-                const provider = GlobalVariables.availableProviders.find(
+                const provider = App.Vars.available_providers.find(
                     (provider) => Number(provider.id) === Number(providerId)
                 );
 
-                const service = GlobalVariables.availableServices.find(
+                const service = App.Vars.available_services.find(
                     (service) => provider.services.indexOf(service.id) !== -1
                 );
 

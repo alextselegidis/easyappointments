@@ -289,10 +289,10 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         $(document).on('click', 'li.language', function () {
             // Change language with ajax call and refresh page.
-            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+            var url = App.Vars.base_url + '/index.php/backend_api/ajax_change_language';
 
             var data = {
-                csrf_token: GlobalVariables.csrfToken,
+                csrf_token: App.Vars.csrf_token,
                 language: $(this).attr('data-language')
             };
 
@@ -362,7 +362,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {String} Returns the formatted date string.
      */
     exports.formatDate = function (date, dateFormatSetting, addHours) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+        var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
         var hours = addHours ? ' ' + timeFormat : '';
         var result;
         var parsedDateMoment = moment(date);

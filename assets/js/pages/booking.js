@@ -94,11 +94,11 @@ App.Pages.Booking = (function () {
         // Initialize page's components (tooltips, datepickers etc).
         tippy('[data-tippy-content]');
 
-        const weekDayId = App.Utils.Date.getWeekdayId(GlobalVariables.firstWeekday);
+        const weekdayId = App.Utils.Date.getWeekdayId(App.Vars.first_weekday);
 
         $selectDate.datepicker({
             dateFormat: 'dd-mm-yy',
-            firstDay: weekDayId,
+            firstDay: weekdayId,
             minDate: 0,
             defaultDate: moment().toDate(),
 
@@ -171,11 +171,7 @@ App.Pages.Booking = (function () {
 
         // If the manage mode is true, the appointments data should be loaded by default.
         if (manageMode) {
-            applyAppointmentData(
-                GlobalVariables.appointmentData,
-                GlobalVariables.providerData,
-                GlobalVariables.customerData
-            );
+            applyAppointmentData(App.Vars.appointment_data, App.Vars.provider_data, App.Vars.customer_data);
         } else {
             // Check if a specific service was selected (via URL parameter).
             const selectedServiceId = App.Utils.Url.queryParam('service');
@@ -191,8 +187,8 @@ App.Pages.Booking = (function () {
 
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length === 0) {
                 // Select a service of this provider in order to make the provider available in the select box.
-                for (const index in GlobalVariables.availableProviders) {
-                    const provider = GlobalVariables.availableProviders[index];
+                for (const index in App.Vars.available_providers) {
+                    const provider = App.Vars.available_providers[index];
 
                     if (provider.id === selectedProviderId && provider.services.length > 0) {
                         $selectService.val(provider.services[0]).trigger('change');
@@ -253,7 +249,7 @@ App.Pages.Booking = (function () {
 
             $selectProvider.empty();
 
-            GlobalVariables.availableProviders.forEach((provider) => {
+            App.Vars.available_providers.forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
                 const canServeService =
                     provider.services.filter((providerServiceId) => Number(providerServiceId) === Number(serviceId))
@@ -265,7 +261,7 @@ App.Pages.Booking = (function () {
             });
 
             // Add the "Any Provider" entry.
-            if ($selectProvider.find('option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
+            if ($selectProvider.find('option').length >= 1 && App.Vars.display_any_provider === '1') {
                 $selectProvider.prepend(new Option('- ' + App.Lang.any_provider + ' -', 'any-provider', true, true));
             }
 
@@ -457,7 +453,7 @@ App.Pages.Booking = (function () {
                     {
                         text: App.Lang.delete,
                         click: () => {
-                            App.Http.Booking.deletePersonalInformation(GlobalVariables.customerToken);
+                            App.Http.Booking.deletePersonalInformation(App.Vars.customer_token);
                         }
                     }
                 ];
@@ -487,7 +483,7 @@ App.Pages.Booking = (function () {
          * Event: Refresh captcha image.
          */
         $captchaTitle.on('click', 'button', () => {
-            $('.captcha-image').attr('src', GlobalVariables.baseUrl + '/index.php/captcha?' + Date.now());
+            $('.captcha-image').attr('src', App.Utils.Url.siteUrl('captcha?' + Date.now()));
         });
 
         $selectDate.on('mousedown', '.ui-datepicker-calendar td', () => {
@@ -693,10 +689,10 @@ App.Pages.Booking = (function () {
         data.manage_mode = manageMode;
 
         if (manageMode) {
-            data.appointment.id = GlobalVariables.appointmentData.id;
-            data.customer.id = GlobalVariables.customerData.id;
+            data.appointment.id = App.Vars.appointment_data.id;
+            data.customer.id = App.Vars.customer_data.id;
         }
-        $('input[name="csrfToken"]').val(GlobalVariables.csrfToken);
+        $('input[name="csrfToken"]').val(App.Vars.csrf_token);
         $('input[name="post_data"]').val(JSON.stringify(data));
     }
 
