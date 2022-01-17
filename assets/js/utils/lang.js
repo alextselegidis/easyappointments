@@ -31,7 +31,7 @@ window.App.Utils.Lang = (function () {
                 $('<li/>', {
                     'class': 'language',
                     'data-language': availableLanguage,
-                    'text': App.Vars.String.upperCaseFirstLetter(availableLanguage)
+                    'text': App.Utils.String.upperCaseFirstLetter(availableLanguage)
                 })
             )
         });
