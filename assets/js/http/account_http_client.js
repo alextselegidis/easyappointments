@@ -53,8 +53,25 @@ App.Http.Account = (function () {
         return $.post(url, data);
     }
 
+    /**
+     * Change language.
+     *
+     * @param {String} language
+     */
+    function changeLanguage(language) {
+        const url = App.Utils.Url.siteUrl('account/change_language');
+
+        const data = {
+            csrf_token: App.Vars.csrf_token,
+            language
+        };
+
+        return $.post(url, data);
+    }
+
     return {
         save,
-        validateUsername
+        validateUsername,
+        changeLanguage
     };
 })();

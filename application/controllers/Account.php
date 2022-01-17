@@ -101,7 +101,7 @@ class Account extends EA_Controller {
     }
 
     /**
-     * Make sure the username is valid and unique in the database. 
+     * Make sure the username is valid and unique in the database.
      */
     public function validate_username()
     {
@@ -115,6 +115,49 @@ class Account extends EA_Controller {
 
             json_response([
                 'is_valid' => $is_valid,
+            ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Change system language for current user.
+     *
+     * The language setting is stored in session data and retrieved every time the user visits any of the system pages.
+     */
+    public function change_language()
+    {
+        try
+        {
+            // Check if language exists in the available languages.
+            
+            $found = FALSE;
+
+            foreach (config('available_languages') as $lang)
+            {
+                if ($lang == request('language'))
+                {
+                    $found = TRUE;
+                    break;
+                }
+            }
+
+            if ( ! $found)
+            {
+                throw new Exception('Translations for the given language does not exist (' . request('language') . ').');
+            }
+
+            $language = request('language');
+
+            session(['language' => $language]);
+
+            config(['language' => $language]);
+
+            json_response([
+                'success' => TRUE
             ]);
         }
         catch (Throwable $e)
