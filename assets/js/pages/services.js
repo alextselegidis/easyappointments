@@ -16,6 +16,7 @@
  */
 App.Pages.Services = (function () {
     const $services = $('#services');
+    const $id = $('#service-id');
     const $name = $('#service-name');
     const $duration = $('#service-duration');
     const $price = $('#service-price');
@@ -38,7 +39,7 @@ App.Pages.Services = (function () {
          *
          * @param {jQuery.Event} event
          */
-        $services.on('submit', '#filter-services form', function (event) {
+        $services.on('submit', '#filter-services form', (event) => {
             event.preventDefault();
             const key = $filterServices.find('.key').val();
             $filterServices.find('.selected').removeClass('selected');
@@ -51,17 +52,15 @@ App.Pages.Services = (function () {
          *
          * Display the selected service data to the user.
          */
-        $services.on('click', '.service-row', function () {
+        $services.on('click', '.service-row', (event) => {
             if ($filterServices.find('.filter').prop('disabled')) {
                 $filterServices.find('.results').css('color', '#AAA');
                 return; // exit because we are on edit mode
             }
 
-            const serviceId = $(this).attr('data-id');
+            const serviceId = $(event.currentTarget).attr('data-id');
 
-            const service = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(serviceId);
-            });
+            const service = filterResults.find((filterResult) => Number(filterResult.id) === Number(serviceId));
 
             // Add dedicated provider link.
             const dedicatedUrl = App.Utils.Url.siteUrl('?service=' + encodeURIComponent(service.id));
@@ -79,14 +78,14 @@ App.Pages.Services = (function () {
 
             display(service);
             $filterServices.find('.selected').removeClass('selected');
-            $(this).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-service, #delete-service').prop('disabled', false);
         });
 
         /**
          * Event: Add New Service Button "Click"
          */
-        $services.on('click', '#add-service', function () {
+        $services.on('click', '#add-service', () => {
             resetForm();
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
@@ -109,7 +108,7 @@ App.Pages.Services = (function () {
          *
          * Cancel add or edit of a service record.
          */
-        $services.on('click', '#cancel-service', function () {
+        $services.on('click', '#cancel-service', () => {
             const id = $id.val();
 
             resetForm();
@@ -122,7 +121,7 @@ App.Pages.Services = (function () {
         /**
          * Event: Save Service Button "Click"
          */
-        $services.on('click', '#save-service', function () {
+        $services.on('click', '#save-service', () => {
             const service = {
                 name: $name.val(),
                 duration: $duration.val(),
@@ -149,7 +148,7 @@ App.Pages.Services = (function () {
         /**
          * Event: Edit Service Button "Click"
          */
-        $services.on('click', '#edit-service', function () {
+        $services.on('click', '#edit-service', () => {
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -160,7 +159,7 @@ App.Pages.Services = (function () {
         /**
          * Event: Delete Service Button "Click"
          */
-        $services.on('click', '#delete-service', function () {
+        $services.on('click', '#delete-service', () => {
             const serviceId = $id.val();
             const buttons = [
                 {
@@ -371,9 +370,7 @@ App.Pages.Services = (function () {
         $filterServices.find('.service-row[data-id="' + id + '"]').addClass('selected');
 
         if (show) {
-            const service = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(id);
-            });
+            const service = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
             display(service);
 
