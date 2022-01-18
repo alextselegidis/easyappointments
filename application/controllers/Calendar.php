@@ -483,12 +483,10 @@ class Calendar extends EA_Controller {
 
             $response = [
                 'appointments' => $this->appointments_model->get([
-                    'is_unavailability' => FALSE,
                     'start_datetime >=' => $start_date,
                     'end_datetime <=' => $end_date
                 ]),
-                'unavailability_events' => $this->appointments_model->get([
-                    'is_unavailability' => TRUE,
+                'unavailabilities' => $this->unavailabilities_model->get([
                     'start_datetime >=' => $start_date,
                     'end_datetime <=' => $end_date
                 ])
