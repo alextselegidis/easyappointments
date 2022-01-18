@@ -134,6 +134,11 @@ function vendor(done) {
         gulp.dest('assets/vendor/fullcalendar')
     );
 
+    // fullcalendar-moment
+    gulp.src(['node_modules/@fullcalendar/moment/main.global.min.js']).pipe(
+        gulp.dest('assets/vendor/fullcalendar-moment')
+    );
+
     // jquery
     gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('assets/vendor/jquery'));
 
