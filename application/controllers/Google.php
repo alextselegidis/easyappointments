@@ -112,7 +112,7 @@ class Google extends EA_Controller {
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
             foreach ($appointments as $appointment)
             {
-                if ($appointment['is_unavailable'] == FALSE)
+                if ($appointment['is_unavailability'] == FALSE)
                 {
                     $service = $CI->services_model->find($appointment['id_services']);
                     $customer = $CI->customers_model->find($appointment['id_users_customer']);
@@ -220,7 +220,7 @@ class Google extends EA_Controller {
                 $appointment = [
                     'start_datetime' => $event_start->format('Y-m-d H:i:s'),
                     'end_datetime' => $event_end->format('Y-m-d H:i:s'),
-                    'is_unavailable' => TRUE,
+                    'is_unavailability' => TRUE,
                     'location' => $google_event->getLocation(),
                     'notes' => $google_event->getSummary() . ' ' . $google_event->getDescription(),
                     'id_users_provider' => $provider_id,

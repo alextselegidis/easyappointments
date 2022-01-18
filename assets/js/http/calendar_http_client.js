@@ -76,18 +76,18 @@ App.Http.Calendar = (function () {
     }
 
     /**
-     * Save unavailable period to database.
+     * Save unavailability period to database.
      *
-     * @param {Object} unavailable Contains the unavailable period data.
+     * @param {Object} unavailability Contains the unavailability period data.
      * @param {Function} [successCallback] The ajax success callback function.
      * @param {Function} [errorCallback] The ajax failure callback function.
      */
-    function saveUnavailable(unavailable, successCallback, errorCallback) {
-        const url = App.Utils.Url.siteUrl('calendar/save_unavailable');
+    function saveUnavailability(unavailability, successCallback, errorCallback) {
+        const url = App.Utils.Url.siteUrl('calendar/save_unavailability');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailable: unavailable
+            unavailability: unavailability
         };
 
         return $.post(url, data)
@@ -104,18 +104,18 @@ App.Http.Calendar = (function () {
     }
 
     /**
-     * Remove an unavailable.
+     * Remove an unavailability.
      *
-     * @param {Number} unavailableId
+     * @param {Number} unavailabilityId
      *
      * @return {jQuery.jqXHR}
      */
-    function deleteUnavailable(unavailableId) {
-        const url = App.Utils.Url.siteUrl('calendar/delete_unavailable');
+    function deleteUnavailability(unavailabilityId) {
+        const url = App.Utils.Url.siteUrl('calendar/delete_unavailability');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailable_id: unavailableId
+            unavailability_id: unavailabilityId
         };
 
         return $.post(url, data);
@@ -232,8 +232,8 @@ App.Http.Calendar = (function () {
     return {
         saveAppointment,
         deleteAppointment,
-        saveUnavailable,
-        deleteUnavailable,
+        saveUnavailability,
+        deleteUnavailability,
         saveWorkingPlanException,
         deleteWorkingPlanException,
         getCalendarAppointments,

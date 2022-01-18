@@ -85,7 +85,7 @@ App.Components.AppointmentsModal = (function () {
                 end_datetime: endDatetime,
                 location: $appointmentLocation.val(),
                 notes: $appointmentNotes.val(),
-                is_unavailable: Number(false)
+                is_unavailability: Number(false)
             };
 
             if ($appointmentId.val() !== '') {

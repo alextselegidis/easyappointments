@@ -22,7 +22,7 @@ class Unavailabilities_model extends EA_Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'is_unavailable' => 'boolean',
+        'is_unavailability' => 'boolean',
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
@@ -130,7 +130,7 @@ class Unavailabilities_model extends EA_Model {
     {
         $unavailability['book_datetime'] = date('Y-m-d H:i:s');
         $unavailability['hash'] = random_string('alnum', 12);
-        $unavailability['is_unavailable'] = TRUE;
+        $unavailability['is_unavailability'] = TRUE;
 
         if ( ! $this->db->insert('appointments', $unavailability))
         {
@@ -262,7 +262,7 @@ class Unavailabilities_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        $unavailabilities = $this->db->get_where('appointments', ['is_unavailable' => TRUE], $limit, $offset)->result_array();
+        $unavailabilities = $this->db->get_where('appointments', ['is_unavailability' => TRUE], $limit, $offset)->result_array();
 
         foreach ($unavailabilities as &$unavailability)
         {
@@ -299,7 +299,7 @@ class Unavailabilities_model extends EA_Model {
             ->select()
             ->from('appointments')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
-            ->where('is_unavailable', TRUE)
+            ->where('is_unavailability', TRUE)
             ->group_start()
             ->like('appointments.start_datetime', $keyword)
             ->or_like('appointments.end_datetime', $keyword)
@@ -436,7 +436,7 @@ class Unavailabilities_model extends EA_Model {
             $decoded_request['id_google_calendar'] = $unavailability['googleCalendarId'];
         }
 
-        $decoded_request['is_unavailable'] = TRUE;
+        $decoded_request['is_unavailability'] = TRUE;
 
         $unavailability = $decoded_request;
     }

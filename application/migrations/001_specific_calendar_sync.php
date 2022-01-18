@@ -49,7 +49,7 @@ class Migration_Specific_calendar_sync extends EA_Migration {
                 'type' => 'TEXT',
                 'null' => TRUE,
             ],
-            'is_unavailable' => [
+            'is_unavailability' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
                 'default' => '0'

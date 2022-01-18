@@ -11,7 +11,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title"><?= lang('new_unavailable_title') ?></h3>
+                <h3 class="modal-title"><?= lang('new_unavailability_title') ?></h3>
                 <button class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">

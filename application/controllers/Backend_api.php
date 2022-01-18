@@ -91,15 +91,15 @@ class Backend_api extends EA_Controller {
     /**
      * Insert or update an unavailability.
      */
-    public function ajax_save_unavailable()
+    public function ajax_save_unavailability()
     {
         redirect('calendar/save_unavailability');
     }
 
     /**
-     * Delete an unavailable time period from database.
+     * Delete an unavailability time period from database.
      */
-    public function ajax_delete_unavailable()
+    public function ajax_delete_unavailability()
     {
         redirect('calendar/delete_unavailability');
     }

@@ -294,16 +294,16 @@ class Calendar extends EA_Controller {
     }
 
     /**
-     * Insert of update unavailable time period to database.
+     * Insert of update unavailability to database.
      */
-    public function save_unavailable()
+    public function save_unavailability()
     {
         try
         {
             // Check privileges
-            $unavailable = request('unavailable');
+            $unavailability = request('unavailability');
 
-            $required_permissions = ( ! isset($unavailable['id']))
+            $required_permissions = ( ! isset($unavailability['id']))
                 ? can('add', PRIV_APPOINTMENTS)
                 : can('edit', PRIV_APPOINTMENTS);
 
@@ -312,33 +312,33 @@ class Calendar extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $provider = $this->providers_model->find($unavailable['id_users_provider']);
+            $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
             // Add appointment
-            $unavailable['id'] = $this->unavailabilities_model->save($unavailable);
+            $unavailability['id'] = $this->unavailabilities_model->save($unavailability);
 
-            $unavailable = $this->unavailabilities_model->find($unavailable['id']); // fetch all inserted data
+            $unavailability = $this->unavailabilities_model->find($unavailability['id']); // fetch all inserted data
 
             // Google Sync
             try
             {
-                $google_sync = $this->providers_model->get_setting($unavailable['id_users_provider'], 'google_sync');
+                $google_sync = $this->providers_model->get_setting($unavailability['id_users_provider'], 'google_sync');
 
                 if ($google_sync)
                 {
-                    $google_token = json_decode($this->providers_model->get_setting($unavailable['id_users_provider'], 'google_token'));
+                    $google_token = json_decode($this->providers_model->get_setting($unavailability['id_users_provider'], 'google_token'));
 
                     $this->google_sync->refresh_token($google_token->refresh_token);
 
-                    if ($unavailable['id_google_calendar'] == NULL)
+                    if ($unavailability['id_google_calendar'] == NULL)
                     {
-                        $google_event = $this->google_sync->add_unavailable($provider, $unavailable);
-                        $unavailable['id_google_calendar'] = $google_event->id;
-                        $this->unavailabilities_model->save($unavailable);
+                        $google_event = $this->google_sync->add_unavailability($provider, $unavailability);
+                        $unavailability['id_google_calendar'] = $google_event->id;
+                        $this->unavailabilities_model->save($unavailability);
                     }
                     else
                     {
-                        $this->google_sync->update_unavailable($provider, $unavailable);
+                        $this->google_sync->update_unavailability($provider, $unavailability);
                     }
                 }
             }
@@ -359,24 +359,24 @@ class Calendar extends EA_Controller {
     }
 
     /**
-     * Delete an unavailable time period from database.
+     * Delete an unavailability from database.
      */
-    public function delete_unavailable()
+    public function delete_unavailability()
     {
         try
         {
-            if (can('delete', PRIV_APPOINTMENTS))
+            if (cannot('delete', PRIV_APPOINTMENTS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $unavailable_id = request('unavailable_id');
+            $unavailability_id = request('unavailability_id');
 
-            $unavailable = $this->appointments_model->find($unavailable_id);
+            $unavailability = $this->appointments_model->find($unavailability_id);
 
-            $provider = $this->providers_model->find($unavailable['id_users_provider']);
+            $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
-            $this->appointments_model->delete($unavailable['id']);
+            $this->appointments_model->delete($unavailability['id']);
 
             // Google Sync
             try
@@ -389,7 +389,7 @@ class Calendar extends EA_Controller {
 
                     $this->google_sync->refresh_token($google_token->refresh_token);
 
-                    $this->google_sync->delete_unavailable($provider, $unavailable['id_google_calendar']);
+                    $this->google_sync->delete_unavailability($provider, $unavailability['id_google_calendar']);
                 }
             }
             catch (Throwable $e)
@@ -485,12 +485,12 @@ class Calendar extends EA_Controller {
 
             $response = [
                 'appointments' => $this->appointments_model->get([
-                    'is_unavailable' => FALSE,
+                    'is_unavailability' => FALSE,
                     'start_datetime >=' => $start_date,
                     'end_datetime <=' => $end_date
                 ]),
                 'unavailability_events' => $this->appointments_model->get([
-                    'is_unavailable' => TRUE,
+                    'is_unavailability' => TRUE,
                     'start_datetime >=' => $start_date,
                     'end_datetime <=' => $end_date
                 ])
@@ -562,7 +562,7 @@ class Calendar extends EA_Controller {
     /**
      * Get the registered appointments for the given date period and record.
      *
-     * This method returns the database appointments and unavailable periods for the user selected date period and
+     * This method returns the database appointments and unavailability periods for the user selected date period and
      * record type (provider or service).
      */
     public function get_calendar_appointments()
@@ -580,7 +580,7 @@ class Calendar extends EA_Controller {
             {
                 json_response([
                     'appointments' => [],
-                    'unavailables' => []
+                    'unavailabilities' => []
                 ]);
 
                 return;
@@ -604,7 +604,7 @@ class Calendar extends EA_Controller {
                 AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
                 or (end_datetime > ' . $start_date . ' AND end_datetime < ' . $end_date . ') 
                 or (start_datetime <= ' . $start_date . ' AND end_datetime >= ' . $end_date . ')) 
-                AND is_unavailable = 0
+                AND is_unavailability = 0
             ';
 
             $response['appointments'] = $this->appointments_model->get($where_clause);
@@ -616,8 +616,8 @@ class Calendar extends EA_Controller {
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
 
-            // Get unavailable periods (only for provider).
-            $response['unavailables'] = [];
+            // Get unavailability periods (only for provider).
+            $response['unavailabilities'] = [];
 
             if ($filter_type == FILTER_TYPE_PROVIDER)
             {
@@ -625,15 +625,15 @@ class Calendar extends EA_Controller {
                     AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
                     or (end_datetime > ' . $start_date . ' AND end_datetime < ' . $end_date . ') 
                     or (start_datetime <= ' . $start_date . ' AND end_datetime >= ' . $end_date . ')) 
-                    AND is_unavailable = 1
+                    AND is_unavailability = 1
                 ';
 
-                $response['unavailables'] = $this->unavailabilities_model->get($where_clause);
+                $response['unavailabilities'] = $this->unavailabilities_model->get($where_clause);
             }
 
-            foreach ($response['unavailables'] as &$unavailable)
+            foreach ($response['unavailabilities'] as &$unavailability)
             {
-                $unavailable['provider'] = $this->providers_model->find($unavailable['id_users_provider']);
+                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
             }
 
             json_response($response);

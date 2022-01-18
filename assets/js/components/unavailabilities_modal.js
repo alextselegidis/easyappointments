@@ -32,9 +32,9 @@ App.Components.UnavailabilitiesModal = (function () {
      */
     function addEventListeners() {
         /**
-         * Event: Manage Unavailable Dialog Save Button "Click"
+         * Event: Manage Unavailability Dialog Save Button "Click"
          *
-         * Stores the unavailable period changes or inserts a new record.
+         * Stores the unavailability period changes or inserts a new record.
          */
         $saveUnavailability.on('click', () => {
             $unavailabilitiesModal.find('.modal-message').addClass('d-none');
@@ -70,7 +70,7 @@ App.Components.UnavailabilitiesModal = (function () {
                 return;
             }
 
-            // Unavailable period records go to the appointments table.
+            // Unavailability period records go to the appointments table.
             const unavailability = {
                 start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
@@ -85,7 +85,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
             const successCallback = () => {
                 // Display success message to the user.
-                App.Layouts.Backend.displayNotification(lang('unavailable_saved'));
+                App.Layouts.Backend.displayNotification(lang('unavailability_saved'));
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $unavailabilitiesModal.find('.alert').addClass('d-none');
@@ -95,11 +95,11 @@ App.Components.UnavailabilitiesModal = (function () {
                 $selectFilterItem.trigger('change');
             };
 
-            App.Http.Calendar.saveUnavailable(unavailability, successCallback, null);
+            App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
         });
 
         /**
-         * Event : Insert Unavailable Time Period Button "Click"
+         * Event : Insert Unavailability Time Period Button "Click"
          *
          * When the user clicks this button a popup dialog appears and the use can set a time period where
          * he cannot accept any appointments.
@@ -139,13 +139,13 @@ App.Components.UnavailabilitiesModal = (function () {
                     true
                 )
             );
-            $dialog.find('.modal-header h3').text(lang('new_unavailable_title'));
+            $dialog.find('.modal-header h3').text(lang('new_unavailability_title'));
             $dialog.modal('show');
         });
     }
 
     /**
-     * Reset unavailable dialog form.
+     * Reset unavailability dialog form.
      *
      * Reset the "#unavailabilities-modal" dialog. Use this method to bring the dialog to the initial state
      * before it becomes visible to the user.
@@ -297,7 +297,7 @@ App.Components.UnavailabilitiesModal = (function () {
         });
         $unavailabilityEnd.val(end);
 
-        // Clear the unavailable notes field.
+        // Clear the unavailability notes field.
         $unavailabilityNotes.val('');
     }
 

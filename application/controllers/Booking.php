@@ -395,7 +395,7 @@ class Booking extends EA_Controller {
 
             if ( ! $appointment['id_users_provider'])
             {
-                throw new Exception(lang('requested_hour_is_unavailable'));
+                throw new Exception(lang('requested_hour_is_unavailability'));
             }
 
             $provider = $this->providers_model->find($appointment['id_users_provider']);
@@ -432,7 +432,7 @@ class Booking extends EA_Controller {
             $customer = $this->customers_model->find($customer_id);
 
             $appointment['id_users_customer'] = $customer_id;
-            $appointment['is_unavailable'] = (int)$appointment['is_unavailable'];
+            $appointment['is_unavailability'] = (int)$appointment['is_unavailability'];
             $appointment_id = $this->appointments_model->save($appointment);
             $appointment = $this->appointments_model->find($appointment_id);
 
@@ -519,15 +519,15 @@ class Booking extends EA_Controller {
     }
 
     /**
-     * Get Unavailable Dates
+     * Get Unavailability Dates
      *
      * Get an array with the available dates of a specific provider, service and month of the year. Provide the
      * "provider_id", "service_id" and "selected_date" as GET parameters to the request. The "selected_date" parameter
      * must have the Y-m-d format.
      *
-     * Outputs a JSON string with the unavailable dates. that are unavailable.
+     * Outputs a JSON string with the unavailability dates. that are unavailability.
      */
-    public function get_unavailable_dates()
+    public function get_unavailability_dates()
     {
         try
         {
@@ -538,7 +538,7 @@ class Booking extends EA_Controller {
             $selected_date_string = request('selected_date');
             $selected_date = new DateTime($selected_date_string);
             $number_of_days_in_month = (int)$selected_date->format('t');
-            $unavailable_dates = [];
+            $unavailability_dates = [];
 
             $provider_ids = $provider_id === ANY_PROVIDER
                 ? $this->search_providers_by_service($service_id)
@@ -555,8 +555,8 @@ class Booking extends EA_Controller {
 
                 if ($current_date < new DateTime(date('Y-m-d 00:00:00')))
                 {
-                    // Past dates become immediately unavailable.
-                    $unavailable_dates[] = $current_date->format('Y-m-d');
+                    // Past dates become immediately unavailability.
+                    $unavailability_dates[] = $current_date->format('Y-m-d');
                     continue;
                 }
 
@@ -581,11 +581,11 @@ class Booking extends EA_Controller {
                 // No availability amongst all the provider.
                 if (empty($available_hours))
                 {
-                    $unavailable_dates[] = $current_date->format('Y-m-d');
+                    $unavailability_dates[] = $current_date->format('Y-m-d');
                 }
             }
 
-            json_response($unavailable_dates);
+            json_response($unavailability_dates);
         }
         catch (Throwable $e)
         {

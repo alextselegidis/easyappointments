@@ -346,7 +346,7 @@ class Availability {
     ): array
     {
         $unavailability_events = $this->CI->appointments_model->get([
-            'is_unavailable' => TRUE,
+            'is_unavailability' => TRUE,
             'DATE(start_datetime) <=' => $date,
             'DATE(end_datetime) >=' => $date,
             'id_users_provider' => $provider['id']

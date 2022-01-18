@@ -344,8 +344,8 @@ body legend {
     margin-top: 0;
 }
 
-#calendar-page #calendar .fc-unavailable {
-    background-image: url('../../img/unavailable.jpg');
+#calendar-page #calendar .fc-unavailability {
+    background-image: url('../../img/unavailability.jpg');
     font-size: 14px;
     border-radius: 0;
     font-weight: bold;
@@ -507,8 +507,8 @@ body .form-horizontal .controls {
     margin-right: 20px;
 }
 
-#calendar .fc-unavailable {
-    background: #eaeaea url('../../img/unavailable.jpg');
+#calendar .fc-unavailability {
+    background: #eaeaea url('../../img/unavailability.jpg');
 }
 
 #calendar .calendar-view .date-column .provider-column {

@@ -47,9 +47,9 @@
                     </button>
 
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#" id="insert-unavailable">
+                        <a class="dropdown-item" href="#" id="insert-unavailability">
                             <i class="fas fa-plus-square me-2"></i>
-                            <?= lang('unavailable') ?>
+                            <?= lang('unavailability') ?>
                         </a>
                         <a class="dropdown-item" href="#" id="insert-working-plan-exception"
                             <?= session('role_slug') !== DB_SLUG_ADMIN ? 'hidden' : '' ?>>

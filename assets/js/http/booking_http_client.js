@@ -22,7 +22,7 @@ App.Http.Booking = (function () {
     const $availableHours = $('#available-hours');
     const $captchaHint = $('#captcha-hint');
     const $captchaTitle = $('.captcha-title');
-    let unavailableDatesBackup;
+    let unavailabilityDatesBackup;
     let selectedDateStringBackup;
     let processingUnavailabilities = false;
 
@@ -217,9 +217,9 @@ App.Http.Booking = (function () {
     }
 
     /**
-     * Get the unavailable dates of a provider.
+     * Get the unavailability dates of a provider.
      *
-     * This method will fetch the unavailable dates of the selected provider and service and then it will
+     * This method will fetch the unavailability dates of the selected provider and service and then it will
      * select the first available date (if any). It uses the "FrontendBookApi.getAvailableHours" method to
      * fetch the appointment* hours of the selected date.
      *
@@ -227,7 +227,7 @@ App.Http.Booking = (function () {
      * @param {Number} serviceId The selected service ID.
      * @param {String} selectedDateString Y-m-d value of the selected date.
      */
-    function getUnavailableDates(providerId, serviceId, selectedDateString) {
+    function getUnavailabilityDates(providerId, serviceId, selectedDateString) {
         if (processingUnavailabilities) {
             return;
         }
@@ -238,7 +238,7 @@ App.Http.Booking = (function () {
 
         const appointmentId = App.Pages.Booking.manageMode ? vars('appointment_data').id : null;
 
-        const url = App.Utils.Url.siteUrl('booking/get_unavailable_dates');
+        const url = App.Utils.Url.siteUrl('booking/get_unavailability_dates');
 
         const data = {
             provider_id: providerId,
@@ -255,17 +255,17 @@ App.Http.Booking = (function () {
             data: data,
             dataType: 'json'
         }).done((response) => {
-            unavailableDatesBackup = response;
+            unavailabilityDatesBackup = response;
             selectedDateStringBackup = selectedDateString;
-            applyUnavailableDates(response, selectedDateString, true);
+            applyUnavailabilityDates(response, selectedDateString, true);
         });
     }
 
-    function applyPreviousUnavailableDates() {
-        applyUnavailableDates(unavailableDatesBackup, selectedDateStringBackup);
+    function applyPreviousUnavailabilityDates() {
+        applyUnavailabilityDates(unavailabilityDatesBackup, selectedDateStringBackup);
     }
 
-    function applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
+    function applyUnavailabilityDates(unavailabilityDates, selectedDateString, setDate) {
         setDate = setDate || false;
 
         processingUnavailabilities = true;
@@ -278,7 +278,7 @@ App.Http.Booking = (function () {
         if (setDate && !vars('manage_mode')) {
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-                if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
+                if (unavailabilityDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
                     $('#select-date').datepicker('setDate', currentDate);
                     getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
                     break;
@@ -286,15 +286,15 @@ App.Http.Booking = (function () {
             }
         }
 
-        // If all the days are unavailable then hide the appointments hours.
-        if (unavailableDates.length === numberOfDays) {
+        // If all the days are unavailability then hide the appointments hours.
+        if (unavailabilityDates.length === numberOfDays) {
             $availableHours.text(lang('no_available_hours'));
         }
 
-        // Grey out unavailable dates.
+        // Grey out unavailability dates.
         $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each((index, td) => {
             selectedDateMoment.set({day: index + 1});
-            if (unavailableDates.indexOf(selectedDateMoment.format('YYYY-MM-DD')) !== -1) {
+            if (unavailabilityDates.indexOf(selectedDateMoment.format('YYYY-MM-DD')) !== -1) {
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
             }
         });
@@ -339,8 +339,8 @@ App.Http.Booking = (function () {
     return {
         registerAppointment,
         getAvailableHours,
-        getUnavailableDates,
-        applyPreviousUnavailableDates,
+        getUnavailabilityDates,
+        applyPreviousUnavailabilityDates,
         saveConsent,
         deletePersonalInformation
     };

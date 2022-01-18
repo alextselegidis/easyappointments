@@ -22,7 +22,7 @@ class Appointments_model extends EA_Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'is_unavailable' => 'boolean',
+        'is_unavailability' => 'boolean',
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
@@ -134,7 +134,7 @@ class Appointments_model extends EA_Model {
             throw new InvalidArgumentException('The appointment provider ID was not found in the database: ' . $appointment['id_users_provider']);
         }
 
-        if ( ! filter_var($appointment['is_unavailable'], FILTER_VALIDATE_BOOLEAN))
+        if ( ! filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN))
         {
             // Make sure the customer ID really exists in the database. 
             $count = $this
@@ -306,7 +306,7 @@ class Appointments_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        $appointments = $this->db->get_where('appointments', ['is_unavailable' => FALSE], $limit, $offset)->result_array();
+        $appointments = $this->db->get_where('appointments', ['is_unavailability' => FALSE], $limit, $offset)->result_array();
 
         foreach ($appointments as &$appointment)
         {
@@ -436,7 +436,7 @@ class Appointments_model extends EA_Model {
             ->join('services', 'services.id = appointments.id_services', 'left')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
             ->join('users AS customers', 'customers.id = appointment.id_users_customer', 'left')
-            ->where('is_unavailable', FALSE)
+            ->where('is_unavailability', FALSE)
             ->group_start()
             ->like('appointments.start_datetime', $keyword)
             ->or_like('appointments.end_datetime', $keyword)
@@ -609,7 +609,7 @@ class Appointments_model extends EA_Model {
             $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
         }
 
-        $decoded_request['is_unavailable'] = FALSE;
+        $decoded_request['is_unavailability'] = FALSE;
 
         $appointment = $decoded_request;
     }

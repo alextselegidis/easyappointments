@@ -186,7 +186,7 @@ App.Utils.CalendarTableView = (function () {
                         );
                     }
                 );
-            } else if (lastFocusedEventData.data.is_unavailable === '0') {
+            } else if (lastFocusedEventData.data.is_unavailability === '0') {
                 const appointment = lastFocusedEventData.data;
                 BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
@@ -218,23 +218,23 @@ App.Utils.CalendarTableView = (function () {
 
                 $appointmentsModal.modal('show');
             } else {
-                const unavailable = lastFocusedEventData.data;
+                const unavailability = lastFocusedEventData.data;
 
                 // Replace string date values with actual date objects.
-                unavailable.start_datetime = lastFocusedEventData.start.format('YYYY-MM-DD HH:mm:ss');
-                startMoment = moment(unavailable.start_datetime);
-                unavailable.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
-                endMoment = moment(unavailable.end_datetime);
+                unavailability.start_datetime = lastFocusedEventData.start.format('YYYY-MM-DD HH:mm:ss');
+                startMoment = moment(unavailability.start_datetime);
+                unavailability.end_datetime = lastFocusedEventData.end.format('YYYY-MM-DD HH:mm:ss');
+                endMoment = moment(unavailability.end_datetime);
 
-                BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
+                BackendCalendarUnavailabilityEventsModal.resetUnavailabilityDialog();
 
-                // Apply unavailable data to dialog.
-                $unavailabilitiesModal.find('.modal-header h3').text('Edit Unavailable Period');
-                $unavailabilitiesModal.find('#unavailable-start').datetimepicker('setDate', startMoment);
-                $unavailabilitiesModal.find('#unavailable-id').val(unavailable.id);
-                $unavailabilitiesModal.find('#unavailable-provider').val(unavailable.id_users_provider);
-                $unavailabilitiesModal.find('#unavailable-end').datetimepicker('setDate', endMoment);
-                $unavailabilitiesModal.find('#unavailable-notes').val(unavailable.notes);
+                // Apply unavailability data to dialog.
+                $unavailabilitiesModal.find('.modal-header h3').text('Edit Unavailability Period');
+                $unavailabilitiesModal.find('#unavailability-start').datetimepicker('setDate', startMoment);
+                $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
+                $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
+                $unavailabilitiesModal.find('#unavailability-end').datetimepicker('setDate', endMoment);
+                $unavailabilitiesModal.find('#unavailability-notes').val(unavailability.notes);
 
                 $unavailabilitiesModal.modal('show');
             }
@@ -271,7 +271,7 @@ App.Utils.CalendarTableView = (function () {
                     // Refresh calendar event items.
                     $selectFilterItem.trigger('change');
                 });
-            } else if (lastFocusedEventData.data.is_unavailable === '0') {
+            } else if (lastFocusedEventData.data.is_unavailability === '0') {
                 const buttons = [
                     {
                         text: lang('cancel'),
@@ -309,9 +309,9 @@ App.Utils.CalendarTableView = (function () {
                 }).appendTo('#message-box');
             } else {
                 // Do not display confirmation prompt.
-                const unavailableId = lastFocusedEventData.data.id;
+                const unavailabilityId = lastFocusedEventData.data.id;
 
-                App.Http.Calendar.deleteUnavailable(unavailableId).done(() => {
+                App.Http.Calendar.deleteUnavailability(unavailabilityId).done(() => {
                     $('#message-box').dialog('close');
 
                     // Refresh calendar event items.
@@ -872,7 +872,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailable'
+                className: 'fc-unavailability'
             };
 
             calendarEventSource.push(nonWorkingDay);
@@ -885,37 +885,37 @@ App.Utils.CalendarTableView = (function () {
         const workDateStart = moment(start.format('YYYY-MM-DD') + ' ' + workingPlan[selDayName].start);
 
         if (start < workDateStart) {
-            unavailablePeriod = {
+            unavailabilityPeriod = {
                 title: lang('not_working'),
                 start: start,
                 end: workDateStart,
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailable'
+                className: 'fc-unavailability'
             };
 
-            calendarEventSource.push(unavailablePeriod);
+            calendarEventSource.push(unavailabilityPeriod);
         }
 
-        // Add unavailable period after work ends.
+        // Add unavailability period after work ends.
         const workDateEnd = moment(start.format('YYYY-MM-DD') + ' ' + workingPlan[selDayName].end);
 
         if (end > workDateEnd) {
-            const unavailablePeriod = {
+            const unavailabilityPeriod = {
                 title: lang('not_working'),
                 start: workDateEnd,
                 end: end,
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailable'
+                className: 'fc-unavailability'
             };
 
-            calendarEventSource.push(unavailablePeriod);
+            calendarEventSource.push(unavailabilityPeriod);
         }
 
-        // Add unavailable periods for breaks.
+        // Add unavailability periods for breaks.
         let breakStart;
         let breakEnd;
 
@@ -923,17 +923,17 @@ App.Utils.CalendarTableView = (function () {
             breakStart = moment(start.format('YYYY-MM-DD') + ' ' + currentBreak.start);
             breakEnd = moment(start.format('YYYY-MM-DD') + ' ' + currentBreak.end);
 
-            const unavailablePeriod = {
+            const unavailabilityPeriod = {
                 title: lang('break'),
                 start: breakStart,
                 end: breakEnd,
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailable fc-break'
+                className: 'fc-unavailability fc-break'
             };
 
-            calendarEventSource.push(unavailablePeriod);
+            calendarEventSource.push(unavailabilityPeriod);
         });
 
         $calendar.fullCalendar('addEventSource', calendarEventSource);
@@ -1008,13 +1008,13 @@ App.Utils.CalendarTableView = (function () {
             }
 
             const event = {
-                title: lang('unavailable'),
+                title: lang('unavailability'),
                 start: moment(unavailability.start_datetime),
                 end: moment(unavailability.end_datetime),
                 allDay: false,
                 color: '#879DB4',
                 editable: true,
-                className: 'fc-unavailable fc-custom',
+                className: 'fc-unavailability fc-custom',
                 data: unavailability
             };
 
@@ -1136,9 +1136,9 @@ App.Utils.CalendarTableView = (function () {
         const $altParent = $(jsEvent.target).parents().eq(1);
 
         if (
-            $(this).hasClass('fc-unavailable') ||
-            $parent.hasClass('fc-unavailable') ||
-            $altParent.hasClass('fc-unavailable')
+            $(this).hasClass('fc-unavailability') ||
+            $parent.hasClass('fc-unavailability') ||
+            $altParent.hasClass('fc-unavailability')
         ) {
             displayEdit =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
@@ -1512,7 +1512,7 @@ App.Utils.CalendarTableView = (function () {
 
         let successCallback;
 
-        if (event.data.is_unavailable === '0') {
+        if (event.data.is_unavailability === '0') {
             // Prepare appointment data.
             event.data.end_datetime = moment(event.data.end_datetime)
                 .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
@@ -1555,32 +1555,32 @@ App.Utils.CalendarTableView = (function () {
             // Update appointment data.
             App.Http.Calendar.saveAppointment(appointment, null, successCallback);
         } else {
-            // Update unavailable time period.
-            const unavailable = {
+            // Update unavailability time period.
+            const unavailability = {
                 id: event.data.id,
                 start_datetime: event.start.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: event.end.format('YYYY-MM-DD HH:mm:ss'),
                 id_users_provider: event.data.id_users_provider
             };
 
-            event.data.end_datetime = unavailable.end_datetime;
+            event.data.end_datetime = unavailability.end_datetime;
 
             // Define success callback function.
             successCallback = () => {
                 // Display success notification to user.
                 const undoFunction = () => {
-                    unavailable.end_datetime = event.data.end_datetime = moment(unavailable.end_datetime)
+                    unavailability.end_datetime = event.data.end_datetime = moment(unavailability.end_datetime)
                         .add({minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    App.Http.Calendar.saveUnavailable(unavailable).done(() => {
+                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
                         $('#notification').hide('blind');
                     });
 
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(lang('unavailable_updated'), [
+                App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
                     {
                         'label': lang('undo'),
                         'function': undoFunction
@@ -1593,7 +1593,7 @@ App.Utils.CalendarTableView = (function () {
                 $calendar.fullCalendar('updateEvent', event);
             };
 
-            App.Http.Calendar.saveUnavailable(unavailable, successCallback);
+            App.Http.Calendar.saveUnavailability(unavailability, successCallback);
         }
     }
 
@@ -1618,7 +1618,7 @@ App.Utils.CalendarTableView = (function () {
 
         let successCallback;
 
-        if (event.data.is_unavailable === '0') {
+        if (event.data.is_unavailability === '0') {
             // Prepare appointment data.
             const appointment = {...event.data};
 
@@ -1673,8 +1673,8 @@ App.Utils.CalendarTableView = (function () {
             // Update appointment data.
             App.Http.Calendar.saveAppointment(appointment, null, successCallback);
         } else {
-            // Update unavailable time period.
-            const unavailable = {
+            // Update unavailability time period.
+            const unavailability = {
                 id: event.data.id,
                 start_datetime: event.start.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: event.end.format('YYYY-MM-DD HH:mm:ss'),
@@ -1683,25 +1683,25 @@ App.Utils.CalendarTableView = (function () {
 
             successCallback = () => {
                 const undoFunction = () => {
-                    unavailable.start_datetime = moment(unavailable.start_datetime)
+                    unavailability.start_datetime = moment(unavailability.start_datetime)
                         .add({days: -delta.days(), minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    unavailable.end_datetime = moment(unavailable.end_datetime)
+                    unavailability.end_datetime = moment(unavailability.end_datetime)
                         .add({days: -delta.days(), minutes: -delta.minutes()})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    event.data.start_datetime = unavailable.start_datetime;
-                    event.data.end_datetime = unavailable.end_datetime;
+                    event.data.start_datetime = unavailability.start_datetime;
+                    event.data.end_datetime = unavailability.end_datetime;
 
-                    App.Http.Calendar.saveUnavailable(unavailable).done(() => {
+                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
                         $('#notification').hide('blind');
                     });
 
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(lang('unavailable_updated'), [
+                App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
                     {
                         label: lang('undo'),
                         function: undoFunction
@@ -1711,7 +1711,7 @@ App.Utils.CalendarTableView = (function () {
                 $('#footer').css('position', 'static'); // Footer position fix.
             };
 
-            App.Http.Calendar.saveUnavailable(unavailable, successCallback);
+            App.Http.Calendar.saveUnavailability(unavailability, successCallback);
         }
     }
 
