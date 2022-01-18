@@ -27,7 +27,7 @@ class Migration_Add_color_column_to_services_table extends CI_Migration {
                 'color' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'default' => '#4c95d2',
+                    'default' => '#4c96cc',
                     'after' => 'description'
                 ]
             ];
