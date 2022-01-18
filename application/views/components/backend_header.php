@@ -10,7 +10,7 @@
     <div id="header-logo" class="navbar-brand">
         <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
         <h6>EASY!APPOINTMENTS</h6>
-        <small>Open Source Appointment Scheduler</small>
+        <small>Online Appointment Scheduler</small>
     </div>
 
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#header-menu">

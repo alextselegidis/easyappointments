@@ -68,7 +68,7 @@
 
         <p>
             <?= lang('about_app_license') ?>
-            <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
+            <a href="https://www.gnu.org/copyleft/gpl.html">https://www.gnu.org/copyleft/gpl.html</a>
         </p>
     </div>
 </div>

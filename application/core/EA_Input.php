@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -82,6 +82,6 @@ class EA_Input extends CI_Input {
             return $payload;
         }
 
-        return $payload[$index] ?? NULL;;
+        return $payload[$index] ?? NULL;
     }
 }
