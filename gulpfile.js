@@ -152,6 +152,10 @@ function vendor(done) {
         gulp.dest('assets/vendor/jquery-ui-dist')
     );
 
+    gulp.src(['node_modules/jquery-ui-dist/images/ui-icons_ffffff_256x240.png']).pipe(
+        gulp.dest('assets/vendor/jquery-ui-dist/images')
+    );
+
     // jquery-ui-timepicker-addon
     gulp.src([
         'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
