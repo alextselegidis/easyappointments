@@ -48,9 +48,9 @@ App.Components.AppointmentsModal = (function () {
     function updateTimezone() {
         const providerId = $selectProvider.val();
 
-        const provider = vars('available_providers').find(function (availableProvider) {
-            return Number(availableProvider.id) === Number(providerId);
-        });
+        const provider = vars('available_providers').find(
+            (availableProvider) => Number(availableProvider.id) === Number(providerId)
+        );
 
         if (provider && provider.timezone) {
             $('.provider-timezone').text(vars('timezones')[provider.timezone]);
@@ -205,7 +205,7 @@ App.Components.AppointmentsModal = (function () {
         /**
          * Event: Pick Existing Customer Button "Click"
          *
-         * @param {jQuery.Event}
+         * @param {jQuery.Event} event
          */
         $selectCustomer.on('click', (event) => {
             if (!$existingCustomersList.is(':visible')) {
@@ -213,7 +213,7 @@ App.Components.AppointmentsModal = (function () {
                 $existingCustomersList.empty();
                 $existingCustomersList.slideDown('slow');
                 $filterExistingCustomers.fadeIn('slow').val('');
-                vars('customers').forEach(function (customer) {
+                vars('customers').forEach((customer) => {
                     $('<div/>', {
                         'data-id': customer.id,
                         'text': customer.first_name + ' ' + customer.last_name
@@ -234,9 +234,7 @@ App.Components.AppointmentsModal = (function () {
         $appointmentsModal.on('click', '#existing-customers-list div', (event) => {
             const customerId = $(event.target).attr('data-id');
 
-            const customer = vars('customers').find(function (customer) {
-                return Number(customer.id) === Number(customerId);
-            });
+            const customer = vars('customers').find((customer) => Number(customer.id) === Number(customerId));
 
             if (customer) {
                 $customerId.val(customer.id);
@@ -267,7 +265,7 @@ App.Components.AppointmentsModal = (function () {
 
             const keyword = $(event.target).val().toLowerCase();
 
-            filterExistingCustomersTimeout = setTimeout(function () {
+            filterExistingCustomersTimeout = setTimeout(() => {
                 $('#loading').css('visibility', 'hidden');
 
                 App.Http.Customers.search(keyword, 50)
@@ -313,7 +311,7 @@ App.Components.AppointmentsModal = (function () {
                             }
                         });
                     })
-                    .always(function () {
+                    .always(() => {
                         $('#loading').css('visibility', '');
                     });
             }, 1000);
@@ -507,7 +505,7 @@ App.Components.AppointmentsModal = (function () {
             hourText: lang('hour'),
             minuteText: lang('minutes'),
             firstDay: firstWeekDayNumber,
-            onClose: function () {
+            onClose: () => {
                 const serviceId = $selectService.val();
 
                 // Automatically update the #end-datetime DateTimePicker based on service duration.

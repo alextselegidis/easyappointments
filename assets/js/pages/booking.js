@@ -784,9 +784,9 @@ App.Pages.Booking = (function () {
 
         $serviceDescription.empty();
 
-        const service = vars('available_services').find(function (availableService) {
-            return Number(availableService.id) === Number(serviceId);
-        });
+        const service = vars('available_services').find(
+            (availableService) => Number(availableService.id) === Number(serviceId)
+        );
 
         if (!service) {
             return;

@@ -117,7 +117,7 @@ App.Pages.BusinessSettings = (function () {
                         .done(() => {
                             App.Layouts.Backend.displayNotification(lang('working_plans_got_updated'));
                         })
-                        .always(function () {
+                        .always(() => {
                             $('#message-box').dialog('close');
                         });
                 }

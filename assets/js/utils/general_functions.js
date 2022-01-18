@@ -19,13 +19,13 @@ window.GeneralFunctions = window.GeneralFunctions || {};
  * @module GeneralFunctions
  */
 (function (exports) {
-    'use strict';
+    ('use strict');
 
     /**
      * Register global error handler.
      */
-    document.addEventListener('DOMContentLoaded', function () {
-        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+    document.addEventListener('DOMContentLoaded', () => {
+        $(document).ajaxError((event, jqxhr, settings, thrownError) => {
             GeneralFunctions.ajaxFailureHandler(jqxhr, settings, thrownError);
         });
     });
@@ -38,7 +38,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {String} message The message of the dialog.
      * @param {Array} buttons Contains the dialog buttons along with their functions.
      */
-    exports.displayMessageBox = function (title, message, buttons = null) {
+    exports.displayMessageBox = (title, message, buttons = null) => {
         if (!title) {
             title = '- No Title Provided -';
         }
@@ -51,7 +51,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             buttons = [
                 {
                     text: lang('close'),
-                    click: function () {
+                    click: () => {
                         $('#message-box').dialog('close');
                     }
                 }
@@ -93,7 +93,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @param {Object} elementHandle The object that is going to be centered.
      */
-    exports.centerElementOnPage = function (elementHandle) {
+    exports.centerElementOnPage = (elementHandle) => {
         // Center main frame vertical middle
         $(window).resize(function () {
             var elementLeft = ($(window).width() - elementHandle.outerWidth()) / 2;
@@ -119,7 +119,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the parameter value.
      */
-    exports.getUrlParameter = function (url, parameterName) {
+    exports.getUrlParameter = (url, parameterName) => {
         var parsedUrl = url.substr(url.indexOf('?')).slice(1).split('&');
 
         for (var index in parsedUrl) {
@@ -147,7 +147,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the transformed string.
      */
-    exports.ISODateString = function (date) {
+    exports.ISODateString = (date) => {
         function pad(n) {
             return n < 10 ? '0' + n : n;
         }
@@ -180,7 +180,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {Object} Returns an exact copy of the provided element.
      */
-    exports.clone = function (originalObject) {
+    exports.clone = (originalObject) => {
         // Handle the 3 simple types, and null or undefined
         if (!originalObject || typeof originalObject !== 'object') {
             return originalObject;
@@ -228,7 +228,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {Boolean} Returns the validation result.
      */
-    exports.validateEmail = function (email) {
+    exports.validateEmail = (email) => {
         var re =
             /(?:[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
         return re.test(email);
@@ -241,9 +241,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {String} Returns the capitalized string.
      */
-    exports.upperCaseFirstLetter = function (value) {
-        return value.charAt(0).toUpperCase() + value.slice(1);
-    };
+    exports.upperCaseFirstLetter = (value) => value.charAt(0).toUpperCase() + value.slice(1);
 
     /**
      * Enable Language Selection
@@ -255,7 +253,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @deprecated Since 1.5
      */
-    exports.enableLanguageSelection = function ($element) {
+    exports.enableLanguageSelection = ($element) => {
         console.warn(
             `Call of deprecated GeneralFunctions.enableLanguageSelection method! Please use the App.Utils.Lang.enableLanguageSelection instead as this method will be removed soon.`
         );
@@ -269,7 +267,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @param {String} textStatus
      * @param {Object} errorThrown
      */
-    exports.ajaxFailureHandler = function (jqXHR, textStatus, errorThrown) {
+    exports.ajaxFailureHandler = (jqXHR, textStatus, errorThrown) => {
         console.error('Unexpected HTTP Error: ', jqXHR, textStatus, errorThrown);
 
         var response;
@@ -304,9 +302,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {String} Returns the escaped string.
      */
-    exports.escapeHtml = function (content) {
-        return $('<div/>').text(content).html();
-    };
+    exports.escapeHtml = (content) => $('<div/>').text(content).html();
 
     /**
      * Format a given date according to the date format setting.
@@ -317,7 +313,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the formatted date string.
      */
-    exports.formatDate = function (date, dateFormatSetting, addHours) {
+    exports.formatDate = (date, dateFormatSetting, addHours) => {
         var timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
         var hours = addHours ? ' ' + timeFormat : '';
         var result;
@@ -353,7 +349,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {Number} Returns the ID of the weekday.
      */
-    exports.getWeekDayId = function (weekDayName) {
+    exports.getWeekDayId = (weekDayName) => {
         var result;
 
         switch (weekDayName.toLowerCase()) {
@@ -406,7 +402,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {String} Returns the name of the weekday.
      */
-    exports.getWeekdayName = function (weekDayId) {
+    exports.getWeekdayName = (weekDayId) => {
         var result;
 
         switch (weekDayId) {
@@ -453,7 +449,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
      * @return {Object} Returns a sorted dictionary
      */
-    exports.sortWeekDictionary = function (weekDictionary, startDayId) {
+    exports.sortWeekDictionary = (weekDictionary, startDayId) => {
         var sortedWeekDictionary = {};
 
         for (var i = startDayId; i < startDayId + 7; i++) {
@@ -471,7 +467,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {string} The rendered HTML.
      */
-    exports.renderMapIcon = function (user) {
+    exports.renderMapIcon = (user) => {
         var data = [];
 
         if (user.address) {
@@ -516,8 +512,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {string} The rendered HTML.
      */
-    exports.renderMailIcon = function (email) {
-        return $('<div/>', {
+    exports.renderMailIcon = (email) =>
+        $('<div/>', {
             'html': [
                 $('<a/>', {
                     'href': 'mailto:' + email,
@@ -530,7 +526,6 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 })
             ]
         }).html();
-    };
 
     /**
      * Render a phone icon.
@@ -539,8 +534,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      *
      * @return {string} The rendered HTML.
      */
-    exports.renderPhoneIcon = function (phone) {
-        return $('<div/>', {
+    exports.renderPhoneIcon = (phone) =>
+        $('<div/>', {
             'html': [
                 $('<a/>', {
                     'href': 'tel:' + phone,
@@ -553,5 +548,4 @@ window.GeneralFunctions = window.GeneralFunctions || {};
                 })
             ]
         }).html();
-    };
 })(window.GeneralFunctions);

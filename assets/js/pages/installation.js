@@ -65,7 +65,7 @@ App.Pages.Installation = (function () {
                 .addClass('alert-success')
                 .prop('hidden', false);
 
-            setTimeout(function () {
+            setTimeout(() => {
                 window.location.href = App.Utils.Url.siteUrl('calendar');
             }, 1000);
         });

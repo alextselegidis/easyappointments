@@ -49,7 +49,7 @@ App.Pages.Providers = (function () {
          *
          * @param {jQuery.Event} event
          */
-        $providers.on('submit', '#filter-providers form', function (event) {
+        $providers.on('submit', '#filter-providers form', (event) => {
             event.preventDefault();
             const key = $('#filter-providers .key').val();
             $('.selected').removeClass('selected');
@@ -62,16 +62,14 @@ App.Pages.Providers = (function () {
          *
          * Display the selected provider data to the user.
          */
-        $providers.on('click', '.provider-row', function (event) {
+        $providers.on('click', '.provider-row', (event) => {
             if ($filterProviders.find('.filter').prop('disabled')) {
                 $filterProviders.find('.results').css('color', '#AAA');
                 return; // Exit because we are currently on edit mode.
             }
 
             const providerId = $(event.currentTarget).attr('data-id');
-            const provider = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(providerId);
-            });
+            const provider = filterResults.find((filterResult) => Number(filterResult.id) === Number(providerId));
 
             display(provider);
             $filterProviders.find('.selected').removeClass('selected');
@@ -82,7 +80,7 @@ App.Pages.Providers = (function () {
         /**
          * Event: Add New Provider Button "Click"
          */
-        $providers.on('click', '#add-provider', function () {
+        $providers.on('click', '#add-provider', () => {
             resetForm();
             $filterProviders.find('button').prop('disabled', true);
             $filterProviders.find('.results').css('color', '#AAA');
@@ -106,7 +104,7 @@ App.Pages.Providers = (function () {
         /**
          * Event: Edit Provider Button "Click"
          */
-        $providers.on('click', '#edit-provider', function () {
+        $providers.on('click', '#edit-provider', () => {
             $providers.find('.add-edit-delete-group').hide();
             $providers.find('.save-cancel-group').show();
             $filterProviders.find('button').prop('disabled', true);
@@ -126,19 +124,19 @@ App.Pages.Providers = (function () {
         /**
          * Event: Delete Provider Button "Click"
          */
-        $providers.on('click', '#delete-provider', function () {
+        $providers.on('click', '#delete-provider', () => {
             const providerId = $id.val();
 
             const buttons = [
                 {
                     text: lang('cancel'),
-                    click: function () {
+                    click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
                     text: lang('delete'),
-                    click: function () {
+                    click: () => {
                         remove(providerId);
                         $('#message-box').dialog('close');
                     }
@@ -151,7 +149,7 @@ App.Pages.Providers = (function () {
         /**
          * Event: Save Provider Button "Click"
          */
-        $providers.on('click', '#save-provider', function () {
+        $providers.on('click', '#save-provider', () => {
             const provider = {
                 first_name: $firstName.val(),
                 last_name: $lastName.val(),
@@ -175,9 +173,9 @@ App.Pages.Providers = (function () {
 
             // Include provider services.
             provider.services = [];
-            $('#provider-services input:checkbox').each(function (index, checkbox) {
-                if ($(checkbox).prop('checked')) {
-                    provider.services.push($(checkbox).attr('data-id'));
+            $('#provider-services input:checkbox').each((index, checkboxEl) => {
+                if ($(checkboxEl).prop('checked')) {
+                    provider.services.push($(checkboxEl).attr('data-id'));
                 }
             });
 
@@ -203,7 +201,7 @@ App.Pages.Providers = (function () {
          *
          * Cancel add or edit of an provider record.
          */
-        $providers.on('click', '#cancel-provider', function () {
+        $providers.on('click', '#cancel-provider', () => {
             const id = $('#filter-providers .selected').attr('data-id');
             resetForm();
             if (id) {
@@ -214,14 +212,14 @@ App.Pages.Providers = (function () {
         /**
          * Event: Display Provider Details "Click"
          */
-        $providers.on('shown.bs.tab', 'a[data-toggle="tab"]', function () {
+        $providers.on('shown.bs.tab', 'a[data-toggle="tab"]', () => {
             App.Layouts.Backend.placeFooterToBottom();
         });
 
         /**
          * Event: Reset Working Plan Button "Click".
          */
-        $providers.on('click', '#reset-working-plan', function () {
+        $providers.on('click', '#reset-working-plan', () => {
             $('.breaks tbody').empty();
             $('.working-plan-exceptions tbody').empty();
             $('.work-start, .work-end').val('');
@@ -272,9 +270,9 @@ App.Pages.Providers = (function () {
             // Validate required fields.
             let missingRequired = false;
 
-            $providers.find('.required').each(function (index, requiredField) {
-                if (!$(requiredField).val()) {
-                    $(requiredField).addClass('is-invalid');
+            $providers.find('.required').each((index, requiredFieldEl) => {
+                if (!$(requiredFieldEl).val()) {
+                    $(requiredFieldEl).addClass('is-invalid');
                     missingRequired = true;
                 }
             });
@@ -387,7 +385,7 @@ App.Pages.Providers = (function () {
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
 
-        provider.services.forEach(function (providerServiceId) {
+        provider.services.forEach((providerServiceId) => {
             const $checkbox = $('#provider-services input[data-id="' + providerServiceId + '"]');
 
             if (!$checkbox.length) {
@@ -440,7 +438,7 @@ App.Pages.Providers = (function () {
             filterResults = response;
 
             $filterProviders.find('.results').empty();
-            response.forEach(function (provider) {
+            response.forEach((provider) => {
                 $('#filter-providers .results').append(getFilterHtml(provider)).append($('<hr/>'));
             });
 
@@ -455,7 +453,7 @@ App.Pages.Providers = (function () {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
                     'text': lang('load_more'),
-                    'click': function () {
+                    'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
                     }
@@ -512,9 +510,7 @@ App.Pages.Providers = (function () {
 
         // Display record in form (if display = true).
         if (show) {
-            const provider = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(id);
-            });
+            const provider = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
             display(provider);
 
@@ -533,7 +529,7 @@ App.Pages.Providers = (function () {
         filter('');
         addEventListeners();
 
-        vars('services').forEach(function (service) {
+        vars('services').forEach((service) => {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [

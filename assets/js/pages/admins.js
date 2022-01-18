@@ -46,9 +46,11 @@ App.Pages.Admins = (function () {
          *
          * When the admin leaves the username input field we will need to check if the username
          * is not taken by another record in the system.
+         *
+         * @param {jQuery.Event} event
          */
-        $admins.on('blur', '#username', function () {
-            const $input = $(this);
+        $admins.on('blur', '#username', (event) => {
+            const $input = $(event.currentTarget);
 
             if ($input.prop('readonly') === true || $input.val() === '') {
                 return;
@@ -85,7 +87,7 @@ App.Pages.Admins = (function () {
          *
          * @param {jQuery.Event} event
          */
-        $admins.on('submit', '#filter-admins form', function (event) {
+        $admins.on('submit', '#filter-admins form', (event) => {
             event.preventDefault();
             const key = $('#filter-admins .key').val();
             $('#filter-admins .selected').removeClass('selected');
@@ -98,7 +100,7 @@ App.Pages.Admins = (function () {
          *
          * Display the selected admin data to the user.
          */
-        $admins.on('click', '.admin-row', function (event) {
+        $admins.on('click', '.admin-row', (event) => {
             if ($('#filter-admins .filter').prop('disabled')) {
                 $('#filter-admins .results').css('color', '#AAA');
                 return; // exit because we are currently on edit mode
@@ -106,9 +108,7 @@ App.Pages.Admins = (function () {
 
             const adminId = $(event.currentTarget).attr('data-id');
 
-            const admin = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(adminId);
-            });
+            const admin = filterResults.find((filterResult) => Number(filterResult.id) === Number(adminId));
 
             display(admin);
             $('#filter-admins .selected').removeClass('selected');
@@ -119,7 +119,7 @@ App.Pages.Admins = (function () {
         /**
          * Event: Add New Admin Button "Click"
          */
-        $admins.on('click', '#add-admin', function () {
+        $admins.on('click', '#add-admin', () => {
             resetForm();
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
@@ -133,7 +133,7 @@ App.Pages.Admins = (function () {
         /**
          * Event: Edit Admin Button "Click"
          */
-        $admins.on('click', '#edit-admin', function () {
+        $admins.on('click', '#edit-admin', () => {
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
             $admins.find('.record-details').find('input, textarea').prop('disabled', false);
@@ -146,19 +146,19 @@ App.Pages.Admins = (function () {
         /**
          * Event: Delete Admin Button "Click"
          */
-        $admins.on('click', '#delete-admin', function () {
+        $admins.on('click', '#delete-admin', () => {
             const adminId = $id.val();
 
             const buttons = [
                 {
                     text: lang('cancel'),
-                    click: function () {
+                    click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
                     text: lang('delete'),
-                    click: function () {
+                    click: () => {
                         remove(adminId);
                         $('#message-box').dialog('close');
                     }
@@ -171,7 +171,7 @@ App.Pages.Admins = (function () {
         /**
          * Event: Save Admin Button "Click"
          */
-        $admins.on('click', '#save-admin', function () {
+        $admins.on('click', '#save-admin', () => {
             const admin = {
                 first_name: $firstName.val(),
                 last_name: $lastName.val(),
@@ -213,7 +213,7 @@ App.Pages.Admins = (function () {
          *
          * Cancel add or edit of an admin record.
          */
-        $admins.on('click', '#cancel-admin', function () {
+        $admins.on('click', '#cancel-admin', () => {
             const id = $id.val();
 
             resetForm();
@@ -264,7 +264,7 @@ App.Pages.Admins = (function () {
             // Validate required fields.
             let missingRequired = false;
 
-            $admins.find('.required').each(function (index, requiredField) {
+            $admins.find('.required').each((index, requiredField) => {
                 if (!$(requiredField).val()) {
                     $(requiredField).addClass('is-invalid');
                     missingRequired = true;
@@ -363,8 +363,8 @@ App.Pages.Admins = (function () {
 
             $filterAdmins.find('.results').empty();
 
-            response.forEach(function (admin) {
-                $('#filter-admins .results').append(getFilterHtml(admin)).append($('<hr/>'));
+            response.forEach((admin) => {
+                $filterAdmins.find('.results').append(getFilterHtml(admin)).append($('<hr/>'));
             });
 
             if (!response.length) {
@@ -378,7 +378,7 @@ App.Pages.Admins = (function () {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
                     'text': lang('load_more'),
-                    'click': function () {
+                    'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
                     }
@@ -437,9 +437,7 @@ App.Pages.Admins = (function () {
         $filterAdmins.find('.admin-row[data-id="' + id + '"]').addClass('selected');
 
         if (show) {
-            const admin = filterResults.find(function (filterResult) {
-                return Number(filterResult.id) === Number(id);
-            });
+            const admin = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
             display(admin);
 

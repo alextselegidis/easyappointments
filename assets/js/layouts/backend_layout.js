@@ -65,7 +65,7 @@ window.App.Layouts.Backend = (function () {
         if (!actions) {
             actions = [];
 
-            setTimeout(function () {
+            setTimeout(() => {
                 $notification.fadeOut();
             }, 5000);
         }

@@ -125,14 +125,14 @@ App.Pages.BookingSettings = (function () {
      * Update the UI based on the initial values.
      */
     function applyInitialState() {
-        $bookingSettings.find('.display-switch').each(function (index, displaySwitch) {
-            const $displaySwitch = $(displaySwitch);
+        $bookingSettings.find('.display-switch').each((index, displaySwitchEl) => {
+            const $displaySwitch = $(displaySwitchEl);
 
             updateDisplaySwitch($displaySwitch);
         });
 
-        $bookingSettings.find('.require-switch').each(function (index, requireSwitch) {
-            const $requireSwitch = $(requireSwitch);
+        $bookingSettings.find('.require-switch').each((index, requireSwitchEl) => {
+            const $requireSwitch = $(requireSwitchEl);
 
             updateRequireSwitch($requireSwitch);
         });

@@ -55,13 +55,13 @@ App.Pages.BookingConfirmation = (function () {
                 ]
             };
 
-            gapi.client.load('calendar', 'v3', function () {
+            gapi.client.load('calendar', 'v3', () => {
                 const request = gapi.client.calendar.events.insert({
                     calendarId: 'primary',
                     resource: resource
                 });
 
-                request.execute(function (response) {
+                request.execute((response) => {
                     if (response.error) {
                         throw new Error('Could not add the event to Google Calendar.');
                     }
@@ -120,7 +120,7 @@ App.Pages.BookingConfirmation = (function () {
          * be added to the "primary" calendar. In order to use the API the javascript client library provided by
          * Google is necessary.
          */
-        $addToGoogleCalendar.on('click', function () {
+        $addToGoogleCalendar.on('click', () => {
             gapi.client.setApiKey(vars('google_api_key'));
 
             gapi.auth.authorize(

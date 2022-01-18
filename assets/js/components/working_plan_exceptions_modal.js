@@ -81,7 +81,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function getBreaks() {
         const breaks = [];
 
-        $breaks.find('tbody tr').each(function (index, tr) {
+        $breaks.find('tbody tr').each((index, tr) => {
             const $tr = $(tr);
 
             if ($tr.find('input:text').length) {
@@ -98,7 +98,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         });
 
         // Sort breaks increasingly by hour within day
-        breaks.sort(function (break1, break2) {
+        breaks.sort((break1, break2) => {
             // We can do a direct string comparison since we have time based on 24 hours clock.
             return break1.start.localeCompare(break2.start);
         });
@@ -141,7 +141,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      */
     function editableTimeCell($target) {
         $target.editable(
-            function (value) {
+            (value) => {
                 // Do not return the value because the user needs to press the "Save" button.
                 return value;
             },
@@ -159,12 +159,12 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                     'text': lang('cancel')
                 }).get(0).outerHTML,
                 onblur: 'ignore',
-                onreset: function () {
+                onreset: () => {
                     if (!enableCancel) {
                         return false; // disable ESC button
                     }
                 },
-                onsubmit: function () {
+                onsubmit: () => {
                     if (!enableSubmit) {
                         return false; // disable Enter button
                     }
@@ -205,7 +205,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $start.timepicker('setDate', moment(workingPlanException.start, 'HH:mm').toDate());
         $end.timepicker('setDate', moment(workingPlanException.end, 'HH:mm').toDate());
 
-        workingPlanException.breaks.forEach(function (workingPlanExceptionBreak) {
+        workingPlanException.breaks.forEach((workingPlanExceptionBreak) => {
             renderBreakRow(workingPlanExceptionBreak).appendTo($breaks.find('tbody'));
         });
 
@@ -308,7 +308,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         // Reset previous editable table cells.
         const $previousEdits = $(this).closest('table').find('.editable');
 
-        $previousEdits.each(function (index, editable) {
+        $previousEdits.each((index, editable) => {
             if (editable.reset) {
                 editable.reset();
             }
