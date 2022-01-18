@@ -40,6 +40,7 @@ class Services_model extends EA_Model {
         'currency' => 'currency',
         'description' => 'description',
         'location' => 'location',
+        'color' => 'color',
         'availabilitiesType' => 'availabilities_type',
         'attendantsNumber' => 'attendants_number',
         'categoryId' => 'id_categories',
