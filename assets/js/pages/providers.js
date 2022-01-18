@@ -16,23 +16,23 @@
  */
 App.Pages.Providers = (function () {
     const $providers = $('#providers');
-    const $id = $('#provider-id');
-    const $firstName = $('#provider-first-name');
-    const $lastName = $('#provider-last-name');
-    const $email = $('#provider-email');
-    const $mobileNumber = $('#provider-mobile-number');
-    const $phoneNumber = $('#provider-phone-number');
-    const $address = $('#provider-address');
-    const $city = $('#provider-city');
-    const $state = $('#provider-state');
-    const $zipCode = $('#provider-zip-code');
-    const $notes = $('#provider-notes');
-    const $timezone = $('#provider-timezone');
-    const $username = $('#provider-username');
-    const $password = $('#provider-password');
-    const $passwordConfirmation = $('#provider-password-confirm');
-    const $notifications = $('#provider-notifications');
-    const $calendarView = $('#provider-calendar-view');
+    const $id = $('#id');
+    const $firstName = $('#first-name');
+    const $lastName = $('#last-name');
+    const $email = $('#email');
+    const $mobileNumber = $('#mobile-number');
+    const $phoneNumber = $('#phone-number');
+    const $address = $('#address');
+    const $city = $('#city');
+    const $state = $('#state');
+    const $zipCode = $('#zip-code');
+    const $notes = $('#notes');
+    const $timezone = $('#timezone');
+    const $username = $('#username');
+    const $password = $('#password');
+    const $passwordConfirmation = $('#password-confirm');
+    const $notifications = $('#notifications');
+    const $calendarView = $('#calendar-view');
     const $filterProviders = $('#filter-providers');
     let filterResults = {};
     let filterLimit = 20;
@@ -89,7 +89,7 @@ App.Pages.Providers = (function () {
             $providers.find('.add-edit-delete-group').hide();
             $providers.find('.save-cancel-group').show();
             $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
-            $('#provider-password, #provider-password-confirm').addClass('required');
+            $('#password, #password-confirm').addClass('required');
             $providers
                 .find(
                     '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan'
@@ -112,7 +112,7 @@ App.Pages.Providers = (function () {
             $filterProviders.find('button').prop('disabled', true);
             $filterProviders.find('.results').css('color', '#AAA');
             $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
-            $('#provider-password, #provider-password-confirm').removeClass('required');
+            $('#password, #password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
             $providers
                 .find(
@@ -285,12 +285,12 @@ App.Pages.Providers = (function () {
 
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
-                $('#provider-password, #provider-password-confirm').addClass('is-invalid');
+                $('#password, #password-confirm').addClass('is-invalid');
                 throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
-                $('#provider-password, #provider-password-confirm').addClass('is-invalid');
+                $('#password, #password-confirm').addClass('is-invalid');
                 throw new Error(lang('password_length_notice').replace('$number', MIN_PASSWORD_LENGTH));
             }
 
@@ -325,8 +325,8 @@ App.Pages.Providers = (function () {
         $providers.find('.save-cancel-group').hide();
         $providers.find('.record-details h3 a').remove();
         $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
-        $providers.find('.record-details #provider-calendar-view').val('default');
-        $providers.find('.record-details #provider-timezone').val('UTC');
+        $providers.find('.record-details #calendar-view').val('default');
+        $providers.find('.record-details #timezone').val('UTC');
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
 
         workingPlanManager.timepickers(true);

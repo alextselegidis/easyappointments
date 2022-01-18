@@ -73,139 +73,139 @@
                 <div class="details-view tab-pane fade show active clearfix" id="details">
                     <h3><?= lang('details') ?></h3>
 
-                    <input type="hidden" id="provider-id" class="record-id">
+                    <input type="hidden" id="id" class="record-id">
 
                     <div class="row">
-                        <div class="provider-details col-12 col-md-6">
+                        <div class="details col-12 col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="provider-first-name">
+                                <label class="form-label" for="first-name">
                                     <?= lang('first_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="provider-first-name" class="form-control required" maxlength="256">
+                                <input id="first-name" class="form-control required" maxlength="256">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-last-name">
+                                <label class="form-label" for="last-name">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="provider-last-name" class="form-control required" maxlength="512">
+                                <input id="last-name" class="form-control required" maxlength="512">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-email">
+                                <label class="form-label" for="email">
                                     <?= lang('email') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="provider-email" class="form-control required" max="512">
+                                <input id="email" class="form-control required" max="512">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-phone-number">
+                                <label class="form-label" for="phone-number">
                                     <?= lang('phone_number') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="provider-phone-number" class="form-control required" max="128">
+                                <input id="phone-number" class="form-control required" max="128">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-mobile-number">
+                                <label class="form-label" for="mobile-number">
                                     <?= lang('mobile_number') ?>
 
                                 </label>
-                                <input id="provider-mobile-number" class="form-control" maxlength="128">
+                                <input id="mobile-number" class="form-control" maxlength="128">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-address">
+                                <label class="form-label" for="address">
                                     <?= lang('address') ?>
                                 </label>
-                                <input id="provider-address" class="form-control" maxlength="256">
+                                <input id="address" class="form-control" maxlength="256">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-city">
+                                <label class="form-label" for="city">
                                     <?= lang('city') ?>
 
                                 </label>
-                                <input id="provider-city" class="form-control" maxlength="256">
+                                <input id="city" class="form-control" maxlength="256">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-state">
+                                <label class="form-label" for="state">
                                     <?= lang('state') ?>
                                 </label>
-                                <input id="provider-state" class="form-control" maxlength="256">
+                                <input id="state" class="form-control" maxlength="256">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-zip-code">
+                                <label class="form-label" for="zip-code">
                                     <?= lang('zip_code') ?>
 
                                 </label>
-                                <input id="provider-zip-code" class="form-control" maxlength="64">
+                                <input id="zip-code" class="form-control" maxlength="64">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-notes">
+                                <label class="form-label" for="notes">
                                     <?= lang('notes') ?>
                                 </label>
-                                <textarea id="provider-notes" class="form-control" rows="3"></textarea>
+                                <textarea id="notes" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
-                        <div class="provider-settings col-12 col-md-6">
+                        <div class="settings col-12 col-md-6">
                             <div class="mb-3">
-                                <label class="form-label" for="provider-username">
+                                <label class="form-label" for="username">
                                     <?= lang('username') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="provider-username" class="form-control required" maxlength="256">
+                                <input id="username" class="form-control required" maxlength="256">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-password">
+                                <label class="form-label" for="password">
                                     <?= lang('password') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="password" id="provider-password" class="form-control required"
+                                <input type="password" id="password" class="form-control required"
                                        maxlength="512" autocomplete="new-password">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-password-confirm">
+                                <label class="form-label" for="password-confirm">
                                     <?= lang('retype_password') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input type="password" id="provider-password-confirm"
+                                <input type="password" id="password-confirm"
                                        class="form-control required" maxlength="512"
                                        autocomplete="new-password">
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-calendar-view">
+                                <label class="form-label" for="calendar-view">
                                     <?= lang('calendar') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <select id="provider-calendar-view" class="form-control required">
+                                <select id="calendar-view" class="form-control required">
                                     <option value="default">Default</option>
                                     <option value="table">Table</option>
                                 </select>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="provider-timezone">
+                                <label class="form-label" for="timezone">
                                     <?= lang('timezone') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <?= render_timezone_dropdown('id="provider-timezone" class="form-control required"') ?>
+                                <?= render_timezone_dropdown('id="timezone" class="form-control required"') ?>
                             </div>
 
                             <br>
 
                             <div class="form-check form-switch me-4">
-                                <input class="form-check-input" type="checkbox" id="provider-notifications">
-                                <label class="form-check-label" for="provider-notifications">
+                                <input class="form-check-input" type="checkbox" id="notifications">
+                                <label class="form-check-label" for="notifications">
                                     <?= lang('receive_notifications') ?>
                                 </label>
                             </div>
