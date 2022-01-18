@@ -336,4 +336,5 @@ $lang['about'] = 'About';
 $lang['booking_settings'] = 'Booking Settings';
 $lang['display'] = 'Display';
 $lang['require'] = 'Require';
+$lang['color'] = 'Color';
 // End
