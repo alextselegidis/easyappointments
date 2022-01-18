@@ -130,10 +130,9 @@ function vendor(done) {
     ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
 
     // fullcalendar
-    gulp.src([
-        'node_modules/fullcalendar/dist/fullcalendar.min.js',
-        'node_modules/fullcalendar/dist/fullcalendar.min.css'
-    ]).pipe(gulp.dest('assets/vendor/fullcalendar'));
+    gulp.src(['node_modules/fullcalendar/main.min.js', 'node_modules/fullcalendar/main.min.css']).pipe(
+        gulp.dest('assets/vendor/fullcalendar')
+    );
 
     // jquery
     gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('assets/vendor/jquery'));
