@@ -17,9 +17,9 @@
 App.Pages.Categories = (function () {
     const $categories = $('#categories');
     const $filterCategories = $('#filter-categories');
-    const $id = $('#category-id');
-    const $name = $('#category-name');
-    const $description = $('#category-description');
+    const $id = $('#id');
+    const $name = $('#name');
+    const $description = $('#description');
     let filterResults = {};
     let filterLimit = 20;
 
@@ -53,13 +53,13 @@ App.Pages.Categories = (function () {
                 return; // exit because we are on edit mode
             }
 
-            const categoryId = $(event.target).attr('data-id');
+            const categoryId = $(event.currentTarget).attr('data-id');
 
             const category = filterResults.find((filterResult) => Number(filterResult.id) === Number(categoryId));
 
             display(category);
             $('#filter-categories .selected').removeClass('selected');
-            $(event.target).addClass('selected');
+            $(event.currentTarget).addClass('selected');
             $('#edit-category, #delete-category').prop('disabled', false);
         });
 

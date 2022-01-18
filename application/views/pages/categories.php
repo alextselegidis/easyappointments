@@ -54,22 +54,22 @@
 
             <div class="form-message alert" style="display:none;"></div>
 
-            <input type="hidden" id="category-id">
+            <input type="hidden" id="id">
 
             <div class="mb-3">
-                <label class="form-label" for="category-name">
+                <label class="form-label" for="name">
                     <?= lang('name') ?>
                     <span class="text-danger">*</span>
                 </label>
-                <input id="category-name" class="form-control required">
+                <input id="name" class="form-control required">
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="category-description">
+                <label class="form-label" for="description">
                     <?= lang('description') ?>
 
                 </label>
-                <textarea id="category-description" rows="4" class="form-control"></textarea>
+                <textarea id="description" rows="4" class="form-control"></textarea>
             </div>
         </div>
     </div>
