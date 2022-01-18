@@ -90,7 +90,6 @@
 
 <?php component(
     'appointments_modal',
-    '',
     [
         'available_services' => vars('available_services'),
         'timezones' => vars('timezones'),
@@ -106,7 +105,6 @@
 
 <?php component(
     'unavailabilities_modal',
-    '',
     [
         'timezones' => vars('timezones'),
         'timezone' => vars('timezone')

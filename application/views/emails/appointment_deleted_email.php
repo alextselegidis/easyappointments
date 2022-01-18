@@ -1,3 +1,21 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var string $company_name
+ * @var string $appointment_service
+ * @var string $appointment_provider
+ * @var string $appointment_duration
+ * @var string $appointment_timezone
+ * @var string $customer_name
+ * @var string $customer_email
+ * @var string $customer_phone
+ * @var string $customer_address
+ * @var string $reason
+ * @var string $company_link
+ */
+?>
+
 <html lang="en">
 <head>
     <title><?= lang('appointment_cancelled_title') ?> | Easy!Appointments</title>
@@ -6,7 +24,7 @@
 <div class="email-container" style="width: 650px; border: 1px solid #eee;">
     <div id="header" style="background-color: #429a82; height: 45px; padding: 10px 15px;">
         <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
-            <?= vars('company_name') ?>
+            <?= $company_name ?>
         </strong>
     </div>
 
@@ -18,23 +36,23 @@
         <table id="appointment-details">
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('service') ?></td>
-                <td style="padding: 3px;"><?= vars('appointment_service') ?></td>
+                <td style="padding: 3px;"><?= $appointment_service ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('provider') ?></td>
-                <td style="padding: 3px;"><?= vars('appointment_provider') ?></td>
+                <td style="padding: 3px;"><?= $appointment_provider ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('start') ?></td>
-                <td style="padding: 3px;"><?= vars('appointment_date') ?></td>
+                <td style="padding: 3px;"><?= $appointment_date ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('duration') ?></td>
-                <td style="padding: 3px;"><?= vars('appointment_duration') ?></td>
+                <td style="padding: 3px;"><?= $appointment_duration ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('timezone') ?></td>
-                <td style="padding: 3px;"><?= vars('appointment_timezone') ?></td>
+                <td style="padding: 3px;"><?= $appointment_timezone ?></td>
             </tr>
         </table>
 
@@ -42,24 +60,24 @@
         <table id="customer-details">
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('name') ?></td>
-                <td style="padding: 3px;"><?= vars('customer_name') ?></td>
+                <td style="padding: 3px;"><?= $customer_name ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('email') ?></td>
-                <td style="padding: 3px;"><?= vars('customer_email') ?></td>
+                <td style="padding: 3px;"><?= $customer_email ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('phone_number') ?></td>
-                <td style="padding: 3px;"><?= vars('customer_phone') ?></td>
+                <td style="padding: 3px;"><?= $customer_phone ?></td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;"><?= lang('address') ?></td>
-                <td style="padding: 3px;"><?= vars('customer_address') ?></td>
+                <td style="padding: 3px;"><?= $customer_address ?></td>
             </tr>
         </table>
 
         <h2><?= lang('reason') ?></h2>
-        <p><?= vars('reason') ?></p>
+        <p><?= $reason ?></p>
     </div>
 
     <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
@@ -67,7 +85,7 @@
         Powered by
         <a href="https://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>
         |
-        <a href="<?= vars('company_link') ?>" style="text-decoration: none;"><?= vars('company_name') ?></a>
+        <a href="<?= $company_link ?>" style="text-decoration: none;"><?= $company_name ?></a>
     </div>
 </div>
 </body>

@@ -1,3 +1,10 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var string $cookie_notice_content
+ */
+?>
 <div id="cookie-notice-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -6,7 +13,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p><?= vars('cookie_notice_content') ?></p>
+                <p><?= $cookie_notice_content ?></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

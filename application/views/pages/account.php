@@ -136,7 +136,8 @@
                                     <label class="form-label" for="timezone">
                                         <?= lang('timezone') ?>
                                     </label>
-                                    <?php component('timezone_dropdown', 'id="timezone" class="form-control required"', [
+                                    <?php component('timezone_dropdown', [
+                                        'attributes' => 'id="timezone" class="form-control required"',
                                         'timezones' => vars('timezones')
                                     ]) ?>
                                 </div>

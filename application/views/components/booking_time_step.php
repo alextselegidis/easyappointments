@@ -1,3 +1,11 @@
+<?php
+/**
+ * Local variables.
+ *
+ * @var array $grouped_timezones
+ */
+?>
+
 <div id="wizard-frame-2" class="wizard-frame" style="display:none;">
     <div class="frame-container">
 
@@ -12,7 +20,10 @@
                 <div id="select-time">
                     <div class="mb-3">
                         <label for="select-timezone"><?= lang('timezone') ?></label>
-                        <?php component('timezone_dropdown','id="select-timezone" class="form-control" value="UTC"', ['timezones' => vars('grouped_timezones')]) ?>
+                        <?php component('timezone_dropdown', [
+                            'attributes' => 'id="select-timezone" class="form-control" value="UTC"', 
+                            'timezones' => $grouped_timezones
+                        ]) ?>
                     </div>
 
                     <div id="available-hours"></div>

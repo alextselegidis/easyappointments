@@ -1,9 +1,12 @@
 <?php
 /**
+ * Local variables.
+ * 
  * @var string $attributes
  * @var array $timezones
  */
 ?>
+
 <select <?= $attributes ?>>
     <?php foreach ($timezones as $continent => $entries): ?>
         <optgroup label="<?= $continent ?>">

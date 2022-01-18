@@ -1,3 +1,11 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var string $privacy_policy_content
+ */
+?>
+
 <div id="privacy-policy-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -7,7 +15,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p><?= vars('privacy_policy_content') ?></p>
+                <p><?= $privacy_policy_content ?></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

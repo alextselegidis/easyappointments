@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#35A768">
-    
+
     <?php slot('meta') ?>
 
     <title><?= $page_title ?? lang('backend_section') ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
-    
+
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/select2/select2.min.css') ?>">
@@ -24,11 +24,11 @@
 </head>
 <body>
 
-<?php component('backend_header') ?>
+<?php component('backend_header', ['active_menu' => vars('active_menu')]) ?>
 
 <?php slot('content') ?>
 
-<?php component('backend_footer') ?>
+<?php component('backend_footer', ['user_display_name' => vars('user_display_name')]) ?>
 
 <script>
     const availableLanguages = <?= json_encode(config('available_languages')) ?>;

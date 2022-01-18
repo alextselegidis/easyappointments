@@ -1,3 +1,12 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var array $timezones
+ * @var string $timezone
+ */
+?>
+
 <div id="unavailabilities-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -48,7 +57,7 @@
                                 <li>
                                     <?= lang('current_user') ?>:
                                     <span>
-                                        <?= vars('timezones')[vars('timezone')] ?>
+                                        <?= $timezones[$timezone] ?>
                                     </span>
                                 </li>
                             </ul>

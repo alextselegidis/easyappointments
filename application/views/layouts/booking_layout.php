@@ -25,7 +25,7 @@
     <div class="row wrapper">
         <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8">
 
-            <?php component('booking_header') ?>
+            <?php component('booking_header', ['company_name' => vars('company_name')]) ?>
 
             <?php slot('content') ?>
 
@@ -36,15 +36,15 @@
 </div>
 
 <?php if (vars('display_cookie_notice') === '1'): ?>
-    <?php component('cookie_notice_modal') ?>
+    <?php component('cookie_notice_modal', ['cookie_notice_content' => vars('cookie_notice_content')]) ?>
 <?php endif ?>
 
 <?php if (vars('display_terms_and_conditions') === '1'): ?>
-    <?php component('terms_and_conditions_modal') ?>
+    <?php component('terms_and_conditions_modal', ['terms_and_conditions_content' => vars('terms_and_conditions_content')]) ?>
 <?php endif ?>
 
 <?php if (vars('display_privacy_policy') === '1'): ?>
-    <?php component('privacy_policy_modal') ?>
+    <?php component('privacy_policy_modal', ['privacy_policy_content' => vars('privacy_policy_content')]) ?>
 <?php endif ?>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>

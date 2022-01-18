@@ -1,3 +1,18 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var array $available_services
+ * @var array $timezones
+ * @var array $require_first_name
+ * @var array $require_last_name
+ * @var array $require_email
+ * @var array $require_phone_number
+ * @var array $require_address
+ * @var array $require_city
+ * @var array $require_zip_code
+ */
+?>
 <div id="appointments-modal" class="modal fade">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -27,7 +42,7 @@
                                         // Group services by category, only if there is at least one service
                                         // with a parent category.
                                         $has_category = FALSE;
-                                        foreach (vars('available_services') as $service)
+                                        foreach ($available_services as $service)
                                         {
                                             if ( ! empty($service['category_id']))
                                             {
@@ -40,7 +55,7 @@
                                         {
                                             $grouped_services = [];
 
-                                            foreach (vars('available_services') as $service)
+                                            foreach ($available_services as $service)
                                             {
                                                 if ( ! empty($service['category_id']))
                                                 {
@@ -56,7 +71,7 @@
                                             // We need the uncategorized services at the end of the list so we will use
                                             // another iteration only for the uncategorized services.
                                             $grouped_services['uncategorized'] = [];
-                                            foreach (vars('available_services') as $service)
+                                            foreach ($available_services as $service)
                                             {
                                                 if ($service['category_id'] == NULL)
                                                 {
@@ -86,7 +101,7 @@
                                         }
                                         else
                                         {
-                                            foreach (vars('available_services') as $service)
+                                            foreach ($available_services as $service)
                                             {
                                                 echo '<option value="' . $service['id'] . '">'
                                                     . $service['name'] . '</option>';
@@ -142,7 +157,7 @@
                                         <li>
                                             <?= lang('current_user') ?>:
                                             <span>
-                                                <?= vars('timezones')[session('timezone', 'UTC')] ?>
+                                                <?= $timezones[session('timezone', 'UTC')] ?>
                                             </span>
                                         </li>
                                     </ul>
@@ -181,96 +196,96 @@
                                 <div class="mb-3">
                                     <label for="first-name" class="form-label">
                                         <?= lang('first_name') ?>
-                                        <?php if (vars('require_first_name')): ?>
+                                        <?php if ($require_first_name): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="first-name"
-                                           class="<?= vars('require_first_name') ? 'required' : '' ?> form-control"
+                                           class="<?= $require_first_name ? 'required' : '' ?> form-control"
                                            maxlength="100"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="last-name" class="form-label">
                                         <?= lang('last_name') ?>
-                                        <?php if (vars('require_last_name')): ?>
+                                        <?php if ($require_last_name): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="last-name"
-                                           class="<?= vars('require_last_name') ? 'required' : '' ?> form-control"
+                                           class="<?= $require_last_name ? 'required' : '' ?> form-control"
                                            maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="email" class="form-label">
                                         <?= lang('email') ?>
-                                        <?php if (vars('require_email')): ?>
+                                        <?php if ($require_email): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="email"
-                                           class="<?= vars('require_email') ? 'required' : '' ?> form-control"
+                                           class="<?= $require_email ? 'required' : '' ?> form-control"
                                            maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="phone-number" class="form-label">
                                         <?= lang('phone_number') ?>
-                                        <?php if (vars('require_phone_number')): ?>
+                                        <?php if ($require_phone_number): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="phone-number" maxlength="60"
-                                           class="<?= vars('require_phone_number') ? 'required' : '' ?> form-control"/>
+                                           class="<?= $require_phone_number ? 'required' : '' ?> form-control"/>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
                                     <label for="address" class="form-label">
                                         <?= lang('address') ?>
-                                        <?php if (vars('require_address')): ?>
+                                        <?php if ($require_address): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="address"
-                                           class="<?= vars('require_address') ? 'required' : '' ?> form-control"
+                                           class="<?= $require_address ? 'required' : '' ?> form-control"
                                            maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="city" class="form-label">
                                         <?= lang('city') ?>
-                                        <?php if (vars('require_city')): ?>
+                                        <?php if ($require_city): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="city"
-                                           class="<?= vars('require_city') ? 'required' : '' ?> form-control"
+                                           class="<?= $require_city ? 'required' : '' ?> form-control"
                                            maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="zip-code" class="form-label">
                                         <?= lang('zip_code') ?>
-                                        <?php if (vars('require_zip_cod')): ?>
+                                        <?php if ($require_zip_code): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <input type="text" id="zip-code"
-                                           class="<?= vars('require_zip_code') ? 'required' : '' ?> form-control"
+                                           class="<?= $require_zip_code ? 'required' : '' ?> form-control"
                                            maxlength="120"/>
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="customer-notes" class="form-label">
                                         <?= lang('notes') ?>
-                                        <?php if (vars('require_zip_code')): ?>
+                                        <?php if ($require_zip_code): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <textarea id="customer-notes" rows="2"
-                                              class="<?= vars('require_zip_code') ? 'required' : '' ?> form-control"></textarea>
+                                              class="<?= $require_zip_code ? 'required' : '' ?> form-control"></textarea>
                                 </div>
                             </div>
                         </div>

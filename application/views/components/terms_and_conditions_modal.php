@@ -1,3 +1,11 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var string $terms_and_conditions_content
+ */
+?>
+
 <div id="terms-and-conditions-modal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -6,7 +14,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p><?= vars('terms_and_conditions_content') ?></p>
+                <p><?= $terms_and_conditions_content ?></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">

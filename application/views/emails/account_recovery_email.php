@@ -1,3 +1,13 @@
+<?php
+/**
+ * Local variables.
+ * 
+ * @var string $company_name
+ * @var string $email_title
+ * @var string $email_message
+ * @var string $company_link
+ */
+?>
 <html lang="en">
 <head>
     <title>New Password | Easy!Appointments</title>
@@ -6,13 +16,13 @@
 <div class="email-container" style="width: 650px; border: 1px solid #eee;">
     <div id="header" style="background-color: #429a82; height: 45px; padding: 10px 15px;">
         <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
-            <?= vars('company_name') ?>
+            <?= $company_name ?>
         </strong>
     </div>
 
     <div id="content" style="padding: 10px 15px;">
-        <h2><?= vars('email_title') ?></h2>
-        <p><?= vars('email_message') ?></p>
+        <h2><?= $email_title ?></h2>
+        <p><?= $email_message ?></p>
     </div>
 
     <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
@@ -20,7 +30,7 @@
         Powered by
         <a href="https://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>
         |
-        <a href="<?= vars('company_link') ?>" style="text-decoration: none;"><?= vars('company_name') ?></a>
+        <a href="<?= $company_link ?>" style="text-decoration: none;"><?= $company_name ?></a>
     </div>
 </div>
 </body>

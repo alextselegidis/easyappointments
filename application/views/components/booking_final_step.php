@@ -1,3 +1,11 @@
+<?php
+/**
+ * Local variables.
+ *
+ * @var bool $manage_mode
+ */
+?>
+
 <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
     <div class="frame-container">
         <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
@@ -31,7 +39,7 @@
         <form id="book-appointment-form" style="display:inline-block" method="post">
             <button id="book-appointment-submit" type="button" class="btn btn-success">
                 <i class="fas fa-check-square me-2"></i>
-                <?= ! vars('manage_mode') ? lang('confirm') : lang('update') ?>
+                <?= $manage_mode ? lang('update') : lang('confirm') ?>
             </button>
             <input type="hidden" name="csrfToken"/>
             <input type="hidden" name="post_data"/>
