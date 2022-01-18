@@ -53,53 +53,53 @@
 
             <div class="form-message alert" style="display:none;"></div>
 
-            <input type="hidden" id="service-id">
+            <input type="hidden" id="id">
 
             <div class="mb-3">
-                <label class="form-label" for="service-name">
+                <label class="form-label" for="name">
                     <?= lang('name') ?>
                     <span class="text-danger">*</span>
                 </label>
-                <input id="service-name" class="form-control required" maxlength="128">
+                <input id="name" class="form-control required" maxlength="128">
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-duration">
+                <label class="form-label"  for="duration">
                     <?= lang('duration_minutes') ?>
                     <span class="text-danger">*</span>
                 </label>
-                <input id="service-duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>">
+                <input id="duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>">
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-price">
+                <label class="form-label"  for="price">
                     <?= lang('price') ?>
                     <span class="text-danger">*</span>
                 </label>
-                <input id="service-price" class="form-control required">
+                <input id="price" class="form-control required">
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-currency">
+                <label class="form-label"  for="currency">
                     <?= lang('currency') ?>
 
                 </label>
-                <input id="service-currency" class="form-control" maxlength="32">
+                <input id="currency" class="form-control" maxlength="32">
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-category">
+                <label class="form-label"  for="category">
                     <?= lang('category') ?>
                 </label>
-                <select id="service-category" class="form-control"></select>
+                <select id="category" class="form-control"></select>
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-availabilities-type">
+                <label class="form-label"  for="availabilities-type">
                     <?= lang('availabilities_type') ?>
 
                 </label>
-                <select id="service-availabilities-type" class="form-control">
+                <select id="availabilities-type" class="form-control">
                     <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
                         <?= lang('flexible') ?>
                     </option>
@@ -110,26 +110,26 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-attendants-number">
+                <label class="form-label"  for="attendants-number">
                     <?= lang('attendants_number') ?>
                     <span class="text-danger">*</span>
                 </label>
-                <input id="service-attendants-number" class="form-control required" type="number" min="1">
+                <input id="attendants-number" class="form-control required" type="number" min="1">
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-location">
+                <label class="form-label"  for="location">
                     <?= lang('location') ?>
 
                 </label>
-                <input id="service-location" class="form-control">
+                <input id="location" class="form-control">
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="service-description">
+                <label class="form-label"  for="description">
                     <?= lang('description') ?>
                 </label>
-                <textarea id="service-description" rows="4" class="form-control"></textarea>
+                <textarea id="description" rows="4" class="form-control"></textarea>
             </div>
         </div>
     </div>

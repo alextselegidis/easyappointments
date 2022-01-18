@@ -16,16 +16,16 @@
  */
 App.Pages.Services = (function () {
     const $services = $('#services');
-    const $id = $('#service-id');
-    const $name = $('#service-name');
-    const $duration = $('#service-duration');
-    const $price = $('#service-price');
-    const $currency = $('#service-currency');
-    const $category = $('#service-category');
-    const $availabilitiesType = $('#service-availabilities-type');
-    const $attendantsNumber = $('#service-attendants-number');
-    const $location = $('#service-location');
-    const $description = $('#service-description');
+    const $id = $('#id');
+    const $name = $('#name');
+    const $duration = $('#duration');
+    const $price = $('#price');
+    const $currency = $('#currency');
+    const $category = $('#category');
+    const $availabilitiesType = $('#availabilities-type');
+    const $attendantsNumber = $('#attendants-number');
+    const $location = $('#location');
+    const $description = $('#description');
     const $filterServices = $('#filter-services');
     let filterResults = {};
     let filterLimit = 20;
@@ -385,15 +385,13 @@ App.Pages.Services = (function () {
      */
     function updateAvailableCategories() {
         App.Http.Categories.search('', 999).then((response) => {
-            var $select = $('#service-category');
-
-            $select.empty();
+            $category.empty();
 
             response.forEach((category) => {
-                $select.append(new Option(category.name, category.id));
+                $category.append(new Option(category.name, category.id));
             });
 
-            $select.append(new Option('- ' + lang('no_category') + ' -', '')).val('');
+            $category.append(new Option('- ' + lang('no_category') + ' -', '')).val('');
         });
     }
 
