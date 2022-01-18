@@ -18,14 +18,15 @@
  */
 App.Components.UnavailabilitiesModal = (function () {
     const $unavailabilitiesModal = $('#unavailabilities-modal');
-    const $unavailabilityId = $('#unavailability-id');
-    const $unavailabilityStart = $('#unavailability-start');
-    const $unavailabilityEnd = $('#unavailability-end');
-    const $unavailabilityProvider = $('#unavailability-provider');
-    const $unavailabilityNotes = $('#unavailability-notes');
+    const $id = $('#unavailability-id');
+    const $startDatetime = $('#unavailability-start');
+    const $endDatetime = $('#unavailability-end');
+    const $selectProvider = $('#unavailability-provider');
+    const $notes = $('#unavailability-notes');
     const $saveUnavailability = $('#save-unavailability');
     const $insertUnavailability = $('#insert-unavailability');
     const $selectFilterItem = $('#select-filter-item');
+    const $reloadAppointments = $('#reload-appointments');
 
     /**
      * Add the component event listeners.
@@ -40,17 +41,17 @@ App.Components.UnavailabilitiesModal = (function () {
             $unavailabilitiesModal.find('.modal-message').addClass('d-none');
             $unavailabilitiesModal.find('.is-invalid').removeClass('is-invalid');
 
-            const startMoment = moment($unavailabilityStart.datetimepicker('getDate'));
+            const startMoment = moment($startDatetime.datetimepicker('getDate'));
 
             if (!startMoment.isValid()) {
-                $unavailabilityStart.addClass('is-invalid');
+                $startDatetime.addClass('is-invalid');
                 return;
             }
 
-            const endMoment = moment($unavailabilityEnd.datetimepicker('getDate'));
+            const endMoment = moment($endDatetime.datetimepicker('getDate'));
 
             if (!endMoment.isValid()) {
-                $unavailabilityEnd.addClass('is-invalid');
+                $endDatetime.addClass('is-invalid');
 
                 return;
             }
@@ -63,9 +64,9 @@ App.Components.UnavailabilitiesModal = (function () {
                     .addClass('alert-danger')
                     .removeClass('d-none');
 
-                $unavailabilityStart.addClass('is-invalid');
+                $startDatetime.addClass('is-invalid');
 
-                $unavailabilityEnd.addClass('is-invalid');
+                $endDatetime.addClass('is-invalid');
 
                 return;
             }
@@ -78,9 +79,9 @@ App.Components.UnavailabilitiesModal = (function () {
                 id_users_provider: $('#unavailability-provider').val()
             };
 
-            if ($unavailabilityId.val() !== '') {
+            if ($id.val() !== '') {
                 // Set the id value, only if we are editing an appointment.
-                unavailability.id = $unavailabilityId.val();
+                unavailability.id = $id.val();
             }
 
             const successCallback = () => {
@@ -92,7 +93,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
                 $unavailabilitiesModal.modal('hide');
 
-                $selectFilterItem.trigger('change');
+                $reloadAppointments.trigger('change');
             };
 
             App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
@@ -125,13 +126,13 @@ App.Components.UnavailabilitiesModal = (function () {
             }
 
             if ($('.calendar-view').length === 0) {
-                $unavailabilityProvider.val($selectFilterItem.val()).closest('.form-group').hide();
+                $selectProvider.val($selectFilterItem.val()).closest('.form-group').hide();
             }
 
-            $unavailabilityStart.val(
+            $startDatetime.val(
                 App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
             );
-            $unavailabilityEnd.val(
+            $endDatetime.val(
                 App.Utils.Date.format(
                     startMoment.add(1, 'hour').toDate(),
                     vars('date_format'),
@@ -151,7 +152,7 @@ App.Components.UnavailabilitiesModal = (function () {
      * before it becomes visible to the user.
      */
     function resetModal() {
-        $unavailabilityId.val('');
+        $id.val('');
 
         // Set default time values
         const start = App.Utils.Date.format(moment().toDate(), vars('date_format'), vars('time_format'), true);
@@ -181,7 +182,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
         const firstWeekdayId = App.Utils.Date.getWeekdayId(firstWeekday);
 
-        $unavailabilityStart.datetimepicker({
+        $startDatetime.datetimepicker({
             dateFormat: dateFormat,
             timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
 
@@ -237,9 +238,9 @@ App.Components.UnavailabilitiesModal = (function () {
             minuteText: lang('minutes'),
             firstDay: firstWeekdayId
         });
-        $unavailabilityStart.val(start);
+        $startDatetime.val(start);
 
-        $unavailabilityEnd.datetimepicker({
+        $endDatetime.datetimepicker({
             dateFormat: dateFormat,
             timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
 
@@ -295,10 +296,10 @@ App.Components.UnavailabilitiesModal = (function () {
             minuteText: lang('minutes'),
             firstDay: firstWeekdayId
         });
-        $unavailabilityEnd.val(end);
+        $endDatetime.val(end);
 
         // Clear the unavailability notes field.
-        $unavailabilityNotes.val('');
+        $notes.val('');
     }
 
     /**
@@ -308,7 +309,7 @@ App.Components.UnavailabilitiesModal = (function () {
         for (const index in vars('available_providers')) {
             const provider = vars('available_providers')[index];
 
-            $unavailabilityProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+            $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }
 
         addEventListeners();

@@ -2,7 +2,7 @@
 
 <?php section('styles') ?>
 
-<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/vendor/fullcalendar/fullcalendar.min.css') ?>">
+<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/vendor/fullcalendar/main.min.css') ?>">
 
 <?php section('styles') ?>
 
@@ -119,10 +119,10 @@
 
 <?php section('scripts') ?>
 
-<script src="<?= asset_url('assets/vendor/fullcalendar/fullcalendar.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/fullcalendar/main.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/fullcalendar-moment/main.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>

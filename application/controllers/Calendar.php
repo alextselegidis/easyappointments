@@ -415,9 +415,7 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            $required_permissions = can('edit', PRIV_USERS);
-
-            if ( ! $required_permissions)
+            if (cannot('edit', PRIV_USERS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }

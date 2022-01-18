@@ -35,6 +35,7 @@ App.Components.AppointmentsModal = (function () {
     const $appointmentId = $('#appointment-id');
     const $appointmentLocation = $('#appointment-location');
     const $appointmentNotes = $('#appointment-notes');
+    const $reloadAppointments = $('#reload-appointments');
     const $selectFilterItem = $('#select-filter-item');
     const $selectService = $('#select-service');
     const $selectProvider = $('#select-provider');
@@ -118,7 +119,7 @@ App.Components.AppointmentsModal = (function () {
                 // Close the modal dialog and refresh the calendar appointments.
                 $appointmentsModal.find('.alert').addClass('d-none');
                 $appointmentsModal.modal('hide');
-                $selectFilterItem.trigger('change');
+                $reloadAppointments.trigger('click');
             };
 
             // Define error callback.
