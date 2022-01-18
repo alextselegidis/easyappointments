@@ -108,7 +108,7 @@ class Booking extends EA_Controller {
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();
 
-        if (!empty($appointment_hash))
+        if ( ! empty($appointment_hash))
         {
             // Load the appointments data and enable the manage mode of the booking page.
 
@@ -253,7 +253,7 @@ class Booking extends EA_Controller {
             $selected_date = request('selected_date');
 
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
-            
+
             if (empty($provider_id))
             {
                 json_response([]);
@@ -263,12 +263,12 @@ class Booking extends EA_Controller {
 
             // If manage mode is TRUE then the following we should not consider the selected appointment when
             // calculating the available time periods of the provider.
-            
+
             $exclude_appointment_id = request('manage_mode') === 'true' ? request('appointment_id') : NULL;
 
             // If the user has selected the "any-provider" option then we will need to search for an available provider
             // that will provide the requested service.
-            
+
             $service = $this->services_model->find($service_id);
 
             if ($provider_id === ANY_PROVIDER)
@@ -361,9 +361,9 @@ class Booking extends EA_Controller {
         {
             $post_data = request('post_data');
             $captcha = request('captcha');
-            $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
             $appointment = $post_data['appointment'];
             $customer = $post_data['customer'];
+            $manage_mode = ! empty($post_data['id']);
 
             if ( ! array_key_exists('address', $customer))
             {
