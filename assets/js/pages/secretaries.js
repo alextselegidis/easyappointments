@@ -16,23 +16,23 @@
  */
 App.Pages.Secretaries = (function () {
     const $secretaries = $('#secretaries');
-    const $id = $('#secretary-id');
-    const $firstName = $('#secretary-first-name');
-    const $lastName = $('#secretary-last-name');
-    const $email = $('#secretary-email');
-    const $mobileNumber = $('#secretary-mobile-number');
-    const $phoneNumber = $('#secretary-phone-number');
-    const $address = $('#secretary-address');
-    const $city = $('#secretary-city');
-    const $state = $('#secretary-state');
-    const $zipCode = $('#secretary-zip-code');
-    const $notes = $('#secretary-notes');
-    const $timezone = $('#secretary-timezone');
-    const $username = $('#secretary-username');
-    const $password = $('#secretary-password');
-    const $passwordConfirmation = $('#secretary-password-confirm');
-    const $notifications = $('#secretary-notifications');
-    const $calendarView = $('#secretary-calendar-view');
+    const $id = $('#id');
+    const $firstName = $('#first-name');
+    const $lastName = $('#last-name');
+    const $email = $('#email');
+    const $mobileNumber = $('#mobile-number');
+    const $phoneNumber = $('#phone-number');
+    const $address = $('#address');
+    const $city = $('#city');
+    const $state = $('#state');
+    const $zipCode = $('#zip-code');
+    const $notes = $('#notes');
+    const $timezone = $('#timezone');
+    const $username = $('#username');
+    const $password = $('#password');
+    const $passwordConfirmation = $('#password-confirm');
+    const $notifications = $('#notifications');
+    const $calendarView = $('#calendar-view');
     const $filterSecretaries = $('#filter-secretaries');
     let filterResults = {};
     let filterLimit = 20;
@@ -49,7 +49,7 @@ App.Pages.Secretaries = (function () {
          *
          * @param {jQuery.Event} event
          */
-        $secretaries.on('blur', '#secretary-username', (event) => {
+        $secretaries.on('blur', '#username', (event) => {
             const $input = $(event.target);
 
             if ($input.prop('readonly') === true || $input.val() === '') {
@@ -129,7 +129,7 @@ App.Pages.Secretaries = (function () {
             $secretaries.find('.save-cancel-group').show();
             $secretaries.find('.record-details').find('input, textarea').prop('disabled', false);
             $secretaries.find('.record-details').find('select').prop('disabled', false);
-            $('#secretary-password, #secretary-password-confirm').addClass('required');
+            $('#password, #password-confirm').addClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
         });
 
@@ -143,7 +143,7 @@ App.Pages.Secretaries = (function () {
             $secretaries.find('.save-cancel-group').show();
             $secretaries.find('.record-details').find('input, textarea').prop('disabled', false);
             $secretaries.find('.record-details').find('select').prop('disabled', false);
-            $('#secretary-password, #secretary-password-confirm').removeClass('required');
+            $('#password, #password-confirm').removeClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
         });
 
@@ -288,12 +288,12 @@ App.Pages.Secretaries = (function () {
 
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
-                $('#secretary-password, #secretary-password-confirm').addClass('is-invalid');
+                $('#password, #password-confirm').addClass('is-invalid');
                 throw new Error('Passwords mismatch!');
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
-                $('#secretary-password, #secretary-password-confirm').addClass('is-invalid');
+                $('#password, #password-confirm').addClass('is-invalid');
                 throw new Error(
                     'Password must be at least ' + BackendSecretaries.MIN_PASSWORD_LENGTH + ' characters long.'
                 );
@@ -326,8 +326,8 @@ App.Pages.Secretaries = (function () {
         $filterSecretaries.find('button').prop('disabled', false);
         $filterSecretaries.find('.results').css('color', '');
         $secretaries.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
-        $secretaries.find('.record-details #secretary-calendar-view').val('default');
-        $secretaries.find('.record-details #secretary-timezone').val('UTC');
+        $secretaries.find('.record-details #calendar-view').val('default');
+        $secretaries.find('.record-details #timezone').val('UTC');
         $secretaries.find('.add-edit-delete-group').show();
         $secretaries.find('.save-cancel-group').hide();
         $secretaries.find('.form-message').hide();
