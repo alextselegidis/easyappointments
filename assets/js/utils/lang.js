@@ -19,7 +19,7 @@ window.App.Utils.Lang = (function () {
      * Enable Language Selection
      *
      * Enables the language selection functionality. Must be called on every page has a language selection button.
-     * This method requires the global variable 'availableLanguages' to be initialized before the execution.
+     * This method requires the global variable 'App.Vars.available_variables' to be initialized before the execution.
      *
      * @param {Object} $target Selected element button for the language selection.
      */
@@ -27,7 +27,7 @@ window.App.Utils.Lang = (function () {
         // Select Language
         const $languageList = $('<ul/>', {
             'id': 'language-list',
-            'html': availableLanguages.map((availableLanguage) =>
+            'html': App.Vars.available_languages.map((availableLanguage) =>
                 $('<li/>', {
                     'class': 'language',
                     'data-language': availableLanguage,

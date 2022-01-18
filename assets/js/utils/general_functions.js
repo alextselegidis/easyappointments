@@ -249,7 +249,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * Enable Language Selection
      *
      * Enables the language selection functionality. Must be called on every page has a language selection button.
-     * This method requires the global variable 'availableLanguages' to be initialized before the execution.
+     * This method requires the global variable 'App.Vars.available_languages' to be initialized before the execution.
      *
      * @param {Object} $element Selected element button for the language selection.
      *

@@ -99,6 +99,7 @@ class EA_Controller extends CI_Controller {
         script_vars([
             'base_url' => config('base_url'),
             'index_page' => config('index_page'),
+            'available_languages' => config('available_languages'),
             'csrf_token' => $this->security->get_csrf_hash(),
         ]);
     }
