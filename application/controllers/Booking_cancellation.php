@@ -48,6 +48,13 @@ class Booking_cancellation extends EA_Controller {
     {
         try
         {
+            $cancellation_reason = request('cancellation_reason');
+
+            if ($this->input->method() !== 'post' || empty($cancellation_reason))
+            {
+                abort(403, 'Forbidden');
+            }
+
             $exceptions = [];
 
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);

@@ -209,7 +209,7 @@ class Notifications {
 
             if (empty($delete_reason))
             {
-                $delete_reason = (string)request('cancel_reason');
+                $delete_reason = (string)request('cancellation_reason');
             }
 
             // Notify provider.

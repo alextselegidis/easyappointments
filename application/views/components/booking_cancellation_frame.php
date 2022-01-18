@@ -18,7 +18,7 @@
 
                 <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
 
-                <input id="cancel-reason" name="cancel_reason" type="hidden">
+                <input id="cancel-reason" name="cancellation_reason" type="hidden">
 
                 <button id="cancel-appointment" class="btn btn-warning btn-sm">
                     <?= lang('cancel') ?>
