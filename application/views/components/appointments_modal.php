@@ -120,6 +120,10 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <?php component('color_selection', ['attributes' => 'id="appointment-color"']) ?>
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="appointment-location" class="form-label">
                                         <?= lang('location') ?>
                                     </label>

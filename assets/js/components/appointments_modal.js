@@ -34,6 +34,7 @@ App.Components.AppointmentsModal = (function () {
     const $saveAppointment = $('#save-appointment');
     const $appointmentId = $('#appointment-id');
     const $appointmentLocation = $('#appointment-location');
+    const $appointmentColor = $('#appointment-color');
     const $appointmentNotes = $('#appointment-notes');
     const $reloadAppointments = $('#reload-appointments');
     const $selectFilterItem = $('#select-filter-item');
@@ -85,6 +86,7 @@ App.Components.AppointmentsModal = (function () {
                 start_datetime: startDatetime,
                 end_datetime: endDatetime,
                 location: $appointmentLocation.val(),
+                color: App.Components.ColorSelection.getColor($appointmentColor),
                 notes: $appointmentNotes.val(),
                 is_unavailability: Number(false)
             };
@@ -395,6 +397,9 @@ App.Components.AppointmentsModal = (function () {
         // Empty form fields.
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').fadeOut();
+
+        // Reset color.
+        $appointmentColor.find('.color-selection-option:first').trigger('click');
 
         // Prepare service and provider select boxes.
         $selectService.val($selectService.eq(0).attr('value'));

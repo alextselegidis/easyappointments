@@ -143,6 +143,12 @@ App.Utils.CalendarDefaultView = (function () {
                 $appointmentsModal.find('#appointment-location').val(appointment.location);
                 $appointmentsModal.find('#appointment-notes').val(appointment.notes);
                 $appointmentsModal.find('#customer-notes').val(customer.notes);
+
+                App.Components.ColorSelection.setColor(
+                    $appointmentsModal.find('#appointment-color'),
+                    appointment.color
+                );
+
                 $appointmentsModal.modal('show');
             } else {
                 const unavailability = lastFocusedEventData.extendedProps.data;
@@ -1630,6 +1636,8 @@ App.Utils.CalendarDefaultView = (function () {
             $appointmentsModal.find('#appointment-location').val(appointment.location);
             $appointmentsModal.find('#appointment-notes').val(appointment.notes);
             $appointmentsModal.find('#customer-notes').val(customer.notes);
+
+            App.Components.ColorSelection.setColor($appointmentsModal.find('#appointment-color'), appointment.color);
 
             $appointmentsModal.modal('show');
 
