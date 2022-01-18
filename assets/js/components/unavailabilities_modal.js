@@ -93,7 +93,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
                 $unavailabilitiesModal.modal('hide');
 
-                $reloadAppointments.trigger('change');
+                $reloadAppointments.trigger('click');
             };
 
             App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
