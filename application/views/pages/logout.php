@@ -15,7 +15,7 @@
     <?= lang('book_appointment_title') ?>
 </a>
 
-<a href="<?= site_url('backend') ?>" class="btn btn-outline-secondary btn-large">
+<a href="<?= site_url('login') ?>" class="btn btn-outline-secondary btn-large">
     <i class="fas fa-wrench me-2"></i>
     <?= lang('backend_section') ?>
 </a>
