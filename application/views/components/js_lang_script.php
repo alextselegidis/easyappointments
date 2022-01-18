@@ -1,4 +1,4 @@
-<script <?= vars('attributes') ?>>
+<script>
     window.lang = (function () {
         const lang = <?= json_encode($this->lang->language) ?>;
 

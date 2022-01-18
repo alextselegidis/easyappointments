@@ -1,4 +1,4 @@
-<script <?= vars('attributes') ?>>
+<script>
     window.vars = (function () {
         const vars = <?= json_encode(script_vars()) ?>;
 
