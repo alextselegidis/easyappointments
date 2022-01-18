@@ -29,7 +29,7 @@ window.App.Utils.Message = (function () {
         if (!buttons) {
             buttons = [
                 {
-                    text: App.Lang.close,
+                    text: lang('close'),
                     click: function () {
                         $('#message-box').dialog('close');
                     }

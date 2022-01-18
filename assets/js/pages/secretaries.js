@@ -68,12 +68,12 @@ App.Pages.Secretaries = (function () {
                 if (response.is_valid === 'false') {
                     $input.addClass('is-invalid');
                     $input.attr('already-exists', 'true');
-                    $input.parents().eq(3).find('.form-message').text(App.Lang.username_already_exists);
+                    $input.parents().eq(3).find('.form-message').text(lang('username_already_exists'));
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
                     $input.removeClass('is-invalid');
                     $input.attr('already-exists', 'false');
-                    if ($input.parents().eq(3).find('.form-message').text() === App.Lang.username_already_exists) {
+                    if ($input.parents().eq(3).find('.form-message').text() === lang('username_already_exists')) {
                         $input.parents().eq(3).find('.form-message').hide();
                     }
                 }
@@ -155,13 +155,13 @@ App.Pages.Secretaries = (function () {
 
             const buttons = [
                 {
-                    text: App.Lang.cancel,
+                    text: lang('cancel'),
                     click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: App.Lang.delete,
+                    text: lang('delete'),
                     click: () => {
                         remove(secretaryId);
                         $('#message-box').dialog('close');
@@ -169,7 +169,7 @@ App.Pages.Secretaries = (function () {
                 }
             ];
 
-            App.Utils.Message.show(App.Lang.delete_secretary, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(lang('delete_secretary'), lang('delete_record_prompt'), buttons);
         });
 
         /**
@@ -243,7 +243,7 @@ App.Pages.Secretaries = (function () {
      */
     function save(secretary) {
         App.Http.Secretaries.save(secretary).done((response) => {
-            App.Layouts.Backend.displayNotification(App.Lang.secretary_saved);
+            App.Layouts.Backend.displayNotification(lang('secretary_saved'));
             resetForm();
             $('#filter-secretaries .key').val('');
             filter('', response.id, true);
@@ -257,7 +257,7 @@ App.Pages.Secretaries = (function () {
      */
     function remove(id) {
         App.Http.Secretaries.destroy(id).done(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.secretary_deleted);
+            App.Layouts.Backend.displayNotification(lang('secretary_deleted'));
             resetForm();
             filter($('#filter-secretaries .key').val());
         });
@@ -393,14 +393,14 @@ App.Pages.Secretaries = (function () {
             if (!response.length) {
                 $('#filter-secretaries .results').append(
                     $('<em/>', {
-                        'text': App.Lang.no_records_found
+                        'text': lang('no_records_found')
                     })
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                    'text': App.Lang.load_more,
+                    'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);

@@ -131,13 +131,13 @@ App.Pages.Providers = (function () {
 
             const buttons = [
                 {
-                    text: App.Lang.cancel,
+                    text: lang('cancel'),
                     click: function () {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: App.Lang.delete,
+                    text: lang('delete'),
                     click: function () {
                         remove(providerId);
                         $('#message-box').dialog('close');
@@ -145,7 +145,7 @@ App.Pages.Providers = (function () {
                 }
             ];
 
-            App.Utils.Message.show(App.Lang.delete_provider, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(lang('delete_provider'), lang('delete_record_prompt'), buttons);
         });
 
         /**
@@ -239,7 +239,7 @@ App.Pages.Providers = (function () {
      */
     function save(provider) {
         App.Http.Providers.save(provider).then((response) => {
-            App.Layouts.Backend.displayNotification(App.Lang.provider_saved);
+            App.Layouts.Backend.displayNotification(lang('provider_saved'));
             resetForm();
             $('#filter-providers .key').val('');
             filter('', response.id, true);
@@ -253,7 +253,7 @@ App.Pages.Providers = (function () {
      */
     function remove(id) {
         App.Http.Providers.destroy(id).then(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.provider_deleted);
+            App.Layouts.Backend.displayNotification(lang('provider_deleted'));
             resetForm();
             filter($('#filter-providers .key').val());
         });
@@ -280,30 +280,30 @@ App.Pages.Providers = (function () {
             });
 
             if (missingRequired) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
-                throw new Error(App.Lang.passwords_mismatch);
+                throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
-                throw new Error(App.Lang.password_length_notice.replace('$number', MIN_PASSWORD_LENGTH));
+                throw new Error(lang('password_length_notice').replace('$number', MIN_PASSWORD_LENGTH));
             }
 
             // Validate user email.
             if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
-                throw new Error(App.Lang.invalid_email);
+                throw new Error(lang('invalid_email'));
             }
 
             // Check if username exists
             if ($username.attr('already-exists') === 'true') {
                 $username.addClass('is-invalid');
-                throw new Error(App.Lang.username_already_exists);
+                throw new Error(lang('username_already_exists'));
             }
 
             return true;
@@ -447,14 +447,14 @@ App.Pages.Providers = (function () {
             if (!response.length) {
                 $filterProviders.find('.results').append(
                     $('<em/>', {
-                        'text': App.Lang.no_records_found
+                        'text': lang('no_records_found')
                     })
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                    'text': App.Lang.load_more,
+                    'text': lang('load_more'),
                     'click': function () {
                         filterLimit += 20;
                         filter(keyword, selectId, show);

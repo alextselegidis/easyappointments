@@ -66,12 +66,12 @@ App.Pages.Admins = (function () {
                 if (response.is_valid === 'false') {
                     $input.addClass('is-invalid');
                     $input.attr('already-exists', 'true');
-                    $input.parents().eq(3).find('.form-message').text(App.Lang.username_already_exists);
+                    $input.parents().eq(3).find('.form-message').text(lang('username_already_exists'));
                     $input.parents().eq(3).find('.form-message').show();
                 } else {
                     $input.removeClass('is-invalid');
                     $input.attr('already-exists', 'false');
-                    if ($input.parents().eq(3).find('.form-message').text() === App.Lang.username_already_exists) {
+                    if ($input.parents().eq(3).find('.form-message').text() === lang('username_already_exists')) {
                         $input.parents().eq(3).find('.form-message').hide();
                     }
                 }
@@ -151,13 +151,13 @@ App.Pages.Admins = (function () {
 
             const buttons = [
                 {
-                    text: App.Lang.cancel,
+                    text: lang('cancel'),
                     click: function () {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: App.Lang.delete,
+                    text: lang('delete'),
                     click: function () {
                         remove(adminId);
                         $('#message-box').dialog('close');
@@ -165,7 +165,7 @@ App.Pages.Admins = (function () {
                 }
             ];
 
-            App.Utils.Message.show(App.Lang.delete_admin, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(lang('delete_admin'), lang('delete_record_prompt'), buttons);
         });
 
         /**
@@ -232,7 +232,7 @@ App.Pages.Admins = (function () {
      */
     function save(admin) {
         App.Http.Admins.save(admin).then((response) => {
-            App.Layouts.Backend.displayNotification(App.Lang.admin_saved);
+            App.Layouts.Backend.displayNotification(lang('admin_saved'));
             resetForm();
             $('#filter-admins .key').val('');
             filter('', response.id, true);
@@ -246,7 +246,7 @@ App.Pages.Admins = (function () {
      */
     function remove(id) {
         App.Http.Admins.destroy(id).then(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.admin_deleted);
+            App.Layouts.Backend.displayNotification(lang('admin_deleted'));
             resetForm();
             filter($('#filter-admins .key').val());
         });
@@ -278,24 +278,24 @@ App.Pages.Admins = (function () {
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
-                throw new Error(App.Lang.passwords_mismatch);
+                throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
-                throw new Error(App.Lang.password_length_notice.replace('$number', vars('min_password_length')));
+                throw new Error(lang('password_length_notice').replace('$number', vars('min_password_length')));
             }
 
             // Validate user email.
             if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
-                throw new Error(App.Lang.invalid_email);
+                throw new Error(lang('invalid_email'));
             }
 
             // Check if username exists
             if ($username.attr('already-exists') === 'true') {
                 $username.addClass('is-invalid');
-                throw new Error(App.Lang.username_already_exists);
+                throw new Error(lang('username_already_exists'));
             }
 
             return true;
@@ -370,14 +370,14 @@ App.Pages.Admins = (function () {
             if (!response.length) {
                 $filterAdmins.find('.results').append(
                     $('<em/>', {
-                        'text': App.Lang.no_records_found
+                        'text': lang('no_records_found')
                     })
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                    'text': App.Lang.load_more,
+                    'text': lang('load_more'),
                     'click': function () {
                         filterLimit += 20;
                         filter(keyword, selectId, show);

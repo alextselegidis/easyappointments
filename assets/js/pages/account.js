@@ -58,7 +58,7 @@ App.Pages.Account = (function () {
             });
 
             if (missingRequiredFields) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate passwords (if values provided).
@@ -66,7 +66,7 @@ App.Pages.Account = (function () {
             if ($password.val() && $password.val() !== $retypePassword.val()) {
                 $password.addClass('is-invalid');
                 $retypePassword.addClass('is-invalid');
-                throw new Error(App.Lang.passwords_mismatch);
+                throw new Error(lang('passwords_mismatch'));
             }
 
             // Validate user email.
@@ -75,11 +75,11 @@ App.Pages.Account = (function () {
 
             if (!App.Utils.Validation.email(emailValue)) {
                 $email.addClass('is-invalid');
-                throw new Error(App.Lang.invalid_email);
+                throw new Error(lang('invalid_email'));
             }
 
             if ($username.hasClass('is-invalid')) {
-                throw new Error(App.Lang.username_already_exists);
+                throw new Error(lang('username_already_exists'));
             }
 
             return false;
@@ -147,7 +147,7 @@ App.Pages.Account = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            App.Layouts.Backend.displayNotification(App.Lang.user_settings_are_invalid);
+            App.Layouts.Backend.displayNotification(lang('user_settings_are_invalid'));
 
             return;
         }
@@ -155,7 +155,7 @@ App.Pages.Account = (function () {
         const account = serialize();
 
         App.Http.Account.save(account).done(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(lang('settings_saved'));
 
             $footerUserDisplayName.text('Hello, ' + $firstName.val() + ' ' + $lastName.val() + '!');
         });
@@ -171,7 +171,7 @@ App.Pages.Account = (function () {
             const isValid = response.is_valid;
             $username.toggleClass('is-invalid', !isValid);
             if (!isValid) {
-                App.Layouts.Backend.displayNotification(App.Lang.username_already_exists);
+                App.Layouts.Backend.displayNotification(lang('username_already_exists'));
             }
         });
     }

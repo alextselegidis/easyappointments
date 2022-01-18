@@ -40,7 +40,7 @@ App.Pages.Login = (function () {
             if (response.success) {
                 window.location.href = vars('dest_url');
             } else {
-                $alert.text(App.Lang.login_failed);
+                $alert.text(lang('login_failed'));
                 $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');
             }
         });

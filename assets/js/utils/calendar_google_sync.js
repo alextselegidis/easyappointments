@@ -49,7 +49,7 @@ App.Utils.CalendarGoogleSync = (function () {
                                 windowHandle.close();
                                 window.clearInterval(authInterval);
                                 $('#enable-sync').addClass('btn-secondary enabled').removeClass('btn-light');
-                                $('#enable-sync span').text(App.Lang.disable_sync);
+                                $('#enable-sync span').text(lang('disable_sync'));
                                 $('#google-sync').prop('disabled', false);
                                 $('#select-filter-item option:selected').attr('google-sync', 'true');
 
@@ -78,7 +78,7 @@ App.Utils.CalendarGoogleSync = (function () {
             } else {
                 const buttons = [
                     {
-                        text: App.Lang.cancel,
+                        text: lang('cancel'),
                         click: () => {
                             $('#message-box').dialog('close');
                         }
@@ -103,7 +103,7 @@ App.Utils.CalendarGoogleSync = (function () {
                             App.Http.Google.disableProviderSync(provider.id);
 
                             $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
-                            $('#enable-sync span').text(App.Lang.enable_sync);
+                            $('#enable-sync span').text(lang('enable_sync'));
                             $('#google-sync').prop('disabled', true);
                             $('#select-filter-item option:selected').attr('google-sync', 'false');
 
@@ -112,7 +112,7 @@ App.Utils.CalendarGoogleSync = (function () {
                     }
                 ];
 
-                App.Utils.Message.show(App.Lang.disable_sync, App.Lang.disable_sync_prompt, buttons);
+                App.Utils.Message.show(lang('disable_sync'), lang('disable_sync_prompt'), buttons);
             }
         });
 
@@ -125,7 +125,7 @@ App.Utils.CalendarGoogleSync = (function () {
             const calendarId = $('#google-calendar').val();
 
             App.Http.Google.selectGoogleCalendar(providerId, calendarId).done(() => {
-                App.Layouts.Backend.displayNotification(App.Lang.google_calendar_selected);
+                App.Layouts.Backend.displayNotification(lang('google_calendar_selected'));
                 $('#select-google-calendar').modal('hide');
             });
         });
@@ -140,11 +140,11 @@ App.Utils.CalendarGoogleSync = (function () {
 
             App.Http.Google.syncWithGoogle(providerId)
                 .done(() => {
-                    App.Layouts.Backend.displayNotification(App.Lang.google_sync_completed);
+                    App.Layouts.Backend.displayNotification(lang('google_sync_completed'));
                     $('#reload-appointments').trigger('click');
                 })
                 .fail(() => {
-                    App.Layouts.Backend.displayNotification(App.Lang.google_sync_failed);
+                    App.Layouts.Backend.displayNotification(lang('google_sync_failed'));
                 });
         });
     }

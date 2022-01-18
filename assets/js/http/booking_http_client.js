@@ -133,7 +133,7 @@ App.Http.Booking = (function () {
             }
 
             if (!$availableHours.find('.available-hour').length) {
-                $availableHours.text(App.Lang.no_available_hours);
+                $availableHours.text(lang('no_available_hours'));
             }
         });
     }
@@ -193,7 +193,7 @@ App.Http.Booking = (function () {
         })
             .done((response) => {
                 if (response.captcha_verification === false) {
-                    $captchaHint.text(App.Lang.captcha_is_wrong).fadeTo(400, 1);
+                    $captchaHint.text(lang('captcha_is_wrong')).fadeTo(400, 1);
 
                     setTimeout(() => {
                         $captchaHint.fadeTo(400, 0);
@@ -288,7 +288,7 @@ App.Http.Booking = (function () {
 
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
-            $availableHours.text(App.Lang.no_available_hours);
+            $availableHours.text(lang('no_available_hours'));
         }
 
         // Grey out unavailable dates.

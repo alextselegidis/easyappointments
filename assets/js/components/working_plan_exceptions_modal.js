@@ -151,12 +151,12 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                 submit: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none submit-editable',
-                    'text': App.Lang.save
+                    'text': lang('save')
                 }).get(0).outerHTML,
                 cancel: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none cancel-editable',
-                    'text': App.Lang.cancel
+                    'text': lang('cancel')
                 }).get(0).outerHTML,
                 onblur: 'ignore',
                 onreset: function () {
@@ -243,7 +243,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-edit-break',
-                            'title': App.Lang.edit,
+                            'title': lang('edit'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-edit'
@@ -253,7 +253,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm working-plan-exceptions-delete-break',
-                            'title': App.Lang.delete,
+                            'title': lang('delete'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-trash-alt'
@@ -263,7 +263,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-save-break d-none',
-                            'title': App.Lang.save,
+                            'title': lang('save'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-check-circle'
@@ -273,7 +273,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm working-plan-exceptions-cancel-break d-none',
-                            'title': App.Lang.cancel,
+                            'title': lang('cancel'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-ban'
@@ -417,50 +417,50 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             minDate: 0,
             defaultDate: moment().toDate(),
             dayNames: [
-                App.Lang.sunday,
-                App.Lang.monday,
-                App.Lang.tuesday,
-                App.Lang.wednesday,
-                App.Lang.thursday,
-                App.Lang.friday,
-                App.Lang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                App.Lang.sunday.substr(0, 3),
-                App.Lang.monday.substr(0, 3),
-                App.Lang.tuesday.substr(0, 3),
-                App.Lang.wednesday.substr(0, 3),
-                App.Lang.thursday.substr(0, 3),
-                App.Lang.friday.substr(0, 3),
-                App.Lang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                App.Lang.sunday.substr(0, 2),
-                App.Lang.monday.substr(0, 2),
-                App.Lang.tuesday.substr(0, 2),
-                App.Lang.wednesday.substr(0, 2),
-                App.Lang.thursday.substr(0, 2),
-                App.Lang.friday.substr(0, 2),
-                App.Lang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             monthNames: [
-                App.Lang.january,
-                App.Lang.february,
-                App.Lang.march,
-                App.Lang.april,
-                App.Lang.may,
-                App.Lang.june,
-                App.Lang.july,
-                App.Lang.august,
-                App.Lang.september,
-                App.Lang.october,
-                App.Lang.november,
-                App.Lang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
-            prevText: App.Lang.previous,
-            nextText: App.Lang.next,
-            currentText: App.Lang.now,
-            closeText: App.Lang.close
+            prevText: lang('previous'),
+            nextText: lang('next'),
+            currentText: lang('now'),
+            closeText: lang('close')
         });
     }
 
@@ -472,12 +472,12 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function initializeTimepicker($target) {
         $target.timepicker({
             timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-            currentText: App.Lang.now,
-            closeText: App.Lang.close,
-            timeOnlyTitle: App.Lang.select_time,
-            timeText: App.Lang.time,
-            hourText: App.Lang.hour,
-            minuteText: App.Lang.minutes
+            currentText: lang('now'),
+            closeText: lang('close'),
+            timeOnlyTitle: lang('select_time'),
+            timeText: lang('time'),
+            hourText: lang('hour'),
+            minuteText: lang('minutes')
         });
     }
 

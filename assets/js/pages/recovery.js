@@ -45,7 +45,7 @@ App.Pages.Recovery = (function () {
 
             if (response.success) {
                 $alert.addClass('alert-success');
-                $alert.text(App.Lang.new_password_sent_with_email);
+                $alert.text(lang('new_password_sent_with_email'));
             } else {
                 $alert.addClass('alert-danger');
                 $alert.text(

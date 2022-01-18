@@ -143,13 +143,13 @@ App.Pages.Customers = (function () {
             const customerId = $id.val();
             const buttons = [
                 {
-                    text: App.Lang.cancel,
+                    text: lang('cancel'),
                     click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: App.Lang.delete,
+                    text: lang('delete'),
                     click: () => {
                         remove(customerId);
                         $('#message-box').dialog('close');
@@ -157,7 +157,7 @@ App.Pages.Customers = (function () {
                 }
             ];
 
-            App.Utils.Message.show(App.Lang.delete_customer, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(lang('delete_customer'), lang('delete_record_prompt'), buttons);
         });
     }
 
@@ -168,7 +168,7 @@ App.Pages.Customers = (function () {
      */
     function save(customer) {
         App.Http.Customers.save(customer).then((response) => {
-            App.Layouts.Backend.displayNotification(App.Lang.customer_saved);
+            App.Layouts.Backend.displayNotification(lang('customer_saved'));
             resetForm();
             $('#filter-customers .key').val('');
             filter('', response.id, true);
@@ -182,7 +182,7 @@ App.Pages.Customers = (function () {
      */
     function remove(id) {
         App.Http.Customers.destroy(id).then(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.customer_deleted);
+            App.Layouts.Backend.displayNotification(lang('customer_deleted'));
             resetForm();
             filter($('#filter-customers .key').val());
         });
@@ -207,13 +207,13 @@ App.Pages.Customers = (function () {
             });
 
             if (missingRequired) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate email address.
             if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
-                throw new Error(App.Lang.invalid_email);
+                throw new Error(lang('invalid_email'));
             }
 
             return true;
@@ -268,7 +268,7 @@ App.Pages.Customers = (function () {
 
         if (!customer.appointments.length) {
             $('<p/>', {
-                'text': App.Lang.no_records_found
+                'text': lang('no_records_found')
             }).appendTo($customerAppointments);
         }
 
@@ -370,14 +370,14 @@ App.Pages.Customers = (function () {
             if (!response.length) {
                 $filterCustomers.find('.results').append(
                     $('<em/>', {
-                        'text': App.Lang.no_records_found
+                        'text': lang('no_records_found')
                     })
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                    'text': App.Lang.load_more,
+                    'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);

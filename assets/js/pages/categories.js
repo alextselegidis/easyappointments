@@ -94,13 +94,13 @@ App.Pages.Categories = (function () {
 
             const buttons = [
                 {
-                    text: App.Lang.cancel,
+                    text: lang('cancel'),
                     click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: App.Lang.delete,
+                    text: lang('delete'),
                     click: () => {
                         remove(categoryId);
                         $('#message-box').dialog('close');
@@ -108,7 +108,7 @@ App.Pages.Categories = (function () {
                 }
             ];
 
-            App.Utils.Message.show(App.Lang.delete_category, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(lang('delete_category'), lang('delete_record_prompt'), buttons);
         });
 
         /**
@@ -164,14 +164,14 @@ App.Pages.Categories = (function () {
             if (response.length === 0) {
                 $('#filter-categories .results').append(
                     $('<em/>', {
-                        'text': App.Lang.no_records_found
+                        'text': lang('no_records_found')
                     })
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                    'text': App.Lang.load_more,
+                    'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
@@ -192,7 +192,7 @@ App.Pages.Categories = (function () {
      */
     function save(category) {
         App.Http.Categories.save(category).then((response) => {
-            App.Layouts.Backend.displayNotification(App.Lang.category_saved);
+            App.Layouts.Backend.displayNotification(lang('category_saved'));
             resetForm();
             $filterCategories.find('.key').val('');
             filter('', response.id, true);
@@ -206,7 +206,7 @@ App.Pages.Categories = (function () {
      */
     function remove(id) {
         App.Http.Categories.destroy(id).then(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.category_deleted);
+            App.Layouts.Backend.displayNotification(lang('category_deleted'));
             resetForm();
             filter($('#filter-categories .key').val());
         });
@@ -243,7 +243,7 @@ App.Pages.Categories = (function () {
             });
 
             if (missingRequired) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             return true;

@@ -72,14 +72,14 @@ App.Pages.BookingConfirmation = (function () {
                             'class': 'alert alert-success col-xs-12',
                             'html': [
                                 $('<h4/>', {
-                                    'text': App.Lang.success
+                                    'text': lang('success')
                                 }),
                                 $('<p/>', {
-                                    'text': App.Lang.appointment_added_to_google_calendar
+                                    'text': lang('appointment_added_to_google_calendar')
                                 }),
                                 $('<a/>', {
                                     'href': response.htmlLink,
-                                    'text': App.Lang.view_appointment_in_google_calendar
+                                    'text': lang('view_appointment_in_google_calendar')
                                 })
                             ]
                         })
@@ -95,10 +95,10 @@ App.Pages.BookingConfirmation = (function () {
                     'class': 'alert alert-danger col-xs-12',
                     'html': [
                         $('<h4/>', {
-                            'text': App.Lang.oops_something_went_wrong
+                            'text': lang('oops_something_went_wrong')
                         }),
                         $('<p/>', {
-                            'text': App.Lang.could_not_add_to_google_calendar
+                            'text': lang('could_not_add_to_google_calendar')
                         }),
                         $('<pre/>', {
                             'text': error.message

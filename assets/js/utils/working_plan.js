@@ -135,7 +135,7 @@ App.Utils.WorkingPlan = (function () {
                                             $('<button/>', {
                                                 'type': 'button',
                                                 'class': 'btn btn-outline-secondary btn-sm edit-break',
-                                                'title': App.Lang.edit,
+                                                'title': lang('edit'),
                                                 'html': [
                                                     $('<span/>', {
                                                         'class': 'fas fa-edit'
@@ -145,7 +145,7 @@ App.Utils.WorkingPlan = (function () {
                                             $('<button/>', {
                                                 'type': 'button',
                                                 'class': 'btn btn-outline-secondary btn-sm delete-break',
-                                                'title': App.Lang.delete,
+                                                'title': lang('delete'),
                                                 'html': [
                                                     $('<span/>', {
                                                         'class': 'fas fa-trash-alt'
@@ -155,7 +155,7 @@ App.Utils.WorkingPlan = (function () {
                                             $('<button/>', {
                                                 'type': 'button',
                                                 'class': 'btn btn-outline-secondary btn-sm save-break d-none',
-                                                'title': App.Lang.save,
+                                                'title': lang('save'),
                                                 'html': [
                                                     $('<span/>', {
                                                         'class': 'fas fa-check-circle'
@@ -165,7 +165,7 @@ App.Utils.WorkingPlan = (function () {
                                             $('<button/>', {
                                                 'type': 'button',
                                                 'class': 'btn btn-outline-secondary btn-sm cancel-break d-none',
-                                                'title': App.Lang.cancel,
+                                                'title': lang('cancel'),
                                                 'html': [
                                                     $('<span/>', {
                                                         'class': 'fas fa-ban'
@@ -212,13 +212,13 @@ App.Utils.WorkingPlan = (function () {
          */
         editableDayCell($selector) {
             const weekDays = {};
-            weekDays[App.Lang.sunday] = App.Lang.sunday; //'Sunday';
-            weekDays[App.Lang.monday] = App.Lang.monday; //'Monday';
-            weekDays[App.Lang.tuesday] = App.Lang.tuesday; //'Tuesday';
-            weekDays[App.Lang.wednesday] = App.Lang.wednesday; //'Wednesday';
-            weekDays[App.Lang.thursday] = App.Lang.thursday; //'Thursday';
-            weekDays[App.Lang.friday] = App.Lang.friday; //'Friday';
-            weekDays[App.Lang.saturday] = App.Lang.saturday; //'Saturday';
+            weekDays[lang('sunday')] = lang('sunday'); //'Sunday';
+            weekDays[lang('monday')] = lang('monday'); //'Monday';
+            weekDays[lang('tuesday')] = lang('tuesday'); //'Tuesday';
+            weekDays[lang('wednesday')] = lang('wednesday'); //'Wednesday';
+            weekDays[lang('thursday')] = lang('thursday'); //'Thursday';
+            weekDays[lang('friday')] = lang('friday'); //'Friday';
+            weekDays[lang('saturday')] = lang('saturday'); //'Saturday';
 
             $selector.editable(
                 function (value) {
@@ -264,12 +264,12 @@ App.Utils.WorkingPlan = (function () {
                     submit: $('<button/>', {
                         'type': 'button',
                         'class': 'd-none submit-editable',
-                        'text': App.Lang.save
+                        'text': lang('save')
                     }).get(0).outerHTML,
                     cancel: $('<button/>', {
                         'type': 'button',
                         'class': 'd-none cancel-editable',
-                        'text': App.Lang.cancel
+                        'text': lang('cancel')
                     }).get(0).outerHTML,
                     onblur: 'ignore',
                     onreset: function () {
@@ -319,7 +319,7 @@ App.Utils.WorkingPlan = (function () {
                             $('<button/>', {
                                 'type': 'button',
                                 'class': 'btn btn-outline-secondary btn-sm edit-working-plan-exception',
-                                'title': App.Lang.edit,
+                                'title': lang('edit'),
                                 'html': [
                                     $('<span/>', {
                                         'class': 'fas fa-edit'
@@ -329,7 +329,7 @@ App.Utils.WorkingPlan = (function () {
                             $('<button/>', {
                                 'type': 'button',
                                 'class': 'btn btn-outline-secondary btn-sm delete-working-plan-exception',
-                                'title': App.Lang.delete,
+                                'title': lang('delete'),
                                 'html': [
                                     $('<span/>', {
                                         'class': 'fas fa-trash-alt'
@@ -385,7 +385,7 @@ App.Utils.WorkingPlan = (function () {
                         'html': [
                             $('<td/>', {
                                 'class': 'break-day editable',
-                                'text': App.Lang.sunday
+                                'text': lang('sunday')
                             }),
                             $('<td/>', {
                                 'class': 'break-start editable',
@@ -400,7 +400,7 @@ App.Utils.WorkingPlan = (function () {
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-outline-secondary btn-sm edit-break',
-                                        'title': App.Lang.edit,
+                                        'title': lang('edit'),
                                         'html': [
                                             $('<span/>', {
                                                 'class': 'fas fa-edit'
@@ -410,7 +410,7 @@ App.Utils.WorkingPlan = (function () {
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-outline-secondary btn-sm delete-break',
-                                        'title': App.Lang.delete,
+                                        'title': lang('delete'),
                                         'html': [
                                             $('<span/>', {
                                                 'class': 'fas fa-trash-alt'
@@ -420,7 +420,7 @@ App.Utils.WorkingPlan = (function () {
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-outline-secondary btn-sm save-break d-none',
-                                        'title': App.Lang.save,
+                                        'title': lang('save'),
                                         'html': [
                                             $('<span/>', {
                                                 'class': 'fas fa-check-circle'
@@ -430,7 +430,7 @@ App.Utils.WorkingPlan = (function () {
                                     $('<button/>', {
                                         'type': 'button',
                                         'class': 'btn btn-outline-secondary btn-sm cancel-break d-none',
-                                        'title': App.Lang.cancel,
+                                        'title': lang('cancel'),
                                         'html': [
                                             $('<span/>', {
                                                 'class': 'fas fa-ban'
@@ -472,12 +472,12 @@ App.Utils.WorkingPlan = (function () {
                     .find('.break-start input, .break-end input')
                     .timepicker({
                         timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-                        currentText: App.Lang.now,
-                        closeText: App.Lang.close,
-                        timeOnlyTitle: App.Lang.select_time,
-                        timeText: App.Lang.time,
-                        hourText: App.Lang.hour,
-                        minuteText: App.Lang.minutes
+                        currentText: lang('now'),
+                        closeText: lang('close'),
+                        timeOnlyTitle: lang('select_time'),
+                        timeText: lang('time'),
+                        hourText: lang('hour'),
+                        minuteText: lang('minutes')
                     });
                 $(this).parent().parent().find('.break-day select').focus();
 
@@ -703,12 +703,12 @@ App.Utils.WorkingPlan = (function () {
                 // Set timepickers where needed.
                 $('.working-plan input:text').timepicker({
                     timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-                    currentText: App.Lang.now,
-                    closeText: App.Lang.close,
-                    timeOnlyTitle: App.Lang.select_time,
-                    timeText: App.Lang.time,
-                    hourText: App.Lang.hour,
-                    minuteText: App.Lang.minutes,
+                    currentText: lang('now'),
+                    closeText: lang('close'),
+                    timeOnlyTitle: lang('select_time'),
+                    timeText: lang('time'),
+                    hourText: lang('hour'),
+                    minuteText: lang('minutes'),
 
                     onSelect: function () {
                         // Start time must be earlier than end time.
@@ -746,19 +746,19 @@ App.Utils.WorkingPlan = (function () {
         convertValueToDay(value) {
             switch (value) {
                 case 'sunday':
-                    return App.Lang.sunday;
+                    return lang('sunday');
                 case 'monday':
-                    return App.Lang.monday;
+                    return lang('monday');
                 case 'tuesday':
-                    return App.Lang.tuesday;
+                    return lang('tuesday');
                 case 'wednesday':
-                    return App.Lang.wednesday;
+                    return lang('wednesday');
                 case 'thursday':
-                    return App.Lang.thursday;
+                    return lang('thursday');
                 case 'friday':
-                    return App.Lang.friday;
+                    return lang('friday');
                 case 'saturday':
-                    return App.Lang.saturday;
+                    return lang('saturday');
             }
         }
         /**
@@ -768,19 +768,19 @@ App.Utils.WorkingPlan = (function () {
          */
         convertDayToValue(day) {
             switch (day) {
-                case App.Lang.sunday:
+                case lang('sunday'):
                     return 'sunday';
-                case App.Lang.monday:
+                case lang('monday'):
                     return 'monday';
-                case App.Lang.tuesday:
+                case lang('tuesday'):
                     return 'tuesday';
-                case App.Lang.wednesday:
+                case lang('wednesday'):
                     return 'wednesday';
-                case App.Lang.thursday:
+                case lang('thursday'):
                     return 'thursday';
-                case App.Lang.friday:
+                case lang('friday'):
                     return 'friday';
-                case App.Lang.saturday:
+                case lang('saturday'):
                     return 'saturday';
             }
         }

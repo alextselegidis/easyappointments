@@ -84,7 +84,7 @@ App.Utils.CalendarDefaultView = (function () {
                 App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
                     (date, workingPlanException) => {
                         const successCallback = () => {
-                            App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
+                            App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
 
                             const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
@@ -118,7 +118,7 @@ App.Utils.CalendarDefaultView = (function () {
                 App.Components.AppointmentsModal.resetModal();
 
                 // Apply appointment data and show modal dialog.
-                $appointmentsModal.find('.modal-header h3').text(App.Lang.edit_appointment_title);
+                $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
                 $appointmentsModal.find('#appointment-id').val(appointment.id);
                 $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
                 $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
@@ -190,7 +190,7 @@ App.Utils.CalendarDefaultView = (function () {
                 }
 
                 const successCallback = () => {
-                    App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_deleted);
+                    App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
 
                     const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
                     delete workingPlanExceptions[date];
@@ -213,7 +213,7 @@ App.Utils.CalendarDefaultView = (function () {
             } else if (!lastFocusedEventData.data.is_unavailable) {
                 const buttons = [
                     {
-                        text: App.Lang.cancel,
+                        text: lang('cancel'),
                         click: () => {
                             $('#message-box').dialog('close');
                         }
@@ -236,8 +236,8 @@ App.Utils.CalendarDefaultView = (function () {
                 ];
 
                 App.Utils.Message.show(
-                    App.Lang.delete_appointment_title,
-                    App.Lang.write_appointment_removal_reason,
+                    lang('delete_appointment_title'),
+                    lang('write_appointment_removal_reason'),
                     buttons
                 );
 
@@ -293,11 +293,11 @@ App.Utils.CalendarDefaultView = (function () {
                 // If the user has already the sync enabled then apply the proper style changes.
                 if ($selectFilterItem.find('option:selected').attr('google-sync') === 'true') {
                     $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
-                    $('#enable-sync span').text(App.Lang.disable_sync);
+                    $('#enable-sync span').text(lang('disable_sync'));
                     $('#google-sync').prop('disabled', false);
                 } else {
                     $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
-                    $('#enable-sync span').text(App.Lang.enable_sync);
+                    $('#enable-sync span').text(lang('enable_sync'));
                     $('#google-sync').prop('disabled', true);
                 }
             }
@@ -373,7 +373,7 @@ App.Utils.CalendarDefaultView = (function () {
                 'html': [
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.start
+                        'text': lang('start')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -387,7 +387,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.end
+                        'text': lang('end')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -400,7 +400,7 @@ App.Utils.CalendarDefaultView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.notes
+                        'text': lang('notes')
                     }),
                     $('<span/>', {
                         'text': getEventNotes(event)
@@ -419,7 +419,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.close
+                                        'text': lang('close')
                                     })
                                 ]
                             }),
@@ -430,7 +430,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.delete
+                                        'text': lang('delete')
                                     })
                                 ]
                             }),
@@ -441,7 +441,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.edit
+                                        'text': lang('edit')
                                     })
                                 ]
                             })
@@ -464,7 +464,7 @@ App.Utils.CalendarDefaultView = (function () {
                 'html': [
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.provider
+                        'text': lang('provider')
                     }),
                     $('<span/>', {
                         'text': event.data ? event.data.provider.first_name + ' ' + event.data.provider.last_name : '-'
@@ -473,7 +473,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.start
+                        'text': lang('start')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -487,7 +487,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.end
+                        'text': lang('end')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -501,7 +501,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.timezone
+                        'text': lang('timezone')
                     }),
                     $('<span/>', {
                         'text': vars('timezones')[event.data.provider.timezone]
@@ -520,7 +520,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.close
+                                        'text': lang('close')
                                     })
                                 ]
                             }),
@@ -531,7 +531,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.delete
+                                        'text': lang('delete')
                                     })
                                 ]
                             }),
@@ -542,7 +542,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.edit
+                                        'text': lang('edit')
                                     })
                                 ]
                             })
@@ -558,7 +558,7 @@ App.Utils.CalendarDefaultView = (function () {
                 'html': [
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.start
+                        'text': lang('start')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -572,7 +572,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.end
+                        'text': lang('end')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -586,7 +586,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.timezone
+                        'text': lang('timezone')
                     }),
                     $('<span/>', {
                         'text': vars('timezones')[event.data.provider.timezone]
@@ -595,7 +595,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.service
+                        'text': lang('service')
                     }),
                     $('<span/>', {
                         'text': event.data.service.name
@@ -604,7 +604,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.provider
+                        'text': lang('provider')
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(event.data.provider),
                     $('<span/>', {
@@ -614,7 +614,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.customer
+                        'text': lang('customer')
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(event.data.customer),
                     $('<span/>', {
@@ -625,7 +625,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.email
+                        'text': lang('email')
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(event.data.customer.email),
                     $('<span/>', {
@@ -636,7 +636,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': App.Lang.phone
+                        'text': lang('phone')
                     }),
                     App.Utils.CalendarEventPopover.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
@@ -646,7 +646,7 @@ App.Utils.CalendarDefaultView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.notes
+                        'text': lang('notes')
                     }),
                     $('<span/>', {
                         'text': getEventNotes(event)
@@ -665,7 +665,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.close
+                                        'text': lang('close')
                                     })
                                 ]
                             }),
@@ -676,7 +676,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.delete
+                                        'text': lang('delete')
                                     })
                                 ]
                             }),
@@ -687,7 +687,7 @@ App.Utils.CalendarDefaultView = (function () {
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.edit
+                                        'text': lang('edit')
                                     })
                                 ]
                             })
@@ -729,7 +729,7 @@ App.Utils.CalendarDefaultView = (function () {
     function calendarEventResize(event, delta, revertFunc) {
         if (vars('privileges').appointments.edit === false) {
             revertFunc();
-            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
             return;
         }
 
@@ -769,9 +769,9 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
                     {
-                        'label': App.Lang.undo,
+                        'label': lang('undo'),
                         'function': undoFunction
                     }
                 ]);
@@ -811,9 +811,9 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(lang('unavailable_updated'), [
                     {
-                        'label': App.Lang.undo,
+                        'label': lang('undo'),
                         'function': undoFunction
                     }
                 ]);
@@ -868,7 +868,7 @@ App.Utils.CalendarDefaultView = (function () {
     function calendarEventDrop(event, delta, revertFunc) {
         if (vars('privileges').appointments.edit === false) {
             revertFunc();
-            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
             return;
         }
 
@@ -922,9 +922,9 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
                     {
-                        'label': App.Lang.undo,
+                        'label': lang('undo'),
                         'function': undoFunction
                     }
                 ]);
@@ -965,9 +965,9 @@ App.Utils.CalendarDefaultView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(lang('unavailable_updated'), [
                     {
-                        label: App.Lang.undo,
+                        label: lang('undo'),
                         function: undoFunction
                     }
                 ]);
@@ -1082,7 +1082,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }
 
                     const unavailabilityEvent = {
-                        title: App.Lang.unavailable + notes,
+                        title: lang('unavailable') + notes,
                         start: moment(unavailable.start_datetime),
                         end: moment(unavailable.end_datetime),
                         allDay: false,
@@ -1142,7 +1142,7 @@ App.Utils.CalendarDefaultView = (function () {
                                 workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
 
                                 workingPlanExceptionEvent = {
-                                    title: App.Lang.working_plan_exception,
+                                    title: lang('working_plan_exception'),
                                     start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true),
                                     end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                                     allDay: true,
@@ -1163,7 +1163,7 @@ App.Utils.CalendarDefaultView = (function () {
                             if (sortedWorkingPlan[weekdayName] === null) {
                                 // Working plan exception.
                                 unavailabilityEvent = {
-                                    title: App.Lang.not_working,
+                                    title: lang('not_working'),
                                     start: calendarView.intervalStart.clone(),
                                     end: calendarView.intervalEnd.clone(),
                                     allDay: false,
@@ -1186,7 +1186,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                             if (viewStart < workDateStart) {
                                 const unavailablePeriodBeforeWorkStarts = {
-                                    title: App.Lang.not_working,
+                                    title: lang('not_working'),
                                     start: viewStart,
                                     end: workDateStart,
                                     allDay: false,
@@ -1207,7 +1207,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                             if (viewEnd > workDateEnd) {
                                 const unavailablePeriodAfterWorkEnds = {
-                                    title: App.Lang.not_working,
+                                    title: lang('not_working'),
                                     start: workDateEnd,
                                     end: viewEnd,
                                     allDay: false,
@@ -1232,7 +1232,7 @@ App.Utils.CalendarDefaultView = (function () {
                                 breakEnd.minute(parseInt(breakEndString[1]));
 
                                 const unavailablePeriod = {
-                                    title: App.Lang.break,
+                                    title: lang('break'),
                                     start: breakStart,
                                     end: breakEnd,
                                     allDay: false,
@@ -1263,7 +1263,7 @@ App.Utils.CalendarDefaultView = (function () {
                                     workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
 
                                     workingPlanExceptionEvent = {
-                                        title: App.Lang.working_plan_exception,
+                                        title: lang('working_plan_exception'),
                                         start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true),
                                         end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                                         allDay: true,
@@ -1284,7 +1284,7 @@ App.Utils.CalendarDefaultView = (function () {
                                 if (sortedWorkingPlan[weekdayName] === null) {
                                     // Add a full day unavailable event.
                                     unavailabilityEvent = {
-                                        title: App.Lang.not_working,
+                                        title: lang('not_working'),
                                         start: calendarDate.clone(),
                                         end: calendarDate.clone().add(1, 'day'),
                                         allDay: false,
@@ -1308,7 +1308,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                                 if (calendarDate < workDateStart) {
                                     unavailabilityEvent = {
-                                        title: App.Lang.not_working,
+                                        title: lang('not_working'),
                                         start: calendarDate.clone(),
                                         end: moment(
                                             calendarDate.format('YYYY-MM-DD') +
@@ -1333,7 +1333,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                                 if (calendarView.end > workDateEnd) {
                                     unavailabilityEvent = {
-                                        title: App.Lang.not_working,
+                                        title: lang('not_working'),
                                         start: moment(
                                             calendarDate.format('YYYY-MM-DD') +
                                                 ' ' +
@@ -1363,7 +1363,7 @@ App.Utils.CalendarDefaultView = (function () {
                                     breakEnd.minute(parseInt(breakEndString[1]));
 
                                     const unavailabilityEvent = {
-                                        title: App.Lang.break,
+                                        title: lang('break'),
                                         start: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.start),
                                         end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.end),
                                         allDay: false,
@@ -1439,7 +1439,7 @@ App.Utils.CalendarDefaultView = (function () {
             slotLabelInterval: '01:00',
             timeFormat: timeFormat,
             slotLabelFormat: slotTimeFormat,
-            allDayText: App.Lang.all_day,
+            allDayText: lang('all_day'),
             columnFormat: columnFormat,
             header: {
                 left: 'prev,next today',
@@ -1504,65 +1504,65 @@ App.Utils.CalendarDefaultView = (function () {
 
             // Translations
             monthNames: [
-                App.Lang.january,
-                App.Lang.february,
-                App.Lang.march,
-                App.Lang.april,
-                App.Lang.may,
-                App.Lang.june,
-                App.Lang.july,
-                App.Lang.august,
-                App.Lang.september,
-                App.Lang.october,
-                App.Lang.november,
-                App.Lang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
             monthNamesShort: [
-                App.Lang.january.substr(0, 3),
-                App.Lang.february.substr(0, 3),
-                App.Lang.march.substr(0, 3),
-                App.Lang.april.substr(0, 3),
-                App.Lang.may.substr(0, 3),
-                App.Lang.june.substr(0, 3),
-                App.Lang.july.substr(0, 3),
-                App.Lang.august.substr(0, 3),
-                App.Lang.september.substr(0, 3),
-                App.Lang.october.substr(0, 3),
-                App.Lang.november.substr(0, 3),
-                App.Lang.december.substr(0, 3)
+                lang('january').substr(0, 3),
+                lang('february').substr(0, 3),
+                lang('march').substr(0, 3),
+                lang('april').substr(0, 3),
+                lang('may').substr(0, 3),
+                lang('june').substr(0, 3),
+                lang('july').substr(0, 3),
+                lang('august').substr(0, 3),
+                lang('september').substr(0, 3),
+                lang('october').substr(0, 3),
+                lang('november').substr(0, 3),
+                lang('december').substr(0, 3)
             ],
             dayNames: [
-                App.Lang.sunday,
-                App.Lang.monday,
-                App.Lang.tuesday,
-                App.Lang.wednesday,
-                App.Lang.thursday,
-                App.Lang.friday,
-                App.Lang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                App.Lang.sunday.substr(0, 3),
-                App.Lang.monday.substr(0, 3),
-                App.Lang.tuesday.substr(0, 3),
-                App.Lang.wednesday.substr(0, 3),
-                App.Lang.thursday.substr(0, 3),
-                App.Lang.friday.substr(0, 3),
-                App.Lang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                App.Lang.sunday.substr(0, 2),
-                App.Lang.monday.substr(0, 2),
-                App.Lang.tuesday.substr(0, 2),
-                App.Lang.wednesday.substr(0, 2),
-                App.Lang.thursday.substr(0, 2),
-                App.Lang.friday.substr(0, 2),
-                App.Lang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             buttonText: {
-                today: App.Lang.today,
-                day: App.Lang.day,
-                week: App.Lang.week,
-                month: App.Lang.month
+                today: lang('today'),
+                day: lang('day'),
+                week: lang('week'),
+                month: lang('month')
             },
 
             // Calendar events need to be declared on initialization.
@@ -1581,7 +1581,7 @@ App.Utils.CalendarDefaultView = (function () {
         // Fill the select list boxes of the page.
         if (vars('available_providers').length > 0) {
             $('<optgroup/>', {
-                'label': App.Lang.providers,
+                'label': lang('providers'),
                 'type': 'providers-group',
                 'html': vars('available_providers').map((availableProvider) => {
                     const hasGoogleSync = availableProvider.settings.google_sync === '1' ? 'true' : 'false';
@@ -1598,7 +1598,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         if (vars('available_services').length > 0) {
             $('<optgroup/>', {
-                'label': App.Lang.services,
+                'label': lang('services'),
                 'type': 'services-group',
                 'html': vars('available_services').map((availableService) =>
                     $('<option/>', {
@@ -1649,7 +1649,7 @@ App.Utils.CalendarDefaultView = (function () {
 
             App.Components.AppointmentsModal.resetModal();
 
-            $appointmentsModal.find('.modal-header h3').text(App.Lang.edit_appointment_title);
+            $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
             $appointmentsModal.find('#appointment-id').val(appointment.id);
             $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
             $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);

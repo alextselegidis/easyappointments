@@ -41,7 +41,7 @@ App.Pages.BookingSettings = (function () {
             });
 
             if (missingRequiredFields) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             return false;
@@ -143,7 +143,7 @@ App.Pages.BookingSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            App.Layouts.Backend.displayNotification(App.Lang.settings_are_invalid);
+            App.Layouts.Backend.displayNotification(lang('settings_are_invalid'));
 
             return;
         }
@@ -151,7 +151,7 @@ App.Pages.BookingSettings = (function () {
         const bookingSettings = serialize();
 
         App.Http.BookingSettings.save(bookingSettings).done(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(lang('settings_saved'));
         });
     }
 

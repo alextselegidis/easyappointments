@@ -113,7 +113,7 @@ App.Components.AppointmentsModal = (function () {
             // Define success callback.
             const successCallback = () => {
                 // Display success message to the user.
-                App.Layouts.Backend.displayNotification(App.Lang.appointment_saved);
+                App.Layouts.Backend.displayNotification(lang('appointment_saved'));
 
                 // Close the modal dialog and refresh the calendar appointments.
                 $appointmentsModal.find('.alert').addClass('d-none');
@@ -123,7 +123,7 @@ App.Components.AppointmentsModal = (function () {
 
             // Define error callback.
             const errorCallback = () => {
-                $appointmentsModal.find('.modal-message').text(App.Lang.service_communication_error);
+                $appointmentsModal.find('.modal-message').text(lang('service_communication_error'));
                 $appointmentsModal.find('.modal-message').addClass('alert-danger').removeClass('d-none');
                 $appointmentsModal.find('.modal-body').scrollTop(0);
             };
@@ -197,7 +197,7 @@ App.Components.AppointmentsModal = (function () {
             );
 
             // Display modal form.
-            $appointmentsModal.find('.modal-header h3').text(App.Lang.new_appointment_title);
+            $appointmentsModal.find('.modal-header h3').text(lang('new_appointment_title'));
 
             $appointmentsModal.modal('show');
         });
@@ -209,7 +209,7 @@ App.Components.AppointmentsModal = (function () {
          */
         $selectCustomer.on('click', (event) => {
             if (!$existingCustomersList.is(':visible')) {
-                $(event.target).find('span').text(App.Lang.hide);
+                $(event.target).find('span').text(lang('hide'));
                 $existingCustomersList.empty();
                 $existingCustomersList.slideDown('slow');
                 $filterExistingCustomers.fadeIn('slow').val('');
@@ -222,7 +222,7 @@ App.Components.AppointmentsModal = (function () {
             } else {
                 $existingCustomersList.slideUp('slow');
                 $filterExistingCustomers.fadeOut('slow');
-                $(event.target).find('span').text(App.Lang.select);
+                $(event.target).find('span').text(lang('select'));
             }
         });
 
@@ -420,7 +420,7 @@ App.Components.AppointmentsModal = (function () {
         // Close existing customers-filter frame.
         $existingCustomersList.slideUp('slow');
         $filterExistingCustomers.fadeOut('slow');
-        $selectCustomer.find('span').text(App.Lang.select);
+        $selectCustomer.find('span').text(lang('select'));
 
         // Setup start and datetimepickers.
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
@@ -458,54 +458,54 @@ App.Components.AppointmentsModal = (function () {
 
             // Translation
             dayNames: [
-                App.Lang.sunday,
-                App.Lang.monday,
-                App.Lang.tuesday,
-                App.Lang.wednesday,
-                App.Lang.thursday,
-                App.Lang.friday,
-                App.Lang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                App.Lang.sunday.substr(0, 3),
-                App.Lang.monday.substr(0, 3),
-                App.Lang.tuesday.substr(0, 3),
-                App.Lang.wednesday.substr(0, 3),
-                App.Lang.thursday.substr(0, 3),
-                App.Lang.friday.substr(0, 3),
-                App.Lang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                App.Lang.sunday.substr(0, 2),
-                App.Lang.monday.substr(0, 2),
-                App.Lang.tuesday.substr(0, 2),
-                App.Lang.wednesday.substr(0, 2),
-                App.Lang.thursday.substr(0, 2),
-                App.Lang.friday.substr(0, 2),
-                App.Lang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             monthNames: [
-                App.Lang.january,
-                App.Lang.february,
-                App.Lang.march,
-                App.Lang.april,
-                App.Lang.may,
-                App.Lang.june,
-                App.Lang.july,
-                App.Lang.august,
-                App.Lang.september,
-                App.Lang.october,
-                App.Lang.november,
-                App.Lang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
-            prevText: App.Lang.previous,
-            nextText: App.Lang.next,
-            currentText: App.Lang.now,
-            closeText: App.Lang.close,
-            timeOnlyTitle: App.Lang.select_time,
-            timeText: App.Lang.time,
-            hourText: App.Lang.hour,
-            minuteText: App.Lang.minutes,
+            prevText: lang('previous'),
+            nextText: lang('next'),
+            currentText: lang('now'),
+            closeText: lang('close'),
+            timeOnlyTitle: lang('select_time'),
+            timeText: lang('time'),
+            hourText: lang('hour'),
+            minuteText: lang('minutes'),
             firstDay: firstWeekDayNumber,
             onClose: function () {
                 const serviceId = $selectService.val();
@@ -527,54 +527,54 @@ App.Components.AppointmentsModal = (function () {
 
             // Translation
             dayNames: [
-                App.Lang.sunday,
-                App.Lang.monday,
-                App.Lang.tuesday,
-                App.Lang.wednesday,
-                App.Lang.thursday,
-                App.Lang.friday,
-                App.Lang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                App.Lang.sunday.substr(0, 3),
-                App.Lang.monday.substr(0, 3),
-                App.Lang.tuesday.substr(0, 3),
-                App.Lang.wednesday.substr(0, 3),
-                App.Lang.thursday.substr(0, 3),
-                App.Lang.friday.substr(0, 3),
-                App.Lang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                App.Lang.sunday.substr(0, 2),
-                App.Lang.monday.substr(0, 2),
-                App.Lang.tuesday.substr(0, 2),
-                App.Lang.wednesday.substr(0, 2),
-                App.Lang.thursday.substr(0, 2),
-                App.Lang.friday.substr(0, 2),
-                App.Lang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             monthNames: [
-                App.Lang.january,
-                App.Lang.february,
-                App.Lang.march,
-                App.Lang.april,
-                App.Lang.may,
-                App.Lang.june,
-                App.Lang.july,
-                App.Lang.august,
-                App.Lang.september,
-                App.Lang.october,
-                App.Lang.november,
-                App.Lang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
-            prevText: App.Lang.previous,
-            nextText: App.Lang.next,
-            currentText: App.Lang.now,
-            closeText: App.Lang.close,
-            timeOnlyTitle: App.Lang.select_time,
-            timeText: App.Lang.time,
-            hourText: App.Lang.hour,
-            minuteText: App.Lang.minutes,
+            prevText: lang('previous'),
+            nextText: lang('next'),
+            currentText: lang('now'),
+            closeText: lang('close'),
+            timeOnlyTitle: lang('select_time'),
+            timeText: lang('time'),
+            hourText: lang('hour'),
+            minuteText: lang('minutes'),
             firstDay: firstWeekDayNumber
         });
         $endDatetime.datetimepicker('setDate', endDatetime);
@@ -604,13 +604,13 @@ App.Components.AppointmentsModal = (function () {
             });
 
             if (missingRequiredField) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             // Check email address.
             if (!App.Utils.Validation.email($appointmentsModal.find('#email').val())) {
                 $appointmentsModal.find('#email').addClass('is-invalid');
-                throw new Error(App.Lang.invalid_email);
+                throw new Error(lang('invalid_email'));
             }
 
             // Check appointment start and end time.
@@ -619,7 +619,7 @@ App.Components.AppointmentsModal = (function () {
             if (start > end) {
                 $startDatetime.addClass('is-invalid');
                 $endDatetime.addClass('is-invalid');
-                throw new Error(App.Lang.start_date_before_end_error);
+                throw new Error(lang('start_date_before_end_error'));
             }
 
             return true;

@@ -158,7 +158,7 @@ App.Utils.CalendarTableView = (function () {
                 App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
                     (date, workingPlanException) => {
                         const successCallback = () => {
-                            App.Layouts.Backend.displayNotification(App.Lang.working_plan_exception_saved);
+                            App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
 
                             const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
@@ -191,7 +191,7 @@ App.Utils.CalendarTableView = (function () {
                 BackendCalendarAppointmentsModal.resetAppointmentDialog();
 
                 // Apply appointment data and show modal dialog.
-                $appointmentsModal.find('.modal-header h3').text(App.Lang.edit_appointment_title);
+                $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
                 $appointmentsModal.find('#appointment-id').val(appointment.id);
                 $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
                 $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
@@ -274,7 +274,7 @@ App.Utils.CalendarTableView = (function () {
             } else if (lastFocusedEventData.data.is_unavailable === '0') {
                 const buttons = [
                     {
-                        text: App.Lang.cancel,
+                        text: lang('cancel'),
                         click: () => {
                             $('#message-box').dialog('close');
                         }
@@ -297,8 +297,8 @@ App.Utils.CalendarTableView = (function () {
                 ];
 
                 App.Utils.Message.show(
-                    App.Lang.delete_appointment_title,
-                    App.Lang.write_appointment_removal_reason,
+                    lang('delete_appointment_title'),
+                    lang('write_appointment_removal_reason'),
                     buttons
                 );
 
@@ -332,8 +332,8 @@ App.Utils.CalendarTableView = (function () {
         $calendarFilter
             .find('select')
             .empty()
-            .append(new Option('1 ' + App.Lang.day, 1))
-            .append(new Option('3 ' + App.Lang.days, 3));
+            .append(new Option('1 ' + lang('day'), 1))
+            .append(new Option('3 ' + lang('days'), 3));
 
         const $calendarHeader = $('<div/>', {
             'class': 'calendar-header'
@@ -403,7 +403,7 @@ App.Utils.CalendarTableView = (function () {
 
         // Create providers and service filters.
         $('<label/>', {
-            'text': App.Lang.provider
+            'text': lang('provider')
         }).appendTo($calendarHeader);
 
         $filterProvider = $('<select/>', {
@@ -442,7 +442,7 @@ App.Utils.CalendarTableView = (function () {
         });
 
         $('<label/>', {
-            'text': App.Lang.service
+            'text': lang('service')
         }).appendTo($calendarHeader);
 
         $filterService = $('<select/>', {
@@ -749,67 +749,67 @@ App.Utils.CalendarTableView = (function () {
 
             // Translations
             monthNames: [
-                App.Lang.january,
-                App.Lang.february,
-                App.Lang.march,
-                App.Lang.april,
-                App.Lang.may,
-                App.Lang.june,
-                App.Lang.july,
-                App.Lang.august,
-                App.Lang.september,
-                App.Lang.october,
-                App.Lang.november,
-                App.Lang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
             monthNamesShort: [
-                App.Lang.january.substr(0, 3),
-                App.Lang.february.substr(0, 3),
-                App.Lang.march.substr(0, 3),
-                App.Lang.april.substr(0, 3),
-                App.Lang.may.substr(0, 3),
-                App.Lang.june.substr(0, 3),
-                App.Lang.july.substr(0, 3),
-                App.Lang.august.substr(0, 3),
-                App.Lang.september.substr(0, 3),
-                App.Lang.october.substr(0, 3),
-                App.Lang.november.substr(0, 3),
-                App.Lang.december.substr(0, 3)
+                lang('january').substr(0, 3),
+                lang('february').substr(0, 3),
+                lang('march').substr(0, 3),
+                lang('april').substr(0, 3),
+                lang('may').substr(0, 3),
+                lang('june').substr(0, 3),
+                lang('july').substr(0, 3),
+                lang('august').substr(0, 3),
+                lang('september').substr(0, 3),
+                lang('october').substr(0, 3),
+                lang('november').substr(0, 3),
+                lang('december').substr(0, 3)
             ],
             dayNames: [
-                App.Lang.sunday,
-                App.Lang.monday,
-                App.Lang.tuesday,
-                App.Lang.wednesday,
-                App.Lang.thursday,
-                App.Lang.friday,
-                App.Lang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                App.Lang.sunday.substr(0, 3),
-                App.Lang.monday.substr(0, 3),
-                App.Lang.tuesday.substr(0, 3),
-                App.Lang.wednesday.substr(0, 3),
-                App.Lang.thursday.substr(0, 3),
-                App.Lang.friday.substr(0, 3),
-                App.Lang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                App.Lang.sunday.substr(0, 2),
-                App.Lang.monday.substr(0, 2),
-                App.Lang.tuesday.substr(0, 2),
-                App.Lang.wednesday.substr(0, 2),
-                App.Lang.thursday.substr(0, 2),
-                App.Lang.friday.substr(0, 2),
-                App.Lang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             buttonText: {
-                today: App.Lang.today,
-                day: App.Lang.day,
-                week: App.Lang.week,
-                month: App.Lang.month,
-                agendaDay: App.Lang.calendar,
-                listDay: App.Lang.list
+                today: lang('today'),
+                day: lang('day'),
+                week: lang('week'),
+                month: lang('month'),
+                agendaDay: lang('calendar'),
+                listDay: lang('list')
             },
 
             // Calendar events need to be declared on initialization.
@@ -847,7 +847,7 @@ App.Utils.CalendarTableView = (function () {
             const workingPlanExceptionEnd = selDayDate + ' ' + workingPlan[selDayName].end;
 
             const workingPlanExceptionEvent = {
-                title: App.Lang.working_plan_exception,
+                title: lang('working_plan_exception'),
                 start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true),
                 end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                 allDay: true,
@@ -866,7 +866,7 @@ App.Utils.CalendarTableView = (function () {
 
         if (workingPlan[selDayName] === null) {
             const nonWorkingDay = {
-                title: App.Lang.not_working,
+                title: lang('not_working'),
                 start: start,
                 end: end,
                 allDay: false,
@@ -886,7 +886,7 @@ App.Utils.CalendarTableView = (function () {
 
         if (start < workDateStart) {
             unavailablePeriod = {
-                title: App.Lang.not_working,
+                title: lang('not_working'),
                 start: start,
                 end: workDateStart,
                 allDay: false,
@@ -903,7 +903,7 @@ App.Utils.CalendarTableView = (function () {
 
         if (end > workDateEnd) {
             const unavailablePeriod = {
-                title: App.Lang.not_working,
+                title: lang('not_working'),
                 start: workDateEnd,
                 end: end,
                 allDay: false,
@@ -924,7 +924,7 @@ App.Utils.CalendarTableView = (function () {
             breakEnd = moment(start.format('YYYY-MM-DD') + ' ' + currentBreak.end);
 
             const unavailablePeriod = {
-                title: App.Lang.break,
+                title: lang('break'),
                 start: breakStart,
                 end: breakEnd,
                 allDay: false,
@@ -1008,7 +1008,7 @@ App.Utils.CalendarTableView = (function () {
             }
 
             const event = {
-                title: App.Lang.unavailable,
+                title: lang('unavailable'),
                 start: moment(unavailability.start_datetime),
                 end: moment(unavailability.end_datetime),
                 allDay: false,
@@ -1062,7 +1062,7 @@ App.Utils.CalendarTableView = (function () {
             });
 
             $event.html(
-                App.Lang.break +
+                lang('break') +
                     ' <span class="hour">' +
                     moment(eventDate).format('HH:mm') +
                     '</span> (' +
@@ -1154,7 +1154,7 @@ App.Utils.CalendarTableView = (function () {
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'text': App.Lang.start
+                        'text': lang('start')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1167,7 +1167,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.end
+                        'text': lang('end')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1180,7 +1180,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.notes
+                        'text': lang('notes')
                     }),
                     $('<span/>', {
                         'text': getEventNotes(event)
@@ -1199,7 +1199,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.close
+                                        'text': lang('close')
                                     })
                                 ]
                             }),
@@ -1210,7 +1210,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.delete
+                                        'text': lang('delete')
                                     })
                                 ]
                             }),
@@ -1221,7 +1221,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.edit
+                                        'text': lang('edit')
                                     })
                                 ]
                             })
@@ -1249,7 +1249,7 @@ App.Utils.CalendarTableView = (function () {
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'text': App.Lang.provider
+                        'text': lang('provider')
                     }),
                     $('<span/>', {
                         'text': event.data ? event.data.provider.first_name + ' ' + event.data.provider.last_name : '-'
@@ -1257,7 +1257,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.start
+                        'text': lang('start')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1270,7 +1270,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.end
+                        'text': lang('end')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1283,7 +1283,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.timezone
+                        'text': lang('timezone')
                     }),
                     $('<span/>', {
                         'text': vars('timezones')[event.data.provider.timezone]
@@ -1302,7 +1302,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.close
+                                        'text': lang('close')
                                     })
                                 ]
                             }),
@@ -1313,7 +1313,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.delete
+                                        'text': lang('delete')
                                     })
                                 ]
                             }),
@@ -1324,7 +1324,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.edit
+                                        'text': lang('edit')
                                     })
                                 ]
                             })
@@ -1339,7 +1339,7 @@ App.Utils.CalendarTableView = (function () {
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
-                        'text': App.Lang.start
+                        'text': lang('start')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1352,7 +1352,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.end
+                        'text': lang('end')
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1365,7 +1365,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.timezone
+                        'text': lang('timezone')
                     }),
                     $('<span/>', {
                         'text': vars('timezones')[event.data.provider.timezone]
@@ -1373,7 +1373,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.service
+                        'text': lang('service')
                     }),
                     $('<span/>', {
                         'text': event.data.service.name
@@ -1381,7 +1381,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.provider
+                        'text': lang('provider')
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(event.data.provider),
                     $('<span/>', {
@@ -1390,7 +1390,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.customer
+                        'text': lang('customer')
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(event.data.customer),
                     $('<span/>', {
@@ -1399,7 +1399,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.email
+                        'text': lang('email')
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(event.data.customer.email),
                     $('<span/>', {
@@ -1408,7 +1408,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.phone
+                        'text': lang('phone')
                     }),
                     App.Utils.CalendarEventPopover.renderPhoneIcon(event.data.customer.phone_number),
                     $('<span/>', {
@@ -1417,7 +1417,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
-                        'text': App.Lang.notes
+                        'text': lang('notes')
                     }),
                     $('<span/>', {
                         'text': getEventNotes(event)
@@ -1436,7 +1436,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-ban me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.close
+                                        'text': lang('close')
                                     })
                                 ]
                             }),
@@ -1447,7 +1447,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-trash-alt me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.delete
+                                        'text': lang('delete')
                                     })
                                 ]
                             }),
@@ -1458,7 +1458,7 @@ App.Utils.CalendarTableView = (function () {
                                         'class': 'fas fa-edit me-2'
                                     }),
                                     $('<span/>', {
-                                        'text': App.Lang.edit
+                                        'text': lang('edit')
                                     })
                                 ]
                             })
@@ -1498,7 +1498,7 @@ App.Utils.CalendarTableView = (function () {
     function onEventResize(event, delta, revertFunc) {
         if (vars('privileges').appointments.edit === false) {
             revertFunc();
-            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
             return;
         }
 
@@ -1540,9 +1540,9 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
                     {
-                        'label': App.Lang.undo,
+                        'label': lang('undo'),
                         'function': undoFunction
                     }
                 ]);
@@ -1580,9 +1580,9 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(lang('unavailable_updated'), [
                     {
-                        'label': App.Lang.undo,
+                        'label': lang('undo'),
                         'function': undoFunction
                     }
                 ]);
@@ -1606,7 +1606,7 @@ App.Utils.CalendarTableView = (function () {
     function onEventDrop(event, delta, revertFunc) {
         if (vars('privileges').appointments.edit === false) {
             revertFunc();
-            App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
+            App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
             return;
         }
 
@@ -1660,9 +1660,9 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.appointment_updated, [
+                App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
                     {
-                        'label': App.Lang.undo,
+                        'label': lang('undo'),
                         'function': undoFunction
                     }
                 ]);
@@ -1701,9 +1701,9 @@ App.Utils.CalendarTableView = (function () {
                     revertFunc();
                 };
 
-                App.Layouts.Backend.displayNotification(App.Lang.unavailable_updated, [
+                App.Layouts.Backend.displayNotification(lang('unavailable_updated'), [
                     {
-                        label: App.Lang.undo,
+                        label: lang('undo'),
                         function: undoFunction
                     }
                 ]);

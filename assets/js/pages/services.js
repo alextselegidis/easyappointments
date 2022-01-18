@@ -163,13 +163,13 @@ App.Pages.Services = (function () {
             const serviceId = $id.val();
             const buttons = [
                 {
-                    text: App.Lang.cancel,
+                    text: lang('cancel'),
                     click: () => {
                         $('#message-box').dialog('close');
                     }
                 },
                 {
-                    text: App.Lang.delete,
+                    text: lang('delete'),
                     click: () => {
                         remove(serviceId);
                         $('#message-box').dialog('close');
@@ -177,7 +177,7 @@ App.Pages.Services = (function () {
                 }
             ];
 
-            App.Utils.Message.show(App.Lang.delete_service, App.Lang.delete_record_prompt, buttons);
+            App.Utils.Message.show(lang('delete_service'), lang('delete_record_prompt'), buttons);
         });
     }
 
@@ -189,7 +189,7 @@ App.Pages.Services = (function () {
      */
     function save(service) {
         App.Http.Services.save(service).then((response) => {
-            App.Layouts.Backend.displayNotification(App.Lang.service_saved);
+            App.Layouts.Backend.displayNotification(lang('service_saved'));
             resetForm();
             $filterServices.find('.key').val('');
             filter('', response.id, true);
@@ -203,7 +203,7 @@ App.Pages.Services = (function () {
      */
     function remove(id) {
         App.Http.Services.destroy(id).then(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.service_deleted);
+            App.Layouts.Backend.displayNotification(lang('service_deleted'));
             resetForm();
             filter($filterServices.find('.key').val());
         });
@@ -230,13 +230,13 @@ App.Pages.Services = (function () {
             });
 
             if (missingRequired) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate the duration.
             if (Number($duration.val()) < 5) {
                 $duration.addClass('is-invalid');
-                throw new Error(App.Lang.invalid_duration);
+                throw new Error(lang('invalid_duration'));
             }
 
             return true;
@@ -306,14 +306,14 @@ App.Pages.Services = (function () {
             if (response.length === 0) {
                 $filterServices.find('.results').append(
                     $('<em/>', {
-                        'text': App.Lang.no_records_found
+                        'text': lang('no_records_found')
                     })
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
                     'type': 'button',
                     'class': 'btn btn-outline-secondary w-100 load-more text-center',
-                    'text': App.Lang.load_more,
+                    'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
@@ -393,7 +393,7 @@ App.Pages.Services = (function () {
                 $select.append(new Option(category.name, category.id));
             });
 
-            $select.append(new Option('- ' + App.Lang.no_category + ' -', '')).val('');
+            $select.append(new Option('- ' + lang('no_category') + ' -', '')).val('');
         });
     }
 

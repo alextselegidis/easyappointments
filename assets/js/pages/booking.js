@@ -73,7 +73,7 @@ App.Pages.Booking = (function () {
                     }
                 },
                 content: {
-                    message: App.Lang.website_using_cookies_to_ensure_best_experience,
+                    message: lang('website_using_cookies_to_ensure_best_experience'),
                     dismiss: 'OK'
                 }
             });
@@ -103,50 +103,50 @@ App.Pages.Booking = (function () {
             defaultDate: moment().toDate(),
 
             dayNames: [
-                App.Lang.sunday,
-                App.Lang.monday,
-                App.Lang.tuesday,
-                App.Lang.wednesday,
-                App.Lang.thursday,
-                App.Lang.friday,
-                App.Lang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                App.Lang.sunday.substr(0, 3),
-                App.Lang.monday.substr(0, 3),
-                App.Lang.tuesday.substr(0, 3),
-                App.Lang.wednesday.substr(0, 3),
-                App.Lang.thursday.substr(0, 3),
-                App.Lang.friday.substr(0, 3),
-                App.Lang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                App.Lang.sunday.substr(0, 2),
-                App.Lang.monday.substr(0, 2),
-                App.Lang.tuesday.substr(0, 2),
-                App.Lang.wednesday.substr(0, 2),
-                App.Lang.thursday.substr(0, 2),
-                App.Lang.friday.substr(0, 2),
-                App.Lang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             monthNames: [
-                App.Lang.january,
-                App.Lang.february,
-                App.Lang.march,
-                App.Lang.april,
-                App.Lang.may,
-                App.Lang.june,
-                App.Lang.july,
-                App.Lang.august,
-                App.Lang.september,
-                App.Lang.october,
-                App.Lang.november,
-                App.Lang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
-            prevText: App.Lang.previous,
-            nextText: App.Lang.next,
-            currentText: App.Lang.now,
-            closeText: App.Lang.close,
+            prevText: lang('previous'),
+            nextText: lang('next'),
+            currentText: lang('now'),
+            closeText: lang('close'),
 
             onSelect: () => {
                 App.Http.Booking.getAvailableHours(moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD'));
@@ -262,7 +262,7 @@ App.Pages.Booking = (function () {
 
             // Add the "Any Provider" entry.
             if ($selectProvider.find('option').length >= 1 && vars('display_any_provider') === '1') {
-                $selectProvider.prepend(new Option('- ' + App.Lang.any_provider + ' -', 'any-provider', true, true));
+                $selectProvider.prepend(new Option('- ' + lang('any_provider') + ' -', 'any-provider', true, true));
             }
 
             App.Http.Booking.getUnavailableDates(
@@ -297,7 +297,7 @@ App.Pages.Booking = (function () {
                         $('<div/>', {
                             'id': 'select-hour-prompt',
                             'class': 'text-danger mb-4',
-                            'text': App.Lang.appointment_hour_missing
+                            'text': lang('appointment_hour_missing')
                         }).prependTo('#available-hours');
                     }
                     return;
@@ -406,7 +406,7 @@ App.Pages.Booking = (function () {
 
                 const buttons = [
                     {
-                        text: App.Lang.cancel,
+                        text: lang('cancel'),
                         click: () => {
                             $('#message-box').dialog('close');
                         }
@@ -425,8 +425,8 @@ App.Pages.Booking = (function () {
                 ];
 
                 App.Utils.Message.show(
-                    App.Lang.cancel_appointment_title,
-                    App.Lang.write_appointment_removal_reason,
+                    lang('cancel_appointment_title'),
+                    lang('write_appointment_removal_reason'),
                     buttons
                 );
 
@@ -445,13 +445,13 @@ App.Pages.Booking = (function () {
             $deletePersonalInformation.on('click', () => {
                 const buttons = [
                     {
-                        text: App.Lang.cancel,
+                        text: lang('cancel'),
                         click: () => {
                             $('#message-box').dialog('close');
                         }
                     },
                     {
-                        text: App.Lang.delete,
+                        text: lang('delete'),
                         click: () => {
                             App.Http.Booking.deletePersonalInformation(vars('customer_token'));
                         }
@@ -459,8 +459,8 @@ App.Pages.Booking = (function () {
                 ];
 
                 App.Utils.Message.show(
-                    App.Lang.delete_personal_information,
-                    App.Lang.delete_personal_information_prompt,
+                    lang('delete_personal_information'),
+                    lang('delete_personal_information_prompt'),
                     buttons
                 );
             });
@@ -515,25 +515,25 @@ App.Pages.Booking = (function () {
             });
 
             if (missingRequiredField) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
             if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
                 $acceptToTermsAndConditions.parents('.form-check').addClass('text-danger');
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
             if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
                 $acceptToPrivacyPolicy.parents('.form-check').addClass('text-danger');
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate email address.
             if ($email.val() && !App.Utils.Validation.email($email.val())) {
                 $email.parents('.form-group').addClass('is-invalid');
-                throw new Error(App.Lang.invalid_email);
+                throw new Error(lang('invalid_email'));
             }
 
             return true;
@@ -576,21 +576,21 @@ App.Pages.Booking = (function () {
         $('<div/>', {
             'html': [
                 $('<h4/>', {
-                    'text': App.Lang.appointment
+                    'text': lang('appointment')
                 }),
                 $('<p/>', {
                     'html': [
                         $('<span/>', {
-                            'text': App.Lang.service + ': ' + $selectService.find('option:selected').text()
+                            'text': lang('service') + ': ' + $selectService.find('option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.provider + ': ' + $selectProvider.find('option:selected').text()
+                            'text': lang('provider') + ': ' + $selectProvider.find('option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
                             'text':
-                                App.Lang.start +
+                                lang('start') +
                                 ': ' +
                                 selectedDate +
                                 ' ' +
@@ -598,11 +598,11 @@ App.Pages.Booking = (function () {
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.timezone + ': ' + $selectTimezone.find('option:selected').text()
+                            'text': lang('timezone') + ': ' + $selectTimezone.find('option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.price + ': ' + servicePrice + ' ' + serviceCurrency,
+                            'text': lang('price') + ': ' + servicePrice + ' ' + serviceCurrency,
                             'prop': {
                                 'hidden': !servicePrice
                             }
@@ -626,32 +626,32 @@ App.Pages.Booking = (function () {
         $('<div/>', {
             'html': [
                 $('<h4/>)', {
-                    'text': App.Lang.customer
+                    'text': lang('customer')
                 }),
                 $('<p/>', {
                     'html': [
                         $('<span/>', {
-                            'text': App.Lang.customer + ': ' + firstName + ' ' + lastName
+                            'text': lang('customer') + ': ' + firstName + ' ' + lastName
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.phone_number + ': ' + phoneNumber
+                            'text': lang('phone_number') + ': ' + phoneNumber
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': App.Lang.email + ': ' + email
+                            'text': lang('email') + ': ' + email
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': address ? App.Lang.address + ': ' + address : ''
+                            'text': address ? lang('address') + ': ' + address : ''
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': city ? App.Lang.city + ': ' + city : ''
+                            'text': city ? lang('city') + ': ' + city : ''
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': zipCode ? App.Lang.zip_code + ': ' + zipCode : ''
+                            'text': zipCode ? lang('zip_code') + ': ' + zipCode : ''
                         }),
                         $('<br/>')
                     ]
@@ -810,19 +810,19 @@ App.Pages.Booking = (function () {
 
         if (service.duration) {
             $('<span/>', {
-                'text': '[' + App.Lang.duration + ' ' + service.duration + ' ' + App.Lang.minutes + ']'
+                'text': '[' + lang('duration') + ' ' + service.duration + ' ' + lang('minutes') + ']'
             }).appendTo($serviceDescription);
         }
 
         if (Number(service.price) > 0) {
             $('<span/>', {
-                'text': '[' + App.Lang.price + ' ' + service.price + ' ' + service.currency + ']'
+                'text': '[' + lang('price') + ' ' + service.price + ' ' + service.currency + ']'
             }).appendTo($serviceDescription);
         }
 
         if (service.location) {
             $('<span/>', {
-                'text': '[' + App.Lang.location + ' ' + service.location + ']'
+                'text': '[' + lang('location') + ' ' + service.location + ']'
             }).appendTo($serviceDescription);
         }
     }

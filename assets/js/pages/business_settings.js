@@ -42,7 +42,7 @@ App.Pages.BusinessSettings = (function () {
             });
 
             if (missingRequiredFields) {
-                throw new Error(App.Lang.fields_are_required);
+                throw new Error(lang('fields_are_required'));
             }
 
             return false;
@@ -85,7 +85,7 @@ App.Pages.BusinessSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            App.Layouts.Backend.displayNotification(App.Lang.settings_are_invalid);
+            App.Layouts.Backend.displayNotification(lang('settings_are_invalid'));
 
             return;
         }
@@ -93,7 +93,7 @@ App.Pages.BusinessSettings = (function () {
         const businessSettings = serialize();
 
         App.Http.BusinessSettings.save(businessSettings).done(() => {
-            App.Layouts.Backend.displayNotification(App.Lang.settings_saved);
+            App.Layouts.Backend.displayNotification(lang('settings_saved'));
         });
     }
 
@@ -103,7 +103,7 @@ App.Pages.BusinessSettings = (function () {
     function onApplyGlobalWorkingPlan() {
         const buttons = [
             {
-                text: App.Lang.cancel,
+                text: lang('cancel'),
                 click: () => {
                     $('#message-box').dialog('close');
                 }
@@ -115,7 +115,7 @@ App.Pages.BusinessSettings = (function () {
 
                     App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan)
                         .done(() => {
-                            App.Layouts.Backend.displayNotification(App.Lang.working_plans_got_updated);
+                            App.Layouts.Backend.displayNotification(lang('working_plans_got_updated'));
                         })
                         .always(function () {
                             $('#message-box').dialog('close');
@@ -124,7 +124,7 @@ App.Pages.BusinessSettings = (function () {
             }
         ];
 
-        App.Utils.Message.show(App.Lang.working_plan, App.Lang.overwrite_existing_working_plans, buttons);
+        App.Utils.Message.show(lang('working_plan'), lang('overwrite_existing_working_plans'), buttons);
     }
 
     /**
