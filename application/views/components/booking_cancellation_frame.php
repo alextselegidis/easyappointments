@@ -1,18 +1,11 @@
-<?php
-/**
- * @var bool $manage_mode
- * @var array $appointment_data
- */
-?>
-
-<?php if ($manage_mode): ?>
+<?php if (vars('manage_mode')): ?>
     <div id="cancel-appointment-frame" class="row booking-header-bar">
         <div class="col-12 col-md-10">
             <small><?= lang('cancel_appointment_hint') ?></small>
         </div>
         <div class="col-12 col-md-2">
             <form id="cancel-appointment-form" method="post"
-                  action="<?= site_url('booking_cancellation/of/' . $appointment_data['hash']) ?>">
+                  action="<?= site_url('booking_cancellation/of/' . vars('appointment_data')['hash']) ?>">
 
                 <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
 

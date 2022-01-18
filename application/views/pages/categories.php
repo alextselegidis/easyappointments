@@ -1,10 +1,3 @@
-<?php
-/**
- * @var string $timezones
- * @var array $privileges
- */
-?>
-
 <?php extend('layouts/backend_layout') ?>
 
 <?php section('content') ?>

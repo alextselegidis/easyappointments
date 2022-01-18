@@ -1,10 +1,3 @@
-<?php
-/**
- * @var string $base_url
- * @var string $dest_url
- */
-?>
-
 <?php extend('layouts/account_layout') ?>
 
 <?php section('content') ?>

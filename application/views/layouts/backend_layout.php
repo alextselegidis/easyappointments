@@ -1,9 +1,3 @@
-<?php
-/**
- * @var string $page_title
- */
-?>
-
 <!doctype html>
 <html lang="en">
 <head>

@@ -1,23 +1,3 @@
-<?php
-/**
- * @var string $company_name
- * @var string $customer_token
- * @var string $date_format
- * @var string $time_format
- * @var string $first_weekday
- * @var bool $manage_mode
- * @var array $appointment_data
- * @var array $provider_data
- * @var array $customer_data
- * @var array $available_services
- * @var array $available_providers
- * @var string $display_any_provider
- * @var string $display_terms_and_conditions
- * @var string $display_privacy_policy
- * @var string $display_cookie_notice
- */
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,7 +8,7 @@
 
     <?php slot('meta') ?>
 
-    <title><?= lang('page_title') . ' ' . $company_name ?> | Easy!Appointments</title>
+    <title><?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -55,15 +35,15 @@
     </div>
 </div>
 
-<?php if ($display_cookie_notice === '1'): ?>
+<?php if (vars('display_cookie_notice') === '1'): ?>
     <?php component('cookie_notice_modal') ?>
 <?php endif ?>
 
-<?php if ($display_terms_and_conditions === '1'): ?>
+<?php if (vars('display_terms_and_conditions') === '1'): ?>
     <?php component('terms_and_conditions_modal') ?>
 <?php endif ?>
 
-<?php if ($display_privacy_policy === '1'): ?>
+<?php if (vars('display_privacy_policy') === '1'): ?>
     <?php component('privacy_policy_modal') ?>
 <?php endif ?>
 

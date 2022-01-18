@@ -1,11 +1,5 @@
-<?php
-/**
- * @var string $company_name
- */
-?>
-
 <div id="header">
-    <span id="company-name"><?= $company_name ?></span>
+    <span id="company-name"><?= vars('company_name') ?></span>
 
     <div id="steps">
         <div id="step-1" class="book-step active-step"

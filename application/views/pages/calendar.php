@@ -1,33 +1,3 @@
-<?php
-/**
- * @var array $available_providers
- * @var array $available_services
- * @var string $base_url
- * @var string $date_format
- * @var string $time_format
- * @var string $first_weekday
- * @var array $edit_appointment
- * @var array $customers
- * @var array $secretary_providers
- * @var string $calendar_view
- * @var string $timezones
- * @var string $user_id
- * @var string $user_email
- * @var string $timezone
- * @var string $role_slug
- * @var array $privileges
- * @var array $available_services
- * @var array $timezones
- * @var array $require_first_name
- * @var array $require_last_name
- * @var array $require_email
- * @var array $require_phone_number
- * @var array $require_address
- * @var array $require_city
- * @var array $require_zip_code
- */
-?>
-
 <?php extend('layouts/backend_layout') ?>
 
 <?php section('styles') ?>
@@ -95,14 +65,14 @@
                 <i class="fas fa-sync-alt"></i>
             </button>
 
-            <?php if ($calendar_view === 'default'): ?>
+            <?php if (vars('calendar_view') === 'default'): ?>
                 <a class="btn btn-light" href="<?= site_url('calendar?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
-            <?php if ($calendar_view === 'table'): ?>
+            <?php if (vars('calendar_view') === 'table'): ?>
                 <a class="btn btn-light" href="<?= site_url('calendar?view=default') ?>"
                    data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
@@ -123,15 +93,15 @@
         'appointments_modal', 
         '',
         [
-            'available_services' => $available_services,
-            'timezones' => $timezones,
-            'require_first_name' => $require_first_name,
-            'require_last_name' => $require_last_name,
-            'require_email' => $require_email,
-            'require_phone_number' => $require_phone_number,
-            'require_address' => $require_address,
-            'require_city' => $require_city,
-            'require_zip_code' => $require_zip_code
+            'available_services' => vars('available_services'),
+            'timezones' => vars('timezones'),
+            'require_first_name' => vars('require_first_name'),
+            'require_last_name' => vars('require_last_name'),
+            'require_email' => vars('require_email'),
+            'require_phone_number' => vars('require_phone_number'),
+            'require_address' => vars('require_address'),
+            'require_city' => vars('require_city'),
+            'require_zip_code' => vars('require_zip_code')
         ]
     ) 
 ?>
@@ -141,8 +111,8 @@
         'unavailabilities_modal', 
         '',
         [
-            'timezones' => $timezones,
-            'timezone' => $timezone
+            'timezones' => vars('timezones'),
+            'timezone' => vars('timezone')
         ]
     ) 
 ?>

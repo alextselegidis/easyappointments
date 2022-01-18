@@ -1,9 +1,4 @@
-<?php
-/**
- * @var string $attributes
- */
-?>
-<script <?= $attributes ?>>
+<script <?= vars('attributes') ?>>
     window.lang = (function () {
         const lang = <?= json_encode($this->lang->language) ?>;
 

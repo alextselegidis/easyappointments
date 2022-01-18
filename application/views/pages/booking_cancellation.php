@@ -1,13 +1,3 @@
-<?php
-/**
- * @var string $company_name
- * @var array $appointment_data
- * @var array $provider_data
- * @var array $customer_data
- * @var array $service_data
- */
-?>
-
 <?php extend('layouts/message_layout') ?>
 
 <?php section('content') ?>

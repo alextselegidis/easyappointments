@@ -1,9 +1,3 @@
-<?php
-/**
- * @var array $available_services
- */
-?>
-
 <div id="wizard-frame-1" class="wizard-frame">
     <div class="frame-container">
         <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
@@ -19,7 +13,7 @@
                         <?php
                         // Group services by category, only if there is at least one service with a parent category.
                         $has_category = FALSE;
-                        foreach ($available_services as $service)
+                        foreach (vars('available_services') as $service)
                         {
                             if ( ! empty($service['category_id']))
                             {
@@ -32,7 +26,7 @@
                         {
                             $grouped_services = [];
 
-                            foreach ($available_services as $service)
+                            foreach (vars('available_services') as $service)
                             {
                                 if ( ! empty($service['category_id']))
                                 {
@@ -48,7 +42,7 @@
                             // We need the uncategorized services at the end of the list, so we will use another
                             // iteration only for the uncategorized services.
                             $grouped_services['uncategorized'] = [];
-                            foreach ($available_services as $service)
+                            foreach (vars('available_services') as $service)
                             {
                                 if ($service['category_id'] == NULL)
                                 {
@@ -76,7 +70,7 @@
                         }
                         else
                         {
-                            foreach ($available_services as $service)
+                            foreach (vars('available_services') as $service)
                             {
                                 echo '<option value="' . $service['id'] . '">' . $service['name'] . '</option>';
                             }

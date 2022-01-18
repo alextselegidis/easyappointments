@@ -1,11 +1,3 @@
-<?php
-/**
- * @var string $message_title
- * @var string $message_icon
- * @var string $message_text
- */
-?>
-
 <?php extend('layouts/message_layout') ?>
 
 <?php section('content') ?>

@@ -1,9 +1,4 @@
-<?php
-/**
- * @var string $attributes
- */
-?>
-<script <?= $attributes ?>>
+<script <?= vars('attributes') ?>>
     window.vars = (function () {
         const vars = <?= json_encode(script_vars()) ?>;
 

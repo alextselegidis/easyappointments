@@ -153,3 +153,31 @@ if ( ! function_exists('html_vars'))
         return $value ?? $default;
     }
 }
+
+if ( ! function_exists('vars'))
+{
+    /**
+     * Get / set the specified HTML & JS config value.
+     *
+     * If an array is passed as the key, we will assume you want to set an array of values.
+     *
+     * Example "Get":
+     *
+     * $version = vars('version', '1.0.0');
+     *
+     * Example "Set":
+     *
+     * vars(['version' => '1.0.0']);
+     *
+     * @param array|string $key Configuration key.
+     * @param mixed $default Default value in case the requested config has no value.
+     *
+     * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
+     *
+     * @throws InvalidArgumentException
+     */
+    function vars($key = NULL, $default = NULL)
+    {
+        return html_vars($key) ?? script_vars($key) ?? $default;
+    }
+}

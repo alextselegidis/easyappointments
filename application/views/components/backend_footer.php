@@ -1,8 +1,3 @@
-<?php
-/**
- * @var string $user_display_name
- */
-?>
 <div id="footer" class="d-lg-flex justify-content-lg-start align-items-lg-center p-2 text-center text-lg-left">
     <div class="mb-3 me-lg-5 mb-lg-0">
         <img class="me-1" src="<?= base_url('assets/img/logo-16x16.png') ?>" alt="Easy!Appointments Logo">
@@ -42,7 +37,7 @@
 
     <div class="ms-lg-auto">
         <strong id="footer-user-display-name">
-            <?= lang('hello') . ', ' . $user_display_name ?>!
+            <?= lang('hello') . ', ' . vars('user_display_name') ?>!
         </strong>
     </div>
 </div>

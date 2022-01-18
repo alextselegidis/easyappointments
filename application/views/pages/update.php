@@ -1,10 +1,3 @@
-<?php
-/**
- * @var bool $success
- * @var string $exception
- */
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,7 +21,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <?php if ($success): ?>
+            <?php if (vars('success')): ?>
                 <div class="jumbotron">
                     <h1 class="display-4">Success!</h1>
                     <p class="lead">
@@ -64,7 +57,7 @@
                 </div>
 
                 <div class="well text-start">
-                    Error Message: <?= $exception ?>
+                    Error Message: <?= vars('exception') ?>
                 </div>
             <?php endif; ?>
         </div>
