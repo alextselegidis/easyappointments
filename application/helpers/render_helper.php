@@ -26,10 +26,12 @@ function render_timezone_dropdown(string $attributes = ''): string
 
     $timezones = $CI->timezones->to_grouped_array();
 
-    return $CI->load->view('components/timezone_dropdown', [
-        'timezones' => $timezones,
-        'attributes' => $attributes
-    ], TRUE);
+    html_vars([
+        'attributes' => $attributes,
+        'timezones' => $timezones
+    ]);
+
+    return $CI->load->view('components/timezone_dropdown', html_vars(), TRUE);
 }
 
 /**
@@ -43,9 +45,11 @@ function render_language_script(string $attributes = ''): string
 {
     $CI = get_instance();
 
-    return $CI->load->view('components/language_script', [
-        'attributes' => $attributes
-    ], TRUE);
+    html_vars([
+        'attributes' => $attributes,
+    ]);
+
+    return $CI->load->view('components/language_script', html_vars(), TRUE);
 }
 
 /**
@@ -59,7 +63,9 @@ function render_global_variables_script(string $attributes = ''): string
 {
     $CI = get_instance();
 
-    return $CI->load->view('components/global_variables_script', [
-        'attributes' => $attributes
-    ], TRUE);
+    html_vars([
+        'attributes' => $attributes,
+    ]);
+
+    return $CI->load->view('components/global_variables_script', html_vars(), TRUE);
 }
