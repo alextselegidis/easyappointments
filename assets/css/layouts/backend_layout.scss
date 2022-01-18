@@ -731,6 +731,14 @@ body .form-horizontal .controls {
     }
 }
 
+#working-plan-exceptions-breaks {
+    table-layout: fixed;
+    
+    .form-control {
+        width: 100% !important;
+    }
+}
+
 #providers-page .working-plan .checkbox,
 #providers-page .working-plan input[type='text'],
 #providers-page .working-plan button {
