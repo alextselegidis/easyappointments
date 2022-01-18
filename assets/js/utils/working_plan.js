@@ -342,9 +342,9 @@ App.Utils.WorkingPlan = (function () {
             });
         }
         /**
-         * Bind the event handlers.
+         * Add the utility event listeners.
          */
-        bindEventHandlers() {
+        addEventListeners() {
             /**
              * Event: Day Checkbox "Click"
              *

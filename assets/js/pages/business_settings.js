@@ -146,7 +146,7 @@ App.Pages.BusinessSettings = (function () {
         workingPlanManager = new App.Utils.WorkingPlan();
         workingPlanManager.setup(companyWorkingPlan);
         workingPlanManager.timepickers(false);
-        workingPlanManager.bindEventHandlers();
+        workingPlanManager.addEventListeners();
 
         $saveSettings.on('click', onSaveSettingsClick);
 

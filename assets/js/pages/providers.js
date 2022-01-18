@@ -527,7 +527,7 @@ App.Pages.Providers = (function () {
      */
     function initialize() {
         workingPlanManager = new App.Utils.WorkingPlan();
-        workingPlanManager.bindEventHandlers();
+        workingPlanManager.addEventListeners();
 
         resetForm();
         filter('');
