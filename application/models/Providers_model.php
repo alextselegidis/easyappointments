@@ -563,8 +563,10 @@ class Providers_model extends EA_Model {
             throw new InvalidArgumentException('Provider ID was not found in the database: ' . $provider_id);
         }
 
+        $provider = $this->find($provider_id);
+
         // Store the working plan exception.
-        $working_plan_exceptions = json_decode($this->get_setting('working_plan_exceptions', $provider_id), TRUE);
+        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
         if ( ! isset($working_plan_exception['breaks']))
         {
@@ -573,11 +575,9 @@ class Providers_model extends EA_Model {
 
         $working_plan_exceptions[$date] = $working_plan_exception;
 
-        $this->set_setting(
-            'working_plan_exceptions',
-            json_encode($working_plan_exceptions),
-            $provider_id
-        );
+        $provider['settings']['working_plan_exceptions'] = json_encode($working_plan_exceptions);
+
+        $this->update($provider);
     }
 
     /**
@@ -601,11 +601,9 @@ class Providers_model extends EA_Model {
 
         unset($working_plan_exceptions[$date]);
 
-        $this->set_setting(
-            'working_plan_exceptions',
-            json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
-            $provider_id
-        );
+        $provider['settings']['working_plan_exceptions'] = empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions;
+
+        $this->update($provider);
     }
 
     /**
