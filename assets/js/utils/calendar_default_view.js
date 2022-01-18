@@ -340,7 +340,7 @@ App.Utils.CalendarDefaultView = (function () {
      *
      * @param {Object} info
      */
-    function calendarEventClick(info) {
+    function onEventClick(info) {
         const $target = $(info.el);
 
         $calendarPage.find('.popover').popover('dispose'); // Close all open popovers.
@@ -724,7 +724,7 @@ App.Utils.CalendarDefaultView = (function () {
      *
      * @param {Object} info
      */
-    function calendarEventResize(info) {
+    function onEventResize(info) {
         if (vars('privileges').appointments.edit === false) {
             info.revert();
             App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
@@ -740,7 +740,7 @@ App.Utils.CalendarDefaultView = (function () {
         if (!info.event.extendedProps.data.is_unavailability) {
             // Prepare appointment data.
             info.event.extendedProps.data.end_datetime = moment(info.event.extendedProps.data.end_datetime)
-                .add({days: info.delta.days, milliseconds: info.delta.milliseconds})
+                .add({days: info.endDelta.days, milliseconds: info.endDelta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             const appointment = {...info.event.extendedProps.data};
@@ -759,7 +759,7 @@ App.Utils.CalendarDefaultView = (function () {
                     appointment.end_datetime = info.event.extendedProps.data.end_datetime = moment(
                         appointment.end_datetime
                     )
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     App.Http.Calendar.saveAppointment(appointment).done(() => {
@@ -838,7 +838,7 @@ App.Utils.CalendarDefaultView = (function () {
      *
      * @see getCalendarHeight()
      */
-    function calendarWindowResize() {
+    function onWindowResize() {
         fullCalendar.setOption('height', getCalendarHeight());
     }
 
@@ -850,7 +850,7 @@ App.Utils.CalendarDefaultView = (function () {
      *
      * @param {Object} info
      */
-    function calendarDateClick(info) {
+    function onDateClick(info) {
         if (info.allDay) {
             fullCalendar.changeView('timeGridDay');
             fullCalendar.gotoDate(info.date);
@@ -865,7 +865,7 @@ App.Utils.CalendarDefaultView = (function () {
      *
      * @param {Object} info
      */
-    function calendarEventDrop(info) {
+    function onEventDrop(info) {
         if (vars('privileges').appointments.edit === false) {
             info.revert();
             App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
@@ -988,7 +988,7 @@ App.Utils.CalendarDefaultView = (function () {
      * Whenever the calendar changes or refreshes its view certain actions need to be made, in order to
      * display proper information to the user.
      */
-    function calendarDatesRender() {
+    function onDatesSet() {
         if ($selectFilterItem.val() === null) {
             return;
         }
@@ -1522,18 +1522,18 @@ App.Utils.CalendarDefaultView = (function () {
             },
 
             // Calendar events need to be declared on initialization.
-            windowResize: calendarWindowResize,
-            datesRender: calendarDatesRender,
-            dateClick: calendarDateClick,
-            eventClick: calendarEventClick,
-            eventResize: calendarEventResize,
-            eventDrop: calendarEventDrop
+            windowResize: onWindowResize,
+            datesSet: onDatesSet,
+            dateClick: onDateClick,
+            eventClick: onEventClick,
+            eventResize: onEventResize,
+            eventDrop: onEventDrop
         });
 
         fullCalendar.render();
 
         // Trigger once to set the proper footer position after calendar initialization.
-        calendarWindowResize();
+        onWindowResize();
 
         // Fill the select list boxes of the page.
         if (vars('available_providers').length > 0) {
