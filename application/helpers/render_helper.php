@@ -26,12 +26,10 @@ function render_timezone_dropdown(string $attributes = ''): string
 
     $timezones = $CI->timezones->to_grouped_array();
 
-    html_vars([
+    return $CI->load->view('components/timezone_dropdown', [
         'attributes' => $attributes,
         'timezones' => $timezones
-    ]);
-
-    return $CI->load->view('components/timezone_dropdown', html_vars(), TRUE);
+    ], TRUE);
 }
 
 /**

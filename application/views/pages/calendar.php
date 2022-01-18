@@ -88,34 +88,30 @@
 
 <!-- Page Components -->
 
-<?php 
-    component(
-        'appointments_modal', 
-        '',
-        [
-            'available_services' => vars('available_services'),
-            'timezones' => vars('timezones'),
-            'require_first_name' => vars('require_first_name'),
-            'require_last_name' => vars('require_last_name'),
-            'require_email' => vars('require_email'),
-            'require_phone_number' => vars('require_phone_number'),
-            'require_address' => vars('require_address'),
-            'require_city' => vars('require_city'),
-            'require_zip_code' => vars('require_zip_code')
-        ]
-    ) 
-?>
+<?php component(
+    'appointments_modal',
+    '',
+    [
+        'available_services' => vars('available_services'),
+        'timezones' => vars('timezones'),
+        'require_first_name' => vars('require_first_name'),
+        'require_last_name' => vars('require_last_name'),
+        'require_email' => vars('require_email'),
+        'require_phone_number' => vars('require_phone_number'),
+        'require_address' => vars('require_address'),
+        'require_city' => vars('require_city'),
+        'require_zip_code' => vars('require_zip_code')
+    ]
+) ?>
 
-<?php 
-    component(
-        'unavailabilities_modal', 
-        '',
-        [
-            'timezones' => vars('timezones'),
-            'timezone' => vars('timezone')
-        ]
-    ) 
-?>
+<?php component(
+    'unavailabilities_modal',
+    '',
+    [
+        'timezones' => vars('timezones'),
+        'timezone' => vars('timezone')
+    ]
+) ?>
 
 <?php component('select_google_calendar_modal') ?>
 
