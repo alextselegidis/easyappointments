@@ -249,7 +249,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * Enable Language Selection
      *
      * Enables the language selection functionality. Must be called on every page has a language selection button.
-     * This method requires the global variable 'App.Vars.available_languages' to be initialized before the execution.
+     * This method requires the global variable 'vars('available_languages')' to be initialized before the execution.
      *
      * @param {Object} $element Selected element button for the language selection.
      *
@@ -318,7 +318,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
      * @return {String} Returns the formatted date string.
      */
     exports.formatDate = function (date, dateFormatSetting, addHours) {
-        var timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+        var timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
         var hours = addHours ? ' ' + timeFormat : '';
         var result;
         var parsedDateMoment = moment(date);

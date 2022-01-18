@@ -37,7 +37,7 @@ App.Http.Unavailabilities = (function () {
         const url = App.Utils.Url.siteUrl('unavailabilities/create');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             unavailability: unavailability
         };
 
@@ -55,7 +55,7 @@ App.Http.Unavailabilities = (function () {
         const url = App.Utils.Url.siteUrl('unavailabilities/update');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             unavailability: unavailability
         };
 
@@ -73,7 +73,7 @@ App.Http.Unavailabilities = (function () {
         const url = App.Utils.Url.siteUrl('unavailabilities/destroy');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             unavailability_id: unavailabilityId
         };
 
@@ -94,7 +94,7 @@ App.Http.Unavailabilities = (function () {
         const url = App.Utils.Url.siteUrl('unavailabilities/search');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             keyword,
             limit,
             offset,
@@ -115,7 +115,7 @@ App.Http.Unavailabilities = (function () {
         const url = App.Utils.Url.siteUrl('unavailabilities/find');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             unavailability_id: unavailabilityId
         };
 

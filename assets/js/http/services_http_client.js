@@ -37,7 +37,7 @@ App.Http.Services = (function () {
         const url = App.Utils.Url.siteUrl('services/create');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             service: service
         };
 
@@ -55,7 +55,7 @@ App.Http.Services = (function () {
         const url = App.Utils.Url.siteUrl('services/update');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             service: service
         };
 
@@ -73,7 +73,7 @@ App.Http.Services = (function () {
         const url = App.Utils.Url.siteUrl('services/destroy');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             service_id: serviceId
         };
 
@@ -94,7 +94,7 @@ App.Http.Services = (function () {
         const url = App.Utils.Url.siteUrl('services/search');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             keyword,
             limit,
             offset,
@@ -115,7 +115,7 @@ App.Http.Services = (function () {
         const url = App.Utils.Url.siteUrl('services/find');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             service_id: serviceId
         };
 

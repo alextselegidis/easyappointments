@@ -180,7 +180,7 @@ App.Pages.Account = (function () {
      * Initialize the page.
      */
     function initialize() {
-        const account = App.Vars.account;
+        const account = vars('account');
 
         deserialize(account);
 

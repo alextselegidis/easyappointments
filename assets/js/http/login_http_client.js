@@ -27,7 +27,7 @@ App.Http.Login = (function () {
         const url = App.Utils.Url.siteUrl('login/validate');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             username,
             password
         };

@@ -26,7 +26,7 @@ App.Http.BusinessSettings = (function () {
         const url = App.Utils.Url.siteUrl('business_settings/save');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             business_settings: businessSettings
         };
 
@@ -44,7 +44,7 @@ App.Http.BusinessSettings = (function () {
         const url = App.Utils.Url.siteUrl('business_settings/apply_global_working_plan');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             working_plan: JSON.stringify(workingPlan)
         };
 

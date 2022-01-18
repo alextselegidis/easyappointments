@@ -34,7 +34,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/save_appointment');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             appointment_data: appointment
         };
 
@@ -67,7 +67,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/delete_appointment');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             appointment_id: appointmentId,
             delete_reason: deleteReason
         };
@@ -86,7 +86,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/save_unavailable');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             unavailable: unavailable
         };
 
@@ -114,7 +114,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/delete_unavailable');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             unavailable_id: unavailableId
         };
 
@@ -134,7 +134,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/save_working_plan_exception');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             date: date,
             working_plan_exception: workingPlanException,
             provider_id: providerId
@@ -167,7 +167,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/delete_working_plan_exception');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             date: date,
             provider_id: providerId
         };
@@ -199,7 +199,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/get_calendar_appointments');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             record_id: recordId,
             start_date: moment(startDate).format('YYYY-MM-DD'),
             end_date: moment(endDate).format('YYYY-MM-DD'),
@@ -221,7 +221,7 @@ App.Http.Calendar = (function () {
         const url = App.Utils.Url.siteUrl('calendar/get_calendar_appointments_for_table_view');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             start_date: moment(startDate).format('YYYY-MM-DD'),
             end_date: moment(endDate).format('YYYY-MM-DD')
         };

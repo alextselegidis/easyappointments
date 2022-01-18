@@ -129,13 +129,13 @@ App.Components.UnavailabilitiesModal = (function () {
             }
 
             $unavailabilityStart.val(
-                App.Utils.Date.format(startMoment.toDate(), App.Vars.date_format, App.Vars.time_format, true)
+                App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
             );
             $unavailabilityEnd.val(
                 App.Utils.Date.format(
                     startMoment.add(1, 'hour').toDate(),
-                    App.Vars.date_format,
-                    App.Vars.time_format,
+                    vars('date_format'),
+                    vars('time_format'),
                     true
                 )
             );
@@ -154,18 +154,18 @@ App.Components.UnavailabilitiesModal = (function () {
         $unavailabilityId.val('');
 
         // Set default time values
-        const start = App.Utils.Date.format(moment().toDate(), App.Vars.date_format, App.Vars.time_format, true);
+        const start = App.Utils.Date.format(moment().toDate(), vars('date_format'), vars('time_format'), true);
 
         const end = App.Utils.Date.format(
             moment().add(1, 'hour').toDate(),
-            App.Vars.date_format,
-            App.Vars.time_format,
+            vars('date_format'),
+            vars('time_format'),
             true
         );
 
         let dateFormat;
 
-        switch (App.Vars.date_format) {
+        switch (vars('date_format')) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -177,13 +177,13 @@ App.Components.UnavailabilitiesModal = (function () {
                 break;
         }
 
-        const firstWeekday = App.Vars.first_weekday;
+        const firstWeekday = vars('first_weekday');
 
         const firstWeekdayId = App.Utils.Date.getWeekdayId(firstWeekday);
 
         $unavailabilityStart.datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
+            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [
@@ -241,7 +241,7 @@ App.Components.UnavailabilitiesModal = (function () {
 
         $unavailabilityEnd.datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
+            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [
@@ -305,8 +305,8 @@ App.Components.UnavailabilitiesModal = (function () {
      * Initialize the module.
      */
     function initialize() {
-        for (const index in App.Vars.available_providers) {
-            const provider = App.Vars.available_providers[index];
+        for (const index in vars('available_providers')) {
+            const provider = vars('available_providers')[index];
 
             $unavailabilityProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
         }

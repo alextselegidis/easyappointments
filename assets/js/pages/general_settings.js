@@ -92,7 +92,7 @@ App.Pages.GeneralSettings = (function () {
      * Initialize the module.
      */
     function initialize() {
-        const generalSettings = App.Vars.general_settings;
+        const generalSettings = vars('general_settings');
 
         deserialize(generalSettings);
 

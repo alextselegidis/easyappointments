@@ -292,7 +292,7 @@ App.Pages.Secretaries = (function () {
                 throw new Error('Passwords mismatch!');
             }
 
-            if ($password.val().length < App.Vars.min_password_length && $password.val() !== '') {
+            if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#secretary-password, #secretary-password-confirm').addClass('is-invalid');
                 throw new Error(
                     'Password must be at least ' + BackendSecretaries.MIN_PASSWORD_LENGTH + ' characters long.'
@@ -475,7 +475,7 @@ App.Pages.Secretaries = (function () {
         filter('');
         addEventListeners();
 
-        App.Vars.providers.forEach((provider) => {
+        vars('providers').forEach((provider) => {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [

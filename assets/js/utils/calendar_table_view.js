@@ -86,7 +86,7 @@ App.Utils.CalendarTableView = (function () {
 
                         $dateColumn
                             .find('.date-column-title')
-                            .text(App.Utils.Date.format(date, App.Vars.date_format, App.Vars.time_format));
+                            .text(App.Utils.Date.format(date, vars('date_format'), vars('time_format')));
 
                         $dateColumn.find('.provider-column').each((index, providerColumn) => {
                             const $providerColumn = $(providerColumn);
@@ -164,8 +164,8 @@ App.Utils.CalendarTableView = (function () {
 
                             workingPlanExceptions[date] = workingPlanException;
 
-                            for (const index in App.Vars.available_providers) {
-                                const availableProvider = App.Vars.available_providers[index];
+                            for (const index in vars('available_providers')) {
+                                const availableProvider = vars('available_providers')[index];
 
                                 if (Number(availableProvider.id) === Number(provider.id)) {
                                     availableProvider.settings.working_plan_exceptions =
@@ -351,7 +351,7 @@ App.Utils.CalendarTableView = (function () {
         $selectDate = $('<input/>', {
             'type': 'text',
             'class': 'form-control d-inline-block select-date me-2',
-            'value': App.Utils.Date.format(new Date(), App.Vars.date_format, App.Vars.time_format, false)
+            'value': App.Utils.Date.format(new Date(), vars('date_format'), vars('time_format'), false)
         }).appendTo($calendarHeader);
 
         $('<button/>', {
@@ -365,7 +365,7 @@ App.Utils.CalendarTableView = (function () {
 
         let dateFormat;
 
-        switch (App.Vars.date_format) {
+        switch (vars('date_format')) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -379,7 +379,7 @@ App.Utils.CalendarTableView = (function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided: ' + App.Vars.date_format);
+                throw new Error('Invalid date format setting provided: ' + vars('date_format'));
         }
 
         $calendarHeader.find('.select-date').datepicker({
@@ -392,13 +392,13 @@ App.Utils.CalendarTableView = (function () {
             }
         });
 
-        const providers = App.Vars.available_providers.filter(
+        const providers = vars('available_providers').filter(
             (provider) =>
-                App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN ||
-                (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
-                    App.Vars.secretary_providers.indexOf(provider.id) !== -1) ||
-                (App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
-                    Number(provider.id) === Number(App.Vars.user_id))
+                vars('role_slug') === App.Layouts.Backend.DB_SLUG_ADMIN ||
+                (vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY &&
+                    vars('secretary_providers').indexOf(provider.id) !== -1) ||
+                (vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER &&
+                    Number(provider.id) === Number(vars('user_id')))
         );
 
         // Create providers and service filters.
@@ -421,13 +421,13 @@ App.Utils.CalendarTableView = (function () {
             }
         }).appendTo($calendarHeader);
 
-        if (App.Vars.role_slug !== App.Layouts.Backend.DB_SLUG_PROVIDER) {
+        if (vars('role_slug') !== App.Layouts.Backend.DB_SLUG_PROVIDER) {
             providers.forEach((provider) => {
                 $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
             });
         } else {
             providers.forEach((provider) => {
-                if (Number(provider.id) === Number(App.Vars.user_id)) {
+                if (Number(provider.id) === Number(vars('user_id'))) {
                     $filterProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                 }
             });
@@ -435,10 +435,10 @@ App.Utils.CalendarTableView = (function () {
 
         $filterProvider.select2();
 
-        const services = App.Vars.available_services.filter((service) => {
+        const services = vars('available_services').filter((service) => {
             const provider = providers.find((provider) => provider.services.indexOf(service.id) !== -1);
 
-            return App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_ADMIN || provider;
+            return vars('role_slug') === App.Layouts.Backend.DB_SLUG_ADMIN || provider;
         });
 
         $('<label/>', {
@@ -545,13 +545,13 @@ App.Utils.CalendarTableView = (function () {
 
         $('<h5/>', {
             'class': 'date-column-title',
-            'text': App.Utils.Date.format(date, App.Vars.date_format, App.Vars.time_format)
+            'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format'))
         }).appendTo($dateColumn);
 
         const filterProviderIds = $filterProvider.val();
         const filterServiceIds = $filterService.val();
 
-        let providers = App.Vars.available_providers.filter((provider) => {
+        let providers = vars('available_providers').filter((provider) => {
             const servedServiceIds = provider.services.filter((serviceId) => {
                 const matches = filterServiceIds.filter(
                     (filterServiceId) => Number(serviceId) === Number(filterServiceId)
@@ -573,18 +573,18 @@ App.Utils.CalendarTableView = (function () {
             );
         });
 
-        if (App.Vars.role_slug === 'provider') {
-            App.Vars.available_providers.forEach((provider) => {
-                if (Number(provider.id) === Number(App.Vars.user_id)) {
+        if (vars('role_slug') === 'provider') {
+            vars('available_providers').forEach((provider) => {
+                if (Number(provider.id) === Number(vars('user_id'))) {
                     providers = [provider];
                 }
             });
         }
 
-        if (App.Vars.role_slug === 'secretary') {
+        if (vars('role_slug') === 'secretary') {
             providers = [];
-            App.Vars.available_providers.forEach((provider) => {
-                if (App.Vars.secretary_providers.indexOf(provider.id) > -1) {
+            vars('available_providers').forEach((provider) => {
+                if (vars('secretary_providers').indexOf(provider.id) > -1) {
                     providers.push(provider);
                 }
             });
@@ -649,7 +649,7 @@ App.Utils.CalendarTableView = (function () {
 
         let columnFormat = '';
 
-        switch (App.Vars.date_format) {
+        switch (vars('date_format')) {
             case 'DMY':
                 columnFormat = 'ddd D/M';
                 break;
@@ -660,14 +660,14 @@ App.Utils.CalendarTableView = (function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided!', App.Vars.date_format);
+                throw new Error('Invalid date format setting provided!', vars('date_format'));
         }
 
         // Time formats
         let timeFormat = '';
         let slotTimeFormat = '';
 
-        switch (App.Vars.time_format) {
+        switch (vars('time_format')) {
             case 'military':
                 timeFormat = 'H:mm';
                 slotTimeFormat = 'H(:mm)';
@@ -677,10 +677,10 @@ App.Utils.CalendarTableView = (function () {
                 slotTimeFormat = 'h(:mm) a';
                 break;
             default:
-                throw new Error('Invalid time format setting provided!' + App.Vars.time_format);
+                throw new Error('Invalid time format setting provided!' + vars('time_format'));
         }
 
-        const firstWeekday = App.Vars.first_weekday;
+        const firstWeekday = vars('first_weekday');
         const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
 
         $wrapper.fullCalendar({
@@ -712,11 +712,11 @@ App.Utils.CalendarTableView = (function () {
                 const $providerColumn = $(jsEvent.target).parents('.provider-column');
                 const providerId = $providerColumn.data('provider').id;
 
-                const provider = App.Vars.available_providers.find(
+                const provider = vars('available_providers').find(
                     (provider) => Number(provider.id) === Number(providerId)
                 );
 
-                const service = App.Vars.available_services.find(
+                const service = vars('available_services').find(
                     (service) => provider.services.indexOf(service.id) !== -1
                 );
 
@@ -1142,12 +1142,12 @@ App.Utils.CalendarTableView = (function () {
         ) {
             displayEdit =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
-                App.Vars.privileges.appointments.edit === true
+                vars('privileges').appointments.edit === true
                     ? ''
                     : 'd-none';
             displayDelete =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
-                App.Vars.privileges.appointments.delete === true
+                vars('privileges').appointments.delete === true
                     ? ''
                     : 'd-none'; // Same value at the time.
 
@@ -1159,8 +1159,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             event.start.format('YYYY-MM-DD HH:mm:ss'),
-                            App.Vars.date_format,
-                            App.Vars.time_format,
+                            vars('date_format'),
+                            vars('time_format'),
                             true
                         )
                     }),
@@ -1172,8 +1172,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             event.end.format('YYYY-MM-DD HH:mm:ss'),
-                            App.Vars.date_format,
-                            App.Vars.time_format,
+                            vars('date_format'),
+                            vars('time_format'),
                             true
                         )
                     }),
@@ -1236,13 +1236,13 @@ App.Utils.CalendarTableView = (function () {
         ) {
             displayEdit =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
-                App.Vars.privileges.appointments.edit === true
+                vars('privileges').appointments.edit === true
                     ? ''
                     : 'd-none'; // Same value at the time.
 
             displayDelete =
                 ($parent.hasClass('fc-custom') || $altParent.hasClass('fc-custom')) &&
-                App.Vars.privileges.appointments.delete === true
+                vars('privileges').appointments.delete === true
                     ? ''
                     : 'd-none'; // Same value at the time.
 
@@ -1262,8 +1262,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             event.data.date + ' ' + event.data.workingPlanException.start,
-                            App.Vars.date_format,
-                            App.Vars.time_format,
+                            vars('date_format'),
+                            vars('time_format'),
                             true
                         )
                     }),
@@ -1275,8 +1275,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             event.data.date + ' ' + event.data.workingPlanException.end,
-                            App.Vars.date_format,
-                            App.Vars.time_format,
+                            vars('date_format'),
+                            vars('time_format'),
                             true
                         )
                     }),
@@ -1286,7 +1286,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': App.Lang.timezone
                     }),
                     $('<span/>', {
-                        'text': App.Vars.timezones[event.data.provider.timezone]
+                        'text': vars('timezones')[event.data.provider.timezone]
                     }),
                     $('<br/>'),
 
@@ -1333,8 +1333,8 @@ App.Utils.CalendarTableView = (function () {
                 ]
             });
         } else {
-            displayEdit = App.Vars.privileges.appointments.edit === true ? '' : 'd-none';
-            displayDelete = App.Vars.privileges.appointments.delete === true ? '' : 'd-none';
+            displayEdit = vars('privileges').appointments.edit === true ? '' : 'd-none';
+            displayDelete = vars('privileges').appointments.delete === true ? '' : 'd-none';
 
             $html = $('<div/>', {
                 'html': [
@@ -1344,8 +1344,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             event.start.format('YYYY-MM-DD HH:mm:ss'),
-                            App.Vars.date_format,
-                            App.Vars.time_format,
+                            vars('date_format'),
+                            vars('time_format'),
                             true
                         )
                     }),
@@ -1357,8 +1357,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             event.end.format('YYYY-MM-DD HH:mm:ss'),
-                            App.Vars.date_format,
-                            App.Vars.time_format,
+                            vars('date_format'),
+                            vars('time_format'),
                             true
                         )
                     }),
@@ -1368,7 +1368,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': App.Lang.timezone
                     }),
                     $('<span/>', {
-                        'text': App.Vars.timezones[event.data.provider.timezone]
+                        'text': vars('timezones')[event.data.provider.timezone]
                     }),
                     $('<br/>'),
 
@@ -1496,7 +1496,7 @@ App.Utils.CalendarTableView = (function () {
      * @see updateAppointmentData()
      */
     function onEventResize(event, delta, revertFunc) {
-        if (App.Vars.privileges.appointments.edit === false) {
+        if (vars('privileges').appointments.edit === false) {
             revertFunc();
             App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;
@@ -1604,7 +1604,7 @@ App.Utils.CalendarTableView = (function () {
      * on the calendar. We need to update the database with this change. This is done via an ajax call.
      */
     function onEventDrop(event, delta, revertFunc) {
-        if (App.Vars.privileges.appointments.edit === false) {
+        if (vars('privileges').appointments.edit === false) {
             revertFunc();
             App.Layouts.Backend.displayNotification(App.Lang.no_privileges_edit_appointments);
             return;

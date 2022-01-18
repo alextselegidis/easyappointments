@@ -92,8 +92,8 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             const end = $tr.find('.working-plan-exceptions-break-end').text();
 
             breaks.push({
-                start: moment(start, App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
-                end: moment(end, App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
+                start: moment(start, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
+                end: moment(end, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
             });
         });
 
@@ -226,7 +226,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      * @return {jQuery}
      */
     function renderBreakRow(breakPeriod) {
-        const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+        const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'html': [
@@ -346,16 +346,16 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         const $tr = $(this).closest('tr');
         const start = moment(
             $tr.find('.working-plan-exceptions-break-start input').val(),
-            App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm'
+            vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm'
         );
         const end = moment(
             $tr.find('.working-plan-exceptions-break-end input').val(),
-            App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm'
+            vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm'
         );
 
         if (start > end) {
             $tr.find('.working-plan-exceptions-break-end input').val(
-                start.add(1, 'hour').format(App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm')
+                start.add(1, 'hour').format(vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm')
             );
         }
 
@@ -394,7 +394,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function initializeDatepicker($target) {
         let dateFormat;
 
-        switch (App.Vars.date_format) {
+        switch (vars('date_format')) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -408,12 +408,12 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided: ' + App.Vars.date_format);
+                throw new Error('Invalid date format setting provided: ' + vars('date_format'));
         }
 
         $target.datepicker({
             dateFormat: dateFormat,
-            firstDay: App.Utils.Date.getWeekdayId(App.Vars.first_weekday),
+            firstDay: App.Utils.Date.getWeekdayId(vars('first_weekday')),
             minDate: 0,
             defaultDate: moment().toDate(),
             dayNames: [
@@ -471,7 +471,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      */
     function initializeTimepicker($target) {
         $target.timepicker({
-            timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
+            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
             currentText: App.Lang.now,
             closeText: App.Lang.close,
             timeOnlyTitle: App.Lang.select_time,

@@ -145,7 +145,7 @@ App.Pages.LegalSettings = (function () {
         $termsAndConditionsContent.trumbowyg();
         $privacyPolicyContent.trumbowyg();
 
-        const legalSettings = App.Vars.legal_settings;
+        const legalSettings = vars('legal_settings');
 
         deserialize(legalSettings);
 

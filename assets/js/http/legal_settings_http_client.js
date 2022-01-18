@@ -26,7 +26,7 @@ App.Http.LegalSettings = (function () {
         const url = App.Utils.Url.siteUrl('legal_settings/save');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             legal_settings: legalSettings
         };
 

@@ -59,7 +59,7 @@ App.Pages.Calendar = (function () {
         $insertWorkingPlanException.on('click', () => {
             const providerId = $('#select-filter-item').val();
 
-            const provider = App.Vars.available_providers.find((availableProvider) => {
+            const provider = vars('available_providers').find((availableProvider) => {
                 return Number(availableProvider.id) === Number(providerId);
             });
 
@@ -75,11 +75,11 @@ App.Pages.Calendar = (function () {
 
                     workingPlanExceptions[date] = workingPlanException;
 
-                    for (let index in App.Vars.available_providers) {
-                        const availableProvider = App.Vars.available_providers[index];
+                    for (let index in vars('available_providers')) {
+                        const availableProvider = vars('available_providers')[index];
 
                         if (Number(availableProvider.id) === Number(providerId)) {
-                            App.Vars.available_providers[index].settings.working_plan_exceptions =
+                            vars('available_providers')[index].settings.working_plan_exceptions =
                                 JSON.stringify(workingPlanExceptions);
                             break;
                         }
@@ -110,7 +110,7 @@ App.Pages.Calendar = (function () {
      */
     function initialize() {
         // Load and initialize the calendar view.
-        if (App.Vars.calendar_view === 'table') {
+        if (vars('calendar_view') === 'table') {
             App.Utils.CalendarTableView.initialize();
         } else {
             App.Utils.CalendarDefaultView.initialize();

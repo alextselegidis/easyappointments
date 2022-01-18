@@ -37,7 +37,7 @@ App.Http.Secretaries = (function () {
         const url = App.Utils.Url.siteUrl('secretaries/create');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             secretary: secretary
         };
 
@@ -55,7 +55,7 @@ App.Http.Secretaries = (function () {
         const url = App.Utils.Url.siteUrl('secretaries/update');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             secretary: secretary
         };
 
@@ -73,7 +73,7 @@ App.Http.Secretaries = (function () {
         const url = App.Utils.Url.siteUrl('secretaries/destroy');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             secretary_id: secretaryId
         };
 
@@ -94,7 +94,7 @@ App.Http.Secretaries = (function () {
         const url = App.Utils.Url.siteUrl('secretaries/search');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             keyword,
             limit,
             offset,
@@ -115,7 +115,7 @@ App.Http.Secretaries = (function () {
         const url = App.Utils.Url.siteUrl('secretaries/find');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             secretary_id: secretaryId
         };
 

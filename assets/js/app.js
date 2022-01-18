@@ -21,7 +21,6 @@ window.App = (function () {
         Lang: {},
         Layouts: {},
         Pages: {},
-        Utils: {},
-        Vars: {}
+        Utils: {}
     };
 })();

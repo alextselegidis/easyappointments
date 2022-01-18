@@ -274,30 +274,30 @@ App.Pages.Customers = (function () {
 
         customer.appointments.forEach((appointment) => {
             if (
-                App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
-                parseInt(appointment.id_users_provider) !== App.Vars.user_id
+                vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER &&
+                parseInt(appointment.id_users_provider) !== vars('user_id')
             ) {
                 return;
             }
 
             if (
-                App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
-                App.Vars.secretary_providers.indexOf(appointment.id_users_provider) === -1
+                vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY &&
+                vars('secretary_providers').indexOf(appointment.id_users_provider) === -1
             ) {
                 return;
             }
 
             const start = App.Utils.Date.format(
                 moment(appointment.start_datetime).toDate(),
-                App.Vars.date_format,
-                App.Vars.time_format,
+                vars('date_format'),
+                vars('time_format'),
                 true
             );
 
             const end = App.Utils.Date.format(
                 moment(appointment.end_datetime).toDate(),
-                App.Vars.date_format,
-                App.Vars.time_format,
+                vars('date_format'),
+                vars('time_format'),
                 true
             );
 
@@ -342,7 +342,7 @@ App.Pages.Customers = (function () {
                     // Timezone
 
                     $('<small/>', {
-                        'text': App.Vars.timezones[appointment.provider.timezone]
+                        'text': vars('timezones')[appointment.provider.timezone]
                     })
                 ]
             }).appendTo('#customer-appointments');

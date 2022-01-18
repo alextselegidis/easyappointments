@@ -23,7 +23,7 @@ window.App.Utils.Url = (function () {
      * @return {String}
      */
     function baseUrl(uri) {
-        return `${App.Vars.base_url}/${uri}`;
+        return `${vars('base_url')}/${uri}`;
     }
 
     /**
@@ -34,7 +34,7 @@ window.App.Utils.Url = (function () {
      * @returns {String}
      */
     function siteUrl(uri) {
-        return `${App.Vars.base_url}${App.Vars.index_page ? '/' + App.Vars.index_page : ''}/${uri}`;
+        return `${vars('base_url')}${vars('index_page') ? '/' + vars('index_page') : ''}/${uri}`;
     }
 
     /**

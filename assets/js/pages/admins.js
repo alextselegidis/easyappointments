@@ -281,9 +281,9 @@ App.Pages.Admins = (function () {
                 throw new Error(App.Lang.passwords_mismatch);
             }
 
-            if ($password.val().length < App.Vars.min_password_length && $password.val() !== '') {
+            if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#admin-password, #admin-password-confirm').addClass('is-invalid');
-                throw new Error(App.Lang.password_length_notice.replace('$number', BackendAdmins.MIN_PASSWORD_LENGTH));
+                throw new Error(App.Lang.password_length_notice.replace('$number', vars('min_password_length')));
             }
 
             // Validate user email.

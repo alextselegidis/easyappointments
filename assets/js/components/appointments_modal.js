@@ -48,12 +48,12 @@ App.Components.AppointmentsModal = (function () {
     function updateTimezone() {
         const providerId = $selectProvider.val();
 
-        const provider = App.Vars.available_providers.find(function (availableProvider) {
+        const provider = vars('available_providers').find(function (availableProvider) {
             return Number(availableProvider.id) === Number(providerId);
         });
 
         if (provider && provider.timezone) {
-            $('.provider-timezone').text(App.Vars.timezones[provider.timezone]);
+            $('.provider-timezone').text(vars('timezones')[provider.timezone]);
         }
     }
 
@@ -147,7 +147,7 @@ App.Components.AppointmentsModal = (function () {
             if ($selectFilterItem.find('option:selected').attr('type') === 'provider') {
                 const providerId = $('#select-filter-item').val();
 
-                const providers = App.Vars.available_providers.filter(
+                const providers = vars('available_providers').filter(
                     (provider) => Number(provider.id) === Number(providerId)
                 );
 
@@ -163,7 +163,7 @@ App.Components.AppointmentsModal = (function () {
 
             const serviceId = $selectService.val();
 
-            const service = App.Vars.available_services.find(
+            const service = vars('available_services').find(
                 (availableService) => Number(availableService.id) === Number(serviceId)
             );
 
@@ -184,14 +184,14 @@ App.Components.AppointmentsModal = (function () {
             }
 
             $startDatetime.val(
-                App.Utils.Date.format(startMoment.toDate(), App.Vars.date_format, App.Vars.time_format, true)
+                App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
             );
 
             $endDatetime.val(
                 App.Utils.Date.format(
                     startMoment.add(duration, 'minutes').toDate(),
-                    App.Vars.date_format,
-                    App.Vars.time_format,
+                    vars('date_format'),
+                    vars('time_format'),
                     true
                 )
             );
@@ -213,7 +213,7 @@ App.Components.AppointmentsModal = (function () {
                 $existingCustomersList.empty();
                 $existingCustomersList.slideDown('slow');
                 $filterExistingCustomers.fadeIn('slow').val('');
-                App.Vars.customers.forEach(function (customer) {
+                vars('customers').forEach(function (customer) {
                     $('<div/>', {
                         'data-id': customer.id,
                         'text': customer.first_name + ' ' + customer.last_name
@@ -234,7 +234,7 @@ App.Components.AppointmentsModal = (function () {
         $appointmentsModal.on('click', '#existing-customers-list div', (event) => {
             const customerId = $(event.target).attr('data-id');
 
-            const customer = App.Vars.customers.find(function (customer) {
+            const customer = vars('customers').find(function (customer) {
                 return Number(customer.id) === Number(customerId);
             });
 
@@ -281,13 +281,13 @@ App.Components.AppointmentsModal = (function () {
                             }).appendTo($existingCustomersList);
 
                             // Verify if this customer is on the old customer list.
-                            const result = App.Vars.customers.filter((existingCustomer) => {
+                            const result = vars('customers').filter((existingCustomer) => {
                                 return Number(existingCustomer.id) === Number(customer.id);
                             });
 
                             // Add it to the customer list.
                             if (!result.length) {
-                                App.Vars.customers.push(customer);
+                                vars('customers').push(customer);
                             }
                         });
                     })
@@ -295,7 +295,7 @@ App.Components.AppointmentsModal = (function () {
                         // If there is any error on the request, search by the local client database.
                         $existingCustomersList.empty();
 
-                        App.Vars.customers.forEach((customer) => {
+                        vars('customers').forEach((customer) => {
                             if (
                                 customer.first_name.toLowerCase().indexOf(keyword) !== -1 ||
                                 customer.last_name.toLowerCase().indexOf(keyword) !== -1 ||
@@ -331,7 +331,7 @@ App.Components.AppointmentsModal = (function () {
             $selectProvider.empty();
 
             // Automatically update the service duration.
-            const service = App.Vars.available_services.find((availableService) => {
+            const service = vars('available_services').find((availableService) => {
                 return Number(availableService.id) === Number(serviceId);
             });
 
@@ -342,18 +342,18 @@ App.Components.AppointmentsModal = (function () {
 
             // Update the providers select box.
 
-            App.Vars.available_providers.forEach((provider) => {
+            vars('available_providers').forEach((provider) => {
                 provider.services.forEach((providerServiceId) => {
                     if (
-                        App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_PROVIDER &&
-                        Number(provider.id) !== App.Vars.user_id
+                        vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER &&
+                        Number(provider.id) !== vars('user_id')
                     ) {
                         return; // continue
                     }
 
                     if (
-                        App.Vars.role_slug === App.Layouts.Backend.DB_SLUG_SECRETARY &&
-                        App.Vars.secretaryProviders.indexOf(provider.id) === -1
+                        vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY &&
+                        vars('secretary_providers').indexOf(provider.id) === -1
                     ) {
                         return; // continue
                     }
@@ -403,7 +403,7 @@ App.Components.AppointmentsModal = (function () {
         // Fill the providers list box with providers that can serve the appointment's service and then select the
         // user's provider.
         $selectProvider.empty();
-        App.Vars.available_providers.forEach((provider) => {
+        vars('available_providers').forEach((provider) => {
             const serviceId = $selectService.val();
 
             const canProvideService =
@@ -426,7 +426,7 @@ App.Components.AppointmentsModal = (function () {
         // Get the selected service duration. It will be needed in order to calculate the appointment end datetime.
         const serviceId = $selectService.val();
 
-        const service = App.Vars.available_services.forEach((service) => Number(service.id) === Number(serviceId));
+        const service = vars('available_services').forEach((service) => Number(service.id) === Number(serviceId));
 
         const duration = service ? service.duration : 0;
 
@@ -434,7 +434,7 @@ App.Components.AppointmentsModal = (function () {
         const endDatetime = moment().add(duration, 'minutes').toDate();
         let dateFormat;
 
-        switch (App.Vars.date_format) {
+        switch (vars('date_format')) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -445,16 +445,16 @@ App.Components.AppointmentsModal = (function () {
                 dateFormat = 'yy/mm/dd';
                 break;
             default:
-                throw new Error('Invalid App.Vars.date_format value.');
+                throw new Error('Invalid date format value.');
         }
 
-        const firstWeekDay = App.Vars.first_weekday;
+        const firstWeekDay = vars('first_weekday');
 
         const firstWeekDayNumber = App.Utils.Date.getWeekdayId(firstWeekDay);
 
         $startDatetime.datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
+            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [
@@ -511,7 +511,7 @@ App.Components.AppointmentsModal = (function () {
                 const serviceId = $selectService.val();
 
                 // Automatically update the #end-datetime DateTimePicker based on service duration.
-                const service = App.Vars.available_services.find(
+                const service = vars('available_services').find(
                     (availableService) => Number(availableService.id) === Number(serviceId)
                 );
 
@@ -523,7 +523,7 @@ App.Components.AppointmentsModal = (function () {
 
         $endDatetime.datetimepicker({
             dateFormat: dateFormat,
-            timeFormat: App.Vars.time_format === 'regular' ? 'h:mm tt' : 'HH:mm',
+            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
 
             // Translation
             dayNames: [

@@ -37,7 +37,7 @@ App.Http.Appointments = (function () {
         const url = App.Utils.Url.siteUrl('appointments/create');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             appointment: appointment
         };
 
@@ -55,7 +55,7 @@ App.Http.Appointments = (function () {
         const url = App.Utils.Url.siteUrl('appointments/update');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             appointment: appointment
         };
 
@@ -73,7 +73,7 @@ App.Http.Appointments = (function () {
         const url = App.Utils.Url.siteUrl('appointments/destroy');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             appointment_id: appointmentId
         };
 
@@ -94,7 +94,7 @@ App.Http.Appointments = (function () {
         const url = App.Utils.Url.siteUrl('appointments/search');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             keyword,
             limit,
             offset,
@@ -115,7 +115,7 @@ App.Http.Appointments = (function () {
         const url = App.Utils.Url.siteUrl('appointments/find');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             appointment_id: appointmentId
         };
 

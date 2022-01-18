@@ -38,7 +38,7 @@ App.Pages.Login = (function () {
 
         App.Http.Login.validate(username, password).done((response) => {
             if (response.success) {
-                window.location.href = App.Vars.dest_url;
+                window.location.href = vars('dest_url');
             } else {
                 $alert.text(App.Lang.login_failed);
                 $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');

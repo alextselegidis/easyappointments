@@ -37,7 +37,7 @@ App.Http.Customers = (function () {
         const url = App.Utils.Url.siteUrl('customers/create');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             customer: customer
         };
 
@@ -55,7 +55,7 @@ App.Http.Customers = (function () {
         const url = App.Utils.Url.siteUrl('customers/update');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             customer: customer
         };
 
@@ -73,7 +73,7 @@ App.Http.Customers = (function () {
         const url = App.Utils.Url.siteUrl('customers/destroy');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             customer_id: customerId
         };
 
@@ -94,7 +94,7 @@ App.Http.Customers = (function () {
         const url = App.Utils.Url.siteUrl('customers/search');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             keyword,
             limit,
             offset,
@@ -115,7 +115,7 @@ App.Http.Customers = (function () {
         const url = App.Utils.Url.siteUrl('customers/find');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             customer_id: customerId
         };
 

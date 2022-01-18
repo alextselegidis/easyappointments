@@ -43,7 +43,7 @@ App.Http.Booking = (function () {
         // Default value of duration (in minutes).
         let serviceDuration = 15;
 
-        const service = App.Vars.available_services.find(
+        const service = vars('available_services').find(
             (availableService) => Number(availableService.id) === Number(serviceId)
         );
 
@@ -52,13 +52,13 @@ App.Http.Booking = (function () {
         }
 
         // If the manage mode is true then the appointment's start date should return as available too.
-        const appointmentId = App.Pages.Booking.manageMode ? App.Vars.appointment_data.id : null;
+        const appointmentId = App.Pages.Booking.manageMode ? vars('appointment_data').id : null;
 
         // Make ajax post request and get the available hours.
         const url = App.Utils.Url.siteUrl('booking/get_available_hours');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             service_id: $selectService.val(),
             provider_id: $selectProvider.val(),
             selected_date: selectedDate,
@@ -74,7 +74,7 @@ App.Http.Booking = (function () {
                 let providerId = $selectProvider.val();
 
                 if (providerId === 'any-provider') {
-                    for (const availableProvider of App.Vars.available_providers) {
+                    for (const availableProvider of vars('available_providers')) {
                         if (availableProvider.services.indexOf(Number(serviceId)) !== -1) {
                             providerId = availableProvider.id; // Use first available provider.
                             break;
@@ -82,7 +82,7 @@ App.Http.Booking = (function () {
                     }
                 }
 
-                const provider = App.Vars.available_providers.find(
+                const provider = vars('available_providers').find(
                     (availableProvider) => Number(providerId) === Number(availableProvider.id)
                 );
 
@@ -92,7 +92,7 @@ App.Http.Booking = (function () {
 
                 const providerTimezone = provider.timezone;
                 const selectedTimezone = $('#select-timezone').val();
-                const timeFormat = App.Vars.time_format === 'regular' ? 'h:mm a' : 'HH:mm';
+                const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
                 response.forEach((availableHour) => {
                     const availableHourMoment = moment
@@ -121,7 +121,7 @@ App.Http.Booking = (function () {
                         .filter(
                             (index, availableHourEl) =>
                                 $(availableHourEl).text() ===
-                                moment(App.Vars.appointment_data.start_datetime).format(timeFormat)
+                                moment(vars('appointment_data').start_datetime).format(timeFormat)
                         )
                         .addClass('selected-hour');
                 } else {
@@ -158,7 +158,7 @@ App.Http.Booking = (function () {
         const formData = JSON.parse($('input[name="post_data"]').val());
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             post_data: formData
         };
 
@@ -166,8 +166,8 @@ App.Http.Booking = (function () {
             data.captcha = $captchaText.val();
         }
 
-        if (App.Vars.manage_mode) {
-            data.exclude_appointment_id = App.Vars.appointment_data.id;
+        if (vars('manage_mode')) {
+            data.exclude_appointment_id = vars('appointment_data').id;
         }
 
         const url = App.Utils.Url.siteUrl('booking/register');
@@ -236,7 +236,7 @@ App.Http.Booking = (function () {
             return;
         }
 
-        const appointmentId = App.Pages.Booking.manageMode ? App.Vars.appointment_data.id : null;
+        const appointmentId = App.Pages.Booking.manageMode ? vars('appointment_data').id : null;
 
         const url = App.Utils.Url.siteUrl('booking/get_unavailable_dates');
 
@@ -244,7 +244,7 @@ App.Http.Booking = (function () {
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             manage_mode: App.Pages.Booking.manageMode,
             appointment_id: appointmentId
         };
@@ -275,7 +275,7 @@ App.Http.Booking = (function () {
         const selectedDate = selectedDateMoment.toDate();
         const numberOfDays = selectedDateMoment.daysInMonth();
 
-        if (setDate && !App.Vars.manage_mode) {
+        if (setDate && !vars('manage_mode')) {
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
@@ -311,7 +311,7 @@ App.Http.Booking = (function () {
         const url = App.Utils.Url.siteUrl('consents/save_consent');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             consent: consent
         };
 
@@ -327,12 +327,12 @@ App.Http.Booking = (function () {
         const url = App.Utils.Url.siteUrl('privacy/delete_personal_information');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             customer_token: customerToken
         };
 
         $.post(url, data).done(() => {
-            window.location.href = App.Vars.base_url;
+            window.location.href = vars('base_url');
         });
     }
 

@@ -60,7 +60,7 @@ App.Pages.Booking = (function () {
      * Initialize the module.
      */
     function initialize() {
-        if (App.Vars.display_cookie_notice) {
+        if (vars('display_cookie_notice')) {
             cookieconsent.initialise({
                 palette: {
                     popup: {
@@ -89,12 +89,12 @@ App.Pages.Booking = (function () {
             );
         }
 
-        manageMode = App.Vars.manage_mode;
+        manageMode = vars('manage_mode');
 
         // Initialize page's components (tooltips, datepickers etc).
         tippy('[data-tippy-content]');
 
-        const weekdayId = App.Utils.Date.getWeekdayId(App.Vars.first_weekday);
+        const weekdayId = App.Utils.Date.getWeekdayId(vars('first_weekday'));
 
         $selectDate.datepicker({
             dateFormat: 'dd-mm-yy',
@@ -171,7 +171,7 @@ App.Pages.Booking = (function () {
 
         // If the manage mode is true, the appointments data should be loaded by default.
         if (manageMode) {
-            applyAppointmentData(App.Vars.appointment_data, App.Vars.provider_data, App.Vars.customer_data);
+            applyAppointmentData(vars('appointment_data'), vars('provider_data'), vars('customer_data'));
         } else {
             // Check if a specific service was selected (via URL parameter).
             const selectedServiceId = App.Utils.Url.queryParam('service');
@@ -187,8 +187,8 @@ App.Pages.Booking = (function () {
 
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length === 0) {
                 // Select a service of this provider in order to make the provider available in the select box.
-                for (const index in App.Vars.available_providers) {
-                    const provider = App.Vars.available_providers[index];
+                for (const index in vars('available_providers')) {
+                    const provider = vars('available_providers')[index];
 
                     if (provider.id === selectedProviderId && provider.services.length > 0) {
                         $selectService.val(provider.services[0]).trigger('change');
@@ -249,7 +249,7 @@ App.Pages.Booking = (function () {
 
             $selectProvider.empty();
 
-            App.Vars.available_providers.forEach((provider) => {
+            vars('available_providers').forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
                 const canServeService =
                     provider.services.filter((providerServiceId) => Number(providerServiceId) === Number(serviceId))
@@ -261,7 +261,7 @@ App.Pages.Booking = (function () {
             });
 
             // Add the "Any Provider" entry.
-            if ($selectProvider.find('option').length >= 1 && App.Vars.display_any_provider === '1') {
+            if ($selectProvider.find('option').length >= 1 && vars('display_any_provider') === '1') {
                 $selectProvider.prepend(new Option('- ' + App.Lang.any_provider + ' -', 'any-provider', true, true));
             }
 
@@ -453,7 +453,7 @@ App.Pages.Booking = (function () {
                     {
                         text: App.Lang.delete,
                         click: () => {
-                            App.Http.Booking.deletePersonalInformation(App.Vars.customer_token);
+                            App.Http.Booking.deletePersonalInformation(vars('customer_token'));
                         }
                     }
                 ];
@@ -556,14 +556,14 @@ App.Pages.Booking = (function () {
         let selectedDate = $selectDate.datepicker('getDate');
 
         if (selectedDate !== null) {
-            selectedDate = App.Utils.Date.format(selectedDate, App.Vars.date_format, App.Vars.time_format);
+            selectedDate = App.Utils.Date.format(selectedDate, vars('date_format'), vars('time_format'));
         }
 
         const serviceId = $selectService.val();
         let servicePrice = '';
         let serviceCurrency = '';
 
-        App.Vars.available_services.forEach((service) => {
+        vars('available_services').forEach((service) => {
             if (Number(service.id) === Number(serviceId) && Number(service.price) > 0) {
                 servicePrice = service.price;
                 serviceCurrency = service.currency;
@@ -689,10 +689,10 @@ App.Pages.Booking = (function () {
         data.manage_mode = manageMode;
 
         if (manageMode) {
-            data.appointment.id = App.Vars.appointment_data.id;
-            data.customer.id = App.Vars.customer_data.id;
+            data.appointment.id = vars('appointment_data').id;
+            data.customer.id = vars('customer_data').id;
         }
-        $('input[name="csrfToken"]').val(App.Vars.csrf_token);
+        $('input[name="csrfToken"]').val(vars('csrf_token'));
         $('input[name="post_data"]').val(JSON.stringify(data));
     }
 
@@ -707,7 +707,7 @@ App.Pages.Booking = (function () {
         // Find selected service duration.
         const serviceId = $selectService.val();
 
-        const service = App.Vars.available_services.find(
+        const service = vars('available_services').find(
             (availableService) => Number(availableService.id) === Number(serviceId)
         );
 
@@ -784,7 +784,7 @@ App.Pages.Booking = (function () {
 
         $serviceDescription.empty();
 
-        const service = App.Vars.available_services.find(function (availableService) {
+        const service = vars('available_services').find(function (availableService) {
             return Number(availableService.id) === Number(serviceId);
         });
 

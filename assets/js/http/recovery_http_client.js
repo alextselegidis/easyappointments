@@ -27,7 +27,7 @@ App.Http.Recovery = (function () {
         const url = App.Utils.Url.siteUrl('recovery/perform');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             username,
             email
         };

@@ -26,7 +26,7 @@ App.Http.BookingSettings = (function () {
         const url = App.Utils.Url.siteUrl('booking_settings/save');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             booking_settings: bookingSettings
         };
 

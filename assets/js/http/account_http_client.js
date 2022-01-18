@@ -26,7 +26,7 @@ App.Http.Account = (function () {
         const url = App.Utils.Url.siteUrl('account/save');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             account
         };
 
@@ -45,7 +45,7 @@ App.Http.Account = (function () {
         const url = App.Utils.Url.siteUrl('account/validate_username');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             user_id: userId,
             username
         };
@@ -62,7 +62,7 @@ App.Http.Account = (function () {
         const url = App.Utils.Url.siteUrl('account/change_language');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             language
         };
 

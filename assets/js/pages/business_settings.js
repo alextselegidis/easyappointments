@@ -131,13 +131,13 @@ App.Pages.BusinessSettings = (function () {
      * Initialize the module.
      */
     function initialize() {
-        const businessSettings = App.Vars.business_settings;
+        const businessSettings = vars('business_settings');
 
         deserialize(businessSettings);
 
         let companyWorkingPlan = {};
 
-        App.Vars.business_settings.forEach((businessSetting) => {
+        vars('business_settings').forEach((businessSetting) => {
             if (businessSetting.name === 'company_working_plan') {
                 companyWorkingPlan = JSON.parse(businessSetting.value);
             }

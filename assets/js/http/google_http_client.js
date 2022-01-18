@@ -27,7 +27,7 @@ App.Http.Google = (function () {
         const url = App.Utils.Url.siteUrl('google/select_google_calendar');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             provider_id: providerId,
             calendar_id: googleCalendarId
         };
@@ -46,7 +46,7 @@ App.Http.Google = (function () {
         const url = App.Utils.Url.siteUrl('google/disable_provider_sync');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             provider_id: providerId
         };
 
@@ -64,7 +64,7 @@ App.Http.Google = (function () {
         const url = App.Utils.Url.siteUrl('google/get_google_calendars');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             provider_id: providerId
         };
 

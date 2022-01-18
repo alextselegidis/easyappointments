@@ -89,7 +89,7 @@ App.Utils.CalendarGoogleSync = (function () {
                             // Disable synchronization for selected provider.
                             const providerId = $('#select-filter-item').val();
 
-                            const provider = App.Vars.available_providers.find(
+                            const provider = vars('available_providers').find(
                                 (availableProvider) => Number(availableProvider.id) === Number(providerId)
                             );
 

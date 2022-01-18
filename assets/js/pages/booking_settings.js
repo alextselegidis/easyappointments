@@ -181,7 +181,7 @@ App.Pages.BookingSettings = (function () {
      * Initialize the module.
      */
     function initialize() {
-        const bookingSettings = App.Vars.booking_settings;
+        const bookingSettings = vars('booking_settings');
 
         deserialize(bookingSettings);
 

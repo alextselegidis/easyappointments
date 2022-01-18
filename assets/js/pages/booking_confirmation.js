@@ -16,13 +16,14 @@
  */
 App.Pages.BookingConfirmation = (function () {
     const $addToGoogleCalendar = $('#add-to-google-calendar');
+
     /**
      * Handle Authorization Result
      *
      * This method handles the authorization result. If the user granted access to his data, then the
      * appointment is going to be added to his calendar.
      *
-     * @param {Boolean} authResult The user's authorization result.
+     * @param {Object} authResult The user's authorization result.
      */
     function handleAuthResult(authResult) {
         try {
@@ -31,15 +32,15 @@ App.Pages.BookingConfirmation = (function () {
             }
 
             // The user has granted access, add the appointment to his calendar. Before making the event.insert request
-            // the the event resource data must be prepared.
-            const providerData = App.Vars.provider_data;
+            // the event resource data must be prepared.
+            const providerData = vars('provider_data');
 
-            const appointmentData = App.Vars.appointment_data;
+            const appointmentData = vars('appointment_data');
 
             // Create a valid Google Calendar API resource for the new event.
             const resource = {
-                summary: App.Vars.service_data.name,
-                location: App.Vars.company_name,
+                summary: vars('service_data').name,
+                location: vars('company_name'),
                 start: {
                     dateTime: moment.tz(appointmentData.start_datetime, providerData.timezone).format()
                 },
@@ -48,8 +49,8 @@ App.Pages.BookingConfirmation = (function () {
                 },
                 attendees: [
                     {
-                        email: App.Vars.provider_data.email,
-                        displayName: App.Vars.provider_data.first_name + ' ' + App.Vars.provider_data.last_name
+                        email: vars('provider_data').email,
+                        displayName: vars('provider_data').first_name + ' ' + vars('provider_data').last_name
                     }
                 ]
             };
@@ -120,12 +121,12 @@ App.Pages.BookingConfirmation = (function () {
          * Google is necessary.
          */
         $addToGoogleCalendar.on('click', function () {
-            gapi.client.setApiKey(App.Vars.google_api_key);
+            gapi.client.setApiKey(vars('google_api_key'));
 
             gapi.auth.authorize(
                 {
-                    client_id: App.Vars.google_client_id,
-                    scope: App.Vars.google_api_scope,
+                    client_id: vars('google_client_id'),
+                    scope: vars('google_api_scope'),
                     immediate: false
                 },
                 handleAuthResult

@@ -98,7 +98,7 @@ App.Pages.Providers = (function () {
             $('#provider-services input:checkbox').prop('disabled', false);
 
             // Apply default working plan
-            const companyWorkingPlan = JSON.parse(App.Vars.company_working_plan);
+            const companyWorkingPlan = JSON.parse(vars('company_working_plan'));
             workingPlanManager.setup(companyWorkingPlan);
             workingPlanManager.timepickers(false);
         });
@@ -225,7 +225,7 @@ App.Pages.Providers = (function () {
             $('.breaks tbody').empty();
             $('.working-plan-exceptions tbody').empty();
             $('.work-start, .work-end').val('');
-            const companyWorkingPlan = JSON.parse(App.Vars.company_working_plan);
+            const companyWorkingPlan = JSON.parse(vars('company_working_plan'));
             workingPlanManager.setup(companyWorkingPlan);
             workingPlanManager.timepickers(false);
         });
@@ -289,7 +289,7 @@ App.Pages.Providers = (function () {
                 throw new Error(App.Lang.passwords_mismatch);
             }
 
-            if ($password.val().length < App.Vars.min_password_length && $password.val() !== '') {
+            if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#provider-password, #provider-password-confirm').addClass('is-invalid');
                 throw new Error(App.Lang.password_length_notice.replace('$number', MIN_PASSWORD_LENGTH));
             }
@@ -533,7 +533,7 @@ App.Pages.Providers = (function () {
         filter('');
         addEventListeners();
 
-        App.Vars.services.forEach(function (service) {
+        vars('services').forEach(function (service) {
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [

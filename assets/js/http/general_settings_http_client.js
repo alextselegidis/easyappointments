@@ -26,7 +26,7 @@ App.Http.GeneralSettings = (function () {
         const url = App.Utils.Url.siteUrl('general_settings/save');
 
         const data = {
-            csrf_token: App.Vars.csrf_token,
+            csrf_token: vars('csrf_token'),
             general_settings: generalSettings
         };
 
