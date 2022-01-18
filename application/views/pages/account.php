@@ -136,7 +136,9 @@
                                     <label class="form-label" for="timezone">
                                         <?= lang('timezone') ?>
                                     </label>
-                                    <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
+                                    <?php component('timezone_dropdown', 'id="timezone" class="form-control required"', [
+                                        'timezones' => vars('timezones')
+                                    ]) ?>
                                 </div>
 
                                 <div class="form-check form-switch">
