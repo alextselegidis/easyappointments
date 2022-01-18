@@ -176,7 +176,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     /**
      * Open the modal and start adding a new working plan exception.
      *
-     * @returns {jQuery.Deferred}
+     * @returns {*|jQuery.Deferred}
      */
     function add() {
         deferred = $.Deferred();
@@ -196,7 +196,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      * @param {String} date
      * @param {Object} workingPlanException
      *
-     * @return {jQuery.Deferred}
+     * @return {*|jQuery.Deferred}
      */
     function edit(date, workingPlanException) {
         deferred = $.Deferred();
