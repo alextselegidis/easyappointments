@@ -177,7 +177,9 @@
                             <?= lang('timezone') ?>
                             <span class="text-danger">*</span>
                         </label>
-                        <?= render_timezone_dropdown('id="timezone" class="form-control required"') ?>
+                        <?php component('timezone_dropdown', 'id="timezone" class="form-control required"', [
+                            'timezones' => vars('timezones')
+                        ]) ?>
                     </div>
 
                     <br>
