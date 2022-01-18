@@ -246,7 +246,7 @@ class Calendar extends EA_Controller {
      * Notification emails are send to both provider and customer and the delete action is executed to the Google
      * Calendar account of the provider, if the "google_sync" setting is enabled.
      */
-    public function ajax_delete_appointment()
+    public function delete_appointment()
     {
         try
         {
@@ -361,7 +361,7 @@ class Calendar extends EA_Controller {
     /**
      * Delete an unavailable time period from database.
      */
-    public function ajax_delete_unavailable()
+    public function delete_unavailable()
     {
         try
         {
