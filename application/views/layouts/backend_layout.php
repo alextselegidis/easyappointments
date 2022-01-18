@@ -30,10 +30,6 @@
 
 <?php component('backend_footer', ['user_display_name' => vars('user_display_name')]) ?>
 
-<script>
-    const availableLanguages = <?= json_encode(config('available_languages')) ?>;
-</script>
-
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
