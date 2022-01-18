@@ -124,6 +124,10 @@
                 </label>
                 <input id="location" class="form-control">
             </div>
+            
+            <div class="mb-3">
+                <?php component('color_selection', ['attributes' => 'id="color"']) ?>
+            </div>
 
             <div class="mb-3">
                 <label class="form-label"  for="description">

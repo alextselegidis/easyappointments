@@ -27,6 +27,7 @@ App.Pages.Services = (function () {
     const $location = $('#location');
     const $description = $('#description');
     const $filterServices = $('#filter-services');
+    const $color = $('#color');
     let filterResults = {};
     let filterLimit = 20;
 
@@ -129,6 +130,7 @@ App.Pages.Services = (function () {
                 currency: $currency.val(),
                 description: $description.val(),
                 location: $location.val(),
+                color: App.Components.ColorSelection.getColor($color),
                 availabilities_type: $availabilitiesType.val(),
                 attendants_number: $attendantsNumber.val(),
                 id_categories: $category.val() || null
@@ -154,6 +156,7 @@ App.Pages.Services = (function () {
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $filterServices.find('button').prop('disabled', true);
             $filterServices.find('.results').css('color', '#AAA');
+            App.Components.ColorSelection.enable($color);
         });
 
         /**
@@ -263,6 +266,8 @@ App.Pages.Services = (function () {
 
         $services.find('.record-details .is-invalid').removeClass('is-invalid');
         $services.find('.record-details .form-message').hide();
+
+        App.Components.ColorSelection.disable($color);
     }
 
     /**
@@ -280,6 +285,7 @@ App.Pages.Services = (function () {
         $location.val(service.location);
         $availabilitiesType.val(service.availabilities_type);
         $attendantsNumber.val(service.attendants_number);
+        App.Components.ColorSelection.setColor($color, service.color);
 
         const categoryId = service.id_categories !== null ? service.id_categories : '';
         $category.val(categoryId);
