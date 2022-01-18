@@ -939,6 +939,7 @@ App.Utils.CalendarTableView = (function () {
                 start: moment(appointment.start_datetime).toDate(),
                 end: moment(appointment.end_datetime).toDate(),
                 allDay: false,
+                color: appointment.color,
                 data: appointment // Store appointment data for later use.
             });
         }
