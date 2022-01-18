@@ -36,6 +36,8 @@
  * Handles the backend related operations.
  *
  * @package Controllers
+ * 
+ * @deprecated Since 1.5
  */
 class Backend extends EA_Controller {
     /**
