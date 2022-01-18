@@ -23,23 +23,18 @@ if ( ! function_exists('component'))
      *
      * Example:
      *
-     * echo component('timezones_dropdown', 'class"form-control"');
+     * echo component('timezones_dropdown', ['attributes' => 'class"form-control"'], TRUE);
      *
      * @param string $component Component template file name.
-     * @param string $attributes HTML attributes for the parent component element.
-     * @param array $params Additional parameters for the component.
+     * @param array $vars Additional parameters for the component.
      * @param bool $return Whether to return the HTML or echo it directly.
      *
      * @return string Return the HTML if the $return argument is TRUE or NULL.
      */
-    function component(string $component, string $attributes = '', array $params = [], bool $return = FALSE)
+    function component(string $component, array $vars = [], bool $return = FALSE)
     {
         /** @var EA_Controller $CI */
         $CI = get_instance();
-
-        $vars = array_merge($params, [
-            'attributes' => $attributes
-        ]);
 
         return $CI->load->view('components/' . $component, $vars, $return);
     }
@@ -94,7 +89,7 @@ if ( ! function_exists('section'))
             $layout['sections'][$name][] = ob_get_clean();
 
             unset($layout['tmp'][$name]);
-            
+
             config(['layout' => $layout]);
 
             return;
