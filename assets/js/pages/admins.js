@@ -16,23 +16,23 @@
  */
 App.Pages.Admins = (function () {
     const $admins = $('#admins');
-    const $id = $('#admin-id');
-    const $firstName = $('#admin-first-name');
-    const $lastName = $('#admin-last-name');
-    const $email = $('#admin-email');
-    const $mobileNumber = $('#admin-mobile-number');
-    const $phoneNumber = $('#admin-phone-number');
-    const $address = $('#admin-address');
-    const $city = $('#admin-city');
-    const $state = $('#admin-state');
-    const $zipCode = $('#admin-zip-code');
-    const $notes = $('#admin-notes');
-    const $timezone = $('#admin-timezone');
-    const $username = $('#admin-username');
-    const $password = $('#admin-password');
-    const $passwordConfirmation = $('#admin-password-confirm');
-    const $notifications = $('#admin-notifications');
-    const $calendarView = $('#admin-calendar-view');
+    const $id = $('#id');
+    const $firstName = $('#first-name');
+    const $lastName = $('#last-name');
+    const $email = $('#email');
+    const $mobileNumber = $('#mobile-number');
+    const $phoneNumber = $('#phone-number');
+    const $address = $('#address');
+    const $city = $('#city');
+    const $state = $('#state');
+    const $zipCode = $('#zip-code');
+    const $notes = $('#notes');
+    const $timezone = $('#timezone');
+    const $username = $('#username');
+    const $password = $('#password');
+    const $passwordConfirmation = $('#password-confirm');
+    const $notifications = $('#notifications');
+    const $calendarView = $('#calendar-view');
     const $filterAdmins = $('#filter-admins');
     let filterResults = {};
     let filterLimit = 20;
@@ -47,7 +47,7 @@ App.Pages.Admins = (function () {
          * When the admin leaves the username input field we will need to check if the username
          * is not taken by another record in the system.
          */
-        $admins.on('blur', '#admin-username', function () {
+        $admins.on('blur', '#username', function () {
             const $input = $(this);
 
             if ($input.prop('readonly') === true || $input.val() === '') {
@@ -125,7 +125,7 @@ App.Pages.Admins = (function () {
             $admins.find('.save-cancel-group').show();
             $admins.find('.record-details').find('input, textarea').prop('disabled', false);
             $admins.find('.record-details').find('select').prop('disabled', false);
-            $('#admin-password, #admin-password-confirm').addClass('required');
+            $('#password, #password-confirm').addClass('required');
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
         });
@@ -138,7 +138,7 @@ App.Pages.Admins = (function () {
             $admins.find('.save-cancel-group').show();
             $admins.find('.record-details').find('input, textarea').prop('disabled', false);
             $admins.find('.record-details').find('select').prop('disabled', false);
-            $('#admin-password, #admin-password-confirm').removeClass('required');
+            $('#password, #password-confirm').removeClass('required');
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
         });
@@ -147,7 +147,7 @@ App.Pages.Admins = (function () {
          * Event: Delete Admin Button "Click"
          */
         $admins.on('click', '#delete-admin', function () {
-            const adminId = $('#admin-id').val();
+            const adminId = $id.val();
 
             const buttons = [
                 {
@@ -198,7 +198,7 @@ App.Pages.Admins = (function () {
 
             // Include id if changed.
             if ($id.val() !== '') {
-                admin.id = $('#admin-id').val();
+                admin.id = $id.val();
             }
 
             if (!validate()) {
@@ -277,12 +277,12 @@ App.Pages.Admins = (function () {
 
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
-                $('#admin-password, #admin-password-confirm').addClass('is-invalid');
+                $('#password, #password-confirm').addClass('is-invalid');
                 throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
-                $('#admin-password, #admin-password-confirm').addClass('is-invalid');
+                $('#password, #password-confirm').addClass('is-invalid');
                 throw new Error(lang('password_length_notice').replace('$number', vars('min_password_length')));
             }
 
@@ -316,8 +316,8 @@ App.Pages.Admins = (function () {
         $admins.find('.add-edit-delete-group').show();
         $admins.find('.save-cancel-group').hide();
         $admins.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
-        $admins.find('.record-details #admin-calendar-view').val('default');
-        $admins.find('.record-details #admin-timezone').val('UTC');
+        $admins.find('.record-details #calendar-view').val('default');
+        $admins.find('.record-details #timezone').val('UTC');
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
         $('#admins .is-invalid').removeClass('is-invalid');
