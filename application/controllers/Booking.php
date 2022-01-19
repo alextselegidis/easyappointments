@@ -109,6 +109,8 @@ class Booking extends EA_Controller {
 
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();
+        
+        $appointment_hash = html_vars('appointment_hash');
 
         if ( ! empty($appointment_hash))
         {
@@ -240,9 +242,13 @@ class Booking extends EA_Controller {
      * Render the booking page and display the selected appointment.
      *
      * This method will call the "index" callback to handle the page rendering.
+     * 
+     * @param string $appointment_hash
      */
-    public function reschedule()
+    public function reschedule($appointment_hash)
     {
+        html_vars(['appointment_hash' => $appointment_hash]);
+        
         $this->index();
     }
 
