@@ -72,7 +72,7 @@ class Services extends EA_Controller {
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
 
-        $this->load->view('pages/services', html_vars());
+        $this->load->view('pages/services');
     }
 
     /**

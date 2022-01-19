@@ -130,7 +130,7 @@ class Booking extends EA_Controller {
                     'matomo_analytics_url' => $matomo_analytics_url
                 ]);
 
-                $this->load->view('pages/booking_message', html_vars());
+                $this->load->view('pages/booking_message');
 
                 return;
             }
@@ -159,7 +159,7 @@ class Booking extends EA_Controller {
                     'matomo_analytics_url' => $matomo_analytics_url
                 ]);
 
-                $this->load->view('pages/booking_message', html_vars());
+                $this->load->view('pages/booking_message');
 
                 return;
             }
@@ -233,7 +233,7 @@ class Booking extends EA_Controller {
             'customer_data' => $customer,
         ]);
 
-        $this->load->view('pages/booking', html_vars());
+        $this->load->view('pages/booking');
     }
 
     /**

@@ -66,7 +66,7 @@ class Legal_settings extends EA_Controller {
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
         ]);
 
-        $this->load->view('pages/legal_settings', html_vars());
+        $this->load->view('pages/legal_settings');
     }
 
     /**

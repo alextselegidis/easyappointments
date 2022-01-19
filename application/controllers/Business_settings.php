@@ -77,7 +77,7 @@ class Business_settings extends EA_Controller {
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
         ]);
 
-        $this->load->view('pages/business_settings', html_vars());
+        $this->load->view('pages/business_settings');
     }
 
     /**

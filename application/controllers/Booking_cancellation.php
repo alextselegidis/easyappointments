@@ -100,6 +100,6 @@ class Booking_cancellation extends EA_Controller {
             'exceptions' => $exceptions
         ]);
 
-        $this->load->view('pages/booking_message', html_vars());
+        $this->load->view('pages/booking_message');
     }
 }

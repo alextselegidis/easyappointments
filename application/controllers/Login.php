@@ -45,7 +45,7 @@ class Login extends EA_Controller {
             'company_name' => setting('company_name')
         ]);
         
-        $this->load->view('pages/login', html_vars());
+        $this->load->view('pages/login');
     }
 
     /**

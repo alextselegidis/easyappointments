@@ -74,7 +74,7 @@ class Account extends EA_Controller {
             'timezones' => $this->timezones->to_grouped_array(),
         ]);
 
-        $this->load->view('pages/account', html_vars());
+        $this->load->view('pages/account');
     }
 
     /**

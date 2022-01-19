@@ -104,7 +104,7 @@ class Customers extends EA_Controller {
             'available_languages' => config('available_languages'),
         ]);
 
-        $this->load->view('pages/customers', html_vars());
+        $this->load->view('pages/customers');
     }
 
     /**

@@ -90,6 +90,6 @@ class Booking_confirmation extends EA_Controller {
             'matomo_analytics_url' => setting('matomo_analytics_url'),
         ]);
 
-        $this->load->view('pages/booking_confirmation', html_vars());
+        $this->load->view('pages/booking_confirmation');
     }
 }

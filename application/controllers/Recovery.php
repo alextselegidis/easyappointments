@@ -42,7 +42,7 @@ class Recovery extends EA_Controller {
             'company_name' => $company_name
         ]); 
         
-        $this->load->view('pages/recovery', html_vars());
+        $this->load->view('pages/recovery');
     }
     
     /**

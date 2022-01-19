@@ -88,7 +88,7 @@ class Secretaries extends EA_Controller {
             'providers' => $this->providers_model->get(),
         ]);
 
-        $this->load->view('pages/secretaries', html_vars());
+        $this->load->view('pages/secretaries');
     }
 
     /**

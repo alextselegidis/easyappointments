@@ -32,6 +32,6 @@ class Logout extends EA_Controller {
             'company_name' => $company_name
         ]);
 
-        $this->load->view('pages/logout', html_vars());
+        $this->load->view('pages/logout');
     }
 }

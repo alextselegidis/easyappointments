@@ -88,7 +88,7 @@ class Providers extends EA_Controller {
             'services' => $this->services_model->get(),
         ]);
 
-        $this->load->view('pages/providers', html_vars());
+        $this->load->view('pages/providers');
     }
 
     /**

@@ -138,7 +138,7 @@ class Calendar extends EA_Controller {
             'require_notes' => setting('require_notes'),
         ]);
 
-        $this->load->view('pages/calendar', html_vars());
+        $this->load->view('pages/calendar');
     }
 
     /**
