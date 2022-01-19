@@ -111,12 +111,25 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="google-analytics-code">
-                                        Google Analytics ID</label>
+                                        Google Analytics Code
+                                    </label>
                                     <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
                                            data-field="google_analytics_code" class="form-control">
                                     <div class="form-text text-muted">
                                         <small>
                                             <?= lang('google_analytics_code_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label" for="google-analytics-code">
+                                        Matomo Analytics URL
+                                    </label>
+                                    <input id="matomo-analytics-url" placeholder="//example.org/url/to/matomo/"
+                                           data-field="matomo_analytics_url" class="form-control">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('matomo_analytics_url_hint') ?>
                                         </small>
                                     </div>
                                 </div>

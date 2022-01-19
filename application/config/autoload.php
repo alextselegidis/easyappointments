@@ -71,7 +71,6 @@ $autoload['helper'] = [
     'debug',
     'env',
     'file',
-    'google_analytics',
     'html',
     'http',
     'installation',

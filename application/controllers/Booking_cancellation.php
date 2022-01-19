@@ -95,6 +95,8 @@ class Booking_cancellation extends EA_Controller {
             'message_title' => lang('appointment_cancelled_title'),
             'message_text' => lang('appointment_cancelled'),
             'message_icon' => base_url('assets/img/success.png'),
+            'google_analytics_code' => setting('google_analytics_code'),
+            'matomo_analytics_url' => setting('matomo_analytics_url'),
             'exceptions' => $exceptions
         ]);
 

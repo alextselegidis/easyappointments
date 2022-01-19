@@ -104,6 +104,8 @@ class Booking extends EA_Controller {
         $privacy_policy_content = setting('privacy_policy_content');
         $display_any_provider = setting('display_any_provider');
         $book_advance_timeout = setting('book_advance_timeout');
+        $google_analytics_code = setting('google_analytics_code');
+        $matomo_analytics_url = setting('matomo_analytics_url');
 
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();
@@ -123,7 +125,9 @@ class Booking extends EA_Controller {
                     'page_title' => lang('page_title') . ' ' . $company_name,
                     'message_title' => lang('appointment_not_found'),
                     'message_text' => lang('appointment_does_not_exist_in_db'),
-                    'message_icon' => base_url('assets/img/error.png')
+                    'message_icon' => base_url('assets/img/error.png'),
+                    'google_analytics_code' => $google_analytics_code,
+                    'matomo_analytics_url' => $matomo_analytics_url
                 ]);
 
                 $this->load->view('pages/booking_message', html_vars());
@@ -150,7 +154,9 @@ class Booking extends EA_Controller {
                     'message_text' => strtr(lang('appointment_locked_message'), [
                         '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
                     ]),
-                    'message_icon' => base_url('assets/img/error.png')
+                    'message_icon' => base_url('assets/img/error.png'),
+                    'google_analytics_code' => $google_analytics_code,
+                    'matomo_analytics_url' => $matomo_analytics_url
                 ]);
 
                 $this->load->view('pages/booking_message', html_vars());
@@ -216,6 +222,8 @@ class Booking extends EA_Controller {
             'display_privacy_policy' => $display_privacy_policy,
             'privacy_policy_content' => $privacy_policy_content,
             'display_any_provider' => $display_any_provider,
+            'google_analytics_code' => $google_analytics_code,
+            'matomo_analytics_url' => $matomo_analytics_url,
             'timezones' => $timezones,
             'grouped_timezones' => $grouped_timezones,
             'manage_mode' => $manage_mode,

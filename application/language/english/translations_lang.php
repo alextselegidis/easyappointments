@@ -286,7 +286,7 @@ $lang['time_format'] = 'Time Format';
 $lang['time_format_hint'] = 'Change the time display format (H - Hours, M - Minutes).';
 $lang['first_weekday'] = 'First day of week';
 $lang['first_weekday_hint'] = 'Set the first day of the calendar week.';
-$lang['google_analytics_code_hint'] = 'Add your Google Analytics ID to be included in the booking page. You can use the tracking id or measurement id.';
+$lang['google_analytics_code_hint'] = 'Add your Google Analytics Code to enable Google Analytics tracking on the booking pages.';
 $lang['availabilities_type'] = 'Availabilities Type';
 $lang['flexible'] = 'Flexible';
 $lang['fixed'] = 'Fixed';
@@ -337,4 +337,5 @@ $lang['booking_settings'] = 'Booking Settings';
 $lang['display'] = 'Display';
 $lang['require'] = 'Require';
 $lang['color'] = 'Color';
+$lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
 // End

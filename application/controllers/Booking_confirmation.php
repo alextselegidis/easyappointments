@@ -86,6 +86,8 @@ class Booking_confirmation extends EA_Controller {
 
         html_vars([
             'page_title' => lang('success'),
+            'google_analytics_code' => setting('google_analytics_code'),
+            'matomo_analytics_url' => setting('matomo_analytics_url'),
         ]);
 
         $this->load->view('pages/booking_confirmation', html_vars());

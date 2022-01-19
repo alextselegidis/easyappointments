@@ -286,7 +286,7 @@ $lang['time_format'] = 'Μορφή Ώρας';
 $lang['time_format_hint'] = 'Αλλάξτε την μορφή ώρας (H - Ώρα, M - Λεπτά).';
 $lang['first_weekday'] = 'Πρώτη ημέρα της εβδομάδας';
 $lang['first_weekday_hint'] = 'Καθορίστε την πρώτη ημέρα της εβδομάδας στο ημερολόγιο.';
-$lang['google_analytics_code_hint'] = 'Προσθέστε τον Google Analytics ID σας το οποίο θα συμπεριληφθεί στην σελίδα κράτησης.';
+$lang['google_analytics_code_hint'] = 'Προσθέστε τον Google Analytics Code σας για να ενεργοποιήσετε το Google Analytics tracking στις σελίδες κράτησης.';
 $lang['availabilities_type'] = 'Τύπος Διαθεσιμοτήτων';
 $lang['flexible'] = 'Ευέλικτος';
 $lang['fixed'] = 'Σταθερός';
@@ -337,4 +337,5 @@ $lang['booking_settings'] = 'Booking Settings';
 $lang['display'] = 'Display';
 $lang['require'] = 'Require';
 $lang['color'] = 'Color';
+$lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
 // End
