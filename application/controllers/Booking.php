@@ -426,6 +426,11 @@ class Booking extends EA_Controller {
                 $appointment['location'] = $service['location'];
             }
 
+            if (empty($appointment['color']) && ! empty($service['color']))
+            {
+                $appointment['color'] = $service['color'];
+            }
+
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
             $customer_id = $this->customers_model->save($customer);
