@@ -11,10 +11,6 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * @property CI_DB_query_builder db
- * @property CI_DB_forge $dbforge
- */
 class Migration_Add_color_column_to_appointments_table extends CI_Migration {
     /**
      * Upgrade method.
