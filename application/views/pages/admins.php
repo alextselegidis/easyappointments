@@ -61,33 +61,33 @@
                     <div class="mb-3">
                         <label class="form-label" for="first-name">
                             <?= lang('first_name') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="first-name" class="form-control required" maxlength="256">
+                        <input id="first-name" class="form-control required" maxlength="256" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="last-name">
                             <?= lang('last_name') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="last-name" class="form-control required" maxlength="512">
+                        <input id="last-name" class="form-control required" maxlength="512" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="email">
                             <?= lang('email') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="email" class="form-control required" maxlength="512">
+                        <input id="email" class="form-control required" maxlength="512" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="phone-number">
                             <?= lang('phone_number') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="phone-number" class="form-control required" maxlength="128">
+                        <input id="phone-number" class="form-control required" maxlength="128" disabled>
                     </div>
 
                     <div class="mb-3">
@@ -95,14 +95,14 @@
                             <?= lang('mobile_number') ?>
 
                         </label>
-                        <input id="mobile-number" class="form-control" maxlength="128">
+                        <input id="mobile-number" class="form-control" maxlength="128" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="address">
                             <?= lang('address') ?>
                         </label>
-                        <input id="address" class="form-control" maxlength="256">
+                        <input id="address" class="form-control" maxlength="256" disabled>
                     </div>
 
                     <div class="mb-3">
@@ -110,63 +110,63 @@
                             <?= lang('city') ?>
 
                         </label>
-                        <input id="city" class="form-control" maxlength="256">
+                        <input id="city" class="form-control" maxlength="256" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="state">
                             <?= lang('state') ?>
                         </label>
-                        <input id="state" class="form-control" maxlength="128">
+                        <input id="state" class="form-control" maxlength="128" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="zip-code">
                             <?= lang('zip_code') ?>
                         </label>
-                        <input id="zip-code" class="form-control" maxlength="64">
+                        <input id="zip-code" class="form-control" maxlength="64" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="notes">
                             <?= lang('notes') ?>
                         </label>
-                        <textarea id="notes" class="form-control" rows="3"></textarea>
+                        <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                     </div>
                 </div>
                 <div class="settings col-12 col-md-6">
                     <div class="mb-3">
                         <label class="form-label" for="username">
                             <?= lang('username') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="username" class="form-control required" maxlength="256">
+                        <input id="username" class="form-control required" maxlength="256" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="password">
                             <?= lang('password') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
                         <input type="password" id="password" class="form-control required" maxlength="512"
-                               autocomplete="new-password">
+                               autocomplete="new-password" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="password-confirm">
                             <?= lang('retype_password') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
                         <input type="password" id="password-confirm" class="form-control required"
-                               maxlength="512" autocomplete="new-password">
+                               maxlength="512" autocomplete="new-password" disabled>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="calendar-view">
                             <?= lang('calendar') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <select id="calendar-view" class="form-control required">
+                        <select id="calendar-view" class="form-control required" disabled>
                             <option value="default">Default</option>
                             <option value="table">Table</option>
                         </select>
@@ -175,10 +175,10 @@
                     <div class="mb-3">
                         <label class="form-label" for="timezone">
                             <?= lang('timezone') ?>
-                            <span class="text-danger">*</span>
+                            <span class="text-danger" hidden>*</span>
                         </label>
                         <?php component('timezone_dropdown', [
-                            'attributes' => 'id="timezone" class="form-control required"',
+                            'attributes' => 'id="timezone" class="form-control required" disabled',
                             'timezones' => vars('timezones')
                         ]) ?>
                     </div>
@@ -186,7 +186,7 @@
                     <br>
 
                     <div class="form-check form-switch me-4">
-                        <input class="form-check-input" type="checkbox" id="notifications">
+                        <input class="form-check-input" type="checkbox" id="notifications" disabled>
                         <label class="form-check-label" for="notifications">
                             <?= lang('receive_notifications') ?>
                         </label>

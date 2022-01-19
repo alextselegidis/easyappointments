@@ -58,25 +58,25 @@
             <div class="mb-3">
                 <label class="form-label" for="name">
                     <?= lang('name') ?>
-                    <span class="text-danger">*</span>
+                    <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="name" class="form-control required" maxlength="128">
+                <input id="name" class="form-control required" maxlength="128" disabled>
             </div>
 
             <div class="mb-3">
                 <label class="form-label"  for="duration">
                     <?= lang('duration_minutes') ?>
-                    <span class="text-danger">*</span>
+                    <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>">
+                <input id="duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>" disabled>
             </div>
 
             <div class="mb-3">
                 <label class="form-label"  for="price">
                     <?= lang('price') ?>
-                    <span class="text-danger">*</span>
+                    <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="price" class="form-control required">
+                <input id="price" class="form-control required" disabled>
             </div>
 
             <div class="mb-3">
@@ -84,14 +84,14 @@
                     <?= lang('currency') ?>
 
                 </label>
-                <input id="currency" class="form-control" maxlength="32">
+                <input id="currency" class="form-control" maxlength="32" disabled>
             </div>
 
             <div class="mb-3">
                 <label class="form-label"  for="category">
                     <?= lang('category') ?>
                 </label>
-                <select id="category" class="form-control"></select>
+                <select id="category" class="form-control" disabled></select>
             </div>
 
             <div class="mb-3">
@@ -99,7 +99,7 @@
                     <?= lang('availabilities_type') ?>
 
                 </label>
-                <select id="availabilities-type" class="form-control">
+                <select id="availabilities-type" class="form-control" disabled>
                     <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
                         <?= lang('flexible') ?>
                     </option>
@@ -110,9 +110,9 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="attendants-number">
+                <label class="form-label" for="attendants-number" disabled>
                     <?= lang('attendants_number') ?>
-                    <span class="text-danger">*</span>
+                    <span class="text-danger" hidden>*</span>
                 </label>
                 <input id="attendants-number" class="form-control required" type="number" min="1">
             </div>
@@ -122,7 +122,7 @@
                     <?= lang('location') ?>
 
                 </label>
-                <input id="location" class="form-control">
+                <input id="location" class="form-control" disabled>
             </div>
             
             <div class="mb-3">
@@ -133,7 +133,7 @@
                 <label class="form-label"  for="description">
                     <?= lang('description') ?>
                 </label>
-                <textarea id="description" rows="4" class="form-control"></textarea>
+                <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
         </div>
     </div>

@@ -127,8 +127,8 @@ App.Pages.Secretaries = (function () {
 
             $secretaries.find('.add-edit-delete-group').hide();
             $secretaries.find('.save-cancel-group').show();
-            $secretaries.find('.record-details').find('input, textarea').prop('disabled', false);
-            $secretaries.find('.record-details').find('select').prop('disabled', false);
+            $secretaries.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
         });
@@ -141,8 +141,8 @@ App.Pages.Secretaries = (function () {
             $filterSecretaries.find('.results').css('color', '#AAA');
             $secretaries.find('.add-edit-delete-group').hide();
             $secretaries.find('.save-cancel-group').show();
-            $secretaries.find('.record-details').find('input, textarea').prop('disabled', false);
-            $secretaries.find('.record-details').find('select').prop('disabled', false);
+            $secretaries.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
         });
@@ -326,6 +326,7 @@ App.Pages.Secretaries = (function () {
         $filterSecretaries.find('button').prop('disabled', false);
         $filterSecretaries.find('.results').css('color', '');
         $secretaries.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $secretaries.find('.record-details .form-label span').prop('hidden', true);
         $secretaries.find('.record-details #calendar-view').val('default');
         $secretaries.find('.record-details #timezone').val('UTC');
         $secretaries.find('.add-edit-delete-group').show();

@@ -91,6 +91,7 @@ App.Pages.Services = (function () {
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $services.find('.record-details .form-label span').prop('hidden', false);
             $filterServices.find('button').prop('disabled', true);
             $filterServices.find('.results').css('color', '#AAA');
 
@@ -154,6 +155,7 @@ App.Pages.Services = (function () {
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $services.find('.record-details .form-label span').prop('hidden', false);
             $filterServices.find('button').prop('disabled', true);
             $filterServices.find('.results').css('color', '#AAA');
             App.Components.ColorSelection.enable($color);
@@ -258,6 +260,7 @@ App.Pages.Services = (function () {
         $filterServices.find('.results').css('color', '');
 
         $services.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $services.find('.record-details .form-label span').prop('hidden', true);
         $services.find('.record-details h3 a').remove();
 
         $services.find('.add-edit-delete-group').show();
@@ -397,7 +400,7 @@ App.Pages.Services = (function () {
                 $category.append(new Option(category.name, category.id));
             });
 
-            $category.append(new Option('- ' + lang('no_category') + ' -', '')).val('');
+            $category.append(new Option('', '')).val('');
         });
     }
 

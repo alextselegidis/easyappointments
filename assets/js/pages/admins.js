@@ -123,8 +123,8 @@ App.Pages.Admins = (function () {
             resetForm();
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
-            $admins.find('.record-details').find('input, textarea').prop('disabled', false);
-            $admins.find('.record-details').find('select').prop('disabled', false);
+            $admins.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $admins.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
@@ -136,8 +136,8 @@ App.Pages.Admins = (function () {
         $admins.on('click', '#edit-admin', () => {
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
-            $admins.find('.record-details').find('input, textarea').prop('disabled', false);
-            $admins.find('.record-details').find('select').prop('disabled', false);
+            $admins.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $admins.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#filter-admins button').prop('disabled', true);
             $('#filter-admins .results').css('color', '#AAA');
@@ -316,6 +316,7 @@ App.Pages.Admins = (function () {
         $admins.find('.add-edit-delete-group').show();
         $admins.find('.save-cancel-group').hide();
         $admins.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $admins.find('.record-details .form-label span').prop('hidden', true);
         $admins.find('.record-details #calendar-view').val('default');
         $admins.find('.record-details #timezone').val('UTC');
         $('#edit-admin, #delete-admin').prop('disabled', true);

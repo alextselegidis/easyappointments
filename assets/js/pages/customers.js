@@ -80,6 +80,7 @@ App.Pages.Customers = (function () {
             $customers.find('#add-edit-delete-group').hide();
             $customers.find('#save-cancel-group').show();
             $customers.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $customers.find('.record-details .form-label span').prop('hidden', false);
             $filterCustomers.find('button').prop('disabled', true);
             $filterCustomers.find('.results').css('color', '#AAA');
         });
@@ -89,6 +90,7 @@ App.Pages.Customers = (function () {
          */
         $customers.on('click', '#edit-customer', () => {
             $customers.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $customers.find('.record-details .form-label span').prop('hidden', false);
             $customers.find('#add-edit-delete-group').hide();
             $customers.find('#save-cancel-group').show();
             $filterCustomers.find('button').prop('disabled', true);
@@ -228,6 +230,7 @@ App.Pages.Customers = (function () {
      */
     function resetForm() {
         $customers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $customers.find('.record-details .form-label span').prop('hidden', true);
         $customers.find('.record-details #timezone').val('UTC');
 
         $language.val('english');

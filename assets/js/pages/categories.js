@@ -71,6 +71,7 @@ App.Pages.Categories = (function () {
             $categories.find('.add-edit-delete-group').hide();
             $categories.find('.save-cancel-group').show();
             $categories.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $categories.find('.record-details .form-label span').prop('hidden', false);
             $filterCategories.find('button').prop('disabled', true);
             $filterCategories.find('.results').css('color', '#AAA');
         });
@@ -82,6 +83,7 @@ App.Pages.Categories = (function () {
             $categories.find('.add-edit-delete-group').hide();
             $categories.find('.save-cancel-group').show();
             $categories.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $categories.find('.record-details .form-label span').prop('hidden', false);
             $filterCategories.find('button').prop('disabled', true);
             $filterCategories.find('.results').css('color', '#AAA');
         });
@@ -264,6 +266,7 @@ App.Pages.Categories = (function () {
         $categories.find('.add-edit-delete-group').show();
         $categories.find('.save-cancel-group').hide();
         $categories.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $categories.find('.record-details .form-label span').prop('hidden', true);
         $('#edit-category, #delete-category').prop('disabled', true);
 
         $categories.find('.record-details .is-invalid').removeClass('is-invalid');

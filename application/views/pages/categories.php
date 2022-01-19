@@ -59,9 +59,9 @@
             <div class="mb-3">
                 <label class="form-label" for="name">
                     <?= lang('name') ?>
-                    <span class="text-danger">*</span>
+                    <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="name" class="form-control required">
+                <input id="name" class="form-control required" disabled>
             </div>
 
             <div class="mb-3">
@@ -69,7 +69,7 @@
                     <?= lang('description') ?>
 
                 </label>
-                <textarea id="description" rows="4" class="form-control"></textarea>
+                <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
         </div>
     </div>

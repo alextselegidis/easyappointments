@@ -194,6 +194,16 @@ body legend {
     color: #666;
 }
 
+.backend-page .form-control:disabled,
+.backend-page .form-control[readonly] {
+    background-color: #fff;
+    color: #9a9a9a;
+    border-color: #fff;
+    opacity: 1;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 /* BACKEND COMPONENTS
    -------------------------------------------------------------------- */
 

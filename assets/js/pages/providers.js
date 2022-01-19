@@ -87,6 +87,7 @@ App.Pages.Providers = (function () {
             $providers.find('.add-edit-delete-group').hide();
             $providers.find('.save-cancel-group').show();
             $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $providers.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
             $providers
                 .find(
@@ -110,6 +111,7 @@ App.Pages.Providers = (function () {
             $filterProviders.find('button').prop('disabled', true);
             $filterProviders.find('.results').css('color', '#AAA');
             $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $providers.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
             $providers
@@ -323,6 +325,7 @@ App.Pages.Providers = (function () {
         $providers.find('.save-cancel-group').hide();
         $providers.find('.record-details h3 a').remove();
         $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
+        $providers.find('.record-details .form-label span').prop('hidden', true);
         $providers.find('.record-details #calendar-view').val('default');
         $providers.find('.record-details #timezone').val('UTC');
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
