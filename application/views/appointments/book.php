@@ -107,7 +107,16 @@
                                 </label>
 
                                 <select id="select-service" class="form-control">
+                                   <?php
+										
+										if((config('default_service_null')!=null)&&(config('default_service_null')===true)):
+									?>
+									<option value=""></option>
                                     <?php
+										endif;
+									?>
+									
+									<?php
                                     // Group services by category, only if there is at least one service with a parent category.
                                     $has_category = FALSE;
                                     foreach ($available_services as $service)
@@ -157,7 +166,10 @@
                                                 echo '<optgroup label="' . $group_label . '">';
                                                 foreach ($group as $service)
                                                 {
-                                                    echo '<option value="' . $service['id'] . '">'
+													if((isset($_GET['default']))&&($_GET['default']==$service['id'])){
+														$selected='selected="selected"';
+													}
+                                                    echo '<option value="' . $service['id'] . '" '.$selected.'>'
                                                         . $service['name'] . '</option>';
                                                 }
                                                 echo '</optgroup>';
@@ -168,7 +180,10 @@
                                     {
                                         foreach ($available_services as $service)
                                         {
-                                            echo '<option value="' . $service['id'] . '">' . $service['name'] . '</option>';
+											if((isset($_GET['default']))&&($_GET['default']==$service['id'])){
+												$selected='selected="selected"';
+											}
+                                            echo '<option value="' . $service['id'] . '" '.$selected.'>' . $service['name'] . '</option>';
                                         }
                                     }
                                     ?>

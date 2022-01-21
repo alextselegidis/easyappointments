@@ -33,6 +33,7 @@ class Config {
     const BASE_URL      = 'http://url-to-easyappointments-directory';
     const LANGUAGE      = 'english';
     const DEBUG_MODE    = FALSE;
+	const DEFAULT_SERVICE_NULL = FALSE;
 
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
