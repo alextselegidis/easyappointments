@@ -600,9 +600,15 @@ App.Pages.Booking = (function () {
             }
         });
 
-        $(document).find('.display-selected-service').text($selectService.find('option:selected').text());
+        $(document)
+            .find('.display-selected-service')
+            .text($selectService.find('option:selected').text())
+            .removeClass('invisible');
 
-        $(document).find('.display-selected-provider').text($selectProvider.find('option:selected').text());
+        $(document)
+            .find('.display-selected-provider')
+            .text($selectProvider.find('option:selected').text())
+            .removeClass('invisible');
 
         $('#appointment-details').empty();
 

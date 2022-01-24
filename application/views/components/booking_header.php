@@ -15,10 +15,10 @@
         </span>
         
         <div class="d-flex justify-content-center justify-content-md-start">
-            <span class="display-selected-service me-2">
+            <span class="display-selected-service me-2 invisible">
                 [<?= lang('service') ?>]
             </span>
-            <span class="display-selected-provider">
+            <span class="display-selected-provider invisible">
                 [<?= lang('provider') ?>]
             </span>
         </div>
