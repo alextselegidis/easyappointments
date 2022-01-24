@@ -12,7 +12,7 @@
 /**
  * Lang utility.
  *
- * This module implements the functionality of dates.
+ * This module implements the functionality of translations.
  */
 window.App.Utils.Lang = (function () {
     /**
