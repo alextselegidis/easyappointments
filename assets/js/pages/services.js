@@ -241,7 +241,7 @@ App.Pages.Services = (function () {
             }
 
             // Validate the duration.
-            if (Number($duration.val()) < 5) {
+            if (Number($duration.val()) < vars('event_minimum_duration')) {
                 $duration.addClass('is-invalid');
                 throw new Error(lang('invalid_duration'));
             }

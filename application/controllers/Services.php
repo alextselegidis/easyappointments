@@ -62,6 +62,7 @@ class Services extends EA_Controller {
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
+            'event_minimum_duration' => EVENT_MINIMUM_DURATION,
         ]);
 
         html_vars([
