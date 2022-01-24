@@ -584,9 +584,11 @@ class Calendar extends EA_Controller {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
+            $record_id = request('record_id');
+            
             $filter_type = request('filter_type');
 
-            if ( ! $filter_type)
+            if ( ! $filter_type && $record_id !== 'all')
             {
                 json_response([
                     'appointments' => [],
@@ -596,17 +598,20 @@ class Calendar extends EA_Controller {
                 return;
             }
 
+            $record_id = $this->db->escape($record_id);
+
             if ($filter_type == FILTER_TYPE_PROVIDER)
             {
                 $where_id = 'id_users_provider';
             }
-            else
+            elseif ($filter_type === FILTER_TYPE_SERVICE)
             {
                 $where_id = 'id_services';
+            } else {
+                $where_id = $record_id;
             }
 
             // Get appointments
-            $record_id = $this->db->escape(request('record_id'));
             $start_date = $this->db->escape(request('start_date'));
             $end_date = $this->db->escape(date('Y-m-d', strtotime(request('end_date') . ' +1 day')));
 

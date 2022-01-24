@@ -1542,6 +1542,8 @@ App.Utils.CalendarDefaultView = (function () {
         // Trigger once to set the proper footer position after calendar initialization.
         onWindowResize();
 
+        $selectFilterItem.append(new Option(lang('all'), 'all', true, true));
+
         // Fill the select list boxes of the page.
         if (vars('available_providers').length > 0) {
             $('<optgroup/>', {
