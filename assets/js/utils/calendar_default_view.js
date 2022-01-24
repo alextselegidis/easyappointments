@@ -1474,51 +1474,91 @@ App.Utils.CalendarDefaultView = (function () {
                     return;
                 }
 
-                $('#insert-appointment').trigger('click');
+                const isProviderDisplayed =
+                    $selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_PROVIDER;
 
-                // Preselect service & provider.
-                let service;
+                const buttons = [
+                    {
+                        text: lang('close'),
+                        click: () => {
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
+                        text: lang('unavailability'),
+                        click: () => {
+                            $('#insert-unavailability').trigger('click');
 
-                if ($selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_SERVICE) {
-                    service = vars('available_services').find(
-                        (availableService) => Number(availableService.id) === Number($selectFilterItem.val())
-                    );
-                    $appointmentsModal.find('#select-service').val(service.id).trigger('change');
-                } else {
-                    const provider = vars('available_providers').find(
-                        (availableProvider) => Number(availableProvider.id) === Number($selectFilterItem.val())
-                    );
+                            if (isProviderDisplayed) {
+                                $('#unavailability-provider').val($selectFilterItem.val());
+                            } else {
+                                $('#unavailability-provider option:first').prop('selected', true);
+                            }
 
-                    if (provider) {
-                        service = vars('available_services').find(
-                            (availableService) => provider.services.indexOf(availableService.id) !== -1
-                        );
+                            $('#unavailability-start').datepicker('setDate', info.start);
 
-                        if (service) {
-                            $appointmentsModal.find('#select-service').val(service.id);
+                            $('#unavailability-end').datepicker('setDate', info.end);
+
+                            $('#message-box').dialog('close');
+                        }
+                    },
+                    {
+                        text: lang('appointment'),
+                        click: () => {
+                            $('#insert-appointment').trigger('click');
+
+                            // Preselect service & provider.
+                            let service;
+
+                            if (isProviderDisplayed) {
+                                const provider = vars('available_providers').find(
+                                    (availableProvider) =>
+                                        Number(availableProvider.id) === Number($selectFilterItem.val())
+                                );
+
+                                if (provider) {
+                                    service = vars('available_services').find(
+                                        (availableService) => provider.services.indexOf(availableService.id) !== -1
+                                    );
+
+                                    if (service) {
+                                        $appointmentsModal.find('#select-service').val(service.id);
+                                    }
+                                }
+
+                                if (!$appointmentsModal.find('#select-service').val()) {
+                                    $('#select-service option:first').prop('selected', true);
+                                }
+
+                                $appointmentsModal.find('#select-service').trigger('change');
+
+                                if (provider) {
+                                    $appointmentsModal.find('#select-provider').val(provider.id);
+                                }
+
+                                if (!$appointmentsModal.find('#select-provider').val()) {
+                                    $appointmentsModal.find('#select-provider option:first').prop('selected', true);
+                                }
+
+                                $appointmentsModal.find('#select-provider').trigger('change');
+                            } else {
+                                service = vars('available_services').find(
+                                    (availableService) =>
+                                        Number(availableService.id) === Number($selectFilterItem.val())
+                                );
+                                $appointmentsModal.find('#select-service').val(service.id).trigger('change');
+                            }
+
+                            // Preselect time
+                            $('#start-datetime').datepicker('setDate', info.start);
+                            $('#end-datetime').datepicker('setDate', info.end);
+
+                            $('#message-box').dialog('close');
                         }
                     }
+                ];
 
-                    if (!$appointmentsModal.find('#select-service').val()) {
-                        $('#select-service option:first').prop('selected', true);
-                    }
-
-                    $appointmentsModal.find('#select-service').trigger('change');
-
-                    if (provider) {
-                        $appointmentsModal.find('#select-provider').val(provider.id);
-                    }
-
-                    if (!$appointmentsModal.find('#select-provider').val()) {
-                        $appointmentsModal.find('#select-provider option:first').prop('selected', true);
-                    }
-
-                    $appointmentsModal.find('#select-provider').trigger('change');
-                }
-
-                // Preselect time
-                $('#start-datetime').datepicker('setDate', info.start);
-                $('#end-datetime').datepicker('setDate', info.end);
+                App.Utils.Message.show(lang('add_new_event'), lang('what_kind_of_event'), buttons);
 
                 return false;
             },

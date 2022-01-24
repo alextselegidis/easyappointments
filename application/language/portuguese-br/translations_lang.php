@@ -361,4 +361,6 @@ $lang['private_hint'] = 'Private records will not be displayed or processed in p
 $lang['reset'] = 'Reset';
 $lang['all'] = 'All';
 $lang['booking_link'] = 'Booking Link';
+$lang['add_new_event'] = 'Add New Event';
+$lang['what_kind_of_event'] = 'What kind of event would you like to add?';
 // End
