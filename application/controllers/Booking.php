@@ -60,6 +60,30 @@ class Booking extends EA_Controller {
             return;
         }
 
+        $company_name = setting('company_name');
+        $disable_booking = setting('disable_booking');
+        $google_analytics_code = setting('google_analytics_code');
+        $matomo_analytics_url = setting('matomo_analytics_url');
+        
+        if ($disable_booking)
+        {
+            $disable_booking_message = setting('disable_booking_message');
+
+            html_vars([
+                'show_message' => TRUE,
+                'page_title' => lang('page_title') . ' ' . $company_name,
+                'message_title' => lang('booking_is_disabled'),
+                'message_text' => $disable_booking_message,
+                'message_icon' => base_url('assets/img/error.png'),
+                'google_analytics_code' => $google_analytics_code,
+                'matomo_analytics_url' => $matomo_analytics_url
+            ]);
+
+            $this->load->view('pages/booking_message');
+
+            return;
+        }
+
         $available_services = $this->services_model->get_available_services();
         $available_providers = $this->providers_model->get_available_providers();
 
@@ -76,7 +100,6 @@ class Booking extends EA_Controller {
             ]);
         }
 
-        $company_name = setting('company_name');
         $date_format = setting('date_format');
         $time_format = setting('time_format');
         $first_weekday = setting('first_weekday');
@@ -105,8 +128,6 @@ class Booking extends EA_Controller {
         $display_any_provider = setting('display_any_provider');
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
-        $google_analytics_code = setting('google_analytics_code');
-        $matomo_analytics_url = setting('matomo_analytics_url');
 
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();

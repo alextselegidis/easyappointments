@@ -342,4 +342,8 @@ $lang['invalid_phone'] = 'Invalid phone number.';
 $lang['legal'] = 'Legal';
 $lang['business'] = 'Business';
 $lang['account'] = 'Account';
+$lang['disable_booking'] = 'Disable Booking';
+$lang['disable_booking_hint'] = 'The booking page will be disabled for as long as this setting is active and customers will not be able to register new appointments.';
+$lang['display_message'] = 'Display Message';
+$lang['booking_is_disabled'] = 'Booking Is Disabled!';
 // End

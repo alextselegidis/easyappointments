@@ -17,6 +17,8 @@
 App.Pages.BookingSettings = (function () {
     const $bookingSettings = $('#booking-settings');
     const $saveSettings = $('#save-settings');
+    const $disableBooking = $('#disable-booking');
+    const $disableBookingMessage = $('#disable-booking-message');
 
     /**
      * Check if the form has invalid values.
@@ -58,6 +60,11 @@ App.Pages.BookingSettings = (function () {
      */
     function deserialize(bookingSettings) {
         bookingSettings.forEach((bookingSetting) => {
+            if (bookingSetting.name === 'disable_booking_message') {
+                $disableBookingMessage.trumbowyg('html', bookingSetting.value);
+                return;
+            }
+
             const $field = $('[data-field="' + bookingSetting.name + '"]');
 
             if ($field.is(':checkbox')) {
@@ -83,6 +90,11 @@ App.Pages.BookingSettings = (function () {
                 name: $field.data('field'),
                 value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
             });
+        });
+
+        bookingSettings.push({
+            name: 'disable_booking_message',
+            value: $disableBookingMessage.trumbowyg('html')
         });
 
         return bookingSettings;
@@ -136,6 +148,8 @@ App.Pages.BookingSettings = (function () {
 
             updateRequireSwitch($requireSwitch);
         });
+
+        $disableBookingMessage.closest('.form-group').prop('hidden', !$disableBooking.prop('checked'));
     }
 
     /**
@@ -178,18 +192,29 @@ App.Pages.BookingSettings = (function () {
     }
 
     /**
+     * Toggle the message container.
+     */
+    function onDisableBookingClick() {
+        $disableBookingMessage.closest('.form-group').prop('hidden', !$disableBooking.prop('checked'));
+    }
+
+    /**
      * Initialize the module.
      */
     function initialize() {
         const bookingSettings = vars('booking_settings');
 
-        deserialize(bookingSettings);
-
         $saveSettings.on('click', onSaveSettingsClick);
+
+        $disableBooking.on('click', onDisableBookingClick);
 
         $bookingSettings
             .on('click', '.display-switch', onDisplaySwitchClick)
             .on('click', '.require-switch', onRequireSwitchClick);
+
+        $disableBookingMessage.trumbowyg();
+
+        deserialize(bookingSettings);
 
         applyInitialState();
 

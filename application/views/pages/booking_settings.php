@@ -286,6 +286,29 @@
                                         </small>
                                     </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="disable-booking"
+                                               data-field="disable_booking">
+                                        <label class="form-check-label" for="disable-booking">
+                                            <?= lang('disable_booking') ?>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('disable_booking_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group mb-3" hidden>
+                                    <label class="form-label" for="disable-booking-message">
+                                        <?= lang('display_message') ?>
+                                    </label>
+                                    <textarea id="disable-booking-message" cols="30" rows="10" class="mb-3"></textarea>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
