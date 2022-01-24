@@ -37,7 +37,7 @@ window.App.Utils.Validation = (function () {
      * @return {Boolean}
      */
     function phone(value) {
-        const re = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im;
+        const re = /^[+]?([0-9]*[\.\s\-\(\)]|[0-9]+){3,24}$/;
 
         return re.test(value);
     }
