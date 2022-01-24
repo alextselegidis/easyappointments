@@ -23,7 +23,7 @@
                 && config('google_sync_feature') == TRUE): ?>
                 <button id="google-sync" class="btn btn-primary"
                         data-tippy-content="<?= lang('trigger_google_sync_hint') ?>">
-                    <i class="fas fa-sync-alt"></i>
+                    <i class="fas fa-sync-alt me-2"></i>
                     <span><?= lang('synchronize') ?></span>
                 </button>
 
