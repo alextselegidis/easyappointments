@@ -45,13 +45,12 @@
                     <?php endif ?>
                 </div>
 
-                <div id="save-cancel-group" class="btn-group" style="display:none;">
+                <div id="save-cancel-group" style="display:none;">
                     <button id="save-customer" class="btn btn-primary">
                         <i class="fas fa-check-square me-2"></i>
                         <?= lang('save') ?>
                     </button>
-                    <button id="cancel-customer" class="btn btn-outline-secondary">
-                        <i class="fas fa-ban me-2"></i>
+                    <button id="cancel-customer" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
                 </div>
@@ -178,7 +177,6 @@
                 <div class="col-12 col-md-6">
                     <h3><?= lang('appointments') ?></h3>
                     <div id="customer-appointments" class="card bg-light border-light"></div>
-                    <div id="appointment-details" class="card bg-light border-light d-none"></div>
                 </div>
             </div>
         </div>

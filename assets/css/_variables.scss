@@ -30,29 +30,29 @@ $green: #4bbf73 !default;
 $teal: #20c997 !default;
 $cyan: #1f9bcf !default;
 
-$primary: $gray-900 !default;
+$primary: #439982 !default;
 $secondary: $white !default;
 $success: $green !default;
 $info: $cyan !default;
 $warning: $yellow !default;
 $danger: $red !default;
-$light: $white !default;
+$light: $gray-100 !default;
 $dark: $gray-800 !default;
 
 $min-contrast-ratio: 2.3 !default;
 
 // Options
 
-$enable-rounded: false !default;
+$enable-rounded: true !default;
 
 // Body
 
-$body-color: $gray-700 !default;
+$body-color: $gray-800 !default;
 
 // Fonts
 
 // stylelint-disable-next-line value-keyword-case
-$font-family-sans-serif: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
+//$font-family-sans-serif: "Nunito Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 $h1-font-size: 2rem !default;
 $h2-font-size: 1.75rem !default;
 $h3-font-size: 1.5rem !default;
@@ -68,23 +68,23 @@ $table-border-color: rgba(0, 0, 0, .05) !default;
 
 // Buttons + Forms
 
-$input-btn-border-width: 0 !default;
+$input-btn-border-width: 1px !default;
 
 // Buttons
 
-$btn-line-height: 1.5rem !default;
-$input-btn-padding-y: .75rem !default;
-$input-btn-padding-x: 1.5rem !default;
-$input-btn-padding-y-sm: .5rem !default;
-$input-btn-padding-x-sm: 1rem !default;
-$input-btn-padding-y-lg: 2rem !default;
-$input-btn-padding-x-lg: 2rem !default;
+$btn-line-height: 1.25rem !default;
+$input-btn-padding-y: .6rem !default;
+$input-btn-padding-x: 1rem !default;
+$input-btn-padding-y-sm: .35rem !default;
+$input-btn-padding-x-sm: .5rem !default;
+$input-btn-padding-y-lg: 1.85rem !default;
+$input-btn-padding-x-lg: 1.5rem !default;
 $btn-font-weight: 600 !default;
 
 // Forms
 
-$input-line-height: 1.5 !default;
-$input-bg: $gray-200 !default;
+$input-line-height: 1.25 !default;
+$input-bg: $white !default;
 $input-disabled-bg: $gray-300 !default;
 $input-group-addon-bg: $gray-300 !default;
 

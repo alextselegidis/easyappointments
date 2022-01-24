@@ -38,13 +38,12 @@
                     </button>
                 </div>
 
-                <div class="save-cancel-group btn-group" style="display:none;">
+                <div class="save-cancel-group" style="display:none;">
                     <button id="save-admin" class="btn btn-primary">
                         <i class="fas fa-check-square me-2"></i>
                         <?= lang('save') ?>
                     </button>
-                    <button id="cancel-admin" class="btn btn-outline-secondary">
-                        <i class="fas fa-ban me-2"></i>
+                    <button id="cancel-admin" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
                 </div>

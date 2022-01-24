@@ -33,7 +33,8 @@ root {
 }
 
 #header #header-logo small {
-    font-size: 11.3px;
+    font-size: 10.5px;
+    color: #004c39;
 }
 
 #header #header-logo img {
@@ -449,7 +450,8 @@ body legend {
 
 #filter-existing-customers {
     display: inline-block;
-    height: 14px;
+    margin-top: 12px;
+    margin-bottom: 12px;
     min-height: 24px;
     font-size: 12px;
 }
@@ -876,4 +878,8 @@ body .form-horizontal .controls {
 
 #settings-page #update-ea {
     margin-left: 12px;
+}
+
+#booking-settings-page .fields-row .form-control {
+    border: 1px dashed #999 !important;
 }

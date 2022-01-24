@@ -48,9 +48,13 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= lang('cancel') ?></button>
-                <button type="button" class="btn btn-primary"
-                        id="working-plan-exceptions-save"><?= lang('save') ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <?= lang('cancel') ?>
+                </button>
+                <button type="button" class="btn btn-primary" id="working-plan-exceptions-save">
+                    <i class="fas fa-check-square me-2"></i>
+                    <?= lang('save') ?>
+                </button>
             </div>
         </div>
     </div>

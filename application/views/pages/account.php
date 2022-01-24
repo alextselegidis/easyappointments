@@ -12,7 +12,7 @@
                             <?= lang('personal_information') ?>
 
                             <?php if (can('edit', PRIV_USER_SETTINGS)): ?>
-                                <button type="button" id="save-settings" class="btn btn-primary btn-sm">
+                                <button type="button" id="save-settings" class="btn btn-primary">
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
                                 </button>

@@ -10,7 +10,7 @@
 
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
-        <div id="calendar-filter" class="col-12 col-sm-5">
+        <div id="calendar-filter" class="col-md-4">
             <div class="calendar-filter-items">
                 <select id="select-filter-item" class="form-control col"
                         data-tippy-content="<?= lang('select_filter_item_hint') ?>">
@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-12 col-sm-7">
+        <div id="calendar-actions" class="col-md-8">
             <?php if ((session('role_slug') == DB_SLUG_ADMIN || session('role_slug') == DB_SLUG_PROVIDER)
                 && config('google_sync_feature') == TRUE): ?>
                 <button id="google-sync" class="btn btn-primary"

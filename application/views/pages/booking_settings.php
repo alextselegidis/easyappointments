@@ -12,16 +12,16 @@
                             <?= lang('booking_settings') ?>
 
                             <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
-                                <button type="button" id="save-settings" class="btn btn-primary btn-sm">
+                                <button type="button" id="save-settings" class="btn btn-primary">
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
                         </legend>
 
-                        <div class="row mb-5">
+                        <div class="row mb-5 fields-row">
                             <div class="col-lg-6">
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="first-name" class="form-label">
                                         <?= lang('first_name') ?>
                                         <span class="text-danger">*</span>
@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="last-name" class="form-label">
                                         <?= lang('last_name') ?>
                                         <span class="text-danger">*</span>
@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="email" class="form-label">
                                         <?= lang('email') ?>
                                         <span class="text-danger">*</span>
@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="phone-number" class="form-label">
                                         <?= lang('phone_number') ?>
                                         <span class="text-danger">*</span>
@@ -122,7 +122,7 @@
                             </div>
 
                             <div class="col-lg-6">
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="address" class="form-label">
                                         <?= lang('address') ?>
                                         <span class="text-danger">*</span>
@@ -146,7 +146,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="city" class="form-label">
                                         <?= lang('city') ?>
                                         <span class="text-danger">*</span>
@@ -170,7 +170,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="zip-code" class="form-label">
                                         <?= lang('zip_code') ?>
                                         <span class="text-danger">*</span>
@@ -194,7 +194,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="notes" class="form-label">
                                         <?= lang('notes') ?>
                                         <span class="text-danger">*</span>

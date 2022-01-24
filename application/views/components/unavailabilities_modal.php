@@ -73,8 +73,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                    <i class="fas fa-ban"></i>
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>
                 <button id="save-unavailability" class="btn btn-primary">
