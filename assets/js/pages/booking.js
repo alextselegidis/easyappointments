@@ -230,7 +230,7 @@ App.Pages.Booking = (function () {
             const $target = $(event.target);
 
             App.Http.Booking.getUnavailabilityDates(
-                $target,
+                $target.val(),
                 $selectService.val(),
                 moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
             );
