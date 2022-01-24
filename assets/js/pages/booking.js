@@ -552,6 +552,14 @@ App.Pages.Booking = (function () {
                 throw new Error(lang('invalid_email'));
             }
 
+            // Validate phone number.
+            const phoneNumber = $phoneNumber.val();
+
+            if (phoneNumber && !App.Utils.Validation.phone(phoneNumber)) {
+                $phoneNumber.addClass('is-invalid');
+                throw new Error(lang('invalid_phone'));
+            }
+
             return true;
         } catch (error) {
             $('#form-message').text(error.message);

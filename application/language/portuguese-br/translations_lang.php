@@ -337,4 +337,5 @@ $lang['display'] = 'Display';
 $lang['require'] = 'Require';
 $lang['color'] = 'Color';
 $lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
+$lang['invalid_phone'] = 'Invalid phone number.';
 // End

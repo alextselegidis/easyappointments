@@ -300,6 +300,22 @@ App.Pages.Providers = (function () {
                 throw new Error(lang('invalid_email'));
             }
 
+            // Validate phone number.
+            const phoneNumber = $phoneNumber.val();
+
+            if (phoneNumber && !App.Utils.Validation.phone(phoneNumber)) {
+                $phoneNumber.addClass('is-invalid');
+                throw new Error(lang('invalid_phone'));
+            }
+
+            // Validate mobile number.
+            const mobileNumber = $mobileNumber.val();
+
+            if (mobileNumber && !App.Utils.Validation.phone(mobileNumber)) {
+                $mobileNumber.addClass('is-invalid');
+                throw new Error(lang('invalid_phone'));
+            }
+
             // Check if username exists
             if ($username.attr('already-exists') === 'true') {
                 $username.addClass('is-invalid');

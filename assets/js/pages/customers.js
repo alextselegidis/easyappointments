@@ -213,9 +213,19 @@ App.Pages.Customers = (function () {
             }
 
             // Validate email address.
-            if (!App.Utils.Validation.email($email.val())) {
+            const email = $email.val();
+
+            if (email && !App.Utils.Validation.email(email)) {
                 $email.addClass('is-invalid');
                 throw new Error(lang('invalid_email'));
+            }
+
+            // Validate phone number.
+            const phoneNumber = $phoneNumber.val();
+
+            if (phoneNumber && !App.Utils.Validation.phone(phoneNumber)) {
+                $phoneNumber.addClass('is-invalid');
+                throw new Error(lang('invalid_phone'));
             }
 
             return true;
