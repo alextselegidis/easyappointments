@@ -10,7 +10,7 @@
     <div id="company-name">
         <?= $company_name ?>
         <div class="d-flex justify-content-between">
-            <span class="display-selected-service">
+            <span class="display-selected-service me-2">
                 &nbsp;
             </span>
             <span class="display-selected-provider">

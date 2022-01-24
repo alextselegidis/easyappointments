@@ -38,6 +38,13 @@ class Privacy extends EA_Controller {
     {
         try
         {
+            $display_delete_personal_information = setting('display_delete_personal_information');
+
+            if ( ! $display_delete_personal_information)
+            {
+                abort(403, 'Forbidden');
+            }
+
             $customer_token = request('customer_token');
 
             if (empty($customer_token))

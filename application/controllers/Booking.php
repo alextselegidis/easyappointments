@@ -103,6 +103,7 @@ class Booking extends EA_Controller {
         $display_privacy_policy = setting('display_privacy_policy');
         $privacy_policy_content = setting('privacy_policy_content');
         $display_any_provider = setting('display_any_provider');
+        $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
@@ -224,6 +225,7 @@ class Booking extends EA_Controller {
             'display_privacy_policy' => $display_privacy_policy,
             'privacy_policy_content' => $privacy_policy_content,
             'display_any_provider' => $display_any_provider,
+            'display_delete_personal_information' => $display_delete_personal_information,
             'google_analytics_code' => $google_analytics_code,
             'matomo_analytics_url' => $matomo_analytics_url,
             'timezones' => $timezones,
