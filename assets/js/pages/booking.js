@@ -169,6 +169,8 @@ App.Pages.Booking = (function () {
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
 
+        optimizeContactInfoDisplay();
+
         // If the manage mode is true, the appointments data should be loaded by default.
         if (manageMode) {
             applyAppointmentData(vars('appointment_data'), vars('provider_data'), vars('customer_data'));
@@ -216,6 +218,21 @@ App.Pages.Booking = (function () {
                     );
             }
         }
+    }
+
+    /**
+     * Remove empty columns and center elements if needed.
+     */
+    function optimizeContactInfoDisplay() {
+        const $fieldCols = $(document).find('#wizard-frame-3 .field-col');
+
+        $fieldCols.each((index, fieldColEl) => {
+            const $fieldCol = $(fieldColEl);
+
+            if (!$fieldCol.find('.form-control').length) {
+                $fieldCol.hide();
+            }
+        });
     }
 
     /**
