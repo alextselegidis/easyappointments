@@ -14,3 +14,5 @@ $config['version'] = '1.5.0-dev.1'; // This must be changed manually.
 $config['url'] = Config::BASE_URL;  
 
 $config['debug'] = Config::DEBUG_MODE;
+
+$config['cache_busting_token'] = 'ZV948';
