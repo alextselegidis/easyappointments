@@ -66,7 +66,13 @@ window.App.Utils.Message = (function () {
 
         $messageBox.dialog('open');
 
-        $('.ui-dialog .ui-dialog-buttonset button').addClass('btn btn-outline-secondary');
+        $('.ui-dialog .ui-dialog-buttonset button:not(:last)').addClass('btn btn-secondary');
+        $('.ui-dialog .ui-dialog-buttonset button:last').addClass('btn btn-primary').focus();
+        $('.ui-dialog .ui-dialog-buttonset button:last').prepend(
+            $('<i/>', {
+                'class': 'fas fa-check-square me-2'
+            })
+        );
 
         $('#message-box .ui-dialog-titlebar-close').hide();
     }

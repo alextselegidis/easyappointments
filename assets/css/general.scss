@@ -39,7 +39,10 @@ body .ui-draggable .ui-dialog-titlebar {
     padding: 12px 10px;
     margin-bottom: 10px;
     border: none;
-    border-radius: 0;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 body .ui-dialog {
@@ -54,10 +57,6 @@ body .ui-dialog .ui-dialog-buttonpane {
     border: none;
 }
 
-body .ui-dialog .ui-dialog-buttonpane .btn {
-    min-width: 120px;
-}
-
 body .ui-button .ui-icon,
 body .ui-button:hover .ui-icon {
     background-image: url('../ext/jquery-ui/images/ui-icons_222222_256x240.png');
@@ -70,6 +69,10 @@ body .ui-dialog #error-technical {
 body .ui-widget.ui-widget-content {
     border: 1px solid #429a82;
     padding: 0;
+}
+
+body .ui-dialog-buttons {
+    border-radius: 0.25rem;
 }
 
 body #ui-datepicker-div {
