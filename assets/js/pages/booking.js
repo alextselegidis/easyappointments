@@ -202,7 +202,10 @@ App.Pages.Booking = (function () {
                 $selectProvider.val(selectedProviderId).trigger('change');
             }
 
-            if (selectedServiceId && selectedProviderId) {
+            if (
+                (selectedServiceId && selectedProviderId) ||
+                (vars('available_services').length === 1 && vars('available_providers').length === 1)
+            ) {
                 $selectService.closest('.wizard-frame').find('.button-next').trigger('click');
 
                 $(document).find('.book-step:first').hide();
