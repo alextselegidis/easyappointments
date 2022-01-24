@@ -19,7 +19,7 @@
                             <?php endif ?>
                         </legend>
 
-                        <div class="row mb-5 fields-row">
+                        <div class="row mb-3 fields-row">
                             <div class="col-lg-6">
                                 <div class="form-group mb-5">
                                     <label for="first-name" class="form-label">
@@ -95,7 +95,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-5">
+                                <div class="form-group mb-3">
                                     <label for="phone-number" class="form-label">
                                         <?= lang('phone_number') ?>
                                         <span class="text-danger">*</span>
@@ -194,7 +194,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-5">
+                                <div class="form-group mb-3">
                                     <label for="notes" class="form-label">
                                         <?= lang('notes') ?>
                                         <span class="text-danger">*</span>
