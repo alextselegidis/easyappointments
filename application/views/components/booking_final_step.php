@@ -32,6 +32,7 @@
         <?php endif; ?>
     </div>
 
+    <div class="d-flex justify-content-center">
     <?php if ($display_terms_and_conditions): ?>
         <div class="form-check mb-3">
             <input type="checkbox" class="required form-check-input" id="accept-to-terms-and-conditions">
@@ -59,6 +60,7 @@
             </label>
         </div>
     <?php endif ?>
+    </div>
 
     <div class="command-buttons">
         <button type="button" id="button-back-4" class="btn button-back btn-outline-secondary"

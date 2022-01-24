@@ -32,6 +32,7 @@
     #book-appointment-wizard #company-name .display-selected-service, 
     #book-appointment-wizard #company-name .display-selected-provider {
         color: <?= $company_color ?>;
+        border-color: <?= $company_color ?> !important;
         filter: brightness(50%);
     }
 
