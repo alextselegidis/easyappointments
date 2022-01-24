@@ -1489,12 +1489,14 @@ App.Utils.CalendarDefaultView = (function () {
                         (availableProvider) => Number(availableProvider.id) === Number($selectFilterItem.val())
                     );
 
-                    service = vars('available_services').find(
-                        (availableService) => provider.services.indexOf(availableService.id) !== -1
-                    );
+                    if (provider) {
+                        service = vars('available_services').find(
+                            (availableService) => provider.services.indexOf(availableService.id) !== -1
+                        );
 
-                    if (service) {
-                        $appointmentsModal.find('#select-service').val(service.id);
+                        if (service) {
+                            $appointmentsModal.find('#select-service').val(service.id);
+                        }
                     }
 
                     if (!$appointmentsModal.find('#select-service').val()) {
