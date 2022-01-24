@@ -68,7 +68,6 @@ App.Pages.GeneralSettings = (function () {
 
             if (generalSetting.name === 'company_color' && generalSetting.value !== '#ffffff') {
                 $resetCompanyColor.prop('hidden', false);
-                return;
             }
 
             $('[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
@@ -146,7 +145,7 @@ App.Pages.GeneralSettings = (function () {
      * Toggle the reset company color button.
      */
     function onCompanyColorChange() {
-        $resetCompanyColor.prop('hidden', $companyColor.val() !== '#ffffff');
+        $resetCompanyColor.prop('hidden', $companyColor.val() === '#ffffff');
     }
 
     /**
