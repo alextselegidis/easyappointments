@@ -175,6 +175,8 @@ class Appointments_model extends EA_Model {
     protected function insert(array $appointment): int
     {
         $appointment['book_datetime'] = date('Y-m-d H:i:s');
+        $appointment['create_datetime'] = date('Y-m-d H:i:s');
+        $appointment['update_datetime'] = date('Y-m-d H:i:s');
         $appointment['hash'] = random_string('alnum', 12);
 
         if ( ! $this->db->insert('appointments', $appointment))
@@ -196,6 +198,8 @@ class Appointments_model extends EA_Model {
      */
     protected function update(array $appointment): int
     {
+        $appointment['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('appointments', $appointment, ['id' => $appointment['id']]))
         {
             throw new RuntimeException('Could not update appointment record.');

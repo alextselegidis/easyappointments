@@ -157,6 +157,8 @@ class Customers_model extends EA_Model {
      */
     protected function insert(array $customer): int
     {
+        $customer['create_datetime'] = date('Y-m-d H:i:s');
+        $customer['update_datetime'] = date('Y-m-d H:i:s');
         $customer['id_roles'] = $this->get_customer_role_id();
 
         if ( ! $this->db->insert('users', $customer))
@@ -178,6 +180,8 @@ class Customers_model extends EA_Model {
      */
     protected function update(array $customer): int
     {
+        $customer['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('users', $customer, ['id' => $customer['id']]))
         {
             throw new RuntimeException('Could not update customer.');

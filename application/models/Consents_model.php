@@ -82,8 +82,7 @@ class Consents_model extends EA_Model {
      */
     protected function insert(array $consent): int
     {
-        $consent['created'] = date('Y-m-d H:i:s');
-        $consent['modified'] = date('Y-m-d H:i:s');
+        $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->insert('consents', $consent))
         {
@@ -104,7 +103,7 @@ class Consents_model extends EA_Model {
      */
     protected function update(array $consent): int
     {
-        $consent['modified'] = date('Y-m-d H:i:s');
+        $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->update('consents', $consent, ['id' => $consent['id']]))
         {

@@ -196,6 +196,9 @@ class Admins_model extends EA_Model {
         $settings = $admin['settings'];
         unset($admin['settings']);
 
+        $admin['create_datetime'] = date('Y-m-d H:i:s');
+        $admin['update_datetime'] = date('Y-m-d H:i:s');
+
         if ( ! $this->db->insert('users', $admin))
         {
             throw new RuntimeException('Could not insert admin.');
@@ -236,6 +239,8 @@ class Admins_model extends EA_Model {
 
             $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
         }
+
+        $admin['update_datetime'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->update('users', $admin, ['id' => $admin['id']]))
         {

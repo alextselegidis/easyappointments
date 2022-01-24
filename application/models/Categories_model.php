@@ -98,6 +98,9 @@ class Categories_model extends EA_Model {
      */
     protected function insert(array $category): int
     {
+        $category['create_datetime'] = date('Y-m-d H:i:s');
+        $category['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->insert('categories', $category))
         {
             throw new RuntimeException('Could not insert category.');
@@ -117,6 +120,8 @@ class Categories_model extends EA_Model {
      */
     protected function update(array $category): int
     {
+        $category['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('categories', $category, ['id' => $category['id']]))
         {
             throw new RuntimeException('Could not update service categories.');

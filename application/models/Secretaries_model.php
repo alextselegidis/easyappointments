@@ -204,6 +204,9 @@ class Secretaries_model extends EA_Model {
      */
     protected function insert(array $secretary): int
     {
+        $secretary['create_datetime'] = date('Y-m-d H:i:s');
+        $secretary['update_datetime'] = date('Y-m-d H:i:s');
+        
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
         $providers = $secretary['providers'] ?? [];
@@ -239,6 +242,8 @@ class Secretaries_model extends EA_Model {
      */
     protected function update(array $secretary): int
     {
+        $secretary['update_datetime'] = date('Y-m-d H:i:s');
+        
         $provider_ids = $secretary['providers'] ?? [];
         unset($secretary['providers']);
 

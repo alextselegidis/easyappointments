@@ -96,6 +96,9 @@ class Roles_model extends EA_Model {
      */
     protected function insert(array $role): int
     {
+        $role['create_datetime'] = date('Y-m-d H:i:s');
+        $role['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->insert('roles', $role))
         {
             throw new RuntimeException('Could not insert role.');
@@ -115,6 +118,8 @@ class Roles_model extends EA_Model {
      */
     protected function update(array $role): int
     {
+        $role['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('roles', $role, ['id' => $role['id']]))
         {
             throw new RuntimeException('Could not update role.');

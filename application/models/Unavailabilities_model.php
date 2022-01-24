@@ -129,6 +129,8 @@ class Unavailabilities_model extends EA_Model {
     protected function insert(array $unavailability): int
     {
         $unavailability['book_datetime'] = date('Y-m-d H:i:s');
+        $unavailability['create_datetime'] = date('Y-m-d H:i:s');
+        $unavailability['update_datetime'] = date('Y-m-d H:i:s');
         $unavailability['hash'] = random_string('alnum', 12);
         $unavailability['is_unavailability'] = TRUE;
 
@@ -151,6 +153,8 @@ class Unavailabilities_model extends EA_Model {
      */
     protected function update(array $unavailability): int
     {
+        $unavailability['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('appointments', $unavailability, ['id' => $unavailability['id']]))
         {
             throw new RuntimeException('Could not update unavailability record.');

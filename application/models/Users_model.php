@@ -113,6 +113,9 @@ class Users_model extends EA_Model {
      */
     protected function insert(array $user): int
     {
+        $user['create_datetime'] = date('Y-m-d H:i:s');
+        $user['update_datetime'] = date('Y-m-d H:i:s');
+        
         $settings = $user['settings'];
         unset($user['settings']);
 
@@ -141,6 +144,8 @@ class Users_model extends EA_Model {
      */
     protected function update(array $user): int
     {
+        $user['update_datetime'] = date('Y-m-d H:i:s');
+        
         $settings = $user['settings'];
         unset($user['settings']);
 

@@ -206,6 +206,8 @@ class Providers_model extends EA_Model {
      */
     protected function insert(array $provider): int
     {
+        $provider['create_datetime'] = date('Y-m-d H:i:s');
+        $provider['update_datetime'] = date('Y-m-d H:i:s');
         $provider['id_roles'] = $this->get_provider_role_id();
 
         $service_ids = $provider['services'];
@@ -240,6 +242,8 @@ class Providers_model extends EA_Model {
      */
     protected function update(array $provider): int
     {
+        $provider['update_datetime'] = date('Y-m-d H:i:s');
+        
         $service_ids = $provider['services'];
         unset($provider['services']);
 
