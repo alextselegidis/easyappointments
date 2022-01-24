@@ -3,30 +3,30 @@
 <?php section('content') ?>
 
 <div>
-    <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" alt="success"/>
+    <img id="success-icon" class="mt-0 mb-5" src="<?= base_url('assets/img/success.png') ?>" alt="success"/>
 </div>
 
-<div>
-    <h3><?= lang('appointment_registered') ?></h3>
+<div class="mb-5">
+    <h4 class="mb-5"><?= lang('appointment_registered') ?></h4>
 
     <p>
         <?= lang('appointment_details_was_sent_to_you') ?>
     </p>
 
-    <p>
-        <strong>
+    <p class="mb-5 text-muted">
+        <small>
             <?= lang('check_spam_folder') ?>
-        </strong>
+        </small>
     </p>
 
-    <a href="<?= site_url() ?>" class="btn btn-success btn-large">
-        <i class="fas fa-calendar-alt"></i>
+    <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
+        <i class="fas fa-calendar-alt me-2"></i>
         <?= lang('go_to_booking_page') ?>
     </a>
 
     <?php if (config('google_sync_feature')): ?>
-        <button id="add-to-google-calendar" class="btn btn-primary">
-            <i class="fas fa-plus"></i>
+        <button id="add-to-google-calendar" class="btn btn-outline-secondary">
+            <i class="fas fa-plus me-2"></i>
             <?= lang('add_to_google_calendar') ?>
         </button>
     <?php endif ?>
