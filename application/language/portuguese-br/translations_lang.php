@@ -354,4 +354,6 @@ $lang['localization'] = 'Localization';
 $lang['integrations'] = 'Integrations';
 $lang['company'] = 'Company';
 $lang['remove'] = 'Remove';
+$lang['login_button'] = 'Login Button';
+$lang['display_login_button_hint'] = 'Defines whether the login button is being displayed in the booking page.';
 // End

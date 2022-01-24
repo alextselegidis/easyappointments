@@ -25,13 +25,13 @@
 <body>
 <div id="main" class="container">
     <div class="row wrapper">
-        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8">
+        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8 col-xxl-7">
 
             <?php component('booking_header', ['company_name' => vars('company_name'), 'company_logo' => vars('company_logo')]) ?>
 
             <?php slot('content') ?>
 
-            <?php component('booking_footer') ?>
+            <?php component('booking_footer', ['display_login_button' => vars('display_login_button')]) ?>
 
         </div>
     </div>

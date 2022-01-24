@@ -273,6 +273,22 @@
 
                                 <div class="mb-3">
                                     <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="display-login-button"
+                                               data-field="display_login_button">
+                                        <label class="form-check-label" for="display-login-button">
+                                            <?= lang('login_button') ?>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('display_login_button_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="display-delete-personal-information"
                                                data-field="display_delete_personal_information">
                                         <label class="form-check-label" for="display-delete-personal-information">
@@ -286,6 +302,7 @@
                                         </small>
                                     </div>
                                 </div>
+                                
 
                                 <div class="mb-3">
                                     <div class="form-check form-switch">
