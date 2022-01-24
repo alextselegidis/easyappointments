@@ -11,10 +11,10 @@
         <?= $company_name ?>
         <div class="d-flex justify-content-center">
             <span class="display-selected-service me-2">
-                &nbsp;
+                [<?= lang('service') ?>]
             </span>
             <span class="display-selected-provider">
-                &nbsp;
+                [<?= lang('provider') ?>]
             </span>
         </div>
     </div>
