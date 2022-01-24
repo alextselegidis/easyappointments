@@ -455,7 +455,8 @@ App.Pages.Secretaries = (function () {
                     'text': name
                 }),
                 $('<br/>'),
-                $('<span/>', {
+                $('<small/>', {
+                    'class': 'text-muted',
                     'text': info
                 }),
                 $('<br/>')
