@@ -361,4 +361,6 @@ $lang['private'] = 'Private';
 $lang['private_hint'] = 'Private records will not be displayed or processed in public pages such as the booking page.';
 $lang['reset'] = 'Reset';
 $lang['all'] = 'All';
+$lang['copy'] = 'Copy';
+$lang['booking_link'] = 'Booking Link';
 // End

@@ -395,9 +395,14 @@ App.Pages.Providers = (function () {
         let dedicatedUrl = App.Utils.Url.siteUrl('?provider=' + encodeURIComponent(provider.id));
         let $link = $('<a/>', {
             'href': dedicatedUrl,
+            'target': '_blank',
             'html': [
+                $('<i/>', {
+                    'class': 'fas fa-link me-2'
+                }),
+
                 $('<span/>', {
-                    'class': 'fas fa-link'
+                    'text': lang('booking_link')
                 })
             ]
         });
@@ -423,9 +428,14 @@ App.Pages.Providers = (function () {
 
             $link = $('<a/>', {
                 'href': dedicatedUrl,
+                'target': '_blank',
                 'html': [
+                    $('<i/>', {
+                        'class': 'fas fa-link me-2'
+                    }),
+
                     $('<span/>', {
-                        'class': 'fas fa-link'
+                        'text': lang('booking_link')
                     })
                 ]
             });

@@ -69,9 +69,14 @@ App.Pages.Services = (function () {
 
             const $link = $('<a/>', {
                 'href': dedicatedUrl,
+                'target': '_blank',
                 'html': [
+                    $('<i/>', {
+                        'class': 'fas fa-link me-2'
+                    }),
+
                     $('<span/>', {
-                        'class': 'fas fa-link'
+                        'text': lang('booking_link')
                     })
                 ]
             });

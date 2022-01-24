@@ -652,8 +652,10 @@ body .form-horizontal .controls {
 }
 
 #services-page .record-details h3 a {
-    font-size: 24px;
-    margin-left: 10px;
+    display: block;
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-decoration: none;
 }
 
 /* BACKEND USERS PAGE
@@ -767,12 +769,20 @@ body .form-horizontal .controls {
 }
 
 #providers-page #providers .record-details h3 a {
-    font-size: 24px;
-    margin-left: 10px;
+    display: block;
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-decoration: none;
 }
 
 #providers-page #providers .record-details #provider-services .checkbox a {
-    margin-left: 5px;
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 75%;
+    margin-top: 5px;
+    margin-left: -20px;
+    margin-bottom: 5px;
 }
 
 /* BACKEND SETTINGS PAGE
