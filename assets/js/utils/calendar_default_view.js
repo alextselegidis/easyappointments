@@ -304,9 +304,9 @@ App.Utils.CalendarDefaultView = (function () {
                     $('#google-sync').prop('disabled', true);
                 }
             }
-        });
 
-        $reloadAppointments.trigger('click');
+            $reloadAppointments.trigger('click');
+        });
     }
 
     /**
