@@ -220,7 +220,25 @@ App.Pages.Booking = (function () {
                             .text(index + 1)
                     );
             }
+
+            prefillFromQueryParam('#first-name', 'first_name');
+            prefillFromQueryParam('#last-name', 'last_name');
+            prefillFromQueryParam('#email', 'email');
+            prefillFromQueryParam('#phone-number', 'phone');
+            prefillFromQueryParam('#address', 'address');
+            prefillFromQueryParam('#city', 'city');
+            prefillFromQueryParam('#zip-code', 'zip');
         }
+    }
+
+    function prefillFromQueryParam(field, param) {
+        const $target = $(field);
+
+        if (!$target.length) {
+            return;
+        }
+
+        $target.val(App.Utils.Url.queryParam(param));
     }
 
     /**
