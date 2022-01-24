@@ -31,12 +31,10 @@
                                     </label>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-5">
                                     <label class="form-label" for="cookie-notice-content"><?= lang('cookie_notice_content') ?></label>
                                     <textarea id="cookie-notice-content" cols="30" rows="10" class="mb-3"></textarea>
                                 </div>
-
-                                <br>
 
                                 <h4><?= lang('terms_and_conditions') ?></h4>
 
@@ -48,7 +46,7 @@
                                     </label>
                                 </div>
                                 
-                                <div class="mb-3">
+                                <div class="mb-5">
                                     <label class="form-label" for="terms-and-conditions-content"><?= lang('terms_and_conditions_content') ?></label>
                                     <textarea id="terms-and-conditions-content" cols="30" rows="10"
                                               class="mb-3"></textarea>
