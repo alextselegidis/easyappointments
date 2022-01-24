@@ -226,7 +226,7 @@ App.Utils.CalendarDefaultView = (function () {
                         }
                     },
                     {
-                        text: 'OK',
+                        text: lang('delete'),
                         click: () => {
                             const appointmentId = lastFocusedEventData.extendedProps.data.id;
 
@@ -360,7 +360,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         if ($target.hasClass('fc-unavailability')) {
             displayEdit =
-                $target.hasClass('fc-custom') && vars('privileges').appointments.edit === true ? 'me-2' : 'd-none';
+                $target.hasClass('fc-custom') && vars('privileges').appointments.edit === true ? '' : 'd-none';
             displayDelete =
                 $target.hasClass('fc-custom') && vars('privileges').appointments.delete === true ? 'me-2' : 'd-none'; // Same value at the time.
 
@@ -547,7 +547,7 @@ App.Utils.CalendarDefaultView = (function () {
                 ]
             });
         } else {
-            displayEdit = vars('privileges').appointments.edit === true ? 'me-2' : 'd-none';
+            displayEdit = vars('privileges').appointments.edit === true ? '' : 'd-none';
             displayDelete = vars('privileges').appointments.delete === true ? 'me-2' : 'd-none';
 
             $html = $('<div/>', {

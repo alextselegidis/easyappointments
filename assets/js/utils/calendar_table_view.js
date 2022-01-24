@@ -291,7 +291,7 @@ App.Utils.CalendarTableView = (function () {
                         }
                     },
                     {
-                        text: 'OK',
+                        text: lang('delete'),
                         click: () => {
                             const appointmentId = lastFocusedEventData.extendedProps.data.id;
 
