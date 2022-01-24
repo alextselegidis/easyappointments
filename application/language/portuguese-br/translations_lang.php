@@ -358,4 +358,5 @@ $lang['login_button'] = 'Login Button';
 $lang['display_login_button_hint'] = 'Defines whether the login button is being displayed in the booking page.';
 $lang['private'] = 'Private';
 $lang['private_hint'] = 'Private records will not be displayed or processed in public pages such as the booking page.';
+$lang['reset'] = 'Reset';
 // End

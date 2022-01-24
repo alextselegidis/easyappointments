@@ -19,6 +19,8 @@ App.Pages.GeneralSettings = (function () {
     const $companyLogo = $('#company-logo');
     const $companyLogoPreview = $('#company-logo-preview');
     const $removeCompanyLogo = $('#remove-company-logo');
+    const $companyColor = $('#company-color');
+    const $resetCompanyColor = $('#reset-company-color');
     let companyLogoBase64 = '';
 
     /**
@@ -61,6 +63,11 @@ App.Pages.GeneralSettings = (function () {
                 $companyLogoPreview.attr('src', generalSetting.value);
                 $companyLogoPreview.prop('hidden', false);
                 $removeCompanyLogo.prop('hidden', false);
+                return;
+            }
+
+            if (generalSetting.name === 'company_color' && generalSetting.value !== '#ffffff') {
+                $resetCompanyColor.prop('hidden', false);
                 return;
             }
 
@@ -136,18 +143,36 @@ App.Pages.GeneralSettings = (function () {
     }
 
     /**
+     * Toggle the reset company color button.
+     */
+    function onCompanyColorChange() {
+        $resetCompanyColor.prop('hidden', $companyColor.val() !== '#ffffff');
+    }
+
+    /**
+     * Set the company color value to "#ffffff" which is the default one.
+     */
+    function onResetCompanyColorClick() {
+        $companyColor.val('#ffffff');
+    }
+
+    /**
      * Initialize the module.
      */
     function initialize() {
-        const generalSettings = vars('general_settings');
-
-        deserialize(generalSettings);
-
         $saveSettings.on('click', onSaveSettingsClick);
 
         $companyLogo.on('change', onCompanyLogoChange);
 
         $removeCompanyLogo.on('click', onRemoveCompanyLogoClick);
+
+        $companyColor.on('change', onCompanyColorChange);
+
+        $resetCompanyColor.on('click', onResetCompanyColorClick);
+
+        const generalSettings = vars('general_settings');
+
+        deserialize(generalSettings);
 
         App.Layouts.Backend.placeFooterToBottom();
     }

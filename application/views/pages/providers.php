@@ -239,7 +239,7 @@
                     <h3><?= lang('working_plan') ?></h3>
                     <button id="reset-working-plan" class="btn btn-primary"
                             data-tippy-content="<?= lang('reset_working_plan') ?>">
-                        <i class="fas fa-redo-alt me-2"></i>
+                        <i class="fas fa-undo-alt me-2"></i>
                         <?= lang('reset_plan') ?></button>
                     <table class="working-plan table table-striped mt-2">
                         <thead>
