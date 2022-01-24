@@ -162,7 +162,7 @@ App.Utils.CalendarDefaultView = (function () {
                 App.Components.UnavailabilitiesModal.resetModal();
 
                 // Apply unavailability data to dialog.
-                $unavailabilitiesModal.find('.modal-header h3').text('Edit Unavailability Period');
+                $unavailabilitiesModal.find('.modal-header h3').text(lang('edit_unavailability_title'));
                 $unavailabilitiesModal.find('#unavailability-start').datetimepicker('setDate', startMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
                 $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
