@@ -98,6 +98,20 @@ class Calendar extends EA_Controller {
 
         $available_providers = $this->providers_model->get_available_providers();
 
+        if ($role_slug === DB_SLUG_PROVIDER)
+        {
+            $available_providers = array_filter($available_providers, function ($available_provider) use ($user_id) {
+                return (int)$available_provider['id'] === (int)$user_id;
+            });
+        }
+
+        if ($role_slug === DB_SLUG_SECRETARY)
+        {
+            $available_providers = array_filter($available_providers, function ($available_provider) use ($secretary_providers) {
+                return in_array($available_provider['id'], $secretary_providers);
+            });
+        }
+
         $available_services = $this->services_model->get_available_services();
 
         $calendar_view = request('view', $user['settings']['calendar_view']);

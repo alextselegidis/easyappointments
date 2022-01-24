@@ -1580,26 +1580,6 @@ App.Utils.CalendarDefaultView = (function () {
                 .find('optgroup:eq(0)')
                 .find('option[value="' + vars('user_id') + '"]')
                 .prop('selected', true);
-            $selectFilterItem.prop('disabled', true);
-        }
-
-        if (vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY) {
-            // Remove the providers that are not connected to the secretary.
-            $selectFilterItem.find('optgroup:eq(1)').remove();
-
-            $selectFilterItem.find('option[type="provider"]').each((index, option) => {
-                const provider = vars('secretary_providers').find(
-                    (secretaryProviderId) => Number($(option).val()) === Number(secretaryProviderId)
-                );
-
-                if (!provider) {
-                    $(option).remove();
-                }
-            });
-
-            if (!$selectFilterItem.find('option[type="provider"]').length) {
-                $selectFilterItem('optgroup[type="providers-group"]').remove();
-            }
         }
 
         // Add the page event listeners.
