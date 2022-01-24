@@ -51,6 +51,14 @@ body {
     font-weight: lighter;
     color: #fff;
     margin: 20px 0;
+    
+    .display-selected-service,
+    .display-selected-provider {
+        color: #225d4d;
+        font-size: 60%;
+        font-weight: normal;
+    }
+
 }
 
 #book-appointment-wizard #steps {
@@ -280,7 +288,7 @@ body {
     #book-appointment-wizard #company-name {
         display: inline-block;
         float: left;
-        margin: 10px auto;
+        margin: 0 auto;
     }
 
     #book-appointment-wizard #steps {

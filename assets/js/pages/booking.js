@@ -199,6 +199,22 @@ App.Pages.Booking = (function () {
             if (selectedProviderId && $selectProvider.find('option[value="' + selectedProviderId + '"]').length > 0) {
                 $selectProvider.val(selectedProviderId).trigger('change');
             }
+
+            if (selectedServiceId && selectedProviderId) {
+                $selectService.closest('.wizard-frame').find('.button-next').trigger('click');
+
+                $(document).find('.book-step:first').hide();
+
+                $(document).find('.button-back:first').css('visibility', 'hidden');
+
+                $(document)
+                    .find('.book-step:not(:first)')
+                    .each((index, bookStepEl) =>
+                        $(bookStepEl)
+                            .find('strong')
+                            .text(index + 1)
+                    );
+            }
         }
     }
 
@@ -570,6 +586,10 @@ App.Pages.Booking = (function () {
                 return false; // Break loop
             }
         });
+
+        $(document).find('.display-selected-service').text($selectService.find('option:selected').text());
+
+        $(document).find('.display-selected-provider').text($selectProvider.find('option:selected').text());
 
         $('#appointment-details').empty();
 

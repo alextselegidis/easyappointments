@@ -7,7 +7,17 @@
 ?>
 
 <div id="header">
-    <span id="company-name"><?= $company_name ?></span>
+    <div id="company-name">
+        <?= $company_name ?>
+        <div class="d-flex justify-content-between">
+            <span class="display-selected-service">
+                &nbsp;
+            </span>
+            <span class="display-selected-provider">
+                &nbsp;
+            </span>
+        </div>
+    </div>
 
     <div id="steps">
         <div id="step-1" class="book-step active-step"
