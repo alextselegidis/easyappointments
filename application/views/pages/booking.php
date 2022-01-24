@@ -6,7 +6,7 @@
 
 <?php component('booking_cancellation_frame', [
     'manage_mode' => vars('manage_mode'),
-    'appointment_data' => vars('manage_mode')
+    'appointment_data' => vars('appointment_data')
 ]) ?>
 
 <!-- Select Service & Provider -->
