@@ -124,6 +124,7 @@ th {
 .dropdown-menu {
     font-size: $font-size-sm;
     text-transform: uppercase;
+    border: 1px solid rgb(0 0 0 / 40%);
     
     .dropdown-item {
         padding: 1rem;

@@ -198,7 +198,7 @@ body legend {
 .backend-page .form-control:disabled,
 .backend-page .form-control[readonly] {
     background-color: #fff;
-    color: #9a9a9a;
+    color: #666;
     border-color: #fff;
     opacity: 1;
     padding-left: 0;
@@ -256,7 +256,6 @@ body legend {
 .record-details input:read-only:not(.custom-control-input),
 .record-details select:disabled,
 .record-details textarea:read-only {
-    opacity: 0.85;
     box-shadow: none;
 }
 
