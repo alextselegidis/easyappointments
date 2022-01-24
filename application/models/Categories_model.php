@@ -129,14 +129,19 @@ class Categories_model extends EA_Model {
      * Remove an existing category from the database.
      *
      * @param int $category_id Category ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $category_id)
+    public function delete(int $category_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('categories', ['id' => $category_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete service categories.');
+            $this->db->delete('categories', ['id' => $category_id]);
+        }
+        else
+        {
+            $this->db->update('categories', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $category_id]);
         }
     }
 
@@ -144,19 +149,25 @@ class Categories_model extends EA_Model {
      * Get a specific category from the database.
      *
      * @param int $category_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the category data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $category_id): array
+    public function find(int $category_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('categories', ['id' => $category_id])->num_rows())
+        if ( ! $with_trashed)
         {
-            throw new InvalidArgumentException('The provided category ID was not found in the database: ' . $category_id);
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $category = $this->db->get_where('categories', ['id' => $category_id])->row_array();
+
+        if ( ! $category)
+        {
+            throw new InvalidArgumentException('The provided category ID was not found in the database: ' . $category_id);
+        }
 
         $this->cast($category);
 
@@ -213,10 +224,11 @@ class Categories_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of service categories.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -226,6 +238,11 @@ class Categories_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $categories = $this->db->get('categories', $limit, $offset)->result_array();
@@ -255,11 +272,17 @@ class Categories_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of service categories.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
         $categories = $this
             ->db
             ->select()

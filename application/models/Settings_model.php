@@ -126,16 +126,21 @@ class Settings_model extends EA_Model {
 
     /**
      * Remove an existing setting from the database.
-     *
+     
      * @param int $setting_id Setting ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $setting_id)
+    public function delete(int $setting_id,  bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('settings', ['id' => $setting_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete setting.');
+            $this->db->delete('settings', ['id' => $setting_id]);
+        }
+        else
+        {
+            $this->db->update('settings', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $setting_id]);
         }
     }
 
@@ -143,19 +148,25 @@ class Settings_model extends EA_Model {
      * Get a specific setting from the database.
      *
      * @param int $setting_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the setting data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $setting_id): array
+    public function find(int $setting_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('settings', ['id' => $setting_id])->num_rows())
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
+        $setting = $this->db->get_where('settings', ['id' => $setting_id])->row_array();
+
+        if ( ! $setting)
         {
             throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
         }
-
-        $setting = $this->db->get_where('settings', ['id' => $setting_id])->row_array();
 
         $this->cast($setting);
 
@@ -212,10 +223,11 @@ class Settings_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of settings.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -225,6 +237,11 @@ class Settings_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $settings = $this->db->get('settings', $limit, $offset)->result_array();
@@ -254,11 +271,17 @@ class Settings_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of settings.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
         $settings = $this
             ->db
             ->select()

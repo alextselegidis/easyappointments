@@ -190,14 +190,19 @@ class Customers_model extends EA_Model {
      * Remove an existing customer from the database.
      *
      * @param int $customer_id Customer ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $customer_id)
+    public function delete(int $customer_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('users', ['id' => $customer_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete customer.');
+            $this->db->delete('users', ['id' => $customer_id]);
+        }
+        else
+        {
+            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $customer_id]);
         }
     }
 
@@ -205,19 +210,23 @@ class Customers_model extends EA_Model {
      * Get a specific customer from the database.
      *
      * @param int $customer_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the customer data.
-     *
-     * @throws InvalidArgumentException
      */
-    public function find(int $customer_id): array
+    public function find(int $customer_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('users', ['id' => $customer_id])->num_rows())
+        if ( ! $with_trashed)
         {
-            throw new InvalidArgumentException('The provided customer ID was not found in the database: ' . $customer_id);
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $customer = $this->db->get_where('users', ['id' => $customer_id])->row_array();
+
+        if ( ! $customer)
+        {
+            throw new InvalidArgumentException('The provided customer ID was not found in the database: ' . $customer_id);
+        }
 
         $this->cast($customer);
 
@@ -274,10 +283,11 @@ class Customers_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of customers.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_customer_role_id();
 
@@ -289,6 +299,11 @@ class Customers_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $customers = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -400,12 +415,18 @@ class Customers_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of customers.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_customer_role_id();
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
 
         $customers = $this
             ->db

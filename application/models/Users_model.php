@@ -170,14 +170,19 @@ class Users_model extends EA_Model {
      * Remove an existing user from the database.
      *
      * @param int $user_id User ID.
+     * @param bool $force_delete Override soft delete. 
      *
      * @throws RuntimeException
      */
-    public function delete(int $user_id)
+    public function delete(int $user_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('users', ['id' => $user_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete user.');
+            $this->db->delete('users', ['id' => $user_id]);
+        }
+        else
+        {
+            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $user_id]);
         }
     }
 
@@ -185,19 +190,25 @@ class Users_model extends EA_Model {
      * Get a specific user from the database.
      *
      * @param int $user_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the user data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $user_id): array
+    public function find(int $user_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('users', ['id' => $user_id])->num_rows())
+        if ( ! $with_trashed)
         {
-            throw new InvalidArgumentException('The provided user ID was not found in the database: ' . $user_id);
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $user = $this->db->get_where('users', ['id' => $user_id])->row_array();
+
+        if ( ! $user)
+        {
+            throw new InvalidArgumentException('The provided user ID was not found in the database: ' . $user_id);
+        }
 
         $this->cast($user);
 
@@ -258,10 +269,11 @@ class Users_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of users.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -271,6 +283,11 @@ class Users_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $users = $this->db->get('users', $limit, $offset)->result_array();
@@ -372,11 +389,17 @@ class Users_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of settings.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
         $users = $this
             ->db
             ->select()

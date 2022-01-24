@@ -127,14 +127,19 @@ class Roles_model extends EA_Model {
      * Remove an existing role from the database.
      *
      * @param int $role_id Role ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $role_id)
+    public function delete(int $role_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('roles', ['id' => $role_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete role.');
+            $this->db->delete('roles', ['id' => $role_id]);
+        }
+        else
+        {
+            $this->db->update('roles', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $role_id]);
         }
     }
 
@@ -142,23 +147,29 @@ class Roles_model extends EA_Model {
      * Get a specific role from the database.
      *
      * @param int $role_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the role data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $role_id): array
+    public function find(int $role_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('roles', ['id' => $role_id])->num_rows())
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
+        $role = $this->db->get_where('roles', ['id' => $role_id])->row_array();
+
+        if ( ! $role)
         {
             throw new InvalidArgumentException('The provided role ID was not found in the database: ' . $role_id);
         }
 
-        $role = $this->db->get_where('roles', ['id' => $role_id])->row_array();
-        
-        $this->cast($role); 
-        
-        return $role; 
+        $this->cast($role);
+
+        return $role;
     }
 
     /**
@@ -193,7 +204,7 @@ class Roles_model extends EA_Model {
 
         // Check if the required field is part of the role data.
         $role = $query->row_array();
-        
+
         $this->cast($role);
 
         if ( ! array_key_exists($field, $role))
@@ -211,10 +222,11 @@ class Roles_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of roles.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -226,13 +238,18 @@ class Roles_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        $roles = $this->db->get('roles', $limit, $offset)->result_array();
-        
-        foreach($roles as &$role)
+        if ( ! $with_trashed)
         {
-            $this->cast($role); 
+            $this->db->where('delete_datetime IS NULL');
         }
-        
+
+        $roles = $this->db->get('roles', $limit, $offset)->result_array();
+
+        foreach ($roles as &$role)
+        {
+            $this->cast($role);
+        }
+
         return $roles;
     }
 
@@ -255,7 +272,7 @@ class Roles_model extends EA_Model {
     public function get_permissions_by_slug(string $slug): array
     {
         $role = $this->db->get_where('roles', ['slug' => $slug])->row_array();
-        
+
         $this->cast($role);
 
         unset(
@@ -321,11 +338,17 @@ class Roles_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of roles.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
         $roles = $this
             ->db
             ->select()
@@ -338,7 +361,7 @@ class Roles_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach($roles as &$role)
+        foreach ($roles as &$role)
         {
             $this->cast($role);
         }
