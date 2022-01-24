@@ -882,3 +882,12 @@ body .form-horizontal .controls {
 #booking-settings-page .fields-row .form-control {
     border: 1px dashed #999 !important;
 }
+
+#company-logo-preview {
+    max-width: 256px;
+    max-height: 256px;
+}
+
+#company-color {
+    min-height: 41px;
+}

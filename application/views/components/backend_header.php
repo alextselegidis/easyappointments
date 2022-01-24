@@ -3,6 +3,7 @@
  * Local variables.
  * 
  * @var string $active_menu
+ * @var string $company_logo
  */
 ?>
 

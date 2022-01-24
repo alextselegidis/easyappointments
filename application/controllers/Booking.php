@@ -61,6 +61,8 @@ class Booking extends EA_Controller {
         }
 
         $company_name = setting('company_name');
+        $company_logo = setting('company_logo');
+        $company_color = setting('company_color');
         $disable_booking = setting('disable_booking');
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
@@ -220,6 +222,8 @@ class Booking extends EA_Controller {
             'available_services' => $available_services,
             'available_providers' => $available_providers,
             'company_name' => $company_name,
+            'company_logo' => $company_logo,
+            'company_color' => $company_color,
             'date_format' => $date_format,
             'time_format' => $time_format,
             'first_weekday' => $first_weekday,

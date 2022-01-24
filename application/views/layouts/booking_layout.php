@@ -18,6 +18,8 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking_layout.css') ?>">
+    
+    <?php component('company_color_style', ['company_color' => vars('company_color')]) ?>
 </head>
 
 <body>
@@ -25,7 +27,7 @@
     <div class="row wrapper">
         <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8">
 
-            <?php component('booking_header', ['company_name' => vars('company_name')]) ?>
+            <?php component('booking_header', ['company_name' => vars('company_name'), 'company_logo' => vars('company_logo')]) ?>
 
             <?php slot('content') ?>
 

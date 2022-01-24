@@ -8,8 +8,13 @@
 
 <div id="header">
     <div id="company-name">
-        <?= $company_name ?>
-        <div class="d-flex justify-content-center">
+        <img src="<?= vars('company_logo') ?: base_url('assets/img/logo.png') ?>" alt="logo" id="company-logo">
+        
+        <span>
+            <?= $company_name ?>
+        </span>
+        
+        <div class="d-flex justify-content-center justify-content-md-start">
             <span class="display-selected-service me-2">
                 [<?= lang('service') ?>]
             </span>

@@ -345,4 +345,13 @@ $lang['disable_booking'] = 'Disable Booking';
 $lang['disable_booking_hint'] = 'The booking page will be disabled for as long as this setting is active and customers will not be able to register new appointments.';
 $lang['display_message'] = 'Display Message';
 $lang['booking_is_disabled'] = 'Booking Is Disabled!';
+$lang['appearance'] = 'Appearance';
+$lang['company_logo'] = 'Company Logo';
+$lang['company_logo_hint'] = 'The company logo will be displayed in many places of the app, including the booking page and the notification emails (image file, max 2MB).';
+$lang['company_color'] = 'Company Color';
+$lang['company_color_hint'] = 'The company color will be applied across the app so that it the app uses your branding.';
+$lang['localization'] = 'Localization';
+$lang['integrations'] = 'Integrations';
+$lang['company'] = 'Company';
+$lang['remove'] = 'Remove';
 // End

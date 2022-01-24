@@ -19,8 +19,10 @@
                             <?php endif ?>
                         </legend>
 
-                        <div class="row">
-                            <div class="col-lg-6">
+                        <div class="row mb-5">
+                            <div class="col-12">
+                                <h4><?= lang('company') ?></h4>
+                                
                                 <div class="mb-3">
                                     <label class="form-label" for="company-name">
                                         <?= lang('company_name') ?>
@@ -59,6 +61,48 @@
                                         </small>
                                     </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="company-logo">
+                                        <?= lang('company_logo') ?>
+                                    </label>
+                                    <input type="file" id="company-logo" data-field="company_logo" class="form-control" accept="image/*">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('company_logo_hint') ?>
+                                        </small>
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-center">
+                                        <img src="#" alt="Company Logo Preview" id="company-logo-preview" class="img-thumbnail my-3" hidden>
+                                    </div>
+
+                                    <div class="d-flex justify-content-center">
+                                        <button type="button" class="btn btn-danger btn-sm mb-3" id="remove-company-logo" hidden>
+                                            <i class="fas fa-trash me-2"></i>
+                                            <?= lang('remove') ?>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="company-color">
+                                        <?= lang('company_color') ?>
+                                    </label>
+                                    <input type="color" id="company-color" data-field="company_color" class="form-control">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('company_color_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-5">
+                            <div class="col-12">
+                                <h4><?= lang('localization') ?></h4>
+
                                 <div class="mb-3">
                                     <label class="form-label" for="date-format">
                                         <?= lang('date_format') ?>
@@ -108,7 +152,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h4><?= lang('integrations') ?></h4>
+                                
                                 <div class="mb-3">
                                     <label class="form-label" for="google-analytics-code">
                                         Google Analytics Code
@@ -133,6 +182,7 @@
                                         </small>
                                     </div>
                                 </div>
+                                
                                 <div class="mb-3">
                                     <label class="form-label" for="api-token">API Token</label>
                                     <input id="api-token" data-field="api_token" class="form-control">

@@ -52,6 +52,12 @@ body {
     color: #fff;
     margin: 20px 0;
     
+    #company-logo {
+        display: block;
+        margin: 14px auto;
+        max-height: 56px;
+    }
+    
     .display-selected-service,
     .display-selected-provider {
         color: #225d4d;
@@ -290,6 +296,16 @@ body {
         display: inline-block;
         float: left;
         margin: 0 auto;
+        min-width: 400px;
+        line-height: 1.4;
+
+        #company-logo {
+            display: inline-block;
+            float: left;
+            margin-right: 14px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
     }
 
     #book-appointment-wizard #steps {

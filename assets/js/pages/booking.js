@@ -525,7 +525,7 @@ App.Pages.Booking = (function () {
 
             $('.required').each((index, requiredField) => {
                 if (!$(requiredField).val()) {
-                    $(requiredField).parents('.form-group').addClass('is-invalid');
+                    $(requiredField).addClass('is-invalid');
                     missingRequiredField = true;
                 }
             });
@@ -548,7 +548,7 @@ App.Pages.Booking = (function () {
 
             // Validate email address.
             if ($email.val() && !App.Utils.Validation.email($email.val())) {
-                $email.parents('.form-group').addClass('is-invalid');
+                $email.addClass('is-invalid');
                 throw new Error(lang('invalid_email'));
             }
 

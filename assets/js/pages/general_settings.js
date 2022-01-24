@@ -16,6 +16,10 @@
  */
 App.Pages.GeneralSettings = (function () {
     const $saveSettings = $('#save-settings');
+    const $companyLogo = $('#company-logo');
+    const $companyLogoPreview = $('#company-logo-preview');
+    const $removeCompanyLogo = $('#remove-company-logo');
+    let companyLogoBase64 = '';
 
     /**
      * Check if the form has invalid values.
@@ -52,6 +56,14 @@ App.Pages.GeneralSettings = (function () {
 
     function deserialize(generalSettings) {
         generalSettings.forEach((generalSetting) => {
+            if (generalSetting.name === 'company_logo' && generalSetting.value) {
+                companyLogoBase64 = generalSetting.value;
+                $companyLogoPreview.attr('src', generalSetting.value);
+                $companyLogoPreview.prop('hidden', false);
+                $removeCompanyLogo.prop('hidden', false);
+                return;
+            }
+
             $('[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
         });
     }
@@ -66,6 +78,11 @@ App.Pages.GeneralSettings = (function () {
                 name: $field.data('field'),
                 value: $field.val()
             });
+        });
+
+        generalSettings.push({
+            name: 'company_logo',
+            value: companyLogoBase64
         });
 
         return generalSettings;
@@ -89,6 +106,36 @@ App.Pages.GeneralSettings = (function () {
     }
 
     /**
+     * Convert the selected image to a base64 encoded string.
+     */
+    function onCompanyLogoChange() {
+        const file = $companyLogo[0].files[0];
+
+        if (!file) {
+            $removeCompanyLogo.trigger('click');
+            return;
+        }
+
+        App.Utils.File.toBase64(file).then((base64) => {
+            companyLogoBase64 = base64;
+            $companyLogoPreview.attr('src', base64);
+            $companyLogoPreview.prop('hidden', false);
+            $removeCompanyLogo.prop('hidden', false);
+        });
+    }
+
+    /**
+     * Remove the company logo data.
+     */
+    function onRemoveCompanyLogoClick() {
+        companyLogoBase64 = '';
+        $companyLogo.val('');
+        $companyLogoPreview.attr('src', '#');
+        $companyLogoPreview.prop('hidden', true);
+        $removeCompanyLogo.prop('hidden', true);
+    }
+
+    /**
      * Initialize the module.
      */
     function initialize() {
@@ -97,6 +144,10 @@ App.Pages.GeneralSettings = (function () {
         deserialize(generalSettings);
 
         $saveSettings.on('click', onSaveSettingsClick);
+
+        $companyLogo.on('change', onCompanyLogoChange);
+
+        $removeCompanyLogo.on('click', onRemoveCompanyLogoClick);
 
         App.Layouts.Backend.placeFooterToBottom();
     }
