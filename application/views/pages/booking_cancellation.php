@@ -19,13 +19,13 @@
         </strong>
     </p>
 
-    <a href="<?= site_url() ?>" class="btn btn-success btn-large">
+    <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
         <i class="fas fa-calendar-alt"></i>
         <?= lang('go_to_booking_page') ?>
     </a>
 
     <?php if (config('google_sync_feature')): ?>
-        <button id="add-to-google-calendar" class="btn btn-primary">
+        <button id="add-to-google-calendar" class="btn btn-outline-secondary">
             <i class="fas fa-plus"></i>
             <?= lang('add_to_google_calendar') ?>
         </button>
