@@ -485,13 +485,30 @@ App.Pages.Booking = (function () {
         /**
          * Event: Book Appointment Form "Submit"
          *
-         * Before the form is submitted to the server we need to make sure that
-         * in the meantime the selected appointment date/time wasn't reserved by
-         * another customer or event.
+         * Before the form is submitted to the server we need to make sure that in the meantime the selected appointment
+         * date/time wasn't reserved by another customer or event.
          *
          * @param {jQuery.Event} event
          */
         $bookAppointmentSubmit.on('click', () => {
+            const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
+
+            $acceptToTermsAndConditions.removeClass('is-invalid');
+
+            if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
+                $acceptToTermsAndConditions.addClass('is-invalid');
+                return;
+            }
+
+            const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
+
+            $acceptToPrivacyPolicy.removeClass('is-invalid');
+
+            if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
+                $acceptToPrivacyPolicy.addClass('is-invalid');
+                return;
+            }
+
             App.Http.Booking.registerAppointment();
         });
 
@@ -531,18 +548,6 @@ App.Pages.Booking = (function () {
             });
 
             if (missingRequiredField) {
-                throw new Error(lang('fields_are_required'));
-            }
-
-            const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
-            if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
-                $acceptToTermsAndConditions.parents('.form-check').addClass('text-danger');
-                throw new Error(lang('fields_are_required'));
-            }
-
-            const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
-            if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
-                $acceptToPrivacyPolicy.parents('.form-check').addClass('text-danger');
                 throw new Error(lang('fields_are_required'));
             }
 

@@ -18,8 +18,6 @@
  * @var string $require_zip_code
  * @var string $display_notes
  * @var string $require_notes
- * @var string $display_terms_and_conditions
- * @var string $display_privacy_policy
  */
 ?>
 
@@ -131,34 +129,6 @@
             </div>
         </div>
     </div>
-
-    <?php if ($display_terms_and_conditions): ?>
-        <div class="form-check mb-3">
-            <input type="checkbox" class="required form-check-input" id="accept-to-terms-and-conditions">
-            <label class="form-check-label" for="accept-to-terms-and-conditions">
-                <?= strtr(lang('read_and_agree_to_terms_and_conditions'),
-                    [
-                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-bs-target="#terms-and-conditions-modal">',
-                        '{/$link}' => '</a>'
-                    ])
-                ?>
-            </label>
-        </div>
-    <?php endif ?>
-
-    <?php if ($display_privacy_policy): ?>
-        <div class="form-check mb-3">
-            <input type="checkbox" class="required form-check-input" id="accept-to-privacy-policy">
-            <label class="form-check-label" for="accept-to-privacy-policy">
-                <?= strtr(lang('read_and_agree_to_privacy_policy'),
-                    [
-                        '{$link}' => '<a href="#" data-bs-toggle="modal" data-bs-target="#privacy-policy-modal">',
-                        '{/$link}' => '</a>'
-                    ])
-                ?>
-            </label>
-        </div>
-    <?php endif ?>
 
     <div class="command-buttons">
         <button type="button" id="button-back-3" class="btn button-back btn-outline-secondary"

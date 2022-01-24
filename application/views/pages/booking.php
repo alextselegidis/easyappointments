@@ -36,14 +36,16 @@
     'display_zip_code' => vars('display_zip_code'),
     'require_zip_code' => vars('require_zip_code'),
     'display_notes' => vars('display_notes'),
-    'require_notes' => vars('require_notes'),
-    'display_terms_and_conditions' => vars('display_terms_and_conditions'),
-    'display_privacy_policy' => vars('display_privacy_policy'),
+    'require_notes' => vars('require_notes')
 ]) ?>
 
 <!-- Appointment Data Confirmation -->
 
-<?php component('booking_final_step', ['manage_mode' => vars('manage_mode')]) ?>
+<?php component('booking_final_step', [
+    'manage_mode' => vars('manage_mode'),
+    'display_terms_and_conditions' => vars('display_terms_and_conditions'),
+    'display_privacy_policy' => vars('display_privacy_policy'),
+]) ?>
 
 <?php section('content') ?>
 
