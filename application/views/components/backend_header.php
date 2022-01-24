@@ -48,7 +48,7 @@
                     <i class="fas fa-business-time me-2"></i>
                     <?= lang('services') ?>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="<?= site_url('services') ?>">
                         <?= lang('services') ?>
                     </a>
@@ -66,7 +66,7 @@
                     <i class="fas fa-users me-2"></i>
                     <?= lang('users') ?>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="<?= site_url('providers') ?>">
                         <?= lang('providers') ?>
                     </a>
@@ -87,7 +87,7 @@
                     <i class="fas fa-cogs me-2"></i>
                     <?= lang('settings') ?>
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-end">
                     <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
                         <a class="dropdown-item" href="<?= site_url('general_settings') ?>">
                             <?= lang('general') ?>
