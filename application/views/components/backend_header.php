@@ -96,14 +96,14 @@
                             <?= lang('booking') ?>
                         </a>
                         <a class="dropdown-item" href="<?= site_url('business_settings') ?>">
-                            <?= lang('business_logic') ?>
+                            <?= lang('business') ?>
                         </a>
                         <a class="dropdown-item" href="<?= site_url('legal_settings') ?>">
-                            <?= lang('legal_contents') ?>
+                            <?= lang('legal') ?>
                         </a>
                     <?php endif ?>
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
-                        <?= lang('current_user') ?>
+                        <?= lang('account') ?>
                     </a>
                     <a class="dropdown-item" href="<?= site_url('about') ?>">
                         <?= lang('about') ?>
