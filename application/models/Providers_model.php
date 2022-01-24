@@ -24,6 +24,7 @@ class Providers_model extends EA_Model {
      */
     protected $casts = [
         'id' => 'integer',
+        'is_private' => 'boolean',
         'id_roles' => 'integer',
     ];
 
@@ -44,6 +45,7 @@ class Providers_model extends EA_Model {
         'timezone' => 'timezone',
         'language' => 'language',
         'notes' => 'notes',
+        'isPrivate' => 'is_private',
         'roleId' => 'id_roles',
     ];
 
@@ -609,10 +611,17 @@ class Providers_model extends EA_Model {
     /**
      * Get all the provider records that are assigned to at least one service.
      *
+     * @param bool $without_private Only include the public providers.
+     *
      * @return array Returns an array of providers.
      */
-    public function get_available_providers(): array
+    public function get_available_providers(bool $without_private = FALSE): array
     {
+        if ($without_private)
+        {
+            $this->db->where('users.is_private', FALSE);
+        }
+
         $providers = $this
             ->db
             ->select('users.*')

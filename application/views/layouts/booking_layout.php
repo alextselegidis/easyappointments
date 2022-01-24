@@ -19,7 +19,9 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking_layout.css') ?>">
     
-    <?php component('company_color_style', ['company_color' => vars('company_color')]) ?>
+    <?php if (vars('company_color')): ?>
+        <?php component('company_color_style', ['company_color' => vars('company_color')]) ?>
+    <?php endif ?>
 </head>
 
 <body>

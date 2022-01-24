@@ -24,6 +24,7 @@ App.Pages.Services = (function () {
     const $category = $('#category');
     const $availabilitiesType = $('#availabilities-type');
     const $attendantsNumber = $('#attendants-number');
+    const $private = $('#private');
     const $location = $('#location');
     const $description = $('#description');
     const $filterServices = $('#filter-services');
@@ -134,6 +135,7 @@ App.Pages.Services = (function () {
                 color: App.Components.ColorSelection.getColor($color),
                 availabilities_type: $availabilitiesType.val(),
                 attendants_number: $attendantsNumber.val(),
+                is_private: Number($private.prop('checked')),
                 id_categories: $category.val() || null
             };
 
@@ -288,6 +290,7 @@ App.Pages.Services = (function () {
         $location.val(service.location);
         $availabilitiesType.val(service.availabilities_type);
         $attendantsNumber.val(service.attendants_number);
+        $private.prop('checked', service.is_private);
         App.Components.ColorSelection.setColor($color, service.color);
 
         const categoryId = service.id_categories !== null ? service.id_categories : '';

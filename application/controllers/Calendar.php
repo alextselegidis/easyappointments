@@ -99,8 +99,8 @@ class Calendar extends EA_Controller {
         $available_providers = $this->providers_model->get_available_providers();
 
         $available_services = $this->services_model->get_available_services();
-        
-        $calendar_view = request('view', $user['settings']['calendar_view']); 
+
+        $calendar_view = request('view', $user['settings']['calendar_view']);
 
         script_vars([
             'user_id' => $user_id,

@@ -26,6 +26,7 @@ App.Pages.Providers = (function () {
     const $city = $('#city');
     const $state = $('#state');
     const $zipCode = $('#zip-code');
+    const $private = $('#private');
     const $notes = $('#notes');
     const $timezone = $('#timezone');
     const $username = $('#username');
@@ -162,6 +163,7 @@ App.Pages.Providers = (function () {
                 city: $city.val(),
                 state: $state.val(),
                 zip_code: $zipCode.val(),
+                is_private: Number($private.prop('checked')),
                 notes: $notes.val(),
                 timezone: $timezone.val(),
                 settings: {
@@ -381,6 +383,7 @@ App.Pages.Providers = (function () {
         $city.val(provider.city);
         $state.val(provider.state);
         $zipCode.val(provider.zip_code);
+        $private.prop('checked', provider.is_private);
         $notes.val(provider.notes);
         $timezone.val(provider.timezone);
 

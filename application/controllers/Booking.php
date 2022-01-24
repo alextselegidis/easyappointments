@@ -86,8 +86,8 @@ class Booking extends EA_Controller {
             return;
         }
 
-        $available_services = $this->services_model->get_available_services();
-        $available_providers = $this->providers_model->get_available_providers();
+        $available_services = $this->services_model->get_available_services(TRUE);
+        $available_providers = $this->providers_model->get_available_providers(TRUE);
 
         foreach ($available_providers as &$available_provider)
         {
@@ -224,7 +224,7 @@ class Booking extends EA_Controller {
             'available_providers' => $available_providers,
             'company_name' => $company_name,
             'company_logo' => $company_logo,
-            'company_color' => $company_color,
+            'company_color' => $company_color === '#ffffff' ? '' : $company_color,
             'date_format' => $date_format,
             'time_format' => $time_format,
             'first_weekday' => $first_weekday,
@@ -364,7 +364,7 @@ class Booking extends EA_Controller {
      */
     protected function search_any_provider(int $service_id, string $date, string $hour = NULL): ?int
     {
-        $available_providers = $this->providers_model->get_available_providers();
+        $available_providers = $this->providers_model->get_available_providers(TRUE);
 
         $service = $this->services_model->find($service_id);
 
@@ -652,7 +652,7 @@ class Booking extends EA_Controller {
      */
     protected function search_providers_by_service(int $service_id): array
     {
-        $available_providers = $this->providers_model->get_available_providers();
+        $available_providers = $this->providers_model->get_available_providers(TRUE);
         $provider_list = [];
 
         foreach ($available_providers as $provider)

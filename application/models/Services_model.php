@@ -26,6 +26,7 @@ class Services_model extends EA_Model {
         'id' => 'integer',
         'price' => 'float',
         'attendants_number' => 'integer',
+        'is_private' => 'boolean',
         'id_categories' => 'integer',
     ];
 
@@ -43,6 +44,7 @@ class Services_model extends EA_Model {
         'color' => 'color',
         'availabilitiesType' => 'availabilities_type',
         'attendantsNumber' => 'attendants_number',
+        'isPrivate' => 'is_private',
         'categoryId' => 'id_categories',
     ];
 
@@ -211,9 +213,9 @@ class Services_model extends EA_Model {
         }
 
         $service = $this->db->get_where('services', ['id' => $service_id])->row_array();
-        
-        $this->cast($service); 
-        
+
+        $this->cast($service);
+
         return $service;
     }
 
@@ -249,7 +251,7 @@ class Services_model extends EA_Model {
 
         // Check if the required field is part of the service data.
         $service = $query->row_array();
-        
+
         $this->cast($service);
 
         if ( ! array_key_exists($field, $service))
@@ -283,22 +285,29 @@ class Services_model extends EA_Model {
         }
 
         $services = $this->db->get('services', $limit, $offset)->result_array();
-        
-        foreach ($services as $service)
+
+        foreach ($services as &$service)
         {
             $this->cast($service);
         }
-        
+
         return $services;
     }
 
     /**
      * Get all the service records that are assigned to at least one provider.
      *
+     * @param bool $without_private Only include the public services.
+     *
      * @return array Returns an array of services.
      */
-    public function get_available_services(): array
+    public function get_available_services(bool $without_private = FALSE): array
     {
+        if ($without_private)
+        {
+            $this->db->where('services.is_private', FALSE);
+        }
+
         $services = $this
             ->db
             ->distinct()
@@ -310,7 +319,7 @@ class Services_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach ($services as $service)
+        foreach ($services as &$service)
         {
             $this->cast($service);
         }
@@ -351,8 +360,8 @@ class Services_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
-        
-        foreach ($services as $service)
+
+        foreach ($services as &$service)
         {
             $this->cast($service);
         }
