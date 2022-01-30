@@ -65,7 +65,12 @@ class Backend_api extends EA_Controller {
     public function ajax_get_calendar_events()
     {
         try
-        {
+        {   
+            if ($this->privileges[PRIV_APPOINTMENTS]['view'] == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $start_date = $this->input->post('startDate') . ' 00:00:00';
             $end_date = $this->input->post('endDate') . ' 23:59:59';
 
