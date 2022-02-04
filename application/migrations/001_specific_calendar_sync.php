@@ -1,26 +1,22 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Specific_calendar_sync
- *
+/*
  * Notice: This first migration got altered to include the creation of the initial database structure so that external
  * SQL are not required.
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
  */
-class Migration_Specific_calendar_sync extends CI_Migration {
+
+class Migration_Specific_calendar_sync extends EA_Migration {
     /**
      * Upgrade method.
      */
@@ -53,7 +49,7 @@ class Migration_Specific_calendar_sync extends CI_Migration {
                 'type' => 'TEXT',
                 'null' => TRUE,
             ],
-            'is_unavailable' => [
+            'is_unavailability' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
                 'default' => '0'

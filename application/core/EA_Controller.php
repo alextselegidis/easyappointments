@@ -1,46 +1,47 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class MY_Controller
+ * Easy!Appointments controller. 
  *
- * @property CI_Benchmark $benchmark
- * @property CI_Cache $cache
- * @property CI_Calendar $calendar
- * @property CI_Config $config
- * @property CI_DB_forge $dbforge
- * @property CI_DB_query_builder $db
- * @property CI_DB_utility $dbutil
- * @property CI_Email $email
- * @property CI_Encrypt $encrypt
- * @property CI_Encryption $encryption
- * @property CI_Exceptions $exceptions
- * @property CI_Hooks $hooks
- * @property CI_Input $input
- * @property CI_Lang $lang
- * @property CI_Loader $load
- * @property CI_Log $log
- * @property CI_Migration $migration
- * @property CI_Output $output
- * @property CI_Profiler $profiler
- * @property CI_Router $router
- * @property CI_Security $security
- * @property CI_Session $session
- * @property CI_Upload $upload
- * @property CI_URI $uri
+ * @property EA_Benchmark $benchmark
+ * @property EA_Cache $cache
+ * @property EA_Calendar $calendar
+ * @property EA_Config $config
+ * @property EA_DB_forge $dbforge
+ * @property EA_DB_query_builder $db
+ * @property EA_DB_utility $dbutil
+ * @property EA_Email $email
+ * @property EA_Encrypt $encrypt
+ * @property EA_Encryption $encryption
+ * @property EA_Exceptions $exceptions
+ * @property EA_Hooks $hooks
+ * @property EA_Input $input
+ * @property EA_Lang $lang
+ * @property EA_Loader $load
+ * @property EA_Log $log
+ * @property EA_Migration $migration
+ * @property EA_Output $output
+ * @property EA_Profiler $profiler
+ * @property EA_Router $router
+ * @property EA_Security $security
+ * @property EA_Session $session
+ * @property EA_Upload $upload
+ * @property EA_URI $uri
  *
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
+ * @property Categories_model $categories_model
  * @property Consents_model $consents_model
  * @property Customers_model $customers_model
  * @property Providers_model $providers_model
@@ -48,11 +49,16 @@
  * @property Secretaries_model $secretaries_model
  * @property Services_model $services_model
  * @property Settings_model $settings_model
- * @property User_model $user_model
+ * @property Unavailabilities_model $unavailabilities_model
+ * @property Users_model $users_model
  *
+ * @property Accounts $accounts
+ * @property Api $api
  * @property Availability $availability
+ * @property Email_messages $email_messages
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
+ * @property Instance $instance
  * @property Notifications $notifications
  * @property Synchronization $synchronization
  * @property Timezones $timezones
@@ -66,6 +72,8 @@ class EA_Controller extends CI_Controller {
         parent::__construct();
 
         $this->configure_language();
+        
+        $this->load_common_script_vars();
     }
 
     /**
@@ -73,11 +81,26 @@ class EA_Controller extends CI_Controller {
      */
     private function configure_language()
     {
-        if ($this->session->has_userdata('language'))
+        $session_language = session('language');
+
+        if ($session_language)
         {
-            $this->config->set_item('language', $this->session->userdata('language'));
+            config(['language' => $session_language]);
         }
 
         $this->lang->load('translations');
+    }
+
+    /**
+     * Load common script vars for all requests. 
+     */
+    private function load_common_script_vars()
+    {
+        script_vars([
+            'base_url' => config('base_url'),
+            'index_page' => config('index_page'),
+            'available_languages' => config('available_languages'),
+            'csrf_token' => $this->security->get_csrf_hash(),
+        ]);
     }
 }

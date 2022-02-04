@@ -1,23 +1,17 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Remove_prefix_from_foreign_keys
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Remove_prefix_from_fkey_constraints extends CI_Migration {
+class Migration_Remove_prefix_from_fkey_constraints extends EA_Migration {
     /**
      * Upgrade method.
      */
