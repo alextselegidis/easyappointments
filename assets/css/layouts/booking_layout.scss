@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
- * @since       v1.0.0
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
 root {
@@ -51,6 +51,21 @@ body {
     font-weight: lighter;
     color: #fff;
     margin: 20px 0;
+    
+    #company-logo {
+        display: block;
+        margin: 14px auto;
+        max-height: 56px;
+    }
+    
+    .display-selected-service,
+    .display-selected-provider {
+        color: #225d4d;
+        border-color: #225d4d;
+        font-size: 60%;
+        font-weight: normal;
+    }
+
 }
 
 #book-appointment-wizard #steps {
@@ -235,7 +250,6 @@ body {
     float: left;
     margin-bottom: 20px;
     border-radius: 3px;
-    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 #book-appointment-wizard .captcha-text {
@@ -278,9 +292,20 @@ body {
     }
 
     #book-appointment-wizard #company-name {
+        text-align: left;
         display: inline-block;
         float: left;
-        margin: 10px auto;
+        margin: 0 auto;
+        min-width: 400px;
+        line-height: 1.4;
+
+        #company-logo {
+            display: inline-block;
+            float: left;
+            margin-right: 14px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
     }
 
     #book-appointment-wizard #steps {
@@ -333,14 +358,13 @@ body {
 
     #book-appointment-wizard #select-language {
         display: inline-block;
-        margin-right: 15px;
     }
 
     #book-appointment-wizard .backend-link {
         display: inline-block;
         min-width: 120px;
         padding: 5px;
-        margin: 5px auto;
+        margin: 5px;
     }
 }
 

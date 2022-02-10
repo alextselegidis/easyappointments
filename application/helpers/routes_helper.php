@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
@@ -27,5 +27,24 @@ if ( ! function_exists('route_api_resource'))
         $route[$prefix . $resource . '/(:num)']['delete'] = 'api/v1/' . $resource . '_api_v1/destroy/$1';
         $route[$prefix . $resource]['get'] = 'api/v1/' . $resource . '_api_v1/index';
         $route[$prefix . $resource . '/(:num)']['get'] = 'api/v1/' . $resource . '_api_v1/show/$1';
+    }
+}
+
+if ( ! function_exists('is_callback'))
+{
+    /**
+     * Check whether the current request matches the provided controller/method callback.
+     *
+     * @param string $class Controller class name. 
+     * @param string $method Controller method name.
+     * 
+     * @return bool
+     */
+    function is_callback(string $class, string $method): bool
+    {
+        /** @var EA_Controller $CI */
+        $CI =& get_instance();
+
+        return $CI->router->class === $class && $CI->router->method === $method;
     }
 }

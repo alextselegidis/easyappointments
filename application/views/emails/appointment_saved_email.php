@@ -1,5 +1,7 @@
 <?php
 /**
+ * Local variables.
+ * 
  * @var string $company_name
  * @var string $email_title
  * @var string $email_message

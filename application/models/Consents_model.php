@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
@@ -25,7 +25,7 @@ class Consents_model extends EA_Model {
     protected $casts = [
         'id' => 'integer',
     ];
-    
+
     /**
      * Save (insert or update) a consent.
      *
@@ -82,8 +82,7 @@ class Consents_model extends EA_Model {
      */
     protected function insert(array $consent): int
     {
-        $consent['created'] = date('Y-m-d H:i:s');
-        $consent['modified'] = date('Y-m-d H:i:s');
+        $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->insert('consents', $consent))
         {
@@ -104,7 +103,7 @@ class Consents_model extends EA_Model {
      */
     protected function update(array $consent): int
     {
-        $consent['modified'] = date('Y-m-d H:i:s');
+        $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->update('consents', $consent, ['id' => $consent['id']]))
         {
@@ -118,14 +117,19 @@ class Consents_model extends EA_Model {
      * Remove an existing consent from the database.
      *
      * @param int $consent_id Consent ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $consent_id)
+    public function delete(int $consent_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('consents', ['id' => $consent_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete consent.');
+            $this->db->delete('consents', ['id' => $consent_id]);
+        }
+        else
+        {
+            return $this->db->update('consents', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $consent_id]);
         }
     }
 
@@ -133,22 +137,26 @@ class Consents_model extends EA_Model {
      * Get a specific consent from the database.
      *
      * @param int $consent_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the consent data.
-     *
-     * @throws InvalidArgumentException
      */
-    public function find(int $consent_id): array
+    public function find(int $consent_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('consents', ['id' => $consent_id])->num_rows())
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
+        $consent = $this->db->get_where('consents', ['id' => $consent_id])->row_array();
+
+        if ( ! $consent)
         {
             throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
         }
 
-        $consent = $this->db->get_where('consents', ['id' => $consent_id])->row_array();
-        
-        $this->cast($consent); 
-        
+        $this->cast($consent);
+
         return $consent;
     }
 
@@ -184,7 +192,7 @@ class Consents_model extends EA_Model {
 
         // Check if the required field is part of the consent data.
         $consent = $query->row_array();
-        
+
         $this->cast($consent);
 
         if ( ! array_key_exists($field, $consent))
@@ -202,10 +210,11 @@ class Consents_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of consents.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -217,14 +226,19 @@ class Consents_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        $consents = $this->db->get('consents', $limit, $offset)->result_array();
-        
-        foreach($consents as &$consent)
+        if ( ! $with_trashed)
         {
-            $this->cast($consent); 
+            $this->db->where('delete_datetime IS NULL');
         }
-        
-        return $consents; 
+
+        $consents = $this->db->get('consents', $limit, $offset)->result_array();
+
+        foreach ($consents as &$consent)
+        {
+            $this->cast($consent);
+        }
+
+        return $consents;
     }
 
     /**
@@ -244,11 +258,17 @@ class Consents_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of consents.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
         $consents = $this
             ->db
             ->select()
@@ -263,7 +283,7 @@ class Consents_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach($consents as &$consent)
+        foreach ($consents as &$consent)
         {
             $this->cast($consent);
         }

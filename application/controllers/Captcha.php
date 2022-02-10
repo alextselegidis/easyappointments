@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -27,6 +27,10 @@ class Captcha extends EA_Controller {
     public function index()
     {
         $builder = new CaptchaBuilder;
+        $builder->setDistortion(false);
+        $builder->setMaxBehindLines(1);
+        $builder->setMaxFrontLines(1);
+        $builder->setBackgroundColor(255,255,255);
         $builder->build();
         session(['captcha_phrase' => $builder->getPhrase()]);
         header('Content-type: image/jpeg');

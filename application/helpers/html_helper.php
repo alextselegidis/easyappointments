@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
@@ -23,24 +23,19 @@ if ( ! function_exists('component'))
      *
      * Example:
      *
-     * echo component('timezones_dropdown', 'class"form-control"');
+     * echo component('timezones_dropdown', ['attributes' => 'class"form-control"'], TRUE);
      *
      * @param string $component Component template file name.
-     * @param string $attributes HTML attributes for the parent component element.
-     * @param array $params Additional parameters for the component.
-     * @param bool $return Whether to return the HTML or echo it directly. 
-     * 
-     * @return string Return the HTML if the $return argument is TRUE or NULL. 
+     * @param array $vars Additional parameters for the component.
+     * @param bool $return Whether to return the HTML or echo it directly.
+     *
+     * @return string Return the HTML if the $return argument is TRUE or NULL.
      */
-    function component(string $component, string $attributes = '', array $params = [], bool $return = FALSE)
+    function component(string $component, array $vars = [], bool $return = FALSE)
     {
         /** @var EA_Controller $CI */
         $CI = get_instance();
-        
-        $vars = array_merge($params, [
-            'attributes' => $attributes
-        ]);
-        
+
         return $CI->load->view('components/' . $component, $vars, $return);
     }
 }
@@ -58,6 +53,7 @@ if ( ! function_exists('extend'))
             'layout' => [
                 'filename' => $layout,
                 'sections' => [],
+                'tmp' => [],
             ]
         ]);
     }
@@ -88,16 +84,23 @@ if ( ! function_exists('section'))
     {
         $layout = config('layout');
 
-        if (array_key_exists($name, $layout['sections']))
+        if (array_key_exists($name, $layout['tmp']))
         {
-            $layout['sections'][$name] = ob_get_clean();
+            $layout['sections'][$name][] = ob_get_clean();
+
+            unset($layout['tmp'][$name]);
 
             config(['layout' => $layout]);
 
             return;
         }
 
-        $layout['sections'][$name] = '';
+        if (empty($layout['sections'][$name]))
+        {
+            $layout['sections'][$name] = [];
+        }
+
+        $layout['tmp'][$name] = '';
 
         config(['layout' => $layout]);
 
@@ -116,6 +119,16 @@ if ( ! function_exists('slot'))
     {
         $layout = config('layout');
 
-        echo $layout['sections'][$name] ?? '';
+        $section = $layout['sections'][$name] ?? NULL;
+
+        if ( ! $section)
+        {
+            return;
+        }
+
+        foreach ($section as $content)
+        {
+            echo $content;
+        }
     }
 }

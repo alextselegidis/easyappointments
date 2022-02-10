@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -55,9 +55,9 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'appointments'))
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -87,9 +87,9 @@ class Appointments extends EA_Controller {
         {
             $appointment = json_decode(request('appointment'), TRUE);
 
-            if (cannot('add', 'appointments'))
+            if (cannot('add', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -114,9 +114,9 @@ class Appointments extends EA_Controller {
         {
             $appointment = json_decode(request('appointment'), TRUE);
 
-            if (cannot('edit', 'appointments'))
+            if (cannot('edit', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -139,9 +139,9 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'appointments'))
+            if (cannot('delete', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $appointment_id = request('appointment_id');
@@ -151,6 +151,30 @@ class Appointments extends EA_Controller {
             json_response([
                 'success' => TRUE,
             ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Find an appointment.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('view', PRIV_APPOINTMENTS))
+            {
+                abort(403, 'Forbidden');
+            }
+
+            $appointment_id = request('appointment_id');
+
+            $appointment = $this->appointments_model->find($appointment_id);
+
+            json_response($appointment);
         }
         catch (Throwable $e)
         {

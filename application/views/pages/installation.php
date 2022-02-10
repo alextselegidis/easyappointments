@@ -121,7 +121,7 @@
 
     <br>
 
-    <button type="button" id="install" class="btn btn-success btn-large">
+    <button type="button" id="install" class="btn btn-primary btn-lg">
         <i class="icon-white icon-ok me-2"></i>
         Install Easy!Appointments
     </button>
@@ -131,20 +131,17 @@
     Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
 </footer>
 
-<script>
-    const GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>
-    };
-
-    const EALang = <?= json_encode($this->lang->language) ?>;
-</script>
-
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+
+<script src="<?= asset_url('assets/js/app.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
+
+<?php component('config_script') ?>
+<?php component('language_script') ?>
+
 </body>
 </html>

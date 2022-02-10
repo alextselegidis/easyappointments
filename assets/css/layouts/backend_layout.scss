@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
- * @since       v1.0.0
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
 /**
@@ -33,7 +33,8 @@ root {
 }
 
 #header #header-logo small {
-    font-size: 9px;
+    font-size: 10.5px;
+    color: #004c39;
 }
 
 #header #header-logo img {
@@ -77,28 +78,18 @@ root {
     background-color: #f7f7f7;
     border-top: 1px solid #ddd;
     font-size: 11px;
-    overflow: auto;
-}
-
-#footer #footer-content {
-    padding: 10px 15px;
-    display: inline-block;
-    float: left;
-    line-height: 2;
-}
-
-#footer #footer-user-display-name {
-    display: inline-block;
-    padding: 10px 15px;
-    font-weight: bold;
 }
 
 #notification strong {
     margin-right: 15px;
 }
 
-#notification .alert button {
+#notification .alert button:not(.btn-close) {
     margin-right: 15px;
+}
+
+#notification .alert .btn-close {
+    margin-top: 5px;
 }
 
 #notification .alert {
@@ -106,13 +97,10 @@ root {
     background-color: #f5e8a8;
     color: #9e9980;
     box-shadow: 1px 1px 1px #a0a0a0;
-    padding: 15px;
     position: fixed;
     z-index: 200;
     right: 15px;
     bottom: 15px;
-    min-width: 300px;
-    max-width: 750px;
 }
 
 #notification .close {
@@ -207,11 +195,14 @@ body legend {
     color: #666;
 }
 
-@media (min-width: 768px) {
-    #footer #footer-user-display-name {
-        float: right;
-        text-align: right;
-    }
+.backend-page .form-control:disabled,
+.backend-page .form-control[readonly] {
+    background-color: #fff;
+    color: #666;
+    border-color: #fff;
+    opacity: 1;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* BACKEND COMPONENTS
@@ -231,11 +222,6 @@ body legend {
     padding-top: 0;
     padding-right: 0;
     border-top: none;
-}
-
-.backend-page .filter-records form .key {
-    margin-right: 15px;
-    float: left;
 }
 
 .backend-page .filter-records .results {
@@ -270,7 +256,6 @@ body legend {
 .record-details input:read-only:not(.custom-control-input),
 .record-details select:disabled,
 .record-details textarea:read-only {
-    opacity: 0.85;
     box-shadow: none;
 }
 
@@ -369,8 +354,8 @@ body legend {
     margin-top: 0;
 }
 
-#calendar-page #calendar .fc-unavailable {
-    background-image: url('../../img/unavailable.jpg');
+#calendar-page #calendar .fc-unavailability {
+    background-image: url('../../img/unavailability.jpg');
     font-size: 14px;
     border-radius: 0;
     font-weight: bold;
@@ -464,7 +449,8 @@ body legend {
 
 #filter-existing-customers {
     display: inline-block;
-    height: 14px;
+    margin-top: 12px;
+    margin-bottom: 12px;
     min-height: 24px;
     font-size: 12px;
 }
@@ -532,8 +518,8 @@ body .form-horizontal .controls {
     margin-right: 20px;
 }
 
-#calendar .fc-unavailable {
-    background: #eaeaea url('../../img/unavailable.jpg');
+#calendar .fc-unavailability {
+    background: #eaeaea url('../../img/unavailability.jpg');
 }
 
 #calendar .calendar-view .date-column .provider-column {
@@ -666,8 +652,10 @@ body .form-horizontal .controls {
 }
 
 #services-page .record-details h3 a {
-    font-size: 24px;
-    margin-left: 10px;
+    display: block;
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-decoration: none;
 }
 
 /* BACKEND USERS PAGE
@@ -742,6 +730,10 @@ body .form-horizontal .controls {
     padding: 4px 7px;
 }
 
+.breaks.table {
+    table-layout: fixed;
+}
+
 @-moz-document url-prefix() {
     .breaks .break-day select {
         height: 36px;
@@ -749,6 +741,14 @@ body .form-horizontal .controls {
 
     .working-plan-exceptions .working-plan-exception select {
         height: 36px;
+    }
+}
+
+#working-plan-exceptions-breaks {
+    table-layout: fixed;
+    
+    .form-control {
+        width: 100% !important;
     }
 }
 
@@ -769,12 +769,20 @@ body .form-horizontal .controls {
 }
 
 #providers-page #providers .record-details h3 a {
-    font-size: 24px;
-    margin-left: 10px;
+    display: block;
+    margin: 1rem 0;
+    font-size: 1rem;
+    text-decoration: none;
 }
 
 #providers-page #providers .record-details #provider-services .checkbox a {
-    margin-left: 5px;
+    display: block;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 75%;
+    margin-top: 5px;
+    margin-left: -20px;
+    margin-bottom: 5px;
 }
 
 /* BACKEND SETTINGS PAGE
@@ -856,14 +864,6 @@ body .form-horizontal .controls {
     max-width: 1024px;
 }
 
-#settings-page .working-plan-wrapper {
-    max-width: 600px;
-}
-
-#settings-page .breaks-wrapper {
-    max-width: 500px;
-}
-
 #settings-page .personal-info-wrapper {
     max-width: 450px;
     margin-bottom: 20px;
@@ -887,4 +887,17 @@ body .form-horizontal .controls {
 
 #settings-page #update-ea {
     margin-left: 12px;
+}
+
+#booking-settings-page .fields-row .form-control {
+    border: 1px dashed #999 !important;
+}
+
+#company-logo-preview {
+    max-width: 256px;
+    max-height: 256px;
+}
+
+#company-color {
+    min-height: 41px;
 }

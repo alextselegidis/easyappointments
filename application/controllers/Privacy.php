@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.3.2
@@ -34,10 +34,17 @@ class Privacy extends EA_Controller {
     /**
      * Remove all customer data (including appointments) from the system.
      */
-    public function ajax_delete_personal_information()
+    public function delete_personal_information()
     {
         try
         {
+            $display_delete_personal_information = setting('display_delete_personal_information');
+
+            if ( ! $display_delete_personal_information)
+            {
+                abort(403, 'Forbidden');
+            }
+
             $customer_token = request('customer_token');
 
             if (empty($customer_token))

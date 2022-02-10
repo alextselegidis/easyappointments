@@ -1,5 +1,7 @@
 <?php
 /**
+ * Local variables.
+ * 
  * @var string $attributes
  * @var array $timezones
  */

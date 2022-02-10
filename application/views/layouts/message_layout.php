@@ -1,9 +1,3 @@
-<?php
-/**
- * @var string $page_title
- */
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,7 +8,7 @@
     
     <?php slot('meta') ?>
     
-    <title><?= $page_title ?> | Easy!Appointments</title>
+    <title><?= vars('page_title') ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -44,10 +38,6 @@
     </div>
 </div>
 
-<script>
-    const EALang = <?= json_encode($this->lang->language) ?>;
-</script>
-
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') ?>"></script>
@@ -58,9 +48,20 @@
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
 
-<?php google_analytics_script() ?>
+<script src="<?= asset_url('assets/js/app.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/file.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/http.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/message_layout.js') ?>"></script>
+
+<?php component('js_vars_script') ?>
+<?php component('js_lang_script') ?>
 
 <?php slot('scripts') ?>
 

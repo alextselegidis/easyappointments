@@ -1,77 +1,84 @@
-<?php
-/**
- * @var array $privileges
- */
-?>
-
 <?php extend('layouts/backend_layout') ?>
 
 <?php section('content') ?>
 
-<script>
-    var GlobalVariables = {
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
-        baseUrl: <?= json_encode(config('base_url')) ?>,
-        dateFormat: <?= json_encode(setting('date_format')) ?>,
-        timeFormat: <?= json_encode(setting('time_format')) ?>,
-        user: {
-            id: <?= session('user_id') ?>,
-            email: <?= json_encode(session('user_email')) ?>,
-            timezone: <?= json_encode(session('timezone')) ?>,
-            role_slug: <?= json_encode(session('role_slug')) ?>,
-            privileges: <?= json_encode($privileges) ?>
-        }
-    };
-</script>
+<div id="about-page" class="container backend-page">
+    <div id="about" class="col-lg-8 offset-lg-2">
+        
+        <div class="text-center my-5">
+            <img src="<?= base_url('assets/img/logo.png') ?>" alt="Easy!Appointments Logo" class="mb-5">
+            
+            <h3>
+                Easy!Appointments
+            </h3>
+            <h6 class="text-primary">
+                Online Appointment Scheduler
+            </h6>
+        </div>
 
-<div id="about-page" class="container-fluid backend-page">
-    <div id="about">
-        <h3>Easy!Appointments</h3>
-
-        <p>
+        <p class="mb-5">
             <?= lang('about_app_info') ?>
         </p>
 
-        <div class="current-version card card-body bg-light border-light mb-3">
-            <?= lang('current_version') ?>
-            <?= config('version') ?>
-            <?php if (config('release_label')): ?>
-                - <?= config('release_label') ?>
-            <?php endif ?>
+        <div class="card mb-5">
+            <div class="card-header">
+                <?= lang('current_version') ?>
+            </div>
+            <div class="card-body">
+                <strong>
+                    <?= config('version') ?>
+                </strong>
+            </div>
         </div>
-
-        <h3><?= lang('support') ?></h3>
+        
+        <h4><?= lang('support') ?></h4>
+        
         <p>
             <?= lang('about_app_support') ?>
-
-            <br><br>
-
-            <a href="https://easyappointments.org">
-                <?= lang('official_website') ?>
-            </a>
-            |
-            <a href="https://groups.google.com/forum/#!forum/easy-appointments">
-                <?= lang('support_group') ?>
-            </a>
-            |
-            <a href="https://github.com/alextselegidis/easyappointments/issues">
-                <?= lang('project_issues') ?>
-            </a>
-            |
-            <a href="https://facebook.com/easyappts">
-                Facebook
-            </a>
-            |
-            <a href="https://twitter.com/easyappts">
-                Twitter
-            </a>
         </p>
 
-        <h3><?= lang('license') ?></h3>
+        <div class="d-lg-flex justify-content-start flex-wrap alight-items-center mb-5">
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://easyappointments.org">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    <?= lang('official_website') ?>
+                </a>    
+            </div>
 
-        <p>
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://groups.google.com/forum/#!forum/easy-appointments">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    <?= lang('support_group') ?>
+                </a>
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://github.com/alextselegidis/easyappointments/issues">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    <?= lang('project_issues') ?>
+                </a>
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://facebook.com/easyappts">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Facebook
+                </a>
+            </div>
+
+            <div class="text-center mb-3">
+                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://twitter.com/easyappts">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Twitter
+                </a>
+            </div>
+        </div>
+
+        <h4><?= lang('license') ?></h4>
+
+        <p class="mb-5">
             <?= lang('about_app_license') ?>
-            <a href="http://www.gnu.org/copyleft/gpl.html">http://www.gnu.org/copyleft/gpl.html</a>
+            <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/copyleft/gpl.html</a>
         </p>
     </div>
 </div>

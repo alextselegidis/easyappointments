@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -37,30 +37,58 @@ class Providers extends EA_Controller {
     /**
      * Render the backend providers page.
      *
-     * On this page admin users will be able to manage providers, which are eventually selected by customers during the 
+     * On this page admin users will be able to manage providers, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
     {
         session(['dest_url' => site_url('providers')]);
 
-        if (cannot('view', 'users'))
-        {
-            show_error('Forbidden', 403);
-        }
-
         $user_id = session('user_id');
 
-        $role_slug = session('role_slug');
+        if (cannot('view', PRIV_USERS))
+        {
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
 
-        $this->load->view('pages/providers_page', [
+            redirect('login');
+
+            return;
+        }
+
+        $role_slug = session('role_slug');
+        
+        $services = $this->services_model->get(); 
+        
+        foreach($services as &$service)
+        {
+            $this->services_model->only($service, ['id', 'name']);            
+        }
+
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'company_working_plan' => setting('company_working_plan'),
+            'date_format' => setting('date_format'),
+            'time_format' => setting('time_format'),
+            'first_weekday' => setting('first_weekday'),
+            'min_password_length' => MIN_PASSWORD_LENGTH,
+            'timezones' => $this->timezones->to_array(),
+            'services' => $services,
+        ]);
+
+        html_vars([
             'page_title' => lang('providers'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
+            'timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'services' => $this->services_model->get(),
         ]);
+
+        $this->load->view('pages/providers');
     }
 
     /**
@@ -70,9 +98,9 @@ class Providers extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'users'))
+            if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -80,7 +108,7 @@ class Providers extends EA_Controller {
             $order_by = 'first_name ASC, last_name ASC, email ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $providers = $this->providers_model->search($keyword, $limit, $offset, $order_by);
@@ -100,11 +128,11 @@ class Providers extends EA_Controller {
     {
         try
         {
-            $provider = json_decode(request('provider'), TRUE);
+            $provider = request('provider');
 
-            if (cannot('add', 'users'))
+            if (cannot('add', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = $this->providers_model->save($provider);
@@ -127,11 +155,11 @@ class Providers extends EA_Controller {
     {
         try
         {
-            $provider = json_decode(request('provider'), TRUE);
+            $provider = request('provider');
 
-            if (cannot('edit', 'users'))
+            if (cannot('edit', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = $this->providers_model->save($provider);
@@ -154,9 +182,9 @@ class Providers extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'users'))
+            if (cannot('delete', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $provider_id = request('provider_id');
@@ -166,6 +194,30 @@ class Providers extends EA_Controller {
             json_response([
                 'success' => TRUE,
             ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Find a provider.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('view', PRIV_USERS))
+            {
+                abort(403, 'Forbidden');
+            }
+
+            $provider_id = request('provider_id');
+
+            $provider = $this->providers_model->find($provider_id);
+
+            json_response($provider);
         }
         catch (Throwable $e)
         {

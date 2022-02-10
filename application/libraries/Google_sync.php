@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -233,29 +233,29 @@ class Google_sync {
     }
 
     /**
-     * Add unavailable period event to Google Calendar.
+     * Add unavailability period event to Google Calendar.
      *
      * @param array $provider Provider data.
-     * @param array $unavailable Unavailable data.
+     * @param array $unavailability Unavailable data.
      *
      * @return Google_Service_Calendar_Event Returns the Google event.
      *
      * @throws Exception
      */
-    public function add_unavailable(array $provider, array $unavailable): Google_Service_Calendar_Event
+    public function add_unavailability(array $provider, array $unavailability): Google_Service_Calendar_Event
     {
         $event = new Google_Service_Calendar_Event();
         $event->setSummary('Unavailable');
-        $event->setDescription($unavailable['notes']);
+        $event->setDescription($unavailability['notes']);
 
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($unavailable['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $start->setDateTime((new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($unavailable['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end->setDateTime((new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
         $event->setEnd($end);
 
         // Add the new event to the Google Calendar.
@@ -264,41 +264,41 @@ class Google_sync {
     }
 
     /**
-     * Update Google Calendar unavailable period event.
+     * Update Google Calendar unavailability period event.
      *
      * @param array $provider Provider data.
-     * @param array $unavailable Unavailable data.
+     * @param array $unavailability Unavailability data.
      *
      * @return Google_Service_Calendar_Event Returns the Google_Service_Calendar_Event object.
      *
      * @throws Exception
      */
-    public function update_unavailable(array $provider, array $unavailable): Google_Service_Calendar_Event
+    public function update_unavailability(array $provider, array $unavailability): Google_Service_Calendar_Event
     {
-        $event = $this->service->events->get($provider['settings']['google_calendar'], $unavailable['id_google_calendar']);
+        $event = $this->service->events->get($provider['settings']['google_calendar'], $unavailability['id_google_calendar']);
 
-        $event->setDescription($unavailable['notes']);
+        $event->setDescription($unavailability['notes']);
 
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($unavailable['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $start->setDateTime((new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($unavailable['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end->setDateTime((new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
         $event->setEnd($end);
 
         return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
     }
 
     /**
-     * Delete unavailable period event from Google Calendar.
+     * Delete unavailability period event from Google Calendar.
      *
      * @param array $provider Provider data.
      * @param string $google_event_id Google Calendar event ID to be removed.
      */
-    public function delete_unavailable(array $provider, string $google_event_id)
+    public function delete_unavailability(array $provider, string $google_event_id)
     {
         $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }

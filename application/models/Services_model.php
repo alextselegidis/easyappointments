@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -26,7 +26,8 @@ class Services_model extends EA_Model {
         'id' => 'integer',
         'price' => 'float',
         'attendants_number' => 'integer',
-        'id_service_categories' => 'boolean',
+        'is_private' => 'boolean',
+        'id_categories' => 'integer',
     ];
 
     /**
@@ -40,9 +41,11 @@ class Services_model extends EA_Model {
         'currency' => 'currency',
         'description' => 'description',
         'location' => 'location',
+        'color' => 'color',
         'availabilitiesType' => 'availabilities_type',
         'attendantsNumber' => 'attendants_number',
-        'categoryId' => 'id_service_categories',
+        'isPrivate' => 'is_private',
+        'categoryId' => 'id_categories',
     ];
 
     /**
@@ -97,13 +100,13 @@ class Services_model extends EA_Model {
         }
 
         // If a category was provided then make sure it really exists in the database. 
-        if ( ! empty($service['id_service_categories']))
+        if ( ! empty($service['id_categories']))
         {
-            $count = $this->db->get_where('service_categories', ['id' => $service['id_service_categories']])->num_rows();
+            $count = $this->db->get_where('categories', ['id' => $service['id_categories']])->num_rows();
 
             if ( ! $count)
             {
-                throw new InvalidArgumentException('The provided category ID was not found in the database: ' . $service['id_service_categories']);
+                throw new InvalidArgumentException('The provided category ID was not found in the database: ' . $service['id_categories']);
             }
         }
 
@@ -151,6 +154,9 @@ class Services_model extends EA_Model {
      */
     protected function insert(array $service): int
     {
+        $service['create_datetime'] = date('Y-m-d H:i:s');
+        $service['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->insert('services', $service))
         {
             throw new RuntimeException('Could not insert service.');
@@ -170,6 +176,8 @@ class Services_model extends EA_Model {
      */
     protected function update(array $service): int
     {
+        $service['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('services', $service, ['id' => $service['id']]))
         {
             throw new RuntimeException('Could not update service.');
@@ -182,14 +190,19 @@ class Services_model extends EA_Model {
      * Remove an existing service from the database.
      *
      * @param int $service_id Service ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $service_id)
+    public function delete(int $service_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('services', ['id' => $service_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete service.');
+            $this->db->delete('services', ['id' => $service_id]);
+        }
+        else
+        {
+            $this->db->update('services', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $service_id]);
         }
     }
 
@@ -197,22 +210,28 @@ class Services_model extends EA_Model {
      * Get a specific service from the database.
      *
      * @param int $service_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the service data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $service_id): array
+    public function find(int $service_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('services', ['id' => $service_id])->num_rows())
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
+        $service = $this->db->get_where('services', ['id' => $service_id])->row_array();
+
+        if ( ! $service)
         {
             throw new InvalidArgumentException('The provided service ID was not found in the database: ' . $service_id);
         }
 
-        $service = $this->db->get_where('services', ['id' => $service_id])->row_array();
-        
-        $this->cast($service); 
-        
+        $this->cast($service);
+
         return $service;
     }
 
@@ -248,7 +267,7 @@ class Services_model extends EA_Model {
 
         // Check if the required field is part of the service data.
         $service = $query->row_array();
-        
+
         $this->cast($service);
 
         if ( ! array_key_exists($field, $service))
@@ -266,10 +285,11 @@ class Services_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of services.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -281,35 +301,48 @@ class Services_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
         $services = $this->db->get('services', $limit, $offset)->result_array();
-        
-        foreach ($services as $service)
+
+        foreach ($services as &$service)
         {
             $this->cast($service);
         }
-        
+
         return $services;
     }
 
     /**
      * Get all the service records that are assigned to at least one provider.
      *
+     * @param bool $without_private Only include the public services.
+     *
      * @return array Returns an array of services.
      */
-    public function get_available_services(): array
+    public function get_available_services(bool $without_private = FALSE): array
     {
+        if ($without_private)
+        {
+            $this->db->where('services.is_private', FALSE);
+        }
+
         $services = $this
             ->db
             ->distinct()
-            ->select('services.*, service_categories.name AS category_name, service_categories.id AS category_id')
+            ->select('services.*, categories.name AS category_name, categories.id AS category_id')
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
-            ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
+            ->join('categories', 'categories.id = services.id_categories', 'left')
+            ->where('services.delete_datetime IS NULL')
             ->order_by('name ASC')
             ->get()
             ->result_array();
 
-        foreach ($services as $service)
+        foreach ($services as &$service)
         {
             $this->cast($service);
         }
@@ -334,11 +367,17 @@ class Services_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of services.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
         $services = $this
             ->db
             ->select()
@@ -350,8 +389,8 @@ class Services_model extends EA_Model {
             ->order_by($order_by)
             ->get()
             ->result_array();
-        
-        foreach ($services as $service)
+
+        foreach ($services as &$service)
         {
             $this->cast($service);
         }
@@ -363,7 +402,7 @@ class Services_model extends EA_Model {
      * Load related resources to a service.
      *
      * @param array $service Associative array with the service data.
-     * @param array $resources Resource names to be attached ("service_category" supported).
+     * @param array $resources Resource names to be attached ("category" supported).
      *
      * @throws InvalidArgumentException
      */
@@ -378,11 +417,11 @@ class Services_model extends EA_Model {
         {
             switch ($resource)
             {
-                case 'service_category':
-                    $service['service_category'] = $this
+                case 'category':
+                    $service['category'] = $this
                         ->db
-                        ->get_where('service_categories', [
-                            'id' => $service['id_service_categories'] ?? $service['categoryId'] ?? NULL
+                        ->get_where('categories', [
+                            'id' => $service['id_categories'] ?? $service['categoryId'] ?? NULL
                         ])
                         ->row_array();
                     break;
@@ -410,7 +449,7 @@ class Services_model extends EA_Model {
             'location' => $service['location'],
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int)$service['attendants_number'],
-            'categoryId' => $service['id_service_categories'] !== NULL ? (int)$service['id_service_categories'] : NULL
+            'categoryId' => $service['id_categories'] !== NULL ? (int)$service['id_categories'] : NULL
         ];
 
         $service = $encoded_resource;
@@ -473,7 +512,7 @@ class Services_model extends EA_Model {
 
         if (array_key_exists('categoryId', $service))
         {
-            $decoded_resource['id_service_categories'] = $service['categoryId'];
+            $decoded_resource['id_categories'] = $service['categoryId'];
         }
 
         $service = $decoded_resource;

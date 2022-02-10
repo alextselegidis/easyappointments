@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -25,19 +25,12 @@ class Google extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->load->library('google_sync');
-        
+
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('roles_model');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
@@ -119,7 +112,7 @@ class Google extends EA_Controller {
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
             foreach ($appointments as $appointment)
             {
-                if ($appointment['is_unavailable'] == FALSE)
+                if ($appointment['is_unavailability'] == FALSE)
                 {
                     $service = $CI->services_model->find($appointment['id_services']);
                     $customer = $CI->customers_model->find($appointment['id_users_customer']);
@@ -227,7 +220,7 @@ class Google extends EA_Controller {
                 $appointment = [
                     'start_datetime' => $event_start->format('Y-m-d H:i:s'),
                     'end_datetime' => $event_end->format('Y-m-d H:i:s'),
-                    'is_unavailable' => TRUE,
+                    'is_unavailability' => TRUE,
                     'location' => $google_event->getLocation(),
                     'notes' => $google_event->getSummary() . ' ' . $google_event->getDescription(),
                     'id_users_provider' => $provider_id,
@@ -318,18 +311,18 @@ class Google extends EA_Controller {
      * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
      * be already granted for the specific provider.
      */
-    public function ajax_get_google_calendars()
+    public function get_google_calendars()
     {
         try
         {
-            if ( ! request('provider_id'))
+            $provider_id = request('provider_id');
+
+            if (empty($provider_id))
             {
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
             }
 
             // Check if selected provider has sync enabled.
-            $provider_id = request('provider_id');
-
             $google_sync = $this->providers_model->get_setting($provider_id, 'google_sync');
 
             if ( ! $google_sync)
@@ -360,7 +353,7 @@ class Google extends EA_Controller {
      *
      * All the appointments will be synced with this particular calendar.
      */
-    public function ajax_select_google_calendar()
+    public function select_google_calendar()
     {
         try
         {
@@ -368,7 +361,7 @@ class Google extends EA_Controller {
 
             $user_id = session('user_id');
 
-            if ($this->permissions[PRIV_USERS]['edit'] == FALSE && (int)$user_id !== (int)$provider_id)
+            if (cannot('edit', PRIV_USERS) && (int)$user_id !== (int)$provider_id)
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }
@@ -394,7 +387,7 @@ class Google extends EA_Controller {
      *
      * After that the provider's appointments will be no longer synced with Google Calendar.
      */
-    public function ajax_disable_provider_sync()
+    public function disable_provider_sync()
     {
         try
         {
@@ -408,7 +401,7 @@ class Google extends EA_Controller {
             $user_id = session('user_id');
 
             if (
-                $this->permissions[PRIV_USERS]['edit'] === FALSE
+                cannot('edit', PRIV_USERS)
                 && (int)$user_id !== (int)$provider_id)
             {
                 throw new Exception('You do not have the required permissions for this task.');

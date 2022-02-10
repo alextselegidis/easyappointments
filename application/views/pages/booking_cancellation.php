@@ -1,36 +1,36 @@
-<?php
-/**
- * @var bool $manage_mode
- * @var array $appointment_data
- */
-?>
+<?php extend('layouts/message_layout') ?>
 
-<?php if ($manage_mode): ?>
-    <div id="cancel-appointment-frame" class="row booking-header-bar">
-        <div class="col-12 col-md-10">
-            <small><?= lang('cancel_appointment_hint') ?></small>
-        </div>
-        <div class="col-12 col-md-2">
-            <form id="cancel-appointment-form" method="post"
-                  action="<?= site_url('booking/cancel/' . $appointment_data['hash']) ?>">
+<?php section('content') ?>
 
-                <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
+<div>
+    <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" alt="success"/>
+</div>
 
-                <input id="cancel-reason" name="cancel_reason" type="hidden">
+<div>
+    <h3><?= lang('appointment_registered') ?></h3>
 
-                <button id="cancel-appointment" class="btn btn-warning btn-sm">
-                    <?= lang('cancel') ?>
-                </button>
-            </form>
-        </div>
-    </div>
-    <div class="booking-header-bar row">
-        <div class="col-12 col-md-10">
-            <small><?= lang('delete_personal_information_hint') ?></small>
-        </div>
-        <div class="col-12 col-md-2">
-            <button id="delete-personal-information"
-                    class="btn btn-danger btn-sm"><?= lang('delete') ?></button>
-        </div>
-    </div>
-<?php endif ?>
+    <p>
+        <?= lang('appointment_details_was_sent_to_you') ?>
+    </p>
+
+    <p>
+        <strong>
+            <?= lang('check_spam_folder') ?>
+        </strong>
+    </p>
+
+    <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
+        <i class="fas fa-calendar-alt"></i>
+        <?= lang('go_to_booking_page') ?>
+    </a>
+
+    <?php if (config('google_sync_feature')): ?>
+        <button id="add-to-google-calendar" class="btn btn-outline-secondary">
+            <i class="fas fa-plus"></i>
+            <?= lang('add_to_google_calendar') ?>
+        </button>
+    <?php endif ?>
+</div>
+
+<?php section('content') ?>
+

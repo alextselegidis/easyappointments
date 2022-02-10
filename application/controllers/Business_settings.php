@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.5.0
@@ -19,11 +19,6 @@
  * @package Controllers
  */
 class Business_settings extends EA_Controller {
-    /**
-     * @var array
-     */
-    protected $permissions;
-
     /**
      * Business_logic constructor.
      */
@@ -43,13 +38,6 @@ class Business_settings extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
-
-        $role_slug = session('role_slug');
-
-        if ($role_slug)
-        {
-            $this->permissions = $this->roles_model->get_permissions_by_slug($role_slug);
-        }
     }
 
     /**
@@ -59,23 +47,37 @@ class Business_settings extends EA_Controller {
     {
         session(['dest_url' => site_url('business_settings')]);
 
+        $user_id = session('user_id');
+        
         if (cannot('view', PRIV_SYSTEM_SETTINGS))
         {
-            show_error('Forbidden', 403);
-        }
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
 
-        $user_id = session('user_id');
+            redirect('login');
+
+            return;
+        }
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/business_settings', [
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'business_settings' => $this->settings_model->get(),
+            'first_weekday' => setting('first_weekday'),
+            'time_format' => setting('time_format'),
+        ]);
+
+        html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'system_settings' => $this->settings_model->get(),
         ]);
+
+        $this->load->view('pages/business_settings');
     }
 
     /**
@@ -85,12 +87,12 @@ class Business_settings extends EA_Controller {
     {
         try
         {
-            if ($this->permissions[PRIV_SYSTEM_SETTINGS]['edit'] == FALSE)
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
             {
                 throw new Exception('You do not have the required permissions for this task.');
             }
 
-            $settings = json_decode(request('settings', FALSE), TRUE);
+            $settings = request('business_settings', []);
 
             foreach ($settings as $setting)
             {
@@ -102,6 +104,35 @@ class Business_settings extends EA_Controller {
                 }
 
                 $this->settings_model->save($setting);
+            }
+
+            response();
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Apply global working plan to all providers.
+     */
+    public function apply_global_working_plan()
+    {
+        try
+        {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
+            {
+                throw new Exception('You do not have the required permissions for this task.');
+            }
+
+            $working_plan = request('working_plan');
+
+            $providers = $this->providers_model->get();
+
+            foreach ($providers as $provider)
+            {
+                $this->providers_model->set_setting($provider['id'], 'working_plan', $working_plan);
             }
 
             response();

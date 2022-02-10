@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
@@ -78,17 +78,17 @@ class Notifications {
                 $provider_message = lang('appointment_link_description');
             }
 
-            $customer_link = site_url('appointments/index/' . $appointment['hash']);
+            $customer_link = site_url('booking/reschedule/' . $appointment['hash']);
 
-            $provider_link = site_url('backend/index/' . $appointment['hash']);
+            $provider_link = site_url('calendar/reschedule/' . $appointment['hash']);
 
             $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
 
             // Notify customer.
-            $send_customer = filter_var(
-                setting('customer_notifications'),
-                FILTER_VALIDATE_BOOLEAN
-            );
+            $send_customer = ! empty($customer['email']) && filter_var(
+                    setting('customer_notifications'),
+                    FILTER_VALIDATE_BOOLEAN
+                );
 
             if ($send_customer === TRUE)
             {
@@ -209,7 +209,7 @@ class Notifications {
 
             if (empty($delete_reason))
             {
-                $delete_reason = (string)request('cancel_reason');
+                $delete_reason = (string)request('cancellation_reason');
             }
 
             // Notify provider.
@@ -232,10 +232,10 @@ class Notifications {
             }
 
             // Notify customer.
-            $send_customer = filter_var(
-                setting('customer_notifications'),
-                FILTER_VALIDATE_BOOLEAN
-            );
+            $send_customer = ! empty($customer['email']) && filter_var(
+                    setting('customer_notifications'),
+                    FILTER_VALIDATE_BOOLEAN
+                );
 
             if ($send_customer === TRUE)
             {

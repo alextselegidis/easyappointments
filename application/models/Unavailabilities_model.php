@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        http://easyunavailabilities.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
@@ -22,7 +22,7 @@ class Unavailabilities_model extends EA_Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'is_unavailable' => 'boolean',
+        'is_unavailability' => 'boolean',
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
@@ -129,8 +129,10 @@ class Unavailabilities_model extends EA_Model {
     protected function insert(array $unavailability): int
     {
         $unavailability['book_datetime'] = date('Y-m-d H:i:s');
+        $unavailability['create_datetime'] = date('Y-m-d H:i:s');
+        $unavailability['update_datetime'] = date('Y-m-d H:i:s');
         $unavailability['hash'] = random_string('alnum', 12);
-        $unavailability['is_unavailable'] = TRUE;
+        $unavailability['is_unavailability'] = TRUE;
 
         if ( ! $this->db->insert('appointments', $unavailability))
         {
@@ -151,6 +153,8 @@ class Unavailabilities_model extends EA_Model {
      */
     protected function update(array $unavailability): int
     {
+        $unavailability['update_datetime'] = date('Y-m-d H:i:s');
+        
         if ( ! $this->db->update('appointments', $unavailability, ['id' => $unavailability['id']]))
         {
             throw new RuntimeException('Could not update unavailability record.');
@@ -163,14 +167,19 @@ class Unavailabilities_model extends EA_Model {
      * Remove an existing unavailability from the database.
      *
      * @param int $unavailability_id Unavailability ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $unavailability_id)
+    public function delete(int $unavailability_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('users', ['id' => $unavailability_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete unavailability.');
+            $this->db->delete('appointments', ['id' => $unavailability_id]);
+        }
+        else
+        {
+            $this->db->update('appointments', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $unavailability_id]);
         }
     }
 
@@ -178,19 +187,25 @@ class Unavailabilities_model extends EA_Model {
      * Get a specific unavailability from the database.
      *
      * @param int $unavailability_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the unavailability data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $unavailability_id): array
+    public function find(int $unavailability_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('appointments', ['id' => $unavailability_id])->num_rows())
+        if ( ! $with_trashed)
         {
-            throw new InvalidArgumentException('The provided unavailability ID was not found in the database: ' . $unavailability_id);
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $unavailability = $this->db->get_where('appointments', ['id' => $unavailability_id])->row_array();
+
+        if ( ! $unavailability)
+        {
+            throw new InvalidArgumentException('The provided unavailability ID was not found in the database: ' . $unavailability_id);
+        }
 
         $this->cast($unavailability);
 
@@ -247,10 +262,11 @@ class Unavailabilities_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of unavailabilities.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -262,7 +278,12 @@ class Unavailabilities_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        $unavailabilities = $this->db->get_where('appointments', ['is_unavailable' => TRUE], $limit, $offset)->result_array();
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+
+        $unavailabilities = $this->db->get_where('appointments', ['is_unavailability' => TRUE], $limit, $offset)->result_array();
 
         foreach ($unavailabilities as &$unavailability)
         {
@@ -289,17 +310,23 @@ class Unavailabilities_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of unavailabilities.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
+        if ( ! $with_trashed)
+        {
+            $this->db->where('appointments.delete_datetime IS NULL');
+        }
+
         $unavailabilities = $this
             ->db
             ->select()
             ->from('appointments')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
-            ->where('is_unavailable', TRUE)
+            ->where('is_unavailability', TRUE)
             ->group_start()
             ->like('appointments.start_datetime', $keyword)
             ->or_like('appointments.end_datetime', $keyword)
@@ -352,7 +379,7 @@ class Unavailabilities_model extends EA_Model {
                         ])
                         ->row_array();
                     break;
-                    
+
                 default:
                     throw new InvalidArgumentException('The requested unavailability relation is not supported: ' . $resource);
             }
@@ -436,7 +463,7 @@ class Unavailabilities_model extends EA_Model {
             $decoded_request['id_google_calendar'] = $unavailability['googleCalendarId'];
         }
 
-        $decoded_request['is_unavailable'] = TRUE;
+        $decoded_request['is_unavailability'] = TRUE;
 
         $unavailability = $decoded_request;
     }

@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -40,9 +40,9 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'unavailabilities'))
+            if (cannot('view', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -72,9 +72,9 @@ class Unavailabilities extends EA_Controller {
         {
             $unavailability = json_decode(request('unavailability'), TRUE);
 
-            if (cannot('add', 'unavailabilities'))
+            if (cannot('add', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
@@ -99,9 +99,9 @@ class Unavailabilities extends EA_Controller {
         {
             $unavailability = json_decode(request('unavailability'), TRUE);
 
-            if (cannot('edit', 'unavailabilities'))
+            if (cannot('edit', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
@@ -124,9 +124,9 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'unavailabilities'))
+            if (cannot('delete', PRIV_APPOINTMENTS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $unavailability_id = request('unavailability_id');
@@ -136,6 +136,30 @@ class Unavailabilities extends EA_Controller {
             json_response([
                 'success' => TRUE,
             ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Find an unavailability.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('view', PRIV_APPOINTMENTS))
+            {
+                abort(403, 'Forbidden');
+            }
+
+            $unavailability_id = request('unavailability_id');
+
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
+
+            json_response($unavailability);
         }
         catch (Throwable $e)
         {

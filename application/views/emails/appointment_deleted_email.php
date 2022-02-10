@@ -1,5 +1,7 @@
 <?php
 /**
+ * Local variables.
+ * 
  * @var string $company_name
  * @var string $appointment_service
  * @var string $appointment_provider

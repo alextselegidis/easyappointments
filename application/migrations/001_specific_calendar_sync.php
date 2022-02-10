@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
@@ -49,7 +49,7 @@ class Migration_Specific_calendar_sync extends EA_Migration {
                 'type' => 'TEXT',
                 'null' => TRUE,
             ],
-            'is_unavailable' => [
+            'is_unavailability' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
                 'default' => '0'
@@ -232,7 +232,7 @@ class Migration_Specific_calendar_sync extends EA_Migration {
         ]);
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->add_key('id_service_categories');
-        $this->dbforge->create_table('Categories', TRUE, ['engine' => 'InnoDB']);
+        $this->dbforge->create_table('service_categories', TRUE, ['engine' => 'InnoDB']);
 
         $this->dbforge->add_field([
             'id' => [
@@ -395,7 +395,7 @@ class Migration_Specific_calendar_sync extends EA_Migration {
 
         $this->db->query('
             ALTER TABLE `' . $this->db->dbprefix('services') . '`
-              ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('Categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+              ADD CONSTRAINT `' . $this->db->dbprefix('services') . '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' . $this->db->dbprefix('service_categories') . '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
         ');
 
         $this->db->query('
@@ -494,7 +494,7 @@ class Migration_Specific_calendar_sync extends EA_Migration {
         $this->dbforge->drop_table('roles');
         $this->dbforge->drop_table('secretaries_providers');
         $this->dbforge->drop_table('services');
-        $this->dbforge->drop_table('Categories');
+        $this->dbforge->drop_table('service_categories');
         $this->dbforge->drop_table('services_providers');
         $this->dbforge->drop_table('settings');
         $this->dbforge->drop_table('user_settings');

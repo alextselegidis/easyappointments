@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -37,30 +37,58 @@ class Secretaries extends EA_Controller {
     /**
      * Render the backend secretaries page.
      *
-     * On this page secretary users will be able to manage secretaries, which are eventually selected by customers during the 
+     * On this page secretary users will be able to manage secretaries, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
     {
         session(['dest_url' => site_url('secretaries')]);
 
-        if (cannot('view', 'users'))
-        {
-            show_error('Forbidden', 403);
-        }
-
         $user_id = session('user_id');
+        
+        if (cannot('view', PRIV_USERS))
+        {
+            if ($user_id)
+            {
+                abort(403, 'Forbidden');
+            }
+
+            redirect('login');
+
+            return;
+        }
 
         $role_slug = session('role_slug');
 
-        $this->load->view('pages/secretaries_page', [
+        $providers = $this->providers_model->get();
+
+        foreach ($providers as &$provider)
+        {
+            $this->providers_model->only($provider, [
+                'id',
+                'first_name',
+                'last_name'
+            ]);
+        }
+
+        script_vars([
+            'user_id' => $user_id,
+            'role_slug' => $role_slug,
+            'timezones' => $this->timezones->to_array(),
+            'min_password_length' => MIN_PASSWORD_LENGTH,
+            'providers' => $providers,
+        ]);
+
+        html_vars([
             'page_title' => lang('secretaries'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_array(),
+            'timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'providers' => $this->providers_model->get(),
         ]);
+
+        $this->load->view('pages/secretaries');
     }
 
     /**
@@ -70,9 +98,9 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            if (cannot('view', 'users'))
+            if (cannot('view', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
@@ -80,7 +108,7 @@ class Secretaries extends EA_Controller {
             $order_by = 'first_name ASC, last_name ASC, email ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $secretaries = $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
@@ -100,11 +128,11 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            $secretary = json_decode(request('secretary'), TRUE);
+            $secretary = request('secretary');
 
-            if (cannot('add', 'users'))
+            if (cannot('add', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = $this->secretaries_model->save($secretary);
@@ -127,11 +155,11 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            $secretary = json_decode(request('secretary'), TRUE);
+            $secretary = request('secretary');
 
-            if (cannot('edit', 'users'))
+            if (cannot('edit', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = $this->secretaries_model->save($secretary);
@@ -154,9 +182,9 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', 'users'))
+            if (cannot('delete', PRIV_USERS))
             {
-                show_error('Forbidden', 403);
+                abort(403, 'Forbidden');
             }
 
             $secretary_id = request('secretary_id');
@@ -166,6 +194,30 @@ class Secretaries extends EA_Controller {
             json_response([
                 'success' => TRUE,
             ]);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Find a secretary.
+     */
+    public function find()
+    {
+        try
+        {
+            if (cannot('view', PRIV_USERS))
+            {
+                abort(403, 'Forbidden');
+            }
+
+            $secretary_id = request('secretary_id');
+
+            $secretary = $this->secretaries_model->find($secretary_id);
+
+            json_response($secretary);
         }
         catch (Throwable $e)
         {

@@ -1,16 +1,24 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-(function () {
+/**
+ * Recovery page.
+ *
+ * This module implements the functionality of the recovery page.
+ */
+App.Pages.Recovery = (function () {
     const $form = $('form');
+    const $username = $('#username');
+    const $email = $('#email');
+    const $getNewPassword = $('#get-new-password');
 
     /**
      * Event: Login Button "Click"
@@ -21,28 +29,23 @@
     function onFormSubmit(event) {
         event.preventDefault();
 
-        const url = GlobalVariables.baseUrl + '/index.php/recovery/perform';
-
-        const data = {
-            csrfToken: GlobalVariables.csrfToken,
-            username: $('#username').val(),
-            email: $('#email').val()
-        };
-
         const $alert = $('.alert');
 
         $alert.addClass('d-none');
 
-        $('#get-new-password').prop('disabled', true);
+        $getNewPassword.prop('disabled', true);
 
-        $.post(url, data).done((response) => {
+        const username = $username.val();
+        const email = $email.val();
+
+        App.Http.Recovery.perform(username, email).done((response) => {
             $alert.removeClass('d-none alert-danger alert-success');
 
-            $('#get-new-password').prop('disabled', false);
+            $getNewPassword.prop('disabled', false);
 
             if (response.success) {
                 $alert.addClass('alert-success');
-                $alert.text(EALang['new_password_sent_with_email']);
+                $alert.text(lang('new_password_sent_with_email'));
             } else {
                 $alert.addClass('alert-danger');
                 $alert.text(
@@ -54,4 +57,6 @@
     }
 
     $form.on('submit', onFormSubmit);
+
+    return {};
 })();

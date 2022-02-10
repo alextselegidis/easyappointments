@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -24,6 +24,7 @@ class Providers_model extends EA_Model {
      */
     protected $casts = [
         'id' => 'integer',
+        'is_private' => 'boolean',
         'id_roles' => 'integer',
     ];
 
@@ -44,6 +45,7 @@ class Providers_model extends EA_Model {
         'timezone' => 'timezone',
         'language' => 'language',
         'notes' => 'notes',
+        'isPrivate' => 'is_private',
         'roleId' => 'id_roles',
     ];
 
@@ -204,6 +206,8 @@ class Providers_model extends EA_Model {
      */
     protected function insert(array $provider): int
     {
+        $provider['create_datetime'] = date('Y-m-d H:i:s');
+        $provider['update_datetime'] = date('Y-m-d H:i:s');
         $provider['id_roles'] = $this->get_provider_role_id();
 
         $service_ids = $provider['services'];
@@ -238,6 +242,8 @@ class Providers_model extends EA_Model {
      */
     protected function update(array $provider): int
     {
+        $provider['update_datetime'] = date('Y-m-d H:i:s');
+        
         $service_ids = $provider['services'];
         unset($provider['services']);
 
@@ -271,14 +277,19 @@ class Providers_model extends EA_Model {
      * Remove an existing provider from the database.
      *
      * @param int $provider_id Provider ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $provider_id)
+    public function delete(int $provider_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('users', ['id' => $provider_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete provider.');
+            $this->db->delete('users', ['id' => $provider_id]);
+        }
+        else
+        {
+            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $provider_id]);
         }
     }
 
@@ -286,19 +297,25 @@ class Providers_model extends EA_Model {
      * Get a specific provider from the database.
      *
      * @param int $provider_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the provider data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $provider_id): array
+    public function find(int $provider_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('users', ['id' => $provider_id])->num_rows())
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
+        $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
+
+        if ( ! $provider)
         {
             throw new InvalidArgumentException('The provided provider ID was not found in the database: ' . $provider_id);
         }
-
-        $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
 
         $this->cast($provider);
 
@@ -368,10 +385,11 @@ class Providers_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of providers.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_provider_role_id();
 
@@ -383,6 +401,11 @@ class Providers_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $providers = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -563,8 +586,10 @@ class Providers_model extends EA_Model {
             throw new InvalidArgumentException('Provider ID was not found in the database: ' . $provider_id);
         }
 
+        $provider = $this->find($provider_id);
+
         // Store the working plan exception.
-        $working_plan_exceptions = json_decode($this->get_setting('working_plan_exceptions', $provider_id), TRUE);
+        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
         if ( ! isset($working_plan_exception['breaks']))
         {
@@ -573,11 +598,9 @@ class Providers_model extends EA_Model {
 
         $working_plan_exceptions[$date] = $working_plan_exception;
 
-        $this->set_setting(
-            'working_plan_exceptions',
-            json_encode($working_plan_exceptions),
-            $provider_id
-        );
+        $provider['settings']['working_plan_exceptions'] = json_encode($working_plan_exceptions);
+
+        $this->update($provider);
     }
 
     /**
@@ -601,26 +624,32 @@ class Providers_model extends EA_Model {
 
         unset($working_plan_exceptions[$date]);
 
-        $this->set_setting(
-            'working_plan_exceptions',
-            json_encode(empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions),
-            $provider_id
-        );
+        $provider['settings']['working_plan_exceptions'] = empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions;
+
+        $this->update($provider);
     }
 
     /**
      * Get all the provider records that are assigned to at least one service.
      *
+     * @param bool $without_private Only include the public providers.
+     *
      * @return array Returns an array of providers.
      */
-    public function get_available_providers(): array
+    public function get_available_providers(bool $without_private = FALSE): array
     {
+        if ($without_private)
+        {
+            $this->db->where('users.is_private', FALSE);
+        }
+
         $providers = $this
             ->db
             ->select('users.*')
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
+            ->where('users.delete_datetime IS NULL')
             ->order_by('first_name ASC, last_name ASC, email ASC')
             ->get()
             ->result_array();
@@ -668,13 +697,19 @@ class Providers_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of providers.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_provider_role_id();
 
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
         $providers = $this
             ->db
             ->select()

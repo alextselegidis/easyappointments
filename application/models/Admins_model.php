@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -196,6 +196,9 @@ class Admins_model extends EA_Model {
         $settings = $admin['settings'];
         unset($admin['settings']);
 
+        $admin['create_datetime'] = date('Y-m-d H:i:s');
+        $admin['update_datetime'] = date('Y-m-d H:i:s');
+
         if ( ! $this->db->insert('users', $admin))
         {
             throw new RuntimeException('Could not insert admin.');
@@ -237,6 +240,8 @@ class Admins_model extends EA_Model {
             $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
         }
 
+        $admin['update_datetime'] = date('Y-m-d H:i:s');
+
         if ( ! $this->db->update('users', $admin, ['id' => $admin['id']]))
         {
             throw new RuntimeException('Could not update admin.');
@@ -251,23 +256,28 @@ class Admins_model extends EA_Model {
      * Remove an existing admin from the database.
      *
      * @param int $admin_id Admin ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $admin_id)
+    public function delete(int $admin_id, bool $force_delete = FALSE)
     {
         $role_id = $this->get_admin_role_id();
 
-        $count = $this->db->get_where('users', ['id_roles' => $role_id])->num_rows();
+        $count = $this->db->get_where('users', ['id_roles' => $role_id, 'delete_datetime !=' => NULL])->num_rows();
 
         if ($count === 1)
         {
             throw new RuntimeException('Record could not be deleted as the app requires at least one admin user.');
         }
 
-        if ( ! $this->db->delete('users', ['id' => $admin_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete admin.');
+            $this->db->delete('users', ['id' => $admin_id]);
+        }
+        else
+        {
+            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $admin_id]);
         }
     }
 
@@ -275,19 +285,25 @@ class Admins_model extends EA_Model {
      * Get a specific admin from the database.
      *
      * @param int $admin_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the admin data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $admin_id): array
+    public function find(int $admin_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('users', ['id' => $admin_id])->num_rows())
+        if ( ! $with_trashed)
         {
-            throw new InvalidArgumentException('The provided admin ID was not found in the database: ' . $admin_id);
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $admin = $this->db->get_where('users', ['id' => $admin_id])->row_array();
+
+        if ( ! $admin)
+        {
+            throw new InvalidArgumentException('The provided admin ID was not found in the database: ' . $admin_id);
+        }
 
         $this->cast($admin);
 
@@ -352,10 +368,11 @@ class Admins_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of admins.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_admin_role_id();
 
@@ -367,6 +384,11 @@ class Admins_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $admins = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -487,12 +509,18 @@ class Admins_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
+     * @param bool $with_trashed
      *
      * @return array Returns an array of admins.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_admin_role_id();
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
 
         $admins = $this
             ->db

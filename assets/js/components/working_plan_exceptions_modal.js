@@ -1,16 +1,33 @@
-$(function () {
-    'use strict';
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Online Appointment Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
+ * @since       v1.5.0
+ * ---------------------------------------------------------------------------- */
 
-    var $modal = $('#working-plan-exceptions-modal');
-    var $date = $('#working-plan-exceptions-date');
-    var $start = $('#working-plan-exceptions-start');
-    var $end = $('#working-plan-exceptions-end');
-    var $breaks = $('#working-plan-exceptions-breaks');
-    var $save = $('#working-plan-exceptions-save');
-    var deferred = null;
-    var enableSubmit = false;
-    var enableCancel = false;
+/**
+ * Working plan exceptions modal component.
+ *
+ * This module implements the working plan exceptions modal functionality.
+ */
+App.Components.WorkingPlanExceptionsModal = (function () {
+    const $modal = $('#working-plan-exceptions-modal');
+    const $date = $('#working-plan-exceptions-date');
+    const $start = $('#working-plan-exceptions-start');
+    const $end = $('#working-plan-exceptions-end');
+    const $breaks = $('#working-plan-exceptions-breaks');
+    const $save = $('#working-plan-exceptions-save');
+    let deferred = null;
+    let enableSubmit = false;
+    let enableCancel = false;
 
+    /**
+     * Reset the modal fields back to the original empty state.
+     */
     function resetModal() {
         $date.val('');
         $start.val('');
@@ -18,22 +35,27 @@ $(function () {
         $breaks.find('tbody').empty();
     }
 
+    /**
+     * Validate the modal form fields and return false if the validation fails.
+     *
+     * @returns {Boolean}
+     */
     function validate() {
         $modal.find('.is-invalid').removeClass('is-invalid');
 
-        var date = $date.datepicker('getDate');
+        const date = $date.datepicker('getDate');
 
         if (!date) {
             $date.addClass('is-invalid');
         }
 
-        var start = $start.timepicker('getDate');
+        const start = $start.timepicker('getDate');
 
         if (!start) {
             $start.addClass('is-invalid');
         }
 
-        var end = $end.timepicker('getDate');
+        const end = $end.timepicker('getDate');
 
         if (!end) {
             $end.addClass('is-invalid');
@@ -42,31 +64,41 @@ $(function () {
         return !$modal.find('.is-invalid').length;
     }
 
+    /**
+     * Event: On Modal "Hidden"
+     *
+     * This event is used to automatically reset the modal back to the original state.
+     */
     function onModalHidden() {
         resetModal();
     }
 
+    /**
+     * Serialize the entered break entries.
+     *
+     * @returns {Array}
+     */
     function getBreaks() {
-        var breaks = [];
+        const breaks = [];
 
-        $breaks.find('tbody tr').each(function (index, tr) {
-            var $tr = $(tr);
+        $breaks.find('tbody tr').each((index, tr) => {
+            const $tr = $(tr);
 
             if ($tr.find('input:text').length) {
                 return true;
             }
 
-            var start = $tr.find('.working-plan-exceptions-break-start').text();
-            var end = $tr.find('.working-plan-exceptions-break-end').text();
+            const start = $tr.find('.working-plan-exceptions-break-start').text();
+            const end = $tr.find('.working-plan-exceptions-break-end').text();
 
             breaks.push({
-                start: moment(start, GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
-                end: moment(end, GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
+                start: moment(start, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
+                end: moment(end, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
             });
         });
 
         // Sort breaks increasingly by hour within day
-        breaks.sort(function (break1, break2) {
+        breaks.sort((break1, break2) => {
             // We can do a direct string comparison since we have time based on 24 hours clock.
             return break1.start.localeCompare(break2.start);
         });
@@ -74,6 +106,11 @@ $(function () {
         return breaks;
     }
 
+    /**
+     * Event: On Save "Click"
+     *
+     * Serialize the entire working plan exception and resolved the promise so that external code can save it.
+     */
     function onSaveClick() {
         if (!deferred) {
             return;
@@ -83,9 +120,9 @@ $(function () {
             return;
         }
 
-        var date = moment($date.datepicker('getDate')).format('YYYY-MM-DD');
+        const date = moment($date.datepicker('getDate')).format('YYYY-MM-DD');
 
-        var workingPlanException = {
+        const workingPlanException = {
             start: moment($start.datetimepicker('getDate')).format('HH:mm'),
             end: moment($end.datetimepicker('getDate')).format('HH:mm'),
             breaks: getBreaks()
@@ -97,9 +134,14 @@ $(function () {
         resetModal();
     }
 
+    /**
+     * Enable the inline-editable table cell functionality for the provided target element..
+     *
+     * @param {jQuery} $target
+     */
     function editableTimeCell($target) {
         $target.editable(
-            function (value) {
+            (value) => {
                 // Do not return the value because the user needs to press the "Save" button.
                 return value;
             },
@@ -109,20 +151,20 @@ $(function () {
                 submit: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none submit-editable',
-                    'text': EALang.save
+                    'text': lang('save')
                 }).get(0).outerHTML,
                 cancel: $('<button/>', {
                     'type': 'button',
                     'class': 'd-none cancel-editable',
-                    'text': EALang.cancel
+                    'text': lang('cancel')
                 }).get(0).outerHTML,
                 onblur: 'ignore',
-                onreset: function () {
+                onreset: () => {
                     if (!enableCancel) {
                         return false; // disable ESC button
                     }
                 },
-                onsubmit: function () {
+                onsubmit: () => {
                     if (!enableSubmit) {
                         return false; // disable Enter button
                     }
@@ -131,8 +173,13 @@ $(function () {
         );
     }
 
+    /**
+     * Open the modal and start adding a new working plan exception.
+     *
+     * @returns {*|jQuery.Deferred}
+     */
     function add() {
-        deferred = jQuery.Deferred();
+        deferred = $.Deferred();
 
         $date.datepicker('setDate', new Date());
         $start.timepicker('setDate', moment('08:00', 'HH:mm').toDate());
@@ -143,14 +190,22 @@ $(function () {
         return deferred.promise();
     }
 
+    /**
+     * Modify the provided working plan exception for the selected date.
+     *
+     * @param {String} date
+     * @param {Object} workingPlanException
+     *
+     * @return {*|jQuery.Deferred}
+     */
     function edit(date, workingPlanException) {
-        deferred = jQuery.Deferred();
+        deferred = $.Deferred();
 
         $date.datepicker('setDate', moment(date, 'YYYY-MM-DD').toDate());
         $start.timepicker('setDate', moment(workingPlanException.start, 'HH:mm').toDate());
         $end.timepicker('setDate', moment(workingPlanException.end, 'HH:mm').toDate());
 
-        workingPlanException.breaks.forEach(function (workingPlanExceptionBreak) {
+        workingPlanException.breaks.forEach((workingPlanExceptionBreak) => {
             renderBreakRow(workingPlanExceptionBreak).appendTo($breaks.find('tbody'));
         });
 
@@ -163,8 +218,15 @@ $(function () {
         return deferred.promise();
     }
 
+    /**
+     * Render a break table row based on the provided break period object.
+     *
+     * @param {Object} breakPeriod
+     *
+     * @return {jQuery}
+     */
     function renderBreakRow(breakPeriod) {
-        var timeFormat = GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm';
+        const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
         return $('<tr/>', {
             'html': [
@@ -181,7 +243,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-edit-break',
-                            'title': EALang.edit,
+                            'title': lang('edit'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-edit'
@@ -191,7 +253,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm working-plan-exceptions-delete-break',
-                            'title': EALang.delete,
+                            'title': lang('delete'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-trash-alt'
@@ -201,7 +263,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm me-2 working-plan-exceptions-save-break d-none',
-                            'title': EALang.save,
+                            'title': lang('save'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-check-circle'
@@ -211,7 +273,7 @@ $(function () {
                         $('<button/>', {
                             'type': 'button',
                             'class': 'btn btn-outline-secondary btn-sm working-plan-exceptions-cancel-break d-none',
-                            'title': EALang.cancel,
+                            'title': lang('cancel'),
                             'html': [
                                 $('<span/>', {
                                     'class': 'fas fa-ban'
@@ -224,8 +286,11 @@ $(function () {
         });
     }
 
+    /**
+     * Event: Add Break "Click"
+     */
     function onAddBreakClick() {
-        var $newBreak = renderBreakRow({
+        const $newBreak = renderBreakRow({
             start: '12:00',
             end: '14:00'
         }).appendTo('#working-plan-exceptions-breaks tbody');
@@ -236,18 +301,21 @@ $(function () {
         $('.working-plan-exceptions-add-break').prop('disabled', true);
     }
 
+    /**
+     * Event: Edit Break "Click"
+     */
     function onEditBreakClick() {
         // Reset previous editable table cells.
-        var $previousEdits = $(this).closest('table').find('.editable');
+        const $previousEdits = $(this).closest('table').find('.editable');
 
-        $previousEdits.each(function (index, editable) {
+        $previousEdits.each((index, editable) => {
             if (editable.reset) {
                 editable.reset();
             }
         });
 
         // Make all cells in current row editable.
-        var $tr = $(this).closest('tr');
+        let $tr = $(this).closest('tr');
         $tr.children().trigger('edit');
         initializeTimepicker(
             $tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input')
@@ -263,25 +331,31 @@ $(function () {
         $('.working-plan-exceptions-add-break').prop('disabled', true);
     }
 
+    /**
+     * Event: Delete Break "Click"
+     */
     function onDeleteBreakClick() {
         $(this).closest('tr').remove();
     }
 
+    /**
+     * Event: Save Break "Click"
+     */
     function onSaveBreakClick() {
         // Break's start time must always be prior to break's end.
-        var $tr = $(this).closest('tr');
-        var start = moment(
+        const $tr = $(this).closest('tr');
+        const start = moment(
             $tr.find('.working-plan-exceptions-break-start input').val(),
-            GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+            vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm'
         );
-        var end = moment(
+        const end = moment(
             $tr.find('.working-plan-exceptions-break-end input').val(),
-            GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm'
+            vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm'
         );
 
         if (start > end) {
             $tr.find('.working-plan-exceptions-break-end input').val(
-                start.add(1, 'hour').format(GlobalVariables.timeFormat === 'regular' ? 'h:mm a' : 'HH:mm')
+                start.add(1, 'hour').format(vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm')
             );
         }
 
@@ -296,8 +370,11 @@ $(function () {
         $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
 
+    /**
+     * Event: Cancel Break "Click"
+     */
     function onCancelBreakClick() {
-        var $tr = $(this).closest('tr');
+        const $tr = $(this).closest('tr');
         enableCancel = true;
         $tr.find('.cancel-editable').trigger('click');
         enableCancel = false;
@@ -309,10 +386,15 @@ $(function () {
         $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
 
+    /**
+     * Initialize a datepicker instance on the provided target selector.
+     *
+     * @param {jQuery} $target
+     */
     function initializeDatepicker($target) {
-        var dateFormat;
+        let dateFormat;
 
-        switch (GlobalVariables.dateFormat) {
+        switch (vars('date_format')) {
             case 'DMY':
                 dateFormat = 'dd/mm/yy';
                 break;
@@ -326,90 +408,102 @@ $(function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided: ' + GlobalVariables.dateFormat);
+                throw new Error('Invalid date format setting provided: ' + vars('date_format'));
         }
 
         $target.datepicker({
             dateFormat: dateFormat,
-            firstDay: GeneralFunctions.getWeekDayId(GlobalVariables.firstWeekday),
+            firstDay: App.Utils.Date.getWeekdayId(vars('first_weekday')),
             minDate: 0,
             defaultDate: moment().toDate(),
             dayNames: [
-                EALang.sunday,
-                EALang.monday,
-                EALang.tuesday,
-                EALang.wednesday,
-                EALang.thursday,
-                EALang.friday,
-                EALang.saturday
+                lang('sunday'),
+                lang('monday'),
+                lang('tuesday'),
+                lang('wednesday'),
+                lang('thursday'),
+                lang('friday'),
+                lang('saturday')
             ],
             dayNamesShort: [
-                EALang.sunday.substr(0, 3),
-                EALang.monday.substr(0, 3),
-                EALang.tuesday.substr(0, 3),
-                EALang.wednesday.substr(0, 3),
-                EALang.thursday.substr(0, 3),
-                EALang.friday.substr(0, 3),
-                EALang.saturday.substr(0, 3)
+                lang('sunday').substr(0, 3),
+                lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3),
+                lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3),
+                lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)
             ],
             dayNamesMin: [
-                EALang.sunday.substr(0, 2),
-                EALang.monday.substr(0, 2),
-                EALang.tuesday.substr(0, 2),
-                EALang.wednesday.substr(0, 2),
-                EALang.thursday.substr(0, 2),
-                EALang.friday.substr(0, 2),
-                EALang.saturday.substr(0, 2)
+                lang('sunday').substr(0, 2),
+                lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2),
+                lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2),
+                lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)
             ],
             monthNames: [
-                EALang.january,
-                EALang.february,
-                EALang.march,
-                EALang.april,
-                EALang.may,
-                EALang.june,
-                EALang.july,
-                EALang.august,
-                EALang.september,
-                EALang.october,
-                EALang.november,
-                EALang.december
+                lang('january'),
+                lang('february'),
+                lang('march'),
+                lang('april'),
+                lang('may'),
+                lang('june'),
+                lang('july'),
+                lang('august'),
+                lang('september'),
+                lang('october'),
+                lang('november'),
+                lang('december')
             ],
-            prevText: EALang.previous,
-            nextText: EALang.next,
-            currentText: EALang.now,
-            closeText: EALang.close
+            prevText: lang('previous'),
+            nextText: lang('next'),
+            currentText: lang('now'),
+            closeText: lang('close')
         });
     }
 
+    /**
+     * Initialize a timepicker on the provided target selector.
+     *
+     * @param {jQuery} $target
+     */
     function initializeTimepicker($target) {
         $target.timepicker({
-            timeFormat: GlobalVariables.timeFormat === 'regular' ? 'h:mm tt' : 'HH:mm',
-            currentText: EALang.now,
-            closeText: EALang.close,
-            timeOnlyTitle: EALang.select_time,
-            timeText: EALang.time,
-            hourText: EALang.hour,
-            minuteText: EALang.minutes
+            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
+            currentText: lang('now'),
+            closeText: lang('close'),
+            timeOnlyTitle: lang('select_time'),
+            timeText: lang('time'),
+            hourText: lang('hour'),
+            minuteText: lang('minutes')
         });
     }
 
-    initializeDatepicker($date);
-    initializeTimepicker($start);
-    initializeTimepicker($end);
+    /**
+     * Initialize the module.
+     */
+    function initialize() {
+        initializeDatepicker($date);
+        initializeTimepicker($start);
+        initializeTimepicker($end);
 
-    $modal
-        .on('hidden.bs.modal', onModalHidden)
-        .on('click', '.working-plan-exceptions-add-break', onAddBreakClick)
-        .on('click', '.working-plan-exceptions-edit-break', onEditBreakClick)
-        .on('click', '.working-plan-exceptions-delete-break', onDeleteBreakClick)
-        .on('click', '.working-plan-exceptions-save-break', onSaveBreakClick)
-        .on('click', '.working-plan-exceptions-cancel-break', onCancelBreakClick);
+        $modal
+            .on('hidden.bs.modal', onModalHidden)
+            .on('click', '.working-plan-exceptions-add-break', onAddBreakClick)
+            .on('click', '.working-plan-exceptions-edit-break', onEditBreakClick)
+            .on('click', '.working-plan-exceptions-delete-break', onDeleteBreakClick)
+            .on('click', '.working-plan-exceptions-save-break', onSaveBreakClick)
+            .on('click', '.working-plan-exceptions-cancel-break', onCancelBreakClick);
 
-    $save.on('click', onSaveClick);
+        $save.on('click', onSaveClick);
+    }
 
-    window.WorkingPlanExceptionsModal = {
-        add: add,
-        edit: edit
+    document.addEventListener('DOMContentLoaded', initialize);
+
+    return {
+        add,
+        edit
     };
-});
+})();

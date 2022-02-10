@@ -1,11 +1,11 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
@@ -130,10 +130,14 @@ function vendor(done) {
     ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
 
     // fullcalendar
-    gulp.src([
-        'node_modules/fullcalendar/dist/fullcalendar.min.js',
-        'node_modules/fullcalendar/dist/fullcalendar.min.css'
-    ]).pipe(gulp.dest('assets/vendor/fullcalendar'));
+    gulp.src(['node_modules/fullcalendar/main.min.js', 'node_modules/fullcalendar/main.min.css']).pipe(
+        gulp.dest('assets/vendor/fullcalendar')
+    );
+
+    // fullcalendar-moment
+    gulp.src(['node_modules/@fullcalendar/moment/main.global.min.js']).pipe(
+        gulp.dest('assets/vendor/fullcalendar-moment')
+    );
 
     // jquery
     gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('assets/vendor/jquery'));
@@ -146,6 +150,10 @@ function vendor(done) {
     // jquery-ui-dist
     gulp.src(['node_modules/jquery-ui-dist/jquery-ui.min.js', 'node_modules/jquery-ui-dist/jquery-ui.min.css']).pipe(
         gulp.dest('assets/vendor/jquery-ui-dist')
+    );
+
+    gulp.src(['node_modules/jquery-ui-dist/images/ui-icons_ffffff_256x240.png']).pipe(
+        gulp.dest('assets/vendor/jquery-ui-dist/images')
     );
 
     // jquery-ui-timepicker-addon

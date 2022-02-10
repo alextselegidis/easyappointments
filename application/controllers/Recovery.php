@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
@@ -35,11 +35,14 @@ class Recovery extends EA_Controller {
      */
     public function index()
     {
-        $this->load->view('pages/recovery', [
-            'base_url' => config('base_url'),
+        $company_name = setting('company_name'); 
+        
+        html_vars([
             'dest_url' => session('dest_url', site_url('backend')),
-            'company_name' => setting('company_name')
-        ]);
+            'company_name' => $company_name
+        ]); 
+        
+        $this->load->view('pages/recovery');
     }
     
     /**

@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.4.0
@@ -41,12 +41,12 @@
  *
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
+ * @property Categories_model $categories_model
  * @property Consents_model $consents_model
  * @property Customers_model $customers_model
  * @property Providers_model $providers_model
  * @property Roles_model $roles_model
  * @property Secretaries_model $secretaries_model
- * @property Service_categories_model $service_categories_model
  * @property Services_model $services_model
  * @property Settings_model $settings_model
  * @property Unavailabilities_model $unavailabilities_model
@@ -72,6 +72,8 @@ class EA_Controller extends CI_Controller {
         parent::__construct();
 
         $this->configure_language();
+        
+        $this->load_common_script_vars();
     }
 
     /**
@@ -87,5 +89,18 @@ class EA_Controller extends CI_Controller {
         }
 
         $this->lang->load('translations');
+    }
+
+    /**
+     * Load common script vars for all requests. 
+     */
+    private function load_common_script_vars()
+    {
+        script_vars([
+            'base_url' => config('base_url'),
+            'index_page' => config('index_page'),
+            'available_languages' => config('available_languages'),
+            'csrf_token' => $this->security->get_csrf_hash(),
+        ]);
     }
 }

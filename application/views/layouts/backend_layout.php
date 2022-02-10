@@ -1,9 +1,3 @@
-<?php
-/**
- * @var string $page_title
- */
-?>
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#35A768">
-    
+
     <?php slot('meta') ?>
 
     <title><?= $page_title ?? lang('backend_section') ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
-    
+
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/select2/select2.min.css') ?>">
@@ -30,17 +24,11 @@
 </head>
 <body>
 
-<?php require 'backend_header.php' ?>
+<?php component('backend_header', ['active_menu' => vars('active_menu')]) ?>
 
 <?php slot('content') ?>
 
-<?php require 'backend_footer.php' ?>
-
-<script>
-    const EALang = <?= json_encode($this->lang->language) ?>;
-    
-    const availableLanguages = <?= json_encode(config('available_languages')) ?>;
-</script>
+<?php component('backend_footer', ['user_display_name' => vars('user_display_name')]) ?>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
@@ -54,9 +42,22 @@
 <script src="<?= asset_url('assets/vendor/tippy.js/tippy-bundle.umd.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/layouts/backend.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+
+<script src="<?= asset_url('assets/js/app.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/file.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/http.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
+
+<?php component('js_vars_script') ?>
+<?php component('js_lang_script') ?>
 
 <?php slot('scripts') ?>
+
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.5.0
@@ -28,6 +28,10 @@ class Login extends EA_Controller {
 
         $this->load->library('accounts');
         $this->load->library('email_messages');
+
+        script_vars([
+            'dest_url' => session('dest_url', site_url('calendar')),
+        ]);
     }
 
     /**
@@ -35,11 +39,13 @@ class Login extends EA_Controller {
      */
     public function index()
     {
-        $this->load->view('pages/login', [
+        html_vars([
             'base_url' => config('base_url'),
-            'dest_url' => session('dest_url', site_url('backend')),
+            'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name')
         ]);
+        
+        $this->load->view('pages/login');
     }
 
     /**

@@ -4,32 +4,41 @@
 
 <h2><?= lang('forgot_your_password') ?></h2>
 
-<p><?= lang('type_username_and_email_for_new_password') ?></p>
+<p>
+    <small>
+        <?= lang('type_username_and_email_for_new_password') ?>
+    </small>
+</p>
 
 <hr>
 
 <div class="alert d-none"></div>
 
-<form>
-    <div class="mb-3">
-        <label for="username"><?= lang('username') ?></label>
+<form class="mb-5">
+    <div class="mb-3 mt-5">
+        <label for="username" class="form-label">
+            <?= lang('username') ?>
+        </label>
         <input type="text" id="username" placeholder="<?= lang('enter_username_here') ?>" class="form-control"/>
     </div>
-    <div class="mb-3">
-        <label for="email"><?= lang('email') ?></label>
+    
+    <div class="mb-5">
+        <label for="email" class="form-label">
+            <?= lang('email') ?>
+        </label>
         <input type="text" id="email" placeholder="<?= lang('enter_email_here') ?>" class="form-control"/>
     </div>
 
-    <br>
-
-    <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
-        <i class="fas fa-unlock-alt me-2"></i>
-        <?= lang('regenerate_password') ?>
-    </button>
-
-    <a href="<?= site_url('user/login') ?>" class="user-login">
-        <?= lang('go_to_login') ?>
-    </a>
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <a href="<?= site_url('user/login') ?>" class="user-login">
+            <?= lang('go_to_login') ?>
+        </a>
+        
+        <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
+            <i class="fas fa-unlock-alt me-2"></i>
+            <?= lang('regenerate_password') ?>
+        </button>
+    </div>
 </form>
 
 <?php section('content') ?>
@@ -38,7 +47,8 @@
 
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/general_functions.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/recovery_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/recovery.js') ?>"></script>
 
 <?php section('scripts') ?>

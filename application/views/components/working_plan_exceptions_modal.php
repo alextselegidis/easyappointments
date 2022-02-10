@@ -1,4 +1,3 @@
-
 <div class="modal" id="working-plan-exceptions-modal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -49,10 +48,20 @@
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= lang('cancel') ?></button>
-                <button type="button" class="btn btn-primary"
-                        id="working-plan-exceptions-save"><?= lang('save') ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <?= lang('cancel') ?>
+                </button>
+                <button type="button" class="btn btn-primary" id="working-plan-exceptions-save">
+                    <i class="fas fa-check-square me-2"></i>
+                    <?= lang('save') ?>
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<?php section('scripts') ?>
+
+<script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
+
+<?php section('scripts') ?>

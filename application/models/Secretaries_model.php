@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -204,9 +204,12 @@ class Secretaries_model extends EA_Model {
      */
     protected function insert(array $secretary): int
     {
+        $secretary['create_datetime'] = date('Y-m-d H:i:s');
+        $secretary['update_datetime'] = date('Y-m-d H:i:s');
+        
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
-        $providers = $secretary['providers'];
+        $providers = $secretary['providers'] ?? [];
         unset($secretary['providers']);
 
         $settings = $secretary['settings'];
@@ -239,7 +242,9 @@ class Secretaries_model extends EA_Model {
      */
     protected function update(array $secretary): int
     {
-        $provider_ids = $secretary['providers'];
+        $secretary['update_datetime'] = date('Y-m-d H:i:s');
+        
+        $provider_ids = $secretary['providers'] ?? [];
         unset($secretary['providers']);
 
         $settings = $secretary['settings'];
@@ -272,14 +277,19 @@ class Secretaries_model extends EA_Model {
      * Remove an existing secretary from the database.
      *
      * @param int $secretary_id Provider ID.
+     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $secretary_id)
+    public function delete(int $secretary_id, bool $force_delete = FALSE)
     {
-        if ( ! $this->db->delete('users', ['id' => $secretary_id]))
+        if ($force_delete)
         {
-            throw new RuntimeException('Could not delete secretary.');
+            $this->db->delete('users', ['id' => $secretary_id]);
+        }
+        else
+        {
+            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $secretary_id]);
         }
     }
 
@@ -287,20 +297,26 @@ class Secretaries_model extends EA_Model {
      * Get a specific secretary from the database.
      *
      * @param int $secretary_id The ID of the record to be returned.
+     * @param bool $with_trashed
      *
      * @return array Returns an array with the secretary data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $secretary_id): array
+    public function find(int $secretary_id, bool $with_trashed = FALSE): array
     {
-        if ( ! $this->db->get_where('users', ['id' => $secretary_id])->num_rows())
+        if ( ! $with_trashed)
         {
-            throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $secretary_id);
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $secretary = $this->db->get_where('users', ['id' => $secretary_id])->row_array();
 
+        if ( ! $secretary)
+        {
+            throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $secretary_id);
+        }
+        
         $secretary['settings'] = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
 
         unset(
@@ -369,7 +385,8 @@ class Secretaries_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of secretaries.
      */
     public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL)
@@ -384,6 +401,11 @@ class Secretaries_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
         }
 
         $secretaries = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -533,13 +555,19 @@ class Secretaries_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     *
+     * @param bool $with_trashed
+     * 
      * @return array Returns an array of secretaries.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_secretary_role_id();
 
+        if ( ! $with_trashed)
+        {
+            $this->db->where('delete_datetime IS NULL');
+        }
+        
         $secretaries = $this
             ->db
             ->select()
