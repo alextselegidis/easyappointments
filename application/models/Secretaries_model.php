@@ -389,7 +389,7 @@ class Secretaries_model extends EA_Model {
      * 
      * @return array Returns an array of secretaries.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL)
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_secretary_role_id();
 
