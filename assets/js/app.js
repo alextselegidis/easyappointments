@@ -14,6 +14,38 @@
  * This script should be loaded before the other modules in order to define the global application namespace.
  */
 window.App = (function () {
+    function onAjaxError(event, jqXHR, textStatus, errorThrown) {
+        console.error('Unexpected HTTP Error: ', jqXHR, textStatus, errorThrown);
+
+        let response;
+
+        try {
+            response = JSON.parse(jqXHR.responseText); // JSON response
+        } catch (error) {
+            response = {message: jqXHR.responseText}; // String response
+        }
+
+        if (!response) {
+            return;
+        }
+
+        if (App.Utils.Message) {
+            App.Utils.Message.show(lang('unexpected_issues'), lang('unexpected_issues_message'));
+
+            $('<div/>', {
+                'class': 'card',
+                'html': [
+                    $('<div/>', {
+                        'class': 'card-body',
+                        'html': response.message || '→ No error information provided.'
+                    })
+                ]
+            }).appendTo('#message-box');
+        }
+    }
+
+    $(document).ajaxError(onAjaxError);
+
     return {
         Components: {},
         Http: {},
