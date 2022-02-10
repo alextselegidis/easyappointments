@@ -6,8 +6,8 @@
     <title>Installation | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/bootstrap/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/pages/installation.css') ?>">
 </head>
@@ -121,7 +121,7 @@
 
     <br>
 
-    <button type="button" id="install" class="btn btn-primary btn-lg">
+    <button type="button" id="install" class="btn btn-primary">
         <i class="icon-white icon-ok me-2"></i>
         Install Easy!Appointments
     </button>
