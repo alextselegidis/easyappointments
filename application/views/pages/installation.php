@@ -131,6 +131,9 @@
     Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
 </footer>
 
+<?php component('js_vars_script') ?>
+<?php component('js_lang_script') ?>
+
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>
@@ -138,10 +141,9 @@
 
 <script src="<?= asset_url('assets/js/app.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/installation.js') ?>"></script>
-
-<?php component('config_script') ?>
-<?php component('language_script') ?>
 
 </body>
 </html>
