@@ -1546,13 +1546,15 @@ App.Utils.CalendarDefaultView = (function () {
                                     (availableService) =>
                                         Number(availableService.id) === Number($selectFilterItem.val())
                                 );
-                                $appointmentsModal.find('#select-service').val(service.id).trigger('change');
+
+                                if (service) {
+                                    $appointmentsModal.find('#select-service').val(service.id).trigger('change');
+                                }
                             }
 
                             // Preselect time
                             $('#start-datetime').datepicker('setDate', info.start);
                             $('#end-datetime').datepicker('setDate', info.end);
-
                             $('#message-box').dialog('close');
                         }
                     }
