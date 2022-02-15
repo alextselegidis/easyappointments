@@ -21,7 +21,7 @@ root {
    -------------------------------------------------------------------- */
 
 #header {
-    background-color: #429a82;
+    background-color: #fff2e7;
     box-shadow: none;
     border-radius: 0;
     padding: 0;
@@ -148,7 +148,7 @@ body .modal .modal-title {
 
 body .modal-header {
     padding: 20px 15px;
-    background: #429a82;
+    background: #fff2e7;
 }
 
 body .modal-header h3 {
@@ -255,7 +255,7 @@ body legend {
 
 .backend-page .filter-records .results .entry.selected {
     background-color: #F4F4F4;
-    border-right: 5px solid #429a82;
+    border-right: 5px solid #fff2e7;
 }
 
 .backend-page .filter-records .results hr {
@@ -447,7 +447,7 @@ body legend {
 }
 
 #existing-customers-list div:hover {
-    background: #429a82;
+    background: #fff2e7;
     font-weight: bold;
     color: #FFF;
     cursor: pointer;
