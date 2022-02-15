@@ -4,7 +4,7 @@
 // Example: $config['smtp_host'] = 'smtp.gmail.com';
 // @link https://codeigniter.com/user_guide/libraries/email.html
 
-$config['useragent'] = 'Easy!Appointments';
+$config['useragent'] = 'Car2dude';
 $config['protocol'] = 'mail'; // or 'smtp'
 $config['mailtype'] = 'html'; // or 'text'
 // $config['smtp_debug'] = '0'; // or '1'

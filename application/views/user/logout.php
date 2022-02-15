@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#35A768">
 
-    <title><?= lang('log_out') ?> | Easy!Appointments</title>
+    <title><?= lang('log_out') ?> | Car2dude</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/logout.css') ?>">
@@ -46,7 +46,7 @@
     <div class="mt-4">
         <small>
             Powered by
-            <a href="https://easyappointments.org">Easy!Appointments</a>
+            <a href="https://car2dude.com/">Car2dude</a>
         </small>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <html lang="en">
 <head>
-    <title>New Password | Easy!Appointments</title>
+    <title>New Password | Car2dude</title>
 </head>
 <body style="font: 13px arial, helvetica, tahoma;">
 <div class="email-container" style="width: 650px; border: 1px solid #eee;">
@@ -18,7 +18,7 @@
     <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
                 border-top: 1px solid #EEE; background: #FAFAFA;">
         Powered by
-        <a href="https://easyappointments.org" style="text-decoration: none;">Easy!Appointments</a>
+        <a href="https://easyappointments.org" style="text-decoration: none;">Car2dude</a>
         |
         <a href="<?= $company_link ?>" style="text-decoration: none;"><?= $company_name ?></a>
     </div>

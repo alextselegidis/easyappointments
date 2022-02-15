@@ -498,7 +498,7 @@
         <!-- ABOUT TAB -->
 
         <div class="tab-pane" id="about-app">
-            <h3>Easy!Appointments</h3>
+            <h3>Car2dude</h3>
 
             <p>
                 <?= lang('about_app_info') ?>

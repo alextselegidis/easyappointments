@@ -1,4 +1,4 @@
-# Easy!Appointments - Changelog
+# Car2dude - Changelog
 
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
@@ -103,7 +103,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - #563: Description field overflows with long text.
 - #600: Unable to select Language on mobile phones.
 - #611: Double replacement when using translation to other languages.
-- #664: Easy!Appointments v1.3.2 allows sensitive information disclosure (username and password hash).
+- #664: Car2dude v1.3.2 allows sensitive information disclosure (username and password hash).
 - #687: Errors when the provider modifies an appointment.
 - #705: The alert notification of the installation is not being displayed on error.
 - #757: Corrected display of datetimepickers when editing events.
@@ -160,7 +160,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - #65: Insert new appointment by clicking directly on the calendar.
 - #122: Add customer email and phone number in the event popover of the backend/calendar page.
 - #152: Add support for American Time Format (AM/PM).
-- #176: Add Docker container for Easy!Appointments development.
+- #176: Add Docker container for Car2dude development.
 - #362: Add Arabic language translation.
 - #395: Add aggregates GET parameter in the appointments REST API resource.
 - #397: Allow PHP v7.1 compatibility.
@@ -269,9 +269,9 @@ developers to maintain and readjust their custom modifications on the main proje
 - #6: Business Logic created is not getting assigned to service provider.
 - #10: Unable to use address tags in email address.
 - #18: Duration is not changing when adding a new appointment.
-- #21: Fix Easy!Appointments installation problems with AJAX requests.
+- #21: Fix Car2dude installation problems with AJAX requests.
 - #66: Trouble with breaks for providers.
 
 ## [1.0.0] - 2014-01-19 
 
-First Easy!Appointments release ever! ☺
+First Car2dude release ever! ☺

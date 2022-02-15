@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <title>Update | Easy!Appointments</title>
+    <title>Update | Car2dude</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/ext/bootstrap/css/bootstrap.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
@@ -14,7 +14,7 @@
 <body>
 <header>
     <div class="container">
-        <h1 class="page-title">Easy!Appointments Update</h1>
+        <h1 class="page-title">Car2dude Update</h1>
     </div>
 </header>
 
@@ -29,7 +29,7 @@
                     </p>
                     <hr class="my-4">
                     <p>
-                        You can now use the latest Easy!Appointments version.
+                        You can now use the latest Car2dude version.
                     </p>
                     <a href="<?= site_url('backend') ?>" class="btn btn-success btn-large">
                         <i class="fas fa-wrench mr-2"></i>
@@ -65,7 +65,7 @@
 </div>
 
 <footer>
-    Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
+    Powered by <a href="https://car2dude.com/">Car2dude</a>
 </footer>
 
 <script src="<?= asset_url('assets/ext/fontawesome/js/fontawesome.min.js') ?>"></script>

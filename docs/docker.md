@@ -1,6 +1,6 @@
 # Docker
 
-Run the development containers of Easy!Appointments with Docker and Docker Compose utility. Docker allows you to compose 
+Run the development containers of Car2dude with Docker and Docker Compose utility. Docker allows you to compose 
 your application from micro-services, without worrying about inconsistencies between development and production 
 environments and without locking into any platform or language. 
 
@@ -45,6 +45,6 @@ You can remove the docker containers with `docker rm easyappointments-server eas
 
 You can remove the server image with `docker rmi easyappointments-server:v1`.
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Car2dude v1.4.1.*
 
 [Back](readme.md)

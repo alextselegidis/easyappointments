@@ -1,6 +1,6 @@
 <?php
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -11,7 +11,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Easy!Appointments Configuration File
+ * Car2dude Configuration File
  *
  * Set your installation BASE_URL * without the trailing slash * and the database
  * credentials in order to connect to the database. You can enable the DEBUG_MODE

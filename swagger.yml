@@ -1094,5 +1094,5 @@ definitions:
                 type: string
 
 externalDocs:
-    description: Find out more about Easy!Appointments
+    description: Find out more about Car2dude
     url: 'https://easyappointments.org/docs.html'

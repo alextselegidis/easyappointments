@@ -1,10 +1,10 @@
 # Console
 
-> This page contains information about the CLI support of Easy!Appointments.
+> This page contains information about the CLI support of Car2dude.
 
 ### Introduction
 
-Starting from v1.4.0 Easy!Appointments has introduced CLI support, providing a set of useful utilities to use with your installation. 
+Starting from v1.4.0 Car2dude has introduced CLI support, providing a set of useful utilities to use with your installation. 
 
 The commands can be executed with PHP installed on your server and available from within the terminal. To ensure that you have PHP configured properly run the following command from within a terminal session. 
 
@@ -48,7 +48,7 @@ This command will add a test admin, provider, customer and service in the app, s
 php index.php install
 ```
 
-This command will perform a CLI installation of Easy!Appointments. 
+This command will perform a CLI installation of Car2dude. 
 
 You can run this after your are done configuring your app from the root `config.php` file. 
 
@@ -89,6 +89,6 @@ php index.php help
 
 This command will give more information about the console capabilities.
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Car2dude v1.4.1.*
 
 [Back](readme.md)
