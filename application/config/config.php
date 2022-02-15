@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| Easy!Appointments - Internal Configuration
+| Car2dude - Internal Configuration
 |--------------------------------------------------------------------------
 |
-| Declare some of the global config values of Easy!Appointments.
+| Declare some of the global config values of Car2dude.
 |
 */
 $config['version'] = '1.4.2'; // This must be changed manually.
@@ -113,7 +113,7 @@ $languages = [
     'tr' => 'turkish',
 ];
 
-$language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
+$language_code = 'zh';
 
 $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
     ? $languages[$language_code]

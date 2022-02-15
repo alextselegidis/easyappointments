@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -14,7 +14,7 @@
 /**
  * Providers_Model Class
  *
- * Contains the database operations for the service provider users of Easy!Appointments.
+ * Contains the database operations for the service provider users of Car2dude.
  *
  * @package Models
  */

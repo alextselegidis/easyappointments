@@ -2,11 +2,11 @@
 
 > This page will guide you through the activation of the Google Calendar synchronization feature.
 
-Since version 1.0 Easy!Appointments supports two way synchronization with the Google Calendar API. Every provider can link his Google Calendar account with the application and make sure that any modification made on the schedule is synced between both systems. Easy!Appointments will add extra information (if available) to Google Calendar events so that users can check event participants, reply whether they will come or not etc. Once the events are on Google Calendar they can then be synced and used by other services that support Google’s API. 
+Since version 1.0 Car2dude supports two way synchronization with the Google Calendar API. Every provider can link his Google Calendar account with the application and make sure that any modification made on the schedule is synced between both systems. Car2dude will add extra information (if available) to Google Calendar events so that users can check event participants, reply whether they will come or not etc. Once the events are on Google Calendar they can then be synced and used by other services that support Google’s API. 
 
-So, these are the required steps for enabling the Google Calendar Sync feature of Easy!Appointments.
+So, these are the required steps for enabling the Google Calendar Sync feature of Car2dude.
 
-## Working Easy!Appointments Installation
+## Working Car2dude Installation
 
 The installation must be fully functional and configured and needs to have some services and providers.
 
@@ -23,7 +23,7 @@ The synchronization feature requires valid Google API credentials in order to re
 
 Customers will be able to sync their appointments with their Google Calendars but beforehand you will need an API key. Click again on the **Create credentials** button while being in the Credentials overview page and select **API Key**. A modal dialog will be shown asking you the type of key to create. Select the **Browser Key** option and fill the following form with your installation data.
 
-## Easy!Appointments Syncing Feature
+## Car2dude Syncing Feature
 
 To enable the synchronization edit your root config.php file and update the Google Calendar Sync section with your API credentials.
 
@@ -33,11 +33,11 @@ To enable the synchronization edit your root config.php file and update the Goog
   - `GOOGLE_CLIENT_SECRET` needs the client secret from the OAuth2 credentials.
   - `GOOGLE_API_KEY` needs the API key created in the previous section.
   
-4. **Link Google Calendar and Easy!Appointments**: Go to backend/calendar page, select a provider and click on the "Enable Sync" button. A new window will pop up asking you to grant concern. Enter the user's credentials and the sync will be activated!
+4. **Link Google Calendar and Car2dude**: Go to backend/calendar page, select a provider and click on the "Enable Sync" button. A new window will pop up asking you to grant concern. Enter the user's credentials and the sync will be activated!
 
 #### Note that ...
 
-* Currently synchronization can only be triggered from the Easy!Appointments backend or whenever there are changes in the appointment plan.
+* Currently synchronization can only be triggered from the Car2dude backend or whenever there are changes in the appointment plan.
 
 * Every provider user can be synced with only one Google Calendar account.
 
@@ -49,6 +49,6 @@ Google Developers – https://developers.google.com/google-apps/calendar
 
 E!A Support Group – https://groups.google.com/forum/#!forum/easy-appointments
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Car2dude v1.4.1.*
 
 [Back](readme.md)

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -16,7 +16,7 @@ require_once __DIR__ . '/Google.php';
 /**
  * Class Console
  *
- * CLI commands of Easy!Appointments, can only be executed from a terminal and not with a direct request.
+ * CLI commands of Car2dude, can only be executed from a terminal and not with a direct request.
  */
 class Console extends EA_Controller {
     /**
@@ -44,7 +44,7 @@ class Console extends EA_Controller {
     /**
      * Perform a console installation.
      *
-     * Use this method to install Easy!Appointments directly from the terminal.
+     * Use this method to install Car2dude directly from the terminal.
      *
      * Usage:
      *
@@ -161,7 +161,7 @@ class Console extends EA_Controller {
     /**
      * Create a backup file.
      *
-     * Use this method to backup your Easy!Appointments data.
+     * Use this method to backup your Car2dude data.
      *
      * Usage:
      *
@@ -195,7 +195,7 @@ class Console extends EA_Controller {
     /**
      * Trigger the synchronization of all provider calendars with Google Calendar.
      *
-     * Use this method in a cronjob to automatically sync events between Easy!Appointments and Google Calendar.
+     * Use this method in a cronjob to automatically sync events between Car2dude and Google Calendar.
      *
      * Notice:
      *
@@ -234,7 +234,7 @@ class Console extends EA_Controller {
     {
         $help = [
             '',
-            'Easy!Appointments ' . config('version'),
+            'Car2dude ' . config('version'),
             '',
             'Usage:',
             '',

@@ -1,7 +1,7 @@
 <?php
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -11,7 +11,7 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-// Bootstrap Easy!Appointments PHPUnit Tests
+// Bootstrap Car2dude PHPUnit Tests
 
 require_once __DIR__ . '/../../config.php';
 require_once __DIR__ . '/../../vendor/autoload.php';

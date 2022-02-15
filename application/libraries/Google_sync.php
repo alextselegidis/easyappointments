@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -14,7 +14,7 @@
 /**
  * Class Google_sync
  *
- * This class implements all the core synchronization between the Google Calendar and the Easy!Appointments system.
+ * This class implements all the core synchronization between the Google Calendar and the Car2dude system.
  *
  * Do not place any model handling inside this library.
  *
@@ -74,7 +74,7 @@ class Google_sync {
      * Get Google OAuth authorization url.
      *
      * This url must be used to redirect the user to the Google user consent page,
-     * where the user grants access to his data for the Easy!Appointments app.
+     * where the user grants access to his data for the Car2dude app.
      */
     public function get_auth_url()
     {
@@ -115,7 +115,7 @@ class Google_sync {
      * This method must be executed every time we need to make actions on a
      * provider's Google Calendar account. A new token is necessary and the
      * only way to get it is to use the stored refresh token that was provided
-     * when the provider granted consent to Easy!Appointments for use his
+     * when the provider granted consent to Car2dude for use his
      * Google Calendar account.
      *
      * @param string $refresh_token The provider's refresh token. This value is
@@ -130,7 +130,7 @@ class Google_sync {
     /**
      * Add an appointment record to its providers Google Calendar account.
      *
-     * This method checks whether the appointment's provider has enabled the Google Sync utility of Easy!Appointments
+     * This method checks whether the appointment's provider has enabled the Google Sync utility of Car2dude
      * and the stored access token is still valid. If yes, the selected appointment record is going to be added to the
      * Google Calendar account.
      *
@@ -187,7 +187,7 @@ class Google_sync {
      * Update an existing appointment that is already synced with Google Calendar.
      *
      * This method updates the google calendar event item that is connected with the
-     * provided appointment record of Easy!Appointments.
+     * provided appointment record of Car2dude.
      *
      * @param array $appointment Contains the appointment record data.
      * @param array $provider Contains the provider record data.

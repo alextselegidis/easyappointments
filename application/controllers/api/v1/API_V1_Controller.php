@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -131,7 +131,7 @@ class API_V1_Controller extends EA_Controller {
      */
     protected function request_authentication()
     {
-        header('WWW-Authenticate: Basic realm="Easy!Appointments"');
+        header('WWW-Authenticate: Basic realm="Car2dude"');
         header('HTTP/1.0 401 Unauthorized');
         exit('You are not authorized to use the API.');
     }

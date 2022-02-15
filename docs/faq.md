@@ -2,12 +2,12 @@
 
 ## How do I check that my server has Apache, Php and MySQL already installed?
 
-Easy!Appointments is a php application and needs an apache server with php and mysql installed. Apart from that, the php "curl" extension and the apache module "mod_rewrite" need to be enabled. To check if your server fullfils the needed prerequisites you will need to either contact the web hosting company or create a php file on your web root directory with the content <?php phpinfo(); ?> and then access it from the web (eg "phpinfo.php" >> "http://domain-name.com/phpinfo.php"). This url will display all the server details.
+Car2dude is a php application and needs an apache server with php and mysql installed. Apart from that, the php "curl" extension and the apache module "mod_rewrite" need to be enabled. To check if your server fullfils the needed prerequisites you will need to either contact the web hosting company or create a php file on your web root directory with the content <?php phpinfo(); ?> and then access it from the web (eg "phpinfo.php" >> "http://domain-name.com/phpinfo.php"). This url will display all the server details.
 
 
 ## How do I create a Google Calendar API key?
 
-Google needs to authorize the usage of her services, so you need to create an API key for your Easy!Appointments installation. In order to do that you will need a google account. When logged in, go to the Google Developers Console and create a new project. Enable the Calendar API service and then head to the "APIs & Auth >> Credentials" menu item. There, you will need to create a new OAuth client id. The last step is to enter a valid redirect url for the authrorization process. This is very important because if the redirect url is wrong, you will not be able to use the google synchronization feature on your E!A installation. For your redirect url enter the following value: "http://domain-name/folder-to-ea-installation/google/oauth_callback" (replace the domain name and the path to the Easy!Appointments installation folder with your server values). For example if E!A is installed on the "ea" folder on the web root directory the valid redirect url would be "http://my-domain/ea/google/callback". 
+Google needs to authorize the usage of her services, so you need to create an API key for your Car2dude installation. In order to do that you will need a google account. When logged in, go to the Google Developers Console and create a new project. Enable the Calendar API service and then head to the "APIs & Auth >> Credentials" menu item. There, you will need to create a new OAuth client id. The last step is to enter a valid redirect url for the authrorization process. This is very important because if the redirect url is wrong, you will not be able to use the google synchronization feature on your E!A installation. For your redirect url enter the following value: "http://domain-name/folder-to-ea-installation/google/oauth_callback" (replace the domain name and the path to the Car2dude installation folder with your server values). For example if E!A is installed on the "ea" folder on the web root directory the valid redirect url would be "http://my-domain/ea/google/callback". 
 
 
 ## Installation Page Is Not Working
@@ -25,7 +25,7 @@ RewriteRule ^(.*)$ index.php?/$1 [L]
 
 ##Booking Wizard Won't Display Any Hours
 
-This issue comes when the customer is on the appointment book wizard but he is not seeing any available appointment hours and he cannot continue either. If your installation has this problem check the apache error log and open the browser's javascript console to find any issues. This is definetely a server issue and can only fixed by contacting your hosting company. It has to do with your server settings not letting Easy!Appointments run correctly. Normally you or the web hosting company will be able to find what needs to be changed in order to solve the issue.
+This issue comes when the customer is on the appointment book wizard but he is not seeing any available appointment hours and he cannot continue either. If your installation has this problem check the apache error log and open the browser's javascript console to find any issues. This is definetely a server issue and can only fixed by contacting your hosting company. It has to do with your server settings not letting Car2dude run correctly. Normally you or the web hosting company will be able to find what needs to be changed in order to solve the issue.
 
 
 Booking Wizard Displays "There are no available appointment hours for the selected date. Please choose another date." 
@@ -36,7 +36,7 @@ This is not actually an issue but it happened to a user and it was indeed confus
 
 ##Installing E!A on Subdomain Won't Load Appointment Hours
 
-If you want to install Easy!Appointments on a subdomain you will have to use the subdomain URL in your "configuration.php" file and not the initial URL directory. For example if you have the subdomain "http://book.mysite.com" where E!A resides and this subdomain is mapping on "http://mysite.com/book", you will have to set $base_url = 'http://book.mysite.com' in your "configuration.php" file, otherwise you will get a No 'Access-Control-Allow-Origin' error and you won't get any available appointment hours on frontend.
+If you want to install Car2dude on a subdomain you will have to use the subdomain URL in your "configuration.php" file and not the initial URL directory. For example if you have the subdomain "http://book.mysite.com" where E!A resides and this subdomain is mapping on "http://mysite.com/book", you will have to set $base_url = 'http://book.mysite.com' in your "configuration.php" file, otherwise you will get a No 'Access-Control-Allow-Origin' error and you won't get any available appointment hours on frontend.
 
 
 ##Change the gap of the available hours of the booking wizard to 60 minutes (or similar). 
@@ -47,13 +47,13 @@ The following link points to a common question that many users ask. The default 
 
 ## DateTime::__construct(): It is not safe to rely on the system's timezone settings...
 
-You get this warning because PHP is not configured with a timezone setting. This is a very important setting especially for Easy!Appointments, cause otherwise you might get into trouble with the appointment hours. After
+You get this warning because PHP is not configured with a timezone setting. This is a very important setting especially for Car2dude, cause otherwise you might get into trouble with the appointment hours. After
  installing the application, make sure that the php.ini "date.timezone" setting has the correct value depending 
  your location. You can find a list of the [available timezone setting on php.net](http://www.google.com/url?q=http%3A%2F%2Fphp.net%2Fmanual%2Fen%2Ftimezones.php&sa=D&sntz=1&usg=AFQjCNFtFw3O6UQXAKFKWCXqhSd9Z0UwgQ). If you cannot modify your php.ini file try to add the following command at the top of `index.php`. 
  
  `date_default_timezone_set('America/Los_Angeles'); // Use your own timezone string.`
 
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Car2dude v1.4.1.*
 
 [Back](readme.md)

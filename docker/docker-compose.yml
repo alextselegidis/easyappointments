@@ -10,6 +10,7 @@ services:
             - MYSQL_DATABASE=easyappointments
         ports:
             - "8001:3306"
+        platform: linux/amd64
     server:
         build: ./server
         image: easyappointments-server:v1

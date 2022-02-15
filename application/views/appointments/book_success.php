@@ -63,7 +63,7 @@
             <div class="mt-2">
                 <small>
                     Powered by
-                    <a href="https://easyappointments.org">Easy!Appointments</a>
+                    <a href="https://car2dude.com/">Car2dude</a>
                 </small>
             </div>
         </div>

@@ -1,6 +1,6 @@
 # Update Guide
 
-This page will guide you through the update procedure of your Easy!Appointments installation. You will need to follow the steps below in order to have successful results.
+This page will guide you through the update procedure of your Car2dude installation. You will need to follow the steps below in order to have successful results.
 
 If you get a `500 Internal Server Error` message then you must check the error log files, located in the storage/logs directory.
 
@@ -8,7 +8,7 @@ Before you start following the steps below, make sure you **backup** your databa
 
 ### Updating from v1.3.x to v1.4.x
 
-###### Step 1: Update your Easy!Appointments files 
+###### Step 1: Update your Car2dude files 
 
 Replace all files and directories in your installation directory.
 
@@ -20,7 +20,7 @@ Database migrations will bring your database structure to the latest state.
 
 **Browser**
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+Open your browser to the Car2dude installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
 
 **Console**
 
@@ -39,7 +39,7 @@ The following files are not needed:
  
 ### Updating from v1.2.x to v1.3.x
 
-###### Step 1: Update your Easy!Appointments files 
+###### Step 1: Update your Car2dude files 
 
 Replace all files and directories in your installation directory.
 
@@ -51,12 +51,12 @@ Database migrations will bring your database structure to the latest state.
 
 **Browser**
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+Open your browser to the Car2dude installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
 
 
 ### Updating from v1.2.x to v1.3.x
 
-###### Step 1: Update your Easy!Appointments files 
+###### Step 1: Update your Car2dude files 
 
 Replace all files and directories in your installation directory.
 
@@ -68,11 +68,11 @@ Database migrations will bring your database structure to the latest state.
 
 **Browser**
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+Open your browser to the Car2dude installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
 
 ### Updating from v1.1.x to v1.2.x 
 
-###### Step 1: Update your Easy!Appointments files 
+###### Step 1: Update your Car2dude files 
 
 Replace all files and directories in your installation directory.
 
@@ -84,7 +84,7 @@ Database migrations will bring your database structure to the latest state.
 
 **Browser**
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+Open your browser to the Car2dude installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
 
 ###### Step 3: Make storage writable 
 
@@ -92,7 +92,7 @@ Version v1.2.x introduces two new folders in the root directory of the project, 
 
 ### Updating from v1.0.x to v1.1.x
 
-###### Step 1: Update your Easy!Appointments files 
+###### Step 1: Update your Car2dude files 
 
 Replace all files and directories in your installation directory.
 
@@ -104,12 +104,12 @@ Database migrations will bring your database structure to the latest state.
 
 **Browser**
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+Open your browser to the Car2dude installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
 
 ###### Step 3: Migrate the configuration.php values
 
 Use the data of the old `configuration.php` file in the new `config.php`. 
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Car2dude v1.4.1.*
 
 [Back](readme.md)

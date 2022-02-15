@@ -399,7 +399,7 @@
                     <span class="footer-powered-by">
                         Powered By
 
-                        <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+                        <a href="https://easyappointments.org" target="_blank">Car2dude</a>
                     </span>
 
                     <span class="footer-options">
@@ -408,7 +408,7 @@
                             <?= ucfirst(config('language')) ?>
                         </span>
 
-                        <a class="backend-link badge badge-primary" href="<?= site_url('backend'); ?>">
+                        <a class="backend-link badge badge-primary" style="display: none;" href="<?= site_url('backend'); ?>">
                             <i class="fas fa-sign-in-alt mr-2"></i>
                             <?= $this->session->user_id ? lang('backend_section') : lang('login') ?>
                         </a>

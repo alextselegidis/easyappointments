@@ -1,6 +1,6 @@
-# Easy!Appointments
+# Car2dude
 
-Welcome to the documentation pages of Easy!Appointments. Navigate through the available sections and learn how to get the most out of your installation. 
+Welcome to the documentation pages of Car2dude. Navigate through the available sections and learn how to get the most out of your installation. 
 
 - [Installation](installation-guide.md)
 - [Update](update-guide.md)
@@ -11,4 +11,4 @@ Welcome to the documentation pages of Easy!Appointments. Navigate through the av
 - [Google Calendar Sync](google-calendar-sync.md)
 - [FAQ](faq.md)
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Car2dude v1.4.1.*

@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Car2dude - Open Source Web Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
@@ -14,7 +14,7 @@
 /**
  * Installation Controller
  *
- * This controller will handle the installation procedure of Easy!Appointments.
+ * This controller will handle the installation procedure of Car2dude.
  *
  * @package Controllers
  */
@@ -52,7 +52,7 @@ class Installation extends EA_Controller {
     }
 
     /**
-     * Installs Easy!Appointments on the server.
+     * Installs Car2dude on the server.
      */
     public function ajax_install()
     {
