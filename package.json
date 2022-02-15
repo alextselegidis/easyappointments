@@ -55,6 +55,7 @@
   },
   "scripts": {
     "start": "npx gulp",
+    "watch": "npx gulp watch",
     "build": "npx gulp build",
     "docs": "npx gulp docs"
   }
