@@ -40,7 +40,7 @@ body {
     overflow: auto;
     height: auto;
     padding: 20px 15px;
-    background: #fff2e7;
+    background: #ffba7e;
 }
 
 #book-appointment-wizard #company-name {
@@ -145,7 +145,7 @@ body {
     font-size: 12px;
     display: block;
     text-align: center;
-    color: #0bb98d;
+    color: #ffe6cbc7;
     transition: all .3s linear;
     cursor: default;
 }
@@ -162,7 +162,7 @@ body {
 }
 
 #book-appointment-wizard .active-step strong {
-    color: #fff2e7;
+    color: #ffba7e;
     font-size: 21px;
 }
 
@@ -189,8 +189,8 @@ body {
 }
 
 #book-appointment-wizard #available-hours .selected-hour {
-    background-color: #439a82;
-    border-color: #439a82;
+    background-color: #ff7e35;
+    border-color: #ff7e35;
     color: white;
 }
 
