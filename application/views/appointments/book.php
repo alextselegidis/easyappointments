@@ -213,12 +213,12 @@
 
                         <div class="col-12 col-md-6">
                             <div id="select-time">
-                                <div class="form-group">
+                                <div class="form-group" style="display:none;">
                                     <label for="select-timezone"><?= lang('timezone') ?></label>
                                     <?= render_timezone_dropdown('id="select-timezone" class="form-control" value="UTC"'); ?>
                                 </div>
 
-                                <div id="available-hours"></div>
+                                <div id="available-hours" style="margin-top:0;"></div>
                             </div>
                         </div>
                     </div>

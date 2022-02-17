@@ -130,7 +130,8 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
-        $('#select-timezone').val(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        const DEFAULT_TIMEZONE = 'UTC';
+        $('#select-timezone').val(DEFAULT_TIMEZONE);
 
         // Bind the event handlers (might not be necessary every time we use this class).
         if (defaultEventHandlers) {
