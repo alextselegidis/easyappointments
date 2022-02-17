@@ -9,11 +9,11 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['migration_none_found'] = '不需迁移。  ';
-$lang['migration_not_found'] = '无法根据版本号找到迁移方法： %s。';
-$lang['migration_sequence_gap'] = '版本迁移存在鸿沟：%s。';
-$lang['migration_multiple_version'] = '多个迁移对应同一版本号：%s。';
-$lang['migration_class_doesnt_exist'] = '无法找到迁移类 "%s"。';
-$lang['migration_missing_up_method'] = '无法找到迁移类 "%s" 中的 "up" 方法。';
-$lang['migration_missing_down_method'] = '无法找到迁移类 "%s" 中的 " 方法。';
-$lang['migration_invalid_filename'] = '无效的迁移文件名："%s"。';
+$lang['migration_none_found'] = '不需遷移。 ';
+$lang['migration_not_found'] = '無法根據版本號找到遷移方法： %s。 ';
+$lang['migration_sequence_gap'] = '版本遷移存在鴻溝：%s。 ';
+$lang['migration_multiple_version'] = '多個遷移對應同一版本號：%s。 ';
+$lang['migration_class_doesnt_exist'] = '無法找到遷移類 "%s"。 ';
+$lang['migration_missing_up_method'] = '無法找到遷移類 "%s" 中的 "up" 方法。 ';
+$lang['migration_missing_down_method'] = '無法找到遷移類 "%s" 中的 " 方法。';
+$lang['migration_invalid_filename'] = '無效的遷移文件名："%s"。 ';
