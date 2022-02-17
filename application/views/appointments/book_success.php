@@ -31,11 +31,6 @@
                     <?= lang('appointment_details_was_sent_to_you') ?>
                 </p>
 
-                <p>
-                    <strong>
-                        <?= lang('check_spam_folder') ?>
-                    </strong>
-                </p>
 
                 <a href="<?= site_url() ?>" class="btn btn-success btn-large">
                     <i class="fas fa-calendar-alt"></i>
