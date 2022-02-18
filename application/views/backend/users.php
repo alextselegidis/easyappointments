@@ -161,25 +161,25 @@
                                     <div class="form-group">
                                         <label for="provider-email">
                                             <?= lang('email') ?>
-                                            <span class="text-danger">*</span>
+                                            
                                         </label>
-                                        <input id="provider-email" class="form-control required" max="512">
+                                        <input id="provider-email" class="form-control" max="512">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="provider-phone-number">
                                             <?= lang('phone_number') ?>
-                                            <span class="text-danger">*</span>
+                                            
                                         </label>
-                                        <input id="provider-phone-number" class="form-control required" max="128">
+                                        <input id="provider-phone-number" class="form-control" max="128">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="provider-mobile-number">
                                             <?= lang('mobile_number') ?>
-
+                                            <span class="text-danger">*</span>
                                         </label>
-                                        <input id="provider-mobile-number" class="form-control" maxlength="128">
+                                        <input id="provider-mobile-number" class="form-control required" maxlength="128">
                                     </div>
 
                                     <div class="form-group">
@@ -223,9 +223,9 @@
                                     <div class="form-group">
                                         <label for="provider-username">
                                             <?= lang('username') ?>
-                                            <span class="text-danger">*</span>
+                                            
                                         </label>
-                                        <input id="provider-username" class="form-control required" maxlength="256">
+                                        <input id="provider-username" class="form-control" maxlength="256">
                                     </div>
 
                                     <div class="form-group">
@@ -233,7 +233,7 @@
                                             <?= lang('password') ?>
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="password" id="provider-password" class="form-control required"
+                                        <input type="password" id="provider-password" class="form-control"
                                                maxlength="512" autocomplete="new-password">
                                     </div>
 
@@ -242,17 +242,16 @@
                                             <?= lang('retype_password') ?>
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input type="password" id="provider-password-confirm"
-                                               class="form-control required" maxlength="512"
-                                               autocomplete="new-password">
+                                        <input type="password" id="provider-password-confirm" class="form-control" 
+                                        maxlength="512" autocomplete="new-password">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="provider-calendar-view">
                                             <?= lang('calendar') ?>
-                                            <span class="text-danger">*</span>
+                                            
                                         </label>
-                                        <select id="provider-calendar-view" class="form-control required">
+                                        <select id="provider-calendar-view" class="form-control">
                                             <option value="default">Default</option>
                                             <option value="table">Table</option>
                                         </select>
@@ -261,9 +260,9 @@
                                     <div class="form-group">
                                         <label for="provider-timezone">
                                             <?= lang('timezone') ?>
-                                            <span class="text-danger">*</span>
+                                            
                                         </label>
-                                        <?= render_timezone_dropdown('id="provider-timezone" class="form-control required"') ?>
+                                        <?= render_timezone_dropdown('id="provider-timezone" class="form-control"') ?>
                                     </div>
 
                                     <br>
