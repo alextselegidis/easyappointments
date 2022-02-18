@@ -116,9 +116,9 @@
                     <div class="form-group">
                         <label class="control-label" for="email">
                             <?= lang('email') ?>
-                            <span class="text-danger">*</span>
+                            
                         </label>
-                        <input id="email" class="form-control required">
+                        <input id="email" class="form-control">
                     </div>
 
                     <div class="form-group">
