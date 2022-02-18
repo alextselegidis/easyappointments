@@ -57,6 +57,23 @@ window.FrontendBook = window.FrontendBook || {};
         defaultEventHandlers = defaultEventHandlers || true;
         manageMode = manageMode || false;
 
+        liff
+        .init({ liffId: '1496689086-lB7j5j7A' })
+        .then(() => {
+            liff.getProfile()
+            .then(profile => {
+                const name = profile.displayName;
+                // alert(name);
+                // alert(JSON.stringify(profile));
+            })
+            .catch((err) => {
+                // alert('error');
+            });
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
         if (GlobalVariables.displayCookieNotice) {
             cookieconsent.initialise({
                 palette: {
