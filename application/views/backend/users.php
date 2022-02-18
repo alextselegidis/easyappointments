@@ -159,6 +159,14 @@
                                     </div>
 
                                     <div class="form-group">
+                                        <label for="provider-mobile-number">
+                                            <?= lang('mobile_number') ?>
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input id="provider-mobile-number" class="form-control required" maxlength="128">
+                                    </div>
+
+                                    <div class="form-group">
                                         <label for="provider-email">
                                             <?= lang('email') ?>
                                             
@@ -172,14 +180,6 @@
                                             
                                         </label>
                                         <input id="provider-phone-number" class="form-control" max="128">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="provider-mobile-number">
-                                            <?= lang('mobile_number') ?>
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input id="provider-mobile-number" class="form-control required" maxlength="128">
                                     </div>
 
                                     <div class="form-group">

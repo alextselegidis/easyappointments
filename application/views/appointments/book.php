@@ -262,19 +262,19 @@
                                 <input type="text" id="last-name" class="required form-control" maxlength="120"/>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="control-label">
-                                    <?= lang('email') ?>
-                                    
-                                </label>
-                                <input type="text" id="email" class="form-control" maxlength="120"/>
-                            </div>
-                            <div class="form-group">
                                 <label for="phone-number" class="control-label">
                                     <?= lang('phone_number') ?>
                                     <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
                                 <input type="text" id="phone-number" maxlength="60"
                                        class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="email" class="control-label">
+                                    <?= lang('email') ?>
+                                    
+                                </label>
+                                <input type="text" id="email" class="form-control" maxlength="120"/>
                             </div>
                         </div>
 

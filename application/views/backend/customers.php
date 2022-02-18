@@ -114,19 +114,19 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label" for="email">
-                            <?= lang('email') ?>
-                            
-                        </label>
-                        <input id="email" class="form-control">
-                    </div>
-
-                    <div class="form-group">
                         <label class="control-label" for="phone-number">
                             <?= lang('phone_number') ?>
                             <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : ''; ?></label>
                         <input id="phone-number" class="form-control
                             <?= $require_phone_number === '1' ? 'required' : '' ?>">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label" for="email">
+                            <?= lang('email') ?>
+                            
+                        </label>
+                        <input id="email" class="form-control">
                     </div>
 
                     <div class="form-group">
