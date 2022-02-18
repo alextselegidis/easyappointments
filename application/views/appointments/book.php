@@ -246,7 +246,7 @@
                     <h2 class="frame-title"><?= lang('customer_information') ?></h2>
 
                     <div class="row frame-content">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-6" style="margin: auto;">
                             <div class="form-group">
                                 <label for="first-name" class="control-label">
                                     <?= lang('first_name') ?>
@@ -278,7 +278,7 @@
                             </div>
                         </div>
 
-                        <div class="col-12 col-md-6">
+                        <div style="display: none">
                             <div class="form-group">
                                 <label for="address" class="control-label">
                                     <?= lang('address') ?>
