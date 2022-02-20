@@ -316,7 +316,7 @@
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
-                $('#provider-email').closest('.form-group').addClass('has-error');
+                $('#provider-email').closest('.form-group');
                 throw new Error(EALang.invalid_email);
             }
 

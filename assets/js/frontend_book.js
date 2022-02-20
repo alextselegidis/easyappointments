@@ -58,12 +58,12 @@ window.FrontendBook = window.FrontendBook || {};
         manageMode = manageMode || false;
 
         liff
-        .init({ liffId: '1496689086-lB7j5j7A' })
+        .init({ liffId: '1503492525-WmGJJnPg' })
         .then(() => {
             liff.getProfile()
             .then(profile => {
                 const name = profile.displayName;
-                // alert(name);
+                alert(name);
                 // alert(JSON.stringify(profile));
             })
             .catch((err) => {
@@ -501,7 +501,7 @@ window.FrontendBook = window.FrontendBook || {};
 
             // Validate email address.
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').parents('.form-group').addClass('has-error');
+                $('#email').parents('.form-group');
                 throw new Error(EALang.invalid_email);
             }
 

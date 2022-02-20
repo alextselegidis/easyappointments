@@ -447,19 +447,18 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="secretary-email">
-                                    <?= lang('email') ?>
-                                    <span class="text-danger">*</span>
-                                </label>
-                                <input id="secretary-email" class="form-control required" maxlength="512">
-                            </div>
-
-                            <div class="form-group">
                                 <label for="secretary-phone-number">
                                     <?= lang('phone_number') ?>
                                     <span class="text-danger">*</span>
                                 </label>
                                 <input id="secretary-phone-number" class="form-control required" maxlength="128">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="secretary-email">
+                                    <?= lang('email') ?>
+                                </label>
+                                <input id="secretary-email" class="form-control" maxlength="512">
                             </div>
 
                             <div class="form-group">

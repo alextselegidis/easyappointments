@@ -101,7 +101,7 @@ $(function () {
 
             // Validate Email
             if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').closest('.form-group').addClass('has-error');
+                $('#email').closest('.form-group');
                 throw new Error('The email address is invalid!');
             }
 

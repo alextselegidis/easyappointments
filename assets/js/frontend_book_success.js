@@ -26,6 +26,19 @@ $(document).ready(function () {
         }, handleAuthResult);
     });
 
+    liff
+        .init({ liffId: '1503492525-WmGJJnPg' })
+        .then(() => {
+            if(liff.isInClient()){
+                setTimeout(function(){
+                    liff.closeWindow();
+                }, 3000);
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+
     /**
      * Handle Authorization Result
      *

@@ -176,7 +176,7 @@
 
             // Validate company email address.
             if (!GeneralFunctions.validateEmail($('#company-email').val())) {
-                $('#company-email').closest('.form-group').addClass('has-error');
+                $('#company-email').closest('.form-group');
                 throw new Error(EALang.invalid_email);
             }
 

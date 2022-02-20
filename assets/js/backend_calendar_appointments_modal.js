@@ -528,7 +528,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
 
             // Check email address.
             if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
-                $dialog.find('#email').closest('.form-group').addClass('has-error');
+                $dialog.find('#email').closest('.form-group');
                 throw new Error(EALang.invalid_email);
             }
 

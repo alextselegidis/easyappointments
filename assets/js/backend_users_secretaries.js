@@ -292,7 +292,7 @@
 
             // Validate user email.
             if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
-                $('#secretary-email').closest('.form-group').addClass('has-error');
+                $('#secretary-email').closest('.form-group');
                 throw new Error('Invalid email address!');
             }
 
