@@ -55,6 +55,10 @@ class Backend_api extends EA_Controller {
         {
             $this->privileges = $this->roles_model->get_privileges($this->session->userdata('role_slug'));
         }
+        else
+        {
+            show_error('Forbidden', 403);
+        }
     }
 
     /**
@@ -66,6 +70,11 @@ class Backend_api extends EA_Controller {
     {
         try
         {
+            if ($this->privileges[PRIV_APPOINTMENTS]['view'] == FALSE)
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+            
             $start_date = $this->input->post('startDate') . ' 00:00:00';
             $end_date = $this->input->post('endDate') . ' 23:59:59';
 
@@ -1527,18 +1536,25 @@ class Backend_api extends EA_Controller {
     {
         try
         {
-            if ( ! $this->input->post('provider_id'))
+            $provider_id = $this->input->post('provider_id');
+            
+            if ( ! $provider_id)
             {
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
             }
 
+            if ($this->privileges[PRIV_USERS]['view'] == FALSE && $provider_id !== $this->session->userdata('user_id'))
+            {
+                throw new Exception('You do not have the required privileges for this task.');
+            }
+
             // Check if selected provider has sync enabled.
-            $google_sync = $this->providers_model->get_setting('google_sync', $this->input->post('provider_id'));
+            $google_sync = $this->providers_model->get_setting('google_sync', $provider_id);
 
             if ($google_sync)
             {
                 $google_token = json_decode($this->providers_model->get_setting('google_token',
-                    $this->input->post('provider_id')));
+                    $provider_id));
                 $this->google_sync->refresh_token($google_token->refresh_token);
 
                 $calendars = $this->google_sync->get_google_calendars();

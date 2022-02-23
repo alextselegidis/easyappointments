@@ -51,6 +51,7 @@
  * @property User_model $user_model
  *
  * @property Availability $availability
+ * @property Captcha_builder $captcha_builder
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
  * @property Notifications $notifications

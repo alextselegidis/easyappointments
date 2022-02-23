@@ -51,6 +51,7 @@
  * @property User_model $user_model
  *
  * @property Availability $availability
+ * @property Captcha_builder $captcha_builder
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
  * @property Notifications $notifications
@@ -66,6 +67,8 @@ class EA_Controller extends CI_Controller {
         parent::__construct();
 
         $this->configure_language();
+        
+        rate_limit($this->input->ip_address());
     }
 
     /**
