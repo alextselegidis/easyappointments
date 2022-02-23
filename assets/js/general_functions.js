@@ -287,7 +287,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
 
         $(document).on('click', 'li.language', function () {
             // Change language with ajax call and refresh page.
-            var url = GlobalVariables.baseUrl + '/index.php/backend_api/ajax_change_language';
+            var url = GlobalVariables.baseUrl + '/index.php/localization/ajax_change_language';
 
             var data = {
                 csrfToken: GlobalVariables.csrfToken,

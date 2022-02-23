@@ -1514,52 +1514,6 @@ class Backend_api extends EA_Controller {
     }
 
     /**
-     * Change system language for current user.
-     *
-     * The language setting is stored in session data and retrieved every time the user visits any of the system pages.
-     */
-    public function ajax_change_language()
-    {
-        try
-        {
-            // Check if language exists in the available languages.
-            $found = FALSE;
-
-            foreach (config('available_languages') as $lang)
-            {
-                if ($lang == $this->input->post('language'))
-                {
-                    $found = TRUE;
-                    break;
-                }
-            }
-
-            if ( ! $found)
-            {
-                throw new Exception('Translations for the given language does not exist (' . $this->input->post('language') . ').');
-            }
-
-            $this->session->set_userdata('language', $this->input->post('language'));
-            $this->config->set_item('language', $this->input->post('language'));
-
-            $response = AJAX_SUCCESS;
-        }
-        catch (Exception $exception)
-        {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
-        }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
-    }
-
-    /**
      * This method will return a list of the available google calendars.
      *
      * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
