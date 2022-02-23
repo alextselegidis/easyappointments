@@ -134,6 +134,10 @@ class Backend_api extends EA_Controller {
                 }
             }
 
+            $response['appointments'] = array_values($response['appointments']);
+            
+            $response['unavailability_events'] = array_values($response['unavailability_events']);
+
             $this->output->set_output(json_encode($response));
         }
         catch (Exception $exception)
