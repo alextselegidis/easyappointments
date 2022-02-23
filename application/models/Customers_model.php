@@ -92,20 +92,20 @@ class Customers_model extends EA_Model {
         if ( ! isset(
                 $customer['first_name'],
                 $customer['last_name'],
-                $customer['email']
+                $customer['phone_number']
             )
-            || ( ! isset($customer['phone_number']) && $phone_number_required))
+            || ( ! isset($customer['email']) && $email_required))
         {
             throw new Exception('Not all required fields are provided: ' . print_r($customer, TRUE));
         }
 
-        // Validate email address
-        if ( ! filter_var($customer['email'], FILTER_VALIDATE_EMAIL))
+        // Validate phone_number
+        if ( ! filter_var($customer['phone_number'], FILTER_SANITIZE_NUMBER_INT))
         {
-            throw new Exception('Invalid email address provided: ' . $customer['email']);
+            throw new Exception('Invalid phone_number provided: ' . $customer['phone_number']);
         }
 
-        // When inserting a record the email address must be unique.
+        // When inserting a record the phone_number address must be unique.
         $customer_id = isset($customer['id']) ? $customer['id'] : '';
 
         $num_rows = $this->db
@@ -113,14 +113,14 @@ class Customers_model extends EA_Model {
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_CUSTOMER)
-            ->where('users.email', $customer['email'])
+            ->where('users.phone_number', $customer['phone_number'])
             ->where('users.id !=', $customer_id)
             ->get()
             ->num_rows();
 
         if ($num_rows > 0)
         {
-            throw new Exception('Given email address belongs to another customer record. '
+            throw new Exception('Given phone_number address belongs to another customer record. '
                 . 'Please use a different email.');
         }
 
@@ -142,9 +142,9 @@ class Customers_model extends EA_Model {
      */
     public function exists($customer)
     {
-        if (empty($customer['email']))
+        if (empty($customer['phone_number']))
         {
-            throw new Exception('Customer\'s email is not provided.');
+            throw new Exception('Customer\'s phone_number is not provided.');
         }
 
         // This method shouldn't depend on another method of this class.
@@ -152,7 +152,7 @@ class Customers_model extends EA_Model {
             ->select('*')
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $customer['email'])
+            ->where('users.phone_number', $customer['phone_number'])
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get()->num_rows();
 
@@ -175,9 +175,9 @@ class Customers_model extends EA_Model {
      */
     public function find_record_id($customer)
     {
-        if (empty($customer['email']))
+        if (empty($customer['phone_number']))
         {
-            throw new Exception('Customer\'s email was not provided: '
+            throw new Exception('Customer\'s phone_number was not provided: '
                 . print_r($customer, TRUE));
         }
 
@@ -186,7 +186,7 @@ class Customers_model extends EA_Model {
             ->select('users.id')
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $customer['email'])
+            ->where('users.phone_number', $customer['phone_number'])
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get();
 
