@@ -267,7 +267,7 @@ body legend {
     margin-bottom: 20px;
 }
 
-.record-details input:read-only,
+.record-details input:read-only:not(input[type="checkbox"]),
 .record-details select:disabled,
 .record-details textarea:read-only {
     opacity: 0.85;
