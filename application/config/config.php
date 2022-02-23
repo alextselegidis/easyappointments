@@ -367,7 +367,7 @@ $config['sess_regenerate_destroy'] = FALSE;
 $config['cookie_prefix'] = "";
 $config['cookie_domain'] = "";
 $config['cookie_path'] = "/";
-$config['cookie_secure'] = FALSE;
+$config['cookie_secure'] = strpos($config['base_url'], 'https') !== FALSE;
 
 /*
 |--------------------------------------------------------------------------
@@ -456,6 +456,17 @@ $config['rewrite_short_tags'] = FALSE;
 |
 */
 $config['proxy_ips'] = '';
+
+/*
+|--------------------------------------------------------------------------
+| Rate Limiting
+|--------------------------------------------------------------------------
+|
+| Toggle the rate limiting feature in your application. Using rate limiting 
+| will control the number of requests a client can sent to the app. 
+|
+*/
+$config['rate_limiting'] = TRUE;
 
 
 /* End of file config.php */

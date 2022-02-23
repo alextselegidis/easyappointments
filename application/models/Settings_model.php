@@ -73,7 +73,7 @@ class Settings_model extends EA_Model {
         if ($query->num_rows() > 0)
         {
             // Update setting
-            if ( ! $this->db->update('settings', ['value' => $value], ['name' => $name]))
+            if ( ! $this->db->update('settings', ['value' => xss_clean($value)], ['name' => $name]))
             {
                 throw new Exception('Could not update database setting.');
             }
@@ -144,7 +144,7 @@ class Settings_model extends EA_Model {
         foreach ($settings as $setting)
         {
             $this->db->where('name', $setting['name']);
-            if ( ! $this->db->update('settings', ['value' => $setting['value']]))
+            if ( ! $this->db->update('settings', ['value' => xss_clean($setting['value'])]))
             {
                 throw new Exception('Could not save setting (' . $setting['name']
                     . ' - ' . $setting['value'] . ')');
