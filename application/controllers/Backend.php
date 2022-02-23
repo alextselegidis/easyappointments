@@ -351,7 +351,7 @@ class Backend extends EA_Controller {
                 throw new Exception('You do not have the required privileges for this task!');
             }
 
-            if ( ! $this->migration->current())
+            if ( ! $this->migration->latest())
             {
                 throw new Exception($this->migration->error_string());
             }
