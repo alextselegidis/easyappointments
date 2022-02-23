@@ -18,14 +18,23 @@
  */
 class Captcha extends EA_Controller {
     /**
+     * Class Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->load->library('captcha_builder');
+    }
+
+    /**
      * Make a request to this method to get a captcha image.
      */
     public function index()
     {
         header('Content-type: image/jpeg');
-        $builder = new Gregwar\Captcha\CaptchaBuilder;
-        $builder->build();
-        $this->session->set_userdata('captcha_phrase', $builder->getPhrase());
-        $builder->output();
+        $this->captcha_builder->build();
+        $this->session->set_userdata('captcha_phrase', $this->captcha_builder->getPhrase());
+        $this->captcha_builder->output();
     }
 }
