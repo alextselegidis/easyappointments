@@ -4,46 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "497c61b934beb02136c67ffa45347eb7",
+    "content-hash": "ddd60b8281f383c6fcaaeafb41471a62",
     "packages": [
-        {
-            "name": "codeigniter/framework",
-            "version": "dev-3.1.11-php8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/alextselegidis/CodeIgniter.git",
-                "reference": "0648ae2acb3fae84f2cc49e15edb345ccef6cad5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/alextselegidis/CodeIgniter/zipball/0648ae2acb3fae84f2cc49e15edb345ccef6cad5",
-                "reference": "0648ae2acb3fae84f2cc49e15edb345ccef6cad5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.8"
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "1.1.*",
-                "phpunit/phpunit": "4.* || 5.*"
-            },
-            "suggest": {
-                "paragonie/random_compat": "Provides better randomness in PHP 5.x"
-            },
-            "type": "project",
-            "license": [
-                "MIT"
-            ],
-            "description": "The CodeIgniter framework",
-            "homepage": "https://codeigniter.com",
-            "support": {
-                "forum": "https://forum.codeigniter.com/",
-                "wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
-                "slack": "https://codeigniterchat.slack.com",
-                "source": "https://github.com/bcit-ci/CodeIgniter"
-            },
-            "time": "2021-03-10T20:11:52+00:00"
-        },
         {
             "name": "firebase/php-jwt",
             "version": "v5.4.0",
@@ -3785,7 +3747,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "codeigniter/framework": 20,
         "roave/security-advisories": 20
     },
     "prefer-stable": false,
@@ -3798,5 +3759,5 @@
         "ext-gd": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.0.0"
+    "plugin-api-version": "2.1.0"
 }
