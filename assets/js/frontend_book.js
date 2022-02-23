@@ -500,10 +500,10 @@ window.FrontendBook = window.FrontendBook || {};
 
 
             // Validate email address.
-            if (!GeneralFunctions.validateEmail($('#email').val())) {
-                $('#email').parents('.form-group');
-                throw new Error(EALang.invalid_email);
-            }
+            // if (!GeneralFunctions.validateEmail($('#email').val())) {
+            //     $('#email').parents('.form-group');
+            //     throw new Error(EALang.invalid_email);
+            // }
 
             return true;
         } catch (error) {
@@ -560,17 +560,17 @@ window.FrontendBook = window.FrontendBook || {};
                         $('<span/>', {
                             'text': EALang.start + ': ' + selectedDate + ' ' + $('.selected-hour').text()
                         }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': EALang.timezone + ': ' + $('#select-timezone option:selected').text()
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': EALang.price + ': ' + servicePrice + ' ' + serviceCurrency,
-                            'prop': {
-                                'hidden': !servicePrice
-                            }
-                        }),
+                        // $('<br/>'),
+                        // $('<span/>', {
+                        //     'text': EALang.timezone + ': ' + $('#select-timezone option:selected').text()
+                        // }),
+                        // $('<br/>'),
+                        // $('<span/>', {
+                        //     'text': EALang.price + ': ' + servicePrice + ' ' + serviceCurrency,
+                        //     'prop': {
+                        //         'hidden': !servicePrice
+                        //     }
+                        // }),
                     ]
                 })
             ]
