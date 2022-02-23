@@ -68,7 +68,6 @@ class Google_sync {
         $this->client->setAccessType('offline');
         $this->client->addScope([
             Google_Service_Calendar::CALENDAR,
-            // Google_Service_Calendar::CALENDAR_READONLY
         ]);
 
         $this->service = new Google_Service_Calendar($this->client);
