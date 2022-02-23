@@ -14,7 +14,6 @@
 use Jsvrcek\ICS\CalendarExport;
 use Jsvrcek\ICS\CalendarStream;
 use Jsvrcek\ICS\Exception\CalendarEventException;
-use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Description\Location;
@@ -25,12 +24,30 @@ use Jsvrcek\ICS\Utility\Formatter;
 /**
  * Class Ics_file
  *
- * An ICS file is a calendar file saved in a universal calendar format used by several email and calendar programs,
- * including Microsoft Outlook, Google Calendar, and Apple Calendar.
+ * An ICS file is a calendar file saved in a universal calendar format used by email and calendar clients, including
+ * Microsoft Outlook, Google Calendar, and Apple Calendar.
  *
  * Depends on the Jsvrcek\ICS composer package.
+ *
+ * Notice: The Ics_calendar and Ics_provider classes are used for PHP 8.1 compatibility.
  */
 class Ics_file {
+    /**
+     * @var EA_Controller
+     */
+    protected $CI;
+
+    /**
+     * Availability constructor.
+     */
+    public function __construct()
+    {
+        $this->CI =& get_instance();
+
+        $this->CI->load->library('ics_provider');
+        $this->CI->load->library('ics_calendar');
+    }
+
     /**
      * Get the ICS file contents for the provided arguments.
      *
@@ -46,7 +63,7 @@ class Ics_file {
      */
     public function get_stream($appointment, $service, $provider, $customer)
     {
-        $appointment_timezone =  new DateTimeZone($provider['timezone']);
+        $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
@@ -61,7 +78,7 @@ class Ics_file {
             ->setSummary($service['name'])
             ->setUid($appointment['id']);
 
-        if (!empty($service['location']))
+        if ( ! empty($service['location']))
         {
             $location = new Location();
             $location->setName((string)$service['location']);
@@ -73,7 +90,7 @@ class Ics_file {
             lang('provider'),
             '',
             lang('name') . ': ' . $provider['first_name'] . ' ' . $provider['last_name'],
-            lang('email') .': ' . $provider['email'],
+            lang('email') . ': ' . $provider['email'],
             lang('phone_number') . ': ' . $provider['phone_number'],
             lang('address') . ': ' . $provider['address'],
             lang('city') . ': ' . $provider['city'],
@@ -82,7 +99,7 @@ class Ics_file {
             lang('customer'),
             '',
             lang('name') . ': ' . $customer['first_name'] . ' ' . $customer['last_name'],
-            lang('email') .': ' . $customer['email'],
+            lang('email') . ': ' . $customer['email'],
             lang('phone_number') . ': ' . $customer['phone_number'],
             lang('address') . ': ' . $customer['address'],
             lang('city') . ': ' . $customer['city'],
@@ -152,7 +169,7 @@ class Ics_file {
         $event->setOrganizer($organizer);
 
         // Setup calendar.
-        $calendar = new Calendar();
+        $calendar = new Ics_calendar();
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')

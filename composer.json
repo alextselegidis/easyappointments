@@ -31,12 +31,6 @@
             "EA\\Engine\\": "engine/"
         }
     },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/alextselegidis/CodeIgniter.git"
-        }
-    ],
     "require": {
         "php": ">=7.3",
         "ext-curl": "*",
