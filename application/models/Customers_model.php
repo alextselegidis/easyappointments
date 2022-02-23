@@ -100,7 +100,7 @@ class Customers_model extends EA_Model {
         }
 
         // Validate phone_number
-        if ( ! filter_var($customer['phone_number'], FILTER_VALIDATE_PHONE_NUMBER))
+        if ( ! filter_var($customer['phone_number'], FILTER_SANITIZE_NUMBER_INT))
         {
             throw new Exception('Invalid phone_number provided: ' . $customer['phone_number']);
         }
@@ -175,9 +175,9 @@ class Customers_model extends EA_Model {
      */
     public function find_record_id($customer)
     {
-        if (empty($customer['email']))
+        if (empty($customer['phone_number']))
         {
-            throw new Exception('Customer\'s email was not provided: '
+            throw new Exception('Customer\'s phone_number was not provided: '
                 . print_r($customer, TRUE));
         }
 
@@ -186,7 +186,7 @@ class Customers_model extends EA_Model {
             ->select('users.id')
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $customer['email'])
+            ->where('users.phone_number', $customer['phone_number'])
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get();
 
