@@ -53,8 +53,12 @@ class Google_sync {
         $this->CI =& get_instance();
 
         // Initialize google client and calendar service.
+        $http = new GuzzleHttp\Client([
+            'verify' => false
+        ]);
+        
         $this->client = new Google_Client();
-
+        $this->client->setHttpClient($http);
         $this->client->setApplicationName(config('google_application_name'));
         $this->client->setClientId(config('google_client_id'));
         $this->client->setClientSecret(config('google_client_secret'));
@@ -64,7 +68,7 @@ class Google_sync {
         $this->client->setAccessType('offline');
         $this->client->addScope([
             Google_Service_Calendar::CALENDAR,
-            Google_Service_Calendar::CALENDAR_READONLY
+            // Google_Service_Calendar::CALENDAR_READONLY
         ]);
 
         $this->service = new Google_Service_Calendar($this->client);
