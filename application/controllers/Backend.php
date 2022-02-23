@@ -85,10 +85,20 @@ class Backend extends EA_Controller {
         {
             $secretary = $this->secretaries_model->get_row($this->session->userdata('user_id'));
             $view['secretary_providers'] = $secretary['providers'];
+            $view['available_providers'] = array_values(array_filter($view['available_providers'], function ($available_provider) use ($secretary) {
+                return in_array($available_provider['id'], $secretary['providers']);
+            }));
         }
         else
         {
             $view['secretary_providers'] = [];
+        }
+
+        if ($this->session->userdata('role_slug') === DB_SLUG_PROVIDER)
+        {
+            $view['available_providers'] = array_values(array_filter($view['available_providers'], function ($available_provider) use ($user_id) {
+                return $available_provider['id'] === $user_id;
+            }));
         }
 
         $results = $this->appointments_model->get_batch(['hash' => $appointment_hash]);
