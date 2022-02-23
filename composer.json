@@ -45,7 +45,6 @@
         "ext-gd": "*",
         "gregwar/captcha": "^1.1",
         "phpmailer/phpmailer": "^6.1",
-        "codeigniter/framework": "dev-3.1.11-php8.0",
         "jsvrcek/ics": "^0.8",
         "monolog/monolog": "^1",
         "google/apiclient": "^2.0"
