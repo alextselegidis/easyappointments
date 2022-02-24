@@ -20,6 +20,6 @@ You are more than welcome to help with the translation progress of the user inte
 
 It would be much appreciated if you would take 5 minutes of your time to fill this small form on your experience with Easy!Appointments. User feedback is very important and will help with the future planning of the project. Fill the [E!A Feedback Form](https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform).
 
-*This document applies to Easy!Appointments v1.4.1.*
+*This document applies to Easy!Appointments v1.4.3.*
 
 [Back](readme.md)
