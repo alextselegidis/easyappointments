@@ -336,10 +336,18 @@ class Appointments extends EA_Controller {
 
         $company_name = $this->settings_model->get_setting('company_name');
 
-        $appointment_start_instance = new DateTime($appointment['start_datetime']);
+        $provider_timezone_instance = new DateTimeZone($provider['timezone']);
+        
+        $utc_timezone_instance = new DateTimeZone('UTC');
+        
+        $appointment_start_instance = new DateTime($appointment['start_datetime'], $provider_timezone_instance);
+        
+        $appointment_start_instance->setTimezone($utc_timezone_instance);
 
-        $appointment_end_instance = new DateTime($appointment['end_datetime']);
+        $appointment_end_instance = new DateTime($appointment['end_datetime'], $provider_timezone_instance);
 
+        $appointment_end_instance->setTimezone($utc_timezone_instance);
+        
         $add_to_google_url_params = [
             'action' => 'TEMPLATE',
             'text' => $service['name'],
