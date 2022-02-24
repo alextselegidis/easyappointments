@@ -62,9 +62,12 @@ window.FrontendBook = window.FrontendBook || {};
         .then(() => {
             liff.getProfile()
             .then(profile => {
-                const name = profile.displayName;
-                alert(name);
-                // alert(JSON.stringify(profile));
+                //const name = profile.displayName;
+                //alert(name);
+                const userid = profile.userId;
+                //alert(userid);
+                $('#lineuserid').val(userid);
+                //alert(JSON.stringify(profile));
             })
             .catch((err) => {
                 // alert('error');
@@ -301,6 +304,7 @@ window.FrontendBook = window.FrontendBook || {};
                             first_name: $('#first-name').val(),
                             last_name: $('#last-name').val(),
                             email: $('#email').val(),
+                            lineuserid: $('#lineuserid').val(),
                             type: 'terms-and-conditions'
                         };
 
@@ -634,6 +638,7 @@ window.FrontendBook = window.FrontendBook || {};
             first_name: $('#first-name').val(),
             email: $('#email').val(),
             phone_number: $('#phone-number').val(),
+            lineuserid: $('#lineuserid').val(),
             address: $('#address').val(),
             city: $('#city').val(),
             zip_code: $('#zip-code').val(),
