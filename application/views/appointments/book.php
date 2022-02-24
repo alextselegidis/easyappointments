@@ -276,6 +276,12 @@
                                 </label>
                                 <input type="text" id="email" class="form-control" maxlength="120"/>
                             </div>
+                            <div class="form-group" style="visibility: hidden">
+                                <label for="lineuserid" class="control-label">
+                                    <?= lang('lineuserid') ?>
+                                </label>
+                                <input type="text" id="lineuserid" class="form-control" maxlength="120"/>
+                            </div>
                         </div>
 
                         <div style="display: none">

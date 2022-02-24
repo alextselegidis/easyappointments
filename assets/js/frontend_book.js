@@ -62,9 +62,12 @@ window.FrontendBook = window.FrontendBook || {};
         .then(() => {
             liff.getProfile()
             .then(profile => {
-                const name = profile.displayName;
-                alert(name);
-                // alert(JSON.stringify(profile));
+                //const name = profile.displayName;
+                //alert(name);
+                const userid = profile.userId;
+                //alert(userid);
+                $('#lineuserid').val(userid);
+                //alert(JSON.stringify(profile));
             })
             .catch((err) => {
                 // alert('error');
