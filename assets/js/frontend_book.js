@@ -64,6 +64,7 @@ window.FrontendBook = window.FrontendBook || {};
             .then(profile => {
                 const name = profile.displayName;
                 alert(name);
+                $('#lineuserid').val(name);
                 // alert(JSON.stringify(profile));
             })
             .catch((err) => {

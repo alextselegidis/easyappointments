@@ -16,6 +16,7 @@ $lang['first_name'] = '名字';
 $lang['last_name'] = '姓氏';
 $lang['email'] = '電子郵箱';
 $lang['phone_number'] = '電話號碼';
+$lang['lineuserid'] = 'LineUserID';
 $lang['phone'] = 'Phone';
 $lang['address'] = '地址';
 $lang['city'] = '城市';
