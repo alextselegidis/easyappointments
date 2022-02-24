@@ -3,6 +3,26 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [1.4.3] - TBA
+
+### Added
+
+- #1208: Security configuration enhancements in the application
+- #1209: Add support for PHP 8.1
+
+### Changed
+
+- #1207: Replace CodeIgniter with the system directory for smaller package size and more control over the framework
+- #1210: Move the change language operation into a new public controller
+- #1212: Remove the Google Calendar read-only scope use as it is not needed
+- #1213: Switch to go-to-latest database migration configuration for simplicity
+- #1216 Replace Google Client JS with the Google Calendar Template link in the book success page enhancement
+
+### Fixed
+
+- #1211: The table calendar view breaks for secretaries and providers due to appointment and unavailability removals bug
+- #1214: Provider and secretary users can only add unavailabilities for their authorized users bug
+
 ## [1.4.2] - 2021-07-27
 
 ### Added 
