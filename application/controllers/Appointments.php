@@ -150,7 +150,7 @@ class Appointments extends EA_Controller {
                 }
 
                 $appointment = $results[0];
-                
+
                 $appointment = [
                     'id' => $appointment['id'],
                     'hash' => $appointment['hash'],
@@ -303,7 +303,7 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * GET an specific appointment book and redirect to the success screen.
+     * GET a specific appointment book and redirect to the success screen.
      *
      * @param string $appointment_hash The appointment hash identifier.
      *
@@ -315,12 +315,18 @@ class Appointments extends EA_Controller {
 
         if (empty($appointments))
         {
-            redirect('appointments'); // The appointment does not exist.
+            $vars = [
+                'message_title' => lang('appointment_not_found'),
+                'message_text' => lang('appointment_does_not_exist_in_db'),
+                'message_icon' => base_url('assets/img/error.png')
+            ];
+
+            $this->load->view('appointments/message', $vars);
+
             return;
         }
 
         $appointment = $appointments[0];
-        unset($appointment['notes']);
 
         $customer = $this->customers_model->get_row($appointment['id_users_customer']);
 
@@ -329,6 +335,21 @@ class Appointments extends EA_Controller {
         $service = $this->services_model->get_row($appointment['id_services']);
 
         $company_name = $this->settings_model->get_setting('company_name');
+
+        $appointment_start_instance = new DateTime($appointment['start_datetime']);
+
+        $appointment_end_instance = new DateTime($appointment['end_datetime']);
+
+        $add_to_google_url_params = [
+            'action' => 'TEMPLATE',
+            'text' => $service['name'],
+            'dates' => $appointment_start_instance->format('Ymd\THis\Z') . '/' . $appointment_end_instance->format('Ymd\THis\Z'),
+            'location' => $company_name,
+            'details' => 'View/Change Appointment: ' . site_url('appointments/index/' . $appointment['hash']),
+            'add' => $provider['email'] . ',' . $customer['email']
+        ];
+
+        $add_to_google_url = 'https://calendar.google.com/calendar/render?' . http_build_query($add_to_google_url_params);
 
         // Get any pending exceptions.
         $exceptions = $this->session->flashdata('book_success');
@@ -354,6 +375,7 @@ class Appointments extends EA_Controller {
                 'name' => $service['name'],
             ],
             'company_name' => $company_name,
+            'add_to_google_url' => $add_to_google_url,
         ];
 
         if ($exceptions)
