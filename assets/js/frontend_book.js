@@ -304,6 +304,7 @@ window.FrontendBook = window.FrontendBook || {};
                             first_name: $('#first-name').val(),
                             last_name: $('#last-name').val(),
                             email: $('#email').val(),
+                            lineuserid: $('#lineuserid').val(),
                             type: 'terms-and-conditions'
                         };
 
@@ -637,6 +638,7 @@ window.FrontendBook = window.FrontendBook || {};
             first_name: $('#first-name').val(),
             email: $('#email').val(),
             phone_number: $('#phone-number').val(),
+            lineuserid: $('#lineuserid').val(),
             address: $('#address').val(),
             city: $('#city').val(),
             zip_code: $('#zip-code').val(),
