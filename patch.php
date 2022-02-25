@@ -54,21 +54,14 @@ function detect_local_version()
 
 function get_applied_patches()
 {
-    $patch_json_file_path = __DIR__ . '/patch.json';
+    $patch_log_file_path = __DIR__ . '/patch-log.php';
 
-    if ( ! file_exists($patch_json_file_path))
+    if ( ! file_exists($patch_log_file_path))
     {
         return [];
     }
 
-    $applied_patches_contents = file_get_contents($patch_json_file_path);
-
-    if ($applied_patches_contents === FALSE)
-    {
-        die('Could not read the local "patch.json" file, please check the file permissions make sure it is readable: ' . $patch_json_file_path);
-    }
-
-    return json_decode($applied_patches_contents, TRUE) ?: [];
+    return require $patch_log_file_path;
 }
 
 function get_pending_patches($local_version, $applied_patches)
@@ -223,17 +216,22 @@ function apply_pending_patches($local_version, $pending_patches)
     return $new_patches;
 }
 
-function update_patches_json($applied_patches, $new_patches)
+function update_patch_log($applied_patches, $new_patches)
 {
     $persisted_patches = array_merge($applied_patches, $new_patches);
 
-    $patch_json_file_path = __DIR__ . '/patch.json';
+    $patch_log_file_path = __DIR__ . '/patch-log.php';
 
-    $result = file_put_contents($patch_json_file_path, json_encode($persisted_patches, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    $contents = '
+<?php 
+
+return ' . preg_replace("/[0-9]+ \=\>/i", '', var_export($persisted_patches, TRUE)) . ';';
+
+    $result = file_put_contents($patch_log_file_path, $contents);
 
     if ($result === FALSE)
     {
-        die('Could not write the local "patch.json" file, please check the file permissions make sure it is writable: ' . $patch_json_file_path);
+        die('Could not write the local "patch-log.php" file, please check the file permissions make sure it is writable: ' . $patch_log_file_path);
     }
 }
 
@@ -270,5 +268,5 @@ else
 {
     echo LINE_BREAK . 'The following patches were successfully applied: ' . LINE_BREAK . LINE_BREAK . '○ ' . get_new_patch_filenames($new_patches) . LINE_BREAK;
 
-    update_patches_json($applied_patches, $new_patches);
+    update_patch_log($applied_patches, $new_patches);
 }
