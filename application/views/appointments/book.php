@@ -266,8 +266,10 @@
                                     <?= lang('phone_number') ?>
                                     <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
                                 </label>
-                                <input type="text" id="phone-number" maxlength="60"
-                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
+                                <input type="tel" id="phone-number" maxlength="20" class="required form-control"
+                                       
+                                       pattern="09\d{8}" required="required"/>
+
                             </div>
                             <div class="form-group">
                                 <label for="email" class="control-label">
