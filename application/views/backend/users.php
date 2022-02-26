@@ -167,19 +167,19 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="provider-email">
-                                            <?= lang('email') ?>
-                                            
-                                        </label>
-                                        <input id="provider-email" class="form-control" max="512">
-                                    </div>
-
-                                    <div class="form-group">
                                         <label for="provider-phone-number">
                                             <?= lang('phone_number') ?>
                                             
                                         </label>
                                         <input id="provider-phone-number" class="form-control" max="128">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="provider-email">
+                                            <?= lang('email') ?>
+                                            
+                                        </label>
+                                        <input id="provider-email" class="form-control" max="512">
                                     </div>
 
                                     <div class="form-group">
@@ -446,12 +446,20 @@
                                 <input id="secretary-last-name" class="form-control required" maxlength="512">
                             </div>
 
+                           <div class="form-group">
+                                <label for="secretary-mobile-number">
+                                    <?= lang('mobile_number') ?>
+                                    <span class="text-danger">*</span>
+                                </label>
+                                <input id="secretary-mobile-number" class="form-control required" maxlength="128">
+                            </div>
+
                             <div class="form-group">
                                 <label for="secretary-phone-number">
                                     <?= lang('phone_number') ?>
-                                    <span class="text-danger">*</span>
+                                    
                                 </label>
-                                <input id="secretary-phone-number" class="form-control required" maxlength="128">
+                                <input id="secretary-phone-number" class="form-control" maxlength="128">
                             </div>
 
                             <div class="form-group">
@@ -459,14 +467,6 @@
                                     <?= lang('email') ?>
                                 </label>
                                 <input id="secretary-email" class="form-control" maxlength="512">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="secretary-mobile-number">
-                                    <?= lang('mobile_number') ?>
-
-                                </label>
-                                <input id="secretary-mobile-number" class="form-control" maxlength="128">
                             </div>
 
                             <div class="form-group">
@@ -654,27 +654,27 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-email">
-                                    <?= lang('email') ?>
+                                <label for="admin-mobile-number">
+                                    <?= lang('mobile_number') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="admin-email" class="form-control required" maxlength="512">
+                                <input id="admin-mobile-number" class="form-control required" maxlength="128">
                             </div>
 
                             <div class="form-group">
                                 <label for="admin-phone-number">
                                     <?= lang('phone_number') ?>
-                                    <span class="text-danger">*</span>
+                                    
                                 </label>
-                                <input id="admin-phone-number" class="form-control required" maxlength="128">
+                                <input id="admin-phone-number" class="form-control" maxlength="128">
                             </div>
 
                             <div class="form-group">
-                                <label for="admin-mobile-number">
-                                    <?= lang('mobile_number') ?>
-
+                                <label for="admin-email">
+                                    <?= lang('email') ?>
+                                    
                                 </label>
-                                <input id="admin-mobile-number" class="form-control" maxlength="128">
+                                <input id="admin-email" class="form-control" maxlength="512">
                             </div>
 
                             <div class="form-group">

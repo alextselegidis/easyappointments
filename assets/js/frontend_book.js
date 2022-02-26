@@ -508,7 +508,7 @@ window.FrontendBook = window.FrontendBook || {};
             //     throw new Error(EALang.invalid_email);
             // }
 
-            // Validate phone-number address.
+            // Validate phone-number
             var checkPhoneNumber = $("#phone-number");
             var regTel1 = /^09\d{8}/.test(checkPhoneNumber.val());//手機
             if (!regTel1) { 

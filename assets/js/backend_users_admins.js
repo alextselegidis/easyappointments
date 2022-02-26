@@ -277,9 +277,18 @@
             }
 
             // Validate user email.
-            if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
-                $('#admin-email').closest('.form-group');
-                throw new Error(EALang.invalid_email);
+            // if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
+            //     $('#admin-email').closest('.form-group');
+            //     throw new Error(EALang.invalid_email);
+            // }
+
+            // Validate admin-mobile-number
+            var checkAdminMobileNumber = $("#admin-mobile-number");
+            var regTel1 = /^09\d{8}/.test(checkAdminMobileNumber.val());//手機
+            if (!regTel1) { 
+                $(checkAdminMobileNumber).parents('.form-group').addClass('has-error');
+                checkAdminMobileNumber[0].focus();
+                throw new Error(EALang.fields_are_required);
             }
 
             // Check if username exists

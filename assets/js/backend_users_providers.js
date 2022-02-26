@@ -315,10 +315,19 @@
             }
 
             // Validate user email.
-            if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
-                $('#provider-email').closest('.form-group');
-                throw new Error(EALang.invalid_email);
-            }
+            // if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
+            //     $('#provider-email').closest('.form-group');
+            //     throw new Error(EALang.invalid_email);
+            // }
+
+            // Validate provider-mobile-number
+            var checkProviderMobileNumber = $("#provider-mobile-number");
+            var regTel1 = /^09\d{8}/.test(checkProviderMobileNumber.val());//手機
+            if (!regTel1) { 
+                $(checkProviderMobileNumber).parents('.form-group').addClass('has-error');
+                checkProviderMobileNumber[0].focus();
+                throw new Error(EALang.fields_are_required);
+            }            
 
             // Check if username exists
             if ($('#provider-username').attr('already-exists') === 'true') {

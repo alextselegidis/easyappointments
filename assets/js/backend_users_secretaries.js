@@ -291,10 +291,19 @@
             }
 
             // Validate user email.
-            if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
-                $('#secretary-email').closest('.form-group');
-                throw new Error('Invalid email address!');
-            }
+            // if (!GeneralFunctions.validateEmail($('#secretary-email').val())) {
+            //     $('#secretary-email').closest('.form-group');
+            //     throw new Error('Invalid email address!');
+            // }
+
+            // Validate secretary-mobile-number
+            var checkSecretaryMobileNumber = $("#secretary-mobile-number");
+            var regTel1 = /^09\d{8}/.test(checkSecretaryMobileNumber.val());//手機
+            if (!regTel1) { 
+                $(checkSecretaryMobileNumber).parents('.form-group').addClass('has-error');
+                checkSecretaryMobileNumber[0].focus();
+                throw new Error(EALang.fields_are_required);
+            }            
 
             // Check if username exists
             if ($('#secretary-username').attr('already-exists') === 'true') {
