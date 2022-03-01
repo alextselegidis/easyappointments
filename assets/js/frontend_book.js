@@ -62,12 +62,14 @@ window.FrontendBook = window.FrontendBook || {};
         .then(() => {
             liff.getProfile()
             .then(profile => {
-                //const name = profile.displayName;
-                //alert(name);
                 const userid = profile.userId;
-                //alert(userid);
+                const fullName = profile.displayName.split(' ');
+                const lastName = fullName[0] || '';
+                const firstName = fullName[1] || '';
+
                 $('#lineuserid').val(userid);
-                //alert(JSON.stringify(profile));
+                $('#first-name').val(firstName);
+                $('#last-name').val(lastName);
             })
             .catch((err) => {
                 // alert('error');
