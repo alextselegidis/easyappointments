@@ -11,6 +11,8 @@
 $config['version'] = '1.4.2'; // This must be changed manually.
 $config['release_label'] = ''; // Leave empty for no title or add Alpha, Beta etc ...
 $config['debug'] = Config::DEBUG_MODE;
+$config['line_access_token'] = Config::LINE_ACCESS_TOKEN;
+$config['line_secret'] = Config::LINE_SECRET;
 
 /*
 |--------------------------------------------------------------------------
