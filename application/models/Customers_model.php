@@ -120,8 +120,8 @@ class Customers_model extends EA_Model {
 
         if ($num_rows > 0)
         {
-            throw new Exception('Given phone_number address belongs to another customer record. '
-                . 'Please use a different email.');
+            throw new Exception('這個電話號碼已經被使用過. '
+                . '請輸入另外一個電話.');
         }
 
         return TRUE;
