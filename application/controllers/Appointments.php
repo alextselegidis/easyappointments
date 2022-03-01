@@ -13,6 +13,8 @@
 
 use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use LINE\LINEBot;
+use LINE\LINEBot\MessageBuilder\RawMessageBuilder;
+
 
 /**
  * Appointments Controller
@@ -524,14 +526,161 @@ class Appointments extends EA_Controller {
                 'appointment_hash' => $appointment['hash']
             ];
 
+            $RawMessage = new RawMessageBuilder(
+                [
+                    'type' => 'bubble',
+                        'body' => [
+                            'type' => 'box',
+                            'layout' => 'vertical',
+                            'contents' => [
+                                [
+                                    'type' => 'text',
+                                    'text' => '預約成功',
+                                    'weight' => 'bold',
+                                    'color' => '#1DB446',
+                                    'size' => 'sm'
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => "XX分店",
+                                    'weight' => 'bold',
+                                    'size' => 'xxl',
+                                    'margin' => 'md'
+                                ],
+                                [
+                                    'type' => 'text',
+                                    'text' => "台北市信義區大馬路xxx",
+                                    'size' => 'xs',
+                                    'color' => '#aaaaaa',
+                                    'wrap' => true
+                                ],
+                                [
+                                    'type' => 'separator',
+                                    'margin' => 'xxl'
+                                ],
+                                [
+                                    'type' => 'box',
+                                    'layout' => 'vertical',
+                                    'margin' => 'xxl',
+                                    'spacing' => 'sm',
+                                    'contents' => [
+                                        [
+                                            'type' => 'box',
+                                            'layout' => 'horizontal',
+                                            'contents' => [
+                                                [
+                                                    'type' => 'text',
+                                                    'text' => '姓名',
+                                                    'size' => 'sm',
+                                                    'color' => '#555555',
+                                                    'flex' => 0
+                                                ],
+                                                [
+                                                    'type' => 'text',
+                                                    'text' => "陳小姐",
+                                                    'size' => 'sm',
+                                                    'color' => '#111111',
+                                                    'align' => 'end'
+                                                ]
+                                            ]
+                                        ],
+                                        [
+                                            'type' => 'box',
+                                            'layout' => 'horizontal',
+                                            'contents' => [
+                                        [
+                                            'type' => 'text',
+                                            'text' => '預約日期',
+                                            'size' => 'sm',
+                                            'color' => '#555555',
+                                            'flex' => 0
+                                        ],
+                                        [
+                                            'type' => 'text',
+                                            'text' => "2022/02/22",
+                                            'size' => 'sm',
+                                            "color" => '#111111',
+                                            'align' => 'end'
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    'type' => 'box',
+                                    'layout' => 'horizontal',
+                                    'contents' => [
+                                        [
+                                            'type'=> 'text',
+                                            'text' => '預約時間',
+                                            'size' => 'sm',
+                                            'color' => '#555555',
+                                            'flex' => 0
+                                        ],
+                                        [
+                                            'type' => 'text',
+                                            'text' => "16:30 - 17:30",
+                                            'size' => 'sm',
+                                            'color' => '#111111',
+                                            'align' => 'end'
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    'type' => 'box',
+                                    'layout' => 'horizontal',
+                                    'contents' => [
+                                        [
+                                            'type' => 'text',
+                                            'text' => '預約服務',
+                                            'size' => 'sm',
+                                            'color' => '#555555'
+                                        ],
+                                        [
+                                            'type' => 'text',
+                                            'text' => "不限定",
+                                            'size' => 'sm',
+                                            'color' => '#111111',
+                                            'align' => 'end'
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ],
+                        [
+                            'type' => 'separator',
+                            'margin' => 'xxl'
+                        ],
+                        [
+                            'type' => 'box',
+                            'layout' => 'horizontal',
+                            'margin' => 'md',
+                            'contents' => [
+                                [
+                                    'type' => 'text',
+                                    'text' => '注意事項，請提前 30 分鐘到場',
+                                    'size' => 'xs',
+                                    'color' => '#aaaaaa',
+                                    'flex' => 0
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                    'styles' => [
+                        'footer' => [
+                            'separator' => true
+                        ]
+                    ]
+                ]
+        );
+
             if (!empty($customer['lineuserid'])){
                 // test for line start
                 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('8X/crFm1xIiqFQiN5rUYxr3MVOCPQVXYQhexR+mdAvvlFQlPXTGCIhcberQrZtip/hAUmvZvevOT6jeu9qDN+7WY+st0czG5l4CnN1oxfcSZBAe/hZ2plWCHRgJ9004fESZsHPn5w/vwHTiFFMhFUQdB04t89/1O/w1cDnyilFU=');
                 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '66de50d144ea0117efacf5250da78886']);
 
-                $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hi');
+                $RawMessageBuilder = new \LINE\LINEBot\MessageBuilder\RawMessageBuilder($RawMessage);
                 
-                $bot->pushMessage($customer['lineuserid'], $textMessageBuilder);
+                $bot->pushMessage($customer['lineuserid'], $RawMessageBuilder);
                 
             }
             
