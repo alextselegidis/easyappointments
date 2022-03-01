@@ -83,7 +83,8 @@
         companyName: <?= json_encode($company_name) ?>,
         googleApiKey: <?= json_encode(config('google_api_key')) ?>,
         googleClientId: <?= json_encode(config('google_client_id')) ?>,
-        googleApiScope: 'https://www.googleapis.com/auth/calendar'
+        googleApiScope: 'https://www.googleapis.com/auth/calendar',
+        lineLiff: '<?= Config::LINE_LIFF ?>'
     };
 
     var EALang = <?= json_encode($this->lang->language) ?>;

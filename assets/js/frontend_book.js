@@ -58,7 +58,7 @@ window.FrontendBook = window.FrontendBook || {};
         manageMode = manageMode || false;
 
         liff
-        .init({ liffId: '1503492525-WmGJJnPg' })
+        .init({ liffId: GlobalVariables.lineLiff })
         .then(() => {
             liff.getProfile()
             .then(profile => {

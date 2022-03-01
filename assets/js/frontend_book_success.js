@@ -25,14 +25,14 @@ $(document).ready(function () {
             immediate: false
         }, handleAuthResult);
     });
-
+    
     liff
-        .init({ liffId: '1503492525-WmGJJnPg' })
+        .init({ liffId: GlobalVariables.lineLiff })
         .then(() => {
             if(liff.isInClient()){
                 setTimeout(function(){
                     liff.closeWindow();
-                }, 3000);
+                }, 1500);
             }
         })
         .catch((error) => {
