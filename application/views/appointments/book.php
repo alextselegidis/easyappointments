@@ -454,7 +454,8 @@
         providerData: <?= json_encode($provider_data) ?>,
         customerData: <?= json_encode($customer_data) ?>,
         displayAnyProvider: <?= json_encode($display_any_provider) ?>,
-        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>
+        csrfToken: <?= json_encode($this->security->get_csrf_hash()) ?>,
+        lineLiff: '<?= Config::LINE_LIFF ?>'
     };
 
     var EALang = <?= json_encode($this->lang->language) ?>;
