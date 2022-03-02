@@ -44,6 +44,12 @@ App.Utils.CalendarDefaultView = (function () {
         $reloadAppointments.on('click', () => {
             const calendarView = fullCalendar.view;
 
+            const $popovers = $('.popover');
+
+            if ($popovers.length) {
+                $popovers.popover('dispose');
+            }
+
             refreshCalendarAppointments(
                 $calendar,
                 $selectFilterItem.val(),
@@ -1682,6 +1688,10 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Automatically refresh the calendar page every 10 seconds (without loading animation).
         setInterval(() => {
+            if ($('.popover').length) {
+                return;
+            }
+
             refreshCalendarAppointments(
                 $calendar,
                 $selectFilterItem.val(),
