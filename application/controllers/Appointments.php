@@ -587,7 +587,7 @@ class Appointments extends EA_Controller {
                                                         ],
                                                         [
                                                             'type' => 'text',
-                                                            'text' => "陳小姐",
+                                                            'text' => $customer['last_name'] .  $customer['first_name'],
                                                             'size' => 'sm',
                                                             'color' => '#111111',
                                                             'align' => 'end'
@@ -646,7 +646,7 @@ class Appointments extends EA_Controller {
                                                 ],
                                                 [
                                                     'type' => 'text',
-                                                    'text' => "不限定",
+                                                    'text' => '不指定',
                                                     'size' => 'sm',
                                                     'color' => '#111111',
                                                     'align' => 'end'
