@@ -646,7 +646,7 @@ class Appointments extends EA_Controller {
                                                 ],
                                                 [
                                                     'type' => 'text',
-                                                    'text' => '不指定',
+                                                    'text' => $service['name'],
                                                     'size' => 'sm',
                                                     'color' => '#111111',
                                                     'align' => 'end'
