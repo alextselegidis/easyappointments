@@ -468,12 +468,13 @@ class Backend_api extends EA_Controller {
             }
 
             //send line message
-            try{
+            if(!empty($customer['lineUserId'])){
                 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
                 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
 
                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('預約取消');
-                $response = $bot->pushMessage($customer['lineuserid'], $textMessageBuilder);
+                $response = $bot->pushMessage($customer['lineUserId'], $textMessageBuilder);
+                print_r($customer);
                 print_r($response);
                 echo $response;
                 exit(1);
@@ -481,22 +482,6 @@ class Backend_api extends EA_Controller {
                         ->set_content_type('application/json')
                         ->set_output(json_encode(['captcha_verification' => FALSE]));
                         return;
-            }
-            catch (Exception $exception)
-            {
-                $warnings[] = [
-                    'message' => $exception->getMessage(),
-                    'trace' => config('debug') ? $exception->getTrace() : []
-                ];
-            }
-
-            if (empty($warnings))
-            {
-                $response = AJAX_SUCCESS;
-            }
-            else
-            {
-                $response = ['warnings' => $warnings];
             }
 
         }
