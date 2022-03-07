@@ -15,6 +15,9 @@ use EA\Engine\Notifications\Email as EmailClient;
 use EA\Engine\Types\Email;
 use EA\Engine\Types\Text;
 
+use LINE\LINEBot;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+
 /**
  * Backend API Controller
  *
@@ -463,6 +466,16 @@ class Backend_api extends EA_Controller {
             {
                 $response = ['warnings' => $warnings];
             }
+
+            //send line message
+            if(!empty($customer['lineUserId'])){
+                $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
+                $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
+
+                $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('預約取消');
+                $bot->pushMessage($customer['lineUserId'], $textMessageBuilder);
+            }
+
         }
         catch (Exception $exception)
         {
