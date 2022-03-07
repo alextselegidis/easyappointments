@@ -607,7 +607,7 @@ class Appointments extends EA_Controller {
                                                 ],
                                                 [
                                                     'type' => 'text',
-                                                    'text' => "2022/02/22",
+                                                    'text' => $appointment['start_datetime'],
                                                     'size' => 'sm',
                                                     "color" => '#111111',
                                                     'align' => 'end'
@@ -627,7 +627,7 @@ class Appointments extends EA_Controller {
                                                 ],
                                                 [
                                                     'type' => 'text',
-                                                    'text' => "16:30 - 17:30",
+                                                    'text' => $appointment['end_datetime'],
                                                     'size' => 'sm',
                                                     'color' => '#111111',
                                                     'align' => 'end'

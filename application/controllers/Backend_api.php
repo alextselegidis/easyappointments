@@ -15,6 +15,9 @@ use EA\Engine\Notifications\Email as EmailClient;
 use EA\Engine\Types\Email;
 use EA\Engine\Types\Text;
 
+use LINE\LINEBot;
+use LINE\LINEBot\HTTPClient\CurlHTTPClient;
+
 /**
  * Backend API Controller
  *
@@ -463,6 +466,39 @@ class Backend_api extends EA_Controller {
             {
                 $response = ['warnings' => $warnings];
             }
+
+            //send line message
+            try{
+                $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
+                $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
+
+                $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('預約取消');
+                $response = $bot->pushMessage($customer['lineuserid'], $textMessageBuilder);
+                print_r($response);
+                echo $response;
+                exit(1);
+                $this->output
+                        ->set_content_type('application/json')
+                        ->set_output(json_encode(['captcha_verification' => FALSE]));
+                        return;
+            }
+            catch (Exception $exception)
+            {
+                $warnings[] = [
+                    'message' => $exception->getMessage(),
+                    'trace' => config('debug') ? $exception->getTrace() : []
+                ];
+            }
+
+            if (empty($warnings))
+            {
+                $response = AJAX_SUCCESS;
+            }
+            else
+            {
+                $response = ['warnings' => $warnings];
+            }
+
         }
         catch (Exception $exception)
         {
