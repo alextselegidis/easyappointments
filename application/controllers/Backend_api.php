@@ -473,15 +473,7 @@ class Backend_api extends EA_Controller {
                 $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
 
                 $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('預約取消');
-                $response = $bot->pushMessage($customer['lineUserId'], $textMessageBuilder);
-                print_r($customer);
-                print_r($response);
-                echo $response;
-                exit(1);
-                $this->output
-                        ->set_content_type('application/json')
-                        ->set_output(json_encode(['captcha_verification' => FALSE]));
-                        return;
+                $bot->pushMessage($customer['lineUserId'], $textMessageBuilder);
             }
 
         }
