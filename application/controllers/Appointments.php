@@ -29,6 +29,7 @@ class Appointments extends EA_Controller {
     {
         parent::__construct();
 
+        $this->load->helper('line_message');
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
         $this->load->model('appointments_model');
@@ -434,29 +435,6 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            // test for line start
-            // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('Qp3Q/V+95lkI5+eababXYATCioFyOOzF8tHxv+Tei94THCNKAE8GAUKUWyIw7/0fcePOS6li0R+XNwcKlyhnG5z0+mmMb0cqCCBBL0r6C0PVt0jk3K9XFbtVVF7qh/ZeGa6xokBPfa4FFz8/zmc46AdB04t89/1O/w1cDnyilFU=');
-            // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '66de50d144ea0117efacf5250da78886']);
-
-            // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello');
-            
-            // $response = $bot->pushMessage( 'U6260f39e480af845875270a10dfcc9e7', $textMessageBuilder);
-            // print_r($response);
-            // echo $response;
-            // print_r($this->input->post('post_data'));
-            // exit(1);
-            // $this->output
-            //         ->set_content_type('application/json')
-            //         ->set_output(json_encode([
-            //             'captcha_verification' => FALSE
-            //         ]));
-
-            //     return;
-
-            // test for line end
-
-            
-
             $post_data = $this->input->post('post_data');
             $captcha = $this->input->post('captcha');
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
@@ -527,7 +505,7 @@ class Appointments extends EA_Controller {
             ];
 
 
-
+            //line message
             if (!empty($customer['lineuserid'])){
                 // test for line start
                 $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
