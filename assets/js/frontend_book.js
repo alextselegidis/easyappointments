@@ -57,7 +57,7 @@ window.FrontendBook = window.FrontendBook || {};
         defaultEventHandlers = defaultEventHandlers || true;
         manageMode = manageMode || false;
 
-        if (GlobalVariables.displayCookieNotice) {
+        if (GlobalVariables.displayCookieNotice && window.cookieconsent) {
             cookieconsent.initialise({
                 palette: {
                     popup: {
