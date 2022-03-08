@@ -23,10 +23,10 @@ if ( ! function_exists('rate_limit'))
      * @link https://github.com/alexandrugaidei-atomate/ratelimit-codeigniter-filebased
      *
      * @param string $ip Client IP address.
-     * @param int $max_requests Number of allowed requests, defaults to 100.
-     * @param int $duration In seconds, defaults to 5 minutes.
+     * @param int $max_requests Number of allowed requests, defaults to 200.
+     * @param int $duration In seconds, defaults to 2 minutes.
      */
-    function rate_limit($ip, $max_requests = 100, $duration = 300)
+    function rate_limit($ip, $max_requests = 100, $duration = 120)
     {
         $CI =& get_instance();
 
