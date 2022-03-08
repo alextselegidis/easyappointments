@@ -4,7 +4,7 @@ use LINE\LINEBot\HTTPClient\CurlHTTPClient;
 use LINE\LINEBot;
 use LINE\LINEBot\MessageBuilder\RawMessageBuilder;
 
-function line_message_appointment(){
+function line_message_appointment($customer, $service, $appointment){
     if (!empty($customer['lineuserid'])){
         $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
         $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
