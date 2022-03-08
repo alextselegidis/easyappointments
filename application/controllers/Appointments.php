@@ -11,10 +11,6 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use LINE\LINEBot\HTTPClient\CurlHTTPClient;
-use LINE\LINEBot;
-use LINE\LINEBot\MessageBuilder\RawMessageBuilder;
-
 
 /**
  * Appointments Controller
@@ -29,6 +25,7 @@ class Appointments extends EA_Controller {
     {
         parent::__construct();
 
+        $this->load->helper('line_message');
         $this->load->helper('installation');
         $this->load->helper('google_analytics');
         $this->load->model('appointments_model');
@@ -434,29 +431,6 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            // test for line start
-            // $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('Qp3Q/V+95lkI5+eababXYATCioFyOOzF8tHxv+Tei94THCNKAE8GAUKUWyIw7/0fcePOS6li0R+XNwcKlyhnG5z0+mmMb0cqCCBBL0r6C0PVt0jk3K9XFbtVVF7qh/ZeGa6xokBPfa4FFz8/zmc46AdB04t89/1O/w1cDnyilFU=');
-            // $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '66de50d144ea0117efacf5250da78886']);
-
-            // $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('hello');
-            
-            // $response = $bot->pushMessage( 'U6260f39e480af845875270a10dfcc9e7', $textMessageBuilder);
-            // print_r($response);
-            // echo $response;
-            // print_r($this->input->post('post_data'));
-            // exit(1);
-            // $this->output
-            //         ->set_content_type('application/json')
-            //         ->set_output(json_encode([
-            //             'captcha_verification' => FALSE
-            //         ]));
-
-            //     return;
-
-            // test for line end
-
-            
-
             $post_data = $this->input->post('post_data');
             $captcha = $this->input->post('captcha');
             $manage_mode = filter_var($post_data['manage_mode'], FILTER_VALIDATE_BOOLEAN);
@@ -527,165 +501,8 @@ class Appointments extends EA_Controller {
             ];
 
 
-
-            if (!empty($customer['lineuserid'])){
-                // test for line start
-                $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
-                $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
-
-                $RawMessageBuilder = new \LINE\LINEBot\MessageBuilder\RawMessageBuilder(
-                    [
-                        'type' => 'flex',
-                        'altText' => '預約服務成功訊息',
-                        'contents' => [
-                            'type' => 'bubble',
-                                'body' => [
-                                    'type' => 'box',
-                                    'layout' => 'vertical',
-                                    'contents' => [
-                                        [
-                                            'type' => 'text',
-                                            'text' => '預約成功',
-                                            'weight' => 'bold',
-                                            'color' => '#1DB446',
-                                            'size' => 'sm'
-                                        ],
-                                        [
-                                            'type' => 'text',
-                                            'text' => "XX分店",
-                                            'weight' => 'bold',
-                                            'size' => 'xxl',
-                                            'margin' => 'md'
-                                        ],
-                                        [
-                                            'type' => 'text',
-                                            'text' => "台北市信義區大馬路xxx",
-                                            'size' => 'xs',
-                                            'color' => '#aaaaaa',
-                                            'wrap' => true
-                                        ],
-                                        [
-                                            'type' => 'separator',
-                                            'margin' => 'xxl'
-                                        ],
-                                        [
-                                            'type' => 'box',
-                                            'layout' => 'vertical',
-                                            'margin' => 'xxl',
-                                            'spacing' => 'sm',
-                                            'contents' => [
-                                                [
-                                                    'type' => 'box',
-                                                    'layout' => 'horizontal',
-                                                    'contents' => [
-                                                        [
-                                                            'type' => 'text',
-                                                            'text' => '姓名',
-                                                            'size' => 'sm',
-                                                            'color' => '#555555',
-                                                            'flex' => 0
-                                                        ],
-                                                        [
-                                                            'type' => 'text',
-                                                            'text' => $customer['last_name'] .  $customer['first_name'],
-                                                            'size' => 'sm',
-                                                            'color' => '#111111',
-                                                            'align' => 'end'
-                                                        ]
-                                                    ]
-                                                ],
-                                                [
-                                                    'type' => 'box',
-                                                    'layout' => 'horizontal',
-                                                    'contents' => [
-                                                [
-                                                    'type' => 'text',
-                                                    'text' => '預約日期',
-                                                    'size' => 'sm',
-                                                    'color' => '#555555',
-                                                    'flex' => 0
-                                                ],
-                                                [
-                                                    'type' => 'text',
-                                                    'text' => $appointment['start_datetime'],
-                                                    'size' => 'sm',
-                                                    "color" => '#111111',
-                                                    'align' => 'end'
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            'type' => 'box',
-                                            'layout' => 'horizontal',
-                                            'contents' => [
-                                                [
-                                                    'type'=> 'text',
-                                                    'text' => '預約時間',
-                                                    'size' => 'sm',
-                                                    'color' => '#555555',
-                                                    'flex' => 0
-                                                ],
-                                                [
-                                                    'type' => 'text',
-                                                    'text' => $appointment['end_datetime'],
-                                                    'size' => 'sm',
-                                                    'color' => '#111111',
-                                                    'align' => 'end'
-                                                ]
-                                            ]
-                                        ],
-                                        [
-                                            'type' => 'box',
-                                            'layout' => 'horizontal',
-                                            'contents' => [
-                                                [
-                                                    'type' => 'text',
-                                                    'text' => '預約服務',
-                                                    'size' => 'sm',
-                                                    'color' => '#555555'
-                                                ],
-                                                [
-                                                    'type' => 'text',
-                                                    'text' => $service['name'],
-                                                    'size' => 'sm',
-                                                    'color' => '#111111',
-                                                    'align' => 'end'
-                                                ]
-                                            ]
-                                        ]
-                                    ]
-                                ],
-                                [
-                                    'type' => 'separator',
-                                    'margin' => 'xxl'
-                                ],
-                                [
-                                    'type' => 'box',
-                                    'layout' => 'horizontal',
-                                    'margin' => 'md',
-                                    'contents' => [
-                                        [
-                                            'type' => 'text',
-                                            'text' => '注意事項，請提前 30 分鐘到場',
-                                            'size' => 'xs',
-                                            'color' => '#aaaaaa',
-                                            'flex' => 0
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ],
-                        'styles' => [
-                            'footer' => [
-                                'separator' => true
-                            ]
-                        ]
-                    ]
-                ]);
-                
-                $bot->pushMessage($customer['lineuserid'], $RawMessageBuilder);
-            }
-            
+            //send appointment line message
+            line_message_appointment($customer, $service, $appointment);
             
         }
         catch (Exception $exception)
