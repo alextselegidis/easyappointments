@@ -16,6 +16,7 @@ $(function () {
         $start.val('');
         $end.val('');
         $breaks.find('tbody').empty();
+        $('.working-plan-exceptions-add-break').prop('disabled', false);
     }
 
     function validate() {
