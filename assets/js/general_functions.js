@@ -323,7 +323,7 @@ window.GeneralFunctions = window.GeneralFunctions || {};
             response = {message: jqXHR.responseText}; // String response
         }
 
-        if (!response) {
+        if (!response || !response.message) {
             return;
         }
 
