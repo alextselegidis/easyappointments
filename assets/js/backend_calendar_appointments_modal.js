@@ -527,9 +527,18 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
             }
 
             // Check email address.
-            if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
-                $dialog.find('#email').closest('.form-group');
-                throw new Error(EALang.invalid_email);
+            // if (!GeneralFunctions.validateEmail($dialog.find('#email').val())) {
+            //     $dialog.find('#email').closest('.form-group');
+            //     throw new Error(EALang.invalid_email);
+            // }
+
+            // Check phone-number
+            var checkPhoneNumber = $("#phone-number");
+            var regTel1 = /^09\d{8}/.test(checkPhoneNumber.val());//手機
+            if (!regTel1) { 
+                $(checkPhoneNumber).parents('.form-group').addClass('has-error');
+                checkPhoneNumber[0].focus();
+                throw new Error(EALang.fields_are_required);
             }
 
             // Check appointment start and end time.

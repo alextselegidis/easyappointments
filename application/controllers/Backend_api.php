@@ -311,6 +311,16 @@ class Backend_api extends EA_Controller {
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
             $response = AJAX_SUCCESS;
+
+            //send line message
+            if(!empty($customer['lineUserId'])){
+                $httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient(config('line_access_token'));
+                $bot = new \LINE\LINEBot($httpClient, ['channelSecret' => config('line_secret')]);
+
+                $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder('預約內容更改');
+                $bot->pushMessage($customer['lineUserId'], $textMessageBuilder);
+            }
+
         }
         catch (Exception $exception)
         {
