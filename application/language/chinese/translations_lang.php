@@ -25,6 +25,7 @@ $lang['notes'] = '註釋';
 $lang['language'] = 'Language';
 $lang['no_language'] = 'No language';
 $lang['fields_are_required'] = '標記*的位置必須填寫.';
+$lang['appointment_title'] = '預約服務';
 $lang['appointment_confirmation'] = '確認預約';
 $lang['confirm'] = '確認';
 $lang['update'] = '更新';

@@ -24,6 +24,7 @@ $lang['notes'] = 'Notes';
 $lang['language'] = 'Language';
 $lang['no_language'] = 'No language';
 $lang['fields_are_required'] = 'Fields with * are required.';
+$lang['appointment_title'] = 'Appointment';
 $lang['appointment_confirmation'] = 'Appointment Confirmation';
 $lang['confirm'] = 'Confirm';
 $lang['update'] = 'Update';
