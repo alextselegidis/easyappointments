@@ -32,26 +32,26 @@
             </div>
 
             <div id="header">
-                <span id="service-title"><?= lang('appointment_title') ?></span>
+                <img src="<?= base_url('assets/img/service_title.png') ?>">
+                <span id="service-title"><?= lang('appointment_title') ?></span> 
+            </div>
 
-                <div id="steps">
-                    <div id="step-1" class="book-step active-step"
-                         data-tippy-content="<?= lang('service_and_provider') ?>">
-                        <strong>1</strong>
-                    </div>
-
-                    <div id="step-2" class="book-step" data-toggle="tooltip"
-                         data-tippy-content="<?= lang('appointment_date_and_time') ?>">
-                        <strong>2</strong>
-                    </div>
-                    <div id="step-3" class="book-step" data-toggle="tooltip"
-                         data-tippy-content="<?= lang('customer_information') ?>">
-                        <strong>3</strong>
-                    </div>
-                    <div id="step-4" class="book-step" data-toggle="tooltip"
-                         data-tippy-content="<?= lang('appointment_confirmation') ?>">
-                        <strong>4</strong>
-                    </div>
+            <div id="steps">
+                <div id="step-1" class="book-step active-step"
+                    data-tippy-content="<?= lang('service_and_provider') ?>">
+                    <strong>1</strong>
+                </div>
+                <div id="step-2" class="book-step" data-toggle="tooltip"
+                    data-tippy-content="<?= lang('appointment_date_and_time') ?>">
+                    <strong>2</strong>
+                </div>
+                <div id="step-3" class="book-step" data-toggle="tooltip"
+                    data-tippy-content="<?= lang('customer_information') ?>">
+                    <strong>3</strong>
+                </div>
+                <div id="step-4" class="book-step" data-toggle="tooltip"
+                    data-tippy-content="<?= lang('appointment_confirmation') ?>">
+                    <strong>4</strong>
                 </div>
             </div>
 
@@ -408,9 +408,9 @@
             <div id="frame-footer">
                 <small>
                     <span class="footer-powered-by">
-                        Powered By
-
-                        <a href="https://easyappointments.org" target="_blank">Car2dude</a>
+                        Copyright
+                        <a href="https://easyappointments.org" target="_blank"> © 2020 車友趣</a>
+                        All rights reserved.
                     </span>
 
                     <span class="footer-options">
