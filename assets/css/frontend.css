@@ -36,6 +36,19 @@ body {
     margin: auto;
 }
 
+#book-appointment-wizard #logo-background {
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    background: #F8F9FA;
+}
+
+#book-appointment-wizard #logo-picture {
+    height: 50px;
+    display: block; 
+    margin:auto;
+}
+
 #book-appointment-wizard #header {
     overflow: auto;
     height: auto;
