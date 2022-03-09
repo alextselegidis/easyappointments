@@ -41,6 +41,11 @@ body {
     height: auto;
     padding: 20px;
     background: #F8F9FA;
+    text-align: center;
+}
+#book-appointment-wizard #logo-background img {
+    width: 120px;
+    height: auto;
 }
 
 #book-appointment-wizard #logo-picture {
@@ -58,12 +63,23 @@ body {
 
 #book-appointment-wizard #company-name {
     float: none;
+    display: none;
+    text-align: center;
+    font-size: 24px;
+    font-weight: lighter;
+    color: #FFF;
+    margin: 20px 0;
+    
+}
+#book-appointment-wizard #service-title {
+    float: none;
     display: block;
     text-align: center;
     font-size: 24px;
     font-weight: lighter;
     color: #FFF;
     margin: 20px 0;
+    
 }
 
 #book-appointment-wizard #steps {

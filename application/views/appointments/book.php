@@ -32,7 +32,7 @@
             </div>
 
             <div id="header">
-                <span id="company-name"><?= $company_name ?></span>
+                <span id="service-title"><?= lang('appointment_title') ?></span>
 
                 <div id="steps">
                     <div id="step-1" class="book-step active-step"
