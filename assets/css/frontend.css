@@ -44,12 +44,8 @@ body {
     text-align: center;
 }
 #book-appointment-wizard #logo-background img {
-    width: 120px;
+    width: 200px;
     height: auto;
-}
-
-#book-appointment-wizard #logo-picture {
-    height: 50px;
     display: block; 
     margin:auto;
 }

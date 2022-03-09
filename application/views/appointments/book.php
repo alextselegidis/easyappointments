@@ -28,7 +28,7 @@
 
             <!-- FRAME TOP BAR -->
             <div id="logo-background">
-                <img id="logo-picture" src="<?= base_url('assets/img/logo_horizontal.png') ?>">
+                <img src="<?= base_url('assets/img/logo_horizontal.png') ?>">
             </div>
 
             <div id="header">
