@@ -76,10 +76,11 @@ body {
 
 #book-appointment-wizard #steps {
     float: none;
-    display: block;
+    display: flex;
     overflow: auto;
-    margin: auto;
-    width: 190px;
+    margin: 5px 21%;
+    width: auto;
+    height:auto;
 }
 
 #book-appointment-wizard #book-appointment-form #book-appointment-submit {
@@ -104,10 +105,10 @@ body {
 }
 
 #book-appointment-wizard .frame-container .frame-title {
-    font-weight: lighter;
+    font-weight: bold;
     text-align: center;
     margin-bottom: 30px;
-    color: #666;
+    color: #1F4E75;
 }
 
 #book-appointment-wizard .frame-container .frame-content {
@@ -147,11 +148,11 @@ body {
 
 #book-appointment-wizard .book-step {
     display: inline-block;
-    height: 35px;
-    width: 35px;
-    float: left;
-    background: #ff7e35;
-    padding: 8px;
+    height: 45px;
+    width: 45px;
+    float: none;
+    background: #F5F5F5;
+    padding: 7px;
     margin-right: 12px;
     margin-top: 6px;
     border-radius: .25rem;
@@ -163,10 +164,10 @@ body {
 }
 
 #book-appointment-wizard .book-step strong {
-    font-size: 12px;
+    font-size: 21px;
     display: block;
     text-align: center;
-    color: #ffe6cbc7;
+    color: #68717A;
     transition: all .3s linear;
     cursor: default;
 }
@@ -175,15 +176,15 @@ body {
     display: inline-block;
     height: 45px;
     width: 45px;
-    float: left;
-    background: #FFF;
+    float: none;
+    background: #FF7E35;
     padding: 7px;
-    margin-right: 13px;
-    margin-top: 0;
+    margin-right: 12px;
+    margin-top: 6px;
 }
 
 #book-appointment-wizard .active-step strong {
-    color: #ffba7e;
+    color: #FFFFFF;
     font-size: 21px;
 }
 
@@ -300,16 +301,10 @@ body {
         box-shadow: rgba(45, 62, 80, 0.12) 0 1px 5px 0;
     }
 
-    #book-appointment-wizard #company-name {
-        display: inline-block;
-        float: left;
-        margin: 10px auto;
-    }
-
     #book-appointment-wizard #steps {
         display: inline-block;
-        float: right;
-        margin: 5px auto;
+        float: none;
+        margin: 10px 265px;
     }
 
     #book-appointment-wizard .wizard-frame {
