@@ -20,8 +20,18 @@
 <body>
 <div id="main" class="container">
     <div class="row wrapper">
-        <div id="success-frame" class="col-12 border my-auto frame-container">
-            <div>
+        <div id="success-frame" class="col-12 col-lg-10 col-xl-8">
+
+            <div id="logo-background">
+                <img src="<?= base_url('assets/img/logo_horizontal.png') ?>">
+            </div>
+
+            <div id="header">
+                <img src="<?= base_url('assets/img/service_title.png') ?>">
+                <span id="service-title"><?= lang('appointment_title') ?></span> 
+            </div>
+
+            <div id="interval">
                 <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>"/>
             </div>
 
@@ -56,10 +66,13 @@
                 <?php endif ?>
             </div>
 
-            <div class="mt-2">
+            <div id="frame-footer">
                 <small>
-                    Powered by
-                    <a href="https://car2dude.com/">Car2dude</a>
+                    <span class="footer-powered-by">
+                        Copyright
+                        <a href="https://easyappointments.org" target="_blank"> © 2020 車友趣</a>
+                        All rights reserved.
+                    </span>
                 </small>
             </div>
         </div>
