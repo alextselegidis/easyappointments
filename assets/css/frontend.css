@@ -126,8 +126,18 @@ body {
     margin-right: 10px;
 }
 
+#book-appointment-wizard .wizard-frame .command-buttons .btn-success{
+    margin-right: 0;
+    color: #FFF;
+    background-color: #FF7E35; 
+    border-color: #FF7E35;
+}
+
 #book-appointment-wizard .wizard-frame .command-buttons .btn:last-child {
     margin-right: 0;
+    color: #FFF;
+    background-color: #FF7E35; 
+    border-color: #FF7E35;
 }
 
 #book-appointment-wizard .wizard-frame #select-date {

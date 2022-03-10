@@ -194,7 +194,7 @@
                 <div class="command-buttons">
                     <span>&nbsp;</span>
 
-                    <button type="button" id="button-next-1" class="btn button-next btn-dark"
+                    <button type="button" id="button-next-1" class="btn button-next"
                             data-step_index="1">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
@@ -233,7 +233,7 @@
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-2" class="btn button-next btn-dark"
+                    <button type="button" id="button-next-2" class="btn button-next"
                             data-step_index="2">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
@@ -352,7 +352,7 @@
                         <i class="fas fa-chevron-left mr-2"></i>
                         <?= lang('back') ?>
                     </button>
-                    <button type="button" id="button-next-3" class="btn button-next btn-dark"
+                    <button type="button" id="button-next-3" class="btn button-next"
                             data-step_index="3">
                         <?= lang('next') ?>
                         <i class="fas fa-chevron-right ml-2"></i>
