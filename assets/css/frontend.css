@@ -127,14 +127,14 @@ body {
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons .btn-success{
-    margin-right: 0;
+    margin-right: 30px;
     color: #FFF;
     background-color: #FF7E35; 
     border-color: #FF7E35;
 }
 
 #book-appointment-wizard .wizard-frame .command-buttons .btn:last-child {
-    margin-right: 0;
+    margin-right: 30px;
     color: #FFF;
     background-color: #FF7E35; 
     border-color: #FF7E35;
@@ -240,6 +240,59 @@ body {
 #book-appointment-wizard #customer-details p {
     font-size: 16px;
     line-height: 28px;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card {
+    margin: 0px 30px 0px 30px;
+    width: auto;
+    height: auto;
+    background: #F5F8FA;
+    border-radius: 4px;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card img{
+    background: #E5E5E5;
+    border-radius: 4px;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card #img-style{
+    margin: 15px;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card #service-name{
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px 15px;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card #word{
+    font-size: 20px;
+    padding: 0px 15px;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card #service-price{
+    font-weight: bold;
+    font-size: 30px;
+    padding: 0px 15px;
+    color: #FF7E35;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card #service-time{
+    font-size: 30px;
+    padding: 0px 15px;
+    color: #FF7E35;
+    float: right;
+}
+
+#book-appointment-wizard #wizard-frame-1 #card #button-next-1 {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    font-size: 25px;
+    padding: 10px 250px;
+    color: #1F4E75;
+    background: #E5E5E5;
+    border-color:#1F4E75;
 }
 
 #book-appointment-wizard #wizard-frame-1 label {

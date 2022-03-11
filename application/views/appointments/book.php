@@ -104,101 +104,30 @@
 
                     <div class="row frame-content">
                         <div class="col">
-                            <div class="form-group">
-                                <label for="select-service">
-                                    <strong><?= lang('service') ?></strong>
-                                </label>
-
-                                <select id="select-service" class="form-control">
-                                    <?php
-                                    // Group services by category, only if there is at least one service with a parent category.
-                                    $has_category = FALSE;
-                                    foreach ($available_services as $service)
-                                    {
-                                        if ($service['category_id'] != NULL)
-                                        {
-                                            $has_category = TRUE;
-                                            break;
-                                        }
-                                    }
-
-                                    if ($has_category)
-                                    {
-                                        $grouped_services = [];
-
-                                        foreach ($available_services as $service)
-                                        {
-                                            if ($service['category_id'] != NULL)
-                                            {
-                                                if ( ! isset($grouped_services[$service['category_name']]))
-                                                {
-                                                    $grouped_services[$service['category_name']] = [];
-                                                }
-
-                                                $grouped_services[$service['category_name']][] = $service;
-                                            }
-                                        }
-
-                                        // We need the uncategorized services at the end of the list so we will use
-                                        // another iteration only for the uncategorized services.
-                                        $grouped_services['uncategorized'] = [];
-                                        foreach ($available_services as $service)
-                                        {
-                                            if ($service['category_id'] == NULL)
-                                            {
-                                                $grouped_services['uncategorized'][] = $service;
-                                            }
-                                        }
-
-                                        foreach ($grouped_services as $key => $group)
-                                        {
-                                            $group_label = ($key != 'uncategorized')
-                                                ? $group[0]['category_name'] : 'Uncategorized';
-
-                                            if (count($group) > 0)
-                                            {
-                                                echo '<optgroup label="' . $group_label . '">';
-                                                foreach ($group as $service)
-                                                {
-                                                    echo '<option value="' . $service['id'] . '">'
-                                                        . $service['name'] . '</option>';
-                                                }
-                                                echo '</optgroup>';
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        foreach ($available_services as $service)
-                                        {
-                                            echo '<option value="' . $service['id'] . '">' . $service['name'] . '</option>';
-                                        }
-                                    }
-                                    ?>
-                                </select>
+                            <div id="card">
+                                <div id="img-style">
+                                    <img class="img-fluid" src="<?= base_url('assets/img/service_title.png') ?>">
+                                </div>
+                                <span id="service-name">精緻美容小方案</span>
+                                <div id="word">
+                                    <span>1.前檔玻璃除油墨+玻璃鍍膜($2000)</span>
+                                    <br><span>2.升級SMR3霧化陶瓷($1000)</span>
+                                    <br><span>3.精緻內外深層清潔</span>
+                                </div>
+                                <div>
+                                    <span id="service-price">NT3800</span>
+                                    <span id="service-time">2 小時</span>
+                                </div>
+                                <div class="command-buttons">
+                                    <button type="button" id="button-next-1" class="btn button-next"
+                                            data-step_index="1">
+                                        <?= lang('next') ?>
+                                        <i class="fas fa-chevron-right ml-2"></i>
+                                    </button>
+                                </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="select-provider">
-                                    <strong><?= lang('provider') ?></strong>
-                                </label>
-
-                                <select id="select-provider" class="form-control"></select>
-                            </div>
-
-                            <div id="service-description"></div>
                         </div>
                     </div>
-                </div>
-
-                <div class="command-buttons">
-                    <span>&nbsp;</span>
-
-                    <button type="button" id="button-next-1" class="btn button-next"
-                            data-step_index="1">
-                        <?= lang('next') ?>
-                        <i class="fas fa-chevron-right ml-2"></i>
-                    </button>
                 </div>
             </div>
 
