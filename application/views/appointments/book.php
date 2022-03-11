@@ -114,14 +114,14 @@
                                     <br><span>2.升級SMR3霧化陶瓷($1000)</span>
                                     <br><span>3.精緻內外深層清潔</span>
                                 </div>
-                                <div>
+                                <div style="padding: 10px;">
                                     <span id="service-price">NT3800</span>
                                     <span id="service-time">2 小時</span>
                                 </div>
                                 <div class="command-buttons service-button">
                                     <button type="button" id="button-next-1" class="btn button-next"
                                             data-step_index="1">
-                                        <?= lang('next') ?>
+                                        <?= lang('choose') ?>
                                         <i class="fas fa-chevron-right ml-2"></i>
                                     </button>
                                 </div>

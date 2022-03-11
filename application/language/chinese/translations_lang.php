@@ -259,6 +259,7 @@ $lang['november'] = '十一月';
 $lang['december'] = '十二月';
 $lang['previous'] = '前一頁';
 $lang['next'] = '下一個';
+$lang['choose'] = '選擇';
 $lang['now'] = '現在';
 $lang['select_time'] = '選擇時間';
 $lang['time'] = '時間';
