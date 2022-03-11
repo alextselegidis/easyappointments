@@ -118,7 +118,7 @@
                                     <span id="service-price">NT3800</span>
                                     <span id="service-time">2 小時</span>
                                 </div>
-                                <div class="command-buttons">
+                                <div class="command-buttons service-button">
                                     <button type="button" id="button-next-1" class="btn button-next"
                                             data-step_index="1">
                                         <?= lang('next') ?>

@@ -120,6 +120,9 @@ body {
     margin: 15px auto;
     text-align: center;
 }
+#book-appointment-wizard .wizard-frame .service-button {
+    margin: 15px;
+}
 
 #book-appointment-wizard .wizard-frame .command-buttons .btn {
     min-width: 120px;
@@ -285,11 +288,12 @@ body {
 }
 
 #book-appointment-wizard #wizard-frame-1 #card #button-next-1 {
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 20px;
+    padding: 10px auto;
     font-size: 25px;
-    padding: 10px 250px;
     color: #1F4E75;
     background: #E5E5E5;
     border-color:#1F4E75;
