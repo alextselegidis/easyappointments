@@ -259,7 +259,7 @@ body {
 }
 
 #book-appointment-wizard #wizard-frame-1 #card #img-style{
-    margin: 15px;
+    padding: 15px;
 }
 
 #book-appointment-wizard #wizard-frame-1 #card #service-name{
