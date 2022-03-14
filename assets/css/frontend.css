@@ -297,12 +297,17 @@ body {
 }
 
 #book-appointment-wizard #wizard-frame-1 label {
-    font-size: 19px;
+    font-size: 20px;
     margin-bottom: 12px;
+    color: #1F4E75;
+    padding-left: 30px;
 }
 
 #book-appointment-wizard #wizard-frame-1 select {
     margin-bottom: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
 }
 
 #book-appointment-wizard .captcha-title {
