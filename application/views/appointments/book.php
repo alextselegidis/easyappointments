@@ -216,13 +216,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="command-buttons">
-                    <button type="button" id="button-next-1" class="btn button-next"
-                            data-step_index="1">
-                        <?= lang('choose') ?>
-                        <i class="fas fa-chevron-right ml-2"></i>
-                    </button>
-                </div>
             </div>
 
             <!-- SELECT APPOINTMENT DATE -->
