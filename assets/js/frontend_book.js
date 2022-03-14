@@ -568,21 +568,21 @@ window.FrontendBook = window.FrontendBook || {};
 
         $('<div/>', {
             'html': [
-                $('<h4/>', {
-                    'text': EALang.appointment
-                }),
+                // $('<h4/>', {
+                //     'text': EALang.appointment
+                // }),
                 $('<p/>', {
                     'html': [
+                        // $('<span/>', {
+                        //     'text': EALang.service + ': ' + $('#select-service option:selected').text()
+                        // }),
+                        $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.service + ': ' + $('#select-service option:selected').text()
+                            'text': /*EALang.provider +*/ '預約分店 : ' + $('#select-provider option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': EALang.provider + ': ' + $('#select-provider option:selected').text()
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': EALang.start + ': ' + selectedDate + ' ' + $('.selected-hour').text()
+                            'text': /*EALang.start +*/ '預約時間 : ' + selectedDate + ' ' + $('.selected-hour').text()
                         }),
                         // $('<br/>'),
                         // $('<span/>', {
@@ -614,7 +614,7 @@ window.FrontendBook = window.FrontendBook || {};
 
         $('<div/>', {
             'html': [
-                $('<h4/>)', {
+                $('<h5/>)', {
                     'text': EALang.customer
                 }),
                 $('<p/>', {
