@@ -101,9 +101,21 @@
             <div id="wizard-frame-1" class="wizard-frame">
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
-
+                
                     <div class="row frame-content">
                         <div class="col">
+                            <div class="form-group">
+                                <label for="select-service">
+                                    <strong><?= lang('branch') ?></strong>
+                                </label>
+                                <select id="select-provider" class="form-control"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="select-service">
+                                    <strong><?= lang('service') ?></strong>
+                                </label>
+                            </div>
                             <div id="card">
                                 <div id="img-style">
                                     <img class="img-fluid" src="<?= base_url('assets/img/service_title.png') ?>">
@@ -119,7 +131,7 @@
                                     <span id="service-time">2 小時</span>
                                 </div>
                                 <div class="command-buttons service-button">
-                                    <button type="button" id="button-next-1" class="btn button-next"
+                                    <button type="button" id="button-next-1" data-service-id=“1” class="btn button-next service-next"
                                             data-step_index="1">
                                         <?= lang('choose') ?>
                                         <i class="fas fa-chevron-right ml-2"></i>
@@ -128,6 +140,13 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="command-buttons">
+                    <button type="button" id="button-next-1" class="btn button-next"
+                            data-step_index="1">
+                        <?= lang('choose') ?>
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </button>
                 </div>
             </div>
 

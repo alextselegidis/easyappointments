@@ -43,6 +43,7 @@ $lang['appointment_booked'] = '您已經成功完成預約了.';
 $lang['thank_you_for_appointment'] = '謝謝您與我們預約.下方，您將看到預約的詳細信息.如需修改,請點擊預約鏈接.';
 $lang['appointment_details_title'] = '預約詳細信息';
 $lang['customer_details_title'] = '客戶資料';
+$lang['branch'] = '分店';
 $lang['service'] = '服務項目';
 $lang['provider'] = '服務人員';
 $lang['customer'] = '客戶';

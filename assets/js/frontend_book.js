@@ -272,10 +272,18 @@ window.FrontendBook = window.FrontendBook || {};
          * Some special tasks might be performed, depending the current wizard step.
          */
         $('.button-next').on('click', function () {
+            let sid;
+
             // If we are on the first step and there is not provider selected do not continue with the next step.
-            if ($(this).attr('data-step_index') === '1' && !$('#select-provider').val()) {
-                return;
+            if ($(this).attr('data-step_index') === '1') {
+                if($(this).hasClass('service-button')){
+                    sid = $(this).data('service-id');
+                }
+                //return;
+                //data insert to sservice-provider
+                $('#service-data').val(sid);
             }
+            
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
             if ($(this).attr('data-step_index') === '2') {
