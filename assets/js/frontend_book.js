@@ -344,7 +344,7 @@ window.FrontendBook = window.FrontendBook || {};
             // Display the next step tab (uses jquery animation effect).
             var nextTabIndex = parseInt($(this).attr('data-step_index')) + 1;
 
-            $(this).parents().eq(1).hide('fade', function () {
+            $(this).parents('.wizard-frame').hide('fade', function () {
                 $('.active-step').removeClass('active-step');
                 $('#step-' + nextTabIndex).addClass('active-step');
                 $('#wizard-frame-' + nextTabIndex).show('fade');
@@ -360,7 +360,7 @@ window.FrontendBook = window.FrontendBook || {};
         $('.button-back').on('click', function () {
             var prevTabIndex = parseInt($(this).attr('data-step_index')) - 1;
 
-            $(this).parents().eq(1).hide('fade', function () {
+            $(this).parents('.wizard-frame').hide('fade', function () {
                 $('.active-step').removeClass('active-step');
                 $('#step-' + prevTabIndex).addClass('active-step');
                 $('#wizard-frame-' + prevTabIndex).show('fade');
