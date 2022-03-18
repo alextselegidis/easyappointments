@@ -227,9 +227,34 @@ window.FrontendBook = window.FrontendBook || {};
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
         $('#select-provider').on('change', function () {
-            FrontendBookApi.getUnavailableDates($(this).val(), $('#select-service').val(),
+            // FrontendBookApi.getUnavailableDates($(this).val(), $('#select-service').val(),
+            //     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
+            // FrontendBook.updateConfirmFrame();
+
+           var serviceId = $('#select-provider').val();
+
+            $('#select-service').empty();
+
+            GlobalVariables.availableServices.forEach(function (service) {
+                // If the current provider is able to provide the selected service, add him to the list box.
+                var canServeProvider = service.services.filter(function (providerServiceId) {
+                    return Number(serviceId) === Number(providerServiceId);
+                }).length > 0;
+
+                if (canServeProvider) {
+                    $('#select-provider').append(new Option(service.name, service.id));
+                }
+            });
+
+            // Add the "Any Provider" entry.
+            if ($('#select-service option').length >= 1 && GlobalVariables.displayAnyService === '1') {
+                $('#select-service').append(new Option('- ' + EALang.any_service + ' -', 'any-service', true, true));
+            }
+
+            FrontendBookApi.getUnavailableDates($('#select-service').val(), $(this).val(),
                 $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
+            updateServiceDescription(providerServiceId);
         });
 
         /**
@@ -239,30 +264,34 @@ window.FrontendBook = window.FrontendBook || {};
          * become visible.
          */
         $('#select-service').on('change', function () {
-            var serviceId = $('#select-service').val();
+            // var serviceId = $('#select-service').val();
 
-            $('#select-provider').empty();
+            // $('#select-provider').empty();
 
-            GlobalVariables.availableProviders.forEach(function (provider) {
-                // If the current provider is able to provide the selected service, add him to the list box.
-                var canServeService = provider.services.filter(function (providerServiceId) {
-                    return Number(providerServiceId) === Number(serviceId);
-                }).length > 0;
+            // GlobalVariables.availableProviders.forEach(function (provider) {
+            //     // If the current provider is able to provide the selected service, add him to the list box.
+            //     var canServeService = provider.services.filter(function (providerServiceId) {
+            //         return Number(providerServiceId) === Number(serviceId);
+            //     }).length > 0;
 
-                if (canServeService) {
-                    $('#select-provider').append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
-                }
-            });
+            //     if (canServeService) {
+            //         $('#select-provider').append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+            //     }
+            // });
 
-            // Add the "Any Provider" entry.
-            if ($('#select-provider option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
-                $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider', true, true));
-            }
+            // // Add the "Any Provider" entry.
+            // if ($('#select-provider option').length >= 1 && GlobalVariables.displayAnyProvider === '1') {
+            //     $('#select-provider').append(new Option('- ' + EALang.any_provider + ' -', 'any-provider', true, true));
+            // }
 
-            FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
-                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
+            // FrontendBookApi.getUnavailableDates($('#select-provider').val(), $(this).val(),
+            //     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
+            // FrontendBook.updateConfirmFrame();
+            // updateServiceDescription(serviceId);
+
+            FrontendBookApi.getUnavailableDates($(this).val(), $('#select-provider').val(),
+            $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             FrontendBook.updateConfirmFrame();
-            updateServiceDescription(serviceId);
         });
 
         /**
