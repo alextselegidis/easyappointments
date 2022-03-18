@@ -231,30 +231,56 @@ window.FrontendBook = window.FrontendBook || {};
             //     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             // FrontendBook.updateConfirmFrame();
 
-           var serviceId = $('#select-provider').val();
+           var providerId = $('#select-provider').val();
 
-            $('#select-service').empty();
+            $('#serviceCard').html("");
 
             GlobalVariables.availableServices.forEach(function (service) {
                 // If the current provider is able to provide the selected service, add him to the list box.
-                var canServeProvider = service.services.filter(function (providerServiceId) {
-                    return Number(serviceId) === Number(providerServiceId);
-                }).length > 0;
+                
+                // var canServeProvider = service.filter(function (providerServiceId) {
+                //     return Number(serviceId) === Number(providerServiceId);
+                    
+                // }).length > 0;
 
-                if (canServeProvider) {
-                    $('#select-provider').append(new Option(service.name, service.id));
+                if(service.id_users == providerId){
+                    $('#serviceCard').append(`
+                        <div id="card">
+                            <div id="img-style">
+                                <img class="img-fluid" src="https://9817-210-63-209-80.ngrok.io/assets/img/service_title.png">
+                            </div>
+                            <span id="service-name">${service.name}</span>
+                            <div id="word">
+                                <span>${service.description && service.description.replace(/\n/g,'<br>')}</span>                    
+                            </div>
+                            <div style="padding: 10px;">
+                                <span id="service-price">$ ${service.price}</span>
+                                <span id="service-time">${service.duration/60} 小時</span>
+                            </div>
+                            <div class="command-buttons service-button">
+                                <button type="button" data-service-id="${service.id}" id="button-next-1" class="btn button-next service-next" data-step_index="1">
+                                    選擇                                    
+                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ml-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg><!-- <i class="fas fa-chevron-right ml-2"></i> Font Awesome fontawesome.com -->
+                                </button>
+                            </div>
+                        </div>
+                    `);                 
                 }
+
+                // if (canServeProvider) {
+                //     $('#select-provider').append(new Option(service.name, service.id));
+                // }
             });
 
             // Add the "Any Provider" entry.
-            if ($('#select-service option').length >= 1 && GlobalVariables.displayAnyService === '1') {
-                $('#select-service').append(new Option('- ' + EALang.any_service + ' -', 'any-service', true, true));
-            }
+            // if ($('#select-service option').length >= 1 && GlobalVariables.displayAnyService === '1') {
+            //     $('#select-service').append(new Option('- ' + EALang.any_service + ' -', 'any-service', true, true));
+            // }
 
-            FrontendBookApi.getUnavailableDates($('#select-service').val(), $(this).val(),
-                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
-            FrontendBook.updateConfirmFrame();
-            updateServiceDescription(providerServiceId);
+            // FrontendBookApi.getUnavailableDates($('#select-service').val(), $(this).val(),
+            //     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
+            // FrontendBook.updateConfirmFrame();
+            // updateServiceDescription(providerServiceId);
         });
 
         /**
@@ -289,9 +315,6 @@ window.FrontendBook = window.FrontendBook || {};
             // FrontendBook.updateConfirmFrame();
             // updateServiceDescription(serviceId);
 
-            FrontendBookApi.getUnavailableDates($(this).val(), $('#select-provider').val(),
-            $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
-            FrontendBook.updateConfirmFrame();
         });
 
         /**
@@ -300,17 +323,26 @@ window.FrontendBook = window.FrontendBook || {};
          * This handler is triggered every time the user pressed the "next" button on the book wizard.
          * Some special tasks might be performed, depending the current wizard step.
          */
-        $('.button-next').on('click', function () {
+        $('.frame-content').on('click','.button-next', function () {
             let sid;
+            let pid;
 
             // If we are on the first step and there is not provider selected do not continue with the next step.
             if ($(this).attr('data-step_index') === '1') {
-                if($(this).hasClass('service-button')){
-                    sid = $(this).data('service-id');
+                if($(this).hasClass('service-next')){
+                    sid = $(this).attr('data-service-id');
+                    pid = $('#select-provider').val();
+                    $('#select-service').val(sid);
                 }
                 //return;
-                //data insert to sservice-provider
-                $('#service-data').val(sid);
+                //data insert to service-provider
+                $('#selectCard').val(sid);
+                $('#selectCard').val(pid);
+
+            FrontendBookApi.getUnavailableDates(pid, sid,
+                $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
+            FrontendBook.updateConfirmFrame();
+            
             }
             
 

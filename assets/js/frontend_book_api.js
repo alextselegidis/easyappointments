@@ -39,6 +39,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
 
         // Find the selected service duration (it is going to be send within the "data" object).
         var serviceId = $('#select-service').val();
+        
 
         // Default value of duration (in minutes).
         var serviceDuration = 15;
@@ -57,6 +58,7 @@ window.FrontendBookApi = window.FrontendBookApi || {};
         // Make ajax post request and get the available hours.
         var url = GlobalVariables.baseUrl + '/index.php/appointments/ajax_get_available_hours';
 
+        
         var data = {
             csrfToken: GlobalVariables.csrfToken,
             service_id: $('#select-service').val(),

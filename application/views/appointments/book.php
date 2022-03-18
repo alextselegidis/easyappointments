@@ -108,9 +108,9 @@
                                 <label for="select-provider">
                                     <strong><?= lang('branch') ?></strong>
                                 </label>
-
-                                <select id="select-provider" class="form-control">
+                                <select id="select-provider" class="form-control" >
                                     <?php
+                                        
                                         foreach ($available_providers as $provider)
                                         {
                                             echo '<option value="' . $provider['id'] . '">'
@@ -119,36 +119,15 @@
                                         }
                                     ?>
                                 </select>
+                                <select id="select-service" class="form-control" style="display:none"></select>
                             </div>
-
 
                             <div class="form-group">
                                 <label for="select-service">
                                     <strong><?= lang('service') ?></strong>
                                 </label>
                             </div>
-                            <div id="card">
-                                <div id="img-style">
-                                    <img class="img-fluid" src="<?= base_url('assets/img/service_title.png') ?>">
-                                </div>
-                                <span id="service-name">精緻美容小方案</span>
-                                <div id="word">
-                                    <span>1.前檔玻璃除油墨+玻璃鍍膜($2000)</span>
-                                    <br><span>2.升級SMR3霧化陶瓷($1000)</span>
-                                    <br><span>3.精緻內外深層清潔</span>
-                                </div>
-                                <div style="padding: 10px;">
-                                    <span id="service-price">NT3800</span>
-                                    <span id="service-time">2 小時</span>
-                                </div>
-                                <div class="command-buttons service-button">
-                                    <button type="button" id="button-next-1" data-service-id=“1” class="btn button-next service-next"
-                                            data-step_index="1">
-                                        <?= lang('choose') ?>
-                                        <i class="fas fa-chevron-right ml-2"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            <div id="serviceCard"></div>
                         </div>
                     </div>
                 </div>

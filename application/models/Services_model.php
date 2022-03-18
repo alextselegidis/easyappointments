@@ -356,14 +356,16 @@ class Services_model extends EA_Model {
     {
         $this->db->distinct();
         return $this->db
-            ->select('services.*, service_categories.name AS category_name, '
-                . 'service_categories.id AS category_id')
+            ->select('*')
             ->from('services')
+            // ->select('services.*'
+            //     )
+            // ->from('services')
             ->join('services_providers',
                 'services_providers.id_services = services.id', 'inner')
-            ->join('service_categories',
-                'service_categories.id = services.id_service_categories', 'left')
-            ->order_by('name ASC')
+            // ->join('service_categories',
+            //     'service_categories.id = services.id_service_categories', 'left')
+            // ->order_by('name ASC')
             ->get()->result_array();
     }
 
