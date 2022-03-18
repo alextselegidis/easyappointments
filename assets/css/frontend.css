@@ -264,7 +264,7 @@ body {
 
 #book-appointment-wizard #wizard-frame-1 #card #service-name{
     font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
     padding: 0px 20px;
 }
 
@@ -274,13 +274,12 @@ body {
 }
 
 #book-appointment-wizard #wizard-frame-1 #card #service-price{
-    font-weight: bold;
-    font-size: 30px;
+    font-size: 25px;
     padding: 0px 20px;
 }
 
 #book-appointment-wizard #wizard-frame-1 #card #service-time{
-    font-size: 30px;
+    font-size: 25px;
     padding: 0px 20px;
     float: right;
 }
