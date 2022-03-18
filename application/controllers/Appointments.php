@@ -419,6 +419,33 @@ class Appointments extends EA_Controller {
         return $provider_id;
     }
 
+    // protected function search_any_service($provider_id, $date, $hour = null)
+    // {
+    //     $available_services = $this->services_model->get_available_services();
+    //     $provider = $this->providers_model->get_row($provider_id);
+    //     $service_id = NULL;
+    //     $max_hours_count = 0;
+
+    //     foreach ($available_services as $service)
+    //     {
+    //         foreach ($service['id'] as $service_id)
+    //         {
+    //             if ($service_id == $provider_service_id)
+    //             {
+    //                 // Check if the provider is available for the requested date.
+    //                 $available_hours = $this->availability->get_available_hours($date, $service, $provider);
+
+    //                 if (count($available_hours) > $max_hours_count && (empty($hour) || in_array($hour, $available_hours, false)))
+    //                 {
+    //                     $provider_id = $provider['id'];
+    //                     $max_hours_count = count($available_hours);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return $service_id;
+    // }
+
 
     /**
      * Register the appointment to the database.
