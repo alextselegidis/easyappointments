@@ -119,7 +119,16 @@
                                         }
                                     ?>
                                 </select>
-                                <select id="select-service" class="form-control" style="display:none"></select>
+                                <select id="select-service" class="form-control" style="display:none">
+                                    <?php
+                                        
+                                        foreach ($available_services as $service)
+                                        {
+                                            echo '<option value="' . $service['id'] . '">'
+                                                        . $service['name'] . ' ' . '</option>';
+                                        }
+                                    ?>
+                                </select>
                             </div>
 
                             <div class="form-group">
