@@ -13,7 +13,7 @@
         <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
         <div class="row frame-content">
             <div id="appointment-details" class="col-12 col-md-6"></div>
-            <div id="customer-details" class="col-12 col-md-6"></div>
+            <div id="customer-details" class="col-12 col-md-6 text-md-end"></div>
         </div>
         <?php if (setting('require_captcha')): ?>
             <div class="row frame-content">
@@ -32,7 +32,7 @@
         <?php endif; ?>
     </div>
 
-    <div class="d-flex justify-content-center">
+    <div class="d-flex fs-6 justify-content-around">
     <?php if ($display_terms_and_conditions): ?>
         <div class="form-check mb-3">
             <input type="checkbox" class="required form-check-input" id="accept-to-terms-and-conditions">
