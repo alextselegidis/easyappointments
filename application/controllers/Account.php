@@ -48,7 +48,7 @@ class Account extends EA_Controller {
         session(['dest_url' => site_url('account')]);
 
         $user_id = session('user_id');
-        
+
         if (cannot('view', PRIV_USER_SETTINGS))
         {
             if ($user_id)
@@ -90,6 +90,32 @@ class Account extends EA_Controller {
             }
 
             $account = request('account');
+
+            $account['id'] = session('user_id');
+
+            $this->users_model->only($account, [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'mobile_number',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'timezone',
+                'language',
+                'settings'
+            ]);
+            
+            $this->users_model->only($account['settings'], [
+                'username',
+                'password',
+                'notifications',
+                'calendar_view'
+            ]);
 
             $this->users_model->save($account);
 
@@ -140,7 +166,7 @@ class Account extends EA_Controller {
         try
         {
             // Check if language exists in the available languages.
-            
+
             $found = FALSE;
 
             foreach (config('available_languages') as $lang)
