@@ -37,6 +37,7 @@ class Booking extends EA_Controller {
         $this->load->model('services_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
+        $this->load->model('consents_model');
 
         $this->load->library('timezones');
         $this->load->library('synchronization');
@@ -66,7 +67,7 @@ class Booking extends EA_Controller {
         $disable_booking = setting('disable_booking');
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
-        
+
         if ($disable_booking)
         {
             $disable_booking_message = setting('disable_booking_message');
@@ -134,7 +135,7 @@ class Booking extends EA_Controller {
 
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();
-        
+
         $appointment_hash = html_vars('appointment_hash');
 
         if ( ! empty($appointment_hash))
@@ -271,13 +272,13 @@ class Booking extends EA_Controller {
      * Render the booking page and display the selected appointment.
      *
      * This method will call the "index" callback to handle the page rendering.
-     * 
+     *
      * @param string $appointment_hash
      */
     public function reschedule($appointment_hash)
     {
         html_vars(['appointment_hash' => $appointment_hash]);
-        
+
         $this->index();
     }
 
@@ -474,6 +475,30 @@ class Booking extends EA_Controller {
                 $appointment['color'] = $service['color'];
             }
 
+            $customer_ip = $this->input->ip_address();
+
+            // Create the consents (if needed).
+            $consent = [
+                'first_name' => $customer['first_name'] ?? '-',
+                'last_name' => $customer['last_name'] ?? '-',
+                'email' => $customer['email'] ?? '-',
+                'ip' => $customer_ip,
+            ];
+
+            if (setting('display_terms_and_conditions'))
+            {
+                $consent['type'] = 'terms-and-conditions';
+
+                $this->consents_model->save($consent);
+            }
+
+            if (setting('display_privacy_policy'))
+            {
+                $consent['type'] = 'privacy-policy';
+
+                $this->consents_model->save($consent);
+            }
+
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
 
@@ -495,6 +520,7 @@ class Booking extends EA_Controller {
             $customer = $this->customers_model->find($customer_id);
 
             $appointment['id_users_customer'] = $customer_id;
+            $appointment['is_unavailability'] = FALSE;
 
             $this->appointments_model->only($appointment, [
                 'start_datetime',
@@ -506,7 +532,7 @@ class Booking extends EA_Controller {
                 'id_users_customer',
                 'id_services',
             ]);
-            
+
             $appointment_id = $this->appointments_model->save($appointment);
             $appointment = $this->appointments_model->find($appointment_id);
 

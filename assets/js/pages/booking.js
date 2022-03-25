@@ -36,20 +36,6 @@ App.Pages.Booking = (function () {
     const $deletePersonalInformation = $('#delete-personal-information');
 
     /**
-     * Contains terms and conditions consent.
-     *
-     * @type {Object}
-     */
-    let termsAndConditionsConsent;
-
-    /**
-     * Contains privacy policy consent.
-     *
-     * @type {Object}
-     */
-    let privacyPolicyConsent;
-
-    /**
      * Determines the functionality of the page.
      *
      * @type {Boolean}
@@ -365,38 +351,6 @@ App.Pages.Booking = (function () {
                     return; // Validation failed, do not continue.
                 } else {
                     updateConfirmFrame();
-
-                    const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
-                    if ($acceptToTermsAndConditions.length && $acceptToTermsAndConditions.prop('checked') === true) {
-                        const newTermsAndConditionsConsent = {
-                            first_name: $firstName.val(),
-                            last_name: $lastName.val(),
-                            email: $email.val(),
-                            type: 'terms-and-conditions'
-                        };
-
-                        if (
-                            JSON.stringify(newTermsAndConditionsConsent) !== JSON.stringify(termsAndConditionsConsent)
-                        ) {
-                            termsAndConditionsConsent = newTermsAndConditionsConsent;
-                            App.Http.Booking.saveConsent(termsAndConditionsConsent);
-                        }
-                    }
-
-                    const $acceptToPrivacyPolicy = $('#accept-to-privacy-policy');
-                    if ($acceptToPrivacyPolicy.length && $acceptToPrivacyPolicy.prop('checked') === true) {
-                        const newPrivacyPolicyConsent = {
-                            first_name: $firstName.val(),
-                            last_name: $lastName.val(),
-                            email: $email.val(),
-                            type: 'privacy-policy'
-                        };
-
-                        if (JSON.stringify(newPrivacyPolicyConsent) !== JSON.stringify(privacyPolicyConsent)) {
-                            privacyPolicyConsent = newPrivacyPolicyConsent;
-                            App.Http.Booking.saveConsent(privacyPolicyConsent);
-                        }
-                    }
                 }
             }
 

@@ -303,22 +303,6 @@ App.Http.Booking = (function () {
     }
 
     /**
-     * Save the user's consent.
-     *
-     * @param {Object} consent Contains user's consents.
-     */
-    function saveConsent(consent) {
-        const url = App.Utils.Url.siteUrl('consents/save_consent');
-
-        const data = {
-            csrf_token: vars('csrf_token'),
-            consent: consent
-        };
-
-        $.post(url, data);
-    }
-
-    /**
      * Delete personal information.
      *
      * @param {Number} customerToken Customer unique token.
@@ -341,7 +325,6 @@ App.Http.Booking = (function () {
         getAvailableHours,
         getUnavailabilityDates,
         applyPreviousUnavailabilityDates,
-        saveConsent,
         deletePersonalInformation
     };
 })();
