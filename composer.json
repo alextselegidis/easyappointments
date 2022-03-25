@@ -26,19 +26,26 @@
         "services"
     ],
     "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "EA\\Engine\\": "engine/"
+        }
+    },
     "require": {
-        "php": ">=7.4",
+        "php": ">=7.3",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
         "gregwar/captcha": "^1.1",
+        "phpmailer/phpmailer": "^6.1",
         "jsvrcek/ics": "^0.8",
-        "google/apiclient": "^2.12"
+        "monolog/monolog": "^1",
+        "google/apiclient": "^2.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9"
     },
     "scripts": {
         "test": "php vendor/bin/phpunit tests"

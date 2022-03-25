@@ -252,6 +252,11 @@ class Google extends EA_Controller {
      */
     public function oauth(int $provider_id)
     {
+        if ( ! $this->session->userdata('user_id'))
+        {
+            show_error('Forbidden', 403);
+        }
+        
         // Store the provider id for use on the callback function.
         session(['oauth_provider_id' => $provider_id]);
 
@@ -272,6 +277,11 @@ class Google extends EA_Controller {
      */
     public function oauth_callback()
     {
+        if ( ! session('user_id'))
+        {
+            abort(403, 'Forbidden');
+        }
+        
         $code = request('code');
 
         if (empty($code))

@@ -56,6 +56,7 @@
  * @property Api $api
  * @property Availability $availability
  * @property Email_messages $email_messages
+ * @property Captcha_builder $captcha_builder
  * @property Google_Sync $google_sync
  * @property Ics_file $ics_file
  * @property Instance $instance
@@ -74,6 +75,8 @@ class EA_Controller extends CI_Controller {
         $this->configure_language();
         
         $this->load_common_script_vars();
+        
+        rate_limit($this->input->ip_address());
     }
 
     /**

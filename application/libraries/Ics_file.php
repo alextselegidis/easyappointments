@@ -14,7 +14,6 @@
 use Jsvrcek\ICS\CalendarExport;
 use Jsvrcek\ICS\CalendarStream;
 use Jsvrcek\ICS\Exception\CalendarEventException;
-use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Description\Location;
@@ -33,6 +32,22 @@ use Jsvrcek\ICS\Utility\Formatter;
  * @package Libraries
  */
 class Ics_file {
+    /**
+     * @var EA_Controller
+     */
+    protected $CI;
+
+    /**
+     * Availability constructor.
+     */
+    public function __construct()
+    {
+        $this->CI =& get_instance();
+
+        $this->CI->load->library('ics_provider');
+        $this->CI->load->library('ics_calendar');
+    }
+
     /**
      * Get the ICS file contents for the provided arguments.
      *
@@ -155,7 +170,7 @@ class Ics_file {
         $event->setOrganizer($organizer);
 
         // Setup calendar.
-        $calendar = new Calendar();
+        $calendar = new Ics_calendar();
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')

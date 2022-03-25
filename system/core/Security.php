@@ -280,7 +280,7 @@ class CI_Security {
 			config_item('cookie_path'),
 			config_item('cookie_domain'),
 			$secure_cookie,
-			config_item('cookie_httponly')
+            (bool)config_item('cookie_httponly')
 		);
 		log_message('info', 'CSRF cookie sent');
 
