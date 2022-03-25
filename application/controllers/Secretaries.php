@@ -128,12 +128,12 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            $secretary = request('secretary');
-
             if (cannot('add', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $secretary = request('secretary');
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
@@ -155,12 +155,12 @@ class Secretaries extends EA_Controller {
     {
         try
         {
-            $secretary = request('secretary');
-
             if (cannot('edit', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $secretary = request('secretary');
 
             $secretary_id = $this->secretaries_model->save($secretary);
 

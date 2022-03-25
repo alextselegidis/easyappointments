@@ -159,12 +159,12 @@ class Customers extends EA_Controller {
     {
         try
         {
-            $customer = request('customer');
-
             if (cannot('add', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $customer = request('customer');
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -186,12 +186,12 @@ class Customers extends EA_Controller {
     {
         try
         {
-            $customer = request('customer');
-
             if (cannot('edit', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $customer = request('customer');
 
             $customer_id = $this->customers_model->save($customer);
 

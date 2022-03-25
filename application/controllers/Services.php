@@ -113,14 +113,14 @@ class Services extends EA_Controller {
     {
         try
         {
-            $service = request('service');
-
-            $service['id_categories'] = $service['id_categories'] ?: null;
-
             if (cannot('add', PRIV_SERVICES))
             {
                 abort(403, 'Forbidden');
             }
+
+            $service = request('service');
+
+            $service['id_categories'] = $service['id_categories'] ?: null;
 
             $service_id = $this->services_model->save($service);
 
@@ -142,15 +142,15 @@ class Services extends EA_Controller {
     {
         try
         {
-            $service = request('service');
-            
-            $service['id_categories'] = $service['id_categories'] ?: null; 
-
             if (cannot('edit', PRIV_SERVICES))
             {
                 abort(403, 'Forbidden');
             }
-            
+
+            $service = request('service');
+
+            $service['id_categories'] = $service['id_categories'] ?: null;
+
             $service_id = $this->services_model->save($service);
 
             json_response([

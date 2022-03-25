@@ -70,12 +70,12 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            $unavailability = json_decode(request('unavailability'), TRUE);
-
             if (cannot('add', PRIV_APPOINTMENTS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $unavailability = json_decode(request('unavailability'), TRUE);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
@@ -97,12 +97,12 @@ class Unavailabilities extends EA_Controller {
     {
         try
         {
-            $unavailability = json_decode(request('unavailability'), TRUE);
-
             if (cannot('edit', PRIV_APPOINTMENTS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $unavailability = json_decode(request('unavailability'), TRUE);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 

@@ -85,13 +85,13 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            $appointment = json_decode(request('appointment'), TRUE);
-
             if (cannot('add', PRIV_APPOINTMENTS))
             {
                 abort(403, 'Forbidden');
             }
-            
+
+            $appointment = json_decode(request('appointment'), TRUE);
+
             $this->appointments_model->only($appointment, [
                 'start_datetime', 
                 'end_datetime', 
@@ -124,12 +124,12 @@ class Appointments extends EA_Controller {
     {
         try
         {
-            $appointment = json_decode(request('appointment'), TRUE);
-
             if (cannot('edit', PRIV_APPOINTMENTS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $appointment = json_decode(request('appointment'), TRUE);
 
             $this->appointments_model->only($appointment, [
                 'id',

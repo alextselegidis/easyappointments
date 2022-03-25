@@ -128,12 +128,12 @@ class Providers extends EA_Controller {
     {
         try
         {
-            $provider = request('provider');
-
             if (cannot('add', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $provider = request('provider');
 
             $provider_id = $this->providers_model->save($provider);
 
@@ -155,12 +155,12 @@ class Providers extends EA_Controller {
     {
         try
         {
-            $provider = request('provider');
-
             if (cannot('edit', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $provider = request('provider');
 
             $provider_id = $this->providers_model->save($provider);
 
