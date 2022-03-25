@@ -82,6 +82,7 @@ class Consents_model extends EA_Model {
      */
     protected function insert(array $consent): int
     {
+        $consent['create_datetime'] = date('Y-m-d H:i:s');
         $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if ( ! $this->db->insert('consents', $consent))
