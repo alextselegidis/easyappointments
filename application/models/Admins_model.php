@@ -194,7 +194,10 @@ class Admins_model extends EA_Model {
         $admin['id_roles'] = $this->get_admin_role_id();
 
         $settings = $admin['settings'];
-        unset($admin['settings']);
+        
+        unset(
+            $admin['settings']
+        );
 
         $admin['create_datetime'] = date('Y-m-d H:i:s');
         $admin['update_datetime'] = date('Y-m-d H:i:s');
@@ -225,8 +228,12 @@ class Admins_model extends EA_Model {
     protected function update(array $admin): int
     {
         $settings = $admin['settings'];
+        
         $settings['id_users'] = $admin['id'];
-        unset($admin['settings']);
+        
+        unset(
+            $admin['settings']
+        );
 
         if ( ! empty($settings['password']))
         {

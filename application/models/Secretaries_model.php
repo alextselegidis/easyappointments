@@ -209,12 +209,14 @@ class Secretaries_model extends EA_Model {
         
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
-        $providers = $secretary['providers'] ?? [];
-        unset($secretary['providers']);
+        $provider_ids = $secretary['providers'] ?? [];
 
         $settings = $secretary['settings'];
-        unset($secretary['settings']);
 
+        unset(
+            $secretary['providers'],
+            $secretary['settings']
+        );
 
         if ( ! $this->db->insert('users', $secretary))
         {
@@ -226,7 +228,7 @@ class Secretaries_model extends EA_Model {
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
         $this->save_settings($secretary['id'], $settings);
-        $this->save_provider_ids($secretary['id'], $providers);
+        $this->save_provider_ids($secretary['id'], $provider_ids);
 
         return $secretary['id'];
     }
@@ -245,10 +247,13 @@ class Secretaries_model extends EA_Model {
         $secretary['update_datetime'] = date('Y-m-d H:i:s');
         
         $provider_ids = $secretary['providers'] ?? [];
-        unset($secretary['providers']);
 
         $settings = $secretary['settings'];
-        unset($secretary['settings']);
+
+        unset(
+            $secretary['providers'],
+            $secretary['settings']
+        );
 
         if (isset($settings['password']))
         {

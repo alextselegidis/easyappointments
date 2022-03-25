@@ -211,10 +211,13 @@ class Providers_model extends EA_Model {
         $provider['id_roles'] = $this->get_provider_role_id();
 
         $service_ids = $provider['services'];
-        unset($provider['services']);
 
         $settings = $provider['settings'];
-        unset($provider['settings']);
+        
+        unset(
+            $provider['services'],
+            $provider['settings']
+        );
 
         if ( ! $this->db->insert('users', $provider))
         {
@@ -245,10 +248,13 @@ class Providers_model extends EA_Model {
         $provider['update_datetime'] = date('Y-m-d H:i:s');
         
         $service_ids = $provider['services'];
-        unset($provider['services']);
 
         $settings = $provider['settings'];
-        unset($provider['settings']);
+
+        unset(
+            $provider['services'],
+            $provider['settings']
+        );
 
         if (isset($settings['password']))
         {
