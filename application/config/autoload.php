@@ -78,6 +78,7 @@ $autoload['helper'] = [
     'password',
     'path',
     'permission',
+    'rate_limit',
     'routes',
     'session',
     'setting',
