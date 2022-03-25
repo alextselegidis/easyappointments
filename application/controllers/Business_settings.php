@@ -102,6 +102,12 @@ class Business_settings extends EA_Controller {
                 {
                     $setting['id'] = $existing_setting['id'];
                 }
+                
+                $this->settings_model->only($setting, [
+                    'id',
+                    'name',
+                    'value'
+                ]);
 
                 $this->settings_model->save($setting);
             }

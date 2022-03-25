@@ -114,12 +114,35 @@ class Admins extends EA_Controller {
     {
         try
         {
-            $admin = request('admin');
-
             if (cannot('add', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+            
+            $admin = request('admin');
+
+            $this->admins_model->only($admin, [
+                'first_name',
+                'last_name',
+                'email',
+                'mobile_number',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'timezone',
+                'language',
+                'settings'
+            ]);
+
+            $this->admins_model->only($admin['settings'], [
+                'username',
+                'password',
+                'notifications',
+                'calendar_view'
+            ]);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -141,12 +164,36 @@ class Admins extends EA_Controller {
     {
         try
         {
-            $admin = request('admin');
-
             if (cannot('edit', PRIV_USERS))
             {
                 abort(403, 'Forbidden');
             }
+
+            $admin = request('admin');
+
+            $this->admins_model->only($admin, [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'mobile_number',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'timezone',
+                'language',
+                'settings'
+            ]);
+
+            $this->admins_model->only($admin['settings'], [
+                'username',
+                'password',
+                'notifications',
+                'calendar_view'
+            ]);
 
             $admin_id = $this->admins_model->save($admin);
 

@@ -190,6 +190,20 @@ class Calendar extends EA_Controller {
                     throw new Exception('You do not have the required permissions for this task.');
                 }
 
+                $this->customers_model->only($customer, [
+                    'id',
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'phone_number',
+                    'address',
+                    'city',
+                    'state',
+                    'zip_code',
+                    'timezone',
+                    'language',
+                ]);
+
                 $customer['id'] = $this->customers_model->save($customer);
             }
 
@@ -217,6 +231,19 @@ class Calendar extends EA_Controller {
                 {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
                 }
+
+                $this->appointments_model->only($appointment, [
+                    'id',
+                    'start_datetime',
+                    'end_datetime',
+                    'location',
+                    'notes',
+                    'color',
+                    'is_unavailability',
+                    'id_users_provider',
+                    'id_users_customer',
+                    'id_services',
+                ]);
 
                 $appointment['id'] = $this->appointments_model->save($appointment);
             }
@@ -329,6 +356,9 @@ class Calendar extends EA_Controller {
             $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
             // Add appointment
+            
+            
+            
             $unavailability['id'] = $this->unavailabilities_model->save($unavailability);
 
             $unavailability = $this->unavailabilities_model->find($unavailability['id']); // fetch all inserted data
@@ -348,6 +378,15 @@ class Calendar extends EA_Controller {
                     {
                         $google_event = $this->google_sync->add_unavailability($provider, $unavailability);
                         $unavailability['id_google_calendar'] = $google_event->id;
+
+                        $this->unavailabilities_model->only($unavailability, [
+                            'start_datetime',
+                            'end_datetime',
+                            'is_unavailability',
+                            'notes',
+                            'id_users_provider'
+                        ]);
+                        
                         $this->unavailabilities_model->save($unavailability);
                     }
                     else

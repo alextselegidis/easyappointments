@@ -112,12 +112,17 @@ class Categories extends EA_Controller {
     {
         try
         {
-            $category = request('category');
-
             if (cannot('add', PRIV_SERVICES))
             {
                 abort(403, 'Forbidden');
             }
+            
+            $category = request('category');
+
+            $this->categories_model->only($category, [
+                'name',
+                'description'
+            ]);
 
             $category_id = $this->categories_model->save($category);
 
@@ -139,12 +144,18 @@ class Categories extends EA_Controller {
     {
         try
         {
-            $category = request('category');
-
             if (cannot('edit', PRIV_SERVICES))
             {
                 abort(403, 'Forbidden');
             }
+
+            $category = request('category');
+
+            $this->categories_model->only($category, [
+                'id',
+                'name',
+                'description'
+            ]);
 
             $category_id = $this->categories_model->save($category);
 

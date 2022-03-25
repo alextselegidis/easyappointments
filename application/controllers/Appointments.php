@@ -91,6 +91,18 @@ class Appointments extends EA_Controller {
             {
                 abort(403, 'Forbidden');
             }
+            
+            $this->appointments_model->only($appointment, [
+                'start_datetime', 
+                'end_datetime', 
+                'location', 
+                'notes', 
+                'color', 
+                'is_unavailability', 
+                'id_users_provider', 
+                'id_users_customer', 
+                'id_services', 
+            ]);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
@@ -118,6 +130,19 @@ class Appointments extends EA_Controller {
             {
                 abort(403, 'Forbidden');
             }
+
+            $this->appointments_model->only($appointment, [
+                'id',
+                'start_datetime',
+                'end_datetime',
+                'location',
+                'notes',
+                'color',
+                'is_unavailability',
+                'id_users_provider',
+                'id_users_customer',
+                'id_services',
+            ]);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
