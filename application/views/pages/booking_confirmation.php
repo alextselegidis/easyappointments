@@ -24,23 +24,10 @@
         <?= lang('go_to_booking_page') ?>
     </a>
 
-    <?php if (config('google_sync_feature')): ?>
-        <button id="add-to-google-calendar" class="btn btn-outline-secondary">
-            <i class="fas fa-plus me-2"></i>
-            <?= lang('add_to_google_calendar') ?>
-        </button>
-    <?php endif ?>
+    <a href="<?= vars('add_to_google_url') ?>" id="add-to-google-calendar" class="btn btn-primary" target="_blank">
+        <i class="fas fa-plus me-2"></i>
+        <?= lang('add_to_google_calendar') ?>
+    </a>
 </div>
 
 <?php section('content') ?>
-
-<?php section('scripts') ?>
-
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/booking_confirmation.js') ?>"></script>
-
-<?php section('scripts') ?>
-

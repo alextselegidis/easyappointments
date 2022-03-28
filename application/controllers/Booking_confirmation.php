@@ -30,6 +30,8 @@ class Booking_confirmation extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('customers_model');
+        
+        $this->load->library('google_sync');
     }
 
     /**
@@ -50,44 +52,13 @@ class Booking_confirmation extends EA_Controller {
 
         $appointment = $occurrences[0];
 
-        unset($appointment['notes']);
-
-        $provider = $this->providers_model->find($appointment['id_users_provider']);
-
-        $this->providers_model->only($provider, [
-            'id',
-            'first_name',
-            'last_name',
-            'email',
-            'timezone'
-        ]);
-
-        $service = $this->services_model->find($appointment['id_services']);
-
-        $this->services_model->only($service, [
-            'id',
-            'first_name',
-            'last_name',
-            'email',
-            'timezone'
-        ]);
-
-        $company_name = setting('company_name');
-
-        script_vars([
-            'appointment_data' => $appointment,
-            'provider_data' => $provider,
-            'service_data' => $service,
-            'company_name' => $company_name,
-            'google_api_scope' => 'https://www.googleapis.com/auth/calendar',
-            'google_api_key' => config('google_api_key'),
-            'google_client_id' => config('google_api_key'),
-        ]);
+        $add_to_google_url = $this->google_sync->get_add_to_google_url($appointment['id']); 
 
         html_vars([
             'page_title' => lang('success'),
             'google_analytics_code' => setting('google_analytics_code'),
             'matomo_analytics_url' => setting('matomo_analytics_url'),
+            'add_to_google_url' => $add_to_google_url,
         ]);
 
         $this->load->view('pages/booking_confirmation');

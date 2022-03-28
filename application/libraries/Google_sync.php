@@ -46,10 +46,15 @@ class Google_sync {
     {
         $this->CI =& get_instance();
 
+        $this->CI->load->model('appointments_model');
+        $this->CI->load->model('services_model');
+        $this->CI->load->model('providers_model');
+        $this->CI->load->model('customers_model');
+
         $http = new GuzzleHttp\Client([
-            'verify' => false
+            'verify' => FALSE
         ]);
-        
+
         $this->client = new Google_Client();
         $this->client->setHttpClient($http);
         $this->client->setApplicationName(config('google_application_name'));
@@ -62,6 +67,7 @@ class Google_sync {
         $this->client->addScope([
             Google_Service_Calendar::CALENDAR,
         ]);
+
         $this->service = new Google_Service_Calendar($this->client);
     }
 
@@ -368,5 +374,57 @@ class Google_sync {
         }
 
         return $calendars;
+    }
+
+    /**
+     * Get the Add-To-Google-URL, that can be used by anyone to quickly add the event to Google Calendar (no API needed).
+     *
+     * @param int $appointment_id
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    public function get_add_to_google_url(int $appointment_id): string
+    {
+        $appointment = $this->CI->appointments_model->find($appointment_id);
+
+        $service = $this->CI->services_model->find($appointment['id_services']);
+
+        $provider = $this->CI->providers_model->find($appointment['id_users_provider']);
+
+        $customer = $this->CI->customers_model->find($appointment['id_users_customer']);
+
+        $provider_timezone_instance = new DateTimeZone($provider['timezone']);
+
+        $utc_timezone_instance = new DateTimeZone('UTC');
+
+        $appointment_start_instance = new DateTime($appointment['start_datetime'], $provider_timezone_instance);
+
+        $appointment_start_instance->setTimezone($utc_timezone_instance);
+
+        $appointment_end_instance = new DateTime($appointment['end_datetime'], $provider_timezone_instance);
+
+        $appointment_end_instance->setTimezone($utc_timezone_instance);
+
+        $add = [
+            $provider['email']
+        ];
+
+        if ( ! empty($customer['email']))
+        {
+            $add[] = $customer['email'];
+        }
+
+        $add_to_google_url_params = [
+            'action' => 'TEMPLATE',
+            'text' => $service['name'],
+            'dates' => $appointment_start_instance->format('Ymd\THis\Z') . '/' . $appointment_end_instance->format('Ymd\THis\Z'),
+            'location' => setting('company_name'),
+            'details' => 'View/Change Appointment: ' . site_url('appointments/index/' . $appointment['hash']),
+            'add' => implode(', ', $add)
+        ];
+
+        return 'https://calendar.google.com/calendar/render?' . http_build_query($add_to_google_url_params);
     }
 }
