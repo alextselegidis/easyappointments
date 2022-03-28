@@ -10,51 +10,28 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Account HTTP client.
+ * Localization HTTP client.
  *
  * This module implements the account related HTTP requests.
  */
-App.Http.Account = (function () {
+App.Http.Localization = (function () {
     /**
-     * Save account.
+     * Change language.
      *
-     * @param {Object} account
-     *
-     * @return {Object}
+     * @param {String} language
      */
-    function save(account) {
-        const url = App.Utils.Url.siteUrl('account/save');
+    function changeLanguage(language) {
+        const url = App.Utils.Url.siteUrl('localization/change_language');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            account
-        };
-
-        return $.post(url, data);
-    }
-
-    /**
-     * Validate username.
-     *
-     * @param {Number} userId
-     * @param {String} username
-     *
-     * @return {Object}
-     */
-    function validateUsername(userId, username) {
-        const url = App.Utils.Url.siteUrl('account/validate_username');
-
-        const data = {
-            csrf_token: vars('csrf_token'),
-            user_id: userId,
-            username
+            language
         };
 
         return $.post(url, data);
     }
 
     return {
-        save,
-        validateUsername
+        changeLanguage
     };
 })();
