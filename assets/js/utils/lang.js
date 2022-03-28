@@ -64,7 +64,7 @@ window.App.Utils.Lang = (function () {
 
             const language = $(event.target).data('language');
 
-            App.Http.Account.changeLanguage(language).done(() => document.location.reload());
+            App.Http.Localization.changeLanguage(language).done(() => document.location.reload());
         });
 
         $(document).on('click', () => {

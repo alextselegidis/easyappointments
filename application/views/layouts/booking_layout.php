@@ -72,6 +72,7 @@
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/layouts/booking_layout.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/localization_http_client.js') ?>"></script>
 
 <?php component('js_vars_script') ?>
 <?php component('js_lang_script') ?>
