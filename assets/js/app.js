@@ -36,7 +36,7 @@ window.App = (function () {
                 'class': 'card',
                 'html': [
                     $('<div/>', {
-                        'class': 'card-body',
+                        'class': 'card-body overflow-auto',
                         'html': response.message
                     })
                 ]
