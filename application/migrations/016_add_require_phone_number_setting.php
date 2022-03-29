@@ -17,10 +17,13 @@ class Migration_Add_require_phone_number_setting extends EA_Migration {
      */
     public function up()
     {
-        $this->db->insert('settings', [
-            'name' => 'require_phone_number',
-            'value' => '1'
-        ]);
+        if ( ! $this->db->get_where('settings', ['name' => 'require_phone_number'])->num_rows())
+        {
+            $this->db->insert('settings', [
+                'name' => 'require_phone_number',
+                'value' => '1'
+            ]);
+        }
     }
 
     /**
@@ -28,6 +31,9 @@ class Migration_Add_require_phone_number_setting extends EA_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'require_phone_number']);
+        if ($this->db->get_where('settings', ['name' => 'require_phone_number'])->num_rows())
+        {
+            $this->db->delete('settings', ['name' => 'require_phone_number']);
+        }
     }
 }

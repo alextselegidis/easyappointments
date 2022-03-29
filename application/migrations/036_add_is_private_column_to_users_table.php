@@ -11,7 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_is_private_column_to_users_table extends CI_Migration {
+class Migration_Add_is_private_column_to_users_table extends EA_Migration {
     /**
      * Upgrade method.
      */
@@ -37,7 +37,7 @@ class Migration_Add_is_private_column_to_users_table extends CI_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->field_exists('is_private', 'users'))
+        if ($this->db->field_exists('is_private', 'users'))
         {
             $this->dbforge->drop_column('users', 'is_private');
         }

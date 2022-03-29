@@ -31,11 +31,9 @@ class Migration_Add_disable_booking_setting extends EA_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'disable_booking'])->num_rows())
+        if ($this->db->get_where('settings', ['name' => 'disable_booking'])->num_rows())
         {
-            $this->db->delete('settings', [
-                'name' => 'disable_booking',
-            ]);
+            $this->db->delete('settings', ['name' => 'disable_booking']);
         }
     }
 }

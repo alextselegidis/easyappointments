@@ -31,11 +31,9 @@ class Migration_Add_disable_booking_message_setting extends EA_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'disable_booking_message'])->num_rows())
+        if ($this->db->get_where('settings', ['name' => 'disable_booking_message'])->num_rows())
         {
-            $this->db->delete('settings', [
-                'name' => 'disable_booking_message',
-            ]);
+            $this->db->delete('settings', ['name' => 'disable_booking_message']);
         }
     }
 }

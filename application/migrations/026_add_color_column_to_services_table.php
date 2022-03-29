@@ -11,7 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_color_column_to_services_table extends CI_Migration {
+class Migration_Add_color_column_to_services_table extends EA_Migration {
     /**
      * Upgrade method.
      */

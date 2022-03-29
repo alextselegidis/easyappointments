@@ -17,10 +17,13 @@ class Migration_Add_weekday_start_setting extends EA_Migration {
      */
     public function up()
     {
-        $this->db->insert('settings', [
-            'name' => 'first_weekday',
-            'value' => 'sunday'
-        ]);
+        if ( ! $this->db->get_where('settings', ['name' => 'first_weekday'])->num_rows())
+        {
+            $this->db->insert('settings', [
+                'name' => 'first_weekday',
+                'value' => 'sunday'
+            ]);
+        }
     }
 
     /**
@@ -28,6 +31,9 @@ class Migration_Add_weekday_start_setting extends EA_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'first_weekday']);
+        if ($this->db->get_where('settings', ['name' => 'first_weekday'])->num_rows())
+        {
+            $this->db->delete('settings', ['name' => 'first_weekday']);
+        }
     }
 }

@@ -31,11 +31,9 @@ class Migration_Add_company_logo_setting extends EA_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'company_logo'])->num_rows())
+        if ($this->db->get_where('settings', ['name' => 'company_logo'])->num_rows())
         {
-            $this->db->delete('settings', [
-                'name' => 'company_logo',
-            ]);
+            $this->db->delete('settings', ['name' => 'company_logo']);
         }
     }
 }

@@ -31,11 +31,9 @@ class Migration_Add_display_delete_personal_information_setting extends EA_Migra
      */
     public function down()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'display_delete_personal_information'])->num_rows())
+        if ($this->db->get_where('settings', ['name' => 'display_delete_personal_information'])->num_rows())
         {
-            $this->db->delete('settings', [
-                'name' => 'display_delete_personal_information',
-            ]);
+            $this->db->delete('settings', ['name' => 'display_delete_personal_information']);
         }
     }
 }

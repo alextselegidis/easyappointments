@@ -31,11 +31,9 @@ class Migration_Add_company_color_setting extends EA_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'company_color'])->num_rows())
+        if ($this->db->get_where('settings', ['name' => 'company_color'])->num_rows())
         {
-            $this->db->delete('settings', [
-                'name' => 'company_color',
-            ]);
+            $this->db->delete('settings', ['name' => 'company_color']);
         }
     }
 }

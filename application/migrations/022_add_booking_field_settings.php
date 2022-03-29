@@ -63,13 +63,11 @@ class Migration_Add_booking_field_settings extends EA_Migration {
 
                 if ($this->db->get_where('settings', ['name' => $setting_name])->num_rows())
                 {
-                    $setting = $this->db->get_where('settings', [
-                        'name' => $setting_name,
-                    ])->row_array();
-                    
+                    $setting = $this->db->get_where('settings', ['name' => $setting_name])->row_array();
+
                     $value = $setting['value']; // Use existing value.
-                    
-                    $this->db->delete('settings', ['name' => $setting_name]); 
+
+                    $this->db->delete('settings', ['name' => $setting_name]);
                 }
 
                 if ( ! $this->db->get_where('settings', ['name' => $setting_name])->num_rows())
@@ -96,9 +94,7 @@ class Migration_Add_booking_field_settings extends EA_Migration {
 
                 if ($this->db->get_where('settings', ['name' => $setting_name])->num_rows())
                 {
-                    $this->db->delete('settings', [
-                        'name' => $setting_name,
-                    ]);
+                    $this->db->delete('settings', ['name' => $setting_name]);
                 }
             }
         }
