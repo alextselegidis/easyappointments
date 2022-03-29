@@ -83,7 +83,7 @@ class Providers extends EA_Controller {
             'page_title' => lang('providers'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'timezones' => $this->timezones->to_grouped_array(),
+            'grouped_timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
             'services' => $this->services_model->get(),
         ]);

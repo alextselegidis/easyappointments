@@ -214,7 +214,7 @@
                                 </label>
                                 <?php component('timezone_dropdown', [
                                     'attributes' => 'id="timezone" class="form-control required" disabled',
-                                    'timezones' => vars('timezones')
+                                    'grouped_timezones' => vars('grouped_timezones')
                                 ]) ?>
                             </div>
 
