@@ -25,7 +25,7 @@ window.App = (function () {
             response = {message: jqXHR.responseText}; // String response
         }
 
-        if (!response) {
+        if (!response || !response.message) {
             return;
         }
 
@@ -37,7 +37,7 @@ window.App = (function () {
                 'html': [
                     $('<div/>', {
                         'class': 'card-body',
-                        'html': response.message || '→ No error information provided.'
+                        'html': response.message
                     })
                 ]
             }).appendTo('#message-box');
