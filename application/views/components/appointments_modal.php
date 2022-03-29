@@ -243,6 +243,20 @@
                                     <input type="text" id="phone-number" maxlength="60"
                                            class="<?= $require_phone_number ? 'required' : '' ?> form-control"/>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="language">
+                                        <?= lang('language') ?>
+                                        <span class="text-danger" hidden>*</span>
+                                    </label>
+                                    <select id="language" class="form-control required">
+                                        <?php foreach (vars('available_languages') as $available_language): ?>
+                                            <option value="<?= $available_language ?>">
+                                                <?= ucfirst($available_language) ?>
+                                            </option>
+                                        <?php endforeach ?>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
@@ -279,6 +293,17 @@
                                     <input type="text" id="zip-code"
                                            class="<?= $require_zip_code ? 'required' : '' ?> form-control"
                                            maxlength="120"/>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="timezone">
+                                        <?= lang('timezone') ?>
+                                        <span class="text-danger" hidden>*</span>
+                                    </label>
+                                    <?php component('timezone_dropdown', [
+                                        'attributes' => 'id="timezone" class="form-control required"',
+                                        'grouped_timezones' => vars('grouped_timezones')
+                                    ]) ?>
                                 </div>
 
                                 <div class="mb-3">

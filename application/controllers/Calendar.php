@@ -137,6 +137,7 @@ class Calendar extends EA_Controller {
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezone' => session('timezone'),
             'timezones' => $this->timezones->to_array(),
+            'grouped_timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $privileges,
             'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,

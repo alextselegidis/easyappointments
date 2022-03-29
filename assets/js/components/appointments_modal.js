@@ -29,6 +29,8 @@ App.Components.AppointmentsModal = (function () {
     const $address = $('#address');
     const $city = $('#city');
     const $zipCode = $('#zip-code');
+    const $language = $('#language');
+    const $timezone = $('#timezone');
     const $customerNotes = $('#customer-notes');
     const $selectCustomer = $('#select-customer');
     const $saveAppointment = $('#save-appointment');
@@ -104,6 +106,8 @@ App.Components.AppointmentsModal = (function () {
                 address: $address.val(),
                 city: $city.val(),
                 zip_code: $zipCode.val(),
+                language: $language.val(),
+                timezone: $timezone.val(),
                 notes: $customerNotes.val()
             };
 
@@ -248,6 +252,8 @@ App.Components.AppointmentsModal = (function () {
                 $address.val(customer.address);
                 $city.val(customer.city);
                 $zipCode.val(customer.zip_code);
+                $language.val(customer.language);
+                $timezone.val(customer.timezone);
                 $customerNotes.val(customer.notes);
             }
 
@@ -378,12 +384,17 @@ App.Components.AppointmentsModal = (function () {
          * Event: Enter New Customer Button "Click"
          */
         $newCustomer.on('click', () => {
-            $appointmentsModal
-                .find(
-                    '#customer-id, #first-name, #last-name, #email, ' +
-                        '#phone-number, #address, #city, #zip-code, #customer-notes'
-                )
-                .val('');
+            $customerId.val('');
+            $firstName.val('');
+            $lastName.val('');
+            $email.val('');
+            $phoneNumber.val('');
+            $address.val('');
+            $city.val('');
+            $zipCode.val('');
+            $language.val('english');
+            $timezone.val('UTC');
+            $customerNotes.val('');
         });
     }
 
@@ -397,6 +408,9 @@ App.Components.AppointmentsModal = (function () {
         // Empty form fields.
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').fadeOut();
+        
+        $language.val('english');
+        $timezone.val('UTC');
 
         // Reset color.
         $appointmentColor.find('.color-selection-option:first').trigger('click');

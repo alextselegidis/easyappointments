@@ -146,6 +146,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $appointmentsModal.find('#address').val(customer.address);
                 $appointmentsModal.find('#city').val(customer.city);
                 $appointmentsModal.find('#zip-code').val(customer.zip_code);
+                $appointmentsModal.find('#language').val(customer.language);
+                $appointmentsModal.find('#timezone').val(customer.timezone);
                 $appointmentsModal.find('#appointment-location').val(appointment.location);
                 $appointmentsModal.find('#appointment-notes').val(appointment.notes);
                 $appointmentsModal.find('#customer-notes').val(customer.notes);
@@ -1666,6 +1668,8 @@ App.Utils.CalendarDefaultView = (function () {
             $appointmentsModal.find('#address').val(customer.address);
             $appointmentsModal.find('#city').val(customer.city);
             $appointmentsModal.find('#zip-code').val(customer.zip_code);
+            $appointmentsModal.find('#language').val(customer.language);
+            $appointmentsModal.find('#timezone').val(customer.timezone);
             $appointmentsModal.find('#appointment-location').val(appointment.location);
             $appointmentsModal.find('#appointment-notes').val(appointment.notes);
             $appointmentsModal.find('#customer-notes').val(customer.notes);

@@ -3,12 +3,12 @@
  * Local variables.
  * 
  * @var string $attributes
- * @var array $timezones
+ * @var array $grouped_timezones
  */
 ?>
 
 <select <?= $attributes ?>>
-    <?php foreach ($timezones as $continent => $entries): ?>
+    <?php foreach ($grouped_timezones as $continent => $entries): ?>
         <optgroup label="<?= $continent ?>">
             <?php foreach ($entries as $value => $name): ?>
                 <option value="<?= $value ?>"><?= $name ?></option>
