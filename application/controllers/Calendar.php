@@ -600,6 +600,13 @@ class Calendar extends EA_Controller {
                     }
                 }
             }
+            
+            // arrays need to be re-indexed after items have been unset
+            $response_appointments = array_values($response['appointments']);
+            $unavailability_events = array_values($response['unavailability_events']);
+
+            $response['appointments'] = $response_appointments;
+            $response['unavailability_events'] = $unavailability_events;
 
             json_response($response);
         }
