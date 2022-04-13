@@ -109,6 +109,7 @@
                                     <strong><?= lang('branch') ?></strong>
                                 </label>
                                 <select id="select-provider" class="form-control" >
+                                    <option value="">請選擇</option>
                                     <?php
                                         
                                         foreach ($available_providers as $provider)

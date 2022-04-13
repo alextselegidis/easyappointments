@@ -244,10 +244,12 @@ window.FrontendBook = window.FrontendBook || {};
                 // }).length > 0;
 
                 if(service.id_users == providerId){
+                    var protocol = location.protocol;
+                    var host = location.host;
                     $('#serviceCard').append(`
                         <div id="card">
                             <div id="img-style">
-                                <img class="img-fluid" src="https://9817-210-63-209-80.ngrok.io/assets/img/service_title.png">
+                                <img class="img-fluid" src="${protocol}//${host}/assets/img/service_title.png">
                             </div>
                             <span id="service-name">${service.name}</span>
                             <div id="word">
