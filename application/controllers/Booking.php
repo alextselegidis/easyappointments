@@ -439,7 +439,7 @@ class Booking extends EA_Controller {
 
             if ( ! $appointment['id_users_provider'])
             {
-                throw new Exception(lang('requested_hour_is_unavailability'));
+                throw new Exception(lang('requested_hour_is_unavailable'));
             }
 
             $provider = $this->providers_model->find($appointment['id_users_provider']);
