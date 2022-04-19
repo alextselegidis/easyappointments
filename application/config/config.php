@@ -106,6 +106,7 @@ $languages = [
     'pt' => 'portuguese',
     'ro' => 'romanian',
     'ru' => 'russian',
+    'rs' => 'serbian',
     'sk' => 'slovak',
     'es' => 'spanish',
     'sv' => 'swedish',
@@ -154,6 +155,7 @@ $config['available_languages'] = [
     'portuguese-br',
     'romanian',
     'russian',
+    'serbian',
     'slovak',
     'spanish',
     'turkish'
