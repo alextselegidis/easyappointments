@@ -626,7 +626,7 @@ App.Components.AppointmentsModal = (function () {
             }
 
             // Check email address.
-            if (!App.Utils.Validation.email($appointmentsModal.find('#email').val())) {
+            if ($appointmentsModal.find('#email').val() && !App.Utils.Validation.email($appointmentsModal.find('#email').val())) {
                 $appointmentsModal.find('#email').addClass('is-invalid');
                 throw new Error(lang('invalid_email'));
             }
