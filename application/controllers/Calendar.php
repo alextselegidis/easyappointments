@@ -550,8 +550,11 @@ class Calendar extends EA_Controller {
             {
                 $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
+                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer'], FALSE);
             }
+            $response['appointments'] = array_filter($response['appointments'], function($appointment) {
+                return $appointment['customer'] !== NULL;
+            });
 
             unset($appointment);
 
@@ -668,8 +671,12 @@ class Calendar extends EA_Controller {
             {
                 $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
+                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer'], FALSE);
             }
+            $response['appointments'] = array_filter($response['appointments'], function($appointment) {
+                return $appointment['customer'] !== NULL;
+            });
+
 
             // Get unavailability periods (only for provider).
             $response['unavailabilities'] = [];

@@ -80,7 +80,7 @@ class Customers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $customer)
+    public function validate(array $customer, bool $with_trashed = FALSE)
     {
         // If a customer ID is provided then check whether the record really exists in the database.
         if ( ! empty($customer['id']))
@@ -127,6 +127,11 @@ class Customers_model extends EA_Model {
 
             // Make sure the email address is unique.
             $customer_id = $customer['id'] ?? NULL;
+
+            if ( ! $with_trashed)
+            {
+                $this->db->where('users.delete_datetime IS NULL');
+            }
 
             $count = $this
                 ->db
@@ -214,11 +219,11 @@ class Customers_model extends EA_Model {
      * Get a specific customer from the database.
      *
      * @param int $customer_id The ID of the record to be returned.
-     * @param bool $with_trashed
+     * @param bool $with_trashed When TRUE, searches also for deleted customers
      *
-     * @return array Returns an array with the customer data.
+     * @return array Returns an array with the customer data or NULL when not found
      */
-    public function find(int $customer_id, bool $with_trashed = FALSE): array
+    public function find(int $customer_id, bool $with_trashed = FALSE): ?array
     {
         if ( ! $with_trashed)
         {
@@ -229,7 +234,7 @@ class Customers_model extends EA_Model {
 
         if ( ! $customer)
         {
-            throw new InvalidArgumentException('The provided customer ID was not found in the database: ' . $customer_id);
+            return NULL;
         }
 
         $this->cast($customer);
@@ -346,12 +351,18 @@ class Customers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function exists(array $customer): bool
+    public function exists(array $customer, bool $with_trashed = FALSE): bool
     {
         if (empty($customer['email']))
         {
             return FALSE;
         }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('users.delete_datetime IS NULL');
+        }
+
 
         $count = $this
             ->db
@@ -375,11 +386,16 @@ class Customers_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function find_record_id(array $customer): int
+    public function find_record_id(array $customer, bool $with_trashed = FALSE): int
     {
         if (empty($customer['email']))
         {
             throw new InvalidArgumentException('The customer email was not provided: ' . print_r($customer, TRUE));
+        }
+
+        if ( ! $with_trashed)
+        {
+            $this->db->where('users.delete_datetime IS NULL');
         }
 
         $customer = $this
