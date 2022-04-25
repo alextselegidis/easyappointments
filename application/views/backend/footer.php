@@ -12,13 +12,6 @@
 
         |
 
-        <img class="mx-1" src="<?= base_url('assets/img/alextselegidis-logo-16x16.png') ?>" alt="Alex Tselegidis Logo">
-        <a href="https://alextselegidis.com">
-            Alex Tselegidis
-        </a>
-        &copy; <?= date('Y') ?> - Software Development
-
-        |
 
         <?= lang('licensed_under') ?>
         <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
