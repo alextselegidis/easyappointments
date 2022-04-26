@@ -11,21 +11,22 @@
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
+
 /**
- * Class Migration_Change_column_price_type
+ * Class Migration_provider_add_disable
  *
  * @property CI_DB_query_builder $db
  * @property CI_DB_forge $dbforge
  */
-class Migration_Change_column_price_type extends CI_Migration {
+class Migration_provider_add_disable extends CI_Migration {
     /**
      * Upgrade method.
      */
     public function up()
     {
         // Drop table constraints.
-        // ALTER TABLE `ea_services` CHANGE `price` `price` VARCHAR(256)  NULL  DEFAULT NULL;
-        $this->db->query('ALTER TABLE `' . $this->db->dbprefix('services') . '` CHANGE `price` `price` VARCHAR(256)  NULL  DEFAULT NULL');
+        // /* 7:51:07 PM easyap_localhost easyappointments */ ALTER TABLE `ea_users` ADD `disable` BOOL  NULL  DEFAULT '0'   AFTER `lineUserId`;
+        $this->db->query('ALTER TABLE `' . $this->db->dbprefix('user') . "` ADD `disable` BOOL  NULL  DEFAULT '0' AFTER `lineUserId`");
     }
 
     /**

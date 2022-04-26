@@ -144,6 +144,13 @@
 
                             <div class="row">
                                 <div class="provider-details col-12 col-md-6">
+                                    <div class="form-group custom-control custom-switch">
+                                        <input type="checkbox" class="custom-control-input hidden" id="provider-enable">
+                                        <label class="custom-control-label" for="provider-enable">
+                                            <?= lang('enable_provider') ?>
+                                        </label>
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="provider-first-name">
                                             <?= lang('user_name') ?>

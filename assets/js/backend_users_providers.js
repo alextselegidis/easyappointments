@@ -153,6 +153,7 @@
                 zip_code: $('#provider-zip-code').val(),
                 notes: $('#provider-notes').val(),
                 timezone: $('#provider-timezone').val(),
+                disable: !Boolean($('#provider-enable').prop('checked')),
                 settings: {
                     username: $('#provider-username').val(),
                     working_plan: JSON.stringify(BackendUsers.wp.get()),
@@ -248,6 +249,8 @@
             csrfToken: GlobalVariables.csrfToken,
             provider: JSON.stringify(provider)
         };
+        console.log('data')
+        console.log(data)
 
         $.post(url, data)
             .done(function (response) {
@@ -401,6 +404,7 @@
         $('#provider-zip-code').val(provider.zip_code);
         $('#provider-notes').val(provider.notes);
         $('#provider-timezone').val(provider.timezone);
+        $('#provider-enable').prop('checked', !Boolean(Number(provider.disable)));
 
         $('#provider-username').val(provider.settings.username);
         $('#provider-calendar-view').val(provider.settings.calendar_view);
@@ -410,6 +414,7 @@
         var dedicatedUrl = GlobalVariables.baseUrl + '/index.php?provider=' + encodeURIComponent(provider.id);
         var $link = $('<a/>', {
             'href': dedicatedUrl,
+            'target': '_blank',
             'html': [
                 $('<span/>', {
                     'class': 'fas fa-link'
@@ -441,6 +446,7 @@
 
             $link = $('<a/>', {
                 'href': dedicatedUrl,
+                'target': '_blank',
                 'html': [
                     $('<span/>', {
                         'class': 'fas fa-link'
@@ -529,6 +535,8 @@
 
         var info = provider.email;
 
+        var disableStatus = provider.disable == '1' ? ' (停用)' : '';
+
         info = provider.mobile_number ? info + ', ' + provider.mobile_number : info;
 
         info = provider.phone_number ? info + ', ' + provider.phone_number : info;
@@ -538,7 +546,7 @@
             'data-id': provider.id,
             'html': [
                 $('<strong/>', {
-                    'text': name
+                    'text': name + disableStatus
                 }),
                 $('<br/>'),
                 // $('<span/>', {

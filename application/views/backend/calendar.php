@@ -84,11 +84,11 @@
                             <i class="fas fa-plus-square mr-2"></i>
                             <?= lang('unavailable') ?>
                         </a>
-                        <a class="dropdown-item" href="#" id="insert-working-plan-exception"
+                        <!-- <a class="dropdown-item" href="#" id="insert-working-plan-exception"
                             <?= $this->session->userdata('role_slug') !== 'admin' ? 'hidden' : '' ?>>
                             <i class="fas fa-plus-square mr-2"></i>
                             <?= lang('working_plan_exception') ?>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             <?php endif ?>

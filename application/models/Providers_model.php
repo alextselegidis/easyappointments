@@ -45,10 +45,10 @@ class Providers_model extends EA_Model {
     {
         $this->validate($provider);
 
-        if ($this->exists($provider) && ! isset($provider['id']))
-        {
-            $provider['id'] = $this->find_record_id($provider);
-        }
+        // if ($this->exists($provider) && ! isset($provider['id']))
+        // {
+        //     $provider['id'] = $this->find_record_id($provider);
+        // }
 
         if ( ! isset($provider['id']))
         {
@@ -584,6 +584,7 @@ class Providers_model extends EA_Model {
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
+            ->where('disable', 0)
             ->order_by('first_name ASC, last_name ASC, email ASC');
 
         $providers = $this->db->get()->result_array();
