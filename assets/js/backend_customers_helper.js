@@ -346,22 +346,13 @@
                     // Start
 
                     $('<small/>', {
-                        'text': start
-                    }),
-                    $('<br/>'),
-
-                    // End
-
-                    $('<small/>', {
-                        'text': end
+                        'text': `${start} - ${end}`
                     }),
                     $('<br/>'),
 
                     // Timezone
 
-                    $('<small/>', {
-                        'text': GlobalVariables.timezones[appointment.provider.timezone]
-                    })
+                   
                 ]
             })
                 .appendTo('#customer-appointments');

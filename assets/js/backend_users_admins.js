@@ -152,9 +152,9 @@
             };
 
             // Include password if changed.
-            if ($('#admin-password').val() !== '') {
-                admin.settings.password = $('#admin-password').val();
-            }
+            // if ($('#admin-password').val() !== '') {
+            //     admin.settings.password = $('#admin-password').val();
+            // }
 
             // Include id if changed.
             if ($('#admin-id').val() !== '') {
@@ -259,22 +259,23 @@
                     missingRequired = true;
                 }
             });
-
+            console.log('missingRequired')
+            console.log(missingRequired)
             if (missingRequired) {
                 throw new Error('Fields with * are  required.');
             }
 
             // Validate passwords.
-            if ($('#admin-password').val() !== $('#admin-password-confirm').val()) {
-                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
-                throw new Error(EALang.passwords_mismatch);
-            }
+            // if ($('#admin-password').val() !== $('#admin-password-confirm').val()) {
+            //     $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
+            //     throw new Error(EALang.passwords_mismatch);
+            // }
 
-            if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#admin-password').val() !== '') {
-                $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
-                throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
-            }
+            // if ($('#admin-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
+            //     && $('#admin-password').val() !== '') {
+            //     $('#admin-password, #admin-password-confirm').closest('.form-group').addClass('has-error');
+            //     throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
+            // }
 
             // Validate user email.
             // if (!GeneralFunctions.validateEmail($('#admin-email').val())) {
@@ -283,13 +284,13 @@
             // }
 
             // Validate admin-mobile-number
-            var checkAdminMobileNumber = $("#admin-mobile-number");
-            var regTel1 = /^09\d{8}/.test(checkAdminMobileNumber.val());//手機
-            if (!regTel1) { 
-                $(checkAdminMobileNumber).parents('.form-group').addClass('has-error');
-                checkAdminMobileNumber[0].focus();
-                throw new Error(EALang.fields_are_required);
-            }
+            // var checkAdminMobileNumber = $("#admin-mobile-number");
+            // var regTel1 = /^09\d{8}/.test(checkAdminMobileNumber.val());//手機
+            // if (!regTel1) { 
+            //     $(checkAdminMobileNumber).parents('.form-group').addClass('has-error');
+            //     checkAdminMobileNumber[0].focus();
+            //     throw new Error(EALang.fields_are_required);
+            // }
 
             // Check if username exists
             if ($('#admin-username').attr('already-exists') === 'true') {
@@ -299,6 +300,7 @@
 
             return true;
         } catch (error) {
+            alert(1)
             $('#admins .form-message')
                 .addClass('alert-danger')
                 .text(error.message)
