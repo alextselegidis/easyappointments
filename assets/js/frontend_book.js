@@ -325,10 +325,10 @@ window.FrontendBook = window.FrontendBook || {};
          * This handler is triggered every time the user pressed the "next" button on the book wizard.
          * Some special tasks might be performed, depending the current wizard step.
          */
-        $('.frame-content').on('click','.button-next', function () {
+        $('.frame-content, .command-buttons').on('click','.button-next', function () {
             let sid;
             let pid;
-
+            alert(1);
             // If we are on the first step and there is not provider selected do not continue with the next step.
             if ($(this).attr('data-step_index') === '1') {
                 if($(this).hasClass('service-next')){
@@ -641,7 +641,7 @@ window.FrontendBook = window.FrontendBook || {};
                         // }),
                         $('<br/>'),
                         $('<span/>', {
-                            'text': /*EALang.provider +*/ '預約分店 : ' + $('#select-provider option:selected').text()
+                            'text': /*EALang.provider +*/ '預約車格 : ' + $('#select-provider option:selected').text()
                         }),
                         $('<br/>'),
                         $('<span/>', {

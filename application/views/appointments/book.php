@@ -116,7 +116,7 @@
                                         {
                                             echo '<option value="' . $provider['id'] . '">'
                                                         . $provider['first_name'] . ' '
-                                                        . $provider['last_name'] . '</option>';
+                                                        . '</option>';
                                         }
                                     ?>
                                 </select>
