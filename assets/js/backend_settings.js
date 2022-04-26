@@ -145,8 +145,31 @@ window.BackendSettings = window.BackendSettings || {};
             $('#user').find('button').prop('disabled', true);
         }
 
+        swtichTab();
         Backend.placeFooterToBottom();
     };
+    function swtichTab() {
+        var href = location.search.replace('?type=', '#');
+        console.log('href')
+        console.log(href);
+        $('.tab-pane.active').removeClass('active');
+
+        if (href === '#general') {
+            $('#general').addClass('active');
+            settings = new SystemSettings();
+        } else if (href === '#business_logic') {
+            $('#business-logic').addClass('active');
+            settings = new SystemSettings();
+        } else if (href === '#legal_contents') {
+            $('#legal-contents').addClass('active');
+            settings = new SystemSettings();
+        } else if (href === '#current_user') {
+            $('#current-user').addClass('active');
+            settings = new UserSettings();
+        }
+
+        Backend.placeFooterToBottom();
+    }
 
     /**
      * Bind the backend/settings default event handlers.
