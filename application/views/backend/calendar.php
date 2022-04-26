@@ -19,6 +19,7 @@
         baseUrl: <?= json_encode($base_url) ?>,
         dateFormat: <?= json_encode($date_format) ?>,
         timeFormat: <?= json_encode($time_format) ?>,
+        companyName: <?= json_encode($company_name) ?>,
         firstWeekday: <?= json_encode($first_weekday) ?>,
         editAppointment: <?= json_encode($edit_appointment) ?>,
         customers: <?= json_encode($customers) ?>,
@@ -40,6 +41,7 @@
 </script>
 
 <div class="container-fluid backend-page" id="calendar-page">
+    <h3 id="company_name"></h3>
     <div class="row" id="calendar-toolbar">
         <div id="calendar-filter" class="col-12 col-sm-5">
             <div class="form-group calendar-filter-items">
@@ -95,13 +97,6 @@
                     data-tippy-content="<?= lang('reload_appointments_hint') ?>">
                 <i class="fas fa-sync-alt"></i>
             </button>
-
-            <?php if ($calendar_view === 'default'): ?>
-                <a class="btn btn-light" href="<?= site_url('backend?view=table') ?>"
-                   data-tippy-content="<?= lang('table') ?>">
-                    <i class="fas fa-table"></i>
-                </a>
-            <?php endif ?>
 
             <?php if ($calendar_view === 'table'): ?>
                 <a class="btn btn-light" href="<?= site_url('backend?view=default') ?>"
@@ -221,17 +216,17 @@
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="appointment-location" class="control-label">
                                         <?= lang('location') ?>
                                     </label>
                                     <input id="appointment-location" class="form-control">
-                                </div>
+                                </div> -->
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="appointment-notes" class="control-label"><?= lang('notes') ?></label>
                                     <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="col-12 col-sm-6">
@@ -244,25 +239,6 @@
                                 <div class="form-group">
                                     <label for="end-datetime" class="control-label"><?= lang('end_date_time') ?></label>
                                     <input id="end-datetime" class="required form-control">
-                                </div>
-
-                                <div class="form-group">
-                                    <label class="control-label"><?= lang('timezone') ?></label>
-
-                                    <ul>
-                                        <li>
-                                            <?= lang('provider') ?>:
-                                            <span class="provider-timezone">
-                                                -
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <?= lang('current_user') ?>:
-                                            <span>
-                                                <?= $timezones[$timezone] ?>
-                                            </span>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -322,40 +298,40 @@
                                            class="form-control <?= $require_phone_number === '1' ? 'required' : '' ?>">
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="email" class="control-label">
                                         <?= lang('email') ?>
                                     </label>
                                     <input id="email" class="form-control">
-                                </div>
+                                </div> -->
                             </div>
                             <div class="col-12 col-sm-6">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="address" class="control-label">
                                         <?= lang('address') ?>
                                     </label>
                                     <input id="address" class="form-control">
-                                </div>
+                                </div> -->
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="city" class="control-label">
                                         <?= lang('city') ?>
                                     </label>
                                     <input id="city" class="form-control">
-                                </div>
+                                </div> -->
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="zip-code" class="control-label">
                                         <?= lang('zip_code') ?>
                                     </label>
                                     <input id="zip-code" class="form-control">
-                                </div>
+                                </div> -->
 
                                 <div class="form-group">
                                     <label for="customer-notes" class="control-label">
                                         <?= lang('notes') ?>
                                     </label>
-                                    <textarea id="customer-notes" rows="2" class="form-control"></textarea>
+                                    <textarea id="customer-notes" rows="5" class="form-control"></textarea>
                                 </div>
                             </div>
                         </div>
