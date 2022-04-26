@@ -60,8 +60,15 @@
         <!-- PROVIDERS TAB -->
 
         <div class="tab-pane active" id="providers">
+            <h3><?= lang('providers') ?></h3>
             <div class="row">
                 <div id="filter-providers" class="filter-records column col-12 col-md-5">
+                    <div class="mb-4">
+                        <button id="add-provider" class="c2d-btn btn btn-primary right">
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('add') ?>
+                        </button>
+                    </div>
                     <form class="mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
@@ -80,18 +87,13 @@
                             </div>
                         </div>
                     </form>
-
-                    <h3><?= lang('providers') ?></h3>
+                    
                     <div class="results"></div>
                 </div>
 
                 <div class="record-details column col-12 col-md-7">
                     <div class="float-md-left mb-4 mr-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-provider" class="btn btn-primary">
-                                <i class="fas fa-plus-square mr-2"></i>
-                                <?= lang('add') ?>
-                            </button>
                             <button id="edit-provider" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
@@ -114,7 +116,7 @@
                         </div>
                     </div>
 
-                    <ul class="nav nav-pills switch-view">
+                    <!-- <ul class="nav nav-pills switch-view">
                         <li class="nav-item">
                             <a class="nav-link active" href="#details" data-toggle="tab">
                                 <?= lang('details') ?>
@@ -125,7 +127,7 @@
                                 <?= lang('working_plan') ?>
                             </a>
                         </li>
-                    </ul>
+                    </ul> -->
 
                     <?php
                     // This form message is outside the details view, so that it can be

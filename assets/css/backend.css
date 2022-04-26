@@ -698,6 +698,10 @@ body .form-horizontal .controls {
     cursor: pointer;
 }
 
+#user-page #filter-categories {
+    position: relative;
+}
+
 #users-page #secretary-notifications.active,
 #users-page #provider-notifications.active,
 #users-page #admin-notifications.active {
@@ -899,6 +903,7 @@ body .form-horizontal .controls {
 #settings-page #update-ea {
     margin-left: 12px;
 }
+.btn-primary.hover, .btn-primary:hover,
 .btn-primary.disabled, .btn-primary:disabled,
 .btn-primary {
     background-color: #FF7E35;
@@ -918,6 +923,10 @@ body .form-horizontal .controls {
 
 #services-page .right {
     top: -30px;
-    right: 0;
+    right: 15px;
+}
+#users-page .right {
+    top: -30px;
+    right: 15px;
 }
 
