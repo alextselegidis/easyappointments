@@ -462,7 +462,7 @@ body legend {
 
 #appointment-notes,
 #customer-notes {
-    height: 37px; /* Align with location field */
+    height: 157px; /* Align with location field */
 }
 
 body .form-horizontal .control-label {

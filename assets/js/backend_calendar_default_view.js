@@ -1403,23 +1403,28 @@ window.BackendCalendarDefaultView = window.BackendCalendarDefaultView || {};
         }
 
         var defaultView = window.innerWidth < 468 ? 'agendaDay' : 'agendaWeek';
-
+        var companyName = GlobalVariables.companyName;
         var firstWeekday = GlobalVariables.firstWeekday;
         var firstWeekdayNumber = GeneralFunctions.getWeekDayId(firstWeekday);
-
+        $("#company_name").text(companyName);
         // Initialize page calendar
         $('#calendar').fullCalendar({
             defaultView: defaultView,
             height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,
-            slotDuration: '00:15:00', 
+            slotDuration: '00:30:00', 
             snapDuration: '00:15:00',
             slotLabelInterval: '01:00',
             timeFormat: timeFormat,
+            expandRows: true,
+            nowIndicator: true,
+            dayMaxEvents: true, // allow "more" link when too many events
+    
             slotLabelFormat: slotTimeFormat,
             allDayText: EALang.all_day,
             columnFormat: columnFormat,
+            titleFormat: 'YYYY MMMM / D',
             header: {
                 left: 'prev,next today',
                 center: 'title',
