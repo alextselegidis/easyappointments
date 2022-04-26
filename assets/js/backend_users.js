@@ -103,7 +103,7 @@ window.BackendUsers = window.BackendUsers || {};
                             }),
                             $('<label/>', {
                                 'class': 'form-check-label',
-                                'text': provider.first_name + ' ' + provider.last_name,
+                                'text': provider.first_name,
                                 'for': provider.id
                             })
                         ]
@@ -176,7 +176,7 @@ window.BackendUsers = window.BackendUsers || {};
                                             }),
                                             $('<label/>', {
                                                 'class': 'form-check-label',
-                                                'text': provider.first_name + ' ' + provider.last_name,
+                                                'text': provider.first_name,
                                                 'for': provider.id
                                             }),
                                         ]

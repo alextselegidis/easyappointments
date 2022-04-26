@@ -140,9 +140,9 @@
                         <input id="address" class="form-control">
                     </div>
 
-                    <div class="form-group hidden">
+                    <div class="form-group">
                         <label class="control-label" for="city">
-                            <?= lang('city') ?>
+                            <?= lang('car_type') ?>
 
                         </label>
                         <input id="city" class="form-control">
