@@ -98,12 +98,23 @@
             <?php $hidden = ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE
                 || $privileges[PRIV_USER_SETTINGS]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SYSTEM_SETTINGS) ? 'active' : '' ?>
-            <li class="nav-item <?= $active . $hidden ?>">
+            <!-- <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('backend/settings') ?>" class="nav-link"
                    data-tippy-content="<?= lang('settings_hint') ?>">
                     <i class="fas fa-cogs mr-2"></i>
                     <?= lang('settings') ?>
                 </a>
+            </li> -->
+            <li class="nav-item dropdown <?= $hidden ?>">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-business-time mr-2"></i>
+                    <?= lang('settings') ?>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?= site_url('backend/settings?type=general') ?>" ><?= lang('general') ?></a>
+                    <a class="dropdown-item"  href="<?= site_url('backend/settings?type=business_logic') ?>"><?= lang('business_logic') ?></a>
+                    <a class="dropdown-item"  href="<?= site_url('backend/settings?type=current_user') ?>"><?= lang('current_user') ?></a>
+                </div>
             </li>
 
             <li class="nav-item">
