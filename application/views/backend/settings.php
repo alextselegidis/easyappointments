@@ -32,7 +32,7 @@
 </script>
 
 <div id="settings-page" class="container-fluid backend-page">
-    <ul class="nav nav-pills">
+    <!-- <ul class="nav nav-pills">
         <?php if ($privileges[PRIV_SYSTEM_SETTINGS]['view'] == TRUE): ?>
             <li class="nav-item">
                 <a class="nav-link" href="#general" data-toggle="tab"><?= lang('general') ?></a>
@@ -56,7 +56,7 @@
         <li class="nav-item">
             <a class="nav-link" href="#about-app" data-toggle="tab"><?= lang('about_app') ?></a>
         </li>
-    </ul>
+    </ul> -->
 
     <div class="tab-content">
 
@@ -102,7 +102,7 @@
                                     <?= lang('company_link_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="date-format">
                                     <?= lang('date_format') ?>
                                 </label>
@@ -115,7 +115,7 @@
                                     <?= lang('date_format_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="time-format">
                                     <?= lang('time_format') ?>
                                 </label>
@@ -127,7 +127,7 @@
                                     <?= lang('time_format_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="first-weekday">
                                     <?= lang('first_weekday') ?>
                                 </label>
@@ -146,7 +146,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6">
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="google-analytics-code">
                                     Google Analytics ID</label>
                                 <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
@@ -155,7 +155,7 @@
                                     <?= lang('google_analytics_code_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="api-token">API Token</label>
                                 <input id="api-token" data-field="api_token" class="form-control">
                                 <span class="help-block">
@@ -163,7 +163,7 @@
                                 </span>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="customer-notifications">
                                     <label class="custom-control-label" for="customer-notifications">
@@ -174,7 +174,7 @@
                                     <?= lang('customer_notifications_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="require-captcha">
                                     <label class="custom-control-label" for="require-captcha">
@@ -185,7 +185,7 @@
                                     <?= lang('require_captcha_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="require-phone-number">
                                     <label class="custom-control-label" for="require-phone-number">
@@ -196,7 +196,7 @@
                                     <?= lang('require_phone_number_hint') ?>
                                 </span>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="display-any-provider">
                                     <label class="custom-control-label" for="display-any-provider">
@@ -416,37 +416,37 @@
                             <input id="email" class="form-control required">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="phone-number"><?= lang('phone_number') ?> *</label>
                             <input id="phone-number" class="form-control required">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="mobile-number"><?= lang('mobile_number') ?></label>
                             <input id="mobile-number" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="address"><?= lang('address') ?></label>
                             <input id="address" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="city"><?= lang('city') ?></label>
                             <input id="city" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="state"><?= lang('state') ?></label>
                             <input id="state" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="zip-code"><?= lang('zip_code') ?></label>
                             <input id="zip-code" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="notes"><?= lang('notes') ?></label>
                             <textarea id="notes" class="form-control" rows="3"></textarea>
                         </div>
@@ -471,7 +471,7 @@
                                    autocomplete="new-password">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="calendar-view"><?= lang('calendar') ?> *</label>
                             <select id="calendar-view" class="form-control required">
                                 <option value="default">Default</option>
@@ -479,7 +479,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label for="timezone"><?= lang('timezone') ?></label>
                             <?= render_timezone_dropdown('id="timezone" class="form-control"') ?>
                         </div>
