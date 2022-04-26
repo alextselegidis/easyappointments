@@ -76,29 +76,29 @@ class Providers_model extends EA_Model {
         // If a provider id is present, check whether the record exist in the database.
         if (isset($provider['id']))
         {
-            $num_rows = $this->db->get_where('users',
-                ['id' => $provider['id']])->num_rows();
-            if ($num_rows == 0)
-            {
-                throw new Exception('Provided record id does not exist in the database.');
-            }
+            // $num_rows = $this->db->get_where('users',
+            //     ['id' => $provider['id']])->num_rows();
+            // if ($num_rows == 0)
+            // {
+            //     throw new Exception('Provided record id does not exist in the database.');
+            // }
         }
 
         // Validate required fields.
-        if ( ! isset(
-            $provider['last_name'],
-            $provider['email'],
-            $provider['phone_number']
-        ))
-        {
-            throw new Exception('Not all required fields are provided: ' . print_r($provider, TRUE));
-        }
+        // if ( ! isset(
+        //     $provider['last_name'],
+        //     $provider['email'],
+        //     $provider['phone_number']
+        // ))
+        // {
+        //     throw new Exception('Not all required fields are provided: ' . print_r($provider, TRUE));
+        // }
 
         // Validate provider email address.
-        if ( ! filter_var($provider['email'], FILTER_VALIDATE_EMAIL))
-        {
-            throw new Exception('Invalid email address provided: ' . $provider['email']);
-        }
+        // if ( ! filter_var($provider['email'], FILTER_VALIDATE_EMAIL))
+        // {
+        //     throw new Exception('Invalid email address provided: ' . $provider['email']);
+        // }
 
         // Validate provider services.
         if ( ! isset($provider['services']) || ! is_array($provider['services']))
@@ -126,30 +126,30 @@ class Providers_model extends EA_Model {
         }
 
         // Check if username exists.
-        if (isset($provider['settings']['username']))
-        {
-            $user_id = (isset($provider['id'])) ? $provider['id'] : '';
-            if ( ! $this->validate_username($provider['settings']['username'], $user_id))
-            {
-                throw new Exception ('Username already exists. Please select a different '
-                    . 'username for this record.');
-            }
-        }
+        // if (isset($provider['settings']['username']))
+        // {
+        //     $user_id = (isset($provider['id'])) ? $provider['id'] : '';
+        //     if ( ! $this->validate_username($provider['settings']['username'], $user_id))
+        //     {
+        //         throw new Exception ('Username already exists. Please select a different '
+        //             . 'username for this record.');
+        //     }
+        // }
 
-        // Validate provider password
-        if (isset($provider['settings']['password']))
-        {
-            if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH)
-            {
-                throw new Exception('The user password must be at least '
-                    . MIN_PASSWORD_LENGTH . ' characters long.');
-            }
-        }
+        // // Validate provider password
+        // if (isset($provider['settings']['password']))
+        // {
+        //     if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH)
+        //     {
+        //         throw new Exception('The user password must be at least '
+        //             . MIN_PASSWORD_LENGTH . ' characters long.');
+        //     }
+        // }
 
-        if ( ! isset($provider['id']) && ! isset($provider['settings']['password']))
-        {
-            throw new Exception('The user password cannot be empty for new users.');
-        }
+        // if ( ! isset($provider['id']) && ! isset($provider['settings']['password']))
+        // {
+        //     throw new Exception('The user password cannot be empty for new users.');
+        // }
 
         // Validate calendar view mode.
         if (isset($provider['settings']['calendar_view']) && ($provider['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
@@ -162,21 +162,21 @@ class Providers_model extends EA_Model {
         // When inserting a record the email address must be unique.
         $provider_id = (isset($provider['id'])) ? $provider['id'] : '';
 
-        $num_rows = $this->db
-            ->select('*')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->where('users.email', $provider['email'])
-            ->where('users.id !=', $provider_id)
-            ->get()
-            ->num_rows();
+        // $num_rows = $this->db
+        //     ->select('*')
+        //     ->from('users')
+        //     ->join('roles', 'roles.id = users.id_roles', 'inner')
+        //     ->where('roles.slug', DB_SLUG_PROVIDER)
+        //     ->where('users.email', $provider['email'])
+        //     ->where('users.id !=', $provider_id)
+        //     ->get()
+        //     ->num_rows();
 
-        if ($num_rows > 0)
-        {
-            throw new Exception('Given email address belongs to another provider record. '
-                . 'Please use a different email.');
-        }
+        // if ($num_rows > 0)
+        // {
+        //     throw new Exception('Given email address belongs to another provider record. '
+        //         . 'Please use a different email.');
+        // }
 
         return TRUE;
     }

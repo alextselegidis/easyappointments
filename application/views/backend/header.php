@@ -74,12 +74,15 @@
 
             <?php $hidden = ($privileges[PRIV_SERVICES]['view'] == TRUE) ? '' : 'd-none' ?>
             <?php $active = ($active_menu == PRIV_SERVICES) ? 'active' : '' ?>
-            <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('backend/services') ?>" class="nav-link"
-                   data-tippy-content="<?= lang('manage_services_hint') ?>">
+            <li class="nav-item dropdown <?= $hidden ?>">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-business-time mr-2"></i>
                     <?= lang('services') ?>
                 </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="<?= site_url('backend/services?type=services') ?>" ><?= lang('services') ?></a>
+                    <a class="dropdown-item"  href="<?= site_url('backend/services?type=categories') ?>"><?= lang('categories') ?></a>
+                </div>
             </li>
 
             <?php $hidden = ($privileges[PRIV_USERS]['view'] == TRUE) ? '' : 'd-none' ?>

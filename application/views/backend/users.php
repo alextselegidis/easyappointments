@@ -37,7 +37,7 @@
 <div class="container-fluid backend-page" id="users-page">
 
     <!-- PAGE NAVIGATION -->
-    <ul class="nav nav-pills">
+    <!-- <ul class="nav nav-pills">
         <li class="nav-item">
             <a class="nav-link active" href="#providers" data-toggle="tab">
                 <?= lang('providers') ?>
@@ -53,7 +53,7 @@
                 <?= lang('admins') ?>
             </a>
         </li>
-    </ul>
+    </ul> -->
 
     <div class="tab-content">
 
@@ -135,7 +135,7 @@
                     <div class="form-message alert" style="display:none;"></div>
 
                     <div class="tab-content">
-                        <div class="details-view tab-pane fade show active clearfix" id="details">
+                        <div class="details-view clearfix" id="details">
                             <h3><?= lang('details') ?></h3>
 
                             <input type="hidden" id="provider-id" class="record-id">
@@ -144,29 +144,21 @@
                                 <div class="provider-details col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="provider-first-name">
-                                            <?= lang('first_name') ?>
+                                            <?= lang('user_name') ?>
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input id="provider-first-name" class="form-control required" maxlength="256">
+                                        <input id="provider-first-name" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="provider-last-name">
-                                            <?= lang('last_name') ?>
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input id="provider-last-name" class="form-control required" maxlength="512">
-                                    </div>
-
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-mobile-number">
                                             <?= lang('mobile_number') ?>
                                             <span class="text-danger">*</span>
                                         </label>
-                                        <input id="provider-mobile-number" class="form-control required" maxlength="128">
+                                        <input id="provider-mobile-number" class="form-control" maxlength="128">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-phone-number">
                                             <?= lang('phone_number') ?>
                                             
@@ -174,7 +166,7 @@
                                         <input id="provider-phone-number" class="form-control" max="128">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-email">
                                             <?= lang('email') ?>
                                             
@@ -182,14 +174,14 @@
                                         <input id="provider-email" class="form-control" max="512">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-address">
                                             <?= lang('address') ?>
                                         </label>
                                         <input id="provider-address" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-city">
                                             <?= lang('city') ?>
 
@@ -197,14 +189,14 @@
                                         <input id="provider-city" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-state">
                                             <?= lang('state') ?>
                                         </label>
                                         <input id="provider-state" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-zip-code">
                                             <?= lang('zip_code') ?>
 
@@ -212,15 +204,18 @@
                                         <input id="provider-zip-code" class="form-control" maxlength="64">
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-notes">
                                             <?= lang('notes') ?>
                                         </label>
                                         <textarea id="provider-notes" class="form-control" rows="3"></textarea>
                                     </div>
+                                    
+                                    <h4><?= lang('services') ?></h4>
+                                    <div id="provider-services" class="card card-body bg-light border-light"></div>
                                 </div>
                                 <div class="provider-settings col-12 col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-username">
                                             <?= lang('username') ?>
                                             
@@ -228,25 +223,9 @@
                                         <input id="provider-username" class="form-control" maxlength="256">
                                     </div>
 
-                                    <div class="form-group">
-                                        <label for="provider-password">
-                                            <?= lang('password') ?>
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="password" id="provider-password" class="form-control"
-                                               maxlength="512" autocomplete="new-password">
-                                    </div>
+                                   
 
-                                    <div class="form-group">
-                                        <label for="provider-password-confirm">
-                                            <?= lang('retype_password') ?>
-                                            <span class="text-danger">*</span>
-                                        </label>
-                                        <input type="password" id="provider-password-confirm" class="form-control" 
-                                        maxlength="512" autocomplete="new-password">
-                                    </div>
-
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-calendar-view">
                                             <?= lang('calendar') ?>
                                             
@@ -257,7 +236,7 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group">
+                                    <div class="form-group hidden">
                                         <label for="provider-timezone">
                                             <?= lang('timezone') ?>
                                             
@@ -267,7 +246,7 @@
 
                                     <br>
 
-                                    <div class="custom-control custom-switch">
+                                    <div class="custom-control custom-switch hidden">
                                         <input type="checkbox" class="custom-control-input" id="provider-notifications">
                                         <label class="custom-control-label" for="provider-notifications">
                                             <?= lang('receive_notifications') ?>
@@ -276,13 +255,11 @@
 
                                     <br>
 
-                                    <h4><?= lang('services') ?></h4>
-                                    <div id="provider-services" class="card card-body bg-light border-light"></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
+                        <div class="working-plan-view clearfix" id="working-plan">
                             <h3><?= lang('working_plan') ?></h3>
                             <button id="reset-working-plan" class="btn btn-primary"
                                     data-tippy-content="<?= lang('reset_working_plan') ?>">
