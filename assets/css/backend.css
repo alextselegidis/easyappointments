@@ -21,15 +21,23 @@ root {
    -------------------------------------------------------------------- */
 
 #header {
-    background-color: #ffba7e;
+    background-color: #FFF2E7;
     box-shadow: none;
     border-radius: 0;
     padding: 0;
 }
 
+.hidden {
+    display: none;
+}
+
 #header #header-logo {
     padding: 5px;
     line-height: 0;
+}
+
+.navbar-dark .navbar-brand {
+    color: #000 !important;
 }
 
 #header #header-logo small {
@@ -47,7 +55,7 @@ root {
     margin-top: 6px;
     font-size: 15px;
     font-weight: bold;
-    color: white;
+    color: #424242;
 }
 
 #header .navbar-toggler {
@@ -55,7 +63,7 @@ root {
 }
 
 #header .nav-link {
-    color: white;
+    color: #424242;
     padding: 20px 15px;
     font-weight: lighter;
 }
@@ -66,11 +74,12 @@ root {
 }
 
 #header #header-menu .nav-item:hover {
-    background: #ff9c35;
+    /* background: #ff9c35; */
 }
 
-#header #header-menu .nav-item.active {
-    background: #ff7e35;
+#header #header-menu .nav-item.active a {
+    color: #ff7e35;
+    font-weight: bold;
 }
 
 #footer {
@@ -616,7 +625,7 @@ body .form-horizontal .controls {
 #customers-page #customer-appointments {
     min-height: 400px;
     max-height: 800px;
-    max-width: 330px;
+    max-width: 350px;
     width: 100%;
     margin-bottom: 20px;
     overflow-y: auto;
@@ -640,6 +649,11 @@ body .form-horizontal .controls {
 
 #services-page h2 {
     color: #525252;
+}
+
+#services-page #services,
+#services-page .filter-records {
+    position: relative;
 }
 
 #services-page .nav {
@@ -684,6 +698,10 @@ body .form-horizontal .controls {
     cursor: pointer;
 }
 
+#user-page #filter-categories {
+    position: relative;
+}
+
 #users-page #secretary-notifications.active,
 #users-page #provider-notifications.active,
 #users-page #admin-notifications.active {
@@ -698,6 +716,9 @@ body .form-horizontal .controls {
     height: 387px;
     overflow-y: auto;
     margin-bottom: 20px;
+}
+#users-page #provider-services {
+    height: 150px;
 }
 
 #users-page #providers .switch-view {
@@ -882,3 +903,30 @@ body .form-horizontal .controls {
 #settings-page #update-ea {
     margin-left: 12px;
 }
+.btn-primary.hover, .btn-primary:hover,
+.btn-primary.disabled, .btn-primary:disabled,
+.btn-primary {
+    background-color: #FF7E35;
+}
+.right {
+    position: absolute;
+    top: -50px;
+    right: 20px;
+}
+
+.c2d-btn:hover,
+.c2d-btn {
+    background: transparent;
+    border: 1px solid #FF7E35;
+    color: #FF7E35;
+}
+
+#services-page .right {
+    top: -30px;
+    right: 15px;
+}
+#users-page .right {
+    top: -30px;
+    right: 15px;
+}
+

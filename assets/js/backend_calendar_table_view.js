@@ -1077,7 +1077,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      */
     function onEventClick(event, jsEvent) {
         $('.popover').popover('dispose'); // Close all open popovers.
-
+        alert(1);
         var $html;
         var displayEdit;
         var displayDelete;
@@ -1155,7 +1155,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.edit + '$'
                                     })
                                 ]
                             }),
@@ -1198,14 +1198,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     }),
                     $('<br/>'),
 
-                    $('<strong/>', {
-                        'text': EALang.timezone
-                    }),
-                    $('<span/>', {
-                        'text': GlobalVariables.timezones[event.data.provider.timezone]
-                    }),
-                    $('<br/>'),
-
                     $('<hr/>'),
 
                     $('<div/>', {
@@ -1240,7 +1232,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.edit + '@'
                                     })
                                 ]
                             })
@@ -1269,14 +1261,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                     }),
                     $('<span/>', {
                         'text': GeneralFunctions.formatDate(event.end.format('YYYY-MM-DD HH:mm:ss'), GlobalVariables.dateFormat, true)
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'text': EALang.timezone
-                    }),
-                    $('<span/>', {
-                        'text': GlobalVariables.timezones[event.data.provider.timezone]
                     }),
                     $('<br/>'),
 
@@ -1366,7 +1350,7 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
                                         'class': 'fas fa-edit mr-2'
                                     }),
                                     $('<span/>', {
-                                        'text': EALang.edit
+                                        'text': EALang.edit +'!!!'
                                     })
                                 ]
                             })

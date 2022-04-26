@@ -25,26 +25,24 @@
 </script>
 
 <div class="container-fluid backend-page" id="services-page">
-    <ul class="nav nav-pills">
-        <li class="nav-item">
-            <a class="nav-link active" href="#services" data-toggle="tab">
-                <?= lang('services') ?>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#categories" data-toggle="tab">
-                <?= lang('categories') ?>
-            </a>
-        </li>
-    </ul>
 
     <div class="tab-content">
 
         <!-- SERVICES TAB -->
 
-        <div class="tab-pane active" id="services">
+        <div class="tab-pane" id="services">
+            <h3><?= lang('services') ?></h3>
+            
             <div class="row">
                 <div id="filter-services" class="filter-records col col-12 col-md-5">
+                    <div class="mb-4">
+                        <div class="input-group">
+                            <button id="add-service" class="c2d-btn btn btn-primar right">
+                                <i class="fas fa-plus-square mr-2"></i>
+                                <?= lang('add') ?>
+                            </button>
+                        </div>
+                    </div>
                     <form class="mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
@@ -64,17 +62,14 @@
                         </div>
                     </form>
 
-                    <h3><?= lang('services') ?></h3>
+                    
                     <div class="results"></div>
                 </div>
 
                 <div class="record-details column col-12 col-md-5">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-service" class="btn btn-primary">
-                                <i class="fas fa-plus-square mr-2"></i>
-                                <?= lang('add') ?>
-                            </button>
+                            
                             <button id="edit-service" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>
@@ -185,8 +180,15 @@
         <!-- CATEGORIES TAB -->
 
         <div class="tab-pane" id="categories">
+            <h3><?= lang('categories') ?></h3>
             <div class="row">
                 <div id="filter-categories" class="filter-records column col-12 col-md-5">
+                    <div class="mb-4">
+                        <button id="add-category" class="c2d-btn btn btn-primary right">
+                            <i class="fas fa-plus-square mr-2"></i>
+                            <?= lang('add') ?>
+                        </button>
+                    </div>
                     <form class="input-append mb-4">
                         <div class="input-group">
                             <input type="text" class="key form-control">
@@ -206,17 +208,14 @@
                         </div>
                     </form>
 
-                    <h3><?= lang('categories') ?></h3>
+                    
                     <div class="results"></div>
                 </div>
 
                 <div class="record-details col-12 col-md-5">
                     <div class="btn-toolbar mb-4">
                         <div class="add-edit-delete-group btn-group">
-                            <button id="add-category" class="btn btn-primary">
-                                <i class="fas fa-plus-square mr-2"></i>
-                                <?= lang('add') ?>
-                            </button>
+                            
                             <button id="edit-category" class="btn btn-outline-secondary" disabled="disabled">
                                 <i class="fas fa-edit mr-2"></i>
                                 <?= lang('edit') ?>

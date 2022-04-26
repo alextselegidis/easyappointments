@@ -39,16 +39,24 @@ window.BackendServices = window.BackendServices || {};
      */
     exports.initialize = function (defaultEventHandlers) {
         defaultEventHandlers = defaultEventHandlers || true;
+        var query = location.search;
 
+        console.log('q >>>', query)
         // Fill available service categories listbox.
-        GlobalVariables.categories.forEach(function (category) {
-            $('#service-category').append(new Option(category.name, category.id));
-        });
+        // GlobalVariables.categories.forEach(function (category) {
+        //     $('#service-category').append(new Option(category.name, category.id));
+        // });
 
-        $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
-
+        // $('#service-category').append(new Option('- ' + EALang.no_category + ' -', null)).val('null');
+        
         // Instantiate helper object (service helper by default).
-        helper = servicesHelper;
+        if (query && query.indexOf('categories') >= 0) {
+            $('#categories').addClass('active');
+            helper = categoriesHelper;    
+        } else {
+            $('#services').addClass('active');
+            helper = servicesHelper;
+        }
         helper.resetForm();
         helper.filter('');
         helper.bindEventHandlers();
@@ -73,7 +81,7 @@ window.BackendServices = window.BackendServices || {};
             if (helper) {
                 helper.unbindEventHandlers();
             }
-
+            alert(1);
             if ($(this).attr('href') === '#services') {
                 helper = servicesHelper;
             } else if ($(this).attr('href') === '#categories') {

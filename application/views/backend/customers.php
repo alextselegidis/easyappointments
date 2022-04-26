@@ -27,8 +27,18 @@
 </script>
 
 <div class="container-fluid backend-page" id="customers-page">
+    <h3><?= lang('customers') ?></h3>
+    
+
     <div class="row" id="customers">
+    
         <div id="filter-customers" class="filter-records col col-12 col-md-5">
+        <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
+        <button id="add-customer" class="c2d-btn btn btn-primary right">
+            <i class="fas fa-plus-square mr-2"></i>
+            <?= lang('add') ?>
+        </button>
+    <?php endif ?>
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
@@ -48,19 +58,13 @@
                 </div>
             </form>
 
-            <h3><?= lang('customers') ?></h3>
+            
             <div class="results"></div>
         </div>
 
         <div class="record-details col-12 col-md-7">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
-                    <?php if ($privileges[PRIV_CUSTOMERS]['add'] === TRUE): ?>
-                        <button id="add-customer" class="btn btn-primary">
-                            <i class="fas fa-plus-square mr-2"></i>
-                            <?= lang('add') ?>
-                        </button>
-                    <?php endif ?>
 
                     <?php if ($privileges[PRIV_CUSTOMERS]['edit'] === TRUE): ?>
                         <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
@@ -105,12 +109,12 @@
                         <input id="first-name" class="form-control required">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label class="control-label" for="last-name">
                             <?= lang('last_name') ?>
                             <span class="text-danger">*</span>
                         </label>
-                        <input id="last-name" class="form-control required">
+                        <input id="last-name" class="form-control">
                     </div>
 
                     <div class="form-group">
@@ -136,7 +140,7 @@
                         <input id="address" class="form-control">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label class="control-label" for="city">
                             <?= lang('city') ?>
 
@@ -144,14 +148,14 @@
                         <input id="city" class="form-control">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label class="control-label" for="zip-code">
                             <?= lang('zip_code') ?>
                         </label>
                         <input id="zip-code" class="form-control">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="language">
                             <?= lang('language') ?>
                             <span class="text-danger">*</span>
@@ -159,7 +163,7 @@
                         <select id="language" class="form-control required"></select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="timezone">
                             <?= lang('timezone') ?>
                             <span class="text-danger">*</span>

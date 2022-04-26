@@ -171,9 +171,9 @@
             });
 
             // Include password if changed.
-            if ($('#provider-password').val() !== '') {
-                provider.settings.password = $('#provider-password').val();
-            }
+            // if ($('#provider-password').val() !== '') {
+            //     provider.settings.password = $('#provider-password').val();
+            // }
 
             // Include id if changed.
             if ($('#provider-id').val() !== '') {
@@ -294,25 +294,27 @@
             var missingRequired = false;
             $('#providers .required').each(function (index, requiredField) {
                 if (!$(requiredField).val()) {
+                    console.log(requiredField);
                     $(requiredField).closest('.form-group').addClass('has-error');
                     missingRequired = true;
                 }
             });
+            console.log(missingRequired);
             if (missingRequired) {
                 throw new Error(EALang.fields_are_required);
             }
 
             // Validate passwords.
-            if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
-                $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
-                throw new Error(EALang.passwords_mismatch);
-            }
+            // if ($('#provider-password').val() !== $('#provider-password-confirm').val()) {
+            //     $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
+            //     throw new Error(EALang.passwords_mismatch);
+            // }
 
-            if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
-                && $('#provider-password').val() !== '') {
-                $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
-                throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
-            }
+            // if ($('#provider-password').val().length < BackendUsers.MIN_PASSWORD_LENGTH
+            //     && $('#provider-password').val() !== '') {
+            //     $('#provider-password, #provider-password-confirm').closest('.form-group').addClass('has-error');
+            //     throw new Error(EALang.password_length_notice.replace('$number', BackendUsers.MIN_PASSWORD_LENGTH));
+            // }
 
             // Validate user email.
             // if (!GeneralFunctions.validateEmail($('#provider-email').val())) {
@@ -321,13 +323,13 @@
             // }
 
             // Validate provider-mobile-number
-            var checkProviderMobileNumber = $("#provider-mobile-number");
-            var regTel1 = /^09\d{8}/.test(checkProviderMobileNumber.val());//手機
-            if (!regTel1) { 
-                $(checkProviderMobileNumber).parents('.form-group').addClass('has-error');
-                checkProviderMobileNumber[0].focus();
-                throw new Error(EALang.fields_are_required);
-            }            
+            // var checkProviderMobileNumber = $("#provider-mobile-number");
+            // var regTel1 = /^09\d{8}/.test(checkProviderMobileNumber.val());//手機
+            // if (!regTel1) { 
+            //     $(checkProviderMobileNumber).parents('.form-group').addClass('has-error');
+            //     checkProviderMobileNumber[0].focus();
+            //     throw new Error(EALang.fields_are_required);
+            // }            
 
             // Check if username exists
             if ($('#provider-username').attr('already-exists') === 'true') {
@@ -523,7 +525,7 @@
      * @return {String} The html code that represents the record on the filter results list.
      */
     ProvidersHelper.prototype.getFilterHtml = function (provider) {
-        var name = provider.first_name + ' ' + provider.last_name;
+        var name = provider.first_name;
 
         var info = provider.email;
 
@@ -539,10 +541,10 @@
                     'text': name
                 }),
                 $('<br/>'),
-                $('<span/>', {
-                    'text': info
-                }),
-                $('<br/>'),
+                // $('<span/>', {
+                //     'text': info
+                // }),
+                // $('<br/>'),
             ]
         });
     };
