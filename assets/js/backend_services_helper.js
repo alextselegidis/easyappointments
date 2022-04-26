@@ -409,7 +409,7 @@
     ServicesHelper.prototype.getFilterHtml = function (service) {
         var name = service.name;
 
-        var info = service.duration + ' min - ' + service.price + ' ' + service.currency;
+        var info = service.duration + ' 分鐘(預定), 費用:' + service.price + ' ';
 
         return $('<div/>', {
             'class': 'service-row entry',

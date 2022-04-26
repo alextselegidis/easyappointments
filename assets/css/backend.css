@@ -664,6 +664,10 @@ body .form-horizontal .controls {
     margin-left: 10px;
 }
 
+#services-page .hidden {
+    display: none;
+}
+
 /* BACKEND USERS PAGE
    -------------------------------------------------------------------- */
 

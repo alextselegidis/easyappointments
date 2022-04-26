@@ -104,14 +104,6 @@ class Services_model extends EA_Model {
             }
         }
 
-        if ($service['price'] !== NULL)
-        {
-            if ( ! is_numeric($service['price']))
-            {
-                throw new Exception('Service price is not numeric.');
-            }
-        }
-
         // Availabilities type must have the correct value.
         if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE
             && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED)

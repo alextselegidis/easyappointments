@@ -127,22 +127,21 @@
                         <input id="service-price" class="form-control required">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="service-currency">
                             <?= lang('currency') ?>
-
                         </label>
                         <input id="service-currency" class="form-control" maxlength="32">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="service-category">
                             <?= lang('category') ?>
                         </label>
                         <select id="service-category" class="form-control"></select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="service-availabilities-type">
                             <?= lang('availabilities_type') ?>
 
@@ -165,7 +164,7 @@
                         <input id="service-attendants-number" class="form-control required" type="number" min="1">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group hidden">
                         <label for="service-location">
                             <?= lang('location') ?>
 
