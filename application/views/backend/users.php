@@ -631,12 +631,12 @@
                                 <input id="admin-first-name" class="form-control required" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-last-name">
                                     <?= lang('last_name') ?>
                                     <span class="text-danger">*</span>
                                 </label>
-                                <input id="admin-last-name" class="form-control required" maxlength="512">
+                                <input id="admin-last-name" class="form-control" maxlength="512">
                             </div>
 
                             <div class="form-group">
@@ -647,10 +647,10 @@
                                 <input id="admin-mobile-number" class="form-control required" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-phone-number">
                                     <?= lang('phone_number') ?>
-                                    
+
                                 </label>
                                 <input id="admin-phone-number" class="form-control" maxlength="128">
                             </div>
@@ -658,9 +658,9 @@
                             <div class="form-group">
                                 <label for="admin-email">
                                     <?= lang('email') ?>
-                                    
+                                    <span class="text-danger">*</span>
                                 </label>
-                                <input id="admin-email" class="form-control" maxlength="512">
+                                <input id="admin-email" class="form-control required" maxlength="512">
                             </div>
 
                             <div class="form-group">
@@ -670,7 +670,7 @@
                                 <input id="admin-address" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-city">
                                     <?= lang('city') ?>
 
@@ -678,14 +678,14 @@
                                 <input id="admin-city" class="form-control" maxlength="256">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-state">
                                     <?= lang('state') ?>
                                 </label>
                                 <input id="admin-state" class="form-control" maxlength="128">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-zip-code">
                                     <?= lang('zip_code') ?>
 
@@ -727,7 +727,7 @@
                                        maxlength="512" autocomplete="new-password">
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-calendar-view">
                                     <?= lang('calendar') ?>
                                     <span class="text-danger">*</span>
@@ -738,7 +738,7 @@
                                 </select>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group hidden">
                                 <label for="admin-timezone">
                                     <?= lang('timezone') ?>
                                     <span class="text-danger">*</span>
@@ -748,7 +748,7 @@
 
                             <br>
 
-                            <div class="custom-control custom-switch">
+                            <div class="custom-control custom-switch hidden">
                                 <input type="checkbox" class="custom-control-input" id="admin-notifications">
                                 <label class="custom-control-label" for="admin-notifications">
                                     <?= lang('receive_notifications') ?>

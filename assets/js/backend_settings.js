@@ -150,8 +150,6 @@ window.BackendSettings = window.BackendSettings || {};
     };
     function swtichTab() {
         var href = location.search.replace('?type=', '#');
-        console.log('href')
-        console.log(href);
         $('.tab-pane.active').removeClass('active');
 
         if (href === '#general') {

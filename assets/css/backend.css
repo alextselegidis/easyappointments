@@ -83,8 +83,9 @@ root {
 }
 
 #footer {
-    background-color: #F7F7F7;
+    background-color: #FF7E35;
     border-top: 1px solid #DDD;
+    color: #fff;
     font-size: 11px;
     overflow: auto;
 }

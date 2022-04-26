@@ -113,7 +113,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" href="<?= site_url('backend/settings?type=general') ?>" ><?= lang('general') ?></a>
                     <a class="dropdown-item"  href="<?= site_url('backend/settings?type=business_logic') ?>"><?= lang('business_logic') ?></a>
-                    <a class="dropdown-item"  href="<?= site_url('backend/settings?type=current_user') ?>"><?= lang('current_user') ?></a>
+                    <a class="dropdown-item"  href="<?= site_url('backend/users?type=admins') ?>"><?= lang('current_user') ?></a>
                 </div>
             </li>
 

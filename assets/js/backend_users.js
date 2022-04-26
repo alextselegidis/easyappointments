@@ -112,12 +112,36 @@ window.BackendUsers = window.BackendUsers || {};
             })
                 .appendTo('#secretary-providers');
         });
+        swtichTab();
 
         // Bind event handlers.
         if (defaultEventHandlers) {
             bindEventHandlers();
         }
     };
+
+    function swtichTab() {
+        var href = location.search.replace('?type=', '#');
+        $('.tab-pane.active').removeClass('active');
+
+        if (helper) {
+            helper.unbindEventHandlers();
+        }
+
+        if (href === '#admins') {
+            $('#admins').addClass('active');
+            helper = new AdminsHelper();
+        } else if (href === '#providers') {
+            $('#providers').addClass('active');
+            helper = new ProvidersHelper();
+        }
+
+        helper.resetForm();
+        helper.filter('');
+        helper.bindEventHandlers();
+        $('.filter-key').val('');
+        Backend.placeFooterToBottom();
+    }
 
     /**
      * Binds the default backend users event handlers. Do not use this method on a different
