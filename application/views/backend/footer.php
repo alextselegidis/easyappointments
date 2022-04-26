@@ -12,13 +12,6 @@
 
         |
 
-        <?= lang('licensed_under') ?>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
-            GPL-3.0
-        </a>
-
-        |
-
         <span id="select-language" class="badge badge-secondary">
             <i class="fas fa-language mr-2"></i>
         	<?= ucfirst(config('language')) ?>
