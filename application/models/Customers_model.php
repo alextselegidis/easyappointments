@@ -91,10 +91,8 @@ class Customers_model extends EA_Model {
         // Validate required fields
         if ( ! isset(
                 $customer['first_name'],
-                $customer['last_name'],
                 $customer['phone_number']
-            )
-            || ( ! isset($customer['email']) && $email_required))
+            ))
         {
             throw new Exception('Not all required fields are provided: ' . print_r($customer, TRUE));
         }

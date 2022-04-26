@@ -279,12 +279,12 @@
                                     <input id="first-name" class="required form-control">
                                 </div>
 
-                                <div class="form-group">
+                                <div class="form-group hidden">
                                     <label for="last-name" class="control-label">
                                         <?= lang('last_name') ?>
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <input id="last-name" class="required form-control">
+                                    <input id="last-name" class="form-control">
                                 </div>
 
                                 <div class="form-group">
