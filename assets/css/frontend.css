@@ -201,12 +201,22 @@ body {
     font-size: 21px;
 }
 
+#frame-footer .footer-powered-by,
+#frame-footer {
+    color: #fff;
+}
+
 #book-appointment-wizard #frame-footer {
     padding: 15px;
     text-align: center;
     
     border-top: 1px solid #ebeef1;
     background: #FF7E35;
+    
+}
+
+#book-appointment-wizard #frame-footer .footer-powered-by {
+    color: #ebeef1;
 }
 
 #book-appointment-wizard #available-hours {
