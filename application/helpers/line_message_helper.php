@@ -28,14 +28,14 @@ function line_message_appointment($customer, $service, $appointment){
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "XX分店",
+                                    'text' => "信程汽車",
                                     'weight' => 'bold',
                                     'size' => 'xxl',
                                     'margin' => 'md'
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "台北市信義區大馬路xxx",
+                                    'text' => "新北市八里區頂寮一街20-1號",
                                     'size' => 'xs',
                                     'color' => '#aaaaaa',
                                     'wrap' => true
@@ -186,14 +186,14 @@ function line_message_change($customer, $service, $appointment){
                             ],
                             [
                                 'type' => 'text',
-                                'text' => "XX分店",
+                                'text' => "信程汽車",
                                 'weight' => 'bold',
                                 'size' => 'xxl',
                                 'margin' => 'md'
                             ],
                             [
                                 'type' => 'text',
-                                'text' => "台北市信義區大馬路xxx",
+                                'text' => "新北市八里區頂寮一街20-1號",
                                 'size' => 'xs',
                                 'color' => '#aaaaaa',
                                 'wrap' => true
@@ -343,14 +343,14 @@ function line_message_delet($customer, $service, $appointment){
                             ],
                             [
                                 'type' => 'text',
-                                'text' => "XX分店",
+                                'text' => "信程汽車",
                                 'weight' => 'bold',
                                 'size' => 'xxl',
                                 'margin' => 'md'
                             ],
                             [
                                 'type' => 'text',
-                                'text' => "台北市信義區大馬路xxx",
+                                'text' => "新北市八里區頂寮一街20-1號",
                                 'size' => 'xs',
                                 'color' => '#aaaaaa',
                                 'wrap' => true
