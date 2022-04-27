@@ -131,7 +131,7 @@ window.BackendUsers = window.BackendUsers || {};
         if (href === '#admins') {
             $('#admins').addClass('active');
             helper = new AdminsHelper();
-        } else if (href === '#providers') {
+        } else {
             $('#providers').addClass('active');
             helper = new ProvidersHelper();
         }
