@@ -438,8 +438,8 @@
 <script src="<?= asset_url('assets/ext/datejs/date.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/moment/moment.min.js') ?>"></script>
 <script src="<?= asset_url('assets/ext/moment/moment-timezone-with-data.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/frontend_book_api.js') ?>"></script>
-<script src="<?= asset_url('assets/js/frontend_book.js') ?>"></script>
+<script src="<?= asset_url('assets/js/frontend_book_api.js?q=4234234235643') ?>"></script>
+<script src="<?= asset_url('assets/js/frontend_book.js?q=66545634535234') ?>"></script>
 
 <script>
     $(function () {
