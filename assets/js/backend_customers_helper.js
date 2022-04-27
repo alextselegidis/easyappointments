@@ -64,6 +64,9 @@
             if ($('#filter-customers .filter').prop('disabled')) {
                 return; // Do nothing when user edits a customer record.
             }
+            $('html, body').animate({
+                scrollTop: $(".record-details").offset().top
+            }, 500);
 
             var customerId = $(this).attr('data-id');
             var customer = instance.filterResults.find(function (filterResult) {
