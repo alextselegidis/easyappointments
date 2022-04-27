@@ -134,11 +134,11 @@
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
                                 <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="reserveType" id="inlineRadio1" value="reserve" checked>
+                                        <input class="form-check-input reserve-type" type="radio" name="reserveType" id="inlineRadio1" value="reserve" checked>
                                         <label class="form-check-label" for="inlineRadio1">客戶預約</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="reserveType" id="inlineRadio2" value="outside">
+                                        <input class="form-check-input reserve-type" type="radio" name="reserveType" id="inlineRadio2" value="outside">
                                         <label class="form-check-label" for="inlineRadio2">臨時外出</label>
                                     </div>
                                 </div>
@@ -260,7 +260,7 @@
                     <fieldset>
                         <legend>
                             <?= lang('customer_details_title') ?>
-                            <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
+                            <button id="new-customer" class="c2d-btn btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
                                 <i class="fas fa-plus-square mr-2"></i>
                                 <?= lang('new') ?>
@@ -276,12 +276,27 @@
                                    placeholder="<?= lang('type_to_filter_customers') ?>"
                                    style="display: none;" class="input-sm form-control">
                             <div id="existing-customers-list" style="display: none;"></div>
+
+                                
                         </legend>
 
                         <input id="customer-id" type="hidden">
 
                         <div class="row">
+                            <div class="col-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input user-type" type="radio" name="userType" id="user1" value="new" checked>
+                                        <label class="form-check-label" for="user1">新建立客戶</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input user-type" type="radio" name="userType" id="user2" value="old">
+                                        <label class="form-check-label" for="user2">選擇舊用戶</label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="col-12 col-sm-6">
+                                
                                 <div class="form-group">
                                     <label for="first-name" class="control-label">
                                         <?= lang('first_name') ?>

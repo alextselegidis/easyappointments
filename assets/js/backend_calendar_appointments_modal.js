@@ -35,7 +35,11 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     }
 
     function bindEventHandlers() {
-        $('#manage-appointment input[type=radio]').on('click', function (e) {
+        $('#manage-appointment .user-type').on('click', function (e) {
+            console.log('user-type');
+            $('#select-customer').trigger('click'); // Hide the list.
+        });
+        $('#manage-appointment .reserve-type').on('click', function (e) {
             var node = $(e.currentTarget);
             var val = node.val();
             
