@@ -300,7 +300,6 @@
 
             return true;
         } catch (error) {
-            alert(1)
             $('#admins .form-message')
                 .addClass('alert-danger')
                 .text(error.message)

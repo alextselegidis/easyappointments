@@ -328,7 +328,6 @@ window.FrontendBook = window.FrontendBook || {};
         $('.frame-content, .command-buttons').on('click','.button-next', function () {
             let sid;
             let pid;
-            alert(1);
             // If we are on the first step and there is not provider selected do not continue with the next step.
             if ($(this).attr('data-step_index') === '1') {
                 if($(this).hasClass('service-next')){

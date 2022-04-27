@@ -81,7 +81,6 @@ window.BackendServices = window.BackendServices || {};
             if (helper) {
                 helper.unbindEventHandlers();
             }
-            alert(1);
             if ($(this).attr('href') === '#services') {
                 helper = servicesHelper;
             } else if ($(this).attr('href') === '#categories') {

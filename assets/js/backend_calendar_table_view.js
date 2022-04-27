@@ -1077,7 +1077,6 @@ window.BackendCalendarTableView = window.BackendCalendarTableView || {};
      */
     function onEventClick(event, jsEvent) {
         $('.popover').popover('dispose'); // Close all open popovers.
-        alert(1);
         var $html;
         var displayEdit;
         var displayDelete;
