@@ -35,6 +35,21 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
     }
 
     function bindEventHandlers() {
+        $('#manage-appointment input[type=radio]').on('click', function (e) {
+            var node = $(e.currentTarget);
+            var val = node.val();
+            
+            $("#inlineRadio1").prop("checked", true);
+            if (val == 'outside') {
+                BackendCalendarAppointmentsModal.resetAppointmentDialog();
+                var $dialog = $('#manage-appointment');
+                $dialog.modal('hide');
+                BackendCalendarUnavailabilityEventsModal.resetUnavailableDialog();
+                $dialog = $('#manage-unavailable');
+                $dialog.modal('show');
+            }
+            
+        })
         /**
          * Event: Manage Appointments Dialog Save Button "Click"
          *
@@ -333,7 +348,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
                     // If the current provider is able to provide the selected service, add him to the listbox.
                     if (Number(providerServiceId) === Number(serviceId)) {
                         $('#select-provider')
-                            .append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+                            .append(new Option(provider.first_name, provider.id));
                     }
                 });
             });
@@ -365,7 +380,7 @@ window.BackendCalendarAppointmentsModal = window.BackendCalendarAppointmentsModa
         var $dialog = $('#manage-appointment');
 
         // Empty form fields.
-        $dialog.find('input, textarea').val('');
+        $dialog.find('input, textarea').not(':input[type=radio]').val('');
         $dialog.find('.modal-message').fadeOut();
 
         // Prepare service and provider select boxes.

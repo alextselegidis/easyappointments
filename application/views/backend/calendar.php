@@ -133,6 +133,17 @@
                         <div class="row">
                             <div class="col-12 col-sm-6">
                                 <div class="form-group">
+                                <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="reserveType" id="inlineRadio1" value="reserve" checked>
+                                        <label class="form-check-label" for="inlineRadio1">客戶預約</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="reserveType" id="inlineRadio2" value="outside">
+                                        <label class="form-check-label" for="inlineRadio2">臨時外出</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                   
                                     <label for="select-service" class="control-label">
                                         <?= lang('service') ?>
                                         <span class="text-danger">*</span>
@@ -392,7 +403,7 @@
                             <input id="unavailable-end" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group hidden">
                             <label class="control-label"><?= lang('timezone') ?></label>
 
                             <ul>
