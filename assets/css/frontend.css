@@ -255,7 +255,7 @@ body {
     line-height: 28px;
 }
 
-#book-appointment-wizard #card {
+#book-appointment-wizard .service-card {
     margin: 0px 30px 0px 30px;
     width: auto;
     height: auto;
