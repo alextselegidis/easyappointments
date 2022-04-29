@@ -255,7 +255,7 @@ body {
     line-height: 28px;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card {
+#book-appointment-wizard #card {
     margin: 0px 30px 0px 30px;
     width: auto;
     height: auto;
@@ -263,38 +263,40 @@ body {
     border-radius: 4px;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card img{
+#book-appointment-wizard .service-card img {
     background: #E5E5E5;
     border-radius: 4px;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card #img-style{
+#book-appointment-wizard .service-card .img-style {
     padding: 15px;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card #service-name{
+#book-appointment-wizard .service-card .service-name {
     font-weight: bold;
     font-size: 25px;
     padding: 0px 20px;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card #word{
+#book-appointment-wizard .service-card .word {
     font-size: 20px;
     padding: 0px 20px;
 }
-
-#book-appointment-wizard #wizard-frame-1 #card #service-price{
+#book-appointment-wizard .service-card .text-wrap {
+    padding-bottom: 10px;
+}
+#book-appointment-wizard .service-card .service-price{
     font-size: 25px;
     padding: 0px 20px;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card #service-time{
+#book-appointment-wizard .service-card .service-time{
     font-size: 25px;
     padding: 0px 20px;
     float: right;
 }
 
-#book-appointment-wizard #wizard-frame-1 #card #button-next-1 {
+#book-appointment-wizard .service-card .button-next-service {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -317,46 +319,6 @@ body {
     margin-left: auto;
     margin-right: auto;
     width: 90%;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card {
-    margin: 0px 30px 0px 30px;
-    width: auto;
-    height: auto;
-    background: #F5F8FA;
-    border-radius: 4px;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card img{
-    background: #E5E5E5;
-    border-radius: 4px;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card #img-style{
-    padding: 15px;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card #service-name{
-    font-weight: bold;
-    font-size: 30px;
-    padding: 0px 20px;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card #word{
-    font-size: 20px;
-    padding: 0px 20px;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card #service-price{
-    font-weight: bold;
-    font-size: 30px;
-    padding: 0px 20px;
-}
-
-#book-appointment-wizard #wizard-frame-4 #card #service-time{
-    font-size: 30px;
-    padding: 0px 20px;
-    float: right;
 }
 
 #book-appointment-wizard #wizard-frame-4 label {
