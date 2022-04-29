@@ -35,7 +35,7 @@ function line_message_appointment($customer, $service, $appointment){
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "新北市八里區頂寮一街20-1號",
+                                    'text' => $setting['company_address'],
                                     'size' => 'xs',
                                     'color' => '#aaaaaa',
                                     'wrap' => true
