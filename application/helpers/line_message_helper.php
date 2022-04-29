@@ -28,7 +28,7 @@ function line_message_appointment($customer, $service, $appointment){
                                 ],
                                 [
                                     'type' => 'text',
-                                    'text' => "信程汽車",
+                                    'text' => $setting['company_name'],
                                     'weight' => 'bold',
                                     'size' => 'xxl',
                                     'margin' => 'md'

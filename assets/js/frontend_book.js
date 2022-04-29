@@ -626,19 +626,40 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
+        $('#confirmationCard').empty();
+        var selectServiceId = $('#select-service').val();
+        
+            var protocol = location.protocol;
+            var host = location.host;
+            $(`
+                <div id="card">
+                    <div id="img-style">
+                        <img class="img-fluid" src="${protocol}//${host}/assets/img/service_title.png">
+                    </div>
+                    <span id="select-service-name">名稱</span>
+                    <div id="word">
+                        <span>簡介</span> 
+                    </div>
+                    <div style="padding: 10px;">
+                        <span id="select-service-price">$ 價錢</span>
+                        <span id="selecr-service-time">? 小時</span>
+                    </div>
+                </div> 
+            `).appendTo('#confirmationCard');
+
         $('#appointment-details').empty();
 
         $('<div/>', {
             'html': [
-                // $('<h4/>', {
-                //     'text': EALang.appointment
-                // }),
+                $('<h4/>', {
+                    'text': EALang.appointment
+                }),
                 $('<p/>', {
                     'html': [
                         // $('<span/>', {
                         //     'text': EALang.service + ': ' + $('#select-service option:selected').text()
                         // }),
-                        $('<br/>'),
+                        // $('<br/>'),
                         $('<span/>', {
                             'text': /*EALang.provider +*/ '預約車格 : ' + $('#select-provider option:selected').text()
                         }),
