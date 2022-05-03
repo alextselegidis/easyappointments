@@ -231,7 +231,7 @@ window.FrontendBook = window.FrontendBook || {};
             //     $('#select-date').datepicker('getDate').toString('yyyy-MM-dd'));
             // FrontendBook.updateConfirmFrame();
 
-           var providerId = $('#select-provider').val();
+            var providerId = $('#select-provider').val();
 
             $('#serviceCard').html("");
 
@@ -247,20 +247,20 @@ window.FrontendBook = window.FrontendBook || {};
                     var protocol = location.protocol;
                     var host = location.host;
                     $('#serviceCard').append(`
-                        <div id="card">
-                            <div id="img-style">
+                        <div class="service-card">
+                            <div class="img-style">
                                 <img class="img-fluid" src="${protocol}//${host}/assets/img/service_title.png">
                             </div>
-                            <span id="service-name">${service.name}</span>
-                            <div id="word">
+                            <span class="service-name">${service.name}</span>
+                            <div class="word">
                                 <span>${service.description && service.description.replace(/\n/g,'<br>')}</span>                    
                             </div>
-                            <div style="padding: 10px;">
-                                <span id="service-price">$ ${service.price}</span>
-                                <span id="service-time">${service.duration/60} 小時</span>
+                            <div class="text-wrap">
+                                <span class="service-price">$ ${service.price}</span>
+                                <span class="service-time">${service.duration/60} 小時</span>
                             </div>
                             <div class="command-buttons service-button">
-                                <button type="button" data-service-id="${service.id}" id="button-next-1" class="btn button-next service-next" data-step_index="1">
+                                <button type="button" data-service-id="${service.id}" class="button-next-service btn button-next service-next" data-step_index="1">
                                     選擇                                    
                                     <svg class="svg-inline--fa fa-chevron-right fa-w-10 ml-2" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg=""><path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path></svg><!-- <i class="fas fa-chevron-right ml-2"></i> Font Awesome fontawesome.com -->
                                 </button>
@@ -626,19 +626,42 @@ window.FrontendBook = window.FrontendBook || {};
             }
         });
 
+        $('#confirmationCard').empty();
+        var selectServiceId = $('#select-service').val();
+        
+        var protocol = location.protocol;
+        var host = location.host;
+        var targetService = GlobalVariables.availableServices.find((e) => e.id == selectServiceId);
+
+        $(`
+            <div class="service-card">
+                <div class="img-style">
+                    <img class="img-fluid" src="${protocol}//${host}/assets/img/service_title.png">
+                </div>
+                <span class="service-name">${targetService.name}</span>
+                <div class="word">
+                    <span>簡介</span> 
+                </div>
+                <div class="text-wrap">
+                    <span class="service-price">${targetService.price} 價錢</span>
+                    <span class="service-time">${targetService.duration} 分鐘</span>
+                </div>
+            </div> 
+        `).appendTo('#confirmationCard');
+
         $('#appointment-details').empty();
 
         $('<div/>', {
             'html': [
-                // $('<h4/>', {
-                //     'text': EALang.appointment
-                // }),
+                $('<h4/>', {
+                    'text': EALang.appointment
+                }),
                 $('<p/>', {
                     'html': [
                         // $('<span/>', {
                         //     'text': EALang.service + ': ' + $('#select-service option:selected').text()
                         // }),
-                        $('<br/>'),
+                        // $('<br/>'),
                         $('<span/>', {
                             'text': /*EALang.provider +*/ '預約車格 : ' + $('#select-provider option:selected').text()
                         }),

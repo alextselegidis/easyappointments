@@ -307,28 +307,10 @@
                 <div class="frame-container">
                     <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
                     <div class="row frame-content">
-                        <div class="form-group">
-                            <label for="select-service">
-                                <strong><?= lang('service') ?></strong>
-                            </label>
-                        </div>
-                        <div id="card">
-                            <div id="img-style">
-                                <img class="img-fluid" src="<?= base_url('assets/img/service_title.png') ?>">
-                            </div>
-                            <span id="service-name">精緻美容小方案</span>
-                            <div id="word">
-                                <span>1.前檔玻璃除油墨+玻璃鍍膜($2000)</span>
-                                <br><span>2.升級SMR3霧化陶瓷($1000)</span>
-                                <br><span>3.精緻內外深層清潔</span>
-                            </div>
-                            <div style="padding: 10px;">
-                                <span id="service-price">NT3800</span>
-                                <span id="service-time">2 小時</span>
-                            </div>
-                        </div>
 
-                        <div id="appointment-details" class="col-12 col-md-6" style="margin-left: 3%;"></div>
+                        <div id="confirmationCard"></div>
+
+                        <div id="appointment-details" class="col-12 col-md-6" style="margin-left: 3%; margin-top: 3%"></div>
 
                         <div id="customer-details" class="col-12 col-md-6" style="margin-left: 3%; margin-top: 3%"></div>
                     </div>
