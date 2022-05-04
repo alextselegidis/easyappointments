@@ -93,6 +93,7 @@ class Availability {
 
         $conditions = [
             'id_users_provider' => $provider['id'],
+            'situation' => 1,
         ];
 
         // Sometimes it might be necessary to exclude an appointment from the calculation (e.g. when editing an
