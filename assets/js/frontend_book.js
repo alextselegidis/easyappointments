@@ -750,8 +750,6 @@ window.FrontendBook = window.FrontendBook || {};
             timezone: $('#select-timezone').val()
         };
 
-        var situationWait = 0;
-
         data.appointment = {
             start_datetime: $('#select-date').datepicker('getDate').toString('yyyy-MM-dd')
                 + ' ' + Date.parse($('.selected-hour').data('value') || '').toString('HH:mm') + ':00',
@@ -760,7 +758,6 @@ window.FrontendBook = window.FrontendBook || {};
             is_unavailable: false,
             id_users_provider: $('#select-provider').val(),
             id_services: $('#select-service').val(),
-            situation: situationWait
         };
 
         data.manage_mode = FrontendBook.manageMode;
