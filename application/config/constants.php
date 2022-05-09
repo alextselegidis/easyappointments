@@ -79,6 +79,7 @@ define('TIME_FORMAT_REGULAR', 'regular');
 define('TIME_FORMAT_MILITARY', 'military');
 
 define('MIN_PASSWORD_LENGTH', 7);
+define('MAX_PASSWORD_LENGTH', 100);
 define('ANY_PROVIDER', 'any-provider');
 
 define('CALENDAR_VIEW_DEFAULT', 'default');

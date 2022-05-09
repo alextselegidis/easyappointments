@@ -22,9 +22,16 @@
  * @param string $password Given string password.
  *
  * @return string Returns the hash string of the given password.
+ *
+ * @throws Exception
  */
 function hash_password(string $salt, string $password): string
 {
+    if (strlen($password) > MAX_PASSWORD_LENGTH)
+    {
+        throw new Exception('The provided password is too long, please use a shorter value.');
+    }
+
     $half = (int)(strlen($salt) / 2);
 
     $hash = hash('sha256', substr($salt, 0, $half) . $password . substr($salt, $half));
