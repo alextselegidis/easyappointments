@@ -77,7 +77,9 @@ class Api {
 
             $password = $_SERVER['PHP_AUTH_PW'];
 
-            if ( ! $this->CI->accounts->check_login($username, $password))
+            $userdata = $this->CI->accounts->check_login($username, $password);
+
+            if (empty($userdata['role_slug']) || $userdata['role_slug'] !== DB_SLUG_ADMIN)
             {
                 throw new RuntimeException('The provided credentials do not match any admin user!', 401, 'Unauthorized');
             }
