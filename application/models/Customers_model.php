@@ -208,6 +208,7 @@ class Customers_model extends EA_Model {
         else
         {
             $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $customer_id]);
+            $this->db->update('appointments', ['delete_datetime' => date('Y-m-d H:i:s')], ['id_users_customer' => $customer_id, 'delete_datetime' => NULL]);
         }
     }
 
