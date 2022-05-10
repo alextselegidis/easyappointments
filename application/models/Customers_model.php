@@ -133,6 +133,7 @@ class Customers_model extends EA_Model {
                 ->select()
                 ->from('users')
                 ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('users.delete_datetime', NULL)
                 ->where('roles.slug', DB_SLUG_CUSTOMER)
                 ->where('users.email', $customer['email'])
                 ->where('users.id !=', $customer_id)
@@ -181,7 +182,7 @@ class Customers_model extends EA_Model {
     protected function update(array $customer): int
     {
         $customer['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         if ( ! $this->db->update('users', $customer, ['id' => $customer['id']]))
         {
             throw new RuntimeException('Could not update customer.');
@@ -359,6 +360,7 @@ class Customers_model extends EA_Model {
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $customer['email'])
+            ->where('users.delete_datetime', NULL)
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get()
             ->num_rows();
@@ -388,6 +390,7 @@ class Customers_model extends EA_Model {
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.email', $customer['email'])
+            ->where('users.delete_datetime', NULL)
             ->where('roles.slug', DB_SLUG_CUSTOMER)
             ->get()
             ->row_array();
