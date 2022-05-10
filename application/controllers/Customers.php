@@ -28,6 +28,7 @@ class Customers extends EA_Controller {
 
         $this->load->model('appointments_model');
         $this->load->model('customers_model');
+        $this->load->model('secretaries_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
@@ -46,7 +47,7 @@ class Customers extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_USERS))
+        if (cannot('view', PRIV_CUSTOMERS))
         {
             if ($user_id)
             {
@@ -115,7 +116,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('view', PRIV_USERS))
+            if (cannot('view', PRIV_CUSTOMERS))
             {
                 abort(403, 'Forbidden');
             }
@@ -160,7 +161,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('add', PRIV_USERS))
+            if (cannot('add', PRIV_CUSTOMERS))
             {
                 abort(403, 'Forbidden');
             }
@@ -187,7 +188,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('edit', PRIV_USERS))
+            if (cannot('edit', PRIV_CUSTOMERS))
             {
                 abort(403, 'Forbidden');
             }
@@ -214,7 +215,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('delete', PRIV_USERS))
+            if (cannot('delete', PRIV_CUSTOMERS))
             {
                 abort(403, 'Forbidden');
             }
@@ -240,7 +241,7 @@ class Customers extends EA_Controller {
     {
         try
         {
-            if (cannot('view', PRIV_USERS))
+            if (cannot('view', PRIV_CUSTOMERS))
             {
                 abort(403, 'Forbidden');
             }
