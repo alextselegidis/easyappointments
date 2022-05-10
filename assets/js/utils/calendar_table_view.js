@@ -393,9 +393,36 @@ App.Utils.CalendarTableView = (function () {
                 throw new Error('Invalid date format setting provided: ' + vars('date_format'));
         }
 
+        const firstWeekday = vars('first_weekday');
+        const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
+
         $calendarHeader.find('.select-date').datepicker({
             defaultDate: new Date(),
             dateFormat: dateFormat,
+
+            // Translation
+            dayNames: [lang('sunday'), lang('monday'), lang('tuesday'), lang('wednesday'),
+                lang('thursday'), lang('friday'), lang('saturday')],
+            dayNamesShort: [lang('sunday').substr(0, 3), lang('monday').substr(0, 3),
+                lang('tuesday').substr(0, 3), lang('wednesday').substr(0, 3),
+                lang('thursday').substr(0, 3), lang('friday').substr(0, 3),
+                lang('saturday').substr(0, 3)],
+            dayNamesMin: [lang('sunday').substr(0, 2), lang('monday').substr(0, 2),
+                lang('tuesday').substr(0, 2), lang('wednesday').substr(0, 2),
+                lang('thursday').substr(0, 2), lang('friday').substr(0, 2),
+                lang('saturday').substr(0, 2)],
+            monthNames: [lang('january'), lang('february'), lang('march'), lang('april'),
+                lang('may'), lang('june'), lang('july'), lang('august'), lang('september'),
+                lang('october'), lang('november'), lang('december')],
+            prevText: lang('previous'),
+            nextText: lang('next'),
+            currentText: lang('now'),
+            closeText: lang('close'),
+            timeOnlyTitle: lang('select_time'),
+            timeText: lang('time'),
+            hourText: lang('hour'),
+            minuteText: lang('minutes'),
+            firstDay: firstWeekdayNumber,
             onSelect: (dateText, instance) => {
                 const startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
                 const endDate = new Date(startDate.getTime()).add({days: parseInt($selectFilterItem.val()) - 1});
