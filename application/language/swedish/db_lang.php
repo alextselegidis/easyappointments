@@ -7,7 +7,7 @@
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('Direktaccess till skriptet är inte tillåtet');
 
 $lang['db_invalid_connection_str'] = 'Det går inte att avgöra databasinställningarna utifrån den angivna anslutningssträngen.';
 $lang['db_unable_to_connect'] = 'Kan inte ansluta till databasen med de angivna inställningarna.';
