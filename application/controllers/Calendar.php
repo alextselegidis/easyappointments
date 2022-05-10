@@ -127,6 +127,7 @@ class Calendar extends EA_Controller {
             'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,
             'available_services' => $available_services,
+            'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
             'customers' => [], // TODO: Remove the use of the pre-rendered customer set and only work with asynchronously fetched customer records. 
         ]);
