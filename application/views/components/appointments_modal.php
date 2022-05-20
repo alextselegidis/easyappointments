@@ -26,7 +26,7 @@
 
                 <form>
                     <fieldset>
-                        <legend><?= lang('appointment_details_title') ?></legend>
+                        <legend class="float-none"><?= lang('appointment_details_title') ?></legend>
 
                         <input id="appointment-id" type="hidden">
 
@@ -173,7 +173,7 @@
                     <br>
 
                     <fieldset>
-                        <legend>
+                        <legend class="float-none">
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
