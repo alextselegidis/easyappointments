@@ -138,7 +138,7 @@ App.Pages.Account = (function () {
             timezone: $timezone.val(),
             settings: {
                 username: $username.val(),
-                password: $password.val() || null,
+                password: $password.val() || undefined,
                 calendar_view: $calendarView.val(),
                 notifications: Number(notifications.prop('checked'))
             }
