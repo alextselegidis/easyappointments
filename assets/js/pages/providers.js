@@ -28,6 +28,7 @@ App.Pages.Providers = (function () {
     const $zipCode = $('#zip-code');
     const $private = $('#private');
     const $notes = $('#notes');
+    const $language = $('#language');
     const $timezone = $('#timezone');
     const $username = $('#username');
     const $password = $('#password');
@@ -165,6 +166,7 @@ App.Pages.Providers = (function () {
                 zip_code: $zipCode.val(),
                 is_private: Number($private.prop('checked')),
                 notes: $notes.val(),
+                language: $language.val(),
                 timezone: $timezone.val(),
                 settings: {
                     username: $username.val(),
@@ -345,6 +347,7 @@ App.Pages.Providers = (function () {
         $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $providers.find('.record-details .form-label span').prop('hidden', true);
         $providers.find('.record-details #calendar-view').val('default');
+        $providers.find('.record-details #language').val('english');
         $providers.find('.record-details #timezone').val('UTC');
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
 
@@ -385,6 +388,7 @@ App.Pages.Providers = (function () {
         $zipCode.val(provider.zip_code);
         $private.prop('checked', provider.is_private);
         $notes.val(provider.notes);
+        $language.val(provider.language);
         $timezone.val(provider.timezone);
 
         $username.val(provider.settings.username);

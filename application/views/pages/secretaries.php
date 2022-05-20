@@ -171,6 +171,20 @@
                     </div>
 
                     <div class="mb-3">
+                        <label class="form-label" for="language">
+                            <?= lang('language') ?>
+                            <span class="text-danger" hidden>*</span>
+                        </label>
+                        <select id="language" class="form-control required" disabled>
+                            <?php foreach (vars('available_languages') as $available_language): ?>
+                                <option value="<?= $available_language ?>">
+                                    <?= ucfirst($available_language) ?>
+                                </option>
+                            <?php endforeach ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label" for="timezone">
                             <?= lang('timezone') ?>
                             <span class="text-danger" hidden>*</span>

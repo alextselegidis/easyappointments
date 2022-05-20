@@ -26,7 +26,8 @@ App.Pages.Account = (function () {
     const $state = $('#state');
     const $zipCode = $('#zip-code');
     const $notes = $('#notes');
-    const $timezones = $('#timezone');
+    const $language = $('#language');
+    const $timezone = $('#timezone');
     const $username = $('#username');
     const $password = $('#password');
     const $retypePassword = $('#retype-password');
@@ -106,7 +107,8 @@ App.Pages.Account = (function () {
         $state.val(account.state);
         $zipCode.val(account.zip_code);
         $notes.val(account.notes);
-        $timezones.val(account.timezone);
+        $language.val(account.language);
+        $timezone.val(account.timezone);
         $username.val(account.settings.username);
         $password.val('');
         $retypePassword.val('');
@@ -132,7 +134,8 @@ App.Pages.Account = (function () {
             state: $state.val(),
             zip_code: $zipCode.val(),
             notes: $notes.val(),
-            timezone: $timezones.val(),
+            language: $language.val(),
+            timezone: $timezone.val(),
             settings: {
                 username: $username.val(),
                 password: $password.val() || null,

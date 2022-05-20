@@ -27,6 +27,7 @@ App.Pages.Secretaries = (function () {
     const $state = $('#state');
     const $zipCode = $('#zip-code');
     const $notes = $('#notes');
+    const $language = $('#language');
     const $timezone = $('#timezone');
     const $username = $('#username');
     const $password = $('#password');
@@ -187,6 +188,7 @@ App.Pages.Secretaries = (function () {
                 state: $state.val(),
                 zip_code: $zipCode.val(),
                 notes: $notes.val(),
+                language: $language.val(),
                 timezone: $timezone.val(),
                 settings: {
                     username: $username.val(),
@@ -370,6 +372,7 @@ App.Pages.Secretaries = (function () {
         $state.val(secretary.state);
         $zipCode.val(secretary.zip_code);
         $notes.val(secretary.notes);
+        $language.val(secretary.language);
         $timezone.val(secretary.timezone);
 
         $username.val(secretary.settings.username);

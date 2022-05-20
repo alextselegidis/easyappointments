@@ -27,6 +27,7 @@ App.Pages.Admins = (function () {
     const $state = $('#state');
     const $zipCode = $('#zip-code');
     const $notes = $('#notes');
+    const $language = $('#language');
     const $timezone = $('#timezone');
     const $username = $('#username');
     const $password = $('#password');
@@ -183,6 +184,7 @@ App.Pages.Admins = (function () {
                 state: $state.val(),
                 zip_code: $zipCode.val(),
                 notes: $notes.val(),
+                language: $language.val(),
                 timezone: $timezone.val(),
                 settings: {
                     username: $username.val(),
@@ -334,6 +336,7 @@ App.Pages.Admins = (function () {
         $admins.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $admins.find('.record-details .form-label span').prop('hidden', true);
         $admins.find('.record-details #calendar-view').val('default');
+        $admins.find('.record-details #language').val('english');
         $admins.find('.record-details #timezone').val('UTC');
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
@@ -358,6 +361,7 @@ App.Pages.Admins = (function () {
         $state.val(admin.state);
         $zipCode.val(admin.zip_code);
         $notes.val(admin.notes);
+        $language.val(admin.language);
         $timezone.val(admin.timezone);
 
         $username.val(admin.settings.username);
