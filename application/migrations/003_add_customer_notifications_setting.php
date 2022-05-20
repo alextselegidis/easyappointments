@@ -19,10 +19,13 @@ class Migration_Add_customer_notifications_setting extends EA_Migration {
      */
     public function up()
     {
-        $this->db->insert('settings', [
-            'name' => 'customer_notifications',
-            'value' => '1'
-        ]);
+        if ( ! $this->db->get_where('settings', ['name' => 'customer_notifications'])->num_rows())
+        {
+            $this->db->insert('settings', [
+                'name' => 'customer_notifications',
+                'value' => '1'
+            ]);
+        }
     }
 
     /**
@@ -32,6 +35,9 @@ class Migration_Add_customer_notifications_setting extends EA_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'customer_notifications']);
+        if ($this->db->get_where('settings', ['name' => 'customer_notifications'])->num_rows())
+        {
+            $this->db->delete('settings', ['name' => 'customer_notifications']);
+        }
     }
 }

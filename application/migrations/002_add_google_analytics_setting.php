@@ -19,10 +19,13 @@ class Migration_Add_google_analytics_setting extends EA_Migration {
      */
     public function up()
     {
-        $this->db->insert('settings', [
-            'name' => 'google_analytics_code',
-            'value' => ''
-        ]);
+        if ( ! $this->db->get_where('settings', ['name' => 'google_analytics_code'])->num_rows())
+        {
+            $this->db->insert('settings', [
+                'name' => 'google_analytics_code',
+                'value' => ''
+            ]);
+        }
     }
 
     /**
@@ -32,6 +35,9 @@ class Migration_Add_google_analytics_setting extends EA_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'google_analytics_code']);
+        if ($this->db->get_where('settings', ['name' => 'google_analytics_code'])->num_rows())
+        {
+            $this->db->delete('settings', ['name' => 'google_analytics_code']);
+        }
     }
 }
