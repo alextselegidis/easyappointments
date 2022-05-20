@@ -26,7 +26,7 @@ App.Pages.Calendar = (function () {
         $calendarPage.on('click', '#toggle-fullscreen', (event) => {
             const $toggleFullscreen = $(event.target);
             const element = document.documentElement;
-            const isFullScreen = document.fullScreenElement || document.mozFullScreen || document.webkitIsFullScreen;
+            const isFullScreen = document.fullScreenElement || document.mozFullScreen || document.webkitIsFullScreen || false;
 
             if (isFullScreen) {
                 // Exit fullscreen mode.
@@ -58,6 +58,10 @@ App.Pages.Calendar = (function () {
 
         $insertWorkingPlanException.on('click', () => {
             const providerId = $('#select-filter-item').val();
+
+            if (providerId === App.Utils.CalendarDefaultView.FILTER_TYPE_ALL) {
+                return;
+            }
 
             const provider = vars('available_providers').find((availableProvider) => {
                 return Number(availableProvider.id) === Number(providerId);
@@ -105,8 +109,6 @@ App.Pages.Calendar = (function () {
      * This function makes the necessary initialization for the default backend calendar page.
      *
      * If this module is used in another page then this function might not be needed.
-     *
-     * @param {String} view Optional (default), the calendar view to be loaded.
      */
     function initialize() {
         // Load and initialize the calendar view.

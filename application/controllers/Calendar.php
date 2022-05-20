@@ -629,7 +629,7 @@ class Calendar extends EA_Controller {
             
             $filter_type = request('filter_type');
 
-            if ( ! $filter_type && $record_id !== 'all')
+            if ( ! $filter_type && $record_id !== FILTER_TYPE_ALL)
             {
                 json_response([
                     'appointments' => [],

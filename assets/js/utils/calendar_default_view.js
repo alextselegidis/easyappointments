@@ -27,6 +27,7 @@ App.Utils.CalendarDefaultView = (function () {
     const $footer = $('#footer');
     const $notification = $('#notification');
     const $calendarToolbar = $('#calendar-toolbar');
+    const FILTER_TYPE_ALL = 'all';
     const FILTER_TYPE_PROVIDER = 'provider';
     const FILTER_TYPE_SERVICE = 'service';
     let fullCalendar = null;
@@ -311,6 +312,8 @@ App.Utils.CalendarDefaultView = (function () {
                     $('#enable-sync span').text(lang('enable_sync'));
                     $('#google-sync').prop('disabled', true);
                 }
+                
+                $('#insert-working-plan-exception').toggle(providerId !== App.Utils.CalendarDefaultView.FILTER_TYPE_ALL);
             }
 
             $reloadAppointments.trigger('click');
@@ -465,8 +468,8 @@ App.Utils.CalendarDefaultView = (function () {
                     $('<span/>', {
                         'text': info.event.extendedProps.data
                             ? info.event.extendedProps.data.provider.first_name +
-                              ' ' +
-                              info.event.extendedProps.data.provider.last_name
+                            ' ' +
+                            info.event.extendedProps.data.provider.last_name
                             : '-'
                     }),
                     $('<br/>'),
@@ -478,8 +481,8 @@ App.Utils.CalendarDefaultView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             info.event.extendedProps.data.date +
-                                ' ' +
-                                info.event.extendedProps.data.workingPlanException.start,
+                            ' ' +
+                            info.event.extendedProps.data.workingPlanException.start,
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -494,8 +497,8 @@ App.Utils.CalendarDefaultView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             info.event.extendedProps.data.date +
-                                ' ' +
-                                info.event.extendedProps.data.workingPlanException.end,
+                            ' ' +
+                            info.event.extendedProps.data.workingPlanException.end,
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -1336,9 +1339,9 @@ App.Utils.CalendarDefaultView = (function () {
                                         start: calendarDate.clone().toDate(),
                                         end: moment(
                                             calendarDate.format('YYYY-MM-DD') +
-                                                ' ' +
-                                                sortedWorkingPlan[weekdayName].start +
-                                                ':00'
+                                            ' ' +
+                                            sortedWorkingPlan[weekdayName].start +
+                                            ':00'
                                         ).toDate(),
                                         allDay: false,
                                         color: '#BEBEBE',
@@ -1360,9 +1363,9 @@ App.Utils.CalendarDefaultView = (function () {
                                         title: lang('not_working'),
                                         start: moment(
                                             calendarDate.format('YYYY-MM-DD') +
-                                                ' ' +
-                                                sortedWorkingPlan[weekdayName].end +
-                                                ':00'
+                                            ' ' +
+                                            sortedWorkingPlan[weekdayName].end +
+                                            ':00'
                                         ).toDate(),
                                         end: calendarDate.clone().add(1, 'day').toDate(),
                                         allDay: false,
@@ -1594,7 +1597,9 @@ App.Utils.CalendarDefaultView = (function () {
         // Trigger once to set the proper footer position after calendar initialization.
         onWindowResize();
 
-        $selectFilterItem.append(new Option(lang('all'), 'all', true, true));
+        $selectFilterItem.append(new Option(lang('all'), FILTER_TYPE_ALL, true, true));
+        
+        $('#insert-working-plan-exception').hide(); 
 
         // Fill the select list boxes of the page.
         if (vars('available_providers').length > 0) {
@@ -1709,6 +1714,9 @@ App.Utils.CalendarDefaultView = (function () {
     }
 
     return {
-        initialize
+        initialize,
+        FILTER_TYPE_ALL,
+        FILTER_TYPE_PROVIDER,
+        FILTER_TYPE_SERVICE
     };
 })();
