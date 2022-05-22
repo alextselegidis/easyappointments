@@ -69,6 +69,7 @@ class Account extends EA_Controller {
 
         html_vars([
             'page_title' => lang('settings'),
+            'theme' => setting('theme', 'default'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'grouped_timezones' => $this->timezones->to_grouped_array(),

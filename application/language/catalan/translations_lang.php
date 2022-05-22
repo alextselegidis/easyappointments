@@ -364,4 +364,5 @@ $lang['all'] = 'Tot';
 $lang['booking_link'] = 'Enllaç de reserva';
 $lang['add_new_event'] = 'Afegeix un nou esdeveniment';
 $lang['what_kind_of_event'] = 'Quin tipus d\'esdeveniment voleu afegir?';
+$lang['theme'] = 'Theme';
 // End

@@ -364,4 +364,5 @@ $lang['all'] = 'Kõik';
 $lang['booking_link'] = 'Broneeringu link';
 $lang['add_new_event'] = 'Lisa uus sündmus';
 $lang['what_kind_of_event'] = 'Mis laadi sündmust soovid lisada?';
+$lang['theme'] = 'Theme';
 // End

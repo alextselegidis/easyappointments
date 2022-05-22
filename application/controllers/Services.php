@@ -67,6 +67,7 @@ class Services extends EA_Controller {
 
         html_vars([
             'page_title' => lang('services'),
+            'theme' => setting('theme', 'default'),
             'active_menu' => PRIV_SERVICES,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),

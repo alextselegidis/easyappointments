@@ -61,6 +61,7 @@ class Booking extends EA_Controller {
             return;
         }
 
+        $theme = setting('theme', 'default');
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
         $company_color = setting('company_color');
@@ -75,6 +76,7 @@ class Booking extends EA_Controller {
             html_vars([
                 'show_message' => TRUE,
                 'page_title' => lang('page_title') . ' ' . $company_name,
+                'theme' => $theme,
                 'message_title' => lang('booking_is_disabled'),
                 'message_text' => $disable_booking_message,
                 'message_icon' => base_url('assets/img/error.png'),
@@ -151,6 +153,7 @@ class Booking extends EA_Controller {
                 html_vars([
                     'show_message' => TRUE,
                     'page_title' => lang('page_title') . ' ' . $company_name,
+                    'theme' => $theme,
                     'message_title' => lang('appointment_not_found'),
                     'message_text' => lang('appointment_does_not_exist_in_db'),
                     'message_icon' => base_url('assets/img/error.png'),
@@ -178,6 +181,7 @@ class Booking extends EA_Controller {
                 html_vars([
                     'show_message' => TRUE,
                     'page_title' => lang('page_title') . ' ' . $company_name,
+                    'theme' => $theme,
                     'message_title' => lang('appointment_locked'),
                     'message_text' => strtr(lang('appointment_locked_message'), [
                         '{$limit}' => sprintf('%02d:%02d', $hours, $minutes)
@@ -221,6 +225,7 @@ class Booking extends EA_Controller {
         ]);
 
         html_vars([
+            'theme' => $theme,
             'available_services' => $available_services,
             'available_providers' => $available_providers,
             'company_name' => $company_name,

@@ -81,6 +81,7 @@ class Secretaries extends EA_Controller {
 
         html_vars([
             'page_title' => lang('secretaries'),
+            'theme' => setting('theme', 'default'),
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'grouped_timezones' => $this->timezones->to_grouped_array(),

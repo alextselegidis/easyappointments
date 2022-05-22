@@ -363,4 +363,5 @@ $lang['all'] = 'All';
 $lang['booking_link'] = 'Booking Link';
 $lang['add_new_event'] = 'Add New Event';
 $lang['what_kind_of_event'] = 'What kind of event would you like to add?';
+$lang['theme'] = 'Theme';
 // End
