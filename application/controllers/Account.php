@@ -109,7 +109,7 @@ class Account extends EA_Controller {
                 'language',
                 'settings'
             ]);
-            
+
             $this->users_model->only($account['settings'], [
                 'username',
                 'password',
@@ -117,12 +117,18 @@ class Account extends EA_Controller {
                 'calendar_view'
             ]);
 
+            if (empty($account['password']))
+            {
+                unset($account['password']);
+            }
+
             $this->users_model->save($account);
 
             session([
                 'user_email' => $account['email'],
                 'username' => $account['settings']['username'],
                 'timezone' => $account['timezone'],
+                'language' => $account['language'],
             ]);
 
             response();
