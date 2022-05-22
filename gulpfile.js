@@ -11,6 +11,7 @@
 
 const babel = require('gulp-babel');
 const changed = require('gulp-changed');
+const cached = require('gulp-cached');
 const childProcess = require('child_process');
 const css = require('gulp-clean-css');
 const del = require('del');
@@ -20,6 +21,7 @@ const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const zip = require('zip-dir');
+// const debug = require('gulp-debug');
 
 function archive(done) {
     const filename = 'easyappointments-0.0.0.zip';
@@ -95,7 +97,7 @@ function styles() {
     return gulp
         .src(['assets/css/**/*.scss', '!assets/css/**/*.min.css'])
         .pipe(plumber())
-        .pipe(changed('assets/css/**/*'))
+        .pipe(cached())
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('assets/css'))
         .pipe(css())
