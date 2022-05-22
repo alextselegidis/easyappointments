@@ -117,90 +117,11 @@
                                     </label>
 
                                     <select id="theme" data-field="theme" class="form-control">
-                                        <option value="default">
-                                            <?= lang('default') ?>
-                                        </option>
-                                        <option value="cerulean">
-                                            cerulean
-                                        </option>
-                                        <option value="cosmo">
-                                            cosmo
-                                        </option>
-                                        <option value="cyborg">
-                                            cyborg
-                                        </option>
-                                        <option value="darkly">
-                                            darkly
-                                        </option>
-                                        <option value="default">
-                                            default
-                                        </option>
-                                        <option value="flatly">
-                                            flatly
-                                        </option>
-                                        <option value="journal">
-                                            journal
-                                        </option>
-                                        <option value="litera">
-                                            litera
-                                        </option>
-                                        <option value="lumen">
-                                            lumen
-                                        </option>
-                                        <option value="lux">
-                                            lux
-                                        </option>
-                                        <option value="materia">
-                                            materia
-                                        </option>
-                                        <option value="minty">
-                                            minty
-                                        </option>
-                                        <option value="morph">
-                                            morph
-                                        </option>
-                                        <option value="pulse">
-                                            pulse
-                                        </option>
-                                        <option value="quartz">
-                                            quartz
-                                        </option>
-                                        <option value="regent">
-                                            regent
-                                        </option>
-                                        <option value="sandstone">
-                                            sandstone
-                                        </option>
-                                        <option value="simplex">
-                                            simplex
-                                        </option>
-                                        <option value="sketchy">
-                                            sketchy
-                                        </option>
-                                        <option value="slate">
-                                            slate
-                                        </option>
-                                        <option value="solar">
-                                            solar
-                                        </option>
-                                        <option value="spacelab">
-                                            spacelab
-                                        </option>
-                                        <option value="superhero">
-                                            superhero
-                                        </option>
-                                        <option value="united">
-                                            united
-                                        </option>
-                                        <option value="vapor">
-                                            vapor
-                                        </option>
-                                        <option value="yeti">
-                                            yeti
-                                        </option>
-                                        <option value="zephyr">
-                                            zephyr
-                                        </option>
+                                        <?php foreach(vars('available_themes') as $available_theme): ?>
+                                            <option value="<?= $available_theme ?>">
+                                                <?= ucfirst($available_theme) ?>
+                                            </option>
+                                        <?php endforeach ?>
                                     </select>
 
                                     <div class="form-text text-muted">

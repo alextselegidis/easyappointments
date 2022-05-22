@@ -91,7 +91,6 @@ class Customers extends EA_Controller {
 
         html_vars([
             'page_title' => lang('customers'),
-            'theme' => setting('theme', 'default'),
             'active_menu' => PRIV_CUSTOMERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),

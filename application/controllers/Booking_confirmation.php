@@ -56,7 +56,6 @@ class Booking_confirmation extends EA_Controller {
 
         html_vars([
             'page_title' => lang('success'),
-            'theme' => setting('theme', 'default'),
             'google_analytics_code' => setting('google_analytics_code'),
             'matomo_analytics_url' => setting('matomo_analytics_url'),
             'add_to_google_url' => $add_to_google_url,
