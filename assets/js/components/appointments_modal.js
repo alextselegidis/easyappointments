@@ -167,6 +167,8 @@ App.Components.AppointmentsModal = (function () {
             } else {
                 $selectService.find('option:first').prop('selected', true).trigger('change');
             }
+            
+            $selectProvider.trigger('change');
 
             const serviceId = $selectService.val();
 

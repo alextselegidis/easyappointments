@@ -29,9 +29,33 @@ App.Components.UnavailabilitiesModal = (function () {
     const $reloadAppointments = $('#reload-appointments');
 
     /**
+     * Update the displayed timezone.
+     */
+    function updateTimezone() {
+        const providerId = $selectProvider.val();
+
+        const provider = vars('available_providers').find(
+            (availableProvider) => Number(availableProvider.id) === Number(providerId)
+        );
+
+        if (provider && provider.timezone) {
+            $unavailabilitiesModal.find('.provider-timezone').text(
+                vars('timezones')[provider.timezone]
+            );
+        }
+    }
+
+    /**
      * Add the component event listeners.
      */
     function addEventListeners() {
+        /**
+         * Event: Provider "Change"
+         */
+        $selectProvider.on('change', () => {
+            updateTimezone();
+        });
+        
         /**
          * Event: Manage Unavailability Dialog Save Button "Click"
          *

@@ -1506,6 +1506,8 @@ App.Utils.CalendarDefaultView = (function () {
                                 $('#unavailability-provider option:first').prop('selected', true);
                             }
 
+                            $('#unavailability-provider').trigger('change');
+
                             $('#unavailability-start').datepicker('setDate', info.start);
 
                             $('#unavailability-end').datepicker('setDate', info.end);
