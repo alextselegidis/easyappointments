@@ -22,6 +22,8 @@
     <?php if (vars('company_color')): ?>
         <?php component('company_color_style', ['company_color' => vars('company_color')]) ?>
     <?php endif ?>
+
+    <?php slot('styles') ?>
 </head>
 
 <body>
