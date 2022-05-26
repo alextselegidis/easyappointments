@@ -167,7 +167,7 @@ App.Components.AppointmentsModal = (function () {
             } else {
                 $selectService.find('option:first').prop('selected', true).trigger('change');
             }
-            
+
             $selectProvider.trigger('change');
 
             const serviceId = $selectService.val();
@@ -410,7 +410,7 @@ App.Components.AppointmentsModal = (function () {
         // Empty form fields.
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').fadeOut();
-        
+
         $language.val('english');
         $timezone.val('UTC');
 
@@ -452,81 +452,8 @@ App.Components.AppointmentsModal = (function () {
 
         const startDatetime = new Date();
         const endDatetime = moment().add(duration, 'minutes').toDate();
-        let dateFormat;
 
-        switch (vars('date_format')) {
-            case 'DMY':
-                dateFormat = 'dd/mm/yy';
-                break;
-            case 'MDY':
-                dateFormat = 'mm/dd/yy';
-                break;
-            case 'YMD':
-                dateFormat = 'yy/mm/dd';
-                break;
-            default:
-                throw new Error('Invalid date format value.');
-        }
-
-        const firstWeekDay = vars('first_weekday');
-
-        const firstWeekDayNumber = App.Utils.Date.getWeekdayId(firstWeekDay);
-
-        $startDatetime.datetimepicker({
-            dateFormat: dateFormat,
-            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-
-            // Translation
-            dayNames: [
-                lang('sunday'),
-                lang('monday'),
-                lang('tuesday'),
-                lang('wednesday'),
-                lang('thursday'),
-                lang('friday'),
-                lang('saturday')
-            ],
-            dayNamesShort: [
-                lang('sunday').substr(0, 3),
-                lang('monday').substr(0, 3),
-                lang('tuesday').substr(0, 3),
-                lang('wednesday').substr(0, 3),
-                lang('thursday').substr(0, 3),
-                lang('friday').substr(0, 3),
-                lang('saturday').substr(0, 3)
-            ],
-            dayNamesMin: [
-                lang('sunday').substr(0, 2),
-                lang('monday').substr(0, 2),
-                lang('tuesday').substr(0, 2),
-                lang('wednesday').substr(0, 2),
-                lang('thursday').substr(0, 2),
-                lang('friday').substr(0, 2),
-                lang('saturday').substr(0, 2)
-            ],
-            monthNames: [
-                lang('january'),
-                lang('february'),
-                lang('march'),
-                lang('april'),
-                lang('may'),
-                lang('june'),
-                lang('july'),
-                lang('august'),
-                lang('september'),
-                lang('october'),
-                lang('november'),
-                lang('december')
-            ],
-            prevText: lang('previous'),
-            nextText: lang('next'),
-            currentText: lang('now'),
-            closeText: lang('close'),
-            timeOnlyTitle: lang('select_time'),
-            timeText: lang('time'),
-            hourText: lang('hour'),
-            minuteText: lang('minutes'),
-            firstDay: firstWeekDayNumber,
+        App.Utils.UI.initializeDatetimepicker($startDatetime, {
             onClose: () => {
                 const serviceId = $selectService.val();
 
@@ -539,64 +466,10 @@ App.Components.AppointmentsModal = (function () {
                 $endDatetime.datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
             }
         });
+
         $startDatetime.datetimepicker('setDate', startDatetime);
 
-        $endDatetime.datetimepicker({
-            dateFormat: dateFormat,
-            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-
-            // Translation
-            dayNames: [
-                lang('sunday'),
-                lang('monday'),
-                lang('tuesday'),
-                lang('wednesday'),
-                lang('thursday'),
-                lang('friday'),
-                lang('saturday')
-            ],
-            dayNamesShort: [
-                lang('sunday').substr(0, 3),
-                lang('monday').substr(0, 3),
-                lang('tuesday').substr(0, 3),
-                lang('wednesday').substr(0, 3),
-                lang('thursday').substr(0, 3),
-                lang('friday').substr(0, 3),
-                lang('saturday').substr(0, 3)
-            ],
-            dayNamesMin: [
-                lang('sunday').substr(0, 2),
-                lang('monday').substr(0, 2),
-                lang('tuesday').substr(0, 2),
-                lang('wednesday').substr(0, 2),
-                lang('thursday').substr(0, 2),
-                lang('friday').substr(0, 2),
-                lang('saturday').substr(0, 2)
-            ],
-            monthNames: [
-                lang('january'),
-                lang('february'),
-                lang('march'),
-                lang('april'),
-                lang('may'),
-                lang('june'),
-                lang('july'),
-                lang('august'),
-                lang('september'),
-                lang('october'),
-                lang('november'),
-                lang('december')
-            ],
-            prevText: lang('previous'),
-            nextText: lang('next'),
-            currentText: lang('now'),
-            closeText: lang('close'),
-            timeOnlyTitle: lang('select_time'),
-            timeText: lang('time'),
-            hourText: lang('hour'),
-            minuteText: lang('minutes'),
-            firstDay: firstWeekDayNumber
-        });
+        App.Utils.UI.initializeDatetimepicker($endDatetime);
         $endDatetime.datetimepicker('setDate', endDatetime);
     }
 

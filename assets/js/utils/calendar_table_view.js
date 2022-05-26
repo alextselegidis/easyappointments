@@ -471,7 +471,7 @@ App.Utils.CalendarTableView = (function () {
             });
         }
 
-        $filterProvider.select2();
+        App.Utils.UI.initializeDropdown($filterProvider);
 
         const services = vars('available_services').filter((service) => {
             const provider = providers.find((provider) => provider.services.indexOf(service.id) !== -1);
@@ -500,7 +500,7 @@ App.Utils.CalendarTableView = (function () {
             $filterService.append(new Option(service.name, service.id));
         });
 
-        $filterService.select2();
+        App.Utils.UI.initializeDropdown($filterService);
     }
 
     /**
@@ -1054,11 +1054,11 @@ App.Utils.CalendarTableView = (function () {
 
             $event.html(
                 lang('break') +
-                    ' <span class="hour">' +
-                    moment(eventDate).format('HH:mm') +
-                    '</span> (' +
-                    eventDuration +
-                    "')"
+                ' <span class="hour">' +
+                moment(eventDate).format('HH:mm') +
+                '</span> (' +
+                eventDuration +
+                "')"
             );
 
             $event.data(entry);
@@ -1226,8 +1226,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': info.event.extendedProps.data
                             ? info.event.extendedProps.data.provider.first_name +
-                              ' ' +
-                              info.event.extendedProps.data.provider.last_name
+                            ' ' +
+                            info.event.extendedProps.data.provider.last_name
                             : '-'
                     }),
                     $('<br/>'),
@@ -1238,8 +1238,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             info.event.extendedProps.data.date +
-                                ' ' +
-                                info.event.extendedProps.data.workingPlanException.start,
+                            ' ' +
+                            info.event.extendedProps.data.workingPlanException.start,
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -1253,8 +1253,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             info.event.extendedProps.data.date +
-                                ' ' +
-                                info.event.extendedProps.data.workingPlanException.end,
+                            ' ' +
+                            info.event.extendedProps.data.workingPlanException.end,
                             vars('date_format'),
                             vars('time_format'),
                             true

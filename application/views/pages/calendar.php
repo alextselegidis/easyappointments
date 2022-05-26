@@ -126,6 +126,7 @@
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>

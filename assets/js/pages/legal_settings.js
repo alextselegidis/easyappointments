@@ -141,9 +141,9 @@ App.Pages.LegalSettings = (function () {
      * Initialize the module.
      */
     function initialize() {
-        $cookieNoticeContent.trumbowyg();
-        $termsAndConditionsContent.trumbowyg();
-        $privacyPolicyContent.trumbowyg();
+        App.Utils.UI.initializeTextEditor($cookieNoticeContent); 
+        App.Utils.UI.initializeTextEditor($termsAndConditionsContent); 
+        App.Utils.UI.initializeTextEditor($privacyPolicyContent); 
 
         const legalSettings = vars('legal_settings');
 
