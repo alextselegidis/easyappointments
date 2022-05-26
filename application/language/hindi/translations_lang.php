@@ -365,4 +365,6 @@ $lang['booking_link'] = 'Booking Link';
 $lang['add_new_event'] = 'Add New Event';
 $lang['what_kind_of_event'] = 'What kind of event would you like to add?';
 $lang['theme'] = 'Theme';
+$lang['limit_customer_visibility'] = 'Limit Customer Visibility';
+$lang['limit_customer_visibility_hint'] = 'If enabled, providers and secretaries will only be able to view and manage customers they have an appointment with.';
 // End

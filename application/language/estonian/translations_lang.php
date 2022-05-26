@@ -365,4 +365,6 @@ $lang['booking_link'] = 'Broneeringu link';
 $lang['add_new_event'] = 'Lisa uus sündmus';
 $lang['what_kind_of_event'] = 'Mis laadi sündmust soovid lisada?';
 $lang['theme'] = 'Theme';
+$lang['limit_customer_visibility'] = 'Limit Customer Visibility';
+$lang['limit_customer_visibility_hint'] = 'If enabled, providers and secretaries will only be able to view and manage customers they have an appointment with.';
 // End
