@@ -619,15 +619,15 @@ class Booking extends EA_Controller {
     }
 
     /**
-     * Get Unavailability Dates
+     * Get Unavailable Dates
      *
      * Get an array with the available dates of a specific provider, service and month of the year. Provide the
      * "provider_id", "service_id" and "selected_date" as GET parameters to the request. The "selected_date" parameter
-     * must have the Y-m-d format.
+     * must have the "Y-m-d" format.
      *
      * Outputs a JSON string with the unavailability dates. that are unavailability.
      */
-    public function get_unavailability_dates()
+    public function get_unavailable_dates()
     {
         try
         {
@@ -638,7 +638,7 @@ class Booking extends EA_Controller {
             $selected_date_string = request('selected_date');
             $selected_date = new DateTime($selected_date_string);
             $number_of_days_in_month = (int)$selected_date->format('t');
-            $unavailability_dates = [];
+            $unavailable_dates = [];
 
             $provider_ids = $provider_id === ANY_PROVIDER
                 ? $this->search_providers_by_service($service_id)
@@ -656,7 +656,7 @@ class Booking extends EA_Controller {
                 if ($current_date < new DateTime(date('Y-m-d 00:00:00')))
                 {
                     // Past dates become immediately unavailability.
-                    $unavailability_dates[] = $current_date->format('Y-m-d');
+                    $unavailable_dates[] = $current_date->format('Y-m-d');
                     continue;
                 }
 
@@ -681,11 +681,11 @@ class Booking extends EA_Controller {
                 // No availability amongst all the provider.
                 if (empty($available_hours))
                 {
-                    $unavailability_dates[] = $current_date->format('Y-m-d');
+                    $unavailable_dates[] = $current_date->format('Y-m-d');
                 }
             }
 
-            json_response($unavailability_dates);
+            json_response($unavailable_dates);
         }
         catch (Throwable $e)
         {

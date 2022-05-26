@@ -142,7 +142,7 @@ App.Pages.Booking = (function () {
             onChangeMonthYear: (year, month) => {
                 const currentDate = new Date(year, month - 1, 1);
 
-                App.Http.Booking.getUnavailabilityDates(
+                App.Http.Booking.getUnavailableDates(
                     $selectProvider.val(),
                     $selectService.val(),
                     moment(currentDate).format('YYYY-MM-DD')
@@ -269,7 +269,7 @@ App.Pages.Booking = (function () {
         $selectProvider.on('change', (event) => {
             const $target = $(event.target);
 
-            App.Http.Booking.getUnavailabilityDates(
+            App.Http.Booking.getUnavailableDates(
                 $target.val(),
                 $selectService.val(),
                 moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
@@ -305,7 +305,7 @@ App.Pages.Booking = (function () {
                 $selectProvider.prepend(new Option(lang('any_provider'), 'any-provider', true, true));
             }
 
-            App.Http.Booking.getUnavailabilityDates(
+            App.Http.Booking.getUnavailableDates(
                 $selectProvider.val(),
                 $target.val(),
                 moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
@@ -513,7 +513,7 @@ App.Pages.Booking = (function () {
 
         $selectDate.on('mousedown', '.ui-datepicker-calendar td', () => {
             setTimeout(() => {
-                App.Http.Booking.applyPreviousUnavailabilityDates();
+                App.Http.Booking.applyPreviousUnavailableDates();
             }, 300);
         });
     }
