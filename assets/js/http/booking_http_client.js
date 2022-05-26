@@ -295,7 +295,7 @@ App.Http.Booking = (function () {
 
         // Grey out unavailability dates.
         $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each((index, td) => {
-            selectedDateMoment.set({day: index + 1});
+            selectedDateMoment.set({date: index + 1});
             if (unavailabilityDates.indexOf(selectedDateMoment.format('YYYY-MM-DD')) !== -1) {
                 $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
             }
