@@ -3,34 +3,28 @@
 <?php section('content') ?>
 
 <div>
-    <img id="success-icon" class="mt-0 mb-2" src="<?= base_url('assets/img/success.png') ?>" alt="success"/>
+    <img id="success-icon" class="mt-0 mb-5" src="<?= base_url('assets/img/success.png') ?>" alt="success"/>
 </div>
 
-<div>
-    <h3><?= lang('appointment_registered') ?></h3>
+<div class="mb-5">
+    <h4 class="mb-5"><?= lang('appointment_cancelled_title') ?></h4>
 
-    <p>
-        <?= lang('appointment_details_was_sent_to_you') ?>
-    </p>
-
-    <p>
-        <strong>
-            <?= lang('check_spam_folder') ?>
-        </strong>
+    <p class="mb-5">
+        <?= lang('appointment_cancelled') ?>
     </p>
 
     <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
-        <i class="fas fa-calendar-alt"></i>
+        <i class="fas fa-calendar-alt me-2"></i>
         <?= lang('go_to_booking_page') ?>
     </a>
-
-    <?php if (config('google_sync_feature')): ?>
-        <button id="add-to-google-calendar" class="btn btn-outline-secondary">
-            <i class="fas fa-plus"></i>
-            <?= lang('add_to_google_calendar') ?>
-        </button>
-    <?php endif ?>
 </div>
 
 <?php section('content') ?>
+
+<?php section('scripts') ?>
+
+<?php component('google_analytics_script', ['google_analytics_code' => vars('google_analytics_code')]) ?>
+<?php component('matomo_analytics_script', ['matomo_analytics_url' => vars('matomo_analytics_url')]) ?>
+
+<?php section('scripts') ?>
 

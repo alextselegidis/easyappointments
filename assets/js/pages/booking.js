@@ -410,7 +410,7 @@ App.Pages.Booking = (function () {
             $('#cancel-appointment').on('click', () => {
                 const $cancelAppointmentForm = $('#cancel-appointment-form');
 
-                let $cancelReason;
+                let $cancellationReason;
 
                 const buttons = [
                     {
@@ -422,11 +422,11 @@ App.Pages.Booking = (function () {
                     {
                         text: 'OK',
                         click: () => {
-                            if ($cancelReason.val() === '') {
-                                $cancelReason.css('border', '2px solid #DC3545');
+                            if ($cancellationReason.val() === '') {
+                                $cancellationReason.css('border', '2px solid #DC3545');
                                 return;
                             }
-                            $cancelAppointmentForm.find('textarea').val($cancelReason.val());
+                            $cancelAppointmentForm.find('#hidden-cancellation-reason').val($cancellationReason.val());
                             $cancelAppointmentForm.submit();
                         }
                     }
@@ -438,9 +438,9 @@ App.Pages.Booking = (function () {
                     buttons
                 );
 
-                $cancelReason = $('<textarea/>', {
+                $cancellationReason = $('<textarea/>', {
                     'class': 'form-control',
-                    'id': 'cancel-reason',
+                    'id': 'cancellation-reason',
                     'rows': '3',
                     'css': {
                         'width': '100%'
@@ -723,7 +723,6 @@ App.Pages.Booking = (function () {
             data.appointment.id = vars('appointment_data').id;
             data.customer.id = vars('customer_data').id;
         }
-        $('input[name="csrfToken"]').val(vars('csrf_token'));
         $('input[name="post_data"]').val(JSON.stringify(data));
     }
 

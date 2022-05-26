@@ -55,13 +55,22 @@ class Booking_cancellation extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $exceptions = [];
-
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
             if (empty($occurrences))
             {
-                throw new Exception('No record matches the provided hash.');
+                html_vars([
+                    'page_title' => lang('appointment_not_found'),
+                    'message_title' => lang('appointment_not_found'),
+                    'message_text' => lang('appointment_does_not_exist_in_db'),
+                    'message_icon' => base_url('assets/img/error.png'),
+                    'google_analytics_code' => setting('google_analytics_code'),
+                    'matomo_analytics_url' => setting('matomo_analytics_url'),
+                ]);
+
+                $this->load->view('pages/booking_message');
+
+                return;
             }
 
             $appointment = $occurrences[0];
@@ -88,18 +97,13 @@ class Booking_cancellation extends EA_Controller {
         }
         catch (Throwable $e)
         {
-            $exceptions[] = $e;
+            log_message('error', 'Booking Cancellation Exception: ' . $e->getMessage());
         }
 
         html_vars([
-            'message_title' => lang('appointment_cancelled_title'),
-            'message_text' => lang('appointment_cancelled'),
-            'message_icon' => base_url('assets/img/success.png'),
-            'google_analytics_code' => setting('google_analytics_code'),
-            'matomo_analytics_url' => setting('matomo_analytics_url'),
-            'exceptions' => $exceptions
+            'page_title' => lang('appointment_cancelled_title'),
         ]);
 
-        $this->load->view('pages/booking_message');
+        $this->load->view('pages/booking_cancellation');
     }
 }

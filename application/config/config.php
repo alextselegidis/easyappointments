@@ -389,7 +389,9 @@ $config['csrf_cookie_name'] = 'csrf_cookie';
 $config['csrf_expire'] = 7200;
 $config['csrf_exclude_uris'] = [
     'api/v1/.*',
-    'booking/.*'
+    'booking/.*',
+    'booking_cancellation/.*',
+    'booking_confirmation/.*'
 ];
 
 /*

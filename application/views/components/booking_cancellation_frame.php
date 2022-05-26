@@ -17,9 +17,7 @@
             <form id="cancel-appointment-form" method="post"
                   action="<?= site_url('booking_cancellation/of/' . $appointment_data['hash']) ?>">
 
-                <input type="hidden" name="csrfToken" value="<?= $this->security->get_csrf_hash() ?>"/>
-
-                <input id="cancel-reason" name="cancellation_reason" type="hidden">
+                <input id="hidden-cancellation-reason" name="cancellation_reason" type="hidden">
 
                 <button id="cancel-appointment" class="btn btn-warning btn-sm">
                     <i class="fas fa-trash me-2"></i>
