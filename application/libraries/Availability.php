@@ -51,6 +51,8 @@ class Availability {
      * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
      *
      * @return array
+     *
+     * @throws Exception
      */
     public function get_available_hours(string $date, array $service, array $provider, int $exclude_appointment_id = NULL): array
     {
@@ -104,7 +106,8 @@ class Availability {
         // existing appointment).
         if ($exclude_appointment_id)
         {
-            $where['id !='] = $exclude_appointment_id;
+            $escaped_exclude_appointment_id = $this->CI->db->escape($exclude_appointment_id);
+            $where .= ' AND id != ' . $escaped_exclude_appointment_id; 
         }
 
         $appointments = $this->CI->appointments_model->get($where);
