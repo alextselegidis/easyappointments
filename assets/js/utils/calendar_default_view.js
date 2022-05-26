@@ -312,7 +312,7 @@ App.Utils.CalendarDefaultView = (function () {
                     $('#enable-sync span').text(lang('enable_sync'));
                     $('#google-sync').prop('disabled', true);
                 }
-                
+
                 $('#insert-working-plan-exception').toggle(providerId !== App.Utils.CalendarDefaultView.FILTER_TYPE_ALL);
             }
 
@@ -1567,7 +1567,9 @@ App.Utils.CalendarDefaultView = (function () {
 
                             // Preselect time
                             $('#start-datetime').datepicker('setDate', info.start);
-                            $('#end-datetime').datepicker('setDate', info.end);
+                            $('#end-datetime').datepicker('setDate', App.Pages.Calendar.getSelectionEndDate(info));
+
+                            // $('#end-datetime').datepicker('setDate', info.end);
                             $('#message-box').dialog('close');
                         }
                     }
@@ -1600,8 +1602,8 @@ App.Utils.CalendarDefaultView = (function () {
         onWindowResize();
 
         $selectFilterItem.append(new Option(lang('all'), FILTER_TYPE_ALL, true, true));
-        
-        $('#insert-working-plan-exception').hide(); 
+
+        $('#insert-working-plan-exception').hide();
 
         // Fill the select list boxes of the page.
         if (vars('available_providers').length > 0) {

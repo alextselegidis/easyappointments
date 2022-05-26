@@ -104,6 +104,35 @@ App.Pages.Calendar = (function () {
     }
 
     /**
+     * Get calendar selection end date.
+     *
+     * On calendar slot selection, calculate the end date based on the provided start date.
+     *
+     * @param {Object} info Holding the "start" and "end" props, as provided by FullCalendar.
+     *
+     * @return {Date}
+     */
+    function getSelectionEndDate(info) {
+        const startMoment = moment(info.start);
+        const endMoment = moment(info.end);
+        const startTillEndDiff = endMoment.diff(startMoment);
+        const startTillEndDuration = moment.duration(startTillEndDiff);
+        const durationInMinutes = startTillEndDuration.asMinutes();
+        const minDurationInMinutes = 15;
+
+        if (durationInMinutes <= minDurationInMinutes) {
+            const serviceId = $('#select-service').val();
+            const service = vars('available_services').find(availableService => Number(availableService.id) === Number(serviceId));
+
+            if (service) {
+                endMoment.add(service.duration - durationInMinutes, 'minutes');
+            }
+        }
+
+        return endMoment.toDate();
+    }
+
+    /**
      * Initialize the module.
      *
      * This function makes the necessary initialization for the default backend calendar page.
@@ -124,6 +153,7 @@ App.Pages.Calendar = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        initialize
+        initialize,
+        getSelectionEndDate
     };
 })();

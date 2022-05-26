@@ -783,8 +783,8 @@ App.Utils.CalendarTableView = (function () {
                 $selectProvider.trigger('change');
 
                 // Preselect time
-                $('#start-datetime').datepicker('setDate', new Date(moment(info.start).format('YYYY/MM/DD HH:mm:ss')));
-                $('#end-datetime').datepicker('setDate', new Date(moment(info.end).format('YYYY/MM/DD HH:mm:ss')));
+                $('#start-datetime').datepicker('setDate', info.start);
+                $('#end-datetime').datepicker('setDate', App.Pages.Calendar.getSelectionEndDate(info));
 
                 return false;
             },
