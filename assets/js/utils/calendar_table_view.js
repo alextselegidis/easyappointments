@@ -709,11 +709,11 @@ App.Utils.CalendarTableView = (function () {
         switch (vars('time_format')) {
             case 'military':
                 timeFormat = 'H:mm';
-                slotTimeFormat = 'H(:mm)';
+                slotTimeFormat = 'H';
                 break;
             case 'regular':
                 timeFormat = 'h:mm a';
-                slotTimeFormat = 'h(:mm) a';
+                slotTimeFormat = 'h a';
                 break;
             default:
                 throw new Error('Invalid time format setting provided!' + vars('time_format'));
