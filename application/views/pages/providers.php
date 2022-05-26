@@ -306,7 +306,7 @@
 
                     <div>
                         <button type="button" class="add-working-plan-exception btn btn-primary me-2">
-                            <i class="fas fa-plus-square"></i>
+                            <i class="fas fa-plus-square me-2"></i>
                             <?= lang('add_working_plan_exception') ?>
                         </button>
                     </div>
