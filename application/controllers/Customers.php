@@ -32,6 +32,7 @@ class Customers extends EA_Controller {
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
+        $this->load->library('permissions');
         $this->load->library('timezones');
     }
 
@@ -70,13 +71,13 @@ class Customers extends EA_Controller {
         $require_address = setting('require_address');
         $require_city = setting('require_city');
         $require_zip_code = setting('require_zip_code');
-        
-        $secretary_providers = []; 
-        
+
+        $secretary_providers = [];
+
         if ($role_slug === DB_SLUG_SECRETARY)
         {
             $secretary = $this->secretaries_model->find($user_id);
-            
+
             $secretary_providers = $secretary['providers'];
         }
 
@@ -131,8 +132,17 @@ class Customers extends EA_Controller {
 
             $customers = $this->customers_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($customers as &$customer)
+            $user_id = session('user_id');
+
+            foreach ($customers as $index => &$customer)
             {
+                if ( ! $this->permissions->has_customer_access($user_id, $customer['id']))
+                {
+                    unset($customers[$index]);
+
+                    continue;
+                }
+
                 $appointments = $this->appointments_model->get(['id_users_customer' => $customer['id']]);
 
                 foreach ($appointments as &$appointment)
@@ -146,7 +156,7 @@ class Customers extends EA_Controller {
                 $customer['appointments'] = $appointments;
             }
 
-            json_response($customers);
+            json_response(array_values($customers));
         }
         catch (Throwable $e)
         {
@@ -164,6 +174,11 @@ class Customers extends EA_Controller {
             if (cannot('add', PRIV_CUSTOMERS))
             {
                 abort(403, 'Forbidden');
+            }
+
+            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_visibility'))
+            {
+                abort(403);
             }
 
             $customer = request('customer');
@@ -193,7 +208,14 @@ class Customers extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
+            $user_id = session('user_id');
+
             $customer = request('customer');
+
+            if ( ! $this->permissions->has_customer_access($user_id, $customer['id']))
+            {
+                abort(403, 'Forbidden');
+            }
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -220,7 +242,14 @@ class Customers extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
+            $user_id = session('user_id');
+
             $customer_id = request('customer_id');
+
+            if ( ! $this->permissions->has_customer_access($user_id, $customer_id))
+            {
+                abort(403, 'Forbidden');
+            }
 
             $this->customers_model->delete($customer_id);
 
@@ -246,7 +275,14 @@ class Customers extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
+            $user_id = session('user_id');
+
             $customer_id = request('customer_id');
+
+            if ( ! $this->permissions->has_customer_access($user_id, $customer_id))
+            {
+                abort(403, 'Forbidden');
+            }
 
             $customer = $this->customers_model->find($customer_id);
 
