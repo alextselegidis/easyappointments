@@ -132,6 +132,12 @@ class Booking extends EA_Controller {
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
+        $theme = request('theme', setting('theme', 'default'));
+
+        if (empty($theme) || ! file_exists(__DIR__ . '/../../assets/css/themes/' . $theme . '.min.css'))
+        {
+            $theme = 'default';
+        }
 
         $timezones = $this->timezones->to_array();
         $grouped_timezones = $this->timezones->to_grouped_array();
@@ -223,6 +229,7 @@ class Booking extends EA_Controller {
         html_vars([
             'available_services' => $available_services,
             'available_providers' => $available_providers,
+            'theme' => $theme,
             'company_name' => $company_name,
             'company_logo' => $company_logo,
             'company_color' => $company_color === '#ffffff' ? '' : $company_color,
