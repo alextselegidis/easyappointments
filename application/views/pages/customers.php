@@ -23,21 +23,21 @@
         <div class="record-details col-12 col-md-7">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
-                    <?php if (can('add',PRIV_CUSTOMERS)): ?>
+                    <?php if (can('add', PRIV_CUSTOMERS) && ( ! setting('limit_customer_access') || vars('role_slug') === DB_SLUG_ADMIN)): ?>
                         <button id="add-customer" class="btn btn-primary">
                             <i class="fas fa-plus-square me-2"></i>
                             <?= lang('add') ?>
                         </button>
                     <?php endif ?>
 
-                    <?php if (can('edit',PRIV_CUSTOMERS)): ?>
+                    <?php if (can('edit', PRIV_CUSTOMERS)): ?>
                         <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
                             <i class="fas fa-edit me-2"></i>
                             <?= lang('edit') ?>
                         </button>
                     <?php endif ?>
 
-                    <?php if (can('delete',PRIV_CUSTOMERS)): ?>
+                    <?php if (can('delete', PRIV_CUSTOMERS)): ?>
                         <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
                             <i class="fas fa-trash-alt me-2"></i>
                             <?= lang('delete') ?>
@@ -72,7 +72,8 @@
                             <?php endif ?>
                         </label>
                         <input type="text" id="first-name"
-                               class="<?= vars('require_first_name') ? 'required' : '' ?> form-control" maxlength="100" disabled/>
+                               class="<?= vars('require_first_name') ? 'required' : '' ?> form-control" maxlength="100"
+                               disabled/>
                     </div>
 
                     <div class="mb-3">
@@ -83,7 +84,8 @@
                             <?php endif ?>
                         </label>
                         <input type="text" id="last-name"
-                               class="<?= vars('require_last_name') ? 'required' : '' ?> form-control" maxlength="120" disabled/>
+                               class="<?= vars('require_last_name') ? 'required' : '' ?> form-control" maxlength="120"
+                               disabled/>
                     </div>
 
                     <div class="mb-3">
@@ -94,7 +96,8 @@
                             <?php endif ?>
                         </label>
                         <input type="text" id="email"
-                               class="<?= vars('require_email') ? 'required' : '' ?> form-control" maxlength="120" disabled/>
+                               class="<?= vars('require_email') ? 'required' : '' ?> form-control" maxlength="120"
+                               disabled/>
                     </div>
 
                     <div class="mb-3">
@@ -115,7 +118,8 @@
                                 <span class="text-danger" hidden>*</span>
                             <?php endif ?>
                         </label>
-                        <input type="text" id="address" class="<?= vars('require_address') ? 'required' : '' ?> form-control"
+                        <input type="text" id="address"
+                               class="<?= vars('require_address') ? 'required' : '' ?> form-control"
                                maxlength="120" disabled/>
                     </div>
 
@@ -137,7 +141,8 @@
                                 <span class="text-danger" hidden>*</span>
                             <?php endif ?>
                         </label>
-                        <input type="text" id="zip-code" class="<?= vars('require_zip_code') ? 'required' : '' ?> form-control"
+                        <input type="text" id="zip-code"
+                               class="<?= vars('require_zip_code') ? 'required' : '' ?> form-control"
                                maxlength="120" disabled/>
                     </div>
 
