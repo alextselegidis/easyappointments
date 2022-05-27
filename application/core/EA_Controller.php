@@ -61,6 +61,7 @@
  * @property Ics_file $ics_file
  * @property Instance $instance
  * @property Notifications $notifications
+ * @property Permissions $permissions
  * @property Synchronization $synchronization
  * @property Timezones $timezones
  */
