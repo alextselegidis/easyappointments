@@ -241,16 +241,16 @@
 
                                 <div class="mb-3">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="limit-customer-visibility"
-                                               data-field="limit_customer_visibility">
-                                        <label class="form-check-label" for="limit-customer-visibility">
-                                            <?= lang('limit_customer_visibility') ?>
+                                        <input class="form-check-input" type="checkbox" id="limit-customer-access"
+                                               data-field="limit_customer_access">
+                                        <label class="form-check-label" for="limit-customer-access">
+                                            <?= lang('limit_customer_access') ?>
                                         </label>
                                     </div>
 
                                     <div class="form-text text-muted">
                                         <small>
-                                            <?= lang('limit_customer_visibility_hint') ?>
+                                            <?= lang('limit_customer_access_hint') ?>
                                         </small>
                                     </div>
                                 </div>
