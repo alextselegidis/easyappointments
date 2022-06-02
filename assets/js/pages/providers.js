@@ -218,7 +218,7 @@ App.Pages.Providers = (function () {
         /**
          * Event: Display Provider Details "Click"
          */
-        $providers.on('shown.bs.tab', 'a[data-toggle="tab"]', () => {
+        $providers.on('shown.bs.tab', 'a[data-bs-toggle="tab"]', () => {
             App.Layouts.Backend.placeFooterToBottom();
         });
 
