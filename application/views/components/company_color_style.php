@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if ($company_color !== DEFAULT_COMPANY_COLOR): ?>
+<?php if ($company_color && $company_color !== DEFAULT_COMPANY_COLOR): ?>
     <style>
         /* Generic Overrides */
 

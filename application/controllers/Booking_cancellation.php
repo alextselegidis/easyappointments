@@ -61,6 +61,7 @@ class Booking_cancellation extends EA_Controller {
             {
                 html_vars([
                     'page_title' => lang('appointment_not_found'),
+                    'company_color' => setting('company_color'),
                     'message_title' => lang('appointment_not_found'),
                     'message_text' => lang('appointment_does_not_exist_in_db'),
                     'message_icon' => base_url('assets/img/error.png'),
