@@ -32,6 +32,8 @@ App.Utils.CalendarTableView = (function () {
     let $filterProvider;
     let $filterService;
     let $selectDate;
+
+    const moment = window.moment;
     let lastFocusedEventData;
 
     /**
@@ -105,9 +107,11 @@ App.Utils.CalendarTableView = (function () {
                             );
 
                             // Add the appointments to the column.
+                            /** @var {Array} response.appointments */
                             createAppointments($providerColumn, response.appointments);
 
                             // Add the unavailabilities to the column.
+                            /** @var {Array} response.unavailabilities */
                             createUnavailabilities($providerColumn, response.unavailabilities);
 
                             // Add the provider breaks to the column.
@@ -343,8 +347,8 @@ App.Utils.CalendarTableView = (function () {
         $calendarFilter
             .find('select')
             .empty()
-            .append(new Option('1 ' + lang('day'), 1))
-            .append(new Option('3 ' + lang('days'), 3));
+            .append(new Option(`1 ${lang('day')}`, '1'))
+            .append(new Option(`3 ${lang('days')}`, '3'));
 
         const $calendarHeader = $('<div/>', {
             'class': 'calendar-header'
@@ -403,14 +407,14 @@ App.Utils.CalendarTableView = (function () {
             // Translation
             dayNames: [lang('sunday'), lang('monday'), lang('tuesday'), lang('wednesday'),
                 lang('thursday'), lang('friday'), lang('saturday')],
-            dayNamesShort: [lang('sunday').substr(0, 3), lang('monday').substr(0, 3),
-                lang('tuesday').substr(0, 3), lang('wednesday').substr(0, 3),
-                lang('thursday').substr(0, 3), lang('friday').substr(0, 3),
-                lang('saturday').substr(0, 3)],
-            dayNamesMin: [lang('sunday').substr(0, 2), lang('monday').substr(0, 2),
-                lang('tuesday').substr(0, 2), lang('wednesday').substr(0, 2),
-                lang('thursday').substr(0, 2), lang('friday').substr(0, 2),
-                lang('saturday').substr(0, 2)],
+            dayNamesShort: [lang('sunday').substring(0, 3), lang('monday').substring(0, 3),
+                lang('tuesday').substring(0, 3), lang('wednesday').substring(0, 3),
+                lang('thursday').substring(0, 3), lang('friday').substring(0, 3),
+                lang('saturday').substring(0, 3)],
+            dayNamesMin: [lang('sunday').substring(0, 2), lang('monday').substring(0, 2),
+                lang('tuesday').substring(0, 2), lang('wednesday').substring(0, 2),
+                lang('thursday').substring(0, 2), lang('friday').substring(0, 2),
+                lang('saturday').substring(0, 2)],
             monthNames: [lang('january'), lang('february'), lang('march'), lang('april'),
                 lang('may'), lang('june'), lang('july'), lang('august'), lang('september'),
                 lang('october'), lang('november'), lang('december')],
@@ -425,7 +429,7 @@ App.Utils.CalendarTableView = (function () {
             firstDay: firstWeekdayNumber,
             onSelect: (dateText, instance) => {
                 const startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
-                const endDate = new Date(startDate.getTime()).add({days: parseInt($selectFilterItem.val()) - 1});
+                const endDate =  moment(startDate).add(parseInt($selectFilterItem.val()) - 1, 'days').toDate();
                 createView(startDate, endDate);
             }
         });
@@ -451,9 +455,7 @@ App.Utils.CalendarTableView = (function () {
                 'change': () => {
                     const firstColumnDate = $('.calendar-view .date-column:first').data('date');
                     const startDateMoment = moment(firstColumnDate);
-                    const endDateMoment = moment(firstColumnDate).add({
-                        days: parseInt($selectDate.val()) - 1
-                    });
+                    const endDateMoment = moment(firstColumnDate).add(parseInt($selectFilterItem.val()) - 1, 'day');
                     createView(startDateMoment.toDate(), endDateMoment.toDate());
                 }
             }
@@ -490,7 +492,7 @@ App.Utils.CalendarTableView = (function () {
                 'change': () => {
                     const firstColumnDate = $('.calendar-view .date-column:first').data('date');
                     const startDateMoment = moment(firstColumnDate);
-                    const endDateMoment = moment(firstColumnDate).add({days: parseInt($selectDate.val()) - 1});
+                    const endDateMoment = moment(firstColumnDate).add({days: parseInt($selectFilterItem.val()) - 1});
                     createView(startDateMoment.toDate(), endDateMoment.toDate());
                 }
             }
@@ -656,13 +658,15 @@ App.Utils.CalendarTableView = (function () {
         // Create calendar.
         createCalendar($providerColumn, date, provider);
 
-        // Create non working hours.
+        // Create non-working hours.
         createNonWorkingHours($providerColumn.find('.calendar-wrapper'), provider);
 
         // Add the appointments to the column.
+        /** @var {Array} events.appointments */
         createAppointments($providerColumn, events.appointments);
 
         // Add the unavailabilities to the column.
+        /** @var {Array} events.unavailabilities */
         createUnavailabilities($providerColumn, events.unavailabilities);
 
         App.Layouts.Backend.placeFooterToBottom();
@@ -1501,7 +1505,7 @@ App.Utils.CalendarTableView = (function () {
         if (info.event.extendedProps.data.is_unavailability === false) {
             // Prepare appointment data.
             info.event.extendedProps.data.end_datetime = moment(info.event.extendedProps.data.end_datetime)
-                .add({days: info.delta.days, milliseconds: info.delta.milliseconds})
+                .add({days: info.endDelta.days, milliseconds: info.endDelta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             const appointment = {...info.event.extendedProps.data};
@@ -1518,7 +1522,7 @@ App.Utils.CalendarTableView = (function () {
                     appointment.end_datetime = info.event.extendedProps.data.end_datetime = moment(
                         appointment.end_datetime
                     )
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     App.Http.Calendar.saveAppointment(appointment).done(() => {
@@ -1619,11 +1623,11 @@ App.Utils.CalendarTableView = (function () {
             delete appointment.service;
 
             appointment.start_datetime = moment(appointment.start_datetime)
-                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
+                .add({days: info.endDelta.days(), hours: info.endDelta.hours(), minutes: info.endDelta.minutes()})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             appointment.end_datetime = moment(appointment.end_datetime)
-                .add({days: delta.days(), hours: delta.hours(), minutes: delta.minutes()})
+                .add({days: info.endDelta.days(), hours: info.endDelta.hours(), minutes: info.endDelta.minutes()})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             info.event.extendedProps.data.start_datetime = appointment.start_datetime;
@@ -1634,11 +1638,11 @@ App.Utils.CalendarTableView = (function () {
                 // Define the undo function, if the user needs to reset the last change.
                 const undoFunction = () => {
                     appointment.start_datetime = moment(appointment.start_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     appointment.end_datetime = moment(appointment.end_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     info.event.extendedProps.data.start_datetime = appointment.start_datetime;
@@ -1675,11 +1679,11 @@ App.Utils.CalendarTableView = (function () {
             successCallback = () => {
                 const undoFunction = () => {
                     unavailability.start_datetime = moment(unavailability.start_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     unavailability.end_datetime = moment(unavailability.end_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     info.event.extendedProps.data.start_datetime = unavailability.start_datetime;
