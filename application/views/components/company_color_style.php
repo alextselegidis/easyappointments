@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if ($company_color && $company_color !== DEFAULT_COMPANY_COLOR): ?>
+<?php if ($company_color !== DEFAULT_COMPANY_COLOR): ?>
     <style>
         /* Generic Overrides */
 
@@ -14,7 +14,6 @@
 
         a:hover {
             color: <?= $company_color ?>;
-            filter: brightness(120%);
         }
 
         .btn-primary {
@@ -29,6 +28,7 @@
             border-color: <?= $company_color ?>;
             filter: brightness(120%);
             outline: none;
+            box-shadow: none;
         }
 
         .btn-primary:disabled, .btn-primary.disabled {
@@ -69,6 +69,14 @@
 
         body .modal-header {
             background:  <?= $company_color ?> !important;
+        }
+
+        .fc-daygrid-event {
+            color: rgb(51, 51, 51) !important;
+        }
+
+        body .ui-draggable .ui-dialog-titlebar {
+            background: <?= $company_color ?> !important;
         }
 
         /* Booking Layout */
@@ -148,7 +156,6 @@
         #header #header-menu .nav-item:hover,
         #header #header-menu .nav-item.active {
             background: <?= $company_color ?> !important;
-            filter: brightness(120%);
         }
 
         #header #header-logo small {
@@ -159,6 +166,5 @@
         .backend-page .filter-records .results .entry.selected {
             border-right-color: <?= $company_color ?> !important;
         }
-
     </style>
 <?php endif ?>
