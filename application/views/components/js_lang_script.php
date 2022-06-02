@@ -7,7 +7,12 @@
                 return lang;
             }
 
-            return lang[key] || undefined;
+            if (!lang[key]) {
+                console.error(`Cannot find translation for requested key: "${key}"`);
+                return key;
+            }
+
+            return lang[key];
         };
     })();
 </script>
