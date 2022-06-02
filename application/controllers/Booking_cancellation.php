@@ -103,6 +103,7 @@ class Booking_cancellation extends EA_Controller {
 
         html_vars([
             'page_title' => lang('appointment_cancelled_title'),
+            'company_color' => setting('company_color'),
         ]);
 
         $this->load->view('pages/booking_cancellation');
