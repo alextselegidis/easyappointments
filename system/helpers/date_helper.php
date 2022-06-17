@@ -316,7 +316,7 @@ if ( ! function_exists('gmt_to_local'))
 	 * @param	bool	whether DST is active
 	 * @return	int
 	 */
-	function gmt_to_local($time = '', $timezone = 'UTC', $dst = FALSE)
+	function gmt_to_local($time = '', $timezone = 'UM6', $dst = FALSE)
 	{
 		if ($time === '')
 		{
@@ -529,12 +529,12 @@ if ( ! function_exists('timezone_menu'))
 	 * @param	mixed	attributes
 	 * @return	string
 	 */
-	function timezone_menu($default = 'UTC', $class = '', $name = 'timezones', $attributes = '')
+	function timezone_menu($default = 'UM6', $class = '', $name = 'timezones', $attributes = '')
 	{
 		$CI =& get_instance();
 		$CI->lang->load('date');
 
-		$default = ($default === 'GMT') ? 'UTC' : $default;
+		$default = ($default === 'GMT') ? 'UM6' : $default;
 
 		$menu = '<select name="'.$name.'"';
 

@@ -23,7 +23,7 @@ class Timezones {
     /**
      * @var string
      */
-    protected $default = 'UTC';
+    protected $default = 'Mexico/General';
 
     /**
      * @var array
