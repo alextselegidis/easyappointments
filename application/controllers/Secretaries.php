@@ -32,6 +32,7 @@ class Secretaries extends EA_Controller {
 
         $this->load->library('accounts');
         $this->load->library('timezones');
+        $this->load->library('webhooks_client');
     }
 
     /**
@@ -137,6 +138,10 @@ class Secretaries extends EA_Controller {
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
+            $secretary = $this->secretaries_model->find($secretary_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SECRETARY_SAVE, $secretary);
+
             json_response([
                 'success' => TRUE,
                 'id' => $secretary_id
@@ -164,6 +169,10 @@ class Secretaries extends EA_Controller {
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
+            $secretary = $this->secretaries_model->find($secretary_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SECRETARY_SAVE, $secretary);
+
             json_response([
                 'success' => TRUE,
                 'id' => $secretary_id
@@ -189,7 +198,11 @@ class Secretaries extends EA_Controller {
 
             $secretary_id = request('secretary_id');
 
+            $secretary = $this->secretaries_model->find($secretary_id);
+
             $this->secretaries_model->delete($secretary_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SECRETARY_DELETE, $secretary);
 
             json_response([
                 'success' => TRUE,

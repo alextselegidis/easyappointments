@@ -38,6 +38,7 @@ class Calendar extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('synchronization');
         $this->load->library('timezones');
+        $this->load->library('webhooks_client');
     }
 
     /**
@@ -272,6 +273,8 @@ class Calendar extends EA_Controller {
 
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
+
             json_response([
                 'success' => TRUE,
             ]);
@@ -326,6 +329,8 @@ class Calendar extends EA_Controller {
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
+
             json_response([
                 'success' => TRUE,
             ]);
@@ -357,50 +362,13 @@ class Calendar extends EA_Controller {
 
             $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
-            // Add appointment
-            
-            
-            
-            $unavailability['id'] = $this->unavailabilities_model->save($unavailability);
+            $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
-            $unavailability = $this->unavailabilities_model->find($unavailability['id']); // fetch all inserted data
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
-            // Google Sync
-            try
-            {
-                $google_sync = $this->providers_model->get_setting($unavailability['id_users_provider'], 'google_sync');
+            $this->synchronization->sync_unavailability_saved($unavailability, $provider);
 
-                if ($google_sync)
-                {
-                    $google_token = json_decode($this->providers_model->get_setting($unavailability['id_users_provider'], 'google_token'));
-
-                    $this->google_sync->refresh_token($google_token->refresh_token);
-
-                    if ($unavailability['id_google_calendar'] == NULL)
-                    {
-                        $google_event = $this->google_sync->add_unavailability($provider, $unavailability);
-                        $unavailability['id_google_calendar'] = $google_event->id;
-
-                        $this->unavailabilities_model->only($unavailability, [
-                            'start_datetime',
-                            'end_datetime',
-                            'is_unavailability',
-                            'notes',
-                            'id_users_provider'
-                        ]);
-                        
-                        $this->unavailabilities_model->save($unavailability);
-                    }
-                    else
-                    {
-                        $this->google_sync->update_unavailability($provider, $unavailability);
-                    }
-                }
-            }
-            catch (Throwable $e)
-            {
-                $warnings[] = $e;
-            }
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $unavailability);
 
             json_response([
                 'success' => TRUE,
@@ -431,30 +399,14 @@ class Calendar extends EA_Controller {
 
             $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
-            $this->appointments_model->delete($unavailability['id']);
+            $this->unavailabilities_model->delete($unavailability_id);
 
-            // Google Sync
-            try
-            {
-                $google_sync = $this->providers_model->get_setting($provider['id'], 'google_sync');
+            $this->synchronization->sync_appointment_deleted($unavailability, $provider);
 
-                if ($google_sync == TRUE)
-                {
-                    $google_token = json_decode($this->providers_model->get_setting($provider['id'], 'google_token'));
-
-                    $this->google_sync->refresh_token($google_token->refresh_token);
-
-                    $this->google_sync->delete_unavailability($provider, $unavailability['id_google_calendar']);
-                }
-            }
-            catch (Throwable $e)
-            {
-                $warnings[] = $e;
-            }
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 
             json_response([
                 'success' => TRUE,
-                'warnings' => $warnings ?? []
             ]);
         }
         catch (Throwable $e)
@@ -626,7 +578,7 @@ class Calendar extends EA_Controller {
             }
 
             $record_id = request('record_id');
-            
+
             $filter_type = request('filter_type');
 
             if ( ! $filter_type && $record_id !== FILTER_TYPE_ALL)
@@ -648,7 +600,9 @@ class Calendar extends EA_Controller {
             elseif ($filter_type === FILTER_TYPE_SERVICE)
             {
                 $where_id = 'id_services';
-            } else {
+            }
+            else
+            {
                 $where_id = $record_id;
             }
 

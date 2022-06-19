@@ -51,74 +51,160 @@ class Synchronization {
     {
         try
         {
-            $google_sync = filter_var(
-                $this->CI->providers_model->get_setting($appointment['id_users_provider'], 'google_sync'),
-                FILTER_VALIDATE_BOOLEAN
-            );
-
-            if ($google_sync === TRUE)
+            if ( ! $provider['settings']['google_sync'])
             {
-                $google_token = json_decode(
-                    $this->CI->providers_model->get_setting($appointment['id_users_provider'], 'google_token'));
+                return;
+            }
 
-                $this->CI->load->library('google_sync');
+            if (empty($provider['settings']['google_token']))
+            {
+                throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+            }
 
-                $this->CI->google_sync->refresh_token($google_token->refresh_token);
+            $google_token = json_decode($provider['settings']['google_token'], TRUE);
 
-                if ($manage_mode === FALSE)
-                {
-                    // Add appointment to Google Calendar.
-                    $google_event = $this->CI->google_sync->add_appointment($appointment, $provider,
-                        $service, $customer, $settings);
-                    $appointment['id_google_calendar'] = $google_event->id;
-                    $this->CI->appointments_model->add($appointment);
-                }
-                else
-                {
-                    // Update appointment to Google Calendar.
-                    $appointment['id_google_calendar'] = $this->CI->appointments_model->value($appointment['id'], 'id_google_calendar');
+            $this->CI->google_sync->refresh_token($google_token['refresh_token']);
 
-                    $this->CI->google_sync->update_appointment($appointment, $provider,
-                        $service, $customer, $settings);
-                }
+            if (empty($appointment['id_google_calendar']))
+            {
+                $google_event = $this->CI->google_sync->add_appointment(
+                    $appointment,
+                    $provider,
+                    $webhook,
+                    $customer,
+                    $settings
+                );
+
+                $appointment['id_google_calendar'] = $google_event->getId();
+
+                $this->CI->appointments_model->save($appointment);
+            }
+            else
+            {
+                $this->CI->google_sync->update_appointment(
+                    $appointment,
+                    $provider,
+                    $webhook,
+                    $customer,
+                    $settings
+                );
             }
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            log_message('error', $exception->getMessage());
-            log_message('error', $exception->getTraceAsString());
+            log_message('error', $e->getMessage());
+            log_message('error', $e->getTraceAsString());
         }
     }
 
     /**
      * Synchronize removal of an appointment with external calendars.
      *
-     * @param array $appointment Appointment data.
-     * @param array $provider Provider data.
+     * @param array $appointment Appointment record.
+     * @param array $provider Provider record.
      */
     public function sync_appointment_deleted(array $appointment, array $provider)
     {
-        if ( ! empty($appointment['id_google_calendar']))
+        try
         {
-            try
+            if ( ! $provider['settings']['google_sync'] || empty($appointment['id_google_calendar']))
             {
-                $google_sync = filter_var(
-                    $this->CI->providers_model->get_setting($appointment['id_users_provider'], 'google_sync'),
-                    FILTER_VALIDATE_BOOLEAN
-                );
+                return;
+            }
 
-                if ($google_sync === TRUE)
-                {
-                    $google_token = json_decode($this->CI->providers_model->get_setting($provider['id'], 'google_token'));
-                    $this->CI->load->library('Google_sync');
-                    $this->CI->google_sync->refresh_token($google_token->refresh_token);
-                    $this->CI->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
-                }
-            }
-            catch (Exception $exception)
+            if (empty($provider['settings']['google_token']))
             {
-                $exceptions[] = $exception;
+                throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
             }
+
+            $google_token = json_decode($provider['settings']['google_token'], TRUE);
+
+            $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+
+            $this->CI->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
+
+        }
+        catch (Throwable $e)
+        {
+            log_message('error', $e->getMessage());
+            log_message('error', $e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Synchronize changes made to the unavailability with external calendars.
+     *
+     * @param array $unavailability Unavailability record.
+     * @param array $provider Provider record.
+     */
+    public function sync_unavailability_saved(array $unavailability, array $provider)
+    {
+        try
+        {
+            if ( ! $provider['settings']['google_sync'])
+            {
+                return;
+            }
+
+            if (empty($provider['settings']['google_token']))
+            {
+                throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+            }
+
+            $google_token = json_decode($provider['settings']['google_token'], TRUE);
+
+            $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+
+            if (empty($unavailability['id_google_calendar']))
+            {
+                $google_event = $this->CI->google_sync->add_unavailability($provider, $unavailability);
+
+                $unavailability['id_google_calendar'] = $google_event->getId();
+
+                $this->CI->unavailabilities_model->save($unavailability);
+            }
+            else
+            {
+                $this->CI->google_sync->update_unavailability($provider, $unavailability);
+            }
+        }
+        catch (Throwable $e)
+        {
+            log_message('error', $e->getMessage());
+            log_message('error', $e->getTraceAsString());
+        }
+    }
+
+    /**
+     * Synchronize removal of an unavailability with external calendars.
+     *
+     * @param array $unavailability Unavailability record.
+     * @param array $provider Provider record.
+     */
+    public function sync_unavailability_deleted(array $unavailability, array $provider)
+    {
+        try
+        {
+            if ( ! $provider['settings']['google_sync'] || empty($unavailability['id_google_calendar']))
+            {
+                return;
+            }
+
+            if (empty($provider['settings']['google_token']))
+            {
+                throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+            }
+
+            $google_token = json_decode($provider['settings']['google_token'], TRUE);
+
+            $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+
+            $this->CI->google_sync->delete_unavailability($provider, $unavailability['id_google_calendar']);
+        }
+        catch (Throwable $e)
+        {
+            log_message('error', $e->getMessage());
+            log_message('error', $e->getTraceAsString());
         }
     }
 }

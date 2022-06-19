@@ -33,6 +33,7 @@ class Booking_cancellation extends EA_Controller {
 
         $this->load->library('synchronization');
         $this->load->library('notifications');
+        $this->load->library('webhooks_client');
     }
 
     /**
@@ -95,6 +96,9 @@ class Booking_cancellation extends EA_Controller {
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 
             $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
+
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
+
         }
         catch (Throwable $e)
         {

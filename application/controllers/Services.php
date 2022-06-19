@@ -31,6 +31,7 @@ class Services extends EA_Controller {
 
         $this->load->library('accounts');
         $this->load->library('timezones');
+        $this->load->library('webhooks_client');
     }
 
     /**
@@ -120,9 +121,13 @@ class Services extends EA_Controller {
 
             $service = request('service');
 
-            $service['id_categories'] = $service['id_categories'] ?: null;
+            $service['id_categories'] = $service['id_categories'] ?: NULL;
 
             $service_id = $this->services_model->save($service);
+            
+            $service = $this->services_model->find($service_id); 
+            
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $service);
 
             json_response([
                 'success' => TRUE,
@@ -149,9 +154,13 @@ class Services extends EA_Controller {
 
             $service = request('service');
 
-            $service['id_categories'] = $service['id_categories'] ?: null;
+            $service['id_categories'] = $service['id_categories'] ?: NULL;
 
             $service_id = $this->services_model->save($service);
+
+            $service = $this->services_model->find($service_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $service);
 
             json_response([
                 'success' => TRUE,
@@ -178,7 +187,11 @@ class Services extends EA_Controller {
 
             $service_id = request('service_id');
 
+            $service = $this->services_model->find($service_id);
+
             $this->services_model->delete($service_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_DELETE, $service);
 
             json_response([
                 'success' => TRUE,

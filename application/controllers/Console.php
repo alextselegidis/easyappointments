@@ -139,7 +139,7 @@ class Console extends EA_Controller {
                 continue;
             }
 
-            Google::sync($provider['id']);
+            Google::sync((string)$provider['id']);
         }
     }
 

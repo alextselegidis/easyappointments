@@ -15,7 +15,7 @@
  * Appointments controller.
  *
  * Handles the appointments related operations.
- * 
+ *
  * Notice: This file used to have the booking page related code which since v1.5 has now moved to the Booking.php
  * controller for improved consistency.
  *
@@ -34,13 +34,14 @@ class Appointments extends EA_Controller {
 
         $this->load->library('accounts');
         $this->load->library('timezones');
+        $this->load->library('webhooks_client');
     }
 
     /**
-     * Support backwards compatibility for appointment links that still point to this URL. 
-     * 
+     * Support backwards compatibility for appointment links that still point to this URL.
+     *
      * @param string $appointment_hash
-     * 
+     *
      * @deprecated Since 1.5
      */
     public function index(string $appointment_hash = '')
@@ -65,7 +66,7 @@ class Appointments extends EA_Controller {
             $order_by = 'name ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $appointments = $this->appointments_model->search($keyword, $limit, $offset, $order_by);
@@ -105,6 +106,10 @@ class Appointments extends EA_Controller {
             ]);
 
             $appointment_id = $this->appointments_model->save($appointment);
+
+            $appointment = $this->appointments_model->find($appointment);
+
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
 
             json_response([
                 'success' => TRUE,
@@ -170,8 +175,12 @@ class Appointments extends EA_Controller {
             }
 
             $appointment_id = request('appointment_id');
+            
+            $appointment = $this->appointments_model->find($appointment_id); 
 
             $this->appointments_model->delete($appointment_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
 
             json_response([
                 'success' => TRUE,

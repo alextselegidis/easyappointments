@@ -27,6 +27,7 @@ tags:
   - name: services
   - name: settings
   - name: unavailabilities
+  - name: webhooks
 paths:
   /availabilities:
     get:
@@ -62,8 +63,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /appointments:
     get:
       tags:
@@ -115,8 +116,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - appointments
@@ -144,8 +145,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /appointments/{appointmentId}:
     get:
       tags:
@@ -175,8 +176,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - appointments
@@ -212,8 +213,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - appointments
@@ -238,8 +239,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /unavailabilities:
     get:
       tags:
@@ -312,8 +313,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /unavailabilities/{unavailabilityId}:
     get:
       tags:
@@ -343,8 +344,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - unavailabilities
@@ -380,8 +381,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - unavailabilities
@@ -406,8 +407,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /customers:
     get:
       tags:
@@ -454,8 +455,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - customers
@@ -482,8 +483,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
       x-codegen-request-body-name: body
   /customers/{customerId}:
     get:
@@ -514,8 +515,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - customers
@@ -551,8 +552,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - customers
@@ -577,8 +578,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /services:
     get:
       tags:
@@ -625,8 +626,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - services
@@ -654,8 +655,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /services/{serviceId}:
     get:
       tags:
@@ -685,8 +686,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - services
@@ -722,8 +723,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - services
@@ -748,8 +749,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /categories:
     get:
       tags:
@@ -796,8 +797,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - categories
@@ -825,8 +826,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /categories/{categoryId}:
     get:
       tags:
@@ -856,8 +857,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - categories
@@ -893,8 +894,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - categories
@@ -919,8 +920,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /admins:
     get:
       tags:
@@ -967,8 +968,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - admins
@@ -996,8 +997,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /admins/{adminId}:
     get:
       tags:
@@ -1027,8 +1028,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - admins
@@ -1064,8 +1065,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - admins
@@ -1090,8 +1091,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /providers:
     get:
       tags:
@@ -1138,8 +1139,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - providers
@@ -1167,8 +1168,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /providers/{providerId}:
     get:
       tags:
@@ -1198,8 +1199,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - providers
@@ -1235,8 +1236,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - providers
@@ -1261,8 +1262,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /secretaries:
     get:
       tags:
@@ -1309,8 +1310,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - secretaries
@@ -1338,8 +1339,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /secretaries/{secretaryId}:
     get:
       tags:
@@ -1369,8 +1370,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - secretaries
@@ -1406,8 +1407,8 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     delete:
       tags:
         - secretaries
@@ -1426,8 +1427,8 @@ paths:
         '404':
           description: Not Found
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /settings:
     get:
       tags:
@@ -1474,8 +1475,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /settings/{settingName}:
     get:
       tags:
@@ -1505,8 +1506,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     put:
       tags:
         - settings
@@ -1542,8 +1543,179 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
       x-codegen-request-body-name: body
       security:
-        - BearerToken: []
-        - BasicAuth: []
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /webhooks:
+    get:
+      tags:
+        - webhooks
+      summary: Get all webhooks
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookCollection'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - webhooks
+      summary: Create a webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /webhooks/{webhookId}:
+    get:
+      tags:
+        - webhooks
+      summary: Get a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - webhooks
+      summary: Update a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - webhooks
+      summary: Delete a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
 components:
   schemas:
     Availabilities:
@@ -2019,7 +2191,7 @@ components:
         notes: This is a test provider.
         timezone: UTC
         language: english
-        services: []
+        services: [ ]
         settings:
           username: chrisdoe
           password: Password@123
@@ -2035,23 +2207,23 @@ components:
             monday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             tuesday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             wednesday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             thursday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             friday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             saturday: null
     ProviderPayload:
       type: object
@@ -2118,7 +2290,7 @@ components:
         notes: This is a test provider.
         timezone: UTC
         language: english
-        services: []
+        services: [ ]
         settings:
           username: chrisdoe
           password: Password@123
@@ -2134,23 +2306,23 @@ components:
             monday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             tuesday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             wednesday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             thursday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             friday:
               start: '09:00'
               end: '17:00'
-              breaks: []
+              breaks: [ ]
             saturday: null
     ProviderCollection:
       type: array
@@ -2212,7 +2384,7 @@ components:
         notes: This is a test service.
         timezone: UTC
         language: english
-        providers: []
+        providers: [ ]
         settings:
           username: jessydoe
           password: Password@123
@@ -2271,7 +2443,7 @@ components:
         notes: This is a test service.
         timezone: UTC
         language: english
-        providers: []
+        providers: [ ]
         settings:
           username: jessydoe
           password: Password@123
@@ -2302,6 +2474,57 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/SettingRecord'
+    WebhookRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        url:
+          type: string
+        actions:
+          type: string
+        secretToken:
+          type: string
+        isSslVerified:
+          type: boolean
+        notes:
+          type: string
+      example:
+        id: 1
+        name: Test Webhook
+        url: https://example.org/webhook?withTestQueryParam=Value
+        actions: appointment_create,appointment_update,customer_delete,category_create
+        secretToken: SecureSecretTokenHere
+        isSslVerified: true
+        notes: This is a webhook.
+    WebhookPayload:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        actions:
+          type: string
+        secretToken:
+          type: string
+        isSslVerified:
+          type: boolean
+        notes:
+          type: string
+      example:
+        name: Test Webhook
+        url: https://example.org/webhook?withTestQueryParam=Value
+        actions: appointment_create,appointment_update,customer_delete,category_create
+        secretToken: SecureSecretTokenHere
+        isSslVerified: true
+        notes: This is a webhook.
+    WebhookCollection:
+      type: array
+      items:
+        $ref: '#/components/schemas/WebhookRecord'
     ErrorResponse:
       type: object
       properties:

@@ -43,6 +43,7 @@ class Booking extends EA_Controller {
         $this->load->library('synchronization');
         $this->load->library('notifications');
         $this->load->library('availability');
+        $this->load->library('webhooks_client');
 
         $this->load->driver('cache', ['adapter' => 'file']);
     }
@@ -554,6 +555,8 @@ class Booking extends EA_Controller {
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
+
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
 
             $response = [
                 'appointment_id' => $appointment['id'],

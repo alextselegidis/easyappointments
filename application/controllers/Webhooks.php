@@ -12,41 +12,40 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Categories controller.
+ * Webhooks controller.
  *
- * Handles the categories related operations.
+ * Handles the webhooks related operations.
  *
  * @package Controllers
  */
-class Categories extends EA_Controller {
+class Webhooks extends EA_Controller {
     /**
-     * Categories constructor.
+     * Webhooks constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->model('categories_model');
+        $this->load->model('webhooks_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
         $this->load->library('timezones');
-        $this->load->library('webhooks_client');
     }
 
     /**
-     * Render the backend categories page.
+     * Render the backend webhooks page.
      *
-     * On this page admin users will be able to manage categories, which are eventually selected by customers during the
+     * On this page admin users will be able to manage webhooks, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
     {
-        session(['dest_url' => site_url('categories')]);
+        session(['dest_url' => site_url('webhooks')]);
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_SERVICES))
+        if (cannot('view', PRIV_WEBHOOKS))
         {
             if ($user_id)
             {
@@ -66,24 +65,42 @@ class Categories extends EA_Controller {
         ]);
 
         html_vars([
-            'page_title' => lang('categories'),
-            'active_menu' => PRIV_SERVICES,
+            'page_title' => lang('webhooks'),
+            'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'available_actions' => [
+                WEBHOOK_APPOINTMENT_SAVE,
+                WEBHOOK_APPOINTMENT_DELETE,
+                WEBHOOK_UNAVAILABILITY_SAVE,
+                WEBHOOK_UNAVAILABILITY_DELETE,
+                WEBHOOK_CUSTOMER_SAVE,
+                WEBHOOK_CUSTOMER_DELETE,
+                WEBHOOK_SERVICE_SAVE,
+                WEBHOOK_SERVICE_DELETE,
+                WEBHOOK_CATEGORY_SAVE,
+                WEBHOOK_CATEGORY_DELETE,
+                WEBHOOK_PROVIDER_SAVE,
+                WEBHOOK_PROVIDER_DELETE,
+                WEBHOOK_SECRETARY_SAVE,
+                WEBHOOK_SECRETARY_DELETE,
+                WEBHOOK_ADMIN_SAVE,
+                WEBHOOK_ADMIN_DELETE
+            ]
         ]);
 
-        $this->load->view('pages/categories');
+        $this->load->view('pages/webhooks');
     }
 
     /**
-     * Filter categories by the provided keyword.
+     * Filter webhooks by the provided keyword.
      */
     public function search()
     {
         try
         {
-            if (cannot('view', PRIV_SERVICES))
+            if (cannot('view', PRIV_WEBHOOKS))
             {
                 abort(403, 'Forbidden');
             }
@@ -96,9 +113,9 @@ class Categories extends EA_Controller {
 
             $offset = 0;
 
-            $categories = $this->categories_model->search($keyword, $limit, $offset, $order_by);
+            $webhooks = $this->webhooks_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($categories);
+            json_response($webhooks);
         }
         catch (Throwable $e)
         {
@@ -107,33 +124,33 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Create a category.
+     * Create a webhook.
      */
     public function create()
     {
         try
         {
-            if (cannot('add', PRIV_SERVICES))
+            if (cannot('add', PRIV_WEBHOOKS))
             {
                 abort(403, 'Forbidden');
             }
 
-            $category = request('category');
+            $webhook = request('webhook');
 
-            $this->categories_model->only($category, [
+            $this->webhooks_model->only($webhook, [
                 'name',
-                'description'
+                'url',
+                'actions',
+                'secret_token',
+                'is_ssl_verified',
+                'notes',
             ]);
 
-            $category_id = $this->categories_model->save($category);
-
-            $category = $this->categories_model->find($category_id);
-
-            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_SAVE, $category);
+            $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
                 'success' => TRUE,
-                'id' => $category_id
+                'id' => $webhook_id
             ]);
         }
         catch (Throwable $e)
@@ -143,34 +160,34 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Update a category.
+     * Update a webhook.
      */
     public function update()
     {
         try
         {
-            if (cannot('edit', PRIV_SERVICES))
+            if (cannot('edit', PRIV_WEBHOOKS))
             {
                 abort(403, 'Forbidden');
             }
 
-            $category = request('category');
+            $webhook = request('webhook');
 
-            $this->categories_model->only($category, [
+            $this->webhooks_model->only($webhook, [
                 'id',
                 'name',
-                'description'
+                'url',
+                'actions',
+                'secret_token',
+                'is_ssl_verified',
+                'notes',
             ]);
 
-            $category_id = $this->categories_model->save($category);
-
-            $category = $this->categories_model->find($category_id);
-
-            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_SAVE, $category);
+            $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
                 'success' => TRUE,
-                'id' => $category_id
+                'id' => $webhook_id
             ]);
         }
         catch (Throwable $e)
@@ -180,24 +197,20 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Remove a category.
+     * Remove a webhook.
      */
     public function destroy()
     {
         try
         {
-            if (cannot('delete', PRIV_SERVICES))
+            if (cannot('delete', PRIV_WEBHOOKS))
             {
                 abort(403, 'Forbidden');
             }
 
-            $category_id = request('category_id');
+            $webhook_id = request('webhook_id');
 
-            $category = $this->categories_model->find($category_id);
-
-            $this->categories_model->delete($category_id);
-
-            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_DELETE, $category);
+            $this->webhooks_model->delete($webhook_id);
 
             json_response([
                 'success' => TRUE,
@@ -210,22 +223,22 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Find a category.
+     * Find a webhook.
      */
     public function find()
     {
         try
         {
-            if (cannot('view', PRIV_SERVICES))
+            if (cannot('view', PRIV_WEBHOOKS))
             {
                 abort(403, 'Forbidden');
             }
 
-            $category_id = request('category_id');
+            $webhook_id = request('webhook_id');
 
-            $category = $this->categories_model->find($category_id);
+            $webhook = $this->webhooks_model->find($webhook_id);
 
-            json_response($category);
+            json_response($webhook);
         }
         catch (Throwable $e)
         {

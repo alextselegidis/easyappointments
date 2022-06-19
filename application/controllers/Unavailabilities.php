@@ -31,6 +31,7 @@ class Unavailabilities extends EA_Controller {
 
         $this->load->library('accounts');
         $this->load->library('timezones');
+        $this->load->library('webhooks_client');
     }
 
     /**
@@ -50,7 +51,7 @@ class Unavailabilities extends EA_Controller {
             $order_by = 'name ASC';
 
             $limit = request('limit', 1000);
-            
+
             $offset = 0;
 
             $unavailabilities = $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
@@ -75,9 +76,17 @@ class Unavailabilities extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $unavailability = json_decode(request('unavailability'), TRUE);
+            $unavailability = request('unavailability');
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
+
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
+
+            $provider = $this->providers_model->find($unavailability['id_users_provider']);
+
+            $this->synchronization->sync_unavailability_saved($unavailability, $provider);
+
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $unavailability);
 
             json_response([
                 'success' => TRUE,
@@ -102,9 +111,17 @@ class Unavailabilities extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $unavailability = json_decode(request('unavailability'), TRUE);
+            $unavailability = request('unavailability');
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
+
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
+
+            $provider = $this->providers_model->find($unavailability['id_users_provider']);
+
+            $this->synchronization->sync_unavailability_saved($unavailability, $provider);
+
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $unavailability);
 
             json_response([
                 'success' => TRUE,
@@ -131,7 +148,11 @@ class Unavailabilities extends EA_Controller {
 
             $unavailability_id = request('unavailability_id');
 
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
+
             $this->unavailabilities_model->delete($unavailability_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 
             json_response([
                 'success' => TRUE,

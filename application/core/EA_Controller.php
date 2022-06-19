@@ -51,6 +51,7 @@
  * @property Settings_model $settings_model
  * @property Unavailabilities_model $unavailabilities_model
  * @property Users_model $users_model
+ * @property Webhooks_model $webhooks_model
  *
  * @property Accounts $accounts
  * @property Api $api
@@ -64,6 +65,7 @@
  * @property Permissions $permissions
  * @property Synchronization $synchronization
  * @property Timezones $timezones
+ * @property Webhooks_client $webhooks_client
  */
 class EA_Controller extends CI_Controller {
     /**
