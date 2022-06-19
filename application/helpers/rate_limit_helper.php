@@ -32,7 +32,7 @@ if ( ! function_exists('rate_limit'))
 
         $rate_limiting = $CI->config->item('rate_limiting');
 
-        if ( ! $rate_limiting)
+        if ( ! $rate_limiting || is_cli())
         {
             return;
         }
