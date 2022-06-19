@@ -38,6 +38,7 @@ class Availability {
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('settings_model');
+        $this->CI->load->model('unavailabilities_model');
 
         $this->CI->load->library('ics_file');
     }
@@ -110,7 +111,12 @@ class Availability {
             $where .= ' AND id != ' . $escaped_exclude_appointment_id; 
         }
 
-        $appointments = $this->CI->appointments_model->get($where);
+        $appointments = array_values(
+            array_merge(
+                $this->CI->appointments_model->get($where),
+                $this->CI->unavailabilities_model->get($where),
+            )
+        );
 
         // Find the empty spaces on the plan. The first split between the plan is due to a break (if any). After that
         // every reserved appointment is considered to be a taken space in the plan.
