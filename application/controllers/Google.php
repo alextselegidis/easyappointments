@@ -40,9 +40,9 @@ class Google extends EA_Controller {
      * needs to be relatively small, because a lot of API calls might be necessary and this will lead to consuming the
      * Google limit for the Calendar API usage.
      *
-     * @param int $provider_id Provider record to be synced.
+     * @param string $provider_id Provider record to be synced.
      */
-    public static function sync($provider_id = NULL)
+    public static function sync(string $provider_id = NULL)
     {
         try
         {
@@ -248,15 +248,15 @@ class Google extends EA_Controller {
      * Since it is required to follow the web application flow, in order to retrieve a refresh token from the Google API
      * service, this method is going to authorize the given provider.
      *
-     * @param int $provider_id The provider id, for whom the sync authorization is made.
+     * @param string $provider_id The provider id, for whom the sync authorization is made.
      */
-    public function oauth(int $provider_id)
+    public function oauth(string $provider_id)
     {
         if ( ! $this->session->userdata('user_id'))
         {
             show_error('Forbidden', 403);
         }
-        
+
         // Store the provider id for use on the callback function.
         session(['oauth_provider_id' => $provider_id]);
 
@@ -281,7 +281,7 @@ class Google extends EA_Controller {
         {
             abort(403, 'Forbidden');
         }
-        
+
         $code = request('code');
 
         if (empty($code))
@@ -325,7 +325,7 @@ class Google extends EA_Controller {
     {
         try
         {
-            $provider_id = request('provider_id');
+            $provider_id = (int)request('provider_id');
 
             if (empty($provider_id))
             {
