@@ -52,7 +52,7 @@ if ( ! function_exists('can'))
 
         $permissions = $CI->roles_model->get_permissions_by_slug($role_slug);
 
-        return $permissions[$resource][$action];
+        return $permissions[$resource][$action] ?? FALSE;
     }
 }
 
