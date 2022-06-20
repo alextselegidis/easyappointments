@@ -47,10 +47,18 @@ class Google_sync {
         $this->CI =& get_instance();
 
         $this->CI->load->model('appointments_model');
-        $this->CI->load->model('services_model');
-        $this->CI->load->model('providers_model');
         $this->CI->load->model('customers_model');
+        $this->CI->load->model('providers_model');
+        $this->CI->load->model('services_model');
 
+        $this->initialize_clients();
+    }
+
+    /**
+     * Initialize the client, so that existing execution errors are not passed from one provider to another.
+     */
+    public function initialize_clients()
+    {
         $http = new GuzzleHttp\Client([
             'verify' => FALSE
         ]);
@@ -120,6 +128,8 @@ class Google_sync {
      */
     public function refresh_token(string $refresh_token)
     {
+        $this->initialize_clients();
+        
         $this->client->refreshToken($refresh_token);
     }
 

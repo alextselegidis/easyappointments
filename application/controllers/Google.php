@@ -76,7 +76,7 @@ class Google extends EA_Controller {
 
             if ( ! $google_sync)
             {
-                throw new Exception('The selected provider has not the google synchronization setting enabled.');
+                return; // The selected provider does not have the Google Syncing enabled.
             }
 
             $google_token = json_decode($CI->providers_model->get_setting($provider['id'], 'google_token'));
@@ -112,7 +112,7 @@ class Google extends EA_Controller {
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
             foreach ($appointments as $appointment)
             {
-                if ($appointment['is_unavailability'] == FALSE)
+                if ( ! $appointment['is_unavailability'])
                 {
                     $service = $CI->services_model->find($appointment['id_services']);
                     $customer = $CI->customers_model->find($appointment['id_users_customer']);
@@ -144,25 +144,25 @@ class Google extends EA_Controller {
                             throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                         }
 
-                        // If Google Calendar event is different from Easy!Appointments appointment then update
-                        // Easy!Appointments record.
-                        $is_different = FALSE;
+                        // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
                         $appointment_start = strtotime($appointment['start_datetime']);
                         $appointment_end = strtotime($appointment['end_datetime']);
-                        $event_start = new DateTime($google_event->getStart()->getDateTime());
+                        $event_start = new DateTime($google_event->getStart()->getDateTime() ?? $google_event->getEnd()->getDate());
                         $event_start->setTimezone($provider_timezone);
-                        $event_end = new DateTime($google_event->getEnd()->getDateTime());
+                        $event_end = new DateTime($google_event->getEnd()->getDateTime() ?? $google_event->getEnd()->getDate());
                         $event_end->setTimezone($provider_timezone);
+
+                        $google_event_notes = $appointment['is_unavailable'] ? $google_event->getSummary() . ' ' . $google_event->getDescription() : $google_event->getDescription();
 
                         $is_different = $appointment_start !== $event_start->getTimestamp()
                             || $appointment_end !== $event_end->getTimestamp()
-                            || $appointment['notes'] !== $google_event->getDescription();
+                            || $appointment['notes'] !== $google_event_notes;
 
                         if ($is_different)
                         {
                             $appointment['start_datetime'] = $event_start->format('Y-m-d H:i:s');
                             $appointment['end_datetime'] = $event_end->format('Y-m-d H:i:s');
-                            $appointment['notes'] = $google_event->getDescription();
+                            $appointment['notes'] = $google_event_notes;
                             $CI->appointments_model->save($appointment);
                         }
 
@@ -180,7 +180,23 @@ class Google extends EA_Controller {
             // Add Google Calendar events that do not exist in Easy!Appointments.
             $google_calendar = $provider['settings']['google_calendar'];
 
-            $google_events = $CI->google_sync->get_sync_events($google_calendar, $start, $end);
+            try
+            {
+                $google_events = $CI->google_sync->get_sync_events($google_calendar, $start, $end);
+            }
+            catch (Exception $e)
+            {
+                if ($e->getCode() === 404)
+                {
+                    log_message('error', 'Google - Remote Calendar not found for provider ID: ' . $provider_id);
+
+                    return; // The remote calendar was not found.
+                }
+                else
+                {
+                    throw $e;
+                }
+            }
 
             foreach ($google_events->getItems() as $google_event)
             {
@@ -196,18 +212,13 @@ class Google extends EA_Controller {
 
                 if ($google_event->getStart()->getDateTime() === $google_event->getEnd()->getDateTime())
                 {
-                    $event_start = new DateTime($google_event->getStart()->getDate());
-                    $event_start->setTimezone($provider_timezone);
-                    $event_end = new DateTime($google_event->getEnd()->getDate());
-                    $event_end->setTimezone($provider_timezone);
+                    continue;
                 }
-                else
-                {
-                    $event_start = new DateTime($google_event->getStart()->getDateTime());
-                    $event_start->setTimezone($provider_timezone);
-                    $event_end = new DateTime($google_event->getEnd()->getDateTime());
-                    $event_end->setTimezone($provider_timezone);
-                }
+
+                $event_start = new DateTime($google_event->getStart()->getDateTime());
+                $event_start->setTimezone($provider_timezone);
+                $event_end = new DateTime($google_event->getEnd()->getDateTime());
+                $event_end->setTimezone($provider_timezone);
 
                 $results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()]);
 
@@ -238,6 +249,8 @@ class Google extends EA_Controller {
         }
         catch (Throwable $e)
         {
+            log_message('error', 'Google - Sync completed with an error (provider ID "' . $provider_id . '"): ' . $e->getMessage());
+
             json_exception($e);
         }
     }
