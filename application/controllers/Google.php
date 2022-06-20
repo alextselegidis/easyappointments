@@ -183,7 +183,7 @@ class Google extends EA_Controller {
             {
                 $google_events = $CI->google_sync->get_sync_events($google_calendar, $start, $end);
             }
-            catch (Exception $e)
+            catch (Throwable $e)
             {
                 if ($e->getCode() === 404)
                 {
