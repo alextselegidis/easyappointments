@@ -146,14 +146,14 @@ if ( ! function_exists('json_exception'))
      *
      * json_exception($exception); // Add this in a catch block to return the exception information.
      *
-     * @param Throwable $exception
+     * @param Throwable $e
      */
-    function json_exception(Throwable $exception)
+    function json_exception(Throwable $e)
     {
         json_response([
             'success' => FALSE,
-            'message' => $exception->getMessage(),
-            'trace' => config('debug') ? $exception->getTrace() : []
+            'message' => $e->getMessage(),
+            'trace' => config('debug') ? $e->getTrace() : []
         ], 500);
     }
 }
