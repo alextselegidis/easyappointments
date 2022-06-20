@@ -127,7 +127,7 @@ class Google extends EA_Controller {
                 {
                     $google_event = $CI->google_sync->add_appointment($appointment, $provider, $service, $customer, $settings);
 
-                    $appointment['id_google_calendar'] = $google_event->id;
+                    $appointment['id_google_calendar'] = $google_event->getId();
 
                     $CI->appointments_model->save($appointment); // Save the Google Calendar ID.
                 }
@@ -138,7 +138,7 @@ class Google extends EA_Controller {
                     {
                         $google_event = $CI->google_sync->get_event($provider, $appointment['id_google_calendar']);
 
-                        if ($google_event->status == 'cancelled')
+                        if ($google_event->getStatus() == 'cancelled')
                         {
                             throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                         }

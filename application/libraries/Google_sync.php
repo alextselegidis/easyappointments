@@ -129,7 +129,7 @@ class Google_sync {
     public function refresh_token(string $refresh_token)
     {
         $this->initialize_clients();
-        
+
         $this->client->refreshToken($refresh_token);
     }
 
@@ -370,7 +370,7 @@ class Google_sync {
 
         $calendars = [];
 
-        foreach ($calendar_list->items as $google_calendar)
+        foreach ($calendar_list->getItems() as $google_calendar)
         {
             if ($google_calendar->getAccessRole() === 'reader')
             {
@@ -378,8 +378,8 @@ class Google_sync {
             }
 
             $calendars[] = [
-                'id' => $google_calendar->id,
-                'summary' => $google_calendar->summary
+                'id' => $google_calendar->getId(),
+                'summary' => $google_calendar->getSummary()
             ];
         }
 
