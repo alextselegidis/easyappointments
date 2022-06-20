@@ -49,7 +49,7 @@ class Secretaries_api_v1 extends EA_Controller {
             $order_by = $this->api->request_order_by();
 
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $secretaries = empty($keyword)
@@ -132,12 +132,12 @@ class Secretaries_api_v1 extends EA_Controller {
 
             if ( ! array_key_exists('providers', $secretary))
             {
-                throw new Exception('No providers property provided.');
+                throw new InvalidArgumentException('No providers property provided.');
             }
 
             if ( ! array_key_exists('settings', $secretary))
             {
-                throw new Exception('No settings property provided.');
+                throw new InvalidArgumentException('No settings property provided.');
             }
 
             $secretary_id = $this->secretaries_model->save($secretary);

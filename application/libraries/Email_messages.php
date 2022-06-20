@@ -190,7 +190,7 @@ class Email_messages {
                 $date_format = 'Y/m/d';
                 break;
             default:
-                throw new Exception('Invalid date_format value: ' . $settings['date_format']);
+                throw new InvalidArgumentException('Invalid date_format value: ' . $settings['date_format']);
         }
 
         switch ($settings['time_format'])
@@ -202,7 +202,7 @@ class Email_messages {
                 $time_format = 'g:i a';
                 break;
             default:
-                throw new Exception('Invalid time_format value: ' . $settings['time_format']);
+                throw new InvalidArgumentException('Invalid time_format value: ' . $settings['time_format']);
         }
 
         $appointment_timezone = new DateTimeZone($provider['timezone']);

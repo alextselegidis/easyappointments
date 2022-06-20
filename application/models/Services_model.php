@@ -123,7 +123,7 @@ class Services_model extends EA_Model {
         if ($service['availabilities_type'] !== NULL && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE
             && $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED)
         {
-            throw new Exception('Service availabilities type must be either ' . AVAILABILITIES_TYPE_FLEXIBLE
+            throw new InvalidArgumentException('Service availabilities type must be either ' . AVAILABILITIES_TYPE_FLEXIBLE
                 . ' or ' . AVAILABILITIES_TYPE_FIXED . ' (given ' . $service['availabilities_type'] . ')');
         }
 
@@ -156,7 +156,7 @@ class Services_model extends EA_Model {
     {
         $service['create_datetime'] = date('Y-m-d H:i:s');
         $service['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         if ( ! $this->db->insert('services', $service))
         {
             throw new RuntimeException('Could not insert service.');
@@ -177,7 +177,7 @@ class Services_model extends EA_Model {
     protected function update(array $service): int
     {
         $service['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         if ( ! $this->db->update('services', $service, ['id' => $service['id']]))
         {
             throw new RuntimeException('Could not update service.');
@@ -222,7 +222,7 @@ class Services_model extends EA_Model {
         {
             $this->db->where('delete_datetime IS NULL');
         }
-        
+
         $service = $this->db->get_where('services', ['id' => $service_id])->row_array();
 
         if ( ! $service)
@@ -286,7 +286,7 @@ class Services_model extends EA_Model {
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
      * @param bool $with_trashed
-     * 
+     *
      * @return array Returns an array of services.
      */
     public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
@@ -368,7 +368,7 @@ class Services_model extends EA_Model {
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
      * @param bool $with_trashed
-     * 
+     *
      * @return array Returns an array of services.
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
@@ -377,7 +377,7 @@ class Services_model extends EA_Model {
         {
             $this->db->where('delete_datetime IS NULL');
         }
-        
+
         $services = $this
             ->db
             ->select()

@@ -85,7 +85,7 @@ class General_settings extends EA_Controller {
         {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS))
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $settings = request('general_settings', []);

@@ -161,12 +161,12 @@ class Instance {
 
         if ( ! file_exists($path))
         {
-            throw new Exception('The backup path does not exist: ' . $path);
+            throw new InvalidArgumentException('The backup path does not exist: ' . $path);
         }
 
         if ( ! is_writable($path))
         {
-            throw new Exception('The backup path is not writable: ' . $path);
+            throw new RuntimeException('The backup path is not writable: ' . $path);
         }
 
         $contents = $this->CI->dbutil->backup();

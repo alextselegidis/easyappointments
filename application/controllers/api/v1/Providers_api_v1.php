@@ -139,12 +139,12 @@ class Providers_api_v1 extends EA_Controller {
 
             if ( ! array_key_exists('services', $provider))
             {
-                throw new Exception('No services property provided.');
+                throw new InvalidArgumentException('No services property provided.');
             }
 
             if ( ! array_key_exists('settings', $provider))
             {
-                throw new Exception('No settings property provided.');
+                throw new InvalidArgumentException('No settings property provided.');
             }
 
             if ( ! array_key_exists('working_plan', $provider['settings']))

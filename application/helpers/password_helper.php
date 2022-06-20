@@ -29,7 +29,7 @@ function hash_password(string $salt, string $password): string
 {
     if (strlen($password) > MAX_PASSWORD_LENGTH)
     {
-        throw new Exception('The provided password is too long, please use a shorter value.');
+        throw new InvalidArgumentException('The provided password is too long, please use a shorter value.');
     }
 
     $half = (int)(strlen($salt) / 2);

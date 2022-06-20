@@ -386,7 +386,7 @@ class Google extends EA_Controller {
 
             if (cannot('edit', PRIV_USERS) && (int)$user_id !== (int)$provider_id)
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $calendar_id = request('calendar_id');
@@ -427,7 +427,7 @@ class Google extends EA_Controller {
                 cannot('edit', PRIV_USERS)
                 && (int)$user_id !== (int)$provider_id)
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $this->providers_model->set_setting($provider_id, 'google_sync', FALSE);

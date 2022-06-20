@@ -190,7 +190,7 @@ class Calendar extends EA_Controller {
 
                 if ( ! $required_permissions)
                 {
-                    throw new Exception('You do not have the required permissions for this task.');
+                    throw new RuntimeException('You do not have the required permissions for this task.');
                 }
 
                 $this->customers_model->only($customer, [
@@ -225,7 +225,7 @@ class Calendar extends EA_Controller {
 
                 if ($required_permissions == FALSE)
                 {
-                    throw new Exception('You do not have the required permissions for this task.');
+                    throw new RuntimeException('You do not have the required permissions for this task.');
                 }
 
                 // If the appointment does not contain the customer record id, then it means that is going to be
@@ -298,14 +298,14 @@ class Calendar extends EA_Controller {
         {
             if (cannot('delete', 'appointments'))
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $appointment_id = request('appointment_id');
 
             if (empty($appointment_id))
             {
-                throw new Exception('No appointment id provided.');
+                throw new InvalidArgumentException('No appointment id provided.');
             }
 
             // Store appointment data for later use in this method.
@@ -357,7 +357,7 @@ class Calendar extends EA_Controller {
 
             if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $provider = $this->providers_model->find($unavailability['id_users_provider']);
@@ -390,7 +390,7 @@ class Calendar extends EA_Controller {
         {
             if (cannot('delete', PRIV_APPOINTMENTS))
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $unavailability_id = request('unavailability_id');
@@ -424,7 +424,7 @@ class Calendar extends EA_Controller {
         {
             if (cannot('edit', PRIV_USERS))
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $date = request('date');
@@ -456,7 +456,7 @@ class Calendar extends EA_Controller {
 
             if ( ! $required_permissions)
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $date = request('date');
@@ -574,7 +574,7 @@ class Calendar extends EA_Controller {
         {
             if (cannot('view', PRIV_APPOINTMENTS))
             {
-                throw new Exception('You do not have the required permissions for this task.');
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $record_id = request('record_id');

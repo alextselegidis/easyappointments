@@ -110,7 +110,7 @@ class Google_sync {
 
         if (isset($response['error']))
         {
-            throw new Exception('Google Authentication Error (' . $response['error'] . '): ' . $response['error_description']);
+            throw new RuntimeException('Google Authentication Error (' . $response['error'] . '): ' . $response['error_description']);
         }
 
         return $response;

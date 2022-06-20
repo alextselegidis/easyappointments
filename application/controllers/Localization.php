@@ -35,7 +35,7 @@ class Localization extends EA_Controller {
 
             if ( ! in_array($language, config('available_languages')))
             {
-                throw new Exception('Translations for the given language does not exist (' . request('language') . ').');
+                throw new RuntimeException('Translations for the given language does not exist (' . request('language') . ').');
             }
 
             $language = request('language');
