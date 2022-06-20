@@ -79,10 +79,9 @@ class Google extends EA_Controller {
                 return; // The selected provider does not have the Google Syncing enabled.
             }
 
-            $google_token = json_decode($CI->providers_model->get_setting($provider['id'], 'google_token'));
+            $google_token = json_decode($provider['settings']['google_token'], TRUE);
 
-
-            $CI->google_sync->refresh_token($google_token->refresh_token);
+            $CI->google_sync->refresh_token($google_token['refresh_token']);
 
             // Fetch provider's appointments that belong to the sync time period.
             $sync_past_days = $CI->providers_model->get_setting($provider['id'], 'sync_past_days');
@@ -357,9 +356,9 @@ class Google extends EA_Controller {
                 return;
             }
 
-            $google_token = json_decode($this->providers_model->get_setting($provider_id, 'google_token'));
+            $google_token = json_decode($this->providers_model->get_setting($provider_id, 'google_token'), TRUE);
 
-            $this->google_sync->refresh_token($google_token->refresh_token);
+            $this->google_sync->refresh_token($google_token['refresh_token']);
 
             $calendars = $this->google_sync->get_google_calendars();
 
