@@ -70,7 +70,7 @@ class Synchronization {
                 $google_event = $this->CI->google_sync->add_appointment(
                     $appointment,
                     $provider,
-                    $webhook,
+                    $service,
                     $customer,
                     $settings
                 );
@@ -84,7 +84,7 @@ class Synchronization {
                 $this->CI->google_sync->update_appointment(
                     $appointment,
                     $provider,
-                    $webhook,
+                    $service,
                     $customer,
                     $settings
                 );
@@ -92,7 +92,7 @@ class Synchronization {
         }
         catch (Throwable $e)
         {
-            log_message('error', $e->getMessage());
+            log_message('error', 'Synchronization - Could not sync confirmation details of appointment (' . ($appointment['id'] ?? '-') . ') : ' . $e->getMessage());
             log_message('error', $e->getTraceAsString());
         }
     }
@@ -126,7 +126,7 @@ class Synchronization {
         }
         catch (Throwable $e)
         {
-            log_message('error', $e->getMessage());
+            log_message('error', 'Synchronization - Could not sync cancellation details of appointment (' . ($appointment['id'] ?? '-') . ') : ' . $e->getMessage());
             log_message('error', $e->getTraceAsString());
         }
     }
@@ -170,7 +170,7 @@ class Synchronization {
         }
         catch (Throwable $e)
         {
-            log_message('error', $e->getMessage());
+            log_message('error', 'Synchronization - Could not sync cancellation details of unavailability (' . ($appointment['id'] ?? '-') . ') : ' . $e->getMessage());
             log_message('error', $e->getTraceAsString());
         }
     }
@@ -203,7 +203,7 @@ class Synchronization {
         }
         catch (Throwable $e)
         {
-            log_message('error', $e->getMessage());
+            log_message('error', 'Synchronization - Could not sync cancellation details of unavailability (' . ($appointment['id'] ?? '-') . ') : ' . $e->getMessage());
             log_message('error', $e->getTraceAsString());
         }
     }

@@ -87,6 +87,7 @@ class Webhooks_client {
         catch (Throwable $e)
         {
             log_message('error', 'Webhooks Client - The webhook (' . ($webhook['id'] ?? NULL) . ') request received an unexpected exception: ' . $e->getMessage());
+            log_message('error', $e->getTraceAsString());
         }
     }
 }

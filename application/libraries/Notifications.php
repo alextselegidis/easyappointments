@@ -187,7 +187,7 @@ class Notifications {
         }
         catch (Throwable $e)
         {
-            log_message('error', $e->getMessage());
+            log_message('error', 'Notifications - Could not email confirmation details of appointment (' . ($appointment['id'] ?? '-') . ') : ' . $e->getMessage());
             log_message('error', $e->getTraceAsString());
         }
     }
@@ -299,7 +299,7 @@ class Notifications {
         }
         catch (Throwable $e)
         {
-            log_message('error', $e->getMessage());
+            log_message('error', 'Notifications - Could not email cancellation details of appointment (' . ($appointment['id'] ?? '-') . ') : ' . $e->getMessage());
             log_message('error', $e->getTraceAsString());
         }
     }
