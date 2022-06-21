@@ -84,13 +84,13 @@ App.Http.Settings = (function () {
      * Search settings by keyword.
      *
      * @param {String} keyword
-     * @param {Number} limit
-     * @param {Number} offset
-     * @param {String} orderBy
+     * @param {Number} [limit]
+     * @param {Number} [offset]
+     * @param {String} [orderBy]
      *
      * @return {Object}
      */
-    function search(keyword, limit, offset, orderBy) {
+        function search(keyword, limit = null, offset = null, orderBy = null) {
         const url = App.Utils.Url.siteUrl('settings/search');
 
         const data = {
