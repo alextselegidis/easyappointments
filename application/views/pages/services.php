@@ -8,7 +8,7 @@
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
-                    
+
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
                         <i class="fas fa-search"></i>
@@ -63,15 +63,16 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="duration">
+                <label class="form-label" for="duration">
                     <?= lang('duration_minutes') ?>
                     <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>" disabled>
+                <input id="duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>"
+                       disabled>
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="price">
+                <label class="form-label" for="price">
                     <?= lang('price') ?>
                     <span class="text-danger" hidden>*</span>
                 </label>
@@ -79,7 +80,7 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="currency">
+                <label class="form-label" for="currency">
                     <?= lang('currency') ?>
 
                 </label>
@@ -87,14 +88,14 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="category">
+                <label class="form-label" for="category">
                     <?= lang('category') ?>
                 </label>
                 <select id="category" class="form-control" disabled></select>
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="availabilities-type">
+                <label class="form-label" for="availabilities-type">
                     <?= lang('availabilities_type') ?>
 
                 </label>
@@ -117,21 +118,33 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label"  for="location">
+                <label class="form-label" for="location">
                     <?= lang('location') ?>
 
                 </label>
                 <input id="location" class="form-control" disabled>
             </div>
-            
+
             <div class="mb-3">
                 <?php component('color_selection', ['attributes' => 'id="color"']) ?>
             </div>
 
             <div class="mb-3">
+                <label class="form-label" for="description">
+                    <?= lang('description') ?>
+                </label>
+                <textarea id="description" rows="4" class="form-control" disabled></textarea>
+            </div>
+
+            <div class="border rounded mb-3 p-3">
+                <label class="form-label mb-3">
+                    <?= lang('options') ?>
+                </label>
+
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="private">
-                    <label class="form-check-label" for="private">
+                    <input class="form-check-input" type="checkbox" id="is-private">
+
+                    <label class="form-check-label" for="is-private">
                         <?= lang('private') ?>
                     </label>
                 </div>
@@ -141,13 +154,6 @@
                         <?= lang('private_hint') ?>
                     </small>
                 </div>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label"  for="description">
-                    <?= lang('description') ?>
-                </label>
-                <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
         </div>
     </div>
