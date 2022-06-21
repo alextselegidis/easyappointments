@@ -8,7 +8,7 @@
 
     <?php slot('meta') ?>
 
-    <title><?= lang('login') ?> | Easy!Appointments</title>
+    <title><?= lang('account') ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
