@@ -27,11 +27,11 @@
 
                         <table class="working-plan table table-striped">
                             <thead>
-                                <tr>
-                                    <th><?= lang('day') ?></th>
-                                    <th><?= lang('start') ?></th>
-                                    <th><?= lang('end') ?></th>
-                                </tr>
+                            <tr>
+                                <th><?= lang('day') ?></th>
+                                <th><?= lang('start') ?></th>
+                                <th><?= lang('end') ?></th>
+                            </tr>
                             </thead>
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
@@ -69,9 +69,9 @@
                             </thead>
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
-                        
+
                         <h4><?= lang('book_advance_timeout') ?></h4>
-                        
+
                         <div class="mb-3">
                             <label for="book-advance-timeout" class="form-label">
                                 <?= lang('timeout_minutes') ?>
@@ -81,6 +81,21 @@
                             <div class="form-text text-muted">
                                 <small>
                                     <?= lang('book_advance_timeout_hint') ?>
+                                </small>
+                            </div>
+                        </div>
+
+                        <h4><?= lang('future_booking_limit') ?></h4>
+
+                        <div class="mb-3">
+                            <label for="future-booking-limit" class="form-label">
+                                <?= lang('limit_days') ?>
+                            </label>
+                            <input id="future-booking-limit" data-field="future_booking_limit" class="form-control"
+                                   type="number" min="15">
+                            <div class="form-text text-muted">
+                                <small>
+                                    <?= lang('future_booking_limit_hint') ?>
                                 </small>
                             </div>
                         </div>

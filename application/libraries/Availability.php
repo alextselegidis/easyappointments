@@ -16,7 +16,7 @@
  * Availability library.
  *
  * Handles availability related functionality.
- * 
+ *
  * @package Libraries
  */
 class Availability {
@@ -68,7 +68,9 @@ class Availability {
             $available_hours = $this->generate_available_hours($date, $service, $available_periods);
         }
 
-        return $this->consider_book_advance_timeout($date, $available_hours, $provider);
+        $available_hours = $this->consider_book_advance_timeout($date, $available_hours, $provider);
+
+        return $this->consider_future_booking_limit($date, $available_hours, $provider);
     }
 
     /**
@@ -93,14 +95,14 @@ class Availability {
 
         // Get the provider's working plan exceptions.
         $working_plan_exceptions_json = $provider['settings']['working_plan_exceptions'];
-        
+
         $working_plan_exceptions = $working_plan_exceptions_json ? json_decode($provider['settings']['working_plan_exceptions'], TRUE) : NULL;
 
         $escaped_provider_id = $this->CI->db->escape($provider['id']);
-        
-        $escaped_date = $this->CI->db->escape($date); 
-        
-        $where = 'id_users_provider = ' . $escaped_provider_id 
+
+        $escaped_date = $this->CI->db->escape($date);
+
+        $where = 'id_users_provider = ' . $escaped_provider_id
             . ' AND DATE(start_datetime) <= ' . $escaped_date . ' AND DATE(end_datetime) >= ' . $escaped_date;
 
         // Sometimes it might be necessary to exclude an appointment from the calculation (e.g. when editing an
@@ -108,7 +110,7 @@ class Availability {
         if ($exclude_appointment_id)
         {
             $escaped_exclude_appointment_id = $this->CI->db->escape($exclude_appointment_id);
-            $where .= ' AND id != ' . $escaped_exclude_appointment_id; 
+            $where .= ' AND id != ' . $escaped_exclude_appointment_id;
         }
 
         $appointments = array_values(
@@ -304,8 +306,8 @@ class Availability {
      */
     protected function generate_available_hours(
         string $date,
-        array  $service,
-        array  $empty_periods
+        array $service,
+        array $empty_periods
     ): array
     {
         $available_hours = [];
@@ -351,9 +353,9 @@ class Availability {
      */
     protected function consider_multiple_attendants(
         string $date,
-        array  $service,
-        array  $provider,
-        int    $exclude_appointment_id = NULL
+        array $service,
+        array $provider,
+        int $exclude_appointment_id = NULL
     ): array
     {
         $unavailability_events = $this->CI->appointments_model->get([
@@ -609,5 +611,34 @@ class Availability {
         sort($available_hours, SORT_STRING);
 
         return array_values($available_hours);
+    }
+
+    /**
+     * Remove times if succeed the future booking limit.
+     *
+     * @param string $selected_date
+     * @param array $available_hours
+     * @param array $provider
+     *
+     * @return array|mixed
+     *
+     * @throws Exception
+     */
+    protected function consider_future_booking_limit(string $selected_date, array $available_hours, array $provider): array
+    {
+        $provider_timezone = new DateTimeZone($provider['timezone']);
+
+        $future_booking_limit = setting('future_booking_limit'); // in days
+
+        $threshold = new DateTime('+' . $future_booking_limit . ' days', $provider_timezone);
+
+        $selected_date_time = new DateTime($selected_date);
+
+        if ($threshold < $selected_date_time)
+        {
+            return [];
+        }
+
+        return $threshold > $selected_date_time ? $available_hours : [];
     }
 }
