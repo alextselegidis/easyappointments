@@ -136,6 +136,23 @@ class Providers extends EA_Controller {
 
             $provider = request('provider');
 
+            $this->providers_model->only($provider, [
+                'first_name',
+                'last_name',
+                'email',
+                'alt_number',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'is_private',
+                'id_roles',
+                'settings',
+                'services',
+            ]);
+
             $provider_id = $this->providers_model->save($provider);
 
             $provider = $this->providers_model->find($provider_id);
@@ -166,6 +183,24 @@ class Providers extends EA_Controller {
             }
 
             $provider = request('provider');
+
+            $this->providers_model->only($provider, [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'alt_number',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'is_private',
+                'id_roles',
+                'settings',
+                'services',
+            ]);
 
             $provider_id = $this->providers_model->save($provider);
 
