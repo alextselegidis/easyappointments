@@ -223,124 +223,131 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="customer-notifications"
-                                               data-field="customer_notifications">
-                                        <label class="form-check-label" for="customer-notifications">
-                                            <?= lang('customer_notifications') ?>
-                                        </label>
-                                    </div>
 
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('customer_notifications_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="limit-customer-access"
-                                               data-field="limit_customer_access">
-                                        <label class="form-check-label" for="limit-customer-access">
-                                            <?= lang('limit_customer_access') ?>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('limit_customer_access_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="require-captcha"
-                                               data-field="require_captcha">
-                                        <label class="form-check-label" for="require-captcha">
-                                            CAPTCHA
-                                        </label>
-                                    </div>
-
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('require_captcha_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="display-any-provider"
-                                               data-field="display_any_provider">
-                                        <label class="form-check-label" for="display-any-provider">
-                                            <?= lang('any_provider') ?>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('display_any_provider_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="display-login-button"
-                                               data-field="display_login_button">
-                                        <label class="form-check-label" for="display-login-button">
-                                            <?= lang('login_button') ?>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('display_login_button_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="display-delete-personal-information"
-                                               data-field="display_delete_personal_information">
-                                        <label class="form-check-label" for="display-delete-personal-information">
-                                            <?= lang('delete_personal_information') ?>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('delete_personal_information_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-                                
-
-                                <div class="mb-3">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="disable-booking"
-                                               data-field="disable_booking">
-                                        <label class="form-check-label" for="disable-booking">
-                                            <?= lang('disable_booking') ?>
-                                        </label>
-                                    </div>
-
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('disable_booking_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group mb-3" hidden>
-                                    <label class="form-label" for="disable-booking-message">
-                                        <?= lang('display_message') ?>
+                                <div class="border rounded mb-3 p-3">
+                                    <label class="form-label mb-3">
+                                        <?= lang('options') ?>
                                     </label>
-                                    <textarea id="disable-booking-message" cols="30" rows="10" class="mb-3"></textarea>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="customer-notifications"
+                                                   data-field="customer_notifications">
+                                            <label class="form-check-label" for="customer-notifications">
+                                                <?= lang('customer_notifications') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('customer_notifications_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="limit-customer-access"
+                                                   data-field="limit_customer_access">
+                                            <label class="form-check-label" for="limit-customer-access">
+                                                <?= lang('limit_customer_access') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('limit_customer_access_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="require-captcha"
+                                                   data-field="require_captcha">
+                                            <label class="form-check-label" for="require-captcha">
+                                                CAPTCHA
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('require_captcha_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="display-any-provider"
+                                                   data-field="display_any_provider">
+                                            <label class="form-check-label" for="display-any-provider">
+                                                <?= lang('any_provider') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('display_any_provider_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="display-login-button"
+                                                   data-field="display_login_button">
+                                            <label class="form-check-label" for="display-login-button">
+                                                <?= lang('login_button') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('display_login_button_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="display-delete-personal-information"
+                                                   data-field="display_delete_personal_information">
+                                            <label class="form-check-label" for="display-delete-personal-information">
+                                                <?= lang('delete_personal_information') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('delete_personal_information_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="disable-booking"
+                                                   data-field="disable_booking">
+                                            <label class="form-check-label" for="disable-booking">
+                                                <?= lang('disable_booking') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('disable_booking_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-3" hidden>
+                                        <label class="form-label" for="disable-booking-message">
+                                            <?= lang('display_message') ?>
+                                        </label>
+                                        <textarea id="disable-booking-message" cols="30" rows="10" class="mb-3"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
