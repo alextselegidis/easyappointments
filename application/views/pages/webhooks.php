@@ -113,14 +113,12 @@
                     <?= lang('options') ?>
                 </label>
 
-                <div class="">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="is-ssl-verified">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="is-ssl-verified">
 
-                        <label class="form-check-label" for="is-ssl-verified">
-                            <?= lang('verify_ssl') ?>
-                        </label>
-                    </div>
+                    <label class="form-check-label" for="is-ssl-verified">
+                        <?= lang('verify_ssl') ?>
+                    </label>
                 </div>
             </div>
         </div>
