@@ -21,6 +21,10 @@
   <a href="https://discord.com/invite/UeeSkaw">
     <img alt="Chat On Discord" src="https://img.shields.io/badge/chat-on%20discord-7289da?style=for-the-badge&logo=discord&logoColor=white">
   </a>
+  <a href="https://heroku.com/deploy">
+    <img src="https://www.herokucdn.com/deploy/button.svg" alt="Deploy">
+  </a>
+
 </p>
 
 <p align="center">
@@ -74,7 +78,7 @@ $ npm start
 
 Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
-You can build the files by running `npm run build`. This command will bundle everything to a `build` directory.
+You can build the files by running `composer install; npm run build`. This command will bundle everything to a `build` directory.
 
 ## Installation
 
