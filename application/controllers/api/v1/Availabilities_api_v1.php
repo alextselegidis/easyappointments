@@ -77,4 +77,55 @@ class Availabilities_api_v1 extends EA_Controller {
             json_exception($e);
         }
     }
+
+    /**
+     * Generate the available dates based on the selected month, service and provider.
+     *
+     * This resource requires the following query parameters:
+     *
+     *   - serviceId
+     *   - providerId
+     *   - month
+     *
+     * If no month parameter is provided then the current month will be used.
+     */
+    public function dates()
+    {
+        try
+        {
+            $provider_id = request('providerId');
+
+            $service_id = request('serviceId');
+
+            $month = request('month');
+            $month = new DateTime($month);
+
+            $provider = $this->providers_model->find($provider_id);
+
+            $service = $this->services_model->find($service_id);
+
+            $number_of_days_in_month = (int)$month->format('t');
+            $available_dates = [];
+
+            for ($i = 1; $i <= $number_of_days_in_month; $i++)
+            {
+                $current_date = new DateTime($month->format('Y-m') . '-' . $i);
+
+                $available_hours = $this->availability->get_available_hours(
+                    $current_date->format('Y-m-d'),
+                    $service,
+                    $provider
+                );
+
+                if ( !empty($available_hours) )
+                    $available_dates[] = $current_date->format('Y-m-d');
+            }
+
+            json_response($available_dates);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
 }
