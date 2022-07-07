@@ -382,8 +382,10 @@ class Services_model extends EA_Model {
             ->db
             ->select()
             ->from('services')
+            ->group_start()
             ->like('name', $keyword)
             ->or_like('description', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)

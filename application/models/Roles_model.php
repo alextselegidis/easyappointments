@@ -358,8 +358,10 @@ class Roles_model extends EA_Model {
             ->db
             ->select()
             ->from('roles')
+            ->group_start()
             ->like('name', $keyword)
             ->or_like('slug', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)

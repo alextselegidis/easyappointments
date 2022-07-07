@@ -409,6 +409,7 @@ class Users_model extends EA_Model {
             ->db
             ->select()
             ->from('users')
+            ->group_start()
             ->like('first_name', $keyword)
             ->or_like('last_name', $keyword)
             ->or_like('email', $keyword)
@@ -419,6 +420,7 @@ class Users_model extends EA_Model {
             ->or_like('state', $keyword)
             ->or_like('zip_code', $keyword)
             ->or_like('notes', $keyword)
+            ->group_end()
             ->limit($limit)
             ->offset($offset)
             ->order_by($order_by)
