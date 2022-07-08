@@ -1,0 +1,40 @@
+name: Run PHP tests
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: [7.4]
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Cache Composer dependencies
+      uses: actions/cache@v2
+      with:
+        path: /tmp/composer-cache
+        key: ${{ runner.os  }}-${{ hashFiles('**/composer.lock')  }}
+      
+    - name: Install dependencies
+      uses: php-actions/composer@v6
+      with:
+        php_version: ${{ matrix.php-version }}
+        php_extensions: gd
+
+    - name: Fullfil prerequisites
+      run: |
+        cp config-sample.php config.php
+
+    # Disabling because this does not currently work
+    # - name: Perform tests
+    #   uses: php-actions/composer@v6
+    #   with:
+    #     command: test

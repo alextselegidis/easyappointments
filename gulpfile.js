@@ -12,7 +12,8 @@
 // Gulp instance and plugins.
 const gulp = require('gulp');
 const fs = require('fs-extra');
-const zip = require('zip-dir');
+const tar = require('gulp-tar');
+const gzip = require('gulp-gzip');
 const plugins = require('gulp-load-plugins')();
 const {execSync} = require('child_process');
 const del = require('del');
@@ -26,11 +27,8 @@ gulp.src = function () {
         }));
 };
 
-gulp.task('package', (done) => {
-    const archive = 'easyappointments-0.0.0.zip';
-
+gulp.task('build', (done) => {
     fs.removeSync('build');
-    fs.removeSync(archive);
 
     fs.mkdirsSync('build');
     fs.copySync('application', 'build/application');
@@ -79,14 +77,22 @@ gulp.task('package', (done) => {
 
     del.sync('build/vendor/codeigniter/framework/user_guide');
 
-    zip('build', {saveTo: archive}, function (err) {
-        if (err) {
-            console.log('Zip Error', err);
-        }
-
-        done();
-    });
+    done();
 });
+
+gulp.task('package', (done) => {
+    const sha = process.env['GIT_COMMIT_SHA'] 
+    const version = !!sha ? sha : Date.now();
+    const archive = `easyappointments-${version}.tar`;
+
+
+    gulp.src('build/*')
+        .pipe(tar(archive))
+        .pipe(gzip())
+        .pipe(gulp.dest('.'));
+
+    done();
+})
 
 gulp.task('clean', (done) => {
     fs.removeSync('assets/js/**/*.min.js');
@@ -161,6 +167,8 @@ gulp.task('watch', (done) => {
 
 gulp.task('dev', gulp.series('clean', 'scripts', 'styles', 'watch'));
 
-gulp.task('build', gulp.series('clean', 'scripts', 'styles', 'package'));
+gulp.task('build', gulp.series('clean', 'scripts', 'styles', 'build'));
+
+gulp.task('package', gulp.series('clean', 'scripts', 'styles', 'build', 'package'));
 
 gulp.task('default', gulp.parallel('dev'));
