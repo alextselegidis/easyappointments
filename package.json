@@ -31,7 +31,7 @@
     "del": "^6.0.0",
     "fullcalendar": "^3.10.2",
     "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.0",
+    "jquery-ui": "^1.13.2",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "tippy.js": "^6.2.7",
