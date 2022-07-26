@@ -5,7 +5,10 @@
 <div id="booking-settings-page" class="container backend-page">
     <div id="booking-settings">
         <div class="row">
-            <div class="col-lg-8 offset-lg-2">
+            <div class="col-sm-3 offset-sm-1">
+                <?php component('settings_nav') ?>
+            </div>
+            <div class="col-sm-6">
                 <form>
                     <fieldset>
                         <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">

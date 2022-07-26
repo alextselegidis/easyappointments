@@ -85,25 +85,13 @@
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
-                    <i class="fas fa-cogs me-2"></i>
-                    <?= lang('settings') ?>
+                    <i class="fas fa-user me-2"></i>
+                    <?= vars('user_display_name') ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
                         <a class="dropdown-item" href="<?= site_url('general_settings') ?>">
-                            <?= lang('general') ?>
-                        </a>
-                        <a class="dropdown-item" href="<?= site_url('booking_settings') ?>">
-                            <?= lang('booking') ?>
-                        </a>
-                        <a class="dropdown-item" href="<?= site_url('business_settings') ?>">
-                            <?= lang('business') ?>
-                        </a>
-                        <a class="dropdown-item" href="<?= site_url('legal_settings') ?>">
-                            <?= lang('legal') ?>
-                        </a>
-                        <a class="dropdown-item" href="<?= site_url('integrations') ?>">
-                            <?= lang('integrations') ?>
+                            <?= lang('settings') ?>
                         </a>
                     <?php endif ?>
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
