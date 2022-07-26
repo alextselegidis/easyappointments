@@ -224,8 +224,8 @@
                                 </label>
 
                                 <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="private">
-                                    <label class="form-check-label" for="private">
+                                    <input class="form-check-input" type="checkbox" id="is-private">
+                                    <label class="form-check-label" for="is-private">
                                         <?= lang('private') ?>
                                     </label>
                                 </div>
@@ -243,7 +243,7 @@
                                     </label>
                                 </div>
                             </div>
-                            
+
                             <h4><?= lang('services') ?></h4>
                             <div id="provider-services" class="card card-body bg-light border-light"></div>
                         </div>
