@@ -51,7 +51,7 @@
 
                         <div class="mt-2">
                             <button type="button" class="add-break btn btn-primary">
-                                <i class="fas fa-plus-square"></i>
+                                <i class="fas fa-plus-square me-2"></i>
                                 <?= lang('add_break'); ?>
                             </button>
                         </div>
