@@ -188,47 +188,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <h4><?= lang('integrations') ?></h4>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="google-analytics-code">
-                                        Google Analytics Code
-                                    </label>
-                                    <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
-                                           data-field="google_analytics_code" class="form-control">
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('google_analytics_code_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label" for="google-analytics-code">
-                                        Matomo Analytics URL
-                                    </label>
-                                    <input id="matomo-analytics-url" placeholder="//example.org/url/to/matomo/"
-                                           data-field="matomo_analytics_url" class="form-control">
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('matomo_analytics_url_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label" for="api-token">API Token</label>
-                                    <input id="api-token" data-field="api_token" class="form-control">
-                                    <div class="form-text text-muted">
-                                        <small>
-                                            <?= lang('api_token_hint') ?>
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </fieldset>
                 </form>
             </div>
