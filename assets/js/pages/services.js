@@ -268,6 +268,7 @@ App.Pages.Services = (function () {
 
         $services.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $services.find('.record-details .form-label span').prop('hidden', true);
+        $services.find('.record-details #is-private').prop('checked', false);
         $services.find('.record-details h3 a').remove();
 
         $services.find('.add-edit-delete-group').show();

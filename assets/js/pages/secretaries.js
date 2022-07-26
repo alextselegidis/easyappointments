@@ -347,6 +347,7 @@ App.Pages.Secretaries = (function () {
         $secretaries.find('.record-details .form-label span').prop('hidden', true);
         $secretaries.find('.record-details #calendar-view').val('default');
         $secretaries.find('.record-details #timezone').val('UTC');
+        $secretaries.find('.record-details #notifications').prop('checked', true);
         $secretaries.find('.add-edit-delete-group').show();
         $secretaries.find('.save-cancel-group').hide();
         $secretaries.find('.form-message').hide();

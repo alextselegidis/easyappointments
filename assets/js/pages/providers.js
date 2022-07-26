@@ -26,7 +26,7 @@ App.Pages.Providers = (function () {
     const $city = $('#city');
     const $state = $('#state');
     const $zipCode = $('#zip-code');
-    const $private = $('#private');
+    const $isPrivate = $('#is-private');
     const $notes = $('#notes');
     const $language = $('#language');
     const $timezone = $('#timezone');
@@ -164,7 +164,7 @@ App.Pages.Providers = (function () {
                 city: $city.val(),
                 state: $state.val(),
                 zip_code: $zipCode.val(),
-                is_private: Number($private.prop('checked')),
+                is_private: Number($isPrivate.prop('checked')),
                 notes: $notes.val(),
                 language: $language.val(),
                 timezone: $timezone.val(),
@@ -349,6 +349,8 @@ App.Pages.Providers = (function () {
         $providers.find('.record-details #calendar-view').val('default');
         $providers.find('.record-details #language').val('english');
         $providers.find('.record-details #timezone').val('UTC');
+        $providers.find('.record-details #is-private').prop('checked', false);
+        $providers.find('.record-details #notifications').prop('checked', true);
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
 
         workingPlanManager.timepickers(true);
@@ -386,7 +388,7 @@ App.Pages.Providers = (function () {
         $city.val(provider.city);
         $state.val(provider.state);
         $zipCode.val(provider.zip_code);
-        $private.prop('checked', provider.is_private);
+        $isPrivate.prop('checked', provider.is_private);
         $notes.val(provider.notes);
         $language.val(provider.language);
         $timezone.val(provider.timezone);
