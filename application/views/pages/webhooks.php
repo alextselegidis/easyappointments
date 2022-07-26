@@ -78,13 +78,6 @@
                 <input id="secret-token" class="form-control" disabled>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="notes">
-                    <?= lang('notes') ?>
-                </label>
-                <textarea id="notes" rows="4" class="form-control" disabled></textarea>
-            </div>
-
             <div class="border raounded mb-3 p-3">
                 <label class="form-label mb-3" for="actions">
                     <?= lang('actions') ?>
@@ -120,6 +113,13 @@
                         <?= lang('verify_ssl') ?>
                     </label>
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="notes">
+                    <?= lang('notes') ?>
+                </label>
+                <textarea id="notes" rows="4" class="form-control" disabled></textarea>
             </div>
         </div>
     </div>
