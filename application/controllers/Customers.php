@@ -34,7 +34,7 @@ class Customers extends EA_Controller {
         $this->load->library('accounts');
         $this->load->library('permissions');
         $this->load->library('timezones');
-        $this->load->library('webhook_client');
+        $this->load->library('webhooks_client');
     }
 
     /**
