@@ -404,4 +404,5 @@ $lang['limit_days'] = 'Limit (Days)';
 $lang['future_booking_limit_hint'] = 'Set the future limit in days customers can make appointments via the public booking page.';
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Allow Rescheduling/Cancellation Before';
+$lang['at_least_one_field'] = 'At least one field must be displayed in the booking page.';
 // End

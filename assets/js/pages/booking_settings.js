@@ -46,6 +46,12 @@ App.Pages.BookingSettings = (function () {
                 throw new Error(lang('fields_are_required'));
             }
 
+            // Ensure there is at least one field displayed.
+
+            if (!$('.display-switch:checked').length) {
+                throw new Error(lang('at_least_one_field'));
+            }
+
             return false;
         } catch (error) {
             App.Layouts.Backend.displayNotification(error.message);
@@ -157,8 +163,6 @@ App.Pages.BookingSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            App.Layouts.Backend.displayNotification(lang('settings_are_invalid'));
-
             return;
         }
 
