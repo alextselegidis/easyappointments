@@ -157,7 +157,7 @@ App.Pages.Booking = (function () {
 
         optimizeContactInfoDisplay();
 
-        // If the manage mode is true, the appointments data should be loaded by default.
+        // If the manage mode is true, the appointment data should be loaded by default.
         if (manageMode) {
             applyAppointmentData(vars('appointment_data'), vars('provider_data'), vars('customer_data'));
         } else {
@@ -403,7 +403,7 @@ App.Pages.Booking = (function () {
              *
              * When the user clicks the "Cancel" button this form is going to be submitted. We need
              * the user to confirm this action because once the appointment is cancelled, it will be
-             * delete from the database.
+             * deleted from the database.
              *
              * @param {jQuery.Event} event
              */
