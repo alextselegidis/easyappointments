@@ -70,7 +70,7 @@
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
 
-                        <h4><?= lang('book_advance_timeout') ?></h4>
+                        <h4><?= lang('allow_rescheduling_cancellation_before') ?></h4>
 
                         <div class="mb-3">
                             <label for="book-advance-timeout" class="form-label">
