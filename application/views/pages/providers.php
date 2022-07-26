@@ -146,7 +146,11 @@
                                 <input id="zip-code" class="form-control" maxlength="64" disabled>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="border rounded mb-3 p-3">
+                                <label class="form-label mb-3">
+                                    <?= lang('options') ?>
+                                </label>
+
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="private">
                                     <label class="form-check-label" for="private">
