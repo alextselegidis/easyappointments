@@ -235,6 +235,11 @@ class Calendar extends EA_Controller {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
                 }
 
+                if ($manage_mode && ! empty($appointment['id']))
+                {
+                    $this->synchronization->remove_appointment_on_provider_change($appointment['id']);
+                }
+
                 $this->appointments_model->only($appointment, [
                     'id',
                     'start_datetime',

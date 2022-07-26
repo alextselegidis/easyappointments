@@ -207,4 +207,28 @@ class Synchronization {
             log_message('error', $e->getTraceAsString());
         }
     }
+
+    /**
+     * Make sure a synced appointment is removed from Google Calendar, if its provider is changed. 
+     * 
+     * @throws Exception
+     */
+    public function remove_appointment_on_provider_change($appointment_id)
+    {
+        $existing_appointment = $this->CI->appointments_model->get_row($appointment_id);
+
+        $existing_google_id = $existing_appointment['id_google_calendar'];
+
+        $existing_provider_id = $existing_appointment['id_users_provider'];
+
+        if ( ! empty($existing_google_id) && (int)$existing_provider_id !== (int)$existing_appointment['id_users_provider'])
+        {
+            $existing_provider = $this->CI->providers_model->get_row($existing_provider_id);
+
+            if ($existing_provider['settings']['google_sync'])
+            {
+                $this->sync_appointment_deleted($existing_appointment, $existing_provider);
+            }
+        }
+    }
 }
