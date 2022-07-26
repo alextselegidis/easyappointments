@@ -339,7 +339,6 @@ App.Pages.Services = (function () {
             }
 
             if (selectId) {
-                debugger
                 select(selectId, show);
             }
         });
