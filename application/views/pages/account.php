@@ -9,7 +9,7 @@
                 <form>
                     <fieldset>
                         <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <?= lang('personal_information') ?>
+                            <?= lang('account') ?>
 
                             <?php if (can('edit', PRIV_USER_SETTINGS)): ?>
                                 <button type="button" id="save-settings" class="btn btn-primary">
