@@ -195,16 +195,19 @@
                         ]) ?>
                     </div>
 
-                    <br>
 
-                    <div class="form-check form-switch me-4">
-                        <input class="form-check-input" type="checkbox" id="notifications" disabled>
-                        <label class="form-check-label" for="notifications">
-                            <?= lang('receive_notifications') ?>
+                    <div class="border rounded mb-3 p-3">
+                        <label class="form-label mb-3">
+                            <?= lang('options') ?>
                         </label>
-                    </div>
 
-                    <br>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="notifications" disabled>
+                            <label class="form-check-label" for="notifications">
+                                <?= lang('receive_notifications') ?>
+                            </label>
+                        </div>
+                    </div>
 
                     <h4><?= lang('providers') ?></h4>
                     <div id="secretary-providers" class="card card-body bg-light border-light"></div>

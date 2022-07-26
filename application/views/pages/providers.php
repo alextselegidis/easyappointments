@@ -146,25 +146,6 @@
                                 <input id="zip-code" class="form-control" maxlength="64" disabled>
                             </div>
 
-                            <div class="border rounded mb-3 p-3">
-                                <label class="form-label mb-3">
-                                    <?= lang('options') ?>
-                                </label>
-
-                                <div class="form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="private">
-                                    <label class="form-check-label" for="private">
-                                        <?= lang('private') ?>
-                                    </label>
-                                </div>
-
-                                <div class="form-text text-muted">
-                                    <small>
-                                        <?= lang('private_hint') ?>
-                                    </small>
-                                </div>
-                            </div>
-
                             <div class="mb-3">
                                 <label class="form-label" for="notes">
                                     <?= lang('notes') ?>
@@ -237,17 +218,32 @@
                                 ]) ?>
                             </div>
 
-                            <br>
-
-                            <div class="form-check form-switch me-4">
-                                <input class="form-check-input" type="checkbox" id="notifications" disabled>
-                                <label class="form-check-label" for="notifications">
-                                    <?= lang('receive_notifications') ?>
+                            <div class="border rounded mb-3 p-3">
+                                <label class="form-label mb-3">
+                                    <?= lang('options') ?>
                                 </label>
+
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="private">
+                                    <label class="form-check-label" for="private">
+                                        <?= lang('private') ?>
+                                    </label>
+                                </div>
+
+                                <div class="form-text text-muted mb-3">
+                                    <small>
+                                        <?= lang('private_hint') ?>
+                                    </small>
+                                </div>
+
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="notifications" disabled>
+                                    <label class="form-check-label" for="notifications">
+                                        <?= lang('receive_notifications') ?>
+                                    </label>
+                                </div>
                             </div>
-
-                            <br>
-
+                            
                             <h4><?= lang('services') ?></h4>
                             <div id="provider-services" class="card card-body bg-light border-light"></div>
                         </div>

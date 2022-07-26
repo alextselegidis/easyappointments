@@ -195,14 +195,18 @@
                             'grouped_timezones' => vars('grouped_timezones')
                         ]) ?>
                     </div>
-
-                    <br>
-
-                    <div class="form-check form-switch me-4">
-                        <input class="form-check-input" type="checkbox" id="notifications" disabled>
-                        <label class="form-check-label" for="notifications">
-                            <?= lang('receive_notifications') ?>
+                    
+                    <div class="border rounded mb-3 p-3">
+                        <label class="form-label mb-3">
+                            <?= lang('options') ?>
                         </label>
+
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="notifications" disabled>
+                            <label class="form-check-label" for="notifications">
+                                <?= lang('receive_notifications') ?>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
