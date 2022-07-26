@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if ($company_color !== DEFAULT_COMPANY_COLOR): ?>
+<?php if ( ! empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR): ?>
     <style>
         /* Generic Overrides */
 
@@ -68,7 +68,7 @@
         }
 
         body .modal-header {
-            background:  <?= $company_color ?> !important;
+            background: <?= $company_color ?> !important;
         }
 
         .fc-daygrid-event {
