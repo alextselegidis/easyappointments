@@ -129,13 +129,6 @@
                 <?php component('color_selection', ['attributes' => 'id="color"']) ?>
             </div>
 
-            <div class="mb-3">
-                <label class="form-label" for="description">
-                    <?= lang('description') ?>
-                </label>
-                <textarea id="description" rows="4" class="form-control" disabled></textarea>
-            </div>
-
             <div class="border rounded mb-3 p-3">
                 <label class="form-label mb-3">
                     <?= lang('options') ?>
@@ -154,6 +147,13 @@
                         <?= lang('private_hint') ?>
                     </small>
                 </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">
+                    <?= lang('description') ?>
+                </label>
+                <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
         </div>
     </div>
