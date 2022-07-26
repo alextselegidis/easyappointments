@@ -102,6 +102,9 @@
                         <a class="dropdown-item" href="<?= site_url('legal_settings') ?>">
                             <?= lang('legal') ?>
                         </a>
+                        <a class="dropdown-item" href="<?= site_url('integrations') ?>">
+                            <?= lang('integrations') ?>
+                        </a>
                     <?php endif ?>
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('account') ?>
