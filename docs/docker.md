@@ -39,7 +39,7 @@ class Config {
 }
 ```
 
-In the host machine the server is accessible from `http://localhost:8000` and the database from `localhost:8001`.  
+In the host machine the server is accessible from `http://localhost:8000`,  email testing tool from `http://localhost:8025` and the database from `localhost:8001`. Ports can be configured creating an `.env` file in `/docker` folder. See `.env.example` for more information. 
 
 You can remove the docker containers with `docker rm easyappointments-server easyappointments-database`. 
 

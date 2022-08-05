@@ -1,21 +1,31 @@
 version: "3.1"
 services:
+    mail:
+        image: mailhog/mailhog:latest
+        container_name: easyappointments-mail
+        ports:
+            - "${MAIL_PORT:-8025}:8025"
+
     mysql:
         image: mysql:5.7
         container_name: easyappointments-database
         volumes:
-            - ./mysql:/var/lib/mysql
+            - easyappointments-database-volume:/var/lib/mysql
         environment:
             - MYSQL_ROOT_PASSWORD=root
             - MYSQL_DATABASE=easyappointments
         ports:
-            - "8001:3306"
+            - "${DATABASE_PORT:-8001}:3306"
+
     server:
         build: ./server
         image: easyappointments-server:v1
         container_name: easyappointments-server
         ports:
-            - "8000:80"
+            - "${SERVER_PORT:-8000}:80"
         volumes:
             - ../:/var/www/html
             - ./server/php.ini:/usr/local/etc/php/conf.d/99-overrides.ini
+
+volumes:
+  easyappointments-database-volume:
