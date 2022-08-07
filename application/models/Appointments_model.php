@@ -26,6 +26,7 @@ class Appointments_model extends EA_Model {
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
+        'is_paid' => 'boolean',
     ];
 
     /**
@@ -45,6 +46,8 @@ class Appointments_model extends EA_Model {
         'providerId' => 'id_users_provider',
         'customerId' => 'id_users_customer',
         'googleCalendarId' => 'id_google_calendar',
+        'isPaid' => 'is_paid',
+        'paymentIntent' => 'payment_intent',
     ];
 
 
@@ -91,10 +94,10 @@ class Appointments_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
+        // Make sure all required fields are provided.
 
         $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
-        
+
         if (
             empty($appointment['start_datetime'])
             || empty($appointment['end_datetime'])
@@ -126,7 +129,7 @@ class Appointments_model extends EA_Model {
             throw new InvalidArgumentException('The appointment duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.');
         }
 
-        // Make sure the provider ID really exists in the database. 
+        // Make sure the provider ID really exists in the database.
         $count = $this
             ->db
             ->select()
@@ -144,7 +147,7 @@ class Appointments_model extends EA_Model {
 
         if ( ! filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN))
         {
-            // Make sure the customer ID really exists in the database. 
+            // Make sure the customer ID really exists in the database.
             $count = $this
                 ->db
                 ->select()
@@ -160,7 +163,7 @@ class Appointments_model extends EA_Model {
                 throw new InvalidArgumentException('The appointment customer ID was not found in the database: ' . $appointment['id_users_customer']);
             }
 
-            // Make sure the service ID really exists in the database. 
+            // Make sure the service ID really exists in the database.
             $count = $this->db->get_where('services', ['id' => $appointment['id_services']])->num_rows();
 
             if ( ! $count)
@@ -206,7 +209,7 @@ class Appointments_model extends EA_Model {
     protected function update(array $appointment): int
     {
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         if ( ! $this->db->update('appointments', $appointment, ['id' => $appointment['id']]))
         {
             throw new RuntimeException('Could not update appointment record.');
@@ -575,7 +578,9 @@ class Appointments_model extends EA_Model {
             'customerId' => $appointment['id_users_customer'] !== NULL ? (int)$appointment['id_users_customer'] : NULL,
             'providerId' => $appointment['id_users_provider'] !== NULL ? (int)$appointment['id_users_provider'] : NULL,
             'serviceId' => $appointment['id_services'] !== NULL ? (int)$appointment['id_services'] : NULL,
-            'googleCalendarId' => $appointment['id_google_calendar'] !== NULL ? (int)$appointment['id_google_calendar'] : NULL
+            'googleCalendarId' => $appointment['id_google_calendar'] !== NULL ? (int)$appointment['id_google_calendar'] : NULL,
+            'isPaid' => $appointment['is_paid'],
+            'paymentIntent' => $appointment['payment_intent'],
         ];
 
         $appointment = $encoded_resource;
@@ -644,6 +649,16 @@ class Appointments_model extends EA_Model {
         if (array_key_exists('googleCalendarId', $appointment))
         {
             $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+        }
+
+       if (array_key_exists('isPaid', $appointment))
+        {
+            $decoded_request['is_paid'] = $appointment['isPaid'];
+        }
+
+       if (array_key_exists('paymentIntent', $appointment))
+        {
+            $decoded_request['payment_intent'] = $appointment['paymentIntent'];
         }
 
         $decoded_request['is_unavailability'] = FALSE;

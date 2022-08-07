@@ -53,6 +53,7 @@ The application is designed to be flexible enough so that it can handle any ente
 * Self hosted installation.
 * Translated user interface.
 * User community support. 
+* Service payment by [Stripe Payment links](https://stripe.com/en-gb-es/payments/payment-links) 
 
 ## Setup
 

@@ -46,6 +46,7 @@ class Services_model extends EA_Model {
         'attendantsNumber' => 'attendants_number',
         'isPrivate' => 'is_private',
         'categoryId' => 'id_categories',
+        'paymentLink' => 'payment_link',
     ];
 
     /**
@@ -60,6 +61,8 @@ class Services_model extends EA_Model {
     public function save(array $service): int
     {
         $this->validate($service);
+
+        error_log(print_r($service, TRUE));
 
         if (empty($service['id']))
         {
@@ -99,7 +102,7 @@ class Services_model extends EA_Model {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($service, TRUE));
         }
 
-        // If a category was provided then make sure it really exists in the database. 
+        // If a category was provided then make sure it really exists in the database.
         if ( ! empty($service['id_categories']))
         {
             $count = $this->db->get_where('categories', ['id' => $service['id_categories']])->num_rows();
@@ -110,7 +113,7 @@ class Services_model extends EA_Model {
             }
         }
 
-        // Make sure the duration value is valid. 
+        // Make sure the duration value is valid.
         if ( ! empty($service['duration']))
         {
             if ((int)$service['duration'] < EVENT_MINIMUM_DURATION)
@@ -136,7 +139,7 @@ class Services_model extends EA_Model {
             throw new InvalidArgumentException('The provided availabilities type is invalid: ' . $service['availabilities_type']);
         }
 
-        // Validate the attendants number value. 
+        // Validate the attendants number value.
         if (empty($service['attendants_number']) || (int)$service['attendants_number'] < 1)
         {
             throw new InvalidArgumentException('The provided attendants number is invalid: ' . $service['attendants_number']);
@@ -447,7 +450,8 @@ class Services_model extends EA_Model {
             'location' => $service['location'],
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int)$service['attendants_number'],
-            'categoryId' => $service['id_categories'] !== NULL ? (int)$service['id_categories'] : NULL
+            'categoryId' => $service['id_categories'] !== NULL ? (int)$service['id_categories'] : NULL,
+            'paymentLink' => $service['payment_link'],
         ];
 
         $service = $encoded_resource;
@@ -496,6 +500,11 @@ class Services_model extends EA_Model {
         if (array_key_exists('location', $service))
         {
             $decoded_resource['location'] = $service['location'];
+        }
+
+        if (array_key_exists('paymentLink', $service))
+        {
+            $decoded_resource['payment_link'] = $service['paymentLink'];
         }
 
         if (array_key_exists('availabilitiesType', $service))

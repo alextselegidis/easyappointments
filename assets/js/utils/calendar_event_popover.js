@@ -120,9 +120,34 @@ App.Utils.CalendarEventPopover = (function () {
         }).html();
     }
 
+    /**
+     * Get the paid icon for the popup widget.
+     *
+     * @param {Event} event
+     */
+    function getIsPaidIcon(event) {
+        let payStatusIcon;
+        if(event.extendedProps && event.extendedProps.data){
+            const paid = event.extendedProps.data.is_paid
+            payStatusIcon = $('<span/>', {
+                'class': paid ? 'fas fa-check text-success' : 'fas fa-times text-danger'
+            })
+        } else {
+            payStatusIcon = $('<span/>', {
+                'class': 'fas fa-triangle-exclamation text-danger'
+            })
+        }
+        return $('<div/>', {
+            'html': [
+                payStatusIcon
+            ]
+        }).html();
+    }
+
     return {
         renderPhoneIcon,
         renderMapIcon,
-        renderMailIcon
+        renderMailIcon,
+        getIsPaidIcon
     };
 })();

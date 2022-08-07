@@ -134,6 +134,7 @@ class Calendar extends EA_Controller {
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
             'customers' => $this->customers_model->get(NULL, 50, NULL, 'update_datetime DESC'),
+            'stripe_payment_feature' => config('stripe_payment_feature'),
         ]);
 
         html_vars([
@@ -259,6 +260,7 @@ class Calendar extends EA_Controller {
                     'id_users_provider',
                     'id_users_customer',
                     'id_services',
+                    'is_paid',
                 ]);
 
                 $appointment['id'] = $this->appointments_model->save($appointment);
@@ -654,9 +656,9 @@ class Calendar extends EA_Controller {
             $end_date = $this->db->escape(date('Y-m-d', strtotime(request('end_date') . ' +1 day')));
 
             $where_clause = $where_id . ' = ' . $record_id . '
-                AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
-                or (end_datetime > ' . $start_date . ' AND end_datetime < ' . $end_date . ') 
-                or (start_datetime <= ' . $start_date . ' AND end_datetime >= ' . $end_date . ')) 
+                AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ')
+                or (end_datetime > ' . $start_date . ' AND end_datetime < ' . $end_date . ')
+                or (start_datetime <= ' . $start_date . ' AND end_datetime >= ' . $end_date . '))
                 AND is_unavailability = 0
             ';
 
@@ -675,9 +677,9 @@ class Calendar extends EA_Controller {
             if ($filter_type == FILTER_TYPE_PROVIDER)
             {
                 $where_clause = $where_id . ' = ' . $record_id . '
-                    AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ') 
-                    or (end_datetime > ' . $start_date . ' AND end_datetime < ' . $end_date . ') 
-                    or (start_datetime <= ' . $start_date . ' AND end_datetime >= ' . $end_date . ')) 
+                    AND ((start_datetime > ' . $start_date . ' AND start_datetime < ' . $end_date . ')
+                    or (end_datetime > ' . $start_date . ' AND end_datetime < ' . $end_date . ')
+                    or (start_datetime <= ' . $start_date . ' AND end_datetime >= ' . $end_date . '))
                     AND is_unavailability = 1
                 ';
 

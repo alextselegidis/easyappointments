@@ -50,4 +50,12 @@ class Config {
     const GOOGLE_SYNC_FEATURE   = FALSE; // Enter TRUE or FALSE
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
+
+    // ------------------------------------------------------------------------
+    // STRIPE PAYMENT INTEGRATION
+    // ------------------------------------------------------------------------
+
+    const STRIPE_PAYMENT_FEATURE = FALSE; // Enter TRUE or FALSE
+    const STRIPE_API_KEY   = '';
+
 }
