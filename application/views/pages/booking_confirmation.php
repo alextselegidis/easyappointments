@@ -28,6 +28,13 @@
         <i class="fas fa-plus me-2"></i>
         <?= lang('add_to_google_calendar') ?>
     </a>
+
+    <?php if (!vars('is_paid') && vars('payment_link')): ?>
+        <a href="<?= vars('payment_link') ?>" id="open-payment-process" class="btn btn-primary" target="_blank">
+            <i class="fas fa-credit-card me-2"></i>
+            <?= lang('open_payment_process') ?>
+        </a>
+    <?php endif ?>
 </div>
 
 <?php end_section('content'); ?>

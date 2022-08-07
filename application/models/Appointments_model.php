@@ -27,6 +27,7 @@ class Appointments_model extends EA_Model
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
+        'is_paid' => 'boolean',
     ];
 
     /**
@@ -46,6 +47,8 @@ class Appointments_model extends EA_Model
         'providerId' => 'id_users_provider',
         'customerId' => 'id_users_customer',
         'googleCalendarId' => 'id_google_calendar',
+        'isPaid' => 'is_paid',
+        'paymentIntent' => 'payment_intent',
     ];
 
     /**
@@ -544,6 +547,8 @@ class Appointments_model extends EA_Model
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
             'googleCalendarId' =>
                 $appointment['id_google_calendar'] !== null ? $appointment['id_google_calendar'] : null,
+            'isPaid' => $appointment['is_paid'],
+            'paymentIntent' => $appointment['payment_intent'],
         ];
 
         $appointment = $encoded_resource;
@@ -605,6 +610,14 @@ class Appointments_model extends EA_Model
 
         if (array_key_exists('googleCalendarId', $appointment)) {
             $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+        }
+
+        if (array_key_exists('isPaid', $appointment)){
+            $decoded_request['is_paid'] = $appointment['isPaid'];
+        }
+
+        if (array_key_exists('paymentIntent', $appointment)){
+            $decoded_request['payment_intent'] = $appointment['paymentIntent'];
         }
 
         $decoded_request['is_unavailability'] = false;

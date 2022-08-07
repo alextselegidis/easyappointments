@@ -453,4 +453,15 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
+$lang['service_payment_link'] = 'Stripe Payment link';
+$lang['service_payment_link_description'] = 'By default, the generated payment link will send the appointment hash and customer email to Stripe. In order to confirm the payment use https://CHANGE_WITH_YOUR_SERVER/payment/confirm/{CHECKOUT_SESSION_ID} url as confirmation page in Stripe';
+$lang['appointment_payment_title'] = 'Payment details';
+$lang['appointment_payment_text'] = 'Click on the following link to proceed with payment';
+$lang['appointment_paymentPaid_text'] = 'Payment has been successfully completed';
+$lang['payment_intent'] = 'Stripe Payment Intent';
+$lang['service_paid_warning'] = 'It is not possible to change an already paid service. Please contact us at {$mail_link} for more information.';
+$lang['is_paid'] = 'Paid';
+$lang['open_payment_process'] = 'Proceed with payment';
+$lang['go_to_payment_hint'] = 'Open Payment details in Stripe Dashboard';
+$lang['go_to_payment'] = 'View Payment';
 // End

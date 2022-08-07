@@ -126,6 +126,7 @@ class Services extends EA_Controller
                 'attendants_number',
                 'is_private',
                 'id_service_categories',
+                'payment_link',
             ]);
 
             $this->services_model->optional($service, [
@@ -192,6 +193,7 @@ class Services extends EA_Controller
                 'attendants_number',
                 'is_private',
                 'id_service_categories',
+                'payment_link',
             ]);
 
             $this->services_model->optional($service, [

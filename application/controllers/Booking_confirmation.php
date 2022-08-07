@@ -56,12 +56,32 @@ class Booking_confirmation extends EA_Controller
 
         $add_to_google_url = $this->google_sync->get_add_to_google_url($appointment['id']);
 
+        $service = $this->services_model->find($appointment['id_services']);
+
+        $customer = $this->customers_model->find($appointment['id_users_customer']);
+
+        $payment_link = null;
+        if( isset($service['payment_link']) && !empty(trim($service['payment_link']))){
+            $payment_link_vars = array(
+                '{$appointment_hash}' => $appointment['hash'],
+                '{$customer_email}' => $customer['email'],
+            );
+            $payment_link_template = $service['payment_link']
+                . (str_contains($service['payment_link'], '?')
+                    ? '' : '?')
+                . 'client_reference_id={$appointment_hash}&prefilled_email={$customer_email}';
+
+            $payment_link = strtr($payment_link_template, $payment_link_vars);
+        }
+
         html_vars([
             'page_title' => lang('success'),
             'company_color' => setting('company_color'),
             'google_analytics_code' => setting('google_analytics_code'),
             'matomo_analytics_url' => setting('matomo_analytics_url'),
             'add_to_google_url' => $add_to_google_url,
+            'is_paid' => $appointment['is_paid'],
+            'payment_link' => $payment_link,
         ]);
 
         $this->load->view('pages/booking_confirmation');

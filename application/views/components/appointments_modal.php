@@ -183,6 +183,22 @@
                                     <label for="appointment-notes" class="form-label"><?= lang('notes') ?></label>
                                     <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
                                 </div>
+
+                                <?php if (config('stripe_payment_feature')): ?>
+                                    <div class="mb-3 form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="appointment-is-paid">
+                                        <label class="form-check-label" for="appointment-is-paid">
+                                            <?= lang('is_paid') ?>
+                                        </label>
+                                    </div>
+                                    <div class="mb-3">
+                                        <button id="go_to_payment" class="btn btn-outline-secondary btn-sm" type="button"
+                                            data-tippy-content="<?= lang('go_to_payment_hint') ?>">
+                                            <i class="fas fa-external-link me-2"></i>
+                                            <?= lang('go_to_payment') ?>
+                                        </button>
+                                    </div>
+                                <?php endif ?>
                             </div>
                         </div>
                     </fieldset>

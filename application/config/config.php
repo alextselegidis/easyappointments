@@ -457,5 +457,17 @@ $config['proxy_ips'] = '';
 */
 $config['rate_limiting'] = true;
 
+/*
+|--------------------------------------------------------------------------
+| Stripe Payment Configuration
+|--------------------------------------------------------------------------
+|
+| Declare some of the global config values of the Stripe Payments
+|
+*/
+
+$config['stripe_payment_feature'] = Config::STRIPE_PAYMENT_FEATURE;
+$config['stripe_api_key'] = Config::STRIPE_API_KEY;
+
 /* End of file config.php */
 /* Location: ./application/config/config.php */
