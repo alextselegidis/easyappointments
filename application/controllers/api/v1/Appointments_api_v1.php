@@ -46,6 +46,14 @@ class Appointments_api_v1 extends EA_Controller {
     {
         try
         {
+            //get Provider ID
+            $provider_id = request('providerId');
+
+            //get Customer ID
+            $cutomer_id = request('customerId');
+
+            $date = request('date');
+
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -58,9 +66,38 @@ class Appointments_api_v1 extends EA_Controller {
 
             $with = $this->api->request_with();
 
+            //Add filtering for customers or providers in API
+            $where_clause=NULL;
+
+            //Add clause for date
+            $where_date_clause = $date != "" ? "start_datetime like \"$date%\"" : "";
+
+            //Filter provider only
+            if(is_numeric($provider_id) && $cutomer_id=="") {
+                $where_clause="id_users_provider=\"$provider_id\"";
+            }
+
+            //Filter customer only
+            if(is_numeric($cutomer_id) && $provider_id=="") {
+                $where_clause="id_users_customer=\"$cutomer_id\"";
+            }
+
+            //Filter provider and customer
+            if(is_numeric($provider_id) && is_numeric($cutomer_id)) {
+                $where_clause="id_users_provider=\"$provider_id\" and id_users_customer=\"$cutomer_id\"";
+            }
+
+            //Join clauses if both ar present
+            if($where_date_clause!="") $where_clause = $where_clause == NULL ? $where_date_clause : $where_clause . " and $where_date_clause";
+
+            //If was set a provider or a customer add the where clause
+            //original part
             $appointments = empty($keyword)
-                ? $this->appointments_model->get(NULL, $limit, $offset, $order_by)
+                //? $this->appointments_model->get(NULL, $limit, $offset, $order_by) -> this line was replaced with next line
+                ? $this->appointments_model->get($where_clause, $limit, $offset, $order_by)
                 : $this->appointments_model->search($keyword, $limit, $offset, $order_by);
+            //End original part
+
 
             foreach ($appointments as &$appointment)
             {
@@ -69,7 +106,7 @@ class Appointments_api_v1 extends EA_Controller {
                 $this->aggregates($appointment);
 
                 if ( ! empty($fields))
-                {
+                { 
                     $this->appointments_model->only($appointment, $fields);
                 }
 
