@@ -219,13 +219,6 @@ class Google extends EA_Controller {
                 $event_end = new DateTime($google_event->getEnd()->getDateTime());
                 $event_end->setTimezone($provider_timezone);
 
-                $results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()]);
-
-                if ( ! empty($results))
-                {
-                    continue;
-                }
-
                 // Record doesn't exist in the Easy!Appointments, so add the event now.
                 $appointment = [
                     'start_datetime' => $event_start->format('Y-m-d H:i:s'),
@@ -239,7 +232,16 @@ class Google extends EA_Controller {
                     'id_services' => NULL,
                 ];
 
-                $CI->appointments_model->save($appointment);
+                //Get Appointment ID by google calendar API Token
+                $results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()], NULL, NULL, NULL, FALSE, TRUE);
+
+                if ( ! empty($results))
+                {
+                    //if the Appointment id was found add the ID to the appointment array so it can update it instead to insert a new one
+                    $appointment["id"]=$results[0]["id"];
+                }
+
+                $CI->appointments_model->save($appointment, TRUE);
             }
 
             json_response([

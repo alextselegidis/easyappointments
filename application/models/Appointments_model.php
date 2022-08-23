@@ -54,9 +54,9 @@ class Appointments_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function save(array $appointment): int
+    public function save(array $appointment, $is_sync = FALSE): int
     {
-        $this->validate($appointment);
+        $this->validate($appointment, $is_sync);
 
         if (empty($appointment['id']))
         {
@@ -75,7 +75,7 @@ class Appointments_model extends EA_Model {
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $appointment)
+    public function validate(array $appointment, $is_sync = FALSE)
     {
         // If an appointment ID is provided then check whether the record really exists in the database.
         if ( ! empty($appointment['id']))
@@ -88,17 +88,32 @@ class Appointments_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
-        if (
-            empty($appointment['start_datetime'])
-            || empty($appointment['end_datetime'])
-            || empty($appointment['id_services'])
-            || empty($appointment['id_users_provider'])
-            || empty($appointment['id_users_customer'])
-        )
-        {
-            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, TRUE));
+        // Make sure all required fields are provided.
+        if($is_sync) {
+            // Validate mandatory fields in sync from google calendar
+            // Events recieved from google calendar are set as Unavailabilities so is_services and id_users_customer are not mandatory
+            if (
+                empty($appointment['start_datetime'])
+                || empty($appointment['end_datetime'])
+                || empty($appointment['id_users_provider'])
+            )
+            {
+                throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, TRUE));
+            }
+        } else {
+            //Validate mandatory fields for normal insert
+            if (
+                empty($appointment['start_datetime'])
+                || empty($appointment['end_datetime'])
+                || empty($appointment['id_services'])
+                || empty($appointment['id_users_provider'])
+                || empty($appointment['id_users_customer'])
+            )
+            {
+                throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, TRUE));
+            }
         }
+
 
         // Make sure that the provided appointment date time values are valid.
         if ( ! validate_datetime($appointment['start_datetime']))
@@ -311,7 +326,7 @@ class Appointments_model extends EA_Model {
      *
      * @return array Returns an array of appointments.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE, $is_unavailability = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -328,7 +343,7 @@ class Appointments_model extends EA_Model {
             $this->db->where('delete_datetime IS NULL');
         }
 
-        $appointments = $this->db->get_where('appointments', ['is_unavailability' => FALSE], $limit, $offset)->result_array();
+        $appointments = $this->db->get_where('appointments', ['is_unavailability' => $is_unavailability], $limit, $offset)->result_array();
 
         foreach ($appointments as &$appointment)
         {
