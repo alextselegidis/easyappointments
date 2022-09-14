@@ -12,8 +12,9 @@
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                          
-                          
+                            <h4 class="text-black-50 mb-0 fw-light">
+                                <?= lang('booking_settings') ?>
+                            </h4>
 
                             <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
                                 <button type="button" id="save-settings" class="btn btn-primary">
@@ -22,7 +23,7 @@
                                 </button>
                             <?php endif ?>
                         </div>
-                        
+
                         <div class="row mb-5 fields-row">
                             <div class="col-lg-6">
                                 <div class="form-group mb-5">
