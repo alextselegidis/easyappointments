@@ -493,7 +493,13 @@ App.Pages.Secretaries = (function () {
      * Initialize the module.
      */
     function initialize() {
+        resetForm();
+        filter('');
+        addEventListeners();
+
         vars('providers').forEach((provider) => {
+            const checkboxId = `provider-service-${provider.id}`;
+          
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -501,24 +507,24 @@ App.Pages.Secretaries = (function () {
                         'class': 'checkbox form-check',
                         'html': [
                             $('<input/>', {
+                                'id': checkboxId,
                                 'class': 'form-check-input',
                                 'type': 'checkbox',
-                                'data-id': provider.id
+                                'data-id': provider.id,
+                                'prop': {
+                                    'disabled': true,
+                                }
                             }),
                             $('<label/>', {
                                 'class': 'form-check-label',
                                 'text': provider.first_name + ' ' + provider.last_name,
-                                'for': provider.id
+                                'for': checkboxId,
                             })
                         ]
                     })
                 ]
             }).appendTo('#secretary-providers');
         });
-        
-        resetForm();
-        filter('');
-        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

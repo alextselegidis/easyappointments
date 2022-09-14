@@ -569,6 +569,8 @@ App.Pages.Providers = (function () {
         addEventListeners();
 
         vars('services').forEach((service) => {
+            const checkboxId = `provider-service-${service.id}`; 
+            
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -576,6 +578,7 @@ App.Pages.Providers = (function () {
                         'class': 'checkbox form-check',
                         'html': [
                             $('<input/>', {
+                                'id': checkboxId,
                                 'class': 'form-check-input',
                                 'type': 'checkbox',
                                 'data-id': service.id,
@@ -586,7 +589,7 @@ App.Pages.Providers = (function () {
                             $('<label/>', {
                                 'class': 'form-check-label',
                                 'text': service.name,
-                                'for': service.id
+                                'for': checkboxId,
                             })
                         ]
                     })
