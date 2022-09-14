@@ -17,12 +17,12 @@
             </p>
 
             <div class="row">
-                <div class="col-sm-6">
-                    <div class="card mb-5">
+                <div class="col-sm-6 mb-4">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <strong>
+                            <h5 class="fw-light text-black-50 mb-0">
                                 <?= lang('webhooks') ?>
-                            </strong>
+                            </h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 integration-info">
@@ -30,8 +30,9 @@
                                     <?= lang('webhooks_info') ?>
                                 </small>
                             </div>
-
-                            <a href="<?= site_url('webhooks') ?>" class="btn btn-outline-primary">
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="<?= site_url('webhooks') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
                             </a>
@@ -39,12 +40,12 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="card mb-5">
+                <div class="col-sm-6 mb-4">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <strong>
+                            <h5 class="fw-light text-black-50 mb-0">
                                 <?= lang('google_analytics') ?>
-                            </strong>
+                            </h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 integration-info">
@@ -52,8 +53,9 @@
                                     <?= lang('google_analytics_info') ?>
                                 </small>
                             </div>
-
-                            <a href="<?= site_url('google_analytics_settings') ?>" class="btn btn-outline-primary">
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="<?= site_url('google_analytics_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
                             </a>
@@ -61,12 +63,12 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="card mb-5">
+                <div class="col-sm-6 mb-4">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <strong>
+                            <h5 class="fw-light text-black-50 mb-0">
                                 <?= lang('matomo_analytics') ?>
-                            </strong>
+                            </h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 integration-info">
@@ -74,8 +76,9 @@
                                     <?= lang('matomo_analytics_info') ?>
                                 </small>
                             </div>
-
-                            <a href="<?= site_url('matomo_analytics_settings') ?>" class="btn btn-outline-primary">
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="<?= site_url('matomo_analytics_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
                             </a>
@@ -83,12 +86,12 @@
                     </div>
                 </div>
 
-                <div class="col-sm-6">
-                    <div class="card mb-5">
+                <div class="col-sm-6 mb-4">
+                    <div class="card h-100">
                         <div class="card-header">
-                            <strong>
+                            <h5 class="fw-light text-black-50 mb-0">
                                 <?= lang('api') ?>
-                            </strong>
+                            </h5>
                         </div>
                         <div class="card-body">
                             <div class="mb-3 integration-info">
@@ -96,8 +99,9 @@
                                     <?= lang('api_info') ?>
                                 </small>
                             </div>
-
-                            <a href="<?= site_url('api_settings') ?>" class="btn btn-outline-primary">
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <a href="<?= site_url('api_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
                             </a>
@@ -110,12 +114,4 @@
 </div>
 
 <?php section('content') ?>
-
-
-<?php section('styles') ?>
-
-<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/pages/integrations.css') ?>">
-
-<?php section('styles') ?>
-
 
