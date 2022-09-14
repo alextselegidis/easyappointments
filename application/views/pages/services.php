@@ -135,9 +135,11 @@
                 <?php component('color_selection', ['attributes' => 'id="color"']) ?>
             </div>
 
-            <h5 class="text-black-50 mb-3 fw-light">
-                <?= lang('options') ?>
-            </h5>
+            <div>
+                <label class="form-label mb-3">
+                    <?= lang('options') ?>
+                </label>
+            </div>
 
             <div class="border rounded mb-3 p-3">
                 <div class="form-check form-switch">
