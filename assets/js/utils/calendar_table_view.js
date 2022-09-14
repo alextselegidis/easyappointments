@@ -32,6 +32,7 @@ App.Utils.CalendarTableView = (function () {
     let $filterProvider;
     let $filterService;
     let $selectDate;
+    let $popoverTarget;
 
     const moment = window.moment;
     let lastFocusedEventData;
@@ -145,7 +146,9 @@ App.Utils.CalendarTableView = (function () {
          * Hides the open popover element.
          */
         $calendar.on('click', '.close-popover', (event) => {
-            $(event.target).parents('.popover').popover('dispose');
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
         });
 
         /**
@@ -154,7 +157,9 @@ App.Utils.CalendarTableView = (function () {
          * Enables the edit dialog of the selected table event.
          */
         $calendar.on('click', '.edit-popover', (event) => {
-            $(event.target).parents('.popover').popover('dispose');
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
 
             let startMoment;
             let endMoment;
@@ -263,7 +268,9 @@ App.Utils.CalendarTableView = (function () {
          * deletion then an ajax call is made to the server and deletes the appointment from the database.
          */
         $calendar.on('click', '.delete-popover', (event) => {
-            $(event.target).parents('.popover').popover('dispose'); // Hide the popover.
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
 
             // If id_role parameter exists the popover is an working plan exception.
             if (lastFocusedEventData.extendedProps.data.hasOwnProperty('id_roles')) {
@@ -1119,9 +1126,9 @@ App.Utils.CalendarTableView = (function () {
      * @param {Object} info
      */
     function onEventClick(info) {
-        const $popover = $('.popover');
-
-        $popover.popover('dispose'); // Close all open popovers.
+        if ($popoverTarget) {
+            $popoverTarget.popover('dispose');
+        }
 
         let $html;
         let displayEdit;
@@ -1469,7 +1476,7 @@ App.Utils.CalendarTableView = (function () {
 
         lastFocusedEventData = info.event;
 
-        $target.popover('toggle');
+        $target.popover('show');
 
         // Fix popover position.
         const $newPopover = $calendar.find('.popover');

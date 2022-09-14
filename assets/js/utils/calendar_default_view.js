@@ -27,6 +27,7 @@ App.Utils.CalendarDefaultView = (function () {
     const $footer = $('#footer');
     const $notification = $('#notification');
     const $calendarToolbar = $('#calendar-toolbar');
+    let $popoverTarget;
     const FILTER_TYPE_ALL = 'all';
     const FILTER_TYPE_PROVIDER = 'provider';
     const FILTER_TYPE_SERVICE = 'service';
@@ -45,10 +46,8 @@ App.Utils.CalendarDefaultView = (function () {
         $reloadAppointments.on('click', () => {
             const calendarView = fullCalendar.view;
 
-            const $popovers = $('.popover');
-
-            if ($popovers.length) {
-                $popovers.popover('dispose');
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
             }
 
             refreshCalendarAppointments(
@@ -65,8 +64,10 @@ App.Utils.CalendarDefaultView = (function () {
          *
          * Hides the open popover element.
          */
-        $calendarPage.on('click', '.close-popover', (event) => {
-            $(event.target).parents('.popover').popover('dispose');
+        $calendarPage.on('click', '.close-popover', () => {
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
         });
 
         /**
@@ -77,9 +78,9 @@ App.Utils.CalendarDefaultView = (function () {
          * @param {jQuery.Event} event
          */
         $calendarPage.on('click', '.edit-popover', (event) => {
-            const $target = $(event.target);
-
-            $target.closest('.popover').popover('dispose');
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
 
             let startMoment;
             let endMoment;
@@ -190,9 +191,9 @@ App.Utils.CalendarDefaultView = (function () {
          * @param {jQuery.Event} event
          */
         $calendarPage.on('click', '.delete-popover', (event) => {
-            const $target = $(event.target);
-
-            $target.parents('.popover').popover('dispose');
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
 
             if (lastFocusedEventData.extendedProps.data.workingPlanException) {
                 const providerId = $selectFilterItem.val();
@@ -360,7 +361,9 @@ App.Utils.CalendarDefaultView = (function () {
     function onEventClick(info) {
         const $target = $(info.el);
 
-        $calendarPage.find('.popover').popover('dispose'); // Close all open popovers.
+        if ($popoverTarget) {
+            $popoverTarget.popover('dispose');
+        }
 
         let $html;
         let displayEdit;
@@ -721,7 +724,9 @@ App.Utils.CalendarDefaultView = (function () {
 
         lastFocusedEventData = info.event;
 
-        $target.popover('toggle');
+        $target.popover('show');
+        
+        $popoverTarget = $target;
 
         // Fix popover position.
         const $popover = $calendarPage.find('.popover');
@@ -1022,7 +1027,9 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Remove all open popovers.
         $('.close-popover').each((index, closePopoverButton) => {
-            $(closePopoverButton).parents('.popover').popover('dispose');
+            if ($popoverTarget) {
+                $popoverTarget.popover('dispose');
+            }
         });
 
         // Add new popovers.
