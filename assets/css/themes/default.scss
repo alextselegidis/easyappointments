@@ -177,6 +177,11 @@ $pagination-disabled-border-color: $pagination-border-color !default;
     }
 }
 
+.btn-secondary {
+    //color: #45927d;
+    color: darken($primary, 5);
+}
+
 .btn-outline-secondary {
     background: none;
     border-color: #777;
