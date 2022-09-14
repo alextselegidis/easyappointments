@@ -26,7 +26,7 @@
 
                 <form>
                     <fieldset>
-                        <legend class="float-none"><?= lang('appointment_details_title') ?></legend>
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('appointment_details_title') ?></h5>
 
                         <input id="appointment-id" type="hidden">
 
@@ -68,7 +68,7 @@
                                                 }
                                             }
 
-                                            // We need the uncategorized services at the end of the list so we will use
+                                            // We need the uncategorized services at the end of the list, so we will use
                                             // another iteration only for the uncategorized services.
                                             $grouped_services['uncategorized'] = [];
                                             foreach ($available_services as $service)
@@ -175,7 +175,7 @@
                     <br>
 
                     <fieldset>
-                        <legend class="float-none">
+                        <h5 class="text-black-50 mb-3 fw-light">
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
@@ -189,11 +189,13 @@
                                     <?= lang('select') ?>
                                 </span>
                             </button>
+
                             <input id="filter-existing-customers"
                                    placeholder="<?= lang('type_to_filter_customers') ?>"
                                    style="display: none;" class="input-sm form-control">
-                            <div id="existing-customers-list" style="display: none;"></div>
-                        </legend>
+                        </h5>
+
+                        <div id="existing-customers-list" style="display: none;"></div>
 
                         <input id="customer-id" type="hidden">
 
