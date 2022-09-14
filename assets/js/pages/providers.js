@@ -343,7 +343,7 @@ App.Pages.Providers = (function () {
 
         $providers.find('.add-edit-delete-group').show();
         $providers.find('.save-cancel-group').hide();
-        $providers.find('.record-details h3 a').remove();
+        $providers.find('.record-details h4 a').remove();
         $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $providers.find('.record-details .form-label span').prop('hidden', true);
         $providers.find('.record-details #calendar-view').val('default');
@@ -413,7 +413,7 @@ App.Pages.Providers = (function () {
             ]
         });
 
-        $providers.find('.details-view h3').find('a').remove().end().append($link);
+        $providers.find('.details-view h4').find('a').remove().end().append($link);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);

@@ -81,7 +81,7 @@ App.Pages.Services = (function () {
                 ]
             });
 
-            $services.find('.record-details h3').find('a').remove().end().append($link);
+            $services.find('.record-details h4').find('a').remove().end().append($link);
 
             display(service);
             $filterServices.find('.selected').removeClass('selected');
@@ -269,7 +269,7 @@ App.Pages.Services = (function () {
         $services.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $services.find('.record-details .form-label span').prop('hidden', true);
         $services.find('.record-details #is-private').prop('checked', false);
-        $services.find('.record-details h3 a').remove();
+        $services.find('.record-details h4 a').remove();
 
         $services.find('.add-edit-delete-group').show();
         $services.find('.save-cancel-group').hide();
