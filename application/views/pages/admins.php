@@ -8,7 +8,7 @@
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
-                    
+
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
                         <i class="fas fa-search"></i>
@@ -16,9 +16,13 @@
                 </div>
             </form>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('admins') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('admins') ?>
+            </h4>
 
-            <div class="results"></div>
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details column col-12 col-md-7">
@@ -49,7 +53,9 @@
                 </div>
             </div>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('details') ?>
+            </h4>
 
             <div class="form-message alert" style="display:none;"></div>
 
@@ -184,7 +190,7 @@
                             <?php endforeach ?>
                         </select>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label class="form-label" for="timezone">
                             <?= lang('timezone') ?>
@@ -196,11 +202,13 @@
                         ]) ?>
                     </div>
                     
-                    <div class="border rounded mb-3 p-3">
+                    <div>
                         <label class="form-label mb-3">
                             <?= lang('options') ?>
                         </label>
+                    </div>
 
+                    <div class="border rounded mb-3 p-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="notifications" disabled>
                             <label class="form-check-label" for="notifications">

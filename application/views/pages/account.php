@@ -8,8 +8,10 @@
             <div class="col-lg-8 offset-lg-2">
                 <form>
                     <fieldset>
-                        <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <?= lang('account') ?>
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
+                            <h4 class="text-black-50 mb-0 fw-light">
+                                <?= lang('account') ?>
+                            </h4>
 
                             <?php if (can('edit', PRIV_USER_SETTINGS)): ?>
                                 <button type="button" id="save-settings" class="btn btn-primary">
@@ -17,7 +19,7 @@
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
-                        </legend>
+                        </div>
 
                         <div class="row">
                             <div class="col-lg-6">
@@ -155,12 +157,14 @@
                                         'grouped_timezones' => vars('grouped_timezones')
                                     ]) ?>
                                 </div>
-
-                                <div class="border rounded mb-3 p-3">
+                                
+                                <div>
                                     <label class="form-label mb-3">
                                         <?= lang('options') ?>
                                     </label>
-
+                                </div>
+                                
+                                <div class="border rounded mb-3 p-3">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" id="notifications" type="checkbox">
                                         <label class="form-check-label" for="notifications">
@@ -168,7 +172,6 @@
                                         </label>
                                     </div>
                                 </div>
-                                
                             </div>
                         </div>
                     </fieldset>

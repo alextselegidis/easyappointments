@@ -16,8 +16,13 @@
                 </div>
             </form>
 
-            <h3  class="text-black-50 mb-3 fw-light"class="text-black-50 mb-3 fw-light"><?= lang('providers') ?></h3>
-            <div class="results"></div>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('providers') ?>
+            </h4>
+            
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details column col-12 col-md-7">
@@ -70,7 +75,9 @@
 
             <div class="tab-content">
                 <div class="details-view tab-pane fade show active clearfix" id="details">
-                    <h3  class="text-black-50 mb-3 fw-light"class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
+                    <h4 class="text-black-50 mb-3 fw-light">
+                        <?= lang('details') ?>
+                    </h4>
 
                     <input type="hidden" id="id" class="record-id">
 
@@ -218,11 +225,13 @@
                                 ]) ?>
                             </div>
 
-                            <div class="border rounded mb-3 p-3">
+                            <div>
                                 <label class="form-label mb-3">
                                     <?= lang('options') ?>
                                 </label>
+                            </div>
 
+                            <div class="border rounded mb-3 p-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="is-private">
                                     <label class="form-check-label" for="is-private">
@@ -244,14 +253,24 @@
                                 </div>
                             </div>
 
-                            <h4><?= lang('services') ?></h4>
-                            <div id="provider-services" class="card card-body bg-light border-light"></div>
+                            <div>
+                                <label class="form-label mb-3">
+                                    <?= lang('services') ?>
+                                </label>
+                            </div>
+
+                            <div id="provider-services" class="card card-body bg-white border">
+                                <!-- JS -->
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
-                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('working_plan') ?></h3>
+                    <h4 class="text-black-50 mb-3 fw-light">
+                        <?= lang('working_plan') ?>
+                    </h4>
+                    
                     <button id="reset-working-plan" class="btn btn-primary"
                             data-tippy-content="<?= lang('reset_working_plan') ?>">
                         <i class="fas fa-undo-alt me-2"></i>
@@ -269,7 +288,9 @@
 
                     <br>
 
-                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('breaks') ?></h3>
+                    <h4 class="text-black-50 mb-3 fw-light">
+                        <?= lang('breaks') ?>
+                    </h4>
 
                     <p>
                         <?= lang('add_breaks_during_each_day') ?>
@@ -298,7 +319,9 @@
 
                     <br>
 
-                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('working_plan_exceptions') ?></h3>
+                    <h4 class="text-black-50 mb-3 fw-light">
+                        <?= lang('working_plan_exceptions') ?>
+                    </h4>
 
                     <p>
                         <?= lang('add_working_plan_exceptions_during_each_day') ?>

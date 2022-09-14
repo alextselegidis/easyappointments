@@ -16,8 +16,13 @@
                 </div>
             </form>
 
-            <h3><?= lang('webhooks') ?></h3>
-            <div class="results"></div>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('webhooks') ?>
+            </h4>
+            
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details column col-12 col-md-5">
@@ -48,7 +53,9 @@
                 </div>
             </div>
 
-            <h3><?= lang('details') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('details') ?>
+            </h4>
 
             <div class="form-message alert" style="display:none;"></div>
 
@@ -78,11 +85,13 @@
                 <input id="secret-token" class="form-control" disabled>
             </div>
 
-            <div class="border raounded mb-3 p-3">
+            <div>
                 <label class="form-label mb-3" for="actions">
                     <?= lang('actions') ?>
                 </label>
-
+            </div>
+            
+            <div class="border rounded mb-3 p-3">
                 <div id="actions">
                     <?php foreach (vars('available_actions') as $available_action): ?>
                         <div class="mb-3">
@@ -101,11 +110,13 @@
                 </div>
             </div>
 
-            <div class="border rounded mb-3 p-3">
+            <div>
                 <label class="form-label mb-3">
                     <?= lang('options') ?>
                 </label>
-
+            </div>
+            
+            <div class="border rounded mb-3 p-3">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="is-ssl-verified">
 

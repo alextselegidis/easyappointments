@@ -16,8 +16,13 @@
                 </div>
             </form>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('customers') ?></h3>
-            <div class="results"></div>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('customers') ?>
+            </h4>
+            
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details col-12 col-md-7">
@@ -60,7 +65,9 @@
 
             <div class="row">
                 <div class="col-12 col-md-6" style="margin-left: 0;">
-                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
+                    <h4 class="text-black-50 mb-3 fw-light">
+                        <?= lang('details') ?>
+                    </h4>
 
                     <div id="form-message" class="alert" style="display:none;"></div>
 
@@ -180,8 +187,11 @@
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('appointments') ?></h3>
-                    <div id="customer-appointments" class="card bg-light border-light"></div>
+                    <h4 class="text-black-50 mb-3 fw-light">
+                        <?= lang('appointments') ?>
+                    </h4>
+
+                    <div id="customer-appointments" class="card bg-white border"></div>
                 </div>
             </div>
         </div>

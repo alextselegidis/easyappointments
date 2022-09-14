@@ -24,6 +24,10 @@
                             <?php endif ?>
                         </div>
 
+                        <h5 class="text-black-50 mb-3 fw-light">
+                            <?= lang('fields') ?>
+                        </h5>
+
                         <div class="row mb-5 fields-row">
                             <div class="col-lg-6">
                                 <div class="form-group mb-5">
@@ -226,14 +230,13 @@
                             </div>
                         </div>
 
+                        <h5 class="text-black-50 mb-3 fw-light">
+                            <?= lang('options') ?>
+                        </h5>
+                        
                         <div class="row">
                             <div class="col-12">
-
                                 <div class="border rounded mb-3 p-3">
-                                    <label class="form-label mb-3">
-                                        <?= lang('options') ?>
-                                    </label>
-
                                     <div class="mb-3">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="customer-notifications"
@@ -329,7 +332,6 @@
                                             </small>
                                         </div>
                                     </div>
-
 
                                     <div>
                                         <div class="form-check form-switch">

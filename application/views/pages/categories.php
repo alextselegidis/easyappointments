@@ -17,8 +17,13 @@
                 </div>
             </form>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('categories') ?></h3>
-            <div class="results"></div>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('categories') ?>
+            </h4>
+
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details col-12 col-md-5">
@@ -49,7 +54,9 @@
                 </div>
             </div>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('details') ?>
+            </h4>
 
             <div class="form-message alert" style="display:none;"></div>
 
@@ -72,7 +79,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 <?php section('content') ?>

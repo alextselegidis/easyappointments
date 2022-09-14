@@ -16,8 +16,12 @@
                 </div>
             </form>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('services') ?></h3>
-            <div class="results"></div>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('services') ?>
+            </h4>
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details column col-12 col-md-5">
@@ -48,7 +52,9 @@
                 </div>
             </div>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('details') ?>
+            </h4>
 
             <div class="form-message alert" style="display:none;"></div>
 
@@ -129,11 +135,11 @@
                 <?php component('color_selection', ['attributes' => 'id="color"']) ?>
             </div>
 
-            <div class="border rounded mb-3 p-3">
-                <label class="form-label mb-3">
-                    <?= lang('options') ?>
-                </label>
+            <h5 class="text-black-50 mb-3 fw-light">
+                <?= lang('options') ?>
+            </h5>
 
+            <div class="border rounded mb-3 p-3">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="is-private">
 

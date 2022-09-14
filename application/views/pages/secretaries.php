@@ -16,9 +16,13 @@
                 </div>
             </form>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('secretaries') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('secretaries') ?>
+            </h4>
 
-            <div class="results"></div>
+            <div class="results">
+                <!-- JS -->
+            </div>
         </div>
 
         <div class="record-details column col-12 col-md-7">
@@ -49,7 +53,9 @@
                 </div>
             </div>
 
-            <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('details') ?>
+            </h4>
 
             <div class="form-message alert" style="display:none;"></div>
 
@@ -195,12 +201,13 @@
                         ]) ?>
                     </div>
 
-
-                    <div class="border rounded mb-3 p-3">
+                    <div>
                         <label class="form-label mb-3">
                             <?= lang('options') ?>
                         </label>
+                    </div>
 
+                    <div class="border rounded mb-3 p-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="notifications" disabled>
                             <label class="form-check-label" for="notifications">
@@ -209,8 +216,15 @@
                         </div>
                     </div>
 
-                    <h4><?= lang('providers') ?></h4>
-                    <div id="secretary-providers" class="card card-body bg-light border-light"></div>
+                    <div>
+                        <label class="form-label mb-3">
+                            <?= lang('providers') ?>
+                        </label>
+                    </div>
+
+                    <div id="secretary-providers" class="card card-body bg-white border">
+                        <!-- JS -->
+                    </div>
                 </div>
             </div>
         </div>
