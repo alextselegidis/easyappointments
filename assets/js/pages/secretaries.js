@@ -353,7 +353,7 @@ App.Pages.Secretaries = (function () {
         $secretaries.find('.form-message').hide();
         $secretaries.find('.is-invalid').removeClass('is-invalid');
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
-        $('#secretary-providers input:checkbox').prop('checked', false);
+        $('#secretary-providers input:checkbox').prop('disabled', true).prop('checked', false);
     }
 
     /**
@@ -493,10 +493,6 @@ App.Pages.Secretaries = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
-
         vars('providers').forEach((provider) => {
             $('<div/>', {
                 'class': 'checkbox',
@@ -519,6 +515,10 @@ App.Pages.Secretaries = (function () {
                 ]
             }).appendTo('#secretary-providers');
         });
+        
+        resetForm();
+        filter('');
+        addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
