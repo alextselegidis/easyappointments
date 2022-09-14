@@ -8,11 +8,11 @@
             <?php component('settings_nav') ?>
         </div>
         <div id="integrations" class="col-sm-6">
-            <h3 class="text-muted border-bottom py-2">
+            <h4 class="text-black-50 border-bottom py-3 mb-3 fw-light">
                 <?= lang('integrations') ?>
-            </h3>
+            </h4>
 
-            <p class="mb-5">
+            <p class="form-text text-muted mb-4">
                 <?= lang('integrations_info') ?>
             </p>
 

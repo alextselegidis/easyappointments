@@ -11,8 +11,9 @@
             <div class="col-sm-6">
                 <form>
                     <fieldset>
-                        <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <?= lang('booking_settings') ?>
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
+                          
+                          
 
                             <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
                                 <button type="button" id="save-settings" class="btn btn-primary">
@@ -20,9 +21,9 @@
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
-                        </legend>
-
-                        <div class="row mb-3 fields-row">
+                        </div>
+                        
+                        <div class="row mb-5 fields-row">
                             <div class="col-lg-6">
                                 <div class="form-group mb-5">
                                     <label for="first-name" class="form-label">
@@ -329,7 +330,7 @@
                                     </div>
 
 
-                                    <div class="mb-3">
+                                    <div>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="disable-booking"
                                                    data-field="disable_booking">

@@ -11,8 +11,10 @@
             <div class="col-sm-6">
                 <form>
                     <fieldset>
-                        <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <?= lang('business_logic') ?>
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
+                            <h4 class="text-black-50 mb-0 fw-light">
+                                <?= lang('business_logic') ?>
+                            </h4>
 
                             <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
                                 <button type="button" id="save-settings" class="btn btn-primary">
@@ -20,13 +22,13 @@
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
-                        </legend>
-
-                        <h4><?= lang('working_plan') ?></h4>
-
-                        <div class="form-text text-muted mb-4">
-                            <?= lang('edit_working_plan_hint') ?>
                         </div>
+
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('working_plan') ?></h5>
+
+                        <p class="form-text text-muted mb-4">
+                            <?= lang('edit_working_plan_hint') ?>
+                        </p>
 
                         <table class="working-plan table table-striped">
                             <thead>
@@ -39,18 +41,18 @@
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
 
-                        <div class="text-end">
+                        <div class="text-end mb-5">
                             <button class="btn btn-outline-secondary" id="apply-global-working-plan" type="button">
                                 <i class="fas fa-check"></i>
                                 <?= lang('apply_to_all_providers') ?>
                             </button>
                         </div>
 
-                        <h4><?= lang('breaks') ?></h4>
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('breaks') ?></h5>
 
-                        <span class="form-text text-muted">
+                        <p class="form-text text-muted">
                             <?= lang('edit_breaks_hint') ?>
-                        </span>
+                        </p>
 
                         <div class="mt-2">
                             <button type="button" class="add-break btn btn-primary">
@@ -61,7 +63,7 @@
 
                         <br>
 
-                        <table class="breaks table table-striped mb-4">
+                        <table class="breaks table table-striped mb-5">
                             <thead>
                             <tr>
                                 <th><?= lang('day') ?></th>
@@ -73,9 +75,9 @@
                             <tbody><!-- Dynamic Content --></tbody>
                         </table>
 
-                        <h4><?= lang('allow_rescheduling_cancellation_before') ?></h4>
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('allow_rescheduling_cancellation_before') ?></h5>
 
-                        <div class="mb-3">
+                        <div class="mb-5">
                             <label for="book-advance-timeout" class="form-label">
                                 <?= lang('timeout_minutes') ?>
                             </label>
@@ -88,9 +90,9 @@
                             </div>
                         </div>
 
-                        <h4><?= lang('future_booking_limit') ?></h4>
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('future_booking_limit') ?></h5>
 
-                        <div class="mb-3">
+                        <div class="mb-5">
                             <label for="future-booking-limit" class="form-label">
                                 <?= lang('limit_days') ?>
                             </label>

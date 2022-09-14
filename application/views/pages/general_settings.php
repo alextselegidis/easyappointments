@@ -11,8 +11,10 @@
             <div class="col-sm-6">
                 <form>
                     <fieldset>
-                        <legend class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <?= lang('general_settings') ?>
+                        <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
+                            <h4 class="text-black-50 mb-0 fw-light">
+                                <?= lang('general_settings') ?>
+                            </h4>
 
                             <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
                                 <button type="button" id="save-settings" class="btn btn-primary">
@@ -20,11 +22,11 @@
                                     <?= lang('save') ?>
                                 </button>
                             <?php endif ?>
-                        </legend>
+                        </div>
 
                         <div class="row mb-5">
                             <div class="col-12">
-                                <h4><?= lang('company') ?></h4>
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('company') ?></h5>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="company-name">
@@ -139,7 +141,7 @@
 
                         <div class="row mb-5">
                             <div class="col-12">
-                                <h4><?= lang('localization') ?></h4>
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('localization') ?></h5>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="date-format">
