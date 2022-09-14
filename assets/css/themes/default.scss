@@ -213,6 +213,10 @@ $pagination-disabled-border-color: $pagination-border-color !default;
     border: 1px solid $gray-400 !important;
 }
 
+.btn-close {
+    opacity: .3;
+}
+
 // Typography
 
 body {
