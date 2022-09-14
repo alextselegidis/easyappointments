@@ -16,7 +16,7 @@
                 </div>
             </form>
 
-            <h3><?= lang('customers') ?></h3>
+            <h3 class="text-black-50 mb-3 fw-light"><?= lang('customers') ?></h3>
             <div class="results"></div>
         </div>
 
@@ -60,7 +60,7 @@
 
             <div class="row">
                 <div class="col-12 col-md-6" style="margin-left: 0;">
-                    <h3><?= lang('details') ?></h3>
+                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
 
                     <div id="form-message" class="alert" style="display:none;"></div>
 
@@ -180,7 +180,7 @@
                 </div>
 
                 <div class="col-12 col-md-6">
-                    <h3><?= lang('appointments') ?></h3>
+                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('appointments') ?></h3>
                     <div id="customer-appointments" class="card bg-light border-light"></div>
                 </div>
             </div>

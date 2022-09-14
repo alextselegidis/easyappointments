@@ -17,7 +17,7 @@
                 </div>
             </form>
 
-            <h3><?= lang('categories') ?></h3>
+            <h3 class="text-black-50 mb-3 fw-light"><?= lang('categories') ?></h3>
             <div class="results"></div>
         </div>
 
@@ -49,7 +49,7 @@
                 </div>
             </div>
 
-            <h3><?= lang('details') ?></h3>
+            <h3 class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
 
             <div class="form-message alert" style="display:none;"></div>
 

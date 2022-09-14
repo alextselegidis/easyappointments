@@ -16,7 +16,7 @@
                 </div>
             </form>
 
-            <h3><?= lang('providers') ?></h3>
+            <h3  class="text-black-50 mb-3 fw-light"class="text-black-50 mb-3 fw-light"><?= lang('providers') ?></h3>
             <div class="results"></div>
         </div>
 
@@ -70,7 +70,7 @@
 
             <div class="tab-content">
                 <div class="details-view tab-pane fade show active clearfix" id="details">
-                    <h3><?= lang('details') ?></h3>
+                    <h3  class="text-black-50 mb-3 fw-light"class="text-black-50 mb-3 fw-light"><?= lang('details') ?></h3>
 
                     <input type="hidden" id="id" class="record-id">
 
@@ -251,7 +251,7 @@
                 </div>
 
                 <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
-                    <h3><?= lang('working_plan') ?></h3>
+                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('working_plan') ?></h3>
                     <button id="reset-working-plan" class="btn btn-primary"
                             data-tippy-content="<?= lang('reset_working_plan') ?>">
                         <i class="fas fa-undo-alt me-2"></i>
@@ -269,7 +269,7 @@
 
                     <br>
 
-                    <h3><?= lang('breaks') ?></h3>
+                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('breaks') ?></h3>
 
                     <p>
                         <?= lang('add_breaks_during_each_day') ?>
@@ -298,7 +298,7 @@
 
                     <br>
 
-                    <h3><?= lang('working_plan_exceptions') ?></h3>
+                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('working_plan_exceptions') ?></h3>
 
                     <p>
                         <?= lang('add_working_plan_exceptions_during_each_day') ?>
