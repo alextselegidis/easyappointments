@@ -22,7 +22,9 @@
 
         <div class="card mb-5">
             <div class="card-header">
-                <?= lang('current_version') ?>
+                <h5 class="fw-light text-black-50 mb-0">
+                    <?= lang('current_version') ?>
+                </h5>
             </div>
             <div class="card-body">
                 <strong>
@@ -30,56 +32,66 @@
                 </strong>
             </div>
         </div>
-        
-        <h4><?= lang('support') ?></h4>
+
+        <h4 class="fw-light text-black-50 mb-3">
+            <?= lang('support') ?>
+        </h4>
         
         <p>
             <?= lang('about_app_support') ?>
         </p>
 
         <div class="d-lg-flex justify-content-start flex-wrap alight-items-center mb-5">
-            <div class="text-center mb-3">
-                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://easyappointments.org">
+            <div class="text-center w-50 mb-3 pe-3">
+                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org">
                     <i class="fas fa-external-link-alt me-2"></i>
                     <?= lang('official_website') ?>
                 </a>    
             </div>
 
-            <div class="text-center mb-3">
-                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://groups.google.com/forum/#!forum/easy-appointments">
+            <div class="text-center w-50 mb-3 ps-3">
+                <a class="btn btn-outline-secondary d-block" href="https://groups.google.com/forum/#!forum/easy-appointments">
                     <i class="fas fa-external-link-alt me-2"></i>
                     <?= lang('support_group') ?>
                 </a>
             </div>
 
-            <div class="text-center mb-3">
-                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://github.com/alextselegidis/easyappointments/issues">
+            <div class="text-center w-50 mb-3 pe-3">
+                <a class="btn btn-outline-secondary d-block" href="https://github.com/alextselegidis/easyappointments/issues">
                     <i class="fas fa-external-link-alt me-2"></i>
                     <?= lang('project_issues') ?>
                 </a>
             </div>
 
-            <div class="text-center mb-3">
-                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://facebook.com/easyappts">
+            <div class="text-center w-50 mb-3 ps-3">
+                <a class="btn btn-outline-secondary d-block" href="https://facebook.com/easyappts">
                     <i class="fas fa-external-link-alt me-2"></i>
                     Facebook
                 </a>
             </div>
 
-            <div class="text-center mb-3">
-                <a class="btn btn-secondary d-block p-0 me-3 mb-3" href="https://twitter.com/easyappts">
+            <div class="text-center w-50 mb-3 pe-3">
+                <a class="btn btn-outline-secondary d-block" href="https://twitter.com/easyappts">
                     <i class="fas fa-external-link-alt me-2"></i>
                     Twitter
                 </a>
             </div>
         </div>
 
-        <h4><?= lang('license') ?></h4>
+        <h4 class="fw-light text-black-50 mb-3">
+            <?= lang('license') ?>
+        </h4>
 
-        <p class="mb-5">
+        <p>
             <?= lang('about_app_license') ?>
-            <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/copyleft/gpl.html</a>
         </p>
+        
+        <div class="mb-5">
+            <a class="btn btn-outline-secondary d-block w-50 m-auto" href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">
+                <i class="fas fa-external-link-alt me-2"></i>
+                GPL-3.0
+            </a>
+        </div>
     </div>
 </div>
 
