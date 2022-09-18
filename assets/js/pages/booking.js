@@ -323,7 +323,7 @@ App.Pages.Booking = (function () {
          * Some special tasks might be performed, depending on the current wizard step.
          */
         $('.button-next').on('click', (event) => {
-            const $target = $(event.target);
+            const $target = $(event.currentTarget);
 
             // If we are on the first step and there is no provider selected do not continue with the next step.
             if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
@@ -374,9 +374,9 @@ App.Pages.Booking = (function () {
          * book wizard.
          */
         $('.button-back').on('click', (event) => {
-            const prevTabIndex = parseInt($(event.target).attr('data-step_index')) - 1;
+            const prevTabIndex = parseInt($(event.currentTarget).attr('data-step_index')) - 1;
 
-            $(event.target)
+            $(event.currentTarget)
                 .parents()
                 .eq(1)
                 .hide('fade', () => {
