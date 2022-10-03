@@ -17,10 +17,10 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
      */
     public function up()
     {
-        if ($this->db->field_exists('is_unavailability', 'appointments'))
+        if ($this->db->field_exists('is_unavailable', 'appointments'))
         {
             $fields = [
-                'is_unavailability' => [
+                'is_unavailable' => [
                     'name' => 'is_unavailability',
                     'type' => 'TINYINT',
                     'constraint' => '4',
@@ -41,7 +41,7 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
         {
             $fields = [
                 'is_unavailability' => [
-                    'name' => 'is_unavailability',
+                    'name' => 'is_unavailable',
                     'type' => 'TINYINT',
                     'constraint' => '4',
                     'default' => '0'
