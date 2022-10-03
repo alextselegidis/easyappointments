@@ -27,10 +27,12 @@ App.Utils.CalendarDefaultView = (function () {
     const $footer = $('#footer');
     const $notification = $('#notification');
     const $calendarToolbar = $('#calendar-toolbar');
-    let $popoverTarget;
     const FILTER_TYPE_ALL = 'all';
     const FILTER_TYPE_PROVIDER = 'provider';
     const FILTER_TYPE_SERVICE = 'service';
+    const moment = window.moment;
+
+    let $popoverTarget;
     let fullCalendar = null;
     let lastFocusedEventData; // Contains event data for later use.
 
@@ -725,7 +727,7 @@ App.Utils.CalendarDefaultView = (function () {
         lastFocusedEventData = info.event;
 
         $target.popover('show');
-        
+
         $popoverTarget = $target;
 
         // Fix popover position.
@@ -1209,17 +1211,17 @@ App.Utils.CalendarDefaultView = (function () {
                         }
 
                         // Add unavailability period before work starts.
-                        viewStart = moment(calendarView.currentStart.format('YYYY-MM-DD') + ' 00:00:00');
+                        viewStart = moment(calendarView.currentStart).format('YYYY-MM-DD') + ' 00:00:00';
                         startHour = sortedWorkingPlan[weekdayName].start.split(':');
-                        workDateStart = viewStart.clone();
+                        workDateStart = moment(viewStart).clone();
                         workDateStart.hour(parseInt(startHour[0]));
                         workDateStart.minute(parseInt(startHour[1]));
 
-                        if (viewStart < workDateStart) {
+                        if (moment(viewStart).isBefore(workDateStart)) {
                             const unavailabilityPeriodBeforeWorkStarts = {
                                 title: lang('not_working'),
-                                start: viewStart,
-                                end: workDateStart,
+                                start: moment(viewStart).toDate(),
+                                end: workDateStart.toDate(),
                                 allDay: false,
                                 color: '#BEBEBE',
                                 editable: false,
@@ -1230,17 +1232,17 @@ App.Utils.CalendarDefaultView = (function () {
                         }
 
                         // Add unavailability period after work ends.
-                        viewEnd = moment(calendarView.currentEnd.format('YYYY-MM-DD') + ' 00:00:00');
+                        viewEnd = moment(calendarView.currentEnd).format('YYYY-MM-DD') + ' 00:00:00';
                         endHour = sortedWorkingPlan[weekdayName].end.split(':');
-                        workDateEnd = viewStart.clone();
+                        workDateEnd = moment(viewStart).clone();
                         workDateEnd.hour(parseInt(endHour[0]));
                         workDateEnd.minute(parseInt(endHour[1]));
 
-                        if (viewEnd > workDateEnd) {
+                        if (moment(viewEnd).isAfter(workDateEnd)) {
                             const unavailabilityPeriodAfterWorkEnds = {
                                 title: lang('not_working'),
-                                start: workDateEnd,
-                                end: viewEnd,
+                                start: workDateEnd.toDate(),
+                                end: moment(viewEnd).toDate(),
                                 allDay: false,
                                 color: '#BEBEBE',
                                 editable: false,
@@ -1253,19 +1255,19 @@ App.Utils.CalendarDefaultView = (function () {
                         // Add unavailability periods for breaks.
                         sortedWorkingPlan[weekdayName].breaks.forEach((breakPeriod) => {
                             const breakStartString = breakPeriod.start.split(':');
-                            breakStart = viewStart.clone();
+                            breakStart = moment(viewStart).clone();
                             breakStart.hour(parseInt(breakStartString[0]));
                             breakStart.minute(parseInt(breakStartString[1]));
 
                             const breakEndString = breakPeriod.end.split(':');
-                            breakEnd = viewStart.clone();
+                            breakEnd = moment(viewStart).clone();
                             breakEnd.hour(parseInt(breakEndString[0]));
                             breakEnd.minute(parseInt(breakEndString[1]));
 
                             const unavailabilityPeriod = {
                                 title: lang('break'),
-                                start: breakStart,
-                                end: breakEnd,
+                                start: breakStart.toDate(),
+                                end: breakEnd.toDate(),
                                 allDay: false,
                                 color: '#BEBEBE',
                                 editable: false,

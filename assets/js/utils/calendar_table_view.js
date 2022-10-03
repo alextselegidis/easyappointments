@@ -1478,6 +1478,8 @@ App.Utils.CalendarTableView = (function () {
 
         $target.popover('show');
 
+        $popoverTarget = $target;
+
         // Fix popover position.
         const $newPopover = $calendar.find('.popover');
 
