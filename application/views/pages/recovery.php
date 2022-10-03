@@ -30,7 +30,7 @@
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-5">
-        <a href="<?= site_url('user/login') ?>" class="user-login">
+        <a href="<?= site_url('login') ?>" class="user-login">
             <?= lang('go_to_login') ?>
         </a>
         
