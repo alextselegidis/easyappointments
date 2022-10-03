@@ -71,6 +71,8 @@ class Update extends EA_Controller {
             $view = ['success' => FALSE, 'exception' => $e->getMessage()];
         }
 
-        $this->load->view('pages/update', $view);
+        html_vars($view);
+
+        $this->load->view('pages/update');
     }
 }
