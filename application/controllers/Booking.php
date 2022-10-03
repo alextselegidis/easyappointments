@@ -341,7 +341,11 @@ class Booking extends EA_Controller {
                     $available_hours = array_merge($available_hours, $provider_available_hours);
                 }
 
-                $response = array_unique(array_values($available_hours));
+                $available_hours = array_unique(array_values($available_hours));
+
+                sort($available_hours);
+
+                $response = $available_hours;
             }
             else
             {
