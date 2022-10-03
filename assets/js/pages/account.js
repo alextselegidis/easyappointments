@@ -170,7 +170,7 @@ App.Pages.Account = (function () {
     function onUsernameChange() {
         const username = $username.val();
 
-        App.Http.Account.validateUsername(username).done((response) => {
+        App.Http.Account.validateUsername(vars('user_id'), username).done((response) => {
             const isValid = response.is_valid;
             $username.toggleClass('is-invalid', !isValid);
             if (!isValid) {
