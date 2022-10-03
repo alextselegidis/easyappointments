@@ -20,7 +20,7 @@
  */
 class Booking_cancellation extends EA_Controller {
     /**
-     * Booking constructor.
+     * Booking_cancellation constructor.
      */
     public function __construct()
     {

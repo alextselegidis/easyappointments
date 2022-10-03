@@ -20,7 +20,7 @@
  */
 class Google_analytics_settings extends EA_Controller {
     /**
-     * Calendar constructor.
+     * Google_analytics_settings constructor.
      */
     public function __construct()
     {

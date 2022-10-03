@@ -20,7 +20,7 @@
  */
 class Matomo_analytics_settings extends EA_Controller {
     /**
-     * Calendar constructor.
+     * Matomo_analytics_settings constructor.
      */
     public function __construct()
     {

@@ -20,7 +20,7 @@
  */
 class About extends EA_Controller {
     /**
-     * Calendar constructor.
+     * About constructor.
      */
     public function __construct()
     {

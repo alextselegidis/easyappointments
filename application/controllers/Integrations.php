@@ -20,7 +20,7 @@
  */
 class Integrations extends EA_Controller {
     /**
-     * Calendar constructor.
+     * Integrations constructor.
      */
     public function __construct()
     {

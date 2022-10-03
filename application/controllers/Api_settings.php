@@ -20,7 +20,7 @@
  */
 class Api_settings extends EA_Controller {
     /**
-     * Calendar constructor.
+     * Api_settings constructor.
      */
     public function __construct()
     {
