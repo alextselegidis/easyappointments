@@ -327,7 +327,11 @@ class Providers_model extends EA_Model {
 
         $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
 
-        unset($provider['settings']['id_users']);
+        unset(
+            $provider['settings']['id_users'],
+            $provider['settings']['password'],
+            $provider['settings']['salt'],
+        );
 
         $service_provider_connections = $this->db->get_where('services_providers', ['id_users' => $provider_id])->result_array();
 

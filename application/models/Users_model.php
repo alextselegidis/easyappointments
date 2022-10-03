@@ -219,7 +219,11 @@ class Users_model extends EA_Model {
 
         $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
 
-        unset($user['settings']['id_users']);
+        unset(
+            $user['settings']['id_users'],
+            $user['settings']['password'],
+            $user['settings']['salt'],
+        );
 
         return $user;
     }
@@ -430,6 +434,14 @@ class Users_model extends EA_Model {
         foreach ($users as &$user)
         {
             $this->cast($user);
+
+            $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row_array();
+
+            unset(
+                $user['settings']['id_users'],
+                $user['settings']['password'],
+                $user['settings']['salt']
+            );
         }
 
         return $users;
