@@ -131,7 +131,7 @@ class Calendar extends EA_Controller {
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
-            'customers' => [], // TODO: Remove the use of the pre-rendered customer set and only work with asynchronously fetched customer records. 
+            'customers' => $this->customers_model->get(NULL, 50, NULL, 'update_datetime DESC'),
         ]);
 
         html_vars([
@@ -529,13 +529,17 @@ class Calendar extends EA_Controller {
                     }
                 }
 
-                foreach ($response['unavailability_events'] as $index => $unavailability_event)
+                $response['appointments'] = array_values($response['appointments']);
+
+                foreach ($response['unavailabilities'] as $index => $unavailability)
                 {
-                    if ((int)$unavailability_event['id_users_provider'] !== (int)$user_id)
+                    if ((int)$unavailability['id_users_provider'] !== (int)$user_id)
                     {
-                        unset($response['unavailability_events'][$index]);
+                        unset($response['unavailabilities'][$index]);
                     }
                 }
+
+                $response['unavailabilities'] = array_values($response['unavailabilities']);
             }
 
             // If the current user is a secretary he must only see the appointments of his providers.
@@ -551,13 +555,17 @@ class Calendar extends EA_Controller {
                     }
                 }
 
-                foreach ($response['unavailability_events'] as $index => $unavailability_event)
+                $response['appointments'] = array_values($response['appointments']);
+
+                foreach ($response['unavailabilities'] as $index => $unavailability)
                 {
-                    if ( ! in_array((int)$unavailability_event['id_users_provider'], $providers))
+                    if ( ! in_array((int)$unavailability['id_users_provider'], $providers))
                     {
-                        unset($response['unavailability_events'][$index]);
+                        unset($response['unavailabilities'][$index]);
                     }
                 }
+
+                $response['unavailabilities'] = array_values($response['unavailabilities']);
             }
 
             json_response($response);
