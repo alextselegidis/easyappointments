@@ -150,7 +150,9 @@ App.Pages.Booking = (function () {
             }
         });
 
-        $selectTimezone.val(Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC');
+        const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
+        $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
