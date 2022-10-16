@@ -252,7 +252,7 @@ class Categories_model extends EA_Model {
 
         $categories = $this->db->get('categories', $limit, $offset)->result_array();
 
-        foreach ($categories as $category)
+        foreach ($categories as &$category)
         {
             $this->cast($category);
         }

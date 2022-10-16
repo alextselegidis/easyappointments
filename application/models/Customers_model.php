@@ -459,7 +459,7 @@ class Customers_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach ($customers as $customer)
+        foreach ($customers as &$customer)
         {
             $this->cast($customer);
         }
