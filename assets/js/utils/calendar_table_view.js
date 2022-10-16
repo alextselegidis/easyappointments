@@ -1348,6 +1348,16 @@ App.Utils.CalendarTableView = (function () {
             displayEdit = vars('privileges').appointments.edit === true ? '' : 'd-none';
             displayDelete = vars('privileges').appointments.delete === true ? '' : 'd-none';
 
+            const customerInfo = [];
+
+            if (info.event.extendedProps.data.customer.first_name) {
+                customerInfo.push(info.event.extendedProps.data.customer.first_name);
+            }
+
+            if (info.event.extendedProps.data.customer.last_name) {
+                customerInfo.push(info.event.extendedProps.data.customer.last_name);
+            }
+
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
@@ -1424,10 +1434,7 @@ App.Utils.CalendarTableView = (function () {
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.customer),
                     $('<span/>', {
-                        'text':
-                            info.event.extendedProps.data.customer.first_name +
-                            ' ' +
-                            info.event.extendedProps.data.customer.last_name
+                        'text': customerInfo.length ? customerInfo.join(' ') : '-'
                     }),
                     $('<br/>'),
 
@@ -1437,7 +1444,7 @@ App.Utils.CalendarTableView = (function () {
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(info.event.extendedProps.data.customer.email),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data.customer.email
+                        'text': info.event.extendedProps.data.customer.email || '-'
                     }),
                     $('<br/>'),
 
@@ -1447,7 +1454,7 @@ App.Utils.CalendarTableView = (function () {
                     }),
                     App.Utils.CalendarEventPopover.renderPhoneIcon(info.event.extendedProps.data.customer.phone_number),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data.customer.phone_number
+                        'text': info.event.extendedProps.data.customer.phone_number || '-'
                     }),
                     $('<br/>'),
 

@@ -568,6 +568,16 @@ App.Utils.CalendarDefaultView = (function () {
             displayEdit = vars('privileges').appointments.edit === true ? '' : 'd-none';
             displayDelete = vars('privileges').appointments.delete === true ? 'me-2' : 'd-none';
 
+            const customerInfo = [];
+
+            if (info.event.extendedProps.data.customer.first_name) {
+                customerInfo.push(info.event.extendedProps.data.customer.first_name);
+            }
+
+            if (info.event.extendedProps.data.customer.last_name) {
+                customerInfo.push(info.event.extendedProps.data.customer.last_name);
+            }
+
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
@@ -644,11 +654,8 @@ App.Utils.CalendarDefaultView = (function () {
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.customer),
                     $('<span/>', {
-                        'class': 'd-inline-block ms-1',
-                        'text':
-                            info.event.extendedProps.data.customer.first_name +
-                            ' ' +
-                            info.event.extendedProps.data.customer.last_name
+                        'class': 'd-inline-block',
+                        'text': customerInfo.length ? customerInfo.join(' ') : '-'
                     }),
                     $('<br/>'),
 
@@ -658,8 +665,8 @@ App.Utils.CalendarDefaultView = (function () {
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(info.event.extendedProps.data.customer.email),
                     $('<span/>', {
-                        'class': 'd-inline-block ms-1',
-                        'text': info.event.extendedProps.data.customer.email
+                        'class': 'd-inline-block',
+                        'text': info.event.extendedProps.data.customer.email || '-'
                     }),
                     $('<br/>'),
 
@@ -669,8 +676,8 @@ App.Utils.CalendarDefaultView = (function () {
                     }),
                     App.Utils.CalendarEventPopover.renderPhoneIcon(info.event.extendedProps.data.customer.phone_number),
                     $('<span/>', {
-                        'class': 'd-inline-block ms-1',
-                        'text': info.event.extendedProps.data.customer.phone_number
+                        'class': 'd-inline-block',
+                        'text': info.event.extendedProps.data.customer.phone_number || '-'
                     }),
                     $('<br/>'),
 
