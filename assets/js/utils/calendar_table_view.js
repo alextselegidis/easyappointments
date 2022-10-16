@@ -969,14 +969,27 @@ App.Utils.CalendarTableView = (function () {
                 continue;
             }
 
+            const title = [
+                appointment.service.name
+            ];
+
+            const customerInfo = [];
+
+            if (appointment.customer.first_name) {
+                customerInfo.push(appointment.customer.first_name);
+            }
+
+            if (appointment.customer.last_name) {
+                customerInfo.push(appointment.customer.last_name);
+            }
+
+            if (customerInfo.length) {
+                title.push(customerInfo.join(' '));
+            }
+
             calendarEvents.push({
                 id: appointment.id,
-                title:
-                    appointment.service.name +
-                    ' - ' +
-                    appointment.customer.first_name +
-                    ' ' +
-                    appointment.customer.last_name,
+                title: title.join(' - '),
                 start: moment(appointment.start_datetime).toDate(),
                 end: moment(appointment.end_datetime).toDate(),
                 allDay: false,
