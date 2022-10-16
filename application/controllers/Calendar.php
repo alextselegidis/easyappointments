@@ -117,6 +117,8 @@ class Calendar extends EA_Controller {
 
         $calendar_view = request('view', $user['settings']['calendar_view']);
 
+        $appointment_status_options = setting('appointment_status_options');
+
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
@@ -146,6 +148,7 @@ class Calendar extends EA_Controller {
             'available_providers' => $available_providers,
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
+            'appointment_status_options' => json_decode($appointment_status_options, TRUE) ?? [],
             'require_first_name' => setting('require_first_name'),
             'require_last_name' => setting('require_last_name'),
             'require_email' => setting('require_email'),
@@ -248,6 +251,7 @@ class Calendar extends EA_Controller {
                     'location',
                     'notes',
                     'color',
+                    'status',
                     'is_unavailability',
                     'id_users_provider',
                     'id_users_customer',

@@ -38,6 +38,7 @@ class Appointments_model extends EA_Model {
         'end' => 'end_datetime',
         'location' => 'location',
         'color' => 'color',
+        'status' => 'status',
         'notes' => 'notes',
         'hash' => 'hash',
         'providerId' => 'id_users_provider',

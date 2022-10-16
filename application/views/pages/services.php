@@ -126,7 +126,6 @@
             <div class="mb-3">
                 <label class="form-label" for="location">
                     <?= lang('location') ?>
-
                 </label>
                 <input id="location" class="form-control" disabled>
             </div>

@@ -92,6 +92,7 @@
     'appointments_modal',
     [
         'available_services' => vars('available_services'),
+        'appointment_status_options' => vars('appointment_status_options'),
         'timezones' => vars('timezones'),
         'require_first_name' => vars('require_first_name'),
         'require_last_name' => vars('require_last_name'),

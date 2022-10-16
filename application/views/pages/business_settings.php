@@ -104,6 +104,18 @@
                                 </small>
                             </div>
                         </div>
+
+                        <div class="d-flex justify-content-start align-items-center mb-3">
+                            <h5 class="text-black-50 mb-0 me-3 fw-light">
+                                <?= lang('appointment_status_options') ?>
+                            </h5>
+                        </div>
+
+                        <p class="form-text text-muted mb-4">
+                            <?= lang('appointment_status_options_info') ?>
+                        </p>
+
+                        <?php component('appointment_status_options', ['attributes' => 'id="appointment-status-options"']) ?>
                     </fieldset>
                 </form>
             </div>

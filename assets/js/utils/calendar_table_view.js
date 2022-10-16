@@ -229,6 +229,7 @@ App.Utils.CalendarTableView = (function () {
                 $appointmentsModal.find('#language').val(customer.language);
                 $appointmentsModal.find('#timezone').val(customer.timezone);
                 $appointmentsModal.find('#appointment-location').val(appointment.location);
+                $appointmentsModal.find('#appointment-status').val(appointment.status);
                 $appointmentsModal.find('#appointment-notes').val(appointment.notes);
                 $appointmentsModal.find('#customer-notes').val(customer.notes);
 
@@ -436,7 +437,7 @@ App.Utils.CalendarTableView = (function () {
             firstDay: firstWeekdayNumber,
             onSelect: (dateText, instance) => {
                 const startDate = new Date(instance.currentYear, instance.currentMonth, instance.currentDay);
-                const endDate =  moment(startDate).add(parseInt($selectFilterItem.val()) - 1, 'days').toDate();
+                const endDate = moment(startDate).add(parseInt($selectFilterItem.val()) - 1, 'days').toDate();
                 createView(startDate, endDate);
             }
         });
@@ -1147,6 +1148,7 @@ App.Utils.CalendarTableView = (function () {
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('start')
                     }),
                     $('<span/>', {
@@ -1160,6 +1162,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('end')
                     }),
                     $('<span/>', {
@@ -1173,6 +1176,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('notes')
                     }),
                     $('<span/>', {
@@ -1232,6 +1236,7 @@ App.Utils.CalendarTableView = (function () {
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('provider')
                     }),
                     $('<span/>', {
@@ -1244,6 +1249,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('start')
                     }),
                     $('<span/>', {
@@ -1259,6 +1265,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('end')
                     }),
                     $('<span/>', {
@@ -1274,6 +1281,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('timezone')
                     }),
                     $('<span/>', {
@@ -1330,6 +1338,7 @@ App.Utils.CalendarTableView = (function () {
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('start')
                     }),
                     $('<span/>', {
@@ -1343,6 +1352,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('end')
                     }),
                     $('<span/>', {
@@ -1356,6 +1366,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('timezone')
                     }),
                     $('<span/>', {
@@ -1364,6 +1375,16 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('status')
+                    }),
+                    $('<span/>', {
+                        'text': info.event.extendedProps.data.status || '-'
+                    }),
+                    $('<br/>'),
+
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('service')
                     }),
                     $('<span/>', {
@@ -1372,6 +1393,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('provider')
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.provider),
@@ -1384,6 +1406,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('customer')
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.customer),
@@ -1396,6 +1419,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('email')
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(info.event.extendedProps.data.customer.email),
@@ -1405,6 +1429,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('phone')
                     }),
                     App.Utils.CalendarEventPopover.renderPhoneIcon(info.event.extendedProps.data.customer.phone_number),
@@ -1414,6 +1439,7 @@ App.Utils.CalendarTableView = (function () {
                     $('<br/>'),
 
                     $('<strong/>', {
+                        'class': 'd-inline-block me-2',
                         'text': lang('notes')
                     }),
                     $('<span/>', {

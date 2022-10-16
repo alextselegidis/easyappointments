@@ -405,4 +405,7 @@ $lang['future_booking_limit_hint'] = 'Set the future limit in days customers can
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Allow Rescheduling/Cancellation Before';
 $lang['at_least_one_field'] = 'At least one field must be displayed in the booking page.';
+$lang['status'] = 'Status';
+$lang['appointment_status_options'] = 'Appointment Status Options';
+$lang['appointment_status_options_info'] = 'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
 // End

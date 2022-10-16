@@ -1,8 +1,9 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var array $available_services
+ * @var array $appointment_status_options
  * @var array $timezones
  * @var array $require_first_name
  * @var array $require_last_name
@@ -131,8 +132,16 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="appointment-notes" class="form-label"><?= lang('notes') ?></label>
-                                    <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
+                                    <label for="appointment-status" class="form-label">
+                                        <?= lang('status') ?>
+                                    </label>
+                                    <select id="appointment-status" class="form-control">
+                                        <?php foreach ($appointment_status_options as $appointment_status_option): ?>
+                                            <option value="<?= $appointment_status_option ?>">
+                                                <?= $appointment_status_option ?>
+                                            </option>
+                                        <?php endforeach ?>
+                                    </select>
                                 </div>
                             </div>
 
@@ -153,7 +162,8 @@
                                         <?= lang('timezone') ?>
                                     </label>
 
-                                    <div class="border rounded d-flex justify-content-between align-items-center bg-light timezone-info">
+                                    <div
+                                        class="border rounded d-flex justify-content-between align-items-center bg-light timezone-info">
                                         <div class="border-end w-50 p-1 text-center">
                                             <?= lang('provider') ?>:
                                             <span class="provider-timezone">
@@ -167,6 +177,11 @@
                                             </span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="appointment-notes" class="form-label"><?= lang('notes') ?></label>
+                                    <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
                                 </div>
                             </div>
                         </div>
