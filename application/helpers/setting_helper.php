@@ -55,9 +55,10 @@ if ( ! function_exists('setting'))
                 {
                     $setting = [
                         'name' => $name,
-                        'value' => $value,
                     ];
                 }
+
+                $setting['value'] = $value;
 
                 $CI->settings_model->save($setting);
             }
