@@ -100,6 +100,18 @@ paths:
           schema:
             type: string
           deprecated: true
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: start
+          in: query
+          schema:
+            type: string
+        - name: end
+          in: query
+          schema:
+            type: string
       responses:
         '200':
           description: OK

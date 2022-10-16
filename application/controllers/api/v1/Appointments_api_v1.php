@@ -58,8 +58,37 @@ class Appointments_api_v1 extends EA_Controller {
 
             $with = $this->api->request_with();
 
+            $where = NULL;
+
+            // Date query param.
+
+            $date = request('date');
+
+            if ( ! empty($date))
+            {
+                $where['DATE(start_datetime)'] = (new DateTime($date))->format('Y-m-d');
+            }
+
+            // From query param.
+
+            $from = request('from');
+
+            if ( ! empty($from))
+            {
+                $where['DATE(start_datetime) >='] = (new DateTime($from))->format('Y-m-d');
+            }
+
+            // Till query param.
+
+            $till = request('till');
+
+            if ( ! empty($till))
+            {
+                $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
+            }
+
             $appointments = empty($keyword)
-                ? $this->appointments_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->appointments_model->get($where, $limit, $offset, $order_by)
                 : $this->appointments_model->search($keyword, $limit, $offset, $order_by);
 
             foreach ($appointments as &$appointment)
@@ -97,7 +126,7 @@ class Appointments_api_v1 extends EA_Controller {
         try
         {
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $appointment = $this->appointments_model->find($id);
