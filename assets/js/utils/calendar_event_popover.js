@@ -22,7 +22,7 @@ App.Utils.CalendarEventPopover = (function () {
      *
      * @param {Object} user Should have the address, city, etc properties.
      *
-     * @return {string} The rendered HTML.
+     * @return {String} The rendered HTML.
      */
     function renderMapIcon(user) {
         const data = [];
@@ -44,7 +44,7 @@ App.Utils.CalendarEventPopover = (function () {
         }
 
         if (!data.length) {
-            return '';
+            return null;
         }
 
         return $('<div/>', {
@@ -69,9 +69,13 @@ App.Utils.CalendarEventPopover = (function () {
      *
      * @param {String} email
      *
-     * @return {string} The rendered HTML.
+     * @return {String} The rendered HTML.
      */
     function renderMailIcon(email) {
+        if (!email) {
+            return null;
+        }
+
         return $('<div/>', {
             'html': [
                 $('<a/>', {
@@ -94,9 +98,13 @@ App.Utils.CalendarEventPopover = (function () {
      *
      * @param {String} phone
      *
-     * @return {string} The rendered HTML.
+     * @return {String} The rendered HTML.
      */
     function renderPhoneIcon(phone) {
+        if (!phone) {
+            return null;
+        }
+
         return $('<div/>', {
             'html': [
                 $('<a/>', {
