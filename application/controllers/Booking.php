@@ -225,6 +225,9 @@ class Booking extends EA_Controller {
             'first_weekday' => $first_weekday,
             'display_cookie_notice' => $display_cookie_notice,
             'display_any_provider' => setting('display_any_provider'),
+            'appointment_data' => $appointment,
+            'provider_data' => $provider,
+            'customer_data' => $customer,
         ]);
 
         html_vars([
@@ -316,7 +319,7 @@ class Booking extends EA_Controller {
             // If manage mode is TRUE then the following we should not consider the selected appointment when
             // calculating the available time periods of the provider.
 
-            $exclude_appointment_id = request('manage_mode') === 'true' ? request('appointment_id') : NULL;
+            $exclude_appointment_id = request('manage_mode') ? request('appointment_id') : NULL;
 
             // If the user has selected the "any-provider" option then we will need to search for an available provider
             // that will provide the requested service.

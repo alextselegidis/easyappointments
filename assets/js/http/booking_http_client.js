@@ -52,7 +52,7 @@ App.Http.Booking = (function () {
         }
 
         // If the manage mode is true then the appointment's start date should return as available too.
-        const appointmentId = App.Pages.Booking.manageMode ? vars('appointment_data').id : null;
+        const appointmentId = vars('manage_mode') ? vars('appointment_data').id : null;
 
         // Make ajax post request and get the available hours.
         const url = App.Utils.Url.siteUrl('booking/get_available_hours');
@@ -63,7 +63,7 @@ App.Http.Booking = (function () {
             provider_id: $selectProvider.val(),
             selected_date: selectedDate,
             service_duration: serviceDuration,
-            manage_mode: App.Pages.Booking.manageMode,
+            manage_mode: Number(vars('manage_mode') || 0),
             appointment_id: appointmentId
         };
 

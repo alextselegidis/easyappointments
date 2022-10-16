@@ -40,7 +40,7 @@ App.Pages.Booking = (function () {
      *
      * @type {Boolean}
      */
-    let manageMode = false;
+    let manageMode = vars('manage_mode') || false;
 
     /**
      * Initialize the module.
