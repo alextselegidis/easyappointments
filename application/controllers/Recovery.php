@@ -38,6 +38,7 @@ class Recovery extends EA_Controller {
         $company_name = setting('company_name'); 
         
         html_vars([
+            'page_title' => lang('forgot_your_password'),
             'dest_url' => session('dest_url', site_url('backend')),
             'company_name' => $company_name
         ]); 

@@ -40,6 +40,7 @@ class Login extends EA_Controller {
     public function index()
     {
         html_vars([
+            'page_title' => lang('login'),
             'base_url' => config('base_url'),
             'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name')

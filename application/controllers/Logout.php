@@ -29,6 +29,7 @@ class Logout extends EA_Controller {
         $company_name = setting('company_name'); 
         
         html_vars([
+            'page_title' => lang('log_out'),
             'company_name' => $company_name
         ]);
 
