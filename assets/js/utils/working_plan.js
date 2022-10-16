@@ -286,7 +286,7 @@ App.Utils.WorkingPlan = (function () {
             );
         }
         /**
-         * Enable editable break time.
+         * Render a working plan exception row. 
          *
          * This method makes editable the break time cells.
          *
