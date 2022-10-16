@@ -169,14 +169,22 @@ class EA_Model extends CI_Model {
     /**
      * Only keep the requested fields of the provided record.
      *
-     * @param array $record Record data.
+     * @param array $record Record data (single or multiple records).
      * @param array $fields Requested field names.
      */
     public function only(array &$record, array $fields)
     {
-        $record = array_filter($record, function ($field) use ($fields) {
-            return in_array($field, $fields);
-        }, ARRAY_FILTER_USE_KEY);
+        if (is_assoc($record))
+        {
+            $record = array_fields($record, $fields);
+        }
+        else
+        {
+            foreach ($record as &$record_item)
+            {
+                $record_item = array_fields($record_item, $fields);
+            }
+        }
     }
 
     /**
