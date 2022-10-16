@@ -120,7 +120,6 @@ App.Components.AppointmentStatusOptions = (function () {
 
     return {
         getOptions,
-        setOptions,
-        initialize
+        setOptions
     };
 })();

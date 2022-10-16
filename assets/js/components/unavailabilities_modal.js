@@ -216,7 +216,6 @@ App.Components.UnavailabilitiesModal = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        resetModal,
-        initialize
+        resetModal
     };
 })();
