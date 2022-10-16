@@ -90,7 +90,7 @@ class Categories extends EA_Controller {
 
             $keyword = request('keyword', '');
 
-            $order_by = 'name ASC';
+            $order_by = 'update_datetime DESC';
 
             $limit = request('limit', 1000);
 
