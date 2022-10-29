@@ -1,5 +1,6 @@
 {
     "name": "alextselegidis/easyappointments",
+    "version": "1.4.4",
     "description": "Open Source Web Scheduler",
     "homepage": "https://easyappointments.org",
     "type": "project",
@@ -44,7 +45,7 @@
         "google/apiclient": "^2.0"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
+        "roave/security-advisories": "dev-latest",
         "phpunit/phpunit": "^9"
     },
     "scripts": {
