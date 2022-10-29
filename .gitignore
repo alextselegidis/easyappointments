@@ -5,8 +5,6 @@
 /docs/apigen/html
 /docs/jsdoc/html
 /docs/plato/html
-/docker/mysql/*
-!/docker/mysql/.gitkeep
 /node_modules/
 /npm-debug.log
 /assets/js/**/*.min.js
