@@ -73,7 +73,7 @@ class Providers implements ParsersInterface {
                     ? json_decode($response['settings']['working_plan'], TRUE)
                     : NULL,
                 'workingPlanExceptions' => array_key_exists('working_plan_exceptions', $response['settings'])
-                    ? json_decode($response['settings']['working_plan_exceptions'], TRUE)
+                    ? json_decode($response['settings']['working_plan_exceptions'] ?? '', TRUE)
                     : NULL,
             ];
         }
