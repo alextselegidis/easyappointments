@@ -79,7 +79,7 @@ class Appointments_api_v1 extends EA_Controller {
             }
 
             // Till query param.
-            
+
             $till = request('till');
 
             if ( ! empty($till))
@@ -89,7 +89,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             // Service ID query param.
 
-            $serviceId = request('serviceId');
+            $serviceId = request('service_id');
 
             if ( ! empty($serviceId) && ($serviceId = filter_var($serviceId, FILTER_SANITIZE_NUMBER_INT)))
             {
