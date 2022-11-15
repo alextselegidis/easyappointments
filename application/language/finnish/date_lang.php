@@ -37,20 +37,20 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['date_year'] = 'Year';
-$lang['date_years'] = 'Years';
-$lang['date_month'] = 'Month';
-$lang['date_months'] = 'Months';
-$lang['date_week'] = 'Week';
-$lang['date_weeks'] = 'Weeks';
-$lang['date_day'] = 'Day';
-$lang['date_days'] = 'Days';
-$lang['date_hour'] = 'Hour';
-$lang['date_hours'] = 'Hours';
-$lang['date_minute'] = 'Minute';
-$lang['date_minutes'] = 'Minutes';
-$lang['date_second'] = 'Second';
-$lang['date_seconds'] = 'Seconds';
+$lang['date_year'] = 'Vuosi';
+$lang['date_years'] = 'Vuotta';
+$lang['date_month'] = 'Kuukausi';
+$lang['date_months'] = 'Kuukautta';
+$lang['date_week'] = 'Viikko';
+$lang['date_weeks'] = 'Viikkoa';
+$lang['date_day'] = 'Päivä';
+$lang['date_days'] = 'Päivää';
+$lang['date_hour'] = 'Tunti';
+$lang['date_hours'] = 'Tuntia';
+$lang['date_minute'] = 'Minuutti';
+$lang['date_minutes'] = 'Minuuttia';
+$lang['date_second'] = 'Sekunti';
+$lang['date_seconds'] = 'Sekuntia';
 
 $lang['UM12']	= '(UTC -12:00) Baker/Howland Island';
 $lang['UM11']	= '(UTC -11:00) Niue';
@@ -69,7 +69,7 @@ $lang['UM2']	= '(UTC -2:00) South Georgia/South Sandwich Islands';
 $lang['UM1']	= '(UTC -1:00) Azores, Cape Verde Islands';
 $lang['UTC']	= '(UTC) Greenwich Mean Time, Western European Time';
 $lang['UP1']	= '(UTC +1:00) Central European Time, West Africa Time';
-$lang['UP2']	= '(UTC +2:00) Central Africa Time, Eastern European Time, Kaliningrad Time';
+$lang['UP2']	= '(UTC +2:00) Helsinki, Central Africa Time, Eastern European Time, Kaliningrad Time';
 $lang['UP3']	= '(UTC +3:00) Moscow Time, East Africa Time, Arabia Standard Time';
 $lang['UP35']	= '(UTC +3:30) Iran Standard Time';
 $lang['UP4']	= '(UTC +4:00) Azerbaijan Standard Time, Samara Time';
