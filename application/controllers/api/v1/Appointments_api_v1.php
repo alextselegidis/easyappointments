@@ -79,12 +79,21 @@ class Appointments_api_v1 extends EA_Controller {
             }
 
             // Till query param.
-
+            
             $till = request('till');
 
             if ( ! empty($till))
             {
                 $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
+            }
+
+            // Service ID query param.
+
+            $serviceId = request('serviceId');
+
+            if ( ! empty($serviceId) && ($serviceId = filter_var($serviceId, FILTER_SANITIZE_NUMBER_INT)))
+            {
+                $where['id_services = '] = $serviceId;
             }
 
             $appointments = empty($keyword)
