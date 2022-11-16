@@ -887,7 +887,7 @@ App.Utils.CalendarTableView = (function () {
         const workDateStart = moment(start.format('YYYY-MM-DD') + ' ' + workingPlan[selDayName].start);
 
         if (start < workDateStart) {
-            unavailabilityPeriod = {
+            const unavailabilityPeriod = {
                 title: lang('not_working'),
                 start: start.toDate(),
                 end: workDateStart.toDate(),
