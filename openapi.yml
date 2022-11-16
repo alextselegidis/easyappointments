@@ -112,6 +112,11 @@ paths:
           in: query
           schema:
             type: string
+        - name: service_id
+          in: query
+          description: ID of service to filter within
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
