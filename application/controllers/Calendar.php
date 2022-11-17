@@ -129,7 +129,7 @@ class Calendar extends EA_Controller {
             'timezones' => $this->timezones->to_array(),
             'privileges' => $privileges,
             'calendar_view' => $calendar_view,
-            'available_providers' => $available_providers,
+            'available_providers' => array_values($available_providers), // Strip keys to prevent unintended array-to-object conversion
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
