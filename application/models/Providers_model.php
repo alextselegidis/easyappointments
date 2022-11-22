@@ -534,7 +534,7 @@ class Providers_model extends EA_Model {
     {
         $settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
 
-        if (empty($settings[$name]))
+        if (!isset($settings[$name]))
         {
             throw new RuntimeException('The requested setting value was not found: ' . $provider_id);
         }
