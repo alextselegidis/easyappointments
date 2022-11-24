@@ -28,6 +28,7 @@ class Services_model extends EA_Model {
         'attendants_number' => 'integer',
         'is_private' => 'boolean',
         'id_categories' => 'integer',
+        'row_order' => 'integer',
     ];
 
     /**
@@ -36,6 +37,7 @@ class Services_model extends EA_Model {
     protected $api_resource = [
         'id' => 'id',
         'name' => 'name',
+        'order' => 'row_order',
         'duration' => 'duration',
         'price' => 'price',
         'currency' => 'currency',
@@ -156,6 +158,7 @@ class Services_model extends EA_Model {
     {
         $service['create_datetime'] = date('Y-m-d H:i:s');
         $service['update_datetime'] = date('Y-m-d H:i:s');
+        $service['row_order'] = $this->db->count_all('services');
 
         if ( ! $this->db->insert('services', $service))
         {
@@ -182,7 +185,7 @@ class Services_model extends EA_Model {
         {
             throw new RuntimeException('Could not update service.');
         }
-
+        
         return $service['id'];
     }
 
@@ -199,6 +202,7 @@ class Services_model extends EA_Model {
         if ($force_delete)
         {
             $this->db->delete('services', ['id' => $service_id]);
+            $this->sort_column('row_order');
         }
         else
         {
@@ -300,6 +304,10 @@ class Services_model extends EA_Model {
         {
             $this->db->order_by($order_by);
         }
+        else
+        {
+            $this->db->order_by('row_order');
+        }
 
         if ( ! $with_trashed)
         {
@@ -338,7 +346,7 @@ class Services_model extends EA_Model {
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
             ->join('categories', 'categories.id = services.id_categories', 'left')
             ->where('services.delete_datetime IS NULL')
-            ->order_by('name ASC')
+            ->order_by('row_order,name ASC')
             ->get()
             ->result_array();
 
@@ -366,7 +374,7 @@ class Services_model extends EA_Model {
      * @param string $keyword Search keyword.
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
-     * @param string|null $order_by Order by.
+     * @param string|null $order_by Order by. Default is by row_order column
      * @param bool $with_trashed
      *
      * @return array Returns an array of services.
@@ -376,6 +384,10 @@ class Services_model extends EA_Model {
         if ( ! $with_trashed)
         {
             $this->db->where('delete_datetime IS NULL');
+        }
+        if ($order_by === NULL)
+        {
+            $order_by = 'row_order';
         }
 
         $services = $this
@@ -444,6 +456,7 @@ class Services_model extends EA_Model {
         $encoded_resource = [
             'id' => array_key_exists('id', $service) ? (int)$service['id'] : NULL,
             'name' => $service['name'],
+            'order' => $service['row_order'],
             'duration' => (int)$service['duration'],
             'price' => (float)$service['price'],
             'currency' => $service['currency'],
@@ -475,6 +488,11 @@ class Services_model extends EA_Model {
         if (array_key_exists('name', $service))
         {
             $decoded_resource['name'] = $service['name'];
+        }
+
+        if (array_key_exists('order', $service))
+        {
+            $decoded_resource['row_order'] = $service['order'];
         }
 
         if (array_key_exists('duration', $service))
@@ -519,4 +537,23 @@ class Services_model extends EA_Model {
 
         $service = $decoded_resource;
     }
+
+    /**
+     * Sort service
+     * 
+     * @param int $service_id Service ID
+     * @param int $desiredOrder Desired place in table (relative to visible services)
+     * @param Array [$allServiceIds] Visible service ids to sort on
+     * 
+     * @return int New place in table
+     */
+
+     public function set_service_order(int $service_id, int $desiredOrder, Array &$allServiceIds = NULL)
+     {
+       $service = $this->find($service_id);
+
+       $this->insert_row_order_visible('services',$service,$desiredOrder,$allServiceIds);
+
+       return $this->value($service['id'],'row_order');
+     }
 }

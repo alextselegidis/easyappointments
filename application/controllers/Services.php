@@ -91,7 +91,7 @@ class Services extends EA_Controller {
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = 'row_order ASC, update_datetime DESC';
 
             $limit = request('limit', 1000);
 
@@ -220,6 +220,55 @@ class Services extends EA_Controller {
             $service = $this->services_model->find($service_id);
 
             json_response($service);
+        }
+        catch (Throwable $e)
+        {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Arrange service order
+     */
+    public function sort()
+    {
+        try {
+
+            if (cannot('edit', PRIV_SERVICES))
+            {
+                abort(403, 'Forbidden');
+            }
+
+            $service_id = request('service_id');
+            if (($service_id = filter_var($service_id, FILTER_VALIDATE_INT)) === FALSE)
+            {
+                abort(400,'Invalid ID value');
+            }
+            $newOrder = request('new_order');
+            if ( (($newOrder = filter_var($newOrder,FILTER_VALIDATE_INT)) === FALSE) ||
+                $newOrder < 0)
+            {
+                abort(400,'Invalid new order value');
+            }
+
+            $visibleServices = request('allIds');
+            if (empty($visibleServices))
+            {
+                abort('allIds must be defined to successfully sort services');
+            }
+            if (!is_array($visibleServices))
+            {
+                $visibleServices = Array($visibleServices);
+            }
+            
+            $visibleServices = array_filter(filter_var_array($visibleServices, FILTER_VALIDATE_INT));
+
+
+            $service = $this->services_model->find($service_id);
+
+            $service['row_order'] = $this->services_model->set_service_order($service['id'], $newOrder,$visibleServices);
+
+            return json_response($service);
         }
         catch (Throwable $e)
         {

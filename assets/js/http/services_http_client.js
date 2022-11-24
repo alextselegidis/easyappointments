@@ -122,12 +122,36 @@ App.Http.Services = (function () {
         return $.post(url, data);
     }
 
+    /**
+     * Sort service
+     * 
+     * @param {Number} serviceId
+     * 
+     * @param {Number} newOrder
+     * 
+     * @param {Array} allIds
+     * 
+     * @return {Object}
+     */
+    function sort(serviceId, newOrder, allIds)
+    {
+        const url = App.Utils.Url.siteUrl('services/sort');
+        const data = {
+            csrf_token: vars('csrf_token'),
+            service_id: serviceId,
+            new_order : newOrder,
+            allIds
+        };
+        return $.post(url,data);
+    }
+
     return {
         save,
         create,
         update,
         destroy,
         search,
-        find
+        find,
+        sort
     };
 })();
