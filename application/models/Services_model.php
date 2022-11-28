@@ -542,17 +542,16 @@ class Services_model extends EA_Model {
      * Sort service
      * 
      * @param int $service_id Service ID
-     * @param int $desiredOrder Desired place in table (relative to visible services)
-     * @param Array [$allServiceIds] Visible service ids to sort on
+     * @param int|bool $afterServiceId ID of service that service should be inserted after, or FALSE to set to beginning
      * 
      * @return int New place in table
      */
 
-     public function set_service_order(int $service_id, int $desiredOrder, Array &$allServiceIds = NULL)
+     public function set_service_order(int $service_id, $afterServiceId)
      {
        $service = $this->find($service_id);
 
-       $this->insert_row_order_visible('services',$service,$desiredOrder,$allServiceIds);
+       $this->insert_row_order_after('services',$service,$afterServiceId);
 
        return $this->value($service['id'],'row_order');
      }

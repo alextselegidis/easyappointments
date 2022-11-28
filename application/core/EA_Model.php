@@ -238,83 +238,53 @@ class EA_Model extends CI_Model {
 
 
     /**
-     * Inserts entry to desired order in table relative to user visible entries
+     * Inserts entry order after defined entry
      * 
      * @param string $table Table
-     * @param array $entry Entity
-     * @param int $desiredOrder Desired place in table (relative to visible entities)
-     * @param Array [$visibleIds] Visible ids to sort on
-     * @param string [$order_column] Ordering Column name
+     * @param array $entry Entity to insert
+     * @param mixed|bool $afterId ID of entry where to insert at. Or false to set at beginning
+     * @param string [$order_column] Ordering Column name (Default: row_order)
      * 
      * @throws RuntimeException
+     * @throws InvalidArgumentException
      */
 
-    public function insert_row_order_visible (string $table, array &$entry, int $desiredOrder, Array &$visibleIds = NULL, string $order_column='row_order')
+    public function insert_row_order_after(string $table, array &$entry, $afterId, string $order_column='row_order')
     {
         if (empty($table))
             throw new InvalidArgumentException("Table parameter must be defined");
-        if (empty($column))
+        if (empty($order_column))
             throw new InvalidArgumentException("Column parameter must be defined");
 
         if (!array_key_exists('id', $entry))
             throw new InvalidArgumentException('Entry does not contain ID column');
-        if (!array_key_exists($column,$entry))
-            throw new InvalidArgumentException('Entry does not contain sorting column');
+        if (!array_key_exists($order_column,$entry))
+            throw new InvalidArgumentException('Entry does not contain sorting column'); 
             
-       $setOrder = $desiredOrder;
-       $id = $entry['id'];
 
+        // Get position of desired entry:
+        if (is_int($afterId) && $afterId > 0)
+        {
+            $position = $this->db->from($table)
+                        ->select([$order_column])
+                        ->where('id',$afterId)
+                        ->get()
+                        ->row_array();
+            if ($position === false)
+            {
+                throw new InvalidArgumentException("Could not found service with ID $afterId");
+            }
+            $position = intval($position[$order_column]);
+        }
+        else {
+            $position = FALSE;
+        }
+    
+        if (! $this->insert_row_order($table,$entry,$position,$order_column))
+        {
+            throw new RuntimeException('Could not update order, database error');
+        }
 
-       if (!empty($visibleIds))
-       {
-           // Set order to reflect real position in DB
-           
-           $allRows = $this->db->from($table)
-                   ->order_by($order_column)
-                   ->select(['id'])
-                   ->get()
-                   ->result_array();
-           if ($desiredOrder >= count($visibleIds) -1)
-           {
-               $setOrder = count($allRows); // Desired last
-           }
-           else {
-
-               for ($i=0; $i < count($allRows); $i++)
-               {
-                   if ($i >= count($visibleIds))
-                   {
-                       break;
-                   }
-                   elseif ($i > $desiredOrder)
-                   {
-                       break;
-                   }
-                   elseif (!in_array($allRows[$i]['id'], $visibleIds))
-                   {
-                       $setOrder ++;
-                   }
-               }
-           }
-       }
-       $currentOrder = intval(
-            $this->db
-                ->select($order_column)
-                ->from($table)
-                ->where(['id'=>$id])
-                ->limit(1)
-                ->get()
-                ->row_array()
-                [$order_column]
-        );
-
-       if ($setOrder != $currentOrder)
-       {
-           if (! $this->insert_row_order($table,$entry,$setOrder))
-           {
-               throw new RuntimeException('Could not update order, database error');
-           }
-       }
     }
 
 
@@ -323,13 +293,14 @@ class EA_Model extends CI_Model {
      * 
      * @param string $table Table
      * @param array $entry Entry, should be associative array containing columns 'Id' and desired $column sort value.
+     * @param int|bool $position Position to set entry to. If set to False, it will be positioned to first.
      * @param string $column Column name that contains sorting data (default is 'row_order').
      * 
      * @return bool TRUE on success, FALSE on failure
      * @throws InvalidArgumentException
      */
 
-     protected function insert_row_order(string $table, array &$entry, int $position, string $column = 'row_order')
+     protected function insert_row_order(string $table, array &$entry, $position, string $column = 'row_order')
      {
         if (empty($table))
             throw new InvalidArgumentException("Table parameter must be defined");
@@ -341,8 +312,16 @@ class EA_Model extends CI_Model {
         if (!array_key_exists($column,$entry))
             throw new InvalidArgumentException('Entry does not contain sorting column');
 
-        $movingUp = $position >= intval($entry[$column]);
-        $newOr = $movingUp? $position +1 : $position;
+        
+        if (is_int($position))
+        {
+            $newOr = $position +1;
+        }
+        else
+        {
+            $newOr = 0;
+        }
+        
         $this->db->update($table, [$column => $newOr ], [ 'id'=> $entry['id'] ]);
         
 

@@ -127,20 +127,17 @@ App.Http.Services = (function () {
      * 
      * @param {Number} serviceId
      * 
-     * @param {Number} newOrder
-     * 
-     * @param {Array} allIds
+     * @param {Number} afterId
      * 
      * @return {Object}
      */
-    function sort(serviceId, newOrder, allIds)
+    function sort(serviceId, afterId)
     {
         const url = App.Utils.Url.siteUrl('services/sort');
         const data = {
             csrf_token: vars('csrf_token'),
             service_id: serviceId,
-            new_order : newOrder,
-            allIds
+            after : afterId
         };
         return $.post(url,data);
     }

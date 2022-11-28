@@ -95,7 +95,13 @@ App.Pages.Services = (function () {
         $services.find('.results').sortable({
             update: function(ev,ui){
                 resetForm();
-                sort(ui.item.data('id'),ui.item.index())
+                var afterId;
+                if (ui.item.index( )== 0)
+                    afterId = -1;
+                else {
+                    afterId = ui.item.prev('.service-row').data('id');
+                }
+                sort(ui.item.data('id'), afterId)
                 .catch(err => {
                     $(this).sortable('cancel');
                     $services.find('.form-message').addClass('alert-danger').text(lang('error')).show();
@@ -228,13 +234,13 @@ App.Pages.Services = (function () {
      * 
      * @param {Number} serviceId Id of service to sort
      * 
-     * @param {Number} newOrder New place in order
+     * @param {Number} afterId Id of service to place after
      * 
      * @return {Promise<Number>}
      */
-    function sort(serviceId, newOrder){
-        return App.Http.Services.sort(serviceId,newOrder,
-            $services.find('.results > .service-row').map((i,e)=> e.dataset['id']).get())
+    function sort(serviceId, afterId){
+        
+        return App.Http.Services.sort(serviceId, afterId)
         .then(response => {
             App.Layouts.Backend.displayNotification(lang('service_saved'));
             return response.row_order;

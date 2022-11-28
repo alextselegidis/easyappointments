@@ -244,29 +244,21 @@ class Services extends EA_Controller {
             {
                 abort(400,'Invalid ID value');
             }
-            $newOrder = request('new_order');
-            if ( (($newOrder = filter_var($newOrder,FILTER_VALIDATE_INT)) === FALSE) ||
-                $newOrder < 0)
+
+            $insertAfterId = request('after');
+            if (($insertAfterId = filter_var($insertAfterId,FILTER_VALIDATE_INT)) === FALSE)
             {
-                abort(400,'Invalid new order value');
+                abort(400,'Invalid after value, must be ID or -1');
             }
 
-            $visibleServices = request('allIds');
-            if (empty($visibleServices))
+            if ($insertAfterId <= 0)
             {
-                abort('allIds must be defined to successfully sort services');
+                $insertAfterId = FALSE;
             }
-            if (!is_array($visibleServices))
-            {
-                $visibleServices = Array($visibleServices);
-            }
-            
-            $visibleServices = array_filter(filter_var_array($visibleServices, FILTER_VALIDATE_INT));
-
 
             $service = $this->services_model->find($service_id);
 
-            $service['row_order'] = $this->services_model->set_service_order($service['id'], $newOrder,$visibleServices);
+            $service['row_order'] = $this->services_model->set_service_order($service['id'], $insertAfterId);
 
             return json_response($service);
         }
