@@ -422,7 +422,7 @@ class Booking extends EA_Controller {
             $captcha = request('captcha');
             $appointment = $post_data['appointment'];
             $customer = $post_data['customer'];
-            $manage_mode = ! empty($post_data['id']);
+            $manage_mode = isset($post_data['manage_mode']) && $post_data['manage_mode'];
 
             if ( ! array_key_exists('address', $customer))
             {
