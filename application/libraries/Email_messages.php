@@ -143,7 +143,7 @@ class Email_messages {
 
         $this->CI->email->message($html);
 
-        $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics');
+        $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics', 'text/vcalendar');
 
         if ( ! $this->CI->email->send(FALSE))
         {
