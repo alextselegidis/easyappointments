@@ -153,6 +153,7 @@ class Admins_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->where('users.email', $admin['email'])
             ->where('users.id !=', $admin_id)
+            ->where('users.delete_datetime', NULL)
             ->get()
             ->num_rows();
 
@@ -177,7 +178,7 @@ class Admins_model extends EA_Model {
             $this->db->where('id_users !=', $admin_id);
         }
 
-        return $this->db->get_where('user_settings', ['username' => $username])->num_rows() === 0;
+        return $this->db->get_where('user_settings', ['username' => $username, 'delete_datetime' => NULL])->num_rows() === 0;
     }
 
     /**
@@ -194,7 +195,7 @@ class Admins_model extends EA_Model {
         $admin['id_roles'] = $this->get_admin_role_id();
 
         $settings = $admin['settings'];
-        
+
         unset(
             $admin['settings']
         );
@@ -228,9 +229,9 @@ class Admins_model extends EA_Model {
     protected function update(array $admin): int
     {
         $settings = $admin['settings'];
-        
+
         $settings['id_users'] = $admin['id'];
-        
+
         unset(
             $admin['settings']
         );

@@ -168,6 +168,7 @@ class Providers_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->where('users.email', $provider['email'])
             ->where('users.id !=', $provider_id)
+            ->where('users.delete_datetime', NULL)
             ->get()
             ->num_rows();
 
@@ -192,7 +193,7 @@ class Providers_model extends EA_Model {
             $this->db->where('id_users !=', $provider_id);
         }
 
-        return $this->db->get_where('user_settings', ['username' => $username])->num_rows() === 0;
+        return $this->db->get_where('user_settings', ['username' => $username, 'delete_datetime' => NULL])->num_rows() === 0;
     }
 
     /**
@@ -213,7 +214,7 @@ class Providers_model extends EA_Model {
         $service_ids = $provider['services'];
 
         $settings = $provider['settings'];
-        
+
         unset(
             $provider['services'],
             $provider['settings']
@@ -246,7 +247,7 @@ class Providers_model extends EA_Model {
     protected function update(array $provider): int
     {
         $provider['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         $service_ids = $provider['services'];
 
         $settings = $provider['settings'];
@@ -315,7 +316,7 @@ class Providers_model extends EA_Model {
         {
             $this->db->where('delete_datetime IS NULL');
         }
-        
+
         $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
 
         if ( ! $provider)
@@ -396,7 +397,7 @@ class Providers_model extends EA_Model {
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
      * @param bool $with_trashed
-     * 
+     *
      * @return array Returns an array of providers.
      */
     public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
@@ -708,7 +709,7 @@ class Providers_model extends EA_Model {
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
      * @param bool $with_trashed
-     * 
+     *
      * @return array Returns an array of providers.
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
@@ -719,7 +720,7 @@ class Providers_model extends EA_Model {
         {
             $this->db->where('delete_datetime IS NULL');
         }
-        
+
         $providers = $this
             ->db
             ->select()

@@ -166,6 +166,7 @@ class Secretaries_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_SECRETARY)
             ->where('users.email', $secretary['email'])
             ->where('users.id !=', $secretary_id)
+            ->where('users.delete_datetime', NULL)
             ->get()
             ->num_rows();
 
@@ -190,7 +191,7 @@ class Secretaries_model extends EA_Model {
             $this->db->where('id_users !=', $secretary_id);
         }
 
-        return $this->db->get_where('user_settings', ['username' => $username])->num_rows() === 0;
+        return $this->db->get_where('user_settings', ['username' => $username, 'delete_datetime' => NULL])->num_rows() === 0;
     }
 
     /**
@@ -206,7 +207,7 @@ class Secretaries_model extends EA_Model {
     {
         $secretary['create_datetime'] = date('Y-m-d H:i:s');
         $secretary['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         $secretary['id_roles'] = $this->get_secretary_role_id();
 
         $provider_ids = $secretary['providers'] ?? [];
@@ -245,7 +246,7 @@ class Secretaries_model extends EA_Model {
     protected function update(array $secretary): int
     {
         $secretary['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         $provider_ids = $secretary['providers'] ?? [];
 
         $settings = $secretary['settings'];
@@ -321,7 +322,7 @@ class Secretaries_model extends EA_Model {
         {
             throw new InvalidArgumentException('The provided secretary ID was not found in the database: ' . $secretary_id);
         }
-        
+
         $secretary['settings'] = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
 
         unset(
@@ -391,7 +392,7 @@ class Secretaries_model extends EA_Model {
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
      * @param bool $with_trashed
-     * 
+     *
      * @return array Returns an array of secretaries.
      */
     public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
@@ -561,7 +562,7 @@ class Secretaries_model extends EA_Model {
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
      * @param bool $with_trashed
-     * 
+     *
      * @return array Returns an array of secretaries.
      */
     public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
@@ -572,7 +573,7 @@ class Secretaries_model extends EA_Model {
         {
             $this->db->where('delete_datetime IS NULL');
         }
-        
+
         $secretaries = $this
             ->db
             ->select()
