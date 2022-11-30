@@ -494,6 +494,13 @@ class Calendar extends EA_Controller {
     {
         try
         {
+            $required_permissions = can('view', PRIV_APPOINTMENTS);
+
+            if ( ! $required_permissions)
+            {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+            
             $start_date = request('start_date') . ' 00:00:00';
 
             $end_date = request('end_date') . ' 23:59:59';
