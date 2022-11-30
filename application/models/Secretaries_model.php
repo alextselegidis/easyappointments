@@ -191,7 +191,13 @@ class Secretaries_model extends EA_Model {
             $this->db->where('id_users !=', $secretary_id);
         }
 
-        return $this->db->get_where('user_settings', ['username' => $username, 'delete_datetime' => NULL])->num_rows() === 0;
+        return $this
+                ->db
+                ->from('users')
+                ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
+                ->where(['username' => $username, 'delete_datetime' => NULL])
+                ->get()
+                ->num_rows() === 0;
     }
 
     /**
