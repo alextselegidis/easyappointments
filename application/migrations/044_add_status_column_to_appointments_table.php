@@ -37,7 +37,7 @@ class Migration_Add_status_column_to_appointments_table extends EA_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->field_exists('status', 'appointments'))
+        if ($this->db->field_exists('status', 'appointments'))
         {
             $this->dbforge->drop_column('appointments', 'status');
         }

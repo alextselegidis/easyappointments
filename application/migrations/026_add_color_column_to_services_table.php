@@ -37,7 +37,7 @@ class Migration_Add_color_column_to_services_table extends EA_Migration {
      */
     public function down()
     {
-        if ( ! $this->db->field_exists('color', 'services'))
+        if ($this->db->field_exists('color', 'services'))
         {
             $this->dbforge->drop_column('services', 'color');
         }
