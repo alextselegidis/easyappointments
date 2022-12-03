@@ -507,7 +507,7 @@ class Providers_model extends EA_Model {
 
                 krsort($value);
 
-                $value = json_encode($value);
+                $value = json_encode(empty($value) ? new stdClass() : $value);
             }
 
             $this->set_setting($provider_id, $name, $value);
