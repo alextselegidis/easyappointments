@@ -37,22 +37,22 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['ut_test_name'] = 'Test Name';
-$lang['ut_test_datatype'] = 'Test Datatype';
-$lang['ut_res_datatype'] = 'Expected Datatype';
-$lang['ut_result'] = 'Result';
-$lang['ut_undefined'] = 'Undefined Test Name';
-$lang['ut_file'] = 'File Name';
-$lang['ut_line'] = 'Line Number';
-$lang['ut_passed'] = 'Passed';
-$lang['ut_failed'] = 'Failed';
-$lang['ut_boolean'] = 'Boolean';
-$lang['ut_integer'] = 'Integer';
+$lang['ut_test_name'] = 'Nome test';
+$lang['ut_test_datatype'] = 'Tipo di dati di prova';
+$lang['ut_res_datatype'] = 'Tipo di dati previsto';
+$lang['ut_result'] = 'Risultato';
+$lang['ut_undefined'] = 'Nome test non definito';
+$lang['ut_file'] = 'Nome file';
+$lang['ut_line'] = 'Numero riga';
+$lang['ut_passed'] = 'Passato';
+$lang['ut_failed'] = 'Fallito';
+$lang['ut_boolean'] = 'Booleano';
+$lang['ut_integer'] = 'Intero';
 $lang['ut_float'] = 'Float';
-$lang['ut_double'] = 'Float'; // can be the same as float
-$lang['ut_string'] = 'String';
+$lang['ut_double'] = 'FatFloatta'; // può essere uguale a float
+$lang['ut_string'] = 'Stringa';
 $lang['ut_array'] = 'Array';
-$lang['ut_object'] = 'Object';
-$lang['ut_resource'] = 'Resource';
+$lang['ut_object'] = 'Oggetto';
+$lang['ut_resource'] = 'Risorsa';
 $lang['ut_null'] = 'Null';
-$lang['ut_notes'] = 'Notes';
+$lang['ut_notes'] = 'Note';
