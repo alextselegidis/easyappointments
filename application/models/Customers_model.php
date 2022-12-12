@@ -444,6 +444,7 @@ class Customers_model extends EA_Model {
             ->group_start()
             ->like('first_name', $keyword)
             ->or_like('last_name', $keyword)
+            ->or_like('CONCAT_WS(" ", first_name, last_name)', $keyword)
             ->or_like('email', $keyword)
             ->or_like('phone_number', $keyword)
             ->or_like('mobile_number', $keyword)
