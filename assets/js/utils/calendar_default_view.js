@@ -818,7 +818,6 @@ App.Utils.CalendarDefaultView = (function () {
                         'function': undoFunction
                     }
                 ]);
-                $footer.css('position', 'static'); // Footer position fix.
 
                 // Update the event data for later use.
                 info.event.setProp('data', info.event.extendedProps.data);
@@ -862,8 +861,6 @@ App.Utils.CalendarDefaultView = (function () {
                         'function': undoFunction
                     }
                 ]);
-
-                $footer.css('position', 'static'); // Footer position fix.
 
                 // Update the event data for later use.
                 info.event.setProp('data', info.event.extendedProps.data);
@@ -974,8 +971,6 @@ App.Utils.CalendarDefaultView = (function () {
                         'function': undoFunction
                     }
                 ]);
-
-                $footer.css('position', 'static'); // Footer position fix.
             };
 
             // Update appointment data.
@@ -1017,8 +1012,6 @@ App.Utils.CalendarDefaultView = (function () {
                         function: undoFunction
                     }
                 ]);
-
-                $footer.css('position', 'static'); // Footer position fix.
             };
 
             App.Http.Calendar.saveUnavailability(unavailability, successCallback);
@@ -1732,11 +1725,6 @@ App.Utils.CalendarDefaultView = (function () {
 
         if (!$selectFilterItem.find('option').length) {
             $('#calendar-actions button').prop('disabled', true);
-        }
-
-        // Fine tune the footer's position only for this page.
-        if (window.innerHeight < 700) {
-            $footer.css('position', 'static');
         }
 
         // Automatically refresh the calendar page every 10 seconds (without loading animation).
