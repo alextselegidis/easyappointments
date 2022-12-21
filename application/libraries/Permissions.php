@@ -60,7 +60,7 @@ class Permissions {
 
         $limit_customer_access = setting('limit_customer_access');
 
-        if ($role_slug === DB_SLUG_ADMIN)
+        if ($role_slug === DB_SLUG_ADMIN || ! $limit_customer_access)
         {
             return TRUE;
         }
