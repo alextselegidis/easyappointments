@@ -188,6 +188,31 @@ class EA_Model extends CI_Model {
     }
 
     /**
+     * Ensure a field exists in an array by using its value or NULL.
+     *
+     * @param array $record Record data (single or multiple records).
+     * @param array $fields Requested field names.
+     */
+    public function optional(array &$record, array $fields)
+    {
+        $sanitize = function ($field) use (&$record) {
+            return $record[$field] ?? NULL;
+        };
+
+        if (is_assoc($record))
+        {
+            $record = array_map($sanitize, $fields);
+        }
+        else
+        {
+            foreach ($record as &$record_item)
+            {
+                $record_item = array_map($sanitize, $fields);
+            }
+        }
+    }
+
+    /**
      * Get the DB field name based on an API field name.
      *
      * @param string $api_field API resource key.
