@@ -123,7 +123,6 @@
 <script src="<?= asset_url('assets/vendor/fullcalendar/main.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/fullcalendar-moment/main.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
