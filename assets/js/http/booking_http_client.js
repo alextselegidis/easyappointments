@@ -247,7 +247,7 @@ App.Http.Booking = (function () {
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
             csrf_token: vars('csrf_token'),
-            manage_mode: App.Pages.Booking.manageMode,
+            manage_mode: Number(App.Pages.Booking.manageMode),
             appointment_id: appointmentId
         };
 

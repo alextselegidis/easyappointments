@@ -719,7 +719,7 @@ App.Pages.Booking = (function () {
             id_services: $selectService.val()
         };
 
-        data.manage_mode = manageMode;
+        data.manage_mode = Number(manageMode);
 
         if (manageMode) {
             data.appointment.id = vars('appointment_data').id;
