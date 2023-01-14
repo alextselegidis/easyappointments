@@ -127,9 +127,6 @@ App.Utils.CalendarTableView = (function () {
 
                     currentDate = moment(currentDate).add({days: 1}).toDate();
                 }
-
-                // setCalendarViewSize();
-                App.Layouts.Backend.placeFooterToBottom();
             });
         });
 
@@ -536,8 +533,6 @@ App.Utils.CalendarTableView = (function () {
 
         $('#calendar .calendar-view').remove();
 
-        App.Layouts.Backend.placeFooterToBottom();
-
         const $calendarView = $('<div/>', {
             'class': 'calendar-view'
         }).appendTo('#calendar');
@@ -558,8 +553,6 @@ App.Utils.CalendarTableView = (function () {
             }
 
             setCalendarViewSize();
-
-            App.Layouts.Backend.placeFooterToBottom();
 
             // Activate calendar navigation.
             $('#calendar .calendar-header .btn').removeClass('disabled').prop('disabled', false);
@@ -676,8 +669,6 @@ App.Utils.CalendarTableView = (function () {
         // Add the unavailabilities to the column.
         /** @var {Array} events.unavailabilities */
         createUnavailabilities($providerColumn, events.unavailabilities);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     /**

@@ -166,8 +166,6 @@ App.Pages.BusinessSettings = (function () {
         $saveSettings.on('click', onSaveSettingsClick);
 
         $applyGlobalWorkingPlan.on('click', onApplyGlobalWorkingPlan);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

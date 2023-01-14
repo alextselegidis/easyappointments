@@ -172,8 +172,6 @@ App.Pages.GeneralSettings = (function () {
         const generalSettings = vars('general_settings');
 
         deserialize(generalSettings);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

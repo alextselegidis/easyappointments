@@ -221,8 +221,6 @@ App.Pages.BookingSettings = (function () {
         deserialize(bookingSettings);
 
         applyInitialState();
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

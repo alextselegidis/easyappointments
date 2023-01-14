@@ -37,20 +37,6 @@ window.App.Layouts.Backend = (function () {
     const PRIV_SYSTEM_SETTINGS = 'system_settings';
     const PRIV_USER_SETTINGS = 'user_settings';
 
-    function placeFooterToBottom() {
-        if (window.innerHeight > $('body').height()) {
-            $footer.css({
-                'position': 'absolute',
-                'width': '100%',
-                'bottom': '0px'
-            });
-        } else {
-            $footer.css({
-                'position': 'static'
-            });
-        }
-    }
-
     /**
      * Display backend notifications to user.
      *
@@ -103,12 +89,6 @@ window.App.Layouts.Backend = (function () {
      * Initialize the module.
      */
     function initialize() {
-        $(window)
-            .on('resize', () => {
-                App.Layouts.Backend.placeFooterToBottom();
-            })
-            .trigger('resize');
-
         $(document).ajaxStart(() => {
             $loading.show();
         });
@@ -139,7 +119,6 @@ window.App.Layouts.Backend = (function () {
         PRIV_USERS,
         PRIV_SYSTEM_SETTINGS,
         PRIV_USER_SETTINGS,
-        placeFooterToBottom,
         displayNotification
     };
 })();

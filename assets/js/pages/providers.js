@@ -216,13 +216,6 @@ App.Pages.Providers = (function () {
         });
 
         /**
-         * Event: Display Provider Details "Click"
-         */
-        $providers.on('shown.bs.tab', 'a[data-bs-toggle="tab"]', () => {
-            App.Layouts.Backend.placeFooterToBottom();
-        });
-
-        /**
          * Event: Reset Working Plan Button "Click".
          */
         $providers.on('click', '#reset-working-plan', () => {
@@ -461,7 +454,6 @@ App.Pages.Providers = (function () {
             .find('.edit-working-plan-exception, .delete-working-plan-exception')
             .prop('disabled', true);
         $providers.find('.working-plan input:checkbox').prop('disabled', true);
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     /**

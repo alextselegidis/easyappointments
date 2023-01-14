@@ -97,8 +97,6 @@ App.Pages.MatomoAnalyticsSettings = (function () {
         const matomoAnalyticsSettings = vars('matomo_analytics_settings');
 
         deserialize(matomoAnalyticsSettings);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

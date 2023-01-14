@@ -97,8 +97,6 @@ App.Pages.ApiSettings = (function () {
         const apiSettings = vars('api_settings');
 
         deserialize(apiSettings);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

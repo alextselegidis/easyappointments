@@ -150,8 +150,6 @@ App.Pages.LegalSettings = (function () {
         deserialize(legalSettings);
 
         $saveSettings.on('click', onSaveSettingsClick);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

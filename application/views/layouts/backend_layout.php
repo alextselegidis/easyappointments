@@ -24,11 +24,15 @@
 
     <?php slot('styles') ?>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
-<?php component('backend_header', ['active_menu' => vars('active_menu')]) ?>
+<main class="flex-shrink-0">
 
-<?php slot('content') ?>
+    <?php component('backend_header', ['active_menu' => vars('active_menu')]) ?>
+    
+    <?php slot('content') ?>
+    
+</main>
 
 <?php component('backend_footer', ['user_display_name' => vars('user_display_name')]) ?>
 

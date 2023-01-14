@@ -190,8 +190,6 @@ App.Pages.Account = (function () {
         $saveSettings.on('click', onSaveSettingsClick);
 
         $username.on('change', onUsernameChange);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

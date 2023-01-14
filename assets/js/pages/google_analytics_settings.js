@@ -97,8 +97,6 @@ App.Pages.GoogleAnalyticsSettings = (function () {
         const googleAnalyticsSettings = vars('google_analytics_settings');
 
         deserialize(googleAnalyticsSettings);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
