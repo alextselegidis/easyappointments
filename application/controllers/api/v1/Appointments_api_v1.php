@@ -87,6 +87,33 @@ class Appointments_api_v1 extends EA_Controller {
                 $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
             }
 
+            // Service ID query param.
+
+            $service_id = request('serviceId');
+
+            if ( ! empty($service_id))
+            {
+                $where['id_services'] = $service_id;
+            }
+
+            // Provider ID query param.
+
+            $provider_id = request('providerId');
+
+            if ( ! empty($provider_id))
+            {
+                $where['id_users_provider'] = $provider_id;
+            }
+
+            // Customer ID query param.
+
+            $customer_id = request('customerId');
+
+            if ( ! empty($customer_id))
+            {
+                $where['id_users_customer'] = $customer_id;
+            }
+
             $appointments = empty($keyword)
                 ? $this->appointments_model->get($where, $limit, $offset, $order_by)
                 : $this->appointments_model->search($keyword, $limit, $offset, $order_by);

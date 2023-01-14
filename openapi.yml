@@ -104,14 +104,26 @@ paths:
           in: query
           schema:
             type: string
-        - name: start
+        - name: from
           in: query
           schema:
             type: string
-        - name: end
+        - name: till
           in: query
           schema:
             type: string
+        - name: serviceId
+          in: query
+          schema:
+            type: integer
+        - name: providerId
+          in: query
+          schema:
+            type: integer
+        - name: customerId
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
