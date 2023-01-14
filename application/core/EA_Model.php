@@ -195,19 +195,21 @@ class EA_Model extends CI_Model {
      */
     public function optional(array &$record, array $fields)
     {
-        $sanitize = function ($field) use (&$record) {
-            return $record[$field] ?? NULL;
-        };
-
         if (is_assoc($record))
         {
-            $record = array_map($sanitize, $fields);
+            foreach ($fields as $field => $default)
+            {
+                $record[$field] = $record[$field] ?? $default;
+            }
         }
         else
         {
             foreach ($record as &$record_item)
             {
-                $record_item = array_map($sanitize, $fields);
+                foreach ($fields as $field => $default)
+                {
+                    $record_item[$field] = $record_item[$field] ?? $default;
+                }
             }
         }
     }

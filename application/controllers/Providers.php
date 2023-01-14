@@ -155,6 +155,17 @@ class Providers extends EA_Controller {
                 'services',
             ]);
 
+            $this->providers_model->only($provider['settings'], [
+                'username',
+                'password',
+                'notifications',
+                'calendar_view'
+            ]);
+
+            $this->providers_model->optional($provider, [
+                'services' => [],
+            ]);
+
             $provider_id = $this->providers_model->save($provider);
 
             $provider = $this->providers_model->find($provider_id);
@@ -204,6 +215,10 @@ class Providers extends EA_Controller {
                 'id_roles',
                 'settings',
                 'services',
+            ]);
+
+            $this->providers_model->optional($provider, [
+                'services' => [],
             ]);
 
             $provider_id = $this->providers_model->save($provider);
