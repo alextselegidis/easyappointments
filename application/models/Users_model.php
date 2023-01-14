@@ -234,11 +234,11 @@ class Users_model extends EA_Model {
      * @param int $user_id User ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected user value from the database.
+     * @return mixed Returns the selected user value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $user_id, string $field): string
+    public function value(int $user_id, string $field): mixed
     {
         if (empty($field))
         {

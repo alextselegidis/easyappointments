@@ -182,11 +182,11 @@ class Webhooks_model extends EA_Model {
      * @param int $webhook_id Webhook ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected webhook value from the database.
+     * @return mixed Returns the selected webhook value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $webhook_id, string $field): string
+    public function value(int $webhook_id, string $field): mixed
     {
         if (empty($field))
         {

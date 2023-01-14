@@ -355,11 +355,11 @@ class Secretaries_model extends EA_Model {
      * @param int $secretary_id Secretary ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected secretary value from the database.
+     * @return mixed Returns the selected secretary value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $secretary_id, string $field): string
+    public function value(int $secretary_id, string $field): mixed
     {
         if (empty($field))
         {

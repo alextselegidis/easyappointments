@@ -245,11 +245,11 @@ class Customers_model extends EA_Model {
      * @param int $customer_id Customer ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected customer value from the database.
+     * @return mixed Returns the selected customer value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $customer_id, string $field): string
+    public function value(int $customer_id, string $field): mixed
     {
         if (empty($field))
         {

@@ -218,11 +218,11 @@ class Unavailabilities_model extends EA_Model {
      * @param int $unavailability_id Unavailability ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected unavailability value from the database.
+     * @return mixed Returns the selected unavailability value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $unavailability_id, string $field): string
+    public function value(int $unavailability_id, string $field): mixed
     {
         if (empty($field))
         {

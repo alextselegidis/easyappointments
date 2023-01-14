@@ -167,11 +167,11 @@ class Consents_model extends EA_Model {
      * @param int $consent_id Consent ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected consent value from the database.
+     * @return mixed Returns the selected consent value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $consent_id, string $field): string
+    public function value(int $consent_id, string $field): mixed
     {
         if (empty($field))
         {

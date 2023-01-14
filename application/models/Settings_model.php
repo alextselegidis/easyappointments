@@ -184,11 +184,11 @@ class Settings_model extends EA_Model {
      * @param int $setting_id Setting ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected setting value from the database.
+     * @return mixed Returns the selected setting value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $setting_id, string $field): string
+    public function value(int $setting_id, string $field): mixed
     {
         if (empty($field))
         {

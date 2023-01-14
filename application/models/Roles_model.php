@@ -183,11 +183,11 @@ class Roles_model extends EA_Model {
      * @param int $role_id Role ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected role value from the database.
+     * @return mixed Returns the selected role value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $role_id, string $field): string
+    public function value(int $role_id, string $field): mixed
     {
         if (empty($field))
         {

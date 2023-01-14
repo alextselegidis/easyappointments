@@ -278,9 +278,9 @@ class Admins_model extends EA_Model {
     {
         $role_id = $this->get_admin_role_id();
 
-        $count = $this->db->get_where('users', ['id_roles' => $role_id, 'delete_datetime !=' => NULL])->num_rows();
+        $count = $this->db->get_where('users', ['id_roles' => $role_id, 'delete_datetime' => NULL])->num_rows();
 
-        if ($count === 1)
+        if ($count <= 1)
         {
             throw new RuntimeException('Record could not be deleted as the app requires at least one admin user.');
         }
@@ -338,11 +338,11 @@ class Admins_model extends EA_Model {
      * @param int $admin_id Admin ID.
      * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected admin value from the database.
+     * @return mixed Returns the selected admin value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $admin_id, string $field): string
+    public function value(int $admin_id, string $field): mixed
     {
         if (empty($field))
         {
