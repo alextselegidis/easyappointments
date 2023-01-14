@@ -101,16 +101,16 @@ class Calendar extends EA_Controller {
 
         if ($role_slug === DB_SLUG_PROVIDER)
         {
-            $available_providers = array_filter($available_providers, function ($available_provider) use ($user_id) {
+            $available_providers = array_values(array_filter($available_providers, function ($available_provider) use ($user_id) {
                 return (int)$available_provider['id'] === (int)$user_id;
-            });
+            }));
         }
 
         if ($role_slug === DB_SLUG_SECRETARY)
         {
-            $available_providers = array_filter($available_providers, function ($available_provider) use ($secretary_providers) {
+            $available_providers = array_values(array_filter($available_providers, function ($available_provider) use ($secretary_providers) {
                 return in_array($available_provider['id'], $secretary_providers);
-            });
+            }));
         }
 
         $available_services = $this->services_model->get_available_services();
@@ -129,7 +129,7 @@ class Calendar extends EA_Controller {
             'timezones' => $this->timezones->to_array(),
             'privileges' => $privileges,
             'calendar_view' => $calendar_view,
-            'available_providers' => array_values($available_providers), // Strip keys to prevent unintended array-to-object conversion
+            'available_providers' => $available_providers,
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
@@ -500,7 +500,7 @@ class Calendar extends EA_Controller {
             {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
-            
+
             $start_date = request('start_date') . ' 00:00:00';
 
             $end_date = request('end_date') . ' 23:59:59';
