@@ -518,7 +518,7 @@ class Secretaries_model extends EA_Model {
     {
         $settings = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
 
-        if (empty($settings[$name]))
+        if ( ! array_key_exists($name, $settings))
         {
             throw new RuntimeException('The requested setting value was not found: ' . $secretary_id);
         }

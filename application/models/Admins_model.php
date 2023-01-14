@@ -496,7 +496,7 @@ class Admins_model extends EA_Model {
     {
         $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
 
-        if (empty($settings))
+        if ( ! array_key_exists($name, $settings))
         {
             throw new RuntimeException('The requested setting value was not found: ' . $admin_id);
         }
