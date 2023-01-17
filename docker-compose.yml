@@ -1,0 +1,44 @@
+version: '3.1'
+services:
+  php-fpm:
+    build: docker/php-fpm
+    working_dir: /var/www/html
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - '.:/var/www/html'
+      - './docker/php-fpm/php-ini-overrides.ini:/etc/php/8.0/fpm/conf.d/99-overrides.ini'
+  
+  webserver:
+    image: 'nginx:alpine'
+    working_dir: /var/www/html
+    volumes:
+      - '.:/var/www/html'
+      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+    ports:
+      - '3000:80'
+  
+  mysql:
+    image: 'mysql:8.0'
+    volumes:
+      - './docker/mysql:/var/lib/mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=easyappointments
+      - MYSQL_USER=easyappointments
+      - MYSQL_PASSWORD=secret
+    ports:
+      - '3001:3306'
+  
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - '3002:80'
+    environment:
+      - 'PMA_ARBITRARY=1'
+  
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      - '3003:8025'
