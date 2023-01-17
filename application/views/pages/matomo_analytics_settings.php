@@ -24,7 +24,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="google-matomo_analytics_urlanalytics-code">
+                                    <label class="form-label" for="matomo-analytics-url">
                                         <?= lang('matomo_analytics_url') ?>
                                     </label>
                                     <input id="matomo-analytics-url" placeholder="//example.org/url/to/matomo/"
