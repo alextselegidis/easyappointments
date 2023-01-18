@@ -93,7 +93,7 @@ class Booking extends EA_Controller {
 
         foreach ($available_providers as &$available_provider)
         {
-            // Only expose the required provider data. 
+            // Only expose the required provider data.
 
             $this->providers_model->only($available_provider, [
                 'id',
@@ -170,7 +170,7 @@ class Booking extends EA_Controller {
                 return;
             }
 
-            // Make sure the appointment can still be rescheduled. 
+            // Make sure the appointment can still be rescheduled.
 
             $start_datetime = strtotime($results[0]['start_datetime']);
 
@@ -543,6 +543,7 @@ class Booking extends EA_Controller {
             $appointment['status'] = $appointment_status_options[0] ?? NULL;
 
             $this->appointments_model->only($appointment, [
+                'id',
                 'start_datetime',
                 'end_datetime',
                 'location',
