@@ -123,10 +123,28 @@ class Services extends EA_Controller {
 
             $service['id_categories'] = $service['id_categories'] ?: NULL;
 
+            $this->services_model->only($service, [
+                'name',
+                'duration',
+                'price',
+                'currency',
+                'description',
+                'color',
+                'location',
+                'availabilities_type',
+                'attendants_number',
+                'is_private',
+                'id_categories',
+            ]);
+
+            $this->services_model->optional($service, [
+                'id_categories' => NULL
+            ]);
+
             $service_id = $this->services_model->save($service);
-            
-            $service = $this->services_model->find($service_id); 
-            
+
+            $service = $this->services_model->find($service_id);
+
             $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $service);
 
             json_response([
@@ -154,7 +172,24 @@ class Services extends EA_Controller {
 
             $service = request('service');
 
-            $service['id_categories'] = $service['id_categories'] ?: NULL;
+            $this->services_model->only($service, [
+                'id',
+                'name',
+                'duration',
+                'price',
+                'currency',
+                'description',
+                'color',
+                'location',
+                'availabilities_type',
+                'attendants_number',
+                'is_private',
+                'id_categories',
+            ]);
+
+            $this->services_model->optional($service, [
+                'id_categories' => NULL
+            ]);
 
             $service_id = $this->services_model->save($service);
 

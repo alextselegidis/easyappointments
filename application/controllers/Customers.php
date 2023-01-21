@@ -184,6 +184,20 @@ class Customers extends EA_Controller {
 
             $customer = request('customer');
 
+            $this->customers_model->only($customer, [
+                'first_name',
+                'last_name',
+                'email',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'timezone',
+                'language',
+            ]);
+
             $customer_id = $this->customers_model->save($customer);
 
             $customer = $this->customers_model->find($customer_id);
@@ -221,6 +235,21 @@ class Customers extends EA_Controller {
             {
                 abort(403, 'Forbidden');
             }
+
+            $this->customers_model->only($customer, [
+                'id',
+                'first_name',
+                'last_name',
+                'email',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'timezone',
+                'language',
+            ]);
 
             $customer_id = $this->customers_model->save($customer);
 

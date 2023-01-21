@@ -78,6 +78,20 @@ class Unavailabilities extends EA_Controller {
 
             $unavailability = request('unavailability');
 
+            $this->unavailabilities_model->only($unavailability, [
+                'first_name',
+                'last_name',
+                'email',
+                'phone_number',
+                'address',
+                'city',
+                'state',
+                'zip_code',
+                'notes',
+                'timezone',
+                'language',
+            ]);
+
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
