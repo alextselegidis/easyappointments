@@ -1,15 +1,20 @@
-FROM phpdockerio/php:8.0-fpm
+FROM php:8.0-fpm
+
 WORKDIR "/var/www/html"
 
-RUN apt-get update; \
-    apt-get -y --no-install-recommends install \
+RUN apt-get update \
+    && apt-get install -y \
         git \
-        php8.0-gd \
-        php8.0-intl \
-        php8.0-ldap \
-        php8.0-mcrypt \
-        php8.0-mysql \
-        php8.0-soap \
-        php8.0-xdebug; \
-    apt-get clean; \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+        zip \
+        unzip \
+    && curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | sh -s \
+        curl gd intl ldap mbstring mysqli odbc pdo soap sockets xml zip xdebug \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && curl -sLS https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm \
+    && apt-get -y autoremove \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+
+CMD ["bash", "docker/php-fpm/start-container"]

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "➜ Install Composer Dependencies"
+composer install
+
+echo "➜ Install NPM Dependencies"
+npm install
+
+echo "➜ Build Project Assets"
+gulp build
+
+echo "➜ Listen To Incoming Requests"
+php-fpm

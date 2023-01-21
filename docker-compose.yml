@@ -7,10 +7,10 @@ services:
       - host.docker.internal:host-gateway
     volumes:
       - '.:/var/www/html'
-      - './docker/php-fpm/php-ini-overrides.ini:/etc/php/8.0/fpm/conf.d/99-overrides.ini'
+      - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini'
   
-  webserver:
-    image: 'nginx:alpine'
+  nginx:
+    image: 'nginx:1.23.3-alpine'
     working_dir: /var/www/html
     volumes:
       - '.:/var/www/html'
@@ -31,7 +31,7 @@ services:
       - '3001:3306'
   
   phpmyadmin:
-    image: phpmyadmin
+    image: 'phpmyadmin:5.2.0'
     restart: always
     ports:
       - '3002:80'
@@ -39,6 +39,6 @@ services:
       - 'PMA_ARBITRARY=1'
   
   mailhog:
-    image: 'mailhog/mailhog:latest'
+    image: 'mailhog/mailhog:v1.0.1'
     ports:
       - '3003:8025'
