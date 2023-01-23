@@ -29,6 +29,23 @@ class Unavailabilities_model extends EA_Model {
     ];
 
     /**
+     * @var array
+     */
+    protected $api_resource = [
+        'id' => 'id',
+        'book' => 'book_datetime',
+        'start' => 'start_datetime',
+        'end' => 'end_datetime',
+        'location' => 'location',
+        'color' => 'color',
+        'status' => 'status',
+        'notes' => 'notes',
+        'hash' => 'hash',
+        'providerId' => 'id_users_provider',
+        'googleCalendarId' => 'id_google_calendar',
+    ];
+
+    /**
      * Save (insert or update) an unavailability.
      *
      * @param array $unavailability Associative array with the unavailability data.
