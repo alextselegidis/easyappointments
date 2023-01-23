@@ -41,7 +41,9 @@ class Appointments_model extends EA_Model {
         'status' => 'status',
         'notes' => 'notes',
         'hash' => 'hash',
+        'serviceId' => 'id_services',
         'providerId' => 'id_users_provider',
+        'customerId' => 'id_users_customer',
         'googleCalendarId' => 'id_google_calendar',
     ];
 
