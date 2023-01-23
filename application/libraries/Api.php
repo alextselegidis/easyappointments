@@ -73,9 +73,9 @@ class Api {
             }
 
             // Basic auth.  
-            $username = $_SERVER['PHP_AUTH_USER'];
+            $username = $_SERVER['PHP_AUTH_USER'] ?? NULL;
 
-            $password = $_SERVER['PHP_AUTH_PW'];
+            $password = $_SERVER['PHP_AUTH_PW'] ?? NULL;
 
             $userdata = $this->CI->accounts->check_login($username, $password);
 
