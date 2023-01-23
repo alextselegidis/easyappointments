@@ -24,8 +24,6 @@ class Unavailabilities_api_v1 extends EA_Controller {
     {
         parent::__construct();
 
-        $this->load->model('unavailabilities_model');
-
         $this->load->library('api');
 
         $this->api->auth();
