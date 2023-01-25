@@ -1,7 +1,6 @@
 # Docker
 
-Run the development containers of Easy!Appointments with Docker and Docker Compose utility. Docker allows you to compose
-your application in microservices, so that you can easily get started with the local development.
+Run the development containers of Easy!Appointments with Docker and Docker Compose utility. Docker allows you to compose your application in microservices, so that you can easily get started with the local development.
 
 Simply clone the project and run `docker compose up` to start the environment.
 
@@ -40,10 +39,9 @@ class Config {
 
 In the host machine the server is accessible from `http://localhost:8000` and the database from `localhost:8001`.
 
-You can additionally access phpMyAdmin from `http://localhost:8002` and MailHog from `http://localhost:8003`.
+You can additionally access phpMyAdmin from `http://localhost:8002` (credtials are `root` / `secret`) and MailHog from `http://localhost:8003`.
 
-**Attention:** This configuration is mend to make development easier. It is not intended to server as a production
-environment!
+**Attention:** This configuration is mend to make development easier. It is not intended to server as a production environment!
 
 A production image of Easy!Appointments is available at: https://github.com/alextselegidis/easyappointments-docker
 
