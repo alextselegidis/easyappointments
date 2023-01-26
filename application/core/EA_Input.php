@@ -55,7 +55,7 @@ class EA_Input extends CI_Input {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        if (strpos($CI->input->get_request_header('Content-Type'), 'application/json') === false)
+        if (strpos((string)$CI->input->get_request_header('Content-Type'), 'application/json') === false)
         {
             return NULL;
         }

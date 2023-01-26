@@ -77,6 +77,8 @@ class EA_Controller extends CI_Controller {
 
         $this->configure_language();
         
+        $this->load_common_html_vars();
+        
         $this->load_common_script_vars();
         
         rate_limit($this->input->ip_address());
@@ -97,6 +99,20 @@ class EA_Controller extends CI_Controller {
         $this->lang->load('translations');
     }
 
+    /**
+     * Load common script vars for all requests.
+     */
+    private function load_common_html_vars()
+    {
+        html_vars([
+            'base_url' => config('base_url'),
+            'index_page' => config('index_page'),
+            'available_languages' => config('available_languages'),
+            'language' => $this->lang->language,
+            'csrf_token' => $this->security->get_csrf_hash(),
+        ]);
+    }
+    
     /**
      * Load common script vars for all requests. 
      */

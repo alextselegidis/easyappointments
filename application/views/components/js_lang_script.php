@@ -1,6 +1,6 @@
 <script>
     window.lang = (function () {
-        const lang = <?= json_encode($this->lang->language) ?>;
+        const lang = <?= json_encode(html_vars('language')) ?>;
 
         return (key) => {
             if (!key) {
