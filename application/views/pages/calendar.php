@@ -1,11 +1,5 @@
 <?php extend('layouts/backend_layout') ?>
 
-<?php section('styles') ?>
-
-<link rel="stylesheet" type="text/css" href="<?= asset_url('/assets/vendor/fullcalendar/main.min.css') ?>">
-
-<?php section('styles') ?>
-
 <?php section('content') ?>
 
 <div class="container-fluid backend-page" id="calendar-page">
@@ -120,8 +114,8 @@
 
 <?php section('scripts') ?>
 
-<script src="<?= asset_url('assets/vendor/fullcalendar/main.min.js') ?>"></script>
-<script src="<?= asset_url('assets/vendor/fullcalendar-moment/main.global.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/fullcalendar/index.global.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/fullcalendar-moment/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>

@@ -133,12 +133,12 @@ function vendor(done) {
     ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
 
     // fullcalendar
-    gulp.src(['node_modules/fullcalendar/main.min.js', 'node_modules/fullcalendar/main.min.css']).pipe(
+    gulp.src(['node_modules/fullcalendar/index.global.min.js']).pipe(
         gulp.dest('assets/vendor/fullcalendar')
     );
 
     // fullcalendar-moment
-    gulp.src(['node_modules/@fullcalendar/moment/main.global.min.js']).pipe(
+    gulp.src(['node_modules/@fullcalendar/moment/index.global.min.js']).pipe(
         gulp.dest('assets/vendor/fullcalendar-moment')
     );
 
