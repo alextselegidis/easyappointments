@@ -55,7 +55,7 @@ App.Components.UnavailabilitiesModal = (function () {
         $selectProvider.on('change', () => {
             updateTimezone();
         });
-        
+
         /**
          * Event: Manage Unavailability Dialog Save Button "Click"
          *
@@ -65,14 +65,14 @@ App.Components.UnavailabilitiesModal = (function () {
             $unavailabilitiesModal.find('.modal-message').addClass('d-none');
             $unavailabilitiesModal.find('.is-invalid').removeClass('is-invalid');
 
-            const startMoment = moment($startDatetime.datetimepicker('getDate'));
+            const startMoment = moment($startDatetime[0]._flatpickr.selectedDates[0]);
 
             if (!startMoment.isValid()) {
                 $startDatetime.addClass('is-invalid');
                 return;
             }
 
-            const endMoment = moment($endDatetime.datetimepicker('getDate'));
+            const endMoment = moment($endDatetime[0]._flatpickr.selectedDates[0]);
 
             if (!endMoment.isValid()) {
                 $endDatetime.addClass('is-invalid');
@@ -153,17 +153,9 @@ App.Components.UnavailabilitiesModal = (function () {
                 $selectProvider.val($selectFilterItem.val()).closest('.form-group').hide();
             }
 
-            $startDatetime.val(
-                App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
-            );
-            $endDatetime.val(
-                App.Utils.Date.format(
-                    startMoment.add(1, 'hour').toDate(),
-                    vars('date_format'),
-                    vars('time_format'),
-                    true
-                )
-            );
+            $startDatetime[0]._flatpickr.setDate(startMoment.toDate())
+            $endDatetime[0]._flatpickr.setDate(startMoment.add(1, 'hour').toDate());
+
             $dialog.find('.modal-header h3').text(lang('new_unavailability_title'));
             $dialog.modal('show');
         });
@@ -188,8 +180,8 @@ App.Components.UnavailabilitiesModal = (function () {
             true
         );
 
-        App.Utils.UI.initializeDatetimepicker($startDatetime); 
-        
+        App.Utils.UI.initializeDatetimepicker($startDatetime);
+
         $startDatetime.val(start);
 
         App.Utils.UI.initializeDatetimepicker($endDatetime);

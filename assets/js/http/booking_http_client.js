@@ -281,7 +281,7 @@ App.Http.Booking = (function () {
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
                 if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
-                    $('#select-date').datepicker('setDate', currentDate);
+                    $('#select-date')[0]._flatpickr.setDate( currentDate);
                     getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
                     break;
                 }

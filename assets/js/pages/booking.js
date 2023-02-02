@@ -135,7 +135,7 @@ App.Pages.Booking = (function () {
             closeText: lang('close'),
 
             onSelect: () => {
-                App.Http.Booking.getAvailableHours(moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD'));
+                App.Http.Booking.getAvailableHours(moment($selectDate[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD'));
                 updateConfirmFrame();
             },
 
@@ -252,7 +252,7 @@ App.Pages.Booking = (function () {
          * Event: Timezone "Changed"
          */
         $selectTimezone.on('change', () => {
-            const date = $selectDate.datepicker('getDate');
+            const date = $selectDate[0]._flatpickr.selectedDates[0];
 
             if (!date) {
                 return;
@@ -274,7 +274,7 @@ App.Pages.Booking = (function () {
             App.Http.Booking.getUnavailableDates(
                 $target.val(),
                 $selectService.val(),
-                moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
+                moment($selectDate[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD')
             );
             updateConfirmFrame();
         });
@@ -310,7 +310,7 @@ App.Pages.Booking = (function () {
             App.Http.Booking.getUnavailableDates(
                 $selectProvider.val(),
                 $target.val(),
-                moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD')
+                moment($selectDate[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD')
             );
 
             updateConfirmFrame();
@@ -576,7 +576,7 @@ App.Pages.Booking = (function () {
         }
 
         // Appointment Details
-        let selectedDate = $selectDate.datepicker('getDate');
+        let selectedDate = $selectDate[0]._flatpickr.selectedDates[0];
 
         if (selectedDate !== null) {
             selectedDate = App.Utils.Date.format(selectedDate, vars('date_format'), vars('time_format'));
@@ -708,7 +708,7 @@ App.Pages.Booking = (function () {
 
         data.appointment = {
             start_datetime:
-                moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD') +
+                moment($selectDate[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD') +
                 ' ' +
                 moment($('.selected-hour').data('value'), 'HH:mm').format('HH:mm') +
                 ':00',
@@ -744,7 +744,7 @@ App.Pages.Booking = (function () {
         );
 
         // Add the duration to the start datetime.
-        const selectedDate = moment($selectDate.datepicker('getDate')).format('YYYY-MM-DD');
+        const selectedDate = moment($selectDate[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD');
 
         const selectedHour = $('.selected-hour').data('value'); // HH:mm
 
@@ -779,7 +779,7 @@ App.Pages.Booking = (function () {
 
             // Set Appointment Date
             const startMoment = moment(appointment.start_datetime);
-            $selectDate.datepicker('setDate', startMoment.toDate());
+            $selectDate[0]._flatpickr.setDate( startMoment.toDate());
             App.Http.Booking.getAvailableHours(startMoment.format('YYYY-MM-DD'));
 
             // Apply Customer's Data

@@ -43,25 +43,25 @@ App.Utils.CalendarTableView = (function () {
     function addEventListeners() {
         $calendar.on('click', '.calendar-header .btn.previous', () => {
             const dayInterval = $selectFilterItem.val();
-            const currentDate = $selectDate.datepicker('getDate');
+            const currentDate = $selectDate[0]._flatpickr.selectedDates[0];
             const startDate = moment(currentDate).subtract(1, 'days');
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
-            $selectDate.datepicker('setDate', startDate.toDate());
+            $selectDate[0]._flatpickr.setDate( startDate.toDate());
             createView(startDate.toDate(), endDate.toDate());
         });
 
         $calendar.on('click', '.calendar-header .btn.next', () => {
             const dayInterval = $selectFilterItem.val();
-            const currentDate = $selectDate.datepicker('getDate');
+            const currentDate = $selectDate[0]._flatpickr.selectedDates[0];
             const startDate = moment(currentDate).add(1, 'days');
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
-            $selectDate.datepicker('setDate', startDate.toDate());
+            $selectDate[0]._flatpickr.setDate( startDate.toDate());
             createView(startDate.toDate(), endDate.toDate());
         });
 
         $calendarToolbar.on('change', '#select-filter-item', () => {
             const dayInterval = $selectFilterItem.val();
-            const currentDate = $selectDate.datepicker('getDate');
+            const currentDate = $selectDate[0]._flatpickr.selectedDates[0];
             const startDate = moment(currentDate);
             const endDate = startDate.clone().add(dayInterval - 1, 'days');
             createView(startDate.toDate(), endDate.toDate());
@@ -70,7 +70,7 @@ App.Utils.CalendarTableView = (function () {
         $calendarToolbar.on('click', '#reload-appointments', () => {
             // Fetch the events and place them in the existing HTML format.
             const dayInterval = $selectFilterItem.val();
-            const currentDate = $selectDate.datepicker('getDate');
+            const currentDate = $selectDate[0]._flatpickr.selectedDates[0];
             const startDateMoment = moment(currentDate);
             const startDate = startDateMoment.toDate();
             const endDateMoment = startDateMoment.clone().add(dayInterval - 1, 'days');
@@ -209,10 +209,10 @@ App.Utils.CalendarTableView = (function () {
 
                 // Set the start and end datetime of the appointment.
                 startMoment = moment(appointment.start_datetime);
-                $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startMoment.toDate());
+                $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate( startMoment.toDate());
 
                 endMoment = moment(appointment.end_datetime);
-                $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endMoment.toDate());
+                $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate( endMoment.toDate());
 
                 const customer = appointment.customer;
                 $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
@@ -249,10 +249,10 @@ App.Utils.CalendarTableView = (function () {
 
                 // Apply unavailability data to dialog.
                 $unavailabilitiesModal.find('.modal-header h3').text(lang('edit_unavailability_title'));
-                $unavailabilitiesModal.find('#unavailability-start').datetimepicker('setDate', startMoment.toDate());
+                $unavailabilitiesModal.find('#unavailability-start')[0]._flatpickr.setDate( startMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
                 $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
-                $unavailabilitiesModal.find('#unavailability-end').datetimepicker('setDate', endMoment.toDate());
+                $unavailabilitiesModal.find('#unavailability-end')[0]._flatpickr.setDate( endMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-notes').val(unavailability.notes);
 
                 $unavailabilitiesModal.modal('show');
@@ -786,8 +786,8 @@ App.Utils.CalendarTableView = (function () {
                 $selectProvider.trigger('change');
 
                 // Preselect time
-                $('#start-datetime').datepicker('setDate', info.start);
-                $('#end-datetime').datepicker('setDate', App.Pages.Calendar.getSelectionEndDate(info));
+                $('#start-datetime')[0]._flatpickr.setDate( info.start);
+                $('#end-datetime')[0]._flatpickr.setDate( App.Pages.Calendar.getSelectionEndDate(info));
 
                 return false;
             },

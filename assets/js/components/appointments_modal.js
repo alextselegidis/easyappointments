@@ -80,8 +80,8 @@ App.Components.AppointmentsModal = (function () {
             // ID must exist on the object in order for the model to update the record and not to perform
             // an insert operation.
 
-            const startDatetime = moment($startDatetime.datetimepicker('getDate')).format('YYYY-MM-DD HH:mm:ss');
-            const endDatetime = moment($endDatetime.datetimepicker('getDate')).format('YYYY-MM-DD HH:mm:ss');
+            const startDatetime = moment($startDatetime[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD HH:mm:ss');
+            const endDatetime = moment($endDatetime[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD HH:mm:ss');
 
             const appointment = {
                 id_services: $selectService.val(),
@@ -194,19 +194,9 @@ App.Components.AppointmentsModal = (function () {
                 startMoment.add(1, 'hour').set({minutes: 0});
             }
 
-            $startDatetime.val(
-                App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
-            );
-
-            $endDatetime.val(
-                App.Utils.Date.format(
-                    startMoment.add(duration, 'minutes').toDate(),
-                    vars('date_format'),
-                    vars('time_format'),
-                    true
-                )
-            );
-
+            $startDatetime[0]._flatpickr.setDate(startMoment.toDate());
+            $endDatetime[0]._flatpickr.setDate(startMoment.add(duration, 'minutes').toDate());
+            
             // Display modal form.
             $appointmentsModal.find('.modal-header h3').text(lang('new_appointment_title'));
 
@@ -348,8 +338,8 @@ App.Components.AppointmentsModal = (function () {
 
             const duration = service ? service.duration : 60;
 
-            const start = $startDatetime.datetimepicker('getDate');
-            $endDatetime.datetimepicker('setDate', new Date(start.getTime() + duration * 60000));
+            const start = $startDatetime[0]._flatpickr.selectedDates[0];
+            $endDatetime[0]._flatpickr.setDate( new Date(start.getTime() + duration * 60000));
 
             // Update the providers select box.
 
@@ -466,15 +456,15 @@ App.Components.AppointmentsModal = (function () {
                     (availableService) => Number(availableService.id) === Number(serviceId)
                 );
 
-                const start = $startDatetime.datetimepicker('getDate');
-                $endDatetime.datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
+                const start = $startDatetime[0]._flatpickr.selectedDates[0];
+                $endDatetime[0]._flatpickr.setDate( new Date(start.getTime() + service.duration * 60000));
             }
         });
 
-        $startDatetime.datetimepicker('setDate', startDatetime);
+        $startDatetime[0]._flatpickr.setDate( startDatetime);
 
         App.Utils.UI.initializeDatetimepicker($endDatetime);
-        $endDatetime.datetimepicker('setDate', endDatetime);
+        $endDatetime[0]._flatpickr.setDate( endDatetime);
     }
 
     /**
@@ -511,8 +501,8 @@ App.Components.AppointmentsModal = (function () {
             }
 
             // Check appointment start and end time.
-            const start = $startDatetime.datetimepicker('getDate');
-            const end = $endDatetime.datetimepicker('getDate');
+            const start = $startDatetime[0]._flatpickr.selectedDates[0];
+            const end = $endDatetime[0]._flatpickr.selectedDates[0];
             if (start > end) {
                 $startDatetime.addClass('is-invalid');
                 $endDatetime.addClass('is-invalid');

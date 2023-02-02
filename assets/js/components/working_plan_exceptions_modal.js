@@ -43,19 +43,19 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function validate() {
         $modal.find('.is-invalid').removeClass('is-invalid');
 
-        const date = $date.datepicker('getDate');
+        const date = $date[0]._flatpickr.selectedDates[0];
 
         if (!date) {
             $date.addClass('is-invalid');
         }
 
-        const start = $start.timepicker('getDate');
+        const start = $start[0]._flatpickr.selectedDates[0];
 
         if (!start) {
             $start.addClass('is-invalid');
         }
 
-        const end = $end.timepicker('getDate');
+        const end = $end[0]._flatpickr.selectedDates[0];
 
         if (!end) {
             $end.addClass('is-invalid');
@@ -120,11 +120,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             return;
         }
 
-        const date = moment($date.datepicker('getDate')).format('YYYY-MM-DD');
+        const date = moment($date[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD');
 
         const workingPlanException = {
-            start: moment($start.datetimepicker('getDate')).format('HH:mm'),
-            end: moment($end.datetimepicker('getDate')).format('HH:mm'),
+            start: moment($start[0]._flatpickr.selectedDates[0]).format('HH:mm'),
+            end: moment($end[0]._flatpickr.selectedDates[0]).format('HH:mm'),
             breaks: getBreaks()
         };
 
@@ -181,9 +181,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function add() {
         deferred = $.Deferred();
 
-        $date.datepicker('setDate', new Date());
-        $start.timepicker('setDate', moment('08:00', 'HH:mm').toDate());
-        $end.timepicker('setDate', moment('20:00', 'HH:mm').toDate());
+        $date[0]._flatpickr.setDate( new Date());
+        $start[0]._flatpickr.setDate( moment('08:00', 'HH:mm').toDate());
+        $end[0]._flatpickr.setDate( moment('20:00', 'HH:mm').toDate());
 
         $modal.modal('show');
 
@@ -201,9 +201,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function edit(date, workingPlanException) {
         deferred = $.Deferred();
 
-        $date.datepicker('setDate', moment(date, 'YYYY-MM-DD').toDate());
-        $start.timepicker('setDate', moment(workingPlanException.start, 'HH:mm').toDate());
-        $end.timepicker('setDate', moment(workingPlanException.end, 'HH:mm').toDate());
+        $date[0]._flatpickr.setDate( moment(date, 'YYYY-MM-DD').toDate());
+        $start[0]._flatpickr.setDate( moment(workingPlanException.start, 'HH:mm').toDate());
+        $end[0]._flatpickr.setDate( moment(workingPlanException.end, 'HH:mm').toDate());
 
         workingPlanException.breaks.forEach((workingPlanExceptionBreak) => {
             renderBreakRow(workingPlanExceptionBreak).appendTo($breaks.find('tbody'));

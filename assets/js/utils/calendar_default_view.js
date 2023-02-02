@@ -136,10 +136,10 @@ App.Utils.CalendarDefaultView = (function () {
 
                 // Set the start and end datetime of the appointment.
                 startMoment = moment(appointment.start_datetime);
-                $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startMoment.toDate());
+                $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate( startMoment.toDate());
 
                 endMoment = moment(appointment.end_datetime);
-                $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endMoment.toDate());
+                $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate( endMoment.toDate());
 
                 const customer = appointment.customer;
                 $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
@@ -176,10 +176,10 @@ App.Utils.CalendarDefaultView = (function () {
 
                 // Apply unavailability data to dialog.
                 $unavailabilitiesModal.find('.modal-header h3').text(lang('edit_unavailability_title'));
-                $unavailabilitiesModal.find('#unavailability-start').datetimepicker('setDate', startMoment.toDate());
+                $unavailabilitiesModal.find('#unavailability-start')[0]._flatpickr.setDate( startMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
                 $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
-                $unavailabilitiesModal.find('#unavailability-end').datetimepicker('setDate', endMoment.toDate());
+                $unavailabilitiesModal.find('#unavailability-end')[0]._flatpickr.setDate( endMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-notes').val(unavailability.notes);
                 $unavailabilitiesModal.modal('show');
             }
@@ -1540,9 +1540,9 @@ App.Utils.CalendarDefaultView = (function () {
 
                             $('#unavailability-provider').trigger('change');
 
-                            $('#unavailability-start').datepicker('setDate', info.start);
+                            $('#unavailability-start')[0]._flatpickr.setDate( info.start);
 
-                            $('#unavailability-end').datepicker('setDate', info.end);
+                            $('#unavailability-end')[0]._flatpickr.setDate( info.end);
 
                             $('#message-box').dialog('close');
                         }
@@ -1598,10 +1598,10 @@ App.Utils.CalendarDefaultView = (function () {
                             }
 
                             // Preselect time
-                            $('#start-datetime').datepicker('setDate', info.start);
-                            $('#end-datetime').datepicker('setDate', App.Pages.Calendar.getSelectionEndDate(info));
+                            $('#start-datetime')[0]._flatpickr.setDate( info.start);
+                            $('#end-datetime')[0]._flatpickr.setDate( App.Pages.Calendar.getSelectionEndDate(info));
 
-                            // $('#end-datetime').datepicker('setDate', info.end);
+                            // $('#end-datetime')[0]._flatpickr.setDate( info.end);
                             $('#message-box').dialog('close');
                         }
                     }
@@ -1695,10 +1695,10 @@ App.Utils.CalendarDefaultView = (function () {
 
             // Set the start and end datetime of the appointment.
             const startDatetimeMoment = moment(appointment.start_datetime);
-            $appointmentsModal.find('#start-datetime').datetimepicker('setDate', startDatetimeMoment.toDate());
+            $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate( startDatetimeMoment.toDate());
 
             const endDatetimeMoment = moment(appointment.end_datetime);
-            $appointmentsModal.find('#end-datetime').datetimepicker('setDate', endDatetimeMoment.toDate());
+            $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate( endDatetimeMoment.toDate());
 
             const customer = appointment.customer;
             $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
