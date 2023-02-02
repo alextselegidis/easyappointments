@@ -196,6 +196,11 @@ function vendor(done) {
 
     gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg']).pipe(gulp.dest('assets/vendor/trumbowyg/ui'));
 
+    // flatpickr
+    gulp.src(['node_modules/flatpickr/dist/flatpickr.min.js', 'node_modules/flatpickr/dist/flatpickr.min.css']).pipe(
+        gulp.dest('assets/vendor/flatpickr')
+    );
+
     done();
 }
 

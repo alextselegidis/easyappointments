@@ -29,6 +29,7 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "cookieconsent": "^3.1.1",
+    "flatpickr": "^4.6.13",
     "fullcalendar": "^6.0.3",
     "jquery": "^3.6.3",
     "jquery-jeditable": "^2.0.19",
