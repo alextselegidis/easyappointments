@@ -16,20 +16,128 @@
  */
 window.App.Utils.UI = (function () {
     /**
-     * Get the jQuery UI compatible date format.
+     * Get the Flatpickr compatible date format.
      *
      * @return {String}
      */
     function getDateFormat() {
         switch (vars('date_format')) {
             case 'DMY':
-                return 'dd/mm/yy';
+                return 'd/m/Y';
             case 'MDY':
-                return 'mm/dd/yy';
+                return 'm/d/Y';
             case 'YMD':
-                return 'yy/mm/dd';
+                return 'Y/m/d';
             default:
                 throw new Error('Invalid date format value.');
+        }
+    }
+
+    /**
+     * Get the Flatpickr compatible date format.
+     *
+     * @return {String}
+     */
+    function getTimeFormat() {
+        switch (vars('time_format')) {
+            case 'regular':
+                return 'h:i K';
+            case 'military':
+                return 'H:i';
+            default:
+                throw new Error('Invalid date format value.');
+        }
+    }
+
+    /**
+     * Get the localization object.
+     *
+     * @return Object
+     */
+    function getFlatpickrLocale() {
+        const firstWeekDay = vars('first_weekday');
+
+        const firstWeekDayNumber = App.Utils.Date.getWeekdayId(firstWeekDay);
+
+        return {
+            weekdays: {
+                shorthand: [
+                    lang('sunday_short'),
+                    lang('monday_short'),
+                    lang('tuesday_short'),
+                    lang('wednesday_short'),
+                    lang('thursday_short'),
+                    lang('friday_short'),
+                    lang('saturday_short')
+                ],
+                longhand: [
+                    lang('sunday'),
+                    lang('monday'),
+                    lang('tuesday'),
+                    lang('wednesday'),
+                    lang('thursday'),
+                    lang('friday'),
+                    lang('saturday')
+                ],
+            },
+            months: {
+                shorthand: [
+                    lang('january_short'),
+                    lang('february_short'),
+                    lang('march_short'),
+                    lang('april_short'),
+                    lang('may_short'),
+                    lang('june_short'),
+                    lang('july_short'),
+                    lang('august_short'),
+                    lang('september_short'),
+                    lang('october_short'),
+                    lang('november_short'),
+                    lang('december_short'),
+                ],
+                longhand: [
+                    lang('january'),
+                    lang('february'),
+                    lang('march'),
+                    lang('april'),
+                    lang('may'),
+                    lang('june'),
+                    lang('july'),
+                    lang('august'),
+                    lang('september'),
+                    lang('october'),
+                    lang('november'),
+                    lang('december')
+                ],
+            },
+            daysInMonth: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
+            firstDayOfWeek: firstWeekDayNumber,
+            ordinal: function (nth) {
+                const s = nth % 100;
+
+                if (s > 3 && s < 21)
+                    return 'th';
+                switch (s % 10) {
+                    case 1:
+                        return 'st';
+                    case 2:
+                        return 'nd';
+                    case 3:
+                        return 'rd';
+                    default:
+                        return 'th';
+                }
+            },
+            rangeSeparator: ` ${lang('to')} `,
+            weekAbbreviation: lang('week_short'),
+            scrollTitle: lang('scroll_to_increment'),
+            toggleTitle: lang('click_to_toggle'),
+            amPM: [lang('am'), lang('pm')],
+            yearAriaLabel: lang('year'),
+            monthAriaLabel: lang('month'),
+            hourAriaLabel: lang('hour'),
+            minuteAriaLabel: lang('minute'),
+            time_24hr: false,
         }
     }
 
@@ -43,72 +151,15 @@ window.App.Utils.UI = (function () {
      * @param {Object} [params]
      */
     function initializeDatetimepicker($target, params = {}) {
-        const dateFormat = getDateFormat();
-
-        const firstWeekDay = vars('first_weekday');
-
-        const firstWeekDayNumber = App.Utils.Date.getWeekdayId(firstWeekDay);
-
-        const options = {
-            dateFormat: dateFormat,
-            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-
-            // Translation
-            dayNames: [
-                lang('sunday'),
-                lang('monday'),
-                lang('tuesday'),
-                lang('wednesday'),
-                lang('thursday'),
-                lang('friday'),
-                lang('saturday')
-            ],
-            dayNamesShort: [
-                lang('sunday').substring(0, 3),
-                lang('monday').substring(0, 3),
-                lang('tuesday').substring(0, 3),
-                lang('wednesday').substring(0, 3),
-                lang('thursday').substring(0, 3),
-                lang('friday').substring(0, 3),
-                lang('saturday').substring(0, 3)
-            ],
-            dayNamesMin: [
-                lang('sunday').substring(0, 2),
-                lang('monday').substring(0, 2),
-                lang('tuesday').substring(0, 2),
-                lang('wednesday').substring(0, 2),
-                lang('thursday').substring(0, 2),
-                lang('friday').substring(0, 2),
-                lang('saturday').substring(0, 2)
-            ],
-            monthNames: [
-                lang('january'),
-                lang('february'),
-                lang('march'),
-                lang('april'),
-                lang('may'),
-                lang('june'),
-                lang('july'),
-                lang('august'),
-                lang('september'),
-                lang('october'),
-                lang('november'),
-                lang('december')
-            ],
-            prevText: lang('previous'),
-            nextText: lang('next'),
-            currentText: lang('now'),
-            closeText: lang('close'),
-            timeOnlyTitle: lang('select_time'),
-            timeText: lang('time'),
-            hourText: lang('hour'),
-            minuteText: lang('minutes'),
-            firstDay: firstWeekDayNumber,
-
+        $target.flatpickr({
+            enableTime: true,
+            allowInput: true,
+            static: true,
+            dateFormat: `${getDateFormat()} ${getTimeFormat()}`,
+            time_24hr: vars('time_format') === 'military',
+            locale: getFlatpickrLocale(),
             ...params
-        }
-
-        $target.datetimepicker(options);
+        });
     }
 
     /**
@@ -120,59 +171,10 @@ window.App.Utils.UI = (function () {
      * @param {Object} [params]
      */
     function initializeDatepicker($target, params = {}) {
-        const dateFormat = getDateFormat();
-
-        $target.datepicker({
-            dateFormat: dateFormat,
-            firstDay: App.Utils.Date.getWeekdayId(vars('first_weekday')),
-            minDate: 0,
-            defaultDate: moment().toDate(),
-            dayNames: [
-                lang('sunday'),
-                lang('monday'),
-                lang('tuesday'),
-                lang('wednesday'),
-                lang('thursday'),
-                lang('friday'),
-                lang('saturday')
-            ],
-            dayNamesShort: [
-                lang('sunday').substring(0, 3),
-                lang('monday').substring(0, 3),
-                lang('tuesday').substring(0, 3),
-                lang('wednesday').substring(0, 3),
-                lang('thursday').substring(0, 3),
-                lang('friday').substring(0, 3),
-                lang('saturday').substring(0, 3)
-            ],
-            dayNamesMin: [
-                lang('sunday').substring(0, 2),
-                lang('monday').substring(0, 2),
-                lang('tuesday').substring(0, 2),
-                lang('wednesday').substring(0, 2),
-                lang('thursday').substring(0, 2),
-                lang('friday').substring(0, 2),
-                lang('saturday').substring(0, 2)
-            ],
-            monthNames: [
-                lang('january'),
-                lang('february'),
-                lang('march'),
-                lang('april'),
-                lang('may'),
-                lang('june'),
-                lang('july'),
-                lang('august'),
-                lang('september'),
-                lang('october'),
-                lang('november'),
-                lang('december')
-            ],
-            prevText: lang('previous'),
-            nextText: lang('next'),
-            currentText: lang('now'),
-            closeText: lang('close'),
-
+        $target.flatpickr({
+            allowInput: true,
+            dateFormat: getDateFormat(),
+            locale: getFlatpickrLocale(),
             ...params
         });
     }
@@ -186,15 +188,13 @@ window.App.Utils.UI = (function () {
      * @param {Object} [params]
      */
     function initializeTimepicker($target, params = {}) {
-        $target.timepicker({
-            timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-            currentText: lang('now'),
-            closeText: lang('close'),
-            timeOnlyTitle: lang('select_time'),
-            timeText: lang('time'),
-            hourText: lang('hour'),
-            minuteText: lang('minutes'),
-
+        $target.flatpickr({
+            noCalendar: true,
+            enableTime: true,
+            allowInput: true,
+            dateFormat: getTimeFormat(),
+            time_24hr: vars('time_format') === 'military',
+            locale: getFlatpickrLocale(),
             ...params
         });
     }
