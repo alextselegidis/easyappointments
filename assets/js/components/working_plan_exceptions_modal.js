@@ -317,7 +317,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         // Make all cells in current row editable.
         let $tr = $(this).closest('tr');
         $tr.children().trigger('edit');
-        initializeTimepicker(
+        App.Utils.UI.initializeTimepicker(
             $tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input')
         );
         $(this).closest('tr').find('.working-plan-exceptions-break-start').focus();
