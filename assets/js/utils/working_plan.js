@@ -189,6 +189,7 @@ App.Utils.WorkingPlan = (function () {
             this.editableDayCell($('.breaks .break-day'));
             this.editableTimeCell($('.breaks').find('.break-start, .break-end'));
         }
+
         /**
          * Setup the dom elements of a given working plan exception.
          *
@@ -203,6 +204,7 @@ App.Utils.WorkingPlan = (function () {
                 );
             }
         }
+
         /**
          * Enable editable break day.
          *
@@ -228,6 +230,7 @@ App.Utils.WorkingPlan = (function () {
                     type: 'select',
                     data: weekDays,
                     event: 'edit',
+                    width: '100px',
                     height: '30px',
                     submit: '<button type="button" class="d-none submit-editable">Submit</button>',
                     cancel: '<button type="button" class="d-none cancel-editable">Cancel</button>',
@@ -245,6 +248,7 @@ App.Utils.WorkingPlan = (function () {
                 }
             );
         }
+
         /**
          * Enable editable break time.
          *
@@ -260,6 +264,7 @@ App.Utils.WorkingPlan = (function () {
                 },
                 {
                     event: 'edit',
+                    width: '100px',
                     height: '30px',
                     submit: $('<button/>', {
                         'type': 'button',
@@ -285,8 +290,9 @@ App.Utils.WorkingPlan = (function () {
                 }
             );
         }
+
         /**
-         * Render a working plan exception row. 
+         * Render a working plan exception row.
          *
          * This method makes editable the break time cells.
          *
@@ -341,6 +347,7 @@ App.Utils.WorkingPlan = (function () {
                 ]
             });
         }
+
         /**
          * Add the utility event listeners.
          */
@@ -466,19 +473,14 @@ App.Utils.WorkingPlan = (function () {
 
                 // Make all cells in current row editable.
                 $(this).parent().parent().children().trigger('edit');
-                $(this)
-                    .parent()
-                    .parent()
-                    .find('.break-start input, .break-end input')
-                    .timepicker({
-                        timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-                        currentText: lang('now'),
-                        closeText: lang('close'),
-                        timeOnlyTitle: lang('select_time'),
-                        timeText: lang('time'),
-                        hourText: lang('hour'),
-                        minuteText: lang('minutes')
-                    });
+
+                App.Utils.UI.initializeTimepicker(
+                    $(this)
+                        .parent()
+                        .parent()
+                        .find('.break-start input, .break-end input')
+                );
+
                 $(this).parent().parent().find('.break-day select').focus();
 
                 // Show save - cancel buttons.
@@ -621,6 +623,7 @@ App.Utils.WorkingPlan = (function () {
                 $(this).closest('tr').remove();
             });
         }
+
         /**
          * Get the working plan settings.
          *
@@ -675,6 +678,7 @@ App.Utils.WorkingPlan = (function () {
 
             return workingPlan;
         }
+
         /**
          * Get the working plan exceptions settings.
          *
@@ -691,6 +695,7 @@ App.Utils.WorkingPlan = (function () {
 
             return workingPlanExceptions;
         }
+
         /**
          * Enables or disables the timepicker functionality from the working plan input text fields.
          *
@@ -700,44 +705,31 @@ App.Utils.WorkingPlan = (function () {
             disabled = disabled || false;
 
             if (disabled === false) {
-                // Set timepickers where needed.
-                $('.working-plan input:text').timepicker({
-                    timeFormat: vars('time_format') === 'regular' ? 'h:mm tt' : 'HH:mm',
-                    currentText: lang('now'),
-                    closeText: lang('close'),
-                    timeOnlyTitle: lang('select_time'),
-                    timeText: lang('time'),
-                    hourText: lang('hour'),
-                    minuteText: lang('minutes'),
+                App.Utils.UI.initializeTimepicker(
+                    $('.working-plan input:text'),
+                    {
+                        onChange: (selectedDates) => {
+                            const startMoment = moment(selectedDates[0]);
 
-                    onSelect: function () {
-                        // Start time must be earlier than end time.
-                        const startMoment = moment($(this).parent().parent().find('.work-start').val(), 'HH:mm');
+                            const $workEnd = $(this).parent().parent().find('.work-end');
 
-                        const endMoment = moment($(this).parent().parent().find('.work-end').val(), 'HH:mm');
+                            const endMoment = moment($workEnd[0]._flatpickr.selectedDates[0])
 
-                        if (startMoment > endMoment) {
-                            $(this)
-                                .parent()
-                                .parent()
-                                .find('.work-end')
-                                .val(
-                                    startMoment
-                                        .add(1, 'hour')
-                                        .format(vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm')
-                                        .toLowerCase()
-                                );
+                            if (startMoment > endMoment) {
+                                $workEnd[0]._flatpickr.setDate(startMoment.add(1, 'hour').toDate());
+                            }
                         }
                     }
-                });
-            } else {
-                $('.working-plan input').timepicker('destroy');
+                )
             }
         }
+
         /**
          * Reset the current plan back to the company's default working plan.
          */
-        reset() {}
+        reset() {
+        }
+
         /**
          * This is necessary for translated days.
          *
@@ -761,6 +753,7 @@ App.Utils.WorkingPlan = (function () {
                     return lang('saturday');
             }
         }
+
         /**
          * This is necessary for translated days.
          *
