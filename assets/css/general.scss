@@ -21,7 +21,7 @@ html {
 
 body .ui-widget {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     font-size: 1.1em;
 }
 
@@ -180,7 +180,7 @@ body .ui-widget input,
 body .ui-widget textarea,
 body .ui-widget button {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
-        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     font-size: 1rem;
 }
 
@@ -437,4 +437,42 @@ body .clearfix {
 
 .flatpickr-wrapper {
     width: 100%;
+}
+
+.flatpickr-calendar {
+    box-shadow: none;
+    
+    .flatpickr-months {
+        padding: 10px 0;
+        background: #449a82;
+        border-top-left-radius: 3px;
+        border-top-right-radius: 3px;
+    }
+    
+    .flatpickr-current-month {
+        padding: 3px;    
+    }
+    
+    .flatpickr-innerContainer {
+        border-bottom-left-radius: 3px;
+        border-bottom-right-radius: 3px;
+    }
+    
+    .dayContainer {
+        padding: 10px 0;
+    }
+    
+    .flatpickr-months .flatpickr-month,
+    .flatpickr-weekdays,
+    .flatpickr-current-month .flatpickr-monthDropdown-months,
+    span.flatpickr-weekday {
+        background: #429a82;
+        color: white;
+    }
+
+    .flatpickr-day.endRange, .flatpickr-day.endRange.inRange, .flatpickr-day.endRange.nextMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.endRange:focus, .flatpickr-day.endRange:hover, .flatpickr-day.selected, .flatpickr-day.selected.inRange, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.selected:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange, .flatpickr-day.startRange.inRange, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.startRange:focus, .flatpickr-day.startRange:hover {
+        background: #429a82;
+        border-color: #429a82;
+        color: white;
+    }
 }

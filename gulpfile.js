@@ -21,6 +21,7 @@ const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const zip = require('zip-dir');
+
 // const debug = require('gulp-debug');
 
 function archive(done) {
@@ -180,6 +181,11 @@ function vendor(done) {
     gulp.src(['node_modules/flatpickr/dist/flatpickr.min.js', 'node_modules/flatpickr/dist/flatpickr.min.css']).pipe(
         gulp.dest('assets/vendor/flatpickr')
     );
+
+    gulp.src(['node_modules/flatpickr/dist/themes/material_green.css'])
+        .pipe(css())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/vendor/flatpickr'));
 
     done();
 }

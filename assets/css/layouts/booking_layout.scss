@@ -123,14 +123,8 @@ body {
     margin-right: 0;
 }
 
-#book-appointment-wizard .wizard-frame #select-date {
-    max-width: 288px;
-    margin: auto;
-    padding: 15px 0;
-}
-
-#book-appointment-wizard .wizard-frame #select-date > .ui-datepicker {
-    margin: auto;
+#book-appointment-wizard .wizard-frame .flatpickr-calendar {
+    margin: 25px auto;
 }
 
 #book-appointment-wizard .wizard-frame #select-time {
