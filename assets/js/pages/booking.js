@@ -80,75 +80,29 @@ App.Pages.Booking = (function () {
         // Initialize page's components (tooltips, datepickers etc).
         tippy('[data-tippy-content]');
 
-        const weekdayId = App.Utils.Date.getWeekdayId(vars('first_weekday'));
-
-        $selectDate.datepicker({
-            dateFormat: 'dd-mm-yy',
-            firstDay: weekdayId,
-            minDate: 0,
-            defaultDate: moment().toDate(),
-
-            dayNames: [
-                lang('sunday'),
-                lang('monday'),
-                lang('tuesday'),
-                lang('wednesday'),
-                lang('thursday'),
-                lang('friday'),
-                lang('saturday')
-            ],
-            dayNamesShort: [
-                lang('sunday').substr(0, 3),
-                lang('monday').substr(0, 3),
-                lang('tuesday').substr(0, 3),
-                lang('wednesday').substr(0, 3),
-                lang('thursday').substr(0, 3),
-                lang('friday').substr(0, 3),
-                lang('saturday').substr(0, 3)
-            ],
-            dayNamesMin: [
-                lang('sunday').substr(0, 2),
-                lang('monday').substr(0, 2),
-                lang('tuesday').substr(0, 2),
-                lang('wednesday').substr(0, 2),
-                lang('thursday').substr(0, 2),
-                lang('friday').substr(0, 2),
-                lang('saturday').substr(0, 2)
-            ],
-            monthNames: [
-                lang('january'),
-                lang('february'),
-                lang('march'),
-                lang('april'),
-                lang('may'),
-                lang('june'),
-                lang('july'),
-                lang('august'),
-                lang('september'),
-                lang('october'),
-                lang('november'),
-                lang('december')
-            ],
-            prevText: lang('previous'),
-            nextText: lang('next'),
-            currentText: lang('now'),
-            closeText: lang('close'),
-
-            onSelect: () => {
-                App.Http.Booking.getAvailableHours(moment($selectDate[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD'));
+        App.Utils.UI.initializeDatepicker($selectDate, {
+            inline: true,
+            onChange: (selectedDates) => {
+                App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
                 updateConfirmFrame();
             },
 
-            onChangeMonthYear: (year, month) => {
-                const currentDate = new Date(year, month - 1, 1);
-
+            onMonthChange: (selectedDates) => {
                 App.Http.Booking.getUnavailableDates(
                     $selectProvider.val(),
                     $selectService.val(),
-                    moment(currentDate).format('YYYY-MM-DD')
+                    moment(selectedDates[0]).format('YYYY-MM-DD')
                 );
-            }
-        });
+            },
+
+            onYearChange: (selectedDates) => {
+                App.Http.Booking.getUnavailableDates(
+                    $selectProvider.val(),
+                    $selectService.val(),
+                    moment(selectedDates[0]).format('YYYY-MM-DD')
+                );
+            },
+        }); 
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
