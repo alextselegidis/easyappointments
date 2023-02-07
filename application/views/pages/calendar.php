@@ -29,28 +29,27 @@
             <?php endif ?>
 
             <?php if (can('add', PRIV_APPOINTMENTS)): ?>
-                <div class="btn-group">
-                    <button class="btn btn-light" id="insert-appointment">
-                        <i class="fas fa-plus-square me-2"></i>
-                        <?= lang('appointment') ?>
+                <div class="dropdown d-inline-block">
+                    <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-plus-square"></i>
                     </button>
-
-                    <button class="btn btn-light dropdown-toggle" id="insert-dropdown" data-bs-toggle="dropdown">
-                        <span class="caret"></span>
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#" id="insert-unavailability">
-                            <i class="fas fa-plus-square me-2"></i>
-                            <?= lang('unavailability') ?>
-                        </a>
-                        <a class="dropdown-item" href="#" id="insert-working-plan-exception"
-                            <?= session('role_slug') !== DB_SLUG_ADMIN ? 'hidden' : '' ?>>
-                            <i class="fas fa-plus-square me-2"></i>
-                            <?= lang('working_plan_exception') ?>
-                        </a>
-                    </div>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#" id="insert-appointment">
+                                <?= lang('appointment') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" id="insert-unavailability">
+                                <?= lang('unavailability') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" id="insert-working-plan-exception" <?= session('role_slug') !== DB_SLUG_ADMIN ? 'hidden' : '' ?>>
+                                <?= lang('working_plan_exception') ?>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             <?php endif ?>
 
