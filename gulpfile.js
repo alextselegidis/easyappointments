@@ -150,26 +150,6 @@ function vendor(done) {
         gulp.dest('assets/vendor/jquery-jeditable')
     );
 
-    // jquery-ui-dist
-    gulp.src(['node_modules/jquery-ui-dist/jquery-ui.min.js', 'node_modules/jquery-ui-dist/jquery-ui.min.css']).pipe(
-        gulp.dest('assets/vendor/jquery-ui-dist')
-    );
-
-    gulp.src(['node_modules/jquery-ui-dist/images/ui-icons_ffffff_256x240.png']).pipe(
-        gulp.dest('assets/vendor/jquery-ui-dist/images')
-    );
-
-    // jquery-ui-timepicker-addon
-    gulp.src([
-        'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.js',
-        'node_modules/jquery-ui-timepicker-addon/dist/jquery-ui-timepicker-addon.min.css'
-    ]).pipe(gulp.dest('assets/vendor/jquery-ui-timepicker-addon'));
-
-    // jquery-ui-touch-punch
-    gulp.src(['node_modules/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js']).pipe(
-        gulp.dest('assets/vendor/jquery-ui-touch-punch')
-    );
-
     // moment
     gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('assets/vendor/moment'));
 
