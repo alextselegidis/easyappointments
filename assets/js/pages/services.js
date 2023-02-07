@@ -141,7 +141,7 @@ App.Pages.Services = (function () {
                 availabilities_type: $availabilitiesType.val(),
                 attendants_number: $attendantsNumber.val(),
                 is_private: Number($isPrivate.prop('checked')),
-                id_categories: $category.val() || null
+                id_categories: $category.val() || undefined
             };
 
             if ($id.val() !== '') {
