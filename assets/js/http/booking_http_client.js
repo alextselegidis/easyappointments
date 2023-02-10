@@ -294,12 +294,7 @@ App.Http.Booking = (function () {
         }
 
         // Grey out unavailable dates.
-        $('#select-date .ui-datepicker-calendar td:not(.ui-datepicker-other-month)').each((index, td) => {
-            selectedDateMoment.set({date: index + 1});
-            if (unavailableDates.indexOf(selectedDateMoment.format('YYYY-MM-DD')) !== -1) {
-                $(td).addClass('ui-datepicker-unselectable ui-state-disabled');
-            }
-        });
+        $('#select-date')[0]._flatpickr.set('disable', unavailableDates.map(unavailableDate => new Date(unavailableDate)));
 
         processingUnavailableDates = false;
     }
