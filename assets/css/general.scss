@@ -441,6 +441,10 @@ body .clearfix {
 
 .flatpickr-calendar {
     box-shadow: none;
+
+    .flatpickr-monthDropdown-months:hover {
+        background: rgba(0,0,0,.05) !important;
+    }
     
     .flatpickr-months {
         padding: 10px 0;
