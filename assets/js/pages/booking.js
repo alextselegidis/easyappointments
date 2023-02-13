@@ -87,22 +87,30 @@ App.Pages.Booking = (function () {
                 updateConfirmFrame();
             },
 
-            onMonthChange: (selectedDates) => {
-                App.Http.Booking.getUnavailableDates(
-                    $selectProvider.val(),
-                    $selectService.val(),
-                    moment(selectedDates[0]).format('YYYY-MM-DD')
-                );
+            onMonthChange: () => {
+                setTimeout(() => {
+                    const displayedMonthMoment = moment(instance.currentYearElement.value + '-' + (Number(instance.monthsDropdownContainer.value) + 1) + '-01');
+
+                    App.Http.Booking.getUnavailableDates(
+                        $selectProvider.val(),
+                        $selectService.val(),
+                        displayedMonthMoment.format('YYYY-MM-DD')
+                    );
+                }, 500);
             },
 
-            onYearChange: (selectedDates) => {
-                App.Http.Booking.getUnavailableDates(
-                    $selectProvider.val(),
-                    $selectService.val(),
-                    moment(selectedDates[0]).format('YYYY-MM-DD')
-                );
+            onYearChange: () => {
+                setTimeout(() => {
+                    const displayedMonthMoment = moment(instance.currentYearElement.value + '-' + (Number(instance.monthsDropdownContainer.value) + 1) + '-01');
+
+                    App.Http.Booking.getUnavailableDates(
+                        $selectProvider.val(),
+                        $selectService.val(),
+                        displayedMonthMoment.format('YYYY-MM-DD')
+                    );
+                }, 500);
             },
-        }); 
+        });
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
@@ -733,7 +741,7 @@ App.Pages.Booking = (function () {
 
             // Set Appointment Date
             const startMoment = moment(appointment.start_datetime);
-            $selectDate[0]._flatpickr.setDate( startMoment.toDate());
+            $selectDate[0]._flatpickr.setDate(startMoment.toDate());
             App.Http.Booking.getAvailableHours(startMoment.format('YYYY-MM-DD'));
 
             // Apply Customer's Data
