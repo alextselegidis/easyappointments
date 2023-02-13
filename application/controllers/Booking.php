@@ -133,6 +133,7 @@ class Booking extends EA_Controller {
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
+        $future_booking_limit = setting('future_booking_limit');
         $theme = request('theme', setting('theme', 'default'));
 
         if (empty($theme) || ! file_exists(__DIR__ . '/../../assets/css/themes/' . $theme . '.min.css'))
@@ -225,6 +226,7 @@ class Booking extends EA_Controller {
             'first_weekday' => $first_weekday,
             'display_cookie_notice' => $display_cookie_notice,
             'display_any_provider' => setting('display_any_provider'),
+            'future_booking_limit' => setting('future_booking_limit'),
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,

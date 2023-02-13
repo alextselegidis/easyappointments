@@ -82,12 +82,14 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.initializeDatepicker($selectDate, {
             inline: true,
+            minDate: new Date(),
+            maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
                 updateConfirmFrame();
             },
 
-            onMonthChange: () => {
+            onMonthChange: (selectedDates, dateStr, instance) => {
                 setTimeout(() => {
                     const displayedMonthMoment = moment(instance.currentYearElement.value + '-' + (Number(instance.monthsDropdownContainer.value) + 1) + '-01');
 
@@ -99,7 +101,7 @@ App.Pages.Booking = (function () {
                 }, 500);
             },
 
-            onYearChange: () => {
+            onYearChange: (selectedDates, dateStr, instance) => {
                 setTimeout(() => {
                     const displayedMonthMoment = moment(instance.currentYearElement.value + '-' + (Number(instance.monthsDropdownContainer.value) + 1) + '-01');
 
