@@ -347,7 +347,6 @@ App.Pages.Providers = (function () {
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
 
         workingPlanManager.timepickers(true);
-        $providers.find('#providers .working-plan input:text').timepicker('destroy');
         $providers.find('#providers .working-plan input:checkbox').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
         $('.working-plan-exceptions')
