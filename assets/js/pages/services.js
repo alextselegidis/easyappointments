@@ -176,15 +176,15 @@ App.Pages.Services = (function () {
             const buttons = [
                 {
                     text: lang('cancel'),
-                    click: () => {
-                        $('#message-box').dialog('close');
+                    click: (event, messageModal) => {
+                        messageModal.dispose();
                     }
                 },
                 {
                     text: lang('delete'),
-                    click: () => {
+                    click: (event, messageModal) => {
                         remove(serviceId);
-                        $('#message-box').dialog('close');
+                        messageModal.dispose();
                     }
                 }
             ];

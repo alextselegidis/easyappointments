@@ -112,13 +112,13 @@ App.Pages.BusinessSettings = (function () {
         const buttons = [
             {
                 text: lang('cancel'),
-                click: () => {
-                    $('#message-box').dialog('close');
+                click: (event, messageModal) => {
+                    messageModal.dispose();
                 }
             },
             {
                 text: 'OK',
-                click: () => {
+                click: (event, messageModal) => {
                     const workingPlan = workingPlanManager.get();
 
                     App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan)
@@ -126,7 +126,7 @@ App.Pages.BusinessSettings = (function () {
                             App.Layouts.Backend.displayNotification(lang('working_plans_got_updated'));
                         })
                         .always(() => {
-                            $('#message-box').dialog('close');
+                            messageModal.dispose();
                         });
                 }
             }

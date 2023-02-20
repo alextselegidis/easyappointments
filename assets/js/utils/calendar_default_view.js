@@ -234,19 +234,19 @@ App.Utils.CalendarDefaultView = (function () {
                 const buttons = [
                     {
                         text: lang('cancel'),
-                        click: () => {
-                            $('#message-box').dialog('close');
+                        click: (event, messageModal) => {
+                            messageModal.dispose();
                         }
                     },
                     {
                         text: lang('delete'),
-                        click: () => {
+                        click: (event, messageModal) => {
                             const appointmentId = lastFocusedEventData.extendedProps.data.id;
 
                             const deleteReason = $('#delete-reason').val();
 
                             App.Http.Calendar.deleteAppointment(appointmentId, deleteReason).done(() => {
-                                $('#message-box').dialog('close');
+                                messageModal.dispose();
 
                                 // Refresh calendar event items.
                                 $reloadAppointments.trigger('click');
@@ -272,8 +272,6 @@ App.Utils.CalendarDefaultView = (function () {
                 const unavailabilityId = lastFocusedEventData.extendedProps.data.id;
 
                 App.Http.Calendar.deleteUnavailability(unavailabilityId).done(() => {
-                    $('#message-box').dialog('close');
-
                     // Refresh calendar event items.
                     $reloadAppointments.trigger('click');
                 });
@@ -1523,13 +1521,13 @@ App.Utils.CalendarDefaultView = (function () {
                 const buttons = [
                     {
                         text: lang('close'),
-                        click: () => {
-                            $('#message-box').dialog('close');
+                        click: (event, messageModal) => {
+                            messageModal.dispose();
                         }
                     },
                     {
                         text: lang('unavailability'),
-                        click: () => {
+                        click: (event, messageModal) => {
                             $('#insert-unavailability').trigger('click');
 
                             if (isProviderDisplayed) {
@@ -1544,12 +1542,12 @@ App.Utils.CalendarDefaultView = (function () {
 
                             $('#unavailability-end')[0]._flatpickr.setDate( info.end);
 
-                            $('#message-box').dialog('close');
+                            messageModal.dispose();
                         }
                     },
                     {
                         text: lang('appointment'),
-                        click: () => {
+                        click: (event, messageModal) => {
                             $('#insert-appointment').trigger('click');
 
                             // Preselect service & provider.
@@ -1601,8 +1599,7 @@ App.Utils.CalendarDefaultView = (function () {
                             $('#start-datetime')[0]._flatpickr.setDate( info.start);
                             $('#end-datetime')[0]._flatpickr.setDate( App.Pages.Calendar.getSelectionEndDate(info));
 
-                            // $('#end-datetime')[0]._flatpickr.setDate( info.end);
-                            $('#message-box').dialog('close');
+                            messageModal.dispose();
                         }
                     }
                 ];

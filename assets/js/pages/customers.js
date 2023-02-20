@@ -146,15 +146,15 @@ App.Pages.Customers = (function () {
             const buttons = [
                 {
                     text: lang('cancel'),
-                    click: () => {
-                        $('#message-box').dialog('close');
+                    click: (event, messageModal) => {
+                        messageModal.dispose();
                     }
                 },
                 {
                     text: lang('delete'),
-                    click: () => {
+                    click: (event, messageModal) => {
                         remove(customerId);
-                        $('#message-box').dialog('close');
+                        messageModal.dispose();
                     }
                 }
             ];
