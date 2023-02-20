@@ -21,6 +21,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     const $end = $('#working-plan-exceptions-end');
     const $breaks = $('#working-plan-exceptions-breaks');
     const $save = $('#working-plan-exceptions-save');
+    const $addBreak = $('.working-plan-exceptions-add-break');
     let deferred = null;
     let enableSubmit = false;
     let enableCancel = false;
@@ -29,6 +30,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      * Reset the modal fields back to the original empty state.
      */
     function resetModal() {
+        $addBreak.prop('disabled', false);
         $date.val('');
         $start.val('');
         $end.val('');
@@ -181,9 +183,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function add() {
         deferred = $.Deferred();
 
-        $date[0]._flatpickr.setDate( new Date());
-        $start[0]._flatpickr.setDate( moment('08:00', 'HH:mm').toDate());
-        $end[0]._flatpickr.setDate( moment('20:00', 'HH:mm').toDate());
+        $date[0]._flatpickr.setDate(new Date());
+        $start[0]._flatpickr.setDate(moment('08:00', 'HH:mm').toDate());
+        $end[0]._flatpickr.setDate(moment('20:00', 'HH:mm').toDate());
 
         $modal.modal('show');
 
@@ -201,9 +203,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function edit(date, workingPlanException) {
         deferred = $.Deferred();
 
-        $date[0]._flatpickr.setDate( moment(date, 'YYYY-MM-DD').toDate());
-        $start[0]._flatpickr.setDate( moment(workingPlanException.start, 'HH:mm').toDate());
-        $end[0]._flatpickr.setDate( moment(workingPlanException.end, 'HH:mm').toDate());
+        $date[0]._flatpickr.setDate(moment(date, 'YYYY-MM-DD').toDate());
+        $start[0]._flatpickr.setDate(moment(workingPlanException.start, 'HH:mm').toDate());
+        $end[0]._flatpickr.setDate(moment(workingPlanException.end, 'HH:mm').toDate());
 
         workingPlanException.breaks.forEach((workingPlanExceptionBreak) => {
             renderBreakRow(workingPlanExceptionBreak).appendTo($breaks.find('tbody'));
@@ -298,7 +300,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         // Bind editable and event handlers.
         editableTimeCell($newBreak.find('.working-plan-exceptions-break-start, .working-plan-exceptions-break-end'));
         $newBreak.find('.working-plan-exceptions-edit-break').trigger('click');
-        $('.working-plan-exceptions-add-break').prop('disabled', true);
+        $addBreak.prop('disabled', true);
     }
 
     /**
@@ -328,7 +330,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').removeClass('d-none');
         $tr.find('select,input:text').addClass('form-control input-sm');
 
-        $('.working-plan-exceptions-add-break').prop('disabled', true);
+        $addBreak.prop('disabled', true);
     }
 
     /**
@@ -367,7 +369,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $tr.closest('table')
             .find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break')
             .removeClass('d-none');
-        $('.working-plan-exceptions-add-break').prop('disabled', false);
+        $addBreak.prop('disabled', false);
     }
 
     /**
@@ -383,7 +385,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             .find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break')
             .removeClass('d-none');
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').addClass('d-none');
-        $('.working-plan-exceptions-add-break').prop('disabled', false);
+        $addBreak.prop('disabled', false);
     }
 
     /**
