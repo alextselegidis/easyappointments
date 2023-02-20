@@ -79,14 +79,23 @@ if ( ! function_exists('format_date'))
      */
     function format_date(DateTimeInterface|string $value): string
     {
-        $value_date_time = $value;
-
-        if (is_string($value_date_time))
+        try
         {
-            $value_date_time = new DateTime($value);
-        }
+            $value_date_time = $value;
 
-        return $value_date_time->format(get_date_format());
+            if (is_string($value_date_time))
+            {
+                $value_date_time = new DateTime($value);
+            }
+
+            return $value_date_time->format(get_date_format());
+        }
+        catch (Exception $e)
+        {
+            log_message('error', 'Invalid date provided to the "format_date" helper function: ' . $e->getMessage());
+
+            return 'Invalid Date';
+        }
     }
 }
 
@@ -101,16 +110,25 @@ if ( ! function_exists('format_time'))
      *
      * @throws Exception
      */
-    function format_date(DateTimeInterface|string $value): string
+    function format_time(DateTimeInterface|string $value): string
     {
-        $value_date_time = $value;
-
-        if (is_string($value_date_time))
+        try
         {
-            $value_date_time = new DateTime($value);
-        }
+            $value_date_time = $value;
 
-        return $value_date_time->format(get_time_format());
+            if (is_string($value_date_time))
+            {
+                $value_date_time = new DateTime($value);
+            }
+
+            return $value_date_time->format(get_time_format());
+        }
+        catch (Exception $e)
+        {
+            log_message('error', 'Invalid date provided to the format_time helper function: ' . $e->getMessage());
+
+            return 'Invalid Time';
+        }
     }
 }
 
@@ -122,19 +140,27 @@ if ( ! function_exists('format_date_time'))
      * @param DateTimeInterface|string $value
      *
      * @return string
-     *
-     * @throws Exception
      */
     function format_date_time(DateTimeInterface|string $value): string
     {
-        $value_date_time = $value;
-
-        if (is_string($value_date_time))
+        try
         {
-            $value_date_time = new DateTime($value);
-        }
+            $value_date_time = $value;
 
-        return $value_date_time->format(get_date_time_format());
+            if (is_string($value_date_time))
+            {
+
+                $value_date_time = new DateTime($value);
+            }
+
+            return $value_date_time->format(get_date_time_format());
+        }
+        catch (Exception $e)
+        {
+            log_message('error', 'Invalid date provided to the format_date_time helper function: ' . $e->getMessage());
+
+            return 'Invalid Date-Time';
+        }
     }
 }
 
