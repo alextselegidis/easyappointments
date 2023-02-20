@@ -175,6 +175,7 @@ window.App.Utils.UI = (function () {
             allowInput: true,
             dateFormat: getDateFormat(),
             locale: getFlatpickrLocale(),
+            static: true,
             ...params
         });
     }
@@ -195,6 +196,7 @@ window.App.Utils.UI = (function () {
             dateFormat: getTimeFormat(),
             time_24hr: vars('time_format') === 'military',
             locale: getFlatpickrLocale(),
+            static: true,
             ...params
         });
     }
