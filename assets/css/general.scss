@@ -479,4 +479,11 @@ body .clearfix {
         border-color: #429a82;
         color: white;
     }
+
+    .flatpickr-day.prevMonthDay,
+    .flatpickr-day.nextMonthDay {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+    }
 }
