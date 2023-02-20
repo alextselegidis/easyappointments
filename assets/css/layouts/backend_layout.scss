@@ -710,6 +710,12 @@ body .form-horizontal .controls {
     max-width: 100px;
 }
 
+#providers-page #providers .working-plan-view .work-start[disabled],
+#providers-page #providers .working-plan-view .work-end[disabled] {
+    background: none;
+    border: none;
+}
+
 #providers-page .btn-toolbar {
     margin-top: 0;
     margin-bottom: 15px;
@@ -817,6 +823,12 @@ body .form-horizontal .controls {
 #business-logic .working-plan .work-start,
 #business-logic .working-plan .work-end {
     max-width: 100px;
+}
+
+#business-logic .working-plan .work-start[disabled],
+#business-logic .working-plan .work-end[disabled] {
+    background: none;
+    border: none;
 }
 
 #business-logic .working-plan label.checkbox {
