@@ -128,6 +128,10 @@ App.Pages.Booking = (function () {
         // If the manage mode is true, the appointment data should be loaded by default.
         if (manageMode) {
             applyAppointmentData(vars('appointment_data'), vars('provider_data'), vars('customer_data'));
+            $('#wizard-frame-1').css({
+                'visibility': 'visible',
+                'display': 'none'
+            }).fadeIn();
         } else {
             // Check if a specific service was selected (via URL parameter).
             const selectedServiceId = App.Utils.Url.queryParam('service');
@@ -160,6 +164,11 @@ App.Pages.Booking = (function () {
                 (selectedServiceId && selectedProviderId) ||
                 (vars('available_services').length === 1 && vars('available_providers').length === 1)
             ) {
+                $('.active-step').removeClass('active-step');
+                $('#step-2').addClass('active-step');
+                $('#wizard-frame-1').hide();
+                $('#wizard-frame-2').fadeIn();
+
                 $selectService.closest('.wizard-frame').find('.button-next').trigger('click');
 
                 $(document).find('.book-step:first').hide();
@@ -173,6 +182,11 @@ App.Pages.Booking = (function () {
                             .find('strong')
                             .text(index + 1)
                     );
+            } else {
+                $('#wizard-frame-1').css({
+                    'visibility': 'visible',
+                    'display': 'none'
+                }).fadeIn();
             }
 
             prefillFromQueryParam('#first-name', 'first_name');
