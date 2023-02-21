@@ -34,6 +34,8 @@ App.Pages.Booking = (function () {
     const $availableHours = $('#available-hours');
     const $bookAppointmentSubmit = $('#book-appointment-submit');
     const $deletePersonalInformation = $('#delete-personal-information');
+    const tippy = window.tippy;
+    const moment = window.moment;
 
     /**
      * Determines the functionality of the page.
@@ -494,40 +496,38 @@ App.Pages.Booking = (function () {
         $('#wizard-frame-3 .is-invalid').removeClass('is-invalid');
         $('#wizard-frame-3 label.text-danger').removeClass('text-danger');
 
-        try {
-            // Validate required fields.
-            let missingRequiredField = false;
+        // Validate required fields.
+        let missingRequiredField = false;
 
-            $('.required').each((index, requiredField) => {
-                if (!$(requiredField).val()) {
-                    $(requiredField).addClass('is-invalid');
-                    missingRequiredField = true;
-                }
-            });
-
-            if (missingRequiredField) {
-                throw new Error(lang('fields_are_required'));
+        $('.required').each((index, requiredField) => {
+            if (!$(requiredField).val()) {
+                $(requiredField).addClass('is-invalid');
+                missingRequiredField = true;
             }
+        });
 
-            // Validate email address.
-            if ($email.val() && !App.Utils.Validation.email($email.val())) {
-                $email.addClass('is-invalid');
-                throw new Error(lang('invalid_email'));
-            }
-
-            // Validate phone number.
-            const phoneNumber = $phoneNumber.val();
-
-            if (phoneNumber && !App.Utils.Validation.phone(phoneNumber)) {
-                $phoneNumber.addClass('is-invalid');
-                throw new Error(lang('invalid_phone'));
-            }
-
-            return true;
-        } catch (error) {
-            $('#form-message').text(error.message);
+        if (missingRequiredField) {
+            $('#form-message').text(lang('fields_are_required'));
             return false;
         }
+
+        // Validate email address.
+        if ($email.val() && !App.Utils.Validation.email($email.val())) {
+            $email.addClass('is-invalid');
+            $('#form-message').text(lang('invalid_email'));
+            return false;
+        }
+
+        // Validate phone number.
+        const phoneNumber = $phoneNumber.val();
+
+        if (phoneNumber && !App.Utils.Validation.phone(phoneNumber)) {
+            $phoneNumber.addClass('is-invalid');
+            $('#form-message').text(lang('invalid_phone'));
+            return false;
+        }
+
+        return true;
     }
 
     /**
