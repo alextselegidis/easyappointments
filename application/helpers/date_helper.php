@@ -164,4 +164,24 @@ if ( ! function_exists('format_date_time'))
     }
 }
 
+if ( ! function_exists('format_timezone'))
+{
+    /**
+     * Format a timezone string based on the current app settings.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    function format_timezone(string $value): string
+    {
+        /** @var EA_Controller $CI */
+        $CI =& get_instance();
+
+        $CI->load->library('timezones');
+
+        return $CI->timezones->get_timezone_name($value);
+    }
+}
+
 
