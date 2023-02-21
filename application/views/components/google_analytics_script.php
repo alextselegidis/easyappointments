@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if (substr($google_analytics_code, 0, 2) === 'UA'): ?>
+<?php if (substr($google_analytics_code ?? '', 0, 2) === 'UA'): ?>
     <script>
         (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -15,7 +15,7 @@
     </script>
 <?php endif ?>
 
-<?php if (substr($google_analytics_code, 0, 2) === 'G-'): ?>
+<?php if (substr($google_analytics_code ?? '', 0, 2) === 'G-'): ?>
     <script async src="https://www.googletagmanager.com/gtag/js?id=' . $google_analytics_code . '"></script>
     <script>
         window.dataLayer = window.dataLayer || [];

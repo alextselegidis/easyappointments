@@ -23,7 +23,8 @@
         })();
     </script>
 
-    <noscript><p><img src="<?= $matomo_analytics_url ?>matomo.php?idsite=1&amp;rec=1" style="border:0;" alt=""/></p>
+    <noscript>
+        <p><img src="<?= $matomo_analytics_url ?>matomo.php?idsite=1&amp;rec=1" style="border:0;" alt=""/></p>
     </noscript>
 
 <?php endif ?>
