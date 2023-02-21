@@ -1,18 +1,14 @@
 <?php
 /**
  * Local variables.
- * 
- * @var string $company_name
- * @var string $appointment_service
- * @var string $appointment_provider
- * @var string $appointment_duration
- * @var string $appointment_timezone
- * @var string $customer_name
- * @var string $customer_email
- * @var string $customer_phone
- * @var string $customer_address
+ *
+ * @var array $appointment
+ * @var array $service
+ * @var array $provider
+ * @var array $customer
+ * @var array $settings
+ * @var array $timezone
  * @var string $reason
- * @var string $company_link
  */
 ?>
 
@@ -21,10 +17,11 @@
     <title><?= lang('appointment_cancelled_title') ?> | Easy!Appointments</title>
 </head>
 <body style="font: 13px arial, helvetica, tahoma;">
+
 <div class="email-container" style="width: 650px; border: 1px solid #eee;">
     <div id="header" style="background-color: #429a82; height: 45px; padding: 10px 15px;">
         <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
-            <?= $company_name ?>
+            <?= $settings['company_name'] ?>
         </strong>
     </div>
 
@@ -40,14 +37,14 @@
         <h2>
             <?= lang('appointment_details_title') ?>
         </h2>
-        
+
         <table id="appointment-details">
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;">
                     <?= lang('service') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $appointment_service ?>
+                    <?= $service['name'] ?>
                 </td>
             </tr>
             <tr>
@@ -55,7 +52,7 @@
                     <?= lang('provider') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $appointment_provider ?>
+                    <?= $provider['first_name'] . ' ' . $provider['last_name'] ?>
                 </td>
             </tr>
             <tr>
@@ -63,15 +60,16 @@
                     <?= lang('start') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $appointment_date ?>
+                    <?= format_date_time($appointment['start_datetime']) ?>
                 </td>
             </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;">
-                    <?= lang('duration') ?>
+                    <?= lang('end') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $appointment_duration ?>
+                    <?= format_date_time($appointment['end_datetime']) ?>
+
                 </td>
             </tr>
             <tr>
@@ -79,19 +77,22 @@
                     <?= lang('timezone') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $appointment_timezone ?>
+                    <?= format_timezone($timezone) ?>
                 </td>
             </tr>
         </table>
 
-        <h2><?= lang('customer_details_title') ?></h2>
+        <h2>
+            <?= lang('customer_details_title') ?>
+        </h2>
+
         <table id="customer-details">
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;">
                     <?= lang('name') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer_name ?>
+                    <?= $customer['first_name'] . ' ' . $customer['last_name'] ?>
                 </td>
             </tr>
             <tr>
@@ -99,7 +100,7 @@
                     <?= lang('email') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer_email ?>
+                    <?= $customer['email'] ?>
                 </td>
             </tr>
             <tr>
@@ -107,7 +108,7 @@
                     <?= lang('phone_number') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer_phone ?>
+                    <?= $customer['phone_number'] ?>
                 </td>
             </tr>
             <tr>
@@ -115,7 +116,7 @@
                     <?= lang('address') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer_address ?>
+                    <?= $customer['address'] ?>
                 </td>
             </tr>
         </table>
@@ -136,10 +137,11 @@
             Easy!Appointments
         </a>
         |
-        <a href="<?= $company_link ?>" style="text-decoration: none;">
-            <?= $company_name ?>
+        <a href="<?= $settings['company_link'] ?>" style="text-decoration: none;">
+            <?= $settings['company_name'] ?>
         </a>
     </div>
 </div>
+
 </body>
 </html>

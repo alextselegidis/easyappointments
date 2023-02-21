@@ -1,31 +1,31 @@
 <?php
 /**
  * Local variables.
- * 
- * @var string $company_name
- * @var string $email_title
- * @var string $email_message
- * @var string $company_link
+ *
+ * @var string $subject
+ * @var string $message
+ * @var array $settings
  */
 ?>
 <html lang="en">
 <head>
-    <title>New Password | Easy!Appointments</title>
+    <title><?= $subject ?> | Easy!Appointments</title>
 </head>
 <body style="font: 13px arial, helvetica, tahoma;">
+
 <div class="email-container" style="width: 650px; border: 1px solid #eee;">
     <div id="header" style="background-color: #429a82; height: 45px; padding: 10px 15px;">
         <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
-            <?= $company_name ?>
+            <?= $settings['company_name'] ?>
         </strong>
     </div>
 
     <div id="content" style="padding: 10px 15px;">
         <h2>
-            <?= $email_title ?>
+            <?= $subject ?>
         </h2>
         <p>
-            <?= $email_message ?>
+            <?= $message ?>
         </p>
     </div>
 
@@ -36,10 +36,11 @@
             Easy!Appointments
         </a>
         |
-        <a href="<?= $company_link ?>" style="text-decoration: none;">
-            <?= $company_name ?>
+        <a href="<?= $settings['company_link'] ?>" style="text-decoration: none;">
+            <?= $settings['company_name'] ?>
         </a>
     </div>
 </div>
+
 </body>
 </html>
