@@ -84,6 +84,28 @@
                     <?= format_timezone($timezone) ?>
                 </td>
             </tr>
+
+            <?php if ( ! empty($appointment['location'])): ?>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">
+                        <?= lang('location') ?>
+                    </td>
+                    <td style="padding: 3px;">
+                        <?= $appointment['location'] ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+
+            <?php if ( ! empty($appointment['notes'])): ?>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">
+                        <?= lang('notes') ?>
+                    </td>
+                    <td style="padding: 3px;">
+                        <?= $appointment['notes'] ?>
+                    </td>
+                </tr>
+            <?php endif ?>
         </table>
 
         <h2>
