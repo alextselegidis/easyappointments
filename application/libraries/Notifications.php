@@ -53,7 +53,7 @@ class Notifications {
      * @param array $settings Required settings.
      * @param bool|false $manage_mode Manage mode.
      */
-    public function notify_appointment_saved(array $appointment, array $service, array $provider, array $customer, array $settings, bool $manage_mode = FALSE)
+    public function notify_appointment_saved(array $appointment, array $service, array $provider, array $customer, array $settings, bool $manage_mode = FALSE): void
     {
         try
         {
@@ -201,7 +201,7 @@ class Notifications {
      * @param array $customer Customer data.
      * @param array $settings Required settings.
      */
-    public function notify_appointment_deleted(array $appointment, array $service, array $provider, array $customer, array $settings)
+    public function notify_appointment_deleted(array $appointment, array $service, array $provider, array $customer, array $settings): void
     {
         try
         {
@@ -227,7 +227,8 @@ class Notifications {
                     $customer,
                     $settings,
                     $provider['email'],
-                    $delete_reason
+                    $delete_reason,
+                    $provider['timezone']
                 );
             }
 
@@ -246,7 +247,8 @@ class Notifications {
                     $customer,
                     $settings,
                     $customer['email'],
-                    $delete_reason
+                    $delete_reason,
+                    $customer['timezone']
                 );
             }
 
@@ -267,7 +269,8 @@ class Notifications {
                     $customer,
                     $settings,
                     $admin['email'],
-                    $delete_reason
+                    $delete_reason,
+                    $admin['timezone']
                 );
             }
 
@@ -293,7 +296,8 @@ class Notifications {
                     $customer,
                     $settings,
                     $secretary['email'],
-                    $delete_reason
+                    $delete_reason,
+                    $secretary['timezone']
                 );
             }
         }
