@@ -382,13 +382,13 @@ App.Pages.Booking = (function () {
 
                 const buttons = [
                     {
-                        text: lang('cancel'),
+                        text: lang('close'),
                         click: (event, messageModal) => {
                             messageModal.dispose();
                         }
                     },
                     {
-                        text: 'OK',
+                        text: lang('confirm'),
                         click: () => {
                             if ($cancellationReason.val() === '') {
                                 $cancellationReason.css('border', '2px solid #DC3545');
@@ -413,7 +413,7 @@ App.Pages.Booking = (function () {
                     'css': {
                         'width': '100%'
                     }
-                }).appendTo('#message-box');
+                }).appendTo('#message-modal .modal-body');
 
                 return false;
             });
