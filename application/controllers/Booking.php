@@ -44,8 +44,6 @@ class Booking extends EA_Controller {
         $this->load->library('notifications');
         $this->load->library('availability');
         $this->load->library('webhooks_client');
-
-        $this->load->driver('cache', ['adapter' => 'file']);
     }
 
     /**
