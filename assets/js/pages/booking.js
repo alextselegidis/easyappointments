@@ -79,7 +79,7 @@ App.Pages.Booking = (function () {
 
         manageMode = vars('manage_mode');
 
-        // Initialize page's components (tooltips, datepickers etc).
+        // Initialize page's components (tooltips, date pickers etc).
         tippy('[data-tippy-content]');
 
         App.Utils.UI.initializeDatepicker($selectDate, {
@@ -769,7 +769,7 @@ App.Pages.Booking = (function () {
     }
 
     /**
-     * This method updates a div's HTML content with a brief description of the
+     * This method updates the HTML content with a brief description of the
      * user selected service (only if available in db). This is useful for the
      * customers upon selecting the correct service.
      *
