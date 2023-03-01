@@ -1148,24 +1148,6 @@ App.Utils.CalendarDefaultView = (function () {
         });
     }
 
-    // /**
-    //  * Convert titles to HTML
-    //  *
-    //  * On some calendar events the titles contain html markup that is not displayed properly due to the
-    //  * FullCalendar plugin. This plugin sets the .fc-event-title value by using the $.text() method and
-    //  * not the $.html() method. So in order for the title to display the html properly we convert all the
-    //  * .fc-event-titles where needed into html.
-    //  */
-    // function convertTitlesToHtml() {
-    //     // Convert the titles to html code.
-    //     $('.fc-custom').each((index, customEventElement) => {
-    //         const title = $(customEventElement).find('.fc-event-title').text();
-    //         $(customEventElement).find('.fc-event-title').html(title);
-    //         const time = $(customEventElement).find('.fc-event-time').text();
-    //         $(customEventElement).find('.fc-event-time').html(time);
-    //     });
-    // }
-
     /**
      * Refresh Calendar Appointments
      *
