@@ -60,12 +60,12 @@ class Providers extends EA_Controller {
         }
 
         $role_slug = session('role_slug');
-        
-        $services = $this->services_model->get(); 
-        
-        foreach($services as &$service)
+
+        $services = $this->services_model->get();
+
+        foreach ($services as &$service)
         {
-            $this->services_model->only($service, ['id', 'name']);            
+            $this->services_model->only($service, ['id', 'name']);
         }
 
         script_vars([
@@ -158,6 +158,8 @@ class Providers extends EA_Controller {
             $this->providers_model->only($provider['settings'], [
                 'username',
                 'password',
+                'working_plan',
+                'working_plan_exceptions',
                 'notifications',
                 'calendar_view'
             ]);
@@ -215,6 +217,15 @@ class Providers extends EA_Controller {
                 'id_roles',
                 'settings',
                 'services',
+            ]);
+
+            $this->providers_model->only($provider['settings'], [
+                'username',
+                'password',
+                'working_plan',
+                'working_plan_exceptions',
+                'notifications',
+                'calendar_view'
             ]);
 
             $this->providers_model->optional($provider, [
