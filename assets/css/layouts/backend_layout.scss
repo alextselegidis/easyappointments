@@ -338,6 +338,32 @@ body legend {
     font-size: 15.2px;
 }
 
+#select-filter-item {
+    margin-bottom: 10px;
+}
+
+#calendar .fc-header-toolbar {
+    display: block ;
+    /*text-align: center;*/
+}
+
+#calendar .fc-header-toolbar .fc-toolbar-chunk {
+    margin-bottom: 10px;
+}
+
+#calendar .calendar-header .select2-container {
+    width: 100% !important;
+}
+
+#calendar .date-column {
+    width: 100% !important;
+}
+
+#calendar .provider-column {
+    width: 100% !important;
+}
+
+
 #calendar-page #calendar .fc-toolbar .fc-left,
 #calendar-page #calendar .fc-toolbar .fc-right {
     float: none;
@@ -473,7 +499,7 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-header input {
-    width: 120px;
+    width: calc(100% - 110px);
     vertical-align: middle;
 }
 
@@ -508,7 +534,7 @@ body .form-horizontal .controls {
 
 #calendar .calendar-view > div {
     width: 100%;
-    min-width: 1000%;
+    min-width: 100% !important;
     overflow: auto;
 }
 
@@ -600,6 +626,39 @@ body .form-horizontal .controls {
     #calendar .calendar-header label {
         display: inline-block;
         margin: 0 10px;
+    }
+
+    #calendar .calendar-header input {
+        width: 120px;
+    }
+
+    #calendar .calendar-header .flatpickr-wrapper {
+        width: auto;
+    }
+
+    #select-filter-item {
+        margin-bottom: 0;
+    }
+
+    .fc-header-toolbar {
+        display: flex !important;
+        text-align: left;
+    }
+
+    .fc-header-toolbar .fc-toolbar-chunk {
+        margin-bottom: 0;
+    }
+
+    #calendar .calendar-header .select2-container {
+        width: 300px !important;
+    }
+
+    #calendar .date-column {
+        width: auto !important;
+    }
+
+    #calendar .provider-column {
+        width: 500px !important;
     }
 }
 
