@@ -55,9 +55,9 @@ class Console extends EA_Controller {
     {
         $this->instance->migrate('fresh');
 
-        $this->instance->seed();
+        $password = $this->instance->seed();
 
-        response(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
+        response(PHP_EOL . '⇾ Installation completed, login with "administrator" / "' . $password . '".' . PHP_EOL . PHP_EOL);
     }
 
     /**

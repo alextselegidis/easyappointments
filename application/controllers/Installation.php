@@ -113,7 +113,7 @@ class Installation extends EA_Controller {
                 ],
                 'settings' => [
                     'username' => 'janedoe',
-                    'password' => 'janedoe',
+                    'password' => random_string(),
                     'working_plan' => setting('company_working_plan'),
                     'notifications' => TRUE,
                     'google_sync' => FALSE,
