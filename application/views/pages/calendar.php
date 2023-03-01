@@ -29,7 +29,7 @@
             <?php endif ?>
 
             <?php if (can('add', PRIV_APPOINTMENTS)): ?>
-                <div class="dropdown d-inline-block">
+                <div class="dropdown d-sm-inline-block">
                     <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
                         <i class="fas fa-plus-square"></i>
                     </button>
@@ -59,14 +59,14 @@
             </button>
 
             <?php if (vars('calendar_view') === 'default'): ?>
-                <a class="btn btn-light" href="<?= site_url('calendar?view=table') ?>"
+                <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif ?>
 
             <?php if (vars('calendar_view') === 'table'): ?>
-                <a class="btn btn-light" href="<?= site_url('calendar?view=default') ?>"
+                <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=default') ?>"
                    data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
                 </a>
