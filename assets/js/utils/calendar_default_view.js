@@ -136,10 +136,10 @@ App.Utils.CalendarDefaultView = (function () {
 
                 // Set the start and end datetime of the appointment.
                 startMoment = moment(appointment.start_datetime);
-                $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate( startMoment.toDate());
+                $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate(startMoment.toDate());
 
                 endMoment = moment(appointment.end_datetime);
-                $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate( endMoment.toDate());
+                $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate(endMoment.toDate());
 
                 const customer = appointment.customer;
                 $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
@@ -176,10 +176,10 @@ App.Utils.CalendarDefaultView = (function () {
 
                 // Apply unavailability data to dialog.
                 $unavailabilitiesModal.find('.modal-header h3').text(lang('edit_unavailability_title'));
-                $unavailabilitiesModal.find('#unavailability-start')[0]._flatpickr.setDate( startMoment.toDate());
+                $unavailabilitiesModal.find('#unavailability-start')[0]._flatpickr.setDate(startMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
                 $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
-                $unavailabilitiesModal.find('#unavailability-end')[0]._flatpickr.setDate( endMoment.toDate());
+                $unavailabilitiesModal.find('#unavailability-end')[0]._flatpickr.setDate(endMoment.toDate());
                 $unavailabilitiesModal.find('#unavailability-notes').val(unavailability.notes);
                 $unavailabilitiesModal.modal('show');
             }
@@ -333,7 +333,7 @@ App.Utils.CalendarDefaultView = (function () {
     function getCalendarHeight() {
         const result =
             window.innerHeight - $footer.outerHeight() - $header.outerHeight() - $calendarToolbar.outerHeight() - 60; // 60 for fine tuning
-        return result > 500 ? result : 500; // Minimum height is 500px
+        return result > 800 ? result : 800; // Minimum height is 800px
     }
 
     /**
@@ -1016,6 +1016,104 @@ App.Utils.CalendarDefaultView = (function () {
         }
     }
 
+    function onSelect(info) {
+        if (info.allDay) {
+            return;
+        }
+
+        const isProviderDisplayed =
+            $selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_PROVIDER;
+
+        const buttons = [
+            {
+                text: lang('unavailability'),
+                click: (event, messageModal) => {
+                    $('#insert-unavailability').trigger('click');
+
+                    if (isProviderDisplayed) {
+                        $('#unavailability-provider').val($selectFilterItem.val());
+                    } else {
+                        $('#unavailability-provider option:first').prop('selected', true);
+                    }
+
+                    $('#unavailability-provider').trigger('change');
+
+                    $('#unavailability-start')[0]._flatpickr.setDate(info.start);
+
+                    $('#unavailability-end')[0]._flatpickr.setDate(info.end);
+
+                    messageModal.dispose();
+                }
+            },
+            {
+                text: lang('appointment'),
+                click: (event, messageModal) => {
+                    $('#insert-appointment').trigger('click');
+
+                    // Preselect service & provider.
+                    let service;
+
+                    if (isProviderDisplayed) {
+                        const provider = vars('available_providers').find(
+                            (availableProvider) =>
+                                Number(availableProvider.id) === Number($selectFilterItem.val())
+                        );
+
+                        if (provider) {
+                            service = vars('available_services').find(
+                                (availableService) => provider.services.indexOf(availableService.id) !== -1
+                            );
+
+                            if (service) {
+                                $appointmentsModal.find('#select-service').val(service.id);
+                            }
+                        }
+
+                        if (!$appointmentsModal.find('#select-service').val()) {
+                            $('#select-service option:first').prop('selected', true);
+                        }
+
+                        $appointmentsModal.find('#select-service').trigger('change');
+
+                        if (provider) {
+                            $appointmentsModal.find('#select-provider').val(provider.id);
+                        }
+
+                        if (!$appointmentsModal.find('#select-provider').val()) {
+                            $appointmentsModal.find('#select-provider option:first').prop('selected', true);
+                        }
+
+                        $appointmentsModal.find('#select-provider').trigger('change');
+                    } else {
+                        service = vars('available_services').find(
+                            (availableService) =>
+                                Number(availableService.id) === Number($selectFilterItem.val())
+                        );
+
+                        if (service) {
+                            $appointmentsModal.find('#select-service').val(service.id).trigger('change');
+                        }
+                    }
+
+                    // Preselect time
+                    $('#start-datetime')[0]._flatpickr.setDate(info.start);
+                    $('#end-datetime')[0]._flatpickr.setDate(App.Pages.Calendar.getSelectionEndDate(info));
+
+                    messageModal.dispose();
+                }
+            }
+        ];
+
+        App.Utils.Message.show(lang('add_new_event'), lang('what_kind_of_event'), buttons);
+
+        $('#message-modal .modal-footer')
+            .addClass('justify-content-between')
+            .find('.btn')
+            .css('width', 'calc(50% - 10px)');
+
+        return false;
+    }
+
     /**
      * Calendar "View Render" Callback
      *
@@ -1501,128 +1599,26 @@ App.Utils.CalendarDefaultView = (function () {
             slotLabelFormat: slotTimeFormat,
             allDayContent: lang('all_day'),
             dayHeaderFormat: columnFormat,
+            selectable: true,
+            selectMirror: true,
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'timeGridDay,timeGridWeek,dayGridMonth'
             },
-
-            // Selectable
-            selectable: true,
-            selectMirror: true,
-            select: (info) => {
-                if (info.allDay) {
-                    return;
-                }
-
-                const isProviderDisplayed =
-                    $selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_PROVIDER;
-
-                const buttons = [
-                    {
-                        text: lang('close'),
-                        click: (event, messageModal) => {
-                            messageModal.dispose();
-                        }
-                    },
-                    {
-                        text: lang('unavailability'),
-                        click: (event, messageModal) => {
-                            $('#insert-unavailability').trigger('click');
-
-                            if (isProviderDisplayed) {
-                                $('#unavailability-provider').val($selectFilterItem.val());
-                            } else {
-                                $('#unavailability-provider option:first').prop('selected', true);
-                            }
-
-                            $('#unavailability-provider').trigger('change');
-
-                            $('#unavailability-start')[0]._flatpickr.setDate( info.start);
-
-                            $('#unavailability-end')[0]._flatpickr.setDate( info.end);
-
-                            messageModal.dispose();
-                        }
-                    },
-                    {
-                        text: lang('appointment'),
-                        click: (event, messageModal) => {
-                            $('#insert-appointment').trigger('click');
-
-                            // Preselect service & provider.
-                            let service;
-
-                            if (isProviderDisplayed) {
-                                const provider = vars('available_providers').find(
-                                    (availableProvider) =>
-                                        Number(availableProvider.id) === Number($selectFilterItem.val())
-                                );
-
-                                if (provider) {
-                                    service = vars('available_services').find(
-                                        (availableService) => provider.services.indexOf(availableService.id) !== -1
-                                    );
-
-                                    if (service) {
-                                        $appointmentsModal.find('#select-service').val(service.id);
-                                    }
-                                }
-
-                                if (!$appointmentsModal.find('#select-service').val()) {
-                                    $('#select-service option:first').prop('selected', true);
-                                }
-
-                                $appointmentsModal.find('#select-service').trigger('change');
-
-                                if (provider) {
-                                    $appointmentsModal.find('#select-provider').val(provider.id);
-                                }
-
-                                if (!$appointmentsModal.find('#select-provider').val()) {
-                                    $appointmentsModal.find('#select-provider option:first').prop('selected', true);
-                                }
-
-                                $appointmentsModal.find('#select-provider').trigger('change');
-                            } else {
-                                service = vars('available_services').find(
-                                    (availableService) =>
-                                        Number(availableService.id) === Number($selectFilterItem.val())
-                                );
-
-                                if (service) {
-                                    $appointmentsModal.find('#select-service').val(service.id).trigger('change');
-                                }
-                            }
-
-                            // Preselect time
-                            $('#start-datetime')[0]._flatpickr.setDate( info.start);
-                            $('#end-datetime')[0]._flatpickr.setDate( App.Pages.Calendar.getSelectionEndDate(info));
-
-                            messageModal.dispose();
-                        }
-                    }
-                ];
-
-                App.Utils.Message.show(lang('add_new_event'), lang('what_kind_of_event'), buttons);
-
-                return false;
-            },
-
             buttonText: {
                 today: lang('today'),
                 day: lang('day'),
                 week: lang('week'),
                 month: lang('month')
             },
-
-            // Calendar events need to be declared on initialization.
             windowResize: onWindowResize,
             datesSet: onDatesSet,
             dateClick: onDateClick,
             eventClick: onEventClick,
             eventResize: onEventResize,
-            eventDrop: onEventDrop
+            eventDrop: onEventDrop,
+            select: onSelect
         });
 
         fullCalendar.render();
@@ -1692,10 +1688,10 @@ App.Utils.CalendarDefaultView = (function () {
 
             // Set the start and end datetime of the appointment.
             const startDatetimeMoment = moment(appointment.start_datetime);
-            $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate( startDatetimeMoment.toDate());
+            $appointmentsModal.find('#start-datetime')[0]._flatpickr.setDate(startDatetimeMoment.toDate());
 
             const endDatetimeMoment = moment(appointment.end_datetime);
-            $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate( endDatetimeMoment.toDate());
+            $appointmentsModal.find('#end-datetime')[0]._flatpickr.setDate(endDatetimeMoment.toDate());
 
             const customer = appointment.customer;
             $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
