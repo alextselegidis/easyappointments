@@ -59,6 +59,22 @@ $route['translate_uri_dashes'] = FALSE;
 
 /*
 | -------------------------------------------------------------------------
+| FRAME OPTIONS HEADERS
+| -------------------------------------------------------------------------
+| Set the appropriate headers so that iframe control and permissions are 
+| properly configured.
+|
+| Options:
+|
+|   - DENY 
+|   - SAMEORIGIN 
+|
+*/
+
+header('X-Frame-Options: SAMEORIGIN');
+
+/*
+| -------------------------------------------------------------------------
 | CORS HEADERS
 | -------------------------------------------------------------------------
 | Set the appropriate headers so that CORS requirements are met and any 
