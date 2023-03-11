@@ -52,7 +52,7 @@ The application is designed to be flexible enough so that it can handle any ente
 * Email notifications system.
 * Self hosted installation.
 * Translated user interface.
-* User community support. 
+* User community support.
 
 ## Setup
 
@@ -60,21 +60,32 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Node
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/alextselegidis/easyappointments.git
-
+git clone https://github.com/alextselegidis/easyappointments.git
 # Go into the repository
-$ cd easyappointments
-
+cd easyappointments
 # Install dependencies
-$ npm install && composer install
-
+npm install && composer install
 # Start the file watcher
-$ npm start
+npm start
 ```
 
 Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
 
 You can build the files by running `npm run build`. This command will bundle everything to a `build` directory.
+
+## Setup with docker
+
+1. Copy and edit config file
+
+    ```bash
+    cp config-docker.php config.php
+    ```
+
+2. Build and run
+
+    ```bash
+    docker-compose up --build -d
+    ```
 
 ## Installation
 
@@ -95,7 +106,7 @@ If you have problems installing or configuring the application visit the
 You can also report problems on the [issues page](https://github.com/alextselegidis/easyappointments/issues)
 and help the development progress.
 
-## License 
+## License
 
 Code Licensed Under [GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) | Content Under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
 
@@ -105,7 +116,8 @@ Website [alextselegidis.com](https://alextselegidis.com) &nbsp;&middot;&nbsp;
 GitHub [alextselegidis](https://github.com/alextselegidis) &nbsp;&middot;&nbsp;
 Twitter [@alextselegidis](https://twitter.com/AlexTselegidis)
 
-###### More Projects On Github
-###### ⇾ [Plainpad &middot; Self Hosted Note Taking App](https://github.com/alextselegidis/plainpad)
-###### ⇾ [Questionful &middot; Web Questionnaires Made Easy](https://github.com/alextselegidis/questionful)
-###### ⇾ [Integravy &middot; Service Orchestration At Your Fingertips](https://github.com/alextselegidis/integravy)
+## More Projects On Github
+
+* ⇾ [Plainpad &middot; Self Hosted Note Taking App](https://github.com/alextselegidis/plainpad)
+* ⇾ [Questionful &middot; Web Questionnaires Made Easy](https://github.com/alextselegidis/questionful)
+* ⇾ [Integravy &middot; Service Orchestration At Your Fingertips](https://github.com/alextselegidis/integravy)

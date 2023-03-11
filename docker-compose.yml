@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+
+    database:
+        image: mysql:5.7
+        volumes:
+            - database:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=easyappointments
+
+    server:
+        build: .
+        ports:
+            - "8000:80"
+
+volumes:
+    database:
