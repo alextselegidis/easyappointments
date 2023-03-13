@@ -198,7 +198,7 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -209,4 +209,4 @@
 <script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/customers.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

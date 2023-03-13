@@ -64,4 +64,4 @@
 
 <script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

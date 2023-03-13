@@ -82,7 +82,7 @@
 
 </div>
 
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -92,4 +92,4 @@
 <script src="<?= asset_url('assets/js/http/categories_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/categories.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

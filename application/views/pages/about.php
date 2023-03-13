@@ -95,4 +95,4 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content') ?>

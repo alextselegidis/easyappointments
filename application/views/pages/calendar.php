@@ -109,7 +109,7 @@
 
 <?php component('working_plan_exceptions_modal') ?>
 
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -130,5 +130,5 @@
 <script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/calendar.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>
 

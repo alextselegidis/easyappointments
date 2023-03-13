@@ -8,7 +8,7 @@
 
 <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/components/color_selection.css') ?>">
 
-<?php section('styles') ?>
+<?php end_section('styles') ?>
 
 <label class="form-label"><?= lang('color') ?></label>
 
@@ -62,4 +62,4 @@
 
 <script src="<?= asset_url('assets/js/components/color_selection.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

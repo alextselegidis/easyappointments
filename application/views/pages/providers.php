@@ -355,7 +355,7 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -371,7 +371,7 @@
 <script src="<?= asset_url('assets/js/http/providers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/providers.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>
 
 
 

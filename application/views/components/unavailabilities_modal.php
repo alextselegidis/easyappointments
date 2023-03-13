@@ -89,4 +89,4 @@
 
 <script src="<?= asset_url('assets/js/components/unavailabilities_modal.js') ?>"></script>
 
-<?php section('scripts') ?> 
+<?php end_section('scripts') ?> 

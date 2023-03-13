@@ -81,7 +81,7 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -91,4 +91,4 @@
 <script src="<?= asset_url('assets/js/pages/legal_settings.js') ?>"></script>
 
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

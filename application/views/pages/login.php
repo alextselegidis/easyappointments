@@ -37,7 +37,7 @@
         </button>
     </div>
 </form>
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -46,4 +46,4 @@
 <script src="<?= asset_url('assets/js/http/login_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/login.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

@@ -141,7 +141,7 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content') ?>
 
 <?php section('scripts') ?>
 
@@ -151,4 +151,4 @@
 <script src="<?= asset_url('assets/js/http/webhooks_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/webhooks.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>

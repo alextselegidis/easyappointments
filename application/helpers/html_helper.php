@@ -127,6 +127,42 @@ if ( ! function_exists('section'))
     }
 }
 
+if ( ! function_exists('end_section'))
+{
+    /**
+     * Use this function in view files to mark the end of a layout section.
+     *
+     * Sections will only be used if the view file extends a layout and will be ignored otherwise.
+     *
+     * Example:
+     *
+     * <?php section('content') ?>
+     *
+     *   <!-- Section Starts -->
+     *
+     *   <p>This is the content of the section.</p>
+     *
+     *   <!-- Section Ends -->
+     *
+     * <?php end_section('content') ?>
+     *
+     * @param string $name
+     */
+    function end_section(string $name)
+    {
+        $layout = config('layout');
+
+        if (array_key_exists($name, $layout['tmp']))
+        {
+            $layout['sections'][$name][] = ob_get_clean();
+
+            unset($layout['tmp'][$name]);
+
+            config(['layout' => $layout]);
+        }
+    }
+}
+
 if ( ! function_exists('slot'))
 {
     /**

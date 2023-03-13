@@ -19,4 +19,4 @@
 
 <script src="<?= asset_url('assets/js/components/appointment_status_options.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts') ?>
