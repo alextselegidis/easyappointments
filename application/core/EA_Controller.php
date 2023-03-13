@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Easy!Appointments controller. 
+ * Easy!Appointments controller.
  *
  * @property EA_Benchmark $benchmark
  * @property EA_Cache $cache
@@ -75,12 +75,16 @@ class EA_Controller extends CI_Controller {
     {
         parent::__construct();
 
+        $this->load->library('accounts');
+
+        $this->ensure_user_exists();
+
         $this->configure_language();
-        
+
         $this->load_common_html_vars();
-        
+
         $this->load_common_script_vars();
-        
+
         rate_limit($this->input->ip_address());
     }
 
@@ -112,9 +116,9 @@ class EA_Controller extends CI_Controller {
             'csrf_token' => $this->security->get_csrf_hash(),
         ]);
     }
-    
+
     /**
-     * Load common script vars for all requests. 
+     * Load common script vars for all requests.
      */
     private function load_common_script_vars()
     {
@@ -124,5 +128,22 @@ class EA_Controller extends CI_Controller {
             'available_languages' => config('available_languages'),
             'csrf_token' => $this->security->get_csrf_hash(),
         ]);
+    }
+
+    private function ensure_user_exists()
+    {
+        $user_id = session('user_id');
+
+        if ( ! $user_id)
+        {
+            return;
+        }
+
+        if ( ! $this->accounts->does_account_exist($user_id))
+        {
+            session_destroy();
+
+            abort(403, 'Forbidden');
+        }
     }
 }

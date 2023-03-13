@@ -16,7 +16,7 @@
  * Accounts library.
  *
  * Handles account related functionality.
- * 
+ *
  * @package Libraries
  */
 class Accounts {
@@ -145,5 +145,17 @@ class Accounts {
         $this->CI->users_model->set_setting($user['id'], 'password', $hash_password);
 
         return $new_password;
+    }
+
+    /**
+     * Check if a user account exists or not.
+     *
+     * @param int $user_id
+     *
+     * @return bool
+     */
+    public function does_account_exist(int $user_id): bool
+    {
+        return $this->CI->users_model->query()->where(['id' => $user_id, 'delete_datetime' => NULL])->get()->num_rows() > 0;
     }
 }
