@@ -364,17 +364,6 @@ $config['cookie_secure'] = strpos($config['base_url'], 'https') !== FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Global XSS Filtering
-|--------------------------------------------------------------------------
-|
-| Determines whether the XSS filter is always active when GET, POST or
-| COOKIE data is encountered
-|
-*/
-$config['global_xss_filtering'] = TRUE;
-
-/*
-|--------------------------------------------------------------------------
 | Cross Site Request Forgery
 |--------------------------------------------------------------------------
 | Enables a CSRF cookie token to be set. When set to TRUE, token will be
