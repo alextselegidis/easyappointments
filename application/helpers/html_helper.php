@@ -11,6 +11,25 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
+if ( ! function_exists('e'))
+{
+    /**
+     * HTML escape function for templates.
+     *
+     * Use this helper function to easily escape all the outputted HTML markup.
+     *
+     * Example:
+     *
+     * <?= e($string) ?>
+     *
+     * @param mixed $string Provide anything that can be converted to a string.
+     */
+    function e(mixed $string): string
+    {
+        return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+    }
+}
+
 if ( ! function_exists('component'))
 {
     /**

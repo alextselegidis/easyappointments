@@ -37,6 +37,6 @@ if ( ! function_exists('lang'))
             $result = '<label for="' . $for . '"' . _stringify_attributes($attributes) . '>' . $result . '</label>';
         }
 
-        return $result ?: $line;
+        return e($result ?: $line);
     }
 }
