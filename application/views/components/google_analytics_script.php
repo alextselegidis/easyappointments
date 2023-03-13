@@ -10,7 +10,7 @@
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,"script","//www.google-analytics.com/analytics.js","ga");
-        ga("create", "<?= $google_analytics_code ?>", "auto");
+        ga("create", "<?= e($google_analytics_code) ?>", "auto");
         ga("send", "pageview");
     </script>
 <?php endif ?>
@@ -21,7 +21,7 @@
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag("js", new Date());
-        gtag("config", "<?= $google_analytics_code ?>");
+        gtag("config", "<?= e($google_analytics_code) ?>");
     </script>
 <?php endif ?>
 

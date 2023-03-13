@@ -44,7 +44,7 @@
 
     <div class="ms-lg-auto">
         <strong id="footer-user-display-name">
-            <?= lang('hello') . ', ' . $user_display_name ?>!
+            <?= lang('hello') . ', ' . e($user_display_name) ?>!
         </strong>
     </div>
 </div>

@@ -25,7 +25,7 @@
 <div class="email-container" style="width: 650px; border: 1px solid #eee;">
     <div id="header" style="background-color: #429a82; height: 45px; padding: 10px 15px;">
         <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
-            <?= $settings['company_name'] ?>
+            <?= e($settings['company_name']) ?>
         </strong>
     </div>
 
@@ -48,7 +48,7 @@
                     <?= lang('service') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $service['name'] ?>
+                    <?= e($service['name']) ?>
                 </td>
             </tr>
             <tr>
@@ -56,7 +56,7 @@
                     <?= lang('provider') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $provider['first_name'] . ' ' . $provider['last_name'] ?>
+                    <?= e($provider['first_name'] . ' ' . $provider['last_name']) ?>
                 </td>
             </tr>
             <tr>
@@ -91,7 +91,7 @@
                         <?= lang('location') ?>
                     </td>
                     <td style="padding: 3px;">
-                        <?= $appointment['location'] ?>
+                        <?= e($appointment['location']) ?>
                     </td>
                 </tr>
             <?php endif ?>
@@ -102,7 +102,7 @@
                         <?= lang('notes') ?>
                     </td>
                     <td style="padding: 3px;">
-                        <?= $appointment['notes'] ?>
+                        <?= e($appointment['notes']) ?>
                     </td>
                 </tr>
             <?php endif ?>
@@ -118,7 +118,7 @@
                     <?= lang('name') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer['first_name'] . ' ' . $customer['last_name'] ?>
+                    <?= e($customer['first_name'] . ' ' . $customer['last_name']) ?>
                 </td>
             </tr>
             <tr>
@@ -126,7 +126,7 @@
                     <?= lang('email') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer['email'] ?>
+                    <?= e($customer['email']) ?>
                 </td>
             </tr>
             <tr>
@@ -134,7 +134,7 @@
                     <?= lang('phone_number') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer['phone_number'] ?>
+                    <?= e($customer['phone_number']) ?>
                 </td>
             </tr>
             <tr>
@@ -142,7 +142,7 @@
                     <?= lang('address') ?>
                 </td>
                 <td style="padding: 3px;">
-                    <?= $customer['address'] ?>
+                    <?= e($customer['address']) ?>
                 </td>
             </tr>
         </table>
@@ -151,8 +151,8 @@
             <?= lang('appointment_link_title') ?>
         </h2>
 
-        <a href="<?= $appointment_link ?>" style="width: 600px;">
-            <?= $appointment_link ?>
+        <a href="<?= e($appointment_link) ?>" style="width: 600px;">
+            <?= e($appointment_link) ?>
         </a>
     </div>
 
@@ -163,8 +163,8 @@
             Easy!Appointments
         </a>
         |
-        <a href="<?= $settings['company_link'] ?>" style="text-decoration: none;">
-            <?= $settings['company_name'] ?>
+        <a href="<?= e($settings['company_link']) ?>" style="text-decoration: none;">
+            <?= e($settings['company_name']) ?>
         </a>
     </div>
 </div>
