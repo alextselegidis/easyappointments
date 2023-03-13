@@ -22,7 +22,7 @@ class Webhooks_model extends EA_Model {
     /**
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'id' => 'integer',
         'is_active' => 'boolean',
         'is_ssl_verified' => 'boolean',
@@ -31,7 +31,7 @@ class Webhooks_model extends EA_Model {
     /**
      * @var array
      */
-    protected $api_resource = [
+    protected array $api_resource = [
         'id' => 'id',
         'name' => 'name',
         'url' => 'url',
@@ -222,7 +222,7 @@ class Webhooks_model extends EA_Model {
     /**
      * Get all webhooks that match the provided criteria.
      *
-     * @param array|string $where Where conditions.
+     * @param array|string|null $where Where conditions.
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
@@ -230,7 +230,7 @@ class Webhooks_model extends EA_Model {
      *
      * @return array Returns an array of webhooks.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {

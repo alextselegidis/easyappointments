@@ -22,7 +22,7 @@ class Secretaries_model extends EA_Model {
     /**
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'id' => 'integer',
         'id_roles' => 'integer',
     ];
@@ -30,7 +30,7 @@ class Secretaries_model extends EA_Model {
     /**
      * @var array
      */
-    protected $api_resource = [
+    protected array $api_resource = [
         'id' => 'id',
         'firstName' => 'first_name',
         'lastName' => 'last_name',
@@ -55,6 +55,7 @@ class Secretaries_model extends EA_Model {
      * @return int Returns the secretary ID.
      *
      * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function save(array $secretary): int
     {
@@ -166,7 +167,7 @@ class Secretaries_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_SECRETARY)
             ->where('users.email', $secretary['email'])
             ->where('users.id !=', $secretary_id)
-            ->where('users.delete_datetime', NULL)
+            ->where('users.delete_datetime')
             ->get()
             ->num_rows();
 
@@ -207,7 +208,7 @@ class Secretaries_model extends EA_Model {
      *
      * @return int Returns the secretary ID.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException|Exception
      */
     protected function insert(array $secretary): int
     {
@@ -247,7 +248,7 @@ class Secretaries_model extends EA_Model {
      *
      * @return int Returns the secretary ID.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException|Exception
      */
     protected function update(array $secretary): int
     {
@@ -393,7 +394,7 @@ class Secretaries_model extends EA_Model {
     /**
      * Get all secretaries that match the provided criteria.
      *
-     * @param array|string $where Where conditions
+     * @param array|string|null $where Where conditions
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
@@ -401,7 +402,7 @@ class Secretaries_model extends EA_Model {
      *
      * @return array Returns an array of secretaries.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_secretary_role_id();
 
@@ -496,9 +497,9 @@ class Secretaries_model extends EA_Model {
      *
      * @param int $secretary_id Secretary ID.
      * @param string $name Setting name.
-     * @param mixed $value Setting value.
+     * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $secretary_id, string $name, $value = NULL)
+    public function set_setting(int $secretary_id, string $name, mixed $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $secretary_id]))
         {
@@ -644,22 +645,18 @@ class Secretaries_model extends EA_Model {
 
         foreach ($resources as $resource)
         {
-            switch ($resource)
+            $secretary['providers'] = match ($resource)
             {
-                case 'providers':
-                    $secretary['providers'] = $this
-                        ->db
-                        ->select('users.*')
-                        ->from('users')
-                        ->join('secretaries_providers', 'secretaries_providers.id_users_provider = users.id', 'inner')
-                        ->where('id_users_secretary', $secretary['id'])
-                        ->get()
-                        ->result_array();
-                    break;
-
-                default:
-                    throw new InvalidArgumentException('The requested secretary relation is not supported: ' . $resource);
-            }
+                'providers' => $this
+                    ->db
+                    ->select('users.*')
+                    ->from('users')
+                    ->join('secretaries_providers', 'secretaries_providers.id_users_provider = users.id', 'inner')
+                    ->where('id_users_secretary', $secretary['id'])
+                    ->get()
+                    ->result_array(),
+                default => throw new InvalidArgumentException('The requested secretary relation is not supported: ' . $resource),
+            };
         }
     }
 

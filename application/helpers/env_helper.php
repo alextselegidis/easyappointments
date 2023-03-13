@@ -21,13 +21,13 @@ if ( ! function_exists('env'))
      * $debug = env('debug', FALSE);
      *
      * @param string $key Environment key. 
-     * @param mixed $default Default value in case the requested variable has no value.
+     * @param mixed|null $default Default value in case the requested variable has no value.
      *
      * @return mixed
      *
      * @throws InvalidArgumentException
      */
-    function env(string $key, $default = NULL)
+    function env(string $key, mixed $default = NULL): mixed
     {
         if (empty($key))
         {

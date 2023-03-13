@@ -227,7 +227,7 @@ class Calendar extends EA_Controller {
                     ? can('add', PRIV_APPOINTMENTS)
                     : can('edit', PRIV_APPOINTMENTS);
 
-                if ($required_permissions == FALSE)
+                if ( ! $required_permissions)
                 {
                     throw new RuntimeException('You do not have the required permissions for this task.');
                 }
@@ -279,7 +279,7 @@ class Calendar extends EA_Controller {
                 'time_format' => setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
@@ -411,7 +411,7 @@ class Calendar extends EA_Controller {
 
             $this->unavailabilities_model->delete($unavailability_id);
 
-            $this->synchronization->sync_appointment_deleted($unavailability, $provider);
+            $this->synchronization->sync_unavailability_deleted($unavailability, $provider);
 
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 

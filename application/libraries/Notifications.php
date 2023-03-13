@@ -20,9 +20,9 @@
  */
 class Notifications {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Notifications constructor.

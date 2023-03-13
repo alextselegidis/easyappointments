@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php use JetBrains\PhpStorm\NoReturn;
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Online Appointment Scheduler
@@ -21,19 +23,19 @@
  */
 class Api {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * @var int
      */
-    protected $default_length = 20;
+    protected int $default_length = 20;
 
     /**
      * @var EA_Model
      */
-    protected $model;
+    protected EA_Model $model;
 
     /**
      * Api constructor.
@@ -50,7 +52,7 @@ class Api {
      *
      * @param string $model
      */
-    public function model(string $model)
+    public function model(string $model): void
     {
         $this->CI->load->model($model);
 
@@ -60,7 +62,7 @@ class Api {
     /**
      * Authorize the API request (Basic Auth or Bearer Token supported).
      */
-    public function auth()
+    public function auth(): void
     {
         try
         {
@@ -84,7 +86,7 @@ class Api {
                 throw new RuntimeException('The provided credentials do not match any admin user!', 401, 'Unauthorized');
             }
         }
-        catch (Throwable $e)
+        catch (Throwable)
         {
             $this->request_authentication();
         }
@@ -93,7 +95,7 @@ class Api {
     /**
      * Returns the bearer token value.
      *
-     * @return string
+     * @return string|null
      */
     protected function get_bearer_token(): ?string
     {
@@ -153,7 +155,7 @@ class Api {
     /**
      * Sets request authentication headers.
      */
-    public function request_authentication()
+    #[NoReturn] public function request_authentication(): void
     {
         header('WWW-Authenticate: Basic realm="Easy!Appointments"');
         header('HTTP/1.0 401 Unauthorized');

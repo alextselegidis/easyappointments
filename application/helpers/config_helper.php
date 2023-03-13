@@ -25,13 +25,13 @@
  * config(['version' => '1.0.0']);
  *
  * @param array|string $key Configuration key.
- * @param mixed $default Default value in case the requested config has no value.
+ * @param mixed|null $default Default value in case the requested config has no value.
  *
  * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
  *
  * @throws InvalidArgumentException
  */
-function config($key, $default = NULL)
+function config(array|string $key, mixed $default = NULL): mixed
 {
     /** @var EA_Controller $CI */
     $CI = &get_instance();
@@ -71,14 +71,14 @@ if ( ! function_exists('script_vars'))
      *
      * script_vars(['version' => '1.0.0']);
      *
-     * @param array|string $key Configuration key.
-     * @param mixed $default Default value in case the requested config has no value.
+     * @param array|string|null $key Configuration key.
+     * @param mixed|null $default Default value in case the requested config has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
      *
      * @throws InvalidArgumentException
      */
-    function script_vars($key = NULL, $default = NULL)
+    function script_vars(array|string $key = NULL, mixed $default = NULL): mixed
     {
         $script_vars = config('script_vars', []);
 
@@ -120,14 +120,14 @@ if ( ! function_exists('html_vars'))
      *
      * html_vars(['title' => 'Test Title']);
      *
-     * @param array|string $key Variable key.
-     * @param mixed $default Default value in case the requested variable has no value.
+     * @param array|string|null $key Variable key.
+     * @param mixed|null $default Default value in case the requested variable has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
      *
      * @throws InvalidArgumentException
      */
-    function html_vars($key = NULL, $default = NULL)
+    function html_vars(array|string $key = NULL, mixed $default = NULL): mixed
     {
         $html_vars = config('html_vars', []);
 
@@ -169,14 +169,14 @@ if ( ! function_exists('vars'))
      *
      * vars(['version' => '1.0.0']);
      *
-     * @param array|string $key Configuration key.
-     * @param mixed $default Default value in case the requested config has no value.
+     * @param array|string|null $key Configuration key.
+     * @param mixed|null $default Default value in case the requested config has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new configuration value.
      *
      * @throws InvalidArgumentException
      */
-    function vars($key = NULL, $default = NULL)
+    function vars(array|string $key = NULL, mixed $default = NULL): mixed
     {
         return html_vars($key) ?? script_vars($key) ?? $default;
     }

@@ -21,9 +21,9 @@
  */
 class Accounts {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Accounts constructor.
@@ -45,6 +45,7 @@ class Accounts {
      * @param string $password Password (non-hashed).
      *
      * @return array|null Returns an associative array with the PHP session data or NULL on failure.
+     * @throws Exception
      */
     public function check_login(string $username, string $password): ?array
     {
@@ -112,9 +113,9 @@ class Accounts {
      * @param string $username Username.
      * @param string $email Email.
      *
-     * @return string|bool Returns the new password on success or FALSE on failure.
+     * @return string Returns the new password on success or FALSE on failure.
      *
-     * @throws RuntimeException
+     * @throws Exception
      */
     public function regenerate_password(string $username, string $email): string
     {

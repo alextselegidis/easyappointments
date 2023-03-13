@@ -22,9 +22,9 @@ require_once __DIR__ . '/../core/EA_Migration.php';
  */
 class Instance {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Installation constructor.
@@ -47,7 +47,7 @@ class Instance {
      *
      * @param string $type Provide "fresh" to revert previous migrations and start from the beginning or "up"/"down" to step.
      */
-    public function migrate(string $type = '')
+    public function migrate(string $type = ''): void
     {
         $current_version = $this->CI->migration->current_version();
 
@@ -166,7 +166,7 @@ class Instance {
      *
      * @throws Exception
      */
-    public function backup(string $path = NULL)
+    public function backup(string $path = NULL): void
     {
         $path = $path ?? APPPATH . '/../storage/backups';
 

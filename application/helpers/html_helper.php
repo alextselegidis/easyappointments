@@ -48,9 +48,9 @@ if ( ! function_exists('component'))
      * @param array $vars Additional parameters for the component.
      * @param bool $return Whether to return the HTML or echo it directly.
      *
-     * @return string Return the HTML if the $return argument is TRUE or NULL.
+     * @return mixed Return the HTML if the $return argument is TRUE or NULL.
      */
-    function component(string $component, array $vars = [], bool $return = FALSE)
+    function component(string $component, array $vars = [], bool $return = FALSE): mixed
     {
         /** @var EA_Controller $CI */
         $CI = get_instance();
@@ -66,7 +66,7 @@ if ( ! function_exists('extend'))
      *
      * @param $layout
      */
-    function extend($layout)
+    function extend($layout): void
     {
         config([
             'layout' => [
@@ -99,7 +99,7 @@ if ( ! function_exists('section'))
      *
      * @param string $name
      */
-    function section(string $name)
+    function section(string $name): void
     {
         $layout = config('layout');
 
@@ -148,7 +148,7 @@ if ( ! function_exists('end_section'))
      *
      * @param string $name
      */
-    function end_section(string $name)
+    function end_section(string $name): void
     {
         $layout = config('layout');
 
@@ -170,7 +170,7 @@ if ( ! function_exists('slot'))
      *
      * @param string $name
      */
-    function slot(string $name)
+    function slot(string $name): void
     {
         $layout = config('layout');
 

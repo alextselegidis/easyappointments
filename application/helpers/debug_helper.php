@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php use JetBrains\PhpStorm\NoReturn;
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Online Appointment Scheduler
@@ -22,7 +24,7 @@ if ( ! function_exists('dd'))
      *
      * @param mixed ...$vars
      */
-    function dd(...$vars)
+    #[NoReturn] function dd(...$vars): void
     {
         var_dump($vars);
 

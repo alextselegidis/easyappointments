@@ -22,7 +22,7 @@ class Providers_model extends EA_Model {
     /**
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'id' => 'integer',
         'is_private' => 'boolean',
         'id_roles' => 'integer',
@@ -31,7 +31,7 @@ class Providers_model extends EA_Model {
     /**
      * @var array
      */
-    protected $api_resource = [
+    protected array $api_resource = [
         'id' => 'id',
         'firstName' => 'first_name',
         'lastName' => 'last_name',
@@ -57,6 +57,7 @@ class Providers_model extends EA_Model {
      * @return int Returns the provider ID.
      *
      * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function save(array $provider): int
     {
@@ -168,7 +169,7 @@ class Providers_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->where('users.email', $provider['email'])
             ->where('users.id !=', $provider_id)
-            ->where('users.delete_datetime', NULL)
+            ->where('users.delete_datetime')
             ->get()
             ->num_rows();
 
@@ -209,7 +210,7 @@ class Providers_model extends EA_Model {
      *
      * @return int Returns the provider ID.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException|Exception
      */
     protected function insert(array $provider): int
     {
@@ -248,7 +249,7 @@ class Providers_model extends EA_Model {
      *
      * @return int Returns the provider ID.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException|Exception
      */
     protected function update(array $provider): int
     {
@@ -398,7 +399,7 @@ class Providers_model extends EA_Model {
     /**
      * Get all providers that match the provided criteria.
      *
-     * @param array|string $where Where conditions
+     * @param array|string|null $where Where conditions
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
@@ -406,7 +407,7 @@ class Providers_model extends EA_Model {
      *
      * @return array Returns an array of providers.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_provider_role_id();
 
@@ -519,9 +520,9 @@ class Providers_model extends EA_Model {
      *
      * @param int $provider_id Provider ID.
      * @param string $name Setting name.
-     * @param mixed $value Setting value.
+     * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $provider_id, string $name, $value = NULL)
+    public function set_setting(int $provider_id, string $name, mixed $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id]))
         {
@@ -579,6 +580,7 @@ class Providers_model extends EA_Model {
      * @param array $working_plan_exception Associative array with the working plan exception data.
      *
      * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception)
     {
@@ -793,22 +795,18 @@ class Providers_model extends EA_Model {
 
         foreach ($resources as $resource)
         {
-            switch ($resource)
+            $provider['services'] = match ($resource)
             {
-                case 'services':
-                    $provider['services'] = $this
-                        ->db
-                        ->select('services.*')
-                        ->from('services')
-                        ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
-                        ->where('id_users', $provider['id'])
-                        ->get()
-                        ->result_array();
-                    break;
-
-                default:
-                    throw new InvalidArgumentException('The requested provider relation is not supported: ' . $resource);
-            }
+                'services' => $this
+                    ->db
+                    ->select('services.*')
+                    ->from('services')
+                    ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
+                    ->where('id_users', $provider['id'])
+                    ->get()
+                    ->result_array(),
+                default => throw new InvalidArgumentException('The requested provider relation is not supported: ' . $resource),
+            };
         }
     }
 

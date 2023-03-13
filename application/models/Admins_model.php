@@ -22,7 +22,7 @@ class Admins_model extends EA_Model {
     /**
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'id' => 'integer',
         'id_roles' => 'integer',
     ];
@@ -30,7 +30,7 @@ class Admins_model extends EA_Model {
     /**
      * @var array
      */
-    protected $api_resource = [
+    protected array $api_resource = [
         'id' => 'id',
         'firstName' => 'first_name',
         'lastName' => 'last_name',
@@ -55,6 +55,7 @@ class Admins_model extends EA_Model {
      * @return int Returns the admin ID.
      *
      * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function save(array $admin): int
     {
@@ -153,7 +154,7 @@ class Admins_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->where('users.email', $admin['email'])
             ->where('users.id !=', $admin_id)
-            ->where('users.delete_datetime', NULL)
+            ->where('users.delete_datetime')
             ->get()
             ->num_rows();
 
@@ -194,7 +195,7 @@ class Admins_model extends EA_Model {
      *
      * @return int Returns the admin ID.
      *
-     * @throws RuntimeException
+     * @throws RuntimeException|Exception
      */
     protected function insert(array $admin): int
     {
@@ -231,6 +232,7 @@ class Admins_model extends EA_Model {
      * @return int Returns the admin ID.
      *
      * @throws RuntimeException
+     * @throws Exception
      */
     protected function update(array $admin): int
     {
@@ -378,7 +380,7 @@ class Admins_model extends EA_Model {
     /**
      * Get all admins that match the provided criteria.
      *
-     * @param array|string $where Where conditions.
+     * @param array|string|null $where Where conditions.
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
@@ -386,7 +388,7 @@ class Admins_model extends EA_Model {
      *
      * @return array Returns an array of admins.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         $role_id = $this->get_admin_role_id();
 
@@ -474,9 +476,9 @@ class Admins_model extends EA_Model {
      *
      * @param int $admin_id Admin ID.
      * @param string $name Setting name.
-     * @param mixed $value Setting value.
+     * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $admin_id, string $name, $value = NULL)
+    public function set_setting(int $admin_id, string $name, mixed $value = NULL)
     {
         if ( ! $this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id]))
         {

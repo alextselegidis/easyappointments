@@ -33,9 +33,9 @@ use Jsvrcek\ICS\Utility\Formatter;
  */
 class Ics_file {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Availability constructor.

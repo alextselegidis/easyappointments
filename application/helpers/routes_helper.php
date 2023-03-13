@@ -18,9 +18,9 @@ if ( ! function_exists('route_api_resource'))
      *
      * @param array $route Route config.
      * @param string $resource Resource name.
-     * @param string|null $prefix URL prefix (e.g. api/v1/).
+     * @param string $prefix URL prefix (e.g. api/v1/).
      */
-    function route_api_resource(array &$route, string $resource, string $prefix = '')
+    function route_api_resource(array &$route, string $resource, string $prefix = ''): void
     {
         $route[$prefix . $resource]['post'] = 'api/v1/' . $resource . '_api_v1/store';
         $route[$prefix . $resource . '/(:num)']['put'] = 'api/v1/' . $resource . '_api_v1/update/$1';

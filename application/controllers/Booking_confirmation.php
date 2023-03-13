@@ -36,6 +36,8 @@ class Booking_confirmation extends EA_Controller {
 
     /**
      * Display the appointment registration success page.
+     * 
+     * @throws Exception
      */
     public function of()
     {

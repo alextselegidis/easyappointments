@@ -131,7 +131,6 @@ class Booking extends EA_Controller {
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
-        $future_booking_limit = setting('future_booking_limit');
         $theme = request('theme', setting('theme', 'default'));
 
         if (empty($theme) || ! file_exists(__DIR__ . '/../../assets/css/themes/' . $theme . '.min.css'))
@@ -286,7 +285,7 @@ class Booking extends EA_Controller {
      *
      * @param string $appointment_hash
      */
-    public function reschedule($appointment_hash)
+    public function reschedule(string $appointment_hash)
     {
         html_vars(['appointment_hash' => $appointment_hash]);
 
@@ -311,7 +310,7 @@ class Booking extends EA_Controller {
 
             if (empty($provider_id))
             {
-                json_response([]);
+                json_response();
 
                 return;
             }
@@ -397,7 +396,7 @@ class Booking extends EA_Controller {
                     // Check if the provider is available for the requested date.
                     $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 
-                    if (count($available_hours) > $max_hours_count && (empty($hour) || in_array($hour, $available_hours, FALSE)))
+                    if (count($available_hours) > $max_hours_count && (empty($hour) || in_array($hour, $available_hours)))
                     {
                         $provider_id = $provider['id'];
 
@@ -567,7 +566,7 @@ class Booking extends EA_Controller {
                 'time_format' => setting('time_format')
             ];
 
-            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
             $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
 
@@ -596,7 +595,7 @@ class Booking extends EA_Controller {
      * Use this method just before the customer confirms the appointment registration. If the selected date was reserved
      * in the meanwhile, the customer must be prompted to select another time.
      *
-     * @return int Returns the ID of the provider that is available for the appointment.
+     * @return int|null Returns the ID of the provider that is available for the appointment.
      *
      * @throws Exception
      */

@@ -26,14 +26,14 @@ if ( ! function_exists('session'))
      *
      * session(['logged_in' => FALSE]);
      *
-     * @param array|string $key Session item key. 
-     * @param mixed $default Default value in case the requested session item has no value.
+     * @param array|string|null $key Session item key. 
+     * @param mixed|null $default Default value in case the requested session item has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new session value.
      *
      * @throws InvalidArgumentException
      */
-    function session($key = NULL, $default = NULL)
+    function session(array|string $key = NULL, mixed $default = NULL): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

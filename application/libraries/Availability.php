@@ -21,9 +21,9 @@
  */
 class Availability {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Availability constructor.
@@ -126,7 +126,7 @@ class Availability {
 
         $date_working_plan = $working_plan[$working_day] ?? NULL;
 
-        // Search if the $date is an custom availability period added outside the normal working plan.
+        // Search if the $date is a custom availability period added outside the normal working plan.
         if (isset($working_plan_exceptions[$date]))
         {
             $date_working_plan = $working_plan_exceptions[$date];
@@ -145,7 +145,7 @@ class Availability {
             $day_end = new DateTime($date_working_plan['end']);
 
             // Split the working plan to available time periods that do not contain the breaks in them.
-            foreach ($date_working_plan['breaks'] as $index => $break)
+            foreach ($date_working_plan['breaks'] as $break)
             {
                 $break_start = new DateTime($break['start']);
                 $break_end = new DateTime($break['end']);
@@ -373,7 +373,7 @@ class Availability {
 
         $date_working_plan = $working_plan[$working_day] ?? NULL;
 
-        // Search if the $date is an custom availability period added outside the normal working plan.
+        // Search if the $date is a custom availability period added outside the normal working plan.
         if (isset($working_plan_exceptions[$date]))
         {
             $date_working_plan = $working_plan_exceptions[$date];
@@ -505,7 +505,6 @@ class Availability {
                 {
                     // break contains period
                     $period['start'] = $break_end;
-                    continue;
                 }
             }
         }
@@ -620,7 +619,7 @@ class Availability {
      * @param array $available_hours
      * @param array $provider
      *
-     * @return array|mixed
+     * @return array
      *
      * @throws Exception
      */

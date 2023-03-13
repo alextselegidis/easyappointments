@@ -43,7 +43,7 @@ class EA_Model extends CI_Model {
     /**
      * @var array
      */
-    protected $casts = [];
+    protected array $casts = [];
 
     /**
      * EA_Model constructor.

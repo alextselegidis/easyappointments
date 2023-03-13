@@ -334,7 +334,7 @@ class Appointments_api_v1 extends EA_Controller {
             'time_format' => setting('time_format')
         ];
 
-        $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
+        $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
         $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
     }

@@ -26,14 +26,14 @@ if ( ! function_exists('setting'))
      *
      * setting(['company_name' => 'ACME Inc']);
      *
-     * @param array|string $key Setting key.
-     * @param mixed $default Default value in case the requested setting has no value.
+     * @param array|string|null $key Setting key.
+     * @param mixed|null $default Default value in case the requested setting has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new setting value.
      *
      * @throws InvalidArgumentException
      */
-    function setting($key = NULL, $default = NULL)
+    function setting(array|string $key = NULL, mixed $default = NULL): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

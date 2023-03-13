@@ -20,9 +20,9 @@
  */
 class Synchronization {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Synchronization constructor.
@@ -45,9 +45,8 @@ class Synchronization {
      * @param array $provider Provider record.
      * @param array $customer Customer record.
      * @param array $settings Required settings for the notification content.
-     * @param bool|false $manage_mode True if the appointment is being edited.
      */
-    public function sync_appointment_saved(array $appointment, array $service, array $provider, array $customer, array $settings, bool $manage_mode = FALSE)
+    public function sync_appointment_saved(array $appointment, array $service, array $provider, array $customer, array $settings): void
     {
         try
         {
@@ -103,7 +102,7 @@ class Synchronization {
      * @param array $appointment Appointment record.
      * @param array $provider Provider record.
      */
-    public function sync_appointment_deleted(array $appointment, array $provider)
+    public function sync_appointment_deleted(array $appointment, array $provider): void
     {
         try
         {
@@ -137,7 +136,7 @@ class Synchronization {
      * @param array $unavailability Unavailability record.
      * @param array $provider Provider record.
      */
-    public function sync_unavailability_saved(array $unavailability, array $provider)
+    public function sync_unavailability_saved(array $unavailability, array $provider): void
     {
         try
         {
@@ -181,7 +180,7 @@ class Synchronization {
      * @param array $unavailability Unavailability record.
      * @param array $provider Provider record.
      */
-    public function sync_unavailability_deleted(array $unavailability, array $provider)
+    public function sync_unavailability_deleted(array $unavailability, array $provider): void
     {
         try
         {
@@ -213,9 +212,9 @@ class Synchronization {
      * 
      * @throws Exception
      */
-    public function remove_appointment_on_provider_change($appointment_id)
+    public function remove_appointment_on_provider_change($appointment_id): void
     {
-        $existing_appointment = $this->CI->appointments_model->get_row($appointment_id);
+        $existing_appointment = $this->CI->appointments_model->find($appointment_id);
 
         $existing_google_id = $existing_appointment['id_google_calendar'];
 
@@ -223,7 +222,7 @@ class Synchronization {
 
         if ( ! empty($existing_google_id) && (int)$existing_provider_id !== (int)$existing_appointment['id_users_provider'])
         {
-            $existing_provider = $this->CI->providers_model->get_row($existing_provider_id);
+            $existing_provider = $this->CI->providers_model->find($existing_provider_id);
 
             if ($existing_provider['settings']['google_sync'])
             {

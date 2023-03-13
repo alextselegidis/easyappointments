@@ -22,9 +22,9 @@ use GuzzleHttp\Client;
  */
 class Webhooks_client {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Webhook client constructor.
@@ -56,7 +56,7 @@ class Webhooks_client {
 
         foreach ($webhooks as $webhook)
         {
-            if (strpos($webhook['actions'], $action) !== FALSE)
+            if (str_contains($webhook['actions'], $action))
             {
                 $this->call($webhook, $action, $payload);
             }
@@ -70,7 +70,7 @@ class Webhooks_client {
      * @param string $action
      * @param array $payload
      */
-    private function call(array $webhook, string $action, array $payload)
+    private function call(array $webhook, string $action, array $payload): void
     {
         try
         {

@@ -20,9 +20,9 @@
  */
 class Email_messages {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Email_messages constructor.

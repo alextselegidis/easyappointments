@@ -22,19 +22,19 @@ use Google\Service\Calendar\Events;
  */
 class Google_sync {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * @var Google_Client
      */
-    protected $client;
+    protected Google_Client $client;
 
     /**
      * @var Google_Service_Calendar
      */
-    protected $service;
+    protected Google_Service_Calendar $service;
 
     /**
      * Google_sync constructor.
@@ -57,7 +57,7 @@ class Google_sync {
     /**
      * Initialize the client, so that existing execution errors are not passed from one provider to another.
      */
-    public function initialize_clients()
+    public function initialize_clients(): void
     {
         $http = new GuzzleHttp\Client([
             'verify' => FALSE
@@ -126,7 +126,7 @@ class Google_sync {
      * @param string $refresh_token The provider's refresh token. This value is stored in the database and used every
      * time we need to make actions to his Google Calendar account.
      */
-    public function refresh_token(string $refresh_token)
+    public function refresh_token(string $refresh_token): void
     {
         $this->initialize_clients();
 
@@ -247,7 +247,7 @@ class Google_sync {
      * @param array $provider Provider data.
      * @param string $google_event_id The Google Calendar event ID to be removed.
      */
-    public function delete_appointment(array $provider, string $google_event_id)
+    public function delete_appointment(array $provider, string $google_event_id): void
     {
         $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }
@@ -318,7 +318,7 @@ class Google_sync {
      * @param array $provider Provider data.
      * @param string $google_event_id Google Calendar event ID to be removed.
      */
-    public function delete_unavailability(array $provider, string $google_event_id)
+    public function delete_unavailability(array $provider, string $google_event_id): void
     {
         $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }

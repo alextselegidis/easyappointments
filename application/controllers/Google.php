@@ -39,8 +39,6 @@ class Google extends EA_Controller {
      * This method will completely sync the appointments of a provider with his Google Calendar account. The sync period
      * needs to be relatively small, because a lot of API calls might be necessary and this will lead to consuming the
      * Google limit for the Calendar API usage.
-     *
-     * @param string $provider_id Provider record to be synced.
      */
     public static function sync(string $provider_id = NULL)
     {
@@ -166,7 +164,7 @@ class Google extends EA_Controller {
                         }
 
                     }
-                    catch (Throwable $e)
+                    catch (Throwable)
                     {
                         // Appointment not found on Google Calendar, delete from Easy!Appointments.
                         $CI->appointments_model->delete($appointment['id']);
@@ -285,7 +283,10 @@ class Google extends EA_Controller {
      *
      * IMPORTANT: Because it is necessary to authorize the application using the web server flow (see official
      * documentation of OAuth), every Easy!Appointments installation should use its own calendar api key. So in every
-     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an allowed redirect URL.
+     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an 
+     * allowed redirect URL.
+     * 
+     * @throws Exception
      */
     public function oauth_callback()
     {
@@ -431,7 +432,7 @@ class Google extends EA_Controller {
 
             $this->providers_model->set_setting($provider_id, 'google_sync', FALSE);
 
-            $this->providers_model->set_setting($provider_id, 'google_token', NULL);
+            $this->providers_model->set_setting($provider_id, 'google_token');
 
             $this->appointments_model->clear_google_sync_ids($provider_id);
 

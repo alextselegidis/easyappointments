@@ -20,7 +20,7 @@ class Unavailabilities_model extends EA_Model {
     /**
      * @var array
      */
-    protected $casts = [
+    protected array $casts = [
         'id' => 'integer',
         'is_unavailability' => 'boolean',
         'id_users_provider' => 'integer',
@@ -31,7 +31,7 @@ class Unavailabilities_model extends EA_Model {
     /**
      * @var array
      */
-    protected $api_resource = [
+    protected array $api_resource = [
         'id' => 'id',
         'book' => 'book_datetime',
         'start' => 'start_datetime',
@@ -275,7 +275,7 @@ class Unavailabilities_model extends EA_Model {
     /**
      * Get all unavailabilities that match the provided criteria.
      *
-     * @param array|string $where Where conditions.
+     * @param array|string|null $where Where conditions.
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
@@ -283,7 +283,7 @@ class Unavailabilities_model extends EA_Model {
      *
      * @return array Returns an array of unavailabilities.
      */
-    public function get($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
     {
         if ($where !== NULL)
         {
@@ -386,20 +386,16 @@ class Unavailabilities_model extends EA_Model {
 
         foreach ($resources as $resource)
         {
-            switch ($resource)
+            $unavailability['provider'] = match ($resource)
             {
-                case 'provider':
-                    $unavailability['provider'] = $this
-                        ->db
-                        ->get_where('users', [
-                            'id' => $unavailability['id_users_provider'] ?? $unavailability['providerId'] ?? NULL
-                        ])
-                        ->row_array();
-                    break;
-
-                default:
-                    throw new InvalidArgumentException('The requested unavailability relation is not supported: ' . $resource);
-            }
+                'provider' => $this
+                    ->db
+                    ->get_where('users', [
+                        'id' => $unavailability['id_users_provider'] ?? $unavailability['providerId'] ?? NULL
+                    ])
+                    ->row_array(),
+                default => throw new InvalidArgumentException('The requested unavailability relation is not supported: ' . $resource),
+            };
         }
     }
 

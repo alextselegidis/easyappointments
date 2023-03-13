@@ -21,9 +21,9 @@
  */
 class Permissions {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Permissions constructor.
@@ -65,12 +65,12 @@ class Permissions {
             return TRUE;
         }
 
-        if ($role_slug === DB_SLUG_PROVIDER && $limit_customer_access)
+        if ($role_slug === DB_SLUG_PROVIDER)
         {
             return $this->CI->appointments_model->query()->where(['id_users_provider' => $user_id, 'id_users_customer' => $customer_id])->get()->num_rows() > 0;
         }
 
-        if ($role_slug === DB_SLUG_SECRETARY && $limit_customer_access)
+        if ($role_slug === DB_SLUG_SECRETARY)
         {
             $secretary = $this->CI->secretaries_model->find($user_id);
 

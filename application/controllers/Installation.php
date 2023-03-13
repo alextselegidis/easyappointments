@@ -42,7 +42,7 @@ class Installation extends EA_Controller {
     {
         if (is_app_installed())
         {
-            redirect('');
+            redirect();
             return;
         }
 
