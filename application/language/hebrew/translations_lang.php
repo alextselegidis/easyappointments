@@ -1,5 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-// English
+// Hebrew
 $lang['page_title'] = 'קבע פגישה עם';
 $lang['service_and_provider'] = 'בחירת שירות וספק';
 $lang['select_service'] = 'בחירת שירות';
