@@ -267,9 +267,9 @@ class Calendar extends EA_Controller {
             }
 
             $appointment = $this->appointments_model->find($appointment['id']);
-            $provider = $this->providers_model->find($appointment['id_users_provider']);
-            $customer = $this->customers_model->find($appointment['id_users_customer']);
-            $service = $this->services_model->find($appointment['id_services']);
+            $provider = $this->providers_model->find($appointment['id_users_provider'], TRUE);
+            $customer = $this->customers_model->find($appointment['id_users_customer'], TRUE);
+            $service = $this->services_model->find($appointment['id_services'], TRUE);
 
             $settings = [
                 'company_name' => setting('company_name'),
@@ -320,9 +320,9 @@ class Calendar extends EA_Controller {
 
             // Store appointment data for later use in this method.
             $appointment = $this->appointments_model->find($appointment_id);
-            $provider = $this->providers_model->find($appointment['id_users_provider']);
-            $customer = $this->customers_model->find($appointment['id_users_customer']);
-            $service = $this->services_model->find($appointment['id_services']);
+            $provider = $this->providers_model->find($appointment['id_users_provider'], TRUE);
+            $customer = $this->customers_model->find($appointment['id_users_customer'], TRUE);
+            $service = $this->services_model->find($appointment['id_services'], TRUE);
 
             $settings = [
                 'company_name' => setting('company_name'),
@@ -518,9 +518,9 @@ class Calendar extends EA_Controller {
 
             foreach ($response['appointments'] as &$appointment)
             {
-                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
-                $appointment['service'] = $this->services_model->find($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
+                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider'], TRUE);
+                $appointment['service'] = $this->services_model->find($appointment['id_services'], TRUE);
+                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer'], TRUE);
             }
 
             unset($appointment);
@@ -646,9 +646,9 @@ class Calendar extends EA_Controller {
 
             foreach ($response['appointments'] as &$appointment)
             {
-                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
-                $appointment['service'] = $this->services_model->find($appointment['id_services']);
-                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
+                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider'], TRUE);
+                $appointment['service'] = $this->services_model->find($appointment['id_services'], TRUE);
+                $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer'], TRUE);
             }
 
             // Get unavailability periods (only for provider).
