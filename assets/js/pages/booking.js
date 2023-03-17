@@ -48,7 +48,7 @@ App.Pages.Booking = (function () {
      * Initialize the module.
      */
     function initialize() {
-        if (vars('display_cookie_notice')) {
+        if (Boolean(Number(vars('display_cookie_notice')))) {
             cookieconsent.initialise({
                 palette: {
                     popup: {
