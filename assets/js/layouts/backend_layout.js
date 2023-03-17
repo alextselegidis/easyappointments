@@ -63,7 +63,7 @@ window.App.Layouts.Backend = (function () {
 
         actions.forEach(function (action) {
             $('<button/>', {
-                class: 'btn btn-light btn-xs ms-2',
+                class: 'btn btn-light btn-sm ms-2',
                 text: action.label,
                 on: {
                     click: action.function,
