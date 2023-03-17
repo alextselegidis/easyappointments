@@ -86,6 +86,8 @@ class Instance {
      * Seed the database with test data.
      *
      * @return string Return's the administrator user password.
+     * 
+     * @throws Exception
      */
     public function seed(): string
     {
