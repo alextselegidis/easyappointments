@@ -663,8 +663,8 @@ App.Utils.CalendarTableView = (function () {
 
         switch (vars('time_format')) {
             case 'military':
-                timeFormat = 'H:mm';
-                slotTimeFormat = 'H';
+                timeFormat = 'HH:mm';
+                slotTimeFormat = 'HH:mm';
                 break;
             case 'regular':
                 timeFormat = 'h:mm a';
@@ -684,14 +684,17 @@ App.Utils.CalendarTableView = (function () {
             firstDay: firstWeekdayNumber,
             slotDuration: '00:15:00',
             snapDuration: '00:15:00',
+            scrollTime: '07:00:00',
             slotLabelInterval: '01:00',
             eventTimeFormat: timeFormat,
             eventTextColor: '#333',
+            eventColor: '#7cbae8',
             slotLabelFormat: slotTimeFormat,
             allDayContent: lang('all_day'),
             dayHeaderFormat: columnFormat,
             selectable: true,
             selectHelper: true,
+            themeSystem: 'bootstrap5',
             headerToolbar: {
                 left: 'listDay,timeGridDay',
                 center: '',

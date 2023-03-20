@@ -348,11 +348,18 @@ body legend {
 
 #calendar .fc-header-toolbar {
     display: block ;
-    /*text-align: center;*/
 }
 
 #calendar .fc-header-toolbar .fc-toolbar-chunk {
     margin-bottom: 10px;
+    text-align: center;
+}
+
+#calendar .fc-col-header-cell-cushion {
+    text-decoration: none;
+    text-transform: none;
+    cursor: default; 
+    color: var(--bs-body-color) !important; 
 }
 
 #calendar .calendar-header .select2-container {
@@ -367,7 +374,6 @@ body legend {
     width: 100% !important;
 }
 
-
 #calendar-page #calendar .fc-toolbar .fc-left,
 #calendar-page #calendar .fc-toolbar .fc-right {
     float: none;
@@ -377,6 +383,7 @@ body legend {
 
 #calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
     font-size: 22px;
+    font-weight: lighter;
     display: block;
 }
 
@@ -394,13 +401,18 @@ body legend {
     opacity: 0.7;
 }
 
-#calendar-page #calendar .fc-event-title small {
-    font-weight: normal;
-    font-size: 12px;
+#calendar-page .fc-event-time {
+    font-weight: bold;
 }
 
-#calendar-page #calendar .fc-time {
-    font-size: 10px;
+#calendar-page .fc-event-title {
+    font-weight: normal;
+    font-size: 11px;
+}
+
+#calendar-page .fc-timegrid-axis-cushion,
+#calendar-page .fc-timegrid-slot-label-cushion {
+    font-size: 11px;
 }
 
 #calendar-page #calendar .fc-break {
@@ -649,8 +661,9 @@ body .form-horizontal .controls {
         text-align: left;
     }
 
-    .fc-header-toolbar .fc-toolbar-chunk {
+    #calendar .fc-header-toolbar .fc-toolbar-chunk {
         margin-bottom: 0;
+        text-align: center;
     }
 
     #calendar .calendar-header .select2-container {

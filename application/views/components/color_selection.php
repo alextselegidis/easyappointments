@@ -13,7 +13,7 @@
 <label class="form-label"><?= lang('color') ?></label>
 
 <div <?= $attributes ?? '' ?> class="color-selection d-flex justify-content-between mb-4">
-    <button type="button" class="color-selection-option selected" data-value="#4c96cc">
+    <button type="button" class="color-selection-option selected" data-value="#7cbae8">
         <i class="fas fa-check"></i>
     </button>
 
@@ -21,7 +21,7 @@
         <i class="fas fa-check"></i>
     </button>
 
-    <button type="button" class="color-selection-option" data-value="#65d8e1">
+    <button type="button" class="color-selection-option" data-value="#82e4ec">
         <i class="fas fa-check"></i>
     </button>
 
@@ -29,11 +29,11 @@
         <i class="fas fa-check"></i>
     </button>
 
-    <button type="button" class="color-selection-option" data-value="#54be49">
+    <button type="button" class="color-selection-option" data-value="#abe9a4">
         <i class="fas fa-check"></i>
     </button>
 
-    <button type="button" class="color-selection-option" data-value="#eddf60">
+    <button type="button" class="color-selection-option" data-value="#ebe07c">
         <i class="fas fa-check"></i>
     </button>
 
@@ -41,11 +41,11 @@
         <i class="fas fa-check"></i>
     </button>
 
-    <button type="button" class="color-selection-option" data-value="#ef8c80">
+    <button type="button" class="color-selection-option" data-value="#f3aea6">
         <i class="fas fa-check"></i>
     </button>
 
-    <button type="button" class="color-selection-option" data-value="#e0292b">
+    <button type="button" class="color-selection-option" data-value="#eb8687">
         <i class="fas fa-check"></i>
     </button>
 
