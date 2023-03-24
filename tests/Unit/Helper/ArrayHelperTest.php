@@ -1,28 +1,26 @@
 <?php
 
-namespace Unit\Helper;
+namespace Tests\Unit\Helper;
 
-use PHPUnit\Framework\TestCase;
-
-require_once __DIR__ . '/../../../application/helpers/array_helper.php';
+use Tests\TestCase;
 
 class ArrayHelperTest extends TestCase {
-    public function testIsAssocReturnsTrueOnAssociativeArray()
+    public function testIsAssocReturnsTrueOnAssociativeArray(): void
     {
         $this->assertTrue(is_assoc(['test' => 'value']));
     }
 
-    public function testIsAssocReturnsFalseOnIndexedArray()
+    public function testIsAssocReturnsFalseOnIndexedArray(): void
     {
         $this->assertFalse(is_assoc(['one', 'two', 'three']));
     }
 
-    public function testIsAssocReturnsTrueOnMixedArray()
+    public function testIsAssocReturnsTrueOnMixedArray(): void
     {
         $this->assertTrue(is_assoc(['one', 'two', 'three' => 'value']));
     }
 
-    public function testArrayFindReturnsCorrectElement()
+    public function testArrayFindReturnsCorrectElement(): void
     {
         $arr = [
             [
@@ -39,7 +37,7 @@ class ArrayHelperTest extends TestCase {
         $this->assertSame($arr[0], array_find($arr, fn($element) => $element['id'] === 1));
     }
 
-    public function testArrayFieldsReturnsStrippedArray()
+    public function testArrayFieldsReturnsStrippedArray(): void
     {
         $arr = [
             'name' => 'John',
@@ -49,7 +47,7 @@ class ArrayHelperTest extends TestCase {
         $stripped = array_fields($arr, ['name']);
 
         $this->assertArrayHasKey('name', $stripped);
-        
+
         $this->assertArrayNotHasKey('email', $stripped);
     }
 }

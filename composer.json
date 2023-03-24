@@ -45,6 +45,11 @@
         "phpunit/phpunit": "^10.0.18"
     },
     "scripts": {
-        "test": "php vendor/bin/phpunit"
+        "test": "APP_ENV=testing php vendor/bin/phpunit"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }

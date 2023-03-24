@@ -89,7 +89,17 @@ require_once __DIR__ . '/vendor/autoload.php';
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-define('ENVIRONMENT', (Config::DEBUG_MODE) ? 'development' : 'production');
+
+$app_env = getenv('APP_ENV');
+
+if ($app_env)
+{
+    define('ENVIRONMENT', $app_env);
+}
+else
+{
+    define('ENVIRONMENT', (Config::DEBUG_MODE) ? 'development' : 'production');
+}
 
 /*
  *---------------------------------------------------------------

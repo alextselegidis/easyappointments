@@ -1,10 +1,8 @@
 <?php
 
-namespace Unit\Helper;
+namespace Tests\Unit\Helper;
 
-use PHPUnit\Framework\TestCase;
-
-require_once __DIR__ . '/../../../application/helpers/validation_helper.php';
+use Tests\TestCase;
 
 class ValidationHelperTest extends TestCase {
     public function testValidateDateTimeReturnsTrueOnValidValue()
