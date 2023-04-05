@@ -48,9 +48,9 @@ if ( ! function_exists('component'))
      * @param array $vars Additional parameters for the component.
      * @param bool $return Whether to return the HTML or echo it directly.
      *
-     * @return mixed Return the HTML if the $return argument is TRUE or NULL.
+     * @return string|object Return the HTML if the $return argument is TRUE or NULL.
      */
-    function component(string $component, array $vars = [], bool $return = FALSE): mixed
+    function component(string $component, array $vars = [], bool $return = FALSE): string|object
     {
         /** @var EA_Controller $CI */
         $CI = get_instance();
