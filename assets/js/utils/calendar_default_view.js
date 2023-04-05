@@ -734,7 +734,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         $target.popover({
             placement: 'top',
-            title: info.event.title,
+            title: App.Utils.String.escapeHtml(info.event.title),
             content: $html,
             html: true,
             container: '#calendar',
