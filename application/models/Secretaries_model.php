@@ -797,4 +797,19 @@ class Secretaries_model extends EA_Model {
 
         $secretary = $decoded_resource;
     }
+
+    /**
+     * Quickly check if a provider is assigned to a provider.
+     * 
+     * @param int $secretary_id
+     * @param int $provider_id
+     * 
+     * @return bool
+     */
+    public function is_provider_supported(int $secretary_id, int $provider_id): bool
+    {
+        $secretary = $this->find($secretary_id);
+
+        return in_array($provider_id, $secretary['providers']);
+    }
 }
