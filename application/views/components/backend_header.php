@@ -86,7 +86,7 @@
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
                     <i class="fas fa-user me-2"></i>
-                    <?= vars('user_display_name') ?>
+                    <?= e(vars('user_display_name')) ?>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
                     <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
