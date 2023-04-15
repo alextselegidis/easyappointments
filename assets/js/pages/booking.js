@@ -803,7 +803,7 @@ App.Pages.Booking = (function () {
         }
 
         $('<strong/>', {
-            'text': service.name
+            'text': App.Utils.String.escapeHtml(service.name),
         }).appendTo($serviceDescription);
 
         if (service.description) {

@@ -15,7 +15,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p><?= $privacy_policy_content ?></p>
+                <p><?= e($privacy_policy_content) ?></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
