@@ -76,6 +76,8 @@ class Login extends EA_Controller {
             {
                 throw new InvalidArgumentException('Invalid credentials provided, please try again.');
             }
+            
+            $this->session->sess_regenerate();
 
             session($user_data); // Save data in the session.
 
