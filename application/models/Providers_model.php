@@ -1012,4 +1012,19 @@ class Providers_model extends EA_Model {
 
         $provider = $decoded_resource;
     }
+
+    /**
+     * Quickly check if a service is assigned to a provider.
+     * 
+     * @param int $provider_id
+     * @param int $service_id
+     * 
+     * @return bool
+     */
+    public function is_service_supported(int $provider_id, int $service_id): bool
+    {
+        $provider = $this->find($provider_id);
+
+        return in_array($service_id, $provider['services']);
+    }
 }
