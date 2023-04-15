@@ -1,0 +1,53 @@
+{
+  "name": "Easy!Appointments",
+  "description": "Allow customers to book appointments with you via a highly customizable and sophisticated web application",
+  "repository": "https://github.com/daneov/easyappointments",
+  "logo": "https://raw.githubusercontent.com/alextselegidis/easyappointments/develop/logo.png",
+  "keywords": ["node", "php", "calendar"],
+  "addons": [
+    {
+      "plan": "jawsdb:kitefin",
+      "as": "MySQL"
+    },
+    {
+      "plan": "papertrail:choklad"
+    }
+  ],
+  "env": {
+    "BASE_URL": {
+        "description": "The domain the site is accessible on",
+        "required": true,
+        "value": "https://<app-name>.herokuapp.com"
+    },
+    "MAIL_SMTP_SERVER": {
+        "description": "SMTP server used to send emails",
+        "required": true,
+        "value": "smtp.gmail.com"
+    },
+    "MAIL_SMTP_LOGIN": {
+        "description": "Username for the SMTP server",
+        "required": true,
+        "value": "@gmail.com"
+    },
+    "MAIL_SMTP_PASSWORD": {
+        "description": "App or account password for the SMTP server",
+        "required": true,
+        "value": ""
+    },
+    "MAIL_SMTP_PORT": {
+        "description": "Port to use for the SMTP connection. Must match SMTP_ENCRYPTION",
+        "required": false,
+        "value": "587"
+    },
+    "MAIL_SMTP_ENCRYPTION": {
+        "description": "Encrypt the SMTP connection using either 'tls' or 'ssl'",
+        "required": false,
+        "value": "tls"
+    }
+  },
+  "buildpacks": [{
+    "url": "heroku/php"
+  },{
+    "url": "heroku/nodejs"
+  }]
+}
