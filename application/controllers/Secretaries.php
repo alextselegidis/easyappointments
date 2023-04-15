@@ -152,7 +152,7 @@ class Secretaries extends EA_Controller {
                 'is_private',
                 'id_roles',
                 'settings',
-                'secretaries',
+                'providers',
             ]);
 
             $this->secretaries_model->only($secretary['settings'], [
@@ -214,7 +214,7 @@ class Secretaries extends EA_Controller {
                 'is_private',
                 'id_roles',
                 'settings',
-                'secretaries',
+                'providers',
             ]);
 
             $this->secretaries_model->only($secretary['settings'], [
