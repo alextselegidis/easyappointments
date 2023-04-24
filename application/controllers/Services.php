@@ -121,8 +121,6 @@ class Services extends EA_Controller {
 
             $service = request('service');
 
-            $service['id_categories'] = $service['id_categories'] ?: NULL;
-
             $this->services_model->only($service, [
                 'name',
                 'duration',
