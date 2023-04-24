@@ -24,6 +24,10 @@ class Availabilities_api_v1 extends EA_Controller {
     {
         parent::__construct();
 
+        $this->load->library('api');
+
+        $this->api->auth();
+        
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');

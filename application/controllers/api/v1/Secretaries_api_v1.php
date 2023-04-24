@@ -24,8 +24,6 @@ class Secretaries_api_v1 extends EA_Controller {
     {
         parent::__construct();
 
-        $this->load->model('secretaries_model');
-
         $this->load->library('api');
 
         $this->api->auth();
