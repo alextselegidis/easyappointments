@@ -9,5 +9,11 @@ npm install
 echo "➜ Build Project Assets"
 gulp build
 
+echo "➜ Configuration"
+cp docker/php-fpm/config.php .
+
+echo "➜ Permissions"
+chmod -R 777 storage
+
 echo "➜ Listen To Incoming Requests"
 php-fpm
