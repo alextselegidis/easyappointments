@@ -15,6 +15,7 @@ externalDocs:
   description: Find out more about Easy!Appointments
   url: https://easyappointments.org/docs.html
 servers:
+  - url: http://localhost:8000/index.php/api/v1/
   - url: https://demo.easyappointments.org/index.php/api/v1/
 tags:
   - name: admins
