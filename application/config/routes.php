@@ -77,26 +77,17 @@ header('X-Frame-Options: SAMEORIGIN');
 | -------------------------------------------------------------------------
 | CORS HEADERS
 | -------------------------------------------------------------------------
-| Set the appropriate headers so that CORS requirements are met and any 
-| incoming preflight options request succeeds. 
+| The accepted 3rd party websites, for which CORS must be configured,
+| have to be listed in 'Access-Control-Allow-Origin' additionnal header,
+| this must be set deployment side, into Nginx or Apache configuration.
 |
+| Example: docker/nginx/nginx.conf
+|	-> add_header Access-Control-Allow-Origin *;
 */
 
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
+if (isset($_SERVER['REQUEST_METHOD']) &&
+	in_array($_SERVER['REQUEST_METHOD'], array('HEAD', 'OPTIONS')))
 {
-    header('Access-Control-Allow-Origin: *');
-
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-    {
-        // May also be using PUT, PATCH, HEAD etc
-        header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    }
-
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-    {
-        header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
-    }
-
     exit(0);
 }
 
