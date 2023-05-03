@@ -36,8 +36,7 @@ class Captcha extends EA_Controller {
      */
     public function index()
     {
-
-        $this->captcha_builder->setDistortion(false);
+        $this->captcha_builder->setDistortion(true);
         $this->captcha_builder->setMaxBehindLines(1);
         $this->captcha_builder->setMaxFrontLines(1);
         $this->captcha_builder->setBackgroundColor(255,255,255);
