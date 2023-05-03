@@ -626,6 +626,7 @@ App.Pages.Booking = (function () {
         // Customer Details
         const firstName = App.Utils.String.escapeHtml($firstName.val());
         const lastName = App.Utils.String.escapeHtml($lastName.val());
+        const fullName = firstName + ' ' + lastName;
         const phoneNumber = App.Utils.String.escapeHtml($phoneNumber.val());
         const email = App.Utils.String.escapeHtml($email.val());
         const address = App.Utils.String.escapeHtml($address.val());
@@ -641,30 +642,30 @@ App.Pages.Booking = (function () {
                 }),
                 $('<p/>', {
                     'html': [
-                        $('<span/>', {
-                            'text': lang('customer') + ': ' + firstName + ' ' + lastName
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
+                        fullName ? $('<span/>', {
+                            'text': lang('customer') + ': ' + fullName
+                        }) : null,
+                        fullName ? $('<br/>') : null,
+                        phoneNumber ? $('<span/>', {
                             'text': lang('phone_number') + ': ' + phoneNumber
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
+                        }) : null,
+                        phoneNumber ? $('<br/>') : null,
+                        email ? $('<span/>', {
                             'text': lang('email') + ': ' + email
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': address ? lang('address') + ': ' + address : ''
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': city ? lang('city') + ': ' + city : ''
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': zipCode ? lang('zip_code') + ': ' + zipCode : ''
-                        }),
-                        $('<br/>')
+                        }) : null,
+                        email ? $('<br/>') : null,
+                        address ? $('<span/>', {
+                            'text': lang('address') + ': ' + address
+                        }) : null,
+                        address ? $('<br/>') : null,
+                        city ? $('<span/>', {
+                            'text': lang('city') + ': ' + city,
+                        }) : null,
+                        city ? $('<br/>') : null,
+                        zipCode ? $('<span/>', {
+                            'text': lang('zip_code') + ': ' + zipCode
+                        }) : null,
+                        zipCode ? $('<br/>') : null
                     ]
                 })
             ]
