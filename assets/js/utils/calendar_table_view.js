@@ -679,6 +679,7 @@ App.Utils.CalendarTableView = (function () {
 
         const fullCalendar = new FullCalendar.Calendar($wrapper[0], {
             initialView: 'timeGridDay',
+            nowIndicator: true,
             height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,

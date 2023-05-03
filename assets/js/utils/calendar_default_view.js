@@ -1570,6 +1570,7 @@ App.Utils.CalendarDefaultView = (function () {
         // Initialize page calendar
         fullCalendar = new FullCalendar.Calendar($calendar[0], {
             initialView,
+            nowIndicator: true,
             height: getCalendarHeight(),
             editable: true,
             firstDay: firstWeekdayNumber,
