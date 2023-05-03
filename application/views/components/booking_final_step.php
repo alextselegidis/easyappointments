@@ -12,8 +12,8 @@
     <div class="frame-container">
         <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
         <div class="row frame-content">
-            <div id="appointment-details" class="col-12 col-md-6"></div>
-            <div id="customer-details" class="col-12 col-md-6 text-md-end"></div>
+            <div id="appointment-details" class="col-12 col-md-6 text-center text-md-start"></div>
+            <div id="customer-details" class="col-12 col-md-6 text-center text-md-end"></div>
         </div>
         <?php if (setting('require_captcha')): ?>
             <div class="row frame-content">
