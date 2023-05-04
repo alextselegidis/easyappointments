@@ -213,6 +213,27 @@ App.Pages.Booking = (function () {
      * Remove empty columns and center elements if needed.
      */
     function optimizeContactInfoDisplay() {
+        // If a column has only one control shown then move the control to the other column. 
+
+        const $firstCol = $('#wizard-frame-3 .field-col:first');
+        const $firstColControls = $firstCol.find('.form-control');
+        const $secondCol = $('#wizard-frame-3 .field-col:last');
+        const $secondColControls = $secondCol.find('.form-control');
+
+        if ($firstColControls.length === 1 && $secondColControls.length > 1) {
+            $firstColControls.each((index, controlEl) => {
+                $(controlEl).parent().insertBefore($secondColControls.first().parent());
+            });
+        }
+
+        if ($secondColControls.length === 1 && $firstColControls.length > 1) {
+            $secondColControls.each((index, controlEl) => {
+                $(controlEl).parent().insertAfter($firstColControls.last().parent());
+            });
+        }
+        
+        // Hide columns that do not have any controls displayed. 
+
         const $fieldCols = $(document).find('#wizard-frame-3 .field-col');
 
         $fieldCols.each((index, fieldColEl) => {
