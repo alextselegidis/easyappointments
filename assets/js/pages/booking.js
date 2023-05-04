@@ -306,7 +306,7 @@ App.Pages.Booking = (function () {
             });
 
             // Add the "Any Provider" entry.
-            if ($selectProvider.find('option').length >= 1 && vars('display_any_provider') === '1') {
+            if ($selectProvider.find('option').length > 1 && vars('display_any_provider') === '1') {
                 $selectProvider.prepend(new Option(lang('any_provider'), 'any-provider', true, true));
             }
 
