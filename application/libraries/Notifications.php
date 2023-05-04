@@ -92,7 +92,7 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -115,7 +115,7 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -140,7 +140,7 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -170,7 +170,7 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -220,7 +220,7 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
@@ -240,7 +240,7 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
@@ -262,7 +262,7 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
@@ -289,7 +289,7 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,

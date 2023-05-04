@@ -60,7 +60,7 @@ class Email_messages {
      *
      * @throws Exception
      */
-    public function send_appointment_details(
+    public function send_appointment_saved(
         array $appointment,
         array $provider,
         array $service,
@@ -131,7 +131,7 @@ class Email_messages {
      *
      * @throws Exception
      */
-    public function send_delete_appointment(
+    public function send_appointment_deleted(
         array $appointment,
         array $provider,
         array $service,
