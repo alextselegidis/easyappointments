@@ -84,7 +84,7 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.initializeDatepicker($selectDate, {
             inline: true,
-            minDate: new Date(),
+            minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
@@ -115,6 +115,8 @@ App.Pages.Booking = (function () {
                 }, 500);
             },
         });
+
+        $selectDate[0]._flatpickr.setDate(new Date());
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
@@ -231,7 +233,7 @@ App.Pages.Booking = (function () {
                 $(controlEl).parent().insertAfter($firstColControls.last().parent());
             });
         }
-        
+
         // Hide columns that do not have any controls displayed. 
 
         const $fieldCols = $(document).find('#wizard-frame-3 .field-col');
