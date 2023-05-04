@@ -82,11 +82,13 @@ class Email_messages {
 
         if ($timezone && $timezone !== $provider['timezone'])
         {
-            $appointment_timezone = new DateTimeZone($timezone);
+            $custom_timezone = new DateTimeZone($timezone);
 
-            $appointment_start->setTimezone($appointment_timezone);
+            $appointment_start->setTimezone($custom_timezone);
+            $appointment['start_datetime'] = $appointment_start->format('Y-m-d H:i:s');
 
-            $appointment_end->setTimezone($appointment_timezone);
+            $appointment_end->setTimezone($custom_timezone);
+            $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
         $html = $this->CI->load->view('emails/appointment_saved_email', [
@@ -146,11 +148,17 @@ class Email_messages {
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
 
+        $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
+
         if ($timezone && $timezone !== $provider['timezone'])
         {
-            $appointment_timezone = new DateTimeZone($timezone);
+            $custom_timezone = new DateTimeZone($timezone);
 
-            $appointment_start->setTimezone($appointment_timezone);
+            $appointment_start->setTimezone($custom_timezone);
+            $appointment['start_datetime'] = $appointment_start->format('Y-m-d H:i:s');
+
+            $appointment_end->setTimezone($custom_timezone);
+            $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
         $html = $this->CI->load->view('emails/appointment_deleted_email', [
