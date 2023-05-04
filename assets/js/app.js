@@ -40,7 +40,7 @@ window.App = (function () {
                         'html': response.message
                     })
                 ]
-            }).appendTo('#message-box');
+            }).appendTo('#message-modal .modal-body');
         }
     }
 
