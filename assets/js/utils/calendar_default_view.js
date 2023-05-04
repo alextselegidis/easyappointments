@@ -319,6 +319,8 @@ App.Utils.CalendarDefaultView = (function () {
             }
 
             $reloadAppointments.trigger('click');
+
+            window.localStorage.setItem('EasyAppointments.SelectFilterItem', $selectFilterItem.val());
         });
     }
 
@@ -1111,8 +1113,8 @@ App.Utils.CalendarDefaultView = (function () {
             .find('.btn')
             .css('width', 'calc(50% - 10px)');
 
-        fullCalendar.unselect();        
-        
+        fullCalendar.unselect();
+
         return false;
     }
 
@@ -1656,6 +1658,12 @@ App.Utils.CalendarDefaultView = (function () {
                 .find('optgroup:eq(0)')
                 .find('option[value="' + vars('user_id') + '"]')
                 .prop('selected', true);
+        }
+
+        const localSelectFilterItemValue = window.localStorage.getItem('EasyAppointments.SelectFilterItem');
+
+        if (localSelectFilterItemValue && $selectFilterItem.find(`option[value="${localSelectFilterItemValue}"]`).length) {
+            $selectFilterItem.val(localSelectFilterItemValue);
         }
 
         // Add the page event listeners.
