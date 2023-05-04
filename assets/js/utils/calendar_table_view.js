@@ -712,7 +712,7 @@ App.Utils.CalendarTableView = (function () {
             eventClick: onEventClick,
             eventResize: onEventResize,
             eventDrop: onEventDrop,
-            select: onSelect
+            select: (info) => onSelect(info, fullCalendar)
         });
 
         fullCalendar.render();
@@ -1659,7 +1659,7 @@ App.Utils.CalendarTableView = (function () {
         }
     }
 
-    function onSelect(info) {
+    function onSelect(info, fullCalendar) {
         if (info.allDay) {
             return;
         }
@@ -1737,6 +1737,8 @@ App.Utils.CalendarTableView = (function () {
             .addClass('justify-content-between')
             .find('.btn')
             .css('width', 'calc(50% - 10px)');
+        
+        fullCalendar.unselect();
 
         return false;
     }

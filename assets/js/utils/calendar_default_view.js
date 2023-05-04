@@ -1111,6 +1111,8 @@ App.Utils.CalendarDefaultView = (function () {
             .find('.btn')
             .css('width', 'calc(50% - 10px)');
 
+        fullCalendar.unselect();        
+        
         return false;
     }
 
