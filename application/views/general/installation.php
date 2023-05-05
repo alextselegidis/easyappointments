@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="google" content="notranslate" />
 
     <title>Installation | Easy!Appointments</title>
 
