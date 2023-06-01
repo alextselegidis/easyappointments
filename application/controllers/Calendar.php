@@ -312,7 +312,7 @@ class Calendar extends EA_Controller {
             }
 
             $appointment_id = request('appointment_id');
-            $cancellation_reason = request('cancellation_reason');
+            $cancellation_reason = (string)request('cancellation_reason');
 
             if (empty($appointment_id))
             {

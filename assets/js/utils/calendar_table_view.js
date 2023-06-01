@@ -297,19 +297,19 @@ App.Utils.CalendarTableView = (function () {
                 const buttons = [
                     {
                         text: lang('cancel'),
-                        click: () => {
-                            $('#message-box').dialog('close');
+                        click: (event, messageModal) => {
+                            messageModal.dispose();
                         }
                     },
                     {
                         text: lang('delete'),
-                        click: () => {
+                        click: (event, messageModal) => {
                             const appointmentId = lastFocusedEventData.extendedProps.data.id;
 
-                            const deleteReason = $('#delete-reason').val();
+                            const cancellationReason = $('#cancellation-reason').val();
 
-                            App.Http.Calendar.deleteAppointment(appointmentId, deleteReason).done(() => {
-                                $('#message-box').dialog('close');
+                            App.Http.Calendar.deleteAppointment(appointmentId, cancellationReason).done(() => {
+                                messageModal.dispose();
 
                                 // Refresh calendar event items.
                                 $reloadAppointments.trigger('click');
@@ -326,16 +326,14 @@ App.Utils.CalendarTableView = (function () {
 
                 $('<textarea/>', {
                     'class': 'form-control w-100',
-                    'id': 'delete-reason',
+                    'id': 'cancellation-reason',
                     'rows': '3'
-                }).appendTo('#message-box');
+                }).appendTo('#message-modal .modal-body');
             } else {
                 // Do not display confirmation prompt.
                 const unavailabilityId = lastFocusedEventData.extendedProps.data.id;
 
                 App.Http.Calendar.deleteUnavailability(unavailabilityId).done(() => {
-                    $('#message-box').dialog('close');
-
                     // Refresh calendar event items.
                     $reloadAppointments.trigger('click');
                 });
@@ -1737,7 +1735,7 @@ App.Utils.CalendarTableView = (function () {
             .addClass('justify-content-between')
             .find('.btn')
             .css('width', 'calc(50% - 10px)');
-        
+
         fullCalendar.unselect();
 
         return false;
