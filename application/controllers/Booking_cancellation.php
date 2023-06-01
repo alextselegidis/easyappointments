@@ -95,7 +95,7 @@ class Booking_cancellation extends EA_Controller {
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 
-            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
+            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings, $cancellation_reason);
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
 

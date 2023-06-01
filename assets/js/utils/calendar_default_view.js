@@ -243,9 +243,9 @@ App.Utils.CalendarDefaultView = (function () {
                         click: (event, messageModal) => {
                             const appointmentId = lastFocusedEventData.extendedProps.data.id;
 
-                            const deleteReason = $('#delete-reason').val();
+                            const cancellationReason = $('#cancellation-reason').val();
 
-                            App.Http.Calendar.deleteAppointment(appointmentId, deleteReason).done(() => {
+                            App.Http.Calendar.deleteAppointment(appointmentId, cancellationReason).done(() => {
                                 messageModal.dispose();
 
                                 // Refresh calendar event items.
@@ -263,9 +263,9 @@ App.Utils.CalendarDefaultView = (function () {
 
                 $('<textarea/>', {
                     'class': 'form-control w-100',
-                    'id': 'delete-reason',
+                    'id': 'cancellation-reason',
                     'rows': '3'
-                }).appendTo('#message-box');
+                }).appendTo('#message-modal .modal-body');
             } else {
                 // Do not display confirmation prompt.
 
