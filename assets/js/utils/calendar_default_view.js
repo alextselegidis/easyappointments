@@ -1267,263 +1267,141 @@ App.Utils.CalendarDefaultView = (function () {
                 const firstWeekdayNumber = App.Utils.Date.getWeekdayId(vars('first_weekday'));
                 const sortedWorkingPlan = App.Utils.Date.sortWeekDictionary(workingPlan, firstWeekdayNumber);
 
-                switch (calendarView.type) {
-                    case 'timeGridDay':
-                        weekdayNumber = parseInt(moment(calendarView.currentStart).format('d'));
-                        weekdayName = App.Utils.Date.getWeekdayName(weekdayNumber);
-                        weekdayDate = moment(calendarView.currentStart).clone().format('YYYY-MM-DD');
+                const calendarDate = moment(calendarView.currentStart).clone();
 
-                        // Add working plan exception.
-                        if (workingPlanExceptions && workingPlanExceptions[weekdayDate]) {
-                            sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
-                            workingPlanExceptionStart = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].start;
-                            workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
+                while (calendarDate.toDate() < calendarView.currentEnd) {
+                    weekdayNumber = parseInt(calendarDate.format('d'));
+                    weekdayName = App.Utils.Date.getWeekdayName(weekdayNumber);
+                    weekdayDate = calendarDate.format('YYYY-MM-DD');
 
-                            workingPlanExceptionEvent = {
-                                title: lang('working_plan_exception'),
-                                start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true).toDate(),
-                                end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true)
-                                    .add(1, 'day')
-                                    .toDate(),
-                                allDay: true,
-                                color: '#879DB4',
-                                editable: false,
-                                className: 'fc-working-plan-exception fc-custom',
-                                data: {
-                                    date: weekdayDate,
-                                    workingPlanException: workingPlanExceptions[weekdayDate],
-                                    provider: provider
-                                }
-                            };
+                    // Add working plan exception event.
+                    if (workingPlanExceptions && workingPlanExceptions[weekdayDate]) {
+                        sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
 
-                            calendarEventSource.push(workingPlanExceptionEvent);
-                        }
+                        workingPlanExceptionStart =
+                            weekdayDate + ' ' + sortedWorkingPlan[weekdayName].start;
+                        workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
 
-                        // Non-working day.
-                        if (sortedWorkingPlan[weekdayName] === null) {
-                            // Working plan exception.
-                            unavailabilityEvent = {
-                                title: lang('not_working'),
-                                start: calendarView.currentStart.clone().toDate(),
-                                end: calendarView.currentEnd.clone().toDate(),
-                                allDay: false,
-                                color: '#BEBEBE',
-                                editable: false,
-                                className: 'fc-unavailability'
-                            };
-
-                            calendarEventSource.push(unavailabilityEvent);
-
-                            return; // Go to next loop.
-                        }
-
-                        // Add unavailability period before work starts.
-                        viewStart = moment(calendarView.currentStart).format('YYYY-MM-DD') + ' 00:00:00';
-                        startHour = sortedWorkingPlan[weekdayName].start.split(':');
-                        workDateStart = moment(viewStart).clone();
-                        workDateStart.hour(parseInt(startHour[0]));
-                        workDateStart.minute(parseInt(startHour[1]));
-
-                        if (moment(viewStart).isBefore(workDateStart)) {
-                            const unavailabilityPeriodBeforeWorkStarts = {
-                                title: lang('not_working'),
-                                start: moment(viewStart).toDate(),
-                                end: workDateStart.toDate(),
-                                allDay: false,
-                                color: '#BEBEBE',
-                                editable: false,
-                                className: 'fc-unavailability'
-                            };
-
-                            calendarEventSource.push(unavailabilityPeriodBeforeWorkStarts);
-                        }
-
-                        // Add unavailability period after work ends.
-                        viewEnd = moment(calendarView.currentEnd).format('YYYY-MM-DD') + ' 00:00:00';
-                        endHour = sortedWorkingPlan[weekdayName].end.split(':');
-                        workDateEnd = moment(viewStart).clone();
-                        workDateEnd.hour(parseInt(endHour[0]));
-                        workDateEnd.minute(parseInt(endHour[1]));
-
-                        if (moment(viewEnd).isAfter(workDateEnd)) {
-                            const unavailabilityPeriodAfterWorkEnds = {
-                                title: lang('not_working'),
-                                start: workDateEnd.toDate(),
-                                end: moment(viewEnd).toDate(),
-                                allDay: false,
-                                color: '#BEBEBE',
-                                editable: false,
-                                className: 'fc-unavailability'
-                            };
-
-                            calendarEventSource.push(unavailabilityPeriodAfterWorkEnds);
-                        }
-
-                        // Add unavailability periods for breaks.
-                        sortedWorkingPlan[weekdayName].breaks.forEach((breakPeriod) => {
-                            const breakStartString = breakPeriod.start.split(':');
-                            breakStart = moment(viewStart).clone();
-                            breakStart.hour(parseInt(breakStartString[0]));
-                            breakStart.minute(parseInt(breakStartString[1]));
-
-                            const breakEndString = breakPeriod.end.split(':');
-                            breakEnd = moment(viewStart).clone();
-                            breakEnd.hour(parseInt(breakEndString[0]));
-                            breakEnd.minute(parseInt(breakEndString[1]));
-
-                            const unavailabilityPeriod = {
-                                title: lang('break'),
-                                start: breakStart.toDate(),
-                                end: breakEnd.toDate(),
-                                allDay: false,
-                                color: '#BEBEBE',
-                                editable: false,
-                                className: 'fc-unavailability fc-break'
-                            };
-
-                            calendarEventSource.push(unavailabilityPeriod);
-                        });
-
-                        break;
-
-                    case 'timeGridWeek':
-                        const calendarDate = moment(calendarView.currentStart).clone();
-
-                        while (calendarDate.toDate() < calendarView.currentEnd) {
-                            weekdayNumber = parseInt(calendarDate.format('d'));
-                            weekdayName = App.Utils.Date.getWeekdayName(weekdayNumber);
-                            weekdayDate = calendarDate.format('YYYY-MM-DD');
-
-                            // Add working plan exception event.
-                            if (workingPlanExceptions && workingPlanExceptions[weekdayDate]) {
-                                sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
-
-                                workingPlanExceptionStart =
-                                    weekdayDate + ' ' + sortedWorkingPlan[weekdayName].start;
-                                workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
-
-                                workingPlanExceptionEvent = {
-                                    title: lang('working_plan_exception'),
-                                    start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true).toDate(),
-                                    end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true)
-                                        .add(1, 'day')
-                                        .toDate(),
-                                    allDay: true,
-                                    color: '#879DB4',
-                                    editable: false,
-                                    className: 'fc-working-plan-exception fc-custom',
-                                    data: {
-                                        date: weekdayDate,
-                                        workingPlanException: workingPlanExceptions[weekdayDate],
-                                        provider: provider
-                                    }
-                                };
-
-                                calendarEventSource.push(workingPlanExceptionEvent);
+                        workingPlanExceptionEvent = {
+                            title: lang('working_plan_exception'),
+                            start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true).toDate(),
+                            end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true)
+                                .add(1, 'day')
+                                .toDate(),
+                            allDay: true,
+                            color: '#879DB4',
+                            editable: false,
+                            className: 'fc-working-plan-exception fc-custom',
+                            data: {
+                                date: weekdayDate,
+                                workingPlanException: workingPlanExceptions[weekdayDate],
+                                provider: provider
                             }
+                        };
 
-                            // Non-working day.
-                            if (sortedWorkingPlan[weekdayName] === null) {
-                                // Add a full day unavailability event.
-                                unavailabilityEvent = {
-                                    title: lang('not_working'),
-                                    start: calendarDate.clone().toDate(),
-                                    end: calendarDate.clone().add(1, 'day').toDate(),
-                                    allDay: false,
-                                    color: '#BEBEBE',
-                                    editable: false,
-                                    className: 'fc-unavailability'
-                                };
+                        calendarEventSource.push(workingPlanExceptionEvent);
+                    }
 
-                                calendarEventSource.push(unavailabilityEvent);
+                    // Non-working day.
+                    if (sortedWorkingPlan[weekdayName] === null) {
+                        // Add a full day unavailability event.
+                        unavailabilityEvent = {
+                            title: lang('not_working'),
+                            start: calendarDate.clone().toDate(),
+                            end: calendarDate.clone().add(1, 'day').toDate(),
+                            allDay: false,
+                            color: '#BEBEBE',
+                            editable: false,
+                            className: 'fc-unavailability'
+                        };
 
-                                calendarDate.add(1, 'day');
+                        calendarEventSource.push(unavailabilityEvent);
 
-                                continue; // Go to the next loop.
-                            }
+                        calendarDate.add(1, 'day');
 
-                            // Add unavailability period before work starts.
-                            startHour = sortedWorkingPlan[weekdayName].start.split(':');
-                            workDateStart = calendarDate.clone();
-                            workDateStart.hour(parseInt(startHour[0]));
-                            workDateStart.minute(parseInt(startHour[1]));
+                        continue; // Go to the next loop.
+                    }
 
-                            if (calendarDate.toDate() < workDateStart.toDate()) {
-                                unavailabilityEvent = {
-                                    title: lang('not_working'),
-                                    start: calendarDate.clone().toDate(),
-                                    end: moment(
-                                        calendarDate.format('YYYY-MM-DD') +
-                                        ' ' +
-                                        sortedWorkingPlan[weekdayName].start +
-                                        ':00'
-                                    ).toDate(),
-                                    allDay: false,
-                                    color: '#BEBEBE',
-                                    editable: false,
-                                    className: 'fc-unavailability'
-                                };
+                    // Add unavailability period before work starts.
+                    startHour = sortedWorkingPlan[weekdayName].start.split(':');
+                    workDateStart = calendarDate.clone();
+                    workDateStart.hour(parseInt(startHour[0]));
+                    workDateStart.minute(parseInt(startHour[1]));
 
-                                calendarEventSource.push(unavailabilityEvent);
-                            }
+                    if (calendarDate.toDate() < workDateStart.toDate()) {
+                        unavailabilityEvent = {
+                            title: lang('not_working'),
+                            start: calendarDate.clone().toDate(),
+                            end: moment(
+                                calendarDate.format('YYYY-MM-DD') +
+                                ' ' +
+                                sortedWorkingPlan[weekdayName].start +
+                                ':00'
+                            ).toDate(),
+                            allDay: false,
+                            color: '#BEBEBE',
+                            editable: false,
+                            className: 'fc-unavailability'
+                        };
 
-                            // Add unavailability period after work ends.
-                            endHour = sortedWorkingPlan[weekdayName].end.split(':');
-                            workDateEnd = calendarDate.clone();
-                            workDateEnd.hour(parseInt(endHour[0]));
-                            workDateEnd.minute(parseInt(endHour[1]));
+                        calendarEventSource.push(unavailabilityEvent);
+                    }
 
-                            if (calendarView.currentEnd > workDateEnd.toDate()) {
-                                unavailabilityEvent = {
-                                    title: lang('not_working'),
-                                    start: moment(
-                                        calendarDate.format('YYYY-MM-DD') +
-                                        ' ' +
-                                        sortedWorkingPlan[weekdayName].end +
-                                        ':00'
-                                    ).toDate(),
-                                    end: calendarDate.clone().add(1, 'day').toDate(),
-                                    allDay: false,
-                                    color: '#BEBEBE',
-                                    editable: false,
-                                    className: 'fc-unavailability'
-                                };
+                    // Add unavailability period after work ends.
+                    endHour = sortedWorkingPlan[weekdayName].end.split(':');
+                    workDateEnd = calendarDate.clone();
+                    workDateEnd.hour(parseInt(endHour[0]));
+                    workDateEnd.minute(parseInt(endHour[1]));
 
-                                calendarEventSource.push(unavailabilityEvent);
-                            }
+                    if (calendarView.currentEnd > workDateEnd.toDate()) {
+                        unavailabilityEvent = {
+                            title: lang('not_working'),
+                            start: moment(
+                                calendarDate.format('YYYY-MM-DD') +
+                                ' ' +
+                                sortedWorkingPlan[weekdayName].end +
+                                ':00'
+                            ).toDate(),
+                            end: calendarDate.clone().add(1, 'day').toDate(),
+                            allDay: false,
+                            color: '#BEBEBE',
+                            editable: false,
+                            className: 'fc-unavailability'
+                        };
 
-                            // Add unavailability periods during day breaks.
-                            sortedWorkingPlan[weekdayName].breaks.forEach((breakPeriod) => {
-                                const breakStartString = breakPeriod.start.split(':');
-                                breakStart = calendarDate.clone();
-                                breakStart.hour(parseInt(breakStartString[0]));
-                                breakStart.minute(parseInt(breakStartString[1]));
+                        calendarEventSource.push(unavailabilityEvent);
+                    }
 
-                                const breakEndString = breakPeriod.end.split(':');
-                                breakEnd = calendarDate.clone();
-                                breakEnd.hour(parseInt(breakEndString[0]));
-                                breakEnd.minute(parseInt(breakEndString[1]));
+                    // Add unavailability periods during day breaks.
+                    sortedWorkingPlan[weekdayName].breaks.forEach((breakPeriod) => {
+                        const breakStartString = breakPeriod.start.split(':');
+                        breakStart = calendarDate.clone();
+                        breakStart.hour(parseInt(breakStartString[0]));
+                        breakStart.minute(parseInt(breakStartString[1]));
 
-                                const unavailabilityEvent = {
-                                    title: lang('break'),
-                                    start: moment(
-                                        calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.start
-                                    ).toDate(),
-                                    end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.end).toDate(),
-                                    allDay: false,
-                                    color: '#BEBEBE',
-                                    editable: false,
-                                    className: 'fc-unavailability fc-break'
-                                };
+                        const breakEndString = breakPeriod.end.split(':');
+                        breakEnd = calendarDate.clone();
+                        breakEnd.hour(parseInt(breakEndString[0]));
+                        breakEnd.minute(parseInt(breakEndString[1]));
 
-                                calendarEventSource.push(unavailabilityEvent);
-                            });
+                        const unavailabilityEvent = {
+                            title: lang('break'),
+                            start: moment(
+                                calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.start
+                            ).toDate(),
+                            end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.end).toDate(),
+                            allDay: false,
+                            color: '#BEBEBE',
+                            editable: false,
+                            className: 'fc-unavailability fc-break'
+                        };
 
-                            calendarDate.add(1, 'day');
-                        }
+                        calendarEventSource.push(unavailabilityEvent);
+                    });
 
-                        break;
+                    calendarDate.add(1, 'day');
                 }
+
             })
             .always(() => {
                 $('#loading').css('visibility', '');
