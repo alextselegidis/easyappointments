@@ -403,7 +403,8 @@ App.Components.AppointmentsModal = (function () {
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').fadeOut();
 
-        $appointmentStatus.find('option:first').prop('checked', true);
+        const defaultStatusValue = $appointmentStatus.find('option:first').val();
+        $appointmentStatus.val(defaultStatusValue);
 
         $language.val('english');
         $timezone.val('UTC');
