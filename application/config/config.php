@@ -162,6 +162,7 @@ $config['available_languages'] = [
     'serbian',
     'slovak',
     'spanish',
+    'swedish',
     'turkish'
 ];
 
@@ -449,8 +450,8 @@ $config['proxy_ips'] = '';
 | Rate Limiting
 |--------------------------------------------------------------------------
 |
-| Toggle the rate limiting feature in your application. Using rate limiting 
-| will control the number of requests a client can sent to the app. 
+| Toggle the rate limiting feature in your application. Using rate limiting
+| will control the number of requests a client can sent to the app.
 |
 */
 $config['rate_limiting'] = TRUE;
