@@ -564,6 +564,8 @@ class Appointments_model extends EA_Model {
             'start' => $appointment['start_datetime'],
             'end' => $appointment['end_datetime'],
             'hash' => $appointment['hash'],
+            'color' => $appointment['color'],
+            'status' => $appointment['status'],
             'location' => $appointment['location'],
             'notes' => $appointment['notes'],
             'customerId' => $appointment['id_users_customer'] !== NULL ? (int)$appointment['id_users_customer'] : NULL,

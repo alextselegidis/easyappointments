@@ -92,7 +92,7 @@ class Admins extends EA_Controller {
 
             $keyword = request('keyword', '');
 
-            $order_by = 'first_name ASC, last_name ASC, email ASC';
+            $order_by = 'update_datetime DESC';
 
             $limit = request('limit', 1000);
 

@@ -84,7 +84,7 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.initializeDatepicker($selectDate, {
             inline: true,
-            minDate: new Date(),
+            minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
@@ -115,6 +115,8 @@ App.Pages.Booking = (function () {
                 }, 500);
             },
         });
+
+        $selectDate[0]._flatpickr.setDate(new Date());
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
@@ -213,6 +215,27 @@ App.Pages.Booking = (function () {
      * Remove empty columns and center elements if needed.
      */
     function optimizeContactInfoDisplay() {
+        // If a column has only one control shown then move the control to the other column. 
+
+        const $firstCol = $('#wizard-frame-3 .field-col:first');
+        const $firstColControls = $firstCol.find('.form-control');
+        const $secondCol = $('#wizard-frame-3 .field-col:last');
+        const $secondColControls = $secondCol.find('.form-control');
+
+        if ($firstColControls.length === 1 && $secondColControls.length > 1) {
+            $firstColControls.each((index, controlEl) => {
+                $(controlEl).parent().insertBefore($secondColControls.first().parent());
+            });
+        }
+
+        if ($secondColControls.length === 1 && $firstColControls.length > 1) {
+            $secondColControls.each((index, controlEl) => {
+                $(controlEl).parent().insertAfter($firstColControls.last().parent());
+            });
+        }
+
+        // Hide columns that do not have any controls displayed. 
+
         const $fieldCols = $(document).find('#wizard-frame-3 .field-col');
 
         $fieldCols.each((index, fieldColEl) => {
@@ -283,7 +306,7 @@ App.Pages.Booking = (function () {
             });
 
             // Add the "Any Provider" entry.
-            if ($selectProvider.find('option').length >= 1 && vars('display_any_provider') === '1') {
+            if ($selectProvider.find('option').length > 1 && vars('display_any_provider') === '1') {
                 $selectProvider.prepend(new Option(lang('any_provider'), 'any-provider', true, true));
             }
 
@@ -626,6 +649,7 @@ App.Pages.Booking = (function () {
         // Customer Details
         const firstName = App.Utils.String.escapeHtml($firstName.val());
         const lastName = App.Utils.String.escapeHtml($lastName.val());
+        const fullName = firstName + ' ' + lastName;
         const phoneNumber = App.Utils.String.escapeHtml($phoneNumber.val());
         const email = App.Utils.String.escapeHtml($email.val());
         const address = App.Utils.String.escapeHtml($address.val());
@@ -641,30 +665,30 @@ App.Pages.Booking = (function () {
                 }),
                 $('<p/>', {
                     'html': [
-                        $('<span/>', {
-                            'text': lang('customer') + ': ' + firstName + ' ' + lastName
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
+                        fullName ? $('<span/>', {
+                            'text': lang('customer') + ': ' + fullName
+                        }) : null,
+                        fullName ? $('<br/>') : null,
+                        phoneNumber ? $('<span/>', {
                             'text': lang('phone_number') + ': ' + phoneNumber
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
+                        }) : null,
+                        phoneNumber ? $('<br/>') : null,
+                        email ? $('<span/>', {
                             'text': lang('email') + ': ' + email
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': address ? lang('address') + ': ' + address : ''
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': city ? lang('city') + ': ' + city : ''
-                        }),
-                        $('<br/>'),
-                        $('<span/>', {
-                            'text': zipCode ? lang('zip_code') + ': ' + zipCode : ''
-                        }),
-                        $('<br/>')
+                        }) : null,
+                        email ? $('<br/>') : null,
+                        address ? $('<span/>', {
+                            'text': lang('address') + ': ' + address
+                        }) : null,
+                        address ? $('<br/>') : null,
+                        city ? $('<span/>', {
+                            'text': lang('city') + ': ' + city,
+                        }) : null,
+                        city ? $('<br/>') : null,
+                        zipCode ? $('<span/>', {
+                            'text': lang('zip_code') + ': ' + zipCode
+                        }) : null,
+                        zipCode ? $('<br/>') : null
                     ]
                 })
             ]

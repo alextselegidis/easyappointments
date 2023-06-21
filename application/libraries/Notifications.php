@@ -92,7 +92,7 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -115,7 +115,7 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -140,7 +140,7 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -170,7 +170,7 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_appointment_details(
+                $this->CI->email_messages->send_appointment_saved(
                     $appointment,
                     $provider,
                     $service,
@@ -201,17 +201,10 @@ class Notifications {
      * @param array $customer Customer data.
      * @param array $settings Required settings.
      */
-    public function notify_appointment_deleted(array $appointment, array $service, array $provider, array $customer, array $settings): void
+    public function notify_appointment_deleted(array $appointment, array $service, array $provider, array $customer, array $settings, string $cancellation_reason = ''): void
     {
         try
         {
-            $delete_reason = (string)request('delete_reason');
-
-            if (empty($delete_reason))
-            {
-                $delete_reason = (string)request('cancellation_reason');
-            }
-
             // Notify provider.
             $send_provider = filter_var(
                 $this->CI->providers_model->get_setting($provider['id'], 'notifications'),
@@ -220,14 +213,14 @@ class Notifications {
 
             if ($send_provider === TRUE)
             {
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
                     $customer,
                     $settings,
                     $provider['email'],
-                    $delete_reason,
+                    $cancellation_reason,
                     $provider['timezone']
                 );
             }
@@ -240,14 +233,14 @@ class Notifications {
 
             if ($send_customer === TRUE)
             {
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
                     $customer,
                     $settings,
                     $customer['email'],
-                    $delete_reason,
+                    $cancellation_reason,
                     $customer['timezone']
                 );
             }
@@ -262,14 +255,14 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
                     $customer,
                     $settings,
                     $admin['email'],
-                    $delete_reason,
+                    $cancellation_reason,
                     $admin['timezone']
                 );
             }
@@ -289,14 +282,14 @@ class Notifications {
                     continue;
                 }
 
-                $this->CI->email_messages->send_delete_appointment(
+                $this->CI->email_messages->send_appointment_deleted(
                     $appointment,
                     $provider,
                     $service,
                     $customer,
                     $settings,
                     $secretary['email'],
-                    $delete_reason,
+                    $cancellation_reason,
                     $secretary['timezone']
                 );
             }

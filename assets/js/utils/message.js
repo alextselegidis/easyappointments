@@ -26,8 +26,9 @@ window.App.Utils.Message = (function () {
      * @param {String} title The title of the message box.
      * @param {String} message The message of the dialog.
      * @param {Array} [buttons] Contains the dialog buttons along with their functions.
+     * @param {Boolean} [isDismissible] If true, the button will show the close X in the header and close with the press of the Escape button.
      */
-    function show(title, message, buttons = null) {
+    function show(title, message, buttons = null, isDismissible = true) {
         if (!title || !message) {
             return;
         }
@@ -51,13 +52,14 @@ window.App.Utils.Message = (function () {
         $('#message-modal').remove();
 
         const $messageModal = $(`
-            <div class="modal" id="message-modal">
+            <div class="modal" id="message-modal" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
                                 ${title}
                             </h5>
+                            ${isDismissible ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''}
                         </div>
                         <div class="modal-body">
                             <p>
@@ -93,7 +95,7 @@ window.App.Utils.Message = (function () {
         });
 
         messageModal = new bootstrap.Modal('#message-modal', {
-            keyboard: false,
+            keyboard: isDismissible,
             backdrop: 'static',
         });
 

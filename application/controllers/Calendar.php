@@ -209,6 +209,7 @@ class Calendar extends EA_Controller {
                     'zip_code',
                     'timezone',
                     'language',
+                    'notes',
                 ]);
 
                 $customer['id'] = $this->customers_model->save($customer);
@@ -233,7 +234,7 @@ class Calendar extends EA_Controller {
                 }
 
                 // If the appointment does not contain the customer record id, then it means that is going to be
-                // inserted. 
+                // inserted.
                 if ( ! isset($appointment['id_users_customer']))
                 {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
@@ -252,6 +253,7 @@ class Calendar extends EA_Controller {
                     'notes',
                     'color',
                     'status',
+                    'notes',
                     'is_unavailability',
                     'id_users_provider',
                     'id_users_customer',
@@ -312,6 +314,7 @@ class Calendar extends EA_Controller {
             }
 
             $appointment_id = request('appointment_id');
+            $cancellation_reason = (string)request('cancellation_reason');
 
             if (empty($appointment_id))
             {
@@ -335,7 +338,7 @@ class Calendar extends EA_Controller {
             // Delete appointment record from the database.
             $this->appointments_model->delete($appointment_id);
 
-            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings);
+            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings, $cancellation_reason);
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 

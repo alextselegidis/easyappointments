@@ -39,11 +39,11 @@ class Config {
 
 In the host machine the server is accessible from `http://localhost:8000` and the database from `localhost:8001`.
 
-You can additionally access phpMyAdmin from `http://localhost:8002` (credtials are `root` / `secret`) and MailHog from `http://localhost:8003`.
+You can additionally access phpMyAdmin from `http://localhost:8002` (credentials are `root` / `secret`) and MailHog from `http://localhost:8003`.
 
 **Attention:** This configuration is mend to make development easier. It is not intended to server as a production environment!
 
-A production image of Easy!Appointments is available at: https://github.com/alextselegidis/easyappointments-docker
+A production image of Easy!Appointments can be found at: https://github.com/alextselegidis/easyappointments-docker
 
 *This document applies to Easy!Appointments v1.4.3.*
 

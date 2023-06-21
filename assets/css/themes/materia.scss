@@ -73,19 +73,19 @@ $input-btn-padding-x:       1rem !default;
 // Forms
 
 $input-padding-y:                1rem !default;
-$input-padding-x:                0 !default;
-$input-padding-y-sm:             0 !default;
-$input-padding-x-sm:             0 !default;
+$input-padding-x:                0% !default;
+$input-padding-y-sm:             0% !default;
+$input-padding-x-sm:             0% !default;
 $input-padding-y-lg:             ($font-size-base * 1.25) !default;
-$input-padding-x-lg:             0 !default;
+$input-padding-x-lg:             0% !default;
 $input-bg:                       transparent !default;
 $input-disabled-bg:              transparent !default;
 $input-color:                    $gray-600 !default;
 $input-border-color:             transparent !default;
-$input-border-width:             0 !default;
-$input-border-radius:            0 !default;
-$input-border-radius-lg:         0 !default;
-$input-border-radius-sm:         0 !default;
+$input-border-width:             0% !default;
+$input-border-radius:            0% !default;
+$input-border-radius-lg:         0% !default;
+$input-border-radius-sm:         0% !default;
 $input-placeholder-color:        rgba(0, 0, 0, .4) !default;
 $input-group-addon-bg:           transparent !default;
 
@@ -116,7 +116,7 @@ $modal-content-border-color:        transparent !default;
 // Progress bars
 
 $progress-height:               .375rem !default;
-$progress-border-radius:        0 !default;
+$progress-border-radius:        0% !default;
 
 // Close
 

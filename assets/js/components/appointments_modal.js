@@ -328,6 +328,8 @@ App.Components.AppointmentsModal = (function () {
          */
         $selectService.on('change', () => {
             const serviceId = $selectService.val();
+            
+            const providerId = $selectProvider.val(); 
 
             $selectProvider.empty();
 
@@ -364,6 +366,10 @@ App.Components.AppointmentsModal = (function () {
                         $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                     }
                 });
+                
+                if ($selectProvider.find(`option[value="${providerId}"]`).length) {
+                    $selectProvider.val(providerId);
+                }
             });
         });
 
@@ -403,7 +409,8 @@ App.Components.AppointmentsModal = (function () {
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').fadeOut();
 
-        $appointmentStatus.find('option:first').prop('checked', true);
+        const defaultStatusValue = $appointmentStatus.find('option:first').val();
+        $appointmentStatus.val(defaultStatusValue);
 
         $language.val('english');
         $timezone.val('UTC');

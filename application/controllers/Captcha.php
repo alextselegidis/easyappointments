@@ -36,14 +36,13 @@ class Captcha extends EA_Controller {
      */
     public function index()
     {
-        $builder = new CaptchaBuilder;
-        $builder->setDistortion(false);
-        $builder->setMaxBehindLines(1);
-        $builder->setMaxFrontLines(1);
-        $builder->setBackgroundColor(255,255,255);
-        $builder->build();
-        session(['captcha_phrase' => $builder->getPhrase()]);
+        $this->captcha_builder->setDistortion(true);
+        $this->captcha_builder->setMaxBehindLines(1);
+        $this->captcha_builder->setMaxFrontLines(1);
+        $this->captcha_builder->setBackgroundColor(255,255,255);
+        $this->captcha_builder->build();
+        session(['captcha_phrase' => $this->captcha_builder->getPhrase()]);
         header('Content-type: image/jpeg');
-        $builder->output();
+        $this->captcha_builder->output();
     }
 }
