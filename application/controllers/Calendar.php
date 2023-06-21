@@ -209,6 +209,7 @@ class Calendar extends EA_Controller {
                     'zip_code',
                     'timezone',
                     'language',
+                    'notes',
                 ]);
 
                 $customer['id'] = $this->customers_model->save($customer);
@@ -252,6 +253,7 @@ class Calendar extends EA_Controller {
                     'notes',
                     'color',
                     'status',
+                    'notes',
                     'is_unavailability',
                     'id_users_provider',
                     'id_users_customer',
