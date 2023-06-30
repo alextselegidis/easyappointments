@@ -101,7 +101,6 @@ class Customers_model extends EA_Model {
         $require_address = filter_var(setting('require_address'), FILTER_VALIDATE_BOOLEAN);
         $require_city = filter_var(setting('require_city'), FILTER_VALIDATE_BOOLEAN);
         $require_zip_code = filter_var(setting('require_zip_code'), FILTER_VALIDATE_BOOLEAN);
-        $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
 
         if (
             (empty($customer['first_name']) && $require_first_name)
@@ -111,7 +110,6 @@ class Customers_model extends EA_Model {
             || (empty($customer['address']) && $require_address)
             || (empty($customer['city']) && $require_city)
             || (empty($customer['zip_code']) && $require_zip_code)
-            || (empty($customer['notes']) && $require_notes)
         )
         {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($customer, TRUE));

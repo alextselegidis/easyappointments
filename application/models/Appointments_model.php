@@ -92,12 +92,16 @@ class Appointments_model extends EA_Model {
         }
 
         // Make sure all required fields are provided. 
+
+        $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
+        
         if (
             empty($appointment['start_datetime'])
             || empty($appointment['end_datetime'])
             || empty($appointment['id_services'])
             || empty($appointment['id_users_provider'])
             || empty($appointment['id_users_customer'])
+            || (empty($appointment['notes']) && $require_notes)
         )
         {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, TRUE));
