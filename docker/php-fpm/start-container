@@ -7,7 +7,7 @@ echo "➜ Install NPM Dependencies"
 npm install
 
 echo "➜ Build Project Assets"
-npx gulp build
+npx gulp compile
 
 echo "➜ Listen To Incoming Requests"
 php-fpm

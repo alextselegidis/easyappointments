@@ -194,6 +194,7 @@ exports.clean = gulp.series(clean);
 exports.vendor = gulp.series(vendor);
 exports.scripts = gulp.series(scripts);
 exports.styles = gulp.series(styles);
+exports.compile = gulp.series(clean, vendor, scripts, styles);
 exports.dev = gulp.series(clean, vendor, scripts, styles, watch);
 exports.build = gulp.series(clean, vendor, scripts, styles, archive);
 exports.default = exports.dev;
