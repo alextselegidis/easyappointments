@@ -97,7 +97,12 @@ class EA_Controller extends CI_Controller {
 
         if ($session_language)
         {
-            config(['language' => $session_language]);
+            $language_codes = config('language_codes'); 
+            
+            config([
+                'language' => $session_language,
+                'language_code' => array_search($session_language, $language_codes) ?: 'en'
+            ]);
         }
 
         $this->lang->load('translations');

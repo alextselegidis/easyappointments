@@ -115,11 +115,15 @@ $languages = [
     'tr' => 'turkish',
 ];
 
+$config['language_codes'] = $languages;
+
 $language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
 
 $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
     ? $languages[$language_code]
     : Config::LANGUAGE;
+
+$config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 
 /*
 |--------------------------------------------------------------------------
