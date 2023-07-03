@@ -22,9 +22,9 @@ App.Http.Booking = (function () {
     const $availableHours = $('#available-hours');
     const $captchaHint = $('#captcha-hint');
     const $captchaTitle = $('.captcha-title');
-    
+
     const moment = window.moment;
-    
+
     let unavailableDatesBackup;
     let selectedDateStringBackup;
     let processingUnavailableDates = false;
@@ -283,7 +283,7 @@ App.Http.Booking = (function () {
         if (setDate && !vars('manage_mode')) {
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-                
+
                 if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
                     $('#select-date')[0]._flatpickr.setDate(currentDate);
                     getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
@@ -299,6 +299,16 @@ App.Http.Booking = (function () {
 
         // Grey out unavailable dates.
         $('#select-date')[0]._flatpickr.set('disable', unavailableDates.map(unavailableDate => new Date(unavailableDate)));
+
+        const dateQueryParam = App.Utils.Url.queryParam('date');
+
+        if (dateQueryParam) {
+            const dateQueryParamMoment = moment(dateQueryParam);
+
+            if (dateQueryParamMoment.isValid() && !unavailableDates.includes(dateQueryParam) && dateQueryParamMoment.format('YYYY-MM') === selectedDateMoment.format('YYYY-MM')) {
+                $('#select-date')[0]._flatpickr.setDate(dateQueryParamMoment.toDate());
+            }
+        }
 
         processingUnavailableDates = false;
     }
