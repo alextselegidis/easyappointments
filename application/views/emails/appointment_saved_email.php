@@ -85,6 +85,15 @@
                 </td>
             </tr>
 
+            <tr>
+                <td class="label" style="padding: 3px;font-weight: bold;">
+                    <?= lang('description') ?>
+                </td>
+                <td style="padding: 3px;">
+                    <?= e($service['description']) ?>
+                </td>
+            </tr>
+
             <?php if ( ! empty($appointment['location'])): ?>
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">
