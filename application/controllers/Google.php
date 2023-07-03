@@ -149,7 +149,7 @@ class Google extends EA_Controller {
                         $event_end = new DateTime($google_event->getEnd()->getDateTime() ?? $google_event->getEnd()->getDate());
                         $event_end->setTimezone($provider_timezone);
 
-                        $google_event_notes = $appointment['is_unavailable'] ? $google_event->getSummary() . ' ' . $google_event->getDescription() : $google_event->getDescription();
+                        $google_event_notes = $appointment['is_unavailability'] ? $google_event->getSummary() . ' ' . $google_event->getDescription() : $google_event->getDescription();
 
                         $is_different = $appointment_start !== $event_start->getTimestamp()
                             || $appointment_end !== $event_end->getTimestamp()
