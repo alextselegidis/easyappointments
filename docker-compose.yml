@@ -31,8 +31,7 @@ services:
       - '8001:3306'
   
   phpmyadmin:
-    image: 'phpmyadmin:5.2.0'
-    restart: always
+    image: 'phpmyadmin:5.2.1'
     ports:
       - '8002:80'
     environment:
@@ -40,7 +39,6 @@ services:
   
   mailhog:
     image: 'mailhog/mailhog:v1.0.1'
-    restart: always
     ports:
       - '8003:8025'
       - '1025:1025'
