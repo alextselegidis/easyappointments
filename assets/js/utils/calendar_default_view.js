@@ -1247,8 +1247,6 @@ App.Utils.CalendarDefaultView = (function () {
                 const workingPlan = JSON.parse(provider ? provider.settings.working_plan : vars('company_working_plan'));
                 const workingPlanExceptions = JSON.parse(provider ? provider.settings.working_plan_exceptions : '{}');
                 let unavailabilityEvent;
-                let viewStart;
-                let viewEnd;
                 let breakStart;
                 let breakEnd;
                 let workingPlanExceptionStart;
@@ -1465,7 +1463,14 @@ App.Utils.CalendarDefaultView = (function () {
             eventColor: '#7cbae8',
             slotLabelFormat: slotTimeFormat,
             allDayContent: lang('all_day'),
-            dayHeaderFormat: columnFormat,
+            views: {
+                timeGridDay: {
+                    dayHeaderFormat: columnFormat
+                },
+                timeGridWeek: {
+                  dayHeaderFormat: columnFormat
+              }  
+            },
             selectable: true,
             selectMirror: true,
             themeSystem: 'bootstrap5',
