@@ -12,7 +12,7 @@ class Config {
     // GENERAL SETTINGS
     // ------------------------------------------------------------------------
     
-    const BASE_URL      = 'http://localhost:8000'; 
+    const BASE_URL      = 'http://localhost'; 
     const LANGUAGE      = 'english';
     const DEBUG_MODE    = TRUE;
 
@@ -22,8 +22,8 @@ class Config {
     
     const DB_HOST       = 'mysql';
     const DB_NAME       = 'easyappointments';
-    const DB_USERNAME   = 'easyappointments';
-    const DB_PASSWORD   = 'secret';
+    const DB_USERNAME   = 'user';
+    const DB_PASSWORD   = 'password';
 
     // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
@@ -37,11 +37,11 @@ class Config {
 }
 ```
 
-In the host machine the server is accessible from `http://localhost:8000` and the database from `localhost:8001`.
+In the host machine the server is accessible from `http://localhost` and the database from `localhost:3306`.
 
-You can additionally access phpMyAdmin from `http://localhost:8002` (credentials are `root` / `secret`) and MailHog from `http://localhost:8003`.
+You can additionally access phpMyAdmin from `http://localhost:8080` (credentials are `root` / `secret`) and Mailpit from `http://localhost:8025`.
 
-**Attention:** This configuration is mend to make development easier. It is not intended to server as a production environment!
+**Attention:** This configuration is meant to make development easier. It is not intended to server as a production environment!
 
 A production image of Easy!Appointments can be found at: https://github.com/alextselegidis/easyappointments-docker
 
