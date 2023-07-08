@@ -16,9 +16,12 @@ RUN apt-get update \
     && npm install -g npm \
     && apt-get install -q -y ssmtp mailutils \
     && echo "hostname=localhost.localdomain" > /etc/ssmtp/ssmtp.conf \
-    && echo "root=root@presta.com" >> /etc/ssmtp/ssmtp.conf \
-    && echo "mailhub=mailhog:1025" >> /etc/ssmtp/ssmtp.conf \
+    && echo "root=root@example.org" >> /etc/ssmtp/ssmtp.conf \
+    && echo "mailhub=mailpit:1025" >> /etc/ssmtp/ssmtp.conf \
     && echo "sendmail_path=/usr/sbin/ssmtp -t" >> /usr/local/etc/php/conf.d/php-sendmail.ini \
+    && echo "alias ll=\"ls -al\"" >> /root/.bashrc \
+    && echo "export XDEBUG_TRIGGER=1" >> /root/.bashrc \
+    && echo "export PHP_IDE_CONFIG=\"serverName=host.docker.internal\"" >> /root/.bashrc \
     && apt-get -y autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
