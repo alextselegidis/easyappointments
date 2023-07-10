@@ -434,4 +434,6 @@ $lang['click_to_toggle'] = 'Нажмите для переключения';
 $lang['week_short'] = 'Нед';
 $lang['scroll_to_increment'] = 'Прокрутка для увеличения';
 $lang['year'] = 'Год';
+$lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
+$lang['no_breaks'] = 'No Breaks';
 // End

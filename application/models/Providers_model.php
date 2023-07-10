@@ -582,7 +582,7 @@ class Providers_model extends EA_Model {
      * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception)
+    public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception = NULL)
     {
         // Validate the working plan exception data.
         $start = date('H:i', strtotime($working_plan_exception['start']));
@@ -610,7 +610,7 @@ class Providers_model extends EA_Model {
         // Store the working plan exception.
         $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
-        if ( ! isset($working_plan_exception['breaks']))
+        if ( is_array($working_plan_exception) && ! isset($working_plan_exception['breaks']))
         {
             $working_plan_exception['breaks'] = [];
         }
@@ -643,7 +643,7 @@ class Providers_model extends EA_Model {
 
         unset($working_plan_exceptions[$date]);
 
-        $provider['settings']['working_plan_exceptions'] = empty($working_plan_exceptions) ? new stdClass() : $working_plan_exceptions;
+        $provider['settings']['working_plan_exceptions'] = empty($working_plan_exceptions) ? '{}' : $working_plan_exceptions;
 
         $this->update($provider);
     }
@@ -1015,10 +1015,10 @@ class Providers_model extends EA_Model {
 
     /**
      * Quickly check if a service is assigned to a provider.
-     * 
+     *
      * @param int $provider_id
      * @param int $service_id
-     * 
+     *
      * @return bool
      */
     public function is_service_supported(int $provider_id, int $service_id): bool

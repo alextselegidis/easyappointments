@@ -434,4 +434,6 @@ $lang['click_to_toggle'] = 'Click To Toggle';
 $lang['week_short'] = 'Wk';
 $lang['scroll_to_increment'] = 'Scroll To Increment';
 $lang['year'] = 'Year';
+$lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
+$lang['no_breaks'] = 'No Breaks';
 // End

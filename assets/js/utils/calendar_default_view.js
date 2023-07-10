@@ -86,8 +86,10 @@ App.Utils.CalendarDefaultView = (function () {
 
             let startMoment;
             let endMoment;
-
-            if (lastFocusedEventData.extendedProps.data.workingPlanException) {
+            
+            const data = lastFocusedEventData.extendedProps.data; 
+            
+            if (data.hasOwnProperty('workingPlanException')) {
                 const date = lastFocusedEventData.extendedProps.data.date;
                 const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
                 const provider = lastFocusedEventData.extendedProps.data.provider;
@@ -466,6 +468,10 @@ App.Utils.CalendarDefaultView = (function () {
             displayDelete =
                 $target.hasClass('fc-custom') && vars('privileges').appointments.delete === true ? 'me-2' : 'd-none';
 
+            const {date, workingPlanException, provider} = info.event.extendedProps.data;
+            const startTime = workingPlanException?.start;
+            const endTime = workingPlanException?.end;
+
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
@@ -473,11 +479,7 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': lang('provider')
                     }),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data
-                            ? info.event.extendedProps.data.provider.first_name +
-                            ' ' +
-                            info.event.extendedProps.data.provider.last_name
-                            : '-'
+                        'text': `${provider.first_name} ${provider.last_name}`
                     }),
                     $('<br/>'),
 
@@ -486,14 +488,11 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': lang('start')
                     }),
                     $('<span/>', {
-                        'text': App.Utils.Date.format(
-                            info.event.extendedProps.data.date +
-                            ' ' +
-                            info.event.extendedProps.data.workingPlanException.start,
+                        'text': startTime ? App.Utils.Date.format(`${date} ${startTime}`,
                             vars('date_format'),
                             vars('time_format'),
                             true
-                        )
+                        ) : '-'
                     }),
                     $('<br/>'),
 
@@ -502,14 +501,11 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': lang('end')
                     }),
                     $('<span/>', {
-                        'text': App.Utils.Date.format(
-                            info.event.extendedProps.data.date +
-                            ' ' +
-                            info.event.extendedProps.data.workingPlanException.end,
+                        'text': endTime ? App.Utils.Date.format(`${date} ${endTime}`,
                             vars('date_format'),
                             vars('time_format'),
                             true
-                        )
+                        ) : '-'
                     }),
                     $('<br/>'),
 
@@ -518,7 +514,7 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': lang('timezone')
                     }),
                     $('<span/>', {
-                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone]
+                        'text': startTime ? vars('timezones')[provider.timezone] : '-'
                     }),
                     $('<br/>'),
 
@@ -1273,12 +1269,14 @@ App.Utils.CalendarDefaultView = (function () {
                     weekdayDate = calendarDate.format('YYYY-MM-DD');
 
                     // Add working plan exception event.
-                    if (workingPlanExceptions && workingPlanExceptions[weekdayDate]) {
+                    if (workingPlanExceptions && workingPlanExceptions.hasOwnProperty(weekdayDate)) {
                         sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
 
-                        workingPlanExceptionStart =
-                            weekdayDate + ' ' + sortedWorkingPlan[weekdayName].start;
-                        workingPlanExceptionEnd = weekdayDate + ' ' + sortedWorkingPlan[weekdayName].end;
+                        const startTime = sortedWorkingPlan[weekdayName]?.start || '00:00';
+                        const endTime = sortedWorkingPlan[weekdayName]?.end || '00:00';
+
+                        workingPlanExceptionStart = `${weekdayDate} ${startTime}`;
+                        workingPlanExceptionEnd = `${weekdayDate} ${endTime}`;
 
                         workingPlanExceptionEvent = {
                             title: lang('working_plan_exception'),
@@ -1468,8 +1466,8 @@ App.Utils.CalendarDefaultView = (function () {
                     dayHeaderFormat: columnFormat
                 },
                 timeGridWeek: {
-                  dayHeaderFormat: columnFormat
-              }  
+                    dayHeaderFormat: columnFormat
+                }
             },
             selectable: true,
             selectMirror: true,
@@ -1543,16 +1541,16 @@ App.Utils.CalendarDefaultView = (function () {
                 .prop('selected', true);
         }
 
-        const localSelectFilterItemValue = window.localStorage.getItem('EasyAppointments.SelectFilterItem');
-
-        if (localSelectFilterItemValue && $selectFilterItem.find(`option[value="${localSelectFilterItemValue}"]`).length) {
-            $selectFilterItem.val(localSelectFilterItemValue);
-        }
-
         // Add the page event listeners.
         addEventListeners();
 
-        $reloadAppointments.trigger('click');
+        const localSelectFilterItemValue = window.localStorage.getItem('EasyAppointments.SelectFilterItem');
+
+        if (localSelectFilterItemValue && $selectFilterItem.find(`option[value="${localSelectFilterItemValue}"]`).length) {
+            $selectFilterItem.val(localSelectFilterItemValue).trigger('change');
+        } else {
+            $reloadAppointments.trigger('click');
+        }
 
         // Display the edit dialog if an appointment hash is provided.
         if (vars('edit_appointment')) {
@@ -1613,8 +1611,6 @@ App.Utils.CalendarDefaultView = (function () {
                 fullCalendar.view.currentEnd
             );
         }, 60000);
-
-        $reloadAppointments.trigger('click');
     }
 
     return {

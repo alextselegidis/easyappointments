@@ -434,4 +434,6 @@ $lang['click_to_toggle'] = 'Klicken Sie zum Umschalten';
 $lang['week_short'] = 'Wo';
 $lang['scroll_to_increment'] = 'Scrollen Sie zu Inkrement';
 $lang['year'] = 'Jahr';
+$lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
+$lang['no_breaks'] = 'No Breaks';
 // End

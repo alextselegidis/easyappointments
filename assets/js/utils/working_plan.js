@@ -301,6 +301,9 @@ App.Utils.WorkingPlan = (function () {
          */
         renderWorkingPlanExceptionRow(date, workingPlanException) {
             const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
+            
+            const start  = workingPlanException?.start;
+            const end  = workingPlanException?.end;
 
             return $('<tr/>', {
                 'data': {
@@ -310,15 +313,15 @@ App.Utils.WorkingPlan = (function () {
                 'html': [
                     $('<td/>', {
                         'class': 'working-plan-exception-date',
-                        'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format'), false)
+                        'text':  App.Utils.Date.format(date, vars('date_format'), vars('time_format'), false)
                     }),
                     $('<td/>', {
                         'class': 'working-plan-exception--start',
-                        'text': moment(workingPlanException.start, 'HH:mm').format(timeFormat).toLowerCase()
+                        'text': start  ? moment(start, 'HH:mm').format(timeFormat).toLowerCase() : '-'
                     }),
                     $('<td/>', {
                         'class': 'working-plan-exception--end',
-                        'text': moment(workingPlanException.end, 'HH:mm').format(timeFormat).toLowerCase()
+                        'text': end ? moment(end, 'HH:mm').format(timeFormat).toLowerCase() : '-'
                     }),
                     $('<td/>', {
                         'html': [

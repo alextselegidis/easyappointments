@@ -1,5 +1,5 @@
 <div class="modal" id="working-plan-exceptions-modal">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><?= lang('working_plan_exception') ?></h5>
@@ -11,14 +11,27 @@
                     <input class="form-control" id="working-plan-exceptions-date">
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label" for="working-plan-exceptions-start"><?= lang('start') ?></label>
-                    <input class="form-control" id="working-plan-exceptions-start">
+                <div class="form-check form-switch mb-3">
+                    <input class="form-check-input" type="checkbox" id="working-plan-exceptions-is-non-working-day">
+                    <label class="form-check-label" for="working-plan-exceptions-is-non-working-day">
+                        <?= lang('make_non_working_day') ?>
+                    </label>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label" for="working-plan-exceptions-end"><?= lang('end') ?></label>
-                    <input class="form-control" id="working-plan-exceptions-end">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="working-plan-exceptions-start"><?= lang('start') ?></label>
+                            <input class="form-control" id="working-plan-exceptions-start">
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="working-plan-exceptions-end"><?= lang('end') ?></label>
+                            <input class="form-control" id="working-plan-exceptions-end">
+                        </div>
+                    </div>
                 </div>
 
                 <h3><?= lang('breaks') ?></h3>
@@ -28,7 +41,7 @@
                 </p>
 
                 <div>
-                    <button type="button" class="btn btn-primary working-plan-exceptions-add-break">
+                    <button type="button" class="btn btn-outline-primary btn-sm working-plan-exceptions-add-break">
                         <i class="fas fa-plus-square me-2"></i>
                         <?= lang('add_break') ?>
                     </button>

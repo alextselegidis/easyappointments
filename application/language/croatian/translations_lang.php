@@ -434,4 +434,6 @@ $lang['click_to_toggle'] = 'Kliknite za prebacivanje';
 $lang['week_short'] = 'Tjed';
 $lang['scroll_to_increment'] = 'Skrolajte za inkrementaciju';
 $lang['year'] = 'Godina';
+$lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
+$lang['no_breaks'] = 'No Breaks';
 // End

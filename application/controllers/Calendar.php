@@ -444,6 +444,11 @@ class Calendar extends EA_Controller {
 
             $working_plan_exception = request('working_plan_exception');
 
+            if ( ! $working_plan_exception)
+            {
+                $working_plan_exception = NULL;
+            }
+
             $provider_id = request('provider_id');
 
             $this->providers_model->save_working_plan_exception($provider_id, $date, $working_plan_exception);
