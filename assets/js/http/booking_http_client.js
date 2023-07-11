@@ -28,6 +28,7 @@ App.Http.Booking = (function () {
     let unavailableDatesBackup;
     let selectedDateStringBackup;
     let processingUnavailableDates = false;
+    let searchedMonthCounter = 0;
 
     /**
      * Get Available Hours
@@ -260,6 +261,20 @@ App.Http.Booking = (function () {
             data: data,
             dataType: 'json'
         }).done((response) => {
+            if (response.is_month_unavailable) {
+                if (searchedMonthCounter >= 3) {
+                    searchedMonthCounter = 0;
+                    return; // Stop searching
+                }
+
+                searchedMonthCounter++;
+                const selectedDateMoment = moment(selectedDateString);
+                selectedDateMoment.add(1, 'month');
+                const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
+                getUnavailableDates(providerId, serviceId, nextSelectedDate);
+                return;
+            }
+
             unavailableDatesBackup = response;
             selectedDateStringBackup = selectedDateString;
             applyUnavailableDates(response, selectedDateString, true);

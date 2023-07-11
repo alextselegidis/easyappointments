@@ -708,6 +708,15 @@ class Booking extends EA_Controller {
                     $unavailable_dates[] = $current_date->format('Y-m-d');
                 }
             }
+            
+            if (count($unavailable_dates) === $number_of_days_in_month)
+            {
+                json_response([
+                    'is_month_unavailable' => TRUE,
+                ]);
+                
+                return; 
+            }
 
             json_response($unavailable_dates);
         }
