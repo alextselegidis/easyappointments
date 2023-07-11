@@ -65,10 +65,9 @@ class Google_sync {
 
         $this->client = new Google_Client();
         $this->client->setHttpClient($http);
-        $this->client->setApplicationName(config('google_application_name'));
+        $this->client->setApplicationName('Easy!Appointments');
         $this->client->setClientId(config('google_client_id'));
         $this->client->setClientSecret(config('google_client_secret'));
-        $this->client->setDeveloperKey(config('google_api_key'));
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');
