@@ -337,7 +337,7 @@ App.Utils.CalendarDefaultView = (function () {
     function getCalendarHeight() {
         const result =
             window.innerHeight - $footer.outerHeight() - $header.outerHeight() - $calendarToolbar.outerHeight() - 60; // 60 for fine tuning
-        return result > 800 ? result : 800; // Minimum height is 800px
+        return result > 780 ? result : 780; // Minimum height is 800px
     }
 
     /**
