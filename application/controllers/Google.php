@@ -50,6 +50,7 @@ class Google extends EA_Controller {
             $CI->load->library('google_sync');
 
             $CI->load->model('appointments_model');
+            $CI->load->model('unavailabilities_model');
             $CI->load->model('providers_model');
             $CI->load->model('services_model');
             $CI->load->model('customers_model');
@@ -237,7 +238,7 @@ class Google extends EA_Controller {
                     'id_services' => NULL,
                 ];
 
-                $CI->appointments_model->save($appointment);
+                $CI->unavailabilities_model->save($appointment);
             }
 
             json_response([
