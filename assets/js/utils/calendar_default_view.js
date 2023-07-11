@@ -287,7 +287,7 @@ App.Utils.CalendarDefaultView = (function () {
          */
         $selectFilterItem.on('change', () => {
             // If current value is service, then the sync buttons must be disabled.
-            if ($selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_SERVICE) {
+            if ($selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_SERVICE || $selectFilterItem.val() === 'all') {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
                 fullCalendar.setOption('selectable', false);
                 fullCalendar.setOption('editable', false);
