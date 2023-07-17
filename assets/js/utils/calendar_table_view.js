@@ -676,6 +676,7 @@ App.Utils.CalendarTableView = (function () {
         const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
 
         const fullCalendar = new FullCalendar.Calendar($wrapper[0], {
+            locale: vars('language_code'),
             initialView: 'timeGridDay',
             nowIndicator: true,
             height: getCalendarHeight(),

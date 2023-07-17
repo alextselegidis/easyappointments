@@ -1448,6 +1448,7 @@ App.Utils.CalendarDefaultView = (function () {
         // Initialize page calendar
         fullCalendar = new FullCalendar.Calendar($calendar[0], {
             initialView,
+            locale: vars('language_code'),
             nowIndicator: true,
             height: getCalendarHeight(),
             editable: true,
@@ -1461,14 +1462,6 @@ App.Utils.CalendarDefaultView = (function () {
             eventColor: '#7cbae8',
             slotLabelFormat: slotTimeFormat,
             allDayContent: lang('all_day'),
-            views: {
-                timeGridDay: {
-                    dayHeaderFormat: columnFormat
-                },
-                timeGridWeek: {
-                    dayHeaderFormat: columnFormat
-                }
-            },
             selectable: true,
             selectMirror: true,
             themeSystem: 'bootstrap5',

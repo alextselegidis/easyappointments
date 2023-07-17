@@ -45,6 +45,14 @@ window.App = (function () {
     }
 
     $(document).ajaxError(onAjaxError);
+    
+    $(function() {
+        if (window.moment) {
+            window.moment.locale(vars('language_code'));
+        }    
+    })
+    
+    
 
     return {
         Components: {},

@@ -132,6 +132,8 @@ class EA_Controller extends CI_Controller {
             'index_page' => config('index_page'),
             'available_languages' => config('available_languages'),
             'csrf_token' => $this->security->get_csrf_hash(),
+            'language' => config('language'),
+            'language_code' => config('language_code'),
         ]);
     }
 
