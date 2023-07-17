@@ -181,9 +181,12 @@ class Calendar extends EA_Controller {
     {
         try
         {
-            // Save customer changes to the database.
             $customer_data = request('customer_data');
+            $appointment_data = request('appointment_data');
 
+            $this->check_event_permissions($appointment_data['id_users_provider']);
+
+            // Save customer changes to the database.
             if ($customer_data)
             {
                 $customer = $customer_data;
@@ -216,8 +219,6 @@ class Calendar extends EA_Controller {
             }
 
             // Save appointment changes to the database.
-            $appointment_data = request('appointment_data');
-
             $manage_mode = ! empty($appointment_data['id']);
 
             if ($appointment_data)
@@ -323,6 +324,9 @@ class Calendar extends EA_Controller {
 
             // Store appointment data for later use in this method.
             $appointment = $this->appointments_model->find($appointment_id);
+
+            $this->check_event_permissions($appointment['id_users_provider']);
+
             $provider = $this->providers_model->find($appointment['id_users_provider'], TRUE);
             $customer = $this->customers_model->find($appointment['id_users_customer'], TRUE);
             $service = $this->services_model->find($appointment['id_services'], TRUE);
@@ -373,7 +377,11 @@ class Calendar extends EA_Controller {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
-            $provider = $this->providers_model->find($unavailability['id_users_provider']);
+            $provider_id = $unavailability['id_users_provider'];
+
+            $this->check_event_permissions($provider_id);
+
+            $provider = $this->providers_model->find($provider_id);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
@@ -409,6 +417,8 @@ class Calendar extends EA_Controller {
             $unavailability_id = request('unavailability_id');
 
             $unavailability = $this->appointments_model->find($unavailability_id);
+            
+            $this->check_event_permissions($unavailability['id_users_provider']);
 
             $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
@@ -740,6 +750,22 @@ class Calendar extends EA_Controller {
         catch (Throwable $e)
         {
             json_exception($e);
+        }
+    }
+
+    private function check_event_permissions($provider_id)
+    {
+        $user_id = (int)session('user_id');
+        $role_slug = session('role_slug');
+
+        if ($role_slug === DB_SLUG_SECRETARY && ! $this->secretaries_model->is_provider_supported($user_id, $provider_id))
+        {
+            abort(403);
+        }
+
+        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id)
+        {
+            abort(403);
         }
     }
 }
