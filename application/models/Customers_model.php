@@ -399,7 +399,7 @@ class Customers_model extends EA_Model {
             throw new InvalidArgumentException('Could not find customer record id.');
         }
 
-        return $customer['id'];
+        return (int)$customer['id'];
     }
 
     /**
