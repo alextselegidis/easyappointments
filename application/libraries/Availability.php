@@ -127,9 +127,14 @@ class Availability {
         $date_working_plan = $working_plan[$working_day] ?? NULL;
 
         // Search if the $date is a custom availability period added outside the normal working plan.
-        if (isset($working_plan_exceptions[$date]))
+        if (array_key_exists($date, $working_plan_exceptions))
         {
             $date_working_plan = $working_plan_exceptions[$date];
+        }
+
+        if ( ! $date_working_plan)
+        {
+            return [];
         }
 
         $periods = [];
@@ -374,7 +379,7 @@ class Availability {
         $date_working_plan = $working_plan[$working_day] ?? NULL;
 
         // Search if the $date is a custom availability period added outside the normal working plan.
-        if (isset($working_plan_exceptions[$date]))
+        if (array_key_exists($date, $working_plan_exceptions))
         {
             $date_working_plan = $working_plan_exceptions[$date];
         }

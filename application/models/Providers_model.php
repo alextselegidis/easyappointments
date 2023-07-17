@@ -636,7 +636,7 @@ class Providers_model extends EA_Model {
 
         $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
-        if ( ! isset($working_plan_exceptions[$date]))
+        if ( ! array_key_exists($date, $working_plan_exceptions))
         {
             return; // The selected date does not exist in provider's settings.
         }
