@@ -416,7 +416,7 @@ class Calendar extends EA_Controller {
 
             $unavailability_id = request('unavailability_id');
 
-            $unavailability = $this->appointments_model->find($unavailability_id);
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
             
             $this->check_event_permissions($unavailability['id_users_provider']);
 

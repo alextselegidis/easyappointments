@@ -363,7 +363,7 @@ class Availability {
         int $exclude_appointment_id = NULL
     ): array
     {
-        $unavailability_events = $this->CI->appointments_model->get([
+        $unavailability_events = $this->CI->unavailabilities_model->get([
             'is_unavailability' => TRUE,
             'DATE(start_datetime) <=' => $date,
             'DATE(end_datetime) >=' => $date,
