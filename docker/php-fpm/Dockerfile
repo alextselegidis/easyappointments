@@ -3,12 +3,12 @@ FROM php:8.1-fpm
 WORKDIR "/var/www/html"
 
 RUN apt-get update \
-    && apt-get install -y \
+    && apt-get install -y --no-install-recommends \
         git \
         zip \
         unzip \
     && curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | sh -s \
-        curl gd intl ldap mbstring mysqli odbc pdo pdo_mysql soap sockets xml zip xdebug exif sqlite3 gettext bcmath csv event imap inotify ldap mcrypt redis \
+        curl gd intl ldap mbstring mysqli odbc pdo pdo_mysql soap sockets xml zip xdebug exif sqlite3 gettext bcmath csv event imap inotify mcrypt redis \
     && docker-php-ext-enable xdebug \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sLS https://deb.nodesource.com/setup_18.x | bash - \
