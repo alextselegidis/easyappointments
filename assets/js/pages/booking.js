@@ -93,7 +93,7 @@ App.Pages.Booking = (function () {
 
             onMonthChange: (selectedDates, dateStr, instance) => {
                 setTimeout(() => {
-                    const displayedMonthMoment = moment(instance.currentYearElement.value + '-' + (Number(instance.monthsDropdownContainer.value) + 1) + '-01');
+                    const displayedMonthMoment = moment(instance.currentYearElement.value + '-' + String(Number(instance.monthsDropdownContainer.value) + 1).padStart(2, '0') + '-01');
 
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
