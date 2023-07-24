@@ -1,23 +1,17 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Add_date_format_setting
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Add_date_format_setting extends CI_Migration {
+class Migration_Add_date_format_setting extends EA_Migration {
     /**
      * Upgrade method.
      *
@@ -25,10 +19,13 @@ class Migration_Add_date_format_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('settings', [
-            'name' => 'date_format',
-            'value' => 'DMY'
-        ]);
+        if ( ! $this->db->get_where('settings', ['name' => 'date_format'])->num_rows())
+        {
+            $this->db->insert('settings', [
+                'name' => 'date_format',
+                'value' => 'DMY'
+            ]);
+        }
     }
 
     /**
@@ -38,6 +35,9 @@ class Migration_Add_date_format_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'date_format']);
+        if ($this->db->get_where('settings', ['name' => 'date_format'])->num_rows())
+        {
+            $this->db->delete('settings', ['name' => 'date_format']);
+        }
     }
 }

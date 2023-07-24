@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
@@ -22,20 +22,20 @@ use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Utility\Formatter;
 
 /**
- * Class Ics_file
+ * Ics file library.
  *
- * An ICS file is a calendar file saved in a universal calendar format used by email and calendar clients, including
- * Microsoft Outlook, Google Calendar, and Apple Calendar.
+ * Handle ICS related functionality.
  *
- * Depends on the Jsvrcek\ICS composer package.
- *
- * Notice: The Ics_calendar and Ics_provider classes are used for PHP 8.1 compatibility.
+ * An ICS file is a calendar file saved in a universal calendar format used by many email and calendar programs,
+ * including Microsoft Outlook, Google Calendar, and Apple Calendar.
+ * 
+ * @package Libraries
  */
 class Ics_file {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Availability constructor.
@@ -51,24 +51,25 @@ class Ics_file {
     /**
      * Get the ICS file contents for the provided arguments.
      *
-     * @param array $appointment Appointment.
-     * @param array $service Service.
-     * @param array $provider Provider.
-     * @param array $customer Customer.
+     * @param array $appointment Appointment data.
+     * @param array $service Service data.
+     * @param array $provider Provider data.
+     * @param array $customer Customer data.
      *
      * @return string Returns the contents of the ICS file.
      *
      * @throws CalendarEventException
      * @throws Exception
      */
-    public function get_stream($appointment, $service, $provider, $customer)
+    public function get_stream(array $appointment, array $service, array $provider, array $customer): string
     {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
+
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-        // Setup the event.
+        // Set up the event.
         $event = new CalendarEvent();
 
         $event
@@ -100,7 +101,7 @@ class Ics_file {
             '',
             lang('name') . ': ' . $customer['first_name'] . ' ' . $customer['last_name'],
             lang('email') . ': ' . $customer['email'],
-            lang('phone_number') . ': ' . $customer['phone_number'],
+            lang('phone_number') . ': ' . ($customer['phone_number'] ?? '-'),
             lang('address') . ': ' . $customer['address'],
             lang('city') . ': ' . $customer['city'],
             lang('zip_code') . ': ' . $customer['zip_code'],

@@ -1,23 +1,17 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Add_api_token_setting
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Add_api_token_setting extends CI_Migration {
+class Migration_Add_api_token_setting extends EA_Migration {
     /**
      * Upgrade method.
      *
@@ -25,10 +19,14 @@ class Migration_Add_api_token_setting extends CI_Migration {
      */
     public function up()
     {
-        $this->db->insert('settings', [
-            'name' => 'api_token',
-            'value' => ''
-        ]);
+        if ( ! $this->db->get_where('settings', ['name' => 'api_token'])->num_rows())
+        {
+            $this->db->insert('settings', [
+                'name' => 'api_token',
+                'value' => ''
+            ]);
+        }
+
     }
 
     /**
@@ -38,6 +36,9 @@ class Migration_Add_api_token_setting extends CI_Migration {
      */
     public function down()
     {
-        $this->db->delete('settings', ['name' => 'api_token']);
+        if ($this->db->get_where('settings', ['name' => 'api_token'])->num_rows())
+        {
+            $this->db->delete('settings', ['name' => 'api_token']);
+        }
     }
 }

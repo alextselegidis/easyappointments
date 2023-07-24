@@ -65,7 +65,29 @@ $autoload['libraries'] = ['database', 'session'];
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = ['custom_exceptions', 'url', 'file', 'language', 'asset', 'config', 'render', 'rate_limit', 'security'];
+$autoload['helper'] = [
+    'array',
+    'asset',
+    'config',
+    'date',
+    'debug',
+    'env',
+    'file',
+    'html',
+    'http',
+    'installation',
+    'language',
+    'password',
+    'path',
+    'permission',
+    'rate_limit',
+    'routes',
+    'session',
+    'setting',
+    'string',
+    'url',
+    'validation'
+];
 
 
 /*
@@ -81,7 +103,11 @@ $autoload['helper'] = ['custom_exceptions', 'url', 'file', 'language', 'asset', 
 |
 */
 
-$autoload['config'] = ['google', 'email'];
+$autoload['config'] = [
+    'app',
+    'google',
+    'email'
+];
 
 
 /*

@@ -1,18 +1,22 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use Gregwar\Captcha\CaptchaBuilder;
+
 /**
- * Captcha Controller
+ * Captcha controller.
+ * 
+ * Handles the captcha operations.
  *
  * @package Controllers
  */
@@ -32,9 +36,13 @@ class Captcha extends EA_Controller {
      */
     public function index()
     {
-        header('Content-type: image/jpeg');
+        $this->captcha_builder->setDistortion(true);
+        $this->captcha_builder->setMaxBehindLines(1);
+        $this->captcha_builder->setMaxFrontLines(1);
+        $this->captcha_builder->setBackgroundColor(255,255,255);
         $this->captcha_builder->build();
-        $this->session->set_userdata('captcha_phrase', $this->captcha_builder->getPhrase());
+        session(['captcha_phrase' => $this->captcha_builder->getPhrase()]);
+        header('Content-type: image/jpeg');
         $this->captcha_builder->output();
     }
 }

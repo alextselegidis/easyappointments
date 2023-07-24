@@ -23,16 +23,17 @@ if ( ! function_exists('rate_limit'))
      * @link https://github.com/alexandrugaidei-atomate/ratelimit-codeigniter-filebased
      *
      * @param string $ip Client IP address.
-     * @param int $max_requests Number of allowed requests, defaults to 200.
+     * @param int $max_requests Number of allowed requests, defaults to 100.
      * @param int $duration In seconds, defaults to 2 minutes.
      */
-    function rate_limit($ip, $max_requests = 100, $duration = 120)
+    function rate_limit(string $ip, int $max_requests = 100, int $duration = 120): void
     {
+        /** @var EA_Controller $CI */
         $CI =& get_instance();
 
         $rate_limiting = $CI->config->item('rate_limiting');
 
-        if ( ! $rate_limiting)
+        if ( ! $rate_limiting || is_cli())
         {
             return;
         }

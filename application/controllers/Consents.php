@@ -1,18 +1,18 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
 /**
- * Class Consent
+ * Consents controller.
  *
  * Handles user consent related operations.
  *
@@ -25,39 +25,53 @@ class Consents extends EA_Controller {
     public function __construct()
     {
         parent::__construct();
+
         $this->load->model('consents_model');
     }
 
     /**
-     * Save the user's consent.
+     * Save (insert or update) the consent
      */
-    public function ajax_save_consent()
+    public function save()
     {
         try
         {
-            $consent = $this->input->post('consent');
+            $consent = request('consent');
 
             $consent['ip'] = $this->input->ip_address();
 
-            $consent['id'] = $this->consents_model->add($consent);
+            $occurrences = $this->consents_model->get(['ip' => $consent['ip']], 1, 0, 'create_datetime DESC');
 
-            $response = [
+            if ( ! empty($occurrences))
+            {
+                $last_consent = $occurrences[0];
+
+                $last_consent_create_datetime_instance = new DateTime($last_consent['create_datetime']);
+
+                $threshold_datetime_instance = new DateTime('-24 hours');
+
+                if ($last_consent_create_datetime_instance > $threshold_datetime_instance)
+                {
+                    // Do not create a new consent.
+
+                    json_response([
+                        'success' => TRUE,
+                    ]);
+
+                    return;
+                }
+            }
+
+            $consent['id'] = $this->consents_model->save($consent);
+
+            json_response([
                 'success' => TRUE,
                 'id' => $consent['id']
-            ];
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

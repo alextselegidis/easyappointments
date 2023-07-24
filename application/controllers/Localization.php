@@ -14,7 +14,7 @@
 /**
  * Localization Controller
  *
- * Contains all the location related methods.
+ * Contains all the localization related methods.
  *
  * @package Controllers
  */
@@ -26,52 +26,31 @@ class Localization extends EA_Controller {
      *
      * Notice: This method used to be in the Backend_api.php.
      */
-    public function ajax_change_language()
+    public function change_language()
     {
         try
         {
             // Check if language exists in the available languages.
-            $found = FALSE;
+            $language = request('language');
 
-            $language = $this->input->post('language');
-
-            if (empty($language))
+            if ( ! in_array($language, config('available_languages')))
             {
-                throw new Exception('No language provided.');
+                throw new RuntimeException('Translations for the given language does not exist (' . request('language') . ').');
             }
 
-            foreach (config('available_languages') as $available_language)
-            {
-                if ($available_language === $language)
-                {
-                    $found = TRUE;
-                    break;
-                }
-            }
+            $language = request('language');
 
-            if ( ! $found)
-            {
-                throw new Exception('The translations for the provided language do not exist: ' . $language);
-            }
+            session(['language' => $language]);
 
-            $this->session->set_userdata('language', $language);
+            config(['language' => $language]);
 
-            $this->config->set_item('language', $language);
-
-            $response = AJAX_SUCCESS;
+            json_response([
+                'success' => TRUE
+            ]);
         }
-        catch (Exception $exception)
+        catch (Throwable $e)
         {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
+            json_exception($e);
         }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

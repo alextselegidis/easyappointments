@@ -52,6 +52,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 abstract class CI_DB_driver {
 
+    /**
+     * Dynamic Class Props
+     *
+     * @var array
+     */
+    public $props = [];
+
+    public function __get(string $name): mixed
+    {
+        return $this->props[$name] ?? NULL;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->props[$name] = $value;
+    }
+
 	/**
 	 * Data Source Name / Connect string
 	 *

@@ -1,0 +1,9 @@
+.idea
+application
+build
+docker
+docs
+storage
+system
+tests
+vendor

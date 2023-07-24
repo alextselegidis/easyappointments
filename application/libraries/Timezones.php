@@ -1,34 +1,38 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Timezones
+ * Timezones library.
+ *
+ * Handles timezone related functionality.
+ *
+ * @package Libraries
  */
 class Timezones {
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * @var string
      */
-    protected $default = 'UTC';
+    protected string $default = 'UTC';
 
     /**
      * @var array
      */
-    protected $timezones = [
+    protected array $timezones = [
         'UTC' => [
             'UTC' => 'UTC'
         ],
@@ -503,9 +507,9 @@ class Timezones {
      */
     public function __construct()
     {
-        $this->CI = & get_instance();
+        $this->CI = &get_instance();
 
-        $this->CI->load->model('user_model');
+        $this->CI->load->model('users_model');
     }
 
     /**
@@ -513,23 +517,9 @@ class Timezones {
      *
      * @return array
      */
-    public function to_grouped_array()
+    public function to_grouped_array(): array
     {
         return $this->timezones;
-    }
-
-    /**
-     * Returns the session timezone or the default timezone as a fallback.
-     *
-     * @return string
-     */
-    public function get_session_timezone()
-    {
-        $default_timezone = $this->get_default_timezone();
-
-        return $this->CI->session->has_userdata('timezone')
-            ? $this->CI->session->userdata('timezone')
-            : $default_timezone;
     }
 
     /**
@@ -537,7 +527,7 @@ class Timezones {
      *
      * @return string
      */
-    public function get_default_timezone()
+    public function get_default_timezone(): string
     {
         return 'UTC';
     }
@@ -553,7 +543,7 @@ class Timezones {
      *
      * @throws Exception
      */
-    public function convert($value, $from_timezone, $to_timezone)
+    public function convert(string $value, string $from_timezone, string $to_timezone): string
     {
         if ( ! $to_timezone || $from_timezone === $to_timezone)
         {
@@ -578,11 +568,11 @@ class Timezones {
      *
      * @return string|null
      */
-    public function get_timezone_name($value)
+    public function get_timezone_name(string $value): ?string
     {
         $timezones = $this->to_array();
 
-        return isset($timezones[$value]) ? $timezones[$value] : NULL;
+        return $timezones[$value] ?? NULL;
     }
 
     /**
@@ -590,7 +580,7 @@ class Timezones {
      *
      * @return array
      */
-    public function to_array()
+    public function to_array(): array
     {
         return array_merge(...array_values($this->timezones));
     }

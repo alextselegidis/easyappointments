@@ -7,7 +7,7 @@
  * @license	http://opensource.org/licenses/MIT	MIT License
  * @link	https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') OR exit('Direktaccess till skriptet är inte tillåtet');
 
 $lang['email_must_be_array'] = 'Epost-valideringsmetoden kräver en array.';
 $lang['email_invalid_address'] = 'Ogiltig epostadress: %s';
