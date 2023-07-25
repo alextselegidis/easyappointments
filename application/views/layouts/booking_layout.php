@@ -8,7 +8,7 @@
     <meta name="google" content="notranslate">
 
     <meta property="og:title" content="<?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments" />
-    <meta property="og:description" content="Book your appointment with just a few clicks." />
+    <meta property="og:description" content="Book Your Appointment With A Few Clicks" />
     <meta property="og:url" content="<?= base_url() ?>">
     <meta property="og:image" content="<?= base_url('assets/img/social-card.png') ?>" />
     <meta property="og:type" content="website">
