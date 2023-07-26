@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "➜ Set correct permissions"
+chmod -R 777 storage
+
 echo "➜ Install Composer Dependencies"
 composer install
 
