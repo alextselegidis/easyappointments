@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "➜ Set correct permissions"
+echo "➜ Set Correct Permissions"
 chmod -R 777 storage
 
 echo "➜ Install Composer Dependencies"
