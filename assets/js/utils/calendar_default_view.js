@@ -1213,7 +1213,7 @@ App.Utils.CalendarDefaultView = (function () {
                     let notes = unavailability.notes ? ' - ' + unavailability.notes : '';
 
                     if (unavailability.notes && unavailability.notes.length > 30) {
-                        notes = unavailability.notes.substring(0, 30) + '...';
+                        notes = ' - ' + unavailability.notes.substring(0, 30) + '...';
                     }
 
                     const unavailabilityEvent = {
