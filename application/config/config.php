@@ -25,6 +25,11 @@ $domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 $request_uri = dirname($_SERVER['SCRIPT_NAME']);
 
+if ($request_uri === '.')
+{
+    $request_uri = '';
+}
+
 $config['base_url'] = trim($protocol . $domain . $request_uri, '/');
 
 /*
