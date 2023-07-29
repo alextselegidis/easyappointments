@@ -96,7 +96,7 @@ class Availability {
         // Get the provider's working plan exceptions.
         $working_plan_exceptions_json = $provider['settings']['working_plan_exceptions'];
 
-        $working_plan_exceptions = $working_plan_exceptions_json ? json_decode($provider['settings']['working_plan_exceptions'], TRUE) : NULL;
+        $working_plan_exceptions = $working_plan_exceptions_json ? json_decode($provider['settings']['working_plan_exceptions'], TRUE) : [];
 
         $escaped_provider_id = $this->CI->db->escape($provider['id']);
 
