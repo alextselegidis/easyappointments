@@ -141,6 +141,7 @@ class Instance {
                 'username' => 'janedoe',
                 'password' => random_string(),
                 'working_plan' => setting('company_working_plan'),
+                'working_plan_exceptions' => '{}',
                 'notifications' => TRUE,
                 'google_sync' => FALSE,
                 'sync_past_days' => 30,
