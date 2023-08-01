@@ -16,6 +16,7 @@ externalDocs:
   url: https://easyappointments.org/docs.html
 servers:
   - url: https://demo.easyappointments.org/index.php/api/v1/
+  - url: http://localhost/index.php/api/v1/
 tags:
   - name: admins
   - name: appointments
