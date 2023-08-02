@@ -82,7 +82,9 @@ header('X-Frame-Options: SAMEORIGIN');
 |
 */
 
-header('Access-Control-Allow-Origin: *'); // NOTICE: Change this header to restrict CORS access.
+header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? '*')); // NOTICE: Change this header to restrict CORS access.
+
+header('Access-Control-Allow-Credentials: "true"');
 
 if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
 {
