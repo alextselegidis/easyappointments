@@ -8,7 +8,7 @@ services:
     volumes:
       - '.:/var/www/html'
       - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini'
-  
+
   nginx:
     image: 'nginx:1.23.3-alpine'
     working_dir: /var/www/html
@@ -17,7 +17,7 @@ services:
       - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
     ports:
       - '80:80'
-  
+
   mysql:
     image: 'mysql:8.0'
     volumes:
@@ -29,20 +29,21 @@ services:
       - MYSQL_PASSWORD=password
     ports:
       - '3306:3306'
-  
+
   phpmyadmin:
     image: 'phpmyadmin:5.2.1'
     ports:
       - '8080:80'
     environment:
       - 'PMA_HOST=mysql'
-  
+      - 'UPLOAD_LIMIT=102400K'
+
   mailpit:
     image: 'axllent/mailpit:v1.7'
     ports:
       - '8025:8025'
       - '1025:1025'
-        
+
   swagger-ui:
     platform: linux/amd64
     image: swaggerapi/swagger-ui
