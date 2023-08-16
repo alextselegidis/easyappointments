@@ -10,7 +10,7 @@ echo "➜ Install NPM Dependencies"
 [[ -d node_modules ]] || npm install
 
 echo "➜ Build Project Assets"
-npx gulp compile
+[[ -d assets/vendor ]] || npx gulp compile
 
 echo "➜ Listen To Incoming Requests"
 php-fpm
