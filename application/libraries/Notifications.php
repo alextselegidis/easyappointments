@@ -59,11 +59,11 @@ class Notifications {
         {
             if ($manage_mode)
             {
-                $customer_subject = lang('appointment_changes_saved');
+                $customer_subject = lang('appointment_details_changed');
 
                 $customer_message = '';
 
-                $provider_subject = lang('appointment_details_changed');
+                $provider_subject = lang('appointment_changes_saved');
 
                 $provider_message = '';
             }
