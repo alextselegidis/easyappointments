@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "➜ Ignore Permission Changes"
+git config core.fileMode false
+
 echo "➜ Set Correct Permissions"
 chmod -R 777 storage
 
