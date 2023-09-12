@@ -842,8 +842,6 @@ App.Utils.CalendarDefaultView = (function () {
                         .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    unavailability.is_unavailability = Number(unavailability.is_unavailability);
-
                     App.Http.Calendar.saveAppointment(unavailability).done(() => {
                         $notification.hide('blind');
                     });
