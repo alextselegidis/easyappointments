@@ -60,10 +60,7 @@ class Consents_model extends EA_Model {
     public function validate(array $consent)
     {
         if (
-            empty($consent['first_name'])
-            || empty($consent['last_name'])
-            || empty($consent['email'])
-            || empty($consent['ip'])
+            empty($consent['ip'])
             || empty($consent['type'])
         )
         {
