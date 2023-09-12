@@ -112,7 +112,7 @@ class Console extends EA_Controller {
      */
     public function backup()
     {
-        $this->instance->backup($GLOBALS['argv'][3]);
+        $this->instance->backup($GLOBALS['argv'][3] ?? NULL);
     }
 
     /**
