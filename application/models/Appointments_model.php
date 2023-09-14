@@ -466,7 +466,7 @@ class Appointments_model extends EA_Model {
 
         $appointments = $this
             ->db
-            ->select()
+            ->select('appointments.*')
             ->from('appointments')
             ->join('services', 'services.id = appointments.id_services', 'left')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
