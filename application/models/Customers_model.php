@@ -495,7 +495,8 @@ class Customers_model extends EA_Model {
             'address' => $customer['address'],
             'city' => $customer['city'],
             'zip' => $customer['zip_code'],
-            'notes' => $customer['notes']
+            'notes' => $customer['notes'],
+            'timezone' => $customer['timezone'],
         ];
 
         $customer = $encoded_resource;
