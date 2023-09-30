@@ -6,6 +6,7 @@ $lang['select_service'] = 'Kies een dienst';
 $lang['select_provider'] = 'Kies een medewerker';
 $lang['duration'] = 'Duur:';
 $lang['fields'] = 'Velden:';
+$lang['options'] = 'Opties:';
 $lang['minutes'] = 'minuten';
 $lang['price'] = 'Prijs:';
 $lang['back'] = 'Vorige';
