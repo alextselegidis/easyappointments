@@ -37,19 +37,19 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['upload_userfile_not_set'] = 'Unable to find a post variable called userfile.';
-$lang['upload_file_exceeds_limit'] = 'The uploaded file exceeds the maximum allowed size in your PHP configuration file.';
-$lang['upload_file_exceeds_form_limit'] = 'The uploaded file exceeds the maximum size allowed by the submission form.';
-$lang['upload_file_partial'] = 'The file was only partially uploaded.';
-$lang['upload_no_temp_directory'] = 'The temporary folder is missing.';
-$lang['upload_unable_to_write_file'] = 'The file could not be written to disk.';
-$lang['upload_stopped_by_extension'] = 'The file upload was stopped by extension.';
-$lang['upload_no_file_selected'] = 'You did not select a file to upload.';
-$lang['upload_invalid_filetype'] = 'The filetype you are attempting to upload is not allowed.';
-$lang['upload_invalid_filesize'] = 'The file you are attempting to upload is larger than the permitted size.';
-$lang['upload_invalid_dimensions'] = 'The image you are attempting to upload doesn\'t fit into the allowed dimensions.';
-$lang['upload_destination_error'] = 'A problem was encountered while attempting to move the uploaded file to the final destination.';
-$lang['upload_no_filepath'] = 'The upload path does not appear to be valid.';
-$lang['upload_no_file_types'] = 'You have not specified any allowed file types.';
-$lang['upload_bad_filename'] = 'The file name you submitted already exists on the server.';
-$lang['upload_not_writable'] = 'The upload destination folder does not appear to be writable.';
+$lang['upload_userfile_not_set'] = 'Nije moguće pronaći post varijablu pod nazivom userfile.';
+$lang['upload_file_exceeds_limit'] = 'Poslana datoteka premašuje maksimalnu dozvoljenu veličinu u vašoj PHP konfiguracijskoj datoteci.';
+$lang['upload_file_exceeds_form_limit'] = 'Poslana datoteka premašuje maksimalnu dozvoljenu veličinu postavljenu u obrascu za slanje.';
+$lang['upload_file_partial'] = 'Datoteka je samo djelomično poslana.';
+$lang['upload_no_temp_directory'] = 'Nedostaje privremena mapa.';
+$lang['upload_unable_to_write_file'] = 'Datoteka se ne može zapisati na disk.';
+$lang['upload_stopped_by_extension'] = 'Slanje datoteke zaustavljeno je zbog ekstenzije.';
+$lang['upload_no_file_selected'] = 'Niste odabrali datoteku za slanje.';
+$lang['upload_invalid_filetype'] = 'Tip datoteke koji pokušavate poslati nije dozvoljen.';
+$lang['upload_invalid_filesize'] = 'Datoteka koju pokušavate poslati veća je od dozvoljene veličine.';
+$lang['upload_invalid_dimensions'] = 'Slika koju pokušavate poslati ne odgovara dozvoljenim dimenzijama.';
+$lang['upload_destination_error'] = 'Došlo je do problema prilikom pokušaja premještanja poslane datoteke na konačnu destinaciju.';
+$lang['upload_no_filepath'] = 'Putanja za slanje izgleda da nije valjana.';
+$lang['upload_no_file_types'] = 'Niste odredili nijedan dozvoljeni tip datoteke.';
+$lang['upload_bad_filename'] = 'Naziv datoteke koji ste unijeli već postoji na poslužitelju.';
+$lang['upload_not_writable'] = 'Mapa odredišta za slanje izgleda da nije otvorena za pisanje.';

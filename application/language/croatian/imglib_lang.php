@@ -37,21 +37,22 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$lang['imglib_source_image_required'] = 'You must specify a source image in your preferences.';
-$lang['imglib_gd_required'] = 'The GD image library is required for this feature.';
-$lang['imglib_gd_required_for_props'] = 'Your server must support the GD image library in order to determine the image properties.';
-$lang['imglib_unsupported_imagecreate'] = 'Your server does not support the GD function required to process this type of image.';
-$lang['imglib_gif_not_supported'] = 'GIF images are often not supported due to licensing restrictions. You may have to use JPG or PNG images instead.';
-$lang['imglib_jpg_not_supported'] = 'JPG images are not supported.';
-$lang['imglib_png_not_supported'] = 'PNG images are not supported.';
-$lang['imglib_jpg_or_png_required'] = 'The image resize protocol specified in your preferences only works with JPEG or PNG image types.';
-$lang['imglib_copy_error'] = 'An error was encountered while attempting to replace the file. Please make sure your file directory is writable.';
-$lang['imglib_rotate_unsupported'] = 'Image rotation does not appear to be supported by your server.';
-$lang['imglib_libpath_invalid'] = 'The path to your image library is not correct. Please set the correct path in your image preferences.';
-$lang['imglib_image_process_failed'] = 'Image processing failed. Please verify that your server supports the chosen protocol and that the path to your image library is correct.';
-$lang['imglib_rotation_angle_required'] = 'An angle of rotation is required to rotate the image.';
-$lang['imglib_invalid_path'] = 'The path to the image is not correct.';
-$lang['imglib_invalid_image'] = 'The provided image is not valid.';
-$lang['imglib_copy_failed'] = 'The image copy routine failed.';
-$lang['imglib_missing_font'] = 'Unable to find a font to use.';
-$lang['imglib_save_failed'] = 'Unable to save the image. Please make sure the image and file directory are writable.';
+$lang['imglib_source_image_required'] = 'Morate odrediti izvornu sliku u svojim postavkama.';
+$lang['imglib_gd_required'] = 'Za ovu značajku potrebna je GD slikovna biblioteka.';
+$lang['imglib_gd_required_for_props'] = 'Vaš poslužitelj mora podržavati GD slikovnu biblioteku kako bi se odredila svojstva slike.';
+$lang['imglib_unsupported_imagecreate'] = 'Vaš poslužitelj ne podržava GD funkciju potrebnu za obradu ove vrste slike.';
+$lang['imglib_gif_not_supported'] = 'GIF slike često nisu podržane zbog ograničenja licenciranja. Možda ćete morati koristiti JPG ili PNG slike umjesto toga.';
+$lang['imglib_jpg_not_supported'] = 'JPG slike nisu podržane.';
+$lang['imglib_png_not_supported'] = 'PNG slike nisu podržane.';
+$lang['imglib_jpg_or_png_required'] = 'Protokol za promjenu veličine slike naveden u vašim postavkama radi samo s JPEG ili PNG vrstama slika.';
+$lang['imglib_copy_error'] = 'Došlo je do pogreške prilikom pokušaja zamjene datoteke. Provjerite je li vaš direktorij za datoteke dostupan za pisanje.';
+$lang['imglib_rotate_unsupported'] = 'Rotacija slike izgleda da nije podržana na vašem poslužitelju.';
+$lang['imglib_libpath_invalid'] = 'Putanja do vaše slikovne biblioteke nije ispravna. Postavite ispravnu putanju u svojim postavkama za slike.';
+$lang['imglib_image_process_failed'] = 'Obrada slike nije uspjela. Provjerite podržava li vaš poslužitelj odabrani protokol i je li putanja do vaše slikovne biblioteke ispravna.';
+$lang['imglib_rotation_angle_required'] = 'Potreban je kut rotacije za rotiranje slike.';
+$lang['imglib_invalid_path'] = 'Putanja do slike nije ispravna.';
+$lang['imglib_invalid_image'] = 'Navedena slika nije važeća.';
+$lang['imglib_copy_failed'] = 'Rutina kopiranja slike nije uspjela.';
+$lang['imglib_missing_font'] = 'Nije moguće pronaći font za korištenje.';
+$lang['imglib_save_failed'] = 'Nije moguće spremiti sliku. Provjerite mogu li slika i direktorij za datoteke biti zapisani.';
+
