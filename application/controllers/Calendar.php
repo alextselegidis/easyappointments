@@ -753,7 +753,7 @@ class Calendar extends EA_Controller {
         }
     }
 
-    private function check_event_permissions($provider_id)
+    private function check_event_permissions(int $provider_id): void
     {
         $user_id = (int)session('user_id');
         $role_slug = session('role_slug');
