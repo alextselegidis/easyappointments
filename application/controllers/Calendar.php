@@ -184,7 +184,7 @@ class Calendar extends EA_Controller {
             $customer_data = request('customer_data');
             $appointment_data = request('appointment_data');
 
-            $this->check_event_permissions($appointment_data['id_users_provider']);
+            $this->check_event_permissions((int)$appointment_data['id_users_provider']);
 
             // Save customer changes to the database.
             if ($customer_data)
@@ -325,7 +325,7 @@ class Calendar extends EA_Controller {
             // Store appointment data for later use in this method.
             $appointment = $this->appointments_model->find($appointment_id);
 
-            $this->check_event_permissions($appointment['id_users_provider']);
+            $this->check_event_permissions((int)$appointment['id_users_provider']);
 
             $provider = $this->providers_model->find($appointment['id_users_provider'], TRUE);
             $customer = $this->customers_model->find($appointment['id_users_customer'], TRUE);
@@ -377,7 +377,7 @@ class Calendar extends EA_Controller {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
-            $provider_id = $unavailability['id_users_provider'];
+            $provider_id = (int)$unavailability['id_users_provider'];
 
             $this->check_event_permissions($provider_id);
 
@@ -417,8 +417,8 @@ class Calendar extends EA_Controller {
             $unavailability_id = request('unavailability_id');
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
-            
-            $this->check_event_permissions($unavailability['id_users_provider']);
+
+            $this->check_event_permissions((int)$unavailability['id_users_provider']);
 
             $provider = $this->providers_model->find($unavailability['id_users_provider']);
 
