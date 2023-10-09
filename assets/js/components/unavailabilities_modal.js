@@ -65,6 +65,11 @@ App.Components.UnavailabilitiesModal = (function () {
             $unavailabilitiesModal.find('.modal-message').addClass('d-none');
             $unavailabilitiesModal.find('.is-invalid').removeClass('is-invalid');
 
+            if (!$selectProvider.val()) {
+                $selectProvider.addClass('is-invalid');
+                return;
+            }
+
             const startMoment = moment($startDatetime[0]._flatpickr.selectedDates[0]);
 
             if (!startMoment.isValid()) {
@@ -100,7 +105,7 @@ App.Components.UnavailabilitiesModal = (function () {
                 start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
                 notes: $unavailabilitiesModal.find('#unavailability-notes').val(),
-                id_users_provider: $('#unavailability-provider').val()
+                id_users_provider: $selectProvider.val()
             };
 
             if ($id.val() !== '') {
