@@ -466,11 +466,11 @@ class Appointments_model extends EA_Model {
 
         $appointments = $this
             ->db
-            ->select()
+            ->select('appointments.*')
             ->from('appointments')
             ->join('services', 'services.id = appointments.id_services', 'left')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
-            ->join('users AS customers', 'customers.id = appointment.id_users_customer', 'left')
+            ->join('users AS customers', 'customers.id = appointments.id_users_customer', 'left')
             ->where('is_unavailability', FALSE)
             ->group_start()
             ->like('appointments.start_datetime', $keyword)
@@ -478,8 +478,8 @@ class Appointments_model extends EA_Model {
             ->or_like('appointments.location', $keyword)
             ->or_like('appointments.hash', $keyword)
             ->or_like('appointments.notes', $keyword)
-            ->or_like('service.name', $keyword)
-            ->or_like('service.description', $keyword)
+            ->or_like('services.name', $keyword)
+            ->or_like('services.description', $keyword)
             ->or_like('providers.first_name', $keyword)
             ->or_like('providers.last_name', $keyword)
             ->or_like('providers.email', $keyword)
