@@ -12,6 +12,7 @@
  * @var array $require_address
  * @var array $require_city
  * @var array $require_zip_code
+ * @var array $require_notes
  */
 ?>
 <div id="appointments-modal" class="modal fade">
@@ -43,7 +44,7 @@
                                         // Group services by category, only if there is at least one service
                                         // with a parent category.
                                         $has_category = FALSE;
-                                        
+
                                         foreach ($available_services as $service)
                                         {
                                             if ( ! empty($service['category_id']))
@@ -73,7 +74,7 @@
                                             // We need the uncategorized services at the end of the list, so we will use
                                             // another iteration only for the uncategorized services.
                                             $grouped_services['uncategorized'] = [];
-                                            
+
                                             foreach ($available_services as $service)
                                             {
                                                 if ($service['category_id'] == NULL)
@@ -334,12 +335,12 @@
                                 <div class="mb-3">
                                     <label for="customer-notes" class="form-label">
                                         <?= lang('notes') ?>
-                                        <?php if ($require_zip_code): ?>
+                                        <?php if ($require_notes): ?>
                                             <span class="text-danger">*</span>
                                         <?php endif ?>
                                     </label>
                                     <textarea id="customer-notes" rows="2"
-                                              class="<?= $require_zip_code ? 'required' : '' ?> form-control"></textarea>
+                                              class="<?= $require_notes ? 'required' : '' ?> form-control"></textarea>
                                 </div>
                             </div>
                         </div>
