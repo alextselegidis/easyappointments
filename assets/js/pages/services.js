@@ -100,6 +100,7 @@ App.Pages.Services = (function () {
             $services.find('.record-details .form-label span').prop('hidden', false);
             $filterServices.find('button').prop('disabled', true);
             $filterServices.find('.results').css('color', '#AAA');
+            App.Components.ColorSelection.enable($color);
 
             // Default values
             $name.val('Service');
