@@ -93,7 +93,8 @@
         'require_phone_number' => vars('require_phone_number'),
         'require_address' => vars('require_address'),
         'require_city' => vars('require_city'),
-        'require_zip_code' => vars('require_zip_code')
+        'require_zip_code' => vars('require_zip_code'),
+        'require_notes' => vars('require_notes')
     ]
 ) ?>
 
