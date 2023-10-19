@@ -115,37 +115,23 @@ class Consents_model extends EA_Model {
      * Remove an existing consent from the database.
      *
      * @param int $consent_id Consent ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $consent_id, bool $force_delete = FALSE)
+    public function delete(int $consent_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('consents', ['id' => $consent_id]);
-        }
-        else
-        {
-            $this->db->update('consents', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $consent_id]);
-        }
+        $this->db->delete('consents', ['id' => $consent_id]);
     }
 
     /**
      * Get a specific consent from the database.
      *
      * @param int $consent_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the consent data.
      */
-    public function find(int $consent_id, bool $with_trashed = FALSE): array
+    public function find(int $consent_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $consent = $this->db->get_where('consents', ['id' => $consent_id])->row_array();
 
         if ( ! $consent)
@@ -208,11 +194,10 @@ class Consents_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of consents.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         if ($where !== NULL)
         {
@@ -224,10 +209,7 @@ class Consents_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
+
 
         $consents = $this->db->get('consents', $limit, $offset)->result_array();
 
@@ -256,17 +238,11 @@ class Consents_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of consents.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $consents = $this
             ->db
             ->select()
@@ -301,6 +277,6 @@ class Consents_model extends EA_Model {
      */
     public function load(array &$consent, array $resources)
     {
-        // Consents do not currently have any related resources. 
+        // Consents do not currently have any related resources.
     }
 }

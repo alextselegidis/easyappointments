@@ -88,7 +88,7 @@ class Unavailabilities_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
+        // Make sure all required fields are provided.
         if (
             empty($unavailability['start_datetime'])
             || empty($unavailability['end_datetime'])
@@ -117,7 +117,7 @@ class Unavailabilities_model extends EA_Model {
             throw new InvalidArgumentException('The unavailability duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.');
         }
 
-        // Make sure the provider ID really exists in the database. 
+        // Make sure the provider ID really exists in the database.
         $count = $this
             ->db
             ->select()
@@ -171,7 +171,7 @@ class Unavailabilities_model extends EA_Model {
     protected function update(array $unavailability): int
     {
         $unavailability['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         if ( ! $this->db->update('appointments', $unavailability, ['id' => $unavailability['id']]))
         {
             throw new RuntimeException('Could not update unavailability record.');
@@ -184,39 +184,25 @@ class Unavailabilities_model extends EA_Model {
      * Remove an existing unavailability from the database.
      *
      * @param int $unavailability_id Unavailability ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $unavailability_id, bool $force_delete = FALSE)
+    public function delete(int $unavailability_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('appointments', ['id' => $unavailability_id]);
-        }
-        else
-        {
-            $this->db->update('appointments', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $unavailability_id]);
-        }
+        $this->db->delete('appointments', ['id' => $unavailability_id]);
     }
 
     /**
      * Get a specific unavailability from the database.
      *
      * @param int $unavailability_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the unavailability data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $unavailability_id, bool $with_trashed = FALSE): array
+    public function find(int $unavailability_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $unavailability = $this->db->get_where('appointments', ['id' => $unavailability_id])->row_array();
 
         if ( ! $unavailability)
@@ -279,11 +265,10 @@ class Unavailabilities_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of unavailabilities.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         if ($where !== NULL)
         {
@@ -293,11 +278,6 @@ class Unavailabilities_model extends EA_Model {
         if ($order_by)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $unavailabilities = $this->db->get_where('appointments', ['is_unavailability' => TRUE], $limit, $offset)->result_array();
@@ -327,17 +307,11 @@ class Unavailabilities_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of unavailabilities.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('appointments.delete_datetime IS NULL');
-        }
-
         $unavailabilities = $this
             ->db
             ->select()

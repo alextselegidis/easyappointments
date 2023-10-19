@@ -91,7 +91,7 @@ class Admins_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
+        // Make sure all required fields are provided.
         if (
             empty($admin['first_name'])
             || empty($admin['last_name'])
@@ -108,7 +108,7 @@ class Admins_model extends EA_Model {
             throw new InvalidArgumentException('Invalid email address provided: ' . $admin['email']);
         }
 
-        // Make sure the username is unique. 
+        // Make sure the username is unique.
         if ( ! empty($admin['settings']['username']))
         {
             $admin_id = $admin['id'] ?? NULL;
@@ -119,7 +119,7 @@ class Admins_model extends EA_Model {
             }
         }
 
-        // Validate the password. 
+        // Validate the password.
         if ( ! empty($admin['settings']['password']))
         {
             if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH)
@@ -128,7 +128,7 @@ class Admins_model extends EA_Model {
             }
         }
 
-        // New users must always have a password value set. 
+        // New users must always have a password value set.
         if (empty($admin['id']) && empty($admin['settings']['password']))
         {
             throw new InvalidArgumentException('The admin password cannot be empty when inserting a new record.');
@@ -154,7 +154,6 @@ class Admins_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_ADMIN)
             ->where('users.email', $admin['email'])
             ->where('users.id !=', $admin_id)
-            ->where('users.delete_datetime')
             ->get()
             ->num_rows();
 
@@ -183,7 +182,7 @@ class Admins_model extends EA_Model {
                 ->db
                 ->from('users')
                 ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
-                ->where(['username' => $username, 'delete_datetime' => NULL])
+                ->where(['username' => $username])
                 ->get()
                 ->num_rows() === 0;
     }
@@ -272,48 +271,34 @@ class Admins_model extends EA_Model {
      * Remove an existing admin from the database.
      *
      * @param int $admin_id Admin ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $admin_id, bool $force_delete = FALSE)
+    public function delete(int $admin_id): void
     {
         $role_id = $this->get_admin_role_id();
 
-        $count = $this->db->get_where('users', ['id_roles' => $role_id, 'delete_datetime' => NULL])->num_rows();
+        $count = $this->db->get_where('users', ['id_roles' => $role_id])->num_rows();
 
         if ($count <= 1)
         {
             throw new RuntimeException('Record could not be deleted as the app requires at least one admin user.');
         }
 
-        if ($force_delete)
-        {
-            $this->db->delete('users', ['id' => $admin_id]);
-        }
-        else
-        {
-            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $admin_id]);
-        }
+        $this->db->delete('users', ['id' => $admin_id]);
     }
 
     /**
      * Get a specific admin from the database.
      *
      * @param int $admin_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the admin data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $admin_id, bool $with_trashed = FALSE): array
+    public function find(int $admin_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $admin = $this->db->get_where('users', ['id' => $admin_id])->row_array();
 
         if ( ! $admin)
@@ -384,11 +369,10 @@ class Admins_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of admins.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_admin_role_id();
 
@@ -400,11 +384,6 @@ class Admins_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $admins = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -457,7 +436,7 @@ class Admins_model extends EA_Model {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
         }
 
-        // Make sure the settings record exists in the database. 
+        // Make sure the settings record exists in the database.
         $count = $this->db->get_where('user_settings', ['id_users' => $admin_id])->num_rows();
 
         if ( ! $count)
@@ -525,18 +504,12 @@ class Admins_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of admins.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_admin_role_id();
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
 
         $admins = $this
             ->db
@@ -588,7 +561,7 @@ class Admins_model extends EA_Model {
      */
     public function load(array &$admin, array $resources)
     {
-        // Admins do not currently have any related resources (settings are already part of the admins). 
+        // Admins do not currently have any related resources (settings are already part of the admins).
     }
 
     /**

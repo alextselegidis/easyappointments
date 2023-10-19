@@ -91,10 +91,10 @@ class Appointments_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
+        // Make sure all required fields are provided.
 
         $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
-        
+
         if (
             empty($appointment['start_datetime'])
             || empty($appointment['end_datetime'])
@@ -126,7 +126,7 @@ class Appointments_model extends EA_Model {
             throw new InvalidArgumentException('The appointment duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.');
         }
 
-        // Make sure the provider ID really exists in the database. 
+        // Make sure the provider ID really exists in the database.
         $count = $this
             ->db
             ->select()
@@ -144,7 +144,7 @@ class Appointments_model extends EA_Model {
 
         if ( ! filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN))
         {
-            // Make sure the customer ID really exists in the database. 
+            // Make sure the customer ID really exists in the database.
             $count = $this
                 ->db
                 ->select()
@@ -160,7 +160,7 @@ class Appointments_model extends EA_Model {
                 throw new InvalidArgumentException('The appointment customer ID was not found in the database: ' . $appointment['id_users_customer']);
             }
 
-            // Make sure the service ID really exists in the database. 
+            // Make sure the service ID really exists in the database.
             $count = $this->db->get_where('services', ['id' => $appointment['id_services']])->num_rows();
 
             if ( ! $count)
@@ -206,7 +206,7 @@ class Appointments_model extends EA_Model {
     protected function update(array $appointment): int
     {
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
-        
+
         if ( ! $this->db->update('appointments', $appointment, ['id' => $appointment['id']]))
         {
             throw new RuntimeException('Could not update appointment record.');
@@ -219,39 +219,25 @@ class Appointments_model extends EA_Model {
      * Remove an existing appointment from the database.
      *
      * @param int $appointment_id Appointment ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $appointment_id, bool $force_delete = FALSE)
+    public function delete(int $appointment_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('appointments', ['id' => $appointment_id]);
-        }
-        else
-        {
-            $this->db->update('appointments', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $appointment_id]);
-        }
+        $this->db->delete('appointments', ['id' => $appointment_id]);
     }
 
     /**
      * Get a specific appointment from the database.
      *
      * @param int $appointment_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the appointment data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $appointment_id, bool $with_trashed = FALSE): array
+    public function find(int $appointment_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
 
         if ( ! $appointment)
@@ -314,11 +300,10 @@ class Appointments_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of appointments.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         if ($where !== NULL)
         {
@@ -328,11 +313,6 @@ class Appointments_model extends EA_Model {
         if ($order_by)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $appointments = $this->db->get_where('appointments', ['is_unavailability' => FALSE], $limit, $offset)->result_array();
@@ -453,17 +433,11 @@ class Appointments_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of appointments.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('appointments.delete_datetime IS NULL');
-        }
-
         $appointments = $this
             ->db
             ->select('appointments.*')

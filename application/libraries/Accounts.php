@@ -136,7 +136,7 @@ class Accounts {
 
         $user = $query->row_array();
 
-        // Generate a new password for the user. 
+        // Generate a new password for the user.
         $new_password = random_string('alnum', 12);
 
         $salt = $this->get_salt_by_username($username);
@@ -157,6 +157,6 @@ class Accounts {
      */
     public function does_account_exist(int $user_id): bool
     {
-        return $this->CI->users_model->query()->where(['id' => $user_id, 'delete_datetime' => NULL])->get()->num_rows() > 0;
+        return $this->CI->users_model->query()->where(['id' => $user_id])->get()->num_rows() > 0;
     }
 }

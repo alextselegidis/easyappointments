@@ -133,37 +133,23 @@ class Webhooks_model extends EA_Model {
      * Remove an existing webhook from the database.
      *
      * @param int $webhook_id Webhook ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $webhook_id, bool $force_delete = FALSE)
+    public function delete(int $webhook_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('webhooks', ['id' => $webhook_id]);
-        }
-        else
-        {
-            $this->db->update('webhooks', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $webhook_id]);
-        }
+        $this->db->delete('webhooks', ['id' => $webhook_id]);
     }
 
     /**
      * Get a specific webhook from the database.
      *
      * @param int $webhook_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the webhook data.
      */
-    public function find(int $webhook_id, bool $with_trashed = FALSE): array
+    public function find(int $webhook_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $webhook = $this->db->get_where('webhooks', ['id' => $webhook_id])->row_array();
 
         if ( ! $webhook)
@@ -226,11 +212,10 @@ class Webhooks_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of webhooks.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         if ($where !== NULL)
         {
@@ -240,11 +225,6 @@ class Webhooks_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $webhooks = $this->db->get('webhooks', $limit, $offset)->result_array();
@@ -274,17 +254,11 @@ class Webhooks_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of webhooks.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $webhooks = $this
             ->db
             ->select()
@@ -318,6 +292,6 @@ class Webhooks_model extends EA_Model {
      */
     public function load(array &$webhook, array $resources)
     {
-        // Webhooks do not currently have any related resources. 
+        // Webhooks do not currently have any related resources.
     }
 }

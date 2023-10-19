@@ -91,7 +91,7 @@ class Secretaries_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
+        // Make sure all required fields are provided.
         if (
             empty($secretary['first_name'])
             || empty($secretary['last_name'])
@@ -121,7 +121,7 @@ class Secretaries_model extends EA_Model {
             }
         }
 
-        // Make sure the username is unique. 
+        // Make sure the username is unique.
         if ( ! empty($secretary['settings']['username']))
         {
             $secretary_id = $secretary['id'] ?? NULL;
@@ -132,7 +132,7 @@ class Secretaries_model extends EA_Model {
             }
         }
 
-        // Validate the password. 
+        // Validate the password.
         if ( ! empty($secretary['settings']['password']))
         {
             if (strlen($secretary['settings']['password']) < MIN_PASSWORD_LENGTH)
@@ -141,7 +141,7 @@ class Secretaries_model extends EA_Model {
             }
         }
 
-        // New users must always have a password value set. 
+        // New users must always have a password value set.
         if (empty($secretary['id']) && empty($secretary['settings']['password']))
         {
             throw new InvalidArgumentException('The provider password cannot be empty when inserting a new record.');
@@ -167,7 +167,6 @@ class Secretaries_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_SECRETARY)
             ->where('users.email', $secretary['email'])
             ->where('users.id !=', $secretary_id)
-            ->where('users.delete_datetime')
             ->get()
             ->num_rows();
 
@@ -196,7 +195,7 @@ class Secretaries_model extends EA_Model {
                 ->db
                 ->from('users')
                 ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
-                ->where(['username' => $username, 'delete_datetime' => NULL])
+                ->where(['username' => $username])
                 ->get()
                 ->num_rows() === 0;
     }
@@ -290,39 +289,25 @@ class Secretaries_model extends EA_Model {
      * Remove an existing secretary from the database.
      *
      * @param int $secretary_id Provider ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $secretary_id, bool $force_delete = FALSE)
+    public function delete(int $secretary_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('users', ['id' => $secretary_id]);
-        }
-        else
-        {
-            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $secretary_id]);
-        }
+        $this->db->delete('users', ['id' => $secretary_id]);
     }
 
     /**
      * Get a specific secretary from the database.
      *
      * @param int $secretary_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the secretary data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $secretary_id, bool $with_trashed = FALSE): array
+    public function find(int $secretary_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $secretary = $this->db->get_where('users', ['id' => $secretary_id])->row_array();
 
         if ( ! $secretary)
@@ -398,11 +383,10 @@ class Secretaries_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of secretaries.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_secretary_role_id();
 
@@ -414,11 +398,6 @@ class Secretaries_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $secretaries = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -478,7 +457,7 @@ class Secretaries_model extends EA_Model {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
         }
 
-        // Make sure the settings record exists in the database. 
+        // Make sure the settings record exists in the database.
         $count = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->num_rows();
 
         if ( ! $count)
@@ -535,7 +514,7 @@ class Secretaries_model extends EA_Model {
      */
     protected function save_provider_ids(int $secretary_id, array $provider_ids)
     {
-        // Re-insert the secretary-provider connections. 
+        // Re-insert the secretary-provider connections.
         $this->db->delete('secretaries_providers', ['id_users_secretary' => $secretary_id]);
 
         foreach ($provider_ids as $provider_id)
@@ -568,18 +547,12 @@ class Secretaries_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of secretaries.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_secretary_role_id();
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
 
         $secretaries = $this
             ->db
@@ -800,10 +773,10 @@ class Secretaries_model extends EA_Model {
 
     /**
      * Quickly check if a provider is assigned to a provider.
-     * 
+     *
      * @param int $secretary_id
      * @param int $provider_id
-     * 
+     *
      * @return bool
      */
     public function is_provider_supported(int $secretary_id, int $provider_id): bool

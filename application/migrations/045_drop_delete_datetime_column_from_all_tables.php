@@ -11,7 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_timestamp_columns extends EA_Migration {
+class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration {
     /**
      * @var string[]
      */
@@ -22,16 +22,8 @@ class Migration_Add_timestamp_columns extends EA_Migration {
         'roles',
         'services',
         'settings',
-        'users'
-    ];
-
-    /**
-     * @var string[]
-     */
-    protected $columns = [
-        'delete_datetime',
-        'update_datetime',
-        'create_datetime',
+        'users',
+        'webhooks'
     ];
 
     /**
@@ -41,20 +33,9 @@ class Migration_Add_timestamp_columns extends EA_Migration {
     {
         foreach ($this->tables as $table)
         {
-            foreach ($this->columns as $column)
+            if ($this->db->field_exists('delete_datetime', $table))
             {
-                if ( ! $this->db->field_exists($column, $table))
-                {
-                    $fields = [
-                        $column => [
-                            'type' => 'DATETIME',
-                            'null' => TRUE,
-                            'after' => 'id',
-                        ]
-                    ];
-
-                    $this->dbforge->add_column($table, $fields);
-                }
+                $this->dbforge->drop_column($table, 'delete_datetime');
             }
         }
     }
@@ -66,12 +47,17 @@ class Migration_Add_timestamp_columns extends EA_Migration {
     {
         foreach ($this->tables as $table)
         {
-            foreach ($this->columns as $column)
+            if ( ! $this->db->field_exists('delete_datetime', $table))
             {
-                if ($this->db->field_exists($column, $table))
-                {
-                    $this->dbforge->drop_column($table, $column);
-                }
+                $fields = [
+                    'delete_datetime' => [
+                        'type' => 'DATETIME',
+                        'null' => TRUE,
+                        'after' => 'update_datetime',
+                    ]
+                ];
+
+                $this->dbforge->add_column($table, $fields);
             }
         }
     }

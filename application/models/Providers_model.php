@@ -93,7 +93,7 @@ class Providers_model extends EA_Model {
             }
         }
 
-        // Make sure all required fields are provided. 
+        // Make sure all required fields are provided.
         if (
             empty($provider['first_name'])
             || empty($provider['last_name'])
@@ -123,7 +123,7 @@ class Providers_model extends EA_Model {
             }
         }
 
-        // Make sure the username is unique. 
+        // Make sure the username is unique.
         if ( ! empty($provider['settings']['username']))
         {
             $provider_id = $provider['id'] ?? NULL;
@@ -134,7 +134,7 @@ class Providers_model extends EA_Model {
             }
         }
 
-        // Validate the password. 
+        // Validate the password.
         if ( ! empty($provider['settings']['password']))
         {
             if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH)
@@ -143,7 +143,7 @@ class Providers_model extends EA_Model {
             }
         }
 
-        // New users must always have a password value set. 
+        // New users must always have a password value set.
         if (empty($provider['id']) && empty($provider['settings']['password']))
         {
             throw new InvalidArgumentException('The provider password cannot be empty when inserting a new record.');
@@ -169,7 +169,6 @@ class Providers_model extends EA_Model {
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->where('users.email', $provider['email'])
             ->where('users.id !=', $provider_id)
-            ->where('users.delete_datetime')
             ->get()
             ->num_rows();
 
@@ -198,7 +197,7 @@ class Providers_model extends EA_Model {
                 ->db
                 ->from('users')
                 ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
-                ->where(['username' => $username, 'delete_datetime' => NULL])
+                ->where(['username' => $username])
                 ->get()
                 ->num_rows() === 0;
     }
@@ -291,39 +290,25 @@ class Providers_model extends EA_Model {
      * Remove an existing provider from the database.
      *
      * @param int $provider_id Provider ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $provider_id, bool $force_delete = FALSE)
+    public function delete(int $provider_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('users', ['id' => $provider_id]);
-        }
-        else
-        {
-            $this->db->update('users', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $provider_id]);
-        }
+        $this->db->delete('users', ['id' => $provider_id]);
     }
 
     /**
      * Get a specific provider from the database.
      *
      * @param int $provider_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the provider data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $provider_id, bool $with_trashed = FALSE): array
+    public function find(int $provider_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $provider = $this->db->get_where('users', ['id' => $provider_id])->row_array();
 
         if ( ! $provider)
@@ -403,11 +388,10 @@ class Providers_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of providers.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_provider_role_id();
 
@@ -421,10 +405,6 @@ class Providers_model extends EA_Model {
             $this->db->order_by($order_by);
         }
 
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
 
         $providers = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
@@ -486,7 +466,7 @@ class Providers_model extends EA_Model {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
         }
 
-        // Make sure the settings record exists in the database. 
+        // Make sure the settings record exists in the database.
         $count = $this->db->get_where('user_settings', ['id_users' => $provider_id])->num_rows();
 
         if ( ! $count)
@@ -496,7 +476,7 @@ class Providers_model extends EA_Model {
 
         foreach ($settings as $name => $value)
         {
-            // Sort working plans exceptions in descending order that they are easier to modify later on. 
+            // Sort working plans exceptions in descending order that they are easier to modify later on.
             if ($name === 'working_plan_exceptions')
             {
                 $value = json_decode($value, TRUE);
@@ -558,7 +538,7 @@ class Providers_model extends EA_Model {
      */
     protected function save_service_ids(int $provider_id, array $service_ids)
     {
-        // Re-insert the provider-service connections. 
+        // Re-insert the provider-service connections.
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
 
         foreach ($service_ids as $service_id)
@@ -610,7 +590,7 @@ class Providers_model extends EA_Model {
         // Store the working plan exception.
         $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], TRUE);
 
-        if ( is_array($working_plan_exception) && ! isset($working_plan_exception['breaks']))
+        if (is_array($working_plan_exception) && ! isset($working_plan_exception['breaks']))
         {
             $working_plan_exception['breaks'] = [];
         }
@@ -668,7 +648,6 @@ class Providers_model extends EA_Model {
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->where('users.delete_datetime IS NULL')
             ->order_by('first_name ASC, last_name ASC, email ASC')
             ->get()
             ->result_array();
@@ -716,18 +695,12 @@ class Providers_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of providers.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         $role_id = $this->get_provider_role_id();
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
 
         $providers = $this
             ->db
