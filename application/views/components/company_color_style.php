@@ -183,5 +183,9 @@
         .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
             background-color: <?= $company_color ?> !important;
         }
+
+        #existing-customers-list div:hover {
+            background: <?= $company_color ?> !important;
+        }
     </style>
 <?php endif ?>
