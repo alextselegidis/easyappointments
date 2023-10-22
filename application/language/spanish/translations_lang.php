@@ -436,4 +436,15 @@ $lang['scroll_to_increment'] = 'Scroll To Increment';
 $lang['year'] = 'Year';
 $lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
 $lang['no_breaks'] = 'No Breaks';
+$lang['service_payment_link'] = 'Enlace para el pago';
+$lang['service_payment_link_description'] = 'Puedes incluir las siguientes variables: {$appointment_hash}, {$customer_email}. Para procesar la confirmación del pago puedes usar la url https://YOUR_SERVER/payment/confirm/{CHECKOUT_SESSION_ID} como pagina de confirmación en Stripe.';
+$lang['appointment_payment_title'] = 'Detalles del pago';
+$lang['appointment_payment_text'] = 'Pulse en el siguiente enlace para proceder con el pago';
+$lang['appointment_paymentPaid_text'] = 'Payment has been successfully completed';
+$lang['payment_intent'] = 'ID del pago de Stripe';
+$lang['service_paid_warning'] = 'No es posible cambiar un servicio ya pagado. Pongase en contacto en el correo {$mail_link} para más información.';
+$lang['is_paid'] = 'Pagado';
+$lang['open_payment_process'] = 'Continuar con el pago';
+$lang['go_to_payment_hint'] = 'Abre una nueva ventana con los datos del pago en Stripe';
+$lang['go_to_payment'] = 'Detalles del Pago';
 // End

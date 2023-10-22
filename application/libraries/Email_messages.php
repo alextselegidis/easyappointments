@@ -91,6 +91,20 @@ class Email_messages {
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
+        $payment_link = null;
+        if( isset($service['payment_link']) && !empty(trim($service['payment_link']))){
+            $payment_link_vars = array(
+                '{$appointment_hash}' => $appointment['hash'],
+                '{$customer_email}' => $customer['email'],
+            );
+            $payment_link_template = $service['payment_link']
+                . (str_contains($service['payment_link'], '?')
+                    ? '' : '?')
+                . 'client_reference_id={$appointment_hash}&prefilled_email={$customer_email}';
+
+            $payment_link = strtr($payment_link_template, $payment_link_vars);
+        }
+
         $html = $this->CI->load->view('emails/appointment_saved_email', [
             'subject' => $subject,
             'message' => $message,
@@ -101,6 +115,7 @@ class Email_messages {
             'settings' => $settings,
             'timezone' => $timezone,
             'appointment_link' => $appointment_link,
+            'payment_link' => $payment_link,
         ], TRUE);
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);

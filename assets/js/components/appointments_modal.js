@@ -39,6 +39,8 @@ App.Components.AppointmentsModal = (function () {
     const $appointmentStatus = $('#appointment-status');
     const $appointmentColor = $('#appointment-color');
     const $appointmentNotes = $('#appointment-notes');
+    const $appointmentIsPaid = $('#appointment-is-paid');
+    const $goToPayment = $('#go_to_payment');
     const $reloadAppointments = $('#reload-appointments');
     const $selectFilterItem = $('#select-filter-item');
     const $selectService = $('#select-service');
@@ -89,6 +91,7 @@ App.Components.AppointmentsModal = (function () {
                 start_datetime: startDatetime,
                 end_datetime: endDatetime,
                 location: $appointmentLocation.val(),
+                is_paid: Number($appointmentIsPaid.prop('checked')),
                 color: App.Components.ColorSelection.getColor($appointmentColor),
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
@@ -196,7 +199,7 @@ App.Components.AppointmentsModal = (function () {
 
             $startDatetime[0]._flatpickr.setDate(startMoment.toDate());
             $endDatetime[0]._flatpickr.setDate(startMoment.add(duration, 'minutes').toDate());
-            
+
             // Display modal form.
             $appointmentsModal.find('.modal-header h3').text(lang('new_appointment_title'));
 
@@ -328,8 +331,8 @@ App.Components.AppointmentsModal = (function () {
          */
         $selectService.on('change', () => {
             const serviceId = $selectService.val();
-            
-            const providerId = $selectProvider.val(); 
+
+            const providerId = $selectProvider.val();
 
             $selectProvider.empty();
 
@@ -366,7 +369,7 @@ App.Components.AppointmentsModal = (function () {
                         $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                     }
                 });
-                
+
                 if ($selectProvider.find(`option[value="${providerId}"]`).length) {
                     $selectProvider.val(providerId);
                 }
@@ -395,6 +398,16 @@ App.Components.AppointmentsModal = (function () {
             $language.val('english');
             $timezone.val('UTC');
             $customerNotes.val('');
+        });
+
+        /**
+         * Event: Enter New Customer Button "Click"
+         */
+        $goToPayment.on('click', () => {
+            const payment_intent = $goToPayment.prop("data-payment-intent")
+            if(payment_intent){
+                window.open("https://dashboard.stripe.com/test/payments/" + payment_intent, "_blank");
+            }
         });
     }
 

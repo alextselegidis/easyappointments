@@ -7,7 +7,7 @@
 </div>
 
 <div class="mb-5">
-    <h4 class="mb-5"><?= lang('appointment_registered') ?></h4>
+    <h4 class="mb-5"><?= lang('appointment_paymentPaid_text') ?></h4>
 
     <p>
         <?= lang('appointment_details_was_sent_to_you') ?>
@@ -28,20 +28,13 @@
         <i class="fas fa-plus me-2"></i>
         <?= lang('add_to_google_calendar') ?>
     </a>
-
-    <?php if (!vars('is_paid') && vars('payment_link')): ?>
-        <a href="<?= vars('payment_link') ?>" id="open-payment-process" class="btn btn-primary" target="_blank">
-            <i class="fas fa-credit-card me-2"></i>
-            <?= lang('open_payment_process') ?>
-        </a>
-    <?php endif ?>
 </div>
 
-<?php end_section('content') ?>
+<?php section('content') ?>
 
 <?php section('scripts') ?>
 
 <?php component('google_analytics_script', ['google_analytics_code' => vars('google_analytics_code')]) ?>
 <?php component('matomo_analytics_script', ['matomo_analytics_url' => vars('matomo_analytics_url')]) ?>
 
-<?php end_section('scripts') ?>
+<?php section('scripts') ?>
