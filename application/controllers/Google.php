@@ -49,6 +49,8 @@ class Google extends EA_Controller {
 
             $CI->load->library('google_sync');
 
+            // Load the libraries as this method is called statically from the CLI command
+
             $CI->load->model('appointments_model');
             $CI->load->model('unavailabilities_model');
             $CI->load->model('providers_model');
@@ -284,9 +286,9 @@ class Google extends EA_Controller {
      *
      * IMPORTANT: Because it is necessary to authorize the application using the web server flow (see official
      * documentation of OAuth), every Easy!Appointments installation should use its own calendar api key. So in every
-     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an 
+     * api console account, the "http://path-to-Easy!Appointments/google/oauth_callback" should be included in an
      * allowed redirect URL.
-     * 
+     *
      * @throws Exception
      */
     public function oauth_callback()
