@@ -1571,12 +1571,14 @@ App.Utils.CalendarTableView = (function () {
             delete appointment.service;
 
             appointment.start_datetime = moment(appointment.start_datetime)
-                .add({days: info.endDelta.days(), hours: info.endDelta.hours(), minutes: info.endDelta.minutes()})
+                .add({days: info.delta.days, millisecond: info.delta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
 
             appointment.end_datetime = moment(appointment.end_datetime)
-                .add({days: info.endDelta.days(), hours: info.endDelta.hours(), minutes: info.endDelta.minutes()})
+                .add({days: info.delta.days, millisecond: info.delta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
+
+            appointment.is_unavailability = Number(appointment.is_unavailability);
 
             info.event.extendedProps.data.start_datetime = appointment.start_datetime;
             info.event.extendedProps.data.end_datetime = appointment.end_datetime;
@@ -1586,11 +1588,14 @@ App.Utils.CalendarTableView = (function () {
                 // Define the undo function, if the user needs to reset the last change.
                 const undoFunction = () => {
                     appointment.start_datetime = moment(appointment.start_datetime)
-                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
+                        .add({
+                            days: -info.delta.days,
+                            milliseconds: -info.delta.milliseconds
+                        })
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     appointment.end_datetime = moment(appointment.end_datetime)
-                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
+                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     info.event.extendedProps.data.start_datetime = appointment.start_datetime;
