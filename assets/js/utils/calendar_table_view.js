@@ -847,10 +847,10 @@ App.Utils.CalendarTableView = (function () {
             return;
         }
 
-        const filterServiceIds = $filterService.val();
+        const filterServiceIds = $filterService.val().map(serviceId => Number(serviceId));
 
         appointments = appointments.filter(
-            (appointment) => !filterServiceIds.length || filterServiceIds.indexOf(appointment.id_services) !== -1
+            (appointment) => !filterServiceIds.length || filterServiceIds.includes(appointment.id_services)
         );
 
         const calendarEvents = [];
