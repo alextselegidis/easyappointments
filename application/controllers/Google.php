@@ -40,7 +40,7 @@ class Google extends EA_Controller {
      * needs to be relatively small, because a lot of API calls might be necessary and this will lead to consuming the
      * Google limit for the Calendar API usage.
      */
-    public static function sync(string $provider_id = NULL)
+    public static function sync(string $provider_id = NULL): void
     {
         try
         {
@@ -101,6 +101,10 @@ class Google extends EA_Controller {
 
             $appointments = $CI->appointments_model->get($where);
 
+            $unavailabilities = $CI->unavailabilities_model->get($where);
+
+            $local_events = [...$appointments, ...$unavailabilities];
+
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_link' => setting('company_link'),
@@ -110,70 +114,74 @@ class Google extends EA_Controller {
             $provider_timezone = new DateTimeZone($provider['timezone']);
 
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
-            foreach ($appointments as $unavailability)
+            foreach ($local_events as $local_event)
             {
-                if ( ! $unavailability['is_unavailability'])
+                if ( ! $local_event['is_unavailability'])
                 {
-                    $service = $CI->services_model->find($unavailability['id_services']);
-                    $customer = $CI->customers_model->find($unavailability['id_users_customer']);
+                    $service = $CI->services_model->find($local_event['id_services']);
+                    $customer = $CI->customers_model->find($local_event['id_users_customer']);
+                    $events_model = $CI->appointments_model;
                 }
                 else
                 {
                     $service = NULL;
                     $customer = NULL;
+                    $events_model = $CI->unavailabilities_model;
                 }
 
                 // If current appointment not synced yet, add to Google Calendar.
-                if ($unavailability['id_google_calendar'] == NULL)
+                if ( ! $local_event['id_google_calendar'])
                 {
-                    $google_event = $CI->google_sync->add_appointment($unavailability, $provider, $service, $customer, $settings);
+                    $google_event = $CI->google_sync->add_appointment($local_event, $provider, $service, $customer, $settings);
 
-                    $unavailability['id_google_calendar'] = $google_event->getId();
+                    $local_event['id_google_calendar'] = $google_event->getId();
 
-                    $CI->appointments_model->save($unavailability); // Save the Google Calendar ID.
+                    $events_model->save($local_event); // Save the Google Calendar ID.
+
+                    continue;
                 }
-                else
+
+
+                // Appointment is synced with Google Calendar.
+
+                try
                 {
-                    // Appointment is synced with Google Calendar.
-                    try
+                    $google_event = $CI->google_sync->get_event($provider, $local_event['id_google_calendar']);
+
+                    if ($google_event->getStatus() == 'cancelled')
                     {
-                        $google_event = $CI->google_sync->get_event($provider, $unavailability['id_google_calendar']);
-
-                        if ($google_event->getStatus() == 'cancelled')
-                        {
-                            throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
-                        }
-
-                        // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
-                        $appointment_start = strtotime($unavailability['start_datetime']);
-                        $appointment_end = strtotime($unavailability['end_datetime']);
-                        $event_start = new DateTime($google_event->getStart()->getDateTime() ?? $google_event->getEnd()->getDate());
-                        $event_start->setTimezone($provider_timezone);
-                        $event_end = new DateTime($google_event->getEnd()->getDateTime() ?? $google_event->getEnd()->getDate());
-                        $event_end->setTimezone($provider_timezone);
-
-                        $google_event_notes = $unavailability['is_unavailability'] ? $google_event->getSummary() . ' ' . $google_event->getDescription() : $google_event->getDescription();
-
-                        $is_different = $appointment_start !== $event_start->getTimestamp()
-                            || $appointment_end !== $event_end->getTimestamp()
-                            || $unavailability['notes'] !== $google_event_notes;
-
-                        if ($is_different)
-                        {
-                            $unavailability['start_datetime'] = $event_start->format('Y-m-d H:i:s');
-                            $unavailability['end_datetime'] = $event_end->format('Y-m-d H:i:s');
-                            $unavailability['notes'] = $google_event_notes;
-                            $CI->appointments_model->save($unavailability);
-                        }
-
+                        throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                     }
-                    catch (Throwable)
+
+                    // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
+                    $local_event_start = strtotime($local_event['start_datetime']);
+                    $local_event_end = strtotime($local_event['end_datetime']);
+                    $google_event_start = new DateTime($google_event->getStart()->getDateTime() ?? $google_event->getEnd()->getDate());
+                    $google_event_start->setTimezone($provider_timezone);
+                    $google_event_end = new DateTime($google_event->getEnd()->getDateTime() ?? $google_event->getEnd()->getDate());
+                    $google_event_end->setTimezone($provider_timezone);
+
+                    $google_event_notes = $local_event['is_unavailability'] ? $google_event->getSummary() . ' ' . $google_event->getDescription() : $google_event->getDescription();
+
+                    $is_different = $local_event_start !== $google_event_start->getTimestamp()
+                        || $local_event_end !== $google_event_end->getTimestamp()
+                        || $local_event['notes'] !== $google_event_notes;
+
+                    if ($is_different)
                     {
-                        // Appointment not found on Google Calendar, delete from Easy!Appointments.
-                        $CI->appointments_model->delete($unavailability['id']);
-
-                        $unavailability['id_google_calendar'] = NULL;
+                        $local_event['start_datetime'] = $google_event_start->format('Y-m-d H:i:s');
+                        $local_event['end_datetime'] = $google_event_end->format('Y-m-d H:i:s');
+                        $local_event['notes'] = $google_event_notes;
+                        $events_model->save($local_event);
                     }
+
+                }
+                catch (Throwable)
+                {
+                    // Appointment not found on Google Calendar, delete from Easy!Appointments.
+                    $events_model->delete($local_event['id']);
+
+                    $local_event['id_google_calendar'] = NULL;
                 }
             }
 
@@ -215,22 +223,29 @@ class Google extends EA_Controller {
                     continue;
                 }
 
-                $event_start = new DateTime($google_event->getStart()->getDateTime());
-                $event_start->setTimezone($provider_timezone);
-                $event_end = new DateTime($google_event->getEnd()->getDateTime());
-                $event_end->setTimezone($provider_timezone);
+                $google_event_start = new DateTime($google_event->getStart()->getDateTime());
+                $google_event_start->setTimezone($provider_timezone);
+                $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
+                $google_event_end->setTimezone($provider_timezone);
 
-                $results = $CI->unavailabilities_model->get(['id_google_calendar' => $google_event->getId()]);
+                $appointment_results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()]);
 
-                if ( ! empty($results))
+                if ( ! empty($appointment_results))
+                {
+                    continue;
+                }
+
+                $unavailability_results = $CI->unavailabilities_model->get(['id_google_calendar' => $google_event->getId()]);
+
+                if ( ! empty($unavailability_results))
                 {
                     continue;
                 }
 
                 // Record doesn't exist in the Easy!Appointments, so add the event now.
-                $unavailability = [
-                    'start_datetime' => $event_start->format('Y-m-d H:i:s'),
-                    'end_datetime' => $event_end->format('Y-m-d H:i:s'),
+                $local_event = [
+                    'start_datetime' => $google_event_start->format('Y-m-d H:i:s'),
+                    'end_datetime' => $google_event_end->format('Y-m-d H:i:s'),
                     'is_unavailability' => TRUE,
                     'location' => $google_event->getLocation(),
                     'notes' => $google_event->getSummary() . ' ' . $google_event->getDescription(),
@@ -240,7 +255,7 @@ class Google extends EA_Controller {
                     'id_services' => NULL,
                 ];
 
-                $CI->unavailabilities_model->save($unavailability);
+                $CI->unavailabilities_model->save($local_event);
             }
 
             json_response([
@@ -263,7 +278,7 @@ class Google extends EA_Controller {
      *
      * @param string $provider_id The provider id, for whom the sync authorization is made.
      */
-    public function oauth(string $provider_id)
+    public function oauth(string $provider_id): void
     {
         if ( ! $this->session->userdata('user_id'))
         {
@@ -291,7 +306,7 @@ class Google extends EA_Controller {
      *
      * @throws Exception
      */
-    public function oauth_callback()
+    public function oauth_callback(): void
     {
         if ( ! session('user_id'))
         {
@@ -337,7 +352,7 @@ class Google extends EA_Controller {
      * The user will need to select a specific calendar from this list to sync his appointments with. Google access must
      * be already granted for the specific provider.
      */
-    public function get_google_calendars()
+    public function get_google_calendars(): void
     {
         try
         {
@@ -379,7 +394,7 @@ class Google extends EA_Controller {
      *
      * All the appointments will be synced with this particular calendar.
      */
-    public function select_google_calendar()
+    public function select_google_calendar(): void
     {
         try
         {
@@ -413,7 +428,7 @@ class Google extends EA_Controller {
      *
      * After that the provider's appointments will be no longer synced with Google Calendar.
      */
-    public function disable_provider_sync()
+    public function disable_provider_sync(): void
     {
         try
         {
