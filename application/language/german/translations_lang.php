@@ -436,4 +436,5 @@ $lang['scroll_to_increment'] = 'Scrollen Sie zu Inkrement';
 $lang['year'] = 'Jahr';
 $lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
 $lang['no_breaks'] = 'No Breaks';
+$lang['customer_is_already_booked'] = 'This customer is already booked for the selected time, please use a different time.';
 // End

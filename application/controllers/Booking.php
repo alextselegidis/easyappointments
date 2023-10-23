@@ -465,6 +465,7 @@ class Booking extends EA_Controller {
             $captcha_phrase = session('captcha_phrase');
 
             // Validate the CAPTCHA string.
+
             if ($require_captcha && strtoupper($captcha_phrase) !== strtoupper($captcha))
             {
                 json_response([
@@ -477,6 +478,17 @@ class Booking extends EA_Controller {
             if ($this->customers_model->exists($customer))
             {
                 $customer['id'] = $this->customers_model->find_record_id($customer);
+
+                $existing_appointments = $this->appointments_model->get([
+                    'id_users_customer' => $customer['id'],
+                    'start_datetime <=' => $appointment['start_datetime'],
+                    'end_datetime >=' => $appointment['end_datetime']
+                ]);
+
+                if (count($existing_appointments))
+                {
+                    throw new RuntimeException(lang('customer_is_already_booked'));
+                }
             }
 
             if (empty($appointment['location']) && ! empty($service['location']))
@@ -708,14 +720,14 @@ class Booking extends EA_Controller {
                     $unavailable_dates[] = $current_date->format('Y-m-d');
                 }
             }
-            
+
             if (count($unavailable_dates) === $number_of_days_in_month)
             {
                 json_response([
                     'is_month_unavailable' => TRUE,
                 ]);
-                
-                return; 
+
+                return;
             }
 
             json_response($unavailable_dates);
