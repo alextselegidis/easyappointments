@@ -4,8 +4,8 @@
 
 <div class="container-fluid backend-page" id="service-categories-page">
 
-    <div class="row" id="categories">
-        <div id="filter-categories" class="filter-records column col-12 col-md-5">
+    <div class="row" id="service-categories">
+        <div id="filter-service-categories" class="filter-records column col-12 col-md-5">
             <form class="input-append mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control">
@@ -18,7 +18,7 @@
             </form>
 
             <h4 class="text-black-50 mb-3 fw-light">
-                <?= lang('categories') ?>
+                <?= lang('service-categories') ?>
             </h4>
 
             <div class="results">
@@ -29,26 +29,26 @@
         <div class="record-details col-12 col-md-5">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-category" class="btn btn-primary">
+                    <button id="add-service-category" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>
                         <?= lang('add') ?>
                     </button>
-                    <button id="edit-category" class="btn btn-outline-secondary" disabled="disabled">
+                    <button id="edit-service-category" class="btn btn-outline-secondary" disabled="disabled">
                         <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
                     </button>
-                    <button id="delete-category" class="btn btn-outline-secondary" disabled="disabled">
+                    <button id="delete-service-category" class="btn btn-outline-secondary" disabled="disabled">
                         <i class="fas fa-trash-alt me-2"></i>
                         <?= lang('delete') ?>
                     </button>
                 </div>
 
                 <div class="save-cancel-group" style="display:none;">
-                    <button id="save-category" class="btn btn-primary">
+                    <button id="save-service-category" class="btn btn-primary">
                         <i class="fas fa-check-square me-2"></i>
                         <?= lang('save') ?>
                     </button>
-                    <button id="cancel-category" class="btn btn-secondary">
+                    <button id="cancel-service-category" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
                 </div>
@@ -89,7 +89,7 @@
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/categories_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/categories.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/service_categories_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/service_categories.js') ?>"></script>
 
 <?php end_section('scripts') ?>

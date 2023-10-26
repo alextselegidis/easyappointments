@@ -41,7 +41,7 @@
  *
  * @property Admins_model $admins_model
  * @property Appointments_model $appointments_model
- * @property Categories_model $categories_model
+ * @property Service_categories_model $service_categories_model
  * @property Consents_model $consents_model
  * @property Customers_model $customers_model
  * @property Providers_model $providers_model

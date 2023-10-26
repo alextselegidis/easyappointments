@@ -10,78 +10,78 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Categories HTTP client.
+ * Service-categories HTTP client.
  *
- * This module implements the categories related HTTP requests.
+ * This module implements the service-categories related HTTP requests.
  */
-App.Http.Categories = (function () {
+App.Http.ServiceCategories = (function () {
     /**
-     * Save (create or update) a category.
+     * Save (create or update) a service-category.
      *
-     * @param {Object} category
+     * @param {Object} serviceCategory
      *
      * @return {Object}
      */
-    function save(category) {
-        return category.id ? update(category) : create(category);
+    function save(serviceCategory) {
+        return serviceCategory.id ? update(serviceCategory) : create(serviceCategory);
     }
 
     /**
-     * Create a category.
+     * Create a service-category.
      *
-     * @param {Object} category
+     * @param {Object} serviceCategory
      *
      * @return {Object}
      */
-    function create(category) {
-        const url = App.Utils.Url.siteUrl('categories/create');
+    function create(serviceCategory) {
+        const url = App.Utils.Url.siteUrl('service_categories/create');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category: category
+            service_category: serviceCategory
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Update a category.
+     * Update a service-category.
      *
-     * @param {Object} category
+     * @param {Object} serviceCategory
      *
      * @return {Object}
      */
-    function update(category) {
-        const url = App.Utils.Url.siteUrl('categories/update');
+    function update(serviceCategory) {
+        const url = App.Utils.Url.siteUrl('service_categories/update');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category: category
+            service_category: serviceCategory
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Delete a category.
+     * Delete a service-category.
      *
-     * @param {Number} categoryId
+     * @param {Number} serviceCategoryId
      *
      * @return {Object}
      */
-    function destroy(categoryId) {
-        const url = App.Utils.Url.siteUrl('categories/destroy');
+    function destroy(serviceCategoryId) {
+        const url = App.Utils.Url.siteUrl('service_categories/destroy');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category_id: categoryId
+            service_category_id: serviceCategoryId
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Search categories by keyword.
+     * Search service-categories by keyword.
      *
      * @param {String} keyword
      * @param {Number} [limit]
@@ -91,7 +91,7 @@ App.Http.Categories = (function () {
      * @return {Object}
      */
         function search(keyword, limit = null, offset = null, orderBy = null) {
-        const url = App.Utils.Url.siteUrl('categories/search');
+        const url = App.Utils.Url.siteUrl('service_categories/search');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -105,18 +105,18 @@ App.Http.Categories = (function () {
     }
 
     /**
-     * Find a category.
+     * Find a service-category.
      *
-     * @param {Number} categoryId
+     * @param {Number} serviceCategoryId
      *
      * @return {Object}
      */
-    function find(categoryId) {
-        const url = App.Utils.Url.siteUrl('categories/find');
+    function find(serviceCategoryId) {
+        const url = App.Utils.Url.siteUrl('service_categories/find');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category_id: categoryId
+            service_category_id: serviceCategoryId
         };
 
         return $.post(url, data);

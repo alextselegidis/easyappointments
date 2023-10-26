@@ -12,13 +12,13 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Categories API v1 controller.
+ * Service-categories API v1 controller.
  *
  * @package Controllers
  */
-class Categories_api_v1 extends EA_Controller {
+class Service_categories_api_v1 extends EA_Controller {
     /**
-     * Categories_api_v1 constructor.
+     * Service_categories_api_v1 constructor.
      */
     public function __construct()
     {
@@ -28,11 +28,11 @@ class Categories_api_v1 extends EA_Controller {
 
         $this->api->auth();
 
-        $this->api->model('categories_model');
+        $this->api->model('service_categories_model');
     }
 
     /**
-     * Get a category collection.
+     * Get a service-category collection.
      */
     public function index()
     {
@@ -50,26 +50,26 @@ class Categories_api_v1 extends EA_Controller {
             
             $with = $this->api->request_with();
 
-            $categories = empty($keyword)
-                ? $this->categories_model->get(NULL, $limit, $offset, $order_by)
-                : $this->categories_model->search($keyword, $limit, $offset, $order_by);
+            $service_categories = empty($keyword)
+                ? $this->service_categories_model->get(NULL, $limit, $offset, $order_by)
+                : $this->service_categories_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($categories as &$category)
+            foreach ($service_categories as &$service_category)
             {
-                $this->categories_model->api_encode($category);
+                $this->service_categories_model->api_encode($service_category);
 
                 if ( ! empty($fields))
                 {
-                    $this->categories_model->only($category, $fields);
+                    $this->service_categories_model->only($service_category, $fields);
                 }
 
                 if ( ! empty($with))
                 {
-                    $this->categories_model->load($category, $with);
+                    $this->service_categories_model->load($service_category, $with);
                 }
             }
 
-            json_response($categories);
+            json_response($service_categories);
         }
         catch (Throwable $e)
         {
@@ -78,9 +78,9 @@ class Categories_api_v1 extends EA_Controller {
     }
 
     /**
-     * Get a single category.
+     * Get a single service-category.
      *
-     * @param int|null $id Category ID.
+     * @param int|null $id Service-category ID.
      */
     public function show(int $id = NULL)
     {
@@ -90,28 +90,28 @@ class Categories_api_v1 extends EA_Controller {
             
             $with = $this->api->request_with();
 
-            $category = $this->categories_model->find($id);
+            $service_category = $this->service_categories_model->find($id);
 
-            $this->categories_model->api_encode($category);
+            $this->service_categories_model->api_encode($service_category);
 
             if ( ! empty($fields))
             {
-                $this->categories_model->only($category, $fields);
+                $this->service_categories_model->only($service_category, $fields);
             }
 
             if ( ! empty($with))
             {
-                $this->categories_model->load($category, $with);
+                $this->service_categories_model->load($service_category, $with);
             }
 
-            if ( ! $category)
+            if ( ! $service_category)
             {
                 response('', 404);
 
                 return;
             }
 
-            json_response($category);
+            json_response($service_category);
         }
         catch (Throwable $e)
         {
@@ -120,28 +120,28 @@ class Categories_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create a category.
+     * Create a service-category.
      */
     public function store()
     {
         try
         {
-            $category = request();
+            $service_category = request();
 
-            $this->categories_model->api_decode($category);
+            $this->service_categories_model->api_decode($service_category);
 
-            if (array_key_exists('id', $category))
+            if (array_key_exists('id', $service_category))
             {
-                unset($category['id']);
+                unset($service_category['id']);
             }
 
-            $category_id = $this->categories_model->save($category);
+            $service_category_id = $this->service_categories_model->save($service_category);
 
-            $created_category = $this->categories_model->find($category_id);
+            $created_service_category = $this->service_categories_model->find($service_category_id);
 
-            $this->categories_model->api_encode($created_category);
+            $this->service_categories_model->api_encode($created_service_category);
 
-            json_response($created_category, 201);
+            json_response($created_service_category, 201);
         }
         catch (Throwable $e)
         {
@@ -150,15 +150,15 @@ class Categories_api_v1 extends EA_Controller {
     }
 
     /**
-     * Update a category.
+     * Update a service-category.
      *
-     * @param int $id Category ID.
+     * @param int $id Service-category ID.
      */
     public function update(int $id)
     {
         try
         {
-            $occurrences = $this->categories_model->get(['id' => $id]);
+            $occurrences = $this->service_categories_model->get(['id' => $id]);
 
             if (empty($occurrences))
             {
@@ -169,17 +169,17 @@ class Categories_api_v1 extends EA_Controller {
 
             $original_category = $occurrences[0];
 
-            $category = request();
+            $service_category = request();
 
-            $this->categories_model->api_decode($category, $original_category);
+            $this->service_categories_model->api_decode($service_category, $original_category);
 
-            $category_id = $this->categories_model->save($category);
+            $service_category_id = $this->service_categories_model->save($service_category);
 
-            $updated_category = $this->categories_model->find($category_id);
+            $updated_service_category = $this->service_categories_model->find($service_category_id);
 
-            $this->categories_model->api_encode($updated_category);
+            $this->service_categories_model->api_encode($updated_service_category);
 
-            json_response($updated_category);
+            json_response($updated_service_category);
         }
         catch (Throwable $e)
         {
@@ -188,15 +188,15 @@ class Categories_api_v1 extends EA_Controller {
     }
 
     /**
-     * Delete a category.
+     * Delete a service-category.
      *
-     * @param int $id Category ID.
+     * @param int $id Service-category ID.
      */
     public function destroy(int $id)
     {
         try
         {
-            $occurrences = $this->categories_model->get(['id' => $id]);
+            $occurrences = $this->service_categories_model->get(['id' => $id]);
 
             if (empty($occurrences))
             {
@@ -205,7 +205,7 @@ class Categories_api_v1 extends EA_Controller {
                 return;
             }
 
-            $this->categories_model->delete($id);
+            $this->service_categories_model->delete($id);
 
             response('', 204);
         }

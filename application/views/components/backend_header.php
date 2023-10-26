@@ -53,7 +53,7 @@
                     <a class="dropdown-item" href="<?= site_url('services') ?>">
                         <?= lang('services') ?>
                     </a>
-                    <a class="dropdown-item" href="<?= site_url('categories') ?>">
+                    <a class="dropdown-item" href="<?= site_url('service_categories') ?>">
                         <?= lang('categories') ?>
                     </a>
                 </div>

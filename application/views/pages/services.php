@@ -94,10 +94,10 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="category">
+                <label class="form-label" for="service-category-id">
                     <?= lang('category') ?>
                 </label>
-                <select id="category" class="form-control" disabled></select>
+                <select id="service-category-id" class="form-control" disabled></select>
             </div>
 
             <div class="mb-3">
@@ -174,7 +174,7 @@
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/services_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/categories_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/service_categories_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/services.js') ?>"></script>
 
 <?php end_section('scripts') ?>

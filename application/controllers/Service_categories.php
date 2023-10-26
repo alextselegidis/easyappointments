@@ -12,21 +12,21 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Categories controller.
+ * Service-categories controller.
  *
- * Handles the categories related operations.
+ * Handles the service-categories related operations.
  *
  * @package Controllers
  */
-class Categories extends EA_Controller {
+class Service_categories extends EA_Controller {
     /**
-     * Categories constructor.
+     * Service-categories constructor.
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->model('categories_model');
+        $this->load->model('service_categories_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
@@ -35,9 +35,9 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Render the backend categories page.
+     * Render the backend service-categories page.
      *
-     * On this page admin users will be able to manage categories, which are eventually selected by customers during the
+     * On this page admin users will be able to manage service-categories, which are eventually selected by customers during the
      * booking process.
      */
     public function index()
@@ -73,11 +73,11 @@ class Categories extends EA_Controller {
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
 
-        $this->load->view('pages/categories');
+        $this->load->view('pages/service_categories');
     }
 
     /**
-     * Filter categories by the provided keyword.
+     * Filter service-categories by the provided keyword.
      */
     public function search()
     {
@@ -96,9 +96,9 @@ class Categories extends EA_Controller {
 
             $offset = 0;
 
-            $categories = $this->categories_model->search($keyword, $limit, $offset, $order_by);
+            $service_categories = $this->service_categories_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($categories);
+            json_response($service_categories);
         }
         catch (Throwable $e)
         {
@@ -107,7 +107,7 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Create a category.
+     * Create a service-category.
      */
     public function create()
     {
@@ -118,22 +118,22 @@ class Categories extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $category = request('category');
+            $service_category = request('service_category');
 
-            $this->categories_model->only($category, [
+            $this->service_categories_model->only($service_category, [
                 'name',
                 'description'
             ]);
 
-            $category_id = $this->categories_model->save($category);
+            $service_category_id = $this->service_categories_model->save($service_category);
 
-            $category = $this->categories_model->find($category_id);
+            $service_category = $this->service_categories_model->find($service_category_id);
 
-            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_SAVE, $category);
+            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_SAVE, $service_category);
 
             json_response([
                 'success' => TRUE,
-                'id' => $category_id
+                'id' => $service_category_id
             ]);
         }
         catch (Throwable $e)
@@ -143,7 +143,7 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Update a category.
+     * Update a service-category.
      */
     public function update()
     {
@@ -154,23 +154,23 @@ class Categories extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $category = request('category');
+            $service_category = request('service_category');
 
-            $this->categories_model->only($category, [
+            $this->service_categories_model->only($service_category, [
                 'id',
                 'name',
                 'description'
             ]);
 
-            $category_id = $this->categories_model->save($category);
+            $service_category_id = $this->service_categories_model->save($service_category);
 
-            $category = $this->categories_model->find($category_id);
+            $service_category = $this->service_categories_model->find($service_category_id);
 
-            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_SAVE, $category);
+            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_SAVE, $service_category);
 
             json_response([
                 'success' => TRUE,
-                'id' => $category_id
+                'id' => $service_category_id
             ]);
         }
         catch (Throwable $e)
@@ -180,7 +180,7 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Remove a category.
+     * Remove a service-category.
      */
     public function destroy()
     {
@@ -191,13 +191,13 @@ class Categories extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $category_id = request('category_id');
+            $service_category_id = request('service_category_id');
 
-            $category = $this->categories_model->find($category_id);
+            $service_category = $this->service_categories_model->find($service_category_id);
 
-            $this->categories_model->delete($category_id);
+            $this->service_categories_model->delete($service_category_id);
 
-            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_DELETE, $category);
+            $this->webhooks_client->trigger(WEBHOOK_CATEGORY_DELETE, $service_category);
 
             json_response([
                 'success' => TRUE,
@@ -210,7 +210,7 @@ class Categories extends EA_Controller {
     }
 
     /**
-     * Find a category.
+     * Find a service-category.
      */
     public function find()
     {
@@ -221,11 +221,11 @@ class Categories extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $category_id = request('category_id');
+            $service_category_id = request('service_category_id');
 
-            $category = $this->categories_model->find($category_id);
+            $service_category = $this->service_categories_model->find($service_category_id);
 
-            json_response($category);
+            json_response($service_category);
         }
         catch (Throwable $e)
         {

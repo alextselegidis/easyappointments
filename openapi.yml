@@ -21,10 +21,10 @@ tags:
   - name: admins
   - name: appointments
   - name: availabilities
-  - name: categories
   - name: customers
   - name: providers
   - name: secretaries
+  - name: service_categories
   - name: services
   - name: settings
   - name: unavailabilities
@@ -776,11 +776,11 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /categories:
+  /service_categories:
     get:
       tags:
-        - categories
-      summary: Get all categories
+        - service_categories
+      summary: Get all service-categories
       parameters:
         - name: page
           in: query
@@ -812,7 +812,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryCollection'
+                $ref: '#/components/schemas/ServiceCategoryCollection'
         '401':
           description: Unauthorized
         '500':
@@ -826,13 +826,13 @@ paths:
         - BasicAuth: [ ]
     post:
       tags:
-        - categories
-      summary: Create a category
+        - service_categories
+      summary: Create a service-category
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryPayload'
+              $ref: '#/components/schemas/ServiceCategoryPayload'
         required: true
       responses:
         '201':
@@ -840,7 +840,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryRecord'
+                $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '500':
@@ -853,13 +853,13 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /categories/{categoryId}:
+  /service_categories/{serviceCategoryId}:
     get:
       tags:
-        - categories
-      summary: Get a category
+        - service_categories
+      summary: Get a service-category
       parameters:
-        - name: categoryId
+        - name: serviceCategoryId
           in: path
           required: true
           schema:
@@ -870,7 +870,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryRecord'
+                $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '404':
@@ -886,10 +886,10 @@ paths:
         - BasicAuth: [ ]
     put:
       tags:
-        - categories
-      summary: Update a category
+        - service_categories
+      summary: Update a service-category
       parameters:
-        - name: categoryId
+        - name: serviceCategoryId
           in: path
           required: true
           schema:
@@ -898,7 +898,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryPayload'
+              $ref: '#/components/schemas/ServiceCategoryPayload'
         required: true
       responses:
         '200':
@@ -906,7 +906,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryRecord'
+                $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '404':
@@ -923,10 +923,10 @@ paths:
         - BasicAuth: [ ]
     delete:
       tags:
-        - categories
-      summary: Delete a category
+        - service_categories
+      summary: Delete a service-category
       parameters:
-        - name: categoryId
+        - name: serviceCategoryId
           in: path
           required: true
           schema:
@@ -1986,7 +1986,7 @@ components:
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
-        categoryId: null
+        serviceCategoryId: null
     ServicePayload:
       type: object
       properties:
@@ -2006,7 +2006,7 @@ components:
           type: string
         attendantsNumber:
           type: integer
-        categoryId:
+        serviceCategoryId:
           type: integer
       example:
         name: Test Service
@@ -2017,12 +2017,12 @@ components:
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
-        categoryId: null
+        serviceCategoryId: null
     ServiceCollection:
       type: array
       items:
         $ref: '#/components/schemas/ServiceRecord'
-    CategoryRecord:
+    ServiceCategoryRecord:
       type: object
       properties:
         id:
@@ -2035,7 +2035,7 @@ components:
         id: 1
         name: Test Category
         description: This is a test category.
-    CategoryPayload:
+    ServiceCategoryPayload:
       type: object
       properties:
         name:
@@ -2045,10 +2045,10 @@ components:
       example:
         name: Test Category
         description: This is a test category.
-    CategoryCollection:
+    ServiceCategoryCollection:
       type: array
       items:
-        $ref: '#/components/schemas/CategoryRecord'
+        $ref: '#/components/schemas/ServiceCategoryRecord'
     AdminRecord:
       type: object
       properties:
