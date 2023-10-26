@@ -42,7 +42,7 @@ class Service_categories extends EA_Controller {
      */
     public function index()
     {
-        session(['dest_url' => site_url('categories')]);
+        session(['dest_url' => site_url('service_categories')]);
 
         $user_id = session('user_id');
 
