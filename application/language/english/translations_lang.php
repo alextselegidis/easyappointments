@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // English
 $lang['page_title'] = 'Book Appointment With';
 $lang['service_and_provider'] = 'Service & Provider';
@@ -140,9 +140,9 @@ $lang['admin_deleted'] = 'Admin deleted successfully.';
 $lang['provider_deleted'] = 'Provider deleted successfully.';
 $lang['secretary_deleted'] = 'Secretary deleted successfully.';
 $lang['service_saved'] = 'Service saved successfully.';
-$lang['category_saved'] = 'Category saved successfully.';
+$lang['service_category_saved'] = 'Service category saved successfully.';
 $lang['service_deleted'] = 'Service deleted successfully.';
-$lang['category_deleted'] = 'Category deleted successfully.';
+$lang['service_category_deleted'] = 'Service category deleted successfully.';
 $lang['customer_saved'] = 'Customer saved successfully.';
 $lang['customer_deleted'] = 'Customer deleted successfully.';
 $lang['current_view'] = 'Current View';
@@ -211,7 +211,7 @@ $lang['delete_record_prompt'] = 'Are you sure that you want to delete this recor
 $lang['delete_admin'] = 'Delete Admin';
 $lang['delete_customer'] = 'Delete Customer';
 $lang['delete_service'] = 'Delete Service';
-$lang['delete_category'] = 'Delete Category';
+$lang['delete_service_category'] = 'Delete Service Category';
 $lang['delete_provider'] = 'Delete Provider';
 $lang['delete_secretary'] = 'Delete Secretary';
 $lang['delete_appointment'] = 'Delete Appointment';
@@ -378,8 +378,8 @@ $lang['customer_save'] = 'Customer Save';
 $lang['customer_delete'] = 'Customer Delete';
 $lang['service_save'] = 'Service Save';
 $lang['service_delete'] = 'Service Delete';
-$lang['category_save'] = 'Category Save';
-$lang['category_delete'] = 'Category Delete';
+$lang['service_category_save'] = 'Service Category Save';
+$lang['service_category_delete'] = 'Service Category Delete';
 $lang['provider_save'] = 'Provider Save';
 $lang['provider_delete'] = 'Provider Delete';
 $lang['secretary_save'] = 'Secretary Save';
@@ -436,5 +436,6 @@ $lang['scroll_to_increment'] = 'Scroll To Increment';
 $lang['year'] = 'Year';
 $lang['make_non_working_day'] = 'This provider will not be available for work on the selected day.';
 $lang['no_breaks'] = 'No Breaks';
-$lang['customer_is_already_booked'] = 'This customer is already booked for the selected time, please use a different time.';
+$lang['service_categories'] = 'Service Categories';
+$lang['service_category'] = 'Service Category';
 // End

@@ -110,7 +110,7 @@ App.Pages.Categories = (function () {
                 }
             ];
 
-            App.Utils.Message.show(lang('delete_category'), lang('delete_record_prompt'), buttons);
+            App.Utils.Message.show(lang('delete_service_category'), lang('delete_record_prompt'), buttons);
         });
 
         /**
@@ -208,7 +208,7 @@ App.Pages.Categories = (function () {
      */
     function remove(id) {
         App.Http.ServiceCategories.destroy(id).then(() => {
-            App.Layouts.Backend.displayNotification(lang('category_deleted'));
+            App.Layouts.Backend.displayNotification(lang('service_category_deleted'));
             resetForm();
             filter($('#filter-service-categories .key').val());
         });
