@@ -118,7 +118,7 @@ class Unavailabilities_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create an unavailability.
+     * Store a new unavailability.
      */
     public function store()
     {

@@ -65,9 +65,9 @@ class Unavailabilities extends EA_Controller {
     }
 
     /**
-     * Create a unavailability.
+     * Store a new unavailability.
      */
-    public function create()
+    public function store()
     {
         try
         {

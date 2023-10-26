@@ -120,7 +120,7 @@ class Services_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create an service.
+     * Store a new service.
      */
     public function store()
     {

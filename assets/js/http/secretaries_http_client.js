@@ -23,7 +23,7 @@ App.Http.Secretaries = (function () {
      * @return {Object}
      */
     function save(secretary) {
-        return secretary.id ? update(secretary) : create(secretary);
+        return secretary.id ? update(secretary) : store(secretary);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.Secretaries = (function () {
      *
      * @return {Object}
      */
-    function create(secretary) {
-        const url = App.Utils.Url.siteUrl('secretaries/create');
+    function store(secretary) {
+        const url = App.Utils.Url.siteUrl('secretaries/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.Secretaries = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

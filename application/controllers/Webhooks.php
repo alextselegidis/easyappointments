@@ -124,9 +124,9 @@ class Webhooks extends EA_Controller {
     }
 
     /**
-     * Create a webhook.
+     * Store a new webhook.
      */
-    public function create()
+    public function store()
     {
         try
         {

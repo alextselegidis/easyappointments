@@ -123,9 +123,9 @@ class Secretaries extends EA_Controller {
     }
 
     /**
-     * Create a secretary.
+     * Store a new secretary.
      */
-    public function create()
+    public function store()
     {
         try
         {

@@ -120,7 +120,7 @@ class Webhooks_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create a webhook.
+     * Store a new webhook.
      */
     public function store()
     {

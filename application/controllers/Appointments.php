@@ -80,9 +80,9 @@ class Appointments extends EA_Controller {
     }
 
     /**
-     * Create a appointment.
+     * Store a new appointment.
      */
-    public function create()
+    public function store()
     {
         try
         {

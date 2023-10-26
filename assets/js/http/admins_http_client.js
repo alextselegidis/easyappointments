@@ -23,7 +23,7 @@ App.Http.Admins = (function () {
      * @return {Object}
      */
     function save(admin) {
-        return admin.id ? update(admin) : create(admin);
+        return admin.id ? update(admin) : store(admin);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.Admins = (function () {
      *
      * @return {Object}
      */
-    function create(admin) {
-        const url = App.Utils.Url.siteUrl('admins/create');
+    function store(admin) {
+        const url = App.Utils.Url.siteUrl('admins/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.Admins = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

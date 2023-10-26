@@ -186,7 +186,7 @@ class Appointments_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create an appointment.
+     * Store a new appointment.
      */
     public function store()
     {

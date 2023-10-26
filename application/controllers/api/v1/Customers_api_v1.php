@@ -113,7 +113,7 @@ class Customers_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create a customer.
+     * Store a new customer.
      */
     public function store()
     {

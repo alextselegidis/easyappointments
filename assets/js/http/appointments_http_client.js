@@ -23,7 +23,7 @@ App.Http.Appointments = (function () {
      * @return {Object}
      */
     function save(appointment) {
-        return appointment.id ? update(appointment) : create(appointment);
+        return appointment.id ? update(appointment) : store(appointment);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.Appointments = (function () {
      *
      * @return {Object}
      */
-    function create(appointment) {
-        const url = App.Utils.Url.siteUrl('appointments/create');
+    function store(appointment) {
+        const url = App.Utils.Url.siteUrl('appointments/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.Appointments = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

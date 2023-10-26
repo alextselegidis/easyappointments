@@ -23,7 +23,7 @@ App.Http.Webhooks = (function () {
      * @return {Object}
      */
     function save(webhook) {
-        return webhook.id ? update(webhook) : create(webhook);
+        return webhook.id ? update(webhook) : store(webhook);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.Webhooks = (function () {
      *
      * @return {Object}
      */
-    function create(webhook) {
-        const url = App.Utils.Url.siteUrl('webhooks/create');
+    function store(webhook) {
+        const url = App.Utils.Url.siteUrl('webhooks/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.Webhooks = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

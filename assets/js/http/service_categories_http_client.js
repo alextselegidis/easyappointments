@@ -23,7 +23,7 @@ App.Http.ServiceCategories = (function () {
      * @return {Object}
      */
     function save(serviceCategory) {
-        return serviceCategory.id ? update(serviceCategory) : create(serviceCategory);
+        return serviceCategory.id ? update(serviceCategory) : store(serviceCategory);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.ServiceCategories = (function () {
      *
      * @return {Object}
      */
-    function create(serviceCategory) {
-        const url = App.Utils.Url.siteUrl('service_categories/create');
+    function store(serviceCategory) {
+        const url = App.Utils.Url.siteUrl('service_categories/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.ServiceCategories = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

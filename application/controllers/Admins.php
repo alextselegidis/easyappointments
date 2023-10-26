@@ -109,9 +109,9 @@ class Admins extends EA_Controller {
     }
 
     /**
-     * Create an admin.
+     * Store a new admin.
      */
-    public function create()
+    public function store()
     {
         try
         {

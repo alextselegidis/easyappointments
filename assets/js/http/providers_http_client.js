@@ -23,7 +23,7 @@ App.Http.Providers = (function () {
      * @return {Object}
      */
     function save(provider) {
-        return provider.id ? update(provider) : create(provider);
+        return provider.id ? update(provider) : store(provider);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.Providers = (function () {
      *
      * @return {Object}
      */
-    function create(provider) {
-        const url = App.Utils.Url.siteUrl('providers/create');
+    function store(provider) {
+        const url = App.Utils.Url.siteUrl('providers/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.Providers = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

@@ -107,9 +107,9 @@ class Service_categories extends EA_Controller {
     }
 
     /**
-     * Create a service-category.
+     * Store a new service-category.
      */
-    public function create()
+    public function store()
     {
         try
         {

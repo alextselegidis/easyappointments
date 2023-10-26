@@ -23,7 +23,7 @@ App.Http.Services = (function () {
      * @return {Object}
      */
     function save(service) {
-        return service.id ? update(service) : create(service);
+        return service.id ? update(service) : store(service);
     }
 
     /**
@@ -33,8 +33,8 @@ App.Http.Services = (function () {
      *
      * @return {Object}
      */
-    function create(service) {
-        const url = App.Utils.Url.siteUrl('services/create');
+    function store(service) {
+        const url = App.Utils.Url.siteUrl('services/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
@@ -124,7 +124,7 @@ App.Http.Services = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,

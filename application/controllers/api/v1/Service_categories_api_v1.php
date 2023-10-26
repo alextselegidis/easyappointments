@@ -120,7 +120,7 @@ class Service_categories_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create a service-category.
+     * Store a new service-category.
      */
     public function store()
     {

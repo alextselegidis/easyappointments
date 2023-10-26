@@ -113,7 +113,7 @@ class Secretaries_api_v1 extends EA_Controller {
     }
 
     /**
-     * Create a secretary.
+     * Store a new secretary.
      */
     public function store()
     {

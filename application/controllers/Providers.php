@@ -123,9 +123,9 @@ class Providers extends EA_Controller {
     }
 
     /**
-     * Create a provider.
+     * Store a new provider.
      */
-    public function create()
+    public function store()
     {
         try
         {

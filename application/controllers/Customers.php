@@ -166,9 +166,9 @@ class Customers extends EA_Controller {
     }
 
     /**
-     * Create a customer.
+     * Store a new customer.
      */
-    public function create()
+    public function store()
     {
         try
         {
