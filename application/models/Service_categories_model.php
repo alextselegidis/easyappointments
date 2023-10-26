@@ -133,45 +133,45 @@ class Service_categories_model extends EA_Model {
     /**
      * Remove an existing service-category from the database.
      *
-     * @param int $category_id Category ID.
+     * @param int $service_category_id Service-Category ID.
      * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $category_id, bool $force_delete = FALSE)
+    public function delete(int $service_category_id, bool $force_delete = FALSE)
     {
         if ($force_delete)
         {
-            $this->db->delete('service_categories', ['id' => $category_id]);
+            $this->db->delete('service_categories', ['id' => $service_category_id]);
         }
         else
         {
-            $this->db->update('service_categories', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $category_id]);
+            $this->db->update('service_categories', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $service_category_id]);
         }
     }
 
     /**
      * Get a specific service-category from the database.
      *
-     * @param int $category_id The ID of the record to be returned.
+     * @param int $service_category_id The ID of the record to be returned.
      * @param bool $with_trashed
      *
      * @return array Returns an array with the service-category data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $category_id, bool $with_trashed = FALSE): array
+    public function find(int $service_category_id, bool $with_trashed = FALSE): array
     {
         if ( ! $with_trashed)
         {
             $this->db->where('delete_datetime IS NULL');
         }
 
-        $service_category = $this->db->get_where('service_categories', ['id' => $category_id])->row_array();
+        $service_category = $this->db->get_where('service_categories', ['id' => $service_category_id])->row_array();
 
         if ( ! $service_category)
         {
-            throw new InvalidArgumentException('The provided service-category ID was not found in the database: ' . $category_id);
+            throw new InvalidArgumentException('The provided service-category ID was not found in the database: ' . $service_category_id);
         }
 
         $this->cast($service_category);
@@ -182,31 +182,31 @@ class Service_categories_model extends EA_Model {
     /**
      * Get a specific field value from the database.
      *
-     * @param int $category_id Category ID.
+     * @param int $service_category_id Service-Category ID.
      * @param string $field Name of the value to be returned.
      *
      * @return mixed Returns the selected service-category value from the database.
      *
      * @throws InvalidArgumentException
      */
-    public function value(int $category_id, string $field): mixed
+    public function value(int $service_category_id, string $field): mixed
     {
         if (empty($field))
         {
             throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if (empty($category_id))
+        if (empty($service_category_id))
         {
             throw new InvalidArgumentException('The service-category ID argument cannot be empty.');
         }
 
         // Check whether the service exists.
-        $query = $this->db->get_where('service_categories', ['id' => $category_id]);
+        $query = $this->db->get_where('service_categories', ['id' => $service_category_id]);
 
         if ( ! $query->num_rows())
         {
-            throw new InvalidArgumentException('The provided service-category ID was not found in the database: ' . $category_id);
+            throw new InvalidArgumentException('The provided service-category ID was not found in the database: ' . $service_category_id);
         }
 
         // Check if the required field is part of the service-category data.
