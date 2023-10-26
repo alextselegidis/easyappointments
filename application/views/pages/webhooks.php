@@ -7,7 +7,7 @@
         <div id="filter-webhooks" class="filter-records col col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="key form-control">
+                    <input type="text" class="key form-control" aria-label="keyword">
 
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
