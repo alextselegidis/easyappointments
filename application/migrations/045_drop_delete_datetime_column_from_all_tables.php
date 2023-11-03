@@ -17,7 +17,7 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
      */
     protected $tables = [
         'appointments',
-        'categories',
+        'service_categories',
         'consents',
         'roles',
         'services',

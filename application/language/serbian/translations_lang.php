@@ -438,4 +438,9 @@ $lang['make_non_working_day'] = 'This provider will not be available for work on
 $lang['no_breaks'] = 'No Breaks';
 $lang['service_categories'] = 'Service Categories';
 $lang['service_category'] = 'Service Category';
+$lang['blocked_period_saved'] = 'Blocked period saved successfully.';
+$lang['blocked_period_deleted'] = 'Blocked period deleted successfully.';
+$lang['delete_blocked_period'] = 'Delete Blocked Period';
+$lang['blocked_period'] = 'Blocked Period';
+$lang['blocked_periods'] = 'Blocked Periods';
 // End

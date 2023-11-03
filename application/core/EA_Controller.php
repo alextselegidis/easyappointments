@@ -52,6 +52,7 @@
  * @property Unavailabilities_model $unavailabilities_model
  * @property Users_model $users_model
  * @property Webhooks_model $webhooks_model
+ * @property Blocked_periods_model $blocked_periods_model
  *
  * @property Accounts $accounts
  * @property Api $api
