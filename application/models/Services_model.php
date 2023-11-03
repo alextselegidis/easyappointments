@@ -190,39 +190,25 @@ class Services_model extends EA_Model {
      * Remove an existing service from the database.
      *
      * @param int $service_id Service ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $service_id, bool $force_delete = FALSE)
+    public function delete(int $service_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('services', ['id' => $service_id]);
-        }
-        else
-        {
-            $this->db->update('services', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $service_id]);
-        }
+        $this->db->delete('services', ['id' => $service_id]);
     }
 
     /**
      * Get a specific service from the database.
      *
      * @param int $service_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the service data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $service_id, bool $with_trashed = FALSE): array
+    public function find(int $service_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $service = $this->db->get_where('services', ['id' => $service_id])->row_array();
 
         if ( ! $service)
@@ -285,11 +271,10 @@ class Services_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of services.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         if ($where !== NULL)
         {
@@ -299,11 +284,6 @@ class Services_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $services = $this->db->get('services', $limit, $offset)->result_array();
@@ -337,7 +317,6 @@ class Services_model extends EA_Model {
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
             ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
-            ->where('services.delete_datetime IS NULL')
             ->order_by('name ASC')
             ->get()
             ->result_array();
@@ -367,17 +346,11 @@ class Services_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of services.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $services = $this
             ->db
             ->select()

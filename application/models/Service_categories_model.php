@@ -134,39 +134,25 @@ class Service_categories_model extends EA_Model {
      * Remove an existing service-category from the database.
      *
      * @param int $service_category_id Service-Category ID.
-     * @param bool $force_delete Override soft delete.
      *
      * @throws RuntimeException
      */
-    public function delete(int $service_category_id, bool $force_delete = FALSE)
+    public function delete(int $service_category_id): void
     {
-        if ($force_delete)
-        {
-            $this->db->delete('service_categories', ['id' => $service_category_id]);
-        }
-        else
-        {
-            $this->db->update('service_categories', ['delete_datetime' => date('Y-m-d H:i:s')], ['id' => $service_category_id]);
-        }
+        $this->db->delete('service_categories', ['id' => $service_category_id]);
     }
 
     /**
      * Get a specific service-category from the database.
      *
      * @param int $service_category_id The ID of the record to be returned.
-     * @param bool $with_trashed
      *
      * @return array Returns an array with the service-category data.
      *
      * @throws InvalidArgumentException
      */
-    public function find(int $service_category_id, bool $with_trashed = FALSE): array
+    public function find(int $service_category_id): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $service_category = $this->db->get_where('service_categories', ['id' => $service_category_id])->row_array();
 
         if ( ! $service_category)
@@ -229,11 +215,10 @@ class Service_categories_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of service categories.
      */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
         if ($where !== NULL)
         {
@@ -243,11 +228,6 @@ class Service_categories_model extends EA_Model {
         if ($order_by !== NULL)
         {
             $this->db->order_by($order_by);
-        }
-
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
         }
 
         $service_categories = $this->db->get('service_categories', $limit, $offset)->result_array();
@@ -277,17 +257,11 @@ class Service_categories_model extends EA_Model {
      * @param int|null $limit Record limit.
      * @param int|null $offset Record offset.
      * @param string|null $order_by Order by.
-     * @param bool $with_trashed
      *
      * @return array Returns an array of service categories.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL, bool $with_trashed = FALSE): array
+    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
     {
-        if ( ! $with_trashed)
-        {
-            $this->db->where('delete_datetime IS NULL');
-        }
-
         $service_categories = $this
             ->db
             ->select()

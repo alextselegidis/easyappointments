@@ -14,9 +14,9 @@
  *
  * This module implements the functionality of the service-categories page.
  */
-App.Pages.Categories = (function () {
+App.Pages.ServiceCategories = (function () {
     const $serviceCategories = $('#service-categories');
-    const $filterCategories = $('#filter-service-categories');
+    const $filterServiceCategories = $('#filter-service-categories');
     const $id = $('#id');
     const $name = $('#name');
     const $description = $('#description');
@@ -28,7 +28,7 @@ App.Pages.Categories = (function () {
      */
     function addEventListeners() {
         /**
-         * Event: Filter Categories Form "Submit"
+         * Event: Filter Service-Categories Form "Submit"
          *
          * @param {jQuery.Event} event
          */
@@ -72,8 +72,8 @@ App.Pages.Categories = (function () {
             $serviceCategories.find('.save-cancel-group').show();
             $serviceCategories.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $serviceCategories.find('.record-details .form-label span').prop('hidden', false);
-            $filterCategories.find('button').prop('disabled', true);
-            $filterCategories.find('.results').css('color', '#AAA');
+            $filterServiceCategories.find('button').prop('disabled', true);
+            $filterServiceCategories.find('.results').css('color', '#AAA');
         });
 
         /**
@@ -84,8 +84,8 @@ App.Pages.Categories = (function () {
             $serviceCategories.find('.save-cancel-group').show();
             $serviceCategories.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $serviceCategories.find('.record-details .form-label span').prop('hidden', false);
-            $filterCategories.find('button').prop('disabled', true);
-            $filterCategories.find('.results').css('color', '#AAA');
+            $filterServiceCategories.find('button').prop('disabled', true);
+            $filterServiceCategories.find('.results').css('color', '#AAA');
         });
 
         /**
@@ -196,7 +196,7 @@ App.Pages.Categories = (function () {
         App.Http.ServiceCategories.save(serviceCategory).then((response) => {
             App.Layouts.Backend.displayNotification(lang('service_category_saved'));
             resetForm();
-            $filterCategories.find('.key').val('');
+            $filterServiceCategories.find('.key').val('');
             filter('', response.id, true);
         });
     }
@@ -259,9 +259,9 @@ App.Pages.Categories = (function () {
      * Bring the service-category form back to its initial state.
      */
     function resetForm() {
-        $filterCategories.find('.selected').removeClass('selected');
-        $filterCategories.find('button').prop('disabled', false);
-        $filterCategories.find('.results').css('color', '');
+        $filterServiceCategories.find('.selected').removeClass('selected');
+        $filterServiceCategories.find('button').prop('disabled', false);
+        $filterServiceCategories.find('.results').css('color', '');
 
         $serviceCategories.find('.add-edit-delete-group').show();
         $serviceCategories.find('.save-cancel-group').hide();
@@ -302,9 +302,9 @@ App.Pages.Categories = (function () {
      * @param {Boolean} show Optional (false), if true then the method will display the record on the form.
      */
     function select(id, show = false) {
-        $filterCategories.find('.selected').removeClass('selected');
+        $filterServiceCategories.find('.selected').removeClass('selected');
 
-        $filterCategories.find('.service-category-row[data-id="' + id + '"]').addClass('selected');
+        $filterServiceCategories.find('.service-category-row[data-id="' + id + '"]').addClass('selected');
 
         if (show) {
             const serviceCategory = filterResults.find((serviceCategory) => Number(serviceCategory.id) === Number(id));
