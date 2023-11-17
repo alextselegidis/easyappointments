@@ -53,7 +53,7 @@
                 </div>
 
                 <a href="<?= site_url('integrations') ?>" class="btn btn-outline-primary ms-2">
-                    <i class="fas fa-chevron-left me-2"></i>
+                    <i class="fas fa-chevron-left me-4"></i>
                     <?= lang('back') ?>
                 </a>
             </div>
