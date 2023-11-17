@@ -63,6 +63,9 @@ class Blocked_periods extends EA_Controller {
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
+            'date_format' => setting('date_format'),
+            'time_format' => setting('time_format'),
+            'first_weekday' => setting('first_weekday'),
         ]);
 
         html_vars([
@@ -118,22 +121,24 @@ class Blocked_periods extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $service_category = request('service_category');
+            $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($service_category, [
+            $this->blocked_periods_model->only($blocked_period, [
                 'name',
+                'start_datetime',
+                'end_datetime',
                 'description'
             ]);
 
-            $service_category_id = $this->blocked_periods_model->save($service_category);
+            $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
-            $service_category = $this->blocked_periods_model->find($service_category_id);
+            $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
 
-            $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_SAVE, $service_category);
+            $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_SAVE, $blocked_period);
 
             json_response([
                 'success' => TRUE,
-                'id' => $service_category_id
+                'id' => $blocked_period_id
             ]);
         }
         catch (Throwable $e)
@@ -154,23 +159,25 @@ class Blocked_periods extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $service_category = request('service_category');
+            $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($service_category, [
+            $this->blocked_periods_model->only($blocked_period, [
                 'id',
                 'name',
+                'start_datetime',
+                'end_datetime',
                 'description'
             ]);
 
-            $service_category_id = $this->blocked_periods_model->save($service_category);
+            $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
-            $service_category = $this->blocked_periods_model->find($service_category_id);
+            $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
 
-            $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_SAVE, $service_category);
+            $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_SAVE, $blocked_period);
 
             json_response([
                 'success' => TRUE,
-                'id' => $service_category_id
+                'id' => $blocked_period_id
             ]);
         }
         catch (Throwable $e)
@@ -191,13 +198,13 @@ class Blocked_periods extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $service_category_id = request('service_category_id');
+            $blocked_period_id = request('blocked_period_id');
 
-            $service_category = $this->blocked_periods_model->find($service_category_id);
+            $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
 
-            $this->blocked_periods_model->delete($service_category_id);
+            $this->blocked_periods_model->delete($blocked_period_id);
 
-            $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_DELETE, $service_category);
+            $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_DELETE, $blocked_period);
 
             json_response([
                 'success' => TRUE,
@@ -221,11 +228,11 @@ class Blocked_periods extends EA_Controller {
                 abort(403, 'Forbidden');
             }
 
-            $service_category_id = request('service_category_id');
+            $blocked_period_id = request('blocked_period_id');
 
-            $service_category = $this->blocked_periods_model->find($service_category_id);
+            $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
 
-            json_response($service_category);
+            json_response($blocked_period);
         }
         catch (Throwable $e)
         {

@@ -225,11 +225,42 @@ window.App.Utils.UI = (function () {
         $target.trumbowyg(params);
     }
 
+    /**
+     * Get Date, Date-Time or Time picker value.
+     *
+     * @param {jQuery} $target
+     *
+     * @return {Date}
+     */
+    function getDatetimepickerValue($target) {
+        if (!$target?.length) {
+            throw new Error('Empty $target argument provided.')
+        }
+
+        return $target[0]._flatpickr.selectedDates[0];
+    }
+
+    /**
+     * Set Date, Date-Time or Time picker value.
+     *
+     * @param {jQuery} $target
+     * @param {Date} value
+     */
+    function setDatetimepickerValue($target, value) {
+        if (!$target?.length) {
+            throw new Error('Empty $target argument provided.')
+        }
+
+        return $target[0]._flatpickr.setDate(value);
+    }
+
     return {
         initializeDatetimepicker,
         initializeDatepicker,
         initializeTimepicker,
         initializeDropdown,
         initializeTextEditor,
+        getDatetimepickerValue,
+        setDatetimepickerValue,
     };
 })();

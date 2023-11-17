@@ -19,7 +19,11 @@ App.Pages.BlockedPeriods = (function () {
     const $filterBlockedPeriods = $('#filter-blocked-periods');
     const $id = $('#id');
     const $name = $('#name');
+    const $startDateTime = $('#start-date-time');
+    const $endDateTime = $('#end-date-time');
     const $description = $('#description');
+    const moment = window.moment;
+
     let filterResults = {};
     let filterLimit = 20;
 
@@ -117,8 +121,15 @@ App.Pages.BlockedPeriods = (function () {
          * Event: Blocked period Save Button "Click"
          */
         $blockedPeriods.on('click', '#save-blocked-period', () => {
+            const startDateTimeObject = App.Utils.UI.getDatetimepickerValue($startDateTime);
+            const startDateTimeMoment = moment(startDateTimeObject);
+            const endDateTimeObject = App.Utils.UI.getDatetimepickerValue($endDateTime);
+            const endDateTimeMoment = moment(endDateTimeObject);
+
             const blockedPeriod = {
                 name: $name.val(),
+                start_datetime: startDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: endDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
                 description: $description.val()
             };
 
@@ -149,7 +160,7 @@ App.Pages.BlockedPeriods = (function () {
      * Filter blocked periods records.
      *
      * @param {String} keyword This key string is used to filter the blocked-period records.
-     * @param {Number} selectId Optional, if set then after the filter operation the record with the given ID will be 
+     * @param {Number} selectId Optional, if set then after the filter operation the record with the given ID will be
      * selected (but not displayed).
      * @param {Boolean} show Optional (false), if true then the selected record will be displayed on the form.
      */
@@ -222,6 +233,8 @@ App.Pages.BlockedPeriods = (function () {
     function display(blockedPeriod) {
         $id.val(blockedPeriod.id);
         $name.val(blockedPeriod.name);
+        App.Utils.UI.setDatetimepickerValue($startDateTime, new Date(blockedPeriod.start_datetime));
+        App.Utils.UI.setDatetimepickerValue($endDateTime, new Date(blockedPeriod.end_datetime));
         $description.val(blockedPeriod.description);
     }
 
@@ -322,6 +335,8 @@ App.Pages.BlockedPeriods = (function () {
         resetForm();
         filter('');
         addEventListeners();
+        App.Utils.UI.initializeDatetimepicker($startDateTime);
+        App.Utils.UI.initializeDatetimepicker($endDateTime);
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

@@ -71,19 +71,19 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="start-datetime">
+                <label class="form-label" for="start-date-time">
                     <?= lang('start') ?>
                     <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="start-datetime" class="form-control required" disabled>
+                <input id="start-date-time" class="form-control required" disabled>
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="end-datetime">
+                <label class="form-label" for="end-date-time">
                     <?= lang('end') ?>
                     <span class="text-danger" hidden>*</span>
                 </label>
-                <input id="end-datetime" class="form-control required" disabled>
+                <input id="end-date-time" class="form-control required" disabled>
             </div>
 
             <div class="mb-3">
@@ -104,6 +104,7 @@
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/blocked_periods_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/blocked_periods.js') ?>"></script>
 

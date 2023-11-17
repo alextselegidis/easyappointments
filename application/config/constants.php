@@ -120,6 +120,8 @@ const WEBHOOK_SECRETARY_SAVE = 'secretary_save';
 const WEBHOOK_SECRETARY_DELETE = 'secretary_delete';
 const WEBHOOK_ADMIN_SAVE = 'admin_save';
 const WEBHOOK_ADMIN_DELETE = 'admin_delete';
+const WEBHOOK_BLOCKED_PERIOD_SAVE = 'blocked_period_save';
+const WEBHOOK_BLOCKED_PERIOD_DELETE = 'blocked_period_delete';
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */
