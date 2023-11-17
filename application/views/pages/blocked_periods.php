@@ -53,8 +53,8 @@
                     </button>
                 </div>
 
-                <a href="<?= site_url('business_settings') ?>" class="btn btn-outline-primary ms-2">
-                    <i class="fas fa-chevron-left me-4"></i>
+                <a href="<?= site_url('business_settings') ?>" class="btn btn-outline-primary ms-4">
+                    <i class="fas fa-chevron-left me-2"></i>
                     <?= lang('back') ?>
                 </a>
             </div>
