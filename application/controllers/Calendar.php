@@ -28,6 +28,7 @@ class Calendar extends EA_Controller {
 
         $this->load->model('appointments_model');
         $this->load->model('unavailabilities_model');
+        $this->load->model('blocked_periods_model');
         $this->load->model('customers_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
@@ -744,6 +745,11 @@ class Calendar extends EA_Controller {
 
                 $response['unavailabilities'] = array_values($response['unavailabilities']);
             }
+            
+            // Add blocked periods to the response. 
+            $start_date = request('start_date'); 
+            $end_date = request('end_date'); 
+            $response['blocked_periods'] = $this->blocked_periods_model->get_for_period($start_date, $end_date); 
 
             json_response($response);
         }

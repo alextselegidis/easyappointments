@@ -86,9 +86,9 @@ App.Utils.CalendarDefaultView = (function () {
 
             let startMoment;
             let endMoment;
-            
-            const data = lastFocusedEventData.extendedProps.data; 
-            
+
+            const data = lastFocusedEventData.extendedProps.data;
+
             if (data.hasOwnProperty('workingPlanException')) {
                 const date = lastFocusedEventData.extendedProps.data.date;
                 const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
@@ -1226,6 +1226,23 @@ App.Utils.CalendarDefaultView = (function () {
                     };
 
                     calendarEventSource.push(unavailabilityEvent);
+                });
+
+                response.blocked_periods.forEach(blockedPeriod => {
+                    const blockedPeriodEvent = {
+                        title: blockedPeriod.name,
+                        start: moment(blockedPeriod.start_datetime).toDate(),
+                        end: moment(blockedPeriod.end_datetime).toDate(),
+                        allDay: true,
+                        backgroundColor: '#d65069',
+                        borderColor: '#d65069',
+                        textColor: '#ffffff',
+                        editable: true,
+                        className: 'fc-blocked-period fc-unavailability',
+                        data: blockedPeriod
+                    };
+
+                    calendarEventSource.push(blockedPeriodEvent);
                 });
 
                 const calendarView = fullCalendar.view;

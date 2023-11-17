@@ -365,4 +365,41 @@ class Blocked_periods_model extends EA_Model {
 
         $blocked_period = $decoded_resource;
     }
+
+    /**
+     * Get all the blocked periods that are within the provided period.
+     *
+     * @param string $start_date
+     * @param string $end_date
+     *
+     * @return array
+     */
+    public function get_for_period(string $start_date, string $end_date): array
+    {
+        return $this
+            ->query()
+            //
+            ->group_start()
+            ->where('DATE(start_datetime) <=', $start_date)
+            ->where('DATE(end_datetime) >=', $end_date)
+            ->group_end()
+            //
+            ->or_group_start()
+            ->where('DATE(start_datetime) >=', $start_date)
+            ->where('DATE(end_datetime) <=', $end_date)
+            ->group_end()
+            //
+            ->or_group_start()
+            ->where('DATE(end_datetime) >', $start_date)
+            ->where('DATE(end_datetime) <', $end_date)
+            ->group_end()
+            //
+            ->or_group_start()
+            ->where('DATE(start_datetime) >', $start_date)
+            ->where('DATE(start_datetime) <', $end_date)
+            ->group_end()
+            //
+            ->get()
+            ->result_array();
+    }
 }
