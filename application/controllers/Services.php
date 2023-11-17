@@ -132,11 +132,11 @@ class Services extends EA_Controller {
                 'availabilities_type',
                 'attendants_number',
                 'is_private',
-                'id_categories',
+                'id_service_categories',
             ]);
 
             $this->services_model->optional($service, [
-                'id_categories' => NULL
+                'id_service_categories' => NULL
             ]);
 
             $service_id = $this->services_model->save($service);
@@ -182,11 +182,11 @@ class Services extends EA_Controller {
                 'availabilities_type',
                 'attendants_number',
                 'is_private',
-                'id_categories',
+                'id_service_categories',
             ]);
 
             $this->services_model->optional($service, [
-                'id_categories' => NULL
+                'id_service_categories' => NULL
             ]);
 
             $service_id = $this->services_model->save($service);
