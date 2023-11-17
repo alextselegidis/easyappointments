@@ -39,6 +39,7 @@ class Availability {
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('settings_model');
         $this->CI->load->model('unavailabilities_model');
+        $this->CI->load->model('blocked_periods_model');
 
         $this->CI->load->library('ics_file');
     }
@@ -57,6 +58,11 @@ class Availability {
      */
     public function get_available_hours(string $date, array $service, array $provider, int $exclude_appointment_id = NULL): array
     {
+        if ($this->CI->blocked_periods_model->is_entire_date_blocked($date))
+        {
+            return [];
+        }
+
         if ($service['attendants_number'] > 1)
         {
             $available_hours = $this->consider_multiple_attendants($date, $service, $provider, $exclude_appointment_id);
@@ -117,6 +123,7 @@ class Availability {
             array_merge(
                 $this->CI->appointments_model->get($where),
                 $this->CI->unavailabilities_model->get($where),
+                $this->CI->blocked_periods_model->get_for_period($date, $date)
             )
         );
 
@@ -396,8 +403,11 @@ class Availability {
             ]
         ];
 
+        $blocked_periods = $this->CI->blocked_periods_model->get_for_period($date, $date);
+
         $periods = $this->remove_breaks($date, $periods, $date_working_plan['breaks']);
         $periods = $this->remove_unavailability_events($periods, $unavailability_events);
+        $periods = $this->remove_unavailability_events($periods, $blocked_periods);
 
         $hours = [];
 

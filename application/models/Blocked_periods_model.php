@@ -402,4 +402,21 @@ class Blocked_periods_model extends EA_Model {
             ->get()
             ->result_array();
     }
+
+    /**
+     * Check if a date is blocked by a blocked period.
+     *
+     * @param string $date
+     *
+     * @return bool
+     */
+    public function is_entire_date_blocked(string $date): bool
+    {
+        return $this
+                ->query()
+                ->where('DATE(start_datetime) <=', $date)
+                ->where('DATE(end_datetime) >=', $date)
+                ->get()
+                ->num_rows() > 1;
+    }
 }
