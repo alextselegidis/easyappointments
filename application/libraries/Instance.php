@@ -99,8 +99,6 @@ class Instance {
             'company_link' => 'https://example.org',
         ]);
 
-        $password = random_string();
-
         // Admin
 
         $this->CI->admins_model->save([
@@ -110,7 +108,7 @@ class Instance {
             'phone_number' => '+10000000000',
             'settings' => [
                 'username' => 'administrator',
-                'password' => $password,
+                'password' => 'administrator',
                 'notifications' => TRUE,
                 'calendar_view' => CALENDAR_VIEW_DEFAULT
             ],
