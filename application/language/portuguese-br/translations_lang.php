@@ -443,4 +443,6 @@ $lang['blocked_period_deleted'] = 'Blocked period deleted successfully.';
 $lang['delete_blocked_period'] = 'Delete Blocked Period';
 $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
+$lang['blocked_period_save'] = 'Blocked Period Save';
+$lang['blocked_period_delete'] = 'Blocked Period Delete';
 // End

@@ -75,6 +75,8 @@ class Webhooks extends EA_Controller {
                 WEBHOOK_APPOINTMENT_DELETE,
                 WEBHOOK_UNAVAILABILITY_SAVE,
                 WEBHOOK_UNAVAILABILITY_DELETE,
+                WEBHOOK_BLOCKED_PERIOD_SAVE,
+                WEBHOOK_BLOCKED_PERIOD_DELETE,
                 WEBHOOK_CUSTOMER_SAVE,
                 WEBHOOK_CUSTOMER_DELETE,
                 WEBHOOK_SERVICE_SAVE,
