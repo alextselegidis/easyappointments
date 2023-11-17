@@ -382,6 +382,14 @@ App.Utils.CalendarDefaultView = (function () {
                 $target.hasClass('fc-custom') && vars('privileges').appointments.edit === true ? '' : 'd-none';
             displayDelete =
                 $target.hasClass('fc-custom') && vars('privileges').appointments.delete === true ? 'me-2' : 'd-none'; // Same value at the time.
+            
+            let startDateTimeObject = info.event.start;
+            let endDateTimeObject = info.event.end || info.event.start;
+            
+            if (info.event.extendedProps.data) {
+                startDateTimeObject = new Date(info.event.extendedProps.data.start_datetime);
+                endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
+            }
 
             $html = $('<div/>', {
                 'html': [
@@ -391,7 +399,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
-                            moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
+                            moment(startDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -405,7 +413,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
-                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
+                            moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -1237,7 +1245,7 @@ App.Utils.CalendarDefaultView = (function () {
                         backgroundColor: '#d65069',
                         borderColor: '#d65069',
                         textColor: '#ffffff',
-                        editable: true,
+                        editable: false,
                         className: 'fc-blocked-period fc-unavailability',
                         data: blockedPeriod
                     };

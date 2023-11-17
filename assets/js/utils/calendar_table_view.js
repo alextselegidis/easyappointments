@@ -115,6 +115,9 @@ App.Utils.CalendarTableView = (function () {
                             /** @var {Array} response.unavailabilities */
                             createUnavailabilities($providerColumn, response.unavailabilities);
 
+                            // Add the blocked periods to the column.
+                            createBlockedPeriods($providerColumn, response.blocked_periods); 
+
                             // Add the provider breaks to the column.
                             const workingPlan = JSON.parse(provider.settings.working_plan);
                             const day = moment(date).format('dddd').toLowerCase();
@@ -619,6 +622,9 @@ App.Utils.CalendarTableView = (function () {
         // Add the unavailabilities to the column.
         /** @var {Array} events.unavailabilities */
         createUnavailabilities($providerColumn, events.unavailabilities);
+
+        // Add the blocked periods to the column.
+        createBlockedPeriods($providerColumn, events.blocked_periods);
     }
 
     /**
@@ -932,6 +938,43 @@ App.Utils.CalendarTableView = (function () {
 
         $providerColumn.find('.calendar-wrapper').data('fullCalendar').addEventSource(calendarEventSource);
     }
+    
+    /**
+     * Create Blocked Period Events
+     *
+     * This method will add the blocked period on the table view.
+     *
+     * @param {jQuery} $providerColumn The provider column container.
+     * @param {Object[]} blockedPeriods Contains the blocked period data.
+     */
+    function createBlockedPeriods($providerColumn, blockedPeriods) {
+        if (blockedPeriods.length === 0) {
+            return;
+        }
+
+        const calendarEventSource = [];
+
+        for (const index in blockedPeriods) {
+            const blockedPeriod = blockedPeriods[index];
+
+            const event = {
+                title: blockedPeriod.name,
+                start: moment(blockedPeriod.start_datetime).toDate(),
+                end: moment(blockedPeriod.end_datetime).toDate(),
+                allDay: true,
+                backgroundColor: '#d65069',
+                borderColor: '#d65069',
+                textColor: '#ffffff',
+                editable: false,
+                className: 'fc-blocked-period fc-unavailability',
+                data: blockedPeriod
+            };
+
+            calendarEventSource.push(event);
+        }
+
+        $providerColumn.find('.calendar-wrapper').data('fullCalendar').addEventSource(calendarEventSource);
+    }
 
     /**
      * Create break events in the table view.
@@ -1051,6 +1094,14 @@ App.Utils.CalendarTableView = (function () {
             displayDelete =
                 $target.hasClass('fc-custom') && vars('privileges').appointments.delete === true ? '' : 'd-none'; // Same value at the time.
 
+            let startDateTimeObject = info.event.start;
+            let endDateTimeObject = info.event.end || info.event.start;
+
+            if (info.event.extendedProps.data) {
+                startDateTimeObject = new Date(info.event.extendedProps.data.start_datetime);
+                endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
+            }
+
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
@@ -1059,7 +1110,7 @@ App.Utils.CalendarTableView = (function () {
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
-                            moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
+                            moment(startDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -1073,7 +1124,7 @@ App.Utils.CalendarTableView = (function () {
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
-                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
+                            moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
                             true

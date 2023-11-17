@@ -598,6 +598,11 @@ class Calendar extends EA_Controller {
                 $response['unavailabilities'] = array_values($response['unavailabilities']);
             }
 
+            // Add blocked periods to the response. 
+            $start_date = request('start_date');
+            $end_date = request('end_date');
+            $response['blocked_periods'] = $this->blocked_periods_model->get_for_period($start_date, $end_date);
+
             json_response($response);
         }
         catch (Throwable $e)
