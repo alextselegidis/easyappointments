@@ -445,4 +445,5 @@ $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
 $lang['blocked_period_save'] = 'Blocked Period Save';
 $lang['blocked_period_delete'] = 'Blocked Period Delete';
+$lang['blocked_periods_hint'] = 'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
 // End
