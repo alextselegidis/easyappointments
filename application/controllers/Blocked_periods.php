@@ -127,7 +127,7 @@ class Blocked_periods extends EA_Controller {
                 'name',
                 'start_datetime',
                 'end_datetime',
-                'description'
+                'notes'
             ]);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
@@ -166,7 +166,7 @@ class Blocked_periods extends EA_Controller {
                 'name',
                 'start_datetime',
                 'end_datetime',
-                'description'
+                'notes'
             ]);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);

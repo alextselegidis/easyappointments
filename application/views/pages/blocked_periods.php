@@ -92,10 +92,10 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="description">
-                    <?= lang('description') ?>
+                <label class="form-label" for="notes">
+                    <?= lang('notes') ?>
                 </label>
-                <textarea id="description" rows="4" class="form-control" disabled></textarea>
+                <textarea id="notes" rows="4" class="form-control" disabled></textarea>
             </div>
         </div>
     </div>

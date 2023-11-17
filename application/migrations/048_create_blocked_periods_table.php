@@ -46,7 +46,7 @@ class Migration_Create_blocked_periods_table extends EA_Migration {
                     'type' => 'DATETIME',
                     'null' => TRUE,
                 ],
-                'description' => [
+                'notes' => [
                     'type' => 'TEXT',
                     'null' => TRUE,
                 ],

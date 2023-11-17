@@ -34,7 +34,7 @@ class Blocked_periods_model extends EA_Model {
         'name' => 'name',
         'start' => 'start_datetime',
         'end' => 'end_datetime',
-        'description' => 'description',
+        'notes' => 'notes',
     ];
 
     /**
@@ -281,7 +281,7 @@ class Blocked_periods_model extends EA_Model {
             ->from('blocked_periods')
             ->group_start()
             ->like('name', $keyword)
-            ->or_like('description', $keyword)
+            ->or_like('notes', $keyword)
             ->group_end()
             ->limit($limit)
             ->offset($offset)
@@ -322,7 +322,7 @@ class Blocked_periods_model extends EA_Model {
             'name' => $blocked_period['name'],
             'start' => array_key_exists('start_datetime', $blocked_period) ? $blocked_period['start_datetime'] : NULL,
             'end' => array_key_exists('end_datetime', $blocked_period) ? $blocked_period['end_datetime'] : NULL,
-            'description' => array_key_exists('description', $blocked_period) ? $blocked_period['description'] : NULL
+            'notes' => array_key_exists('notes', $blocked_period) ? $blocked_period['notes'] : NULL
         ];
 
         $blocked_period = $encoded_resource;
@@ -358,9 +358,9 @@ class Blocked_periods_model extends EA_Model {
             $decoded_resource['end_datetime'] = $blocked_period['end'];
         }
 
-        if (array_key_exists('description', $blocked_period))
+        if (array_key_exists('notes', $blocked_period))
         {
-            $decoded_resource['description'] = $blocked_period['description'];
+            $decoded_resource['notes'] = $blocked_period['notes'];
         }
 
         $blocked_period = $decoded_resource;

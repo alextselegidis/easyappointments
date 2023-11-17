@@ -21,7 +21,7 @@ App.Pages.BlockedPeriods = (function () {
     const $name = $('#name');
     const $startDateTime = $('#start-date-time');
     const $endDateTime = $('#end-date-time');
-    const $description = $('#description');
+    const $notes = $('#notes');
     const moment = window.moment;
 
     let filterResults = {};
@@ -130,7 +130,7 @@ App.Pages.BlockedPeriods = (function () {
                 name: $name.val(),
                 start_datetime: startDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: endDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
-                description: $description.val()
+                notes: $notes.val()
             };
 
             if ($id.val() !== '') {
@@ -235,7 +235,7 @@ App.Pages.BlockedPeriods = (function () {
         $name.val(blockedPeriod.name);
         App.Utils.UI.setDatetimepickerValue($startDateTime, new Date(blockedPeriod.start_datetime));
         App.Utils.UI.setDatetimepickerValue($endDateTime, new Date(blockedPeriod.end_datetime));
-        $description.val(blockedPeriod.description);
+        $notes.val(blockedPeriod.notes);
     }
 
     /**
