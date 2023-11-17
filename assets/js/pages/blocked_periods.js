@@ -261,6 +261,15 @@ App.Pages.BlockedPeriods = (function () {
                 throw new Error(lang('fields_are_required'));
             }
 
+            const startDateTimeObject = App.Utils.UI.getDatetimepickerValue($startDateTime);
+            const endDateTimeObject = App.Utils.UI.getDatetimepickerValue($endDateTime);
+
+            if (startDateTimeObject >= endDateTimeObject) {
+                $startDateTime.addClass('is-invalid');
+                $endDateTime.addClass('is-invalid');
+                throw new Error(lang('start_date_before_end_error'));
+            }
+
             return true;
         } catch (error) {
             $blockedPeriods.find('.form-message').addClass('alert-danger').text(error.message).show();

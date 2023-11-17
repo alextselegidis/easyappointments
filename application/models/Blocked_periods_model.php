@@ -83,9 +83,20 @@ class Blocked_periods_model extends EA_Model {
         // Make sure all required fields are provided.
         if (
             empty($blocked_period['name'])
+            || empty($blocked_period['start_datetime'])
+            || empty($blocked_period['end_datetime'])
         )
         {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($blocked_period, TRUE));
+        }
+
+        // Make sure that the start date time is before the end. 
+        $start_date_time_object = new DateTime($blocked_period['start_datetime']);
+        $end_date_time_object = new DateTime($blocked_period['end_datetime']);
+
+        if ($start_date_time_object >= $end_date_time_object)
+        {
+            throw new InvalidArgumentException('The start must be before the end date time value.');
         }
     }
 
