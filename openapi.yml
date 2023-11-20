@@ -34,16 +34,18 @@ paths:
     get:
       tags:
         - availabilities
-      summary: Gets availability
+      summary: Gets availability dates
       parameters:
         - name: providerId
           in: query
           schema:
             type: integer
+          required: true
         - name: serviceId
           in: query
           schema:
             type: integer
+          required: true
         - name: date
           in: query
           schema:
@@ -1746,7 +1748,7 @@ components:
     Availabilities:
       type: array
       items:
-        type: string
+        type: object
     AppointmentRecord:
       type: object
       properties:

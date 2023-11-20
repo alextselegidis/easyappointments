@@ -37,12 +37,12 @@ class Availabilities_api_v1 extends EA_Controller {
     }
 
     /**
-     * Generate the available hours based on the selected date, service and provider.
+     * Generate the available dates and hours based on the selected date, service and provider.
      *
      * This resource requires the following query parameters:
      *
      *   - serviceId
-     *   - providerI
+     *   - providerId
      *   - date
      *
      * Based on those values it will generate the available hours, just like how the booking page works.
@@ -62,19 +62,32 @@ class Availabilities_api_v1 extends EA_Controller {
             $service_id = request('serviceId');
 
             $date = request('date');
-
-            if ( ! $date)
-            {
-                $date = date('Y-m-d');
-            }
+            if(substr_count($date, '-') == 1)
+                $date .= '-01';
+            $date = new DateTime($date);
 
             $provider = $this->providers_model->find($provider_id);
 
             $service = $this->services_model->find($service_id);
 
-            $available_hours = $this->availability->get_available_hours($date, $service, $provider);
+            $number_of_days_in_month = (int)$date->format('t');
+            $available_dates = [];
 
-            json_response($available_hours);
+            for ($i = 1; $i <= $number_of_days_in_month; $i++)
+            {
+                $current_date = new DateTime($date->format('Y-m') . '-' . $i);
+
+                $available_hours = $this->availability->get_available_hours(
+                    $current_date->format('Y-m-d'),
+                    $service,
+                    $provider
+                );
+
+                if ( !empty($available_hours) )
+                    $available_dates[$current_date->format('Y-m-d')] = $available_hours;
+            }
+
+            json_response($available_dates);
         }
         catch (Throwable $e)
         {
