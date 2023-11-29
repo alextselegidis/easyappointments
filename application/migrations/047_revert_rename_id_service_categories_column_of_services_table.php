@@ -74,7 +74,7 @@ class Migration_Revert_rename_id_service_categories_column_of_services_table ext
                     $this->db->dbprefix('services') .
                     '`
                     ADD CONSTRAINT `services_categories` FOREIGN KEY (`id_categories`) REFERENCES `' .
-                    $this->db->dbprefix('categories') .
+                    $this->db->dbprefix('service_categories') .
                     '` (`id`)
                     ON DELETE SET NULL
                     ON UPDATE CASCADE
