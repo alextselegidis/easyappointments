@@ -11,14 +11,14 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_limit_customer_access_setting extends EA_Migration {
+class Migration_Add_limit_customer_access_setting extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'limit_customer_access'])->num_rows())
-        {
+        if (!$this->db->get_where('settings', ['name' => 'limit_customer_access'])->num_rows()) {
             $this->db->insert('settings', [
                 'create_datetime' => date('Y-m-d H:i:s'),
                 'update_datetime' => date('Y-m-d H:i:s'),
@@ -33,8 +33,7 @@ class Migration_Add_limit_customer_access_setting extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->get_where('settings', ['name' => 'limit_customer_access'])->num_rows())
-        {
+        if ($this->db->get_where('settings', ['name' => 'limit_customer_access'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'limit_customer_access']);
         }
     }

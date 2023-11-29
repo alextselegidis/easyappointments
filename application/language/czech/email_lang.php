@@ -43,9 +43,12 @@ $lang['email_attachment_missing'] = 'Není možné nalézt následující příl
 $lang['email_attachment_unreadable'] = 'Není možné otevřít tuto přílohu: %s';
 $lang['email_no_from'] = 'Nelze odeslat email bez hodnoty pole "Od".';
 $lang['email_no_recipients'] = 'Musíte zadat příjemce: Komu, Kopie nebo Skrytá kopie';
-$lang['email_send_failure_phpmail'] = 'Není možné odeslat email pomocí PHP mail(). Váš server možná není konfigurován, aby odesílal emaily protřednictvím této metody.';
-$lang['email_send_failure_sendmail'] = 'Není možné odeslat email pomocí PHP Sendmail. Váš server možná není konfigurován, aby odesílal emaily prostřednictvím této metody.';
-$lang['email_send_failure_smtp'] = 'Není možné odeslat email pomocí PHP SMTP. Váš server možná není konfigurován, aby odesílal emaily prostřednictvím této metody.';
+$lang['email_send_failure_phpmail'] =
+    'Není možné odeslat email pomocí PHP mail(). Váš server možná není konfigurován, aby odesílal emaily protřednictvím této metody.';
+$lang['email_send_failure_sendmail'] =
+    'Není možné odeslat email pomocí PHP Sendmail. Váš server možná není konfigurován, aby odesílal emaily prostřednictvím této metody.';
+$lang['email_send_failure_smtp'] =
+    'Není možné odeslat email pomocí PHP SMTP. Váš server možná není konfigurován, aby odesílal emaily prostřednictvím této metody.';
 $lang['email_sent'] = 'Vaše zpráva byla úspěšně odeslána prostřednictvím následujícího protokolu: %s';
 $lang['email_no_socket'] = 'Není možné otevřít socket pro Sendmail. Zkontrolujte prosím nastavení.';
 $lang['email_no_hostname'] = 'Nezadali jste název hosta SMTP.';

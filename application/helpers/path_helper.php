@@ -11,8 +11,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('storage_path'))
-{
+if (!function_exists('storage_path')) {
     /**
      * Get the path to the storage folder.
      *
@@ -30,8 +29,7 @@ if ( ! function_exists('storage_path'))
     }
 }
 
-if ( ! function_exists('base_path'))
-{
+if (!function_exists('base_path')) {
     /**
      * Get the path to the base of the current installation.
      *
@@ -46,4 +44,3 @@ if ( ! function_exists('base_path'))
         return FCPATH . trim($path);
     }
 }
-

@@ -2,14 +2,15 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @author    CodeIgniter community
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['db_invalid_connection_str'] = 'Невозможно определить параметры базы данных на основе строки подключения, которую вы предоставили.';
+$lang['db_invalid_connection_str'] =
+    'Невозможно определить параметры базы данных на основе строки подключения, которую вы предоставили.';
 $lang['db_unable_to_connect'] = 'Невозможно подключиться к серверу базы данных, используя предоставленные параметры.';
 $lang['db_unable_to_select'] = 'Невозможно выбрать указанную базу данных: %s';
 $lang['db_unable_to_create'] = 'Невозможно создать указанную базу данных: %s';
@@ -17,7 +18,8 @@ $lang['db_invalid_query'] = 'Представленный вами запрос 
 $lang['db_must_set_table'] = 'Необходимо указать таблицу базы данных, которая будет использована в вашем запросе.';
 $lang['db_must_use_set'] = 'Необходимо использовать метод "set" для обновления запись.';
 $lang['db_must_use_index'] = 'Необходимо указать индекс для пакетного обновления.';
-$lang['db_batch_missing_index'] = 'Одна или несколько строк представленных для пакетного обновления не содержит указанный индекс.';
+$lang['db_batch_missing_index'] =
+    'Одна или несколько строк представленных для пакетного обновления не содержит указанный индекс.';
 $lang['db_must_use_where'] = 'Обновления не допускаются, без указания условия через "where" оператор.';
 $lang['db_del_must_use_where'] = 'Удаления не допускаются, без указания условия через "where" или "like" параметр.';
 $lang['db_field_param_missing'] = 'Для выборки полей необходимо имя таблицы в качестве параметра.';

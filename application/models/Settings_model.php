@@ -18,12 +18,13 @@
  *
  * @package Models
  */
-class Settings_model extends EA_Model {
+class Settings_model extends EA_Model
+{
     /**
      * @var array
      */
     protected array $casts = [
-        'id' => 'integer',
+        'id' => 'integer'
     ];
 
     /**
@@ -31,7 +32,7 @@ class Settings_model extends EA_Model {
      */
     protected array $api_resource = [
         'name' => 'name',
-        'value' => 'value',
+        'value' => 'value'
     ];
 
     /**
@@ -47,12 +48,9 @@ class Settings_model extends EA_Model {
     {
         $this->validate($setting);
 
-        if (empty($setting['id']))
-        {
+        if (empty($setting['id'])) {
             return $this->insert($setting);
-        }
-        else
-        {
+        } else {
             return $this->update($setting);
         }
     }
@@ -67,22 +65,19 @@ class Settings_model extends EA_Model {
     public function validate(array $setting)
     {
         // If a setting ID is provided then check whether the record really exists in the database.
-        if ( ! empty($setting['id']))
-        {
+        if (!empty($setting['id'])) {
             $count = $this->db->get_where('settings', ['id' => $setting['id']])->num_rows();
 
-            if ( ! $count)
-            {
-                throw new InvalidArgumentException('The provided setting ID does not exist in the database: ' . $setting['id']);
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The provided setting ID does not exist in the database: ' . $setting['id']
+                );
             }
         }
 
         // Make sure all required fields are provided.
-        if (
-            empty($setting['name'])
-        )
-        {
-            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($setting, TRUE));
+        if (empty($setting['name'])) {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($setting, true));
         }
     }
 
@@ -100,8 +95,7 @@ class Settings_model extends EA_Model {
         $setting['create_datetime'] = date('Y-m-d H:i:s');
         $setting['update_datetime'] = date('Y-m-d H:i:s');
 
-        if ( ! $this->db->insert('settings', $setting))
-        {
+        if (!$this->db->insert('settings', $setting)) {
             throw new RuntimeException('Could not insert setting.');
         }
 
@@ -121,8 +115,7 @@ class Settings_model extends EA_Model {
     {
         $setting['update_datetime'] = date('Y-m-d H:i:s');
 
-        if ( ! $this->db->update('settings', $setting, ['id' => $setting['id']]))
-        {
+        if (!$this->db->update('settings', $setting, ['id' => $setting['id']])) {
             throw new RuntimeException('Could not update setting.');
         }
 
@@ -154,8 +147,7 @@ class Settings_model extends EA_Model {
     {
         $setting = $this->db->get_where('settings', ['id' => $setting_id])->row_array();
 
-        if ( ! $setting)
-        {
+        if (!$setting) {
             throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
         }
 
@@ -176,21 +168,18 @@ class Settings_model extends EA_Model {
      */
     public function value(int $setting_id, string $field): mixed
     {
-        if (empty($field))
-        {
+        if (empty($field)) {
             throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if (empty($setting_id))
-        {
+        if (empty($setting_id)) {
             throw new InvalidArgumentException('The setting ID argument cannot be empty.');
         }
 
         // Check whether the setting exists.
         $query = $this->db->get_where('settings', ['id' => $setting_id]);
 
-        if ( ! $query->num_rows())
-        {
+        if (!$query->num_rows()) {
             throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
         }
 
@@ -199,44 +188,11 @@ class Settings_model extends EA_Model {
 
         $this->cast($setting);
 
-        if ( ! array_key_exists($field, $setting))
-        {
+        if (!array_key_exists($field, $setting)) {
             throw new InvalidArgumentException('The requested field was not found in the setting data: ' . $field);
         }
 
         return $setting[$field];
-    }
-
-    /**
-     * Get all settings that match the provided criteria.
-     *
-     * @param array|string|null $where Where conditions
-     * @param int|null $limit Record limit.
-     * @param int|null $offset Record offset.
-     * @param string|null $order_by Order by.
-     *
-     * @return array Returns an array of settings.
-     */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
-    {
-        if ($where !== NULL)
-        {
-            $this->db->where($where);
-        }
-
-        if ($order_by !== NULL)
-        {
-            $this->db->order_by($order_by);
-        }
-
-        $settings = $this->db->get('settings', $limit, $offset)->result_array();
-
-        foreach ($settings as &$setting)
-        {
-            $this->cast($setting);
-        }
-
-        return $settings;
     }
 
     /**
@@ -259,10 +215,9 @@ class Settings_model extends EA_Model {
      *
      * @return array Returns an array of settings.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
     {
-        $settings = $this
-            ->db
+        $settings = $this->db
             ->select()
             ->from('settings')
             ->group_start()
@@ -275,8 +230,40 @@ class Settings_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach ($settings as &$setting)
-        {
+        foreach ($settings as &$setting) {
+            $this->cast($setting);
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Get all settings that match the provided criteria.
+     *
+     * @param array|string|null $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of settings.
+     */
+    public function get(
+        array|string $where = null,
+        int $limit = null,
+        int $offset = null,
+        string $order_by = null
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== null) {
+            $this->db->order_by($order_by);
+        }
+
+        $settings = $this->db->get('settings', $limit, $offset)->result_array();
+
+        foreach ($settings as &$setting) {
             $this->cast($setting);
         }
 
@@ -317,17 +304,15 @@ class Settings_model extends EA_Model {
      * @param array $setting API resource.
      * @param array|null $base Base setting data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$setting, array $base = NULL)
+    public function api_decode(array &$setting, array $base = null)
     {
         $decoded_resource = $base ?: [];
 
-        if (array_key_exists('name', $setting))
-        {
+        if (array_key_exists('name', $setting)) {
             $decoded_resource['name'] = $setting['name'];
         }
 
-        if (array_key_exists('value', $setting))
-        {
+        if (array_key_exists('value', $setting)) {
             $decoded_resource['value'] = $setting['value'];
         }
 

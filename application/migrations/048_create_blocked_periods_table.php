@@ -11,50 +11,50 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Create_blocked_periods_table extends EA_Migration {
+class Migration_Create_blocked_periods_table extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->table_exists('blocked_periods'))
-        {
+        if (!$this->db->table_exists('blocked_periods')) {
             $this->dbforge->add_field([
                 'id' => [
                     'type' => 'INT',
                     'constraint' => 11,
-                    'auto_increment' => TRUE
+                    'auto_increment' => true
                 ],
                 'create_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE
+                    'null' => true
                 ],
                 'update_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE
+                    'null' => true
                 ],
                 'name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'start_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'end_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'notes' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
-                ],
+                    'null' => true
+                ]
             ]);
 
-            $this->dbforge->add_key('id', TRUE);
+            $this->dbforge->add_key('id', true);
 
-            $this->dbforge->create_table('blocked_periods', TRUE, ['engine' => 'InnoDB']);
+            $this->dbforge->create_table('blocked_periods', true, ['engine' => 'InnoDB']);
         }
     }
 
@@ -63,8 +63,7 @@ class Migration_Create_blocked_periods_table extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->table_exists('blocked_periods'))
-        {
+        if ($this->db->table_exists('blocked_periods')) {
             $this->dbforge->drop_table('blocked_periods');
         }
     }

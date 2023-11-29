@@ -11,14 +11,14 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_service_attendants_number extends EA_Migration {
+class Migration_Add_service_attendants_number extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('attendants_number', 'services'))
-        {
+        if (!$this->db->field_exists('attendants_number', 'services')) {
             $fields = [
                 'attendants_number' => [
                     'type' => 'INT',
@@ -37,8 +37,7 @@ class Migration_Add_service_attendants_number extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('attendants_number', 'services'))
-        {
+        if ($this->db->field_exists('attendants_number', 'services')) {
             $this->dbforge->drop_column('services', 'attendants_number');
         }
     }

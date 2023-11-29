@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // Serbian
 $lang['page_title'] = 'Zakažite posetu';
 $lang['step_one_title'] = 'Izaberite uslugu i izvršioca usluge ';
@@ -38,7 +38,8 @@ $lang['appointment_removed_from_schedule'] = 'Ova poseta je uklonjena iz našeg 
 $lang['appointment_details_was_sent_to_you'] = 'E-mail sa detaljima Vaše posete je poslat na Vašu adresu';
 $lang['add_to_google_calendar'] = 'Dodajte u Google kalendar';
 $lang['appointment_booked'] = 'Vaše vreme posete je zakazano!';
-$lang['thank_you_for_appointment'] = 'Hvala Vam na poverenju. Detalje posete možete pogledati ispod. Unesite izmene pritiskom na Make changes by clicking the appointment link.';
+$lang['thank_you_for_appointment'] =
+    'Hvala Vam na poverenju. Detalje posete možete pogledati ispod. Unesite izmene pritiskom na Make changes by clicking the appointment link.';
 $lang['appointment_details_title'] = 'Detalji';
 $lang['customer_details_title'] = 'Posetilac';
 $lang['service'] = 'Usluga';
@@ -50,7 +51,8 @@ $lang['name'] = 'Ime';
 $lang['appointment_link_title'] = 'Link za posetu';
 $lang['success'] = 'Obavljeno!';
 $lang['appointment_added_to_google_calendar'] = 'Vaše vreme posete dodato je u Vaš Google kalendar.';
-$lang['view_appointment_in_google_calendar'] = 'Pogledajte ovde da biste videli zakazano vreme posete u Google Calendar nalogu.';
+$lang['view_appointment_in_google_calendar'] =
+    'Pogledajte ovde da biste videli zakazano vreme posete u Google Calendar nalogu.';
 $lang['appointment_added_to_your_plan'] = 'Novo vreme posete je dodato.';
 $lang['appointment_link_description'] = 'Unesite izmene klikom na link ispod.';
 $lang['appointment_locked'] = 'Promena nije moguća.';
@@ -156,7 +158,8 @@ $lang['friday'] = 'Petak';
 $lang['saturday'] = 'Subota';
 $lang['sunday'] = 'Nedelja';
 $lang['breaks'] = 'Pauze';
-$lang['add_breaks_during_each_day'] = 'Dodajte svakodnevne radne pauze. Za vreme pauza izvršilac uopšte neće prihvatati vreme poseta.';
+$lang['add_breaks_during_each_day'] =
+    'Dodajte svakodnevne radne pauze. Za vreme pauza izvršilac uopšte neće prihvatati vreme poseta.';
 $lang['day'] = 'Dan';
 $lang['days'] = 'Dani';
 $lang['actions'] = 'Radnje';
@@ -176,21 +179,26 @@ $lang['hidden'] = 'Hidden';
 $lang['business_logic'] = 'Poslovna logika';
 $lang['current_user'] = 'Trenutni korisnik';
 $lang['about_app'] = 'O Easy!Appointments';
-$lang['edit_working_plan_hint'] = 'Označite ispod dane i vreme koje će firma prihvatiti kao termine. Moći ćete prilagoditi termin u vreme kada je zatvoreno, ali korisnici usluga neće moći sami da rezervišu termin u vreme kada je zatvoreno. Ovaj plan rada biće automatski snimljen za svakog novog korisnika, ali Vi ćete moći izmeniti plan svakog novog korisnika ponaosob uređenjem njegovog zapisa. Nakon toga možete dodati vreme pauza.';
+$lang['edit_working_plan_hint'] =
+    'Označite ispod dane i vreme koje će firma prihvatiti kao termine. Moći ćete prilagoditi termin u vreme kada je zatvoreno, ali korisnici usluga neće moći sami da rezervišu termin u vreme kada je zatvoreno. Ovaj plan rada biće automatski snimljen za svakog novog korisnika, ali Vi ćete moći izmeniti plan svakog novog korisnika ponaosob uređenjem njegovog zapisa. Nakon toga možete dodati vreme pauza.';
 $lang['edit_breaks_hint'] = 'Dodajte svakodnevne pauze. Ove pauze će važiti za sve nove korisnike.';
 $lang['book_advance_timeout'] = 'Rezervišite trajanje neaktivnosti unapred';
-$lang['book_advance_timeout_hint'] = 'Odredite trajanje neaktivnosti (u minutima) pre nego što korisnik može rezervisati ili promeniti termin.';
+$lang['book_advance_timeout_hint'] =
+    'Odredite trajanje neaktivnosti (u minutima) pre nego što korisnik može rezervisati ili promeniti termin.';
 $lang['timeout_minutes'] = 'Vreme neaktivnosti (minuti)';
-$lang['about_app_info'] = 'Easy!Appointments je veoma prilagodljiva veb-aplikacija koja omogućava Vašim korisnicima da zakazuju termine, a Vama da njima upravljate. Uz to, omogućava istovremenu povezanost Vaših podataka sa Google kalendarom koje možete onda koristiti na ostalim servisima.';
+$lang['about_app_info'] =
+    'Easy!Appointments je veoma prilagodljiva veb-aplikacija koja omogućava Vašim korisnicima da zakazuju termine, a Vama da njima upravljate. Uz to, omogućava istovremenu povezanost Vaših podataka sa Google kalendarom koje možete onda koristiti na ostalim servisima.';
 $lang['current_version'] = 'Trenutna verzija';
 $lang['support'] = 'Podrška';
-$lang['about_app_support'] = 'Ako imate bilo kakvih problema u radu sa aplikacijom Easy!Appointments, odgovore možete potražiti na službenoj stranici Google Group. Možete osmisliti i novu verziju aplikacije na Google Code stranici u svrhu razvoja aplikacije.';
+$lang['about_app_support'] =
+    'Ako imate bilo kakvih problema u radu sa aplikacijom Easy!Appointments, odgovore možete potražiti na službenoj stranici Google Group. Možete osmisliti i novu verziju aplikacije na Google Code stranici u svrhu razvoja aplikacije.';
 $lang['official_website'] = 'Službena veb-stranica';
 $lang['google_plus_community'] = 'Google+ zajednica';
 $lang['support_group'] = 'Grupa za podršku';
 $lang['project_issues'] = 'Problemi u vezi sa projektom';
 $lang['license'] = 'Licenca';
-$lang['about_app_license'] = 'Easy!Appointments aplikacija je licencirana pod GPLv3 licencom. Koristeći Easy!Appointments na bilo koji način, slažete se sa uslovima korištenja koji su dati na sledećoj adresi:';
+$lang['about_app_license'] =
+    'Easy!Appointments aplikacija je licencirana pod GPLv3 licencom. Koristeći Easy!Appointments na bilo koji način, slažete se sa uslovima korištenja koji su dati na sledećoj adresi:';
 $lang['logout_success'] = 'Uspešno ste se odjavili! Pritiskom na jednu od ponuđenih opcija napustićete stranicu.';
 $lang['book_appointment_title'] = 'Rezervišite posetu';
 $lang['backend_section'] = 'Administracija sistema';
@@ -200,13 +208,15 @@ $lang['enter_password_here'] = 'Unesite lozinku ...';
 $lang['login'] = 'Prijavljivanje';
 $lang['forgot_your_password'] = 'Zaboravili ste lozinku?';
 $lang['login_failed'] = 'Prijavljivanje nije uspelo, molimo Vas da unesete tačne podatke i pokušate ponovo.';
-$lang['type_username_and_email_for_new_password'] = 'Unesite korisničko ime i E-mail adresu kako biste dobili novu lozinku.';
+$lang['type_username_and_email_for_new_password'] =
+    'Unesite korisničko ime i E-mail adresu kako biste dobili novu lozinku.';
 $lang['enter_email_here'] = 'Unesite E-mail ovde ...';
 $lang['regenerate_password'] = 'Ponovo napravite lozinku';
 $lang['go_to_login'] = 'Idi nazad na prijavljivanje';
 $lang['new_password_sent_with_email'] = 'Vaša nova lozinka poslata je na Vaš E-mail.';
 $lang['new_account_password'] = 'Nova lozinka za nalog';
-$lang['new_password_is'] = 'Vaša nova lozinka za nalog je $lozinka. Molimo Vas da sačuvate ovaj E-mail kako biste mogli ponovo koristiti lozinku. Ovu lozinku možete zameniti novom na stranici za podešavanja.';
+$lang['new_password_is'] =
+    'Vaša nova lozinka za nalog je $lozinka. Molimo Vas da sačuvate ovaj E-mail kako biste mogli ponovo koristiti lozinku. Ovu lozinku možete zameniti novom na stranici za podešavanja.';
 $lang['delete_record_prompt'] = 'Jeste li sigurni da želite ovo obrisati? Ova aktivnost ne može da se poništi.';
 $lang['delete_admin'] = 'Obrišite administratora';
 $lang['delete_customer'] = 'Obrišite korisnika';
@@ -221,10 +231,12 @@ $lang['unexpected_issues'] = 'Neočekivani problemi';
 $lang['unexpected_issues_message'] = 'Započeti proces ne može se dovršiti zbog neočekivanih problema.';
 $lang['close'] = 'Zatvorite';
 $lang['page_not_found'] = 'Stranica nije pronađena';
-$lang['page_not_found_message'] = 'Nažalost, stranica koju ste tražili ne postoji. Molimo Vas da proverite svoj browser URL ili posetite drugu stranicu koristeći opciju ispod.';
+$lang['page_not_found_message'] =
+    'Nažalost, stranica koju ste tražili ne postoji. Molimo Vas da proverite svoj browser URL ili posetite drugu stranicu koristeći opciju ispod.';
 $lang['error'] = 'Greška';
 $lang['no_privileges'] = 'Nemate pravo pristupa';
-$lang['no_privileges_message'] = 'Nemate potrebno odobrenje da biste posetili ovu stranicu. Molimo vas da odaberete drugu oblast.';
+$lang['no_privileges_message'] =
+    'Nemate potrebno odobrenje da biste posetili ovu stranicu. Molimo vas da odaberete drugu oblast.';
 $lang['backend_calendar'] = 'Kalendar u pozadini';
 $lang['start_date_time'] = 'Početak datum / vreme';
 $lang['end_date_time'] = 'Kraj datum / vreme';
@@ -244,7 +256,8 @@ $lang['password_length_notice'] = 'Lozinka mora imati najmanje $broj znakova.';
 $lang['general_settings'] = 'Opšta podešavanja';
 $lang['personal_information'] = 'Lični podaci';
 $lang['system_login'] = 'Detalji o korisniku';
-$lang['user_settings_are_invalid'] = 'Podešavanja korisnika su nevažeća! Molimo Vas da proverite podešavanja i pokušate ponovo.';
+$lang['user_settings_are_invalid'] =
+    'Podešavanja korisnika su nevažeća! Molimo Vas da proverite podešavanja i pokušate ponovo.';
 $lang['add_break'] = 'Dodajte pauzu';
 $lang['january'] = 'Januar';
 $lang['february'] = 'Februar';
@@ -268,25 +281,30 @@ $lang['minute'] = 'Minut';
 $lang['google_sync_completed'] = 'Google usaglašavanje uspešno je završeno!';
 $lang['google_sync_failed'] = 'Google usaglašavanje nije uspelo: Veza sa serverom ne može da se uspostavi.';
 $lang['select_google_calendar'] = 'Izaberite Google kalendar';
-$lang['select_google_calendar_prompt'] = 'Izaberite kalendar sa kojim želite usaglasiti Vaš termin. Ako ne želite izabrati poseban kalendar, koristiće se uobičajeni.';
+$lang['select_google_calendar_prompt'] =
+    'Izaberite kalendar sa kojim želite usaglasiti Vaš termin. Ako ne želite izabrati poseban kalendar, koristiće se uobičajeni.';
 $lang['google_calendar_selected'] = 'Google kalendar je uspešno odabran!';
 $lang['oops_something_went_wrong'] = 'Oops! Nešto nije u redu!';
 $lang['could_not_add_to_google_calendar'] = 'Vaš termin se ne može dodati u Vaš Google kalendar nalog.';
 $lang['ea_update_success'] = 'Easy!Appointments je uspešno ažuriran!';
 $lang['require_captcha'] = 'Zahtevajte CAPTCHA-u';
-$lang['require_captcha_hint'] = 'Ako je moguće, korisnik treba da unese slučajno generisan CAPTCHA niz znakova pre zakazivanja ili menjanja termina.';
+$lang['require_captcha_hint'] =
+    'Ako je moguće, korisnik treba da unese slučajno generisan CAPTCHA niz znakova pre zakazivanja ili menjanja termina.';
 $lang['captcha_is_wrong'] = 'CAPTCHA potvrđivanje nije uspelo, molimo Vas da pokušate ponovo.';
 $lang['any_provider'] = 'Bilo koji izvršilac';
-$lang['requested_hour_is_unavailable'] = 'Izabrani termin je nažalost nedostupan. Molimo Vas da odaberete drugi termin za Vašu posetu.';
+$lang['requested_hour_is_unavailable'] =
+    'Izabrani termin je nažalost nedostupan. Molimo Vas da odaberete drugi termin za Vašu posetu.';
 $lang['customer_notifications'] = 'Obaveštenja korisnika';
-$lang['customer_notifications_hint'] = 'Odredite da li će korisnik primiti obaveštenja elektronskom poštom svaki put kada se pojave promene u vezi sa njegovim terminima.';
+$lang['customer_notifications_hint'] =
+    'Odredite da li će korisnik primiti obaveštenja elektronskom poštom svaki put kada se pojave promene u vezi sa njegovim terminima.';
 $lang['date_format'] = 'Format datuma';
 $lang['date_format_hint'] = 'Promenite prikaz formata datuma (D - datum, M - mesec, Y - godina).';
 $lang['time_format'] = 'Format vremena';
 $lang['time_format_hint'] = 'Promenite prikaz formata vremena (H - čas, M - minut).';
 $lang['first_weekday'] = 'Prvi dan u nedelji';
 $lang['first_weekday_hint'] = 'Odredi prvi dan nedelje u kalendaru.';
-$lang['google_analytics_code_hint'] = 'Dodajte Vaš Google Analytics ID kako bi postao sastavni deo stranice za registraciju.';
+$lang['google_analytics_code_hint'] =
+    'Dodajte Vaš Google Analytics ID kako bi postao sastavni deo stranice za registraciju.';
 $lang['availabilities_type'] = 'Početak pružanja usluge';
 $lang['flexible'] = 'Vreme početka po želji korisnika';
 $lang['fixed'] = 'Unapred određen';
@@ -302,12 +320,14 @@ $lang['terms_and_conditions_content'] = 'Sadržaj uslova korištenja';
 $lang['privacy_policy'] = 'Politika privatnosti';
 $lang['display_privacy_policy'] = 'Prikaži politiku privatnosti';
 $lang['privacy_policy_content'] = 'Sadržaj politike privatnosti';
-$lang['website_using_cookies_to_ensure_best_experience'] = 'Ova web stranica koristi kolačiće kako bi Vam osigurala najbolje korisničko iskustvo na našoj veb stranici.';
+$lang['website_using_cookies_to_ensure_best_experience'] =
+    'Ova web stranica koristi kolačiće kako bi Vam osigurala najbolje korisničko iskustvo na našoj veb stranici.';
 $lang['read_and_agree_to_terms_and_conditions'] = 'Slažem se sa {$link}uslovima korištenja{/$link}.';
 $lang['read_and_agree_to_privacy_policy'] = 'Slažem se sa {$link}politikom privatnosti{/$link}.';
 $lang['delete_personal_information_hint'] = 'Uklonite sve moje lične podatke iz sistema.';
 $lang['delete_personal_information'] = 'Uklonite lične podatke';
-$lang['delete_personal_information_prompt'] = 'Da li ste sigurni da želite da uklonite Vaše lične podatke? Ova aktivnost se ne može opozvati.';
+$lang['delete_personal_information_prompt'] =
+    'Da li ste sigurni da želite da uklonite Vaše lične podatke? Ova aktivnost se ne može opozvati.';
 $lang['location'] = 'Mesto';
 $lang['working_plan_exception'] = 'Izuzetak u planu rada';
 $lang['working_plan_exceptions'] = 'Izuzeci u planu rada';
@@ -318,15 +338,18 @@ $lang['working_plan_exception_deleted'] = 'Izuzetak u planu rada je obrisan.';
 $lang['add_working_plan_exceptions_during_each_day'] = 'Dodaj izuzetke u planu rada, izvan plana rada.';
 $lang['add_working_plan_exception'] = 'Dodaj izuzetak u planu rada';
 $lang['require_phone_number'] = 'Obavezno broj telefona';
-$lang['require_phone_number_hint'] = 'Kada je omogućeno, klijenti i korisnici treba da upišu broj telefona kada zakazuju svoj termin';
+$lang['require_phone_number_hint'] =
+    'Kada je omogućeno, klijenti i korisnici treba da upišu broj telefona kada zakazuju svoj termin';
 $lang['check_spam_folder'] = 'Proverite svoju neželjenu poštu (spam) ako E-mail nije stigao u roku od nekoliko minuta.';
 $lang['api_token_hint'] = 'Postavite tajni token kako biste omogućili pristup Easy!Appointments API.';
 $lang['timezone'] = 'Vremenska zona';
-$lang['overwrite_existing_working_plans'] = 'Ovo će prepisati postojeći plan rada izvršioca, da li ste sigurni da želite da nastavite?';
+$lang['overwrite_existing_working_plans'] =
+    'Ovo će prepisati postojeći plan rada izvršioca, da li ste sigurni da želite da nastavite?';
 $lang['working_plans_got_updated'] = 'Svi planovi rada su aktualizovani.';
 $lang['apply_to_all_providers'] = 'Primeni na sve izvršioce';
 $lang['display_any_provider'] = 'Display Any Provider Option';
-$lang['display_any_provider_hint'] = 'Stranica za ugovaranje termina će dobiti novu mogućnost koja dozvoljava klijentima da zakažu termin bez izbora izvršioca.';
+$lang['display_any_provider_hint'] =
+    'Stranica za ugovaranje termina će dobiti novu mogućnost koja dozvoljava klijentima da zakažu termin bez izbora izvršioca.';
 $lang['load_more'] = 'Učitaj ';
 $lang['list'] = 'Izlistaj';
 $lang['default'] = 'Uobičajeno';
@@ -337,18 +360,21 @@ $lang['booking_settings'] = 'Booking Settings';
 $lang['display'] = 'Display';
 $lang['require'] = 'Require';
 $lang['color'] = 'Color';
-$lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
+$lang['matomo_analytics_url_hint'] =
+    'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
 $lang['invalid_phone'] = 'Invalid phone number.';
 $lang['legal'] = 'Legal';
 $lang['business'] = 'Business';
 $lang['account'] = 'Account';
 $lang['disable_booking'] = 'Disable Booking';
-$lang['disable_booking_hint'] = 'The booking page will be disabled for as long as this setting is active and customers will not be able to register new appointments.';
+$lang['disable_booking_hint'] =
+    'The booking page will be disabled for as long as this setting is active and customers will not be able to register new appointments.';
 $lang['display_message'] = 'Display Message';
 $lang['booking_is_disabled'] = 'Booking Is Disabled!';
 $lang['appearance'] = 'Appearance';
 $lang['company_logo'] = 'Company Logo';
-$lang['company_logo_hint'] = 'The company logo will be displayed in many places of the app, including the booking page and the notification emails (image file, max 2MB).';
+$lang['company_logo_hint'] =
+    'The company logo will be displayed in many places of the app, including the booking page and the notification emails (image file, max 2MB).';
 $lang['company_color'] = 'Company Color';
 $lang['company_color_hint'] = 'The company color will be applied across the app so that it the app uses your branding.';
 $lang['localization'] = 'Localization';
@@ -366,7 +392,8 @@ $lang['add_new_event'] = 'Add New Event';
 $lang['what_kind_of_event'] = 'What kind of event would you like to add?';
 $lang['theme'] = 'Theme';
 $lang['limit_customer_access'] = 'Limit Customer Access';
-$lang['limit_customer_access_hint'] = 'If enabled, providers and secretaries will only be able to access customers they have an appointment with.';
+$lang['limit_customer_access_hint'] =
+    'If enabled, providers and secretaries will only be able to access customers they have an appointment with.';
 $lang['url'] = 'URL';
 $lang['secret_token'] = 'Secret Token';
 $lang['verify_ssl'] = 'Verify SSL';
@@ -388,26 +415,33 @@ $lang['admin_save'] = 'Admin Save';
 $lang['admin_delete'] = 'Admin Delete';
 $lang['options'] = 'Options';
 $lang['webhooks'] = 'Webhooks';
-$lang['webhooks_info'] = 'Webhooks enable you to send HTTP notifications to external web applications in response to various application events, such as the creation of an appointment or the removal of a customer.';
-$lang['integrations_info'] = 'Integrations enable you to make third-party connections with external applications and APIs.';
+$lang['webhooks_info'] =
+    'Webhooks enable you to send HTTP notifications to external web applications in response to various application events, such as the creation of an appointment or the removal of a customer.';
+$lang['integrations_info'] =
+    'Integrations enable you to make third-party connections with external applications and APIs.';
 $lang['configure'] = 'Configure';
 $lang['google_analytics'] = 'Google Analytics';
-$lang['google_analytics_info'] = 'Google Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
+$lang['google_analytics_info'] =
+    'Google Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
 $lang['matomo_analytics'] = 'Matomo Analytics';
-$lang['matomo_analytics_info'] = 'Matomo Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
+$lang['matomo_analytics_info'] =
+    'Matomo Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
 $lang['api'] = 'API';
-$lang['api_info'] = 'API enable you to interact with all the Easy!Appointments data via the HTTP protocol and the available API endpoints and create your own integrations.';
+$lang['api_info'] =
+    'API enable you to interact with all the Easy!Appointments data via the HTTP protocol and the available API endpoints and create your own integrations.';
 $lang['google_analytics_code'] = 'Google Analytics Code';
 $lang['matomo_analytics_url'] = 'Matomo Analytics URL';
 $lang['future_booking_limit'] = 'Future Booking Limit';
 $lang['limit_days'] = 'Limit (Days)';
-$lang['future_booking_limit_hint'] = 'Set the future limit in days customers can make appointments via the public booking page.';
+$lang['future_booking_limit_hint'] =
+    'Set the future limit in days customers can make appointments via the public booking page.';
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Allow Rescheduling/Cancellation Before';
 $lang['at_least_one_field'] = 'At least one field must be displayed in the booking page.';
 $lang['status'] = 'Status';
 $lang['appointment_status_options'] = 'Appointment Status Options';
-$lang['appointment_status_options_info'] = 'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
+$lang['appointment_status_options_info'] =
+    'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
 $lang['sunday_short'] = 'Sun';
 $lang['monday_short'] = 'Mon';
 $lang['tuesday_short'] = 'Tue';
@@ -445,5 +479,7 @@ $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
 $lang['blocked_period_save'] = 'Blocked Period Save';
 $lang['blocked_period_delete'] = 'Blocked Period Delete';
-$lang['blocked_periods_hint'] = 'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['blocked_periods_hint'] =
+    'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['auxiliary_field'] = 'Auxiliary Field';
 // End

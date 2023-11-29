@@ -9,7 +9,8 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['db_invalid_connection_str'] = 'Kan ikke fastsætte database indstillingerne baseret på forbindelsen strengen du angav.';
+$lang['db_invalid_connection_str'] =
+    'Kan ikke fastsætte database indstillingerne baseret på forbindelsen strengen du angav.';
 $lang['db_unable_to_connect'] = 'Kan ikke forbinde til din database server udfra de angivne indstillinger.';
 $lang['db_unable_to_select'] = 'Kan ikke vælge den angivne database: %s';
 $lang['db_unable_to_create'] = 'Kunne ikke oprette den angivne database: %s';

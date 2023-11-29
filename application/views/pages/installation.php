@@ -25,14 +25,14 @@
     <div class="welcome">
         <h3>Welcome to the Easy!Appointments installation page.</h3>
         <p>
-            This page will help you set the main settings of your Easy!Appointments installation. You will be able to 
-            edit these settings and many more in the backend session of your system. Remember to use the 
-            <strong class="text-primary"><?= site_url('user/login') ?></strong> URL to connect to the backend section 
+            This page will help you set the main settings of your Easy!Appointments installation. You will be able to
+            edit these settings and many more in the backend session of your system. Remember to use the
+            <strong class="text-primary"><?= site_url('user/login') ?></strong> URL to connect to the backend section
             of Easy!Appointments.
 
             If you face any problems during the usage of Easy!Appointments you can always check the
-            <a href="https://easyappointments.org/docs.html">Documentation</a> and 
-            <a href="https://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You may also 
+            <a href="https://easyappointments.org/docs.html">Documentation</a> and
+            <a href="https://groups.google.com/group/easy-appointments">Support Group</a> for getting help. You may also
             submit new issues on
             <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
             in order to help our development process.
@@ -113,7 +113,8 @@
 
     <div class="mb-2">
         <h3>License</h3>
-        Easy!Appointments is licensed under the <span class="badge bg-secondary">GPL-3.0 license</span>. By using the code 
+        Easy!Appointments is licensed under the <span class="badge bg-secondary">GPL-3.0 license</span>. By using the
+        code
         of Easy!Appointments in any way <br> you agree with the terms described in the following url:
         <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">https://www.gnu.org/licenses/gpl-3.0.en.html</a>
     </div>
@@ -130,8 +131,8 @@
     Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
 </footer>
 
-<?php component('js_vars_script') ?>
-<?php component('js_lang_script') ?>
+<?php component('js_vars_script'); ?>
+<?php component('js_lang_script'); ?>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@popperjs-core/popper.min.js') ?>"></script>

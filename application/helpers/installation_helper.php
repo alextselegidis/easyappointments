@@ -23,7 +23,7 @@
  */
 function is_app_installed(): bool
 {
-    $CI =& get_instance();
+    $CI = &get_instance();
 
     return $CI->db->table_exists('users');
 }

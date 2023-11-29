@@ -18,20 +18,21 @@
  *
  * @package Controllers
  */
-class Installation extends EA_Controller {
+class Installation extends EA_Controller
+{
     /**
      * Installation constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->load->model('admins_model');
         $this->load->model('settings_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
         $this->load->model('customers_model');
-        
+
         $this->load->library('instance');
     }
 
@@ -40,8 +41,7 @@ class Installation extends EA_Controller {
      */
     public function index()
     {
-        if (is_app_installed())
-        {
+        if (is_app_installed()) {
             redirect();
             return;
         }
@@ -56,23 +56,21 @@ class Installation extends EA_Controller {
      */
     public function perform()
     {
-        try
-        {
-            if (is_app_installed())
-            {
+        try {
+            if (is_app_installed()) {
                 return;
             }
 
             $admin = request('admin');
             $company = request('company');
 
-            $this->instance->migrate(); 
+            $this->instance->migrate();
 
             // Insert admin
             $admin['timezone'] = 'UTC';
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
-            $admin['settings']['notifications'] = TRUE;
+            $admin['settings']['notifications'] = true;
             $admin['settings']['calendar_view'] = CALENDAR_VIEW_DEFAULT;
             unset($admin['username'], $admin['password']);
             $admin['id'] = $this->admins_model->save($admin);
@@ -82,14 +80,14 @@ class Installation extends EA_Controller {
                 'user_email' => $admin['email'],
                 'role_slug' => DB_SLUG_ADMIN,
                 'timezone' => $admin['timezone'],
-                'username' => $admin['settings']['username']                
+                'username' => $admin['settings']['username']
             ]);
 
             // Save company settings
             setting([
                 'company_name' => $company['company_name'],
                 'company_email' => $company['company_email'],
-                'company_link' => $company['company_link'],
+                'company_link' => $company['company_link']
             ]);
 
             // Service
@@ -108,19 +106,17 @@ class Installation extends EA_Controller {
                 'last_name' => 'Doe',
                 'email' => 'jane@example.org',
                 'phone_number' => '+1 (000) 000-0000',
-                'services' => [
-                    $service_id
-                ],
+                'services' => [$service_id],
                 'settings' => [
                     'username' => 'janedoe',
                     'password' => random_string(),
                     'working_plan' => setting('company_working_plan'),
-                    'notifications' => TRUE,
-                    'google_sync' => FALSE,
+                    'notifications' => true,
+                    'google_sync' => false,
                     'sync_past_days' => 30,
                     'sync_future_days' => 90,
                     'calendar_view' => CALENDAR_VIEW_DEFAULT
-                ],
+                ]
             ]);
 
             // Customer
@@ -128,15 +124,13 @@ class Installation extends EA_Controller {
                 'first_name' => 'James',
                 'last_name' => 'Doe',
                 'email' => 'james@example.org',
-                'phone_number' => '+1 (000) 000-0000',
+                'phone_number' => '+1 (000) 000-0000'
             ]);
 
             json_response([
                 'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

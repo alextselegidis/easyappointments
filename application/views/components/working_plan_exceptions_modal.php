@@ -73,8 +73,8 @@
     </div>
 </div>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/components/working_plan_exceptions_modal.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

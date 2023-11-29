@@ -16,7 +16,8 @@
  *
  * @package Controllers
  */
-class Webhooks_api_v1 extends EA_Controller {
+class Webhooks_api_v1 extends EA_Controller
+{
     /**
      * Webhooks_api_v1 constructor.
      */
@@ -36,8 +37,7 @@ class Webhooks_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -47,32 +47,27 @@ class Webhooks_api_v1 extends EA_Controller {
             $order_by = $this->api->request_order_by();
 
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $webhooks = empty($keyword)
-                ? $this->webhooks_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->webhooks_model->get(null, $limit, $offset, $order_by)
                 : $this->webhooks_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($webhooks as &$webhook)
-            {
+            foreach ($webhooks as &$webhook) {
                 $this->webhooks_model->api_encode($webhook);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->webhooks_model->only($webhook, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->webhooks_model->load($webhook, $with);
                 }
             }
 
             json_response($webhooks);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -82,39 +77,33 @@ class Webhooks_api_v1 extends EA_Controller {
      *
      * @param int|null $id Webhook ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null)
     {
-        try
-        {
+        try {
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $webhook = $this->webhooks_model->find($id);
 
             $this->webhooks_model->api_encode($webhook);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->webhooks_model->only($webhook, $fields);
             }
 
-            if ( ! empty($with))
-            {
+            if (!empty($with)) {
                 $this->webhooks_model->load($webhook, $with);
             }
 
-            if ( ! $webhook)
-            {
+            if (!$webhook) {
                 response('', 404);
 
                 return;
             }
 
             json_response($webhook);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -124,14 +113,12 @@ class Webhooks_api_v1 extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
+        try {
             $webhook = request();
 
             $this->webhooks_model->api_decode($webhook);
 
-            if (array_key_exists('id', $webhook))
-            {
+            if (array_key_exists('id', $webhook)) {
                 unset($webhook['id']);
             }
 
@@ -142,9 +129,7 @@ class Webhooks_api_v1 extends EA_Controller {
             $this->webhooks_model->api_encode($created_webhook);
 
             json_response($created_webhook, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -156,12 +141,10 @@ class Webhooks_api_v1 extends EA_Controller {
      */
     public function update(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->webhooks_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -180,9 +163,7 @@ class Webhooks_api_v1 extends EA_Controller {
             $this->webhooks_model->api_encode($updated_webhook);
 
             json_response($updated_webhook);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -194,12 +175,10 @@ class Webhooks_api_v1 extends EA_Controller {
      */
     public function destroy(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->webhooks_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -208,9 +187,7 @@ class Webhooks_api_v1 extends EA_Controller {
             $this->webhooks_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

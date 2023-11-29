@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Cache extends CI_Cache {
-    // 
+class EA_Cache extends CI_Cache
+{
+    //
 }

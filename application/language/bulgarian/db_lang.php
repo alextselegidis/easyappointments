@@ -2,15 +2,16 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
- * @author	Ivan Tcholakov
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @author    CodeIgniter community
+ * @author    Ivan Tcholakov
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['db_invalid_connection_str'] = 'Невъзможно е да се определят настройките за базата данни от "connection string"-a, който сте въвели.';
+$lang['db_invalid_connection_str'] =
+    'Невъзможно е да се определят настройките за базата данни от "connection string"-a, който сте въвели.';
 $lang['db_unable_to_connect'] = 'Не може да се осъществи връзка с Вашата база данни чрез посочените данни.';
 $lang['db_unable_to_select'] = 'Не може да избере посочената база данни: %s';
 $lang['db_unable_to_create'] = 'Не може да бъде създадена посочената база данни: %s';
@@ -18,7 +19,8 @@ $lang['db_invalid_query'] = 'Подадената заявка не е вали�
 $lang['db_must_set_table'] = 'Трябва да зададете таблица за да се използва от Вашата заявка.';
 $lang['db_must_use_set'] = 'Трябва да използвате "set" метод за актуализиране на данните.';
 $lang['db_must_use_index'] = 'Трябва да посочите съответен индекс за пакетно обновяване.';
-$lang['db_batch_missing_index'] = 'Един или повече редове, представени за актуализиране на пакетното обновяване са с липсващ индекс.';
+$lang['db_batch_missing_index'] =
+    'Един или повече редове, представени за актуализиране на пакетното обновяване са с липсващ индекс.';
 $lang['db_must_use_where'] = 'Актуализации не са позволени, освен ако не съдържат "WHERE" клауза.';
 $lang['db_del_must_use_where'] = 'Изтриването не е позволено, освен ако не съдържа "WHERE" или "LIKE" клауза.';
 $lang['db_field_param_missing'] = 'При изтеглянето на полета се изисква името на таблицата като параметър.';

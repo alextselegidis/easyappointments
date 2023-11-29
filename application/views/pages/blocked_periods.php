@@ -1,6 +1,6 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="blocked-periods-page">
 
@@ -102,9 +102,9 @@
 
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
@@ -113,4 +113,4 @@
 <script src="<?= asset_url('assets/js/http/blocked_periods_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/blocked_periods.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

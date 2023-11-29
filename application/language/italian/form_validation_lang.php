@@ -26,16 +26,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['form_validation_required'] = 'Il campo {field} è obbligatorio.';
 $lang['form_validation_isset'] = 'Il campo {field} deve avere un valore.';
@@ -50,7 +50,8 @@ $lang['form_validation_exact_length'] = 'Il campo {field} deve contenere esattam
 $lang['form_validation_alpha'] = 'Il campo {field} può contenere solo caratteri alfabetici.';
 $lang['form_validation_alpha_numeric'] = 'Il campo {field} può contenere solo caratteri alfanumerici.';
 $lang['form_validation_alpha_numeric_spaces'] = 'Il campo {field} può contenere solo caratteri alfanumerici e spazi.';
-$lang['form_validation_alpha_dash'] = 'Il campo {field} può contenere solo caratteri alfanumerici, trattini bassi e trattini.';
+$lang['form_validation_alpha_dash'] =
+    'Il campo {field} può contenere solo caratteri alfanumerici, trattini bassi e trattini.';
 $lang['form_validation_numeric'] = 'Il campo {field} deve contenere solo numeri.';
 $lang['form_validation_is_numeric'] = 'Il campo {field} deve contenere solo caratteri numerici.';
 $lang['form_validation_integer'] = 'Il campo {field} deve contenere un numero intero.';
@@ -59,11 +60,14 @@ $lang['form_validation_matches'] = 'Il campo {field} non corrisponde al campo {p
 $lang['form_validation_differs'] = 'Il campo {field} deve essere diverso dal campo {param}.';
 $lang['form_validation_is_unique'] = 'Il campo {field} deve contenere un valore univoco.';
 $lang['form_validation_is_natural'] = 'Il campo {field} deve contenere solo cifre.';
-$lang['form_validation_is_natural_no_zero'] = 'Il campo {field} deve contenere solo cifre e deve essere maggiore di zero.';
+$lang['form_validation_is_natural_no_zero'] =
+    'Il campo {field} deve contenere solo cifre e deve essere maggiore di zero.';
 $lang['form_validation_decimal'] = 'Il campo {field} deve contenere un numero decimale.';
 $lang['form_validation_less_than'] = 'Il campo {field} deve contenere un numero inferiore a {param}.';
 $lang['form_validation_less_than_equal_to'] = 'Il campo {field} deve contenere un numero minore o uguale a {param}.';
 $lang['form_validation_greater_than'] = 'Il campo {field} deve contenere un numero maggiore di {param}.';
-$lang['form_validation_greater_than_equal_to'] = 'Il campo {field} deve contenere un numero maggiore o uguale a {param}.';
-$lang['form_validation_error_message_not_set'] = 'Impossibile accedere a un messaggio di errore corrispondente al nome del tuo campo {field}.';
+$lang['form_validation_greater_than_equal_to'] =
+    'Il campo {field} deve contenere un numero maggiore o uguale a {param}.';
+$lang['form_validation_error_message_not_set'] =
+    'Impossibile accedere a un messaggio di errore corrispondente al nome del tuo campo {field}.';
 $lang['form_validation_in_list'] = 'Il campo {field} deve essere uno di: {param}.';

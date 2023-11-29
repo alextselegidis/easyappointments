@@ -43,9 +43,12 @@ $lang['email_attachment_missing'] = ' הקובץ המצורף לדוא"ל לא �
 $lang['email_attachment_unreadable'] = 'הקובץ המצורף הבא לא ניתן לפתיחה: %s';
 $lang['email_no_from'] = 'לא ניתן לשלוח דואר ללא הערך "מאת".';
 $lang['email_no_recipients'] = 'חובה לכלול נמען:: To, Cc, or Bcc';
-$lang['email_send_failure_phpmail'] = 'לא ניתן לשלוח דוא"ל באמצעות PHP mail(). ייתכן שהשרת שלך לא מוגדר למשלוח דואר בשיטה זו.';
-$lang['email_send_failure_sendmail'] = 'לא ניתן לשלוח דוא"ל באמצעות PHP Sendmail. ייתכן שהשרת שלך לא מוגדר למשלוח דואר בשיטה זו.';
-$lang['email_send_failure_smtp'] = 'לא ניתן לשלוח דוא"ל באמצעות PHP SMTP. ייתכן שהשרת שלך לא מוגדר למשלוח דואר בשיטה זו.';
+$lang['email_send_failure_phpmail'] =
+    'לא ניתן לשלוח דוא"ל באמצעות PHP mail(). ייתכן שהשרת שלך לא מוגדר למשלוח דואר בשיטה זו.';
+$lang['email_send_failure_sendmail'] =
+    'לא ניתן לשלוח דוא"ל באמצעות PHP Sendmail. ייתכן שהשרת שלך לא מוגדר למשלוח דואר בשיטה זו.';
+$lang['email_send_failure_smtp'] =
+    'לא ניתן לשלוח דוא"ל באמצעות PHP SMTP. ייתכן שהשרת שלך לא מוגדר למשלוח דואר בשיטה זו.';
 $lang['email_sent'] = 'ההודעה שלך נשלחה בהצלחה באמצעות הפרוטוקול הבא: %s';
 $lang['email_no_socket'] = 'לא ניתן לפתוח socket ל- Sendmail. אנא בדוק הגדרות.';
 $lang['email_no_hostname'] = 'לא ציינת שם  SMTP hostname.';
@@ -56,4 +59,3 @@ $lang['email_smtp_auth_un'] = 'אימות שם המשתמש נכשל. שגיאה
 $lang['email_smtp_auth_pw'] = 'אימות הסיסמה נכשל. שגיאה: %s';
 $lang['email_smtp_data_failure'] = 'לא ניתן לשלוח את הנתונים: %s';
 $lang['email_exit_status'] = 'קוד סטטוס ליציאה: %s';
-

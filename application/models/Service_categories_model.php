@@ -18,12 +18,13 @@
  *
  * @package Models
  */
-class Service_categories_model extends EA_Model {
+class Service_categories_model extends EA_Model
+{
     /**
      * @var array
      */
     protected array $casts = [
-        'id' => 'integer',
+        'id' => 'integer'
     ];
 
     /**
@@ -32,7 +33,7 @@ class Service_categories_model extends EA_Model {
     protected array $api_resource = [
         'id' => 'id',
         'name' => 'name',
-        'description' => 'description',
+        'description' => 'description'
     ];
 
     /**
@@ -48,12 +49,9 @@ class Service_categories_model extends EA_Model {
     {
         $this->validate($service_category);
 
-        if (empty($service_category['id']))
-        {
+        if (empty($service_category['id'])) {
             return $this->insert($service_category);
-        }
-        else
-        {
+        } else {
             return $this->update($service_category);
         }
     }
@@ -68,22 +66,21 @@ class Service_categories_model extends EA_Model {
     public function validate(array $service_category)
     {
         // If a service-category ID is provided then check whether the record really exists in the database.
-        if ( ! empty($service_category['id']))
-        {
+        if (!empty($service_category['id'])) {
             $count = $this->db->get_where('service_categories', ['id' => $service_category['id']])->num_rows();
 
-            if ( ! $count)
-            {
-                throw new InvalidArgumentException('The provided service-category ID does not exist in the database: ' . $service_category['id']);
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The provided service-category ID does not exist in the database: ' . $service_category['id']
+                );
             }
         }
 
         // Make sure all required fields are provided.
-        if (
-            empty($service_category['name'])
-        )
-        {
-            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($service_category, TRUE));
+        if (empty($service_category['name'])) {
+            throw new InvalidArgumentException(
+                'Not all required fields are provided: ' . print_r($service_category, true)
+            );
         }
     }
 
@@ -100,9 +97,8 @@ class Service_categories_model extends EA_Model {
     {
         $service_category['create_datetime'] = date('Y-m-d H:i:s');
         $service_category['update_datetime'] = date('Y-m-d H:i:s');
-        
-        if ( ! $this->db->insert('service_categories', $service_category))
-        {
+
+        if (!$this->db->insert('service_categories', $service_category)) {
             throw new RuntimeException('Could not insert service-category.');
         }
 
@@ -121,9 +117,8 @@ class Service_categories_model extends EA_Model {
     protected function update(array $service_category): int
     {
         $service_category['update_datetime'] = date('Y-m-d H:i:s');
-        
-        if ( ! $this->db->update('service_categories', $service_category, ['id' => $service_category['id']]))
-        {
+
+        if (!$this->db->update('service_categories', $service_category, ['id' => $service_category['id']])) {
             throw new RuntimeException('Could not update service categories.');
         }
 
@@ -155,9 +150,10 @@ class Service_categories_model extends EA_Model {
     {
         $service_category = $this->db->get_where('service_categories', ['id' => $service_category_id])->row_array();
 
-        if ( ! $service_category)
-        {
-            throw new InvalidArgumentException('The provided service-category ID was not found in the database: ' . $service_category_id);
+        if (!$service_category) {
+            throw new InvalidArgumentException(
+                'The provided service-category ID was not found in the database: ' . $service_category_id
+            );
         }
 
         $this->cast($service_category);
@@ -177,22 +173,21 @@ class Service_categories_model extends EA_Model {
      */
     public function value(int $service_category_id, string $field): mixed
     {
-        if (empty($field))
-        {
+        if (empty($field)) {
             throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if (empty($service_category_id))
-        {
+        if (empty($service_category_id)) {
             throw new InvalidArgumentException('The service-category ID argument cannot be empty.');
         }
 
         // Check whether the service exists.
         $query = $this->db->get_where('service_categories', ['id' => $service_category_id]);
 
-        if ( ! $query->num_rows())
-        {
-            throw new InvalidArgumentException('The provided service-category ID was not found in the database: ' . $service_category_id);
+        if (!$query->num_rows()) {
+            throw new InvalidArgumentException(
+                'The provided service-category ID was not found in the database: ' . $service_category_id
+            );
         }
 
         // Check if the required field is part of the service-category data.
@@ -200,44 +195,13 @@ class Service_categories_model extends EA_Model {
 
         $this->cast($service_category);
 
-        if ( ! array_key_exists($field, $service_category))
-        {
-            throw new InvalidArgumentException('The requested field was not found in the service-category data: ' . $field);
+        if (!array_key_exists($field, $service_category)) {
+            throw new InvalidArgumentException(
+                'The requested field was not found in the service-category data: ' . $field
+            );
         }
 
         return $service_category[$field];
-    }
-
-    /**
-     * Get all services that match the provided criteria.
-     *
-     * @param array|string|null $where Where conditions
-     * @param int|null $limit Record limit.
-     * @param int|null $offset Record offset.
-     * @param string|null $order_by Order by.
-     *
-     * @return array Returns an array of service categories.
-     */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
-    {
-        if ($where !== NULL)
-        {
-            $this->db->where($where);
-        }
-
-        if ($order_by !== NULL)
-        {
-            $this->db->order_by($order_by);
-        }
-
-        $service_categories = $this->db->get('service_categories', $limit, $offset)->result_array();
-
-        foreach ($service_categories as &$service_category)
-        {
-            $this->cast($service_category);
-        }
-
-        return $service_categories;
     }
 
     /**
@@ -260,10 +224,9 @@ class Service_categories_model extends EA_Model {
      *
      * @return array Returns an array of service categories.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
     {
-        $service_categories = $this
-            ->db
+        $service_categories = $this->db
             ->select()
             ->from('service_categories')
             ->group_start()
@@ -276,8 +239,40 @@ class Service_categories_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach ($service_categories as &$service_category)
-        {
+        foreach ($service_categories as &$service_category) {
+            $this->cast($service_category);
+        }
+
+        return $service_categories;
+    }
+
+    /**
+     * Get all services that match the provided criteria.
+     *
+     * @param array|string|null $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of service categories.
+     */
+    public function get(
+        array|string $where = null,
+        int $limit = null,
+        int $offset = null,
+        string $order_by = null
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== null) {
+            $this->db->order_by($order_by);
+        }
+
+        $service_categories = $this->db->get('service_categories', $limit, $offset)->result_array();
+
+        foreach ($service_categories as &$service_category) {
             $this->cast($service_category);
         }
 
@@ -294,7 +289,7 @@ class Service_categories_model extends EA_Model {
      */
     public function load(array &$service_category, array $resources)
     {
-        // Service categories do not currently have any related resources. 
+        // Service categories do not currently have any related resources.
     }
 
     /**
@@ -305,9 +300,11 @@ class Service_categories_model extends EA_Model {
     public function api_encode(array &$service_category)
     {
         $encoded_resource = [
-            'id' => array_key_exists('id', $service_category) ? (int)$service_category['id'] : NULL,
+            'id' => array_key_exists('id', $service_category) ? (int) $service_category['id'] : null,
             'name' => $service_category['name'],
-            'description' => array_key_exists('description', $service_category) ? $service_category['description'] : NULL
+            'description' => array_key_exists('description', $service_category)
+                ? $service_category['description']
+                : null
         ];
 
         $service_category = $encoded_resource;
@@ -319,22 +316,19 @@ class Service_categories_model extends EA_Model {
      * @param array $service_category API resource.
      * @param array|null $base Base service-category data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$service_category, array $base = NULL)
+    public function api_decode(array &$service_category, array $base = null)
     {
         $decoded_resource = $base ?: [];
 
-        if (array_key_exists('id', $service_category))
-        {
+        if (array_key_exists('id', $service_category)) {
             $decoded_resource['id'] = $service_category['id'];
         }
 
-        if (array_key_exists('name', $service_category))
-        {
+        if (array_key_exists('name', $service_category)) {
             $decoded_resource['name'] = $service_category['name'];
         }
 
-        if (array_key_exists('description', $service_category))
-        {
+        if (array_key_exists('description', $service_category)) {
             $decoded_resource['description'] = $service_category['description'];
         }
 

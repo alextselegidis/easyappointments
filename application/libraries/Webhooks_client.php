@@ -20,7 +20,8 @@ use GuzzleHttp\Client;
  *
  * @package Libraries
  */
-class Webhooks_client {
+class Webhooks_client
+{
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -31,7 +32,7 @@ class Webhooks_client {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('providers_model');
         $this->CI->load->model('secretaries_model');
@@ -54,10 +55,8 @@ class Webhooks_client {
     {
         $webhooks = $this->CI->webhooks_model->get();
 
-        foreach ($webhooks as $webhook)
-        {
-            if (str_contains($webhook['actions'], $action))
-            {
+        foreach ($webhooks as $webhook) {
+            if (str_contains($webhook['actions'], $action)) {
                 $this->call($webhook, $action, $payload);
             }
         }
@@ -72,8 +71,7 @@ class Webhooks_client {
      */
     private function call(array $webhook, string $action, array $payload): void
     {
-        try
-        {
+        try {
             $client = new Client();
 
             $client->post($webhook['url'], [
@@ -83,10 +81,14 @@ class Webhooks_client {
                     'payload' => $payload
                 ]
             ]);
-        }
-        catch (Throwable $e)
-        {
-            log_message('error', 'Webhooks Client - The webhook (' . ($webhook['id'] ?? NULL) . ') request received an unexpected exception: ' . $e->getMessage());
+        } catch (Throwable $e) {
+            log_message(
+                'error',
+                'Webhooks Client - The webhook (' .
+                    ($webhook['id'] ?? null) .
+                    ') request received an unexpected exception: ' .
+                    $e->getMessage()
+            );
             log_message('error', $e->getTraceAsString());
         }
     }

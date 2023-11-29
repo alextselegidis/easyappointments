@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if ( ! empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR): ?>
+<?php if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR): ?>
     <style>
         /* Generic Overrides */
 
@@ -188,4 +188,4 @@
             background: <?= $company_color ?> !important;
         }
     </style>
-<?php endif ?>
+<?php endif; ?>

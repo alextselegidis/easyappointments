@@ -18,20 +18,21 @@
  *
  * @package Controllers
  */
-class Update extends EA_Controller {
+class Update extends EA_Controller
+{
     /**
      * Update constructor.
      */
     public function __construct()
     {
         parent::__construct();
-        
+
         $this->load->model('admins_model');
         $this->load->model('settings_model');
         $this->load->model('services_model');
         $this->load->model('providers_model');
         $this->load->model('customers_model');
-        
+
         $this->load->library('instance');
     }
 
@@ -46,14 +47,11 @@ class Update extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $user_id = session('user_id');
 
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
-            {
-                if ($user_id)
-                {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
+                if ($user_id) {
                     abort(403, 'Forbidden');
                 }
 
@@ -64,11 +62,9 @@ class Update extends EA_Controller {
 
             $this->instance->migrate();
 
-            $view = ['success' => TRUE];
-        }
-        catch (Throwable $e)
-        {
-            $view = ['success' => FALSE, 'exception' => $e->getMessage()];
+            $view = ['success' => true];
+        } catch (Throwable $e) {
+            $view = ['success' => false, 'exception' => $e->getMessage()];
         }
 
         html_vars($view);

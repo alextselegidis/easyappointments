@@ -68,7 +68,8 @@
  * @property Timezones $timezones
  * @property Webhooks_client $webhooks_client
  */
-class EA_Controller extends CI_Controller {
+class EA_Controller extends CI_Controller
+{
     /**
      * EA_Controller constructor.
      */
@@ -89,6 +90,21 @@ class EA_Controller extends CI_Controller {
         rate_limit($this->input->ip_address());
     }
 
+    private function ensure_user_exists()
+    {
+        $user_id = session('user_id');
+
+        if (!$user_id) {
+            return;
+        }
+
+        if (!$this->accounts->does_account_exist($user_id)) {
+            session_destroy();
+
+            abort(403, 'Forbidden');
+        }
+    }
+
     /**
      * Configure the language.
      */
@@ -96,10 +112,9 @@ class EA_Controller extends CI_Controller {
     {
         $session_language = session('language');
 
-        if ($session_language)
-        {
-            $language_codes = config('language_codes'); 
-            
+        if ($session_language) {
+            $language_codes = config('language_codes');
+
             config([
                 'language' => $session_language,
                 'language_code' => array_search($session_language, $language_codes) ?: 'en'
@@ -119,7 +134,7 @@ class EA_Controller extends CI_Controller {
             'index_page' => config('index_page'),
             'available_languages' => config('available_languages'),
             'language' => $this->lang->language,
-            'csrf_token' => $this->security->get_csrf_hash(),
+            'csrf_token' => $this->security->get_csrf_hash()
         ]);
     }
 
@@ -134,24 +149,7 @@ class EA_Controller extends CI_Controller {
             'available_languages' => config('available_languages'),
             'csrf_token' => $this->security->get_csrf_hash(),
             'language' => config('language'),
-            'language_code' => config('language_code'),
+            'language_code' => config('language_code')
         ]);
-    }
-
-    private function ensure_user_exists()
-    {
-        $user_id = session('user_id');
-
-        if ( ! $user_id)
-        {
-            return;
-        }
-
-        if ( ! $this->accounts->does_account_exist($user_id))
-        {
-            session_destroy();
-
-            abort(403, 'Forbidden');
-        }
     }
 }

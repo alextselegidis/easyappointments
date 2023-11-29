@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Google_analytics_settings extends EA_Controller {
+class Google_analytics_settings extends EA_Controller
+{
     /**
      * Google_analytics_settings constructor.
      */
@@ -40,10 +41,8 @@ class Google_analytics_settings extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_SYSTEM_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -57,13 +56,13 @@ class Google_analytics_settings extends EA_Controller {
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'google_analytics_settings' => $this->settings_model->get('name like "google_analytics_%"'),
+            'google_analytics_settings' => $this->settings_model->get('name like "google_analytics_%"')
         ]);
 
         html_vars([
             'page_title' => lang('google_analytics'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
-            'user_display_name' => $this->accounts->get_user_display_name($user_id),
+            'user_display_name' => $this->accounts->get_user_display_name($user_id)
         ]);
 
         $this->load->view('pages/google_analytics_settings');
@@ -74,21 +73,21 @@ class Google_analytics_settings extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $settings = request('google_analytics_settings', []);
 
-            foreach ($settings as $setting)
-            {
-                $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
+            foreach ($settings as $setting) {
+                $existing_setting = $this->settings_model
+                    ->query()
+                    ->where('name', $setting['name'])
+                    ->get()
+                    ->row_array();
 
-                if ( ! empty($existing_setting))
-                {
+                if (!empty($existing_setting)) {
                     $setting['id'] = $existing_setting['id'];
                 }
 
@@ -96,9 +95,7 @@ class Google_analytics_settings extends EA_Controller {
             }
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

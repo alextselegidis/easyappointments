@@ -18,16 +18,17 @@
  *
  * @package Controllers
  */
-class Logout extends EA_Controller {
+class Logout extends EA_Controller
+{
     /**
-     * Render the logout page. 
+     * Render the logout page.
      */
     public function index()
     {
         $this->session->sess_destroy();
-        
-        $company_name = setting('company_name'); 
-        
+
+        $company_name = setting('company_name');
+
         html_vars([
             'page_title' => lang('log_out'),
             'company_name' => $company_name

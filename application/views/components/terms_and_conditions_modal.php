@@ -1,7 +1,7 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var string $terms_and_conditions_content
  */
 ?>

@@ -15,7 +15,8 @@
  * @property CI_DB_query_builder $db
  * @property CI_DB_forge $dbforge
  */
-class Migration_Add_appointment_status_options_setting extends CI_Migration {
+class Migration_Add_appointment_status_options_setting extends CI_Migration
+{
     /**
      * Upgrade method.
      *
@@ -23,8 +24,7 @@ class Migration_Add_appointment_status_options_setting extends CI_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'appointment_status_options'])->num_rows())
-        {
+        if (!$this->db->get_where('settings', ['name' => 'appointment_status_options'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'appointment_status_options',
                 'value' => '["Booked", "Confirmed", "Rescheduled", "Cancelled", "Draft"]'
@@ -39,8 +39,7 @@ class Migration_Add_appointment_status_options_setting extends CI_Migration {
      */
     public function down()
     {
-        if ($this->db->get_where('settings', ['name' => 'appointment_status_options'])->num_rows())
-        {
+        if ($this->db->get_where('settings', ['name' => 'appointment_status_options'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'status_options']);
         }
     }

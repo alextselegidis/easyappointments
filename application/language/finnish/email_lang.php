@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['email_must_be_array'] = 'Sähköpostin validointimetodi tulee antaa taulukkona.';
 $lang['email_invalid_address'] = 'Virheellinen sähköpostiosoite: %s';
@@ -43,9 +43,12 @@ $lang['email_attachment_missing'] = 'Tätä sähköpostiliitettä ei paikannettu
 $lang['email_attachment_unreadable'] = 'Tätä sähköpostiliitettä ei voitu avata: %s';
 $lang['email_no_from'] = 'Ei voi lähettää sähköpostia ilman "From" tunnistetta.';
 $lang['email_no_recipients'] = 'Sinun on lisättävä vastaanottajat: To, Cc, tai Bcc';
-$lang['email_send_failure_phpmail'] = 'Ei voitu lähettää sähköpostia käyttäen PHP mail() -komentoa. Palvelinta ei ehkä ole määritelty käyttämään sitä.';
-$lang['email_send_failure_sendmail'] = 'Ei voitu lähettää sähköpostia käyttäen PHP Sendmail -komentoa. Palvelinta ei ehkä ole määritelty käyttämään sitä.';
-$lang['email_send_failure_smtp'] = 'Ei voitu lähettää sähköpostia käyttäen PHP SMTP -ominaisuutta. Palvelinta ei ehkä ole määritelty käyttämään sitä.';
+$lang['email_send_failure_phpmail'] =
+    'Ei voitu lähettää sähköpostia käyttäen PHP mail() -komentoa. Palvelinta ei ehkä ole määritelty käyttämään sitä.';
+$lang['email_send_failure_sendmail'] =
+    'Ei voitu lähettää sähköpostia käyttäen PHP Sendmail -komentoa. Palvelinta ei ehkä ole määritelty käyttämään sitä.';
+$lang['email_send_failure_smtp'] =
+    'Ei voitu lähettää sähköpostia käyttäen PHP SMTP -ominaisuutta. Palvelinta ei ehkä ole määritelty käyttämään sitä.';
 $lang['email_sent'] = 'Viestisi on lähetetty käyttäen protokollaa %s';
 $lang['email_no_socket'] = 'Ei voitu avata socketia Sendmailille. Tarkista asetukset.';
 $lang['email_no_hostname'] = 'Et ole määrittänyt SMTP -palvelinta.';

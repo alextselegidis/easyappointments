@@ -11,8 +11,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('request'))
-{
+if (!function_exists('request')) {
     /**
      * Gets the value of a request variable.
      *
@@ -27,29 +26,26 @@ if ( ! function_exists('request'))
      *
      * @throws InvalidArgumentException
      */
-    function request(string $key = NULL, $default = NULL)
+    function request(string $key = null, $default = null)
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        if (empty($key))
-        {
+        if (empty($key)) {
             $payload = $CI->input->post_get($key);
 
-            if (empty($payload))
-            {
+            if (empty($payload)) {
                 $payload = $CI->input->json($key);
             }
-            
+
             return $payload;
         }
 
-        return $CI->input->post_get($key) ?? $CI->input->json($key) ?? $default;
+        return $CI->input->post_get($key) ?? ($CI->input->json($key) ?? $default);
     }
 }
 
-if ( ! function_exists('response'))
-{
+if (!function_exists('response')) {
     /**
      * Return a new response from the application.
      *
@@ -66,20 +62,15 @@ if ( ! function_exists('response'))
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        foreach ($headers as $header)
-        {
+        foreach ($headers as $header) {
             $CI->output->set_header($header);
         }
 
-        $CI
-            ->output
-            ->set_status_header($status)
-            ->set_output($content);
+        $CI->output->set_status_header($status)->set_output($content);
     }
 }
 
-if ( ! function_exists('response'))
-{
+if (!function_exists('response')) {
     /**
      * Return a new response from the application.
      *
@@ -92,20 +83,15 @@ if ( ! function_exists('response'))
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        foreach ($headers as $header)
-        {
+        foreach ($headers as $header) {
             $CI->output->set_header($header);
         }
 
-        $CI
-            ->output
-            ->set_status_header($status)
-            ->set_output($content);
+        $CI->output->set_status_header($status)->set_output($content);
     }
 }
 
-if ( ! function_exists('json_response'))
-{
+if (!function_exists('json_response')) {
     /**
      * Return a new response from the application.
      *
@@ -124,21 +110,18 @@ if ( ! function_exists('json_response'))
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        foreach ($headers as $header)
-        {
+        foreach ($headers as $header) {
             $CI->output->set_header($header);
         }
 
-        $CI
-            ->output
+        $CI->output
             ->set_status_header($status)
             ->set_content_type('application/json')
             ->set_output(json_encode($content));
     }
 }
 
-if ( ! function_exists('json_exception'))
-{
+if (!function_exists('json_exception')) {
     /**
      * Return a new json exception from the application.
      *
@@ -150,17 +133,18 @@ if ( ! function_exists('json_exception'))
      */
     function json_exception(Throwable $e)
     {
-        json_response([
-            'success' => FALSE,
-            'message' => $e->getMessage(),
-            'trace' => config('debug') ? $e->getTrace() : []
-        ], 500);
+        json_response(
+            [
+                'success' => false,
+                'message' => $e->getMessage(),
+                'trace' => config('debug') ? $e->getTrace() : []
+            ],
+            500
+        );
     }
 }
 
-
-if ( ! function_exists('abort'))
-{
+if (!function_exists('abort')) {
     /**
      * Throw an HttpException with the given data.
      *
@@ -179,8 +163,7 @@ if ( ! function_exists('abort'))
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        foreach ($headers as $header)
-        {
+        foreach ($headers as $header) {
             $CI->output->set_header($header);
         }
 

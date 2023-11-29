@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Service_categories extends EA_Controller {
+class Service_categories extends EA_Controller
+{
     /**
      * Service-categories constructor.
      */
@@ -46,10 +47,8 @@ class Service_categories extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_SERVICES))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_SERVICES)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -62,7 +61,7 @@ class Service_categories extends EA_Controller {
 
         script_vars([
             'user_id' => $user_id,
-            'role_slug' => $role_slug,
+            'role_slug' => $role_slug
         ]);
 
         html_vars([
@@ -70,7 +69,7 @@ class Service_categories extends EA_Controller {
             'active_menu' => PRIV_SERVICES,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
         ]);
 
         $this->load->view('pages/service_categories');
@@ -81,10 +80,8 @@ class Service_categories extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_SERVICES))
-            {
+        try {
+            if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
@@ -99,9 +96,7 @@ class Service_categories extends EA_Controller {
             $service_categories = $this->service_categories_model->search($keyword, $limit, $offset, $order_by);
 
             json_response($service_categories);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -111,19 +106,14 @@ class Service_categories extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_SERVICES))
-            {
+        try {
+            if (cannot('add', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
             $service_category = request('service_category');
 
-            $this->service_categories_model->only($service_category, [
-                'name',
-                'description'
-            ]);
+            $this->service_categories_model->only($service_category, ['name', 'description']);
 
             $service_category_id = $this->service_categories_model->save($service_category);
 
@@ -132,12 +122,30 @@ class Service_categories extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_SAVE, $service_category);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $service_category_id
             ]);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
-        catch (Throwable $e)
-        {
+    }
+
+    /**
+     * Find a service-category.
+     */
+    public function find()
+    {
+        try {
+            if (cannot('view', PRIV_SERVICES)) {
+                abort(403, 'Forbidden');
+            }
+
+            $service_category_id = request('service_category_id');
+
+            $service_category = $this->service_categories_model->find($service_category_id);
+
+            json_response($service_category);
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -147,20 +155,14 @@ class Service_categories extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_SERVICES))
-            {
+        try {
+            if (cannot('edit', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
             $service_category = request('service_category');
 
-            $this->service_categories_model->only($service_category, [
-                'id',
-                'name',
-                'description'
-            ]);
+            $this->service_categories_model->only($service_category, ['id', 'name', 'description']);
 
             $service_category_id = $this->service_categories_model->save($service_category);
 
@@ -169,12 +171,10 @@ class Service_categories extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_SAVE, $service_category);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $service_category_id
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -184,10 +184,8 @@ class Service_categories extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_SERVICES))
-            {
+        try {
+            if (cannot('delete', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
@@ -200,35 +198,9 @@ class Service_categories extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_DELETE, $service_category);
 
             json_response([
-                'success' => TRUE,
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Find a service-category.
-     */
-    public function find()
-    {
-        try
-        {
-            if (cannot('view', PRIV_SERVICES))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $service_category_id = request('service_category_id');
-
-            $service_category = $this->service_categories_model->find($service_category_id);
-
-            json_response($service_category);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

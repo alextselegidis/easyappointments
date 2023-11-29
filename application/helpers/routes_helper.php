@@ -11,8 +11,7 @@
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('route_api_resource'))
-{
+if (!function_exists('route_api_resource')) {
     /**
      * Define a route for an API resource (includes index, store, update and delete callbacks).
      *
@@ -30,20 +29,19 @@ if ( ! function_exists('route_api_resource'))
     }
 }
 
-if ( ! function_exists('is_callback'))
-{
+if (!function_exists('is_callback')) {
     /**
      * Check whether the current request matches the provided controller/method callback.
      *
-     * @param string $class Controller class name. 
+     * @param string $class Controller class name.
      * @param string $method Controller method name.
-     * 
+     *
      * @return bool
      */
     function is_callback(string $class, string $method): bool
     {
         /** @var EA_Controller $CI */
-        $CI =& get_instance();
+        $CI = &get_instance();
 
         return $CI->router->class === $class && $CI->router->method === $method;
     }

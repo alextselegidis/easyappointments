@@ -18,12 +18,13 @@
  *
  * @package Models
  */
-class Consents_model extends EA_Model {
+class Consents_model extends EA_Model
+{
     /**
      * @var array
      */
     protected array $casts = [
-        'id' => 'integer',
+        'id' => 'integer'
     ];
 
     /**
@@ -39,16 +40,12 @@ class Consents_model extends EA_Model {
     {
         $this->validate($consent);
 
-        if (empty($consent['id']))
-        {
+        if (empty($consent['id'])) {
             return $this->insert($consent);
-        }
-        else
-        {
+        } else {
             return $this->update($consent);
         }
     }
-
 
     /**
      * Validate the consent data.
@@ -59,12 +56,8 @@ class Consents_model extends EA_Model {
      */
     public function validate(array $consent)
     {
-        if (
-            empty($consent['ip'])
-            || empty($consent['type'])
-        )
-        {
-            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($consent, TRUE));
+        if (empty($consent['ip']) || empty($consent['type'])) {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($consent, true));
         }
     }
 
@@ -82,8 +75,7 @@ class Consents_model extends EA_Model {
         $consent['create_datetime'] = date('Y-m-d H:i:s');
         $consent['update_datetime'] = date('Y-m-d H:i:s');
 
-        if ( ! $this->db->insert('consents', $consent))
-        {
+        if (!$this->db->insert('consents', $consent)) {
             throw new RuntimeException('Could not insert consent.');
         }
 
@@ -103,8 +95,7 @@ class Consents_model extends EA_Model {
     {
         $consent['update_datetime'] = date('Y-m-d H:i:s');
 
-        if ( ! $this->db->update('consents', $consent, ['id' => $consent['id']]))
-        {
+        if (!$this->db->update('consents', $consent, ['id' => $consent['id']])) {
             throw new RuntimeException('Could not update consent.');
         }
 
@@ -134,8 +125,7 @@ class Consents_model extends EA_Model {
     {
         $consent = $this->db->get_where('consents', ['id' => $consent_id])->row_array();
 
-        if ( ! $consent)
-        {
+        if (!$consent) {
             throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
         }
 
@@ -156,21 +146,18 @@ class Consents_model extends EA_Model {
      */
     public function value(int $consent_id, string $field): mixed
     {
-        if (empty($field))
-        {
+        if (empty($field)) {
             throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if (empty($consent_id))
-        {
+        if (empty($consent_id)) {
             throw new InvalidArgumentException('The consent ID argument cannot be empty.');
         }
 
         // Check whether the consent exists.
         $query = $this->db->get_where('consents', ['id' => $consent_id]);
 
-        if ( ! $query->num_rows())
-        {
+        if (!$query->num_rows()) {
             throw new InvalidArgumentException('The provided consent ID was not found in the database: ' . $consent_id);
         }
 
@@ -179,46 +166,11 @@ class Consents_model extends EA_Model {
 
         $this->cast($consent);
 
-        if ( ! array_key_exists($field, $consent))
-        {
+        if (!array_key_exists($field, $consent)) {
             throw new InvalidArgumentException('The requested field was not found in the consent data: ' . $field);
         }
 
         return $consent[$field];
-    }
-
-    /**
-     * Get all consents that match the provided criteria.
-     *
-     * @param array|string|null $where Where conditions.
-     * @param int|null $limit Record limit.
-     * @param int|null $offset Record offset.
-     * @param string|null $order_by Order by.
-     *
-     * @return array Returns an array of consents.
-     */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
-    {
-        if ($where !== NULL)
-        {
-            $this->db->where($where);
-        }
-
-        if ($order_by !== NULL)
-        {
-            $this->db->order_by($order_by);
-        }
-
-
-
-        $consents = $this->db->get('consents', $limit, $offset)->result_array();
-
-        foreach ($consents as &$consent)
-        {
-            $this->cast($consent);
-        }
-
-        return $consents;
     }
 
     /**
@@ -241,10 +193,9 @@ class Consents_model extends EA_Model {
      *
      * @return array Returns an array of consents.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
     {
-        $consents = $this
-            ->db
+        $consents = $this->db
             ->select()
             ->from('consents')
             ->group_start()
@@ -259,8 +210,40 @@ class Consents_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach ($consents as &$consent)
-        {
+        foreach ($consents as &$consent) {
+            $this->cast($consent);
+        }
+
+        return $consents;
+    }
+
+    /**
+     * Get all consents that match the provided criteria.
+     *
+     * @param array|string|null $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of consents.
+     */
+    public function get(
+        array|string $where = null,
+        int $limit = null,
+        int $offset = null,
+        string $order_by = null
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== null) {
+            $this->db->order_by($order_by);
+        }
+
+        $consents = $this->db->get('consents', $limit, $offset)->result_array();
+
+        foreach ($consents as &$consent) {
             $this->cast($consent);
         }
 

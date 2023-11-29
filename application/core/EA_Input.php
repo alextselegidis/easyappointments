@@ -41,7 +41,8 @@
  *
  * @property string $raw_input_stream
  */
-class EA_Input extends CI_Input {
+class EA_Input extends CI_Input
+{
     /**
      * Fetch an item from JSON data.
      *
@@ -50,38 +51,33 @@ class EA_Input extends CI_Input {
      *
      * @return mixed
      */
-    public function json(string $index = NULL, bool $xss_clean = FALSE)
+    public function json(string $index = null, bool $xss_clean = false)
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        if (strpos((string)$CI->input->get_request_header('Content-Type'), 'application/json') === false)
-        {
-            return NULL;
+        if (strpos((string) $CI->input->get_request_header('Content-Type'), 'application/json') === false) {
+            return null;
         }
 
         $input_stream = $CI->input->raw_input_stream;
 
-        if (empty($input_stream))
-        {
+        if (empty($input_stream)) {
             throw new RuntimeException('Cannot get JSON attribute from an empty input stream.');
         }
 
-        $payload = json_decode($input_stream, TRUE);
+        $payload = json_decode($input_stream, true);
 
-        if ($xss_clean)
-        {
-            foreach ($payload as $name => $value)
-            {
+        if ($xss_clean) {
+            foreach ($payload as $name => $value) {
                 $payload[$name] = $CI->security->xss_clean($value);
             }
         }
 
-        if (empty($index))
-        {
+        if (empty($index)) {
             return $payload;
         }
 
-        return $payload[$index] ?? NULL;
+        return $payload[$index] ?? null;
     }
 }

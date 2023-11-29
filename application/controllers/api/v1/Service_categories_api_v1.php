@@ -16,7 +16,8 @@
  *
  * @package Controllers
  */
-class Service_categories_api_v1 extends EA_Controller {
+class Service_categories_api_v1 extends EA_Controller
+{
     /**
      * Service_categories_api_v1 constructor.
      */
@@ -36,8 +37,7 @@ class Service_categories_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -47,32 +47,27 @@ class Service_categories_api_v1 extends EA_Controller {
             $order_by = $this->api->request_order_by();
 
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $service_categories = empty($keyword)
-                ? $this->service_categories_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->service_categories_model->get(null, $limit, $offset, $order_by)
                 : $this->service_categories_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($service_categories as &$service_category)
-            {
+            foreach ($service_categories as &$service_category) {
                 $this->service_categories_model->api_encode($service_category);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->service_categories_model->only($service_category, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->service_categories_model->load($service_category, $with);
                 }
             }
 
             json_response($service_categories);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -82,39 +77,33 @@ class Service_categories_api_v1 extends EA_Controller {
      *
      * @param int|null $id Service-category ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null)
     {
-        try
-        {
+        try {
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $service_category = $this->service_categories_model->find($id);
 
             $this->service_categories_model->api_encode($service_category);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->service_categories_model->only($service_category, $fields);
             }
 
-            if ( ! empty($with))
-            {
+            if (!empty($with)) {
                 $this->service_categories_model->load($service_category, $with);
             }
 
-            if ( ! $service_category)
-            {
+            if (!$service_category) {
                 response('', 404);
 
                 return;
             }
 
             json_response($service_category);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -124,14 +113,12 @@ class Service_categories_api_v1 extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
+        try {
             $service_category = request();
 
             $this->service_categories_model->api_decode($service_category);
 
-            if (array_key_exists('id', $service_category))
-            {
+            if (array_key_exists('id', $service_category)) {
                 unset($service_category['id']);
             }
 
@@ -142,9 +129,7 @@ class Service_categories_api_v1 extends EA_Controller {
             $this->service_categories_model->api_encode($created_service_category);
 
             json_response($created_service_category, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -156,12 +141,10 @@ class Service_categories_api_v1 extends EA_Controller {
      */
     public function update(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->service_categories_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -180,9 +163,7 @@ class Service_categories_api_v1 extends EA_Controller {
             $this->service_categories_model->api_encode($updated_service_category);
 
             json_response($updated_service_category);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -194,12 +175,10 @@ class Service_categories_api_v1 extends EA_Controller {
      */
     public function destroy(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->service_categories_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -208,9 +187,7 @@ class Service_categories_api_v1 extends EA_Controller {
             $this->service_categories_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

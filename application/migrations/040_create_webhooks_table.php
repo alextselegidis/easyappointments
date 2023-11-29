@@ -11,64 +11,64 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Create_webhooks_table extends EA_Migration {
+class Migration_Create_webhooks_table extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->table_exists('webhooks'))
-        {
+        if (!$this->db->table_exists('webhooks')) {
             $this->dbforge->add_field([
                 'id' => [
                     'type' => 'INT',
                     'constraint' => 11,
-                    'auto_increment' => TRUE
+                    'auto_increment' => true
                 ],
                 'create_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE
+                    'null' => true
                 ],
                 'update_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE
+                    'null' => true
                 ],
                 'delete_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => TRUE
+                    'null' => true
                 ],
                 'name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'url' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'actions' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'secret_token' => [
                     'type' => 'VARCHAR',
                     'constraint' => '512',
-                    'null' => TRUE,
+                    'null' => true
                 ],
                 'is_ssl_verified' => [
                     'type' => 'TINYINT',
                     'constraint' => '4',
-                    'default' => TRUE,
+                    'default' => true
                 ],
                 'notes' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
-                ],
+                    'null' => true
+                ]
             ]);
 
-            $this->dbforge->add_key('id', TRUE);
+            $this->dbforge->add_key('id', true);
 
-            $this->dbforge->create_table('webhooks', TRUE, ['engine' => 'InnoDB']);
+            $this->dbforge->create_table('webhooks', true, ['engine' => 'InnoDB']);
         }
     }
 
@@ -77,8 +77,7 @@ class Migration_Create_webhooks_table extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->table_exists('webhooks'))
-        {
+        if ($this->db->table_exists('webhooks')) {
             $this->dbforge->drop_table('webhooks');
         }
     }

@@ -11,14 +11,14 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Migration {
+class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ($this->db->field_exists('is_unavailable', 'appointments'))
-        {
+        if ($this->db->field_exists('is_unavailable', 'appointments')) {
             $fields = [
                 'is_unavailable' => [
                     'name' => 'is_unavailability',
@@ -37,8 +37,7 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
      */
     public function down()
     {
-        if ($this->db->field_exists('is_unavailability', 'appointments'))
-        {
+        if ($this->db->field_exists('is_unavailability', 'appointments')) {
             $fields = [
                 'is_unavailability' => [
                     'name' => 'is_unavailable',

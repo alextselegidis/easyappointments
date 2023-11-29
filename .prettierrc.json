@@ -5,5 +5,8 @@
     "bracketSpacing": false,
     "bracketSameLine": false,
     "quoteProps": "preserve",
-    "trailingComma": "none"
+    "trailingComma": "none",
+    "trailingCommaPHP": false,
+    "phpVersion": "8.0",
+    "plugins": ["@prettier/plugin-php"]
 }

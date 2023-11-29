@@ -11,8 +11,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('session'))
-{
+if (!function_exists('session')) {
     /**
      * Get / set the specified session value.
      *
@@ -26,31 +25,28 @@ if ( ! function_exists('session'))
      *
      * session(['logged_in' => FALSE]);
      *
-     * @param array|string|null $key Session item key. 
+     * @param array|string|null $key Session item key.
      * @param mixed|null $default Default value in case the requested session item has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new session value.
      *
      * @throws InvalidArgumentException
      */
-    function session(array|string $key = NULL, mixed $default = NULL): mixed
+    function session(array|string $key = null, mixed $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
-        if (empty($key))
-        {
+        if (empty($key)) {
             throw new InvalidArgumentException('The $key argument cannot be empty.');
         }
 
-        if (is_array($key))
-        {
-            foreach ($key as $item => $value)
-            {
+        if (is_array($key)) {
+            foreach ($key as $item => $value) {
                 $CI->session->set_userdata($item, $value);
             }
 
-            return NULL;
+            return null;
         }
 
         $value = $CI->session->userdata($key);

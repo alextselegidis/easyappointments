@@ -11,7 +11,7 @@
 
 $config['version'] = '1.5.0-dev.4'; // This must be changed manually.
 
-$config['url'] = Config::BASE_URL;  
+$config['url'] = Config::BASE_URL;
 
 $config['debug'] = Config::DEBUG_MODE;
 

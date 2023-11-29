@@ -18,14 +18,14 @@ require_once __DIR__ . '/Google.php';
  *
  * Handles all the Console related operations.
  */
-class Console extends EA_Controller {
+class Console extends EA_Controller
+{
     /**
      * Console constructor.
      */
     public function __construct()
     {
-        if ( ! is_cli())
-        {
+        if (!is_cli()) {
             exit('No direct script access allowed');
         }
 
@@ -57,7 +57,9 @@ class Console extends EA_Controller {
 
         $password = $this->instance->seed();
 
-        response(PHP_EOL . '⇾ Installation completed, login with "administrator" / "' . $password . '".' . PHP_EOL . PHP_EOL);
+        response(
+            PHP_EOL . '⇾ Installation completed, login with "administrator" / "' . $password . '".' . PHP_EOL . PHP_EOL
+        );
     }
 
     /**
@@ -112,7 +114,7 @@ class Console extends EA_Controller {
      */
     public function backup()
     {
-        $this->instance->backup($GLOBALS['argv'][3] ?? NULL);
+        $this->instance->backup($GLOBALS['argv'][3] ?? null);
     }
 
     /**
@@ -132,17 +134,14 @@ class Console extends EA_Controller {
     {
         $providers = $this->providers_model->get();
 
-        foreach ($providers as $provider)
-        {
-            if ( ! filter_var($provider['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN))
-            {
+        foreach ($providers as $provider) {
+            if (!filter_var($provider['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN)) {
                 continue;
             }
 
-            Google::sync((string)$provider['id']);
+            Google::sync((string) $provider['id']);
         }
     }
-
 
     /**
      * Show help information about the console capabilities.
@@ -174,7 +173,7 @@ class Console extends EA_Controller {
             '⇾ php index.php console backup',
             '⇾ php index.php console sync',
             '',
-            '',
+            ''
         ];
 
         response(implode(PHP_EOL, $help));

@@ -1,12 +1,12 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div id="booking-settings-page" class="container backend-page">
     <div id="booking-settings">
         <div class="row">
             <div class="col-sm-3 offset-sm-1">
-                <?php component('settings_nav') ?>
+                <?php component('settings_nav'); ?>
             </div>
             <div class="col-sm-6">
                 <form>
@@ -21,7 +21,7 @@
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
                                 </button>
-                            <?php endif ?>
+                            <?php endif; ?>
                         </div>
 
                         <h5 class="text-black-50 mb-3 fw-light">
@@ -40,7 +40,8 @@
 
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-first-name"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-first-name"
                                                    data-field="display_first_name">
                                             <label class="form-check-label" for="display-first-name">
                                                 <?= lang('display') ?>
@@ -48,7 +49,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-first-name"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-first-name"
                                                    data-field="require_first_name">
                                             <label class="form-check-label" for="require-first-name">
                                                 <?= lang('require') ?>
@@ -64,7 +66,8 @@
                                     <input type="text" id="last-name" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-last-name"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-last-name"
                                                    data-field="display_last_name">
                                             <label class="form-check-label" for="display-last-name">
                                                 <?= lang('display') ?>
@@ -72,7 +75,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-last-name"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-last-name"
                                                    data-field="require_last_name">
                                             <label class="form-check-label" for="require-last-name">
                                                 <?= lang('require') ?>
@@ -88,7 +92,8 @@
                                     <input type="text" id="email" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-email"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-email"
                                                    data-field="display_email">
                                             <label class="form-check-label" for="display-email">
                                                 <?= lang('display') ?>
@@ -96,7 +101,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-email"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-email"
                                                    data-field="require_email">
                                             <label class="form-check-label" for="require-email">
                                                 <?= lang('require') ?>
@@ -112,7 +118,8 @@
                                     <input type="text" id="phone-number" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-phone-number"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-phone-number"
                                                    data-field="display_phone_number">
                                             <label class="form-check-label" for="display-phone-number">
                                                 <?= lang('display') ?>
@@ -120,7 +127,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-phone-number"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-phone-number"
                                                    data-field="require_phone_number">
                                             <label class="form-check-label" for="require-phone-number">
                                                 <?= lang('require') ?>
@@ -139,7 +147,8 @@
                                     <input type="text" id="address" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-address"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-address"
                                                    data-field="display_address">
                                             <label class="form-check-label" for="display-address">
                                                 <?= lang('display') ?>
@@ -147,7 +156,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-address"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-address"
                                                    data-field="require_address">
                                             <label class="form-check-label" for="require-address">
                                                 <?= lang('require') ?>
@@ -163,7 +173,8 @@
                                     <input type="text" id="city" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-city"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-city"
                                                    data-field="display_city">
                                             <label class="form-check-label" for="display-city">
                                                 <?= lang('display') ?>
@@ -171,7 +182,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-city"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-city"
                                                    data-field="require_city">
                                             <label class="form-check-label" for="require-city">
                                                 <?= lang('require') ?>
@@ -187,7 +199,8 @@
                                     <input type="text" id="zip-code" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-zip-code"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-zip-code"
                                                    data-field="display_zip_code">
                                             <label class="form-check-label" for="display-zip-code">
                                                 <?= lang('display') ?>
@@ -195,7 +208,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-zip-code"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-zip-code"
                                                    data-field="require_zip_code">
                                             <label class="form-check-label" for="require-zip-code">
                                                 <?= lang('require') ?>
@@ -211,7 +225,8 @@
                                     <textarea id="notes" class="form-control mb-2" rows="1" readonly></textarea>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
-                                            <input class="form-check-input display-switch" type="checkbox" id="display-notes"
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-notes"
                                                    data-field="display_notes">
                                             <label class="form-check-label" for="display-notes">
                                                 <?= lang('display') ?>
@@ -219,7 +234,8 @@
                                         </div>
 
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input require-switch" type="checkbox" id="require-notes"
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-notes"
                                                    data-field="require_notes">
                                             <label class="form-check-label" for="require-notes">
                                                 <?= lang('require') ?>
@@ -233,7 +249,7 @@
                         <h5 class="text-black-50 mb-3 fw-light">
                             <?= lang('options') ?>
                         </h5>
-                        
+
                         <div class="row">
                             <div class="col-12">
                                 <div class="border rounded mb-3 p-3">
@@ -319,7 +335,8 @@
 
                                     <div class="mb-3">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="display-delete-personal-information"
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="display-delete-personal-information"
                                                    data-field="display_delete_personal_information">
                                             <label class="form-check-label" for="display-delete-personal-information">
                                                 <?= lang('delete_personal_information') ?>
@@ -353,7 +370,8 @@
                                         <label class="form-label" for="disable-booking-message">
                                             <?= lang('display_message') ?>
                                         </label>
-                                        <textarea id="disable-booking-message" cols="30" rows="10" class="mb-3"></textarea>
+                                        <textarea id="disable-booking-message" cols="30" rows="10"
+                                                  class="mb-3"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -365,15 +383,15 @@
     </div>
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/booking_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/booking_settings.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>
 
 
 

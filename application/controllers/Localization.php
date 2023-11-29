@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Localization extends EA_Controller {
+class Localization extends EA_Controller
+{
     /**
      * Change system language for current user.
      *
@@ -28,14 +29,14 @@ class Localization extends EA_Controller {
      */
     public function change_language()
     {
-        try
-        {
+        try {
             // Check if language exists in the available languages.
             $language = request('language');
 
-            if ( ! in_array($language, config('available_languages')))
-            {
-                throw new RuntimeException('Translations for the given language does not exist (' . request('language') . ').');
+            if (!in_array($language, config('available_languages'))) {
+                throw new RuntimeException(
+                    'Translations for the given language does not exist (' . request('language') . ').'
+                );
             }
 
             $language = request('language');
@@ -45,11 +46,9 @@ class Localization extends EA_Controller {
             config(['language' => $language]);
 
             json_response([
-                'success' => TRUE
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

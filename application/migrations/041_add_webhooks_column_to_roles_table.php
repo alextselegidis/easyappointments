@@ -11,19 +11,19 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_webhooks_column_to_roles_table extends EA_Migration {
+class Migration_Add_webhooks_column_to_roles_table extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('webhooks', 'roles'))
-        {
+        if (!$this->db->field_exists('webhooks', 'roles')) {
             $fields = [
                 'webhooks' => [
                     'type' => 'INT',
                     'constraint' => '11',
-                    'null' => TRUE
+                    'null' => true
                 ]
             ];
 
@@ -40,8 +40,7 @@ class Migration_Add_webhooks_column_to_roles_table extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('webhooks', 'roles'))
-        {
+        if ($this->db->field_exists('webhooks', 'roles')) {
             $this->dbforge->drop_column('roles', 'webhooks');
         }
     }

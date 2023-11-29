@@ -1,7 +1,7 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var string $privacy_policy_content
  */
 ?>

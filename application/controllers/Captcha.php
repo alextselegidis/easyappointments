@@ -11,16 +11,15 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
-use Gregwar\Captcha\CaptchaBuilder;
-
 /**
  * Captcha controller.
- * 
+ *
  * Handles the captcha operations.
  *
  * @package Controllers
  */
-class Captcha extends EA_Controller {
+class Captcha extends EA_Controller
+{
     /**
      * Class Constructor
      */
@@ -39,7 +38,7 @@ class Captcha extends EA_Controller {
         $this->captcha_builder->setDistortion(true);
         $this->captcha_builder->setMaxBehindLines(1);
         $this->captcha_builder->setMaxFrontLines(1);
-        $this->captcha_builder->setBackgroundColor(255,255,255);
+        $this->captcha_builder->setBackgroundColor(255, 255, 255);
         $this->captcha_builder->build();
         session(['captcha_phrase' => $this->captcha_builder->getPhrase()]);
         header('Content-type: image/jpeg');

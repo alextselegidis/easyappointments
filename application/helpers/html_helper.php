@@ -11,8 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('e'))
-{
+if (!function_exists('e')) {
     /**
      * HTML escape function for templates.
      *
@@ -26,12 +25,11 @@ if ( ! function_exists('e'))
      */
     function e(mixed $string): string
     {
-        return htmlspecialchars((string)$string, ENT_QUOTES, 'UTF-8');
+        return htmlspecialchars((string) $string, ENT_QUOTES, 'UTF-8');
     }
 }
 
-if ( ! function_exists('component'))
-{
+if (!function_exists('component')) {
     /**
      * Render a component from the "views/components/*.php" directory.
      *
@@ -50,7 +48,7 @@ if ( ! function_exists('component'))
      *
      * @return string|object Return the HTML if the $return argument is TRUE or NULL.
      */
-    function component(string $component, array $vars = [], bool $return = FALSE): string|object
+    function component(string $component, array $vars = [], bool $return = false): string|object
     {
         /** @var EA_Controller $CI */
         $CI = get_instance();
@@ -59,8 +57,7 @@ if ( ! function_exists('component'))
     }
 }
 
-if ( ! function_exists('extend'))
-{
+if (!function_exists('extend')) {
     /**
      * Use this function at the top of view files to mark the layout you are extending from.
      *
@@ -72,14 +69,13 @@ if ( ! function_exists('extend'))
             'layout' => [
                 'filename' => $layout,
                 'sections' => [],
-                'tmp' => [],
+                'tmp' => []
             ]
         ]);
     }
 }
 
-if ( ! function_exists('section'))
-{
+if (!function_exists('section')) {
     /**
      * Use this function in view files to mark the beginning and/or end of a layout section.
      *
@@ -103,8 +99,7 @@ if ( ! function_exists('section'))
     {
         $layout = config('layout');
 
-        if (array_key_exists($name, $layout['tmp']))
-        {
+        if (array_key_exists($name, $layout['tmp'])) {
             $layout['sections'][$name][] = ob_get_clean();
 
             unset($layout['tmp'][$name]);
@@ -114,8 +109,7 @@ if ( ! function_exists('section'))
             return;
         }
 
-        if (empty($layout['sections'][$name]))
-        {
+        if (empty($layout['sections'][$name])) {
             $layout['sections'][$name] = [];
         }
 
@@ -127,8 +121,7 @@ if ( ! function_exists('section'))
     }
 }
 
-if ( ! function_exists('end_section'))
-{
+if (!function_exists('end_section')) {
     /**
      * Use this function in view files to mark the end of a layout section.
      *
@@ -152,8 +145,7 @@ if ( ! function_exists('end_section'))
     {
         $layout = config('layout');
 
-        if (array_key_exists($name, $layout['tmp']))
-        {
+        if (array_key_exists($name, $layout['tmp'])) {
             $layout['sections'][$name][] = ob_get_clean();
 
             unset($layout['tmp'][$name]);
@@ -163,8 +155,7 @@ if ( ! function_exists('end_section'))
     }
 }
 
-if ( ! function_exists('slot'))
-{
+if (!function_exists('slot')) {
     /**
      * Use this function in view files to mark a slot that sections can populate from within child templates.
      *
@@ -174,15 +165,13 @@ if ( ! function_exists('slot'))
     {
         $layout = config('layout');
 
-        $section = $layout['sections'][$name] ?? NULL;
+        $section = $layout['sections'][$name] ?? null;
 
-        if ( ! $section)
-        {
+        if (!$section) {
             return;
         }
 
-        foreach ($section as $content)
-        {
+        foreach ($section as $content) {
             echo $content;
         }
     }

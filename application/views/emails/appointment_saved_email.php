@@ -94,7 +94,7 @@
                 </td>
             </tr>
 
-            <?php if ( ! empty($appointment['location'])): ?>
+            <?php if (!empty($appointment['location'])): ?>
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">
                         <?= lang('location') ?>
@@ -103,9 +103,9 @@
                         <?= e($appointment['location']) ?>
                     </td>
                 </tr>
-            <?php endif ?>
+            <?php endif; ?>
 
-            <?php if ( ! empty($appointment['notes'])): ?>
+            <?php if (!empty($appointment['notes'])): ?>
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">
                         <?= lang('notes') ?>
@@ -114,7 +114,7 @@
                         <?= e($appointment['notes']) ?>
                     </td>
                 </tr>
-            <?php endif ?>
+            <?php endif; ?>
         </table>
 
         <h2>

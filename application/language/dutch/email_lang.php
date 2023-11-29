@@ -16,9 +16,12 @@ $lang['email_attachment_missing'] = 'De bijlage bij dit bericht kan niet gevonde
 $lang['email_attachment_unreadable'] = 'De bijlage kan niet worden gelezen: %s';
 $lang['email_no_from'] = 'E-mail kan niet verstuurd worden zonder "From"-header.';
 $lang['email_no_recipients'] = 'Ontvangers (Naar, Cc, of Bcc) zijn verplicht.';
-$lang['email_send_failure_phpmail'] = 'Het lukt niet om de e-mail te versturen met PHP mail(). Deze server zou wel eens een andere methode gebruiken om berichten te sturen.';
-$lang['email_send_failure_sendmail'] = 'Het lukt niet om de e-mail te versturen met PHP Sendmail. Deze server zou wel eens een andere methode gebruiken om berichten te sturen.';
-$lang['email_send_failure_smtp'] = 'Het lukt niet om de e-mail te versturen met PHP SMTP.  Deze server zou wel eens een andere methode gebruiken om berichten te sturen.';
+$lang['email_send_failure_phpmail'] =
+    'Het lukt niet om de e-mail te versturen met PHP mail(). Deze server zou wel eens een andere methode gebruiken om berichten te sturen.';
+$lang['email_send_failure_sendmail'] =
+    'Het lukt niet om de e-mail te versturen met PHP Sendmail. Deze server zou wel eens een andere methode gebruiken om berichten te sturen.';
+$lang['email_send_failure_smtp'] =
+    'Het lukt niet om de e-mail te versturen met PHP SMTP.  Deze server zou wel eens een andere methode gebruiken om berichten te sturen.';
 $lang['email_sent'] = 'Het bericht is verstuurd, via het volgende protocol: %s';
 $lang['email_no_socket'] = 'Het lukt niet om een socket naar Sendmail te openen.  Controleer instellingen.';
 $lang['email_no_hostname'] = 'Specifieer een SMTP-hostnaam.';

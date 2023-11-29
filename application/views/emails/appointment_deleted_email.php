@@ -29,7 +29,7 @@
         <h2>
             <?= lang('appointment_cancelled_title') ?>
         </h2>
-        
+
         <p>
             <?= lang('appointment_removed_from_schedule') ?>
         </p>
@@ -90,7 +90,7 @@
                 </td>
             </tr>
 
-            <?php if ( ! empty($appointment['location'])): ?>
+            <?php if (!empty($appointment['location'])): ?>
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">
                         <?= lang('location') ?>
@@ -99,9 +99,9 @@
                         <?= e($appointment['location']) ?>
                     </td>
                 </tr>
-            <?php endif ?>
+            <?php endif; ?>
 
-            <?php if ( ! empty($appointment['notes'])): ?>
+            <?php if (!empty($appointment['notes'])): ?>
                 <tr>
                     <td class="label" style="padding: 3px;font-weight: bold;">
                         <?= lang('notes') ?>
@@ -110,7 +110,7 @@
                         <?= e($appointment['notes']) ?>
                     </td>
                 </tr>
-            <?php endif ?>
+            <?php endif; ?>
         </table>
 
         <h2>
@@ -155,7 +155,7 @@
         <h2>
             <?= lang('reason') ?>
         </h2>
-        
+
         <p>
             <?= e($reason) ?>
         </p>

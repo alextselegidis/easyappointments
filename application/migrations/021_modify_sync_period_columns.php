@@ -11,7 +11,8 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Modify_sync_period_columns extends EA_Migration {
+class Migration_Modify_sync_period_columns extends EA_Migration
+{
     /**
      * Upgrade method.
      */
@@ -21,15 +22,15 @@ class Migration_Modify_sync_period_columns extends EA_Migration {
             'sync_past_days' => [
                 'type' => 'INT',
                 'constraint' => '11',
-                'null' => TRUE,
+                'null' => true,
                 'default' => '30'
             ],
             'sync_future_days' => [
                 'type' => 'INT',
                 'constraint' => '11',
-                'null' => TRUE,
+                'null' => true,
                 'default' => '90'
-            ],
+            ]
         ];
 
         $this->dbforge->modify_column('user_settings', $fields);
@@ -64,15 +65,15 @@ class Migration_Modify_sync_period_columns extends EA_Migration {
             'sync_past_days' => [
                 'type' => 'INT',
                 'constraint' => '11',
-                'null' => TRUE,
+                'null' => true,
                 'default' => '5'
             ],
             'sync_future_days' => [
                 'type' => 'INT',
                 'constraint' => '11',
-                'null' => TRUE,
+                'null' => true,
                 'default' => '5'
-            ],
+            ]
         ];
 
         $this->dbforge->modify_column('user_settings', $fields);

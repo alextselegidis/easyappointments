@@ -11,19 +11,19 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_blocked_periods_column_to_roles_table extends EA_Migration {
+class Migration_Add_blocked_periods_column_to_roles_table extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('blocked_periods', 'roles'))
-        {
+        if (!$this->db->field_exists('blocked_periods', 'roles')) {
             $fields = [
                 'blocked_periods' => [
                     'type' => 'INT',
                     'constraint' => '11',
-                    'null' => TRUE
+                    'null' => true
                 ]
             ];
 
@@ -40,8 +40,7 @@ class Migration_Add_blocked_periods_column_to_roles_table extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('blocked_periods', 'roles'))
-        {
+        if ($this->db->field_exists('blocked_periods', 'roles')) {
             $this->dbforge->drop_column('roles', 'blocked_periods');
         }
     }

@@ -1,6 +1,6 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="secretaries-page">
     <div class="row" id="secretaries">
@@ -186,7 +186,7 @@
                                 <option value="<?= $available_language ?>">
                                     <?= ucfirst($available_language) ?>
                                 </option>
-                            <?php endforeach ?>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
@@ -198,7 +198,7 @@
                         <?php component('timezone_dropdown', [
                             'attributes' => 'id="timezone" class="form-control required" disabled',
                             'grouped_timezones' => vars('grouped_timezones')
-                        ]) ?>
+                        ]); ?>
                     </div>
 
                     <div>
@@ -231,9 +231,9 @@
     </div>
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
@@ -242,5 +242,5 @@
 <script src="<?= asset_url('assets/js/http/secretaries_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/secretaries.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>
 

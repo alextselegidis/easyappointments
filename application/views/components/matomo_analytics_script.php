@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if ( ! empty($matomo_analytics_url)): ?>
+<?php if (!empty($matomo_analytics_url)): ?>
 
     <script>
         var _paq = window._paq = window._paq || [];
@@ -27,4 +27,4 @@
         <p><img src="<?= e($matomo_analytics_url) ?>matomo.php?idsite=1&amp;rec=1" style="border:0;" alt=""/></p>
     </noscript>
 
-<?php endif ?>
+<?php endif; ?>

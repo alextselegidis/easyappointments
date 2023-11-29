@@ -1,7 +1,7 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var array $timezones
  * @var string $timezone
  */
@@ -92,8 +92,8 @@
     </div>
 </div>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/components/unavailabilities_modal.js') ?>"></script>
 
-<?php end_section('scripts') ?> 
+<?php end_section('scripts'); ?> 

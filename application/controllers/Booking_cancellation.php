@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Booking_cancellation extends EA_Controller {
+class Booking_cancellation extends EA_Controller
+{
     /**
      * Booking_cancellation constructor.
      */
@@ -47,19 +48,16 @@ class Booking_cancellation extends EA_Controller {
      */
     public function of(string $appointment_hash)
     {
-        try
-        {
+        try {
             $cancellation_reason = request('cancellation_reason');
 
-            if ($this->input->method() !== 'post' || empty($cancellation_reason))
-            {
+            if ($this->input->method() !== 'post' || empty($cancellation_reason)) {
                 abort(403, 'Forbidden');
             }
 
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 html_vars([
                     'page_title' => lang('appointment_not_found'),
                     'company_color' => setting('company_color'),
@@ -67,7 +65,7 @@ class Booking_cancellation extends EA_Controller {
                     'message_text' => lang('appointment_does_not_exist_in_db'),
                     'message_icon' => base_url('assets/img/error.png'),
                     'google_analytics_code' => setting('google_analytics_code'),
-                    'matomo_analytics_url' => setting('matomo_analytics_url'),
+                    'matomo_analytics_url' => setting('matomo_analytics_url')
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -95,13 +93,17 @@ class Booking_cancellation extends EA_Controller {
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 
-            $this->notifications->notify_appointment_deleted($appointment, $service, $provider, $customer, $settings, $cancellation_reason);
+            $this->notifications->notify_appointment_deleted(
+                $appointment,
+                $service,
+                $provider,
+                $customer,
+                $settings,
+                $cancellation_reason
+            );
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
-
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             log_message('error', 'Booking Cancellation Exception: ' . $e->getMessage());
         }
 
@@ -109,7 +111,7 @@ class Booking_cancellation extends EA_Controller {
             'page_title' => lang('appointment_cancelled_title'),
             'company_color' => setting('company_color'),
             'google_analytics_code' => setting('google_analytics_code'),
-            'matomo_analytics_url' => setting('matomo_analytics_url'),
+            'matomo_analytics_url' => setting('matomo_analytics_url')
         ]);
 
         $this->load->view('pages/booking_cancellation');

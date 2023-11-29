@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Consents extends EA_Controller {
+class Consents extends EA_Controller
+{
     /**
      * Consents constructor.
      */
@@ -34,28 +35,25 @@ class Consents extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
+        try {
             $consent = request('consent');
 
             $consent['ip'] = $this->input->ip_address();
 
             $occurrences = $this->consents_model->get(['ip' => $consent['ip']], 1, 0, 'create_datetime DESC');
 
-            if ( ! empty($occurrences))
-            {
+            if (!empty($occurrences)) {
                 $last_consent = $occurrences[0];
 
                 $last_consent_create_datetime_instance = new DateTime($last_consent['create_datetime']);
 
                 $threshold_datetime_instance = new DateTime('-24 hours');
 
-                if ($last_consent_create_datetime_instance > $threshold_datetime_instance)
-                {
+                if ($last_consent_create_datetime_instance > $threshold_datetime_instance) {
                     // Do not create a new consent.
 
                     json_response([
-                        'success' => TRUE,
+                        'success' => true
                     ]);
 
                     return;
@@ -65,12 +63,10 @@ class Consents extends EA_Controller {
             $consent['id'] = $this->consents_model->save($consent);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $consent['id']
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

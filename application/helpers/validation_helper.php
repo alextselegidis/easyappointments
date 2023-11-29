@@ -22,5 +22,5 @@ function validate_datetime(string $value): bool
 {
     $date_time = DateTime::createFromFormat('Y-m-d H:i:s', $value);
 
-    return (bool)$date_time;
+    return (bool) $date_time;
 }

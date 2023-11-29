@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Calendar extends CI_Calendar {
-    // 
+class EA_Calendar extends CI_Calendar
+{
+    //
 }

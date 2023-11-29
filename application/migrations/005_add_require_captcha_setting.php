@@ -11,7 +11,8 @@
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_require_captcha_setting extends EA_Migration {
+class Migration_Add_require_captcha_setting extends EA_Migration
+{
     /**
      * Upgrade method.
      *
@@ -19,8 +20,7 @@ class Migration_Add_require_captcha_setting extends EA_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'require_captcha'])->num_rows())
-        {
+        if (!$this->db->get_where('settings', ['name' => 'require_captcha'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'require_captcha',
                 'value' => '0'
@@ -35,8 +35,7 @@ class Migration_Add_require_captcha_setting extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->get_where('settings', ['name' => 'require_captcha'])->num_rows())
-        {
+        if ($this->db->get_where('settings', ['name' => 'require_captcha'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'require_captcha']);
         }
     }

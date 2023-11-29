@@ -42,6 +42,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
+    "@prettier/plugin-php": "^0.21.0",
     "babel-preset-minify": "^0.5.2",
     "del": "^6.0.0",
     "fs-extra": "^11.1.0",
@@ -54,7 +55,7 @@
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
-    "prettier": "^2.8.3",
+    "prettier": "^3.0.0",
     "sass": "^1.57.1",
     "zip-dir": "^2.0.0"
   },

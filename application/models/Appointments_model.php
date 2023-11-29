@@ -16,7 +16,8 @@
  *
  * @package Models
  */
-class Appointments_model extends EA_Model {
+class Appointments_model extends EA_Model
+{
     /**
      * @var array
      */
@@ -25,7 +26,7 @@ class Appointments_model extends EA_Model {
         'is_unavailability' => 'boolean',
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
-        'id_services' => 'integer',
+        'id_services' => 'integer'
     ];
 
     /**
@@ -44,9 +45,8 @@ class Appointments_model extends EA_Model {
         'serviceId' => 'id_services',
         'providerId' => 'id_users_provider',
         'customerId' => 'id_users_customer',
-        'googleCalendarId' => 'id_google_calendar',
+        'googleCalendarId' => 'id_google_calendar'
     ];
-
 
     /**
      * Save (insert or update) an appointment.
@@ -61,12 +61,9 @@ class Appointments_model extends EA_Model {
     {
         $this->validate($appointment);
 
-        if (empty($appointment['id']))
-        {
+        if (empty($appointment['id'])) {
             return $this->insert($appointment);
-        }
-        else
-        {
+        } else {
             return $this->update($appointment);
         }
     }
@@ -81,13 +78,13 @@ class Appointments_model extends EA_Model {
     public function validate(array $appointment)
     {
         // If an appointment ID is provided then check whether the record really exists in the database.
-        if ( ! empty($appointment['id']))
-        {
+        if (!empty($appointment['id'])) {
             $count = $this->db->get_where('appointments', ['id' => $appointment['id']])->num_rows();
 
-            if ( ! $count)
-            {
-                throw new InvalidArgumentException('The provided appointment ID does not exist in the database: ' . $appointment['id']);
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The provided appointment ID does not exist in the database: ' . $appointment['id']
+                );
             }
         }
 
@@ -96,39 +93,36 @@ class Appointments_model extends EA_Model {
         $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
 
         if (
-            empty($appointment['start_datetime'])
-            || empty($appointment['end_datetime'])
-            || empty($appointment['id_services'])
-            || empty($appointment['id_users_provider'])
-            || empty($appointment['id_users_customer'])
-            || (empty($appointment['notes']) && $require_notes)
-        )
-        {
-            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, TRUE));
+            empty($appointment['start_datetime']) ||
+            empty($appointment['end_datetime']) ||
+            empty($appointment['id_services']) ||
+            empty($appointment['id_users_provider']) ||
+            empty($appointment['id_users_customer']) ||
+            (empty($appointment['notes']) && $require_notes)
+        ) {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, true));
         }
 
         // Make sure that the provided appointment date time values are valid.
-        if ( ! validate_datetime($appointment['start_datetime']))
-        {
+        if (!validate_datetime($appointment['start_datetime'])) {
             throw new InvalidArgumentException('The appointment start date time is invalid.');
         }
 
-        if ( ! validate_datetime($appointment['end_datetime']))
-        {
+        if (!validate_datetime($appointment['end_datetime'])) {
             throw new InvalidArgumentException('The appointment end date time is invalid.');
         }
 
         // Make the appointment lasts longer than the minimum duration (in minutes).
         $diff = (strtotime($appointment['end_datetime']) - strtotime($appointment['start_datetime'])) / 60;
 
-        if ($diff < EVENT_MINIMUM_DURATION)
-        {
-            throw new InvalidArgumentException('The appointment duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.');
+        if ($diff < EVENT_MINIMUM_DURATION) {
+            throw new InvalidArgumentException(
+                'The appointment duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.'
+            );
         }
 
         // Make sure the provider ID really exists in the database.
-        $count = $this
-            ->db
+        $count = $this->db
             ->select()
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
@@ -137,16 +131,15 @@ class Appointments_model extends EA_Model {
             ->get()
             ->num_rows();
 
-        if ( ! $count)
-        {
-            throw new InvalidArgumentException('The appointment provider ID was not found in the database: ' . $appointment['id_users_provider']);
+        if (!$count) {
+            throw new InvalidArgumentException(
+                'The appointment provider ID was not found in the database: ' . $appointment['id_users_provider']
+            );
         }
 
-        if ( ! filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN))
-        {
+        if (!filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN)) {
             // Make sure the customer ID really exists in the database.
-            $count = $this
-                ->db
+            $count = $this->db
                 ->select()
                 ->from('users')
                 ->join('roles', 'roles.id = users.id_roles', 'inner')
@@ -155,19 +148,54 @@ class Appointments_model extends EA_Model {
                 ->get()
                 ->num_rows();
 
-            if ( ! $count)
-            {
-                throw new InvalidArgumentException('The appointment customer ID was not found in the database: ' . $appointment['id_users_customer']);
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The appointment customer ID was not found in the database: ' . $appointment['id_users_customer']
+                );
             }
 
             // Make sure the service ID really exists in the database.
             $count = $this->db->get_where('services', ['id' => $appointment['id_services']])->num_rows();
 
-            if ( ! $count)
-            {
+            if (!$count) {
                 throw new InvalidArgumentException('Appointment service id is invalid.');
             }
         }
+    }
+
+    /**
+     * Get all appointments that match the provided criteria.
+     *
+     * @param array|string|null $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of appointments.
+     */
+    public function get(
+        array|string $where = null,
+        int $limit = null,
+        int $offset = null,
+        string $order_by = null
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by) {
+            $this->db->order_by($order_by);
+        }
+
+        $appointments = $this->db
+            ->get_where('appointments', ['is_unavailability' => false], $limit, $offset)
+            ->result_array();
+
+        foreach ($appointments as &$appointment) {
+            $this->cast($appointment);
+        }
+
+        return $appointments;
     }
 
     /**
@@ -186,8 +214,7 @@ class Appointments_model extends EA_Model {
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
         $appointment['hash'] = random_string('alnum', 12);
 
-        if ( ! $this->db->insert('appointments', $appointment))
-        {
+        if (!$this->db->insert('appointments', $appointment)) {
             throw new RuntimeException('Could not insert appointment.');
         }
 
@@ -207,8 +234,7 @@ class Appointments_model extends EA_Model {
     {
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
 
-        if ( ! $this->db->update('appointments', $appointment, ['id' => $appointment['id']]))
-        {
+        if (!$this->db->update('appointments', $appointment, ['id' => $appointment['id']])) {
             throw new RuntimeException('Could not update appointment record.');
         }
 
@@ -240,9 +266,10 @@ class Appointments_model extends EA_Model {
     {
         $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
 
-        if ( ! $appointment)
-        {
-            throw new InvalidArgumentException('The provided appointment ID was not found in the database: ' . $appointment_id);
+        if (!$appointment) {
+            throw new InvalidArgumentException(
+                'The provided appointment ID was not found in the database: ' . $appointment_id
+            );
         }
 
         $this->cast($appointment);
@@ -262,22 +289,21 @@ class Appointments_model extends EA_Model {
      */
     public function value(int $appointment_id, string $field): mixed
     {
-        if (empty($field))
-        {
+        if (empty($field)) {
             throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if (empty($appointment_id))
-        {
+        if (empty($appointment_id)) {
             throw new InvalidArgumentException('The appointment ID argument cannot be empty.');
         }
 
         // Check whether the appointment exists.
         $query = $this->db->get_where('appointments', ['id' => $appointment_id]);
 
-        if ( ! $query->num_rows())
-        {
-            throw new InvalidArgumentException('The provided appointment ID was not found in the database: ' . $appointment_id);
+        if (!$query->num_rows()) {
+            throw new InvalidArgumentException(
+                'The provided appointment ID was not found in the database: ' . $appointment_id
+            );
         }
 
         // Check if the required field is part of the appointment data.
@@ -285,44 +311,11 @@ class Appointments_model extends EA_Model {
 
         $this->cast($appointment);
 
-        if ( ! array_key_exists($field, $appointment))
-        {
+        if (!array_key_exists($field, $appointment)) {
             throw new InvalidArgumentException('The requested field was not found in the appointment data: ' . $field);
         }
 
         return $appointment[$field];
-    }
-
-    /**
-     * Get all appointments that match the provided criteria.
-     *
-     * @param array|string|null $where Where conditions.
-     * @param int|null $limit Record limit.
-     * @param int|null $offset Record offset.
-     * @param string|null $order_by Order by.
-     *
-     * @return array Returns an array of appointments.
-     */
-    public function get(array|string $where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
-    {
-        if ($where !== NULL)
-        {
-            $this->db->where($where);
-        }
-
-        if ($order_by)
-        {
-            $this->db->order_by($order_by);
-        }
-
-        $appointments = $this->db->get_where('appointments', ['is_unavailability' => FALSE], $limit, $offset)->result_array();
-
-        foreach ($appointments as &$appointment)
-        {
-            $this->cast($appointment);
-        }
-
-        return $appointments;
     }
 
     /**
@@ -332,7 +325,7 @@ class Appointments_model extends EA_Model {
      */
     public function clear_google_sync_ids(int $provider_id)
     {
-        $this->db->update('appointments', ['id_google_calendar' => NULL], ['id_users_provider' => $provider_id]);
+        $this->db->update('appointments', ['id_google_calendar' => null], ['id_users_provider' => $provider_id]);
     }
 
     /**
@@ -346,15 +339,18 @@ class Appointments_model extends EA_Model {
      *
      * @return int Returns the number of appointments that match the provided criteria.
      */
-    public function get_attendants_number_for_period(DateTime $start, DateTime $end, int $service_id, int $provider_id, int $exclude_appointment_id = NULL): int
-    {
-        if ($exclude_appointment_id)
-        {
+    public function get_attendants_number_for_period(
+        DateTime $start,
+        DateTime $end,
+        int $service_id,
+        int $provider_id,
+        int $exclude_appointment_id = null
+    ): int {
+        if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
         }
 
-        $result = $this
-            ->db
+        $result = $this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')
             ->group_start()
@@ -387,15 +383,18 @@ class Appointments_model extends EA_Model {
      *
      * @return int Returns the number of appointments that match the provided criteria.
      */
-    public function get_other_service_attendants_number(DateTime $start, DateTime $end, int $service_id, int $provider_id, int $exclude_appointment_id = NULL): int
-    {
-        if ($exclude_appointment_id)
-        {
+    public function get_other_service_attendants_number(
+        DateTime $start,
+        DateTime $end,
+        int $service_id,
+        int $provider_id,
+        int $exclude_appointment_id = null
+    ): int {
+        if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
         }
 
-        $result = $this
-            ->db
+        $result = $this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')
             ->group_start()
@@ -436,16 +435,15 @@ class Appointments_model extends EA_Model {
      *
      * @return array Returns an array of appointments.
      */
-    public function search(string $keyword, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
     {
-        $appointments = $this
-            ->db
+        $appointments = $this->db
             ->select('appointments.*')
             ->from('appointments')
             ->join('services', 'services.id = appointments.id_services', 'left')
             ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
             ->join('users AS customers', 'customers.id = appointments.id_users_customer', 'left')
-            ->where('is_unavailability', FALSE)
+            ->where('is_unavailability', false)
             ->group_start()
             ->like('appointments.start_datetime', $keyword)
             ->or_like('appointments.end_datetime', $keyword)
@@ -469,8 +467,7 @@ class Appointments_model extends EA_Model {
             ->get()
             ->result_array();
 
-        foreach ($appointments as &$appointment)
-        {
+        foreach ($appointments as &$appointment) {
             $this->cast($appointment);
         }
 
@@ -487,44 +484,40 @@ class Appointments_model extends EA_Model {
      */
     public function load(array &$appointment, array $resources)
     {
-        if (empty($appointment) || empty($resources))
-        {
+        if (empty($appointment) || empty($resources)) {
             return;
         }
 
-        foreach ($resources as $resource)
-        {
-            switch ($resource)
-            {
+        foreach ($resources as $resource) {
+            switch ($resource) {
                 case 'service':
-                    $appointment['service'] = $this
-                        ->db
+                    $appointment['service'] = $this->db
                         ->get_where('services', [
-                            'id' => $appointment['id_services'] ?? $appointment['serviceId'] ?? NULL
+                            'id' => $appointment['id_services'] ?? ($appointment['serviceId'] ?? null)
                         ])
                         ->row_array();
                     break;
 
                 case 'provider':
-                    $appointment['provider'] = $this
-                        ->db
+                    $appointment['provider'] = $this->db
                         ->get_where('users', [
-                            'id' => $appointment['id_users_provider'] ?? $appointment['providerId'] ?? NULL
+                            'id' => $appointment['id_users_provider'] ?? ($appointment['providerId'] ?? null)
                         ])
                         ->row_array();
                     break;
 
                 case 'customer':
-                    $appointment['customer'] = $this
-                        ->db
+                    $appointment['customer'] = $this->db
                         ->get_where('users', [
-                            'id' => $appointment['id_users_customer'] ?? $appointment['customerId'] ?? NULL
+                            'id' => $appointment['id_users_customer'] ?? ($appointment['customerId'] ?? null)
                         ])
                         ->row_array();
                     break;
 
                 default:
-                    throw new InvalidArgumentException('The requested appointment relation is not supported: ' . $resource);
+                    throw new InvalidArgumentException(
+                        'The requested appointment relation is not supported: ' . $resource
+                    );
             }
         }
     }
@@ -537,7 +530,7 @@ class Appointments_model extends EA_Model {
     public function api_encode(array &$appointment)
     {
         $encoded_resource = [
-            'id' => array_key_exists('id', $appointment) ? (int)$appointment['id'] : NULL,
+            'id' => array_key_exists('id', $appointment) ? (int) $appointment['id'] : null,
             'book' => $appointment['book_datetime'],
             'start' => $appointment['start_datetime'],
             'end' => $appointment['end_datetime'],
@@ -546,10 +539,11 @@ class Appointments_model extends EA_Model {
             'status' => $appointment['status'],
             'location' => $appointment['location'],
             'notes' => $appointment['notes'],
-            'customerId' => $appointment['id_users_customer'] !== NULL ? (int)$appointment['id_users_customer'] : NULL,
-            'providerId' => $appointment['id_users_provider'] !== NULL ? (int)$appointment['id_users_provider'] : NULL,
-            'serviceId' => $appointment['id_services'] !== NULL ? (int)$appointment['id_services'] : NULL,
-            'googleCalendarId' => $appointment['id_google_calendar'] !== NULL ? (int)$appointment['id_google_calendar'] : NULL
+            'customerId' => $appointment['id_users_customer'] !== null ? (int) $appointment['id_users_customer'] : null,
+            'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
+            'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
+            'googleCalendarId' =>
+                $appointment['id_google_calendar'] !== null ? (int) $appointment['id_google_calendar'] : null
         ];
 
         $appointment = $encoded_resource;
@@ -561,66 +555,55 @@ class Appointments_model extends EA_Model {
      * @param array $appointment API resource.
      * @param array|null $base Base appointment data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$appointment, array $base = NULL)
+    public function api_decode(array &$appointment, array $base = null)
     {
         $decoded_request = $base ?: [];
 
-        if (array_key_exists('id', $appointment))
-        {
+        if (array_key_exists('id', $appointment)) {
             $decoded_request['id'] = $appointment['id'];
         }
 
-        if (array_key_exists('book', $appointment))
-        {
+        if (array_key_exists('book', $appointment)) {
             $decoded_request['book_datetime'] = $appointment['book'];
         }
 
-        if (array_key_exists('start', $appointment))
-        {
+        if (array_key_exists('start', $appointment)) {
             $decoded_request['start_datetime'] = $appointment['start'];
         }
 
-        if (array_key_exists('end', $appointment))
-        {
+        if (array_key_exists('end', $appointment)) {
             $decoded_request['end_datetime'] = $appointment['end'];
         }
 
-        if (array_key_exists('hash', $appointment))
-        {
+        if (array_key_exists('hash', $appointment)) {
             $decoded_request['hash'] = $appointment['hash'];
         }
 
-        if (array_key_exists('location', $appointment))
-        {
+        if (array_key_exists('location', $appointment)) {
             $decoded_request['location'] = $appointment['location'];
         }
 
-        if (array_key_exists('notes', $appointment))
-        {
+        if (array_key_exists('notes', $appointment)) {
             $decoded_request['notes'] = $appointment['notes'];
         }
 
-        if (array_key_exists('customerId', $appointment))
-        {
+        if (array_key_exists('customerId', $appointment)) {
             $decoded_request['id_users_customer'] = $appointment['customerId'];
         }
 
-        if (array_key_exists('providerId', $appointment))
-        {
+        if (array_key_exists('providerId', $appointment)) {
             $decoded_request['id_users_provider'] = $appointment['providerId'];
         }
 
-        if (array_key_exists('serviceId', $appointment))
-        {
+        if (array_key_exists('serviceId', $appointment)) {
             $decoded_request['id_services'] = $appointment['serviceId'];
         }
 
-        if (array_key_exists('googleCalendarId', $appointment))
-        {
+        if (array_key_exists('googleCalendarId', $appointment)) {
             $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
         }
 
-        $decoded_request['is_unavailability'] = FALSE;
+        $decoded_request['is_unavailability'] = false;
 
         $appointment = $decoded_request;
     }

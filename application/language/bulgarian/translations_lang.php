@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // Bulgarian
 $lang['page_title'] = 'Запазете час с ...';
 $lang['service_and_provider'] = 'Изберете Услуга и Изпълнител';
@@ -38,7 +38,8 @@ $lang['appointment_removed_from_schedule'] = 'Следният час бе от�
 $lang['appointment_details_was_sent_to_you'] = 'Електронно писмо с информация за часа Ви бе изпратено.';
 $lang['add_to_google_calendar'] = 'Добавяне в Google Calendar';
 $lang['appointment_booked'] = 'Часът Ви бе успешно запазен.';
-$lang['thank_you_for_appointment'] = 'Благодарим Ви , че запазихте час при нас. Можете да намерите подробна информация за часът си по-долу. Можете да направите промени като използвате линкът на часът.';
+$lang['thank_you_for_appointment'] =
+    'Благодарим Ви , че запазихте час при нас. Можете да намерите подробна информация за часът си по-долу. Можете да направите промени като използвате линкът на часът.';
 $lang['appointment_details_title'] = 'Данни за часът ';
 $lang['customer_details_title'] = 'Клиентски данни';
 $lang['service'] = 'Услуга';
@@ -50,7 +51,8 @@ $lang['name'] = 'Име';
 $lang['appointment_link_title'] = 'Линк на часа';
 $lang['success'] = 'Успех.';
 $lang['appointment_added_to_google_calendar'] = 'Вашият час бе успешно добавен във Вашият Google Calendar профил.';
-$lang['view_appointment_in_google_calendar'] = 'Натиснете тук за да прегледате часът си във Вашият Google Calendar профил.';
+$lang['view_appointment_in_google_calendar'] =
+    'Натиснете тук за да прегледате часът си във Вашият Google Calendar профил.';
 $lang['appointment_added_to_your_plan'] = 'Нов час бе добавен към Вашият график.';
 $lang['appointment_link_description'] = 'Можете да нанесете промени на часа като използвате линкът по-долу.';
 $lang['appointment_locked'] = 'Modification impossible.';
@@ -80,13 +82,15 @@ $lang['hello'] = 'Здравейте';
 $lang['all_day'] = 'Цял ден';
 $lang['manage_appointment_record_hint'] = 'Управление на всички записи за часове на достъпните изпълнители и услуги.';
 $lang['select_filter_item_hint'] = 'Избор на изпълнител или услуга и преглед на часовете в календара.';
-$lang['enable_appointment_sync_hint'] = 'Включване на синхронизиране на часове с  Google Calendar  профила на изпълнителя.';
+$lang['enable_appointment_sync_hint'] =
+    'Включване на синхронизиране на часове с  Google Calendar  профила на изпълнителя.';
 $lang['manage_customers_hint'] = 'Управление на регистрирани клиенти и преглед на исторически данни за часовете им.';
 $lang['manage_services_hint'] = 'Управление на наличните услуги и категории на системата.';
 $lang['manage_users_hint'] = 'Управление на административните потребители (администратори, изпълнители и секретари).';
 $lang['settings_hint'] = 'Задаване на системни и потребителски настройки.';
 $lang['log_out_hint'] = 'Изход от системата.';
-$lang['unavailability_periods_hint'] = 'По време на периоди, в които изпълнителя не е на разположение, същият няма да приема нови часове.';
+$lang['unavailability_periods_hint'] =
+    'По време на периоди, в които изпълнителя не е на разположение, същият няма да приема нови часове.';
 $lang['new_appointment_hint'] = 'Създаване на нов час и запазването му в базата данни.';
 $lang['reload_appointments_hint'] = 'Презареждане на календарни часове.';
 $lang['trigger_google_sync_hint'] = 'Изпълнение на процес по синхронизация с Google Calendar.';
@@ -156,7 +160,8 @@ $lang['friday'] = 'Петък';
 $lang['saturday'] = 'Събота';
 $lang['sunday'] = 'Неделя';
 $lang['breaks'] = 'Почивки';
-$lang['add_breaks_during_each_day'] = 'Нанесете почивките за всеки ден. По време на почивките изпълнителя няма да приема часове.';
+$lang['add_breaks_during_each_day'] =
+    'Нанесете почивките за всеки ден. По време на почивките изпълнителя няма да приема часове.';
 $lang['day'] = 'Ден';
 $lang['days'] = 'Дни';
 $lang['actions'] = 'Действия';
@@ -164,9 +169,11 @@ $lang['reset_working_plan_hint'] = 'Връщане на работния гра�
 $lang['company_name'] = 'Име на Организацията';
 $lang['company_name_hint'] = 'Името на организацията ще бъде показвано навсякъде в системата (задължително).';
 $lang['company_email'] = 'Електронна поща на организацията';
-$lang['company_email_hint'] = 'Това ще е електронната поща на организацията. Ще бъде използван като изпращач и получател за системните електронни писма (задължително).';
+$lang['company_email_hint'] =
+    'Това ще е електронната поща на организацията. Ще бъде използван като изпращач и получател за системните електронни писма (задължително).';
 $lang['company_link'] = 'Препратка на организацията';
-$lang['company_link_hint'] = 'Препратката на организацията би трябвало да сочи към официалната страница на същата (задължително).';
+$lang['company_link_hint'] =
+    'Препратката на организацията би трябвало да сочи към официалната страница на същата (задължително).';
 $lang['go_to_booking_page'] = 'Към страница за запазване.';
 $lang['settings_saved'] = 'Настройките записани успешно.';
 $lang['general'] = 'Общи';
@@ -176,37 +183,46 @@ $lang['hidden'] = 'Скрит';
 $lang['business_logic'] = 'Бизнес логика';
 $lang['current_user'] = 'Текущ потребител';
 $lang['about_app'] = 'Относно';
-$lang['edit_working_plan_hint'] = 'Моля задайте дните и часовете през, които вашата организация ще приема часове по-долу. Ще ви бъде възможно да редактирате часове в неработни периоди , но клиентите няма да могат да запазват часове в неработни периоди. Този работен график ще бъде избран по подразбиране за всеки нов изпълнител , но Вие можете да променяте графика на всеки изпълнител отделно. След това можете да нанесете почивките.';
-$lang['edit_breaks_hint'] = 'Нанасяне на работни почивки за всеки ден. Същите ще се прилагат за всички нови изпълнители.';
+$lang['edit_working_plan_hint'] =
+    'Моля задайте дните и часовете през, които вашата организация ще приема часове по-долу. Ще ви бъде възможно да редактирате часове в неработни периоди , но клиентите няма да могат да запазват часове в неработни периоди. Този работен график ще бъде избран по подразбиране за всеки нов изпълнител , но Вие можете да променяте графика на всеки изпълнител отделно. След това можете да нанесете почивките.';
+$lang['edit_breaks_hint'] =
+    'Нанасяне на работни почивки за всеки ден. Същите ще се прилагат за всички нови изпълнители.';
 $lang['book_advance_timeout'] = 'Запазване на предварителна пауза';
-$lang['book_advance_timeout_hint'] = 'Дефиниране на пауза (в минути) преди клиентите да могат да запазват или разместват часовете си с организацията.';
+$lang['book_advance_timeout_hint'] =
+    'Дефиниране на пауза (в минути) преди клиентите да могат да запазват или разместват часовете си с организацията.';
 $lang['timeout_minutes'] = 'Пауза (в минути)';
-$lang['about_app_info'] = 'Това  е интернет система с висока гъвкавост позволяваща на клиентите Ви да запазват часовете си чрез интернет пространството. Като добавка , позволява синхронизация с Google Calendar  за да може да използвате и други услуги.';
+$lang['about_app_info'] =
+    'Това  е интернет система с висока гъвкавост позволяваща на клиентите Ви да запазват часовете си чрез интернет пространството. Като добавка , позволява синхронизация с Google Calendar  за да може да използвате и други услуги.';
 $lang['current_version'] = 'Текуща версия';
 $lang['support'] = 'Поддръжка.';
-$lang['about_app_support'] = 'Ако срещнете затруднения с Easy!Appointments, можете да претърсите официалната гугъл група за отговори и потенциални решения. Възможно е да се наложи да създадете нов запис за проблем в страницата за кодът, за да подпомогнете разработчиците.';
+$lang['about_app_support'] =
+    'Ако срещнете затруднения с Easy!Appointments, можете да претърсите официалната гугъл група за отговори и потенциални решения. Възможно е да се наложи да създадете нов запис за проблем в страницата за кодът, за да подпомогнете разработчиците.';
 $lang['official_website'] = 'Официална интернет страница.';
 $lang['google_plus_community'] = 'Google+ Community';
 $lang['support_group'] = 'Support Group';
 $lang['project_issues'] = 'Проектни проблеми';
 $lang['license'] = 'Лиценз ';
-$lang['about_app_license'] = 'тази система е лицензирана спрямо GPLv3 лиценз. Чрез използването на системата по какъвто и да е начин, Вие се съгласявате и приемате условията за изложение на следния интернет адрес: ';
+$lang['about_app_license'] =
+    'тази система е лицензирана спрямо GPLv3 лиценз. Чрез използването на системата по какъвто и да е начин, Вие се съгласявате и приемате условията за изложение на следния интернет адрес: ';
 $lang['logout_success'] = 'Излязохте успешно! Използвайте следните бутони за да навигирате към различна страница.';
 $lang['book_appointment_title'] = 'Запазване на час';
 $lang['backend_section'] = 'Административна секция';
-$lang['you_need_to_login'] = 'Здравейте! Нужно е да влезете в потребителския си профил за да достъпите административната секция.';
+$lang['you_need_to_login'] =
+    'Здравейте! Нужно е да влезете в потребителския си профил за да достъпите административната секция.';
 $lang['enter_username_here'] = 'Въведете потребителското си име тук…';
 $lang['enter_password_here'] = 'Въведете паролата си тук…';
 $lang['login'] = 'Вход';
 $lang['forgot_your_password'] = 'Забравена парола ?';
 $lang['login_failed'] = 'Вход неуспешен, моля въведете правилните данни и опитайте отново. ';
-$lang['type_username_and_email_for_new_password'] = 'Въведете потребителското си име и адрес на електронна поща за да получите новата си парола.';
+$lang['type_username_and_email_for_new_password'] =
+    'Въведете потребителското си име и адрес на електронна поща за да получите новата си парола.';
 $lang['enter_email_here'] = 'Въведете адресът на електронната Ви поща тук…';
 $lang['regenerate_password'] = 'Генериране на парола';
 $lang['go_to_login'] = 'Назад към страница за вход.';
 $lang['new_password_sent_with_email'] = 'Вашата нова парола Ви бе изпратена чрез електронна поща.';
 $lang['new_account_password'] = 'Нова парола на потребителски профил';
-$lang['new_password_is'] = 'Новата парола за потребителския профил е……… Моля запазете това електронно писмо за да може да намерите паролата си при нужда. Можете да промените паролата си в секцията за настройки на Вашия профил.';
+$lang['new_password_is'] =
+    'Новата парола за потребителския профил е……… Моля запазете това електронно писмо за да може да намерите паролата си при нужда. Можете да промените паролата си в секцията за настройки на Вашия профил.';
 $lang['delete_record_prompt'] = 'Сигурни ли Сте, че искате да заличите този запис? Това действие е необратимо';
 $lang['delete_admin'] = 'Заличаване на администратор';
 $lang['delete_customer'] = 'Заличаване на клиент';
@@ -221,10 +237,12 @@ $lang['unexpected_issues'] = 'Неочаквани проблеми';
 $lang['unexpected_issues_message'] = 'Действието не можа да бъде изпълнено поради неочаквани проблеми.';
 $lang['close'] = 'Край';
 $lang['page_not_found'] = 'Страницата не е намерена.';
-$lang['page_not_found_message'] = 'За съжаление търсената от Вас страница не съществува. Моля проверете интернет адреса или посетете друг сегмент като използвате бутоните по-долу.';
+$lang['page_not_found_message'] =
+    'За съжаление търсената от Вас страница не съществува. Моля проверете интернет адреса или посетете друг сегмент като използвате бутоните по-долу.';
 $lang['error'] = 'Грешка';
 $lang['no_privileges'] = 'Без привилегии';
-$lang['no_privileges_message'] = 'Не притежавате нужните привилегии за да достъпите тази страница. Моля посетете друг сегмент.';
+$lang['no_privileges_message'] =
+    'Не притежавате нужните привилегии за да достъпите тази страница. Моля посетете друг сегмент.';
 $lang['backend_calendar'] = 'Административен календар';
 $lang['start_date_time'] = 'Начало  Дата / Час';
 $lang['end_date_time'] = 'Край  Дата / Час';
@@ -244,7 +262,8 @@ $lang['password_length_notice'] = 'Паролата трябва да бъде �
 $lang['general_settings'] = 'Общи настройки';
 $lang['personal_information'] = 'Лична информация';
 $lang['system_login'] = 'Вход в системата';
-$lang['user_settings_are_invalid'] = 'Потребителските настройки са невалидни! Моля прегледайте настройките си и опитайте отново.';
+$lang['user_settings_are_invalid'] =
+    'Потребителските настройки са невалидни! Моля прегледайте настройките си и опитайте отново.';
 $lang['add_break'] = 'Добавяне на почивка';
 $lang['january'] = 'Януари';
 $lang['february'] = 'Февруари';
@@ -268,25 +287,29 @@ $lang['minute'] = 'Минута';
 $lang['google_sync_completed'] = 'Google синхронизацията приключи успешно.';
 $lang['google_sync_failed'] = 'Google синхронизацията неуспешна: не бе възможно да се осъществи връзка.';
 $lang['select_google_calendar'] = 'Избор на Google Calendar';
-$lang['select_google_calendar_prompt'] = 'Изберете календарът, който искате да синхронизирате за часовете си. Ако не желаете да изберете специфичен календар, календар по подразбиране ще бъде използван.';
+$lang['select_google_calendar_prompt'] =
+    'Изберете календарът, който искате да синхронизирате за часовете си. Ако не желаете да изберете специфичен календар, календар по подразбиране ще бъде използван.';
 $lang['google_calendar_selected'] = 'Google Calendar бе успешно избран.';
 $lang['oops_something_went_wrong'] = 'Опааа! Нещо се обърка!Опааа! Нещо се обърка.';
 $lang['could_not_add_to_google_calendar'] = 'Вашият час не бе добавен във Вашият Google Calendar.';
 $lang['ea_update_success'] = 'Системата Обновена успешно';
 $lang['require_captcha'] = 'Изискване на CAPTCHA';
-$lang['require_captcha_hint'] = 'Когато е активно, потребителя , ще трябва да въведе произволно генерирани символи за да запише или промени час.';
+$lang['require_captcha_hint'] =
+    'Когато е активно, потребителя , ще трябва да въведе произволно генерирани символи за да запише или промени час.';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
 $lang['any_provider'] = 'Произволен Изпълнител';
 $lang['requested_hour_is_unavailable'] = 'Заявеният от Вас час не е наличен. Моля изберете друг час.';
 $lang['customer_notifications'] = 'Клиентски Известия';
-$lang['customer_notifications_hint'] = 'Дефинира дали клиентът ще получава известия посредством електронна поща, когато има промяна в графика, съдържащ негов запазен час.';
+$lang['customer_notifications_hint'] =
+    'Дефинира дали клиентът ще получава известия посредством електронна поща, когато има промяна в графика, съдържащ негов запазен час.';
 $lang['date_format'] = 'Формат на Дата';
 $lang['date_format_hint'] = 'Промяна на дормат за показ на дата (D - дата, M - месец, Y - година).';
 $lang['time_format'] = 'Time Format';
 $lang['time_format_hint'] = 'Change the time display format (H - Hours, M - Minutes).';
 $lang['first_weekday'] = 'First day of week';
 $lang['first_weekday_hint'] = 'Set the first day of the calendar week.';
-$lang['google_analytics_code_hint'] = 'Добавете Google Analytics ID за да бъде включена статистика в страницата за запазване на час.';
+$lang['google_analytics_code_hint'] =
+    'Добавете Google Analytics ID за да бъде включена статистика в страницата за запазване на час.';
 $lang['availabilities_type'] = 'Типове на работен период.';
 $lang['flexible'] = 'Гъвкав';
 $lang['fixed'] = 'Фиксиран';
@@ -302,12 +325,14 @@ $lang['terms_and_conditions_content'] = 'Terms & Conditions Content';
 $lang['privacy_policy'] = 'Privacy Policy';
 $lang['display_privacy_policy'] = 'Display Privacy Policy';
 $lang['privacy_policy_content'] = 'Privacy Policy Content';
-$lang['website_using_cookies_to_ensure_best_experience'] = 'This website uses cookies to ensure you get the best experience on our website.';
+$lang['website_using_cookies_to_ensure_best_experience'] =
+    'This website uses cookies to ensure you get the best experience on our website.';
 $lang['read_and_agree_to_terms_and_conditions'] = 'I have read and agree to the {$link}Terms & Conditions{/$link}.';
 $lang['read_and_agree_to_privacy_policy'] = 'I have read and agree to the {$link}Privacy Policy{/$link}.';
 $lang['delete_personal_information_hint'] = 'Delete all personal information from the system.';
 $lang['delete_personal_information'] = 'Delete Personal Information';
-$lang['delete_personal_information_prompt'] = 'Are you sure that you want to delete your personal information? This action cannot be undone.';
+$lang['delete_personal_information_prompt'] =
+    'Are you sure that you want to delete your personal information? This action cannot be undone.';
 $lang['location'] = 'Location';
 $lang['working_plan_exception'] = 'Working Plan Exception';
 $lang['working_plan_exceptions'] = 'Working Plan Exceptions';
@@ -318,15 +343,19 @@ $lang['working_plan_exception_deleted'] = 'Working plan exception deleted succes
 $lang['add_working_plan_exceptions_during_each_day'] = 'Add working plan exceptions, outside the working plan.';
 $lang['add_working_plan_exception'] = 'Add Working Plan Exception';
 $lang['require_phone_number'] = 'Require phone number';
-$lang['require_phone_number_hint'] = 'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
+$lang['require_phone_number_hint'] =
+    'When enabled, customers and users will need to enter the customer\'s phone number when booking an appointment';
 $lang['check_spam_folder'] = 'Please check your spam folder if the email does not arrive within a few minutes.';
-$lang['api_token_hint'] = 'Set a secret token in order to enable the token based authentication of the Easy!Appointments API.';
+$lang['api_token_hint'] =
+    'Set a secret token in order to enable the token based authentication of the Easy!Appointments API.';
 $lang['timezone'] = 'Timezone';
-$lang['overwrite_existing_working_plans'] = 'This will overwrite the existing provider working plans, are you sure that you want to continue?';
+$lang['overwrite_existing_working_plans'] =
+    'This will overwrite the existing provider working plans, are you sure that you want to continue?';
 $lang['working_plans_got_updated'] = 'All the working plans got updated.';
 $lang['apply_to_all_providers'] = 'Apply To All Providers';
 $lang['display_any_provider'] = 'Display Any Provider Option';
-$lang['display_any_provider_hint'] = 'The booking page will get an additional option that allows customers to book without specifying a provider.';
+$lang['display_any_provider_hint'] =
+    'The booking page will get an additional option that allows customers to book without specifying a provider.';
 $lang['load_more'] = 'Load More';
 $lang['list'] = 'List';
 $lang['default'] = 'Default';
@@ -337,18 +366,21 @@ $lang['booking_settings'] = 'Booking Settings';
 $lang['display'] = 'Display';
 $lang['require'] = 'Require';
 $lang['color'] = 'Color';
-$lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
+$lang['matomo_analytics_url_hint'] =
+    'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
 $lang['invalid_phone'] = 'Invalid phone number.';
 $lang['legal'] = 'Legal';
 $lang['business'] = 'Business';
 $lang['account'] = 'Account';
 $lang['disable_booking'] = 'Disable Booking';
-$lang['disable_booking_hint'] = 'The booking page will be disabled for as long as this setting is active and customers will not be able to register new appointments.';
+$lang['disable_booking_hint'] =
+    'The booking page will be disabled for as long as this setting is active and customers will not be able to register new appointments.';
 $lang['display_message'] = 'Display Message';
 $lang['booking_is_disabled'] = 'Booking Is Disabled!';
 $lang['appearance'] = 'Appearance';
 $lang['company_logo'] = 'Company Logo';
-$lang['company_logo_hint'] = 'The company logo will be displayed in many places of the app, including the booking page and the notification emails (image file, max 2MB).';
+$lang['company_logo_hint'] =
+    'The company logo will be displayed in many places of the app, including the booking page and the notification emails (image file, max 2MB).';
 $lang['company_color'] = 'Company Color';
 $lang['company_color_hint'] = 'The company color will be applied across the app so that it the app uses your branding.';
 $lang['localization'] = 'Localization';
@@ -366,7 +398,8 @@ $lang['add_new_event'] = 'Add New Event';
 $lang['what_kind_of_event'] = 'What kind of event would you like to add?';
 $lang['theme'] = 'Theme';
 $lang['limit_customer_access'] = 'Limit Customer Access';
-$lang['limit_customer_access_hint'] = 'If enabled, providers and secretaries will only be able to access customers they have an appointment with.';
+$lang['limit_customer_access_hint'] =
+    'If enabled, providers and secretaries will only be able to access customers they have an appointment with.';
 $lang['url'] = 'URL';
 $lang['secret_token'] = 'Secret Token';
 $lang['verify_ssl'] = 'Verify SSL';
@@ -388,26 +421,33 @@ $lang['admin_save'] = 'Admin Save';
 $lang['admin_delete'] = 'Admin Delete';
 $lang['options'] = 'Options';
 $lang['webhooks'] = 'Webhooks';
-$lang['webhooks_info'] = 'Webhooks enable you to send HTTP notifications to external web applications in response to various application events, such as the creation of an appointment or the removal of a customer.';
-$lang['integrations_info'] = 'Integrations enable you to make third-party connections with external applications and APIs.';
+$lang['webhooks_info'] =
+    'Webhooks enable you to send HTTP notifications to external web applications in response to various application events, such as the creation of an appointment or the removal of a customer.';
+$lang['integrations_info'] =
+    'Integrations enable you to make third-party connections with external applications and APIs.';
 $lang['configure'] = 'Configure';
 $lang['google_analytics'] = 'Google Analytics';
-$lang['google_analytics_info'] = 'Google Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
+$lang['google_analytics_info'] =
+    'Google Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
 $lang['matomo_analytics'] = 'Matomo Analytics';
-$lang['matomo_analytics_info'] = 'Matomo Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
+$lang['matomo_analytics_info'] =
+    'Matomo Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
 $lang['api'] = 'API';
-$lang['api_info'] = 'API enable you to interact with all the Easy!Appointments data via the HTTP protocol and the available API endpoints and create your own integrations.';
+$lang['api_info'] =
+    'API enable you to interact with all the Easy!Appointments data via the HTTP protocol and the available API endpoints and create your own integrations.';
 $lang['google_analytics_code'] = 'Google Analytics Code';
 $lang['matomo_analytics_url'] = 'Matomo Analytics URL';
 $lang['future_booking_limit'] = 'Future Booking Limit';
 $lang['limit_days'] = 'Limit (Days)';
-$lang['future_booking_limit_hint'] = 'Set the future limit in days customers can make appointments via the public booking page.';
+$lang['future_booking_limit_hint'] =
+    'Set the future limit in days customers can make appointments via the public booking page.';
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Allow Rescheduling/Cancellation Before';
 $lang['at_least_one_field'] = 'At least one field must be displayed in the booking page.';
 $lang['status'] = 'Status';
 $lang['appointment_status_options'] = 'Appointment Status Options';
-$lang['appointment_status_options_info'] = 'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
+$lang['appointment_status_options_info'] =
+    'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
 $lang['sunday_short'] = 'Sun';
 $lang['monday_short'] = 'Mon';
 $lang['tuesday_short'] = 'Tue';
@@ -445,5 +485,7 @@ $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
 $lang['blocked_period_save'] = 'Blocked Period Save';
 $lang['blocked_period_delete'] = 'Blocked Period Delete';
-$lang['blocked_periods_hint'] = 'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['blocked_periods_hint'] =
+    'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['auxiliary_field'] = 'Auxiliary Field';
 // End

@@ -1,7 +1,7 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var string $cookie_notice_content
  */
 ?>

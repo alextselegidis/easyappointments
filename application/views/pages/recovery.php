@@ -1,6 +1,6 @@
-<?php extend('layouts/account_layout') ?>
+<?php extend('layouts/account_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <h2><?= lang('forgot_your_password') ?></h2>
 
@@ -21,7 +21,7 @@
         </label>
         <input type="text" id="username" placeholder="<?= lang('enter_username_here') ?>" class="form-control"/>
     </div>
-    
+
     <div class="mb-5">
         <label for="email" class="form-label">
             <?= lang('email') ?>
@@ -33,7 +33,7 @@
         <a href="<?= site_url('login') ?>" class="user-login">
             <?= lang('go_to_login') ?>
         </a>
-        
+
         <button type="submit" id="get-new-password" class="btn btn-primary btn-large">
             <i class="fas fa-unlock-alt me-2"></i>
             <?= lang('regenerate_password') ?>
@@ -41,9 +41,9 @@
     </div>
 </form>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
@@ -51,4 +51,4 @@
 <script src="<?= asset_url('assets/js/http/recovery_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/recovery.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

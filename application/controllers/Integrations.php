@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Integrations extends EA_Controller {
+class Integrations extends EA_Controller
+{
     /**
      * Integrations constructor.
      */
@@ -49,10 +50,8 @@ class Integrations extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_SYSTEM_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -67,7 +66,7 @@ class Integrations extends EA_Controller {
             'page_title' => lang('integrations'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
         ]);
 
         $this->load->view('pages/integrations');

@@ -15,8 +15,7 @@
  * This file can only be used in a testing environment and only from the termninal.
  */
 
-if (ENVIRONMENT !== 'testing' || ! is_cli())
-{
+if (ENVIRONMENT !== 'testing' || !is_cli()) {
     show_404();
 }
 
@@ -26,7 +25,8 @@ if (ENVIRONMENT !== 'testing' || ! is_cli())
  * This controller does not have or need any logic, it is just used so that CI can be loaded properly during the test
  * execution.
  */
-class Test extends EA_Controller {
+class Test extends EA_Controller
+{
     /**
      * Placeholder callback.
      *

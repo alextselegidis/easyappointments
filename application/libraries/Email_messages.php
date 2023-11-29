@@ -18,7 +18,8 @@
  *
  * @package Libraries
  */
-class Email_messages {
+class Email_messages
+{
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -29,7 +30,7 @@ class Email_messages {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('admins_model');
         $this->CI->load->model('appointments_model');
@@ -71,17 +72,15 @@ class Email_messages {
         string $appointment_link,
         string $recipient_email,
         string $ics_stream,
-        string $timezone = NULL
-    ): void
-    {
+        string $timezone = null
+    ): void {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
 
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-        if ($timezone && $timezone !== $provider['timezone'])
-        {
+        if ($timezone && $timezone !== $provider['timezone']) {
             $custom_timezone = new DateTimeZone($timezone);
 
             $appointment_start->setTimezone($custom_timezone);
@@ -91,17 +90,21 @@ class Email_messages {
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
-        $html = $this->CI->load->view('emails/appointment_saved_email', [
-            'subject' => $subject,
-            'message' => $message,
-            'appointment' => $appointment,
-            'service' => $service,
-            'provider' => $provider,
-            'customer' => $customer,
-            'settings' => $settings,
-            'timezone' => $timezone,
-            'appointment_link' => $appointment_link,
-        ], TRUE);
+        $html = $this->CI->load->view(
+            'emails/appointment_saved_email',
+            [
+                'subject' => $subject,
+                'message' => $message,
+                'appointment' => $appointment,
+                'service' => $service,
+                'provider' => $provider,
+                'customer' => $customer,
+                'settings' => $settings,
+                'timezone' => $timezone,
+                'appointment_link' => $appointment_link
+            ],
+            true
+        );
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);
 
@@ -113,8 +116,7 @@ class Email_messages {
 
         $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics', 'text/vcalendar');
 
-        if ( ! $this->CI->email->send(FALSE))
-        {
+        if (!$this->CI->email->send(false)) {
             throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
         }
     }
@@ -140,18 +142,16 @@ class Email_messages {
         array $customer,
         array $settings,
         string $recipient_email,
-        string $reason = NULL,
-        string $timezone = NULL
-    ): void
-    {
+        string $reason = null,
+        string $timezone = null
+    ): void {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
 
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-        if ($timezone && $timezone !== $provider['timezone'])
-        {
+        if ($timezone && $timezone !== $provider['timezone']) {
             $custom_timezone = new DateTimeZone($timezone);
 
             $appointment_start->setTimezone($custom_timezone);
@@ -161,15 +161,19 @@ class Email_messages {
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
-        $html = $this->CI->load->view('emails/appointment_deleted_email', [
-            'appointment' => $appointment,
-            'service' => $service,
-            'provider' => $provider,
-            'customer' => $customer,
-            'settings' => $settings,
-            'timezone' => $timezone,
-            'reason' => $reason,
-        ], TRUE);
+        $html = $this->CI->load->view(
+            'emails/appointment_deleted_email',
+            [
+                'appointment' => $appointment,
+                'service' => $service,
+                'provider' => $provider,
+                'customer' => $customer,
+                'settings' => $settings,
+                'timezone' => $timezone,
+                'reason' => $reason
+            ],
+            true
+        );
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);
 
@@ -179,8 +183,7 @@ class Email_messages {
 
         $this->CI->email->message($html);
 
-        if ( ! $this->CI->email->send(FALSE))
-        {
+        if (!$this->CI->email->send(false)) {
             throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
         }
     }
@@ -192,17 +195,17 @@ class Email_messages {
      * @param string $recipient_email Recipient email address.
      * @param array $settings App settings.
      */
-    public function send_password(
-        string $password,
-        string $recipient_email,
-        array $settings
-    ): void
+    public function send_password(string $password, string $recipient_email, array $settings): void
     {
-        $html = $this->CI->load->view('emails/account_recovery_email', [
-            'subject' => lang('new_account_password'),
-            'message' => str_replace('$password', '<strong>' . $password . '</strong>', lang('new_password_is')),
-            'settings' => $settings,
-        ], TRUE);
+        $html = $this->CI->load->view(
+            'emails/account_recovery_email',
+            [
+                'subject' => lang('new_account_password'),
+                'message' => str_replace('$password', '<strong>' . $password . '</strong>', lang('new_password_is')),
+                'settings' => $settings
+            ],
+            true
+        );
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);
 
@@ -212,8 +215,7 @@ class Email_messages {
 
         $this->CI->email->message($html);
 
-        if ( ! $this->CI->email->send(FALSE))
-        {
+        if (!$this->CI->email->send(false)) {
             throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
         }
     }

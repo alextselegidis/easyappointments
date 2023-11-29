@@ -1,6 +1,6 @@
-<?php extend('layouts/account_layout') ?>
+<?php extend('layouts/account_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <h3><?= lang('log_out') ?></h3>
 
@@ -15,13 +15,13 @@
         <i class="fas fa-wrench me-2"></i>
         <?= lang('backend_section') ?>
     </a>
-    
+
     <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
         <i class="fas fa-calendar-alt me-2"></i>
         <?= lang('book_appointment_title') ?>
     </a>
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
 

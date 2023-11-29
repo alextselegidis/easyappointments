@@ -13,7 +13,6 @@
 
 use Google\Service\Calendar\Event;
 use Google\Service\Calendar\Events;
-use Google\Service\Calendar\Calendar;
 
 /**
  * Google sync library.
@@ -22,7 +21,8 @@ use Google\Service\Calendar\Calendar;
  *
  * @package Libraries
  */
-class Google_sync {
+class Google_sync
+{
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -46,7 +46,7 @@ class Google_sync {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('appointments_model');
         $this->CI->load->model('customers_model');
@@ -62,7 +62,7 @@ class Google_sync {
     public function initialize_clients(): void
     {
         $http = new GuzzleHttp\Client([
-            'verify' => FALSE
+            'verify' => false
         ]);
 
         $this->client = new Google_Client();
@@ -73,9 +73,7 @@ class Google_sync {
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');
-        $this->client->addScope([
-            Google_Service_Calendar::CALENDAR,
-        ]);
+        $this->client->addScope([Google_Service_Calendar::CALENDAR]);
 
         $this->service = new Google_Service_Calendar($this->client);
     }
@@ -109,9 +107,10 @@ class Google_sync {
     {
         $response = $this->client->fetchAccessTokenWithAuthCode($code);
 
-        if (isset($response['error']))
-        {
-            throw new RuntimeException('Google Authentication Error (' . $response['error'] . '): ' . $response['error_description']);
+        if (isset($response['error'])) {
+            throw new RuntimeException(
+                'Google Authentication Error (' . $response['error'] . '): ' . $response['error_description']
+            );
         }
 
         return $response;
@@ -151,17 +150,24 @@ class Google_sync {
      *
      * @throws Exception
      */
-    public function add_appointment(array $appointment, array $provider, array $service, array $customer, array $settings): Event
-    {
+    public function add_appointment(
+        array $appointment,
+        array $provider,
+        array $service,
+        array $customer,
+        array $settings
+    ): Event {
         $event = new Google_Service_Calendar_Event();
-        $event->setSummary(! empty($service) ? $service['name'] : 'Unavailable');
+        $event->setSummary(!empty($service) ? $service['name'] : 'Unavailable');
         $event->setDescription($appointment['notes']);
         $event->setLocation($appointment['location'] ?? $settings['company_name']);
 
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $start->setDateTime(
+            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339)
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
@@ -171,13 +177,11 @@ class Google_sync {
         $event->attendees = [];
 
         $event_provider = new Google_Service_Calendar_EventAttendee();
-        $event_provider->setDisplayName($provider['first_name'] . ' '
-            . $provider['last_name']);
+        $event_provider->setDisplayName($provider['first_name'] . ' ' . $provider['last_name']);
         $event_provider->setEmail($provider['email']);
         $event->attendees[] = $event_provider;
 
-        if ( ! empty($customer))
-        {
+        if (!empty($customer)) {
             $event_customer = new Google_Service_Calendar_EventAttendee();
             $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
@@ -204,10 +208,17 @@ class Google_sync {
      *
      * @throws Exception
      */
-    public function update_appointment(array $appointment, array $provider, array $service, array $customer, array $settings): Event
-    {
-        $event = $this->service->events->get($provider['settings']['google_calendar'],
-            $appointment['id_google_calendar']);
+    public function update_appointment(
+        array $appointment,
+        array $provider,
+        array $service,
+        array $customer,
+        array $settings
+    ): Event {
+        $event = $this->service->events->get(
+            $provider['settings']['google_calendar'],
+            $appointment['id_google_calendar']
+        );
 
         $event->setSummary($service['name']);
         $event->setDescription($appointment['notes']);
@@ -216,7 +227,9 @@ class Google_sync {
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $start->setDateTime(
+            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339)
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
@@ -230,11 +243,9 @@ class Google_sync {
         $event_provider->setEmail($provider['email']);
         $event->attendees[] = $event_provider;
 
-        if ( ! empty($customer))
-        {
+        if (!empty($customer)) {
             $event_customer = new Google_Service_Calendar_EventAttendee();
-            $event_customer->setDisplayName($customer['first_name'] . ' '
-                . $customer['last_name']);
+            $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
             $event->attendees[] = $event_customer;
         }
@@ -272,16 +283,19 @@ class Google_sync {
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $start->setDateTime(
+            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339)
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end->setDateTime(
+            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339)
+        );
         $event->setEnd($end);
 
         // Add the new event to the Google Calendar.
         return $this->service->events->insert($provider['settings']['google_calendar'], $event);
-
     }
 
     /**
@@ -296,7 +310,10 @@ class Google_sync {
      */
     public function update_unavailability(array $provider, array $unavailability): Google_Service_Calendar_Event
     {
-        $event = $this->service->events->get($provider['settings']['google_calendar'], $unavailability['id_google_calendar']);
+        $event = $this->service->events->get(
+            $provider['settings']['google_calendar'],
+            $unavailability['id_google_calendar']
+        );
 
         $event->setSummary('Unavailable');
         $event->setDescription($unavailability['notes']);
@@ -304,11 +321,15 @@ class Google_sync {
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $start->setDateTime(
+            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339)
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end->setDateTime(
+            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339)
+        );
         $event->setEnd($end);
 
         return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
@@ -352,7 +373,7 @@ class Google_sync {
         $params = [
             'timeMin' => date(DateTimeInterface::RFC3339, $start),
             'timeMax' => date(DateTimeInterface::RFC3339, $end),
-            'singleEvents' => TRUE,
+            'singleEvents' => true
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);
@@ -372,10 +393,8 @@ class Google_sync {
 
         $calendars = [];
 
-        foreach ($calendar_list->getItems() as $google_calendar)
-        {
-            if ($google_calendar->getAccessRole() === 'reader')
-            {
+        foreach ($calendar_list->getItems() as $google_calendar) {
+            if ($google_calendar->getAccessRole() === 'reader') {
                 continue;
             }
 
@@ -419,19 +438,19 @@ class Google_sync {
 
         $appointment_end_instance->setTimezone($utc_timezone_instance);
 
-        $add = [
-            $provider['email']
-        ];
+        $add = [$provider['email']];
 
-        if ( ! empty($customer['email']))
-        {
+        if (!empty($customer['email'])) {
             $add[] = $customer['email'];
         }
 
         $add_to_google_url_params = [
             'action' => 'TEMPLATE',
             'text' => $service['name'],
-            'dates' => $appointment_start_instance->format('Ymd\THis\Z') . '/' . $appointment_end_instance->format('Ymd\THis\Z'),
+            'dates' =>
+                $appointment_start_instance->format('Ymd\THis\Z') .
+                '/' .
+                $appointment_end_instance->format('Ymd\THis\Z'),
             'location' => setting('company_name'),
             'details' => 'View/Change Appointment: ' . site_url('appointments/index/' . $appointment['hash']),
             'add' => implode(', ', $add)

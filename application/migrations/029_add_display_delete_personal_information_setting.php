@@ -11,14 +11,14 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_display_delete_personal_information_setting extends EA_Migration {
+class Migration_Add_display_delete_personal_information_setting extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'display_delete_personal_information'])->num_rows())
-        {
+        if (!$this->db->get_where('settings', ['name' => 'display_delete_personal_information'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'display_delete_personal_information',
                 'value' => '0'
@@ -31,8 +31,7 @@ class Migration_Add_display_delete_personal_information_setting extends EA_Migra
      */
     public function down()
     {
-        if ($this->db->get_where('settings', ['name' => 'display_delete_personal_information'])->num_rows())
-        {
+        if ($this->db->get_where('settings', ['name' => 'display_delete_personal_information'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'display_delete_personal_information']);
         }
     }

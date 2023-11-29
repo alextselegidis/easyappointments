@@ -2,22 +2,25 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @author    CodeIgniter community
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['email_must_be_array'] = "メールアドレスのバリデーションは、配列でデータを渡す必要があります。";
+$lang['email_must_be_array'] = 'メールアドレスのバリデーションは、配列でデータを渡す必要があります。';
 $lang['email_invalid_address'] = 'メールアドレスの形式が違います: %s';
 $lang['email_attachment_missing'] = '次のメールの添付が見つかりません: %s';
 $lang['email_attachment_unreadable'] = '次の添付ファイルが開けません: %s';
 $lang['email_no_from'] = ' "From"ヘッダーがないためメールを送信できません';
 $lang['email_no_recipients'] = '宛先 (To,Cc,Bcc) が指定されていません';
-$lang['email_send_failure_phpmail'] = 'PHP mail() を使ってメールを送信できません。お使いのサーバでは、PHP mail() でメールを送信できるよう設定されていない可能性があります。';
-$lang['email_send_failure_sendmail'] = 'PHP Sendmail を使ってメールを送信できません。お使いのサーバでは、PHP Sendmail でメールを送信できるよう設定されていない可能性があります。';
-$lang['email_send_failure_smtp'] = 'PHP SMTP を使ってメールを送信できません。お使いのサーバでは、PHP SMTP でメールを送信できるよう設定されていない可能性があります';
+$lang['email_send_failure_phpmail'] =
+    'PHP mail() を使ってメールを送信できません。お使いのサーバでは、PHP mail() でメールを送信できるよう設定されていない可能性があります。';
+$lang['email_send_failure_sendmail'] =
+    'PHP Sendmail を使ってメールを送信できません。お使いのサーバでは、PHP Sendmail でメールを送信できるよう設定されていない可能性があります。';
+$lang['email_send_failure_smtp'] =
+    'PHP SMTP を使ってメールを送信できません。お使いのサーバでは、PHP SMTP でメールを送信できるよう設定されていない可能性があります';
 $lang['email_sent'] = 'メッセージは次のプロトコルを使って正常に送信されました: %s';
 $lang['email_no_socket'] = 'Sendmail に対しソケットを開くことができません。設定を見直してください。';
 $lang['email_no_hostname'] = 'SMTP ホスト名が指定されていません';

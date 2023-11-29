@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Unavailabilities extends EA_Controller {
+class Unavailabilities extends EA_Controller
+{
     /**
      * Unavailabilities constructor.
      */
@@ -39,10 +40,8 @@ class Unavailabilities extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_APPOINTMENTS))
-            {
+        try {
+            if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -57,9 +56,7 @@ class Unavailabilities extends EA_Controller {
             $unavailabilities = $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
 
             json_response($unavailabilities);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -69,10 +66,8 @@ class Unavailabilities extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_APPOINTMENTS))
-            {
+        try {
+            if (cannot('add', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -89,7 +84,7 @@ class Unavailabilities extends EA_Controller {
                 'zip_code',
                 'notes',
                 'timezone',
-                'language',
+                'language'
             ]);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
@@ -103,12 +98,30 @@ class Unavailabilities extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $unavailability);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $unavailability_id
             ]);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
-        catch (Throwable $e)
-        {
+    }
+
+    /**
+     * Find an unavailability.
+     */
+    public function find()
+    {
+        try {
+            if (cannot('view', PRIV_APPOINTMENTS)) {
+                abort(403, 'Forbidden');
+            }
+
+            $unavailability_id = request('unavailability_id');
+
+            $unavailability = $this->unavailabilities_model->find($unavailability_id);
+
+            json_response($unavailability);
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -118,10 +131,8 @@ class Unavailabilities extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_APPOINTMENTS))
-            {
+        try {
+            if (cannot('edit', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -138,12 +149,10 @@ class Unavailabilities extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $unavailability);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $unavailability_id
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -153,10 +162,8 @@ class Unavailabilities extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_APPOINTMENTS))
-            {
+        try {
+            if (cannot('delete', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -169,35 +176,9 @@ class Unavailabilities extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 
             json_response([
-                'success' => TRUE,
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Find an unavailability.
-     */
-    public function find()
-    {
-        try
-        {
-            if (cannot('view', PRIV_APPOINTMENTS))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $unavailability_id = request('unavailability_id');
-
-            $unavailability = $this->unavailabilities_model->find($unavailability_id);
-
-            json_response($unavailability);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

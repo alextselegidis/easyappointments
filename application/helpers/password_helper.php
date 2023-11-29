@@ -27,17 +27,15 @@
  */
 function hash_password(string $salt, string $password): string
 {
-    if (strlen($password) > MAX_PASSWORD_LENGTH)
-    {
+    if (strlen($password) > MAX_PASSWORD_LENGTH) {
         throw new InvalidArgumentException('The provided password is too long, please use a shorter value.');
     }
 
-    $half = (int)(strlen($salt) / 2);
+    $half = (int) (strlen($salt) / 2);
 
     $hash = hash('sha256', substr($salt, 0, $half) . $password . substr($salt, $half));
 
-    for ($i = 0; $i < 100000; $i++)
-    {
+    for ($i = 0; $i < 100000; $i++) {
         $hash = hash('sha256', $hash);
     }
 
@@ -56,7 +54,7 @@ function generate_salt(): string
 {
     $max_length = 100;
 
-    $salt = hash('sha256', (uniqid(rand(), TRUE)));
+    $salt = hash('sha256', uniqid(rand(), true));
 
     return substr($salt, 0, $max_length);
 }

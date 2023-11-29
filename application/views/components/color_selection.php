@@ -4,11 +4,11 @@
  */
 ?>
 
-<?php section('styles') ?>
+<?php section('styles'); ?>
 
 <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/components/color_selection.css') ?>">
 
-<?php end_section('styles') ?>
+<?php end_section('styles'); ?>
 
 <label class="form-label"><?= lang('color') ?></label>
 
@@ -58,8 +58,8 @@
     </button>
 </div>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/components/color_selection.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

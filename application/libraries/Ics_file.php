@@ -28,10 +28,11 @@ use Jsvrcek\ICS\Utility\Formatter;
  *
  * An ICS file is a calendar file saved in a universal calendar format used by many email and calendar programs,
  * including Microsoft Outlook, Google Calendar, and Apple Calendar.
- * 
+ *
  * @package Libraries
  */
-class Ics_file {
+class Ics_file
+{
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -42,7 +43,7 @@ class Ics_file {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->library('ics_provider');
         $this->CI->load->library('ics_calendar');
@@ -79,10 +80,9 @@ class Ics_file {
             ->setSummary($service['name'])
             ->setUid($appointment['id']);
 
-        if ( ! empty($service['location']))
-        {
+        if (!empty($service['location'])) {
             $location = new Location();
-            $location->setName((string)$service['location']);
+            $location->setName((string) $service['location']);
             $event->addLocation($location);
         }
 
@@ -108,21 +108,21 @@ class Ics_file {
             '',
             lang('notes'),
             '',
-            $appointment['notes'],
+            $appointment['notes']
         ];
 
         $event->setDescription(implode("\\n", $description));
 
         $attendee = new Attendee(new Formatter());
 
-        if (isset($customer['email']) && ! empty($customer['email']))
-        {
+        if (isset($customer['email']) && !empty($customer['email'])) {
             $attendee->setValue($customer['email']);
         }
 
         // Add the event attendees.
         $attendee->setName($customer['first_name'] . ' ' . $customer['last_name']);
-        $attendee->setCalendarUserType('INDIVIDUAL')
+        $attendee
+            ->setCalendarUserType('INDIVIDUAL')
             ->setRole('REQ-PARTICIPANT')
             ->setParticipationStatus('NEEDS-ACTION')
             ->setRsvp('TRUE');
@@ -148,13 +148,13 @@ class Ics_file {
 
         $attendee = new Attendee(new Formatter());
 
-        if (isset($provider['email']) && ! empty($provider['email']))
-        {
+        if (isset($provider['email']) && !empty($provider['email'])) {
             $attendee->setValue($provider['email']);
         }
 
         $attendee->setName($provider['first_name'] . ' ' . $provider['last_name']);
-        $attendee->setCalendarUserType('INDIVIDUAL')
+        $attendee
+            ->setCalendarUserType('INDIVIDUAL')
             ->setRole('REQ-PARTICIPANT')
             ->setParticipationStatus('ACCEPTED')
             ->setRsvp('FALSE');
@@ -163,9 +163,7 @@ class Ics_file {
         // Set the organizer.
         $organizer = new Organizer(new Formatter());
 
-        $organizer
-            ->setValue($provider['email'])
-            ->setName($provider['first_name'] . ' ' . $provider['last_name']);
+        $organizer->setValue($provider['email'])->setName($provider['first_name'] . ' ' . $provider['last_name']);
 
         $event->setOrganizer($organizer);
 
@@ -178,7 +176,7 @@ class Ics_file {
             ->addEvent($event);
 
         // Setup exporter.
-        $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
+        $calendarExport = new CalendarExport(new CalendarStream(), new Formatter());
         $calendarExport->addCalendar($calendar);
 
         return $calendarExport->getStream();

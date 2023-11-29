@@ -16,7 +16,8 @@
  *
  * @package Controllers
  */
-class Appointments_api_v1 extends EA_Controller {
+class Appointments_api_v1 extends EA_Controller
+{
     /**
      * Appointments_api_v1 constructor.
      */
@@ -44,8 +45,7 @@ class Appointments_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -58,14 +58,13 @@ class Appointments_api_v1 extends EA_Controller {
 
             $with = $this->api->request_with();
 
-            $where = NULL;
+            $where = null;
 
             // Date query param.
 
             $date = request('date');
 
-            if ( ! empty($date))
-            {
+            if (!empty($date)) {
                 $where['DATE(start_datetime)'] = (new DateTime($date))->format('Y-m-d');
             }
 
@@ -73,8 +72,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             $from = request('from');
 
-            if ( ! empty($from))
-            {
+            if (!empty($from)) {
                 $where['DATE(start_datetime) >='] = (new DateTime($from))->format('Y-m-d');
             }
 
@@ -82,8 +80,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             $till = request('till');
 
-            if ( ! empty($till))
-            {
+            if (!empty($till)) {
                 $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
             }
 
@@ -91,8 +88,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             $service_id = request('serviceId');
 
-            if ( ! empty($service_id))
-            {
+            if (!empty($service_id)) {
                 $where['id_services'] = $service_id;
             }
 
@@ -100,8 +96,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             $provider_id = request('providerId');
 
-            if ( ! empty($provider_id))
-            {
+            if (!empty($provider_id)) {
                 $where['id_users_provider'] = $provider_id;
             }
 
@@ -109,8 +104,7 @@ class Appointments_api_v1 extends EA_Controller {
 
             $customer_id = request('customerId');
 
-            if ( ! empty($customer_id))
-            {
+            if (!empty($customer_id)) {
                 $where['id_users_customer'] = $customer_id;
             }
 
@@ -118,28 +112,57 @@ class Appointments_api_v1 extends EA_Controller {
                 ? $this->appointments_model->get($where, $limit, $offset, $order_by)
                 : $this->appointments_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($appointments as &$appointment)
-            {
+            foreach ($appointments as &$appointment) {
                 $this->appointments_model->api_encode($appointment);
 
                 $this->aggregates($appointment);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->appointments_model->only($appointment, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->appointments_model->load($appointment, $with);
                 }
             }
 
             json_response($appointments);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Load the relations of the current appointment if the "aggregates" query parameter is present.
+     *
+     * This is a compatibility addition to the appointment resource which was the only one to support it.
+     *
+     * Use the "attach" query parameter instead as this one will be removed.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @deprecated Since 1.5
+     */
+    private function aggregates(array &$appointment)
+    {
+        $aggregates = request('aggregates') !== null;
+
+        if ($aggregates) {
+            $appointment['service'] = $this->services_model->find(
+                $appointment['id_services'] ?? ($appointment['serviceId'] ?? null),
+                true
+            );
+            $appointment['provider'] = $this->providers_model->find(
+                $appointment['id_users_provider'] ?? ($appointment['providerId'] ?? null),
+                true
+            );
+            $appointment['customer'] = $this->customers_model->find(
+                $appointment['id_users_customer'] ?? ($appointment['customerId'] ?? null),
+                true
+            );
+            $this->services_model->api_encode($appointment['service']);
+            $this->providers_model->api_encode($appointment['provider']);
+            $this->customers_model->api_encode($appointment['customer']);
         }
     }
 
@@ -148,10 +171,9 @@ class Appointments_api_v1 extends EA_Controller {
      *
      * @param int|null $id Appointment ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null)
     {
-        try
-        {
+        try {
             $fields = $this->api->request_fields();
 
             $with = $this->api->request_with();
@@ -160,27 +182,22 @@ class Appointments_api_v1 extends EA_Controller {
 
             $this->appointments_model->api_encode($appointment);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->appointments_model->only($appointment, $fields);
             }
 
-            if ( ! empty($with))
-            {
+            if (!empty($with)) {
                 $this->appointments_model->load($appointment, $with);
             }
 
-            if ( ! $appointment)
-            {
+            if (!$appointment) {
                 response('Not Found', 404);
 
                 return;
             }
 
             json_response($appointment);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -190,19 +207,16 @@ class Appointments_api_v1 extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
+        try {
             $appointment = request();
 
             $this->appointments_model->api_decode($appointment);
 
-            if (array_key_exists('id', $appointment))
-            {
+            if (array_key_exists('id', $appointment)) {
                 unset($appointment['id']);
             }
 
-            if ( ! array_key_exists('end_datetime', $appointment))
-            {
+            if (!array_key_exists('end_datetime', $appointment)) {
                 $appointment['end_datetime'] = $this->calculate_end_datetime($appointment);
             }
 
@@ -215,128 +229,9 @@ class Appointments_api_v1 extends EA_Controller {
             $this->appointments_model->api_encode($created_appointment);
 
             json_response($created_appointment, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
-    }
-
-    /**
-     * Update an appointment.
-     *
-     * @param int $id Appointment ID.
-     */
-    public function update(int $id)
-    {
-        try
-        {
-            $occurrences = $this->appointments_model->get(['id' => $id]);
-
-            if (empty($occurrences))
-            {
-                response('', 404);
-
-                return;
-            }
-
-            $original_appointment = $occurrences[0];
-
-            $appointment = request();
-
-            $this->appointments_model->api_decode($appointment, $original_appointment);
-
-            $appointment_id = $this->appointments_model->save($appointment);
-
-            $updated_appointment = $this->appointments_model->find($appointment_id);
-
-            $this->notify_and_sync_appointment($updated_appointment, 'update');
-
-            $this->appointments_model->api_encode($updated_appointment);
-
-            json_response($updated_appointment);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Delete an appointment.
-     *
-     * @param int $id Appointment ID.
-     */
-    public function destroy(int $id)
-    {
-        try
-        {
-            $occurrences = $this->appointments_model->get(['id' => $id]);
-
-            if (empty($occurrences))
-            {
-                response('', 404);
-
-                return;
-            }
-
-            $deleted_appointment = $occurrences[0];
-
-            $service = $this->services_model->find($deleted_appointment['id_services'], TRUE);
-
-            $provider = $this->providers_model->find($deleted_appointment['id_users_provider'], TRUE);
-
-            $customer = $this->customers_model->find($deleted_appointment['id_users_customer'], TRUE);
-
-            $settings = [
-                'company_name' => setting('company_name'),
-                'company_email' => setting('company_email'),
-                'company_link' => setting('company_link'),
-                'date_format' => setting('date_format'),
-                'time_format' => setting('time_format')
-            ];
-
-            $this->appointments_model->delete($id);
-
-            $this->synchronization->sync_appointment_deleted($deleted_appointment, $provider);
-
-            $this->notifications->notify_appointment_deleted($deleted_appointment, $service, $provider, $customer, $settings);
-
-            response('', 204);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Send the required notifications and trigger syncing after saving an appointment.
-     *
-     * @param array $appointment Appointment data.
-     * @param string $action Performed action ("store" or "update").
-     */
-    private function notify_and_sync_appointment(array $appointment, string $action = 'store')
-    {
-        $manage_mode = $action === 'update';
-
-        $service = $this->services_model->find($appointment['id_services'], TRUE);
-
-        $provider = $this->providers_model->find($appointment['id_users_provider'], TRUE);
-
-        $customer = $this->customers_model->find($appointment['id_users_customer'], TRUE);
-
-        $settings = [
-            'company_name' => setting('company_name'),
-            'company_email' => setting('company_email'),
-            'company_link' => setting('company_link'),
-            'date_format' => setting('date_format'),
-            'time_format' => setting('time_format')
-        ];
-
-        $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
-
-        $this->notifications->notify_appointment_saved($appointment, $service, $provider, $customer, $settings, $manage_mode);
     }
 
     /**
@@ -360,28 +255,124 @@ class Appointments_api_v1 extends EA_Controller {
     }
 
     /**
-     * Load the relations of the current appointment if the "aggregates" query parameter is present.
-     *
-     * This is a compatibility addition to the appointment resource which was the only one to support it.
-     *
-     * Use the "attach" query parameter instead as this one will be removed.
+     * Send the required notifications and trigger syncing after saving an appointment.
      *
      * @param array $appointment Appointment data.
-     *
-     * @deprecated Since 1.5
+     * @param string $action Performed action ("store" or "update").
      */
-    private function aggregates(array &$appointment)
+    private function notify_and_sync_appointment(array $appointment, string $action = 'store')
     {
-        $aggregates = request('aggregates') !== NULL;
+        $manage_mode = $action === 'update';
 
-        if ($aggregates)
-        {
-            $appointment['service'] = $this->services_model->find($appointment['id_services'] ?? $appointment['serviceId'] ?? NULL, TRUE);
-            $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider'] ?? $appointment['providerId'] ?? NULL, TRUE);
-            $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer'] ?? $appointment['customerId'] ?? NULL, TRUE);
-            $this->services_model->api_encode($appointment['service']);
-            $this->providers_model->api_encode($appointment['provider']);
-            $this->customers_model->api_encode($appointment['customer']);
+        $service = $this->services_model->find($appointment['id_services'], true);
+
+        $provider = $this->providers_model->find($appointment['id_users_provider'], true);
+
+        $customer = $this->customers_model->find($appointment['id_users_customer'], true);
+
+        $settings = [
+            'company_name' => setting('company_name'),
+            'company_email' => setting('company_email'),
+            'company_link' => setting('company_link'),
+            'date_format' => setting('date_format'),
+            'time_format' => setting('time_format')
+        ];
+
+        $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
+
+        $this->notifications->notify_appointment_saved(
+            $appointment,
+            $service,
+            $provider,
+            $customer,
+            $settings,
+            $manage_mode
+        );
+    }
+
+    /**
+     * Update an appointment.
+     *
+     * @param int $id Appointment ID.
+     */
+    public function update(int $id)
+    {
+        try {
+            $occurrences = $this->appointments_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
+            $original_appointment = $occurrences[0];
+
+            $appointment = request();
+
+            $this->appointments_model->api_decode($appointment, $original_appointment);
+
+            $appointment_id = $this->appointments_model->save($appointment);
+
+            $updated_appointment = $this->appointments_model->find($appointment_id);
+
+            $this->notify_and_sync_appointment($updated_appointment, 'update');
+
+            $this->appointments_model->api_encode($updated_appointment);
+
+            json_response($updated_appointment);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Delete an appointment.
+     *
+     * @param int $id Appointment ID.
+     */
+    public function destroy(int $id)
+    {
+        try {
+            $occurrences = $this->appointments_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
+            $deleted_appointment = $occurrences[0];
+
+            $service = $this->services_model->find($deleted_appointment['id_services'], true);
+
+            $provider = $this->providers_model->find($deleted_appointment['id_users_provider'], true);
+
+            $customer = $this->customers_model->find($deleted_appointment['id_users_customer'], true);
+
+            $settings = [
+                'company_name' => setting('company_name'),
+                'company_email' => setting('company_email'),
+                'company_link' => setting('company_link'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format')
+            ];
+
+            $this->appointments_model->delete($id);
+
+            $this->synchronization->sync_appointment_deleted($deleted_appointment, $provider);
+
+            $this->notifications->notify_appointment_deleted(
+                $deleted_appointment,
+                $service,
+                $provider,
+                $customer,
+                $settings
+            );
+
+            response('', 204);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
     }
 }

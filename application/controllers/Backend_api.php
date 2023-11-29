@@ -36,10 +36,11 @@
  * Handles the backend API related operations.
  *
  * @package Controllers
- * 
+ *
  * @deprecated Since 1.5
  */
-class Backend_api extends EA_Controller {
+class Backend_api extends EA_Controller
+{
     /**
      * Get Calendar Events
      */

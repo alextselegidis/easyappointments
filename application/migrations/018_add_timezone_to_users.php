@@ -11,14 +11,14 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_timezone_to_users extends EA_Migration {
+class Migration_Add_timezone_to_users extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('timezone', 'users'))
-        {
+        if (!$this->db->field_exists('timezone', 'users')) {
             $fields = [
                 'timezone' => [
                     'type' => 'VARCHAR',

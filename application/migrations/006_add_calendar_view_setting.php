@@ -11,14 +11,14 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_calendar_view_setting extends EA_Migration {
+class Migration_Add_calendar_view_setting extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('calendar_view', 'user_settings'))
-        {
+        if (!$this->db->field_exists('calendar_view', 'user_settings')) {
             $fields = [
                 'calendar_view' => [
                     'type' => 'VARCHAR',
@@ -38,8 +38,7 @@ class Migration_Add_calendar_view_setting extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('calendar_view', 'user_settings'))
-        {
+        if ($this->db->field_exists('calendar_view', 'user_settings')) {
             $this->dbforge->drop_column('user_settings', 'calendar_view');
         }
     }

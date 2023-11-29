@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // Estonian
 $lang['page_title'] = 'Broneeri aeg';
 $lang['service_and_provider'] = 'Vali teenus ja isik';
@@ -38,7 +38,8 @@ $lang['appointment_removed_from_schedule'] = 'Broneering on kalendrist eemaldatu
 $lang['appointment_details_was_sent_to_you'] = 'Broneeringu detailid saadeti ka e-postiga.';
 $lang['add_to_google_calendar'] = 'Lisa Google\'i kalendrisse';
 $lang['appointment_booked'] = 'Aja broneerimine õnnestus.';
-$lang['thank_you_for_appointment'] = 'Suur tänu aja broneerimise eest. Broneeringu info on toodud allpool. Muutusi saab teha vajutades broneeringu nupule.';
+$lang['thank_you_for_appointment'] =
+    'Suur tänu aja broneerimise eest. Broneeringu info on toodud allpool. Muutusi saab teha vajutades broneeringu nupule.';
 $lang['appointment_details_title'] = 'Broneeringu detailid';
 $lang['customer_details_title'] = 'Kliendi andmed';
 $lang['service'] = 'Teenus';
@@ -176,21 +177,25 @@ $lang['hidden'] = 'Peidetud';
 $lang['business_logic'] = 'Töötajad';
 $lang['current_user'] = 'Praegune kasutaja';
 $lang['about_app'] = 'Info rakenduse kohta';
-$lang['edit_working_plan_hint'] = 'Märgi päevad ja tunnid, mil on klientidel võimalik broneeringuid teha. Haldur saab broneeringuid ka väljaspool neid aegu määrata. See tööplaan on on vaikimisi ees kõigil teenusepakkujatel.';
+$lang['edit_working_plan_hint'] =
+    'Märgi päevad ja tunnid, mil on klientidel võimalik broneeringuid teha. Haldur saab broneeringuid ka väljaspool neid aegu määrata. See tööplaan on on vaikimisi ees kõigil teenusepakkujatel.';
 $lang['edit_breaks_hint'] = 'Lisa pausid. Uued teenusepakkujad saavad endalde vaikimisi need pausid.';
 $lang['book_advance_timeout'] = 'Broneeringu tegemise viimane hetk';
 $lang['book_advance_timeout_hint'] = 'Määratle, kui palju varem on võimalik broneeringuid teha.';
 $lang['timeout_minutes'] = 'Mitu minutit enne soovitavat broneeringuaega on võimalik veel broneeringut teha.';
-$lang['about_app_info'] = 'Easy!Appointments on veebirakendus mille abil on võimalik klientidel teenuste aegu broneerida. Broneeringuid saab sünkroniseerida Google\'i kalendriga.';
+$lang['about_app_info'] =
+    'Easy!Appointments on veebirakendus mille abil on võimalik klientidel teenuste aegu broneerida. Broneeringuid saab sünkroniseerida Google\'i kalendriga.';
 $lang['current_version'] = 'Versioon';
 $lang['support'] = 'Abi';
-$lang['about_app_support'] = 'Probleemide korral võib abi otsida rakenduse ametlikust Google\'i grupist. Githubi kaudu saab ka rakenduse arendamisega kursis olla.';
+$lang['about_app_support'] =
+    'Probleemide korral võib abi otsida rakenduse ametlikust Google\'i grupist. Githubi kaudu saab ka rakenduse arendamisega kursis olla.';
 $lang['official_website'] = 'Ametlik veebilehekülg';
 $lang['google_plus_community'] = 'Google+ grupp';
 $lang['support_group'] = 'Tugigrupp';
 $lang['project_issues'] = 'Projekti bugid';
 $lang['license'] = 'Litsents';
-$lang['about_app_license'] = 'Easy!Appointments on GPLv3 litsentsiga. Kasutades enda töös Easy!Appointmentsi nõustud lingis olevate litsentsitingimustega:';
+$lang['about_app_license'] =
+    'Easy!Appointments on GPLv3 litsentsiga. Kasutades enda töös Easy!Appointmentsi nõustud lingis olevate litsentsitingimustega:';
 $lang['logout_success'] = 'Välja logitud! Vajuta mõnda järgnevatest nuppudest, et siirduda järgmisele lehele.';
 $lang['book_appointment_title'] = 'Tee broneering';
 $lang['backend_section'] = 'Haldusrarakendus';
@@ -206,7 +211,8 @@ $lang['regenerate_password'] = 'Loo uus salasõna';
 $lang['go_to_login'] = 'Tagasi sisselogimislehele';
 $lang['new_password_sent_with_email'] = 'Uus salasõna saadeti e-mailiga';
 $lang['new_account_password'] = 'Uus salasõna';
-$lang['new_password_is'] = 'Salasõnaks on $password . Kui salasõna tundub keeruline, jäta käesolev kiri alles või vaheta salasõna meeldejäävama vastu.';
+$lang['new_password_is'] =
+    'Salasõnaks on $password . Kui salasõna tundub keeruline, jäta käesolev kiri alles või vaheta salasõna meeldejäävama vastu.';
 $lang['delete_record_prompt'] = 'Kustutan kirje? Toimingut ei saa tagasi võtta.';
 $lang['delete_admin'] = 'Kustuta administraator';
 $lang['delete_customer'] = 'Kustuta klient';
@@ -268,18 +274,21 @@ $lang['minute'] = 'Minut';
 $lang['google_sync_completed'] = 'Google\'iga sünkroniseerimine õnnestus.';
 $lang['google_sync_failed'] = 'Google\'iga sünkroniseerimine ebaõnnestus. Serveriga ei saadud ühendust.';
 $lang['select_google_calendar'] = 'Vali Google\'i kalender';
-$lang['select_google_calendar_prompt'] = 'Vali kalender kuhu broneeringud sünkroniseeristakse. Kui kalendrit ei vali, siis kasutatakse vaikimisi kalendrit.';
+$lang['select_google_calendar_prompt'] =
+    'Vali kalender kuhu broneeringud sünkroniseeristakse. Kui kalendrit ei vali, siis kasutatakse vaikimisi kalendrit.';
 $lang['google_calendar_selected'] = 'Google\'i kalender valitud.';
 $lang['oops_something_went_wrong'] = 'Ohhhoo! Midagi läks untsu.';
 $lang['could_not_add_to_google_calendar'] = 'Broneeringu lisamine Google\'i kalendrisse ebaõnnestus.';
 $lang['ea_update_success'] = 'Easy!Appointments uuendus õnnestus.';
 $lang['require_captcha'] = 'Nõua CAPTCHA-t';
-$lang['require_captcha_hint'] = 'Kui see on sisse lülitatud, siis nõutakse kasutajalt CAPTCHA-t enne broneeringu lisamist/muutmist.';
+$lang['require_captcha_hint'] =
+    'Kui see on sisse lülitatud, siis nõutakse kasutajalt CAPTCHA-t enne broneeringu lisamist/muutmist.';
 $lang['captcha_is_wrong'] = 'CAPTCHA kinnitus ebaõnnestus. Proovi uuesti.';
 $lang['any_provider'] = 'Suvaline teenusepakkuja';
 $lang['requested_hour_is_unavailability'] = 'Soovitud aeg ei ole enam saadaval. Palun vali uus aeg.';
 $lang['customer_notifications'] = 'Kliendi teavitused';
-$lang['customer_notifications_hint'] = 'Kui see on sisse lülitatud, siis klient saab teate, kui broneeringut on muudetud.';
+$lang['customer_notifications_hint'] =
+    'Kui see on sisse lülitatud, siis klient saab teate, kui broneeringut on muudetud.';
 $lang['date_format'] = 'Kuupäeva vorming';
 $lang['date_format_hint'] = 'Muuda kuupäeva esitusvormingut (D - Päev, M - Kuu, Y - Aasta).';
 $lang['time_format'] = 'Kellaaja vorming';
@@ -302,12 +311,14 @@ $lang['terms_and_conditions_content'] = 'Tingimuste sisu';
 $lang['privacy_policy'] = 'Privaatsuspoliitika';
 $lang['display_privacy_policy'] = 'Näita privaatsuspoliitikat';
 $lang['privacy_policy_content'] = 'Privaatsuspoliitika sisu';
-$lang['website_using_cookies_to_ensure_best_experience'] = 'See veebisait kasutab küpsiseid parema kasutajakogemuse tarvis.';
+$lang['website_using_cookies_to_ensure_best_experience'] =
+    'See veebisait kasutab küpsiseid parema kasutajakogemuse tarvis.';
 $lang['read_and_agree_to_terms_and_conditions'] = 'Olen lugenud ja nõustun {$link}tingimustega{/$link}.';
 $lang['read_and_agree_to_privacy_policy'] = 'Olen lugenud ja nõustun {$link}privaatsuspoliitikaga{/$link}.';
 $lang['delete_personal_information_hint'] = 'Eemalda süsteemist kõik minu broneeringud ja isikuandmed.';
 $lang['delete_personal_information'] = 'Kustuta isikuandmed';
-$lang['delete_personal_information_prompt'] = 'Oled kindel, et soovid enda isikuandmeid kustutada. Seda tegevust ei saa tagasi võtta.';
+$lang['delete_personal_information_prompt'] =
+    'Oled kindel, et soovid enda isikuandmeid kustutada. Seda tegevust ei saa tagasi võtta.';
 $lang['location'] = 'Asukoht';
 $lang['working_plan_exception'] = 'Tööplaani erand';
 $lang['working_plan_exceptions'] = 'Tööplaani erandid';
@@ -318,15 +329,20 @@ $lang['working_plan_exception_deleted'] = 'Tööplaani erand kustutatud.';
 $lang['add_working_plan_exceptions_during_each_day'] = 'Lisa tööplaani erand (väljapoole tavalist tööplaani).';
 $lang['add_working_plan_exception'] = 'Lisa tööplaani erand';
 $lang['require_phone_number'] = 'Nõua telefoninumbrit';
-$lang['require_phone_number_hint'] = 'Kui see on sisse lülitatud, siis klient peab broneerimisel sisestama ka enda telefoninumbri.';
-$lang['check_spam_folder'] = 'Kui e-maili mõne minuti jooksul ei saabu, siis palun kontrolli enda meili rämpspostikausta.';
-$lang['api_token_hint'] = 'Sea sisse juurdepääsuluba et võimaldada pääsuloaga autentimine Easy!Appointments API kasutamiseks.';
+$lang['require_phone_number_hint'] =
+    'Kui see on sisse lülitatud, siis klient peab broneerimisel sisestama ka enda telefoninumbri.';
+$lang['check_spam_folder'] =
+    'Kui e-maili mõne minuti jooksul ei saabu, siis palun kontrolli enda meili rämpspostikausta.';
+$lang['api_token_hint'] =
+    'Sea sisse juurdepääsuluba et võimaldada pääsuloaga autentimine Easy!Appointments API kasutamiseks.';
 $lang['timezone'] = 'Ajavöönd';
-$lang['overwrite_existing_working_plans'] = 'See kirjutab eksisteerivad tööplaanid üle. Oled kindel, et soovid jätkata?';
+$lang['overwrite_existing_working_plans'] =
+    'See kirjutab eksisteerivad tööplaanid üle. Oled kindel, et soovid jätkata?';
 $lang['working_plans_got_updated'] = 'Kõik tööplaanid uuendatud.';
 $lang['apply_to_all_providers'] = 'Rakenda kõikidele teenusepakkujatele';
 $lang['display_any_provider'] = 'Näita Suvalise Teenusepakkuja varianti';
-$lang['display_any_provider_hint'] = 'Broneeringu lehel tekib võimalus teha ajabroneering ilma kindlat teenusepakkujat valimata.';
+$lang['display_any_provider_hint'] =
+    'Broneeringu lehel tekib võimalus teha ajabroneering ilma kindlat teenusepakkujat valimata.';
 $lang['load_more'] = 'Lae veel';
 $lang['list'] = 'Nimekiri';
 $lang['default'] = 'Vaikimisi';
@@ -337,7 +353,8 @@ $lang['booking_settings'] = 'Broneeringu seaded';
 $lang['display'] = 'Display';
 $lang['require'] = 'Nõutud';
 $lang['color'] = 'Värvid';
-$lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
+$lang['matomo_analytics_url_hint'] =
+    'Add the URL to your own Matomo installation to enable Matomo tracking on the booking pages.';
 $lang['invalid_phone'] = 'Kehtetu telefoninumber.';
 $lang['legal'] = 'Juriidilist';
 $lang['business'] = 'Äriloogika';
@@ -348,7 +365,8 @@ $lang['display_message'] = 'Teadaanne';
 $lang['booking_is_disabled'] = 'Broneeringud keelatud!';
 $lang['appearance'] = 'Välimus';
 $lang['company_logo'] = 'Asutuse logo';
-$lang['company_logo_hint'] = 'Asutuse logo kuvatakse mitmel pool rakenduses ning ka teavitus-e-mailides. (pildifail maks. 2MB).';
+$lang['company_logo_hint'] =
+    'Asutuse logo kuvatakse mitmel pool rakenduses ning ka teavitus-e-mailides. (pildifail maks. 2MB).';
 $lang['company_color'] = 'Asutuse värvid';
 $lang['company_color_hint'] = 'Värvid on kasutusel igal pool rakenduses nii et see vastaks asutuse brändingule.';
 $lang['localization'] = 'Lokaliseerimine';
@@ -366,7 +384,8 @@ $lang['add_new_event'] = 'Lisa uus sündmus';
 $lang['what_kind_of_event'] = 'Mis laadi sündmust soovid lisada?';
 $lang['theme'] = 'Theme';
 $lang['limit_customer_access'] = 'Limit Customer Access';
-$lang['limit_customer_access_hint'] = 'If enabled, providers and secretaries will only be able to access customers they have an appointment with.';
+$lang['limit_customer_access_hint'] =
+    'If enabled, providers and secretaries will only be able to access customers they have an appointment with.';
 $lang['url'] = 'URL';
 $lang['secret_token'] = 'Secret Token';
 $lang['verify_ssl'] = 'Verify SSL';
@@ -388,26 +407,33 @@ $lang['admin_save'] = 'Admin Save';
 $lang['admin_delete'] = 'Admin Delete';
 $lang['options'] = 'Options';
 $lang['webhooks'] = 'Webhooks';
-$lang['webhooks_info'] = 'Webhooks enable you to send HTTP notifications to external web applications in response to various application events, such as the creation of an appointment or the removal of a customer.';
-$lang['integrations_info'] = 'Integrations enable you to make third-party connections with external applications and APIs.';
+$lang['webhooks_info'] =
+    'Webhooks enable you to send HTTP notifications to external web applications in response to various application events, such as the creation of an appointment or the removal of a customer.';
+$lang['integrations_info'] =
+    'Integrations enable you to make third-party connections with external applications and APIs.';
 $lang['configure'] = 'Configure';
 $lang['google_analytics'] = 'Google Analytics';
-$lang['google_analytics_info'] = 'Google Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
+$lang['google_analytics_info'] =
+    'Google Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
 $lang['matomo_analytics'] = 'Matomo Analytics';
-$lang['matomo_analytics_info'] = 'Matomo Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
+$lang['matomo_analytics_info'] =
+    'Matomo Analytics enable you to automatically add the tracking code and HTML markup to the public page and track all the public booking sessions.';
 $lang['api'] = 'API';
-$lang['api_info'] = 'API enable you to interact with all the Easy!Appointments data via the HTTP protocol and the available API endpoints and create your own integrations.';
+$lang['api_info'] =
+    'API enable you to interact with all the Easy!Appointments data via the HTTP protocol and the available API endpoints and create your own integrations.';
 $lang['google_analytics_code'] = 'Google Analytics Code';
 $lang['matomo_analytics_url'] = 'Matomo Analytics URL';
 $lang['future_booking_limit'] = 'Future Booking Limit';
 $lang['limit_days'] = 'Limit (Days)';
-$lang['future_booking_limit_hint'] = 'Set the future limit in days customers can make appointments via the public booking page.';
+$lang['future_booking_limit_hint'] =
+    'Set the future limit in days customers can make appointments via the public booking page.';
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Allow Rescheduling/Cancellation Before';
 $lang['at_least_one_field'] = 'At least one field must be displayed in the booking page.';
 $lang['status'] = 'Status';
 $lang['appointment_status_options'] = 'Appointment Status Options';
-$lang['appointment_status_options_info'] = 'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
+$lang['appointment_status_options_info'] =
+    'Define a list of available appointment status options that can be used in the the calendar page (the first one will automatically become the default value).';
 $lang['sunday_short'] = 'Sun';
 $lang['monday_short'] = 'Mon';
 $lang['tuesday_short'] = 'Tue';
@@ -445,5 +471,7 @@ $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
 $lang['blocked_period_save'] = 'Blocked Period Save';
 $lang['blocked_period_delete'] = 'Blocked Period Delete';
-$lang['blocked_periods_hint'] = 'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['blocked_periods_hint'] =
+    'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['auxiliary_field'] = 'Auxiliary Field';
 // End

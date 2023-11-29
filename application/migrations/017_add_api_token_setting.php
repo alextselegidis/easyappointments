@@ -11,7 +11,8 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_api_token_setting extends EA_Migration {
+class Migration_Add_api_token_setting extends EA_Migration
+{
     /**
      * Upgrade method.
      *
@@ -19,14 +20,12 @@ class Migration_Add_api_token_setting extends EA_Migration {
      */
     public function up()
     {
-        if ( ! $this->db->get_where('settings', ['name' => 'api_token'])->num_rows())
-        {
+        if (!$this->db->get_where('settings', ['name' => 'api_token'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'api_token',
                 'value' => ''
             ]);
         }
-
     }
 
     /**
@@ -36,8 +35,7 @@ class Migration_Add_api_token_setting extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->get_where('settings', ['name' => 'api_token'])->num_rows())
-        {
+        if ($this->db->get_where('settings', ['name' => 'api_token'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'api_token']);
         }
     }

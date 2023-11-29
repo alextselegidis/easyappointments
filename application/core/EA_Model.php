@@ -39,7 +39,8 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Model extends CI_Model {
+class EA_Model extends CI_Model
+{
     /**
      * @var array
      */
@@ -67,8 +68,7 @@ class EA_Model extends CI_Model {
      */
     public function get_value(string $field, int $record_id): string
     {
-        if (method_exists($this, 'value'))
-        {
+        if (method_exists($this, 'value')) {
             return $this->value($field, $record_id);
         }
 
@@ -88,8 +88,7 @@ class EA_Model extends CI_Model {
      */
     public function get_row(int $record_id): array
     {
-        if (method_exists($this, 'find'))
-        {
+        if (method_exists($this, 'find')) {
             return $this->find($record_id);
         }
 
@@ -106,7 +105,7 @@ class EA_Model extends CI_Model {
      *
      * @return array Returns an array of records.
      */
-    public function get_batch($where = NULL, int $limit = NULL, int $offset = NULL, string $order_by = NULL): array
+    public function get_batch($where = null, int $limit = null, int $offset = null, string $order_by = null): array
     {
         return $this->get($where, $limit, $offset, $order_by);
     }
@@ -135,29 +134,26 @@ class EA_Model extends CI_Model {
      */
     public function cast(array &$record)
     {
-        foreach ($this->casts as $attribute => $cast)
-        {
-            if ( ! isset($record[$attribute]))
-            {
+        foreach ($this->casts as $attribute => $cast) {
+            if (!isset($record[$attribute])) {
                 continue;
             }
 
-            switch ($cast)
-            {
+            switch ($cast) {
                 case 'integer':
-                    $record[$attribute] = (int)$record[$attribute];
+                    $record[$attribute] = (int) $record[$attribute];
                     break;
 
                 case 'float':
-                    $record[$attribute] = (float)$record[$attribute];
+                    $record[$attribute] = (float) $record[$attribute];
                     break;
 
                 case 'boolean':
-                    $record[$attribute] = (bool)$record[$attribute];
+                    $record[$attribute] = (bool) $record[$attribute];
                     break;
 
                 case 'string':
-                    $record[$attribute] = (string)$record[$attribute];
+                    $record[$attribute] = (string) $record[$attribute];
                     break;
 
                 default:
@@ -174,14 +170,10 @@ class EA_Model extends CI_Model {
      */
     public function only(array &$record, array $fields)
     {
-        if (is_assoc($record))
-        {
+        if (is_assoc($record)) {
             $record = array_fields($record, $fields);
-        }
-        else
-        {
-            foreach ($record as &$record_item)
-            {
+        } else {
+            foreach ($record as &$record_item) {
                 $record_item = array_fields($record_item, $fields);
             }
         }
@@ -195,19 +187,13 @@ class EA_Model extends CI_Model {
      */
     public function optional(array &$record, array $fields)
     {
-        if (is_assoc($record))
-        {
-            foreach ($fields as $field => $default)
-            {
+        if (is_assoc($record)) {
+            foreach ($fields as $field => $default) {
                 $record[$field] = $record[$field] ?? $default;
             }
-        }
-        else
-        {
-            foreach ($record as &$record_item)
-            {
-                foreach ($fields as $field => $default)
-                {
+        } else {
+            foreach ($record as &$record_item) {
+                foreach ($fields as $field => $default) {
                     $record_item[$field] = $record_item[$field] ?? $default;
                 }
             }
@@ -223,6 +209,6 @@ class EA_Model extends CI_Model {
      */
     public function db_field(string $api_field): ?string
     {
-        return $this->api_resource[$api_field] ?? NULL;
+        return $this->api_resource[$api_field] ?? null;
     }
 }

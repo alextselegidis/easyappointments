@@ -13,18 +13,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('dd'))
-{
+if (!function_exists('dd')) {
     /**
      * Output the provided variables with "var_dump" and stop the execution.
-     * 
+     *
      * Example:
-     * 
-     * dd($appointment, $service, $provider, $customer); 
+     *
+     * dd($appointment, $service, $provider, $customer);
      *
      * @param mixed ...$vars
      */
-    #[NoReturn] function dd(...$vars): void
+    #[NoReturn]
+    function dd(...$vars): void
     {
         var_dump($vars);
 

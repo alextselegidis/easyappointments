@@ -16,7 +16,8 @@
  *
  * @package Controllers
  */
-class Secretaries_api_v1 extends EA_Controller {
+class Secretaries_api_v1 extends EA_Controller
+{
     /**
      * Secretaries_api_v1 constructor.
      */
@@ -36,8 +37,7 @@ class Secretaries_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -51,28 +51,23 @@ class Secretaries_api_v1 extends EA_Controller {
             $with = $this->api->request_with();
 
             $secretaries = empty($keyword)
-                ? $this->secretaries_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->secretaries_model->get(null, $limit, $offset, $order_by)
                 : $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($secretaries as &$secretary)
-            {
+            foreach ($secretaries as &$secretary) {
                 $this->secretaries_model->api_encode($secretary);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->secretaries_model->only($secretary, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->secretaries_model->load($secretary, $with);
                 }
             }
 
             json_response($secretaries);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -82,32 +77,27 @@ class Secretaries_api_v1 extends EA_Controller {
      *
      * @param int|null $id Secretary ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null)
     {
-        try
-        {
+        try {
             $fields = $this->api->request_fields();
 
             $secretary = $this->secretaries_model->find($id);
 
             $this->secretaries_model->api_encode($secretary);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->secretaries_model->only($secretary, $fields);
             }
 
-            if ( ! $secretary)
-            {
+            if (!$secretary) {
                 response('', 404);
 
                 return;
             }
 
             json_response($secretary);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -117,24 +107,20 @@ class Secretaries_api_v1 extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
+        try {
             $secretary = request();
 
             $this->secretaries_model->api_decode($secretary);
 
-            if (array_key_exists('id', $secretary))
-            {
+            if (array_key_exists('id', $secretary)) {
                 unset($secretary['id']);
             }
 
-            if ( ! array_key_exists('providers', $secretary))
-            {
+            if (!array_key_exists('providers', $secretary)) {
                 throw new InvalidArgumentException('No providers property provided.');
             }
 
-            if ( ! array_key_exists('settings', $secretary))
-            {
+            if (!array_key_exists('settings', $secretary)) {
                 throw new InvalidArgumentException('No settings property provided.');
             }
 
@@ -145,9 +131,7 @@ class Secretaries_api_v1 extends EA_Controller {
             $this->secretaries_model->api_encode($created_secretary);
 
             json_response($created_secretary, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -159,12 +143,10 @@ class Secretaries_api_v1 extends EA_Controller {
      */
     public function update(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->secretaries_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -183,9 +165,7 @@ class Secretaries_api_v1 extends EA_Controller {
             $this->secretaries_model->api_encode($updated_secretary);
 
             json_response($updated_secretary);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -197,12 +177,10 @@ class Secretaries_api_v1 extends EA_Controller {
      */
     public function destroy(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->secretaries_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -211,9 +189,7 @@ class Secretaries_api_v1 extends EA_Controller {
             $this->secretaries_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

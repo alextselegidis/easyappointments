@@ -16,7 +16,8 @@
  *
  * @package Controllers
  */
-class Services_api_v1 extends EA_Controller {
+class Services_api_v1 extends EA_Controller
+{
     /**
      * Services_api_v1 constructor.
      */
@@ -36,8 +37,7 @@ class Services_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -47,32 +47,27 @@ class Services_api_v1 extends EA_Controller {
             $order_by = $this->api->request_order_by();
 
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $services = empty($keyword)
-                ? $this->services_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->services_model->get(null, $limit, $offset, $order_by)
                 : $this->services_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($services as &$service)
-            {
+            foreach ($services as &$service) {
                 $this->services_model->api_encode($service);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->services_model->only($service, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->services_model->load($service, $with);
                 }
             }
 
             json_response($services);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -82,39 +77,33 @@ class Services_api_v1 extends EA_Controller {
      *
      * @param int|null $id Service ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null)
     {
-        try
-        {
+        try {
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $service = $this->services_model->find($id);
 
             $this->services_model->api_encode($service);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->services_model->only($service, $fields);
             }
-            
-            if ( ! empty($with))
-            {
+
+            if (!empty($with)) {
                 $this->services_model->load($service, $with);
             }
 
-            if ( ! $service)
-            {
+            if (!$service) {
                 response('', 404);
 
                 return;
             }
 
             json_response($service);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -124,14 +113,12 @@ class Services_api_v1 extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
+        try {
             $service = request();
 
             $this->services_model->api_decode($service);
 
-            if (array_key_exists('id', $service))
-            {
+            if (array_key_exists('id', $service)) {
                 unset($service['id']);
             }
 
@@ -142,9 +129,7 @@ class Services_api_v1 extends EA_Controller {
             $this->services_model->api_encode($created_service);
 
             json_response($created_service, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -156,12 +141,10 @@ class Services_api_v1 extends EA_Controller {
      */
     public function update(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->services_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -180,9 +163,7 @@ class Services_api_v1 extends EA_Controller {
             $this->services_model->api_encode($updated_service);
 
             json_response($updated_service);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -194,12 +175,10 @@ class Services_api_v1 extends EA_Controller {
      */
     public function destroy(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->services_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -208,9 +187,7 @@ class Services_api_v1 extends EA_Controller {
             $this->services_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

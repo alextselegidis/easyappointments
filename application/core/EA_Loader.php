@@ -39,7 +39,8 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Loader extends CI_Loader {
+class EA_Loader extends CI_Loader
+{
     /**
      * Override the original view loader method so that layouts are also supported.
      *
@@ -49,19 +50,26 @@ class EA_Loader extends CI_Loader {
      *
      * @return object|string
      */
-    public function view($view, $vars = [], $return = FALSE)
+    public function view($view, $vars = [], $return = false)
     {
         $layout = config('layout');
 
         $is_layout_page = empty($layout); // This is a layout page if "layout" was undefined before the page got rendered.
-        
-        $result = $this->_ci_load(['_ci_view' => $view, '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return]);
+
+        $result = $this->_ci_load([
+            '_ci_view' => $view,
+            '_ci_vars' => $this->_ci_prepare_view_vars($vars),
+            '_ci_return' => $return
+        ]);
 
         $layout = config('layout');
 
-        if ($layout && $is_layout_page)
-        {
-            $result = $this->_ci_load(['_ci_view' => $layout['filename'], '_ci_vars' => $this->_ci_prepare_view_vars($vars), '_ci_return' => $return]);
+        if ($layout && $is_layout_page) {
+            $result = $this->_ci_load([
+                '_ci_view' => $layout['filename'],
+                '_ci_vars' => $this->_ci_prepare_view_vars($vars),
+                '_ci_return' => $return
+            ]);
         }
 
         return $result;

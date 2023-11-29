@@ -11,7 +11,6 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-
 /**
  * Accounts library.
  *
@@ -19,7 +18,8 @@
  *
  * @package Libraries
  */
-class Accounts {
+class Accounts
+{
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -30,7 +30,7 @@ class Accounts {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('users_model');
         $this->CI->load->model('roles_model');
@@ -53,14 +53,15 @@ class Accounts {
 
         $password = hash_password($salt, $password);
 
-        $user_settings = $this->CI->db->get_where('user_settings', [
-            'username' => $username,
-            'password' => $password
-        ])->row_array();
+        $user_settings = $this->CI->db
+            ->get_where('user_settings', [
+                'username' => $username,
+                'password' => $password
+            ])
+            ->row_array();
 
-        if (empty($user_settings))
-        {
-            return NULL;
+        if (empty($user_settings)) {
+            return null;
         }
 
         $user = $this->CI->users_model->find($user_settings['id_users']);
@@ -73,9 +74,9 @@ class Accounts {
             'user_id' => $user['id'],
             'user_email' => $user['email'],
             'username' => $username,
-            'timezone' => ! empty($user['timezone']) ? $user['timezone'] : $default_timezone,
-            'language' => ! empty($user['language']) ? $user['language'] : Config::LANGUAGE,
-            'role_slug' => $role['slug'],
+            'timezone' => !empty($user['timezone']) ? $user['timezone'] : $default_timezone,
+            'language' => !empty($user['language']) ? $user['language'] : Config::LANGUAGE,
+            'role_slug' => $role['slug']
         ];
     }
 
@@ -119,9 +120,7 @@ class Accounts {
      */
     public function regenerate_password(string $username, string $email): string
     {
-        $query = $this
-            ->CI
-            ->db
+        $query = $this->CI->db
             ->select('users.id')
             ->from('users')
             ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
@@ -129,8 +128,7 @@ class Accounts {
             ->where('user_settings.username', $username)
             ->get();
 
-        if ( ! $query->num_rows())
-        {
+        if (!$query->num_rows()) {
             throw new RuntimeException('The username was not found in the database: ' . $username);
         }
 
@@ -157,6 +155,10 @@ class Accounts {
      */
     public function does_account_exist(int $user_id): bool
     {
-        return $this->CI->users_model->query()->where(['id' => $user_id])->get()->num_rows() > 0;
+        return $this->CI->users_model
+            ->query()
+            ->where(['id' => $user_id])
+            ->get()
+            ->num_rows() > 0;
     }
 }

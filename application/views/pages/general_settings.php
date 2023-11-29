@@ -1,12 +1,12 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div id="general-settings-page" class="container backend-page">
     <div id="general-settings">
         <div class="row">
             <div class="col-sm-3 offset-sm-1">
-                <?php component('settings_nav') ?>
+                <?php component('settings_nav'); ?>
             </div>
             <div class="col-sm-6">
                 <form>
@@ -21,7 +21,7 @@
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
                                 </button>
-                            <?php endif ?>
+                            <?php endif; ?>
                         </div>
 
                         <div class="row mb-5">
@@ -122,11 +122,11 @@
                                     </label>
 
                                     <select id="theme" data-field="theme" class="form-control">
-                                        <?php foreach(vars('available_themes') as $available_theme): ?>
+                                        <?php foreach (vars('available_themes') as $available_theme): ?>
                                             <option value="<?= $available_theme ?>">
                                                 <?= ucfirst($available_theme) ?>
                                             </option>
-                                        <?php endforeach ?>
+                                        <?php endforeach; ?>
                                     </select>
 
                                     <div class="form-text text-muted">
@@ -200,12 +200,12 @@
     </div>
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/general_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/general_settings.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

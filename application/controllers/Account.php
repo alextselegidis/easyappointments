@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Account extends EA_Controller {
+class Account extends EA_Controller
+{
     /**
      * Account constructor.
      */
@@ -49,10 +50,8 @@ class Account extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_USER_SETTINGS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_USER_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -64,14 +63,14 @@ class Account extends EA_Controller {
         $account = $this->users_model->find($user_id);
 
         script_vars([
-            'account' => $account,
+            'account' => $account
         ]);
 
         html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'grouped_timezones' => $this->timezones->to_grouped_array(),
+            'grouped_timezones' => $this->timezones->to_grouped_array()
         ]);
 
         $this->load->view('pages/account');
@@ -82,10 +81,8 @@ class Account extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
-            if (cannot('edit', PRIV_USER_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_USER_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -110,15 +107,9 @@ class Account extends EA_Controller {
                 'settings'
             ]);
 
-            $this->users_model->only($account['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view'
-            ]);
+            $this->users_model->only($account['settings'], ['username', 'password', 'notifications', 'calendar_view']);
 
-            if (empty($account['password']))
-            {
+            if (empty($account['password'])) {
                 unset($account['password']);
             }
 
@@ -128,13 +119,11 @@ class Account extends EA_Controller {
                 'user_email' => $account['email'],
                 'username' => $account['settings']['username'],
                 'timezone' => $account['timezone'],
-                'language' => $account['language'],
+                'language' => $account['language']
             ]);
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -144,8 +133,7 @@ class Account extends EA_Controller {
      */
     public function validate_username()
     {
-        try
-        {
+        try {
             $username = request('username');
 
             $user_id = request('user_id');
@@ -153,11 +141,9 @@ class Account extends EA_Controller {
             $is_valid = $this->users_model->validate_username($username, $user_id);
 
             json_response([
-                'is_valid' => $is_valid,
+                'is_valid' => $is_valid
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

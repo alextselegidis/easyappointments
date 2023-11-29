@@ -1,6 +1,6 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="webhooks-page">
     <div class="row" id="webhooks">
@@ -19,7 +19,7 @@
             <h4 class="text-black-50 mb-3 fw-light">
                 <?= lang('webhooks') ?>
             </h4>
-            
+
             <div class="results">
                 <!-- JS -->
             </div>
@@ -95,7 +95,7 @@
                     <?= lang('actions') ?>
                 </label>
             </div>
-            
+
             <div class="border rounded mb-3 p-3">
                 <div id="actions">
                     <?php foreach (vars('available_actions') as $available_action): ?>
@@ -111,7 +111,7 @@
                                 </label>
                             </div>
                         </div>
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -120,7 +120,7 @@
                     <?= lang('options') ?>
                 </label>
             </div>
-            
+
             <div class="border rounded mb-3 p-3">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="is-ssl-verified">
@@ -141,9 +141,9 @@
     </div>
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
@@ -151,4 +151,4 @@
 <script src="<?= asset_url('assets/js/http/webhooks_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/webhooks.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

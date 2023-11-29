@@ -14,11 +14,12 @@
 /**
  * Login controller.
  *
- * Handles the login page functionality. 
+ * Handles the login page functionality.
  *
  * @package Controllers
  */
-class Login extends EA_Controller {
+class Login extends EA_Controller
+{
     /**
      * Login constructor.
      */
@@ -30,12 +31,12 @@ class Login extends EA_Controller {
         $this->load->library('email_messages');
 
         script_vars([
-            'dest_url' => session('dest_url', site_url('calendar')),
+            'dest_url' => session('dest_url', site_url('calendar'))
         ]);
     }
 
     /**
-     * Render the login page. 
+     * Render the login page.
      */
     public function index()
     {
@@ -45,48 +46,42 @@ class Login extends EA_Controller {
             'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name')
         ]);
-        
+
         $this->load->view('pages/login');
     }
 
     /**
-     * Validate the provided credentials and start a new session if the validation was successful. 
+     * Validate the provided credentials and start a new session if the validation was successful.
      */
     public function validate()
     {
-        try
-        {
+        try {
             $username = request('username');
 
-            if (empty($username))
-            {
+            if (empty($username)) {
                 throw new InvalidArgumentException('No username value provided.');
             }
 
             $password = request('password');
 
-            if (empty($password))
-            {
+            if (empty($password)) {
                 throw new InvalidArgumentException('No password value provided.');
             }
 
             $user_data = $this->accounts->check_login($username, $password);
 
-            if (empty($user_data))
-            {
+            if (empty($user_data)) {
                 throw new InvalidArgumentException('Invalid credentials provided, please try again.');
             }
-            
+
             $this->session->sess_regenerate();
 
             session($user_data); // Save data in the session.
 
             json_response([
-                'success' => TRUE,
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

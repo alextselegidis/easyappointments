@@ -20,7 +20,8 @@ require_once __DIR__ . '/../core/EA_Migration.php';
  *
  * @package Libraries
  */
-class Instance {
+class Instance
+{
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -31,7 +32,7 @@ class Instance {
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('admins_model');
         $this->CI->load->model('services_model');
@@ -51,33 +52,27 @@ class Instance {
     {
         $current_version = $this->CI->migration->current_version();
 
-        if ($type === 'up')
-        {
-            if ( ! $this->CI->migration->version($current_version + 1))
-            {
+        if ($type === 'up') {
+            if (!$this->CI->migration->version($current_version + 1)) {
                 show_error($this->CI->migration->error_string());
             }
 
             return;
         }
 
-        if ($type === 'down')
-        {
-            if ( ! $this->CI->migration->version($current_version - 1))
-            {
+        if ($type === 'down') {
+            if (!$this->CI->migration->version($current_version - 1)) {
                 show_error($this->CI->migration->error_string());
             }
 
             return;
         }
 
-        if ($type === 'fresh' && ! $this->CI->migration->version(0))
-        {
+        if ($type === 'fresh' && !$this->CI->migration->version(0)) {
             show_error($this->CI->migration->error_string());
         }
 
-        if ($this->CI->migration->latest() === FALSE)
-        {
+        if ($this->CI->migration->latest() === false) {
             show_error($this->CI->migration->error_string());
         }
     }
@@ -86,17 +81,17 @@ class Instance {
      * Seed the database with test data.
      *
      * @return string Return's the administrator user password.
-     * 
+     *
      * @throws Exception
      */
     public function seed(): string
     {
         // Settings
-        
+
         setting([
             'company_name' => 'Company Name',
             'company_email' => 'info@example.org',
-            'company_link' => 'https://example.org',
+            'company_link' => 'https://example.org'
         ]);
 
         // Admin
@@ -109,9 +104,9 @@ class Instance {
             'settings' => [
                 'username' => 'administrator',
                 'password' => 'administrator',
-                'notifications' => TRUE,
+                'notifications' => true,
                 'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ],
+            ]
         ]);
 
         // Service
@@ -132,20 +127,18 @@ class Instance {
             'last_name' => 'Doe',
             'email' => 'jane@example.org',
             'phone_number' => '+10000000000',
-            'services' => [
-                $service_id
-            ],
+            'services' => [$service_id],
             'settings' => [
                 'username' => 'janedoe',
                 'password' => random_string(),
                 'working_plan' => setting('company_working_plan'),
                 'working_plan_exceptions' => '{}',
-                'notifications' => TRUE,
-                'google_sync' => FALSE,
+                'notifications' => true,
+                'google_sync' => false,
                 'sync_past_days' => 30,
                 'sync_future_days' => 90,
                 'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ],
+            ]
         ]);
 
         // Customer
@@ -154,7 +147,7 @@ class Instance {
             'first_name' => 'James',
             'last_name' => 'Doe',
             'email' => 'james@example.org',
-            'phone_number' => '+10000000000',
+            'phone_number' => '+10000000000'
         ]);
 
         return $password;
@@ -167,17 +160,15 @@ class Instance {
      *
      * @throws Exception
      */
-    public function backup(string $path = NULL): void
+    public function backup(string $path = null): void
     {
         $path = $path ?? APPPATH . '/../storage/backups';
 
-        if ( ! file_exists($path))
-        {
+        if (!file_exists($path)) {
             throw new InvalidArgumentException('The backup path does not exist: ' . $path);
         }
 
-        if ( ! is_writable($path))
-        {
+        if (!is_writable($path)) {
             throw new RuntimeException('The backup path is not writable: ' . $path);
         }
 

@@ -6,7 +6,7 @@
             if (!key) {
                 return vars;
             }
-            
+
             return vars[key] || undefined;
         };
     })();

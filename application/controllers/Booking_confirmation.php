@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Booking_confirmation extends EA_Controller {
+class Booking_confirmation extends EA_Controller
+{
     /**
      * Booking_confirmation constructor.
      */
@@ -30,13 +31,13 @@ class Booking_confirmation extends EA_Controller {
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('customers_model');
-        
+
         $this->load->library('google_sync');
     }
 
     /**
      * Display the appointment registration success page.
-     * 
+     *
      * @throws Exception
      */
     public function of()
@@ -45,8 +46,7 @@ class Booking_confirmation extends EA_Controller {
 
         $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
-        if (empty($occurrences))
-        {
+        if (empty($occurrences)) {
             redirect('appointments'); // The appointment does not exist.
 
             return;
@@ -54,14 +54,14 @@ class Booking_confirmation extends EA_Controller {
 
         $appointment = $occurrences[0];
 
-        $add_to_google_url = $this->google_sync->get_add_to_google_url($appointment['id']); 
+        $add_to_google_url = $this->google_sync->get_add_to_google_url($appointment['id']);
 
         html_vars([
             'page_title' => lang('success'),
             'company_color' => setting('company_color'),
             'google_analytics_code' => setting('google_analytics_code'),
             'matomo_analytics_url' => setting('matomo_analytics_url'),
-            'add_to_google_url' => $add_to_google_url,
+            'add_to_google_url' => $add_to_google_url
         ]);
 
         $this->load->view('pages/booking_confirmation');

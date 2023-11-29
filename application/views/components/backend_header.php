@@ -1,7 +1,7 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var string $active_menu
  * @var string $company_logo
  */
@@ -21,18 +21,21 @@
 
     <div id="header-menu" class="collapse navbar-collapse flex-row-reverse px-2">
         <ul class="navbar-nav">
-            <?php $hidden = can('view', PRIV_APPOINTMENTS) ? '' : 'd-none' ?>
-            <?php $active = $active_menu == PRIV_APPOINTMENTS ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_APPOINTMENTS) ? '' : 'd-none'; ?>
+            <?php $active = $active_menu == PRIV_APPOINTMENTS ? 'active' : ''; ?>
             <li class="nav-item <?= $active . $hidden ?>">
-                <a href="<?= site_url('calendar' . (vars('calendar_view') === CALENDAR_VIEW_TABLE ? '?view=table' : '')) ?>" class="nav-link"
+                <a href="<?= site_url(
+                    'calendar' . (vars('calendar_view') === CALENDAR_VIEW_TABLE ? '?view=table' : '')
+                ) ?>"
+                   class="nav-link"
                    data-tippy-content="<?= lang('manage_appointment_record_hint') ?>">
                     <i class="fas fa-calendar-alt me-2"></i>
                     <?= lang('calendar') ?>
                 </a>
             </li>
 
-            <?php $hidden = can('view', PRIV_CUSTOMERS) ? '' : 'd-none' ?>
-            <?php $active = $active_menu == PRIV_CUSTOMERS ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_CUSTOMERS) ? '' : 'd-none'; ?>
+            <?php $active = $active_menu == PRIV_CUSTOMERS ? 'active' : ''; ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url('customers') ?>" class="nav-link"
                    data-tippy-content="<?= lang('manage_customers_hint') ?>">
@@ -41,8 +44,8 @@
                 </a>
             </li>
 
-            <?php $hidden = can('view', PRIV_SERVICES) ? '' : 'd-none' ?>
-            <?php $active = $active_menu == PRIV_SERVICES ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_SERVICES) ? '' : 'd-none'; ?>
+            <?php $active = $active_menu == PRIV_SERVICES ? 'active' : ''; ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_services_hint') ?>">
@@ -59,8 +62,8 @@
                 </div>
             </li>
 
-            <?php $hidden = can('view', PRIV_USERS) ? '' : 'd-none' ?>
-            <?php $active = $active_menu == PRIV_USERS ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_USERS) ? '' : 'd-none'; ?>
+            <?php $active = $active_menu == PRIV_USERS ? 'active' : ''; ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('manage_users_hint') ?>">
@@ -80,8 +83,8 @@
                 </div>
             </li>
 
-            <?php $hidden = can('view', PRIV_SYSTEM_SETTINGS) || can('view', PRIV_USER_SETTINGS) ? '' : 'd-none' ?>
-            <?php $active = $active_menu == PRIV_SYSTEM_SETTINGS ? 'active' : '' ?>
+            <?php $hidden = can('view', PRIV_SYSTEM_SETTINGS) || can('view', PRIV_USER_SETTINGS) ? '' : 'd-none'; ?>
+            <?php $active = $active_menu == PRIV_SYSTEM_SETTINGS ? 'active' : ''; ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
                 <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown"
                    data-tippy-content="<?= lang('settings_hint') ?>">
@@ -93,7 +96,7 @@
                         <a class="dropdown-item" href="<?= site_url('general_settings') ?>">
                             <?= lang('settings') ?>
                         </a>
-                    <?php endif ?>
+                    <?php endif; ?>
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('account') ?>
                     </a>

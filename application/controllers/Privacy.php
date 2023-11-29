@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Privacy extends EA_Controller {
+class Privacy extends EA_Controller
+{
     /**
      * Privacy constructor.
      */
@@ -36,38 +37,33 @@ class Privacy extends EA_Controller {
      */
     public function delete_personal_information()
     {
-        try
-        {
+        try {
             $display_delete_personal_information = setting('display_delete_personal_information');
 
-            if ( ! $display_delete_personal_information)
-            {
+            if (!$display_delete_personal_information) {
                 abort(403, 'Forbidden');
             }
 
             $customer_token = request('customer_token');
 
-            if (empty($customer_token))
-            {
+            if (empty($customer_token)) {
                 throw new InvalidArgumentException('Invalid customer token value provided.');
             }
 
             $customer_id = $this->cache->get('customer-token-' . $customer_token);
 
-            if (empty($customer_id))
-            {
-                throw new InvalidArgumentException('Customer ID does not exist, please reload the page '
-                    . 'and try again.');
+            if (empty($customer_id)) {
+                throw new InvalidArgumentException(
+                    'Customer ID does not exist, please reload the page ' . 'and try again.'
+                );
             }
 
             $this->customers_model->delete($customer_id);
 
             json_response([
-                'success' => TRUE
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

@@ -11,14 +11,14 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_service_availabilities_type extends EA_Migration {
+class Migration_Add_service_availabilities_type extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('availabilities_type', 'services'))
-        {
+        if (!$this->db->field_exists('availabilities_type', 'services')) {
             $fields = [
                 'availabilities_type' => [
                     'type' => 'VARCHAR',
@@ -39,8 +39,7 @@ class Migration_Add_service_availabilities_type extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('availabilities_type', 'services'))
-        {
+        if ($this->db->field_exists('availabilities_type', 'services')) {
             $this->dbforge->drop_column('services', 'availabilities_type');
         }
     }

@@ -1,6 +1,6 @@
-<?php extend('layouts/account_layout') ?>
+<?php extend('layouts/account_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <h2><?= lang('backend_section') ?></h2>
 
@@ -37,13 +37,13 @@
         </button>
     </div>
 </form>
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/solid.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/login_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/login.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

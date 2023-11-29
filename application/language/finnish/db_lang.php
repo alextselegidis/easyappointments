@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'Tietokannan asetuksia ei voitu päätellä antamastasi yhteystekstistä.';
 $lang['db_unable_to_connect'] = 'Annetuilla määrityksilä ei voitu yhdistää tietokantaan.';
@@ -55,7 +55,8 @@ $lang['db_unable_to_drop'] = 'Määritettyä tietokantaa ei voitu poistaa.';
 $lang['db_unsupported_feature'] = 'Tämä ominaisuus ei ole saatavilla käyttämässäsi tietokannassa.';
 $lang['db_unsupported_compression'] = 'Valitsemasi tiedoston pakkausmuoto ei ole käytettävissä palvelimella.';
 $lang['db_filepath_error'] = 'Määrittelemääsi tiedostopolkuun ei voida kirjoittaa.';
-$lang['db_invalid_cache_path'] = 'Määrittämäsi välimuistin tiedostopolku ei ole kelvollinen tai sinne ei voi kirjoittaa.';
+$lang['db_invalid_cache_path'] =
+    'Määrittämäsi välimuistin tiedostopolku ei ole kelvollinen tai sinne ei voi kirjoittaa.';
 $lang['db_table_name_required'] = 'Operaatiota varten tarvitaan taulun nimi.';
 $lang['db_column_name_required'] = 'Operaatiota varten tarvitaan sarakkeen nimi.';
 $lang['db_column_definition_required'] = 'Operaatiota varten tarvitaan sarakemääritys.';

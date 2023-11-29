@@ -1,11 +1,11 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div id="google-analytics-settings-page" class="container backend-page">
     <div class="row">
         <div class="col-sm-3 offset-sm-1">
-            <?php component('settings_nav') ?>
+            <?php component('settings_nav'); ?>
         </div>
         <div id="google-analytics-settings" class="col-sm-6">
             <form>
@@ -26,7 +26,7 @@
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
                                 </button>
-                            <?php endif ?>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -52,12 +52,12 @@
     </div>
 </div>
 
-<?php end_section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/google_analytics_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/google_analytics_settings.js') ?>"></script>
 
-<?php end_section('scripts') ?>
+<?php end_section('scripts'); ?>

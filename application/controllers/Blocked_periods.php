@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Blocked_periods extends EA_Controller {
+class Blocked_periods extends EA_Controller
+{
     /**
      * Blocked_periods constructor.
      */
@@ -46,10 +47,8 @@ class Blocked_periods extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_BLOCKED_PERIODS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_BLOCKED_PERIODS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -65,7 +64,7 @@ class Blocked_periods extends EA_Controller {
             'role_slug' => $role_slug,
             'date_format' => setting('date_format'),
             'time_format' => setting('time_format'),
-            'first_weekday' => setting('first_weekday'),
+            'first_weekday' => setting('first_weekday')
         ]);
 
         html_vars([
@@ -73,7 +72,7 @@ class Blocked_periods extends EA_Controller {
             'active_menu' => PRIV_BLOCKED_PERIODS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
         ]);
 
         $this->load->view('pages/blocked_periods');
@@ -84,10 +83,8 @@ class Blocked_periods extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_BLOCKED_PERIODS))
-            {
+        try {
+            if (cannot('view', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -102,9 +99,7 @@ class Blocked_periods extends EA_Controller {
             $blocked_periods = $this->blocked_periods_model->search($keyword, $limit, $offset, $order_by);
 
             json_response($blocked_periods);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -114,21 +109,14 @@ class Blocked_periods extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_BLOCKED_PERIODS))
-            {
+        try {
+            if (cannot('add', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
 
             $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($blocked_period, [
-                'name',
-                'start_datetime',
-                'end_datetime',
-                'notes'
-            ]);
+            $this->blocked_periods_model->only($blocked_period, ['name', 'start_datetime', 'end_datetime', 'notes']);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
@@ -137,12 +125,30 @@ class Blocked_periods extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_SAVE, $blocked_period);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $blocked_period_id
             ]);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
-        catch (Throwable $e)
-        {
+    }
+
+    /**
+     * Find a service-category.
+     */
+    public function find()
+    {
+        try {
+            if (cannot('view', PRIV_BLOCKED_PERIODS)) {
+                abort(403, 'Forbidden');
+            }
+
+            $blocked_period_id = request('blocked_period_id');
+
+            $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
+
+            json_response($blocked_period);
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -152,10 +158,8 @@ class Blocked_periods extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_BLOCKED_PERIODS))
-            {
+        try {
+            if (cannot('edit', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -176,12 +180,10 @@ class Blocked_periods extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_SAVE, $blocked_period);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $blocked_period_id
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -191,10 +193,8 @@ class Blocked_periods extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_BLOCKED_PERIODS))
-            {
+        try {
+            if (cannot('delete', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -207,35 +207,9 @@ class Blocked_periods extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_DELETE, $blocked_period);
 
             json_response([
-                'success' => TRUE,
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Find a service-category.
-     */
-    public function find()
-    {
-        try
-        {
-            if (cannot('view', PRIV_BLOCKED_PERIODS))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $blocked_period_id = request('blocked_period_id');
-
-            $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
-
-            json_response($blocked_period);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

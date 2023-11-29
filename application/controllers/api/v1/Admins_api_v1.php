@@ -16,7 +16,8 @@
  *
  * @package Controllers
  */
-class Admins_api_v1 extends EA_Controller {
+class Admins_api_v1 extends EA_Controller
+{
     /**
      * Admins_api_v1 constructor.
      */
@@ -38,8 +39,7 @@ class Admins_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -53,28 +53,23 @@ class Admins_api_v1 extends EA_Controller {
             $with = $this->api->request_with();
 
             $admins = empty($keyword)
-                ? $this->admins_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->admins_model->get(null, $limit, $offset, $order_by)
                 : $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($admins as &$admin)
-            {
+            foreach ($admins as &$admin) {
                 $this->admins_model->api_encode($admin);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->admins_model->only($admin, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->admins_model->load($admin, $with);
                 }
             }
 
             json_response($admins);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -84,10 +79,9 @@ class Admins_api_v1 extends EA_Controller {
      *
      * @param int|null $id Admin ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null)
     {
-        try
-        {
+        try {
             $fields = $this->api->request_fields();
 
             $with = $this->api->request_with();
@@ -96,27 +90,22 @@ class Admins_api_v1 extends EA_Controller {
 
             $this->admins_model->api_encode($admin);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->admins_model->only($admin, $fields);
             }
 
-            if ( ! empty($with))
-            {
+            if (!empty($with)) {
                 $this->admins_model->load($admin, $with);
             }
 
-            if ( ! $admin)
-            {
+            if (!$admin) {
                 response('', 404);
 
                 return;
             }
 
             json_response($admin);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -126,19 +115,16 @@ class Admins_api_v1 extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
+        try {
             $admin = request();
 
             $this->admins_model->api_decode($admin);
 
-            if (array_key_exists('id', $admin))
-            {
+            if (array_key_exists('id', $admin)) {
                 unset($admin['id']);
             }
 
-            if ( ! array_key_exists('settings', $admin))
-            {
+            if (!array_key_exists('settings', $admin)) {
                 throw new InvalidArgumentException('No settings property provided.');
             }
 
@@ -149,9 +135,7 @@ class Admins_api_v1 extends EA_Controller {
             $this->admins_model->api_encode($created_admin);
 
             json_response($created_admin, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -163,12 +147,10 @@ class Admins_api_v1 extends EA_Controller {
      */
     public function update(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->admins_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -187,9 +169,7 @@ class Admins_api_v1 extends EA_Controller {
             $this->admins_model->api_encode($updated_admin);
 
             json_response($updated_admin);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -201,12 +181,10 @@ class Admins_api_v1 extends EA_Controller {
      */
     public function destroy(int $id)
     {
-        try
-        {
+        try {
             $occurrences = $this->admins_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -215,9 +193,7 @@ class Admins_api_v1 extends EA_Controller {
             $this->admins_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

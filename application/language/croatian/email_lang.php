@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['email_must_be_array'] = 'Metoda za provjeru e-pošte mora primiti polje.';
 $lang['email_invalid_address'] = 'Neispravna adresa e-pošte: %s';
@@ -43,9 +43,12 @@ $lang['email_attachment_missing'] = 'Nije moguće pronaći sljedeći privitak e-
 $lang['email_attachment_unreadable'] = 'Nije moguće otvoriti ovaj privitak: %s';
 $lang['email_no_from'] = 'Nije moguće poslati poštu bez "From" zaglavlja.';
 $lang['email_no_recipients'] = 'Morate uključiti primatelje: Za, Cc ili Bcc';
-$lang['email_send_failure_phpmail'] = 'Nije moguće poslati e-poštu koristeći PHP mail(). Vaš poslužitelj možda nije konfiguriran za slanje pošte ovom metodom.';
-$lang['email_send_failure_sendmail'] = 'Nije moguće poslati e-poštu koristeći PHP Sendmail. Vaš poslužitelj možda nije konfiguriran za slanje pošte ovom metodom.';
-$lang['email_send_failure_smtp'] = 'Nije moguće poslati e-poštu koristeći PHP SMTP. Vaš poslužitelj možda nije konfiguriran za slanje pošte ovom metodom.';
+$lang['email_send_failure_phpmail'] =
+    'Nije moguće poslati e-poštu koristeći PHP mail(). Vaš poslužitelj možda nije konfiguriran za slanje pošte ovom metodom.';
+$lang['email_send_failure_sendmail'] =
+    'Nije moguće poslati e-poštu koristeći PHP Sendmail. Vaš poslužitelj možda nije konfiguriran za slanje pošte ovom metodom.';
+$lang['email_send_failure_smtp'] =
+    'Nije moguće poslati e-poštu koristeći PHP SMTP. Vaš poslužitelj možda nije konfiguriran za slanje pošte ovom metodom.';
 $lang['email_sent'] = 'Vaša poruka je uspješno poslana koristeći sljedeći protokol: %s';
 $lang['email_no_socket'] = 'Nije moguće otvoriti socket za Sendmail. Molimo provjerite postavke.';
 $lang['email_no_hostname'] = 'Niste naveli SMTP naziv poslužitelja.';

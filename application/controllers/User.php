@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class User extends EA_Controller {
+class User extends EA_Controller
+{
     /**
      * User constructor.
      */
@@ -40,7 +41,7 @@ class User extends EA_Controller {
 
     /**
      * Display the login page.
-     * 
+     *
      * @deprecated Since 1.5 Use the Login controller instead.
      */
     public function login()
@@ -50,17 +51,17 @@ class User extends EA_Controller {
 
     /**
      * Display the logout page.
-     * 
+     *
      * @deprecated Since 1.5 Use the Logout controller instead.
      */
     public function logout()
     {
-        redirect('logout'); 
+        redirect('logout');
     }
 
     /**
      * Display the password recovery page.
-     * 
+     *
      * @deprecated Since 1.5 Use the Logout controller instead.
      */
     public function forgot_password()

@@ -11,8 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('is_assoc'))
-{
+if (!function_exists('is_assoc')) {
     /**
      * Check if an array is an associative array.
      *
@@ -22,17 +21,15 @@ if ( ! function_exists('is_assoc'))
      */
     function is_assoc(array $array): bool
     {
-        if (empty($array))
-        {
-            return FALSE;
+        if (empty($array)) {
+            return false;
         }
 
         return array_keys($array) !== range(0, count($array) - 1);
     }
 }
 
-if ( ! function_exists('array_find'))
-{
+if (!function_exists('array_find')) {
     /**
      * Find the first array element based on the provided function.
      *
@@ -43,23 +40,19 @@ if ( ! function_exists('array_find'))
      */
     function array_find(array $array, callable $callback): mixed
     {
-        if (empty($array))
-        {
-            return NULL;
+        if (empty($array)) {
+            return null;
         }
 
-        if ( ! is_callable($callback))
-        {
+        if (!is_callable($callback)) {
             throw new InvalidArgumentException('No filter function provided.');
         }
 
-        return array_filter($array, $callback)[0] ?? NULL;
-
+        return array_filter($array, $callback)[0] ?? null;
     }
 }
 
-if ( ! function_exists('array_fields'))
-{
+if (!function_exists('array_fields')) {
     /**
      * Keep only the provided fields of an array.
      *
@@ -70,9 +63,12 @@ if ( ! function_exists('array_fields'))
      */
     function array_fields(array $array, array $fields): array
     {
-        return array_filter($array, function ($field) use ($fields) {
-            return in_array($field, $fields);
-        }, ARRAY_FILTER_USE_KEY);
+        return array_filter(
+            $array,
+            function ($field) use ($fields) {
+                return in_array($field, $fields);
+            },
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }
-

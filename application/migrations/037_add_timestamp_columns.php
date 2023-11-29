@@ -11,45 +11,31 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_timestamp_columns extends EA_Migration {
+class Migration_Add_timestamp_columns extends EA_Migration
+{
     /**
      * @var string[]
      */
-    protected $tables = [
-        'appointments',
-        'categories',
-        'consents',
-        'roles',
-        'services',
-        'settings',
-        'users'
-    ];
+    protected $tables = ['appointments', 'categories', 'consents', 'roles', 'services', 'settings', 'users'];
 
     /**
      * @var string[]
      */
-    protected $columns = [
-        'delete_datetime',
-        'update_datetime',
-        'create_datetime',
-    ];
+    protected $columns = ['delete_datetime', 'update_datetime', 'create_datetime'];
 
     /**
      * Upgrade method.
      */
     public function up()
     {
-        foreach ($this->tables as $table)
-        {
-            foreach ($this->columns as $column)
-            {
-                if ( ! $this->db->field_exists($column, $table))
-                {
+        foreach ($this->tables as $table) {
+            foreach ($this->columns as $column) {
+                if (!$this->db->field_exists($column, $table)) {
                     $fields = [
                         $column => [
                             'type' => 'DATETIME',
-                            'null' => TRUE,
-                            'after' => 'id',
+                            'null' => true,
+                            'after' => 'id'
                         ]
                     ];
 
@@ -64,12 +50,9 @@ class Migration_Add_timestamp_columns extends EA_Migration {
      */
     public function down()
     {
-        foreach ($this->tables as $table)
-        {
-            foreach ($this->columns as $column)
-            {
-                if ($this->db->field_exists($column, $table))
-                {
+        foreach ($this->tables as $table) {
+            foreach ($this->columns as $column) {
+                if ($this->db->field_exists($column, $table)) {
                     $this->dbforge->drop_column($table, $column);
                 }
             }

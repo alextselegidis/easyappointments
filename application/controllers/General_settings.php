@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class General_settings extends EA_Controller {
+class General_settings extends EA_Controller
+{
     /**
      * Calendar constructor.
      */
@@ -39,11 +40,9 @@ class General_settings extends EA_Controller {
         session(['dest_url' => site_url('general_settings')]);
 
         $user_id = session('user_id');
-        
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            if ($user_id)
-            {
+
+        if (cannot('view', PRIV_SYSTEM_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -51,26 +50,26 @@ class General_settings extends EA_Controller {
 
             return;
         }
-        
+
         $role_slug = session('role_slug');
-        
+
         $available_theme_files = glob(__DIR__ . '/../../assets/css/themes/*.min.css');
-        
+
         $available_themes = array_map(function ($available_theme_file) {
-            return str_replace('.min.css', '', basename($available_theme_file)); 
-        }, $available_theme_files); 
+            return str_replace('.min.css', '', basename($available_theme_file));
+        }, $available_theme_files);
 
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'general_settings' => $this->settings_model->get(),
+            'general_settings' => $this->settings_model->get()
         ]);
 
         html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'available_themes' => $available_themes,
+            'available_themes' => $available_themes
         ]);
 
         $this->load->view('pages/general_settings');
@@ -81,21 +80,21 @@ class General_settings extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $settings = request('general_settings', []);
 
-            foreach ($settings as $setting)
-            {
-                $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
+            foreach ($settings as $setting) {
+                $existing_setting = $this->settings_model
+                    ->query()
+                    ->where('name', $setting['name'])
+                    ->get()
+                    ->row_array();
 
-                if ( ! empty($existing_setting))
-                {
+                if (!empty($existing_setting)) {
                     $setting['id'] = $existing_setting['id'];
                 }
 
@@ -103,9 +102,7 @@ class General_settings extends EA_Controller {
             }
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

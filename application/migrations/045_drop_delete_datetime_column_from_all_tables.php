@@ -11,7 +11,8 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration {
+class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
+{
     /**
      * @var string[]
      */
@@ -31,10 +32,8 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
      */
     public function up()
     {
-        foreach ($this->tables as $table)
-        {
-            if ($this->db->field_exists('delete_datetime', $table))
-            {
+        foreach ($this->tables as $table) {
+            if ($this->db->field_exists('delete_datetime', $table)) {
                 $this->dbforge->drop_column($table, 'delete_datetime');
             }
         }
@@ -45,15 +44,13 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
      */
     public function down()
     {
-        foreach ($this->tables as $table)
-        {
-            if ( ! $this->db->field_exists('delete_datetime', $table))
-            {
+        foreach ($this->tables as $table) {
+            if (!$this->db->field_exists('delete_datetime', $table)) {
                 $fields = [
                     'delete_datetime' => [
                         'type' => 'DATETIME',
-                        'null' => TRUE,
-                        'after' => 'update_datetime',
+                        'null' => true,
+                        'after' => 'update_datetime'
                     ]
                 ];
 
