@@ -96,6 +96,8 @@ class Instance
 
         // Admin
 
+        $password = 'administrator';
+
         $this->CI->admins_model->save([
             'first_name' => 'John',
             'last_name' => 'Doe',
@@ -103,7 +105,7 @@ class Instance
             'phone_number' => '+10000000000',
             'settings' => [
                 'username' => 'administrator',
-                'password' => 'administrator',
+                'password' => $password,
                 'notifications' => true,
                 'calendar_view' => CALENDAR_VIEW_DEFAULT
             ]
