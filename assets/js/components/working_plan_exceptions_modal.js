@@ -44,11 +44,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     }
 
     /**
-     * Render a single table row as a placeholder to empty breaks table. 
+     * Render a single table row as a placeholder to empty breaks table.
      */
     function renderNoBreaksRow() {
         return $(`
-            <tr>
+            <tr class="no-breaks-row">
                 <td colspan="3" class="text-center">
                     ${lang('no_breaks')}
                 </td>
@@ -66,7 +66,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $end.prop('disabled', isNonWorkingDay).toggleClass('text-decoration-line-through', isNonWorkingDay);
         $addBreak.prop('disabled', isNonWorkingDay);
         $breaks.find('button').prop('disabled', isNonWorkingDay);
-        $breaks.toggleClass('text-decoration-line-through', isNonWorkingDay)
+        $breaks.toggleClass('text-decoration-line-through', isNonWorkingDay);
     }
 
     /**
@@ -115,21 +115,24 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function getBreaks() {
         const breaks = [];
 
-        $breaks.find('tbody tr').each((index, tr) => {
-            const $tr = $(tr);
+        $breaks
+            .find('tbody tr')
+            .not('.no-breaks-row')
+            .each((index, tr) => {
+                const $tr = $(tr);
 
-            if ($tr.find('input:text').length) {
-                return true;
-            }
+                if ($tr.find('input:text').length) {
+                    return true;
+                }
 
-            const start = $tr.find('.working-plan-exceptions-break-start').text();
-            const end = $tr.find('.working-plan-exceptions-break-end').text();
+                const start = $tr.find('.working-plan-exceptions-break-start').text();
+                const end = $tr.find('.working-plan-exceptions-break-end').text();
 
-            breaks.push({
-                start: moment(start, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
-                end: moment(end, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
+                breaks.push({
+                    start: moment(start, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm'),
+                    end: moment(end, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format('HH:mm')
+                });
             });
-        });
 
         // Sort breaks increasingly by hour within day
         breaks.sort((break1, break2) => {
@@ -158,11 +161,13 @@ App.Components.WorkingPlanExceptionsModal = (function () {
 
         const isNonWorkingDay = $isNonWorkingDay.prop('checked');
 
-        const workingPlanException = isNonWorkingDay ? null : {
-            start: moment($start[0]._flatpickr.selectedDates[0]).format('HH:mm'),
-            end: moment($end[0]._flatpickr.selectedDates[0]).format('HH:mm'),
-            breaks: getBreaks()
-        };
+        const workingPlanException = isNonWorkingDay
+            ? null
+            : {
+                  start: moment($start[0]._flatpickr.selectedDates[0]).format('HH:mm'),
+                  end: moment($end[0]._flatpickr.selectedDates[0]).format('HH:mm'),
+                  breaks: getBreaks()
+              };
 
         deferred.resolve(date, workingPlanException);
 
@@ -253,7 +258,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             if (!workingPlanException.breaks) {
                 $breaks.find('tbody').html(renderNoBreaksRow());
             }
-            
+
             workingPlanException.breaks.forEach((workingPlanExceptionBreak) => {
                 renderBreakRow(workingPlanExceptionBreak).appendTo($breaks.find('tbody'));
             });
