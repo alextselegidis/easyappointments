@@ -26,7 +26,9 @@ if (!function_exists('dd')) {
     #[NoReturn]
     function dd(...$vars): void
     {
+        echo '<pre>';
         var_dump($vars);
+        echo '</pre>';
 
         exit(1);
     }
