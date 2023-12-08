@@ -17,8 +17,7 @@ $lang['db_invalid_query'] = 'Verilen sorgu geçersiz.';
 $lang['db_must_set_table'] = 'Sorguda kullanılacak tabloyu belirtmelisiniz.';
 $lang['db_must_use_set'] = 'Kaydı güncellemek için "set" metodu kullanmalısınız.';
 $lang['db_must_use_index'] = 'Toplu güncellemede eşleştirme için bir indeks belirtmelisiniz.';
-$lang['db_batch_missing_index'] =
-    'Toplu güncelleme için verilen bir veya birden fazla kaydın belirtilen indeksi eksik.';
+$lang['db_batch_missing_index'] = 'Toplu güncelleme için verilen bir veya birden fazla kaydın belirtilen indeksi eksik.';
 $lang['db_must_use_where'] = '"where" sözcüğü olmayan güncellemelere izin verilmez.';
 $lang['db_del_must_use_where'] = '"where" veya "like" sözcüğü olmayan silmelere izin verilmez.';
 $lang['db_field_param_missing'] = 'Alanların okunabilmesi için tablo adı parametre olarak verilmeli.';

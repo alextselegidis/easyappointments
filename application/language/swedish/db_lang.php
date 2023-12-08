@@ -9,8 +9,7 @@
  */
 defined('BASEPATH') or exit('Direktaccess till skriptet är inte tillåtet');
 
-$lang['db_invalid_connection_str'] =
-    'Det går inte att avgöra databasinställningarna utifrån den angivna anslutningssträngen.';
+$lang['db_invalid_connection_str'] = 'Det går inte att avgöra databasinställningarna utifrån den angivna anslutningssträngen.';
 $lang['db_unable_to_connect'] = 'Kan inte ansluta till databasen med de angivna inställningarna.';
 $lang['db_unable_to_select'] = 'Kan inte välja den angivna databasen: %s';
 $lang['db_unable_to_create'] = 'Kan inte skapa den angivna databasen: %s';

@@ -50,8 +50,7 @@ $lang['form_validation_exact_length'] = 'Il campo {field} deve contenere esattam
 $lang['form_validation_alpha'] = 'Il campo {field} può contenere solo caratteri alfabetici.';
 $lang['form_validation_alpha_numeric'] = 'Il campo {field} può contenere solo caratteri alfanumerici.';
 $lang['form_validation_alpha_numeric_spaces'] = 'Il campo {field} può contenere solo caratteri alfanumerici e spazi.';
-$lang['form_validation_alpha_dash'] =
-    'Il campo {field} può contenere solo caratteri alfanumerici, trattini bassi e trattini.';
+$lang['form_validation_alpha_dash'] = 'Il campo {field} può contenere solo caratteri alfanumerici, trattini bassi e trattini.';
 $lang['form_validation_numeric'] = 'Il campo {field} deve contenere solo numeri.';
 $lang['form_validation_is_numeric'] = 'Il campo {field} deve contenere solo caratteri numerici.';
 $lang['form_validation_integer'] = 'Il campo {field} deve contenere un numero intero.';
@@ -60,14 +59,11 @@ $lang['form_validation_matches'] = 'Il campo {field} non corrisponde al campo {p
 $lang['form_validation_differs'] = 'Il campo {field} deve essere diverso dal campo {param}.';
 $lang['form_validation_is_unique'] = 'Il campo {field} deve contenere un valore univoco.';
 $lang['form_validation_is_natural'] = 'Il campo {field} deve contenere solo cifre.';
-$lang['form_validation_is_natural_no_zero'] =
-    'Il campo {field} deve contenere solo cifre e deve essere maggiore di zero.';
+$lang['form_validation_is_natural_no_zero'] = 'Il campo {field} deve contenere solo cifre e deve essere maggiore di zero.';
 $lang['form_validation_decimal'] = 'Il campo {field} deve contenere un numero decimale.';
 $lang['form_validation_less_than'] = 'Il campo {field} deve contenere un numero inferiore a {param}.';
 $lang['form_validation_less_than_equal_to'] = 'Il campo {field} deve contenere un numero minore o uguale a {param}.';
 $lang['form_validation_greater_than'] = 'Il campo {field} deve contenere un numero maggiore di {param}.';
-$lang['form_validation_greater_than_equal_to'] =
-    'Il campo {field} deve contenere un numero maggiore o uguale a {param}.';
-$lang['form_validation_error_message_not_set'] =
-    'Impossibile accedere a un messaggio di errore corrispondente al nome del tuo campo {field}.';
+$lang['form_validation_greater_than_equal_to'] = 'Il campo {field} deve contenere un numero maggiore o uguale a {param}.';
+$lang['form_validation_error_message_not_set'] = 'Impossibile accedere a un messaggio di errore corrispondente al nome del tuo campo {field}.';
 $lang['form_validation_in_list'] = 'Il campo {field} deve essere uno di: {param}.';

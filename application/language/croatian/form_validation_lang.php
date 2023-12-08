@@ -65,6 +65,5 @@ $lang['form_validation_less_than'] = 'Polje {field} mora sadržavati broj manji 
 $lang['form_validation_less_than_equal_to'] = 'Polje {field} mora sadržavati broj manji ili jednak {param}.';
 $lang['form_validation_greater_than'] = 'Polje {field} mora sadržavati broj veći od {param}.';
 $lang['form_validation_greater_than_equal_to'] = 'Polje {field} mora sadržavati broj veći ili jednak {param}.';
-$lang['form_validation_error_message_not_set'] =
-    'Nije moguće pristupiti poruci o pogrešci koja odgovara imenu vašeg polja {field}.';
+$lang['form_validation_error_message_not_set'] = 'Nije moguće pristupiti poruci o pogrešci koja odgovara imenu vašeg polja {field}.';
 $lang['form_validation_in_list'] = 'Polje {field} mora biti jedno od: {param}.';

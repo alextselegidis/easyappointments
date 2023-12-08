@@ -15,12 +15,9 @@ $lang['email_attachment_missing'] = 'Nie można zlokalizować następujących za
 $lang['email_attachment_unreadable'] = 'Nie można otworzyć następujących załączników: %s';
 $lang['email_no_from'] = 'Nie można wysłać wiadomości bez nagłówka "From".';
 $lang['email_no_recipients'] = 'Należy dodać odbiorców: To, Cc lub Bcc';
-$lang['email_send_failure_phpmail'] =
-    'Nie można wysłać e-maila za pomocą PHP mail(). Twój serwer może nie być skonfigurowany by wysyłać e-maile za pomocą tej metody.';
-$lang['email_send_failure_sendmail'] =
-    'Nie można wysłać e-maila za pomocą PHP Sendmail. Twój serwer może nie być skonfigurowany by wysyłać e-maile za pomocą tej metody.';
-$lang['email_send_failure_smtp'] =
-    'Nie można wysłać e-maila za pomoc PHP SMTP. Twój serwer może nie być skonfigurowany by wysyłać e-maile za pomocą tej metody.';
+$lang['email_send_failure_phpmail'] = 'Nie można wysłać e-maila za pomocą PHP mail(). Twój serwer może nie być skonfigurowany by wysyłać e-maile za pomocą tej metody.';
+$lang['email_send_failure_sendmail'] = 'Nie można wysłać e-maila za pomocą PHP Sendmail. Twój serwer może nie być skonfigurowany by wysyłać e-maile za pomocą tej metody.';
+$lang['email_send_failure_smtp'] = 'Nie można wysłać e-maila za pomoc PHP SMTP. Twój serwer może nie być skonfigurowany by wysyłać e-maile za pomocą tej metody.';
 $lang['email_sent'] = 'Twój e-mail został pomyślnie wysłany za pomocą metody: %s';
 $lang['email_no_socket'] = 'Nie można otworzyć socketu do Sendmail. Proszę sprawdzić ustawienia.';
 $lang['email_no_hostname'] = 'Nie podano nazwy hosta SMTP.';

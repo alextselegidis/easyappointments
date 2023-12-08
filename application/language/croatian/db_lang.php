@@ -37,8 +37,7 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['db_invalid_connection_str'] =
-    'Nije moguće odrediti postavke baze podataka na temelju dostavljenog niza za povezivanje.';
+$lang['db_invalid_connection_str'] = 'Nije moguće odrediti postavke baze podataka na temelju dostavljenog niza za povezivanje.';
 $lang['db_unable_to_connect'] = 'Nije moguće povezati se s poslužiteljem baze podataka pomoću navedenih postavki.';
 $lang['db_unable_to_select'] = 'Nije moguće odabrati navedenu bazu podataka: %s';
 $lang['db_unable_to_create'] = 'Nije moguće stvoriti navedenu bazu podataka: %s';
@@ -54,8 +53,7 @@ $lang['db_unsupported_function'] = 'Ova značajka nije dostupna za bazu podataka
 $lang['db_transaction_failure'] = 'Pogreška u transakciji: Izvršeno vraćanje.';
 $lang['db_unable_to_drop'] = 'Nije moguće odbaciti navedenu bazu podataka.';
 $lang['db_unsupported_feature'] = 'Nepodržana značajka platforme baze podataka koju koristite.';
-$lang['db_unsupported_compression'] =
-    'Format kompresije datoteka koji ste odabrali nije podržan na vašem poslužitelju.';
+$lang['db_unsupported_compression'] = 'Format kompresije datoteka koji ste odabrali nije podržan na vašem poslužitelju.';
 $lang['db_filepath_error'] = 'Nije moguće pisati podatke na putanju datoteke koju ste poslali.';
 $lang['db_invalid_cache_path'] = 'Putanja predmemorije koju ste poslali nije važeća ili se ne može pisati na nju.';
 $lang['db_table_name_required'] = 'Za tu operaciju potrebno je ime tablice.';

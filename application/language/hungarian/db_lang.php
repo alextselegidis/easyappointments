@@ -19,8 +19,7 @@ $lang['db_must_use_set'] = 'A "set" metódust kell használni egy bejegyzés fri
 $lang['db_must_use_index'] = 'A kötegelt frissítéshez egy egyező index megadása szükséges.';
 $lang['db_batch_missing_index'] = 'A kötegelt frissítés egy vagy több sorában hiányzik az index megadása.';
 $lang['db_must_use_where'] = 'A frissítések csak akkor engedélyezettek, ha tartalmaznak "where" szelekciót.';
-$lang['db_del_must_use_where'] =
-    'A törlések csak akkor engedélyezettek, ha tartalmaznak "where" vagy "like" szelekciót.';
+$lang['db_del_must_use_where'] = 'A törlések csak akkor engedélyezettek, ha tartalmaznak "where" vagy "like" szelekciót.';
 $lang['db_field_param_missing'] = 'A mezők lekéréséhez a tábla nevének paraméterként történő megadása szükséges.';
 $lang['db_unsupported_function'] = 'Ez a függvény nem elérhető a használt adatbázis esetén.';
 $lang['db_transaction_failure'] = 'Tranzakció hiba, a visszavonás (rollback) megtörtént.';

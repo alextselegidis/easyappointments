@@ -18,8 +18,7 @@ $lang['db_invalid_query'] = 'Interogarea trimisă nu este validă.';
 $lang['db_must_set_table'] = 'Tabelul bazei de date trebuie setat pentru a putea fi efectuată interogarea.';
 $lang['db_must_use_set'] = 'Trebuie să folosiți metoda "set" pentru a actualiza o intrare.';
 $lang['db_must_use_index'] = 'Trebuie să specificați un index pentru a corespunde actualizărilor în lot.';
-$lang['db_batch_missing_index'] =
-    'Indexul specificat lipsește din unul sau mai multe rânduri trimise pentru actualizarea în lot.';
+$lang['db_batch_missing_index'] = 'Indexul specificat lipsește din unul sau mai multe rânduri trimise pentru actualizarea în lot.';
 $lang['db_must_use_where'] = 'Actualizările nu sunt permise decât dacă conțin o clausă de tip "where".';
 $lang['db_del_must_use_where'] = 'Ștergerile nu sunt permise decât dacă conțin o clausă de tip "where" sau "like".';
 $lang['db_field_param_missing'] = 'Pentru a prelua câmpuri este necesar numele tabelului ca parametru.';

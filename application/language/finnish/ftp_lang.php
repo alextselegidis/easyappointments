@@ -37,8 +37,7 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['ftp_no_connection'] =
-    'Ei löydetty kelvollista yhteys-ID:tä. Varmista että yhteys on muodostettu ennen tiedostotoimia.';
+$lang['ftp_no_connection'] = 'Ei löydetty kelvollista yhteys-ID:tä. Varmista että yhteys on muodostettu ennen tiedostotoimia.';
 $lang['ftp_unable_to_connect'] = 'Määritettyyn FTP-palvelimeen ei voitu yhdistää.';
 $lang['ftp_unable_to_login'] = 'FTP-palvelimeen ei voitu kirjautua. Tarkista käyttäjätunnus ja salasana.';
 $lang['ftp_unable_to_mkdir'] = 'Kansiota ei voitu luoda.';

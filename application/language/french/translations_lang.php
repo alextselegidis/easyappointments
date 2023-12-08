@@ -9,10 +9,8 @@ $lang['minutes'] = 'Minutes';
 $lang['price'] = 'Prix';
 $lang['back'] = 'Retour';
 $lang['appointment_date_and_time'] = 'Choisissez la date et l\'heure de votre rendez-vous';
-$lang['no_available_hours'] =
-    'Il n\'y a pas d\'heures de rendez-vous disponibles pour la date sélectionnée. Choisissez une autre date s\'il vous plaît.';
-$lang['appointment_hour_missing'] =
-    'S\'il vous plaît, choisissez une heure de rendez-vous avant de pouvoir poursuivre.';
+$lang['no_available_hours'] = 'Il n\'y a pas d\'heures de rendez-vous disponibles pour la date sélectionnée. Choisissez une autre date s\'il vous plaît.';
+$lang['appointment_hour_missing'] = 'S\'il vous plaît, choisissez une heure de rendez-vous avant de pouvoir poursuivre.';
 $lang['customer_information'] = 'Remplissez vos informations';
 $lang['first_name'] = 'Prénom';
 $lang['last_name'] = 'Nom';
@@ -37,12 +35,10 @@ $lang['appointment_cancelled'] = 'Votre rendez-vous a bien été annulé.';
 $lang['appointment_cancelled_title'] = 'Rendez-vous annulé';
 $lang['reason'] = 'Motif';
 $lang['appointment_removed_from_schedule'] = 'Le rendez-vous suivant a été supprimé de l\'agenda.';
-$lang['appointment_details_was_sent_to_you'] =
-    'Un email reprenant les détails de votre rendez-vous vient de vous être envoyé.';
+$lang['appointment_details_was_sent_to_you'] = 'Un email reprenant les détails de votre rendez-vous vient de vous être envoyé.';
 $lang['add_to_google_calendar'] = 'Ajouter à Google Calendar';
 $lang['appointment_booked'] = 'Votre rendez-vous a été confirmé avec succès.';
-$lang['thank_you_for_appointment'] =
-    'Merci de votre prise de rendez-vous avec nous. Vous trouvez ci-joint les détails de votre rendez-vous. Si nécessaire, faites les changements souhaités en cliquant sur le lien du rendez-vous.';
+$lang['thank_you_for_appointment'] = 'Merci de votre prise de rendez-vous avec nous. Vous trouvez ci-joint les détails de votre rendez-vous. Si nécessaire, faites les changements souhaités en cliquant sur le lien du rendez-vous.';
 $lang['appointment_details_title'] = 'Détails du rendez-vous';
 $lang['customer_details_title'] = 'Informations client';
 $lang['service'] = 'Prestations';
@@ -82,19 +78,15 @@ $lang['add'] = 'Ajouter';
 $lang['edit'] = 'Éditer';
 $lang['hello'] = 'Bonjour';
 $lang['all_day'] = 'Toute la journée';
-$lang['manage_appointment_record_hint'] =
-    'Gérer tous les enregistrements de rendez-vous des exécutants et des prestations actives.';
-$lang['select_filter_item_hint'] =
-    'Choisir un exécutant ou une prestation et visualisez les rendez-vous sur l\'agenda.';
-$lang['enable_appointment_sync_hint'] =
-    'Activer la synchronisation des rendez-vous avec le calendrier Google de l\'exécutant.';
+$lang['manage_appointment_record_hint'] = 'Gérer tous les enregistrements de rendez-vous des exécutants et des prestations actives.';
+$lang['select_filter_item_hint'] = 'Choisir un exécutant ou une prestation et visualisez les rendez-vous sur l\'agenda.';
+$lang['enable_appointment_sync_hint'] = 'Activer la synchronisation des rendez-vous avec le calendrier Google de l\'exécutant.';
 $lang['manage_customers_hint'] = 'Gérer les clients enregistrés et voir leur historique de rendez-vous.';
 $lang['manage_services_hint'] = 'Gérer les prestations et les catégories actives du système.';
 $lang['manage_users_hint'] = 'Gérer les utilisateurs back office (administrateurs, exécutants, secrétaires).';
 $lang['settings_hint'] = 'Régler les paramètres système et utilisateurs.';
 $lang['log_out_hint'] = 'Déconnexion du système.';
-$lang['unavailability_periods_hint'] =
-    'Durant les périodes d\'indisponibilité l\'exécutant n\'acceptera pas de nouvelle prestation.';
+$lang['unavailability_periods_hint'] = 'Durant les périodes d\'indisponibilité l\'exécutant n\'acceptera pas de nouvelle prestation.';
 $lang['new_appointment_hint'] = 'Créer un nouveau rendez-vous et le stocker dans la base de données.';
 $lang['reload_appointments_hint'] = 'Actualiser le calendrier des rendez-vous.';
 $lang['trigger_google_sync_hint'] = 'Démarrer la procédure de synchronisation du calendrier Google.';
@@ -112,8 +104,7 @@ $lang['pick_existing_customer_hint'] = 'Rechercher un client existant.';
 $lang['new_appointment_title'] = 'Nouveau rendez-vous';
 $lang['edit_appointment_title'] = 'Éditer rendez-vous';
 $lang['delete_appointment_title'] = 'Effacer rendez-vous';
-$lang['write_appointment_removal_reason'] =
-    'S\'il vous plaît, veuillez bien prendre quelques secondes pour nous expliquer les raisons de l\'annulation du rendez-vous.';
+$lang['write_appointment_removal_reason'] = 'S\'il vous plaît, veuillez bien prendre quelques secondes pour nous expliquer les raisons de l\'annulation du rendez-vous.';
 $lang['appointment_saved'] = 'Rendez-vous sauvegardé avec succès.';
 $lang['new_unavailability_title'] = 'Nouvelle période d\'indisponibilité';
 $lang['edit_unavailability_title'] = 'Éditer une période d\'indisponibilité';
@@ -165,21 +156,17 @@ $lang['friday'] = 'Vendredi';
 $lang['saturday'] = 'Samedi';
 $lang['sunday'] = 'Dimanche';
 $lang['breaks'] = 'Pauses';
-$lang['add_breaks_during_each_day'] =
-    'Ajoutez ici les périodes de pause pour chaque jour. Pendant ces pauses l\'exécutant n\'acceptera pas de rendez-vous...';
+$lang['add_breaks_during_each_day'] = 'Ajoutez ici les périodes de pause pour chaque jour. Pendant ces pauses l\'exécutant n\'acceptera pas de rendez-vous...';
 $lang['day'] = 'Jour';
 $lang['days'] = 'Jours';
 $lang['actions'] = 'Actions';
 $lang['reset_working_plan_hint'] = 'Restaurer les valeurs d\'origine du planning de travail.';
 $lang['company_name'] = 'Nom de la société';
-$lang['company_name_hint'] =
-    'Le nom de la société sera affiché et utilisé un peu partout dans le système (obligatoire).';
+$lang['company_name_hint'] = 'Le nom de la société sera affiché et utilisé un peu partout dans le système (obligatoire).';
 $lang['company_email'] = 'Email de la société';
-$lang['company_email_hint'] =
-    'Ceci sera l\'adresse email de la société. Elle sera utilisée comme adresse d\'envoi et de réponse par le système de messagerie électronique (obligatoire).';
+$lang['company_email_hint'] = 'Ceci sera l\'adresse email de la société. Elle sera utilisée comme adresse d\'envoi et de réponse par le système de messagerie électronique (obligatoire).';
 $lang['company_link'] = 'Site web de la société';
-$lang['company_link_hint'] =
-    'Le lien de la société doit pointer vers le site web officiel de la société (obligatoire).';
+$lang['company_link_hint'] = 'Le lien de la société doit pointer vers le site web officiel de la société (obligatoire).';
 $lang['go_to_booking_page'] = 'Aller à la page de rendez-vous';
 $lang['settings_saved'] = 'Paramètres sauvegardés avec succès.';
 $lang['general'] = 'Général';
@@ -189,29 +176,22 @@ $lang['hidden'] = 'Caché';
 $lang['business_logic'] = 'Logique commerciale';
 $lang['current_user'] = 'Utilisateur actuel';
 $lang['about_app'] = 'Au sujet d\'Easy!Appointments';
-$lang['edit_working_plan_hint'] =
-    'Indiquer ici les jours et les heures pendant lesquels votre société accepte les rendez-vous. Il est possible de fixer vous-même un rendez-vous en dehors des heures de travail tandis que les clients ne pourront pas prendre d\'eux-mêmes un rendez-vous en dehors des périodes de travail indiquées ici. Ce planning de travail sera celui proposé par défaut pour chaque nouvel enregistrement. Toutefois il vous sera possible de changer séparément chaque planning de travail individuel en l\'éditant. Après cela vous pouvez encore ajouter les périodes de pause.';
-$lang['edit_breaks_hint'] =
-    'Indiquer ici les périodes des pauses quotidiennes. Ces pauses seront disponibles à chaque nouvel exécutant.';
+$lang['edit_working_plan_hint'] = 'Indiquer ici les jours et les heures pendant lesquels votre société accepte les rendez-vous. Il est possible de fixer vous-même un rendez-vous en dehors des heures de travail tandis que les clients ne pourront pas prendre d\'eux-mêmes un rendez-vous en dehors des périodes de travail indiquées ici. Ce planning de travail sera celui proposé par défaut pour chaque nouvel enregistrement. Toutefois il vous sera possible de changer séparément chaque planning de travail individuel en l\'éditant. Après cela vous pouvez encore ajouter les périodes de pause.';
+$lang['edit_breaks_hint'] = 'Indiquer ici les périodes des pauses quotidiennes. Ces pauses seront disponibles à chaque nouvel exécutant.';
 $lang['book_advance_timeout'] = 'Paramètres de réservation';
-$lang['book_advance_timeout_hint'] =
-    'Les réservations ne peuvent pas être créées, modifiées ou annulées moins de ## heures avant le rendez-vous.';
+$lang['book_advance_timeout_hint'] = 'Les réservations ne peuvent pas être créées, modifiées ou annulées moins de ## heures avant le rendez-vous.';
 $lang['timeout_minutes'] = 'Délai de réservation (en minutes)';
-$lang['about_app_info'] =
-    'Easy!Appointments est une application Web hautement personnalisable qui permet à vos clients de prendre rendez-vous avec vous via le web. En outre, elle offre la possibilité de synchroniser vos données avec un calendrier Google afin que vous puissiez les utiliser avec d\'autres services. Easy!Appointments est un projet open source et vous pouvez le télécharger et l\'installer même pour un usage commercial. Easy!Appointments fonctionnera sans problème avec votre site web existant car il peut être installé dans un dossier spécifique du serveur et bien sûr, les deux sites peuvent partager la même base de données.';
+$lang['about_app_info'] = 'Easy!Appointments est une application Web hautement personnalisable qui permet à vos clients de prendre rendez-vous avec vous via le web. En outre, elle offre la possibilité de synchroniser vos données avec un calendrier Google afin que vous puissiez les utiliser avec d\'autres services. Easy!Appointments est un projet open source et vous pouvez le télécharger et l\'installer même pour un usage commercial. Easy!Appointments fonctionnera sans problème avec votre site web existant car il peut être installé dans un dossier spécifique du serveur et bien sûr, les deux sites peuvent partager la même base de données.';
 $lang['current_version'] = 'Version actuelle';
 $lang['support'] = 'Support';
-$lang['about_app_support'] =
-    'Si vous rencontrez des problèmes pour installer ou configurer l\'application, allez chercher les réponses dans le groupe Google officiel. Vous pouvez également avoir besoin de créer une demande sur la page code de Google pour permettre l\'avancée du projet.';
+$lang['about_app_support'] = 'Si vous rencontrez des problèmes pour installer ou configurer l\'application, allez chercher les réponses dans le groupe Google officiel. Vous pouvez également avoir besoin de créer une demande sur la page code de Google pour permettre l\'avancée du projet.';
 $lang['official_website'] = 'Site Web officiel';
 $lang['google_plus_community'] = 'Communauté Google+';
 $lang['support_group'] = 'Groupe de soutien';
 $lang['project_issues'] = 'Questions sur le projet';
 $lang['license'] = 'Licence';
-$lang['about_app_license'] =
-    'Easy!Appointments est fourni sous licence GPLv3. En utilisant le code d\'Easy!Appointments, quelqu\'en soit l\'usage, vous êtes tenu d\'accepter les termes décrits dans l\'URL suivante :';
-$lang['logout_success'] =
-    'Vous avez bien été déconnecté ! Cliquez sur l\'un des boutons suivants pour naviguer dans les différentes pages';
+$lang['about_app_license'] = 'Easy!Appointments est fourni sous licence GPLv3. En utilisant le code d\'Easy!Appointments, quelqu\'en soit l\'usage, vous êtes tenu d\'accepter les termes décrits dans l\'URL suivante :';
+$lang['logout_success'] = 'Vous avez bien été déconnecté ! Cliquez sur l\'un des boutons suivants pour naviguer dans les différentes pages';
 $lang['book_appointment_title'] = 'Carnet de rendez-vous';
 $lang['backend_section'] = 'Section back office';
 $lang['you_need_to_login'] = 'Bonjour ! Vous devez vous connecter pour voir les pages back office.';
@@ -219,19 +199,15 @@ $lang['enter_username_here'] = 'Entrez votre nom d\'utilisateur ici...';
 $lang['enter_password_here'] = 'Entrez votre mot de passe ici...';
 $lang['login'] = 'Connexion';
 $lang['forgot_your_password'] = 'Mot de passe oublié ?';
-$lang['login_failed'] =
-    'La connexion a échoué. S\'il vous plaît entrez les informations d\'identification correctes et ré-essayez.';
-$lang['type_username_and_email_for_new_password'] =
-    'Inscrivez votre nom d\'utilisateur et adresse email pour recevoir un nouveau mot de passe.';
+$lang['login_failed'] = 'La connexion a échoué. S\'il vous plaît entrez les informations d\'identification correctes et ré-essayez.';
+$lang['type_username_and_email_for_new_password'] = 'Inscrivez votre nom d\'utilisateur et adresse email pour recevoir un nouveau mot de passe.';
 $lang['enter_email_here'] = 'Entrez votre email ici...';
 $lang['regenerate_password'] = 'Régénération du mot de passe';
 $lang['go_to_login'] = 'Retourner à la page de connexion';
 $lang['new_password_sent_with_email'] = 'Votre nouveau mot de passe vous a été envoyé par email.';
 $lang['new_account_password'] = 'Nouveau mot de passe du compte';
-$lang['new_password_is'] =
-    'Votre nouveau mot de passe est $password. Conservez cet email afin de pouvoir retrouver votre mot de passe si nécessaire. Vous pouvez aussi modifier ce mot de passe par un nouveau dans la page des paramètres.';
-$lang['delete_record_prompt'] =
-    'Êtes-vous sûr de vouloir supprimer cet enregistrement ? Cette action est irréversible.';
+$lang['new_password_is'] = 'Votre nouveau mot de passe est $password. Conservez cet email afin de pouvoir retrouver votre mot de passe si nécessaire. Vous pouvez aussi modifier ce mot de passe par un nouveau dans la page des paramètres.';
+$lang['delete_record_prompt'] = 'Êtes-vous sûr de vouloir supprimer cet enregistrement ? Cette action est irréversible.';
 $lang['delete_admin'] = 'Supprimer l\'administrateur';
 $lang['delete_customer'] = 'Supprimer le client';
 $lang['delete_service'] = 'Supprimer la prestation';
@@ -245,12 +221,10 @@ $lang['unexpected_issues'] = 'Résultats inattendus';
 $lang['unexpected_issues_message'] = 'L\'opération n\'a pu être terminée à cause de résultats inattendus.';
 $lang['close'] = 'Fermer';
 $lang['page_not_found'] = 'Page non trouvée';
-$lang['page_not_found_message'] =
-    'Malheureusement la page demandée n\'existe pas. Vérifiez l\'URL de votre navigateur ou naviguez vers une autre page en utilisant les boutons ci-dessous.';
+$lang['page_not_found_message'] = 'Malheureusement la page demandée n\'existe pas. Vérifiez l\'URL de votre navigateur ou naviguez vers une autre page en utilisant les boutons ci-dessous.';
 $lang['error'] = 'Erreur';
 $lang['no_privileges'] = 'Aucun privilège';
-$lang['no_privileges_message'] =
-    'Vous n\'avez pas les privilèges nécessaires pour voir cette page. Veuillez s\'il vous plaît naviguer vers une section différente.';
+$lang['no_privileges_message'] = 'Vous n\'avez pas les privilèges nécessaires pour voir cette page. Veuillez s\'il vous plaît naviguer vers une section différente.';
 $lang['backend_calendar'] = 'Back office du calendrier';
 $lang['start_date_time'] = 'Date/heure de début';
 $lang['end_date_time'] = 'Date/heure de fin';
@@ -270,8 +244,7 @@ $lang['password_length_notice'] = 'Le mot de passe doit avoir au moins $number c
 $lang['general_settings'] = 'Paramètres généraux';
 $lang['personal_information'] = 'Informations personnelles';
 $lang['system_login'] = 'Connexion système';
-$lang['user_settings_are_invalid'] =
-    'Paramètres utilisateur non valides ! Vérifiez vos paramètres et essayez de nouveau.';
+$lang['user_settings_are_invalid'] = 'Paramètres utilisateur non valides ! Vérifiez vos paramètres et essayez de nouveau.';
 $lang['add_break'] = 'Ajouter une Pause';
 $lang['january'] = 'Janvier';
 $lang['february'] = 'Février';
@@ -295,22 +268,18 @@ $lang['minute'] = 'Minute';
 $lang['google_sync_completed'] = 'La synchronisation Google s\'est terminée avec succès.';
 $lang['google_sync_failed'] = 'La synchronisation Google a échoué : Échec de connexion avec le serveur.';
 $lang['select_google_calendar'] = 'Choisir un calendrier Google';
-$lang['select_google_calendar_prompt'] =
-    'Sélectionnez le calendrier souhaité pour synchroniser votre rendez-vous. Si vous ne sélectionnez pas de calendrier spécifique, le calendrier par défaut sera sélectionné pour vous.';
+$lang['select_google_calendar_prompt'] = 'Sélectionnez le calendrier souhaité pour synchroniser votre rendez-vous. Si vous ne sélectionnez pas de calendrier spécifique, le calendrier par défaut sera sélectionné pour vous.';
 $lang['google_calendar_selected'] = 'Le calendrier Google a été sélectionné avec succès.';
 $lang['oops_something_went_wrong'] = 'Oups ! Une erreur s\'est produite.';
 $lang['could_not_add_to_google_calendar'] = 'Votre rendez-vous ne peut pas être ajouté à votre calendrier Google.';
 $lang['ea_update_success'] = 'Easy!Appointments à été mis à jour avec succès.';
 $lang['require_captcha'] = 'CAPTCHA obligatoire';
-$lang['require_captcha_hint'] =
-    'Lorsque l\'option est activée, les clients doivent taper un code de vérification CAPTCHA avant de pouvoir réserver ou mettre à jour un rendez-vous.';
+$lang['require_captcha_hint'] = 'Lorsque l\'option est activée, les clients doivent taper un code de vérification CAPTCHA avant de pouvoir réserver ou mettre à jour un rendez-vous.';
 $lang['captcha_is_wrong'] = 'Le code de vérification CAPTCHA est erroné, merci de réessayer.';
 $lang['any_provider'] = 'Toute personne disponible';
-$lang['requested_hour_is_unavailable'] =
-    'Cette heure de rendez n\'est malheureusement pas disponible. Merci de sélectionner une autre heure pour votre rendez-vous.';
+$lang['requested_hour_is_unavailable'] = 'Cette heure de rendez n\'est malheureusement pas disponible. Merci de sélectionner une autre heure pour votre rendez-vous.';
 $lang['customer_notifications'] = 'Notifications aux clients';
-$lang['customer_notifications_hint'] =
-    'Définit si les clients reçoivent des notifications par email chaque fois qu\'il y a un changement d\'horaire de l\'un de leurs rendez-vous.';
+$lang['customer_notifications_hint'] = 'Définit si les clients reçoivent des notifications par email chaque fois qu\'il y a un changement d\'horaire de l\'un de leurs rendez-vous.';
 $lang['date_format'] = 'Format des dates';
 $lang['date_format_hint'] = 'Change le format d\'affichage des dates (D - Jour, M - Mois, Y - Année).';
 $lang['time_format'] = 'Format de l\'heure';
@@ -333,16 +302,12 @@ $lang['terms_and_conditions_content'] = 'Description des conditions générales'
 $lang['privacy_policy'] = 'Politique de confidentialité';
 $lang['display_privacy_policy'] = 'Afficher la politique de confidentialité';
 $lang['privacy_policy_content'] = 'Description de la politique de confidentialité';
-$lang['website_using_cookies_to_ensure_best_experience'] =
-    'Ce site web utilise des cookies pour vous assurer la meilleure expérience utilisateur.';
-$lang['read_and_agree_to_terms_and_conditions'] =
-    'J\'ai lu, compris et accepte les {$link}Conditions Générales{/$link}.';
-$lang['read_and_agree_to_privacy_policy'] =
-    'J\'ai lu, compris et accepte la {$link}politique de confidentialité{/$link}.';
+$lang['website_using_cookies_to_ensure_best_experience'] = 'Ce site web utilise des cookies pour vous assurer la meilleure expérience utilisateur.';
+$lang['read_and_agree_to_terms_and_conditions'] = 'J\'ai lu, compris et accepte les {$link}Conditions Générales{/$link}.';
+$lang['read_and_agree_to_privacy_policy'] = 'J\'ai lu, compris et accepte la {$link}politique de confidentialité{/$link}.';
 $lang['delete_personal_information_hint'] = 'Effacer toutes vos données personnelles du système.';
 $lang['delete_personal_information'] = 'Effacer toutes mes données personnelles';
-$lang['delete_personal_information_prompt'] =
-    'Êtes-vous sûr·e de vouloir effacer toutes vos données personnelles ? Cette action est irréversible.';
+$lang['delete_personal_information_prompt'] = 'Êtes-vous sûr·e de vouloir effacer toutes vos données personnelles ? Cette action est irréversible.';
 $lang['location'] = 'Location';
 $lang['working_plan_exception'] = 'Exception au planning';
 $lang['working_plan_exceptions'] = 'Exceptions au planning';
@@ -353,20 +318,15 @@ $lang['working_plan_exception_deleted'] = 'Exception au planning supprimée avec
 $lang['add_working_plan_exceptions_during_each_day'] = 'Ajouter des exceptions au planning, en dehors du planning.';
 $lang['add_working_plan_exception'] = 'Ajouter une exception au planning';
 $lang['require_phone_number'] = 'Exiger un numéro de téléphone';
-$lang['require_phone_number_hint'] =
-    'Lorsque activé, les clients et les utilisateurs devront entrer le numéro de téléphone du client lors de la prise de rendez-vous.';
-$lang['check_spam_folder'] =
-    'Veuillez vérifier votre dossier de courrier indésirable si l\'email n\'arrive pas dans les minutes qui suivent.';
-$lang['api_token_hint'] =
-    'Définissez un jeton secret afin d\'activer l\'authentification basée sur le jeton de l\'API Easy!Appointments. ';
+$lang['require_phone_number_hint'] = 'Lorsque activé, les clients et les utilisateurs devront entrer le numéro de téléphone du client lors de la prise de rendez-vous.';
+$lang['check_spam_folder'] = 'Veuillez vérifier votre dossier de courrier indésirable si l\'email n\'arrive pas dans les minutes qui suivent.';
+$lang['api_token_hint'] = 'Définissez un jeton secret afin d\'activer l\'authentification basée sur le jeton de l\'API Easy!Appointments. ';
 $lang['timezone'] = 'Fuseau horaire';
-$lang['overwrite_existing_working_plans'] =
-    'Cela écrasera les plannings existants du fournisseur. Êtes-vous sûr de vouloir continuer ?';
+$lang['overwrite_existing_working_plans'] = 'Cela écrasera les plannings existants du fournisseur. Êtes-vous sûr de vouloir continuer ?';
 $lang['working_plans_got_updated'] = 'Tous les plannings ont été mis à jour.';
 $lang['apply_to_all_providers'] = 'Appliquer à tous les fournisseurs';
 $lang['display_any_provider'] = 'Afficher toutes les options de fournisseurs';
-$lang['display_any_provider_hint'] =
-    'La page de réservation obtiendra une option supplémentaire qui permet aux clients de réserver sans spécifier de fournisseur.';
+$lang['display_any_provider_hint'] = 'La page de réservation obtiendra une option supplémentaire qui permet aux clients de réserver sans spécifier de fournisseur.';
 $lang['load_more'] = 'Charger plus';
 $lang['list'] = 'Liste';
 $lang['default'] = 'Défaut';
@@ -377,24 +337,20 @@ $lang['booking_settings'] = 'Paramètres de réservation';
 $lang['display'] = 'Afficher';
 $lang['require'] = 'Requis';
 $lang['color'] = 'Couleur';
-$lang['matomo_analytics_url_hint'] =
-    'Ajoutez l\'URL à votre propre installation Matomo pour activer le suivi Matomo sur les pages de réservation.';
+$lang['matomo_analytics_url_hint'] = 'Ajoutez l\'URL à votre propre installation Matomo pour activer le suivi Matomo sur les pages de réservation.';
 $lang['invalid_phone'] = 'Numéro de téléphone invalide.';
 $lang['legal'] = 'Juridique';
 $lang['business'] = 'Entreprise';
 $lang['account'] = 'Compte';
 $lang['disable_booking'] = 'Désactiver la réservation';
-$lang['disable_booking_hint'] =
-    'La page de réservation sera désactivée tant que ce paramètre sera actif et que les clients ne pourront pas enregistrer de nouveaux rendez-vous.';
+$lang['disable_booking_hint'] = 'La page de réservation sera désactivée tant que ce paramètre sera actif et que les clients ne pourront pas enregistrer de nouveaux rendez-vous.';
 $lang['display_message'] = 'Afficher le message';
 $lang['booking_is_disabled'] = 'La réservation est désactivée!';
 $lang['appearance'] = 'Apparence';
 $lang['company_logo'] = 'Logo d\'entreprise';
-$lang['company_logo_hint'] =
-    'Le logo de l\'entreprise sera affiché dans de nombreux endroits de l\'application, y compris la page de réservation et les e-mails de notification (fichier image, max 2 Mo).';
+$lang['company_logo_hint'] = 'Le logo de l\'entreprise sera affiché dans de nombreux endroits de l\'application, y compris la page de réservation et les e-mails de notification (fichier image, max 2 Mo).';
 $lang['company_color'] = 'Couleur de l\'entreprise';
-$lang['company_color_hint'] =
-    'La couleur de l\'entreprise sera appliquée dans l\'application afin qu\'elle utilise votre marque.';
+$lang['company_color_hint'] = 'La couleur de l\'entreprise sera appliquée dans l\'application afin qu\'elle utilise votre marque.';
 $lang['localization'] = 'Localisation';
 $lang['integrations'] = 'Intégrations';
 $lang['company'] = 'Entreprise';
@@ -402,8 +358,7 @@ $lang['remove'] = 'Retirer';
 $lang['login_button'] = 'Bouton de Connexion';
 $lang['display_login_button_hint'] = 'Définit si le bouton de connexion est affiché dans la page de réservation.';
 $lang['private'] = 'Privé';
-$lang['private_hint'] =
-    'Les dossiers privés ne seront pas affichés ou traités dans des pages publiques telles que la page de réservation.';
+$lang['private_hint'] = 'Les dossiers privés ne seront pas affichés ou traités dans des pages publiques telles que la page de réservation.';
 $lang['reset'] = 'Réinitialiser';
 $lang['all'] = 'Tout';
 $lang['booking_link'] = 'Lien de réservation';
@@ -411,8 +366,7 @@ $lang['add_new_event'] = 'Ajouter un nouvel événement';
 $lang['what_kind_of_event'] = 'Quel genre d\'événement aimeriez-vous ajouter?';
 $lang['theme'] = 'Thème';
 $lang['limit_customer_access'] = 'Limiter l\'accès des clients';
-$lang['limit_customer_access_hint'] =
-    'S\'ils sont activés, les fournisseurs et les secrétaires ne pourront accéder qu\'à des clients avec lesquels ils ont rendez-vous.';
+$lang['limit_customer_access_hint'] = 'S\'ils sont activés, les fournisseurs et les secrétaires ne pourront accéder qu\'à des clients avec lesquels ils ont rendez-vous.';
 $lang['url'] = 'URL';
 $lang['secret_token'] = 'Token secret';
 $lang['verify_ssl'] = 'Vérifiez SSL';
@@ -434,33 +388,26 @@ $lang['admin_save'] = 'Sauvegarde de l\administrateur';
 $lang['admin_delete'] = 'Supprimer l\'administrateur';
 $lang['options'] = 'Options';
 $lang['webhooks'] = 'Webhooks';
-$lang['webhooks_info'] =
-    'les Webhooks vous permettent d\'envoyer des notifications HTTP aux applications Web externes en réponse à divers événements d\'application, tels que la création d\'un rendez-vous ou la suppression d\'un client.';
-$lang['integrations_info'] =
-    'Les intégrations vous permettent d\'établir des connexions tierces avec des applications externes et des API.';
+$lang['webhooks_info'] = 'les Webhooks vous permettent d\'envoyer des notifications HTTP aux applications Web externes en réponse à divers événements d\'application, tels que la création d\'un rendez-vous ou la suppression d\'un client.';
+$lang['integrations_info'] = 'Les intégrations vous permettent d\'établir des connexions tierces avec des applications externes et des API.';
 $lang['configure'] = 'Configurer';
 $lang['google_analytics'] = 'Google Analytics';
-$lang['google_analytics_info'] =
-    'Google Analytics vous permet d\'ajouter automatiquement le code de suivi et le balisage HTML à la page publique et de suivre toutes les sessions de réservation publique.';
+$lang['google_analytics_info'] = 'Google Analytics vous permet d\'ajouter automatiquement le code de suivi et le balisage HTML à la page publique et de suivre toutes les sessions de réservation publique.';
 $lang['matomo_analytics'] = 'Matomo Analytics';
-$lang['matomo_analytics_info'] =
-    'MATOMO Analytics vous permet d\'ajouter automatiquement le code de suivi et le balisage HTML à la page publique et de suivre toutes les sessions de réservation publique.';
+$lang['matomo_analytics_info'] = 'MATOMO Analytics vous permet d\'ajouter automatiquement le code de suivi et le balisage HTML à la page publique et de suivre toutes les sessions de réservation publique.';
 $lang['api'] = 'API';
-$lang['api_info'] =
-    'L\'API vous permet d\'interagir avec toutes les données de Easy!Appointments via le protocole HTTP et les points de terminaison API disponibles et créer vos propres intégrations.';
+$lang['api_info'] = 'L\'API vous permet d\'interagir avec toutes les données de Easy!Appointments via le protocole HTTP et les points de terminaison API disponibles et créer vos propres intégrations.';
 $lang['google_analytics_code'] = 'Google Analytics Code';
 $lang['matomo_analytics_url'] = 'Matomo Analytics URL';
 $lang['future_booking_limit'] = 'Future Booking Limit';
 $lang['limit_days'] = 'Limite (jours)';
-$lang['future_booking_limit_hint'] =
-    'Définissez la limite future en jours que les clients peuvent prendre rendez-vous via la page de réservation publique.';
+$lang['future_booking_limit_hint'] = 'Définissez la limite future en jours que les clients peuvent prendre rendez-vous via la page de réservation publique.';
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Autoriser le reprogrammation/annulation passée';
 $lang['at_least_one_field'] = 'Au moins un champ doit être affiché dans la page de réservation.';
 $lang['status'] = 'Statut';
 $lang['appointment_status_options'] = 'Options de statut de rendez-vous';
-$lang['appointment_status_options_info'] =
-    'Définissez une liste des options d\'état de rendez-vous disponibles qui peuvent être utilisées dans la page du calendrier (la première deviendra automatiquement la valeur par défaut).';
+$lang['appointment_status_options_info'] = 'Définissez une liste des options d\'état de rendez-vous disponibles qui peuvent être utilisées dans la page du calendrier (la première deviendra automatiquement la valeur par défaut).';
 $lang['sunday_short'] = 'Dim';
 $lang['monday_short'] = 'Lun';
 $lang['tuesday_short'] = 'Mar';
@@ -498,7 +445,6 @@ $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
 $lang['blocked_period_save'] = 'Blocked Period Save';
 $lang['blocked_period_delete'] = 'Blocked Period Delete';
-$lang['blocked_periods_hint'] =
-    'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['blocked_periods_hint'] = 'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
 $lang['auxiliary_field'] = 'Auxiliary Field';
 // End

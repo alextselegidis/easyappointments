@@ -37,8 +37,7 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['db_invalid_connection_str'] =
-    'Unable to determine the database settings based on the connection string you submitted.';
+$lang['db_invalid_connection_str'] = 'Unable to determine the database settings based on the connection string you submitted.';
 $lang['db_unable_to_connect'] = 'Unable to connect to your database server using the provided settings.';
 $lang['db_unable_to_select'] = 'Unable to select the specified database: %s';
 $lang['db_unable_to_create'] = 'Unable to create the specified database: %s';

@@ -39,22 +39,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['imglib_source_image_required'] = 'Kuvan lähde tulee määrittää asetuksissa.';
 $lang['imglib_gd_required'] = 'Tämä ominaisuus vaatii GD -kuvakirjaston.';
-$lang['imglib_gd_required_for_props'] =
-    'Palvelimen tulee tukea GD-kuvakirjastoa, jolla voidaan päätellä kuvan ominaisuudet.';
-$lang['imglib_unsupported_imagecreate'] =
-    'Palvelin ei tue GD-kuvakirjaston funktiota, jolla tämän tyypin kuvia voidaan käsitellä.';
-$lang['imglib_gif_not_supported'] =
-    'GIF kuvia ei usein tueta lisenssiehtojen takia Voit ehkä joutua käyttämää JPEG tai PNG kuvia sen sijaan.';
+$lang['imglib_gd_required_for_props'] = 'Palvelimen tulee tukea GD-kuvakirjastoa, jolla voidaan päätellä kuvan ominaisuudet.';
+$lang['imglib_unsupported_imagecreate'] = 'Palvelin ei tue GD-kuvakirjaston funktiota, jolla tämän tyypin kuvia voidaan käsitellä.';
+$lang['imglib_gif_not_supported'] = 'GIF kuvia ei usein tueta lisenssiehtojen takia Voit ehkä joutua käyttämää JPEG tai PNG kuvia sen sijaan.';
 $lang['imglib_jpg_not_supported'] = 'JPG kuvia ei tueta.';
 $lang['imglib_png_not_supported'] = 'PNG kuvia ei tueta.';
-$lang['imglib_jpg_or_png_required'] =
-    'Asetuksissa määritelty kuvan koon muutosprotokolla toimii vain JPEG ja PNG kuville.';
+$lang['imglib_jpg_or_png_required'] = 'Asetuksissa määritelty kuvan koon muutosprotokolla toimii vain JPEG ja PNG kuville.';
 $lang['imglib_copy_error'] = 'Muokattua kuvaa talletettaessa tapahtui virhe. Varmista että kansioon voi kirjoittaa.';
 $lang['imglib_rotate_unsupported'] = 'Palvelin ei tue kuvan kääntöä.';
-$lang['imglib_libpath_invalid'] =
-    'Kuvakirjaston polku ei ole oikein. Aseta oikea polku kuvankäsittelijän ominaisuuksissa.';
-$lang['imglib_image_process_failed'] =
-    'Kuvan käsittely epäonnistui. Varmista että palvelin tukee valittua protokollaa ja osoite kuvankäsittelijälle on oikein.';
+$lang['imglib_libpath_invalid'] = 'Kuvakirjaston polku ei ole oikein. Aseta oikea polku kuvankäsittelijän ominaisuuksissa.';
+$lang['imglib_image_process_failed'] = 'Kuvan käsittely epäonnistui. Varmista että palvelin tukee valittua protokollaa ja osoite kuvankäsittelijälle on oikein.';
 $lang['imglib_rotation_angle_required'] = 'Käännöskulma-asteet vaadiaan kuvan kääntämiseksi.';
 $lang['imglib_invalid_path'] = 'Kuvan polku ei ole oikein.';
 $lang['imglib_invalid_image'] = 'Annettu kuva ei ole validi.';

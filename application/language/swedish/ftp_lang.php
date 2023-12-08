@@ -37,8 +37,7 @@
  */
 defined('BASEPATH') or exit('Direktaccess till skriptet är inte tillåtet');
 
-$lang['ftp_no_connection'] =
-    'Det gick inte att hitta ett giltigt anslutnings-ID. Se till att du är ansluten innan du utför några filrutiner.';
+$lang['ftp_no_connection'] = 'Det gick inte att hitta ett giltigt anslutnings-ID. Se till att du är ansluten innan du utför några filrutiner.';
 $lang['ftp_unable_to_connect'] = 'Det går inte att ansluta till din FTP-server med det angivna värdnamnet.';
 $lang['ftp_unable_to_login'] = 'Det gick inte att logga in på FTP-servern. Kontrollera användarnamn och lösenord.';
 $lang['ftp_unable_to_mkdir'] = 'Det går inte att skapa angiven katalog.';

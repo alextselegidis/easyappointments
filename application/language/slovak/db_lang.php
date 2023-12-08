@@ -18,8 +18,7 @@ $lang['db_invalid_query'] = 'Odoslaná požiadavka nie je platná.';
 $lang['db_must_set_table'] = 'Musíte určiť databázovú tabuľku, ktorej sa požiadavka týka.';
 $lang['db_must_use_set'] = 'Musíte nastaviť metódu "set" pre úpravu záznamu.';
 $lang['db_must_use_index'] = 'Je nutné určiť párový index pre dávkový update).';
-$lang['db_batch_missing_index'] =
-    'Pre jeden alebo viac daných riadkov určených k dávkovému updatu chýba špecifikovaný index.';
+$lang['db_batch_missing_index'] = 'Pre jeden alebo viac daných riadkov určených k dávkovému updatu chýba špecifikovaný index.';
 $lang['db_must_use_where'] = 'Nie je možné upravovať záznamy bez podmienky "where".';
 $lang['db_del_must_use_where'] = 'Nie je možné mazať záznamy bez podmienky "where".';
 $lang['db_field_param_missing'] = 'Spracovanie polí vyžaduje ako parameter názov tabuľky.';

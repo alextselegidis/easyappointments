@@ -34,14 +34,11 @@ $lang['cancel_appointment_title'] = 'Cancel·lació de la cita';
 $lang['appointment_cancelled'] = 'La vostra cita s\'ha cancel·lat correctament.';
 $lang['appointment_cancelled_title'] = 'Cita cancel·lada';
 $lang['reason'] = 'Motiu';
-$lang['appointment_removed_from_schedule'] =
-    'La cita següent ha estat eliminada de la planificació de l\'organització.';
-$lang['appointment_details_was_sent_to_you'] =
-    'Se us ha enviat un correu electrònic amb els detalls de la cita on també podreu modificar-la o anul·lar-la.';
+$lang['appointment_removed_from_schedule'] = 'La cita següent ha estat eliminada de la planificació de l\'organització.';
+$lang['appointment_details_was_sent_to_you'] = 'Se us ha enviat un correu electrònic amb els detalls de la cita on també podreu modificar-la o anul·lar-la.';
 $lang['add_to_google_calendar'] = 'Afegeix al Google Calendar';
 $lang['appointment_booked'] = 'La vostra cita s\'ha reservat correctament.';
-$lang['thank_you_for_appointment'] =
-    'Gràcies per reservar una cita amb nosaltres. A sota, podeu veure els detalls de la cita. Podeu fer canvis clicant a l\'enllaç de la cita.';
+$lang['thank_you_for_appointment'] = 'Gràcies per reservar una cita amb nosaltres. A sota, podeu veure els detalls de la cita. Podeu fer canvis clicant a l\'enllaç de la cita.';
 $lang['appointment_details_title'] = 'Detalls de la cita';
 $lang['customer_details_title'] = 'Detalls del client';
 $lang['service'] = 'Servei';
@@ -83,15 +80,13 @@ $lang['hello'] = 'Hola';
 $lang['all_day'] = 'Tot el dia';
 $lang['manage_appointment_record_hint'] = 'Gestiona totes les cites enregistrades de proveïdors i serveis disponibles.';
 $lang['select_filter_item_hint'] = 'Selecciona un proveïdor o un servei i visualitza les cites al calendari.';
-$lang['enable_appointment_sync_hint'] =
-    'Permet la sincronització de cites amb el compte de Google Calendar del proveïdor.';
+$lang['enable_appointment_sync_hint'] = 'Permet la sincronització de cites amb el compte de Google Calendar del proveïdor.';
 $lang['manage_customers_hint'] = 'Gestiona els clients registrats i mostra el seu historial de reserves.';
 $lang['manage_services_hint'] = 'Gestiona els serveis disponibles i les categories del sistema.';
 $lang['manage_users_hint'] = 'Gestiona els usuaris gestors (administradors, proveïdors, secretaris).';
 $lang['settings_hint'] = 'Configura les opcions del sistema i dels usuaris.';
 $lang['log_out_hint'] = 'Surt del sistema.';
-$lang['unavailability_periods_hint'] =
-    'Durant els períodes de no disponibilitat el proveïdor no acceptarà noves cites.';
+$lang['unavailability_periods_hint'] = 'Durant els períodes de no disponibilitat el proveïdor no acceptarà noves cites.';
 $lang['new_appointment_hint'] = 'Crea una nova cita i emmagatzema-la a la base de dades.';
 $lang['reload_appointments_hint'] = 'Recarrega el calendari de cites.';
 $lang['trigger_google_sync_hint'] = 'Dispara el procés de sincronització amb el Google Calendar.';
@@ -169,8 +164,7 @@ $lang['reset_working_plan_hint'] = 'Reinicia la planificació de treball als val
 $lang['company_name'] = 'Nom de l\'organització';
 $lang['company_name_hint'] = 'El nom de l\'organització es mostrarà arreu del sistema (necessari).';
 $lang['company_email'] = 'Correu de l\'organització';
-$lang['company_email_hint'] =
-    'Aquest serà l\'adreça de correu electrònic de l\'organització. S\'utilitzarà com a remitent i adreça de resposta dels correus del sistema (necessari).';
+$lang['company_email_hint'] = 'Aquest serà l\'adreça de correu electrònic de l\'organització. S\'utilitzarà com a remitent i adreça de resposta dels correus del sistema (necessari).';
 $lang['company_link'] = 'Enllaç a l\'organització';
 $lang['company_link_hint'] = 'L\'enllaç a l\'organització hauria d\'enllaçar el seu lloc web oficial (necessari).';
 $lang['go_to_booking_page'] = 'Ves a la pàgina de reserves';
@@ -182,27 +176,21 @@ $lang['hidden'] = 'Amagat';
 $lang['business_logic'] = 'Lògica de negoci';
 $lang['current_user'] = 'Usuari actual';
 $lang['about_app'] = 'Quant a Easy!Appointments';
-$lang['edit_working_plan_hint'] =
-    'Marqueu a sota els dies i les hores que la vostra organització acceptarà cites. Podreu ajustar les cites a les hores no laborables, però els clients no podran reservar cites en aquest períodes. Aquesta planificació de treball serà utilitzada per defecte per cada nou proveïdor, però podreu canviar cadascuna de les planificacions dels proveïdors de forma separada. Finalment, podeu afegir els períodes de pausa.';
-$lang['edit_breaks_hint'] =
-    'Afegiu pauses per a cadascun dels dies. Aquestes pauses s\'aplicaran a tots els nous proveïdors.';
+$lang['edit_working_plan_hint'] = 'Marqueu a sota els dies i les hores que la vostra organització acceptarà cites. Podreu ajustar les cites a les hores no laborables, però els clients no podran reservar cites en aquest períodes. Aquesta planificació de treball serà utilitzada per defecte per cada nou proveïdor, però podreu canviar cadascuna de les planificacions dels proveïdors de forma separada. Finalment, podeu afegir els períodes de pausa.';
+$lang['edit_breaks_hint'] = 'Afegiu pauses per a cadascun dels dies. Aquestes pauses s\'aplicaran a tots els nous proveïdors.';
 $lang['book_advance_timeout'] = 'Temps límit de modificació/cancel·lació';
-$lang['book_advance_timeout_hint'] =
-    'Defineix el temps límit (en minuts) a partir del qual els clients no poden reservar una hora o modificar una cita.';
+$lang['book_advance_timeout_hint'] = 'Defineix el temps límit (en minuts) a partir del qual els clients no poden reservar una hora o modificar una cita.';
 $lang['timeout_minutes'] = 'Temps límit de reserva (minuts)';
-$lang['about_app_info'] =
-    'Easy!Appointments és una aplicació web molt ajustable que permet als vostres clients reservar cites amb vosaltres a través del web. A més, us permet sincronitzar amb Google Calendar de manera que ho podeu usar amb altres serveis.';
+$lang['about_app_info'] = 'Easy!Appointments és una aplicació web molt ajustable que permet als vostres clients reservar cites amb vosaltres a través del web. A més, us permet sincronitzar amb Google Calendar de manera que ho podeu usar amb altres serveis.';
 $lang['current_version'] = 'Versió actual';
 $lang['support'] = 'Suport';
-$lang['about_app_support'] =
-    'Si trobeu qualsevol problema fent servir Easy!Appointments, podeu consultar el Google Group per a trobar respostes. També podeu crear noves incidències a la pàgina de Google Code per ajudar al desenvolupament.';
+$lang['about_app_support'] = 'Si trobeu qualsevol problema fent servir Easy!Appointments, podeu consultar el Google Group per a trobar respostes. També podeu crear noves incidències a la pàgina de Google Code per ajudar al desenvolupament.';
 $lang['official_website'] = 'Lloc web oficial';
 $lang['google_plus_community'] = 'Comunitat Google+';
 $lang['support_group'] = 'Grup de suport';
 $lang['project_issues'] = 'Incidències del projecte';
 $lang['license'] = 'Llicència';
-$lang['about_app_license'] =
-    'Easy!Appointments es distribueix amb una llicència GPLv3. Usant el codi d\'Easy!Appointments de qualsevol manera, esteu consentint els termes descrits en la següent URL:';
+$lang['about_app_license'] = 'Easy!Appointments es distribueix amb una llicència GPLv3. Usant el codi d\'Easy!Appointments de qualsevol manera, esteu consentint els termes descrits en la següent URL:';
 $lang['logout_success'] = 'Heu sortit correctament! Cliqueu en un dels següents botons per navegar a una altra pàgina.';
 $lang['book_appointment_title'] = 'Reserva una cita';
 $lang['backend_section'] = 'Administració';
@@ -212,15 +200,13 @@ $lang['enter_password_here'] = 'Introduïu la vostra contrasenya...';
 $lang['login'] = 'Entra';
 $lang['forgot_your_password'] = 'Heu oblidat la contrasenya?';
 $lang['login_failed'] = 'Entrada fallida, introduïu les credencials correctes i proveu-ho un altre cop.';
-$lang['type_username_and_email_for_new_password'] =
-    'Teclegeu el vostre nom d\'usuari i la vostra adreça de correu per obtenir una nova contrasenya.';
+$lang['type_username_and_email_for_new_password'] = 'Teclegeu el vostre nom d\'usuari i la vostra adreça de correu per obtenir una nova contrasenya.';
 $lang['enter_email_here'] = 'Introdueix el teu correu aquí...';
 $lang['regenerate_password'] = 'Regenera la contrasenya';
 $lang['go_to_login'] = 'Torna a la pàgina d\'entrada';
 $lang['new_password_sent_with_email'] = 'La vostra nova contrasenya se us ha enviat per correu electrònic.';
 $lang['new_account_password'] = 'Nova contrasenya';
-$lang['new_password_is'] =
-    'La vostra nova contrasenya és $password. Deseu aquest correu per tal de poder recuperar la contrasenya si és necessari. Podeu canviar aquesta contrasenya a la pàgina de configuracions.';
+$lang['new_password_is'] = 'La vostra nova contrasenya és $password. Deseu aquest correu per tal de poder recuperar la contrasenya si és necessari. Podeu canviar aquesta contrasenya a la pàgina de configuracions.';
 $lang['delete_record_prompt'] = 'Esteu segurs que voleu eliminar aquest registre? Aquesta acció no es pot desfer.';
 $lang['delete_admin'] = 'Elimina un administrador';
 $lang['delete_customer'] = 'Elimina un client';
@@ -235,19 +221,16 @@ $lang['unexpected_issues'] = 'Problemes inesperats';
 $lang['unexpected_issues_message'] = 'L\'operació no s\'ha pogut completar degut a problemes inesperats.';
 $lang['close'] = 'Tanca';
 $lang['page_not_found'] = 'No s\'ha trobat la pàgina';
-$lang['page_not_found_message'] =
-    'La pàgina que heu demanat no existeix. Comproveu la URL del vostre navegador o dirigiu-vos a un altre lloc clicant els botons de sota.';
+$lang['page_not_found_message'] = 'La pàgina que heu demanat no existeix. Comproveu la URL del vostre navegador o dirigiu-vos a un altre lloc clicant els botons de sota.';
 $lang['error'] = 'Error';
 $lang['no_privileges'] = 'Permisos insuficients';
-$lang['no_privileges_message'] =
-    'No teniu el permisos requerits per veure aquesta pàgina. Navegueu a una altra secció.';
+$lang['no_privileges_message'] = 'No teniu el permisos requerits per veure aquesta pàgina. Navegueu a una altra secció.';
 $lang['backend_calendar'] = 'Calendari de gestió';
 $lang['start_date_time'] = 'Data/Hora d\'inici';
 $lang['end_date_time'] = 'Data/Hora de fi';
 $lang['licensed_under'] = 'Amb llicència';
 $lang['unexpected_issues_occurred'] = 'Hi han hagut alguns problemes.';
-$lang['service_communication_error'] =
-    'Hi hagut un problema de comunicació amb el servidor, intenteu-ho una altra vegada.';
+$lang['service_communication_error'] = 'Hi hagut un problema de comunicació amb el servidor, intenteu-ho una altra vegada.';
 $lang['no_privileges_edit_appointments'] = 'No teniu els permissos necessaris per editar les cites.';
 $lang['unavailability_updated'] = 'El període de temps de no disponibilitat s\'ha actualitzat correctament.';
 $lang['appointments'] = 'Cites';
@@ -261,8 +244,7 @@ $lang['password_length_notice'] = 'La contrasenya ha de tenir almenys $number ca
 $lang['general_settings'] = 'Configuracions generals';
 $lang['personal_information'] = 'Informació personal';
 $lang['system_login'] = 'Entrada al sistema';
-$lang['user_settings_are_invalid'] =
-    'Les configuració d\'usuari no User settings are invalid! Please review your settings and try again.';
+$lang['user_settings_are_invalid'] = 'Les configuració d\'usuari no User settings are invalid! Please review your settings and try again.';
 $lang['add_break'] = 'Afegeix una pausa';
 $lang['january'] = 'Gener';
 $lang['february'] = 'Febrer';
@@ -284,25 +266,20 @@ $lang['time'] = 'Hora';
 $lang['hour'] = 'Hora';
 $lang['minute'] = 'Minut';
 $lang['google_sync_completed'] = 'La sincronització amb Google s\'ha completat correctament.';
-$lang['google_sync_failed'] =
-    'La sincronització amb Google ha fallat: no s\'ha pogut establir la connexió amb el servidor.';
+$lang['google_sync_failed'] = 'La sincronització amb Google ha fallat: no s\'ha pogut establir la connexió amb el servidor.';
 $lang['select_google_calendar'] = 'Selecciona un Google Calendar';
-$lang['select_google_calendar_prompt'] =
-    'Seleccioneu el calendari que voleu sincronitzar amb les vostres cites. Si no seleccioneu un calendari específic, s\'usarà el calendari per defecte.';
+$lang['select_google_calendar_prompt'] = 'Seleccioneu el calendari que voleu sincronitzar amb les vostres cites. Si no seleccioneu un calendari específic, s\'usarà el calendari per defecte.';
 $lang['google_calendar_selected'] = 'El Google calendar s\'ha seleccionat correctament.';
 $lang['oops_something_went_wrong'] = 'Ups! Alguna cosa no ha funcionat bé.';
 $lang['could_not_add_to_google_calendar'] = 'La vostra cita no s\'ha pogut afegir al vostre compte de Google Calendar.';
 $lang['ea_update_success'] = 'Easy!Appointments s\'ha actualitzat correctament.';
 $lang['require_captcha'] = 'Requereix un CAPTCHA';
-$lang['require_captcha_hint'] =
-    'Quan s\'habilita, els clients hauran de teclejar una cadena CAPTCHA generada aleatòriament abans de reservar o actualitzar una cita.';
+$lang['require_captcha_hint'] = 'Quan s\'habilita, els clients hauran de teclejar una cadena CAPTCHA generada aleatòriament abans de reservar o actualitzar una cita.';
 $lang['captcha_is_wrong'] = 'La verificació del CAPTCHA ha fallat, torneu-ho a intentar.';
 $lang['any_provider'] = 'Qualsevol proveïdor';
-$lang['requested_hour_is_unavailability'] =
-    'La cita que demaneu no està disponible. Seleccioneu una hora diferent per a la vostra cita.';
+$lang['requested_hour_is_unavailability'] = 'La cita que demaneu no està disponible. Seleccioneu una hora diferent per a la vostra cita.';
 $lang['customer_notifications'] = 'Notificacions als clients';
-$lang['customer_notifications_hint'] =
-    'Defineix si el client rebrà notificacions per correu electrònic quan hi hagi un canvi en la planificació de les seves cites.';
+$lang['customer_notifications_hint'] = 'Defineix si el client rebrà notificacions per correu electrònic quan hi hagi un canvi en la planificació de les seves cites.';
 $lang['date_format'] = 'Format de data';
 $lang['date_format_hint'] = 'Canvia el format de visualització de la data (D - Dia, M - Mes, Y - Any).';
 $lang['time_format'] = 'Format d\'hora';
@@ -325,15 +302,12 @@ $lang['terms_and_conditions_content'] = 'Contingut dels termes i condicions';
 $lang['privacy_policy'] = 'Política de privacitat';
 $lang['display_privacy_policy'] = 'Mostra la política de privacitat';
 $lang['privacy_policy_content'] = 'Contingut de la política de privacitat';
-$lang['website_using_cookies_to_ensure_best_experience'] =
-    'Aquest lloc web usa cookies per assegurar-se que obteniu la millor experiència navegant pel nostre web.';
-$lang['read_and_agree_to_terms_and_conditions'] =
-    'He llegit i estic d\'acord amb els {$link}Termes i condicions{/$link}.';
+$lang['website_using_cookies_to_ensure_best_experience'] = 'Aquest lloc web usa cookies per assegurar-se que obteniu la millor experiència navegant pel nostre web.';
+$lang['read_and_agree_to_terms_and_conditions'] = 'He llegit i estic d\'acord amb els {$link}Termes i condicions{/$link}.';
 $lang['read_and_agree_to_privacy_policy'] = 'He llegit i estic d\'acord amb la {$link}Política de privacitat{/$link}.';
 $lang['delete_personal_information_hint'] = 'Elimineu les vostres dades del sistema (i les cites associades).';
 $lang['delete_personal_information'] = 'Eliminació de dades personals';
-$lang['delete_personal_information_prompt'] =
-    'Esteu segur que voleu eliminar la vostra informació personal? Aquesta acció no es pot desfer.';
+$lang['delete_personal_information_prompt'] = 'Esteu segur que voleu eliminar la vostra informació personal? Aquesta acció no es pot desfer.';
 $lang['location'] = 'Ubicació';
 $lang['working_plan_exception'] = 'Excepció del pla de treball';
 $lang['working_plan_exceptions'] = 'Excepcions del pla de treball';
@@ -344,19 +318,15 @@ $lang['working_plan_exception_deleted'] = 'L\'excepció del pla de treball s\'ha
 $lang['add_working_plan_exceptions_during_each_day'] = 'Afegeix excepcions al pla de treball, fora del pla de treball.';
 $lang['add_working_plan_exception'] = 'Afegeix una excepció al pla de treball';
 $lang['require_phone_number'] = 'Requereix el número de telèfon';
-$lang['require_phone_number_hint'] =
-    'Quan està activat, els clients i els usuaris hauran d\'introduir el número de telèfon al reservar una cita';
+$lang['require_phone_number_hint'] = 'Quan està activat, els clients i els usuaris hauran d\'introduir el número de telèfon al reservar una cita';
 $lang['check_spam_folder'] = 'Comproveu la vostra carpeta de correu brossa si el correu no arriba en uns minuts.';
-$lang['api_token_hint'] =
-    'Establiu un token secret per permetre l\'autenticació basada en tokens de l\'API d\'Easy!Appointments.';
+$lang['api_token_hint'] = 'Establiu un token secret per permetre l\'autenticació basada en tokens de l\'API d\'Easy!Appointments.';
 $lang['timezone'] = 'Zona horària';
-$lang['overwrite_existing_working_plans'] =
-    'Això sobreescriurà els plans de treball existents del proveïdor, esteu segur que voleu continuar?';
+$lang['overwrite_existing_working_plans'] = 'Això sobreescriurà els plans de treball existents del proveïdor, esteu segur que voleu continuar?';
 $lang['working_plans_got_updated'] = 'S\'han actualitzat tots els plans de treball.';
 $lang['apply_to_all_providers'] = 'Aplica-ho a tots els proveïdors';
 $lang['display_any_provider'] = 'Mostra l\'opció de Qualsevol proveïdor';
-$lang['display_any_provider_hint'] =
-    'La pàgina de reserva mostrarà una opció addicional que permet als clients reservar sense especificar un proveïdor.';
+$lang['display_any_provider_hint'] = 'La pàgina de reserva mostrarà una opció addicional que permet als clients reservar sense especificar un proveïdor.';
 $lang['load_more'] = 'Carrega\'n més';
 $lang['list'] = 'Llista';
 $lang['default'] = 'Per defecte';
@@ -367,24 +337,20 @@ $lang['booking_settings'] = 'Paràmetres de reserva';
 $lang['display'] = 'Mostra';
 $lang['require'] = 'Fes obligatori';
 $lang['color'] = 'Color';
-$lang['matomo_analytics_url_hint'] =
-    'Afegiu la URL de la vostra instal·lació de Matomo per permetre el seguiment de Matomo de les pàgines de reserves.';
+$lang['matomo_analytics_url_hint'] = 'Afegiu la URL de la vostra instal·lació de Matomo per permetre el seguiment de Matomo de les pàgines de reserves.';
 $lang['invalid_phone'] = 'Número de telèfon no vàlid.';
 $lang['legal'] = 'Legal';
 $lang['business'] = 'Negoci';
 $lang['account'] = 'Compte';
 $lang['disable_booking'] = 'Desactiva les cites';
-$lang['disable_booking_hint'] =
-    'La pàgina de reserva de cites es desactivarà mentre aquest paràmetre estigui actiu i els clients no podran realitzar noves cites.';
+$lang['disable_booking_hint'] = 'La pàgina de reserva de cites es desactivarà mentre aquest paràmetre estigui actiu i els clients no podran realitzar noves cites.';
 $lang['display_message'] = 'Mostra el missatge';
 $lang['booking_is_disabled'] = 'La reserva està deshabilitada!';
 $lang['appearance'] = 'Aparença';
 $lang['company_logo'] = 'Logotip de l\'empresa';
-$lang['company_logo_hint'] =
-    'El logotip de la companyia es mostrarà en molts llocs de l\'aplicació, incloent les pàgines de reserva i als correus de notificació (mida màxima del fitxer 2 MB).';
+$lang['company_logo_hint'] = 'El logotip de la companyia es mostrarà en molts llocs de l\'aplicació, incloent les pàgines de reserva i als correus de notificació (mida màxima del fitxer 2 MB).';
 $lang['company_color'] = 'Color d\'empresa';
-$lang['company_color_hint'] =
-    'El color d\'empresa es farà servir arreu del sistema per poder-lo adaptar a la vostra imatge d\'empresa.';
+$lang['company_color_hint'] = 'El color d\'empresa es farà servir arreu del sistema per poder-lo adaptar a la vostra imatge d\'empresa.';
 $lang['localization'] = 'Localització';
 $lang['integrations'] = 'Integracions';
 $lang['company'] = 'Empresa';
@@ -392,8 +358,7 @@ $lang['remove'] = 'Elimina';
 $lang['login_button'] = 'Botó d\'entrada';
 $lang['display_login_button_hint'] = 'Defineix si el botó d\'entrada es mostra a la pàgina de reserves.';
 $lang['private'] = 'Privat';
-$lang['private_hint'] =
-    'Els registres privats no es mostraran i no es processaran en pàgines públiques com la pàgina de reserves.';
+$lang['private_hint'] = 'Els registres privats no es mostraran i no es processaran en pàgines públiques com la pàgina de reserves.';
 $lang['reset'] = 'Reinicia';
 $lang['all'] = 'Tot';
 $lang['booking_link'] = 'Enllaç de reserva';
@@ -401,8 +366,7 @@ $lang['add_new_event'] = 'Afegeix un nou esdeveniment';
 $lang['what_kind_of_event'] = 'Quin tipus d\'esdeveniment voleu afegir?';
 $lang['theme'] = 'Tema';
 $lang['limit_customer_access'] = 'Limita l\'accés als clients';
-$lang['limit_customer_access_hint'] =
-    'Si s\'activa, els proveïdors i els secretaris només tindran accés als clients amb els que tenen cites.';
+$lang['limit_customer_access_hint'] = 'Si s\'activa, els proveïdors i els secretaris només tindran accés als clients amb els que tenen cites.';
 $lang['url'] = 'URL';
 $lang['secret_token'] = 'Token secret';
 $lang['verify_ssl'] = 'Verifica l\'SSL';
@@ -424,32 +388,26 @@ $lang['admin_save'] = 'Desa l\'administrador';
 $lang['admin_delete'] = 'Elimina l\'administrador';
 $lang['options'] = 'Opcions';
 $lang['webhooks'] = 'Webhooks';
-$lang['webhooks_info'] =
-    'Els Webhooks us permeten enviar notificacions HTTP a aplicacions web externes com a resposta a diversos esdeveniments com la creació d\'una cita o l\'eliminació d\'un client.';
+$lang['webhooks_info'] = 'Els Webhooks us permeten enviar notificacions HTTP a aplicacions web externes com a resposta a diversos esdeveniments com la creació d\'una cita o l\'eliminació d\'un client.';
 $lang['integrations_info'] = 'Les Integrations us permeten connexions amb tercers com aplicacions externes i APIs.';
 $lang['configure'] = 'Configura';
 $lang['google_analytics'] = 'Google Analytics';
-$lang['google_analytics_info'] =
-    'Google Analytics us permet afegir automàticament el codi de seguiment i el codi HTML a la pàgina de reserves i fer el seguiment de totes les reserves.';
+$lang['google_analytics_info'] = 'Google Analytics us permet afegir automàticament el codi de seguiment i el codi HTML a la pàgina de reserves i fer el seguiment de totes les reserves.';
 $lang['matomo_analytics'] = 'Matomo Analytics';
-$lang['matomo_analytics_info'] =
-    'Matomo Analytics us permet afegir automàticament el codi de seguiment i el codi HTML a la pàgina de reserves i fer el seguiment de totes les reserves.';
+$lang['matomo_analytics_info'] = 'Matomo Analytics us permet afegir automàticament el codi de seguiment i el codi HTML a la pàgina de reserves i fer el seguiment de totes les reserves.';
 $lang['api'] = 'API';
-$lang['api_info'] =
-    'API us permet interaccionar amb totes les dades Easy!Appointments via el protocol HTTP i els API endpoint disponibles i crear les vostres pròpies integracions.';
+$lang['api_info'] = 'API us permet interaccionar amb totes les dades Easy!Appointments via el protocol HTTP i els API endpoint disponibles i crear les vostres pròpies integracions.';
 $lang['google_analytics_code'] = 'Codi de Google Analytics';
 $lang['matomo_analytics_url'] = 'URL de Matomo Analytics';
 $lang['future_booking_limit'] = 'Límit de reserves futures';
 $lang['limit_days'] = 'Límit (dies)';
-$lang['future_booking_limit_hint'] =
-    'Estableix el límit en dies per avançat en el que es permet als clients demanar cites..';
+$lang['future_booking_limit_hint'] = 'Estableix el límit en dies per avançat en el que es permet als clients demanar cites..';
 $lang['api_token'] = 'API Token';
 $lang['allow_rescheduling_cancellation_before'] = 'Permet la reprogramació/cancel·lació abans';
 $lang['at_least_one_field'] = 'Com a mínim un camp s\'ha de mostrar a la pàgina de reserves.';
 $lang['status'] = 'Status';
 $lang['appointment_status_options'] = 'Opcions de l\'estat de la cita';
-$lang['appointment_status_options_info'] =
-    'Defineix una llista d\'estats disponibles per a una cita que es poden usar a la pàgina del calendari (el primer estat serà el que s\'usi per defecte).';
+$lang['appointment_status_options_info'] = 'Defineix una llista d\'estats disponibles per a una cita que es poden usar a la pàgina del calendari (el primer estat serà el que s\'usi per defecte).';
 $lang['sunday_short'] = 'Dg.';
 $lang['monday_short'] = 'Dl.';
 $lang['tuesday_short'] = 'Dm.';
@@ -487,7 +445,6 @@ $lang['blocked_period'] = 'Blocked Period';
 $lang['blocked_periods'] = 'Blocked Periods';
 $lang['blocked_period_save'] = 'Blocked Period Save';
 $lang['blocked_period_delete'] = 'Blocked Period Delete';
-$lang['blocked_periods_hint'] =
-    'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
+$lang['blocked_periods_hint'] = 'Define periods of time where public bookings will be disabled for all providers (e.g. closed dates, holidays etc.).';
 $lang['auxiliary_field'] = 'Auxiliary Field';
 // End

@@ -49,10 +49,8 @@ $lang['form_validation_max_length'] = 'Fältet {field} kan inte överstiga {para
 $lang['form_validation_exact_length'] = 'Fältet {field} måste innehålla exakt {param} tecken.';
 $lang['form_validation_alpha'] = 'Fältet {field} kan bara innehålla alfanumeriska tecken.';
 $lang['form_validation_alpha_numeric'] = 'Fältet {field} bör bara innehålla alfanumeriska tecken.';
-$lang['form_validation_alpha_numeric_spaces'] =
-    'Fältet {field} bör bara innehålla alfanumeriska tecken och mellanslag.';
-$lang['form_validation_alpha_dash'] =
-    'Fältet {field} kan bara innehålla alfanumeriska tecken, understryckningstecken och punkter.';
+$lang['form_validation_alpha_numeric_spaces'] = 'Fältet {field} bör bara innehålla alfanumeriska tecken och mellanslag.';
+$lang['form_validation_alpha_dash'] = 'Fältet {field} kan bara innehålla alfanumeriska tecken, understryckningstecken och punkter.';
 $lang['form_validation_numeric'] = 'Fältet {field} får bara innehålla siffror.';
 $lang['form_validation_is_numeric'] = 'Fältet {field} får bara innehålla numeriska tecken.';
 $lang['form_validation_integer'] = 'Fältet {field} får bara innehålla heltal.';
@@ -64,10 +62,8 @@ $lang['form_validation_is_natural'] = 'Fältet {field} får bara innehålla siff
 $lang['form_validation_is_natural_no_zero'] = 'Fältet {field} får bara innehålla värden större än noll.';
 $lang['form_validation_decimal'] = 'Fältet {field} måste innehålla ett decimaltal.';
 $lang['form_validation_less_than'] = 'Fältet {field} måste innehåla ett nummer lägre än {param}.';
-$lang['form_validation_less_than_equal_to'] =
-    'Fältet {field} måste innehålla ett nummer lika med eller lägre än {param}.';
+$lang['form_validation_less_than_equal_to'] = 'Fältet {field} måste innehålla ett nummer lika med eller lägre än {param}.';
 $lang['form_validation_greater_than'] = 'Fältet {field} måste innehålla ett nummer större än {param}.';
-$lang['form_validation_greater_than_equal_to'] =
-    'Fältet {field} måste innehålla ett nummer större än eller lika med {param}.';
+$lang['form_validation_greater_than_equal_to'] = 'Fältet {field} måste innehålla ett nummer större än eller lika med {param}.';
 $lang['form_validation_error_message_not_set'] = 'Kan inte hitta ett felmeddelande som hör till fältet {field}.';
 $lang['form_validation_in_list'] = 'Fältet {field} måste vara en av: {param}.';

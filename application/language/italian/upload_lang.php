@@ -38,10 +38,8 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['upload_userfile_not_set'] = 'Impossibile trovare una variabile post chiamata file utente.';
-$lang['upload_file_exceeds_limit'] =
-    'Il file caricato supera la dimensione massima consentita nel tuo file di configurazione PHP.';
-$lang['upload_file_exceeds_form_limit'] =
-    'Il file caricato supera la dimensione massima consentita dal modulo di invio.';
+$lang['upload_file_exceeds_limit'] = 'Il file caricato supera la dimensione massima consentita nel tuo file di configurazione PHP.';
+$lang['upload_file_exceeds_form_limit'] = 'Il file caricato supera la dimensione massima consentita dal modulo di invio.';
 $lang['upload_file_partial'] = 'Il file è stato caricato solo parzialmente.';
 $lang['upload_no_temp_directory'] = 'Manca la cartella temporanea.';
 $lang['upload_unable_to_write_file'] = 'Impossibile scrivere il file su disco.';
@@ -49,10 +47,8 @@ $lang['upload_stopped_by_extension'] = 'Il caricamento del file è stato interro
 $lang['upload_no_file_selected'] = 'Non hai selezionato un file da caricare.';
 $lang['upload_invalid_filetype'] = 'Il tipo di file che stai tentando di caricare non è consentito.';
 $lang['upload_invalid_filesize'] = 'Il file che stai tentando di caricare è più grande della dimensione consentita.';
-$lang['upload_invalid_dimensions'] =
-    'L\'immagine che stai tentando di caricare non rientra nelle dimensioni consentite.';
-$lang['upload_destination_error'] =
-    'Si è verificato un problema durante il tentativo di spostare il file caricato nella destinazione finale.';
+$lang['upload_invalid_dimensions'] = 'L\'immagine che stai tentando di caricare non rientra nelle dimensioni consentite.';
+$lang['upload_destination_error'] = 'Si è verificato un problema durante il tentativo di spostare il file caricato nella destinazione finale.';
 $lang['upload_no_filepath'] = 'Il percorso di caricamento non sembra essere valido.';
 $lang['upload_no_file_types'] = 'Non hai specificato nessun tipo di file consentito.';
 $lang['upload_bad_filename'] = 'Il nome del file che hai inviato esiste già sul server.';

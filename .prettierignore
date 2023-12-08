@@ -1,6 +1,7 @@
 .idea
 .github
 .run
+application/language/*
 build
 docker
 docs

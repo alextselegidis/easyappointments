@@ -37,12 +37,9 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['ftp_no_connection'] =
-    'Nije moguće pronaći važeći ID veze. Provjerite jeste li povezani prije izvođenja bilo kakvih operacija s datotekama.';
-$lang['ftp_unable_to_connect'] =
-    'Nije moguće povezati se s vašim FTP poslužiteljem koristeći navedeni naziv poslužitelja.';
-$lang['ftp_unable_to_login'] =
-    'Nije moguće prijaviti se na vaš FTP poslužitelj. Provjerite svoje korisničko ime i lozinku.';
+$lang['ftp_no_connection'] = 'Nije moguće pronaći važeći ID veze. Provjerite jeste li povezani prije izvođenja bilo kakvih operacija s datotekama.';
+$lang['ftp_unable_to_connect'] = 'Nije moguće povezati se s vašim FTP poslužiteljem koristeći navedeni naziv poslužitelja.';
+$lang['ftp_unable_to_login'] = 'Nije moguće prijaviti se na vaš FTP poslužitelj. Provjerite svoje korisničko ime i lozinku.';
 $lang['ftp_unable_to_mkdir'] = 'Nije moguće stvoriti direktorij koji ste naveli.';
 $lang['ftp_unable_to_changedir'] = 'Nije moguće promijeniti direktorije.';
 $lang['ftp_unable_to_chmod'] = 'Nije moguće postaviti dozvole za datoteku. Provjerite svoj put.';

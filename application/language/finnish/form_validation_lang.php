@@ -50,8 +50,7 @@ $lang['form_validation_exact_length'] = '{field} -kentän tulee olla täsmällee
 $lang['form_validation_alpha'] = '{field} -kentässä saa olla vain kirjaimia.';
 $lang['form_validation_alpha_numeric'] = '{field} -kentässä saa olla vain kirjaimia ja numeroita.';
 $lang['form_validation_alpha_numeric_spaces'] = '{field} -kentässä saa olla vain kirjaimia, numeroita ja välilyöntejä.';
-$lang['form_validation_alpha_dash'] =
-    '{field} -kentässä saa olla vain kirjaimia, numeroita, alaviivoja (_) ja väliviivoja (-).';
+$lang['form_validation_alpha_dash'] = '{field} -kentässä saa olla vain kirjaimia, numeroita, alaviivoja (_) ja väliviivoja (-).';
 $lang['form_validation_numeric'] = '{field} -kentässä saa olla vain numeroita.';
 $lang['form_validation_is_numeric'] = '{field} -kentässä saa olla vain numeroita.';
 $lang['form_validation_integer'] = '{field} -kentän tulee olla kokonaisluku.';

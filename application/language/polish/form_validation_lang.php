@@ -50,8 +50,7 @@ $lang['form_validation_exact_length'] = 'Pole {field} musi mieć dokładnie {par
 $lang['form_validation_alpha'] = 'Pole {field} może zawierać tylko znaki alfabetyczne.';
 $lang['form_validation_alpha_numeric'] = 'Pole {field} może zawierać tylko znaki alfanumeryczne.';
 $lang['form_validation_alpha_numeric_spaces'] = 'Pole {field} może zawierać tylko znaki alfanumeryczne i spacje.';
-$lang['form_validation_alpha_dash'] =
-    'Pole {field} może zawierać tylko znaki alfanumeryczne, podkreślenia oraz myślniki.';
+$lang['form_validation_alpha_dash'] = 'Pole {field} może zawierać tylko znaki alfanumeryczne, podkreślenia oraz myślniki.';
 $lang['form_validation_numeric'] = 'Pole {field} musi zawierać tylko liczby.';
 $lang['form_validation_is_numeric'] = 'Pole {field} musi zawierać tylko znaki numeryczne.';
 $lang['form_validation_integer'] = 'Pole {field} musi być liczbą całkowitą.';
@@ -66,6 +65,5 @@ $lang['form_validation_less_than'] = 'Pole {field} musi zawierać liczbę mniejs
 $lang['form_validation_less_than_equal_to'] = 'Pole {field} musi zawierać liczbę równą lub mniejszą niż {param}.';
 $lang['form_validation_greater_than'] = 'Pole {field} musi zawierać liczbę większą niż  {param}.';
 $lang['form_validation_greater_than_equal_to'] = 'Pole {field} musi zawierać liczbę równą lub większą niż {param}.';
-$lang['form_validation_error_message_not_set'] =
-    'Nie można uzyskać dostępu do komunikatu o błędzie odpowiadającego nazwie pola {field}.';
+$lang['form_validation_error_message_not_set'] = 'Nie można uzyskać dostępu do komunikatu o błędzie odpowiadającego nazwie pola {field}.';
 $lang['form_validation_in_list'] = 'Pole {field} musi być jednym z: {param}.';

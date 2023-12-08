@@ -16,12 +16,9 @@ $lang['email_attachment_missing'] = 'No ha sido posible encontrar este adjunto: 
 $lang['email_attachment_unreadable'] = 'No ha sido posible abrir este adjunto: %s';
 $lang['email_no_from'] = 'No se puede enviar un email sin la cabecera "From".';
 $lang['email_no_recipients'] = 'Debes incluir destinatarios: Para, Cc, o Cco';
-$lang['email_send_failure_phpmail'] =
-    'No ha sido posible enviar el correo usando PHP mail(). Tu servidor podría no estar configurado para enviar emails con este método.';
-$lang['email_send_failure_sendmail'] =
-    'No ha sido posible enviar el correo usando PHP Sendmail. Tu servidor podría no estar configurado para enviar emails con este método.';
-$lang['email_send_failure_smtp'] =
-    'No ha sido posible enviar el correo usando PHP SMTP. Tu servidor podría no estar configurado para enviar emails con este método.';
+$lang['email_send_failure_phpmail'] = 'No ha sido posible enviar el correo usando PHP mail(). Tu servidor podría no estar configurado para enviar emails con este método.';
+$lang['email_send_failure_sendmail'] = 'No ha sido posible enviar el correo usando PHP Sendmail. Tu servidor podría no estar configurado para enviar emails con este método.';
+$lang['email_send_failure_smtp'] = 'No ha sido posible enviar el correo usando PHP SMTP. Tu servidor podría no estar configurado para enviar emails con este método.';
 $lang['email_sent'] = 'Tu mensaje ha sido enviado con éxito usando este protocolo: %s';
 $lang['email_no_socket'] = 'No ha sido posible abrir un socket a Sendmail. Por favor, comprueba la configuración.';
 $lang['email_no_hostname'] = 'No has especificado un servidor SMTP.';

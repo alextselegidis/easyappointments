@@ -49,10 +49,8 @@ $lang['form_validation_max_length'] = 'Das Feld {field} darf nicht mehr als {par
 $lang['form_validation_exact_length'] = 'Das Feld {field} muss exakt {param} Zeichen enthalten.';
 $lang['form_validation_alpha'] = 'Das Feld {field} darf ausschließlich Buchstaben enthalten.';
 $lang['form_validation_alpha_numeric'] = 'Das Feld {field} darf ausschließlich alpha-numerische Zeichen enthalten.';
-$lang['form_validation_alpha_numeric_spaces'] =
-    'Das Feld {field}darf ausschließlich alpha-numerische Zeichen und Leerzeichen enthalten.';
-$lang['form_validation_alpha_dash'] =
-    'Das Feld {field} darf ausschließlich alpha-numerische Zeichen, Unterstriche und Bindestriche enthalten.';
+$lang['form_validation_alpha_numeric_spaces'] = 'Das Feld {field}darf ausschließlich alpha-numerische Zeichen und Leerzeichen enthalten.';
+$lang['form_validation_alpha_dash'] = 'Das Feld {field} darf ausschließlich alpha-numerische Zeichen, Unterstriche und Bindestriche enthalten.';
 $lang['form_validation_numeric'] = 'Das Feld {field} darf ausschließlich Zahlen enthalten.';
 $lang['form_validation_is_numeric'] = 'Das Feld {field} darf ausschließlich numerische Zeichen enthalten.';
 $lang['form_validation_integer'] = 'Das Feld {field} ausschließlich ganze Zahlen (integer) enthalten.';
@@ -61,8 +59,7 @@ $lang['form_validation_matches'] = 'Das Feld {field} entspricht nicht dem Feld {
 $lang['form_validation_differs'] = 'Das Feld {field} muss sich vom Feld {param} unterscheiden.';
 $lang['form_validation_is_unique'] = 'Das Feld {field} muss einen einzigartigen Wert enthalten.';
 $lang['form_validation_is_natural'] = 'Das Feld {field} darf nur Ziffern enthalten.';
-$lang['form_validation_is_natural_no_zero'] =
-    'Das Feld {field} darf nur Ziffern enthalten und muss größer sein als Null.';
+$lang['form_validation_is_natural_no_zero'] = 'Das Feld {field} darf nur Ziffern enthalten und muss größer sein als Null.';
 $lang['form_validation_decimal'] = 'Das Feld {field} muss eine Dezimalzahl enthalten.';
 $lang['form_validation_less_than'] = 'Das Feld {field} muss eine Zahl kleiner als {param} enthalten.';
 $lang['form_validation_less_than_equal_to'] = 'Das Feld {field} muss eine Zahl kleiner-gleich {param} enthalten.';

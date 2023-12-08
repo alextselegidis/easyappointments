@@ -14,12 +14,9 @@ $lang['email_attachment_missing'] = 'عدم موفقیت در مشخص کردن 
 $lang['email_attachment_unreadable'] = 'عدم موفقیت در باز کردن این پیوست: %s';
 $lang['email_no_from'] = 'ارسال ایمیل بدون هدر "From"????!!!';
 $lang['email_no_recipients'] = 'شما باید گیرنده ها را مشخص کنید: To, Cc, یا Bcc';
-$lang['email_send_failure_phpmail'] =
-    'عدم موفقیت در ارسال ایمیل توسط تابع mail(). شاید سرور شما برای ارسال ایمیل از این طریق تنظزیم نشده است';
-$lang['email_send_failure_sendmail'] =
-    'عدم موفقیت در ارسال ایمیل توسط  Sendmail. شاید سرور شما برای ارسال ایمیل از این طریق تنظیم نشده است';
-$lang['email_send_failure_smtp'] =
-    'عدم موفقیت در ارسال ایمیل توسط  SMTP. شاید سرور شما برای ارسال ایمیل از این طریق تنظیم نشده است';
+$lang['email_send_failure_phpmail'] = 'عدم موفقیت در ارسال ایمیل توسط تابع mail(). شاید سرور شما برای ارسال ایمیل از این طریق تنظزیم نشده است';
+$lang['email_send_failure_sendmail'] = 'عدم موفقیت در ارسال ایمیل توسط  Sendmail. شاید سرور شما برای ارسال ایمیل از این طریق تنظیم نشده است';
+$lang['email_send_failure_smtp'] = 'عدم موفقیت در ارسال ایمیل توسط  SMTP. شاید سرور شما برای ارسال ایمیل از این طریق تنظیم نشده است';
 $lang['email_sent'] = 'پیام شما با موفقیت توسط پروتکل مشخص شده ارسال شد: %s';
 $lang['email_no_socket'] = 'عدم موفقیت در باز کردن یک سوکت جدید برای Sendmail. لطفا تنظیمات را چک کنید';
 $lang['email_no_hostname'] = ' شما hostname را برای استفاده از SMTP مشخص نکرده اید';

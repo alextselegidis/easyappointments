@@ -15,12 +15,9 @@ $lang['email_attachment_missing'] = 'Email eklentisi bulunamıyor: %s';
 $lang['email_attachment_unreadable'] = 'Email eklentisi açılamıyor: %s';
 $lang['email_no_from'] = '"From" başlığı olmadan email gönderilemez.';
 $lang['email_no_recipients'] = 'Alıcıları yazmalısınız: To, Cc, or Bcc';
-$lang['email_send_failure_phpmail'] =
-    'PHP mail() fonksiyonu ile email gönderilemiyor. Sunucunuz bu metod ile email göndermeye ayarlanmamış olabilir.';
-$lang['email_send_failure_sendmail'] =
-    'PHP Sendmail ile email gönderilemiyor. Sunucunuz bu metod ile email göndermeye ayarlanmamış olabilir.';
-$lang['email_send_failure_smtp'] =
-    'PHP SMTP ile email gönderilemiyor. Sunucunuz bu metod ile email göndermeye ayarlanmamış olabilir.';
+$lang['email_send_failure_phpmail'] = 'PHP mail() fonksiyonu ile email gönderilemiyor. Sunucunuz bu metod ile email göndermeye ayarlanmamış olabilir.';
+$lang['email_send_failure_sendmail'] = 'PHP Sendmail ile email gönderilemiyor. Sunucunuz bu metod ile email göndermeye ayarlanmamış olabilir.';
+$lang['email_send_failure_smtp'] = 'PHP SMTP ile email gönderilemiyor. Sunucunuz bu metod ile email göndermeye ayarlanmamış olabilir.';
 $lang['email_sent'] = 'Mesajınız %s protokolü kullanılarak başarıyla gönderildi.';
 $lang['email_no_socket'] = 'Sendmail soketi açılamıyor. Lütfen ayarlarınızı kontrol ediniz.';
 $lang['email_no_hostname'] = 'SMTP sunucu adı belirtmelisiniz.';

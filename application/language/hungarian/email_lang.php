@@ -15,12 +15,9 @@ $lang['email_attachment_missing'] = 'Nem találhatóak a következő email csato
 $lang['email_attachment_unreadable'] = 'A következő csatolmányt nem sikerült megnyitni: %s';
 $lang['email_no_from'] = 'Nem lehetséges emailt küldeni a "From" fejléc megadása nélkül.';
 $lang['email_no_recipients'] = 'Címzetteket meg kell adni: To, Cc, vagy Bcc';
-$lang['email_send_failure_phpmail'] =
-    'Nem sikerült emailt küldeni a PHP mail() függvénnyel.  Lehetséges, hogy a szerver nincs ennek a módszernek a használatára beállítva.';
-$lang['email_send_failure_sendmail'] =
-    'Nem sikerült emailt küldeni a PHP Sendmail használatával.  Lehetséges, hogy a szerver nincs ennek a módszernek a használatára beállítva.';
-$lang['email_send_failure_smtp'] =
-    'Nem sikerült emailt küldeni a PHP SMTP használatával.  Lehetséges, hogy a szerver nincs ennek a módszernek a használatára beállítva.';
+$lang['email_send_failure_phpmail'] = 'Nem sikerült emailt küldeni a PHP mail() függvénnyel.  Lehetséges, hogy a szerver nincs ennek a módszernek a használatára beállítva.';
+$lang['email_send_failure_sendmail'] = 'Nem sikerült emailt küldeni a PHP Sendmail használatával.  Lehetséges, hogy a szerver nincs ennek a módszernek a használatára beállítva.';
+$lang['email_send_failure_smtp'] = 'Nem sikerült emailt küldeni a PHP SMTP használatával.  Lehetséges, hogy a szerver nincs ennek a módszernek a használatára beállítva.';
 $lang['email_sent'] = 'Az üzenet sikeresen elküldésre került a következő protokoll használatával: %s';
 $lang['email_no_socket'] = 'Nem sikerült socketet nyitni a Sendmailhez. Kérjük ellenőrizze a beállításokat.';
 $lang['email_no_hostname'] = 'Nem adott meg SMTP kiszolgálónevet.';

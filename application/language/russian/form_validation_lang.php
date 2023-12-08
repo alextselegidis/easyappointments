@@ -49,10 +49,8 @@ $lang['form_validation_max_length'] = 'Длина поля {field} не може
 $lang['form_validation_exact_length'] = 'Поле {field} должно быть длиной ровно {param} символов.';
 $lang['form_validation_alpha'] = 'Поле {field} может содержать только алфавитные символы.';
 $lang['form_validation_alpha_numeric'] = 'Поле {field} может содержать только буквенно-цифровые символы.';
-$lang['form_validation_alpha_numeric_spaces'] =
-    'Поле {field} может содержать только буквенно-цифровые символы и пробелы.';
-$lang['form_validation_alpha_dash'] =
-    'Поле {field} может содержать только буквенно-цифровые символы, подчеркивания и тире.';
+$lang['form_validation_alpha_numeric_spaces'] = 'Поле {field} может содержать только буквенно-цифровые символы и пробелы.';
+$lang['form_validation_alpha_dash'] = 'Поле {field} может содержать только буквенно-цифровые символы, подчеркивания и тире.';
 $lang['form_validation_numeric'] = 'Поле {field} должно содержать только числа.';
 $lang['form_validation_is_numeric'] = 'Поле {field} должно содержать только числовые символы.';
 $lang['form_validation_integer'] = 'Поле {field} должно содержать целое число.';
@@ -67,6 +65,5 @@ $lang['form_validation_less_than'] = 'Поле {field} должно содерж
 $lang['form_validation_less_than_equal_to'] = 'Поле {field} должно содержать число, меньшее или равное {param}.';
 $lang['form_validation_greater_than'] = 'Поле {field} должно содержать число, большее, чем {param}.';
 $lang['form_validation_greater_than_equal_to'] = 'Поле {field} должно содержать число, большее или равное {param}.';
-$lang['form_validation_error_message_not_set'] =
-    'Невозможно получить доступ к сообщению об ошибке, соответствующему имени вашего поля {field}.';
+$lang['form_validation_error_message_not_set'] = 'Невозможно получить доступ к сообщению об ошибке, соответствующему имени вашего поля {field}.';
 $lang['form_validation_in_list'] = 'Поле {field} должно быть одним из: {param}.';

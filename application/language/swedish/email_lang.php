@@ -15,12 +15,9 @@ $lang['email_attachment_missing'] = 'Hittar inte följande bifogade fil: %s';
 $lang['email_attachment_unreadable'] = 'Kan inte öppna denna bifogade fil: %s';
 $lang['email_no_from'] = 'Kan inte skicka epost utan "From"-header.';
 $lang['email_no_recipients'] = 'Du måste ange mottagare: To, Cc, eller Bcc';
-$lang['email_send_failure_phpmail'] =
-    'Kan inte skicka epost med PHP mail(). Din server är kanske inte konfigurerad för att skicka epost på detta sätt.';
-$lang['email_send_failure_sendmail'] =
-    'Kan inte skicka epost med PHP Sendmail. Din server är kanske inte konfigurerad för att skicka epost på detta sätt.';
-$lang['email_send_failure_smtp'] =
-    'Kan inte skicka epost med PHP SMTP. Din server är kanske inte konfigurerad för att skicka epost på detta sätt.';
+$lang['email_send_failure_phpmail'] = 'Kan inte skicka epost med PHP mail(). Din server är kanske inte konfigurerad för att skicka epost på detta sätt.';
+$lang['email_send_failure_sendmail'] = 'Kan inte skicka epost med PHP Sendmail. Din server är kanske inte konfigurerad för att skicka epost på detta sätt.';
+$lang['email_send_failure_smtp'] = 'Kan inte skicka epost med PHP SMTP. Din server är kanske inte konfigurerad för att skicka epost på detta sätt.';
 $lang['email_sent'] = 'Ditt meddelande blev skickat med följande protokoll: %s';
 $lang['email_no_socket'] = 'Kan inte ansluta till Sendmail. Kontrollera inställningarna.';
 $lang['email_no_hostname'] = 'Du har inte angivit värdnamn för SMTP.';
