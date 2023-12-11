@@ -131,6 +131,10 @@
                     </div>
                 <?php endif; ?>
             </div>
+
+            <div class="mb-3">
+                <?php component('custom_fields'); ?>
+            </div>
         </div>
     </div>
 

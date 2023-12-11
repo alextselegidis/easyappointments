@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Customers extends EA_Controller {
+class Customers extends EA_Controller
+{
     /**
      * Customers constructor.
      */
@@ -49,10 +50,8 @@ class Customers extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_CUSTOMERS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_CUSTOMERS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -75,8 +74,7 @@ class Customers extends EA_Controller {
 
         $secretary_providers = [];
 
-        if ($role_slug === DB_SLUG_SECRETARY)
-        {
+        if ($role_slug === DB_SLUG_SECRETARY) {
             $secretary = $this->secretaries_model->find($user_id);
 
             $secretary_providers = $secretary['providers'];
@@ -88,7 +86,7 @@ class Customers extends EA_Controller {
             'date_format' => $date_format,
             'time_format' => $time_format,
             'timezones' => $this->timezones->to_array(),
-            'secretary_providers' => $secretary_providers,
+            'secretary_providers' => $secretary_providers
         ]);
 
         html_vars([
@@ -105,10 +103,36 @@ class Customers extends EA_Controller {
             'require_address' => $require_address,
             'require_city' => $require_city,
             'require_zip_code' => $require_zip_code,
-            'available_languages' => config('available_languages'),
+            'available_languages' => config('available_languages')
         ]);
 
         $this->load->view('pages/customers');
+    }
+
+    /**
+     * Find a customer.
+     */
+    public function find()
+    {
+        try {
+            if (cannot('view', PRIV_CUSTOMERS)) {
+                abort(403, 'Forbidden');
+            }
+
+            $user_id = session('user_id');
+
+            $customer_id = request('customer_id');
+
+            if (!$this->permissions->has_customer_access($user_id, $customer_id)) {
+                abort(403, 'Forbidden');
+            }
+
+            $customer = $this->customers_model->find($customer_id);
+
+            json_response($customer);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
     }
 
     /**
@@ -116,10 +140,8 @@ class Customers extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_CUSTOMERS))
-            {
+        try {
+            if (cannot('view', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -135,10 +157,8 @@ class Customers extends EA_Controller {
 
             $user_id = session('user_id');
 
-            foreach ($customers as $index => &$customer)
-            {
-                if ( ! $this->permissions->has_customer_access($user_id, $customer['id']))
-                {
+            foreach ($customers as $index => &$customer) {
+                if (!$this->permissions->has_customer_access($user_id, $customer['id'])) {
                     unset($customers[$index]);
 
                     continue;
@@ -146,21 +166,15 @@ class Customers extends EA_Controller {
 
                 $appointments = $this->appointments_model->get(['id_users_customer' => $customer['id']]);
 
-                foreach ($appointments as &$appointment)
-                {
-                    $this->appointments_model->load($appointment, [
-                        'service',
-                        'provider',
-                    ]);
+                foreach ($appointments as &$appointment) {
+                    $this->appointments_model->load($appointment, ['service', 'provider']);
                 }
 
                 $customer['appointments'] = $appointments;
             }
 
             json_response(array_values($customers));
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -170,15 +184,12 @@ class Customers extends EA_Controller {
      */
     public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_CUSTOMERS))
-            {
+        try {
+            if (cannot('add', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
-            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_visibility'))
-            {
+            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_visibility')) {
                 abort(403);
             }
 
@@ -196,6 +207,11 @@ class Customers extends EA_Controller {
                 'notes',
                 'timezone',
                 'language',
+                'custom_field_1',
+                'custom_field_2',
+                'custom_field_3',
+                'custom_field_4',
+                'custom_field_5'
             ]);
 
             $customer_id = $this->customers_model->save($customer);
@@ -205,12 +221,10 @@ class Customers extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_CUSTOMER_SAVE, $customer);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $customer_id
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -220,10 +234,8 @@ class Customers extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_CUSTOMERS))
-            {
+        try {
+            if (cannot('edit', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -231,8 +243,7 @@ class Customers extends EA_Controller {
 
             $customer = request('customer');
 
-            if ( ! $this->permissions->has_customer_access($user_id, $customer['id']))
-            {
+            if (!$this->permissions->has_customer_access($user_id, $customer['id'])) {
                 abort(403, 'Forbidden');
             }
 
@@ -249,6 +260,11 @@ class Customers extends EA_Controller {
                 'notes',
                 'timezone',
                 'language',
+                'custom_field_1',
+                'custom_field_2',
+                'custom_field_3',
+                'custom_field_4',
+                'custom_field_5'
             ]);
 
             $customer_id = $this->customers_model->save($customer);
@@ -258,12 +274,10 @@ class Customers extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_CUSTOMER_SAVE, $customer);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
                 'id' => $customer_id
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -273,10 +287,8 @@ class Customers extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_CUSTOMERS))
-            {
+        try {
+            if (cannot('delete', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -284,8 +296,7 @@ class Customers extends EA_Controller {
 
             $customer_id = request('customer_id');
 
-            if ( ! $this->permissions->has_customer_access($user_id, $customer_id))
-            {
+            if (!$this->permissions->has_customer_access($user_id, $customer_id)) {
                 abort(403, 'Forbidden');
             }
 
@@ -296,42 +307,9 @@ class Customers extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_CUSTOMER_DELETE, $customer);
 
             json_response([
-                'success' => TRUE,
+                'success' => true
             ]);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Find a customer.
-     */
-    public function find()
-    {
-        try
-        {
-            if (cannot('view', PRIV_CUSTOMERS))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $user_id = session('user_id');
-
-            $customer_id = request('customer_id');
-
-            if ( ! $this->permissions->has_customer_access($user_id, $customer_id))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $customer = $this->customers_model->find($customer_id);
-
-            json_response($customer);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

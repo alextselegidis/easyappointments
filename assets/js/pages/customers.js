@@ -27,9 +27,15 @@ App.Pages.Customers = (function () {
     const $zipCode = $('#zip-code');
     const $timezone = $('#timezone');
     const $language = $('#language');
+    const $customField1 = $('#custom-field-1');
+    const $customField2 = $('#custom-field-2');
+    const $customField3 = $('#custom-field-3');
+    const $customField4 = $('#custom-field-4');
+    const $customField5 = $('#custom-field-5');
     const $notes = $('#notes');
     const $formMessage = $('#form-message');
     const $customerAppointments = $('#customer-appointments');
+
     let filterResults = {};
     let filterLimit = 20;
 
@@ -124,7 +130,12 @@ App.Pages.Customers = (function () {
                 zip_code: $zipCode.val(),
                 notes: $notes.val(),
                 timezone: $timezone.val(),
-                language: $language.val() || 'english'
+                language: $language.val() || 'english',
+                custom_field_1: $customField1.val(),
+                custom_field_2: $customField2.val(),
+                custom_field_3: $customField3.val(),
+                custom_field_4: $customField4.val(),
+                custom_field_5: $customField5.val()
             };
 
             if ($id.val()) {
@@ -276,6 +287,11 @@ App.Pages.Customers = (function () {
         $notes.val(customer.notes);
         $timezone.val(customer.timezone);
         $language.val(customer.language || 'english');
+        $customField1.val(customer.custom_field_1);
+        $customField2.val(customer.custom_field_2);
+        $customField3.val(customer.custom_field_3);
+        $customField4.val(customer.custom_field_4);
+        $customField5.val(customer.custom_field_5);
 
         $customerAppointments.empty();
 

@@ -46,6 +46,11 @@ App.Components.AppointmentsModal = (function () {
     const $insertAppointment = $('#insert-appointment');
     const $existingCustomersList = $('#existing-customers-list');
     const $newCustomer = $('#new-customer');
+    const $customField1 = $('#custom-field-1');
+    const $customField2 = $('#custom-field-2');
+    const $customField3 = $('#custom-field-3');
+    const $customField4 = $('#custom-field-4');
+    const $customField5 = $('#custom-field-5');
 
     /**
      * Update the displayed timezone.
@@ -110,7 +115,12 @@ App.Components.AppointmentsModal = (function () {
                 zip_code: $zipCode.val(),
                 language: $language.val(),
                 timezone: $timezone.val(),
-                notes: $customerNotes.val()
+                notes: $customerNotes.val(),
+                custom_field_1: $customField1.val(),
+                custom_field_2: $customField2.val(),
+                custom_field_3: $customField3.val(),
+                custom_field_4: $customField4.val(),
+                custom_field_5: $customField5.val()
             };
 
             if ($customerId.val() !== '') {
@@ -196,7 +206,7 @@ App.Components.AppointmentsModal = (function () {
 
             $startDatetime[0]._flatpickr.setDate(startMoment.toDate());
             $endDatetime[0]._flatpickr.setDate(startMoment.add(duration, 'minutes').toDate());
-            
+
             // Display modal form.
             $appointmentsModal.find('.modal-header h3').text(lang('new_appointment_title'));
 
@@ -217,7 +227,8 @@ App.Components.AppointmentsModal = (function () {
                 vars('customers').forEach((customer) => {
                     $('<div/>', {
                         'data-id': customer.id,
-                        'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                        'text':
+                            (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
                     }).appendTo($existingCustomersList);
                 });
             } else {
@@ -249,6 +260,11 @@ App.Components.AppointmentsModal = (function () {
                 $language.val(customer.language);
                 $timezone.val(customer.timezone);
                 $customerNotes.val(customer.notes);
+                $customField1.val(customer.custom_field_1);
+                $customField2.val(customer.custom_field_2);
+                $customField3.val(customer.custom_field_3);
+                $customField4.val(customer.custom_field_4);
+                $customField5.val(customer.custom_field_5);
             }
 
             $selectCustomer.trigger('click'); // Hide the list.
@@ -278,7 +294,10 @@ App.Components.AppointmentsModal = (function () {
                         response.forEach((customer) => {
                             $('<div/>', {
                                 'data-id': customer.id,
-                                'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                                'text':
+                                    (customer.first_name || '[No First Name]') +
+                                    ' ' +
+                                    (customer.last_name || '[No Last Name]')
                             }).appendTo($existingCustomersList);
 
                             // Verify if this customer is on the old customer list.
@@ -309,7 +328,10 @@ App.Components.AppointmentsModal = (function () {
                             ) {
                                 $('<div/>', {
                                     'data-id': customer.id,
-                                    'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                                    'text':
+                                        (customer.first_name || '[No First Name]') +
+                                        ' ' +
+                                        (customer.last_name || '[No Last Name]')
                                 }).appendTo($existingCustomersList);
                             }
                         });
@@ -328,8 +350,8 @@ App.Components.AppointmentsModal = (function () {
          */
         $selectService.on('change', () => {
             const serviceId = $selectService.val();
-            
-            const providerId = $selectProvider.val(); 
+
+            const providerId = $selectProvider.val();
 
             $selectProvider.empty();
 
@@ -341,7 +363,7 @@ App.Components.AppointmentsModal = (function () {
             const duration = service ? service.duration : 60;
 
             const start = $startDatetime[0]._flatpickr.selectedDates[0];
-            $endDatetime[0]._flatpickr.setDate( new Date(start.getTime() + duration * 60000));
+            $endDatetime[0]._flatpickr.setDate(new Date(start.getTime() + duration * 60000));
 
             // Update the providers select box.
 
@@ -366,7 +388,7 @@ App.Components.AppointmentsModal = (function () {
                         $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                     }
                 });
-                
+
                 if ($selectProvider.find(`option[value="${providerId}"]`).length) {
                     $selectProvider.val(providerId);
                 }
@@ -395,6 +417,11 @@ App.Components.AppointmentsModal = (function () {
             $language.val('english');
             $timezone.val('UTC');
             $customerNotes.val('');
+            $customField1.val('');
+            $customField2.val('');
+            $customField3.val('');
+            $customField4.val('');
+            $customField5.val('');
         });
     }
 
@@ -464,14 +491,14 @@ App.Components.AppointmentsModal = (function () {
                 );
 
                 const start = $startDatetime[0]._flatpickr.selectedDates[0];
-                $endDatetime[0]._flatpickr.setDate( new Date(start.getTime() + service.duration * 60000));
+                $endDatetime[0]._flatpickr.setDate(new Date(start.getTime() + service.duration * 60000));
             }
         });
 
-        $startDatetime[0]._flatpickr.setDate( startDatetime);
+        $startDatetime[0]._flatpickr.setDate(startDatetime);
 
         App.Utils.UI.initializeDatetimepicker($endDatetime);
-        $endDatetime[0]._flatpickr.setDate( endDatetime);
+        $endDatetime[0]._flatpickr.setDate(endDatetime);
     }
 
     /**
@@ -502,7 +529,10 @@ App.Components.AppointmentsModal = (function () {
             }
 
             // Check email address.
-            if ($appointmentsModal.find('#email').val() && !App.Utils.Validation.email($appointmentsModal.find('#email').val())) {
+            if (
+                $appointmentsModal.find('#email').val() &&
+                !App.Utils.Validation.email($appointmentsModal.find('#email').val())
+            ) {
                 $appointmentsModal.find('#email').addClass('is-invalid');
                 throw new Error(lang('invalid_email'));
             }

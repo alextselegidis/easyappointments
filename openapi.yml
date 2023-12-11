@@ -1902,6 +1902,16 @@ components:
           type: string
         language:
           type: string
+        customField1:
+          type: string
+        customField2:
+          type: string 
+        customField3:
+          type: string
+        customField4:
+          type: string
+        customField5:
+          type: string
         notes:
           type: string
       example:
@@ -1914,6 +1924,11 @@ components:
         zip: '12345'
         timezone: UTC
         language: english
+        customField1: Value1
+        customField2: Value2
+        customField3: Value3
+        customField4: Value4
+        customField5: Value5
         notes: This is a test customer.
     CustomerPayload:
       type: object
@@ -1936,6 +1951,16 @@ components:
           type: string
         language:
           type: string
+        customField1:
+          type: string
+        customField2:
+          type: string
+        customField3:
+          type: string
+        customField4:
+          type: string
+        customField5:
+          type: string
         notes:
           type: string
       example:
@@ -1947,6 +1972,11 @@ components:
         zip: '12345'
         timezone: UTC
         language: english
+        customField1: Value1
+        customField2: Value2
+        customField3: Value3
+        customField4: Value4
+        customField5: Value5
         notes: This is a test customer.
     CustomerCollection:
       type: array

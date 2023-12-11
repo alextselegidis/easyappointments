@@ -181,7 +181,9 @@
                         ]); ?>
                     </div>
 
-                    <?php component('auxiliary_fields'); ?>
+                    <?php component('custom_fields', [
+                        'disabled' => true
+                    ]); ?>
 
                     <div class="mb-3">
                         <label class="form-label" for="notes">

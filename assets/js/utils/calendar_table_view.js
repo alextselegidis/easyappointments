@@ -116,7 +116,7 @@ App.Utils.CalendarTableView = (function () {
                             createUnavailabilities($providerColumn, response.unavailabilities);
 
                             // Add the blocked periods to the column.
-                            createBlockedPeriods($providerColumn, response.blocked_periods); 
+                            createBlockedPeriods($providerColumn, response.blocked_periods);
 
                             // Add the provider breaks to the column.
                             const workingPlan = JSON.parse(provider.settings.working_plan);
@@ -232,6 +232,11 @@ App.Utils.CalendarTableView = (function () {
                 $appointmentsModal.find('#appointment-status').val(appointment.status);
                 $appointmentsModal.find('#appointment-notes').val(appointment.notes);
                 $appointmentsModal.find('#customer-notes').val(customer.notes);
+                $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
+                $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
+                $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);
+                $appointmentsModal.find('#custom-field-4').val(customer.custom_field_4);
+                $appointmentsModal.find('#custom-field-5').val(customer.custom_field_5);
 
                 App.Components.ColorSelection.setColor(
                     $appointmentsModal.find('#appointment-color'),
@@ -387,7 +392,9 @@ App.Utils.CalendarTableView = (function () {
         App.Utils.UI.initializeDatepicker($calendarHeader.find('.select-date'), {
             onChange(selectedDates) {
                 const startDate = selectedDates[0];
-                const endDate = moment(startDate).add(parseInt($selectFilterItem.val()) - 1, 'days').toDate();
+                const endDate = moment(startDate)
+                    .add(parseInt($selectFilterItem.val()) - 1, 'days')
+                    .toDate();
                 createView(startDate, endDate);
             }
         });
@@ -853,7 +860,7 @@ App.Utils.CalendarTableView = (function () {
             return;
         }
 
-        const filterServiceIds = $filterService.val().map(serviceId => Number(serviceId));
+        const filterServiceIds = $filterService.val().map((serviceId) => Number(serviceId));
 
         appointments = appointments.filter(
             (appointment) => !filterServiceIds.length || filterServiceIds.includes(appointment.id_services)
@@ -868,9 +875,7 @@ App.Utils.CalendarTableView = (function () {
                 continue;
             }
 
-            const title = [
-                appointment.service.name
-            ];
+            const title = [appointment.service.name];
 
             const customerInfo = [];
 
@@ -938,7 +943,7 @@ App.Utils.CalendarTableView = (function () {
 
         $providerColumn.find('.calendar-wrapper').data('fullCalendar').addEventSource(calendarEventSource);
     }
-    
+
     /**
      * Create Blocked Period Events
      *
@@ -1015,11 +1020,11 @@ App.Utils.CalendarTableView = (function () {
 
             $event.html(
                 lang('break') +
-                ' <span class="hour">' +
-                moment(eventDate).format('HH:mm') +
-                '</span> (' +
-                eventDuration +
-                "')"
+                    ' <span class="hour">' +
+                    moment(eventDate).format('HH:mm') +
+                    '</span> (' +
+                    eventDuration +
+                    "')"
             );
 
             $event.data(entry);
@@ -1199,8 +1204,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': info.event.extendedProps.data
                             ? info.event.extendedProps.data.provider.first_name +
-                            ' ' +
-                            info.event.extendedProps.data.provider.last_name
+                              ' ' +
+                              info.event.extendedProps.data.provider.last_name
                             : '-'
                     }),
                     $('<br/>'),
@@ -1212,8 +1217,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             info.event.extendedProps.data.date +
-                            ' ' +
-                            info.event.extendedProps.data.workingPlanException.start,
+                                ' ' +
+                                info.event.extendedProps.data.workingPlanException.start,
                             vars('date_format'),
                             vars('time_format'),
                             true
@@ -1228,8 +1233,8 @@ App.Utils.CalendarTableView = (function () {
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             info.event.extendedProps.data.date +
-                            ' ' +
-                            info.event.extendedProps.data.workingPlanException.end,
+                                ' ' +
+                                info.event.extendedProps.data.workingPlanException.end,
                             vars('date_format'),
                             vars('time_format'),
                             true

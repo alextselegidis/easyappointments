@@ -43,6 +43,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Create new layout structure for the markup, so that common HTML markup is being reused (#1152)
 - Have an option to hide customer data fields during booking (#1081)
 - Add a SECURITY.md file to the repository (#1122)
+- Add support for custom fields on customers (#1133)
 
 ### Changed
 
