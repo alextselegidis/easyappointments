@@ -403,7 +403,7 @@ App.Utils.CalendarTableView = (function () {
             (provider) =>
                 vars('role_slug') === App.Layouts.Backend.DB_SLUG_ADMIN ||
                 (vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY &&
-                    vars('secretary_providers').indexOf(provider.id) !== -1) ||
+                    vars('secretary_providers').indexOf(Number(provider.id)) !== -1) ||
                 (vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER &&
                     Number(provider.id) === Number(vars('user_id')))
         );

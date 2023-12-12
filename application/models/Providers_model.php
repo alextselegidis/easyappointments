@@ -615,6 +615,8 @@ class Providers_model extends EA_Model
             ->result_array();
 
         foreach ($providers as &$provider) {
+            $this->cast($provider);
+
             $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
 
             unset(
