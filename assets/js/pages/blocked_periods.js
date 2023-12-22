@@ -59,7 +59,9 @@ App.Pages.BlockedPeriods = (function () {
 
             const blockedPeriodId = $(event.currentTarget).attr('data-id');
 
-            const blockedPeriod = filterResults.find((filterResult) => Number(filterResult.id) === Number(blockedPeriodId));
+            const blockedPeriod = filterResults.find(
+                (filterResult) => Number(filterResult.id) === Number(blockedPeriodId),
+            );
 
             display(blockedPeriod);
             $('#filter-blocked-periods .selected').removeClass('selected');
@@ -103,15 +105,15 @@ App.Pages.BlockedPeriods = (function () {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
                         messageModal.dispose();
-                    }
+                    },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(blockedPeriodId);
                         messageModal.dispose();
-                    }
-                }
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_blocked_period'), lang('delete_record_prompt'), buttons);
@@ -130,7 +132,7 @@ App.Pages.BlockedPeriods = (function () {
                 name: $name.val(),
                 start_datetime: startDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: endDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
-                notes: $notes.val()
+                notes: $notes.val(),
             };
 
             if ($id.val() !== '') {
@@ -177,8 +179,8 @@ App.Pages.BlockedPeriods = (function () {
             if (response.length === 0) {
                 $('#filter-blocked-periods .results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -188,7 +190,7 @@ App.Pages.BlockedPeriods = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-blocked-periods .results');
             }
 
@@ -308,10 +310,10 @@ App.Pages.BlockedPeriods = (function () {
             'data-id': blockedPeriod.id,
             'html': [
                 $('<strong/>', {
-                    'text': blockedPeriod.name
+                    'text': blockedPeriod.name,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -356,6 +358,6 @@ App.Pages.BlockedPeriods = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

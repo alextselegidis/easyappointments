@@ -89,32 +89,32 @@ App.Pages.LegalSettings = (function () {
 
         legalSettings.push({
             name: 'display_cookie_notice',
-            value: $displayCookieNotice.prop('checked') ? '1' : '0'
+            value: $displayCookieNotice.prop('checked') ? '1' : '0',
         });
 
         legalSettings.push({
             name: 'cookie_notice_content',
-            value: $cookieNoticeContent.trumbowyg('html')
+            value: $cookieNoticeContent.trumbowyg('html'),
         });
 
         legalSettings.push({
             name: 'display_terms_and_conditions',
-            value: $displayTermsAndConditions.prop('checked') ? '1' : '0'
+            value: $displayTermsAndConditions.prop('checked') ? '1' : '0',
         });
 
         legalSettings.push({
             name: 'terms_and_conditions_content',
-            value: $termsAndConditionsContent.trumbowyg('html')
+            value: $termsAndConditionsContent.trumbowyg('html'),
         });
 
         legalSettings.push({
             name: 'display_privacy_policy',
-            value: $displayPrivacyPolicy.prop('checked') ? '1' : '0'
+            value: $displayPrivacyPolicy.prop('checked') ? '1' : '0',
         });
 
         legalSettings.push({
             name: 'privacy_policy_content',
-            value: $privacyPolicyContent.trumbowyg('html')
+            value: $privacyPolicyContent.trumbowyg('html'),
         });
 
         return legalSettings;
@@ -141,9 +141,9 @@ App.Pages.LegalSettings = (function () {
      * Initialize the module.
      */
     function initialize() {
-        App.Utils.UI.initializeTextEditor($cookieNoticeContent); 
-        App.Utils.UI.initializeTextEditor($termsAndConditionsContent); 
-        App.Utils.UI.initializeTextEditor($privacyPolicyContent); 
+        App.Utils.UI.initializeTextEditor($cookieNoticeContent);
+        App.Utils.UI.initializeTextEditor($termsAndConditionsContent);
+        App.Utils.UI.initializeTextEditor($privacyPolicyContent);
 
         const legalSettings = vars('legal_settings');
 

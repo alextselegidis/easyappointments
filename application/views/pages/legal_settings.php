@@ -55,7 +55,7 @@
                                 <div class="mb-5">
                                     <label class="form-label"
                                            for="terms-and-conditions-content"><?= lang(
-                                               'terms_and_conditions_content'
+                                               'terms_and_conditions_content',
                                            ) ?></label>
                                     <textarea id="terms-and-conditions-content" cols="30" rows="10"
                                               class="mb-3"></textarea>

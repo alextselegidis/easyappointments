@@ -28,7 +28,7 @@ class Services_model extends EA_Model
         'price' => 'float',
         'attendants_number' => 'integer',
         'is_private' => 'boolean',
-        'id_service_categories' => 'integer'
+        'id_service_categories' => 'integer',
     ];
 
     /**
@@ -46,7 +46,7 @@ class Services_model extends EA_Model
         'availabilitiesType' => 'availabilities_type',
         'attendantsNumber' => 'attendants_number',
         'isPrivate' => 'is_private',
-        'serviceCategoryId' => 'id_service_categories'
+        'serviceCategoryId' => 'id_service_categories',
     ];
 
     /**
@@ -84,7 +84,7 @@ class Services_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided service ID does not exist in the database: ' . $service['id']
+                    'The provided service ID does not exist in the database: ' . $service['id'],
                 );
             }
         }
@@ -100,7 +100,7 @@ class Services_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided category ID was not found in the database: ' . $service['id_service_categories']
+                    'The provided category ID was not found in the database: ' . $service['id_service_categories'],
                 );
             }
         }
@@ -109,7 +109,7 @@ class Services_model extends EA_Model
         if (!empty($service['duration'])) {
             if ((int) $service['duration'] < EVENT_MINIMUM_DURATION) {
                 throw new InvalidArgumentException(
-                    'The service duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes long.'
+                    'The service duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes long.',
                 );
             }
         }
@@ -127,7 +127,7 @@ class Services_model extends EA_Model
                     AVAILABILITIES_TYPE_FIXED .
                     ' (given ' .
                     $service['availabilities_type'] .
-                    ')'
+                    ')',
             );
         }
 
@@ -137,14 +137,14 @@ class Services_model extends EA_Model
             !in_array($service['availabilities_type'], [AVAILABILITIES_TYPE_FLEXIBLE, AVAILABILITIES_TYPE_FIXED])
         ) {
             throw new InvalidArgumentException(
-                'The provided availabilities type is invalid: ' . $service['availabilities_type']
+                'The provided availabilities type is invalid: ' . $service['availabilities_type'],
             );
         }
 
         // Validate the attendants number value.
         if (empty($service['attendants_number']) || (int) $service['attendants_number'] < 1) {
             throw new InvalidArgumentException(
-                'The provided attendants number is invalid: ' . $service['attendants_number']
+                'The provided attendants number is invalid: ' . $service['attendants_number'],
             );
         }
     }
@@ -279,7 +279,7 @@ class Services_model extends EA_Model
         $services = $this->db
             ->distinct()
             ->select(
-                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id'
+                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
             )
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
@@ -309,7 +309,7 @@ class Services_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -388,12 +388,12 @@ class Services_model extends EA_Model
             $service['category'] = match ($resource) {
                 'category' => $this->db
                     ->get_where('categories', [
-                        'id' => $service['id_service_categories'] ?? ($service['serviceCategoryId'] ?? null)
+                        'id' => $service['id_service_categories'] ?? ($service['serviceCategoryId'] ?? null),
                     ])
                     ->row_array(),
                 default => throw new InvalidArgumentException(
-                    'The requested appointment relation is not supported: ' . $resource
-                )
+                    'The requested appointment relation is not supported: ' . $resource,
+                ),
             };
         }
     }
@@ -416,7 +416,7 @@ class Services_model extends EA_Model
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int) $service['attendants_number'],
             'serviceCategoryId' =>
-                $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null
+                $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null,
         ];
 
         $service = $encoded_resource;

@@ -97,12 +97,12 @@
     'require_address' => vars('require_address'),
     'require_city' => vars('require_city'),
     'require_zip_code' => vars('require_zip_code'),
-    'require_notes' => vars('require_notes')
+    'require_notes' => vars('require_notes'),
 ]); ?>
 
 <?php component('unavailabilities_modal', [
     'timezones' => vars('timezones'),
-    'timezone' => vars('timezone')
+    'timezone' => vars('timezone'),
 ]); ?>
 
 <?php component('select_google_calendar_modal'); ?>

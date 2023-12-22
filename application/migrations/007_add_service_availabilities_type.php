@@ -24,8 +24,8 @@ class Migration_Add_service_availabilities_type extends EA_Migration
                     'type' => 'VARCHAR',
                     'constraint' => '32',
                     'default' => 'flexible',
-                    'after' => 'description'
-                ]
+                    'after' => 'description',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);

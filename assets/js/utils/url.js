@@ -69,6 +69,6 @@ window.App.Utils.Url = (function () {
     return {
         baseUrl,
         siteUrl,
-        queryParam
+        queryParam,
     };
 })();

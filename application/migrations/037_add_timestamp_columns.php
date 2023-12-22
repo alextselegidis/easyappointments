@@ -35,8 +35,8 @@ class Migration_Add_timestamp_columns extends EA_Migration
                         $column => [
                             'type' => 'DATETIME',
                             'null' => true,
-                            'after' => 'id'
-                        ]
+                            'after' => 'id',
+                        ],
                     ];
 
                     $this->dbforge->add_column($table, $fields);

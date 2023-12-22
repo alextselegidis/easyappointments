@@ -23,8 +23,8 @@ class Migration_Add_calendar_view_setting extends EA_Migration
                 'calendar_view' => [
                     'type' => 'VARCHAR',
                     'constraint' => '32',
-                    'default' => 'default'
-                ]
+                    'default' => 'default',
+                ],
             ];
 
             $this->dbforge->add_column('user_settings', $fields);

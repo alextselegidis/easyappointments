@@ -149,15 +149,15 @@ App.Pages.Webhooks = (function () {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
                         messageModal.dispose();
-                    }
+                    },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(webhookId);
                         messageModal.dispose();
-                    }
-                }
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_webhook'), lang('delete_record_prompt'), buttons);
@@ -286,8 +286,8 @@ App.Pages.Webhooks = (function () {
             if (response.length === 0) {
                 $filterWebhooks.find('.results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -297,7 +297,7 @@ App.Pages.Webhooks = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-webhooks .results');
             }
 
@@ -328,15 +328,15 @@ App.Pages.Webhooks = (function () {
             'data-id': webhook.id,
             'html': [
                 $('<strong/>', {
-                    'text': name
+                    'text': name,
                 }),
                 $('<br/>'),
                 $('<small/>', {
                     'class': 'text-muted',
-                    'text': info
+                    'text': info,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -378,6 +378,6 @@ App.Pages.Webhooks = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

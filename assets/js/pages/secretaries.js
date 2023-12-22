@@ -159,15 +159,15 @@ App.Pages.Secretaries = (function () {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
                         messageModal.dispose();
-                    }
+                    },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(secretaryId);
                         messageModal.dispose();
-                    }
-                }
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_secretary'), lang('delete_record_prompt'), buttons);
@@ -193,8 +193,8 @@ App.Pages.Secretaries = (function () {
                 settings: {
                     username: $username.val(),
                     notifications: Number($notifications.prop('checked')),
-                    calendar_view: $calendarView.val()
-                }
+                    calendar_view: $calendarView.val(),
+                },
             };
 
             // Include secretary services.
@@ -296,9 +296,7 @@ App.Pages.Secretaries = (function () {
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#password, #password-confirm').addClass('is-invalid');
-                throw new Error(
-                    'Password must be at least ' + vars('min_password_length')+ ' characters long.'
-                );
+                throw new Error('Password must be at least ' + vars('min_password_length') + ' characters long.');
             }
 
             // Validate user email.
@@ -414,8 +412,8 @@ App.Pages.Secretaries = (function () {
             if (!response.length) {
                 $('#filter-secretaries .results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -425,7 +423,7 @@ App.Pages.Secretaries = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-secretaries .results');
             }
 
@@ -456,15 +454,15 @@ App.Pages.Secretaries = (function () {
             'data-id': secretary.id,
             'html': [
                 $('<strong/>', {
-                    'text': name
+                    'text': name,
                 }),
                 $('<br/>'),
                 $('<small/>', {
                     'class': 'text-muted',
-                    'text': info
+                    'text': info,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -499,7 +497,7 @@ App.Pages.Secretaries = (function () {
 
         vars('providers').forEach((provider) => {
             const checkboxId = `provider-service-${provider.id}`;
-          
+
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -513,16 +511,16 @@ App.Pages.Secretaries = (function () {
                                 'data-id': provider.id,
                                 'prop': {
                                     'disabled': true,
-                                }
+                                },
                             }),
                             $('<label/>', {
                                 'class': 'form-check-label',
                                 'text': provider.first_name + ' ' + provider.last_name,
                                 'for': checkboxId,
-                            })
-                        ]
-                    })
-                ]
+                            }),
+                        ],
+                    }),
+                ],
             }).appendTo('#secretary-providers');
         });
     }
@@ -535,6 +533,6 @@ App.Pages.Secretaries = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

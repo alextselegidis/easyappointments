@@ -137,9 +137,9 @@ if (!function_exists('json_exception')) {
             [
                 'success' => false,
                 'message' => $e->getMessage(),
-                'trace' => config('debug') ? $e->getTrace() : []
+                'trace' => config('debug') ? $e->getTrace() : [],
             ],
-            500
+            500,
         );
     }
 }

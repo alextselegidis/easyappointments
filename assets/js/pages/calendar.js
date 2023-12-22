@@ -26,7 +26,8 @@ App.Pages.Calendar = (function () {
         $calendarPage.on('click', '#toggle-fullscreen', (event) => {
             const $toggleFullscreen = $(event.target);
             const element = document.documentElement;
-            const isFullScreen = document.fullScreenElement || document.mozFullScreen || document.webkitIsFullScreen || false;
+            const isFullScreen =
+                document.fullScreenElement || document.mozFullScreen || document.webkitIsFullScreen || false;
 
             if (isFullScreen) {
                 // Exit fullscreen mode.
@@ -97,7 +98,7 @@ App.Pages.Calendar = (function () {
                     workingPlanException,
                     providerId,
                     successCallback,
-                    null
+                    null,
                 );
             });
         });
@@ -122,7 +123,9 @@ App.Pages.Calendar = (function () {
 
         if (durationInMinutes <= minDurationInMinutes) {
             const serviceId = $('#select-service').val();
-            const service = vars('available_services').find(availableService => Number(availableService.id) === Number(serviceId));
+            const service = vars('available_services').find(
+                (availableService) => Number(availableService.id) === Number(serviceId),
+            );
 
             if (service) {
                 endMoment.add(service.duration - durationInMinutes, 'minutes');
@@ -154,6 +157,6 @@ App.Pages.Calendar = (function () {
 
     return {
         initialize,
-        getSelectionEndDate
+        getSelectionEndDate,
     };
 })();

@@ -24,7 +24,7 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
         'services',
         'settings',
         'users',
-        'webhooks'
+        'webhooks',
     ];
 
     /**
@@ -50,8 +50,8 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
                     'delete_datetime' => [
                         'type' => 'DATETIME',
                         'null' => true,
-                        'after' => 'update_datetime'
-                    ]
+                        'after' => 'update_datetime',
+                    ],
                 ];
 
                 $this->dbforge->add_column($table, $fields);

@@ -64,7 +64,7 @@ class Blocked_periods extends EA_Controller
             'role_slug' => $role_slug,
             'date_format' => setting('date_format'),
             'time_format' => setting('time_format'),
-            'first_weekday' => setting('first_weekday')
+            'first_weekday' => setting('first_weekday'),
         ]);
 
         html_vars([
@@ -72,7 +72,7 @@ class Blocked_periods extends EA_Controller
             'active_menu' => PRIV_BLOCKED_PERIODS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
 
         $this->load->view('pages/blocked_periods');
@@ -126,7 +126,7 @@ class Blocked_periods extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $blocked_period_id
+                'id' => $blocked_period_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -170,7 +170,7 @@ class Blocked_periods extends EA_Controller
                 'name',
                 'start_datetime',
                 'end_datetime',
-                'notes'
+                'notes',
             ]);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
@@ -181,7 +181,7 @@ class Blocked_periods extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $blocked_period_id
+                'id' => $blocked_period_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -207,7 +207,7 @@ class Blocked_periods extends EA_Controller
             $this->webhooks_client->trigger(WEBHOOK_BLOCKED_PERIOD_DELETE, $blocked_period);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

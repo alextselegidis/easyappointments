@@ -21,7 +21,7 @@ class Migration_Add_disable_booking_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'disable_booking'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'disable_booking',
-                'value' => '0'
+                'value' => '0',
             ]);
         }
     }

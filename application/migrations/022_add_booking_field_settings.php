@@ -19,36 +19,36 @@ class Migration_Add_booking_field_settings extends EA_Migration
     private $fields = [
         'first_name' => [
             'display' => '1',
-            'require' => '1'
+            'require' => '1',
         ],
         'last_name' => [
             'display' => '1',
-            'require' => '1'
+            'require' => '1',
         ],
         'email' => [
             'display' => '1',
-            'require' => '1'
+            'require' => '1',
         ],
         'phone_number' => [
             'display' => '1',
-            'require' => '1'
+            'require' => '1',
         ],
         'address' => [
             'display' => '1',
-            'require' => '0'
+            'require' => '0',
         ],
         'city' => [
             'display' => '1',
-            'require' => '0'
+            'require' => '0',
         ],
         'zip_code' => [
             'display' => '1',
-            'require' => '0'
+            'require' => '0',
         ],
         'notes' => [
             'display' => '1',
-            'require' => '0'
-        ]
+            'require' => '0',
+        ],
     ];
 
     /**
@@ -71,7 +71,7 @@ class Migration_Add_booking_field_settings extends EA_Migration
                 if (!$this->db->get_where('settings', ['name' => $setting_name])->num_rows()) {
                     $this->db->insert('settings', [
                         'name' => $setting_name,
-                        'value' => $value
+                        'value' => $value,
                     ]);
                 }
             }

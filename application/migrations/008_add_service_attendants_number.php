@@ -24,8 +24,8 @@ class Migration_Add_service_attendants_number extends EA_Migration
                     'type' => 'INT',
                     'constraint' => '11',
                     'default' => '1',
-                    'after' => 'availabilities_type'
-                ]
+                    'after' => 'availabilities_type',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);

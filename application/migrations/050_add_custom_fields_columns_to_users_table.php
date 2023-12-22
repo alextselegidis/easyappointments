@@ -31,8 +31,8 @@ class Migration_Add_custom_fields_columns_to_users_table extends EA_Migration
                     $field_name => [
                         'type' => 'TEXT',
                         'null' => true,
-                        'after' => 'language'
-                    ]
+                        'after' => 'language',
+                    ],
                 ];
 
                 $this->dbforge->add_column('users', $fields);

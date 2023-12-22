@@ -71,7 +71,7 @@ class Secretaries extends EA_Controller
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
-            'providers' => $providers
+            'providers' => $providers,
         ]);
 
         html_vars([
@@ -80,7 +80,7 @@ class Secretaries extends EA_Controller
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'grouped_timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'providers' => $this->providers_model->get()
+            'providers' => $this->providers_model->get(),
         ]);
 
         $this->load->view('pages/secretaries');
@@ -140,18 +140,18 @@ class Secretaries extends EA_Controller
                 'is_private',
                 'id_roles',
                 'settings',
-                'providers'
+                'providers',
             ]);
 
             $this->secretaries_model->only($secretary['settings'], [
                 'username',
                 'password',
                 'notifications',
-                'calendar_view'
+                'calendar_view',
             ]);
 
             $this->secretaries_model->optional($secretary, [
-                'providers' => []
+                'providers' => [],
             ]);
 
             $secretary_id = $this->secretaries_model->save($secretary);
@@ -162,7 +162,7 @@ class Secretaries extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $secretary_id
+                'id' => $secretary_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -218,18 +218,18 @@ class Secretaries extends EA_Controller
                 'is_private',
                 'id_roles',
                 'settings',
-                'providers'
+                'providers',
             ]);
 
             $this->secretaries_model->only($secretary['settings'], [
                 'username',
                 'password',
                 'notifications',
-                'calendar_view'
+                'calendar_view',
             ]);
 
             $this->secretaries_model->optional($secretary, [
-                'providers' => []
+                'providers' => [],
             ]);
 
             $secretary_id = $this->secretaries_model->save($secretary);
@@ -240,7 +240,7 @@ class Secretaries extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $secretary_id
+                'id' => $secretary_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -266,7 +266,7 @@ class Secretaries extends EA_Controller
             $this->webhooks_client->trigger(WEBHOOK_SECRETARY_DELETE, $secretary);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

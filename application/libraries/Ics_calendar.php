@@ -252,13 +252,13 @@ class Ics_calendar extends Calendar
             if ($image['VALUE'] == 'URI' && $image['URI']) {
                 $new_image = [
                     'VALUE' => 'URI',
-                    'URI' => $image['URI']
+                    'URI' => $image['URI'],
                 ];
             } elseif ($image['VALUE'] == 'BINARY' && $image['ENCODING'] && $image['BINARY']) {
                 $new_image = [
                     'VALUE' => 'BINARY',
                     'ENCODING' => $image['ENCODING'],
-                    'BINARY' => $image['BINARY']
+                    'BINARY' => $image['BINARY'],
                 ];
             } else {
                 return;

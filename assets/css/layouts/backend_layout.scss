@@ -347,7 +347,7 @@ body legend {
 }
 
 #calendar .fc-header-toolbar {
-    display: block ;
+    display: block;
 }
 
 #calendar .fc-header-toolbar .fc-toolbar-chunk {
@@ -358,8 +358,8 @@ body legend {
 #calendar .fc-col-header-cell-cushion {
     text-decoration: none;
     text-transform: none;
-    cursor: default; 
-    color: var(--bs-body-color) !important; 
+    cursor: default;
+    color: var(--bs-body-color) !important;
 }
 
 #calendar .calendar-header .select2-container {
@@ -405,7 +405,6 @@ body legend {
     background-image: none;
     text-shadow: none;
 }
-
 
 #calendar-page .fc-event-time {
     font-weight: bold;
@@ -834,7 +833,7 @@ body .form-horizontal .controls {
 
 #working-plan-exceptions-breaks {
     table-layout: fixed;
-    
+
     .form-control {
         width: 100% !important;
     }
@@ -870,7 +869,7 @@ body .form-horizontal .controls {
     display: block;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: .7rem;
+    font-size: 0.7rem;
     margin-top: 2px;
     margin-left: -24px;
     margin-bottom: 2px;

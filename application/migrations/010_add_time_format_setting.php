@@ -21,7 +21,7 @@ class Migration_Add_time_format_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'time_format'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'time_format',
-                'value' => 'regular'
+                'value' => 'regular',
             ]);
         }
     }

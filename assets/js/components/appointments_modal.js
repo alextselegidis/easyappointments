@@ -59,7 +59,7 @@ App.Components.AppointmentsModal = (function () {
         const providerId = $selectProvider.val();
 
         const provider = vars('available_providers').find(
-            (availableProvider) => Number(availableProvider.id) === Number(providerId)
+            (availableProvider) => Number(availableProvider.id) === Number(providerId),
         );
 
         if (provider && provider.timezone) {
@@ -97,7 +97,7 @@ App.Components.AppointmentsModal = (function () {
                 color: App.Components.ColorSelection.getColor($appointmentColor),
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
-                is_unavailability: Number(false)
+                is_unavailability: Number(false),
             };
 
             if ($appointmentId.val() !== '') {
@@ -120,7 +120,7 @@ App.Components.AppointmentsModal = (function () {
                 custom_field_2: $customField2.val(),
                 custom_field_3: $customField3.val(),
                 custom_field_4: $customField4.val(),
-                custom_field_5: $customField5.val()
+                custom_field_5: $customField5.val(),
             };
 
             if ($customerId.val() !== '') {
@@ -167,7 +167,7 @@ App.Components.AppointmentsModal = (function () {
                 const providerId = $('#select-filter-item').val();
 
                 const providers = vars('available_providers').filter(
-                    (provider) => Number(provider.id) === Number(providerId)
+                    (provider) => Number(provider.id) === Number(providerId),
                 );
 
                 if (providers.length) {
@@ -185,7 +185,7 @@ App.Components.AppointmentsModal = (function () {
             const serviceId = $selectService.val();
 
             const service = vars('available_services').find(
-                (availableService) => Number(availableService.id) === Number(serviceId)
+                (availableService) => Number(availableService.id) === Number(serviceId),
             );
 
             const duration = service ? service.duration : 60;
@@ -228,7 +228,7 @@ App.Components.AppointmentsModal = (function () {
                     $('<div/>', {
                         'data-id': customer.id,
                         'text':
-                            (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                            (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]'),
                     }).appendTo($existingCustomersList);
                 });
             } else {
@@ -297,7 +297,7 @@ App.Components.AppointmentsModal = (function () {
                                 'text':
                                     (customer.first_name || '[No First Name]') +
                                     ' ' +
-                                    (customer.last_name || '[No Last Name]')
+                                    (customer.last_name || '[No Last Name]'),
                             }).appendTo($existingCustomersList);
 
                             // Verify if this customer is on the old customer list.
@@ -331,7 +331,7 @@ App.Components.AppointmentsModal = (function () {
                                     'text':
                                         (customer.first_name || '[No First Name]') +
                                         ' ' +
-                                        (customer.last_name || '[No Last Name]')
+                                        (customer.last_name || '[No Last Name]'),
                                 }).appendTo($existingCustomersList);
                             }
                         });
@@ -487,12 +487,12 @@ App.Components.AppointmentsModal = (function () {
 
                 // Automatically update the #end-datetime DateTimePicker based on service duration.
                 const service = vars('available_services').find(
-                    (availableService) => Number(availableService.id) === Number(serviceId)
+                    (availableService) => Number(availableService.id) === Number(serviceId),
                 );
 
                 const start = $startDatetime[0]._flatpickr.selectedDates[0];
                 $endDatetime[0]._flatpickr.setDate(new Date(start.getTime() + service.duration * 60000));
-            }
+            },
         });
 
         $startDatetime[0]._flatpickr.setDate(startDatetime);
@@ -567,6 +567,6 @@ App.Components.AppointmentsModal = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        resetModal
+        resetModal,
     };
 })();

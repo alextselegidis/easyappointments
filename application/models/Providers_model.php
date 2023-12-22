@@ -26,7 +26,7 @@ class Providers_model extends EA_Model
     protected array $casts = [
         'id' => 'integer',
         'is_private' => 'boolean',
-        'id_roles' => 'integer'
+        'id_roles' => 'integer',
     ];
 
     /**
@@ -47,7 +47,7 @@ class Providers_model extends EA_Model
         'language' => 'language',
         'notes' => 'notes',
         'isPrivate' => 'is_private',
-        'roleId' => 'id_roles'
+        'roleId' => 'id_roles',
     ];
 
     /**
@@ -86,7 +86,7 @@ class Providers_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided provider ID does not exist in the database: ' . $provider['id']
+                    'The provided provider ID does not exist in the database: ' . $provider['id'],
                 );
             }
         }
@@ -112,7 +112,7 @@ class Providers_model extends EA_Model
             foreach ($provider['services'] as $service_id) {
                 if (!is_numeric($service_id)) {
                     throw new InvalidArgumentException(
-                        'The provided provider services are invalid: ' . print_r($provider, true)
+                        'The provided provider services are invalid: ' . print_r($provider, true),
                     );
                 }
             }
@@ -124,7 +124,7 @@ class Providers_model extends EA_Model
 
             if (!$this->validate_username($provider['settings']['username'], $provider_id)) {
                 throw new InvalidArgumentException(
-                    'The provided username is already in use, please use a different one.'
+                    'The provided username is already in use, please use a different one.',
                 );
             }
         }
@@ -133,7 +133,7 @@ class Providers_model extends EA_Model
         if (!empty($provider['settings']['password'])) {
             if (strlen($provider['settings']['password']) < MIN_PASSWORD_LENGTH) {
                 throw new InvalidArgumentException(
-                    'The provider password must be at least ' . MIN_PASSWORD_LENGTH . ' characters long.'
+                    'The provider password must be at least ' . MIN_PASSWORD_LENGTH . ' characters long.',
                 );
             }
         }
@@ -149,7 +149,7 @@ class Providers_model extends EA_Model
             !in_array($provider['settings']['calendar_view'], [CALENDAR_VIEW_DEFAULT, CALENDAR_VIEW_TABLE])
         ) {
             throw new InvalidArgumentException(
-                'The provided calendar view is invalid: ' . $provider['settings']['calendar_view']
+                'The provided calendar view is invalid: ' . $provider['settings']['calendar_view'],
             );
         }
 
@@ -168,7 +168,7 @@ class Providers_model extends EA_Model
 
         if ($count > 0) {
             throw new InvalidArgumentException(
-                'The provided email address is already in use, please use a different one.'
+                'The provided email address is already in use, please use a different one.',
             );
         }
     }
@@ -209,7 +209,7 @@ class Providers_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         $role_id = $this->get_provider_role_id();
 
@@ -401,7 +401,7 @@ class Providers_model extends EA_Model
         foreach ($service_ids as $service_id) {
             $service_provider_connection = [
                 'id_users' => $provider_id,
-                'id_services' => $service_id
+                'id_services' => $service_id,
             ];
 
             $this->db->insert('services_providers', $service_provider_connection);
@@ -445,7 +445,7 @@ class Providers_model extends EA_Model
 
         if (!$query->num_rows()) {
             throw new InvalidArgumentException(
-                'The provided provider ID was not found in the database: ' . $provider_id
+                'The provided provider ID was not found in the database: ' . $provider_id,
             );
         }
 
@@ -504,7 +504,7 @@ class Providers_model extends EA_Model
         // Make sure the provider record exists.
         $where = [
             'id' => $provider_id,
-            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
+            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id,
         ];
 
         if ($this->db->get_where('users', $where)->num_rows() === 0) {
@@ -542,7 +542,7 @@ class Providers_model extends EA_Model
 
         if (!$provider) {
             throw new InvalidArgumentException(
-                'The provided provider ID was not found in the database: ' . $provider_id
+                'The provided provider ID was not found in the database: ' . $provider_id,
             );
         }
 
@@ -623,7 +623,7 @@ class Providers_model extends EA_Model
                 $provider['settings']['id_users'],
                 $provider['settings']['username'],
                 $provider['settings']['password'],
-                $provider['settings']['salt']
+                $provider['settings']['salt'],
             );
 
             $provider['services'] = [];
@@ -734,8 +734,8 @@ class Providers_model extends EA_Model
                     ->get()
                     ->result_array(),
                 default => throw new InvalidArgumentException(
-                    'The requested provider relation is not supported: ' . $resource
-                )
+                    'The requested provider relation is not supported: ' . $resource,
+                ),
             };
         }
     }
@@ -759,7 +759,7 @@ class Providers_model extends EA_Model
             'state' => $provider['state'],
             'zip' => $provider['zip_code'],
             'notes' => $provider['notes'],
-            'timezone' => $provider['timezone']
+            'timezone' => $provider['timezone'],
         ];
 
         if (array_key_exists('services', $provider)) {
@@ -791,7 +791,7 @@ class Providers_model extends EA_Model
                     : null,
                 'workingPlanExceptions' => array_key_exists('working_plan_exceptions', $provider['settings'])
                     ? json_decode($provider['settings']['working_plan_exceptions'], true)
-                    : null
+                    : null,
             ];
         }
 
@@ -880,14 +880,14 @@ class Providers_model extends EA_Model
             if (array_key_exists('notifications', $provider['settings'])) {
                 $decoded_resource['settings']['notifications'] = filter_var(
                     $provider['settings']['notifications'],
-                    FILTER_VALIDATE_BOOLEAN
+                    FILTER_VALIDATE_BOOLEAN,
                 );
             }
 
             if (array_key_exists('googleSync', $provider['settings'])) {
                 $decoded_resource['settings']['google_sync'] = filter_var(
                     $provider['settings']['googleSync'],
-                    FILTER_VALIDATE_BOOLEAN
+                    FILTER_VALIDATE_BOOLEAN,
                 );
             }
 
@@ -913,7 +913,7 @@ class Providers_model extends EA_Model
 
             if (array_key_exists('workingPlanExceptions', $provider['settings'])) {
                 $decoded_resource['settings']['working_plan_exceptions'] = json_encode(
-                    $provider['settings']['workingPlanExceptions']
+                    $provider['settings']['workingPlanExceptions'],
                 );
             }
         }

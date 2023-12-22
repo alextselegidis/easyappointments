@@ -38,7 +38,7 @@ App.Http.Services = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            service: service
+            service: service,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Services = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            service: service
+            service: service,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Services = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            service_id: serviceId
+            service_id: serviceId,
         };
 
         return $.post(url, data);
@@ -98,7 +98,7 @@ App.Http.Services = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Services = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            service_id: serviceId
+            service_id: serviceId,
         };
 
         return $.post(url, data);
@@ -128,6 +128,6 @@ App.Http.Services = (function () {
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

@@ -39,7 +39,7 @@
 
             <?php component('booking_header', [
                 'company_name' => vars('company_name'),
-                'company_logo' => vars('company_logo')
+                'company_logo' => vars('company_logo'),
             ]); ?>
 
             <?php slot('content'); ?>
@@ -56,7 +56,7 @@
 
 <?php if (vars('display_terms_and_conditions') === '1'): ?>
     <?php component('terms_and_conditions_modal', [
-        'terms_and_conditions_content' => vars('terms_and_conditions_content')
+        'terms_and_conditions_content' => vars('terms_and_conditions_content'),
     ]); ?>
 <?php endif; ?>
 

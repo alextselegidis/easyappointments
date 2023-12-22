@@ -104,7 +104,7 @@ App.Utils.CalendarTableView = (function () {
 
                             createNonWorkingHours(
                                 $providerColumn.find('.calendar-wrapper'),
-                                $providerColumn.data('provider')
+                                $providerColumn.data('provider'),
                             );
 
                             // Add the appointments to the column.
@@ -196,9 +196,9 @@ App.Utils.CalendarTableView = (function () {
                             workingPlanException,
                             provider.id,
                             successCallback,
-                            null
+                            null,
                         );
-                    }
+                    },
                 );
             } else if (lastFocusedEventData.extendedProps.data.is_unavailability === false) {
                 const appointment = lastFocusedEventData.extendedProps.data;
@@ -240,7 +240,7 @@ App.Utils.CalendarTableView = (function () {
 
                 App.Components.ColorSelection.setColor(
                     $appointmentsModal.find('#appointment-color'),
-                    appointment.color
+                    appointment.color,
                 );
 
                 $appointmentsModal.modal('show');
@@ -290,7 +290,7 @@ App.Utils.CalendarTableView = (function () {
                     $('#message-box').dialog('close');
 
                     const workingPlanExceptions = JSON.parse(
-                        lastFocusedEventData.extendedProps.data.settings.working_plan_exceptions
+                        lastFocusedEventData.extendedProps.data.settings.working_plan_exceptions,
                     );
 
                     delete workingPlanExceptions[moment(lastFocusedEventData.start).format('YYYY-MM-DD')];
@@ -307,7 +307,7 @@ App.Utils.CalendarTableView = (function () {
                         text: lang('cancel'),
                         click: (event, messageModal) => {
                             messageModal.dispose();
-                        }
+                        },
                     },
                     {
                         text: lang('delete'),
@@ -322,20 +322,20 @@ App.Utils.CalendarTableView = (function () {
                                 // Refresh calendar event items.
                                 $reloadAppointments.trigger('click');
                             });
-                        }
-                    }
+                        },
+                    },
                 ];
 
                 App.Utils.Message.show(
                     lang('delete_appointment_title'),
                     lang('write_appointment_removal_reason'),
-                    buttons
+                    buttons,
                 );
 
                 $('<textarea/>', {
                     'class': 'form-control w-100',
                     'id': 'cancellation-reason',
-                    'rows': '3'
+                    'rows': '3',
                 }).appendTo('#message-modal .modal-body');
             } else {
                 // Do not display confirmation prompt.
@@ -362,31 +362,31 @@ App.Utils.CalendarTableView = (function () {
             .append(new Option(`3 ${lang('days')}`, '3'));
 
         const $calendarHeader = $('<div/>', {
-            'class': 'calendar-header'
+            'class': 'calendar-header',
         }).appendTo('#calendar');
 
         $('<button/>', {
             'class': 'btn btn-xs btn-outline-secondary previous me-2',
             'html': [
                 $('<span/>', {
-                    'class': 'fas fa-chevron-left'
-                })
-            ]
+                    'class': 'fas fa-chevron-left',
+                }),
+            ],
         }).appendTo($calendarHeader);
 
         $selectDate = $('<input/>', {
             'type': 'text',
             'class': 'form-control d-inline-block select-date me-2',
-            'value': App.Utils.Date.format(new Date(), vars('date_format'), vars('time_format'), false)
+            'value': App.Utils.Date.format(new Date(), vars('date_format'), vars('time_format'), false),
         }).appendTo($calendarHeader);
 
         $('<button/>', {
             'class': 'btn btn-xs btn-outline-secondary next',
             'html': [
                 $('<span/>', {
-                    'class': 'fas fa-chevron-right'
-                })
-            ]
+                    'class': 'fas fa-chevron-right',
+                }),
+            ],
         }).appendTo($calendarHeader);
 
         App.Utils.UI.initializeDatepicker($calendarHeader.find('.select-date'), {
@@ -396,7 +396,7 @@ App.Utils.CalendarTableView = (function () {
                     .add(parseInt($selectFilterItem.val()) - 1, 'days')
                     .toDate();
                 createView(startDate, endDate);
-            }
+            },
         });
 
         const providers = vars('available_providers').filter(
@@ -405,12 +405,12 @@ App.Utils.CalendarTableView = (function () {
                 (vars('role_slug') === App.Layouts.Backend.DB_SLUG_SECRETARY &&
                     vars('secretary_providers').indexOf(Number(provider.id)) !== -1) ||
                 (vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER &&
-                    Number(provider.id) === Number(vars('user_id')))
+                    Number(provider.id) === Number(vars('user_id'))),
         );
 
         // Create providers and service filters.
         $('<label/>', {
-            'text': lang('provider')
+            'text': lang('provider'),
         }).appendTo($calendarHeader);
 
         $filterProvider = $('<select/>', {
@@ -422,8 +422,8 @@ App.Utils.CalendarTableView = (function () {
                     const startDateMoment = moment(firstColumnDate);
                     const endDateMoment = moment(firstColumnDate).add(parseInt($selectFilterItem.val()) - 1, 'day');
                     createView(startDateMoment.toDate(), endDateMoment.toDate());
-                }
-            }
+                },
+            },
         }).appendTo($calendarHeader);
 
         if (vars('role_slug') !== App.Layouts.Backend.DB_SLUG_PROVIDER) {
@@ -447,7 +447,7 @@ App.Utils.CalendarTableView = (function () {
         });
 
         $('<label/>', {
-            'text': lang('service')
+            'text': lang('service'),
         }).appendTo($calendarHeader);
 
         $filterService = $('<select/>', {
@@ -459,8 +459,8 @@ App.Utils.CalendarTableView = (function () {
                     const startDateMoment = moment(firstColumnDate);
                     const endDateMoment = moment(firstColumnDate).add({days: parseInt($selectFilterItem.val()) - 1});
                     createView(startDateMoment.toDate(), endDateMoment.toDate());
-                }
-            }
+                },
+            },
         }).appendTo($calendarHeader);
 
         services.forEach((service) => {
@@ -494,12 +494,12 @@ App.Utils.CalendarTableView = (function () {
         $('#calendar .calendar-view').remove();
 
         const $calendarView = $('<div/>', {
-            'class': 'calendar-view'
+            'class': 'calendar-view',
         }).appendTo('#calendar');
 
         $calendarView.data({
             startDate: moment(startDate).format('YYYY-MM-DD'),
-            endDate: moment(endDate).format('YYYY-MM-DD')
+            endDate: moment(endDate).format('YYYY-MM-DD'),
         });
 
         const $wrapper = $('<div/>').appendTo($calendarView);
@@ -540,14 +540,14 @@ App.Utils.CalendarTableView = (function () {
      */
     function createDateColumn($wrapper, date, events) {
         const $dateColumn = $('<div/>', {
-            'class': 'date-column'
+            'class': 'date-column',
         }).appendTo($wrapper);
 
         $dateColumn.data('date', date.getTime());
 
         $('<h5/>', {
             'class': 'date-column-title',
-            'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format'))
+            'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format')),
         }).appendTo($dateColumn);
 
         const filterProviderIds = $filterProvider.val();
@@ -556,7 +556,7 @@ App.Utils.CalendarTableView = (function () {
         let providers = vars('available_providers').filter((provider) => {
             const servedServiceIds = provider.services.filter((serviceId) => {
                 const matches = filterServiceIds.filter(
-                    (filterServiceId) => Number(serviceId) === Number(filterServiceId)
+                    (filterServiceId) => Number(serviceId) === Number(filterServiceId),
                 );
 
                 return matches.length;
@@ -611,7 +611,7 @@ App.Utils.CalendarTableView = (function () {
         }
 
         const $providerColumn = $('<div/>', {
-            'class': 'provider-column'
+            'class': 'provider-column',
         }).appendTo($dateColumn);
 
         $providerColumn.data('provider', provider);
@@ -649,7 +649,7 @@ App.Utils.CalendarTableView = (function () {
 
     function createCalendar($providerColumn, goToDate, provider) {
         const $wrapper = $('<div/>', {
-            'class': 'calendar-wrapper'
+            'class': 'calendar-wrapper',
         }).appendTo($providerColumn);
 
         let columnFormat = '';
@@ -711,7 +711,7 @@ App.Utils.CalendarTableView = (function () {
             headerToolbar: {
                 left: 'listDay,timeGridDay',
                 center: '',
-                right: ''
+                right: '',
             },
             buttonText: {
                 today: lang('today'),
@@ -719,12 +719,12 @@ App.Utils.CalendarTableView = (function () {
                 week: lang('week'),
                 month: lang('month'),
                 timeGridDay: lang('calendar'),
-                listDay: lang('list')
+                listDay: lang('list'),
             },
             eventClick: onEventClick,
             eventResize: onEventResize,
             eventDrop: onEventDrop,
-            select: (info) => onSelect(info, fullCalendar)
+            select: (info) => onSelect(info, fullCalendar),
         });
 
         fullCalendar.render();
@@ -734,7 +734,7 @@ App.Utils.CalendarTableView = (function () {
         fullCalendar.gotoDate(goToDate);
 
         $('<h6/>', {
-            'text': provider.first_name + ' ' + provider.last_name
+            'text': provider.first_name + ' ' + provider.last_name,
         }).prependTo($providerColumn);
     }
 
@@ -765,8 +765,8 @@ App.Utils.CalendarTableView = (function () {
                 data: {
                     date: selDayDate,
                     workingPlanException: workingPlanExceptions[selDayDate],
-                    provider: provider
-                }
+                    provider: provider,
+                },
             };
 
             calendarEventSource.push(workingPlanExceptionEvent);
@@ -780,7 +780,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailability'
+                className: 'fc-unavailability',
             };
 
             calendarEventSource.push(nonWorkingDay);
@@ -800,7 +800,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailability'
+                className: 'fc-unavailability',
             };
 
             calendarEventSource.push(unavailabilityPeriod);
@@ -817,7 +817,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailability'
+                className: 'fc-unavailability',
             };
 
             calendarEventSource.push(unavailabilityPeriod);
@@ -838,7 +838,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
-                className: 'fc-unavailability fc-break'
+                className: 'fc-unavailability fc-break',
             };
 
             calendarEventSource.push(unavailabilityPeriod);
@@ -863,7 +863,7 @@ App.Utils.CalendarTableView = (function () {
         const filterServiceIds = $filterService.val().map((serviceId) => Number(serviceId));
 
         appointments = appointments.filter(
-            (appointment) => !filterServiceIds.length || filterServiceIds.includes(appointment.id_services)
+            (appointment) => !filterServiceIds.length || filterServiceIds.includes(appointment.id_services),
         );
 
         const calendarEvents = [];
@@ -898,7 +898,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(appointment.end_datetime).toDate(),
                 allDay: false,
                 color: appointment.color,
-                data: appointment // Store appointment data for later use.
+                data: appointment, // Store appointment data for later use.
             });
         }
 
@@ -935,7 +935,7 @@ App.Utils.CalendarTableView = (function () {
                 color: '#879DB4',
                 editable: true,
                 className: 'fc-unavailability fc-custom',
-                data: unavailability
+                data: unavailability,
             };
 
             calendarEventSource.push(event);
@@ -972,7 +972,7 @@ App.Utils.CalendarTableView = (function () {
                 textColor: '#ffffff',
                 editable: false,
                 className: 'fc-blocked-period fc-unavailability',
-                data: blockedPeriod
+                data: blockedPeriod,
             };
 
             calendarEventSource.push(event);
@@ -1003,7 +1003,7 @@ App.Utils.CalendarTableView = (function () {
                 currentDate.getMonth(),
                 currentDate.getDate(),
                 startHour[0],
-                startHour[1]
+                startHour[1],
             );
             const endHour = entry.end.split(':');
             const endDate = new Date(
@@ -1011,11 +1011,11 @@ App.Utils.CalendarTableView = (function () {
                 currentDate.getMonth(),
                 currentDate.getDate(),
                 endHour[0],
-                endHour[1]
+                endHour[1],
             );
             const eventDuration = Math.round((endDate - eventDate) / 60000);
             const $event = $('<div/>', {
-                'class': 'event unavailability break'
+                'class': 'event unavailability break',
             });
 
             $event.html(
@@ -1024,7 +1024,7 @@ App.Utils.CalendarTableView = (function () {
                     moment(eventDate).format('HH:mm') +
                     '</span> (' +
                     eventDuration +
-                    "')"
+                    "')",
             );
 
             $event.data(entry);
@@ -1035,7 +1035,7 @@ App.Utils.CalendarTableView = (function () {
                 const cellDate = moment(currentDate)
                     .set({
                         hour: parseInt($td.text().split(':')[0]),
-                        minute: parseInt($td.text().split(':')[1])
+                        minute: parseInt($td.text().split(':')[1]),
                     })
                     .toDate();
 
@@ -1111,38 +1111,38 @@ App.Utils.CalendarTableView = (function () {
                 'html': [
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('start')
+                        'text': lang('start'),
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             moment(startDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
-                            true
-                        )
+                            true,
+                        ),
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('end')
+                        'text': lang('end'),
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
-                            true
-                        )
+                            true,
+                        ),
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('notes')
+                        'text': lang('notes'),
                     }),
                     $('<span/>', {
-                        'text': getEventNotes(info.event)
+                        'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
 
@@ -1155,38 +1155,38 @@ App.Utils.CalendarTableView = (function () {
                                 'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban me-2'
+                                        'class': 'fas fa-ban me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('close')
-                                    })
-                                ]
+                                        'text': lang('close'),
+                                    }),
+                                ],
                             }),
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-outline-secondary me-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt me-2'
+                                        'class': 'fas fa-trash-alt me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('delete')
-                                    })
-                                ]
+                                        'text': lang('delete'),
+                                    }),
+                                ],
                             }),
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit me-2'
+                                        'class': 'fas fa-edit me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('edit')
-                                    })
-                                ]
-                            })
-                        ]
-                    })
-                ]
+                                        'text': lang('edit'),
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                ],
             });
         } else if ($target.hasClass('fc-working-plan-exception')) {
             displayEdit =
@@ -1199,20 +1199,20 @@ App.Utils.CalendarTableView = (function () {
                 'html': [
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('provider')
+                        'text': lang('provider'),
                     }),
                     $('<span/>', {
                         'text': info.event.extendedProps.data
                             ? info.event.extendedProps.data.provider.first_name +
                               ' ' +
                               info.event.extendedProps.data.provider.last_name
-                            : '-'
+                            : '-',
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('start')
+                        'text': lang('start'),
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1221,14 +1221,14 @@ App.Utils.CalendarTableView = (function () {
                                 info.event.extendedProps.data.workingPlanException.start,
                             vars('date_format'),
                             vars('time_format'),
-                            true
-                        )
+                            true,
+                        ),
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('end')
+                        'text': lang('end'),
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
@@ -1237,17 +1237,17 @@ App.Utils.CalendarTableView = (function () {
                                 info.event.extendedProps.data.workingPlanException.end,
                             vars('date_format'),
                             vars('time_format'),
-                            true
-                        )
+                            true,
+                        ),
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('timezone')
+                        'text': lang('timezone'),
                     }),
                     $('<span/>', {
-                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone]
+                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone],
                     }),
                     $('<br/>'),
 
@@ -1260,38 +1260,38 @@ App.Utils.CalendarTableView = (function () {
                                 'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban me-2'
+                                        'class': 'fas fa-ban me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('close')
-                                    })
-                                ]
+                                        'text': lang('close'),
+                                    }),
+                                ],
                             }),
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-outline-secondary me-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt me-2'
+                                        'class': 'fas fa-trash-alt me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('delete')
-                                    })
-                                ]
+                                        'text': lang('delete'),
+                                    }),
+                                ],
                             }),
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit me-2'
+                                        'class': 'fas fa-edit me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('edit')
-                                    })
-                                ]
-                            })
-                        ]
-                    })
-                ]
+                                        'text': lang('edit'),
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                ],
             });
         } else {
             displayEdit = vars('privileges').appointments.edit === true ? '' : 'd-none';
@@ -1311,108 +1311,108 @@ App.Utils.CalendarTableView = (function () {
                 'html': [
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('start')
+                        'text': lang('start'),
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
-                            true
-                        )
+                            true,
+                        ),
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('end')
+                        'text': lang('end'),
                     }),
                     $('<span/>', {
                         'text': App.Utils.Date.format(
                             moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
                             vars('date_format'),
                             vars('time_format'),
-                            true
-                        )
+                            true,
+                        ),
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('timezone')
+                        'text': lang('timezone'),
                     }),
                     $('<span/>', {
-                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone]
+                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone],
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('status')
+                        'text': lang('status'),
                     }),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data.status || '-'
+                        'text': info.event.extendedProps.data.status || '-',
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('service')
+                        'text': lang('service'),
                     }),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data.service.name
+                        'text': info.event.extendedProps.data.service.name,
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('provider')
+                        'text': lang('provider'),
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.provider),
                     $('<span/>', {
                         'text':
                             info.event.extendedProps.data.provider.first_name +
                             ' ' +
-                            info.event.extendedProps.data.provider.last_name
+                            info.event.extendedProps.data.provider.last_name,
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('customer')
+                        'text': lang('customer'),
                     }),
                     App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.customer),
                     $('<span/>', {
-                        'text': customerInfo.length ? customerInfo.join(' ') : '-'
+                        'text': customerInfo.length ? customerInfo.join(' ') : '-',
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('email')
+                        'text': lang('email'),
                     }),
                     App.Utils.CalendarEventPopover.renderMailIcon(info.event.extendedProps.data.customer.email),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data.customer.email || '-'
+                        'text': info.event.extendedProps.data.customer.email || '-',
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('phone')
+                        'text': lang('phone'),
                     }),
                     App.Utils.CalendarEventPopover.renderPhoneIcon(info.event.extendedProps.data.customer.phone_number),
                     $('<span/>', {
-                        'text': info.event.extendedProps.data.customer.phone_number || '-'
+                        'text': info.event.extendedProps.data.customer.phone_number || '-',
                     }),
                     $('<br/>'),
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('notes')
+                        'text': lang('notes'),
                     }),
                     $('<span/>', {
-                        'text': getEventNotes(info.event)
+                        'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
 
@@ -1425,38 +1425,38 @@ App.Utils.CalendarTableView = (function () {
                                 'class': 'close-popover btn btn-outline-secondary me-2',
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-ban me-2'
+                                        'class': 'fas fa-ban me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('close')
-                                    })
-                                ]
+                                        'text': lang('close'),
+                                    }),
+                                ],
                             }),
                             $('<button/>', {
                                 'class': 'delete-popover btn btn-outline-secondary me-2 ' + displayDelete,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-trash-alt me-2'
+                                        'class': 'fas fa-trash-alt me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('delete')
-                                    })
-                                ]
+                                        'text': lang('delete'),
+                                    }),
+                                ],
                             }),
                             $('<button/>', {
                                 'class': 'edit-popover btn btn-primary ' + displayEdit,
                                 'html': [
                                     $('<i/>', {
-                                        'class': 'fas fa-edit me-2'
+                                        'class': 'fas fa-edit me-2',
                                     }),
                                     $('<span/>', {
-                                        'text': lang('edit')
-                                    })
-                                ]
-                            })
-                        ]
-                    })
-                ]
+                                        'text': lang('edit'),
+                                    }),
+                                ],
+                            }),
+                        ],
+                    }),
+                ],
             });
         }
 
@@ -1466,7 +1466,7 @@ App.Utils.CalendarTableView = (function () {
             content: $html,
             html: true,
             container: '#calendar',
-            trigger: 'manual'
+            trigger: 'manual',
         });
 
         lastFocusedEventData = info.event;
@@ -1524,7 +1524,7 @@ App.Utils.CalendarTableView = (function () {
                 // Display success notification to user.
                 const undoFunction = () => {
                     appointment.end_datetime = info.event.extendedProps.data.end_datetime = moment(
-                        appointment.end_datetime
+                        appointment.end_datetime,
                     )
                         .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
@@ -1539,8 +1539,8 @@ App.Utils.CalendarTableView = (function () {
                 App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
                     {
                         'label': lang('undo'),
-                        'function': undoFunction
-                    }
+                        'function': undoFunction,
+                    },
                 ]);
 
                 $footer.css('position', 'static'); // Footer position fix.
@@ -1557,7 +1557,7 @@ App.Utils.CalendarTableView = (function () {
                 id: info.event.extendedProps.data.id,
                 start_datetime: moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
-                id_users_provider: info.event.extendedProps.data.id_users_provider
+                id_users_provider: info.event.extendedProps.data.id_users_provider,
             };
 
             info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
@@ -1567,7 +1567,7 @@ App.Utils.CalendarTableView = (function () {
                 // Display success notification to user.
                 const undoFunction = () => {
                     unavailability.end_datetime = info.event.extendedProps.data.end_datetime = moment(
-                        unavailability.end_datetime
+                        unavailability.end_datetime,
                     )
                         .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
@@ -1582,8 +1582,8 @@ App.Utils.CalendarTableView = (function () {
                 App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
                     {
                         'label': lang('undo'),
-                        'function': undoFunction
-                    }
+                        'function': undoFunction,
+                    },
                 ]);
 
                 $footer.css('position', 'static'); // Footer position fix.
@@ -1646,7 +1646,7 @@ App.Utils.CalendarTableView = (function () {
                     appointment.start_datetime = moment(appointment.start_datetime)
                         .add({
                             days: -info.delta.days,
-                            milliseconds: -info.delta.milliseconds
+                            milliseconds: -info.delta.milliseconds,
                         })
                         .format('YYYY-MM-DD HH:mm:ss');
 
@@ -1667,8 +1667,8 @@ App.Utils.CalendarTableView = (function () {
                 App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
                     {
                         'label': lang('undo'),
-                        'function': undoFunction
-                    }
+                        'function': undoFunction,
+                    },
                 ]);
 
                 $footer.css('position', 'static'); // Footer position fix.
@@ -1682,7 +1682,7 @@ App.Utils.CalendarTableView = (function () {
                 id: info.event.extendedProps.data.id,
                 start_datetime: moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
-                id_users_provider: info.event.extendedProps.data.id_users_provider
+                id_users_provider: info.event.extendedProps.data.id_users_provider,
             };
 
             successCallback = () => {
@@ -1708,8 +1708,8 @@ App.Utils.CalendarTableView = (function () {
                 App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
                     {
                         label: lang('undo'),
-                        function: undoFunction
-                    }
+                        function: undoFunction,
+                    },
                 ]);
 
                 $footer.css('position', 'static'); // Footer position fix.
@@ -1747,7 +1747,7 @@ App.Utils.CalendarTableView = (function () {
                     $('#unavailability-end')[0]._flatpickr.setDate(info.end);
 
                     messageModal.dispose();
-                }
+                },
             },
             {
                 text: lang('appointment'),
@@ -1755,11 +1755,11 @@ App.Utils.CalendarTableView = (function () {
                     $('#insert-appointment').trigger('click');
 
                     const provider = vars('available_providers').find(
-                        (provider) => Number(provider.id) === Number(providerId)
+                        (provider) => Number(provider.id) === Number(providerId),
                     );
 
                     const service = vars('available_services').find(
-                        (service) => provider.services.indexOf(service.id) !== -1
+                        (service) => provider.services.indexOf(service.id) !== -1,
                     );
 
                     if (service) {
@@ -1787,8 +1787,8 @@ App.Utils.CalendarTableView = (function () {
                     $('#end-datetime')[0]._flatpickr.setDate(App.Pages.Calendar.getSelectionEndDate(info));
 
                     messageModal.dispose();
-                }
-            }
+                },
+            },
         ];
 
         App.Utils.Message.show(lang('add_new_event'), lang('what_kind_of_event'), buttons);
@@ -1863,6 +1863,6 @@ App.Utils.CalendarTableView = (function () {
     }
 
     return {
-        initialize
+        initialize,
     };
 })();

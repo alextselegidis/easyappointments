@@ -38,7 +38,7 @@ App.Http.BlockedPeriods = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            blocked_period: blockedPeriod
+            blocked_period: blockedPeriod,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.BlockedPeriods = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            blocked_period: blockedPeriod
+            blocked_period: blockedPeriod,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.BlockedPeriods = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            blocked_period_id: blockedPeriodId
+            blocked_period_id: blockedPeriodId,
         };
 
         return $.post(url, data);
@@ -90,7 +90,7 @@ App.Http.BlockedPeriods = (function () {
      *
      * @return {Object}
      */
-        function search(keyword, limit = null, offset = null, orderBy = null) {
+    function search(keyword, limit = null, offset = null, orderBy = null) {
         const url = App.Utils.Url.siteUrl('blocked_periods/search');
 
         const data = {
@@ -98,7 +98,7 @@ App.Http.BlockedPeriods = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.BlockedPeriods = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            blocked_period_id: blockedPeriodId
+            blocked_period_id: blockedPeriodId,
         };
 
         return $.post(url, data);
@@ -128,6 +128,6 @@ App.Http.BlockedPeriods = (function () {
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

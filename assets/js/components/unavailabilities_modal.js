@@ -35,13 +35,11 @@ App.Components.UnavailabilitiesModal = (function () {
         const providerId = $selectProvider.val();
 
         const provider = vars('available_providers').find(
-            (availableProvider) => Number(availableProvider.id) === Number(providerId)
+            (availableProvider) => Number(availableProvider.id) === Number(providerId),
         );
 
         if (provider && provider.timezone) {
-            $unavailabilitiesModal.find('.provider-timezone').text(
-                vars('timezones')[provider.timezone]
-            );
+            $unavailabilitiesModal.find('.provider-timezone').text(vars('timezones')[provider.timezone]);
         }
     }
 
@@ -105,7 +103,7 @@ App.Components.UnavailabilitiesModal = (function () {
                 start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
                 end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
                 notes: $unavailabilitiesModal.find('#unavailability-notes').val(),
-                id_users_provider: $selectProvider.val()
+                id_users_provider: $selectProvider.val(),
             };
 
             if ($id.val() !== '') {
@@ -158,7 +156,7 @@ App.Components.UnavailabilitiesModal = (function () {
                 $selectProvider.val($selectFilterItem.val()).closest('.form-group').hide();
             }
 
-            $startDatetime[0]._flatpickr.setDate(startMoment.toDate())
+            $startDatetime[0]._flatpickr.setDate(startMoment.toDate());
             $endDatetime[0]._flatpickr.setDate(startMoment.add(1, 'hour').toDate());
 
             $dialog.find('.modal-header h3').text(lang('new_unavailability_title'));
@@ -182,7 +180,7 @@ App.Components.UnavailabilitiesModal = (function () {
             moment().add(1, 'hour').toDate(),
             vars('date_format'),
             vars('time_format'),
-            true
+            true,
         );
 
         App.Utils.UI.initializeDatetimepicker($startDatetime);
@@ -213,6 +211,6 @@ App.Components.UnavailabilitiesModal = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        resetModal
+        resetModal,
     };
 })();

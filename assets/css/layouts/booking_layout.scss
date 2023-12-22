@@ -51,13 +51,13 @@ body {
     font-weight: lighter;
     color: #fff;
     margin: 20px 0;
-    
+
     #company-logo {
         display: block;
         margin: 14px auto;
         max-height: 56px;
     }
-    
+
     .display-selected-service,
     .display-selected-provider {
         color: #225d4d;
@@ -65,7 +65,6 @@ body {
         font-size: 60%;
         font-weight: normal;
     }
-
 }
 
 #book-appointment-wizard #steps {

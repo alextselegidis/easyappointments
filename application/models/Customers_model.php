@@ -25,7 +25,7 @@ class Customers_model extends EA_Model
      */
     protected array $casts = [
         'id' => 'integer',
-        'id_roles' => 'integer'
+        'id_roles' => 'integer',
     ];
 
     /**
@@ -48,7 +48,7 @@ class Customers_model extends EA_Model
         'customField3' => 'custom_field_3',
         'customField4' => 'custom_field_4',
         'customField5' => 'custom_field_5',
-        'notes' => 'notes'
+        'notes' => 'notes',
     ];
 
     /**
@@ -90,7 +90,7 @@ class Customers_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided customer ID does not exist in the database: ' . $customer['id']
+                    'The provided customer ID does not exist in the database: ' . $customer['id'],
                 );
             }
         }
@@ -137,7 +137,7 @@ class Customers_model extends EA_Model
 
             if ($count > 0) {
                 throw new InvalidArgumentException(
-                    'The provided email address is already in use, please use a different one.'
+                    'The provided email address is already in use, please use a different one.',
                 );
             }
         }
@@ -157,7 +157,7 @@ class Customers_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         $role_id = $this->get_customer_role_id();
 
@@ -319,7 +319,7 @@ class Customers_model extends EA_Model
 
         if (!$customer) {
             throw new InvalidArgumentException(
-                'The provided customer ID was not found in the database: ' . $customer_id
+                'The provided customer ID was not found in the database: ' . $customer_id,
             );
         }
 
@@ -353,7 +353,7 @@ class Customers_model extends EA_Model
 
         if (!$query->num_rows()) {
             throw new InvalidArgumentException(
-                'The provided customer ID was not found in the database: ' . $customer_id
+                'The provided customer ID was not found in the database: ' . $customer_id,
             );
         }
 
@@ -460,7 +460,7 @@ class Customers_model extends EA_Model
             'customField2' => $customer['custom_field_2'],
             'customField3' => $customer['custom_field_3'],
             'customField4' => $customer['custom_field_4'],
-            'customField5' => $customer['custom_field_5']
+            'customField5' => $customer['custom_field_5'],
         ];
 
         $customer = $encoded_resource;

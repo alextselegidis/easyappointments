@@ -24,7 +24,7 @@ class Service_categories_model extends EA_Model
      * @var array
      */
     protected array $casts = [
-        'id' => 'integer'
+        'id' => 'integer',
     ];
 
     /**
@@ -33,7 +33,7 @@ class Service_categories_model extends EA_Model
     protected array $api_resource = [
         'id' => 'id',
         'name' => 'name',
-        'description' => 'description'
+        'description' => 'description',
     ];
 
     /**
@@ -71,7 +71,7 @@ class Service_categories_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided service-category ID does not exist in the database: ' . $service_category['id']
+                    'The provided service-category ID does not exist in the database: ' . $service_category['id'],
                 );
             }
         }
@@ -79,7 +79,7 @@ class Service_categories_model extends EA_Model
         // Make sure all required fields are provided.
         if (empty($service_category['name'])) {
             throw new InvalidArgumentException(
-                'Not all required fields are provided: ' . print_r($service_category, true)
+                'Not all required fields are provided: ' . print_r($service_category, true),
             );
         }
     }
@@ -152,7 +152,7 @@ class Service_categories_model extends EA_Model
 
         if (!$service_category) {
             throw new InvalidArgumentException(
-                'The provided service-category ID was not found in the database: ' . $service_category_id
+                'The provided service-category ID was not found in the database: ' . $service_category_id,
             );
         }
 
@@ -186,7 +186,7 @@ class Service_categories_model extends EA_Model
 
         if (!$query->num_rows()) {
             throw new InvalidArgumentException(
-                'The provided service-category ID was not found in the database: ' . $service_category_id
+                'The provided service-category ID was not found in the database: ' . $service_category_id,
             );
         }
 
@@ -197,7 +197,7 @@ class Service_categories_model extends EA_Model
 
         if (!array_key_exists($field, $service_category)) {
             throw new InvalidArgumentException(
-                'The requested field was not found in the service-category data: ' . $field
+                'The requested field was not found in the service-category data: ' . $field,
             );
         }
 
@@ -260,7 +260,7 @@ class Service_categories_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -304,7 +304,7 @@ class Service_categories_model extends EA_Model
             'name' => $service_category['name'],
             'description' => array_key_exists('description', $service_category)
                 ? $service_category['description']
-                : null
+                : null,
         ];
 
         $service_category = $encoded_resource;

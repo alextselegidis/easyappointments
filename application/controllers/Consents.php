@@ -53,7 +53,7 @@ class Consents extends EA_Controller
                     // Do not create a new consent.
 
                     json_response([
-                        'success' => true
+                        'success' => true,
                     ]);
 
                     return;
@@ -64,7 +64,7 @@ class Consents extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $consent['id']
+                'id' => $consent['id'],
             ]);
         } catch (Throwable $e) {
             json_exception($e);

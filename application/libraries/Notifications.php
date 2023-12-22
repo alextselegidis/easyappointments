@@ -60,7 +60,7 @@ class Notifications
         array $provider,
         array $customer,
         array $settings,
-        bool $manage_mode = false
+        bool $manage_mode = false,
     ): void {
         try {
             $current_language = config('english');
@@ -92,14 +92,14 @@ class Notifications
                     $customer_link,
                     $customer['email'],
                     $ics_stream,
-                    $customer['timezone']
+                    $customer['timezone'],
                 );
             }
 
             // Notify provider.
             $send_provider = filter_var(
                 $this->CI->providers_model->get_setting($provider['id'], 'notifications'),
-                FILTER_VALIDATE_BOOLEAN
+                FILTER_VALIDATE_BOOLEAN,
             );
 
             if ($send_provider === true) {
@@ -119,7 +119,7 @@ class Notifications
                     $provider_link,
                     $provider['email'],
                     $ics_stream,
-                    $provider['timezone']
+                    $provider['timezone'],
                 );
             }
 
@@ -147,7 +147,7 @@ class Notifications
                     $provider_link,
                     $admin['email'],
                     $ics_stream,
-                    $admin['timezone']
+                    $admin['timezone'],
                 );
             }
 
@@ -179,7 +179,7 @@ class Notifications
                     $provider_link,
                     $secretary['email'],
                     $ics_stream,
-                    $secretary['timezone']
+                    $secretary['timezone'],
                 );
             }
         } catch (Throwable $e) {
@@ -188,7 +188,7 @@ class Notifications
                 'Notifications - Could not email confirmation details of appointment (' .
                     ($appointment['id'] ?? '-') .
                     ') : ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         } finally {
@@ -212,7 +212,7 @@ class Notifications
         array $provider,
         array $customer,
         array $settings,
-        string $cancellation_reason = ''
+        string $cancellation_reason = '',
     ): void {
         try {
             $current_language = config('language');
@@ -220,7 +220,7 @@ class Notifications
             // Notify provider.
             $send_provider = filter_var(
                 $this->CI->providers_model->get_setting($provider['id'], 'notifications'),
-                FILTER_VALIDATE_BOOLEAN
+                FILTER_VALIDATE_BOOLEAN,
             );
 
             if ($send_provider === true) {
@@ -235,7 +235,7 @@ class Notifications
                     $settings,
                     $provider['email'],
                     $cancellation_reason,
-                    $provider['timezone']
+                    $provider['timezone'],
                 );
             }
 
@@ -255,7 +255,7 @@ class Notifications
                     $settings,
                     $customer['email'],
                     $cancellation_reason,
-                    $customer['timezone']
+                    $customer['timezone'],
                 );
             }
 
@@ -278,7 +278,7 @@ class Notifications
                     $settings,
                     $admin['email'],
                     $cancellation_reason,
-                    $admin['timezone']
+                    $admin['timezone'],
                 );
             }
 
@@ -305,7 +305,7 @@ class Notifications
                     $settings,
                     $secretary['email'],
                     $cancellation_reason,
-                    $secretary['timezone']
+                    $secretary['timezone'],
                 );
             }
         } catch (Throwable $e) {
@@ -314,7 +314,7 @@ class Notifications
                 'Notifications - Could not email cancellation details of appointment (' .
                     ($appointment['id'] ?? '-') .
                     ') : ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         } finally {

@@ -26,7 +26,7 @@ class Unavailabilities_model extends EA_Model
         'is_unavailability' => 'boolean',
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
-        'id_services' => 'integer'
+        'id_services' => 'integer',
     ];
 
     /**
@@ -43,7 +43,7 @@ class Unavailabilities_model extends EA_Model
         'notes' => 'notes',
         'hash' => 'hash',
         'providerId' => 'id_users_provider',
-        'googleCalendarId' => 'id_google_calendar'
+        'googleCalendarId' => 'id_google_calendar',
     ];
 
     /**
@@ -81,7 +81,7 @@ class Unavailabilities_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided unavailability ID does not exist in the database: ' . $unavailability['id']
+                    'The provided unavailability ID does not exist in the database: ' . $unavailability['id'],
                 );
             }
         }
@@ -93,7 +93,7 @@ class Unavailabilities_model extends EA_Model
             empty($unavailability['id_users_provider'])
         ) {
             throw new InvalidArgumentException(
-                'Not all required fields are provided: ' . print_r($unavailability, true)
+                'Not all required fields are provided: ' . print_r($unavailability, true),
             );
         }
 
@@ -111,7 +111,7 @@ class Unavailabilities_model extends EA_Model
 
         if ($diff < EVENT_MINIMUM_DURATION) {
             throw new InvalidArgumentException(
-                'The unavailability duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.'
+                'The unavailability duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.',
             );
         }
 
@@ -127,7 +127,7 @@ class Unavailabilities_model extends EA_Model
 
         if (!$count) {
             throw new InvalidArgumentException(
-                'The unavailability provider ID was not found in the database: ' . $unavailability['id_users_provider']
+                'The unavailability provider ID was not found in the database: ' . $unavailability['id_users_provider'],
             );
         }
     }
@@ -146,7 +146,7 @@ class Unavailabilities_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -238,7 +238,7 @@ class Unavailabilities_model extends EA_Model
 
         if (!$unavailability) {
             throw new InvalidArgumentException(
-                'The provided unavailability ID was not found in the database: ' . $unavailability_id
+                'The provided unavailability ID was not found in the database: ' . $unavailability_id,
             );
         }
 
@@ -272,7 +272,7 @@ class Unavailabilities_model extends EA_Model
 
         if (!$query->num_rows()) {
             throw new InvalidArgumentException(
-                'The provided unavailability ID was not found in the database: ' . $unavailability_id
+                'The provided unavailability ID was not found in the database: ' . $unavailability_id,
             );
         }
 
@@ -283,7 +283,7 @@ class Unavailabilities_model extends EA_Model
 
         if (!array_key_exists($field, $unavailability)) {
             throw new InvalidArgumentException(
-                'The requested field was not found in the unavailability data: ' . $field
+                'The requested field was not found in the unavailability data: ' . $field,
             );
         }
 
@@ -359,12 +359,12 @@ class Unavailabilities_model extends EA_Model
             $unavailability['provider'] = match ($resource) {
                 'provider' => $this->db
                     ->get_where('users', [
-                        'id' => $unavailability['id_users_provider'] ?? ($unavailability['providerId'] ?? null)
+                        'id' => $unavailability['id_users_provider'] ?? ($unavailability['providerId'] ?? null),
                     ])
                     ->row_array(),
                 default => throw new InvalidArgumentException(
-                    'The requested unavailability relation is not supported: ' . $resource
-                )
+                    'The requested unavailability relation is not supported: ' . $resource,
+                ),
             };
         }
     }
@@ -387,7 +387,7 @@ class Unavailabilities_model extends EA_Model
             'providerId' =>
                 $unavailability['id_users_provider'] !== null ? (int) $unavailability['id_users_provider'] : null,
             'googleCalendarId' =>
-                $unavailability['id_google_calendar'] !== null ? (int) $unavailability['id_google_calendar'] : null
+                $unavailability['id_google_calendar'] !== null ? (int) $unavailability['id_google_calendar'] : null,
         ];
 
         $unavailability = $encoded_resource;

@@ -59,7 +59,11 @@ window.App.Utils.Message = (function () {
                             <h5 class="modal-title">
                                 ${title}
                             </h5>
-                            ${isDismissible ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>' : ''}
+                            ${
+                                isDismissible
+                                    ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
+                                    : ''
+                            }
                         </div>
                         <div class="modal-body">
                             <p>
@@ -105,6 +109,6 @@ window.App.Utils.Message = (function () {
     }
 
     return {
-        show
+        show,
     };
 })();

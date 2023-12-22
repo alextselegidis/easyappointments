@@ -23,33 +23,33 @@ class Migration_Create_blocked_periods_table extends EA_Migration
                 'id' => [
                     'type' => 'INT',
                     'constraint' => 11,
-                    'auto_increment' => true
+                    'auto_increment' => true,
                 ],
                 'create_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'update_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => true
+                    'null' => true,
                 ],
                 'start_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'end_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'notes' => [
                     'type' => 'TEXT',
-                    'null' => true
-                ]
+                    'null' => true,
+                ],
             ]);
 
             $this->dbforge->add_key('id', true);

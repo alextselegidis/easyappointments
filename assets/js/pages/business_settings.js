@@ -71,7 +71,7 @@ App.Pages.BusinessSettings = (function () {
 
             businessSettings.push({
                 name: $field.data('field'),
-                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val(),
             });
         });
 
@@ -79,14 +79,14 @@ App.Pages.BusinessSettings = (function () {
 
         businessSettings.push({
             name: 'company_working_plan',
-            value: JSON.stringify(workingPlan)
+            value: JSON.stringify(workingPlan),
         });
 
         const appointmentStatusOptions = App.Components.AppointmentStatusOptions.getOptions($appointmentStatusOptions);
 
         businessSettings.push({
             name: 'appointment_status_options',
-            value: JSON.stringify(appointmentStatusOptions)
+            value: JSON.stringify(appointmentStatusOptions),
         });
 
         return businessSettings;
@@ -118,7 +118,7 @@ App.Pages.BusinessSettings = (function () {
                 text: lang('cancel'),
                 click: (event, messageModal) => {
                     messageModal.dispose();
-                }
+                },
             },
             {
                 text: 'OK',
@@ -132,8 +132,8 @@ App.Pages.BusinessSettings = (function () {
                         .always(() => {
                             messageModal.dispose();
                         });
-                }
-            }
+                },
+            },
         ];
 
         App.Utils.Message.show(lang('working_plan'), lang('overwrite_existing_working_plans'), buttons);

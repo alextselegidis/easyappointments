@@ -91,7 +91,7 @@ class Instance
         setting([
             'company_name' => 'Company Name',
             'company_email' => 'info@example.org',
-            'company_link' => 'https://example.org'
+            'company_link' => 'https://example.org',
         ]);
 
         // Admin
@@ -107,8 +107,8 @@ class Instance
                 'username' => 'administrator',
                 'password' => $password,
                 'notifications' => true,
-                'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ]
+                'calendar_view' => CALENDAR_VIEW_DEFAULT,
+            ],
         ]);
 
         // Service
@@ -119,7 +119,7 @@ class Instance
             'price' => '0',
             'currency' => '',
             'availabilities_type' => 'flexible',
-            'attendants_number' => '1'
+            'attendants_number' => '1',
         ]);
 
         // Provider
@@ -139,8 +139,8 @@ class Instance
                 'google_sync' => false,
                 'sync_past_days' => 30,
                 'sync_future_days' => 90,
-                'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ]
+                'calendar_view' => CALENDAR_VIEW_DEFAULT,
+            ],
         ]);
 
         // Customer
@@ -149,7 +149,7 @@ class Instance
             'first_name' => 'James',
             'last_name' => 'Doe',
             'email' => 'james@example.org',
-            'phone_number' => '+10000000000'
+            'phone_number' => '+10000000000',
         ]);
 
         return $password;

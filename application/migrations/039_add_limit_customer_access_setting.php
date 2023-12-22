@@ -23,7 +23,7 @@ class Migration_Add_limit_customer_access_setting extends EA_Migration
                 'create_datetime' => date('Y-m-d H:i:s'),
                 'update_datetime' => date('Y-m-d H:i:s'),
                 'name' => 'limit_customer_access',
-                'value' => '0'
+                'value' => '0',
             ]);
         }
     }

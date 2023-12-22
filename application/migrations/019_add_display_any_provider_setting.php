@@ -21,7 +21,7 @@ class Migration_Add_display_any_provider_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'display_any_provider'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'display_any_provider',
-                'value' => '1'
+                'value' => '1',
             ]);
         }
     }

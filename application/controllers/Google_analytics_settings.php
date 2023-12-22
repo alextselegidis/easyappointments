@@ -56,13 +56,13 @@ class Google_analytics_settings extends EA_Controller
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'google_analytics_settings' => $this->settings_model->get('name like "google_analytics_%"')
+            'google_analytics_settings' => $this->settings_model->get('name like "google_analytics_%"'),
         ]);
 
         html_vars([
             'page_title' => lang('google_analytics'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
-            'user_display_name' => $this->accounts->get_user_display_name($user_id)
+            'user_display_name' => $this->accounts->get_user_display_name($user_id),
         ]);
 
         $this->load->view('pages/google_analytics_settings');

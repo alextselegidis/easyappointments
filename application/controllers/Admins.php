@@ -63,7 +63,7 @@ class Admins extends EA_Controller
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
-            'min_password_length' => MIN_PASSWORD_LENGTH
+            'min_password_length' => MIN_PASSWORD_LENGTH,
         ]);
 
         html_vars([
@@ -71,7 +71,7 @@ class Admins extends EA_Controller
             'active_menu' => PRIV_USERS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'grouped_timezones' => $this->timezones->to_grouped_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
 
         $this->load->view('pages/admins');
@@ -128,7 +128,7 @@ class Admins extends EA_Controller
                 'notes',
                 'timezone',
                 'language',
-                'settings'
+                'settings',
             ]);
 
             $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
@@ -141,7 +141,7 @@ class Admins extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $admin_id
+                'id' => $admin_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -194,7 +194,7 @@ class Admins extends EA_Controller
                 'notes',
                 'timezone',
                 'language',
-                'settings'
+                'settings',
             ]);
 
             $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
@@ -207,7 +207,7 @@ class Admins extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $admin_id
+                'id' => $admin_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -233,7 +233,7 @@ class Admins extends EA_Controller
             $this->webhooks_client->trigger(WEBHOOK_ADMIN_DELETE, $admin);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

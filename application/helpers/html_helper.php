@@ -69,8 +69,8 @@ if (!function_exists('extend')) {
             'layout' => [
                 'filename' => $layout,
                 'sections' => [],
-                'tmp' => []
-            ]
+                'tmp' => [],
+            ],
         ]);
     }
 }

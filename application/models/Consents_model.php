@@ -24,7 +24,7 @@ class Consents_model extends EA_Model
      * @var array
      */
     protected array $casts = [
-        'id' => 'integer'
+        'id' => 'integer',
     ];
 
     /**
@@ -231,7 +231,7 @@ class Consents_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);

@@ -53,7 +53,7 @@ if (!function_exists('setting')) {
 
                 if (empty($setting)) {
                     $setting = [
-                        'name' => $name
+                        'name' => $name,
                     ];
                 }
 

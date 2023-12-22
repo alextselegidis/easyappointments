@@ -23,8 +23,8 @@ class Migration_Add_working_plan_exceptions_to_user_settings extends EA_Migratio
                 'working_plan_exceptions' => [
                     'type' => 'TEXT',
                     'null' => true,
-                    'after' => 'working_plan'
-                ]
+                    'after' => 'working_plan',
+                ],
             ];
 
             $this->dbforge->add_column('user_settings', $fields);

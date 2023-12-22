@@ -23,7 +23,7 @@ class Migration_Add_api_token_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'api_token'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'api_token',
-                'value' => ''
+                'value' => '',
             ]);
         }
     }

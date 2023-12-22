@@ -58,7 +58,7 @@ class Console extends EA_Controller
         $password = $this->instance->seed();
 
         response(
-            PHP_EOL . '⇾ Installation completed, login with "administrator" / "' . $password . '".' . PHP_EOL . PHP_EOL
+            PHP_EOL . '⇾ Installation completed, login with "administrator" / "' . $password . '".' . PHP_EOL . PHP_EOL,
         );
     }
 
@@ -173,7 +173,7 @@ class Console extends EA_Controller
             '⇾ php index.php console backup',
             '⇾ php index.php console sync',
             '',
-            ''
+            '',
         ];
 
         response(implode(PHP_EOL, $help));

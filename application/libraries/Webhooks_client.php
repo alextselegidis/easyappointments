@@ -78,8 +78,8 @@ class Webhooks_client
                 'verify' => $webhook['is_ssl_verified'],
                 'json' => [
                     'action' => $action,
-                    'payload' => $payload
-                ]
+                    'payload' => $payload,
+                ],
             ]);
         } catch (Throwable $e) {
             log_message(
@@ -87,7 +87,7 @@ class Webhooks_client
                 'Webhooks Client - The webhook (' .
                     ($webhook['id'] ?? null) .
                     ') request received an unexpected exception: ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         }

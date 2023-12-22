@@ -35,7 +35,7 @@ class Localization extends EA_Controller
 
             if (!in_array($language, config('available_languages'))) {
                 throw new RuntimeException(
-                    'Translations for the given language does not exist (' . request('language') . ').'
+                    'Translations for the given language does not exist (' . request('language') . ').',
                 );
             }
 
@@ -46,7 +46,7 @@ class Localization extends EA_Controller
             config(['language' => $language]);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

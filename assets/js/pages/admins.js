@@ -155,15 +155,15 @@ App.Pages.Admins = (function () {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
                         messageModal.dispose();
-                    }
+                    },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(adminId);
                         messageModal.dispose();
-                    }
-                }
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_admin'), lang('delete_record_prompt'), buttons);
@@ -189,8 +189,8 @@ App.Pages.Admins = (function () {
                 settings: {
                     username: $username.val(),
                     notifications: Number($notifications.prop('checked')),
-                    calendar_view: $calendarView.val()
-                }
+                    calendar_view: $calendarView.val(),
+                },
             };
 
             // Include password if changed.
@@ -392,8 +392,8 @@ App.Pages.Admins = (function () {
             if (!response.length) {
                 $filterAdmins.find('.results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -403,7 +403,7 @@ App.Pages.Admins = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-admins .results');
             }
 
@@ -434,15 +434,15 @@ App.Pages.Admins = (function () {
             'data-id': admin.id,
             'html': [
                 $('<strong/>', {
-                    'text': name
+                    'text': name,
                 }),
                 $('<br/>'),
                 $('<small/>', {
                     'class': 'text-muted',
-                    'text': info
+                    'text': info,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -485,6 +485,6 @@ App.Pages.Admins = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

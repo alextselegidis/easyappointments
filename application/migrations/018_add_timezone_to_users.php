@@ -24,8 +24,8 @@ class Migration_Add_timezone_to_users extends EA_Migration
                     'type' => 'VARCHAR',
                     'constraint' => '256',
                     'default' => 'UTC',
-                    'after' => 'notes'
-                ]
+                    'after' => 'notes',
+                ],
             ];
 
             $this->dbforge->add_column('users', $fields);

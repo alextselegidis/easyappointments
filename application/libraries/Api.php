@@ -83,7 +83,7 @@ class Api
                 throw new RuntimeException(
                     'The provided credentials do not match any admin user!',
                     401,
-                    'Unauthorized'
+                    'Unauthorized',
                 );
             }
         } catch (Throwable) {
@@ -133,7 +133,7 @@ class Api
                 // about capitalization for Authorization).
                 $requestHeaders = array_combine(
                     array_map('ucwords', array_keys($requestHeaders)),
-                    array_values($requestHeaders)
+                    array_values($requestHeaders),
                 );
 
                 if (isset($requestHeaders['Authorization'])) {

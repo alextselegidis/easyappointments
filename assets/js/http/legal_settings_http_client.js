@@ -27,13 +27,13 @@ App.Http.LegalSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            legal_settings: legalSettings
+            legal_settings: legalSettings,
         };
 
         return $.post(url, data);
     }
 
     return {
-        save
+        save,
     };
 })();

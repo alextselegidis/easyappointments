@@ -23,8 +23,8 @@ class Migration_Add_blocked_periods_column_to_roles_table extends EA_Migration
                 'blocked_periods' => [
                     'type' => 'INT',
                     'constraint' => '11',
-                    'null' => true
-                ]
+                    'null' => true,
+                ],
             ];
 
             $this->dbforge->add_column('roles', $fields);

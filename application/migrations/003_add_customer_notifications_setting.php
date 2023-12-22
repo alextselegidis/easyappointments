@@ -23,7 +23,7 @@ class Migration_Add_customer_notifications_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'customer_notifications'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'customer_notifications',
-                'value' => '1'
+                'value' => '1',
             ]);
         }
     }

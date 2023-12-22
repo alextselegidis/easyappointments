@@ -23,7 +23,7 @@ class Migration_Add_require_captcha_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'require_captcha'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'require_captcha',
-                'value' => '0'
+                'value' => '0',
             ]);
         }
     }

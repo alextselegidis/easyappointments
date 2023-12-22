@@ -21,7 +21,7 @@ class Migration_Add_matomo_analytics_url_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'matomo_analytics_url'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'matomo_analytics_url',
-                'value' => ''
+                'value' => '',
             ]);
         }
     }

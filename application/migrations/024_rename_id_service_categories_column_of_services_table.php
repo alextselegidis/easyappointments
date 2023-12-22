@@ -20,15 +20,15 @@ class Migration_Rename_id_service_categories_column_of_services_table extends EA
     {
         if ($this->db->field_exists('id_service_categories', 'services')) {
             $this->db->query(
-                'ALTER TABLE `' . $this->db->dbprefix('services') . '` DROP FOREIGN KEY `services_service_categories`'
+                'ALTER TABLE `' . $this->db->dbprefix('services') . '` DROP FOREIGN KEY `services_service_categories`',
             );
 
             $fields = [
                 'id_service_categories' => [
                     'name' => 'id_categories',
                     'type' => 'INT',
-                    'constraint' => '11'
-                ]
+                    'constraint' => '11',
+                ],
             ];
 
             $this->dbforge->modify_column('services', $fields);
@@ -43,7 +43,7 @@ class Migration_Rename_id_service_categories_column_of_services_table extends EA
                     '` (`id`)
                     ON DELETE SET NULL
                     ON UPDATE CASCADE
-            '
+            ',
             );
         }
     }
@@ -55,15 +55,15 @@ class Migration_Rename_id_service_categories_column_of_services_table extends EA
     {
         if ($this->db->field_exists('id_categories', 'services')) {
             $this->db->query(
-                'ALTER TABLE `' . $this->db->dbprefix('services') . '` DROP FOREIGN KEY `services_categories`'
+                'ALTER TABLE `' . $this->db->dbprefix('services') . '` DROP FOREIGN KEY `services_categories`',
             );
 
             $fields = [
                 'id_categories' => [
                     'name' => 'id_service_categories',
                     'type' => 'INT',
-                    'constraint' => '11'
-                ]
+                    'constraint' => '11',
+                ],
             ];
 
             $this->dbforge->modify_column('services', $fields);
@@ -78,7 +78,7 @@ class Migration_Rename_id_service_categories_column_of_services_table extends EA
                     '` (`id`)
                     ON DELETE SET NULL
                     ON UPDATE CASCADE
-            '
+            ',
             );
         }
     }

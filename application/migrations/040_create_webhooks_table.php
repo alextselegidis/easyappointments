@@ -23,47 +23,47 @@ class Migration_Create_webhooks_table extends EA_Migration
                 'id' => [
                     'type' => 'INT',
                     'constraint' => 11,
-                    'auto_increment' => true
+                    'auto_increment' => true,
                 ],
                 'create_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'update_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'delete_datetime' => [
                     'type' => 'DATETIME',
-                    'null' => true
+                    'null' => true,
                 ],
                 'name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => true
+                    'null' => true,
                 ],
                 'url' => [
                     'type' => 'TEXT',
-                    'null' => true
+                    'null' => true,
                 ],
                 'actions' => [
                     'type' => 'TEXT',
-                    'null' => true
+                    'null' => true,
                 ],
                 'secret_token' => [
                     'type' => 'VARCHAR',
                     'constraint' => '512',
-                    'null' => true
+                    'null' => true,
                 ],
                 'is_ssl_verified' => [
                     'type' => 'TINYINT',
                     'constraint' => '4',
-                    'default' => true
+                    'default' => true,
                 ],
                 'notes' => [
                     'type' => 'TEXT',
-                    'null' => true
-                ]
+                    'null' => true,
+                ],
             ]);
 
             $this->dbforge->add_key('id', true);

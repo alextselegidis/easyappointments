@@ -65,7 +65,7 @@ class Booking_cancellation extends EA_Controller
                     'message_text' => lang('appointment_does_not_exist_in_db'),
                     'message_icon' => base_url('assets/img/error.png'),
                     'google_analytics_code' => setting('google_analytics_code'),
-                    'matomo_analytics_url' => setting('matomo_analytics_url')
+                    'matomo_analytics_url' => setting('matomo_analytics_url'),
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -86,7 +86,7 @@ class Booking_cancellation extends EA_Controller
                 'company_email' => setting('company_email'),
                 'company_link' => setting('company_link'),
                 'date_format' => setting('date_format'),
-                'time_format' => setting('time_format')
+                'time_format' => setting('time_format'),
             ];
 
             $this->appointments_model->delete($appointment['id']);
@@ -99,7 +99,7 @@ class Booking_cancellation extends EA_Controller
                 $provider,
                 $customer,
                 $settings,
-                $cancellation_reason
+                $cancellation_reason,
             );
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
@@ -111,7 +111,7 @@ class Booking_cancellation extends EA_Controller
             'page_title' => lang('appointment_cancelled_title'),
             'company_color' => setting('company_color'),
             'google_analytics_code' => setting('google_analytics_code'),
-            'matomo_analytics_url' => setting('matomo_analytics_url')
+            'matomo_analytics_url' => setting('matomo_analytics_url'),
         ]);
 
         $this->load->view('pages/booking_cancellation');

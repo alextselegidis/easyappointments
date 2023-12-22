@@ -24,8 +24,8 @@ class Migration_Add_is_private_column_to_services_table extends EA_Migration
                     'type' => 'TINYINT',
                     'constraint' => '4',
                     'default' => '0',
-                    'after' => 'attendants_number'
-                ]
+                    'after' => 'attendants_number',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);

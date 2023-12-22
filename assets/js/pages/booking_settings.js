@@ -94,13 +94,13 @@ App.Pages.BookingSettings = (function () {
 
             bookingSettings.push({
                 name: $field.data('field'),
-                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val(),
             });
         });
 
         bookingSettings.push({
             name: 'disable_booking_message',
-            value: $disableBookingMessage.trumbowyg('html')
+            value: $disableBookingMessage.trumbowyg('html'),
         });
 
         return bookingSettings;

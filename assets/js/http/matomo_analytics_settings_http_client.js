@@ -27,13 +27,13 @@ App.Http.MatomoAnalyticsSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            matomo_analytics_settings: matomoAnalyticsSettings
+            matomo_analytics_settings: matomoAnalyticsSettings,
         };
 
         return $.post(url, data);
     }
 
     return {
-        save
+        save,
     };
 })();

@@ -68,7 +68,7 @@ App.Pages.GoogleAnalyticsSettings = (function () {
 
             googleAnalyticsSettings.push({
                 name: $field.data('field'),
-                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val(),
             });
         });
 

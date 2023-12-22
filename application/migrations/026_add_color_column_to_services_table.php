@@ -24,8 +24,8 @@ class Migration_Add_color_column_to_services_table extends EA_Migration
                     'type' => 'VARCHAR',
                     'constraint' => '256',
                     'default' => '#7cbae8',
-                    'after' => 'description'
-                ]
+                    'after' => 'description',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);

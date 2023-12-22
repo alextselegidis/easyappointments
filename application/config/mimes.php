@@ -14,7 +14,7 @@ return [
         'application/mac-binhex40',
         'application/mac-binhex',
         'application/x-binhex40',
-        'application/x-mac-binhex40'
+        'application/x-mac-binhex40',
     ],
     'cpt' => 'application/mac-compactpro',
     'csv' => [
@@ -28,14 +28,14 @@ return [
         'application/csv',
         'application/excel',
         'application/vnd.msexcel',
-        'text/plain'
+        'text/plain',
     ],
     'bin' => [
         'application/macbinary',
         'application/mac-binary',
         'application/octet-stream',
         'application/x-binary',
-        'application/x-macbinary'
+        'application/x-macbinary',
     ],
     'dms' => 'application/octet-stream',
     'lha' => 'application/octet-stream',
@@ -66,18 +66,18 @@ return [
         'application/excel',
         'application/download',
         'application/vnd.ms-office',
-        'application/msword'
+        'application/msword',
     ],
     'ppt' => [
         'application/powerpoint',
         'application/vnd.ms-powerpoint',
         'application/vnd.ms-office',
-        'application/msword'
+        'application/msword',
     ],
     'pptx' => [
         'application/vnd.openxmlformats-officedocument.presentationml.presentation',
         'application/x-zip',
-        'application/zip'
+        'application/zip',
     ],
     'wbxml' => 'application/wbxml',
     'wmlc' => 'application/wmlc',
@@ -94,7 +94,7 @@ return [
         'application/x-php',
         'text/php',
         'text/x-php',
-        'application/x-httpd-php-source'
+        'application/x-httpd-php-source',
     ],
     'php4' => 'application/x-httpd-php',
     'php3' => 'application/x-httpd-php',
@@ -113,7 +113,7 @@ return [
         'application/zip',
         'application/x-zip-compressed',
         'application/s-compressed',
-        'multipart/x-zip'
+        'multipart/x-zip',
     ],
     'rar' => ['application/x-rar', 'application/rar', 'application/x-rar-compressed'],
     'mid' => 'audio/midi',
@@ -141,7 +141,7 @@ return [
         'image/x-ms-bmp',
         'application/bmp',
         'application/x-bmp',
-        'application/x-win-bitmap'
+        'application/x-win-bitmap',
     ],
     'gif' => 'image/gif',
     'jpeg' => ['image/jpeg', 'image/pjpeg'],
@@ -181,20 +181,20 @@ return [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/zip',
         'application/msword',
-        'application/x-zip'
+        'application/x-zip',
     ],
     'dot' => ['application/msword', 'application/vnd.ms-office'],
     'dotx' => [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
         'application/zip',
-        'application/msword'
+        'application/msword',
     ],
     'xlsx' => [
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/zip',
         'application/vnd.ms-excel',
         'application/msword',
-        'application/x-zip'
+        'application/x-zip',
     ],
     'word' => ['application/msword', 'application/octet-stream'],
     'xl' => 'application/excel',
@@ -245,14 +245,14 @@ return [
         'application/x-compressed',
         'application/x-zip-compressed',
         'application/zip',
-        'multipart/x-zip'
+        'multipart/x-zip',
     ],
     '7zip' => [
         'application/x-7z-compressed',
         'application/x-compressed',
         'application/x-zip-compressed',
         'application/zip',
-        'multipart/x-zip'
+        'multipart/x-zip',
     ],
     'cdr' => [
         'application/cdr',
@@ -261,14 +261,14 @@ return [
         'application/x-coreldraw',
         'image/cdr',
         'image/x-cdr',
-        'zz-application/zz-winassoc-cdr'
+        'zz-application/zz-winassoc-cdr',
     ],
     'wma' => ['audio/x-ms-wma', 'video/x-ms-asf'],
     'jar' => [
         'application/java-archive',
         'application/x-java-application',
         'application/x-jar',
-        'application/x-compressed'
+        'application/x-compressed',
     ],
     'svg' => ['image/svg+xml', 'application/xml', 'text/xml'],
     'vcf' => 'text/x-vcard',
@@ -290,5 +290,5 @@ return [
     'odt' => 'application/vnd.oasis.opendocument.text',
     'odm' => 'application/vnd.oasis.opendocument.text-master',
     'ott' => 'application/vnd.oasis.opendocument.text-template',
-    'oth' => 'application/vnd.oasis.opendocument.text-web'
+    'oth' => 'application/vnd.oasis.opendocument.text-web',
 ];

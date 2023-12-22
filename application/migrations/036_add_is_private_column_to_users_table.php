@@ -24,8 +24,8 @@ class Migration_Add_is_private_column_to_users_table extends EA_Migration
                     'type' => 'TINYINT',
                     'constraint' => '4',
                     'default' => '0',
-                    'after' => 'language'
-                ]
+                    'after' => 'language',
+                ],
             ];
 
             $this->dbforge->add_column('users', $fields);

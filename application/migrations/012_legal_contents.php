@@ -21,42 +21,42 @@ class Migration_Legal_contents extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'display_cookie_notice'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'display_cookie_notice',
-                'value' => '0'
+                'value' => '0',
             ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'cookie_notice_content'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'cookie_notice_content',
-                'value' => 'Cookie notice content.'
+                'value' => 'Cookie notice content.',
             ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'display_terms_and_conditions'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'display_terms_and_conditions',
-                'value' => '0'
+                'value' => '0',
             ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'terms_and_conditions_content'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'terms_and_conditions_content',
-                'value' => 'Terms and conditions content.'
+                'value' => 'Terms and conditions content.',
             ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'display_privacy_policy'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'display_privacy_policy',
-                'value' => '0'
+                'value' => '0',
             ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'privacy_policy_content'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'privacy_policy_content',
-                'value' => 'Privacy policy content.'
+                'value' => 'Privacy policy content.',
             ]);
         }
 
@@ -65,41 +65,41 @@ class Migration_Legal_contents extends EA_Migration
                 'id' => [
                     'type' => 'INT',
                     'constraint' => 11,
-                    'auto_increment' => true
+                    'auto_increment' => true,
                 ],
                 'created' => [
                     'type' => 'TIMESTAMP',
-                    'null' => true
+                    'null' => true,
                 ],
                 'modified' => [
                     'type' => 'TIMESTAMP',
-                    'null' => true
+                    'null' => true,
                 ],
                 'first_name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => true
+                    'null' => true,
                 ],
                 'last_name' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => true
+                    'null' => true,
                 ],
                 'email' => [
                     'type' => 'VARCHAR',
                     'constraint' => '512',
-                    'null' => true
+                    'null' => true,
                 ],
                 'ip' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => true
+                    'null' => true,
                 ],
                 'type' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
-                    'null' => true
-                ]
+                    'null' => true,
+                ],
             ]);
 
             $this->dbforge->add_key('id', true);
@@ -115,37 +115,37 @@ class Migration_Legal_contents extends EA_Migration
     {
         if ($this->db->get_where('settings', ['name' => 'display_cookie_notice'])->num_rows()) {
             $this->db->delete('settings', [
-                'name' => 'display_cookie_notice'
+                'name' => 'display_cookie_notice',
             ]);
         }
 
         if ($this->db->get_where('settings', ['name' => 'cookie_notice_content'])->num_rows()) {
             $this->db->delete('settings', [
-                'name' => 'cookie_notice_content'
+                'name' => 'cookie_notice_content',
             ]);
         }
 
         if ($this->db->get_where('settings', ['name' => 'display_terms_and_conditions'])->num_rows()) {
             $this->db->delete('settings', [
-                'name' => 'display_terms_and_conditions'
+                'name' => 'display_terms_and_conditions',
             ]);
         }
 
         if ($this->db->get_where('settings', ['name' => 'terms_and_conditions_content'])->num_rows()) {
             $this->db->delete('settings', [
-                'name' => 'terms_and_conditions_content'
+                'name' => 'terms_and_conditions_content',
             ]);
         }
 
         if ($this->db->get_where('settings', ['name' => 'display_privacy_policy'])->num_rows()) {
             $this->db->delete('settings', [
-                'name' => 'display_privacy_policy'
+                'name' => 'display_privacy_policy',
             ]);
         }
 
         if ($this->db->get_where('settings', ['name' => 'privacy_policy_content'])->num_rows()) {
             $this->db->delete('settings', [
-                'name' => 'privacy_policy_content'
+                'name' => 'privacy_policy_content',
             ]);
         }
 

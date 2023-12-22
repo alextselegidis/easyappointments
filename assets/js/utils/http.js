@@ -31,11 +31,11 @@ window.App.Utils.Http = (function () {
                 mode: 'cors',
                 credentials: 'same-origin',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 redirect: 'follow',
                 referrer: 'no-referrer',
-                body: data ? JSON.stringify(data) : undefined
+                body: data ? JSON.stringify(data) : undefined,
             })
                 .then((response) => {
                     if (!response.ok) {
@@ -86,7 +86,7 @@ window.App.Utils.Http = (function () {
                 method,
                 redirect: 'follow',
                 referrer: 'no-referrer',
-                body: formData
+                body: formData,
             })
                 .then((response) => {
                     if (!response.ok) {
@@ -133,10 +133,10 @@ window.App.Utils.Http = (function () {
                 mode: 'cors',
                 credentials: 'same-origin',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
                 },
                 redirect: 'follow',
-                referrer: 'no-referrer'
+                referrer: 'no-referrer',
             })
                 .then((response) => {
                     if (!response.ok) {
@@ -171,6 +171,6 @@ window.App.Utils.Http = (function () {
     return {
         request,
         upload,
-        download
+        download,
     };
 })();

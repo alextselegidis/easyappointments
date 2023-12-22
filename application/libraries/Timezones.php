@@ -35,7 +35,7 @@ class Timezones
      */
     protected array $timezones = [
         'UTC' => [
-            'UTC' => 'UTC'
+            'UTC' => 'UTC',
         ],
         'America' => [
             'America/Adak' => 'Adak (-10:00)',
@@ -166,7 +166,7 @@ class Timezones
             'America/Sao_Paulo' => 'Sao_Paulo (-3:00)',
             'America/Noronha' => 'Noronha (-2:00)',
             'America/Scoresbysund' => 'Scoresbysund (-1:00)',
-            'America/Danmarkshavn' => 'Danmarkshavn (+0:00)'
+            'America/Danmarkshavn' => 'Danmarkshavn (+0:00)',
         ],
         'Canada' => [
             'Canada/Pacific' => 'Pacific (-8:00)',
@@ -177,16 +177,16 @@ class Timezones
             'Canada/Saskatchewan' => 'Saskatchewan (-6:00)',
             'Canada/Eastern' => 'Eastern (-5:00)',
             'Canada/Atlantic' => 'Atlantic (-4:00)',
-            'Canada/Newfoundland' => 'Newfoundland (-3:-30)'
+            'Canada/Newfoundland' => 'Newfoundland (-3:-30)',
         ],
         'Mexico' => [
             'Mexico/BajaNorte' => 'BajaNorte (-8:00)',
             'Mexico/BajaSur' => 'BajaSur (-7:00)',
-            'Mexico/General' => 'General (-6:00)'
+            'Mexico/General' => 'General (-6:00)',
         ],
         'Chile' => [
             'Chile/EasterIsland' => 'EasterIsland (-6:00)',
-            'Chile/Continental' => 'Continental (-4:00)'
+            'Chile/Continental' => 'Continental (-4:00)',
         ],
         'Antarctica' => [
             'Antarctica/Palmer' => 'Palmer (-4:00)',
@@ -198,7 +198,7 @@ class Timezones
             'Antarctica/Casey' => 'Casey (+8:00)',
             'Antarctica/DumontDUrville' => 'DumontDUrville (+10:00)',
             'Antarctica/McMurdo' => 'McMurdo (+12:00)',
-            'Antarctica/South_Pole' => 'South_Pole (+12:00)'
+            'Antarctica/South_Pole' => 'South_Pole (+12:00)',
         ],
         'Atlantic' => [
             'Atlantic/Bermuda' => 'Bermuda (-4:00)',
@@ -212,13 +212,13 @@ class Timezones
             'Atlantic/Madeira' => 'Madeira (+0:00)',
             'Atlantic/Reykjavik' => 'Reykjavik (+0:00)',
             'Atlantic/St_Helena' => 'St_Helena (+0:00)',
-            'Atlantic/Jan_Mayen' => 'Jan_Mayen (+1:00)'
+            'Atlantic/Jan_Mayen' => 'Jan_Mayen (+1:00)',
         ],
         'Brazil' => [
             'Brazil/Acre' => 'Acre (-4:00)',
             'Brazil/West' => 'West (-4:00)',
             'Brazil/East' => 'East (-3:00)',
-            'Brazil/DeNoronha' => 'DeNoronha (-2:00)'
+            'Brazil/DeNoronha' => 'DeNoronha (-2:00)',
         ],
         'Africa' => [
             'Africa/Abidjan' => 'Abidjan (+0:00)',
@@ -273,7 +273,7 @@ class Timezones
             'Africa/Kampala' => 'Kampala (+3:00)',
             'Africa/Khartoum' => 'Khartoum (+3:00)',
             'Africa/Mogadishu' => 'Mogadishu (+3:00)',
-            'Africa/Nairobi' => 'Nairobi (+3:00)'
+            'Africa/Nairobi' => 'Nairobi (+3:00)',
         ],
         'Europe' => [
             'Europe/Belfast' => 'Belfast (+0:00)',
@@ -333,10 +333,10 @@ class Timezones
             'Europe/Zaporozhye' => 'Zaporozhye (+2:00)',
             'Europe/Moscow' => 'Moscow (+3:00)',
             'Europe/Volgograd' => 'Volgograd (+3:00)',
-            'Europe/Samara' => 'Samara (+4:00)'
+            'Europe/Samara' => 'Samara (+4:00)',
         ],
         'Arctic' => [
-            'Arctic/Longyearbyen' => 'Longyearbyen (+1:00)'
+            'Arctic/Longyearbyen' => 'Longyearbyen (+1:00)',
         ],
         'Asia' => [
             'Asia/Amman' => 'Amman (+2:00)',
@@ -423,7 +423,7 @@ class Timezones
             'Asia/Vladivostok' => 'Vladivostok (+10:00)',
             'Asia/Magadan' => 'Magadan (+11:00)',
             'Asia/Anadyr' => 'Anadyr (+12:00)',
-            'Asia/Kamchatka' => 'Kamchatka (+12:00)'
+            'Asia/Kamchatka' => 'Kamchatka (+12:00)',
         ],
         'Indian' => [
             'Indian/Antananarivo' => 'Antananarivo (+3:00)',
@@ -436,7 +436,7 @@ class Timezones
             'Indian/Maldives' => 'Maldives (+5:00)',
             'Indian/Chagos' => 'Chagos (+6:00)',
             'Indian/Cocos' => 'Cocos (+6:30)',
-            'Indian/Christmas' => 'Christmas (+7:00)'
+            'Indian/Christmas' => 'Christmas (+7:00)',
         ],
         'Australia' => [
             'Australia/Perth' => 'Perth (+8:00)',
@@ -461,7 +461,7 @@ class Timezones
             'Australia/Tasmania' => 'Tasmania (+10:00)',
             'Australia/Victoria' => 'Victoria (+10:00)',
             'Australia/LHI' => 'LHI (+10:30)',
-            'Australia/Lord_Howe' => 'Lord_Howe (+10:30)'
+            'Australia/Lord_Howe' => 'Lord_Howe (+10:30)',
         ],
         'Pacific' => [
             'Pacific/Apia' => 'Apia (+13:00)',
@@ -499,8 +499,8 @@ class Timezones
             'Pacific/Tarawa' => 'Tarawa (+12:00)',
             'Pacific/Tongatapu' => 'Tongatapu (+13:00)',
             'Pacific/Wake' => 'Wake (+12:00)',
-            'Pacific/Wallis' => 'Wallis (+12:00)'
-        ]
+            'Pacific/Wallis' => 'Wallis (+12:00)',
+        ],
     ];
 
     /**

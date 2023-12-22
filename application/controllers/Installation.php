@@ -47,7 +47,7 @@ class Installation extends EA_Controller
         }
 
         $this->load->view('pages/installation', [
-            'base_url' => config('base_url')
+            'base_url' => config('base_url'),
         ]);
     }
 
@@ -80,14 +80,14 @@ class Installation extends EA_Controller
                 'user_email' => $admin['email'],
                 'role_slug' => DB_SLUG_ADMIN,
                 'timezone' => $admin['timezone'],
-                'username' => $admin['settings']['username']
+                'username' => $admin['settings']['username'],
             ]);
 
             // Save company settings
             setting([
                 'company_name' => $company['company_name'],
                 'company_email' => $company['company_email'],
-                'company_link' => $company['company_link']
+                'company_link' => $company['company_link'],
             ]);
 
             // Service
@@ -97,7 +97,7 @@ class Installation extends EA_Controller
                 'price' => '0',
                 'currency' => '',
                 'availabilities_type' => 'flexible',
-                'attendants_number' => '1'
+                'attendants_number' => '1',
             ]);
 
             // Provider
@@ -115,8 +115,8 @@ class Installation extends EA_Controller
                     'google_sync' => false,
                     'sync_past_days' => 30,
                     'sync_future_days' => 90,
-                    'calendar_view' => CALENDAR_VIEW_DEFAULT
-                ]
+                    'calendar_view' => CALENDAR_VIEW_DEFAULT,
+                ],
             ]);
 
             // Customer
@@ -124,11 +124,11 @@ class Installation extends EA_Controller
                 'first_name' => 'James',
                 'last_name' => 'Doe',
                 'email' => 'james@example.org',
-                'phone_number' => '+1 (000) 000-0000'
+                'phone_number' => '+1 (000) 000-0000',
             ]);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

@@ -56,7 +56,7 @@ class Accounts
         $user_settings = $this->CI->db
             ->get_where('user_settings', [
                 'username' => $username,
-                'password' => $password
+                'password' => $password,
             ])
             ->row_array();
 
@@ -76,7 +76,7 @@ class Accounts
             'username' => $username,
             'timezone' => !empty($user['timezone']) ? $user['timezone'] : $default_timezone,
             'language' => !empty($user['language']) ? $user['language'] : Config::LANGUAGE,
-            'role_slug' => $role['slug']
+            'role_slug' => $role['slug'],
         ];
     }
 

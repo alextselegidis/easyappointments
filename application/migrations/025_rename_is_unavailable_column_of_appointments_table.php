@@ -24,8 +24,8 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
                     'name' => 'is_unavailability',
                     'type' => 'TINYINT',
                     'constraint' => '4',
-                    'default' => '0'
-                ]
+                    'default' => '0',
+                ],
             ];
 
             $this->dbforge->modify_column('appointments', $fields);
@@ -43,8 +43,8 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
                     'name' => 'is_unavailable',
                     'type' => 'TINYINT',
                     'constraint' => '4',
-                    'default' => '0'
-                ]
+                    'default' => '0',
+                ],
             ];
 
             $this->dbforge->modify_column('appointments', $fields);

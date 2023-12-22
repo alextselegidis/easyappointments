@@ -61,7 +61,7 @@ class Service_categories extends EA_Controller
 
         script_vars([
             'user_id' => $user_id,
-            'role_slug' => $role_slug
+            'role_slug' => $role_slug,
         ]);
 
         html_vars([
@@ -69,7 +69,7 @@ class Service_categories extends EA_Controller
             'active_menu' => PRIV_SERVICES,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
 
         $this->load->view('pages/service_categories');
@@ -123,7 +123,7 @@ class Service_categories extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $service_category_id
+                'id' => $service_category_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -172,7 +172,7 @@ class Service_categories extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $service_category_id
+                'id' => $service_category_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -198,7 +198,7 @@ class Service_categories extends EA_Controller
             $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_DELETE, $service_category);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

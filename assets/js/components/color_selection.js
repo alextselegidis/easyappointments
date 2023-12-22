@@ -105,6 +105,6 @@ App.Components.ColorSelection = (function () {
         disable,
         enable,
         getColor,
-        setColor
+        setColor,
     };
 })();

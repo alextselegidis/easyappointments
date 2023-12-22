@@ -24,70 +24,70 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_2`'
+                '_ibfk_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_3`'
+                '_ibfk_3`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_4`'
+                '_ibfk_4`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('secretaries_providers') .
                 '` DROP FOREIGN KEY `fk_' .
                 $this->db->dbprefix('secretaries_providers') .
-                '_1`'
+                '_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('secretaries_providers') .
                 '` DROP FOREIGN KEY `fk_' .
                 $this->db->dbprefix('secretaries_providers') .
-                '_2`'
+                '_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services_providers') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services_providers') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services_providers') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services_providers') .
-                '_ibfk_2`'
+                '_ibfk_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('users') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('users') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('user_settings') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('user_settings') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
 
         // Appointments
@@ -96,23 +96,23 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'int',
                 'constraint' => '11',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'id_users_customer' => [
                 'name' => 'id_users_customer',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('appointments', $fields);
@@ -123,38 +123,38 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'int',
                 'constraint' => '11',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'appointments' => [
                 'name' => 'appointments',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'customers' => [
                 'name' => 'customers',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'services' => [
                 'name' => 'services',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'users' => [
                 'name' => 'users',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'system_settings' => [
                 'name' => 'system_settings',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'user_settings' => [
                 'name' => 'user_settings',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('roles', $fields);
@@ -164,13 +164,13 @@ class Migration_Change_column_types extends EA_Migration
             'id_users_secretary' => [
                 'name' => 'id_users_secretary',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('secretaries_providers', $fields);
@@ -181,13 +181,13 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'int',
                 'constraint' => '11',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'id_service_categories' => [
                 'name' => 'id_service_categories',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('services', $fields);
@@ -197,13 +197,13 @@ class Migration_Change_column_types extends EA_Migration
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'int',
-                'constraint' => '11'
+                'constraint' => '11',
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('services_providers', $fields);
@@ -214,8 +214,8 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'int',
                 'constraint' => '11',
-                'auto_increment' => true
-            ]
+                'auto_increment' => true,
+            ],
         ];
 
         $this->dbforge->modify_column('service_categories', $fields);
@@ -226,8 +226,8 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'int',
                 'constraint' => '11',
-                'auto_increment' => true
-            ]
+                'auto_increment' => true,
+            ],
         ];
 
         $this->dbforge->modify_column('settings', $fields);
@@ -238,13 +238,13 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'int',
                 'constraint' => '11',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'id_roles' => [
                 'name' => 'id_roles',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('users', $fields);
@@ -254,8 +254,8 @@ class Migration_Change_column_types extends EA_Migration
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'int',
-                'constraint' => '11'
-            ]
+                'constraint' => '11',
+            ],
         ];
 
         $this->dbforge->modify_column('user_settings', $fields);
@@ -279,7 +279,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('appointments') .
                 '_ibfk_4` FOREIGN KEY (`id_users_provider`) REFERENCES `' .
                 $this->db->dbprefix('users') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -295,7 +295,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('secretaries_providers') .
                 '_2` FOREIGN KEY (`id_users_provider`) REFERENCES `' .
                 $this->db->dbprefix('users') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -306,7 +306,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('services') .
                 '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' .
                 $this->db->dbprefix('service_categories') .
-                '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE'
+                '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -322,7 +322,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('services_providers') .
                 '_ibfk_2` FOREIGN KEY (`id_services`) REFERENCES `' .
                 $this->db->dbprefix('services') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -333,7 +333,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('users') .
                 '_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `' .
                 $this->db->dbprefix('roles') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -344,12 +344,12 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('user_settings') .
                 '_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `' .
                 $this->db->dbprefix('users') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         // Change charset of ' . $this->db->dbprefix('secretaries_providers') . ' table for databases created with EA! 1.2.1 version
         $this->db->query(
-            'ALTER TABLE ' . $this->db->dbprefix('secretaries_providers') . ' CONVERT TO CHARACTER SET utf8'
+            'ALTER TABLE ' . $this->db->dbprefix('secretaries_providers') . ' CONVERT TO CHARACTER SET utf8',
         );
     }
 
@@ -364,70 +364,70 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_2`'
+                '_ibfk_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_3`'
+                '_ibfk_3`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_4`'
+                '_ibfk_4`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('secretaries_providers') .
                 '` DROP FOREIGN KEY `fk_' .
                 $this->db->dbprefix('secretaries_providers') .
-                '_1`'
+                '_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('secretaries_providers') .
                 '` DROP FOREIGN KEY `fk_' .
                 $this->db->dbprefix('secretaries_providers') .
-                '_2`'
+                '_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services_providers') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services_providers') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services_providers') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services_providers') .
-                '_ibfk_2`'
+                '_ibfk_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('users') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('users') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('user_settings') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('user_settings') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
 
         // Appointments
@@ -436,23 +436,23 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'id_users_customer' => [
                 'name' => 'id_users_customer',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('appointments', $fields);
@@ -463,38 +463,38 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'appointments' => [
                 'name' => 'appointments',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'customers' => [
                 'name' => 'customers',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'services' => [
                 'name' => 'services',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'users' => [
                 'name' => 'users',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'system_settings' => [
                 'name' => 'system_settings',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'user_settings' => [
                 'name' => 'user_settings',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('roles', $fields);
@@ -504,13 +504,13 @@ class Migration_Change_column_types extends EA_Migration
             'id_users_secretary' => [
                 'name' => 'id_users_secretary',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'id_users_provider' => [
                 'name' => 'id_users_provider',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('secretaries_providers', $fields);
@@ -521,13 +521,13 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'id_service_categories' => [
                 'name' => 'id_service_categories',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('services', $fields);
@@ -537,13 +537,13 @@ class Migration_Change_column_types extends EA_Migration
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'bigint',
-                'constraint' => '20'
+                'constraint' => '20',
             ],
             'id_services' => [
                 'name' => 'id_services',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('services_providers', $fields);
@@ -554,8 +554,8 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
-                'auto_increment' => true
-            ]
+                'auto_increment' => true,
+            ],
         ];
 
         $this->dbforge->modify_column('service_categories', $fields);
@@ -566,8 +566,8 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
-                'auto_increment' => true
-            ]
+                'auto_increment' => true,
+            ],
         ];
 
         $this->dbforge->modify_column('settings', $fields);
@@ -578,13 +578,13 @@ class Migration_Change_column_types extends EA_Migration
                 'name' => 'id',
                 'type' => 'bigint',
                 'constraint' => '20',
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'id_roles' => [
                 'name' => 'id_roles',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('users', $fields);
@@ -594,8 +594,8 @@ class Migration_Change_column_types extends EA_Migration
             'id_users' => [
                 'name' => 'id_users',
                 'type' => 'bigint',
-                'constraint' => '20'
-            ]
+                'constraint' => '20',
+            ],
         ];
 
         $this->dbforge->modify_column('user_settings', $fields);
@@ -619,7 +619,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('appointments') .
                 '_ibfk_4` FOREIGN KEY (`id_users_provider`) REFERENCES `' .
                 $this->db->dbprefix('users') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -635,7 +635,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('secretaries_providers') .
                 '_2` FOREIGN KEY (`id_users_provider`) REFERENCES `' .
                 $this->db->dbprefix('users') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -646,7 +646,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('services') .
                 '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' .
                 $this->db->dbprefix('service_categories') .
-                '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE'
+                '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -662,7 +662,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('services_providers') .
                 '_ibfk_2` FOREIGN KEY (`id_services`) REFERENCES `' .
                 $this->db->dbprefix('services') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -673,7 +673,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('users') .
                 '_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `' .
                 $this->db->dbprefix('roles') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
 
         $this->db->query(
@@ -684,7 +684,7 @@ class Migration_Change_column_types extends EA_Migration
                 $this->db->dbprefix('user_settings') .
                 '_ibfk_1` FOREIGN KEY (`id_users`) REFERENCES `' .
                 $this->db->dbprefix('users') .
-                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE'
+                '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE',
         );
     }
 }

@@ -55,7 +55,9 @@ App.Pages.ServiceCategories = (function () {
 
             const serviceCategoryId = $(event.currentTarget).attr('data-id');
 
-            const serviceCategory = filterResults.find((filterResult) => Number(filterResult.id) === Number(serviceCategoryId));
+            const serviceCategory = filterResults.find(
+                (filterResult) => Number(filterResult.id) === Number(serviceCategoryId),
+            );
 
             display(serviceCategory);
             $('#filter-service-categories .selected').removeClass('selected');
@@ -99,15 +101,15 @@ App.Pages.ServiceCategories = (function () {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
                         messageModal.dispose();
-                    }
+                    },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(serviceCategoryId);
                         messageModal.dispose();
-                    }
-                }
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_service_category'), lang('delete_record_prompt'), buttons);
@@ -119,7 +121,7 @@ App.Pages.ServiceCategories = (function () {
         $serviceCategories.on('click', '#save-service-category', () => {
             const serviceCategory = {
                 name: $name.val(),
-                description: $description.val()
+                description: $description.val(),
             };
 
             if ($id.val() !== '') {
@@ -166,8 +168,8 @@ App.Pages.ServiceCategories = (function () {
             if (response.length === 0) {
                 $('#filter-service-categories .results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -177,7 +179,7 @@ App.Pages.ServiceCategories = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-service-categories .results');
             }
 
@@ -286,10 +288,10 @@ App.Pages.ServiceCategories = (function () {
             'data-id': serviceCategory.id,
             'html': [
                 $('<strong/>', {
-                    'text': serviceCategory.name
+                    'text': serviceCategory.name,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -332,6 +334,6 @@ App.Pages.ServiceCategories = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

@@ -108,7 +108,7 @@ class Ics_file
             '',
             lang('notes'),
             '',
-            $appointment['notes']
+            $appointment['notes'],
         ];
 
         $event->setDescription(implode("\\n", $description));

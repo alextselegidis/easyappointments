@@ -25,7 +25,7 @@
             <?php $active = $active_menu == PRIV_APPOINTMENTS ? 'active' : ''; ?>
             <li class="nav-item <?= $active . $hidden ?>">
                 <a href="<?= site_url(
-                    'calendar' . (vars('calendar_view') === CALENDAR_VIEW_TABLE ? '?view=table' : '')
+                    'calendar' . (vars('calendar_view') === CALENDAR_VIEW_TABLE ? '?view=table' : ''),
                 ) ?>"
                    class="nav-link"
                    data-tippy-content="<?= lang('manage_appointment_record_hint') ?>">

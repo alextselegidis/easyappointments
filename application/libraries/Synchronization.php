@@ -52,7 +52,7 @@ class Synchronization
         array $service,
         array $provider,
         array $customer,
-        array $settings
+        array $settings,
     ): void {
         try {
             if (!$provider['settings']['google_sync']) {
@@ -73,7 +73,7 @@ class Synchronization
                     $provider,
                     $service,
                     $customer,
-                    $settings
+                    $settings,
                 );
 
                 $appointment['id_google_calendar'] = $google_event->getId();
@@ -88,7 +88,7 @@ class Synchronization
                 'Synchronization - Could not sync confirmation details of appointment (' .
                     ($appointment['id'] ?? '-') .
                     ') : ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         }
@@ -130,7 +130,7 @@ class Synchronization
                 'Synchronization - Could not sync cancellation details of unavailability (' .
                     ($appointment['id'] ?? '-') .
                     ') : ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         }
@@ -164,7 +164,7 @@ class Synchronization
                 'Synchronization - Could not sync cancellation details of unavailability (' .
                     ($appointment['id'] ?? '-') .
                     ') : ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         }
@@ -223,7 +223,7 @@ class Synchronization
                 'Synchronization - Could not sync cancellation details of appointment (' .
                     ($appointment['id'] ?? '-') .
                     ') : ' .
-                    $e->getMessage()
+                    $e->getMessage(),
             );
             log_message('error', $e->getTraceAsString());
         }

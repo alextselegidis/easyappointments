@@ -27,13 +27,13 @@ App.Http.GoogleAnalyticsSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            google_analytics_settings: googleAnalyticsSettings
+            google_analytics_settings: googleAnalyticsSettings,
         };
 
         return $.post(url, data);
     }
 
     return {
-        save
+        save,
     };
 })();

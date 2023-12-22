@@ -48,7 +48,7 @@ App.Http.Booking = (function () {
         let serviceDuration = 15;
 
         const service = vars('available_services').find(
-            (availableService) => Number(availableService.id) === Number(serviceId)
+            (availableService) => Number(availableService.id) === Number(serviceId),
         );
 
         if (service) {
@@ -68,7 +68,7 @@ App.Http.Booking = (function () {
             selected_date: selectedDate,
             service_duration: serviceDuration,
             manage_mode: Number(vars('manage_mode') || 0),
-            appointment_id: appointmentId
+            appointment_id: appointmentId,
         };
 
         $.post(url, data).done((response) => {
@@ -89,7 +89,7 @@ App.Http.Booking = (function () {
                 }
 
                 const provider = vars('available_providers').find(
-                    (availableProvider) => Number(providerId) === Number(availableProvider.id)
+                    (availableProvider) => Number(providerId) === Number(availableProvider.id),
                 );
 
                 if (!provider) {
@@ -113,10 +113,10 @@ App.Http.Booking = (function () {
                         $('<button/>', {
                             'class': 'btn btn-outline-secondary w-100 shadow-none available-hour',
                             'data': {
-                                'value': availableHour
+                                'value': availableHour,
                             },
-                            'text': availableHourMoment.format(timeFormat)
-                        })
+                            'text': availableHourMoment.format(timeFormat),
+                        }),
                     );
                 });
 
@@ -127,7 +127,7 @@ App.Http.Booking = (function () {
                         .filter(
                             (index, availableHourEl) =>
                                 $(availableHourEl).text() ===
-                                moment(vars('appointment_data').start_datetime).format(timeFormat)
+                                moment(vars('appointment_data').start_datetime).format(timeFormat),
                         )
                         .addClass('selected-hour');
                 } else {
@@ -165,7 +165,7 @@ App.Http.Booking = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            post_data: formData
+            post_data: formData,
         };
 
         if ($captchaText.length > 0) {
@@ -193,9 +193,9 @@ App.Http.Booking = (function () {
                     left: '0',
                     height: '100vh',
                     width: '100vw',
-                    opacity: '0.5'
+                    opacity: '0.5',
                 });
-            }
+            },
         })
             .done((response) => {
                 if (response.captcha_verification === false) {
@@ -252,14 +252,14 @@ App.Http.Booking = (function () {
             selected_date: encodeURIComponent(selectedDateString),
             csrf_token: vars('csrf_token'),
             manage_mode: Number(App.Pages.Booking.manageMode),
-            appointment_id: appointmentId
+            appointment_id: appointmentId,
         };
 
         $.ajax({
             url: url,
             type: 'GET',
             data: data,
-            dataType: 'json'
+            dataType: 'json',
         }).done((response) => {
             if (response.is_month_unavailable) {
                 if (searchedMonthCounter >= 3) {
@@ -313,14 +313,21 @@ App.Http.Booking = (function () {
         }
 
         // Grey out unavailable dates.
-        $('#select-date')[0]._flatpickr.set('disable', unavailableDates.map(unavailableDate => new Date(unavailableDate)));
+        $('#select-date')[0]._flatpickr.set(
+            'disable',
+            unavailableDates.map((unavailableDate) => new Date(unavailableDate)),
+        );
 
         const dateQueryParam = App.Utils.Url.queryParam('date');
 
         if (dateQueryParam) {
             const dateQueryParamMoment = moment(dateQueryParam);
 
-            if (dateQueryParamMoment.isValid() && !unavailableDates.includes(dateQueryParam) && dateQueryParamMoment.format('YYYY-MM') === selectedDateMoment.format('YYYY-MM')) {
+            if (
+                dateQueryParamMoment.isValid() &&
+                !unavailableDates.includes(dateQueryParam) &&
+                dateQueryParamMoment.format('YYYY-MM') === selectedDateMoment.format('YYYY-MM')
+            ) {
                 $('#select-date')[0]._flatpickr.setDate(dateQueryParamMoment.toDate());
             }
         }
@@ -338,7 +345,7 @@ App.Http.Booking = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer_token: customerToken
+            customer_token: customerToken,
         };
 
         $.post(url, data).done(() => {
@@ -351,6 +358,6 @@ App.Http.Booking = (function () {
         getAvailableHours,
         getUnavailableDates,
         applyPreviousUnavailableDates,
-        deletePersonalInformation
+        deletePersonalInformation,
     };
 })();

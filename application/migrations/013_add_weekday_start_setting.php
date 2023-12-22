@@ -21,7 +21,7 @@ class Migration_Add_weekday_start_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'first_weekday'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'first_weekday',
-                'value' => 'sunday'
+                'value' => 'sunday',
             ]);
         }
     }

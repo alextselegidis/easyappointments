@@ -24,8 +24,8 @@ class Migration_Add_color_column_to_appointments_table extends EA_Migration
                     'type' => 'VARCHAR',
                     'constraint' => '256',
                     'default' => '#7cbae8',
-                    'after' => 'hash'
-                ]
+                    'after' => 'hash',
+                ],
             ];
 
             $this->dbforge->add_column('appointments', $fields);

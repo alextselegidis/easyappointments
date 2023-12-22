@@ -22,7 +22,7 @@ class Migration_Add_disable_booking_message_setting extends EA_Migration
             $this->db->insert('settings', [
                 'name' => 'disable_booking_message',
                 'value' =>
-                    '<p style="text-align: center;">Thanks for stopping by!</p><p style="text-align: center;">We are not accepting new appointments at the moment, please check back again later.</p>'
+                    '<p style="text-align: center;">Thanks for stopping by!</p><p style="text-align: center;">We are not accepting new appointments at the moment, please check back again later.</p>',
             ]);
         }
     }

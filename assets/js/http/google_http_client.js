@@ -29,7 +29,7 @@ App.Http.Google = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             provider_id: providerId,
-            calendar_id: googleCalendarId
+            calendar_id: googleCalendarId,
         };
 
         return $.post(url, data);
@@ -47,7 +47,7 @@ App.Http.Google = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            provider_id: providerId
+            provider_id: providerId,
         };
 
         return $.post(url, data);
@@ -65,7 +65,7 @@ App.Http.Google = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            provider_id: providerId
+            provider_id: providerId,
         };
 
         return $.post(url, data);
@@ -88,6 +88,6 @@ App.Http.Google = (function () {
         getGoogleCalendars,
         selectGoogleCalendar,
         disableProviderSync,
-        syncWithGoogle
+        syncWithGoogle,
     };
 })();

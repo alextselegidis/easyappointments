@@ -251,7 +251,7 @@ class Captcha_builder
 
         if (!in_array($imageType, $this->allowedBackgroundImageTypes)) {
             throw new Exception(
-                'Invalid background image type! Allowed types are: ' . join(', ', $this->allowedBackgroundImageTypes)
+                'Invalid background image type! Allowed types are: ' . join(', ', $this->allowedBackgroundImageTypes),
             );
         }
 
@@ -395,7 +395,7 @@ class Captcha_builder
                         $this->getCol($image, floor($nX), floor($nY), $bg),
                         $this->getCol($image, ceil($nX), floor($nY), $bg),
                         $this->getCol($image, floor($nX), ceil($nY), $bg),
-                        $this->getCol($image, ceil($nX), ceil($nY), $bg)
+                        $this->getCol($image, ceil($nX), ceil($nY), $bg),
                     );
                 } else {
                     $p = $this->getCol($image, round($nX), round($nY), $bg);

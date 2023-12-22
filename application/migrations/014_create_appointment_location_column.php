@@ -23,8 +23,8 @@ class Migration_Create_appointment_location_column extends EA_Migration
                 'location' => [
                     'type' => 'TEXT',
                     'null' => true,
-                    'after' => 'end_datetime'
-                ]
+                    'after' => 'end_datetime',
+                ],
             ];
 
             $this->dbforge->add_column('appointments', $fields);
@@ -35,8 +35,8 @@ class Migration_Create_appointment_location_column extends EA_Migration
                 'location' => [
                     'type' => 'TEXT',
                     'null' => true,
-                    'after' => 'description'
-                ]
+                    'after' => 'description',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);

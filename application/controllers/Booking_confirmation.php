@@ -61,7 +61,7 @@ class Booking_confirmation extends EA_Controller
             'company_color' => setting('company_color'),
             'google_analytics_code' => setting('google_analytics_code'),
             'matomo_analytics_url' => setting('matomo_analytics_url'),
-            'add_to_google_url' => $add_to_google_url
+            'add_to_google_url' => $add_to_google_url,
         ]);
 
         $this->load->view('pages/booking_confirmation');

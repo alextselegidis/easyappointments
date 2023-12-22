@@ -54,14 +54,14 @@ class Privacy extends EA_Controller
 
             if (empty($customer_id)) {
                 throw new InvalidArgumentException(
-                    'Customer ID does not exist, please reload the page ' . 'and try again.'
+                    'Customer ID does not exist, please reload the page ' . 'and try again.',
                 );
             }
 
             $this->customers_model->delete($customer_id);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

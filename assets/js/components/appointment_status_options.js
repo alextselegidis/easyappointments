@@ -59,8 +59,7 @@ App.Components.AppointmentStatusOptions = (function () {
             return;
         }
 
-        renderListGroupItem()
-            .appendTo($listGroup);
+        renderListGroupItem().appendTo($listGroup);
     }
 
     /**
@@ -120,6 +119,6 @@ App.Components.AppointmentStatusOptions = (function () {
 
     return {
         getOptions,
-        setOptions
+        setOptions,
     };
 })();

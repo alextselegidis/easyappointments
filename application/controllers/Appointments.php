@@ -97,7 +97,7 @@ class Appointments extends EA_Controller
                 'is_unavailability',
                 'id_users_provider',
                 'id_users_customer',
-                'id_services'
+                'id_services',
             ]);
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -108,7 +108,7 @@ class Appointments extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $appointment_id
+                'id' => $appointment_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -157,14 +157,14 @@ class Appointments extends EA_Controller
                 'is_unavailability',
                 'id_users_provider',
                 'id_users_customer',
-                'id_services'
+                'id_services',
             ]);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
             json_response([
                 'success' => true,
-                'id' => $appointment_id
+                'id' => $appointment_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -190,7 +190,7 @@ class Appointments extends EA_Controller
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

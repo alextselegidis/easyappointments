@@ -60,7 +60,7 @@ class Webhooks extends EA_Controller
 
         script_vars([
             'user_id' => $user_id,
-            'role_slug' => $role_slug
+            'role_slug' => $role_slug,
         ]);
 
         html_vars([
@@ -87,8 +87,8 @@ class Webhooks extends EA_Controller
                 WEBHOOK_SECRETARY_SAVE,
                 WEBHOOK_SECRETARY_DELETE,
                 WEBHOOK_ADMIN_SAVE,
-                WEBHOOK_ADMIN_DELETE
-            ]
+                WEBHOOK_ADMIN_DELETE,
+            ],
         ]);
 
         $this->load->view('pages/webhooks');
@@ -138,14 +138,14 @@ class Webhooks extends EA_Controller
                 'actions',
                 'secret_token',
                 'is_ssl_verified',
-                'notes'
+                'notes',
             ]);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
                 'success' => true,
-                'id' => $webhook_id
+                'id' => $webhook_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -171,14 +171,14 @@ class Webhooks extends EA_Controller
                 'actions',
                 'secret_token',
                 'is_ssl_verified',
-                'notes'
+                'notes',
             ]);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
                 'success' => true,
-                'id' => $webhook_id
+                'id' => $webhook_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -200,7 +200,7 @@ class Webhooks extends EA_Controller
             $this->webhooks_model->delete($webhook_id);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

@@ -56,13 +56,13 @@ class Matomo_analytics_settings extends EA_Controller
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'matomo_analytics_settings' => $this->settings_model->get('name like "matomo_analytics_%"')
+            'matomo_analytics_settings' => $this->settings_model->get('name like "matomo_analytics_%"'),
         ]);
 
         html_vars([
             'page_title' => lang('matomo_analytics'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
-            'user_display_name' => $this->accounts->get_user_display_name($user_id)
+            'user_display_name' => $this->accounts->get_user_display_name($user_id),
         ]);
 
         $this->load->view('pages/matomo_analytics_settings');

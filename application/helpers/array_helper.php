@@ -68,7 +68,7 @@ if (!function_exists('array_fields')) {
             function ($field) use ($fields) {
                 return in_array($field, $fields);
             },
-            ARRAY_FILTER_USE_KEY
+            ARRAY_FILTER_USE_KEY,
         );
     }
 }

@@ -31,9 +31,9 @@ window.App.Utils.Lang = (function () {
                 $('<li/>', {
                     'class': 'language',
                     'data-language': availableLanguage,
-                    'text': App.Utils.String.upperCaseFirstLetter(availableLanguage)
-                })
-            )
+                    'text': App.Utils.String.upperCaseFirstLetter(availableLanguage),
+                }),
+            ),
         });
 
         $target.popover({
@@ -42,7 +42,7 @@ window.App.Utils.Lang = (function () {
             content: $languageList[0],
             html: true,
             container: 'body',
-            trigger: 'manual'
+            trigger: 'manual',
         });
 
         $target.on('click', function (event) {
@@ -73,6 +73,6 @@ window.App.Utils.Lang = (function () {
     }
 
     return {
-        enableLanguageSelection
+        enableLanguageSelection,
     };
 })();

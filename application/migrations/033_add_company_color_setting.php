@@ -21,7 +21,7 @@ class Migration_Add_company_color_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'company_color'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'company_color',
-                'value' => '#ffffff'
+                'value' => '#ffffff',
             ]);
         }
     }

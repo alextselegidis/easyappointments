@@ -28,55 +28,55 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'book_datetime' => [
                 'type' => 'DATETIME',
-                'null' => true
+                'null' => true,
             ],
             'start_datetime' => [
                 'type' => 'DATETIME',
-                'null' => true
+                'null' => true,
             ],
             'end_datetime' => [
                 'type' => 'DATETIME',
-                'null' => true
+                'null' => true,
             ],
             'notes' => [
                 'type' => 'TEXT',
-                'null' => true
+                'null' => true,
             ],
             'hash' => [
                 'type' => 'TEXT',
-                'null' => true
+                'null' => true,
             ],
             'is_unavailability' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
-                'default' => '0'
+                'default' => '0',
             ],
             'id_users_provider' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'null' => true
+                'null' => true,
             ],
             'id_users_customer' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'null' => true
+                'null' => true,
             ],
             'id_services' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'null' => true
+                'null' => true,
             ],
             'id_google_calendar' => [
                 'type' => 'TEXT',
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('id_users_provider');
@@ -89,53 +89,53 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'slug' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'is_admin' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'appointments' => [
                 'type' => 'INT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'customers' => [
                 'type' => 'INT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'services' => [
                 'type' => 'INT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'users' => [
                 'type' => 'INT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'system_settings' => [
                 'type' => 'INT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'user_settings' => [
                 'type' => 'INT',
                 'constraint' => '4',
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]);
         $this->dbforge->add_key('id', true);
         $this->dbforge->create_table('roles', true, ['engine' => 'InnoDB']);
@@ -144,13 +144,13 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'id_users_secretary' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
-                'unsigned' => true
+                'unsigned' => true,
             ],
             'id_users_provider' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
-                'unsigned' => true
-            ]
+                'unsigned' => true,
+            ],
         ]);
         $this->dbforge->add_key('id_users_secretary', true);
         $this->dbforge->add_key('id_users_provider', true);
@@ -161,38 +161,38 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'duration' => [
                 'type' => 'INT',
                 'constraint' => '11',
-                'null' => true
+                'null' => true,
             ],
             'price' => [
                 'type' => 'DECIMAL',
                 'constraint' => '10,2',
-                'null' => true
+                'null' => true,
             ],
             'currency' => [
                 'type' => 'VARCHAR',
                 'constraint' => '32',
-                'null' => true
+                'null' => true,
             ],
             'description' => [
                 'type' => 'TEXT',
-                'null' => true
+                'null' => true,
             ],
             'id_service_categories' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('id_service_categories');
@@ -202,13 +202,13 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'id_users' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
-                'unsigned' => true
+                'unsigned' => true,
             ],
             'id_services' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
-                'unsigned' => true
-            ]
+                'unsigned' => true,
+            ],
         ]);
         $this->dbforge->add_key('id_users', true);
         $this->dbforge->add_key('id_services', true);
@@ -219,17 +219,17 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'description' => [
                 'type' => 'TEXT',
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('id_service_categories');
@@ -240,17 +240,17 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '512',
-                'null' => true
+                'null' => true,
             ],
             'value' => [
                 'type' => 'LONGTEXT',
-                'null' => true
-            ]
+                'null' => true,
+            ],
         ]);
         $this->dbforge->add_key('id', true);
         $this->dbforge->create_table('settings', true, ['engine' => 'InnoDB']);
@@ -260,62 +260,62 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 'type' => 'BIGINT',
                 'constraint' => '20',
                 'unsigned' => true,
-                'auto_increment' => true
+                'auto_increment' => true,
             ],
             'first_name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'last_name' => [
                 'type' => 'VARCHAR',
                 'constraint' => '512',
-                'null' => true
+                'null' => true,
             ],
             'email' => [
                 'type' => 'VARCHAR',
                 'constraint' => '512',
-                'null' => true
+                'null' => true,
             ],
             'mobile_number' => [
                 'type' => 'VARCHAR',
                 'constraint' => '128',
-                'null' => true
+                'null' => true,
             ],
             'phone_number' => [
                 'type' => 'VARCHAR',
                 'constraint' => '128',
-                'null' => true
+                'null' => true,
             ],
             'address' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'city' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'state' => [
                 'type' => 'VARCHAR',
                 'constraint' => '128',
-                'null' => true
+                'null' => true,
             ],
             'zip_code' => [
                 'type' => 'VARCHAR',
                 'constraint' => '64',
-                'null' => true
+                'null' => true,
             ],
             'notes' => [
                 'type' => 'TEXT',
-                'null' => true
+                'null' => true,
             ],
             'id_roles' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
-                'unsigned' => true
-            ]
+                'unsigned' => true,
+            ],
         ]);
         $this->dbforge->add_key('id', true);
         $this->dbforge->add_key('id_roles');
@@ -325,58 +325,58 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'id_users' => [
                 'type' => 'BIGINT',
                 'constraint' => '20',
-                'unsigned' => true
+                'unsigned' => true,
             ],
             'username' => [
                 'type' => 'VARCHAR',
                 'constraint' => '256',
-                'null' => true
+                'null' => true,
             ],
             'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => '512',
-                'null' => true
+                'null' => true,
             ],
             'salt' => [
                 'type' => 'VARCHAR',
                 'constraint' => '512',
-                'null' => true
+                'null' => true,
             ],
             'working_plan' => [
                 'type' => 'TEXT',
-                'null' => true
+                'null' => true,
             ],
             'notifications' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'google_sync' => [
                 'type' => 'TINYINT',
                 'constraint' => '4',
-                'null' => true
+                'null' => true,
             ],
             'google_token' => [
                 'type' => 'TEXT',
-                'null' => true
+                'null' => true,
             ],
             'google_calendar' => [
                 'type' => 'VARCHAR',
                 'constraint' => '128',
-                'null' => true
+                'null' => true,
             ],
             'sync_past_days' => [
                 'type' => 'INT',
                 'constraint' => '11',
                 'null' => true,
-                'default' => '5'
+                'default' => '5',
             ],
             'sync_future_days' => [
                 'type' => 'INT',
                 'constraint' => '11',
                 'null' => true,
-                'default' => '5'
-            ]
+                'default' => '5',
+            ],
         ]);
         $this->dbforge->add_key('id_users', true);
         $this->dbforge->create_table('user_settings', true, ['engine' => 'InnoDB']);
@@ -401,7 +401,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 '_ibfk_4` FOREIGN KEY (`id_users_provider`) REFERENCES `' .
                 $this->db->dbprefix('users') .
                 '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-        '
+        ',
         );
 
         $this->db->query(
@@ -419,7 +419,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 '_2` FOREIGN KEY (`id_users_provider`) REFERENCES `' .
                 $this->db->dbprefix('users') .
                 '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-        '
+        ',
         );
 
         $this->db->query(
@@ -432,7 +432,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 '_ibfk_1` FOREIGN KEY (`id_service_categories`) REFERENCES `' .
                 $this->db->dbprefix('service_categories') .
                 '` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-        '
+        ',
         );
 
         $this->db->query(
@@ -450,7 +450,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 '_ibfk_2` FOREIGN KEY (`id_services`) REFERENCES `' .
                 $this->db->dbprefix('services') .
                 '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-        '
+        ',
         );
 
         $this->db->query(
@@ -463,7 +463,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 '_ibfk_1` FOREIGN KEY (`id_roles`) REFERENCES `' .
                 $this->db->dbprefix('roles') .
                 '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-        '
+        ',
         );
 
         $this->db->query(
@@ -477,7 +477,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 $this->db->dbprefix('users') .
                 '` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
-        '
+        ',
         );
 
         $this->db->insert('roles', [
@@ -489,7 +489,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'services' => 15,
             'users' => 15,
             'system_settings' => 15,
-            'user_settings' => 15
+            'user_settings' => 15,
         ]);
 
         $this->db->insert('roles', [
@@ -501,7 +501,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'services' => 0,
             'users' => 0,
             'system_settings' => 0,
-            'user_settings' => 15
+            'user_settings' => 15,
         ]);
 
         $this->db->insert('roles', [
@@ -513,7 +513,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'services' => 0,
             'users' => 0,
             'system_settings' => 0,
-            'user_settings' => 0
+            'user_settings' => 0,
         ]);
 
         $this->db->insert('roles', [
@@ -525,18 +525,18 @@ class Migration_Specific_calendar_sync extends EA_Migration
             'services' => 0,
             'users' => 0,
             'system_settings' => 0,
-            'user_settings' => 15
+            'user_settings' => 15,
         ]);
 
         $this->db->insert('settings', [
             'name' => 'company_working_plan',
             'value' =>
-                '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]}}'
+                '{"monday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"tuesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"wednesday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"thursday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"friday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"saturday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]},"sunday":{"start":"09:00","end":"18:00","breaks":[{"start":"14:30","end":"15:00"}]}}',
         ]);
 
         $this->db->insert('settings', [
             'name' => 'book_advance_timeout',
-            'value' => '30'
+            'value' => '30',
         ]);
     }
 
@@ -550,70 +550,70 @@ class Migration_Specific_calendar_sync extends EA_Migration
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_2`'
+                '_ibfk_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_3`'
+                '_ibfk_3`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('appointments') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('appointments') .
-                '_ibfk_4`'
+                '_ibfk_4`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('secretaries_providers') .
                 '` DROP FOREIGN KEY `fk_' .
                 $this->db->dbprefix('secretaries_providers') .
-                '_1`'
+                '_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('secretaries_providers') .
                 '` DROP FOREIGN KEY `fk_' .
                 $this->db->dbprefix('secretaries_providers') .
-                '_2`'
+                '_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services_providers') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services_providers') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services_providers') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services_providers') .
-                '_ibfk_2`'
+                '_ibfk_2`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('services') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('services') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('users') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('users') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
         $this->db->query(
             'ALTER TABLE `' .
                 $this->db->dbprefix('user_settings') .
                 '` DROP FOREIGN KEY `' .
                 $this->db->dbprefix('user_settings') .
-                '_ibfk_1`'
+                '_ibfk_1`',
         );
 
         $this->dbforge->drop_table('appointments');

@@ -32,6 +32,6 @@ window.App.Utils.File = (function () {
     }
 
     return {
-        toBase64
+        toBase64,
     };
 })();

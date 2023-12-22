@@ -38,7 +38,7 @@ App.Http.Providers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            provider: provider
+            provider: provider,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Providers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            provider: provider
+            provider: provider,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Providers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            provider_id: providerId
+            provider_id: providerId,
         };
 
         return $.post(url, data);
@@ -90,7 +90,7 @@ App.Http.Providers = (function () {
      *
      * @return {Object}
      */
-        function search(keyword, limit = null, offset = null, orderBy = null) {
+    function search(keyword, limit = null, offset = null, orderBy = null) {
         const url = App.Utils.Url.siteUrl('providers/search');
 
         const data = {
@@ -98,7 +98,7 @@ App.Http.Providers = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Providers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            provider_id: providerId
+            provider_id: providerId,
         };
 
         return $.post(url, data);
@@ -128,6 +128,6 @@ App.Http.Providers = (function () {
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

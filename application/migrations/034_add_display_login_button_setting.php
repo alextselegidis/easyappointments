@@ -21,7 +21,7 @@ class Migration_Add_display_login_button_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'display_login_button'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'display_login_button',
-                'value' => '1'
+                'value' => '1',
             ]);
         }
     }

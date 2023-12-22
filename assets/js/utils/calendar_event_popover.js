@@ -54,11 +54,11 @@ App.Utils.CalendarEventPopover = (function () {
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'fas fa-map-marker-alt'
-                        })
-                    ]
-                })
-            ]
+                            'class': 'fas fa-map-marker-alt',
+                        }),
+                    ],
+                }),
+            ],
         }).html();
     }
 
@@ -83,11 +83,11 @@ App.Utils.CalendarEventPopover = (function () {
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'fas fa-envelope'
-                        })
-                    ]
-                })
-            ]
+                            'class': 'fas fa-envelope',
+                        }),
+                    ],
+                }),
+            ],
         }).html();
     }
 
@@ -112,17 +112,17 @@ App.Utils.CalendarEventPopover = (function () {
                     'target': '_blank',
                     'html': [
                         $('<span/>', {
-                            'class': 'fas fa-phone-alt'
-                        })
-                    ]
-                })
-            ]
+                            'class': 'fas fa-phone-alt',
+                        }),
+                    ],
+                }),
+            ],
         }).html();
     }
 
     return {
         renderPhoneIcon,
         renderMapIcon,
-        renderMailIcon
+        renderMailIcon,
     };
 })();

@@ -27,13 +27,13 @@ App.Http.ApiSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            api_settings: apiSettings
+            api_settings: apiSettings,
         };
 
         return $.post(url, data);
     }
 
     return {
-        save
+        save,
     };
 })();

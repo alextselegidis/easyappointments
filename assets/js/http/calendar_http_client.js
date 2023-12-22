@@ -35,7 +35,7 @@ App.Http.Calendar = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            appointment_data: appointment
+            appointment_data: appointment,
         };
 
         if (customer) {
@@ -69,7 +69,7 @@ App.Http.Calendar = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             appointment_id: appointmentId,
-            cancellation_reason: cancellationReason
+            cancellation_reason: cancellationReason,
         };
 
         return $.post(url, data);
@@ -89,7 +89,7 @@ App.Http.Calendar = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailability: unavailability
+            unavailability: unavailability,
         };
 
         return $.post(url, data)
@@ -117,7 +117,7 @@ App.Http.Calendar = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailability_id: unavailabilityId
+            unavailability_id: unavailabilityId,
         };
 
         return $.post(url, data);
@@ -141,7 +141,7 @@ App.Http.Calendar = (function () {
             csrf_token: vars('csrf_token'),
             date: date,
             working_plan_exception: workingPlanException,
-            provider_id: providerId
+            provider_id: providerId,
         };
 
         return $.post(url, data)
@@ -173,7 +173,7 @@ App.Http.Calendar = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             date: date,
-            provider_id: providerId
+            provider_id: providerId,
         };
 
         return $.post(url, data)
@@ -207,7 +207,7 @@ App.Http.Calendar = (function () {
             record_id: recordId,
             start_date: moment(startDate).format('YYYY-MM-DD'),
             end_date: moment(endDate).format('YYYY-MM-DD'),
-            filter_type: filterType
+            filter_type: filterType,
         };
 
         return $.post(url, data);
@@ -227,7 +227,7 @@ App.Http.Calendar = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             start_date: moment(startDate).format('YYYY-MM-DD'),
-            end_date: moment(endDate).format('YYYY-MM-DD')
+            end_date: moment(endDate).format('YYYY-MM-DD'),
         };
 
         return $.post(url, data);
@@ -241,6 +241,6 @@ App.Http.Calendar = (function () {
         saveWorkingPlanException,
         deleteWorkingPlanException,
         getCalendarAppointments,
-        getCalendarAppointmentsForTableView
+        getCalendarAppointmentsForTableView,
     };
 })();

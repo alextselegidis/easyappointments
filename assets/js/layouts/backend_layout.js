@@ -115,6 +115,6 @@ window.App.Layouts.Backend = (function () {
         PRIV_USERS,
         PRIV_SYSTEM_SETTINGS,
         PRIV_USER_SETTINGS,
-        displayNotification
+        displayNotification,
     };
 })();

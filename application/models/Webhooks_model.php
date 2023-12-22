@@ -26,7 +26,7 @@ class Webhooks_model extends EA_Model
     protected array $casts = [
         'id' => 'integer',
         'is_active' => 'boolean',
-        'is_ssl_verified' => 'boolean'
+        'is_ssl_verified' => 'boolean',
     ];
 
     /**
@@ -40,7 +40,7 @@ class Webhooks_model extends EA_Model
         'secretToken' => 'secret_token',
         'isActive' => 'is_active',
         'isSslVerified' => 'is_ssl_verified',
-        'notes' => 'notes'
+        'notes' => 'notes',
     ];
 
     /**
@@ -246,7 +246,7 @@ class Webhooks_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);

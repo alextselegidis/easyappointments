@@ -21,7 +21,7 @@ class Migration_Add_theme_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'theme'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'theme',
-                'value' => 'default'
+                'value' => 'default',
             ]);
         }
     }

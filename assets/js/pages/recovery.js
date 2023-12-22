@@ -50,7 +50,7 @@ App.Pages.Recovery = (function () {
                 $alert.addClass('alert-danger');
                 $alert.text(
                     'The operation failed! Please enter a valid username ' +
-                        'and email address in order to get a new password.'
+                        'and email address in order to get a new password.',
                 );
             }
         });

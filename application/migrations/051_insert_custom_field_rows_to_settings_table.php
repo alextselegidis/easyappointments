@@ -21,7 +21,7 @@ class Migration_Insert_custom_field_rows_to_settings_table extends EA_Migration
     private const SETTINGS = [
         'display' => '0',
         'require' => '0',
-        'label' => ''
+        'label' => '',
     ];
 
     /**
@@ -38,7 +38,7 @@ class Migration_Insert_custom_field_rows_to_settings_table extends EA_Migration
                 if (!$this->db->get_where('settings', ['name' => $setting_name])->num_rows()) {
                     $this->db->insert('settings', [
                         'name' => $setting_name,
-                        'value' => $default_value
+                        'value' => $default_value,
                     ]);
                 }
             }

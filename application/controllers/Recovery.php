@@ -41,7 +41,7 @@ class Recovery extends EA_Controller
         html_vars([
             'page_title' => lang('forgot_your_password'),
             'dest_url' => session('dest_url', site_url('backend')),
-            'company_name' => $company_name
+            'company_name' => $company_name,
         ]);
 
         $this->load->view('pages/recovery');
@@ -71,14 +71,14 @@ class Recovery extends EA_Controller
                 $settings = [
                     'company_name' => setting('company_name'),
                     'company_link' => setting('company_link'),
-                    'company_email' => setting('company_email')
+                    'company_email' => setting('company_email'),
                 ];
 
                 $this->email_messages->send_password($new_password, $email, $settings);
             }
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

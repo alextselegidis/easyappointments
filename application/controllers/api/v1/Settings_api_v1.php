@@ -78,7 +78,7 @@ class Settings_api_v1 extends EA_Controller
 
             json_response([
                 'name' => $name,
-                'value' => $value
+                'value' => $value,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -99,7 +99,7 @@ class Settings_api_v1 extends EA_Controller
 
             json_response([
                 'name' => $name,
-                'value' => $value
+                'value' => $value,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

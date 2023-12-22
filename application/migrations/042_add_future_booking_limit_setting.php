@@ -27,7 +27,7 @@ class Migration_Add_future_booking_limit_setting extends CI_Migration
         if (!$this->db->get_where('settings', ['name' => 'future_booking_limit'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'future_booking_limit',
-                'value' => '90' // days
+                'value' => '90', // days
             ]);
         }
     }

@@ -150,15 +150,15 @@ class Appointments_api_v1 extends EA_Controller
         if ($aggregates) {
             $appointment['service'] = $this->services_model->find(
                 $appointment['id_services'] ?? ($appointment['serviceId'] ?? null),
-                true
+                true,
             );
             $appointment['provider'] = $this->providers_model->find(
                 $appointment['id_users_provider'] ?? ($appointment['providerId'] ?? null),
-                true
+                true,
             );
             $appointment['customer'] = $this->customers_model->find(
                 $appointment['id_users_customer'] ?? ($appointment['customerId'] ?? null),
-                true
+                true,
             );
             $this->services_model->api_encode($appointment['service']);
             $this->providers_model->api_encode($appointment['provider']);
@@ -275,7 +275,7 @@ class Appointments_api_v1 extends EA_Controller
             'company_email' => setting('company_email'),
             'company_link' => setting('company_link'),
             'date_format' => setting('date_format'),
-            'time_format' => setting('time_format')
+            'time_format' => setting('time_format'),
         ];
 
         $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
@@ -286,7 +286,7 @@ class Appointments_api_v1 extends EA_Controller
             $provider,
             $customer,
             $settings,
-            $manage_mode
+            $manage_mode,
         );
     }
 
@@ -355,7 +355,7 @@ class Appointments_api_v1 extends EA_Controller
                 'company_email' => setting('company_email'),
                 'company_link' => setting('company_link'),
                 'date_format' => setting('date_format'),
-                'time_format' => setting('time_format')
+                'time_format' => setting('time_format'),
             ];
 
             $this->appointments_model->delete($id);
@@ -367,7 +367,7 @@ class Appointments_api_v1 extends EA_Controller
                 $service,
                 $provider,
                 $customer,
-                $settings
+                $settings,
             );
 
             response('', 204);

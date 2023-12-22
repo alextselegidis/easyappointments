@@ -31,7 +31,7 @@ class Login extends EA_Controller
         $this->load->library('email_messages');
 
         script_vars([
-            'dest_url' => session('dest_url', site_url('calendar'))
+            'dest_url' => session('dest_url', site_url('calendar')),
         ]);
     }
 
@@ -44,7 +44,7 @@ class Login extends EA_Controller
             'page_title' => lang('login'),
             'base_url' => config('base_url'),
             'dest_url' => session('dest_url', site_url('calendar')),
-            'company_name' => setting('company_name')
+            'company_name' => setting('company_name'),
         ]);
 
         $this->load->view('pages/login');
@@ -79,7 +79,7 @@ class Login extends EA_Controller
             session($user_data); // Save data in the session.
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

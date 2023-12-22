@@ -25,7 +25,7 @@ class Admins_model extends EA_Model
      */
     protected array $casts = [
         'id' => 'integer',
-        'id_roles' => 'integer'
+        'id_roles' => 'integer',
     ];
 
     /**
@@ -45,7 +45,7 @@ class Admins_model extends EA_Model
         'timezone' => 'timezone',
         'language' => 'language',
         'notes' => 'notes',
-        'roleId' => 'id_roles'
+        'roleId' => 'id_roles',
     ];
 
     /**
@@ -84,7 +84,7 @@ class Admins_model extends EA_Model
 
             if (!$count) {
                 throw new InvalidArgumentException(
-                    'The provided admin ID does not exist in the database: ' . $admin['id']
+                    'The provided admin ID does not exist in the database: ' . $admin['id'],
                 );
             }
         }
@@ -110,7 +110,7 @@ class Admins_model extends EA_Model
 
             if (!$this->validate_username($admin['settings']['username'], $admin_id)) {
                 throw new InvalidArgumentException(
-                    'The provided username is already in use, please use a different one.'
+                    'The provided username is already in use, please use a different one.',
                 );
             }
         }
@@ -119,7 +119,7 @@ class Admins_model extends EA_Model
         if (!empty($admin['settings']['password'])) {
             if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH) {
                 throw new InvalidArgumentException(
-                    'The admin password must be at least ' . MIN_PASSWORD_LENGTH . ' characters long.'
+                    'The admin password must be at least ' . MIN_PASSWORD_LENGTH . ' characters long.',
                 );
             }
         }
@@ -135,7 +135,7 @@ class Admins_model extends EA_Model
             !in_array($admin['settings']['calendar_view'], [CALENDAR_VIEW_DEFAULT, CALENDAR_VIEW_TABLE])
         ) {
             throw new InvalidArgumentException(
-                'The provided calendar view is invalid: ' . $admin['settings']['calendar_view']
+                'The provided calendar view is invalid: ' . $admin['settings']['calendar_view'],
             );
         }
 
@@ -154,7 +154,7 @@ class Admins_model extends EA_Model
 
         if ($count > 0) {
             throw new InvalidArgumentException(
-                'The provided email address is already in use, please use a different one.'
+                'The provided email address is already in use, please use a different one.',
             );
         }
     }
@@ -195,7 +195,7 @@ class Admins_model extends EA_Model
         array|string $where = null,
         int $limit = null,
         int $offset = null,
-        string $order_by = null
+        string $order_by = null,
     ): array {
         $role_id = $this->get_admin_role_id();
 
@@ -548,8 +548,8 @@ class Admins_model extends EA_Model
             'settings' => [
                 'username' => $admin['settings']['username'],
                 'notifications' => filter_var($admin['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
-                'calendarView' => $admin['settings']['calendar_view']
-            ]
+                'calendarView' => $admin['settings']['calendar_view'],
+            ],
         ];
 
         $admin = $encoded_resource;
@@ -629,7 +629,7 @@ class Admins_model extends EA_Model
             if (array_key_exists('notifications', $admin['settings'])) {
                 $decoded_resource['settings']['notifications'] = filter_var(
                     $admin['settings']['notifications'],
-                    FILTER_VALIDATE_BOOLEAN
+                    FILTER_VALIDATE_BOOLEAN,
                 );
             }
 

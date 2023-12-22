@@ -59,7 +59,7 @@ class EA_Loader extends CI_Loader
         $result = $this->_ci_load([
             '_ci_view' => $view,
             '_ci_vars' => $this->_ci_prepare_view_vars($vars),
-            '_ci_return' => $return
+            '_ci_return' => $return,
         ]);
 
         $layout = config('layout');
@@ -68,7 +68,7 @@ class EA_Loader extends CI_Loader
             $result = $this->_ci_load([
                 '_ci_view' => $layout['filename'],
                 '_ci_vars' => $this->_ci_prepare_view_vars($vars),
-                '_ci_return' => $return
+                '_ci_return' => $return,
             ]);
         }
 

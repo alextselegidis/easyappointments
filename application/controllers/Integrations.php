@@ -66,7 +66,7 @@ class Integrations extends EA_Controller
             'page_title' => lang('integrations'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
-            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug)
+            'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
         ]);
 
         $this->load->view('pages/integrations');

@@ -67,13 +67,13 @@ class Business_settings extends EA_Controller
             'role_slug' => $role_slug,
             'business_settings' => $this->settings_model->get(),
             'first_weekday' => setting('first_weekday'),
-            'time_format' => setting('time_format')
+            'time_format' => setting('time_format'),
         ]);
 
         html_vars([
             'page_title' => lang('settings'),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
-            'user_display_name' => $this->accounts->get_user_display_name($user_id)
+            'user_display_name' => $this->accounts->get_user_display_name($user_id),
         ]);
 
         $this->load->view('pages/business_settings');

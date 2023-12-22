@@ -38,7 +38,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer: customer
+            customer: customer,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer: customer
+            customer: customer,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer_id: customerId
+            customer_id: customerId,
         };
 
         return $.post(url, data);
@@ -98,7 +98,7 @@ App.Http.Customers = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer_id: customerId
+            customer_id: customerId,
         };
 
         return $.post(url, data);
@@ -128,6 +128,6 @@ App.Http.Customers = (function () {
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

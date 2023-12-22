@@ -91,7 +91,7 @@
                         <?php endif; ?>
 
                         <h5 class="text-black-50 mb-3 fw-light"><?= lang(
-                            'allow_rescheduling_cancellation_before'
+                            'allow_rescheduling_cancellation_before',
                         ) ?></h5>
 
                         <div class="mb-5">
@@ -133,7 +133,7 @@
                         </p>
 
                         <?php component('appointment_status_options', [
-                            'attributes' => 'id="appointment-status-options"'
+                            'attributes' => 'id="appointment-status-options"',
                         ]); ?>
                     </fieldset>
                 </form>

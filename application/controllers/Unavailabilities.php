@@ -84,7 +84,7 @@ class Unavailabilities extends EA_Controller
                 'zip_code',
                 'notes',
                 'timezone',
-                'language'
+                'language',
             ]);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
@@ -99,7 +99,7 @@ class Unavailabilities extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $unavailability_id
+                'id' => $unavailability_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -150,7 +150,7 @@ class Unavailabilities extends EA_Controller
 
             json_response([
                 'success' => true,
-                'id' => $unavailability_id
+                'id' => $unavailability_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -176,7 +176,7 @@ class Unavailabilities extends EA_Controller
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 
             json_response([
-                'success' => true
+                'success' => true,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
