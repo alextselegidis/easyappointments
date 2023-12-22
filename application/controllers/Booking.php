@@ -290,6 +290,12 @@ class Booking extends EA_Controller
     public function register()
     {
         try {
+            $disable_booking = setting('disable_booking');
+
+            if ($disable_booking) {
+                abort(403);
+            }
+
             $post_data = request('post_data');
             $captcha = request('captcha');
             $appointment = $post_data['appointment'];
@@ -574,6 +580,12 @@ class Booking extends EA_Controller
     public function get_available_hours()
     {
         try {
+            $disable_booking = setting('disable_booking');
+
+            if ($disable_booking) {
+                abort(403);
+            }
+
             $provider_id = request('provider_id');
             $service_id = request('service_id');
             $selected_date = request('selected_date');
@@ -650,6 +662,12 @@ class Booking extends EA_Controller
     public function get_unavailable_dates()
     {
         try {
+            $disable_booking = setting('disable_booking');
+
+            if ($disable_booking) {
+                abort(403);
+            }
+
             $provider_id = request('provider_id');
             $service_id = request('service_id');
             $appointment_id = request('appointment_id');

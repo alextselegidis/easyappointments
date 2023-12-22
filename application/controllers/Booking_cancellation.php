@@ -49,6 +49,12 @@ class Booking_cancellation extends EA_Controller
     public function of(string $appointment_hash)
     {
         try {
+            $disable_booking = setting('disable_booking');
+
+            if ($disable_booking) {
+                abort(403);
+            }
+
             $cancellation_reason = request('cancellation_reason');
 
             if ($this->input->method() !== 'post' || empty($cancellation_reason)) {
