@@ -30,7 +30,7 @@
                     <p>
                         You can now use the latest Easy!Appointments version.
                     </p>
-                    <a href="<?= site_url('login') ?>" class="btn btn-success btn-large">
+                    <a href="<?= site_url('about') ?>" class="btn btn-success btn-large">
                         <i class="fas fa-wrench me-2"></i>
                         <?= lang('backend_section') ?>
                     </a>
