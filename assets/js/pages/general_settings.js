@@ -70,7 +70,11 @@ App.Pages.GeneralSettings = (function () {
                 $resetCompanyColor.prop('hidden', false);
             }
 
-            $('[data-field="' + generalSetting.name + '"]').val(generalSetting.value);
+            const $field = $('[data-field="' + generalSetting.name + '"]');
+
+            $field.is(':checkbox')
+                ? $field.prop('checked', Boolean(Number(generalSetting.value)))
+                : $field.val(generalSetting.value);
         });
     }
 
@@ -82,7 +86,7 @@ App.Pages.GeneralSettings = (function () {
 
             generalSettings.push({
                 name: $field.data('field'),
-                value: $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
             });
         });
 

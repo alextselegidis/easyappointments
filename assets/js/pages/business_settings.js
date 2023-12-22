@@ -17,7 +17,7 @@
 App.Pages.BusinessSettings = (function () {
     const $saveSettings = $('#save-settings');
     const $applyGlobalWorkingPlan = $('#apply-global-working-plan');
-    const $appointmentStatusOptions = $('#appointment-status-options')
+    const $appointmentStatusOptions = $('#appointment-status-options');
     let workingPlanManager = null;
 
     /**
@@ -55,7 +55,11 @@ App.Pages.BusinessSettings = (function () {
 
     function deserialize(businessSettings) {
         businessSettings.forEach((businessSetting) => {
-            $('[data-field="' + businessSetting.name + '"]').val(businessSetting.value);
+            const $field = $('[data-field="' + businessSetting.name + '"]');
+
+            $field.is(':checkbox')
+                ? $field.prop('checked', Boolean(Number(businessSetting.value)))
+                : $field.val(businessSetting.value);
         });
     }
 
@@ -67,7 +71,7 @@ App.Pages.BusinessSettings = (function () {
 
             businessSettings.push({
                 name: $field.data('field'),
-                value: $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
             });
         });
 
@@ -160,7 +164,7 @@ App.Pages.BusinessSettings = (function () {
         workingPlanManager.setup(companyWorkingPlan);
         workingPlanManager.timepickers(false);
         workingPlanManager.addEventListeners();
-        
+
         App.Components.AppointmentStatusOptions.setOptions($appointmentStatusOptions, appointmentStatusOptions);
 
         $saveSettings.on('click', onSaveSettingsClick);

@@ -52,7 +52,11 @@ App.Pages.ApiSettings = (function () {
 
     function deserialize(apiSettings) {
         apiSettings.forEach((apiSetting) => {
-            $('[data-field="' + apiSetting.name + '"]').val(apiSetting.value);
+            const $field = $('[data-field="' + apiSetting.name + '"]');
+
+            $field.is(':checkbox')
+                ? $field.prop('checked', Boolean(Number(apiSetting.value)))
+                : $field.val(apiSetting.value);
         });
     }
 
@@ -64,7 +68,7 @@ App.Pages.ApiSettings = (function () {
 
             apiSettings.push({
                 name: $field.data('field'),
-                value: $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val()
             });
         });
 
