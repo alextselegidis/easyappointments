@@ -63,7 +63,7 @@ class Notifications
         bool $manage_mode = false,
     ): void {
         try {
-            $current_language = config('english');
+            $current_language = config('language');
 
             $customer_link = site_url('booking/reschedule/' . $appointment['hash']);
 
