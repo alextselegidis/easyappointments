@@ -54,7 +54,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Availabilities'
+                type: array
+                items:
+                  type: string
         '401':
           description: Unauthorized
         '500':
@@ -131,7 +133,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppointmentCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppointmentRecord'
         '401':
           description: Unauthorized
         '500':
@@ -302,7 +306,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnavailabilityCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnavailabilityRecord'
         '401':
           description: Unauthorized
         '500':
@@ -470,7 +476,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomerCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerRecord'
         '401':
           description: Unauthorized
         '500':
@@ -641,7 +649,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
         '401':
           description: Unauthorized
         '500':
@@ -812,7 +822,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceCategoryCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '500':
@@ -983,7 +995,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1154,7 +1168,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProviderCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProviderRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1325,7 +1341,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecretaryCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecretaryRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1490,7 +1508,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SettingCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1606,7 +1626,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WebhookCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1821,10 +1843,6 @@ components:
         customerId: 5
         providerId: 2
         serviceId: 6
-    AppointmentCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/AppointmentRecord'
     UnavailabilityRecord:
       type: object
       properties:
@@ -1875,10 +1893,6 @@ components:
         location: Test Street 1A, 12345 Some State, Some Place
         notes: This is a test appointment.
         providerId: 2
-    UnavailabilityCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/UnavailabilityRecord'
     CustomerRecord:
       type: object
       properties:
@@ -1978,10 +1992,6 @@ components:
         customField4: Value4
         customField5: Value5
         notes: This is a test customer.
-    CustomerCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/CustomerRecord'
     ServiceRecord:
       type: object
       properties:
@@ -2048,10 +2058,6 @@ components:
         availabilitiesType: flexible
         attendantsNumber: 1
         serviceCategoryId: null
-    ServiceCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceRecord'
     ServiceCategoryRecord:
       type: object
       properties:
@@ -2075,10 +2081,6 @@ components:
       example:
         name: Test Category
         description: This is a test category.
-    ServiceCategoryCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceCategoryRecord'
     AdminRecord:
       type: object
       properties:
@@ -2187,10 +2189,6 @@ components:
           password: Password@123
           notifications: true
           calendarView: default
-    AdminCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/AdminRecord'
     ProviderRecord:
       type: object
       properties:
@@ -2391,10 +2389,6 @@ components:
               end: '17:00'
               breaks: [ ]
             saturday: null
-    ProviderCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProviderRecord'
     SecretaryRecord:
       type: object
       properties:
@@ -2516,10 +2510,6 @@ components:
           password: Password@123
           notifications: true
           calendarView: default
-    SecretaryCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/SecretaryRecord'
     SettingRecord:
       type: object
       properties:
@@ -2537,10 +2527,6 @@ components:
           type: string
       example:
         value: ACME Inc
-    SettingCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/SettingRecord'
     WebhookRecord:
       type: object
       properties:
@@ -2588,10 +2574,6 @@ components:
         secretToken: SecureSecretTokenHere
         isSslVerified: true
         notes: This is a webhook.
-    WebhookCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/WebhookRecord'
     ErrorResponse:
       type: object
       properties:
