@@ -449,4 +449,7 @@ $lang['blocked_periods_hint'] = 'Define periods of time where public bookings wi
 $lang['custom_field'] = 'Custom Field';
 $lang['custom_fields'] = 'Custom Fields';
 $lang['label'] = 'Label';
+$lang['webhook_saved'] = 'Webhook saved successfully.';
+$lang['webhook_deleted'] = 'Webhook deleted successfully.';
+$lang['delete_webhook'] = 'Delete Webhook';
 // End
