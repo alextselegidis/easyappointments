@@ -80,6 +80,14 @@ class Customers_api_v1 extends EA_Controller
     public function show(int $id = null): void
     {
         try {
+            $occurrences = $this->customers_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $customer = $this->customers_model->find($id);
@@ -88,12 +96,6 @@ class Customers_api_v1 extends EA_Controller
 
             if (!empty($fields)) {
                 $this->customers_model->only($customer, $fields);
-            }
-
-            if (!$customer) {
-                response('', 404);
-
-                return;
             }
 
             json_response($customer);

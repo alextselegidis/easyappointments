@@ -174,6 +174,14 @@ class Appointments_api_v1 extends EA_Controller
     public function show(int $id = null): void
     {
         try {
+            $occurrences = $this->appointments_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $with = $this->api->request_with();
@@ -188,12 +196,6 @@ class Appointments_api_v1 extends EA_Controller
 
             if (!empty($with)) {
                 $this->appointments_model->load($appointment, $with);
-            }
-
-            if (!$appointment) {
-                response('Not Found', 404);
-
-                return;
             }
 
             json_response($appointment);

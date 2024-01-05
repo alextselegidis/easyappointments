@@ -80,6 +80,14 @@ class Providers_api_v1 extends EA_Controller
     public function show(int $id = null): void
     {
         try {
+            $occurrences = $this->providers_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $with = $this->api->request_with();
@@ -94,12 +102,6 @@ class Providers_api_v1 extends EA_Controller
 
             if (!empty($with)) {
                 $this->providers_model->load($provider, $with);
-            }
-
-            if (!$provider) {
-                response('', 404);
-
-                return;
             }
 
             json_response($provider);

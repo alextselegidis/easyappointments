@@ -80,6 +80,14 @@ class Services_api_v1 extends EA_Controller
     public function show(int $id = null): void
     {
         try {
+            $occurrences = $this->services_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $with = $this->api->request_with();
@@ -94,12 +102,6 @@ class Services_api_v1 extends EA_Controller
 
             if (!empty($with)) {
                 $this->services_model->load($service, $with);
-            }
-
-            if (!$service) {
-                response('', 404);
-
-                return;
             }
 
             json_response($service);

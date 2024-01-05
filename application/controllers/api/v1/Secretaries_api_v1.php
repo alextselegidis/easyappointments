@@ -80,6 +80,14 @@ class Secretaries_api_v1 extends EA_Controller
     public function show(int $id = null): void
     {
         try {
+            $occurrences = $this->secretaries_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $secretary = $this->secretaries_model->find($id);
@@ -88,12 +96,6 @@ class Secretaries_api_v1 extends EA_Controller
 
             if (!empty($fields)) {
                 $this->secretaries_model->only($secretary, $fields);
-            }
-
-            if (!$secretary) {
-                response('', 404);
-
-                return;
             }
 
             json_response($secretary);
