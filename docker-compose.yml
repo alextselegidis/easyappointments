@@ -46,7 +46,7 @@ services:
 
   swagger-ui:
     platform: linux/amd64
-    image: swaggerapi/swagger-ui
+    image: swaggerapi/swagger-ui:v5.10.5
     ports:
       - "8000:8080"
     volumes:
