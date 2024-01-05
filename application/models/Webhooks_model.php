@@ -277,4 +277,65 @@ class Webhooks_model extends EA_Model
     {
         // Webhooks do not currently have any related resources.
     }
+
+    /**
+     * Convert the database webhook record to the equivalent API resource.
+     *
+     * @param array $webhook Webhook data.
+     */
+    public function api_encode(array &$webhook): void
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $webhook) ? (int) $webhook['id'] : null,
+            'name' => $webhook['name'],
+            'url' => $webhook['url'],
+            'actions' => $webhook['actions'],
+            'secret_token' => $webhook['secret_token'],
+            'is_ssl_verified' => $webhook['is_ssl_verified'],
+            'notes' => $webhook['notes'],
+        ];
+
+        $webhook = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database webhook record.
+     *
+     * @param array $webhook API resource.
+     * @param array|null $base Base webhook data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$webhook, array $base = null)
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $webhook)) {
+            $decoded_resource['id'] = $webhook['id'];
+        }
+
+        if (array_key_exists('name', $webhook)) {
+            $decoded_resource['name'] = $webhook['name'];
+        }
+
+        if (array_key_exists('url', $webhook)) {
+            $decoded_resource['url'] = $webhook['url'];
+        }
+
+        if (array_key_exists('actions', $webhook)) {
+            $decoded_resource['actions'] = $webhook['actions'];
+        }
+
+        if (array_key_exists('secretToken', $webhook)) {
+            $decoded_resource['secret_token'] = $webhook['secretToken'];
+        }
+
+        if (array_key_exists('isSslVerified', $webhook)) {
+            $decoded_resource['is_ssl_verified'] = $webhook['isSslVerified'];
+        }
+
+        if (array_key_exists('notes', $webhook)) {
+            $decoded_resource['notes'] = $webhook['notes'];
+        }
+
+        $webhook = $decoded_resource;
+    }
 }
