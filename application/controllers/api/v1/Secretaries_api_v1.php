@@ -35,7 +35,7 @@ class Secretaries_api_v1 extends EA_Controller
     /**
      * Get a secretary collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -77,7 +77,7 @@ class Secretaries_api_v1 extends EA_Controller
      *
      * @param int|null $id Secretary ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -105,7 +105,7 @@ class Secretaries_api_v1 extends EA_Controller
     /**
      * Store a new secretary.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $secretary = request();
@@ -141,7 +141,7 @@ class Secretaries_api_v1 extends EA_Controller
      *
      * @param int $id Secretary ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->secretaries_model->get(['id' => $id]);
@@ -175,7 +175,7 @@ class Secretaries_api_v1 extends EA_Controller
      *
      * @param int $id Secretary ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->secretaries_model->get(['id' => $id]);

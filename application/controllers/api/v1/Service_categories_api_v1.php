@@ -35,7 +35,7 @@ class Service_categories_api_v1 extends EA_Controller
     /**
      * Get a service-category collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -77,7 +77,7 @@ class Service_categories_api_v1 extends EA_Controller
      *
      * @param int|null $id Service-category ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -111,7 +111,7 @@ class Service_categories_api_v1 extends EA_Controller
     /**
      * Store a new service-category.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $service_category = request();
@@ -139,7 +139,7 @@ class Service_categories_api_v1 extends EA_Controller
      *
      * @param int $id Service-category ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->service_categories_model->get(['id' => $id]);
@@ -173,7 +173,7 @@ class Service_categories_api_v1 extends EA_Controller
      *
      * @param int $id Service-category ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->service_categories_model->get(['id' => $id]);

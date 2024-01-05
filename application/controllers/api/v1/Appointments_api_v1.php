@@ -43,7 +43,7 @@ class Appointments_api_v1 extends EA_Controller
     /**
      * Get an appointment collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -143,7 +143,7 @@ class Appointments_api_v1 extends EA_Controller
      *
      * @deprecated Since 1.5
      */
-    private function aggregates(array &$appointment)
+    private function aggregates(array &$appointment): void
     {
         $aggregates = request('aggregates') !== null;
 
@@ -171,7 +171,7 @@ class Appointments_api_v1 extends EA_Controller
      *
      * @param int|null $id Appointment ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -205,7 +205,7 @@ class Appointments_api_v1 extends EA_Controller
     /**
      * Store a new appointment.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $appointment = request();
@@ -295,7 +295,7 @@ class Appointments_api_v1 extends EA_Controller
      *
      * @param int $id Appointment ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->appointments_model->get(['id' => $id]);
@@ -331,7 +331,7 @@ class Appointments_api_v1 extends EA_Controller
      *
      * @param int $id Appointment ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->appointments_model->get(['id' => $id]);

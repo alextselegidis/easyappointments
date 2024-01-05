@@ -35,7 +35,7 @@ class Webhooks_api_v1 extends EA_Controller
     /**
      * Get a webhook collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -77,7 +77,7 @@ class Webhooks_api_v1 extends EA_Controller
      *
      * @param int|null $id Webhook ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -111,7 +111,7 @@ class Webhooks_api_v1 extends EA_Controller
     /**
      * Store a new webhook.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $webhook = request();
@@ -139,7 +139,7 @@ class Webhooks_api_v1 extends EA_Controller
      *
      * @param int $id Webhook ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->webhooks_model->get(['id' => $id]);
@@ -173,7 +173,7 @@ class Webhooks_api_v1 extends EA_Controller
      *
      * @param int $id Webhook ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->webhooks_model->get(['id' => $id]);

@@ -35,7 +35,7 @@ class Customers_api_v1 extends EA_Controller
     /**
      * Get a customer collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -77,7 +77,7 @@ class Customers_api_v1 extends EA_Controller
      *
      * @param int|null $id Customer ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -105,7 +105,7 @@ class Customers_api_v1 extends EA_Controller
     /**
      * Store a new customer.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $customer = request();
@@ -133,7 +133,7 @@ class Customers_api_v1 extends EA_Controller
      *
      * @param int $id Customer ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->customers_model->get(['id' => $id]);
@@ -167,7 +167,7 @@ class Customers_api_v1 extends EA_Controller
      *
      * @param int $id Customer ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->customers_model->get(['id' => $id]);

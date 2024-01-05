@@ -54,7 +54,7 @@ class Availabilities_api_v1 extends EA_Controller
      *
      * If no date parameter is provided then the current date will be used.
      */
-    public function get()
+    public function get(): void
     {
         try {
             $provider_id = request('providerId');

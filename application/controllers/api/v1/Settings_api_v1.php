@@ -71,7 +71,7 @@ class Settings_api_v1 extends EA_Controller
      *
      * @param string $name Setting name.
      */
-    public function show(string $name)
+    public function show(string $name): void
     {
         try {
             $value = setting($name);
@@ -90,7 +90,7 @@ class Settings_api_v1 extends EA_Controller
      *
      * @param string $name Setting name.
      */
-    public function update(string $name)
+    public function update(string $name): void
     {
         try {
             $value = request('value');

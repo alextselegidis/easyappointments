@@ -35,7 +35,7 @@ class Unavailabilities_api_v1 extends EA_Controller
     /**
      * Get an unavailability collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -77,7 +77,7 @@ class Unavailabilities_api_v1 extends EA_Controller
      *
      * @param int|null $id Unavailability ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -111,7 +111,7 @@ class Unavailabilities_api_v1 extends EA_Controller
     /**
      * Store a new unavailability.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $unavailability = request();
@@ -139,7 +139,7 @@ class Unavailabilities_api_v1 extends EA_Controller
      *
      * @param int $id Unavailability ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->unavailabilities_model->get(['id' => $id]);
@@ -173,7 +173,7 @@ class Unavailabilities_api_v1 extends EA_Controller
      *
      * @param int $id Unavailability ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->unavailabilities_model->get(['id' => $id]);

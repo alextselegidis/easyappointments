@@ -35,7 +35,7 @@ class Providers_api_v1 extends EA_Controller
     /**
      * Get a provider collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();
@@ -77,7 +77,7 @@ class Providers_api_v1 extends EA_Controller
      *
      * @param int|null $id Provider ID.
      */
-    public function show(int $id = null)
+    public function show(int $id = null): void
     {
         try {
             $fields = $this->api->request_fields();
@@ -111,7 +111,7 @@ class Providers_api_v1 extends EA_Controller
     /**
      * Store a new provider.
      */
-    public function store()
+    public function store(): void
     {
         try {
             $provider = request();
@@ -151,7 +151,7 @@ class Providers_api_v1 extends EA_Controller
      *
      * @param int $id Provider ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
         try {
             $occurrences = $this->providers_model->get(['id' => $id]);
@@ -185,7 +185,7 @@ class Providers_api_v1 extends EA_Controller
      *
      * @param int $id Provider ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
         try {
             $occurrences = $this->providers_model->get(['id' => $id]);
