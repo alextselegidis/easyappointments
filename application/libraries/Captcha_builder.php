@@ -44,6 +44,10 @@ class Captcha_builder
     /**
      * @var array
      */
+    protected $background = null;
+    /**
+     * @var array
+     */
     protected $backgroundColor = null;
     /**
      * @var array
