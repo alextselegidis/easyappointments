@@ -123,9 +123,9 @@ App.Pages.BlockedPeriods = (function () {
          * Event: Blocked period Save Button "Click"
          */
         $blockedPeriods.on('click', '#save-blocked-period', () => {
-            const startDateTimeObject = App.Utils.UI.getDatetimepickerValue($startDateTime);
+            const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDateTime);
             const startDateTimeMoment = moment(startDateTimeObject);
-            const endDateTimeObject = App.Utils.UI.getDatetimepickerValue($endDateTime);
+            const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDateTime);
             const endDateTimeMoment = moment(endDateTimeObject);
 
             const blockedPeriod = {
@@ -235,8 +235,8 @@ App.Pages.BlockedPeriods = (function () {
     function display(blockedPeriod) {
         $id.val(blockedPeriod.id);
         $name.val(blockedPeriod.name);
-        App.Utils.UI.setDatetimepickerValue($startDateTime, new Date(blockedPeriod.start_datetime));
-        App.Utils.UI.setDatetimepickerValue($endDateTime, new Date(blockedPeriod.end_datetime));
+        App.Utils.UI.setDateTimePickerValue($startDateTime, new Date(blockedPeriod.start_datetime));
+        App.Utils.UI.setDateTimePickerValue($endDateTime, new Date(blockedPeriod.end_datetime));
         $notes.val(blockedPeriod.notes);
     }
 
@@ -263,8 +263,8 @@ App.Pages.BlockedPeriods = (function () {
                 throw new Error(lang('fields_are_required'));
             }
 
-            const startDateTimeObject = App.Utils.UI.getDatetimepickerValue($startDateTime);
-            const endDateTimeObject = App.Utils.UI.getDatetimepickerValue($endDateTime);
+            const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDateTime);
+            const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDateTime);
 
             if (startDateTimeObject >= endDateTimeObject) {
                 $startDateTime.addClass('is-invalid');
@@ -346,8 +346,8 @@ App.Pages.BlockedPeriods = (function () {
         resetForm();
         filter('');
         addEventListeners();
-        App.Utils.UI.initializeDatetimepicker($startDateTime);
-        App.Utils.UI.initializeDatetimepicker($endDateTime);
+        App.Utils.UI.initializeDateTimePicker($startDateTime);
+        App.Utils.UI.initializeDateTimePicker($endDateTime);
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

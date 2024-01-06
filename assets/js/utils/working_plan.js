@@ -480,7 +480,7 @@ App.Utils.WorkingPlan = (function () {
 
                 $tr.children().trigger('edit');
 
-                App.Utils.UI.initializeTimepicker($tr.find('.break-start input, .break-end input'));
+                App.Utils.UI.initializeTimePicker($tr.find('.break-start input, .break-end input'));
 
                 $tr.find('.break-day select').focus();
 
@@ -686,7 +686,7 @@ App.Utils.WorkingPlan = (function () {
             disabled = disabled || false;
 
             if (disabled === false) {
-                App.Utils.UI.initializeTimepicker($('.working-plan input:text'), {
+                App.Utils.UI.initializeTimePicker($('.working-plan input:text'), {
                     onChange: (selectedDates, dateStr, instance) => {
                         const startMoment = moment(selectedDates[0]);
 

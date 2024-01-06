@@ -380,7 +380,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         // Make all cells in current row editable.
         let $tr = $(this).closest('tr');
         $tr.children().trigger('edit');
-        App.Utils.UI.initializeTimepicker(
+        App.Utils.UI.initializeTimePicker(
             $tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input'),
         );
         $(this).closest('tr').find('.working-plan-exceptions-break-start').focus();
@@ -462,9 +462,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      * Initialize the module.
      */
     function initialize() {
-        App.Utils.UI.initializeDatepicker($date);
-        App.Utils.UI.initializeTimepicker($start);
-        App.Utils.UI.initializeTimepicker($end);
+        App.Utils.UI.initializeDatePicker($date);
+        App.Utils.UI.initializeTimePicker($start);
+        App.Utils.UI.initializeTimePicker($end);
 
         $modal
             .on('hidden.bs.modal', onModalHidden)

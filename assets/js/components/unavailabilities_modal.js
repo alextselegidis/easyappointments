@@ -183,11 +183,11 @@ App.Components.UnavailabilitiesModal = (function () {
             true,
         );
 
-        App.Utils.UI.initializeDatetimepicker($startDatetime);
+        App.Utils.UI.initializeDateTimePicker($startDatetime);
 
         $startDatetime.val(start);
 
-        App.Utils.UI.initializeDatetimepicker($endDatetime);
+        App.Utils.UI.initializeDateTimePicker($endDatetime);
 
         $endDatetime.val(end);
 

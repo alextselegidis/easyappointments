@@ -389,7 +389,7 @@ App.Utils.CalendarTableView = (function () {
             ],
         }).appendTo($calendarHeader);
 
-        App.Utils.UI.initializeDatepicker($calendarHeader.find('.select-date'), {
+        App.Utils.UI.initializeDatePicker($calendarHeader.find('.select-date'), {
             onChange(selectedDates) {
                 const startDate = selectedDates[0];
                 const endDate = moment(startDate)

@@ -148,7 +148,7 @@ window.App.Utils.UI = (function () {
      * @param {jQuery} $target
      * @param {Object} [params]
      */
-    function initializeDatetimepicker($target, params = {}) {
+    function initializeDateTimePicker($target, params = {}) {
         $target.flatpickr({
             enableTime: true,
             allowInput: true,
@@ -168,7 +168,7 @@ window.App.Utils.UI = (function () {
      * @param {jQuery} $target
      * @param {Object} [params]
      */
-    function initializeDatepicker($target, params = {}) {
+    function initializeDatePicker($target, params = {}) {
         $target.flatpickr({
             allowInput: true,
             dateFormat: getDateFormat(),
@@ -186,7 +186,7 @@ window.App.Utils.UI = (function () {
      * @param {jQuery} $target
      * @param {Object} [params]
      */
-    function initializeTimepicker($target, params = {}) {
+    function initializeTimePicker($target, params = {}) {
         $target.flatpickr({
             noCalendar: true,
             enableTime: true,
@@ -230,7 +230,7 @@ window.App.Utils.UI = (function () {
      *
      * @return {Date}
      */
-    function getDatetimepickerValue($target) {
+    function getDateTimePickerValue($target) {
         if (!$target?.length) {
             throw new Error('Empty $target argument provided.');
         }
@@ -244,7 +244,7 @@ window.App.Utils.UI = (function () {
      * @param {jQuery} $target
      * @param {Date} value
      */
-    function setDatetimepickerValue($target, value) {
+    function setDateTimePickerValue($target, value) {
         if (!$target?.length) {
             throw new Error('Empty $target argument provided.');
         }
@@ -253,12 +253,12 @@ window.App.Utils.UI = (function () {
     }
 
     return {
-        initializeDatetimepicker,
-        initializeDatepicker,
-        initializeTimepicker,
+        initializeDateTimePicker,
+        initializeDatePicker,
+        initializeTimePicker,
         initializeDropdown,
         initializeTextEditor,
-        getDatetimepickerValue,
-        setDatetimepickerValue,
+        getDateTimePickerValue,
+        setDateTimePickerValue,
     };
 })();

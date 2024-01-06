@@ -82,7 +82,7 @@ App.Pages.Booking = (function () {
         // Initialize page's components (tooltips, date pickers etc).
         tippy('[data-tippy-content]');
 
-        App.Utils.UI.initializeDatepicker($selectDate, {
+        App.Utils.UI.initializeDatePicker($selectDate, {
             inline: true,
             minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),

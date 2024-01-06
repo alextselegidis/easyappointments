@@ -481,7 +481,7 @@ App.Components.AppointmentsModal = (function () {
         const startDatetime = new Date();
         const endDatetime = moment().add(duration, 'minutes').toDate();
 
-        App.Utils.UI.initializeDatetimepicker($startDatetime, {
+        App.Utils.UI.initializeDateTimePicker($startDatetime, {
             onClose: () => {
                 const serviceId = $selectService.val();
 
@@ -497,7 +497,7 @@ App.Components.AppointmentsModal = (function () {
 
         $startDatetime[0]._flatpickr.setDate(startDatetime);
 
-        App.Utils.UI.initializeDatetimepicker($endDatetime);
+        App.Utils.UI.initializeDateTimePicker($endDatetime);
         $endDatetime[0]._flatpickr.setDate(endDatetime);
     }
 
