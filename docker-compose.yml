@@ -53,3 +53,11 @@ services:
       - ./openapi.yml:/usr/share/nginx/html/openapi.yml
     environment:
       API_URL: openapi.yml
+  
+  baikal:
+    image: ckulka/baikal:0.9.4-apache
+    ports:
+      - "9000:80"
+    volumes:
+      - ./docker/baikal:/var/www/baikal
+  
