@@ -185,7 +185,7 @@ body {
     margin: 15px 0;
     padding-right: 10px;
     width: auto;
-    max-height: 255px;
+    max-height: 250px;
 }
 
 #book-appointment-wizard #available-hours div {
@@ -271,6 +271,10 @@ body {
 
 .popover .popover-content #language-list .language {
     margin: 15px 0;
+}
+
+#book-appointment-wizard #wizard-frame-4 .frame-container .frame-content {
+    max-width: 630px;
 }
 
 @media (min-width: 768px) {
