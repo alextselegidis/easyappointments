@@ -300,7 +300,7 @@ App.Http.Booking = (function () {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
 
                 if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
-                    $('#select-date')[0]._flatpickr.setDate(currentDate);
+                    App.Utils.UI.setDateTimePickerValue($('#select-date'), currentDate);
                     getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
                     break;
                 }
@@ -328,7 +328,7 @@ App.Http.Booking = (function () {
                 !unavailableDates.includes(dateQueryParam) &&
                 dateQueryParamMoment.format('YYYY-MM') === selectedDateMoment.format('YYYY-MM')
             ) {
-                $('#select-date')[0]._flatpickr.setDate(dateQueryParamMoment.toDate());
+                App.Utils.UI.setDateTimePickerValue($('#select-date'), dateQueryParamMoment.toDate());
             }
         }
 

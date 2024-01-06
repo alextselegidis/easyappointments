@@ -77,19 +77,19 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function validate() {
         $modal.find('.is-invalid').removeClass('is-invalid');
 
-        const date = $date[0]._flatpickr.selectedDates[0];
+        const date = App.Utils.UI.getDateTimePickerValue($date);
 
         if (!date) {
             $date.addClass('is-invalid');
         }
 
-        const start = $start[0]._flatpickr.selectedDates[0];
+        const start = App.Utils.UI.getDateTimePickerValue($start);
 
         if (!start) {
             $start.addClass('is-invalid');
         }
 
-        const end = $end[0]._flatpickr.selectedDates[0];
+        const end = App.Utils.UI.getDateTimePickerValue($end);
 
         if (!end) {
             $end.addClass('is-invalid');
@@ -157,15 +157,15 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             return;
         }
 
-        const date = moment($date[0]._flatpickr.selectedDates[0]).format('YYYY-MM-DD');
+        const date = moment(App.Utils.UI.getDateTimePickerValue($date)).format('YYYY-MM-DD');
 
         const isNonWorkingDay = $isNonWorkingDay.prop('checked');
 
         const workingPlanException = isNonWorkingDay
             ? null
             : {
-                  start: moment($start[0]._flatpickr.selectedDates[0]).format('HH:mm'),
-                  end: moment($end[0]._flatpickr.selectedDates[0]).format('HH:mm'),
+                  start: moment(App.Utils.UI.getDateTimePickerValue($start)).format('HH:mm'),
+                  end: moment(App.Utils.UI.getDateTimePickerValue($end)).format('HH:mm'),
                   breaks: getBreaks(),
               };
 
@@ -223,9 +223,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     function add() {
         deferred = $.Deferred();
 
-        $date[0]._flatpickr.setDate(new Date());
-        $start[0]._flatpickr.setDate(moment('08:00', 'HH:mm').toDate());
-        $end[0]._flatpickr.setDate(moment('20:00', 'HH:mm').toDate());
+        App.Utils.UI.setDateTimePickerValue($date, new Date());
+        App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
+        App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
 
         $isNonWorkingDay.prop('checked', false);
 
@@ -249,11 +249,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
 
         const isNonWorkingDay = !Boolean(workingPlanException);
 
-        $date[0]._flatpickr.setDate(moment(date, 'YYYY-MM-DD').toDate());
+        App.Utils.UI.setDateTimePickerValue($date, moment(date, 'YYYY-MM-DD').toDate());
 
         if (isNonWorkingDay === false) {
-            $start[0]._flatpickr.setDate(moment(workingPlanException.start, 'HH:mm').toDate());
-            $end[0]._flatpickr.setDate(moment(workingPlanException.end, 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($start, moment(workingPlanException.start, 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($end, moment(workingPlanException.end, 'HH:mm').toDate());
 
             if (!workingPlanException.breaks) {
                 $breaks.find('tbody').html(renderNoBreaksRow());
@@ -267,8 +267,8 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                 $breaks.find('tbody .working-plan-exceptions-break-start, tbody .working-plan-exceptions-break-end'),
             );
         } else {
-            $start[0]._flatpickr.setDate(moment('08:00', 'HH:mm').toDate());
-            $end[0]._flatpickr.setDate(moment('20:00', 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
             $breaks.find('tbody').html(renderNoBreaksRow());
         }
 

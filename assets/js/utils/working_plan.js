@@ -15,6 +15,8 @@
  * This module implements the functionality of working plans.
  */
 App.Utils.WorkingPlan = (function () {
+    const moment = window.moment;
+
     /**
      * Class WorkingPlan
      *
@@ -692,10 +694,10 @@ App.Utils.WorkingPlan = (function () {
 
                         const $workEnd = $(instance.input).closest('tr').find('.work-end');
 
-                        const endMoment = moment($workEnd[0]._flatpickr.selectedDates[0]);
+                        const endMoment = moment(App.Utils.UI.getDateTimePickerValue($workEnd));
 
                         if (startMoment > endMoment) {
-                            $workEnd[0]._flatpickr.setDate(startMoment.add(1, 'hour').toDate());
+                            App.Utils.UI.setDateTimePickerValue($workEnd, startMoment.add(1, 'hour').toDate());
                         }
                     },
                 });

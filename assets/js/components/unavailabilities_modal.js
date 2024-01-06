@@ -28,6 +28,8 @@ App.Components.UnavailabilitiesModal = (function () {
     const $selectFilterItem = $('#select-filter-item');
     const $reloadAppointments = $('#reload-appointments');
 
+    const moment = window.moment;
+
     /**
      * Update the displayed timezone.
      */
@@ -68,22 +70,22 @@ App.Components.UnavailabilitiesModal = (function () {
                 return;
             }
 
-            const startMoment = moment($startDatetime[0]._flatpickr.selectedDates[0]);
+            const startDateTimeMoment = moment(App.Utils.UI.getDateTimePickerValue($startDatetime));
 
-            if (!startMoment.isValid()) {
+            if (!startDateTimeMoment.isValid()) {
                 $startDatetime.addClass('is-invalid');
                 return;
             }
 
-            const endMoment = moment($endDatetime[0]._flatpickr.selectedDates[0]);
+            const endDateTimeMoment = moment(App.Utils.UI.getDateTimePickerValue($endDatetime));
 
-            if (!endMoment.isValid()) {
+            if (!endDateTimeMoment.isValid()) {
                 $endDatetime.addClass('is-invalid');
 
                 return;
             }
 
-            if (startMoment.isAfter(endMoment)) {
+            if (startDateTimeMoment.isAfter(endDateTimeMoment)) {
                 // Start time is after end time - display message to user.
                 $unavailabilitiesModal
                     .find('.modal-message')
@@ -100,8 +102,8 @@ App.Components.UnavailabilitiesModal = (function () {
 
             // Unavailability period records go to the appointments table.
             const unavailability = {
-                start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
-                end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
+                start_datetime: startDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: endDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
                 notes: $unavailabilitiesModal.find('#unavailability-notes').val(),
                 id_users_provider: $selectProvider.val(),
             };
@@ -156,8 +158,8 @@ App.Components.UnavailabilitiesModal = (function () {
                 $selectProvider.val($selectFilterItem.val()).closest('.form-group').hide();
             }
 
-            $startDatetime[0]._flatpickr.setDate(startMoment.toDate());
-            $endDatetime[0]._flatpickr.setDate(startMoment.add(1, 'hour').toDate());
+            App.Utils.UI.setDateTimePickerValue($startDatetime, startMoment.toDate());
+            App.Utils.UI.setDateTimePickerValue($endDatetime, startMoment.add(1, 'hour').toDate());
 
             $dialog.find('.modal-header h3').text(lang('new_unavailability_title'));
             $dialog.modal('show');
