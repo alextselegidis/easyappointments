@@ -96,7 +96,9 @@ class Services_model extends EA_Model
 
         // If a category was provided then make sure it really exists in the database.
         if (!empty($service['id_service_categories'])) {
-            $count = $this->db->get_where('categories', ['id' => $service['id_service_categories']])->num_rows();
+            $count = $this->db
+                ->get_where('service_categories', ['id' => $service['id_service_categories']])
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -387,7 +389,7 @@ class Services_model extends EA_Model
         foreach ($resources as $resource) {
             $service['category'] = match ($resource) {
                 'category' => $this->db
-                    ->get_where('categories', [
+                    ->get_where('service_categories', [
                         'id' => $service['id_service_categories'] ?? ($service['serviceCategoryId'] ?? null),
                     ])
                     ->row_array(),
