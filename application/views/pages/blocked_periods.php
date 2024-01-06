@@ -28,6 +28,11 @@
 
         <div class="record-details col-12 col-md-5">
             <div class="btn-toolbar mb-4">
+                <a href="<?= site_url('business_settings') ?>" class="btn btn-outline-primary me-2">
+                    <i class="fas fa-chevron-left me-2"></i>
+                    <?= lang('back') ?>
+                </a>
+                
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-blocked-period" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>
@@ -52,11 +57,6 @@
                         <?= lang('cancel') ?>
                     </button>
                 </div>
-
-                <a href="<?= site_url('business_settings') ?>" class="btn btn-outline-primary ms-4">
-                    <i class="fas fa-chevron-left me-2"></i>
-                    <?= lang('back') ?>
-                </a>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
