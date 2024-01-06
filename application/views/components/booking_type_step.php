@@ -83,7 +83,9 @@
                     <select id="select-provider" class="form-control"></select>
                 </div>
 
-                <div id="service-description"></div>
+                <div id="service-description" class="small">
+                    <!-- JS -->
+                </div>
             </div>
         </div>
     </div>

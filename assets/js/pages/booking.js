@@ -833,6 +833,8 @@ App.Pages.Booking = (function () {
     }
 
     /**
+     * Update the service description and information.
+     *
      * This method updates the HTML content with a brief description of the
      * user selected service (only if available in db). This is useful for the
      * customers upon selecting the correct service.
@@ -849,41 +851,45 @@ App.Pages.Booking = (function () {
         );
 
         if (!service) {
-            return;
+            return; // Service not found
         }
 
-        $('<strong/>', {
-            'text': App.Utils.String.escapeHtml(service.name),
-        }).appendTo($serviceDescription);
+        // Render the additional service information
 
-        if (service.description) {
-            $('<br/>').appendTo($serviceDescription);
-
-            $('<span/>', {
-                'html': App.Utils.String.escapeHtml(service.description).replaceAll('\n', '<br/>'),
-            }).appendTo($serviceDescription);
-        }
-
-        if (service.duration || Number(service.price) > 0 || service.location) {
-            $('<br/>').appendTo($serviceDescription);
-        }
+        const additionalInfoParts = [];
 
         if (service.duration) {
-            $('<span/>', {
-                'text': '[' + lang('duration') + ' ' + service.duration + ' ' + lang('minutes') + ']',
-            }).appendTo($serviceDescription);
+            additionalInfoParts.push(`${lang('duration')}: ${service.duration} ${lang('minutes')}`);
         }
 
         if (Number(service.price) > 0) {
-            $('<span/>', {
-                'text': '[' + lang('price') + ' ' + service.price + ' ' + service.currency + ']',
-            }).appendTo($serviceDescription);
+            additionalInfoParts.push(`${lang('price')}: ${service.price} ${service.currency}`);
         }
 
         if (service.location) {
-            $('<span/>', {
-                'text': '[' + lang('location') + ' ' + service.location + ']',
-            }).appendTo($serviceDescription);
+            additionalInfoParts.push(`${lang('location')}: ${service.location}`);
+        }
+
+        if (additionalInfoParts.length) {
+            $(`
+                <div class="mb-2 fst-italic">
+                    ${additionalInfoParts.join(', ')}
+                </div>
+            `).appendTo($serviceDescription);
+        }
+
+        // Render the service description
+
+        if (service.description.length) {
+            const escapedDescription = App.Utils.String.escapeHtml(service.description);
+
+            const multiLineDescription = escapedDescription.replaceAll('\n', '<br/>');
+
+            $(`
+                <div class="text-muted">
+                    ${multiLineDescription}
+                </div>
+            `).appendTo($serviceDescription);
         }
     }
 
