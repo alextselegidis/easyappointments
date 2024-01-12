@@ -364,6 +364,10 @@ class Secretaries_model extends EA_Model
                 throw new RuntimeException('No settings record found for secretary with ID: ' . $secretary['id']);
             }
 
+            if (empty($existing_settings['salt'])) {
+                $existing_settings['salt'] = $settings['salt'] = generate_salt();
+            }
+
             $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
         }
 

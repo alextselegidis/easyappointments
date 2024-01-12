@@ -374,6 +374,10 @@ class Providers_model extends EA_Model
                 throw new RuntimeException('No settings record found for provider with ID: ' . $provider['id']);
             }
 
+            if (empty($existing_settings['salt'])) {
+                $existing_settings['salt'] = $settings['salt'] = generate_salt();
+            }
+
             $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
         }
 
@@ -897,6 +901,26 @@ class Providers_model extends EA_Model
 
             if (array_key_exists('googleToken', $provider['settings'])) {
                 $decoded_resource['settings']['google_token'] = $provider['settings']['googleToken'];
+            }
+
+            if (array_key_exists('caldavSync', $provider['settings'])) {
+                $decoded_resource['settings']['caldav_sync'] = $provider['settings']['caldavSync'];
+            }
+
+            if (array_key_exists('caldavUrl', $provider['settings'])) {
+                $decoded_resource['settings']['caldav_url'] = $provider['settings']['caldavUrl'];
+            }
+
+            if (array_key_exists('caldavUsername', $provider['settings'])) {
+                $decoded_resource['settings']['caldav_username'] = $provider['settings']['caldavUsername'];
+            }
+
+            if (array_key_exists('caldavPassword', $provider['settings'])) {
+                $decoded_resource['settings']['caldav_password'] = $provider['settings']['caldavPassword'];
+            }
+
+            if (array_key_exists('caldavCalendar', $provider['settings'])) {
+                $decoded_resource['settings']['caldav_calendar'] = $provider['settings']['caldavCalendar'];
             }
 
             if (array_key_exists('syncFutureDays', $provider['settings'])) {
