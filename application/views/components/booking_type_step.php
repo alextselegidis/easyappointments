@@ -8,10 +8,10 @@
 
 <div id="wizard-frame-1" class="wizard-frame" style="visibility: hidden;">
     <div class="frame-container">
-        <h2 class="frame-title"><?= lang('service_and_provider') ?></h2>
+        <h2 class="frame-title mt-md-5"><?= lang('service_and_provider') ?></h2>
 
         <div class="row frame-content">
-            <div class="col col-md-8 offset-md-2 mt-md-5">
+            <div class="col col-md-8 offset-md-2">
                 <div class="mb-3">
                     <label for="select-service">
                         <strong><?= lang('service') ?></strong>
