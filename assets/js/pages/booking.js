@@ -860,7 +860,7 @@ App.Pages.Booking = (function () {
 
         // Render the service description
 
-        if (service.description.length) {
+        if (service.description?.length) {
             const escapedDescription = App.Utils.String.escapeHtml(service.description);
 
             const multiLineDescription = escapedDescription.replaceAll('\n', '<br/>');
