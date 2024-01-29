@@ -82,7 +82,7 @@ require_once __DIR__ . '/vendor/autoload.php';
  *
  */
 
-if (str_contains($_SERVER['REQUEST_URI'], '.min.js.map')) {
+if (str_contains((string) $_SERVER['REQUEST_URI'] ?? '', '.min.js.map')) {
     http_response_code(404);
     exit();
 }
