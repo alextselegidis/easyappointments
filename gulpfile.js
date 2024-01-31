@@ -65,10 +65,9 @@ function archive(done) {
 
     childProcess.execSync('cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader');
 
-    del.sync('**/.DS_Store');
     fs.removeSync('build/composer.lock');
     del.sync('**/.DS_Store');
-    del.sync('**/.git');
+    del.sync('build/**/.git');
 
     zip('build', {saveTo: filename}, function (error) {
         if (error) {
