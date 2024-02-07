@@ -29,7 +29,7 @@
             <!-- FRAME TOP BAR -->
 
             <div id="header">
-                <span id="company-name"><?= $company_name ?></span>
+                <span id="company-name"><?= $company_name ?><br><small>Training Department</small></span>
 
                 <div id="steps">
                     <div id="step-1" class="book-step active-step"
@@ -103,7 +103,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label for="select-service">
-                                    <strong><?= lang('service') ?></strong>
+                                    <strong>Service</strong>
                                 </label>
 
                                 <select id="select-service" class="form-control">
@@ -176,11 +176,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="select-provider">
-                                    <strong><?= lang('provider') ?></strong>
-                                </label>
-
-                                <select id="select-provider" class="form-control"></select>
+                                <select disabled value="any-provider" style="display: none;" id="select-provider"></select>
                             </div>
 
                             <div id="service-description"></div>
@@ -299,7 +295,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="notes" class="control-label">
-                                    <?= lang('notes') ?>
+                                    CID
                                 </label>
                                 <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>
                             </div>
@@ -474,5 +470,13 @@
 </script>
 
 <?php google_analytics_script(); ?>
+<script>
+window.addEventListener("load", (event) => {
+   document.getElementById('first-name').value = '<?= $_REQUEST['name_first'] ?>';
+   document.getElementById('last-name').value = '<?= $_REQUEST['name_last'] ?>';
+   document.getElementById('email').value = '<?= $_REQUEST['email'] ?>';
+   document.getElementById('notes').value = '<?= $_REQUEST['cid'] ?>';
+});
+</script>
 </body>
 </html>
