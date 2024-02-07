@@ -354,7 +354,7 @@
 
                                 <div class="form-group">
                                     <label for="customer-notes" class="control-label">
-                                        <?= lang('notes') ?>
+                                        CID
                                     </label>
                                     <textarea id="customer-notes" rows="2" class="form-control"></textarea>
                                 </div>
