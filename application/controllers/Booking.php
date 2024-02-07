@@ -406,6 +406,11 @@ class Booking extends EA_Controller
                 'zip_code',
                 'timezone',
                 'language',
+                'custom_field_1',
+                'custom_field_2',
+                'custom_field_3',
+                'custom_field_4',
+                'custom_field_5',
             ]);
 
             $customer_id = $this->customers_model->save($customer);
