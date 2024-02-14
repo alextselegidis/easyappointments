@@ -264,42 +264,45 @@
                                 </label>
                                 <input type="text" id="email" class="required form-control" maxlength="120"/>
                             </div>
-                            <div class="form-group">
-                                <label for="phone-number" class="control-label">
-                                    <?= lang('phone_number') ?>
-                                    <?= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
-                                </label>
-                                <input type="text" id="phone-number" maxlength="60"
-                                       class="<?= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <div class="form-group">
-                                <label for="address" class="control-label">
-                                    <?= lang('address') ?>
-                                </label>
-                                <input type="text" id="address" class="form-control" maxlength="120"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="city" class="control-label">
-                                    <?= lang('city') ?>
-                                </label>
-                                <input type="text" id="city" class="form-control" maxlength="120"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="zip-code" class="control-label">
-                                    <?= lang('zip_code') ?>
-                                </label>
-                                <input type="text" id="zip-code" class="form-control" maxlength="120"/>
-                            </div>
+<!-- BEGIN ZTL MODIFICATION -->
                             <div class="form-group">
                                 <label for="notes" class="control-label">
                                     CID
+                                    <span class="text-danger">*</span>
                                 </label>
-                                <textarea id="notes" maxlength="500" class="form-control" rows="1"></textarea>
+                                <input type="text" id="notes" class="required form-control" maxlength="7"/>
+                            <!--    <textarea id="notes" maxlength="500" class="required form-control" rows="1"></textarea> -->
                             </div>
                         </div>
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="address" class="control-label">
+                                    <?//= lang('address') ?>
+                                </label>
+                                <input type="text" style="display:none" id="address" class="form-control" maxlength="120"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="city" class="control-label">
+                                    <?//= lang('city') ?>
+                                </label>
+                                <input type="text" style="display:none" id="city" class="form-control" maxlength="120"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="zip-code" class="control-label">
+                                    <?//= lang('zip_code') ?>
+                                </label>
+                                <input type="text" style="display:none" id="zip-code" class="form-control" maxlength="120"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone-number" class="control-label">
+                                    <?//=  lang('phone_number') ?>
+                                    <?//= $require_phone_number === '1' ? '<span class="text-danger">*</span>' : '' ?>
+                                </label>
+                                <input type="text" style="display:none" id="phone-number" maxlength="60"
+                                       class="<?//= $require_phone_number === '1' ? 'required' : '' ?> form-control"/>
+                            </div>
+                        </div>
+<!-- END ZTL MODIFICATION -->
                     </div>
                 </div>
 
