@@ -28,6 +28,7 @@ App.Http.Booking = (function () {
     let unavailableDatesBackup;
     let selectedDateStringBackup;
     let processingUnavailableDates = false;
+    let searchedMonthStart;
     let searchedMonthCounter = 0;
 
     /**
@@ -262,7 +263,22 @@ App.Http.Booking = (function () {
             dataType: 'json',
         }).done((response) => {
             if (response.is_month_unavailable) {
+                if (!searchedMonthStart) {
+                    searchedMonthStart = selectedDateString;
+                }
+
                 if (searchedMonthCounter >= 3) {
+                    // Need to mark the current month dates as unavailable
+                    const selectedDateMoment = moment(searchedMonthStart);
+                    const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
+                    const endOfMonthMoment = selectedDateMoment.clone().endOf('month');
+                    const unavailableDates = [];
+                    while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
+                        unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
+                        startOfMonthMoment.add(1, 'days'); // Move to the next day
+                    }
+                    applyUnavailableDates(unavailableDates, searchedMonthStart, false);
+                    searchedMonthStart = undefined;
                     searchedMonthCounter = 0;
                     return; // Stop searching
                 }
@@ -332,6 +348,8 @@ App.Http.Booking = (function () {
             }
         }
 
+        searchedMonthStart = undefined;
+        searchedMonthCounter = 0;
         processingUnavailableDates = false;
     }
 

@@ -87,6 +87,8 @@ App.Pages.Booking = (function () {
         // Initialize page's components (tooltips, date pickers etc).
         tippy('[data-tippy-content]');
 
+        let monthTimeout;
+
         App.Utils.UI.initializeDatePicker($selectDate, {
             inline: true,
             minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
@@ -97,7 +99,11 @@ App.Pages.Booking = (function () {
             },
 
             onMonthChange: (selectedDates, dateStr, instance) => {
-                setTimeout(() => {
+                if (monthTimeout) {
+                    clearTimeout(monthTimeout);
+                }
+
+                monthTimeout = setTimeout(() => {
                     const displayedMonthMoment = moment(
                         instance.currentYearElement.value +
                             '-' +
