@@ -26,9 +26,9 @@ if (!function_exists('dd')) {
     #[NoReturn]
     function dd(...$vars): void
     {
-        echo '<pre>';
+        echo is_cli() ? PHP_EOL : '<pre>';
         var_dump($vars);
-        echo '</pre>';
+        echo is_cli() ? PHP_EOL : '</pre>';
 
         exit(1);
     }
