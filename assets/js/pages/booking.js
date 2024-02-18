@@ -50,6 +50,18 @@ App.Pages.Booking = (function () {
     let manageMode = vars('manage_mode') || false;
 
     /**
+     * Detect the month step.
+     *
+     * @param previousDateTimeMoment
+     * @param nextDateTimeMoment
+     *
+     * @returns {Number}
+     */
+    function detectDatepickerMonthChangeStep(previousDateTimeMoment, nextDateTimeMoment) {
+        return previousDateTimeMoment.isAfter(nextDateTimeMoment) ? -1 : 1;
+    }
+
+    /**
      * Initialize the module.
      */
     function initialize() {
@@ -104,6 +116,8 @@ App.Pages.Booking = (function () {
                 }
 
                 monthTimeout = setTimeout(() => {
+                    const previousMoment = moment(instance.selectedDates[0]);
+
                     const displayedMonthMoment = moment(
                         instance.currentYearElement.value +
                             '-' +
@@ -111,16 +125,21 @@ App.Pages.Booking = (function () {
                             '-01',
                     );
 
+                    const monthChangeStep = detectDatepickerMonthChangeStep(previousMoment, displayedMonthMoment);
+
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
                         $selectService.val(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
+                        monthChangeStep,
                     );
                 }, 500);
             },
 
             onYearChange: (selectedDates, dateStr, instance) => {
                 setTimeout(() => {
+                    const previousMoment = moment(instance.selectedDates[0]);
+
                     const displayedMonthMoment = moment(
                         instance.currentYearElement.value +
                             '-' +
@@ -128,10 +147,13 @@ App.Pages.Booking = (function () {
                             '-01',
                     );
 
+                    const monthChangeStep = detectDatepickerMonthChangeStep(previousMoment, displayedMonthMoment);
+
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
                         $selectService.val(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
+                        monthChangeStep,
                     );
                 }, 500);
             },

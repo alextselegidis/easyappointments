@@ -233,8 +233,9 @@ App.Http.Booking = (function () {
      * @param {Number} providerId The selected provider ID.
      * @param {Number} serviceId The selected service ID.
      * @param {String} selectedDateString Y-m-d value of the selected date.
+     * @param {Number} monthChangeStep Whether to add or subtract months.
      */
-    function getUnavailableDates(providerId, serviceId, selectedDateString) {
+    function getUnavailableDates(providerId, serviceId, selectedDateString, monthChangeStep) {
         if (processingUnavailableDates) {
             return;
         }
@@ -275,7 +276,7 @@ App.Http.Booking = (function () {
                     const unavailableDates = [];
                     while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
                         unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
-                        startOfMonthMoment.add(1, 'days'); // Move to the next day
+                        startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
                     }
                     applyUnavailableDates(unavailableDates, searchedMonthStart, false);
                     searchedMonthStart = undefined;
@@ -287,7 +288,7 @@ App.Http.Booking = (function () {
                 const selectedDateMoment = moment(selectedDateString);
                 selectedDateMoment.add(1, 'month');
                 const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
-                getUnavailableDates(providerId, serviceId, nextSelectedDate);
+                getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
                 return;
             }
 
