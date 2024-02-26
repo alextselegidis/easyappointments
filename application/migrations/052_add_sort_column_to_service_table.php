@@ -24,7 +24,7 @@ class Migration_Add_sort_column_to_service_table extends EA_Migration {
                     'type' => 'INT',
                     'constraint' => '11',
                     'default' => '0',
-                    'after' => 'delete_datetime'
+                    'after' => 'id'
                 ]
             ];
 
