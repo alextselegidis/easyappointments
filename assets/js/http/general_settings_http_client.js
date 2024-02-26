@@ -27,13 +27,13 @@ App.Http.GeneralSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            general_settings: generalSettings
+            general_settings: generalSettings,
         };
 
         return $.post(url, data);
     }
 
     return {
-        save
+        save,
     };
 })();

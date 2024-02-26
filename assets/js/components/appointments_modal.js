@@ -46,6 +46,13 @@ App.Components.AppointmentsModal = (function () {
     const $insertAppointment = $('#insert-appointment');
     const $existingCustomersList = $('#existing-customers-list');
     const $newCustomer = $('#new-customer');
+    const $customField1 = $('#custom-field-1');
+    const $customField2 = $('#custom-field-2');
+    const $customField3 = $('#custom-field-3');
+    const $customField4 = $('#custom-field-4');
+    const $customField5 = $('#custom-field-5');
+
+    const moment = window.moment;
 
     /**
      * Update the displayed timezone.
@@ -54,7 +61,7 @@ App.Components.AppointmentsModal = (function () {
         const providerId = $selectProvider.val();
 
         const provider = vars('available_providers').find(
-            (availableProvider) => Number(availableProvider.id) === Number(providerId)
+            (availableProvider) => Number(availableProvider.id) === Number(providerId),
         );
 
         if (provider && provider.timezone) {
@@ -80,8 +87,11 @@ App.Components.AppointmentsModal = (function () {
             // ID must exist on the object in order for the model to update the record and not to perform
             // an insert operation.
 
-            const startDatetime = moment($startDatetime.datetimepicker('getDate')).format('YYYY-MM-DD HH:mm:ss');
-            const endDatetime = moment($endDatetime.datetimepicker('getDate')).format('YYYY-MM-DD HH:mm:ss');
+            const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
+            const startDatetime = moment(startDateTimeObject).format('YYYY-MM-DD HH:mm:ss');
+
+            const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDatetime);
+            const endDatetime = moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss');
 
             const appointment = {
                 id_services: $selectService.val(),
@@ -92,7 +102,7 @@ App.Components.AppointmentsModal = (function () {
                 color: App.Components.ColorSelection.getColor($appointmentColor),
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
-                is_unavailability: Number(false)
+                is_unavailability: Number(false),
             };
 
             if ($appointmentId.val() !== '') {
@@ -110,7 +120,12 @@ App.Components.AppointmentsModal = (function () {
                 zip_code: $zipCode.val(),
                 language: $language.val(),
                 timezone: $timezone.val(),
-                notes: $customerNotes.val()
+                notes: $customerNotes.val(),
+                custom_field_1: $customField1.val(),
+                custom_field_2: $customField2.val(),
+                custom_field_3: $customField3.val(),
+                custom_field_4: $customField4.val(),
+                custom_field_5: $customField5.val(),
             };
 
             if ($customerId.val() !== '') {
@@ -157,7 +172,7 @@ App.Components.AppointmentsModal = (function () {
                 const providerId = $('#select-filter-item').val();
 
                 const providers = vars('available_providers').filter(
-                    (provider) => Number(provider.id) === Number(providerId)
+                    (provider) => Number(provider.id) === Number(providerId),
                 );
 
                 if (providers.length) {
@@ -175,7 +190,7 @@ App.Components.AppointmentsModal = (function () {
             const serviceId = $selectService.val();
 
             const service = vars('available_services').find(
-                (availableService) => Number(availableService.id) === Number(serviceId)
+                (availableService) => Number(availableService.id) === Number(serviceId),
             );
 
             const duration = service ? service.duration : 60;
@@ -194,18 +209,8 @@ App.Components.AppointmentsModal = (function () {
                 startMoment.add(1, 'hour').set({minutes: 0});
             }
 
-            $startDatetime.val(
-                App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
-            );
-
-            $endDatetime.val(
-                App.Utils.Date.format(
-                    startMoment.add(duration, 'minutes').toDate(),
-                    vars('date_format'),
-                    vars('time_format'),
-                    true
-                )
-            );
+            App.Utils.UI.setDateTimePickerValue($startDatetime, startMoment.toDate());
+            App.Utils.UI.setDateTimePickerValue($endDatetime, startMoment.add(duration, 'minutes').toDate());
 
             // Display modal form.
             $appointmentsModal.find('.modal-header h3').text(lang('new_appointment_title'));
@@ -227,7 +232,8 @@ App.Components.AppointmentsModal = (function () {
                 vars('customers').forEach((customer) => {
                     $('<div/>', {
                         'data-id': customer.id,
-                        'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                        'text':
+                            (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]'),
                     }).appendTo($existingCustomersList);
                 });
             } else {
@@ -259,6 +265,11 @@ App.Components.AppointmentsModal = (function () {
                 $language.val(customer.language);
                 $timezone.val(customer.timezone);
                 $customerNotes.val(customer.notes);
+                $customField1.val(customer.custom_field_1);
+                $customField2.val(customer.custom_field_2);
+                $customField3.val(customer.custom_field_3);
+                $customField4.val(customer.custom_field_4);
+                $customField5.val(customer.custom_field_5);
             }
 
             $selectCustomer.trigger('click'); // Hide the list.
@@ -288,7 +299,10 @@ App.Components.AppointmentsModal = (function () {
                         response.forEach((customer) => {
                             $('<div/>', {
                                 'data-id': customer.id,
-                                'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                                'text':
+                                    (customer.first_name || '[No First Name]') +
+                                    ' ' +
+                                    (customer.last_name || '[No Last Name]'),
                             }).appendTo($existingCustomersList);
 
                             // Verify if this customer is on the old customer list.
@@ -319,7 +333,10 @@ App.Components.AppointmentsModal = (function () {
                             ) {
                                 $('<div/>', {
                                     'data-id': customer.id,
-                                    'text': (customer.first_name || '[No First Name]') + ' ' + (customer.last_name || '[No Last Name]')
+                                    'text':
+                                        (customer.first_name || '[No First Name]') +
+                                        ' ' +
+                                        (customer.last_name || '[No Last Name]'),
                                 }).appendTo($existingCustomersList);
                             }
                         });
@@ -339,6 +356,8 @@ App.Components.AppointmentsModal = (function () {
         $selectService.on('change', () => {
             const serviceId = $selectService.val();
 
+            const providerId = $selectProvider.val();
+
             $selectProvider.empty();
 
             // Automatically update the service duration.
@@ -348,8 +367,9 @@ App.Components.AppointmentsModal = (function () {
 
             const duration = service ? service.duration : 60;
 
-            const start = $startDatetime.datetimepicker('getDate');
-            $endDatetime.datetimepicker('setDate', new Date(start.getTime() + duration * 60000));
+            const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
+            const endDateTimeObject = new Date(startDateTimeObject.getTime() + duration * 60000);
+            App.Utils.UI.setDateTimePickerValue($endDatetime, endDateTimeObject);
 
             // Update the providers select box.
 
@@ -374,6 +394,10 @@ App.Components.AppointmentsModal = (function () {
                         $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                     }
                 });
+
+                if ($selectProvider.find(`option[value="${providerId}"]`).length) {
+                    $selectProvider.val(providerId);
+                }
             });
         });
 
@@ -399,6 +423,11 @@ App.Components.AppointmentsModal = (function () {
             $language.val('english');
             $timezone.val('UTC');
             $customerNotes.val('');
+            $customField1.val('');
+            $customField2.val('');
+            $customField3.val('');
+            $customField4.val('');
+            $customField5.val('');
         });
     }
 
@@ -413,7 +442,8 @@ App.Components.AppointmentsModal = (function () {
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').fadeOut();
 
-        $appointmentStatus.find('option:first').prop('checked', true);
+        const defaultStatusValue = $appointmentStatus.find('option:first').val();
+        $appointmentStatus.val(defaultStatusValue);
 
         $language.val('english');
         $timezone.val('UTC');
@@ -457,24 +487,25 @@ App.Components.AppointmentsModal = (function () {
         const startDatetime = new Date();
         const endDatetime = moment().add(duration, 'minutes').toDate();
 
-        App.Utils.UI.initializeDatetimepicker($startDatetime, {
+        App.Utils.UI.initializeDateTimePicker($startDatetime, {
             onClose: () => {
                 const serviceId = $selectService.val();
 
                 // Automatically update the #end-datetime DateTimePicker based on service duration.
                 const service = vars('available_services').find(
-                    (availableService) => Number(availableService.id) === Number(serviceId)
+                    (availableService) => Number(availableService.id) === Number(serviceId),
                 );
 
-                const start = $startDatetime.datetimepicker('getDate');
-                $endDatetime.datetimepicker('setDate', new Date(start.getTime() + service.duration * 60000));
-            }
+                const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
+                const endDateTimeObject = new Date(startDateTimeObject.getTime() + service.duration * 60000);
+                App.Utils.UI.setDateTimePickerValue($endDatetime, endDateTimeObject);
+            },
         });
 
-        $startDatetime.datetimepicker('setDate', startDatetime);
+        App.Utils.UI.setDateTimePickerValue($startDatetime, startDatetime);
 
-        App.Utils.UI.initializeDatetimepicker($endDatetime);
-        $endDatetime.datetimepicker('setDate', endDatetime);
+        App.Utils.UI.initializeDateTimePicker($endDatetime);
+        App.Utils.UI.setDateTimePickerValue($endDatetime, endDatetime);
     }
 
     /**
@@ -505,15 +536,19 @@ App.Components.AppointmentsModal = (function () {
             }
 
             // Check email address.
-            if ($appointmentsModal.find('#email').val() && !App.Utils.Validation.email($appointmentsModal.find('#email').val())) {
+            if (
+                $appointmentsModal.find('#email').val() &&
+                !App.Utils.Validation.email($appointmentsModal.find('#email').val())
+            ) {
                 $appointmentsModal.find('#email').addClass('is-invalid');
                 throw new Error(lang('invalid_email'));
             }
 
             // Check appointment start and end time.
-            const start = $startDatetime.datetimepicker('getDate');
-            const end = $endDatetime.datetimepicker('getDate');
-            if (start > end) {
+            const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
+            const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDatetime);
+
+            if (startDateTimeObject > endDateTimeObject) {
                 $startDatetime.addClass('is-invalid');
                 $endDatetime.addClass('is-invalid');
                 throw new Error(lang('start_date_before_end_error'));
@@ -540,6 +575,6 @@ App.Components.AppointmentsModal = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        resetModal
+        resetModal,
     };
 })();

@@ -4,7 +4,7 @@
  */
 ?>
 
-<?php if ( ! empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR): ?>
+<?php if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR): ?>
     <style>
         /* Generic Overrides */
 
@@ -88,7 +88,7 @@
         #book-appointment-wizard #company-name .display-selected-service,
         #book-appointment-wizard #company-name .display-selected-provider {
             color: <?= $company_color ?>;
-            border-color: <?= $company_color ?> !important;
+            border-right-color: <?= $company_color ?> !important;
             filter: brightness(35%);
         }
 
@@ -166,5 +166,26 @@
         .backend-page .filter-records .results .entry.selected {
             border-right-color: <?= $company_color ?> !important;
         }
+
+        .flatpickr-calendar .flatpickr-months,
+        .flatpickr-calendar .flatpickr-months .flatpickr-month,
+        .flatpickr-calendar .flatpickr-weekdays,
+        .flatpickr-calendar .flatpickr-current-month .flatpickr-monthDropdown-months,
+        .flatpickr-calendar span.flatpickr-weekday {
+            background: <?= $company_color ?> !important;
+        }
+
+        .flatpickr-day.endRange, .flatpickr-day.endRange.inRange, .flatpickr-day.endRange.nextMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.endRange:focus, .flatpickr-day.endRange:hover, .flatpickr-day.selected, .flatpickr-day.selected.inRange, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.selected:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange, .flatpickr-day.startRange.inRange, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.startRange:focus, .flatpickr-day.startRange:hover {
+            background: <?= $company_color ?> !important;
+            border-color: <?= $company_color ?> !important;
+        }
+
+        .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+            background-color: <?= $company_color ?> !important;
+        }
+
+        #existing-customers-list div:hover {
+            background: <?= $company_color ?> !important;
+        }
     </style>
-<?php endif ?>
+<?php endif; ?>

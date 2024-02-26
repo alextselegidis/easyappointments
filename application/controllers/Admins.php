@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Admins extends EA_Controller {
+class Admins extends EA_Controller
+{
     /**
      * Admins constructor.
      */
@@ -46,10 +47,8 @@ class Admins extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_USERS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_USERS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -66,7 +65,7 @@ class Admins extends EA_Controller {
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
         ]);
-        
+
         html_vars([
             'page_title' => lang('admins'),
             'active_menu' => PRIV_USERS,
@@ -83,16 +82,14 @@ class Admins extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_USERS))
-            {
-                abort(403,'Forbidden');
+        try {
+            if (cannot('view', PRIV_USERS)) {
+                abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
 
-            $order_by = 'first_name ASC, last_name ASC, email ASC';
+            $order_by = 'update_datetime DESC';
 
             $limit = request('limit', 1000);
 
@@ -101,25 +98,21 @@ class Admins extends EA_Controller {
             $admins = $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
             json_response($admins);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
 
     /**
-     * Create an admin.
+     * Store a new admin.
      */
-    public function create()
+    public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_USERS))
-            {
+        try {
+            if (cannot('add', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
-            
+
             $admin = request('admin');
 
             $this->admins_model->only($admin, [
@@ -135,29 +128,42 @@ class Admins extends EA_Controller {
                 'notes',
                 'timezone',
                 'language',
-                'settings'
+                'settings',
             ]);
 
-            $this->admins_model->only($admin['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view'
-            ]);
+            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
 
             $admin_id = $this->admins_model->save($admin);
-            
-            $admin = $this->admins_model->find($admin_id); 
-            
-            $this->webhooks_client->trigger(WEBHOOK_ADMIN_SAVE, $admin); 
+
+            $admin = $this->admins_model->find($admin_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_ADMIN_SAVE, $admin);
 
             json_response([
-                'success' => TRUE,
-                'id' => $admin_id
+                'success' => true,
+                'id' => $admin_id,
             ]);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
-        catch (Throwable $e)
-        {
+    }
+
+    /**
+     * Find an admin.
+     */
+    public function find()
+    {
+        try {
+            if (cannot('view', PRIV_USERS)) {
+                abort(403, 'Forbidden');
+            }
+
+            $admin_id = request('admin_id');
+
+            $admin = $this->admins_model->find($admin_id);
+
+            json_response($admin);
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -167,10 +173,8 @@ class Admins extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_USERS))
-            {
+        try {
+            if (cannot('edit', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -190,15 +194,10 @@ class Admins extends EA_Controller {
                 'notes',
                 'timezone',
                 'language',
-                'settings'
+                'settings',
             ]);
 
-            $this->admins_model->only($admin['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view'
-            ]);
+            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -207,12 +206,10 @@ class Admins extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_ADMIN_SAVE, $admin);
 
             json_response([
-                'success' => TRUE,
-                'id' => $admin_id
+                'success' => true,
+                'id' => $admin_id,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -222,10 +219,8 @@ class Admins extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_USERS))
-            {
+        try {
+            if (cannot('delete', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -238,35 +233,9 @@ class Admins extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_ADMIN_DELETE, $admin);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
             ]);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Find an admin.
-     */
-    public function find()
-    {
-        try
-        {
-            if (cannot('view', PRIV_USERS))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $admin_id = request('admin_id');
-
-            $admin = $this->admins_model->find($admin_id);
-
-            json_response($admin);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

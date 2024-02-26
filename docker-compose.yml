@@ -1,0 +1,63 @@
+version: '3.1'
+services:
+  php-fpm:
+    build: docker/php-fpm
+    working_dir: /var/www/html
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - '.:/var/www/html'
+      - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini'
+
+  nginx:
+    image: 'nginx:1.23.3-alpine'
+    working_dir: /var/www/html
+    volumes:
+      - '.:/var/www/html'
+      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+    ports:
+      - '80:80'
+
+  mysql:
+    image: 'mysql:8.0'
+    volumes:
+      - './docker/mysql:/var/lib/mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=easyappointments
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - '3306:3306'
+
+  phpmyadmin:
+    image: 'phpmyadmin:5.2.1'
+    ports:
+      - '8080:80'
+    environment:
+      - 'PMA_HOST=mysql'
+      - 'UPLOAD_LIMIT=102400K'
+
+  mailpit:
+    image: 'axllent/mailpit:v1.7'
+    ports:
+      - '8025:8025'
+      - '1025:1025'
+
+  swagger-ui:
+    platform: linux/amd64
+    image: swaggerapi/swagger-ui:v5.10.5
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./openapi.yml:/usr/share/nginx/html/openapi.yml
+    environment:
+      API_URL: openapi.yml
+  
+  baikal:
+    image: ckulka/baikal:0.9.4-apache
+    ports:
+      - "9000:80"
+    volumes:
+      - ./docker/baikal:/var/www/baikal
+  

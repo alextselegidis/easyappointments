@@ -37,20 +37,6 @@ window.App.Layouts.Backend = (function () {
     const PRIV_SYSTEM_SETTINGS = 'system_settings';
     const PRIV_USER_SETTINGS = 'user_settings';
 
-    function placeFooterToBottom() {
-        if (window.innerHeight > $('body').height()) {
-            $footer.css({
-                'position': 'absolute',
-                'width': '100%',
-                'bottom': '0px'
-            });
-        } else {
-            $footer.css({
-                'position': 'static'
-            });
-        }
-    }
-
     /**
      * Display backend notifications to user.
      *
@@ -61,54 +47,44 @@ window.App.Layouts.Backend = (function () {
      * @param {Array} [actions] An array with custom actions that will be available to the user. Every array item is an
      * object that contains the 'label' and 'function' key values.
      */
-    function displayNotification(message = '- No message provided for this notification -', actions = null) {
-        if (!actions) {
-            actions = [];
-
-            setTimeout(() => {
-                $notification.fadeOut();
-            }, 5000);
+    function displayNotification(message, actions = []) {
+        if (!message) {
+            return;
         }
 
-        $notification.empty();
+        const $toast = $(`
+            <div class="toast bg-dark d-flex align-items-center mb-2 fade show position-fixed p-1 m-4 bottom-0 end-0 backend-notification" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body w-100 text-white">
+                    ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `).appendTo('body');
 
-        const $instance = $('<div/>', {
-            'class': 'notification alert alert-dismissible fade show',
-            'html': [
-                $('<strong/>', {
-                    'html': message
-                }),
-                $('<button/>', {
-                    'type': 'button',
-                    'class': 'btn-close',
-                    'data-bs-dismiss': 'alert'
-                })
-            ]
-        }).appendTo($notification);
-
-        actions.forEach((action) => {
+        actions.forEach(function (action) {
             $('<button/>', {
-                'class': 'btn btn-outline-secondary btn-xs',
-                'text': action.label,
-                'on': {
-                    'click': action.function
-                }
-            }).prependTo($instance);
+                class: 'btn btn-light btn-sm ms-2',
+                text: action.label,
+                on: {
+                    click: action.function,
+                },
+            }).prependTo($toast);
         });
 
-        $notification.show('fade');
+        const toast = new bootstrap.Toast($toast[0]);
+
+        toast.show();
+
+        setTimeout(() => {
+            toast.dispose();
+            $toast.remove();
+        }, 5000);
     }
 
     /**
      * Initialize the module.
      */
     function initialize() {
-        $(window)
-            .on('resize', () => {
-                App.Layouts.Backend.placeFooterToBottom();
-            })
-            .trigger('resize');
-
         $(document).ajaxStart(() => {
             $loading.show();
         });
@@ -139,7 +115,6 @@ window.App.Layouts.Backend = (function () {
         PRIV_USERS,
         PRIV_SYSTEM_SETTINGS,
         PRIV_USER_SETTINGS,
-        placeFooterToBottom,
-        displayNotification
+        displayNotification,
     };
 })();

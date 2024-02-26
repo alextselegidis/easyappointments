@@ -18,18 +18,19 @@
  *
  * @package Libraries
  */
-class Email_messages {
+class Email_messages
+{
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Email_messages constructor.
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('admins_model');
         $this->CI->load->model('appointments_model');
@@ -53,14 +54,14 @@ class Email_messages {
      * @param array $settings App settings.
      * @param string $subject Email subject.
      * @param string $message Email message.
-     * @param string $appointment_link_address Appointment unique URL.
+     * @param string $appointment_link Appointment unique URL.
      * @param string $recipient_email Recipient email address.
      * @param string $ics_stream ICS file contents.
      * @param string|null $timezone Custom timezone.
      *
      * @throws Exception
      */
-    public function send_appointment_details(
+    public function send_appointment_saved(
         array $appointment,
         array $provider,
         array $service,
@@ -68,72 +69,42 @@ class Email_messages {
         array $settings,
         string $subject,
         string $message,
-        string $appointment_link_address,
+        string $appointment_link,
         string $recipient_email,
         string $ics_stream,
-        string $timezone = NULL
-    )
-    {
-        $timezones = $this->CI->timezones->to_array();
-
-        switch ($settings['date_format'])
-        {
-            case 'DMY':
-                $date_format = 'd/m/Y';
-                break;
-            case 'MDY':
-                $date_format = 'm/d/Y';
-                break;
-            case 'YMD':
-                $date_format = 'Y/m/d';
-                break;
-            default:
-                throw new RuntimeException('Invalid date_format value: ' . $settings['date_format']);
-        }
-
-        switch ($settings['time_format'])
-        {
-            case 'military':
-                $time_format = 'H:i';
-                break;
-            case 'regular':
-                $time_format = 'g:i a';
-                break;
-            default:
-                throw new RuntimeException('Invalid time_format value: ' . $settings['time_format']);
-        }
-
+        string $timezone = null,
+    ): void {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
 
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-        if ($timezone && $timezone !== $provider['timezone'])
-        {
-            $appointment_timezone = new DateTimeZone($timezone);
+        if ($timezone && $timezone !== $provider['timezone']) {
+            $custom_timezone = new DateTimeZone($timezone);
 
-            $appointment_start->setTimezone($appointment_timezone);
+            $appointment_start->setTimezone($custom_timezone);
+            $appointment['start_datetime'] = $appointment_start->format('Y-m-d H:i:s');
 
-            $appointment_end->setTimezone($appointment_timezone);
+            $appointment_end->setTimezone($custom_timezone);
+            $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
-        $html = $this->CI->load->view('emails/appointment_saved_email', [
-            'email_title' => $subject,
-            'email_message' => $message,
-            'appointment_service' => $service['name'],
-            'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            'appointment_start_date' => $appointment_start->format($date_format . ' ' . $time_format),
-            'appointment_end_date' => $appointment_end->format($date_format . ' ' . $time_format),
-            'appointment_timezone' => $timezones[empty($timezone) ? $provider['timezone'] : $timezone],
-            'appointment_link' => $appointment_link_address,
-            'company_link' => $settings['company_link'],
-            'company_name' => $settings['company_name'],
-            'customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
-            'customer_email' => $customer['email'],
-            'customer_phone' => $customer['phone_number'],
-            'customer_address' => $customer['address'],
-        ], TRUE);
+        $html = $this->CI->load->view(
+            'emails/appointment_saved_email',
+            [
+                'subject' => $subject,
+                'message' => $message,
+                'appointment' => $appointment,
+                'service' => $service,
+                'provider' => $provider,
+                'customer' => $customer,
+                'settings' => $settings,
+                'timezone' => $timezone,
+                'appointment_link' => $appointment_link,
+            ],
+            true,
+        );
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);
 
@@ -143,10 +114,9 @@ class Email_messages {
 
         $this->CI->email->message($html);
 
-        $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics');
+        $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics', 'text/vcalendar');
 
-        if ( ! $this->CI->email->send(FALSE))
-        {
+        if (!$this->CI->email->send(false)) {
             throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
         }
     }
@@ -165,71 +135,45 @@ class Email_messages {
      *
      * @throws Exception
      */
-    public function send_delete_appointment(
+    public function send_appointment_deleted(
         array $appointment,
         array $provider,
         array $service,
         array $customer,
         array $settings,
         string $recipient_email,
-        string $reason = NULL,
-        string $timezone = NULL
-    )
-    {
-        $timezones = $this->CI->timezones->to_array();
-
-        switch ($settings['date_format'])
-        {
-            case 'DMY':
-                $date_format = 'd/m/Y';
-                break;
-            case 'MDY':
-                $date_format = 'm/d/Y';
-                break;
-            case 'YMD':
-                $date_format = 'Y/m/d';
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid date_format value: ' . $settings['date_format']);
-        }
-
-        switch ($settings['time_format'])
-        {
-            case 'military':
-                $time_format = 'H:i';
-                break;
-            case 'regular':
-                $time_format = 'g:i a';
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid time_format value: ' . $settings['time_format']);
-        }
-
+        string $reason = null,
+        string $timezone = null,
+    ): void {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
 
-        if ($timezone && $timezone !== $provider['timezone'])
-        {
-            $appointment_timezone = new DateTimeZone($timezone);
+        $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-            $appointment_start->setTimezone($appointment_timezone);
+        if ($timezone && $timezone !== $provider['timezone']) {
+            $custom_timezone = new DateTimeZone($timezone);
+
+            $appointment_start->setTimezone($custom_timezone);
+            $appointment['start_datetime'] = $appointment_start->format('Y-m-d H:i:s');
+
+            $appointment_end->setTimezone($custom_timezone);
+            $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
-        $html = $this->CI->load->view('emails/appointment_deleted_email', [
-            'appointment_service' => $service['name'],
-            'appointment_provider' => $provider['first_name'] . ' ' . $provider['last_name'],
-            'appointment_date' => $appointment_start->format($date_format . ' ' . $time_format),
-            'appointment_duration' => $service['duration'] . ' ' . lang('minutes'),
-            'appointment_timezone' => $timezones[empty($timezone) ? $provider['timezone'] : $timezone],
-            'company_link' => $settings['company_link'],
-            'company_name' => $settings['company_name'],
-            'customer_name' => $customer['first_name'] . ' ' . $customer['last_name'],
-            'customer_email' => $customer['email'],
-            'customer_phone' => $customer['phone_number'],
-            'customer_address' => $customer['address'],
-            'reason' => $reason,
-        ], TRUE);
+        $html = $this->CI->load->view(
+            'emails/appointment_deleted_email',
+            [
+                'appointment' => $appointment,
+                'service' => $service,
+                'provider' => $provider,
+                'customer' => $customer,
+                'settings' => $settings,
+                'timezone' => $timezone,
+                'reason' => $reason,
+            ],
+            true,
+        );
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);
 
@@ -239,8 +183,7 @@ class Email_messages {
 
         $this->CI->email->message($html);
 
-        if ( ! $this->CI->email->send(FALSE))
-        {
+        if (!$this->CI->email->send(false)) {
             throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
         }
     }
@@ -252,19 +195,17 @@ class Email_messages {
      * @param string $recipient_email Recipient email address.
      * @param array $settings App settings.
      */
-    public function send_password(
-        string $password,
-        string $recipient_email,
-        array $settings
-    )
+    public function send_password(string $password, string $recipient_email, array $settings): void
     {
-        $html = $this->CI->load->view('emails/account_recovery_email', [
-            'email_title' => lang('new_account_password'),
-            'email_message' => str_replace('$password', '<strong>' . $password . '</strong>', lang('new_password_is')),
-            'company_name' => $settings['company_name'],
-            'company_email' => $settings['company_email'],
-            'company_link' => $settings['company_link'],
-        ], TRUE);
+        $html = $this->CI->load->view(
+            'emails/account_recovery_email',
+            [
+                'subject' => lang('new_account_password'),
+                'message' => str_replace('$password', '<strong>' . $password . '</strong>', lang('new_password_is')),
+                'settings' => $settings,
+            ],
+            true,
+        );
 
         $this->CI->email->from($settings['company_email'], $settings['company_email']);
 
@@ -274,8 +215,7 @@ class Email_messages {
 
         $this->CI->email->message($html);
 
-        if ( ! $this->CI->email->send(FALSE))
-        {
+        if (!$this->CI->email->send(false)) {
             throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
         }
     }

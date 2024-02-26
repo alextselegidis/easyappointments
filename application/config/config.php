@@ -16,14 +16,20 @@
 */
 
 $protocol =
-    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
-    || (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443)
-    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
-        ? 'https://' : 'http://';
+    (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ||
+    (isset($_SERVER['SERVER_PORT']) && (int)$_SERVER['SERVER_PORT'] === 443) ||
+    (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https')
+        ? 'https://'
+        : 'http://';
 
 $domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
 $request_uri = dirname($_SERVER['SCRIPT_NAME']);
+
+if ($request_uri === '.')
+{
+    $request_uri = '';
+}
 
 $config['base_url'] = trim($protocol . $domain . $request_uri, '/');
 
@@ -86,6 +92,7 @@ $languages = [
     'bu' => 'bulgarian',
     'ca' => 'catalan',
     'zh' => 'chinese',
+    'hr' => 'croatian',
     'cs' => 'czech',
     'da' => 'danish',
     'nl' => 'dutch',
@@ -111,14 +118,18 @@ $languages = [
     'sk' => 'slovak',
     'es' => 'spanish',
     'sv' => 'swedish',
-    'tr' => 'turkish',
+    'tr' => 'turkish'
 ];
+
+$config['language_codes'] = $languages;
 
 $language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
 
 $config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
     ? $languages[$language_code]
     : Config::LANGUAGE;
+
+$config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 
 /*
 |--------------------------------------------------------------------------
@@ -135,6 +146,7 @@ $config['available_languages'] = [
     'bulgarian',
     'catalan',
     'chinese',
+    'croatian',
     'czech',
     'danish',
     'dutch',
@@ -160,6 +172,7 @@ $config['available_languages'] = [
     'serbian',
     'slovak',
     'spanish',
+    'swedish',
     'turkish'
 ];
 
@@ -185,7 +198,6 @@ $config['charset'] = 'UTF-8';
 */
 $config['enable_hooks'] = TRUE;
 
-
 /*
 |--------------------------------------------------------------------------
 | Class Extension Prefix
@@ -199,7 +211,6 @@ $config['enable_hooks'] = TRUE;
 |
 */
 $config['subclass_prefix'] = 'EA_';
-
 
 /*
 |--------------------------------------------------------------------------
@@ -219,7 +230,6 @@ $config['subclass_prefix'] = 'EA_';
 |
 */
 $config['permitted_uri_chars'] = 'a-z 0-9~%.:_\-';
-
 
 /*
 |--------------------------------------------------------------------------
@@ -362,17 +372,6 @@ $config['cookie_secure'] = strpos($config['base_url'], 'https') !== FALSE;
 
 /*
 |--------------------------------------------------------------------------
-| Global XSS Filtering
-|--------------------------------------------------------------------------
-|
-| Determines whether the XSS filter is always active when GET, POST or
-| COOKIE data is encountered
-|
-*/
-$config['global_xss_filtering'] = TRUE;
-
-/*
-|--------------------------------------------------------------------------
 | Cross Site Request Forgery
 |--------------------------------------------------------------------------
 | Enables a CSRF cookie token to be set. When set to TRUE, token will be
@@ -387,12 +386,7 @@ $config['csrf_protection'] = TRUE;
 $config['csrf_token_name'] = 'csrf_token';
 $config['csrf_cookie_name'] = 'csrf_cookie';
 $config['csrf_expire'] = 7200;
-$config['csrf_exclude_uris'] = [
-    'api/v1/.*',
-    'booking/.*',
-    'booking_cancellation/.*',
-    'booking_confirmation/.*'
-];
+$config['csrf_exclude_uris'] = ['api/v1/.*', 'booking/.*', 'booking_cancellation/.*', 'booking_confirmation/.*'];
 
 /*
 |--------------------------------------------------------------------------
@@ -426,7 +420,6 @@ $config['compress_output'] = FALSE;
 */
 $config['time_reference'] = 'local';
 
-
 /*
 |--------------------------------------------------------------------------
 | Rewrite PHP Short Tags
@@ -438,7 +431,6 @@ $config['time_reference'] = 'local';
 |
 */
 $config['rewrite_short_tags'] = FALSE;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -458,12 +450,11 @@ $config['proxy_ips'] = '';
 | Rate Limiting
 |--------------------------------------------------------------------------
 |
-| Toggle the rate limiting feature in your application. Using rate limiting 
-| will control the number of requests a client can sent to the app. 
+| Toggle the rate limiting feature in your application. Using rate limiting
+| will control the number of requests a client can sent to the app.
 |
 */
 $config['rate_limiting'] = TRUE;
-
 
 /* End of file config.php */
 /* Location: ./application/config/config.php */

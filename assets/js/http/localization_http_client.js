@@ -25,13 +25,13 @@ App.Http.Localization = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            language
+            language,
         };
 
         return $.post(url, data);
     }
 
     return {
-        changeLanguage
+        changeLanguage,
     };
 })();

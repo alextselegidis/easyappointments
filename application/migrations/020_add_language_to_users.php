@@ -11,21 +11,21 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_language_to_users extends EA_Migration {
+class Migration_Add_language_to_users extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('language', 'users'))
-        {
+        if (!$this->db->field_exists('language', 'users')) {
             $fields = [
                 'language' => [
                     'type' => 'VARCHAR',
                     'constraint' => '256',
                     'default' => 'english',
-                    'after' => 'timezone'
-                ]
+                    'after' => 'timezone',
+                ],
             ];
 
             $this->dbforge->add_column('users', $fields);

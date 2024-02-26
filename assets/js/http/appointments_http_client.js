@@ -23,7 +23,7 @@ App.Http.Appointments = (function () {
      * @return {Object}
      */
     function save(appointment) {
-        return appointment.id ? update(appointment) : create(appointment);
+        return appointment.id ? update(appointment) : store(appointment);
     }
 
     /**
@@ -33,12 +33,12 @@ App.Http.Appointments = (function () {
      *
      * @return {Object}
      */
-    function create(appointment) {
-        const url = App.Utils.Url.siteUrl('appointments/create');
+    function store(appointment) {
+        const url = App.Utils.Url.siteUrl('appointments/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            appointment: appointment
+            appointment: appointment,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Appointments = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            appointment: appointment
+            appointment: appointment,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Appointments = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            appointment_id: appointmentId
+            appointment_id: appointmentId,
         };
 
         return $.post(url, data);
@@ -98,7 +98,7 @@ App.Http.Appointments = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Appointments = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            appointment_id: appointmentId
+            appointment_id: appointmentId,
         };
 
         return $.post(url, data);
@@ -124,10 +124,10 @@ App.Http.Appointments = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

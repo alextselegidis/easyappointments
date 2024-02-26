@@ -15,6 +15,8 @@
  * This module implements the functionality of messages.
  */
 window.App.Utils.Message = (function () {
+    let messageModal = null;
+
     /**
      * Show a message box to the user.
      *
@@ -24,60 +26,89 @@ window.App.Utils.Message = (function () {
      * @param {String} title The title of the message box.
      * @param {String} message The message of the dialog.
      * @param {Array} [buttons] Contains the dialog buttons along with their functions.
+     * @param {Boolean} [isDismissible] If true, the button will show the close X in the header and close with the press of the Escape button.
      */
-    function show(title, message, buttons = null) {
+    function show(title, message, buttons = null, isDismissible = true) {
+        if (!title || !message) {
+            return;
+        }
+
         if (!buttons) {
             buttons = [
                 {
                     text: lang('close'),
-                    click: function () {
-                        $('#message-box').dialog('close');
-                    }
-                }
+                    className: 'btn btn-outline-primary',
+                    click: function (event, messageModal) {
+                        messageModal.dispose();
+                    },
+                },
             ];
         }
 
-        // Destroy previous dialog instances.
+        if (messageModal?.dispose && messageModal?._element) {
+            messageModal.dispose();
+        }
 
-        $('#message-box').dialog('destroy').remove();
+        $('#message-modal').remove();
 
-        // Create the HTML of the message box.
+        const $messageModal = $(`
+            <div class="modal" id="message-modal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">
+                                ${title}
+                            </h5>
+                            ${
+                                isDismissible
+                                    ? '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
+                                    : ''
+                            }
+                        </div>
+                        <div class="modal-body">
+                            <p>
+                                ${message}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- * -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).appendTo('body');
 
-        const $messageBox = $('<div/>', {
-            'id': 'message-box',
-            'title': title,
-            'html': [
-                $('<p/>', {
-                    'html': message
-                })
-            ]
-        }).appendTo('body');
+        buttons.forEach((button) => {
+            if (!button) {
+                return;
+            }
 
-        $messageBox.dialog({
-            autoOpen: false,
-            modal: true,
-            resize: 'auto',
-            width: 'auto',
-            height: 'auto',
-            resizable: false,
-            buttons: buttons,
-            closeOnEscape: true
+            if (!button.className) {
+                button.className = 'btn btn-outline-primary';
+            }
+
+            const $button = $(`
+                <button type="button" class="${button.className}" data-bs-dismiss="modal">
+                    ${button.text}
+                </button>
+            `).appendTo($messageModal.find('.modal-footer'));
+
+            if (button.click) {
+                $button.on('click', (event) => button.click(event, messageModal));
+            }
         });
 
-        $messageBox.dialog('open');
+        messageModal = new bootstrap.Modal('#message-modal', {
+            keyboard: isDismissible,
+            backdrop: 'static',
+        });
 
-        $('.ui-dialog .ui-dialog-buttonset button:not(:last)').addClass('btn btn-secondary');
-        $('.ui-dialog .ui-dialog-buttonset button:last').addClass('btn btn-primary').focus();
-        $('.ui-dialog .ui-dialog-buttonset button:last').prepend(
-            $('<i/>', {
-                'class': 'fas fa-check-square me-2'
-            })
-        );
+        messageModal.show();
 
-        $('#message-box .ui-dialog-titlebar-close').hide();
+        $('#message-modal').css('z-index', '99999').next().css('z-index', '9999');
     }
 
     return {
-        show
+        show,
     };
 })();

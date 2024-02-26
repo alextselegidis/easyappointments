@@ -25,7 +25,8 @@ use Jsvrcek\ICS\Utility\Provider;
  *
  * There is no other change to the original file.
  */
-class Ics_calendar extends Calendar {
+class Ics_calendar extends Calendar
+{
     /**
      * @var string
      */
@@ -62,7 +63,7 @@ class Ics_calendar extends Calendar {
     private $customHeaders = [];
 
     /**
-     * @var \DateTimeZone
+     * @var DateTimeZone
      */
     private $timezone;
 
@@ -91,7 +92,7 @@ class Ics_calendar extends Calendar {
      */
     public function __construct()
     {
-        $this->timezone = new \DateTimeZone('America/New_York');
+        $this->timezone = new DateTimeZone('America/New_York');
         $this->events = new Ics_provider();
         $this->todos = new Ics_provider();
         $this->freeBusy = new Ics_provider();
@@ -112,10 +113,10 @@ class Ics_calendar extends Calendar {
      *      //return an array of CalendarEvent objects
      *  })
      *
-     * @param \Closure $eventsProvider
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @param Closure $eventsProvider
+     * @return Calendar
      */
-    public function setEventsProvider(\Closure $eventsProvider)
+    public function setEventsProvider(Closure $eventsProvider)
     {
         $this->events = new Ics_provider($eventsProvider);
         return $this;
@@ -131,7 +132,7 @@ class Ics_calendar extends Calendar {
 
     /**
      * @param string $version
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setVersion($version)
     {
@@ -149,7 +150,7 @@ class Ics_calendar extends Calendar {
 
     /**
      * @param string $prodId
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setProdId($prodId)
     {
@@ -185,7 +186,7 @@ class Ics_calendar extends Calendar {
 
     /**
      * @param string $calendarScale
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setCalendarScale($calendarScale)
     {
@@ -203,7 +204,7 @@ class Ics_calendar extends Calendar {
 
     /**
      * @param string $method
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setMethod($method)
     {
@@ -247,26 +248,19 @@ class Ics_calendar extends Calendar {
     public function setImage($image)
     {
         // Do some validation on provided data.
-        if (array_key_exists('VALUE', $image) && in_array($image['VALUE'], ['URI', 'BINARY']))
-        {
-            if ($image['VALUE'] == 'URI' && $image['URI'])
-            {
+        if (array_key_exists('VALUE', $image) && in_array($image['VALUE'], ['URI', 'BINARY'])) {
+            if ($image['VALUE'] == 'URI' && $image['URI']) {
                 $new_image = [
                     'VALUE' => 'URI',
-                    'URI' => $image['URI']
+                    'URI' => $image['URI'],
                 ];
-
-            }
-            elseif ($image['VALUE'] == 'BINARY' && $image['ENCODING'] && $image['BINARY'])
-            {
+            } elseif ($image['VALUE'] == 'BINARY' && $image['ENCODING'] && $image['BINARY']) {
                 $new_image = [
                     'VALUE' => 'BINARY',
                     'ENCODING' => $image['ENCODING'],
-                    'BINARY' => $image['BINARY']
+                    'BINARY' => $image['BINARY'],
                 ];
-            }
-            else
-            {
+            } else {
                 return;
             }
             $new_image['DISPLAY'] = isset($image['DISPLAY']) ? $image['DISPLAY'] : '';
@@ -288,7 +282,7 @@ class Ics_calendar extends Calendar {
      * <strong>Example:</strong> $customHeaders = array('X-WR-TIMEZONE' => 'America/New_York')
      *
      * @param array $customHeaders
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setCustomHeaders(array $customHeaders)
     {
@@ -299,7 +293,7 @@ class Ics_calendar extends Calendar {
     /**
      * @param string $key
      * @param string $value
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function addCustomHeader($key, $value)
     {
@@ -308,7 +302,7 @@ class Ics_calendar extends Calendar {
     }
 
     /**
-     * @return \DateTimeZone
+     * @return DateTimeZone
      */
     public function getTimezone()
     {
@@ -316,10 +310,10 @@ class Ics_calendar extends Calendar {
     }
 
     /**
-     * @param \DateTimeZone $timezone
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @param DateTimeZone $timezone
+     * @return Calendar
      */
-    public function setTimezone(\DateTimeZone $timezone)
+    public function setTimezone(DateTimeZone $timezone)
     {
         $this->timezone = $timezone;
         return $this;
@@ -335,7 +329,7 @@ class Ics_calendar extends Calendar {
 
     /**
      * @param CalendarEvent $event
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function addEvent(CalendarEvent $event)
     {
@@ -352,22 +346,22 @@ class Ics_calendar extends Calendar {
     }
 
     /**
-     * @param CalendarTodo $todo
-     * @return \Jsvrcek\ICS\Model\Calendar
-     */
-    public function addTodo(CalendarTodo $todo)
-    {
-        $this->todos[] = $todo;
-        return $this;
-    }
-
-    /**
      * @param array $todos
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setTodos(array $todos)
     {
         $this->todos = $todos;
+        return $this;
+    }
+
+    /**
+     * @param CalendarTodo $todo
+     * @return Calendar
+     */
+    public function addTodo(CalendarTodo $todo)
+    {
+        $this->todos[] = $todo;
         return $this;
     }
 
@@ -380,22 +374,22 @@ class Ics_calendar extends Calendar {
     }
 
     /**
-     * @param CalendarFreeBusy $todo
-     * @return \Jsvrcek\ICS\Model\Calendar
-     */
-    public function addFreeBusy(CalendarFreeBusy $todo)
-    {
-        $this->freeBusy[] = $todo;
-        return $this;
-    }
-
-    /**
      * @param array $freeBusy
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setFreeBusy(array $freeBusy)
     {
         $this->freeBusy = $freeBusy;
+        return $this;
+    }
+
+    /**
+     * @param CalendarFreeBusy $todo
+     * @return Calendar
+     */
+    public function addFreeBusy(CalendarFreeBusy $todo)
+    {
+        $this->freeBusy[] = $todo;
         return $this;
     }
 
@@ -407,12 +401,11 @@ class Ics_calendar extends Calendar {
         return $this->color;
     }
 
-
     /**
      * Set color as CSS3 string
      *
      * @param string $color
-     * @return \Jsvrcek\ICS\Model\Calendar
+     * @return Calendar
      */
     public function setColor($color)
     {

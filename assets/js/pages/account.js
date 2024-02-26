@@ -140,8 +140,8 @@ App.Pages.Account = (function () {
                 username: $username.val(),
                 password: $password.val() || undefined,
                 calendar_view: $calendarView.val(),
-                notifications: Number(notifications.prop('checked'))
-            }
+                notifications: Number(notifications.prop('checked')),
+            },
         };
     }
 
@@ -190,8 +190,6 @@ App.Pages.Account = (function () {
         $saveSettings.on('click', onSaveSettingsClick);
 
         $username.on('change', onUsernameChange);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

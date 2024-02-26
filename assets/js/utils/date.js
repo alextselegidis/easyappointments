@@ -193,6 +193,6 @@ window.App.Utils.Date = (function () {
         format,
         getWeekdayId,
         sortWeekDictionary,
-        getWeekdayName
+        getWeekdayName,
     };
 })();

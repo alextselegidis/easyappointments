@@ -11,9 +11,7 @@
  * @since       v1.1.0
  * ---------------------------------------------------------------------------- */
 
-
-if ( ! function_exists('lang'))
-{
+if (!function_exists('lang')) {
     /**
      * Lang
      *
@@ -32,8 +30,7 @@ if ( ! function_exists('lang'))
 
         $result = $CI->lang->line($line);
 
-        if ($for !== '')
-        {
+        if ($for !== '') {
             $result = '<label for="' . $for . '"' . _stringify_attributes($attributes) . '>' . $result . '</label>';
         }
 

@@ -10,78 +10,78 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Categories HTTP client.
+ * Blocked-periods HTTP client.
  *
- * This module implements the categories related HTTP requests.
+ * This module implements the blocked-periods related HTTP requests.
  */
-App.Http.Categories = (function () {
+App.Http.BlockedPeriods = (function () {
     /**
-     * Save (create or update) a category.
+     * Save (create or update) a blocked-period.
      *
-     * @param {Object} category
+     * @param {Object} blockedPeriod
      *
      * @return {Object}
      */
-    function save(category) {
-        return category.id ? update(category) : create(category);
+    function save(blockedPeriod) {
+        return blockedPeriod.id ? update(blockedPeriod) : store(blockedPeriod);
     }
 
     /**
-     * Create a category.
+     * Create a blocked-period.
      *
-     * @param {Object} category
+     * @param {Object} blockedPeriod
      *
      * @return {Object}
      */
-    function create(category) {
-        const url = App.Utils.Url.siteUrl('categories/create');
+    function store(blockedPeriod) {
+        const url = App.Utils.Url.siteUrl('blocked_periods/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category: category
+            blocked_period: blockedPeriod,
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Update a category.
+     * Update a blocked-period.
      *
-     * @param {Object} category
+     * @param {Object} blockedPeriod
      *
      * @return {Object}
      */
-    function update(category) {
-        const url = App.Utils.Url.siteUrl('categories/update');
+    function update(blockedPeriod) {
+        const url = App.Utils.Url.siteUrl('blocked_periods/update');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category: category
+            blocked_period: blockedPeriod,
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Delete a category.
+     * Delete a blocked-period.
      *
-     * @param {Number} categoryId
+     * @param {Number} blockedPeriodId
      *
      * @return {Object}
      */
-    function destroy(categoryId) {
-        const url = App.Utils.Url.siteUrl('categories/destroy');
+    function destroy(blockedPeriodId) {
+        const url = App.Utils.Url.siteUrl('blocked_periods/destroy');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category_id: categoryId
+            blocked_period_id: blockedPeriodId,
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Search categories by keyword.
+     * Search blocked-periods by keyword.
      *
      * @param {String} keyword
      * @param {Number} [limit]
@@ -90,33 +90,33 @@ App.Http.Categories = (function () {
      *
      * @return {Object}
      */
-        function search(keyword, limit = null, offset = null, orderBy = null) {
-        const url = App.Utils.Url.siteUrl('categories/search');
+    function search(keyword, limit = null, offset = null, orderBy = null) {
+        const url = App.Utils.Url.siteUrl('blocked_periods/search');
 
         const data = {
             csrf_token: vars('csrf_token'),
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
     }
 
     /**
-     * Find a category.
+     * Find a blocked-period.
      *
-     * @param {Number} categoryId
+     * @param {Number} blockedPeriodId
      *
      * @return {Object}
      */
-    function find(categoryId) {
-        const url = App.Utils.Url.siteUrl('categories/find');
+    function find(blockedPeriodId) {
+        const url = App.Utils.Url.siteUrl('blocked_periods/find');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            category_id: categoryId
+            blocked_period_id: blockedPeriodId,
         };
 
         return $.post(url, data);
@@ -124,10 +124,10 @@ App.Http.Categories = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

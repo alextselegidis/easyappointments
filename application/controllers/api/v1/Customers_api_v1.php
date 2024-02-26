@@ -16,15 +16,14 @@
  *
  * @package Controllers
  */
-class Customers_api_v1 extends EA_Controller {
+class Customers_api_v1 extends EA_Controller
+{
     /**
      * Customers_api_v1 constructor.
      */
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('customers_model');
 
         $this->load->library('api');
 
@@ -36,10 +35,9 @@ class Customers_api_v1 extends EA_Controller {
     /**
      * Get a customer collection.
      */
-    public function index()
+    public function index(): void
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -53,28 +51,23 @@ class Customers_api_v1 extends EA_Controller {
             $with = $this->api->request_with();
 
             $customers = empty($keyword)
-                ? $this->customers_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->customers_model->get(null, $limit, $offset, $order_by)
                 : $this->customers_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($customers as &$customer)
-            {
+            foreach ($customers as &$customer) {
                 $this->customers_model->api_encode($customer);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->customers_model->only($customer, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->customers_model->load($customer, $with);
                 }
             }
 
             json_response($customers);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -84,49 +77,44 @@ class Customers_api_v1 extends EA_Controller {
      *
      * @param int|null $id Customer ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null): void
     {
-        try
-        {
+        try {
+            $occurrences = $this->customers_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $customer = $this->customers_model->find($id);
 
             $this->customers_model->api_encode($customer);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->customers_model->only($customer, $fields);
             }
 
-            if ( ! $customer)
-            {
-                response('', 404);
-
-                return;
-            }
-
             json_response($customer);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
 
     /**
-     * Create a customer.
+     * Store a new customer.
      */
-    public function store()
+    public function store(): void
     {
-        try
-        {
+        try {
             $customer = request();
 
             $this->customers_model->api_decode($customer);
 
-            if (array_key_exists('id', $customer))
-            {
+            if (array_key_exists('id', $customer)) {
                 unset($customer['id']);
             }
 
@@ -137,9 +125,7 @@ class Customers_api_v1 extends EA_Controller {
             $this->customers_model->api_encode($created_customer);
 
             json_response($created_customer, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -149,14 +135,12 @@ class Customers_api_v1 extends EA_Controller {
      *
      * @param int $id Customer ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
-        try
-        {
+        try {
             $occurrences = $this->customers_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -175,9 +159,7 @@ class Customers_api_v1 extends EA_Controller {
             $this->customers_model->api_encode($updated_customer);
 
             json_response($updated_customer);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -187,14 +169,12 @@ class Customers_api_v1 extends EA_Controller {
      *
      * @param int $id Customer ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
-        try
-        {
+        try {
             $occurrences = $this->customers_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -203,9 +183,7 @@ class Customers_api_v1 extends EA_Controller {
             $this->customers_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

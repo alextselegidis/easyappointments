@@ -1,9 +1,11 @@
 .idea
-application
+.github
+.run
+application/language/*
 build
 docker
 docs
+node_modules
 storage
 system
-tests
 vendor

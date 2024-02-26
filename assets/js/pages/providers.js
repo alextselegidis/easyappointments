@@ -93,7 +93,7 @@ App.Pages.Providers = (function () {
             $('#password, #password-confirm').addClass('required');
             $providers
                 .find(
-                    '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan'
+                    '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan',
                 )
                 .prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
@@ -118,7 +118,7 @@ App.Pages.Providers = (function () {
             $('#provider-services input:checkbox').prop('disabled', false);
             $providers
                 .find(
-                    '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan'
+                    '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan',
                 )
                 .prop('disabled', false);
             $('#providers input:checkbox').prop('disabled', false);
@@ -134,17 +134,17 @@ App.Pages.Providers = (function () {
             const buttons = [
                 {
                     text: lang('cancel'),
-                    click: () => {
-                        $('#message-box').dialog('close');
-                    }
+                    click: (event, messageModal) => {
+                        messageModal.dispose();
+                    },
                 },
                 {
                     text: lang('delete'),
-                    click: () => {
+                    click: (event, messageModal) => {
                         remove(providerId);
-                        $('#message-box').dialog('close');
-                    }
-                }
+                        messageModal.dispose();
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_provider'), lang('delete_record_prompt'), buttons);
@@ -173,8 +173,8 @@ App.Pages.Providers = (function () {
                     working_plan: JSON.stringify(workingPlanManager.get()),
                     working_plan_exceptions: JSON.stringify(workingPlanManager.getWorkingPlanExceptions()),
                     notifications: Number($notifications.prop('checked')),
-                    calendar_view: $calendarView.val()
-                }
+                    calendar_view: $calendarView.val(),
+                },
             };
 
             // Include provider services.
@@ -213,13 +213,6 @@ App.Pages.Providers = (function () {
             if (id) {
                 select(id, true);
             }
-        });
-
-        /**
-         * Event: Display Provider Details "Click"
-         */
-        $providers.on('shown.bs.tab', 'a[data-bs-toggle="tab"]', () => {
-            App.Layouts.Backend.placeFooterToBottom();
         });
 
         /**
@@ -354,7 +347,6 @@ App.Pages.Providers = (function () {
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
 
         workingPlanManager.timepickers(true);
-        $providers.find('#providers .working-plan input:text').timepicker('destroy');
         $providers.find('#providers .working-plan input:checkbox').prop('disabled', true);
         $('.breaks').find('.edit-break, .delete-break').prop('disabled', true);
         $('.working-plan-exceptions')
@@ -404,13 +396,13 @@ App.Pages.Providers = (function () {
             'target': '_blank',
             'html': [
                 $('<i/>', {
-                    'class': 'fas fa-link me-2'
+                    'class': 'fas fa-link me-2',
                 }),
 
                 $('<span/>', {
-                    'text': lang('booking_link')
-                })
-            ]
+                    'text': lang('booking_link'),
+                }),
+            ],
         });
 
         $providers.find('.details-view h4').find('a').remove().end().append($link);
@@ -429,7 +421,7 @@ App.Pages.Providers = (function () {
 
             // Add dedicated service-provider link.
             dedicatedUrl = App.Utils.Url.siteUrl(
-                '?provider=' + encodeURIComponent(provider.id) + '&service=' + encodeURIComponent(providerServiceId)
+                '?provider=' + encodeURIComponent(provider.id) + '&service=' + encodeURIComponent(providerServiceId),
             );
 
             $link = $('<a/>', {
@@ -437,13 +429,13 @@ App.Pages.Providers = (function () {
                 'target': '_blank',
                 'html': [
                     $('<i/>', {
-                        'class': 'fas fa-link me-2'
+                        'class': 'fas fa-link me-2',
                     }),
 
                     $('<span/>', {
-                        'text': lang('booking_link')
-                    })
-                ]
+                        'text': lang('booking_link'),
+                    }),
+                ],
             });
 
             $checkbox.parent().append($link);
@@ -461,7 +453,6 @@ App.Pages.Providers = (function () {
             .find('.edit-working-plan-exception, .delete-working-plan-exception')
             .prop('disabled', true);
         $providers.find('.working-plan input:checkbox').prop('disabled', true);
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     /**
@@ -483,8 +474,8 @@ App.Pages.Providers = (function () {
             if (!response.length) {
                 $filterProviders.find('.results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -494,7 +485,7 @@ App.Pages.Providers = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-providers .results');
             }
 
@@ -525,15 +516,15 @@ App.Pages.Providers = (function () {
             'data-id': provider.id,
             'html': [
                 $('<strong/>', {
-                    'text': name
+                    'text': name,
                 }),
                 $('<br/>'),
                 $('<small/>', {
                     'class': 'text-muted',
-                    'text': info
+                    'text': info,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -569,8 +560,8 @@ App.Pages.Providers = (function () {
         addEventListeners();
 
         vars('services').forEach((service) => {
-            const checkboxId = `provider-service-${service.id}`; 
-            
+            const checkboxId = `provider-service-${service.id}`;
+
             $('<div/>', {
                 'class': 'checkbox',
                 'html': [
@@ -583,17 +574,17 @@ App.Pages.Providers = (function () {
                                 'type': 'checkbox',
                                 'data-id': service.id,
                                 'prop': {
-                                    'disabled': true
-                                }
+                                    'disabled': true,
+                                },
                             }),
                             $('<label/>', {
                                 'class': 'form-check-label',
                                 'text': service.name,
                                 'for': checkboxId,
-                            })
-                        ]
-                    })
-                ]
+                            }),
+                        ],
+                    }),
+                ],
             }).appendTo('#provider-services');
         });
     }
@@ -606,6 +597,6 @@ App.Pages.Providers = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

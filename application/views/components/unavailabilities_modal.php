@@ -1,14 +1,14 @@
 <?php
 /**
  * Local variables.
- * 
+ *
  * @var array $timezones
  * @var string $timezone
  */
 ?>
 
 <div id="unavailabilities-modal" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('new_unavailability_title') ?></h3>
@@ -45,22 +45,29 @@
                         </div>
 
                         <div class="mb-3">
-                            <label class="form-label"><?= lang('timezone') ?></label>
+                            <label class="form-label">
+                                <?= lang('timezone') ?>
+                            </label>
 
-                            <ul>
-                                <li>
-                                    <?= lang('provider') ?>:
-                                    <span class="provider-timezone">
-                                        -
-                                    </span>
-                                </li>
-                                <li>
-                                    <?= lang('current_user') ?>:
-                                    <span>
-                                        <?= $timezones[$timezone] ?>
-                                    </span>
-                                </li>
-                            </ul>
+                            <div
+                                class="border rounded d-flex justify-content-between align-items-center bg-light timezone-info">
+                                <div class="border-end w-50 p-1 text-center">
+                                    <small>
+                                        <?= lang('provider') ?>:
+                                        <span class="provider-timezone">
+                                                    -
+                                                </span>
+                                    </small>
+                                </div>
+                                <div class="w-50 p-1 text-center">
+                                    <small>
+                                        <?= lang('current_user') ?>:
+                                        <span>
+                                                    <?= $timezones[session('timezone', 'UTC')] ?>
+                                                </span>
+                                    </small>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="mb-3">
@@ -85,8 +92,8 @@
     </div>
 </div>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/components/unavailabilities_modal.js') ?>"></script>
 
-<?php section('scripts') ?> 
+<?php end_section('scripts'); ?> 

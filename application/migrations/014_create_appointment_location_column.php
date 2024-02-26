@@ -11,33 +11,32 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Create_appointment_location_column extends EA_Migration {
+class Migration_Create_appointment_location_column extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('location', 'appointments'))
-        {
+        if (!$this->db->field_exists('location', 'appointments')) {
             $fields = [
                 'location' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
-                    'after' => 'end_datetime'
-                ]
+                    'null' => true,
+                    'after' => 'end_datetime',
+                ],
             ];
 
             $this->dbforge->add_column('appointments', $fields);
         }
 
-        if ( ! $this->db->field_exists('location', 'services'))
-        {
+        if (!$this->db->field_exists('location', 'services')) {
             $fields = [
                 'location' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
-                    'after' => 'description'
-                ]
+                    'null' => true,
+                    'after' => 'description',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);
@@ -49,13 +48,11 @@ class Migration_Create_appointment_location_column extends EA_Migration {
      */
     public function down()
     {
-        if ($this->db->field_exists('location', 'appointments'))
-        {
+        if ($this->db->field_exists('location', 'appointments')) {
             $this->dbforge->drop_column('appointments', 'location');
         }
 
-        if ($this->db->field_exists('location', 'services'))
-        {
+        if ($this->db->field_exists('location', 'services')) {
             $this->dbforge->drop_column('services', 'location');
         }
     }

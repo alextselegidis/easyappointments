@@ -26,30 +26,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['upload_userfile_not_set'] = 'Unable to find a post variable called userfile.';
-$lang['upload_file_exceeds_limit'] = 'The uploaded file exceeds the maximum allowed size in your PHP configuration file.';
-$lang['upload_file_exceeds_form_limit'] = 'The uploaded file exceeds the maximum size allowed by the submission form.';
-$lang['upload_file_partial'] = 'The file was only partially uploaded.';
-$lang['upload_no_temp_directory'] = 'The temporary folder is missing.';
-$lang['upload_unable_to_write_file'] = 'The file could not be written to disk.';
-$lang['upload_stopped_by_extension'] = 'The file upload was stopped by extension.';
-$lang['upload_no_file_selected'] = 'You did not select a file to upload.';
-$lang['upload_invalid_filetype'] = 'The filetype you are attempting to upload is not allowed.';
-$lang['upload_invalid_filesize'] = 'The file you are attempting to upload is larger than the permitted size.';
-$lang['upload_invalid_dimensions'] = 'The image you are attempting to upload doesn\'t fit into the allowed dimensions.';
-$lang['upload_destination_error'] = 'A problem was encountered while attempting to move the uploaded file to the final destination.';
-$lang['upload_no_filepath'] = 'The upload path does not appear to be valid.';
-$lang['upload_no_file_types'] = 'You have not specified any allowed file types.';
-$lang['upload_bad_filename'] = 'The file name you submitted already exists on the server.';
-$lang['upload_not_writable'] = 'The upload destination folder does not appear to be writable.';
+$lang['upload_userfile_not_set'] = 'Impossibile trovare una variabile post chiamata file utente.';
+$lang['upload_file_exceeds_limit'] = 'Il file caricato supera la dimensione massima consentita nel tuo file di configurazione PHP.';
+$lang['upload_file_exceeds_form_limit'] = 'Il file caricato supera la dimensione massima consentita dal modulo di invio.';
+$lang['upload_file_partial'] = 'Il file è stato caricato solo parzialmente.';
+$lang['upload_no_temp_directory'] = 'Manca la cartella temporanea.';
+$lang['upload_unable_to_write_file'] = 'Impossibile scrivere il file su disco.';
+$lang['upload_stopped_by_extension'] = 'Il caricamento del file è stato interrotto dall\'estensione.';
+$lang['upload_no_file_selected'] = 'Non hai selezionato un file da caricare.';
+$lang['upload_invalid_filetype'] = 'Il tipo di file che stai tentando di caricare non è consentito.';
+$lang['upload_invalid_filesize'] = 'Il file che stai tentando di caricare è più grande della dimensione consentita.';
+$lang['upload_invalid_dimensions'] = 'L\'immagine che stai tentando di caricare non rientra nelle dimensioni consentite.';
+$lang['upload_destination_error'] = 'Si è verificato un problema durante il tentativo di spostare il file caricato nella destinazione finale.';
+$lang['upload_no_filepath'] = 'Il percorso di caricamento non sembra essere valido.';
+$lang['upload_no_file_types'] = 'Non hai specificato nessun tipo di file consentito.';
+$lang['upload_bad_filename'] = 'Il nome del file che hai inviato esiste già sul server.';
+$lang['upload_not_writable'] = 'La cartella di destinazione del caricamento non sembra essere scrivibile.';

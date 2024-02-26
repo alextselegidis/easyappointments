@@ -21,9 +21,9 @@
  *
  * @return bool Returns whether E!A is installed or not.
  */
-function is_app_installed()
+function is_app_installed(): bool
 {
-    $CI =& get_instance();
+    $CI = &get_instance();
 
     return $CI->db->table_exists('users');
 }

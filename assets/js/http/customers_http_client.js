@@ -23,7 +23,7 @@ App.Http.Customers = (function () {
      * @return {Object}
      */
     function save(customer) {
-        return customer.id ? update(customer) : create(customer);
+        return customer.id ? update(customer) : store(customer);
     }
 
     /**
@@ -33,12 +33,12 @@ App.Http.Customers = (function () {
      *
      * @return {Object}
      */
-    function create(customer) {
-        const url = App.Utils.Url.siteUrl('customers/create');
+    function store(customer) {
+        const url = App.Utils.Url.siteUrl('customers/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer: customer
+            customer: customer,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer: customer
+            customer: customer,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer_id: customerId
+            customer_id: customerId,
         };
 
         return $.post(url, data);
@@ -98,7 +98,7 @@ App.Http.Customers = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Customers = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            customer_id: customerId
+            customer_id: customerId,
         };
 
         return $.post(url, data);
@@ -124,10 +124,10 @@ App.Http.Customers = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

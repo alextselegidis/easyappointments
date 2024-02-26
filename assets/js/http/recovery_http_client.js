@@ -29,13 +29,13 @@ App.Http.Recovery = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             username,
-            email
+            email,
         };
 
         return $.post(url, data);
     }
 
     return {
-        perform
+        perform,
     };
 })();

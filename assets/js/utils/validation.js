@@ -44,6 +44,6 @@ window.App.Utils.Validation = (function () {
 
     return {
         email,
-        phone
+        phone,
     };
 })();

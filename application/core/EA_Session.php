@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Session extends CI_Session {
-    // 
+class EA_Session extends CI_Session
+{
+    //
 }

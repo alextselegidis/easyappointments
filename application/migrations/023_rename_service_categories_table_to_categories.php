@@ -11,14 +11,14 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Rename_service_categories_table_to_categories extends EA_Migration {
+class Migration_Rename_service_categories_table_to_categories extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ($this->db->table_exists('service_categories'))
-        {
+        if ($this->db->table_exists('service_categories')) {
             $this->dbforge->rename_table('service_categories', 'categories');
         }
     }
@@ -28,8 +28,7 @@ class Migration_Rename_service_categories_table_to_categories extends EA_Migrati
      */
     public function down()
     {
-        if ($this->db->table_exists('categories'))
-        {
+        if ($this->db->table_exists('categories')) {
             $this->dbforge->rename_table('categories', 'service_categories');
         }
     }

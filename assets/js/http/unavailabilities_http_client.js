@@ -23,7 +23,7 @@ App.Http.Unavailabilities = (function () {
      * @return {Object}
      */
     function save(unavailability) {
-        return unavailability.id ? update(unavailability) : create(unavailability);
+        return unavailability.id ? update(unavailability) : store(unavailability);
     }
 
     /**
@@ -33,12 +33,12 @@ App.Http.Unavailabilities = (function () {
      *
      * @return {Object}
      */
-    function create(unavailability) {
-        const url = App.Utils.Url.siteUrl('unavailabilities/create');
+    function store(unavailability) {
+        const url = App.Utils.Url.siteUrl('unavailabilities/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailability: unavailability
+            unavailability: unavailability,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Unavailabilities = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailability: unavailability
+            unavailability: unavailability,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Unavailabilities = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailability_id: unavailabilityId
+            unavailability_id: unavailabilityId,
         };
 
         return $.post(url, data);
@@ -90,7 +90,7 @@ App.Http.Unavailabilities = (function () {
      *
      * @return {Object}
      */
-        function search(keyword, limit = null, offset = null, orderBy = null) {
+    function search(keyword, limit = null, offset = null, orderBy = null) {
         const url = App.Utils.Url.siteUrl('unavailabilities/search');
 
         const data = {
@@ -98,7 +98,7 @@ App.Http.Unavailabilities = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Unavailabilities = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            unavailability_id: unavailabilityId
+            unavailability_id: unavailabilityId,
         };
 
         return $.post(url, data);
@@ -124,10 +124,10 @@ App.Http.Unavailabilities = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

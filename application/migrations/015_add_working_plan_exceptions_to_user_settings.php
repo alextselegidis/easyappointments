@@ -11,20 +11,20 @@
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_working_plan_exceptions_to_user_settings extends EA_Migration {
+class Migration_Add_working_plan_exceptions_to_user_settings extends EA_Migration
+{
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if ( ! $this->db->field_exists('working_plan_exceptions', 'user_settings'))
-        {
+        if (!$this->db->field_exists('working_plan_exceptions', 'user_settings')) {
             $fields = [
                 'working_plan_exceptions' => [
                     'type' => 'TEXT',
-                    'null' => TRUE,
-                    'after' => 'working_plan'
-                ]
+                    'null' => true,
+                    'after' => 'working_plan',
+                ],
             ];
 
             $this->dbforge->add_column('user_settings', $fields);
@@ -36,8 +36,7 @@ class Migration_Add_working_plan_exceptions_to_user_settings extends EA_Migratio
      */
     public function down()
     {
-        if ($this->db->field_exists('working_plan_exceptions', 'user_settings'))
-        {
+        if ($this->db->field_exists('working_plan_exceptions', 'user_settings')) {
             $this->dbforge->drop_column('user_settings', 'working_plan_exceptions');
         }
     }

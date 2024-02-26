@@ -43,6 +43,6 @@ window.App.Utils.String = (function () {
 
     return {
         upperCaseFirstLetter,
-        escapeHtml
+        escapeHtml,
     };
 })();

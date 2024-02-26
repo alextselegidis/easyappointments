@@ -27,7 +27,7 @@ App.Http.Account = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            account
+            account,
         };
 
         return $.post(url, data);
@@ -47,7 +47,7 @@ App.Http.Account = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             user_id: userId,
-            username
+            username,
         };
 
         return $.post(url, data);
@@ -55,6 +55,6 @@ App.Http.Account = (function () {
 
     return {
         save,
-        validateUsername
+        validateUsername,
     };
 })();

@@ -1,13 +1,13 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="services-page">
     <div class="row" id="services">
         <div id="filter-services" class="filter-records col col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="key form-control">
+                    <input type="text" class="key form-control" aria-label="keyword">
 
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
@@ -94,10 +94,10 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="category">
+                <label class="form-label" for="service-category-id">
                     <?= lang('category') ?>
                 </label>
-                <select id="category" class="form-control" disabled></select>
+                <select id="service-category-id" class="form-control" disabled></select>
             </div>
 
             <div class="mb-3">
@@ -131,7 +131,7 @@
             </div>
 
             <div class="mb-3">
-                <?php component('color_selection', ['attributes' => 'id="color"']) ?>
+                <?php component('color_selection', ['attributes' => 'id="color"']); ?>
             </div>
 
             <div>
@@ -166,15 +166,15 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/services_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/categories_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/service_categories_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/services.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts'); ?>

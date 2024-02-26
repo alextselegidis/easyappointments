@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Exceptions extends CI_Exceptions {
-    // 
+class EA_Exceptions extends CI_Exceptions
+{
+    //
 }

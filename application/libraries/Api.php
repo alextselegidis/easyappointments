@@ -1,4 +1,6 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed');
+<?php use JetBrains\PhpStorm\NoReturn;
+
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
  * Easy!Appointments - Online Appointment Scheduler
@@ -11,7 +13,6 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-
 /**
  * Api library.
  *
@@ -19,28 +20,29 @@
  *
  * @package Libraries
  */
-class Api {
+class Api
+{
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * @var int
      */
-    protected $default_length = 20;
+    protected int $default_length = 20;
 
     /**
      * @var EA_Model
      */
-    protected $model;
+    protected EA_Model $model;
 
     /**
      * Api constructor.
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->library('accounts');
     }
@@ -50,7 +52,7 @@ class Api {
      *
      * @param string $model
      */
-    public function model(string $model)
+    public function model(string $model): void
     {
         $this->CI->load->model($model);
 
@@ -60,32 +62,31 @@ class Api {
     /**
      * Authorize the API request (Basic Auth or Bearer Token supported).
      */
-    public function auth()
+    public function auth(): void
     {
-        try
-        {
-            // Bearer token. 
+        try {
+            // Bearer token.
             $api_token = setting('api_token');
 
-            if ( ! empty($api_token) && $api_token === $this->get_bearer_token())
-            {
+            if (!empty($api_token) && $api_token === $this->get_bearer_token()) {
                 return;
             }
 
-            // Basic auth.  
-            $username = $_SERVER['PHP_AUTH_USER'];
+            // Basic auth.
+            $username = $_SERVER['PHP_AUTH_USER'] ?? null;
 
-            $password = $_SERVER['PHP_AUTH_PW'];
+            $password = $_SERVER['PHP_AUTH_PW'] ?? null;
 
-            $userdata = $this->CI->accounts->check_login($username, $password);
+            $user_data = $this->CI->accounts->check_login($username, $password);
 
-            if (empty($userdata['role_slug']) || $userdata['role_slug'] !== DB_SLUG_ADMIN)
-            {
-                throw new RuntimeException('The provided credentials do not match any admin user!', 401, 'Unauthorized');
+            if (empty($user_data['role_slug']) || $user_data['role_slug'] !== DB_SLUG_ADMIN) {
+                throw new RuntimeException(
+                    'The provided credentials do not match any admin user!',
+                    401,
+                    'Unauthorized',
+                );
             }
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable) {
             $this->request_authentication();
         }
     }
@@ -93,7 +94,7 @@ class Api {
     /**
      * Returns the bearer token value.
      *
-     * @return string
+     * @return string|null
      */
     protected function get_bearer_token(): ?string
     {
@@ -101,15 +102,13 @@ class Api {
 
         // HEADER: Get the access token from the header
 
-        if ( ! empty($headers))
-        {
-            if (preg_match('/Bearer\s(\S+)/', $headers, $matches))
-            {
+        if (!empty($headers)) {
+            if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
                 return $matches[1];
             }
         }
 
-        return NULL;
+        return null;
     }
 
     /**
@@ -119,29 +118,25 @@ class Api {
      */
     protected function get_authorization_header(): ?string
     {
-        $headers = NULL;
+        $headers = null;
 
-        if (isset($_SERVER['Authorization']))
-        {
+        if (isset($_SERVER['Authorization'])) {
             $headers = trim($_SERVER['Authorization']);
-        }
-        else
-        {
-            if (isset($_SERVER['HTTP_AUTHORIZATION']))
-            {
+        } else {
+            if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
                 // Nginx or fast CGI
                 $headers = trim($_SERVER['HTTP_AUTHORIZATION']);
-            }
-            elseif (function_exists('apache_request_headers'))
-            {
+            } elseif (function_exists('apache_request_headers')) {
                 $requestHeaders = apache_request_headers();
 
                 // Server-side fix for bug in old Android versions (a nice side effect of this fix means we don't care
                 // about capitalization for Authorization).
-                $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));
+                $requestHeaders = array_combine(
+                    array_map('ucwords', array_keys($requestHeaders)),
+                    array_values($requestHeaders),
+                );
 
-                if (isset($requestHeaders['Authorization']))
-                {
+                if (isset($requestHeaders['Authorization'])) {
                     $headers = trim($requestHeaders['Authorization']);
                 }
             }
@@ -153,7 +148,8 @@ class Api {
     /**
      * Sets request authentication headers.
      */
-    public function request_authentication()
+    #[NoReturn]
+    public function request_authentication(): void
     {
         header('WWW-Authenticate: Basic realm="Easy!Appointments"');
         header('HTTP/1.0 401 Unauthorized');
@@ -203,27 +199,25 @@ class Api {
     {
         $sort = request('sort');
 
-        if ( ! $sort)
-        {
-            return NULL;
+        if (!$sort) {
+            return null;
         }
 
         $sort_tokens = array_map('trim', explode(',', $sort));
 
         $order_by = [];
 
-        foreach ($sort_tokens as $sort_token)
-        {
+        foreach ($sort_tokens as $sort_token) {
             $api_field = substr($sort_token, 1);
-
-            $db_field = $this->model->db_field($api_field);
 
             $direction_operator = substr($sort_token, 0, 1);
 
-            if ( ! in_array($direction_operator, ['-', '+']))
-            {
-                throw new InvalidArgumentException('Invalid sort direction operator provided (expected "-" or "+"): ' . $direction_operator);
+            if (!in_array($direction_operator, ['-', '+'])) {
+                $direction_operator = '+';
+                $api_field = $sort_token;
             }
+
+            $db_field = $this->model->db_field($api_field);
 
             $direction = $direction_operator === '-' ? 'DESC' : 'ASC';
 
@@ -242,9 +236,8 @@ class Api {
     {
         $fields = request('fields');
 
-        if ( ! $fields)
-        {
-            return NULL;
+        if (!$fields) {
+            return null;
         }
 
         return array_map('trim', explode(',', $fields));
@@ -259,9 +252,8 @@ class Api {
     {
         $with = request('with');
 
-        if ( ! $with)
-        {
-            return NULL;
+        if (!$with) {
+            return null;
         }
 
         return array_map('trim', explode(',', $with));

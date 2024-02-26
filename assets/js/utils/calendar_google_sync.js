@@ -79,18 +79,18 @@ App.Utils.CalendarGoogleSync = (function () {
                 const buttons = [
                     {
                         text: lang('cancel'),
-                        click: () => {
-                            $('#message-box').dialog('close');
-                        }
+                        click: (event, messageModal) => {
+                            messageModal.dispose();
+                        },
                     },
                     {
                         text: 'OK',
-                        click: () => {
+                        click: (event, messageModal) => {
                             // Disable synchronization for selected provider.
                             const providerId = $('#select-filter-item').val();
 
                             const provider = vars('available_providers').find(
-                                (availableProvider) => Number(availableProvider.id) === Number(providerId)
+                                (availableProvider) => Number(availableProvider.id) === Number(providerId),
                             );
 
                             if (!provider) {
@@ -107,9 +107,9 @@ App.Utils.CalendarGoogleSync = (function () {
                             $('#google-sync').prop('disabled', true);
                             $('#select-filter-item option:selected').attr('google-sync', 'false');
 
-                            $('#message-box').dialog('close');
-                        }
-                    }
+                            messageModal.dispose();
+                        },
+                    },
                 ];
 
                 App.Utils.Message.show(lang('disable_sync'), lang('disable_sync_prompt'), buttons);
@@ -159,6 +159,6 @@ App.Utils.CalendarGoogleSync = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        initialize
+        initialize,
     };
 })();

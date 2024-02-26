@@ -35,7 +35,7 @@
  * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'Tietokannan asetuksia ei voitu päätellä antamastasi yhteystekstistä.';
 $lang['db_unable_to_connect'] = 'Annetuilla määrityksilä ei voitu yhdistää tietokantaan.';

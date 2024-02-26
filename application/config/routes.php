@@ -59,6 +59,22 @@ $route['translate_uri_dashes'] = FALSE;
 
 /*
 | -------------------------------------------------------------------------
+| FRAME OPTIONS HEADERS
+| -------------------------------------------------------------------------
+| Set the appropriate headers so that iframe control and permissions are 
+| properly configured.
+|
+| Options:
+|
+|   - DENY 
+|   - SAMEORIGIN 
+|
+*/
+
+header('X-Frame-Options: SAMEORIGIN');
+
+/*
+| -------------------------------------------------------------------------
 | CORS HEADERS
 | -------------------------------------------------------------------------
 | Set the appropriate headers so that CORS requirements are met and any 
@@ -66,21 +82,23 @@ $route['translate_uri_dashes'] = FALSE;
 |
 */
 
+header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? '*')); // NOTICE: Change this header to restrict CORS access.
+
+header('Access-Control-Allow-Credentials: "true"');
+
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+{
+    // May also be using PUT, PATCH, HEAD etc
+    header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD');
+}
+
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+{
+    header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+}
+
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
 {
-    header('Access-Control-Allow-Origin: *');
-
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-    {
-        // May also be using PUT, PATCH, HEAD etc
-        header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
-    }
-
-    if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-    {
-        header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
-    }
-
     exit(0);
 }
 

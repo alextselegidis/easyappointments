@@ -23,7 +23,7 @@ App.Http.Admins = (function () {
      * @return {Object}
      */
     function save(admin) {
-        return admin.id ? update(admin) : create(admin);
+        return admin.id ? update(admin) : store(admin);
     }
 
     /**
@@ -33,12 +33,12 @@ App.Http.Admins = (function () {
      *
      * @return {Object}
      */
-    function create(admin) {
-        const url = App.Utils.Url.siteUrl('admins/create');
+    function store(admin) {
+        const url = App.Utils.Url.siteUrl('admins/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            admin: admin
+            admin: admin,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Admins = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            admin: admin
+            admin: admin,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Admins = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            admin_id: adminId
+            admin_id: adminId,
         };
 
         return $.post(url, data);
@@ -98,7 +98,7 @@ App.Http.Admins = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Admins = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            admin_id: adminId
+            admin_id: adminId,
         };
 
         return $.post(url, data);
@@ -124,10 +124,10 @@ App.Http.Admins = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

@@ -1,13 +1,13 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="webhooks-page">
     <div class="row" id="webhooks">
         <div id="filter-webhooks" class="filter-records col col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="key form-control">
+                    <input type="text" class="key form-control" aria-label="keyword">
 
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
@@ -19,7 +19,7 @@
             <h4 class="text-black-50 mb-3 fw-light">
                 <?= lang('webhooks') ?>
             </h4>
-            
+
             <div class="results">
                 <!-- JS -->
             </div>
@@ -27,6 +27,11 @@
 
         <div class="record-details column col-12 col-md-5">
             <div class="btn-toolbar mb-4">
+                <a href="<?= site_url('integrations') ?>" class="btn btn-outline-primary me-2">
+                    <i class="fas fa-chevron-left me-2"></i>
+                    <?= lang('back') ?>
+                </a>
+                
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-webhook" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>
@@ -90,7 +95,7 @@
                     <?= lang('actions') ?>
                 </label>
             </div>
-            
+
             <div class="border rounded mb-3 p-3">
                 <div id="actions">
                     <?php foreach (vars('available_actions') as $available_action): ?>
@@ -106,7 +111,7 @@
                                 </label>
                             </div>
                         </div>
-                    <?php endforeach ?>
+                    <?php endforeach; ?>
                 </div>
             </div>
 
@@ -115,7 +120,7 @@
                     <?= lang('options') ?>
                 </label>
             </div>
-            
+
             <div class="border rounded mb-3 p-3">
                 <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="is-ssl-verified">
@@ -136,9 +141,9 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
@@ -146,4 +151,4 @@
 <script src="<?= asset_url('assets/js/http/webhooks_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/webhooks.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts'); ?>

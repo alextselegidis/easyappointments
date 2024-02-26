@@ -1,6 +1,6 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div id="account-page" class="container backend-page">
     <div id="account">
@@ -18,7 +18,7 @@
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
                                 </button>
-                            <?php endif ?>
+                            <?php endif; ?>
                         </div>
 
                         <div class="row">
@@ -113,7 +113,8 @@
                                     <label class="form-label" for="password">
                                         <?= lang('password') ?>
                                     </label>
-                                    <input type="password" id="password" class="form-control" autocomplete="new-password">
+                                    <input type="password" id="password" class="form-control"
+                                           autocomplete="new-password">
                                 </div>
 
                                 <div class="mb-3">
@@ -144,26 +145,26 @@
                                             <option value="<?= $available_language ?>">
                                                 <?= ucfirst($available_language) ?>
                                             </option>
-                                        <?php endforeach ?>
+                                        <?php endforeach; ?>
                                     </select>
                                 </div>
-                                
+
                                 <div class="mb-3">
                                     <label class="form-label" for="timezone">
                                         <?= lang('timezone') ?>
                                     </label>
                                     <?php component('timezone_dropdown', [
                                         'attributes' => 'id="timezone" class="form-control required"',
-                                        'grouped_timezones' => vars('grouped_timezones')
-                                    ]) ?>
+                                        'grouped_timezones' => vars('grouped_timezones'),
+                                    ]); ?>
                                 </div>
-                                
+
                                 <div>
                                     <label class="form-label mb-3">
                                         <?= lang('options') ?>
                                     </label>
                                 </div>
-                                
+
                                 <div class="border rounded mb-3 p-3">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" id="notifications" type="checkbox">
@@ -178,17 +179,17 @@
                 </form>
             </div>
         </div>
-        
+
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/account.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts'); ?>

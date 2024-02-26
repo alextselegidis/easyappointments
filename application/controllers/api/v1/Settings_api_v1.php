@@ -16,15 +16,14 @@
  *
  * @package Controllers
  */
-class Settings_api_v1 extends EA_Controller {
+class Settings_api_v1 extends EA_Controller
+{
     /**
      * Settings_api_v1 constructor.
      */
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('settings_model');
 
         $this->load->library('api');
 
@@ -38,8 +37,7 @@ class Settings_api_v1 extends EA_Controller {
      */
     public function index()
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -51,23 +49,19 @@ class Settings_api_v1 extends EA_Controller {
             $fields = $this->api->request_fields();
 
             $settings = empty($keyword)
-                ? $this->settings_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->settings_model->get(null, $limit, $offset, $order_by)
                 : $this->settings_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($settings as &$setting)
-            {
+            foreach ($settings as &$setting) {
                 $this->settings_model->api_encode($setting);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->settings_model->only($setting, $fields);
                 }
             }
 
             json_response($settings);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -77,19 +71,16 @@ class Settings_api_v1 extends EA_Controller {
      *
      * @param string $name Setting name.
      */
-    public function show(string $name)
+    public function show(string $name): void
     {
-        try
-        {
+        try {
             $value = setting($name);
 
             json_response([
                 'name' => $name,
                 'value' => $value,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -99,10 +90,9 @@ class Settings_api_v1 extends EA_Controller {
      *
      * @param string $name Setting name.
      */
-    public function update(string $name)
+    public function update(string $name): void
     {
-        try
-        {
+        try {
             $value = request('value');
 
             setting([$name => $value]);
@@ -111,9 +101,7 @@ class Settings_api_v1 extends EA_Controller {
                 'name' => $name,
                 'value' => $value,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

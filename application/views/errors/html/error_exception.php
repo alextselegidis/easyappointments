@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed') ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
 <?php
 /**
@@ -50,7 +50,7 @@
         <?= $exception->getLine() ?>
     </p>
 
-    <?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === TRUE): ?>
+    <?php if (defined('SHOW_DEBUG_BACKTRACE') && SHOW_DEBUG_BACKTRACE === true): ?>
 
         <h6>
             Backtrace
@@ -65,10 +65,10 @@
                     Line: <?= $error['line'] ?><br>
                     Function: <?= $error['function'] ?>
                 </p>
-            <?php endif ?>
+            <?php endif; ?>
 
-        <?php endforeach ?>
+        <?php endforeach; ?>
 
-    <?php endif ?>
+    <?php endif; ?>
 
 </div>

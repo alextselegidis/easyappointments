@@ -11,8 +11,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-if ( ! function_exists('setting'))
-{
+if (!function_exists('setting')) {
     /**
      * Get / set the specified setting value.
      *
@@ -26,33 +25,33 @@ if ( ! function_exists('setting'))
      *
      * setting(['company_name' => 'ACME Inc']);
      *
-     * @param array|string $key Setting key.
-     * @param mixed $default Default value in case the requested setting has no value.
+     * @param array|string|null $key Setting key.
+     * @param mixed|null $default Default value in case the requested setting has no value.
      *
      * @return mixed|NULL Returns the requested value or NULL if you assign a new setting value.
      *
      * @throws InvalidArgumentException
      */
-    function setting($key = NULL, $default = NULL)
+    function setting(array|string $key = null, mixed $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
 
         $CI->load->model('settings_model');
 
-        if (empty($key))
-        {
+        if (empty($key)) {
             throw new InvalidArgumentException('The $key argument cannot be empty.');
         }
 
-        if (is_array($key))
-        {
-            foreach ($key as $name => $value)
-            {
-                $setting = $CI->settings_model->query()->where('name', $name)->get()->row_array();
+        if (is_array($key)) {
+            foreach ($key as $name => $value) {
+                $setting = $CI->settings_model
+                    ->query()
+                    ->where('name', $name)
+                    ->get()
+                    ->row_array();
 
-                if (empty($setting))
-                {
+                if (empty($setting)) {
                     $setting = [
                         'name' => $name,
                     ];
@@ -63,10 +62,14 @@ if ( ! function_exists('setting'))
                 $CI->settings_model->save($setting);
             }
 
-            return NULL;
+            return null;
         }
 
-        $setting = $CI->settings_model->query()->where('name', $key)->get()->row_array();
+        $setting = $CI->settings_model
+            ->query()
+            ->where('name', $key)
+            ->get()
+            ->row_array();
 
         return $setting['value'] ?? $default;
     }

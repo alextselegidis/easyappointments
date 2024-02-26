@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Business_settings extends EA_Controller {
+class Business_settings extends EA_Controller
+{
     /**
      * Business_logic constructor.
      */
@@ -48,11 +49,9 @@ class Business_settings extends EA_Controller {
         session(['dest_url' => site_url('business_settings')]);
 
         $user_id = session('user_id');
-        
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            if ($user_id)
-            {
+
+        if (cannot('view', PRIV_SYSTEM_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -85,37 +84,31 @@ class Business_settings extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $settings = request('business_settings', []);
 
-            foreach ($settings as $setting)
-            {
-                $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
+            foreach ($settings as $setting) {
+                $existing_setting = $this->settings_model
+                    ->query()
+                    ->where('name', $setting['name'])
+                    ->get()
+                    ->row_array();
 
-                if ( ! empty($existing_setting))
-                {
+                if (!empty($existing_setting)) {
                     $setting['id'] = $existing_setting['id'];
                 }
-                
-                $this->settings_model->only($setting, [
-                    'id',
-                    'name',
-                    'value'
-                ]);
+
+                $this->settings_model->only($setting, ['id', 'name', 'value']);
 
                 $this->settings_model->save($setting);
             }
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -125,10 +118,8 @@ class Business_settings extends EA_Controller {
      */
     public function apply_global_working_plan()
     {
-        try
-        {
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -136,15 +127,12 @@ class Business_settings extends EA_Controller {
 
             $providers = $this->providers_model->get();
 
-            foreach ($providers as $provider)
-            {
+            foreach ($providers as $provider) {
                 $this->providers_model->set_setting($provider['id'], 'working_plan', $working_plan);
             }
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Integrations extends EA_Controller {
+class Integrations extends EA_Controller
+{
     /**
      * Integrations constructor.
      */
@@ -49,10 +50,8 @@ class Integrations extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_SYSTEM_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 

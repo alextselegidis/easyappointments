@@ -16,15 +16,14 @@
  *
  * @package Controllers
  */
-class Providers_api_v1 extends EA_Controller {
+class Providers_api_v1 extends EA_Controller
+{
     /**
      * Providers_api_v1 constructor.
      */
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('providers_model');
 
         $this->load->library('api');
 
@@ -36,10 +35,9 @@ class Providers_api_v1 extends EA_Controller {
     /**
      * Get a provider collection.
      */
-    public function index()
+    public function index(): void
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -49,32 +47,27 @@ class Providers_api_v1 extends EA_Controller {
             $order_by = $this->api->request_order_by();
 
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $providers = empty($keyword)
-                ? $this->providers_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->providers_model->get(null, $limit, $offset, $order_by)
                 : $this->providers_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($providers as &$provider)
-            {
+            foreach ($providers as &$provider) {
                 $this->providers_model->api_encode($provider);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->providers_model->only($provider, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->providers_model->load($provider, $with);
                 }
             }
 
             json_response($providers);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -84,71 +77,62 @@ class Providers_api_v1 extends EA_Controller {
      *
      * @param int|null $id Provider ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null): void
     {
-        try
-        {
+        try {
+            $occurrences = $this->providers_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
-            
+
             $with = $this->api->request_with();
 
             $provider = $this->providers_model->find($id);
 
             $this->providers_model->api_encode($provider);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->providers_model->only($provider, $fields);
             }
 
-            if ( ! empty($with))
-            {
+            if (!empty($with)) {
                 $this->providers_model->load($provider, $with);
             }
 
-            if ( ! $provider)
-            {
-                response('', 404);
-
-                return;
-            }
-
             json_response($provider);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
 
     /**
-     * Create a provider.
+     * Store a new provider.
      */
-    public function store()
+    public function store(): void
     {
-        try
-        {
+        try {
             $provider = request();
 
             $this->providers_model->api_decode($provider);
 
-            if (array_key_exists('id', $provider))
-            {
+            if (array_key_exists('id', $provider)) {
                 unset($provider['id']);
             }
 
-            if ( ! array_key_exists('services', $provider))
-            {
+            if (!array_key_exists('services', $provider)) {
                 throw new InvalidArgumentException('No services property provided.');
             }
 
-            if ( ! array_key_exists('settings', $provider))
-            {
+            if (!array_key_exists('settings', $provider)) {
                 throw new InvalidArgumentException('No settings property provided.');
             }
 
-            if ( ! array_key_exists('working_plan', $provider['settings']))
-            {
+            if (!array_key_exists('working_plan', $provider['settings'])) {
                 $provider['settings']['working_plan'] = setting('company_working_plan');
             }
 
@@ -159,9 +143,7 @@ class Providers_api_v1 extends EA_Controller {
             $this->providers_model->api_encode($created_provider);
 
             json_response($created_provider, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -171,14 +153,12 @@ class Providers_api_v1 extends EA_Controller {
      *
      * @param int $id Provider ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
-        try
-        {
+        try {
             $occurrences = $this->providers_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -197,9 +177,7 @@ class Providers_api_v1 extends EA_Controller {
             $this->providers_model->api_encode($updated_provider);
 
             json_response($updated_provider);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -209,14 +187,12 @@ class Providers_api_v1 extends EA_Controller {
      *
      * @param int $id Provider ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
-        try
-        {
+        try {
             $occurrences = $this->providers_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -225,9 +201,7 @@ class Providers_api_v1 extends EA_Controller {
             $this->providers_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

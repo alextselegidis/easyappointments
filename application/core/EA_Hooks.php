@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Hooks extends CI_Hooks {
-    // 
+class EA_Hooks extends CI_Hooks
+{
+    //
 }

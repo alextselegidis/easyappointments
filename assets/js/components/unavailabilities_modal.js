@@ -28,6 +28,8 @@ App.Components.UnavailabilitiesModal = (function () {
     const $selectFilterItem = $('#select-filter-item');
     const $reloadAppointments = $('#reload-appointments');
 
+    const moment = window.moment;
+
     /**
      * Update the displayed timezone.
      */
@@ -35,13 +37,11 @@ App.Components.UnavailabilitiesModal = (function () {
         const providerId = $selectProvider.val();
 
         const provider = vars('available_providers').find(
-            (availableProvider) => Number(availableProvider.id) === Number(providerId)
+            (availableProvider) => Number(availableProvider.id) === Number(providerId),
         );
 
         if (provider && provider.timezone) {
-            $unavailabilitiesModal.find('.provider-timezone').text(
-                vars('timezones')[provider.timezone]
-            );
+            $unavailabilitiesModal.find('.provider-timezone').text(vars('timezones')[provider.timezone]);
         }
     }
 
@@ -55,7 +55,7 @@ App.Components.UnavailabilitiesModal = (function () {
         $selectProvider.on('change', () => {
             updateTimezone();
         });
-        
+
         /**
          * Event: Manage Unavailability Dialog Save Button "Click"
          *
@@ -65,22 +65,27 @@ App.Components.UnavailabilitiesModal = (function () {
             $unavailabilitiesModal.find('.modal-message').addClass('d-none');
             $unavailabilitiesModal.find('.is-invalid').removeClass('is-invalid');
 
-            const startMoment = moment($startDatetime.datetimepicker('getDate'));
+            if (!$selectProvider.val()) {
+                $selectProvider.addClass('is-invalid');
+                return;
+            }
 
-            if (!startMoment.isValid()) {
+            const startDateTimeMoment = moment(App.Utils.UI.getDateTimePickerValue($startDatetime));
+
+            if (!startDateTimeMoment.isValid()) {
                 $startDatetime.addClass('is-invalid');
                 return;
             }
 
-            const endMoment = moment($endDatetime.datetimepicker('getDate'));
+            const endDateTimeMoment = moment(App.Utils.UI.getDateTimePickerValue($endDatetime));
 
-            if (!endMoment.isValid()) {
+            if (!endDateTimeMoment.isValid()) {
                 $endDatetime.addClass('is-invalid');
 
                 return;
             }
 
-            if (startMoment.isAfter(endMoment)) {
+            if (startDateTimeMoment.isAfter(endDateTimeMoment)) {
                 // Start time is after end time - display message to user.
                 $unavailabilitiesModal
                     .find('.modal-message')
@@ -97,10 +102,10 @@ App.Components.UnavailabilitiesModal = (function () {
 
             // Unavailability period records go to the appointments table.
             const unavailability = {
-                start_datetime: startMoment.format('YYYY-MM-DD HH:mm:ss'),
-                end_datetime: endMoment.format('YYYY-MM-DD HH:mm:ss'),
+                start_datetime: startDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: endDateTimeMoment.format('YYYY-MM-DD HH:mm:ss'),
                 notes: $unavailabilitiesModal.find('#unavailability-notes').val(),
-                id_users_provider: $('#unavailability-provider').val()
+                id_users_provider: $selectProvider.val(),
             };
 
             if ($id.val() !== '') {
@@ -153,17 +158,9 @@ App.Components.UnavailabilitiesModal = (function () {
                 $selectProvider.val($selectFilterItem.val()).closest('.form-group').hide();
             }
 
-            $startDatetime.val(
-                App.Utils.Date.format(startMoment.toDate(), vars('date_format'), vars('time_format'), true)
-            );
-            $endDatetime.val(
-                App.Utils.Date.format(
-                    startMoment.add(1, 'hour').toDate(),
-                    vars('date_format'),
-                    vars('time_format'),
-                    true
-                )
-            );
+            App.Utils.UI.setDateTimePickerValue($startDatetime, startMoment.toDate());
+            App.Utils.UI.setDateTimePickerValue($endDatetime, startMoment.add(1, 'hour').toDate());
+
             $dialog.find('.modal-header h3').text(lang('new_unavailability_title'));
             $dialog.modal('show');
         });
@@ -185,14 +182,14 @@ App.Components.UnavailabilitiesModal = (function () {
             moment().add(1, 'hour').toDate(),
             vars('date_format'),
             vars('time_format'),
-            true
+            true,
         );
 
-        App.Utils.UI.initializeDatetimepicker($startDatetime); 
-        
+        App.Utils.UI.initializeDateTimePicker($startDatetime);
+
         $startDatetime.val(start);
 
-        App.Utils.UI.initializeDatetimepicker($endDatetime);
+        App.Utils.UI.initializeDateTimePicker($endDatetime);
 
         $endDatetime.val(end);
 
@@ -216,6 +213,6 @@ App.Components.UnavailabilitiesModal = (function () {
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        resetModal
+        resetModal,
     };
 })();

@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Config extends CI_Config {
-    // 
+class EA_Config extends CI_Config
+{
+    //
 }

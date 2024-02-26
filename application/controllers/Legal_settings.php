@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Legal_settings extends EA_Controller {
+class Legal_settings extends EA_Controller
+{
     /**
      * Legal_contents constructor.
      */
@@ -39,11 +40,9 @@ class Legal_settings extends EA_Controller {
         session(['dest_url' => site_url('legal_settings')]);
 
         $user_id = session('user_id');
-        
-        if (cannot('view', PRIV_SYSTEM_SETTINGS))
-        {
-            if ($user_id)
-            {
+
+        if (cannot('view', PRIV_SYSTEM_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -51,7 +50,7 @@ class Legal_settings extends EA_Controller {
 
             return;
         }
-        
+
         $role_slug = session('role_slug');
 
         script_vars([
@@ -74,21 +73,21 @@ class Legal_settings extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             $settings = request('legal_settings', []);
 
-            foreach ($settings as $setting)
-            {
-                $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
+            foreach ($settings as $setting) {
+                $existing_setting = $this->settings_model
+                    ->query()
+                    ->where('name', $setting['name'])
+                    ->get()
+                    ->row_array();
 
-                if ( ! empty($existing_setting))
-                {
+                if (!empty($existing_setting)) {
                     $setting['id'] = $existing_setting['id'];
                 }
 
@@ -96,9 +95,7 @@ class Legal_settings extends EA_Controller {
             }
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

@@ -1,13 +1,13 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="admins-page">
     <div class="row" id="admins">
         <div id="filter-admins" class="filter-records column col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="key form-control">
+                    <input type="text" class="key form-control" aria-label="keyword">
 
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
@@ -187,7 +187,7 @@
                                 <option value="<?= $available_language ?>">
                                     <?= ucfirst($available_language) ?>
                                 </option>
-                            <?php endforeach ?>
+                            <?php endforeach; ?>
                         </select>
                     </div>
 
@@ -198,10 +198,10 @@
                         </label>
                         <?php component('timezone_dropdown', [
                             'attributes' => 'id="timezone" class="form-control required" disabled',
-                            'grouped_timezones' => vars('grouped_timezones')
-                        ]) ?>
+                            'grouped_timezones' => vars('grouped_timezones'),
+                        ]); ?>
                     </div>
-                    
+
                     <div>
                         <label class="form-label mb-3">
                             <?= lang('options') ?>
@@ -222,9 +222,9 @@
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
@@ -233,5 +233,5 @@
 <script src="<?= asset_url('assets/js/http/admins_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/admins.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts'); ?>
 

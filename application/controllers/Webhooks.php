@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Webhooks extends EA_Controller {
+class Webhooks extends EA_Controller
+{
     /**
      * Webhooks constructor.
      */
@@ -45,10 +46,8 @@ class Webhooks extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_WEBHOOKS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_WEBHOOKS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -75,19 +74,21 @@ class Webhooks extends EA_Controller {
                 WEBHOOK_APPOINTMENT_DELETE,
                 WEBHOOK_UNAVAILABILITY_SAVE,
                 WEBHOOK_UNAVAILABILITY_DELETE,
+                WEBHOOK_BLOCKED_PERIOD_SAVE,
+                WEBHOOK_BLOCKED_PERIOD_DELETE,
                 WEBHOOK_CUSTOMER_SAVE,
                 WEBHOOK_CUSTOMER_DELETE,
                 WEBHOOK_SERVICE_SAVE,
                 WEBHOOK_SERVICE_DELETE,
-                WEBHOOK_CATEGORY_SAVE,
-                WEBHOOK_CATEGORY_DELETE,
+                WEBHOOK_SERVICE_CATEGORY_SAVE,
+                WEBHOOK_SERVICE_CATEGORY_DELETE,
                 WEBHOOK_PROVIDER_SAVE,
                 WEBHOOK_PROVIDER_DELETE,
                 WEBHOOK_SECRETARY_SAVE,
                 WEBHOOK_SECRETARY_DELETE,
                 WEBHOOK_ADMIN_SAVE,
-                WEBHOOK_ADMIN_DELETE
-            ]
+                WEBHOOK_ADMIN_DELETE,
+            ],
         ]);
 
         $this->load->view('pages/webhooks');
@@ -98,10 +99,8 @@ class Webhooks extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_WEBHOOKS))
-            {
+        try {
+            if (cannot('view', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -116,22 +115,18 @@ class Webhooks extends EA_Controller {
             $webhooks = $this->webhooks_model->search($keyword, $limit, $offset, $order_by);
 
             json_response($webhooks);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
 
     /**
-     * Create a webhook.
+     * Store a new webhook.
      */
-    public function create()
+    public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_WEBHOOKS))
-            {
+        try {
+            if (cannot('add', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -149,12 +144,10 @@ class Webhooks extends EA_Controller {
             $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
-                'success' => TRUE,
-                'id' => $webhook_id
+                'success' => true,
+                'id' => $webhook_id,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -164,10 +157,8 @@ class Webhooks extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_WEBHOOKS))
-            {
+        try {
+            if (cannot('edit', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -186,12 +177,10 @@ class Webhooks extends EA_Controller {
             $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
-                'success' => TRUE,
-                'id' => $webhook_id
+                'success' => true,
+                'id' => $webhook_id,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -201,10 +190,8 @@ class Webhooks extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_WEBHOOKS))
-            {
+        try {
+            if (cannot('delete', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -213,11 +200,9 @@ class Webhooks extends EA_Controller {
             $this->webhooks_model->delete($webhook_id);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -227,10 +212,8 @@ class Webhooks extends EA_Controller {
      */
     public function find()
     {
-        try
-        {
-            if (cannot('view', PRIV_WEBHOOKS))
-            {
+        try {
+            if (cannot('view', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -239,9 +222,7 @@ class Webhooks extends EA_Controller {
             $webhook = $this->webhooks_model->find($webhook_id);
 
             json_response($webhook);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

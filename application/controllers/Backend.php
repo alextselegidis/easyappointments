@@ -36,10 +36,11 @@
  * Handles the backend related operations.
  *
  * @package Controllers
- * 
+ *
  * @deprecated Since 1.5
  */
-class Backend extends EA_Controller {
+class Backend extends EA_Controller
+{
     /**
      * Display the calendar page.
      *
@@ -47,12 +48,9 @@ class Backend extends EA_Controller {
      */
     public function index(string $appointment_hash = '')
     {
-        if (empty($appointment_hash))
-        {
+        if (empty($appointment_hash)) {
             redirect('calendar');
-        }
-        else
-        {
+        } else {
             redirect('calendar/reschedule/' . $appointment_hash);
         }
     }

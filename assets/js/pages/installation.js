@@ -51,14 +51,14 @@ App.Pages.Installation = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             admin: getAdminData(),
-            company: getCompanyData()
+            company: getCompanyData(),
         };
 
         $.ajax({
             url: url,
             type: 'POST',
             data: data,
-            dataType: 'json'
+            dataType: 'json',
         }).done(() => {
             $alert
                 .text('Easy!Appointments has been successfully installed!')
@@ -144,7 +144,7 @@ App.Pages.Installation = (function () {
             email: $email.val(),
             phone_number: $phoneNumber.val(),
             username: $username.val(),
-            password: $password.val()
+            password: $password.val(),
         };
     }
 
@@ -157,7 +157,7 @@ App.Pages.Installation = (function () {
         return {
             company_name: $companyName.val(),
             company_email: $companyEmail.val(),
-            company_link: $companyLink.val()
+            company_link: $companyLink.val(),
         };
     }
 
@@ -165,7 +165,7 @@ App.Pages.Installation = (function () {
     if (vars('base_url').slice(-1) === '/') {
         App.Utils.Message.show(
             'Invalid Configuration Detected',
-            'Please remove any trailing slashes from your "BASE_URL" setting of the root "config.php" file and try again.'
+            'Please remove any trailing slashes from your "BASE_URL" setting of the root "config.php" file and try again.',
         );
         $install.prop('disabled', true).fadeTo('0.4');
     }

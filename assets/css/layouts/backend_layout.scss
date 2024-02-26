@@ -282,6 +282,10 @@ body legend {
     display: flex;
 }
 
+.backend-notification {
+    z-index: 9999;
+}
+
 @media (min-width: 768px) {
     .backend-page .nav-pills li {
         width: auto;
@@ -338,6 +342,38 @@ body legend {
     font-size: 15.2px;
 }
 
+#select-filter-item {
+    margin-bottom: 10px;
+}
+
+#calendar .fc-header-toolbar {
+    display: block;
+}
+
+#calendar .fc-header-toolbar .fc-toolbar-chunk {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#calendar .fc-col-header-cell-cushion {
+    text-decoration: none;
+    text-transform: none;
+    cursor: default;
+    color: var(--bs-body-color) !important;
+}
+
+#calendar .calendar-header .select2-container {
+    width: 100% !important;
+}
+
+#calendar .date-column {
+    width: 100% !important;
+}
+
+#calendar .provider-column {
+    width: 100% !important;
+}
+
 #calendar-page #calendar .fc-toolbar .fc-left,
 #calendar-page #calendar .fc-toolbar .fc-right {
     float: none;
@@ -347,6 +383,7 @@ body legend {
 
 #calendar-page #calendar .fc-toolbar.fc-header-toolbar h2 {
     font-size: 22px;
+    font-weight: lighter;
     display: block;
 }
 
@@ -364,13 +401,23 @@ body legend {
     opacity: 0.7;
 }
 
-#calendar-page #calendar .fc-event-title small {
-    font-weight: normal;
-    font-size: 12px;
+#calendar-page #calendar .fc-unavailability.fc-blocked-period {
+    background-image: none;
+    text-shadow: none;
 }
 
-#calendar-page #calendar .fc-time {
-    font-size: 10px;
+#calendar-page .fc-event-time {
+    font-weight: bold;
+}
+
+#calendar-page .fc-event-title {
+    font-weight: normal;
+    font-size: 11px;
+}
+
+#calendar-page .fc-timegrid-axis-cushion,
+#calendar-page .fc-timegrid-slot-label-cushion {
+    font-size: 11px;
 }
 
 #calendar-page #calendar .fc-break {
@@ -473,12 +520,8 @@ body .form-horizontal .controls {
 }
 
 #calendar .calendar-header input {
-    width: 120px;
+    width: calc(100% - 110px);
     vertical-align: middle;
-}
-
-#calendar .calendar-header select {
-    min-width: 300px;
 }
 
 #calendar .calendar-header label {
@@ -508,7 +551,7 @@ body .form-horizontal .controls {
 
 #calendar .calendar-view > div {
     width: 100%;
-    min-width: 1000%;
+    min-width: 100% !important;
     overflow: auto;
 }
 
@@ -600,6 +643,40 @@ body .form-horizontal .controls {
     #calendar .calendar-header label {
         display: inline-block;
         margin: 0 10px;
+    }
+
+    #calendar .calendar-header input {
+        width: 120px;
+    }
+
+    #calendar .calendar-header .flatpickr-wrapper {
+        width: auto;
+    }
+
+    #select-filter-item {
+        margin-bottom: 0;
+    }
+
+    .fc-header-toolbar {
+        display: flex !important;
+        text-align: left;
+    }
+
+    #calendar .fc-header-toolbar .fc-toolbar-chunk {
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    #calendar .calendar-header .select2-container {
+        width: 300px !important;
+    }
+
+    #calendar .date-column {
+        width: auto !important;
+    }
+
+    #calendar .provider-column {
+        width: 500px !important;
     }
 }
 
@@ -706,7 +783,14 @@ body .form-horizontal .controls {
 
 #providers-page #providers .working-plan-view .work-start,
 #providers-page #providers .working-plan-view .work-end {
+    width: 100px;
     max-width: 100px;
+}
+
+#providers-page #providers .working-plan-view .work-start[disabled],
+#providers-page #providers .working-plan-view .work-end[disabled] {
+    background: none;
+    border: none;
 }
 
 #providers-page .btn-toolbar {
@@ -749,7 +833,7 @@ body .form-horizontal .controls {
 
 #working-plan-exceptions-breaks {
     table-layout: fixed;
-    
+
     .form-control {
         width: 100% !important;
     }
@@ -785,7 +869,7 @@ body .form-horizontal .controls {
     display: block;
     text-decoration: none;
     text-transform: uppercase;
-    font-size: .7rem;
+    font-size: 0.7rem;
     margin-top: 2px;
     margin-left: -24px;
     margin-bottom: 2px;
@@ -816,6 +900,12 @@ body .form-horizontal .controls {
 #business-logic .working-plan .work-start,
 #business-logic .working-plan .work-end {
     max-width: 100px;
+}
+
+#business-logic .working-plan .work-start[disabled],
+#business-logic .working-plan .work-end[disabled] {
+    background: none;
+    border: none;
 }
 
 #business-logic .working-plan label.checkbox {

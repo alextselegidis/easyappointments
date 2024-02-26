@@ -27,9 +27,15 @@ App.Pages.Customers = (function () {
     const $zipCode = $('#zip-code');
     const $timezone = $('#timezone');
     const $language = $('#language');
+    const $customField1 = $('#custom-field-1');
+    const $customField2 = $('#custom-field-2');
+    const $customField3 = $('#custom-field-3');
+    const $customField4 = $('#custom-field-4');
+    const $customField5 = $('#custom-field-5');
     const $notes = $('#notes');
     const $formMessage = $('#form-message');
     const $customerAppointments = $('#customer-appointments');
+
     let filterResults = {};
     let filterLimit = 20;
 
@@ -124,7 +130,12 @@ App.Pages.Customers = (function () {
                 zip_code: $zipCode.val(),
                 notes: $notes.val(),
                 timezone: $timezone.val(),
-                language: $language.val() || 'english'
+                language: $language.val() || 'english',
+                custom_field_1: $customField1.val(),
+                custom_field_2: $customField2.val(),
+                custom_field_3: $customField3.val(),
+                custom_field_4: $customField4.val(),
+                custom_field_5: $customField5.val(),
             };
 
             if ($id.val()) {
@@ -146,17 +157,17 @@ App.Pages.Customers = (function () {
             const buttons = [
                 {
                     text: lang('cancel'),
-                    click: () => {
-                        $('#message-box').dialog('close');
-                    }
+                    click: (event, messageModal) => {
+                        messageModal.dispose();
+                    },
                 },
                 {
                     text: lang('delete'),
-                    click: () => {
+                    click: (event, messageModal) => {
                         remove(customerId);
-                        $('#message-box').dialog('close');
-                    }
-                }
+                        messageModal.dispose();
+                    },
+                },
             ];
 
             App.Utils.Message.show(lang('delete_customer'), lang('delete_record_prompt'), buttons);
@@ -276,12 +287,17 @@ App.Pages.Customers = (function () {
         $notes.val(customer.notes);
         $timezone.val(customer.timezone);
         $language.val(customer.language || 'english');
+        $customField1.val(customer.custom_field_1);
+        $customField2.val(customer.custom_field_2);
+        $customField3.val(customer.custom_field_3);
+        $customField4.val(customer.custom_field_4);
+        $customField5.val(customer.custom_field_5);
 
         $customerAppointments.empty();
 
         if (!customer.appointments.length) {
             $('<p/>', {
-                'text': lang('no_records_found')
+                'text': lang('no_records_found'),
             }).appendTo($customerAppointments);
         }
 
@@ -304,14 +320,14 @@ App.Pages.Customers = (function () {
                 moment(appointment.start_datetime).toDate(),
                 vars('date_format'),
                 vars('time_format'),
-                true
+                true,
             );
 
             const end = App.Utils.Date.format(
                 moment(appointment.end_datetime).toDate(),
                 vars('date_format'),
                 vars('time_format'),
-                true
+                true,
             );
 
             $('<div/>', {
@@ -324,7 +340,7 @@ App.Pages.Customers = (function () {
                         'href': App.Utils.Url.siteUrl(`calendar/reschedule/${appointment.hash}`),
                         'html': [
                             $('<i/>', {
-                                'class': 'fas fa-edit me-1'
+                                'class': 'fas fa-edit me-1',
                             }),
                             $('<strong/>', {
                                 'text':
@@ -332,32 +348,32 @@ App.Pages.Customers = (function () {
                                     ' - ' +
                                     appointment.provider.first_name +
                                     ' ' +
-                                    appointment.provider.last_name
+                                    appointment.provider.last_name,
                             }),
-                            $('<br/>')
-                        ]
+                            $('<br/>'),
+                        ],
                     }),
 
                     // Start
 
                     $('<small/>', {
-                        'text': start
+                        'text': start,
                     }),
                     $('<br/>'),
 
                     // End
 
                     $('<small/>', {
-                        'text': end
+                        'text': end,
                     }),
                     $('<br/>'),
 
                     // Timezone
 
                     $('<small/>', {
-                        'text': vars('timezones')[appointment.provider.timezone]
-                    })
-                ]
+                        'text': vars('timezones')[appointment.provider.timezone],
+                    }),
+                ],
             }).appendTo('#customer-appointments');
         });
     }
@@ -383,8 +399,8 @@ App.Pages.Customers = (function () {
             if (!response.length) {
                 $filterCustomers.find('.results').append(
                     $('<em/>', {
-                        'text': lang('no_records_found')
-                    })
+                        'text': lang('no_records_found'),
+                    }),
                 );
             } else if (response.length === filterLimit) {
                 $('<button/>', {
@@ -394,7 +410,7 @@ App.Pages.Customers = (function () {
                     'click': () => {
                         filterLimit += 20;
                         filter(keyword, selectId, show);
-                    }
+                    },
                 }).appendTo('#filter-customers .results');
             }
 
@@ -423,15 +439,15 @@ App.Pages.Customers = (function () {
             'data-id': customer.id,
             'html': [
                 $('<strong/>', {
-                    'text': name
+                    'text': name,
                 }),
                 $('<br/>'),
                 $('<small/>', {
                     'class': 'text-muted',
-                    'text': info
+                    'text': info,
                 }),
-                $('<br/>')
-            ]
+                $('<br/>'),
+            ],
         });
     }
 
@@ -474,6 +490,6 @@ App.Pages.Customers = (function () {
         remove,
         getFilterHtml,
         resetForm,
-        select
+        select,
     };
 })();

@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_DB_forge extends CI_DB_forge {
-    // 
+class EA_DB_forge extends CI_DB_forge
+{
+    //
 }

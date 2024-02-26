@@ -1,6 +1,6 @@
-<?php extend('layouts/booking_layout') ?>
+<?php extend('layouts/booking_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <!-- Booking Cancellation Frame -->
 
@@ -8,15 +8,15 @@
     'manage_mode' => vars('manage_mode'),
     'appointment_data' => vars('appointment_data'),
     'display_delete_personal_information' => vars('display_delete_personal_information'),
-]) ?>
+]); ?>
 
 <!-- Select Service & Provider -->
 
-<?php component('booking_type_step', ['available_services' => vars('available_services')]) ?>
+<?php component('booking_type_step', ['available_services' => vars('available_services')]); ?>
 
 <!-- Pick An Appointment Date -->
 
-<?php component('booking_time_step', ['grouped_timezones' => vars('grouped_timezones')]) ?>
+<?php component('booking_time_step', ['grouped_timezones' => vars('grouped_timezones')]); ?>
 
 <!-- Enter Customer Information -->
 
@@ -36,8 +36,8 @@
     'display_zip_code' => vars('display_zip_code'),
     'require_zip_code' => vars('require_zip_code'),
     'display_notes' => vars('display_notes'),
-    'require_notes' => vars('require_notes')
-]) ?>
+    'require_notes' => vars('require_notes'),
+]); ?>
 
 <!-- Appointment Data Confirmation -->
 
@@ -45,19 +45,20 @@
     'manage_mode' => vars('manage_mode'),
     'display_terms_and_conditions' => vars('display_terms_and_conditions'),
     'display_privacy_policy' => vars('display_privacy_policy'),
-]) ?>
+]); ?>
 
-<?php section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/booking_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/booking.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts'); ?>

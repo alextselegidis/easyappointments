@@ -1,13 +1,13 @@
-<?php extend('layouts/backend_layout') ?>
+<?php extend('layouts/backend_layout'); ?>
 
-<?php section('content') ?>
+<?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="providers-page">
     <div class="row" id="providers">
         <div id="filter-providers" class="filter-records column col-12 col-md-5">
             <form class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="key form-control">
+                    <input type="text" class="key form-control" aria-label="keyword">
 
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">
@@ -19,7 +19,7 @@
             <h4 class="text-black-50 mb-3 fw-light">
                 <?= lang('providers') ?>
             </h4>
-            
+
             <div class="results">
                 <!-- JS -->
             </div>
@@ -67,9 +67,9 @@
             </ul>
 
             <?php
-            // This form message is outside the details view, so that it can be
-            // visible when the user has working plan view active.
-            ?>
+// This form message is outside the details view, so that it can be
+// visible when the user has working plan view active.
+?>
 
             <div class="form-message alert" style="display:none;"></div>
 
@@ -210,7 +210,7 @@
                                         <option value="<?= $available_language ?>">
                                             <?= ucfirst($available_language) ?>
                                         </option>
-                                    <?php endforeach ?>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
 
@@ -221,8 +221,8 @@
                                 </label>
                                 <?php component('timezone_dropdown', [
                                     'attributes' => 'id="timezone" class="form-control required" disabled',
-                                    'grouped_timezones' => vars('grouped_timezones')
-                                ]) ?>
+                                    'grouped_timezones' => vars('grouped_timezones'),
+                                ]); ?>
                             </div>
 
                             <div>
@@ -270,7 +270,7 @@
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('working_plan') ?>
                     </h4>
-                    
+
                     <button id="reset-working-plan" class="btn btn-primary"
                             data-tippy-content="<?= lang('reset_working_plan') ?>">
                         <i class="fas fa-undo-alt me-2"></i>
@@ -348,18 +348,17 @@
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
 
-                    <?php component('working_plan_exceptions_modal') ?>
+                    <?php component('working_plan_exceptions_modal'); ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php section('content') ?>
+<?php end_section('content'); ?>
 
-<?php section('scripts') ?>
+<?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/vendor/jquery-ui-timepicker-addon/jquery-ui-timepicker-addon.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
@@ -372,7 +371,7 @@
 <script src="<?= asset_url('assets/js/http/providers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/providers.js') ?>"></script>
 
-<?php section('scripts') ?>
+<?php end_section('scripts'); ?>
 
 
 

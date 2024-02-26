@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class About extends EA_Controller {
+class About extends EA_Controller
+{
     /**
      * About constructor.
      */
@@ -48,11 +49,9 @@ class About extends EA_Controller {
         session(['dest_url' => site_url('about')]);
 
         $user_id = session('user_id');
-        
-        if (cannot('view', PRIV_USER_SETTINGS))
-        {
-            if ($user_id)
-            {
+
+        if (cannot('view', PRIV_USER_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 

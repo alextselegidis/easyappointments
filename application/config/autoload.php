@@ -40,7 +40,6 @@
 
 $autoload['packages'] = [];
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Libraries
@@ -55,7 +54,6 @@ $autoload['packages'] = [];
 
 $autoload['libraries'] = ['database', 'session'];
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Helper Files
@@ -69,6 +67,7 @@ $autoload['helper'] = [
     'array',
     'asset',
     'config',
+    'date',
     'debug',
     'env',
     'file',
@@ -88,7 +87,6 @@ $autoload['helper'] = [
     'validation'
 ];
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Config files
@@ -102,12 +100,7 @@ $autoload['helper'] = [
 |
 */
 
-$autoload['config'] = [
-    'app',
-    'google',
-    'email'
-];
-
+$autoload['config'] = ['app', 'google', 'email'];
 
 /*
 | -------------------------------------------------------------------
@@ -124,7 +117,6 @@ $autoload['config'] = [
 
 $autoload['language'] = [];
 
-
 /*
 | -------------------------------------------------------------------
 |  Auto-load Models
@@ -136,7 +128,6 @@ $autoload['language'] = [];
 */
 
 $autoload['model'] = [];
-
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

@@ -26,26 +26,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('Direktaccess till skriptet är inte tillåtet');
+defined('BASEPATH') or exit('Direktaccess till skriptet är inte tillåtet');
 
-$lang['ftp_no_connection']		= 'Det gick inte att hitta ett giltigt anslutnings-ID. Se till att du är ansluten innan du utför några filrutiner.';
-$lang['ftp_unable_to_connect']		= 'Det går inte att ansluta till din FTP-server med det angivna värdnamnet.';
-$lang['ftp_unable_to_login']		= 'Det gick inte att logga in på FTP-servern. Kontrollera användarnamn och lösenord.';
-$lang['ftp_unable_to_mkdir']		= 'Det går inte att skapa angiven katalog.';
-$lang['ftp_unable_to_changedir']	= 'Det går inte att ändra kataloger.';
-$lang['ftp_unable_to_chmod']		= 'Det gick inte att ställa in filbehörigheter. Kontrollera sökvägen.';
-$lang['ftp_unable_to_upload']		= 'Det gick inte att ladda upp den angivna filen. Kontrollera sökvägen.';
-$lang['ftp_unable_to_download']		= 'Det gick inte att ladda ner den angivna filen. Kontrollera sökvägen.';
-$lang['ftp_no_source_file']		= 'Det gick inte att hitta källfilen. Kontrollera sökvägen.';
-$lang['ftp_unable_to_rename']		= 'Det gick inte att byta namn på filen.';
-$lang['ftp_unable_to_delete']		= 'Det gick inte att ta bort filen.';
-$lang['ftp_unable_to_move']		= 'Det går inte att flytta filen. Se till att målkatalogen finns.';
+$lang['ftp_no_connection'] = 'Det gick inte att hitta ett giltigt anslutnings-ID. Se till att du är ansluten innan du utför några filrutiner.';
+$lang['ftp_unable_to_connect'] = 'Det går inte att ansluta till din FTP-server med det angivna värdnamnet.';
+$lang['ftp_unable_to_login'] = 'Det gick inte att logga in på FTP-servern. Kontrollera användarnamn och lösenord.';
+$lang['ftp_unable_to_mkdir'] = 'Det går inte att skapa angiven katalog.';
+$lang['ftp_unable_to_changedir'] = 'Det går inte att ändra kataloger.';
+$lang['ftp_unable_to_chmod'] = 'Det gick inte att ställa in filbehörigheter. Kontrollera sökvägen.';
+$lang['ftp_unable_to_upload'] = 'Det gick inte att ladda upp den angivna filen. Kontrollera sökvägen.';
+$lang['ftp_unable_to_download'] = 'Det gick inte att ladda ner den angivna filen. Kontrollera sökvägen.';
+$lang['ftp_no_source_file'] = 'Det gick inte att hitta källfilen. Kontrollera sökvägen.';
+$lang['ftp_unable_to_rename'] = 'Det gick inte att byta namn på filen.';
+$lang['ftp_unable_to_delete'] = 'Det gick inte att ta bort filen.';
+$lang['ftp_unable_to_move'] = 'Det går inte att flytta filen. Se till att målkatalogen finns.';

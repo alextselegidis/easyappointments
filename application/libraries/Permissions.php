@@ -11,7 +11,6 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-
 /**
  * Permissions library.
  *
@@ -19,18 +18,19 @@
  *
  * @package Libraries
  */
-class Permissions {
+class Permissions
+{
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Permissions constructor.
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->model('appointments_model');
         $this->CI->load->model('roles_model');
@@ -60,33 +60,37 @@ class Permissions {
 
         $limit_customer_access = setting('limit_customer_access');
 
-        if ($role_slug === DB_SLUG_ADMIN)
-        {
-            return TRUE;
+        if ($role_slug === DB_SLUG_ADMIN || !$limit_customer_access) {
+            return true;
         }
 
-        if ($role_slug === DB_SLUG_PROVIDER && $limit_customer_access)
-        {
-            return $this->CI->appointments_model->query()->where(['id_users_provider' => $user_id, 'id_users_customer' => $customer_id])->get()->num_rows() > 0;
+        if ($role_slug === DB_SLUG_PROVIDER) {
+            return $this->CI->appointments_model
+                ->query()
+                ->where(['id_users_provider' => $user_id, 'id_users_customer' => $customer_id])
+                ->get()
+                ->num_rows() > 0;
         }
 
-        if ($role_slug === DB_SLUG_SECRETARY && $limit_customer_access)
-        {
+        if ($role_slug === DB_SLUG_SECRETARY) {
             $secretary = $this->CI->secretaries_model->find($user_id);
 
-            foreach ($secretary['providers'] as $secretary_provider_id)
-            {
-                $has_appointments_with_customer = $this->CI->appointments_model->query()->where(['id_users_provider' => $secretary_provider_id, 'id_users_customer' => $customer_id])->get()->num_rows() > 0;
+            foreach ($secretary['providers'] as $secretary_provider_id) {
+                $has_appointments_with_customer =
+                    $this->CI->appointments_model
+                        ->query()
+                        ->where(['id_users_provider' => $secretary_provider_id, 'id_users_customer' => $customer_id])
+                        ->get()
+                        ->num_rows() > 0;
 
-                if ($has_appointments_with_customer)
-                {
-                    return TRUE;
+                if ($has_appointments_with_customer) {
+                    return true;
                 }
             }
 
-            return FALSE;
+            return false;
         }
 
-        return FALSE;
+        return false;
     }
 }

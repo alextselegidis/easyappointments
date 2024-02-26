@@ -29,13 +29,13 @@ App.Http.Login = (function () {
         const data = {
             csrf_token: vars('csrf_token'),
             username,
-            password
+            password,
         };
 
         return $.post(url, data);
     }
 
     return {
-        validate
+        validate,
     };
 })();

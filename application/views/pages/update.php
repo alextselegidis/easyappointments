@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/default.min.css') ?>">
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/jquery-ui-dist/jquery-ui.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/pages/update.css') ?>">
 </head>
@@ -31,7 +30,7 @@
                     <p>
                         You can now use the latest Easy!Appointments version.
                     </p>
-                    <a href="<?= site_url('login') ?>" class="btn btn-success btn-large">
+                    <a href="<?= site_url('about') ?>" class="btn btn-success btn-large">
                         <i class="fas fa-wrench me-2"></i>
                         <?= lang('backend_section') ?>
                     </a>

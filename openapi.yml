@@ -16,14 +16,15 @@ externalDocs:
   url: https://easyappointments.org/docs.html
 servers:
   - url: https://demo.easyappointments.org/index.php/api/v1/
+  - url: http://localhost/index.php/api/v1/
 tags:
   - name: admins
   - name: appointments
   - name: availabilities
-  - name: categories
   - name: customers
   - name: providers
   - name: secretaries
+  - name: service_categories
   - name: services
   - name: settings
   - name: unavailabilities
@@ -53,7 +54,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Availabilities'
+                type: array
+                items:
+                  type: string
         '401':
           description: Unauthorized
         '500':
@@ -104,21 +107,35 @@ paths:
           in: query
           schema:
             type: string
-        - name: start
+        - name: from
           in: query
           schema:
             type: string
-        - name: end
+        - name: till
           in: query
           schema:
             type: string
+        - name: serviceId
+          in: query
+          schema:
+            type: integer
+        - name: providerId
+          in: query
+          schema:
+            type: integer
+        - name: customerId
+          in: query
+          schema:
+            type: integer
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppointmentCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppointmentRecord'
         '401':
           description: Unauthorized
         '500':
@@ -289,7 +306,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnavailabilityCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnavailabilityRecord'
         '401':
           description: Unauthorized
         '500':
@@ -298,6 +317,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
     post:
       tags:
         - unavailabilities
@@ -457,7 +480,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomerCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerRecord'
         '401':
           description: Unauthorized
         '500':
@@ -628,7 +653,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ServiceCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
         '401':
           description: Unauthorized
         '500':
@@ -763,11 +790,11 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /categories:
+  /service_categories:
     get:
       tags:
-        - categories
-      summary: Get all categories
+        - service_categories
+      summary: Get all service-categories
       parameters:
         - name: page
           in: query
@@ -799,7 +826,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '500':
@@ -813,13 +842,13 @@ paths:
         - BasicAuth: [ ]
     post:
       tags:
-        - categories
-      summary: Create a category
+        - service_categories
+      summary: Create a service-category
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryPayload'
+              $ref: '#/components/schemas/ServiceCategoryPayload'
         required: true
       responses:
         '201':
@@ -827,7 +856,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryRecord'
+                $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '500':
@@ -840,13 +869,13 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /categories/{categoryId}:
+  /service_categories/{serviceCategoryId}:
     get:
       tags:
-        - categories
-      summary: Get a category
+        - service_categories
+      summary: Get a service-category
       parameters:
-        - name: categoryId
+        - name: serviceCategoryId
           in: path
           required: true
           schema:
@@ -857,7 +886,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryRecord'
+                $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '404':
@@ -873,10 +902,10 @@ paths:
         - BasicAuth: [ ]
     put:
       tags:
-        - categories
-      summary: Update a category
+        - service_categories
+      summary: Update a service-category
       parameters:
-        - name: categoryId
+        - name: serviceCategoryId
           in: path
           required: true
           schema:
@@ -885,7 +914,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CategoryPayload'
+              $ref: '#/components/schemas/ServiceCategoryPayload'
         required: true
       responses:
         '200':
@@ -893,7 +922,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CategoryRecord'
+                $ref: '#/components/schemas/ServiceCategoryRecord'
         '401':
           description: Unauthorized
         '404':
@@ -910,10 +939,10 @@ paths:
         - BasicAuth: [ ]
     delete:
       tags:
-        - categories
-      summary: Delete a category
+        - service_categories
+      summary: Delete a service-category
       parameters:
-        - name: categoryId
+        - name: serviceCategoryId
           in: path
           required: true
           schema:
@@ -970,7 +999,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1141,7 +1172,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProviderCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProviderRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1312,7 +1345,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SecretaryCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecretaryRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1477,7 +1512,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SettingCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1593,7 +1630,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WebhookCollection'
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1808,10 +1847,6 @@ components:
         customerId: 5
         providerId: 2
         serviceId: 6
-    AppointmentCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/AppointmentRecord'
     UnavailabilityRecord:
       type: object
       properties:
@@ -1862,10 +1897,6 @@ components:
         location: Test Street 1A, 12345 Some State, Some Place
         notes: This is a test appointment.
         providerId: 2
-    UnavailabilityCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/UnavailabilityRecord'
     CustomerRecord:
       type: object
       properties:
@@ -1889,6 +1920,16 @@ components:
           type: string
         language:
           type: string
+        customField1:
+          type: string
+        customField2:
+          type: string 
+        customField3:
+          type: string
+        customField4:
+          type: string
+        customField5:
+          type: string
         notes:
           type: string
       example:
@@ -1901,6 +1942,11 @@ components:
         zip: '12345'
         timezone: UTC
         language: english
+        customField1: Value1
+        customField2: Value2
+        customField3: Value3
+        customField4: Value4
+        customField5: Value5
         notes: This is a test customer.
     CustomerPayload:
       type: object
@@ -1923,6 +1969,16 @@ components:
           type: string
         language:
           type: string
+        customField1:
+          type: string
+        customField2:
+          type: string
+        customField3:
+          type: string
+        customField4:
+          type: string
+        customField5:
+          type: string
         notes:
           type: string
       example:
@@ -1934,11 +1990,12 @@ components:
         zip: '12345'
         timezone: UTC
         language: english
+        customField1: Value1
+        customField2: Value2
+        customField3: Value3
+        customField4: Value4
+        customField5: Value5
         notes: This is a test customer.
-    CustomerCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/CustomerRecord'
     ServiceRecord:
       type: object
       properties:
@@ -1973,7 +2030,7 @@ components:
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
-        categoryId: null
+        serviceCategoryId: null
     ServicePayload:
       type: object
       properties:
@@ -1993,7 +2050,7 @@ components:
           type: string
         attendantsNumber:
           type: integer
-        categoryId:
+        serviceCategoryId:
           type: integer
       example:
         name: Test Service
@@ -2004,12 +2061,8 @@ components:
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
-        categoryId: null
-    ServiceCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/ServiceRecord'
-    CategoryRecord:
+        serviceCategoryId: null
+    ServiceCategoryRecord:
       type: object
       properties:
         id:
@@ -2022,7 +2075,7 @@ components:
         id: 1
         name: Test Category
         description: This is a test category.
-    CategoryPayload:
+    ServiceCategoryPayload:
       type: object
       properties:
         name:
@@ -2032,10 +2085,6 @@ components:
       example:
         name: Test Category
         description: This is a test category.
-    CategoryCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/CategoryRecord'
     AdminRecord:
       type: object
       properties:
@@ -2144,10 +2193,6 @@ components:
           password: Password@123
           notifications: true
           calendarView: default
-    AdminCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/AdminRecord'
     ProviderRecord:
       type: object
       properties:
@@ -2348,10 +2393,6 @@ components:
               end: '17:00'
               breaks: [ ]
             saturday: null
-    ProviderCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/ProviderRecord'
     SecretaryRecord:
       type: object
       properties:
@@ -2473,10 +2514,6 @@ components:
           password: Password@123
           notifications: true
           calendarView: default
-    SecretaryCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/SecretaryRecord'
     SettingRecord:
       type: object
       properties:
@@ -2494,10 +2531,6 @@ components:
           type: string
       example:
         value: ACME Inc
-    SettingCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/SettingRecord'
     WebhookRecord:
       type: object
       properties:
@@ -2545,10 +2578,6 @@ components:
         secretToken: SecureSecretTokenHere
         isSslVerified: true
         notes: This is a webhook.
-    WebhookCollection:
-      type: array
-      items:
-        $ref: '#/components/schemas/WebhookRecord'
     ErrorResponse:
       type: object
       properties:

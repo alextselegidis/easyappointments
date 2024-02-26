@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Providers extends EA_Controller {
+class Providers extends EA_Controller
+{
     /**
      * Providers constructor.
      */
@@ -47,10 +48,8 @@ class Providers extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_USERS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_USERS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -60,12 +59,11 @@ class Providers extends EA_Controller {
         }
 
         $role_slug = session('role_slug');
-        
-        $services = $this->services_model->get(); 
-        
-        foreach($services as &$service)
-        {
-            $this->services_model->only($service, ['id', 'name']);            
+
+        $services = $this->services_model->get();
+
+        foreach ($services as &$service) {
+            $this->services_model->only($service, ['id', 'name']);
         }
 
         script_vars([
@@ -97,16 +95,14 @@ class Providers extends EA_Controller {
      */
     public function search()
     {
-        try
-        {
-            if (cannot('view', PRIV_USERS))
-            {
+        try {
+            if (cannot('view', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
             $keyword = request('keyword', '');
 
-            $order_by = 'first_name ASC, last_name ASC, email ASC';
+            $order_by = 'update_datetime DESC';
 
             $limit = request('limit', 1000);
 
@@ -115,22 +111,18 @@ class Providers extends EA_Controller {
             $providers = $this->providers_model->search($keyword, $limit, $offset, $order_by);
 
             json_response($providers);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
 
     /**
-     * Create a provider.
+     * Store a new provider.
      */
-    public function create()
+    public function store()
     {
-        try
-        {
-            if (cannot('add', PRIV_USERS))
-            {
+        try {
+            if (cannot('add', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -155,6 +147,19 @@ class Providers extends EA_Controller {
                 'services',
             ]);
 
+            $this->providers_model->only($provider['settings'], [
+                'username',
+                'password',
+                'working_plan',
+                'working_plan_exceptions',
+                'notifications',
+                'calendar_view',
+            ]);
+
+            $this->providers_model->optional($provider, [
+                'services' => [],
+            ]);
+
             $provider_id = $this->providers_model->save($provider);
 
             $provider = $this->providers_model->find($provider_id);
@@ -162,12 +167,30 @@ class Providers extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_PROVIDER_SAVE, $provider);
 
             json_response([
-                'success' => TRUE,
-                'id' => $provider_id
+                'success' => true,
+                'id' => $provider_id,
             ]);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
-        catch (Throwable $e)
-        {
+    }
+
+    /**
+     * Find a provider.
+     */
+    public function find()
+    {
+        try {
+            if (cannot('view', PRIV_USERS)) {
+                abort(403, 'Forbidden');
+            }
+
+            $provider_id = request('provider_id');
+
+            $provider = $this->providers_model->find($provider_id);
+
+            json_response($provider);
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -177,10 +200,8 @@ class Providers extends EA_Controller {
      */
     public function update()
     {
-        try
-        {
-            if (cannot('edit', PRIV_USERS))
-            {
+        try {
+            if (cannot('edit', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -206,6 +227,19 @@ class Providers extends EA_Controller {
                 'services',
             ]);
 
+            $this->providers_model->only($provider['settings'], [
+                'username',
+                'password',
+                'working_plan',
+                'working_plan_exceptions',
+                'notifications',
+                'calendar_view',
+            ]);
+
+            $this->providers_model->optional($provider, [
+                'services' => [],
+            ]);
+
             $provider_id = $this->providers_model->save($provider);
 
             $provider = $this->providers_model->find($provider_id);
@@ -213,12 +247,10 @@ class Providers extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_PROVIDER_SAVE, $provider);
 
             json_response([
-                'success' => TRUE,
-                'id' => $provider_id
+                'success' => true,
+                'id' => $provider_id,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -228,10 +260,8 @@ class Providers extends EA_Controller {
      */
     public function destroy()
     {
-        try
-        {
-            if (cannot('delete', PRIV_USERS))
-            {
+        try {
+            if (cannot('delete', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
@@ -244,35 +274,9 @@ class Providers extends EA_Controller {
             $this->webhooks_client->trigger(WEBHOOK_PROVIDER_DELETE, $provider);
 
             json_response([
-                'success' => TRUE,
+                'success' => true,
             ]);
-        }
-        catch (Throwable $e)
-        {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Find a provider.
-     */
-    public function find()
-    {
-        try
-        {
-            if (cannot('view', PRIV_USERS))
-            {
-                abort(403, 'Forbidden');
-            }
-
-            $provider_id = request('provider_id');
-
-            $provider = $this->providers_model->find($provider_id);
-
-            json_response($provider);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

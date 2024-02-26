@@ -27,13 +27,13 @@ App.Http.BookingSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            booking_settings: bookingSettings
+            booking_settings: bookingSettings,
         };
 
         return $.post(url, data);
     }
 
     return {
-        save
+        save,
     };
 })();

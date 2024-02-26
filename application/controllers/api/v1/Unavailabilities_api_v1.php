@@ -16,15 +16,14 @@
  *
  * @package Controllers
  */
-class Unavailabilities_api_v1 extends EA_Controller {
+class Unavailabilities_api_v1 extends EA_Controller
+{
     /**
      * Unavailabilities_api_v1 constructor.
      */
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->model('unavailabilities_model');
 
         $this->load->library('api');
 
@@ -36,10 +35,9 @@ class Unavailabilities_api_v1 extends EA_Controller {
     /**
      * Get an unavailability collection.
      */
-    public function index()
+    public function index(): void
     {
-        try
-        {
+        try {
             $keyword = $this->api->request_keyword();
 
             $limit = $this->api->request_limit();
@@ -53,28 +51,23 @@ class Unavailabilities_api_v1 extends EA_Controller {
             $with = $this->api->request_with();
 
             $unavailabilities = empty($keyword)
-                ? $this->unavailabilities_model->get(NULL, $limit, $offset, $order_by)
+                ? $this->unavailabilities_model->get(null, $limit, $offset, $order_by)
                 : $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
 
-            foreach ($unavailabilities as &$unavailability)
-            {
+            foreach ($unavailabilities as &$unavailability) {
                 $this->unavailabilities_model->api_encode($unavailability);
 
-                if ( ! empty($fields))
-                {
+                if (!empty($fields)) {
                     $this->unavailabilities_model->only($unavailability, $fields);
                 }
 
-                if ( ! empty($with))
-                {
+                if (!empty($with)) {
                     $this->unavailabilities_model->load($unavailability, $with);
                 }
             }
 
             json_response($unavailabilities);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -84,10 +77,17 @@ class Unavailabilities_api_v1 extends EA_Controller {
      *
      * @param int|null $id Unavailability ID.
      */
-    public function show(int $id = NULL)
+    public function show(int $id = null): void
     {
-        try
-        {
+        try {
+            $occurrences = $this->unavailabilities_model->get(['id' => $id]);
+
+            if (empty($occurrences)) {
+                response('', 404);
+
+                return;
+            }
+
             $fields = $this->api->request_fields();
 
             $with = $this->api->request_with();
@@ -96,44 +96,31 @@ class Unavailabilities_api_v1 extends EA_Controller {
 
             $this->unavailabilities_model->api_encode($unavailability);
 
-            if ( ! empty($fields))
-            {
+            if (!empty($fields)) {
                 $this->unavailabilities_model->only($unavailability, $fields);
             }
 
-            if ( ! empty($with))
-            {
+            if (!empty($with)) {
                 $this->unavailabilities_model->load($unavailability, $with);
             }
 
-            if ( ! $unavailability)
-            {
-                response('', 404);
-
-                return;
-            }
-
             json_response($unavailability);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
 
     /**
-     * Create an unavailability.
+     * Store a new unavailability.
      */
-    public function store()
+    public function store(): void
     {
-        try
-        {
+        try {
             $unavailability = request();
 
             $this->unavailabilities_model->api_decode($unavailability);
 
-            if (array_key_exists('id', $unavailability))
-            {
+            if (array_key_exists('id', $unavailability)) {
                 unset($unavailability['id']);
             }
 
@@ -144,9 +131,7 @@ class Unavailabilities_api_v1 extends EA_Controller {
             $this->unavailabilities_model->api_encode($created_unavailability);
 
             json_response($created_unavailability, 201);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -156,14 +141,12 @@ class Unavailabilities_api_v1 extends EA_Controller {
      *
      * @param int $id Unavailability ID.
      */
-    public function update(int $id)
+    public function update(int $id): void
     {
-        try
-        {
+        try {
             $occurrences = $this->unavailabilities_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -182,9 +165,7 @@ class Unavailabilities_api_v1 extends EA_Controller {
             $this->unavailabilities_model->api_encode($updated_unavailability);
 
             json_response($updated_unavailability);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -194,14 +175,12 @@ class Unavailabilities_api_v1 extends EA_Controller {
      *
      * @param int $id Unavailability ID.
      */
-    public function destroy(int $id)
+    public function destroy(int $id): void
     {
-        try
-        {
+        try {
             $occurrences = $this->unavailabilities_model->get(['id' => $id]);
 
-            if (empty($occurrences))
-            {
+            if (empty($occurrences)) {
                 response('', 404);
 
                 return;
@@ -210,9 +189,7 @@ class Unavailabilities_api_v1 extends EA_Controller {
             $this->unavailabilities_model->delete($id);
 
             response('', 204);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

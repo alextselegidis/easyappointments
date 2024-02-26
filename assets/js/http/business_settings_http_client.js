@@ -27,7 +27,7 @@ App.Http.BusinessSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            business_settings: businessSettings
+            business_settings: businessSettings,
         };
 
         return $.post(url, data);
@@ -45,7 +45,7 @@ App.Http.BusinessSettings = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            working_plan: JSON.stringify(workingPlan)
+            working_plan: JSON.stringify(workingPlan),
         };
 
         return $.post(url, data);
@@ -53,6 +53,6 @@ App.Http.BusinessSettings = (function () {
 
     return {
         save,
-        applyGlobalWorkingPlan
+        applyGlobalWorkingPlan,
     };
 })();

@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Recovery extends EA_Controller {
+class Recovery extends EA_Controller
+{
     /**
      * User constructor.
      */
@@ -35,60 +36,51 @@ class Recovery extends EA_Controller {
      */
     public function index()
     {
-        $company_name = setting('company_name'); 
-        
+        $company_name = setting('company_name');
+
         html_vars([
             'page_title' => lang('forgot_your_password'),
             'dest_url' => session('dest_url', site_url('backend')),
-            'company_name' => $company_name
-        ]); 
-        
+            'company_name' => $company_name,
+        ]);
+
         $this->load->view('pages/recovery');
     }
-    
+
     /**
      * Recover the user password and notify the user via email.
      */
     public function perform()
     {
-        try
-        {
+        try {
             $username = request('username');
 
-            if (empty($username))
-            {
+            if (empty($username)) {
                 throw new InvalidArgumentException('No username value provided.');
             }
 
             $email = request('email');
 
-            if (empty($email))
-            {
+            if (empty($email)) {
                 throw new InvalidArgumentException('No email value provided.');
             }
 
-            $new_password = $this->accounts->regenerate_password(
-                $username,
-                $email
-            );
+            $new_password = $this->accounts->regenerate_password($username, $email);
 
-            if ($new_password)
-            {
+            if ($new_password) {
                 $settings = [
                     'company_name' => setting('company_name'),
                     'company_link' => setting('company_link'),
-                    'company_email' => setting('company_email')
+                    'company_email' => setting('company_email'),
                 ];
 
                 $this->email_messages->send_password($new_password, $email, $settings);
             }
 
             json_response([
-                'success' => TRUE
+                'success' => true,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

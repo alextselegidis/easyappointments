@@ -23,7 +23,7 @@ App.Http.Secretaries = (function () {
      * @return {Object}
      */
     function save(secretary) {
-        return secretary.id ? update(secretary) : create(secretary);
+        return secretary.id ? update(secretary) : store(secretary);
     }
 
     /**
@@ -33,12 +33,12 @@ App.Http.Secretaries = (function () {
      *
      * @return {Object}
      */
-    function create(secretary) {
-        const url = App.Utils.Url.siteUrl('secretaries/create');
+    function store(secretary) {
+        const url = App.Utils.Url.siteUrl('secretaries/store');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            secretary: secretary
+            secretary: secretary,
         };
 
         return $.post(url, data);
@@ -56,7 +56,7 @@ App.Http.Secretaries = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            secretary: secretary
+            secretary: secretary,
         };
 
         return $.post(url, data);
@@ -74,7 +74,7 @@ App.Http.Secretaries = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            secretary_id: secretaryId
+            secretary_id: secretaryId,
         };
 
         return $.post(url, data);
@@ -90,7 +90,7 @@ App.Http.Secretaries = (function () {
      *
      * @return {Object}
      */
-        function search(keyword, limit = null, offset = null, orderBy = null) {
+    function search(keyword, limit = null, offset = null, orderBy = null) {
         const url = App.Utils.Url.siteUrl('secretaries/search');
 
         const data = {
@@ -98,7 +98,7 @@ App.Http.Secretaries = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy
+            order_by: orderBy,
         };
 
         return $.post(url, data);
@@ -116,7 +116,7 @@ App.Http.Secretaries = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            secretary_id: secretaryId
+            secretary_id: secretaryId,
         };
 
         return $.post(url, data);
@@ -124,10 +124,10 @@ App.Http.Secretaries = (function () {
 
     return {
         save,
-        create,
+        store,
         update,
         destroy,
         search,
-        find
+        find,
     };
 })();

@@ -16,13 +16,18 @@
  *
  * @package Controllers
  */
-class Availabilities_api_v1 extends EA_Controller {
+class Availabilities_api_v1 extends EA_Controller
+{
     /**
      * Availabilities_api_v1 constructor.
      */
     public function __construct()
     {
         parent::__construct();
+
+        $this->load->library('api');
+
+        $this->api->auth();
 
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
@@ -49,18 +54,16 @@ class Availabilities_api_v1 extends EA_Controller {
      *
      * If no date parameter is provided then the current date will be used.
      */
-    public function get()
+    public function get(): void
     {
-        try
-        {
+        try {
             $provider_id = request('providerId');
 
             $service_id = request('serviceId');
 
             $date = request('date');
 
-            if ( ! $date)
-            {
+            if (!$date) {
                 $date = date('Y-m-d');
             }
 
@@ -71,9 +74,7 @@ class Availabilities_api_v1 extends EA_Controller {
             $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 
             json_response($available_hours);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

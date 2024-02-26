@@ -39,6 +39,7 @@
  * @property EA_Upload $upload
  * @property EA_URI $uri
  */
-class EA_Encrypt extends CI_Encrypt {
-    // 
+class EA_Encrypt extends CI_Encrypt
+{
+    //
 }

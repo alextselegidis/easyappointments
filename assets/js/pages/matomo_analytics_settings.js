@@ -52,7 +52,11 @@ App.Pages.MatomoAnalyticsSettings = (function () {
 
     function deserialize(matomoAnalyticsSettings) {
         matomoAnalyticsSettings.forEach((matomoAnalyticsSetting) => {
-            $('[data-field="' + matomoAnalyticsSetting.name + '"]').val(matomoAnalyticsSetting.value);
+            const $field = $('[data-field="' + matomoAnalyticsSetting.name + '"]');
+
+            $field.is(':checkbox')
+                ? $field.prop('checked', Boolean(Number(matomoAnalyticsSetting.value)))
+                : $field.val(matomoAnalyticsSetting.value);
         });
     }
 
@@ -64,7 +68,7 @@ App.Pages.MatomoAnalyticsSettings = (function () {
 
             matomoAnalyticsSettings.push({
                 name: $field.data('field'),
-                value: $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val(),
             });
         });
 
@@ -97,8 +101,6 @@ App.Pages.MatomoAnalyticsSettings = (function () {
         const matomoAnalyticsSettings = vars('matomo_analytics_settings');
 
         deserialize(matomoAnalyticsSettings);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

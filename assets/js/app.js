@@ -37,20 +37,26 @@ window.App = (function () {
                 'html': [
                     $('<div/>', {
                         'class': 'card-body overflow-auto',
-                        'html': response.message
-                    })
-                ]
-            }).appendTo('#message-box');
+                        'html': response.message,
+                    }),
+                ],
+            }).appendTo('#message-modal .modal-body');
         }
     }
 
     $(document).ajaxError(onAjaxError);
+
+    $(function () {
+        if (window.moment) {
+            window.moment.locale(vars('language_code'));
+        }
+    });
 
     return {
         Components: {},
         Http: {},
         Layouts: {},
         Pages: {},
-        Utils: {}
+        Utils: {},
     };
 })();

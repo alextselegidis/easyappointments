@@ -3,6 +3,71 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Added
+
+- Display month with the earliest available day (#1075)
+- Allow admins to define the business closed dates (blocked-periods) (#432)
+- Allow working plan exceptions to be defined as non-working days (#1383)
+- Create an official docker image of the project and host it on Docker Hub(#1116)
+- Automatically select the next available date in the booking page or display a message if this month is unavailable (#1204)
+- Add Open Graph information to the public booking page so that it renders nicely once shared on social media apps (#1382)
+- Preselect the date with a query parameter (#1376)
+- Add the location and notes fields to the appointment email notifications (if a value was provided) (#1341)
+- Add date, from and till query parameters to the filter the appointments index results by date (#1134)
+- Allow the users to define their own status and assign them to appointments (#244)
+- Add new setting for limiting new public bookings in the future (#1203)
+- Automatically enable the secure cookie config if the current installation uses HTTPS (#1126)
+- Add language and timezone properties to the customer API resource (#1157)
+- Add support for the definition of custom webhooks via the settings page (#581)
+- Allow the user to select their own preferred language (#1263)
+- Support multiple Bootswatch themes for the app (#1205)
+- Providers and secretaries must only be able to see and manage their own customers (#1199)
+- Use the default service duration if the user just clicks on a calendar slot for creating a new appointment (#1237)
+- Google Calendar synchronisation failure when symbols/emoji appear in events to be imported (#1182)
+- Add the customer timezone field in the appointment modal of the calendar page (#1094)
+- Add a new setting that toggles the login link of the booking page (#1148)
+- Add custom Matomo analytics integration (#974)
+- Prefill the form field though url parameters (#1021)
+- Color code events by provider or service (#422)
+- Service duration values shorter than 5 minutes should be acceptable via the services page (#1110)
+- Add a new "is_private" flag to services and providers so that they do not appear in the booking page (#378)
+- Skip the first booking step when only one service and one provider are available (#349)
+- Enable the change of the brand logo and colors from the backend (#789)
+- Add the ability to temporarily block new appointments / set away message (#940)
+- Add optional (configurable with setting) phone number validation (#820)
+- Add an option to deactivate the remove-all-data function for customers (#808)
+- Skip the first booking step if both provider and service are preselected (#1117)
+- Make delete appointment via API to send emails just like the calendar page does (#1101)
+- Create new layout structure for the markup, so that common HTML markup is being reused (#1152)
+- Have an option to hide customer data fields during booking (#1081)
+- Add a SECURITY.md file to the repository (#1122)
+- Add support for custom fields on customers (#1133)
+
+### Changed
+
+- Do not allow a customer to book the same hours multiple times (#1420)
+- All the user roles with access to the backend calendar page can filter by services (#956)
+- Update Bootstrap to version 5 (#1150)
+- Update FullCalendar to version 5 (#1151)
+- The availability generation algorithm needs performance improvements when many appointments are stored in the system (#1171)
+- Support for relative paths when loading resources or working with the session (#1158)
+- Support line breaks when displaying the service description (#1149)
+- Remove the CodeIgniter fork from the composer.json file and re-import the system directory (#1109)
+
+### Fixed
+
+- Sync all the providers without errors, when the user clicks on the "sync" button and "all" is selected in the calendar page (#1365)
+- Non-working time not showing correctly in the week view of calendar (#1381)
+- Make sure the booking cancellation is a post request and has a reason value provided (#1178)
+
+### Removed 
+
+- Remove the engine directory and files form the app (they're deprecated) (#971)
+- Remove the PHPMailer dependency from the app and use the built-in CodeIgniter mailer (#970)
+
+
 ## [1.4.3] - 2022-03-08
 
 ### Added

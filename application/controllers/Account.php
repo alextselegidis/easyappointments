@@ -18,7 +18,8 @@
  *
  * @package Controllers
  */
-class Account extends EA_Controller {
+class Account extends EA_Controller
+{
     /**
      * Account constructor.
      */
@@ -49,10 +50,8 @@ class Account extends EA_Controller {
 
         $user_id = session('user_id');
 
-        if (cannot('view', PRIV_USER_SETTINGS))
-        {
-            if ($user_id)
-            {
+        if (cannot('view', PRIV_USER_SETTINGS)) {
+            if ($user_id) {
                 abort(403, 'Forbidden');
             }
 
@@ -82,10 +81,8 @@ class Account extends EA_Controller {
      */
     public function save()
     {
-        try
-        {
-            if (cannot('edit', PRIV_USER_SETTINGS))
-            {
+        try {
+            if (cannot('edit', PRIV_USER_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -107,18 +104,12 @@ class Account extends EA_Controller {
                 'notes',
                 'timezone',
                 'language',
-                'settings'
+                'settings',
             ]);
 
-            $this->users_model->only($account['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view'
-            ]);
+            $this->users_model->only($account['settings'], ['username', 'password', 'notifications', 'calendar_view']);
 
-            if (empty($account['password']))
-            {
+            if (empty($account['password'])) {
                 unset($account['password']);
             }
 
@@ -132,9 +123,7 @@ class Account extends EA_Controller {
             ]);
 
             response();
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }
@@ -144,8 +133,7 @@ class Account extends EA_Controller {
      */
     public function validate_username()
     {
-        try
-        {
+        try {
             $username = request('username');
 
             $user_id = request('user_id');
@@ -155,9 +143,7 @@ class Account extends EA_Controller {
             json_response([
                 'is_valid' => $is_valid,
             ]);
-        }
-        catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             json_exception($e);
         }
     }

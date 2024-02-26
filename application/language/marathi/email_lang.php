@@ -1,14 +1,14 @@
 <?php
 /**
-* System messages translation for CodeIgniter(tm)
-*
-* @author	Kaustubh Kulkarni from JustInClicks.com
-* @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
-* @copyright	Pieter Krul
-* @license	http://opensource.org/licenses/MIT MIT License
-* @link	https://codeigniter.com
-*/
-defined('BASEPATH') OR exit('Directe toegang tot scripts is niet toegestaan');
+ * System messages translation for CodeIgniter(tm)
+ *
+ * @author    Kaustubh Kulkarni from JustInClicks.com
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @copyright    Pieter Krul
+ * @license    http://opensource.org/licenses/MIT MIT License
+ * @link    https://codeigniter.com
+ */
+defined('BASEPATH') or exit('Directe toegang tot scripts is niet toegestaan');
 $lang['email_must_be_array'] = 'ईमेल प्रमाणीकरण पद्धत (array) पाठविली जाणे आवश्यक आहे.';
 $lang['email_invalid_address'] = 'अवैध ईमेल पत्ता आहे:%s';
 $lang['email_attachment_missing'] = '%s: खालील ईमेल संलग्नक शोधण्यात अक्षम';

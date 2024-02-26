@@ -52,7 +52,11 @@ App.Pages.GoogleAnalyticsSettings = (function () {
 
     function deserialize(googleAnalyticsSettings) {
         googleAnalyticsSettings.forEach((googleAnalyticsSetting) => {
-            $('[data-field="' + googleAnalyticsSetting.name + '"]').val(googleAnalyticsSetting.value);
+            const $field = $('[data-field="' + googleAnalyticsSetting.name + '"]');
+
+            $field.is(':checkbox')
+                ? $field.prop('checked', Boolean(Number(googleAnalyticsSetting.value)))
+                : $field.val(googleAnalyticsSetting.value);
         });
     }
 
@@ -64,7 +68,7 @@ App.Pages.GoogleAnalyticsSettings = (function () {
 
             googleAnalyticsSettings.push({
                 name: $field.data('field'),
-                value: $field.val()
+                value: $field.is(':checkbox') ? Number($field.prop('checked')) : $field.val(),
             });
         });
 
@@ -97,8 +101,6 @@ App.Pages.GoogleAnalyticsSettings = (function () {
         const googleAnalyticsSettings = vars('google_analytics_settings');
 
         deserialize(googleAnalyticsSettings);
-
-        App.Layouts.Backend.placeFooterToBottom();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
