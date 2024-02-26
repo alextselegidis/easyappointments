@@ -92,23 +92,28 @@ App.Pages.Services = (function () {
         /**
          * Event: Sort service by dragging
          */
-        $services.find('.results').sortable({
-            update: function(ev,ui){
+
+        const sorting = new Sortable(document.querySelector('.results'), {
+            onUpdate : async function(ev){
                 resetForm();
-                var afterId;
-                if (ui.item.index( )== 0)
+                let afterId;
+                const currentItemId = ev.item.dataset['id'];
+
+                if (ev.newIndex == 0)
                     afterId = -1;
-                else {
-                    afterId = ui.item.prev('.service-row').data('id');
+                else if (ev.item.previousSibling !== null && ev.item.previousSibling.classList.contains('service-row')) {
+                    afterId = parseInt(ev.item.previousSibling.dataset['id']);
                 }
-                sort(ui.item.data('id'), afterId)
-                .catch(err => {
-                    $(this).sortable('cancel');
+                try {
+                    await sort(currentItemId, afterId)
+                }
+                catch (err){
                     $services.find('.form-message').addClass('alert-danger').text(lang('error')).show();
-                })
+                    return false;
+                }
             }
         });
-
+        
         /**
          * Event: Add New Service Button "Click"
          */
