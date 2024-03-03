@@ -181,7 +181,7 @@ class Google_sync
         $event_provider->setEmail($provider['email']);
         $event->attendees[] = $event_provider;
 
-        if (!empty($customer)) {
+        if (!empty($customer['email'])) {
             $event_customer = new Google_Service_Calendar_EventAttendee();
             $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
@@ -243,7 +243,7 @@ class Google_sync
         $event_provider->setEmail($provider['email']);
         $event->attendees[] = $event_provider;
 
-        if (!empty($customer)) {
+        if (!empty($customer['email'])) {
             $event_customer = new Google_Service_Calendar_EventAttendee();
             $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
