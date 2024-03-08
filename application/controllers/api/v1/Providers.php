@@ -102,7 +102,7 @@ class Providers extends API_V1_Controller {
                 throw new Exception('No settings property provided.');
             }
 
-            if ( ! array_key_exists('working_plan', $provider['settings']['working_plan']))
+            if ( ! array_key_exists('working_plan', $provider['settings']))
             {
                 $provider['settings']['working_plan'] = $this->settings_model->get_setting('company_working_plan');
             }
