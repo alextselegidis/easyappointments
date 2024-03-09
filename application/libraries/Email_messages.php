@@ -106,7 +106,15 @@ class Email_messages
             true,
         );
 
-        $this->CI->email->from($settings['company_email'], $settings['company_email']);
+        $from_name = config('from_name') ?: $settings['company_name'];
+        $from_address = config('from_address') ?: $settings['company_email'];
+        $reply_to = config('reply_to') ?: $settings['company_email'];
+
+        $this->CI->email->from($from_address, $from_name);
+
+        if ($reply_to) {
+            $this->CI->email->reply_to($reply_to);
+        }
 
         $this->CI->email->to($recipient_email);
 
@@ -175,7 +183,15 @@ class Email_messages
             true,
         );
 
-        $this->CI->email->from($settings['company_email'], $settings['company_email']);
+        $from_name = config('from_name') ?: $settings['company_name'];
+        $from_address = config('from_address') ?: $settings['company_email'];
+        $reply_to = config('reply_to') ?: $settings['company_email'];
+
+        $this->CI->email->from($from_address, $from_name);
+
+        if ($reply_to) {
+            $this->CI->email->reply_to($reply_to);
+        }
 
         $this->CI->email->to($recipient_email);
 
@@ -207,7 +223,15 @@ class Email_messages
             true,
         );
 
-        $this->CI->email->from($settings['company_email'], $settings['company_email']);
+        $from_name = config('from_name') ?: $settings['company_name'];
+        $from_address = config('from_address') ?: $settings['company_email'];
+        $reply_to = config('reply_to') ?: $settings['company_email'];
+
+        $this->CI->email->from($from_address, $from_name);
+
+        if ($reply_to) {
+            $this->CI->email->reply_to($reply_to);
+        }
 
         $this->CI->email->to($recipient_email);
 
