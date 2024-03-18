@@ -79,7 +79,7 @@ class Secretaries_model extends EA_Model
     public function validate(array $secretary)
     {
         // If a secretary ID is provided then check whether the record really exists in the database.
-        if (!empty($provider['id'])) {
+        if (!empty($secretary['id'])) {
             $count = $this->db->get_where('users', ['id' => $secretary['id']])->num_rows();
 
             if (!$count) {
