@@ -365,6 +365,10 @@ App.Components.AppointmentsModal = (function () {
                 return Number(availableService.id) === Number(serviceId);
             });
 
+            if (service?.color) {
+                App.Components.ColorSelection.getColor($appointmentColor, service.color);
+            }
+
             const duration = service ? service.duration : 60;
 
             const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
