@@ -107,8 +107,8 @@ class Secretaries_model extends EA_Model
         // Validate secretary providers.
         if (!empty($secretary['providers'])) {
             // Make sure the provided provider entries are numeric values.
-            foreach ($secretary['providers'] as $secretary_id) {
-                if (!is_numeric($secretary_id)) {
+            foreach ($secretary['providers'] as $provider_id) {
+                if (!is_numeric($provider_id)) {
                     throw new InvalidArgumentException(
                         'The provided secretary providers are invalid: ' . print_r($secretary, true),
                     );
