@@ -205,7 +205,7 @@ class Services_model extends EA_Model
     public function delete(int $service_id): void
     {
         $this->db->delete('services', ['id' => $service_id]);
-        $this->sort_column('row_order');
+        $this->sort_column('services');
     }
 
     /**
