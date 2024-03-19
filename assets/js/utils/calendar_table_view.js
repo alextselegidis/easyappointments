@@ -953,7 +953,7 @@ App.Utils.CalendarTableView = (function () {
      * @param {Object[]} blockedPeriods Contains the blocked period data.
      */
     function createBlockedPeriods($providerColumn, blockedPeriods) {
-        if (blockedPeriods.length === 0) {
+        if (blockedPeriods?.length === 0) {
             return;
         }
 
