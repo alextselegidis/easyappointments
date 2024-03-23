@@ -11,7 +11,7 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_total_cost_to_appointments_table extends EA_Migration
+class Migration_Add_total_cost_column_to_appointments_table extends EA_Migration
 {
     /**
      * Upgrade method.
