@@ -342,6 +342,34 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <hr>
+
+                    <fieldset>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="appointment-total-cost" class="form-label">
+                                        <?= lang('total_cost') ?>
+                                    </label>
+                                    <input type="text" id="appointment-total-cost"
+                                           class="form-control"
+                                           maxlength="100"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label for="appointment-currency" class="form-label">
+                                        <?= lang('currency') ?>
+                                    </label>
+                                    <input type="text" id="appointment-currency"
+                                           class="form-control"
+                                           maxlength="100"/>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
 
