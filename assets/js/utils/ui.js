@@ -27,7 +27,7 @@ window.App.Utils.UI = (function () {
                 return 'd.m.Y';
             case 'MM/DD/YYYY':
                 return 'm/d/Y';
-            case 'YYY-MM-DD':
+            case 'YYYY-MM-DD':
                 return 'Y-m-d';
             default:
                 throw new Error('Invalid date format value.');
