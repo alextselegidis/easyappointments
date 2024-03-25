@@ -655,12 +655,13 @@ App.Utils.CalendarTableView = (function () {
         let columnFormat = '';
 
         switch (vars('date_format')) {
-            case 'DMY':
+            case 'D.M.YYYY':
+            case 'DD.MM.YYYY':
                 columnFormat = 'ddd D/M';
                 break;
 
-            case 'MDY':
-            case 'YMD':
+            case 'MM/DD/YYYY':
+            case 'YYYY-MM-DD':
                 columnFormat = 'ddd M/D';
                 break;
 
