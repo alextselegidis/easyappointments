@@ -19,13 +19,13 @@ window.App.Utils.Date = (function () {
      * Format a YYYY-MM-DD HH:mm:ss date string.
      *
      * @param {String|Date} dateValue The date string to be formatted.
-     * @param {String} [dateFormatType] The date format type value ("DMY", "MDY" or "YMD").
+     * @param {String} [dateFormatType] The date format type value ("D.M.YYYY", "DD.MM.YYYY", "MM/DD/YYYY" or "YYYY-MM-DD").
      * @param {String} [timeFormatType] The time format type value ("regular", "military").
      * @param {Boolean} [withHours] Whether to add hours to the returned string.
 
      * @return {String} Returns the formatted string.
      */
-    function format(dateValue, dateFormatType = 'YMD', timeFormatType = 'regular', withHours = false) {
+    function format(dateValue, dateFormatType = 'YYYY-MM-DD', timeFormatType = 'regular', withHours = false) {
         const dateMoment = moment(dateValue);
 
         if (!dateMoment.isValid()) {
@@ -35,16 +35,11 @@ window.App.Utils.Date = (function () {
         let dateFormat;
 
         switch (dateFormatType) {
-            case 'DMY':
-                dateFormat = 'DD/MM/YYYY';
-                break;
-
-            case 'MDY':
-                dateFormat = 'MM/DD/YYYY';
-                break;
-
-            case 'YMD':
-                dateFormat = 'YYYY/MM/DD';
+            case 'D.M.YYYY':
+            case 'DD.MM.YYYY':
+            case 'MM/DD/YYYY':
+            case 'YYYY-MM-DD':
+                dateFormat = dateFormatType;
                 break;
 
             default:
