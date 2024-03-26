@@ -151,7 +151,7 @@
                                         <option value="D.M.YYYY">D.M.YYYY</option>
                                         <option value="DD.MM.YYYY">DD.MM.YYYY</option>
                                         <option value="MM/DD/YYYY">MM/DD/YYYY</option>
-                                        <option value="YYYY-MM-DD">Y-M-D</option>
+                                        <option value="YYYY-MM-DD">YYYY-MM-DD</option>
                                     </select>
                                     <div class="form-text text-muted">
                                         <small>
