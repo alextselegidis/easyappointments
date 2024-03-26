@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Andmeid pole...';
 $lang['services'] = 'Teenused';
 $lang['duration_minutes'] = 'Kestvus (minutites)';
 $lang['currency'] = 'Raha vääring';
-$lang['total_cost'] = 'Kogumaksumus';
 $lang['category'] = 'Kategooria';
 $lang['no_category'] = 'Ilma kategooriata';
 $lang['description'] = 'Kirjeldus';

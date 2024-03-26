@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Nisu pronađeni zapisi...';
 $lang['services'] = 'Usluge';
 $lang['duration_minutes'] = 'Trajanje (Minuti)';
 $lang['currency'] = 'Valuta';
-$lang['total_cost'] = 'Укупан трошак';
 $lang['category'] = 'Kategorija';
 $lang['no_category'] = 'Bez kategorije';
 $lang['description'] = 'Opis';

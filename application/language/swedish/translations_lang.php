@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Hitade inga poster...';
 $lang['services'] = 'Tjänster';
 $lang['duration_minutes'] = 'Längd.';
 $lang['currency'] = 'Valuta';
-$lang['total_cost'] = 'Total kostnad';
 $lang['category'] = 'Kategori';
 $lang['no_category'] = 'Ingen kategori';
 $lang['description'] = 'Beskrivning';

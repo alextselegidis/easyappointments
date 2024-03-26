@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Tietoja ei löytynyt...';
 $lang['services'] = 'Palvelut';
 $lang['duration_minutes'] = 'Kesto (Minuutteja)';
 $lang['currency'] = 'Rahayksikkö';
-$lang['total_cost'] = 'Kokonaiskustannukset';
 $lang['category'] = 'Kategoria';
 $lang['no_category'] = 'Ei kategoriaa';
 $lang['description'] = 'Kuvaus';

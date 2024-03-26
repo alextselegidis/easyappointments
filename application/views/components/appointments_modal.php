@@ -350,10 +350,10 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="mb-3">
-                                    <label for="appointment-total-cost" class="form-label">
-                                        <?= lang('total_cost') ?>
+                                    <label for="appointment-price" class="form-label">
+                                        <?= lang('price') ?>
                                     </label>
-                                    <input type="text" id="appointment-total-cost"
+                                    <input type="text" id="appointment-price"
                                            class="form-control"
                                            maxlength="100"/>
                                 </div>

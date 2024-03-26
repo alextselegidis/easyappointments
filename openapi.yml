@@ -1794,7 +1794,7 @@ components:
           type: string
         notes:
           type: string
-        totalCost:
+        price:
           type: string
         currency:
           type: string
@@ -1816,7 +1816,7 @@ components:
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
-        totalCost: 10
+        price: 10
         currency: USD
         customerId: 5
         providerId: 2
@@ -1837,7 +1837,7 @@ components:
           type: string
         notes:
           type: string
-        totalCost:
+        price:
           type: string
         currency:
           type: string
@@ -1854,7 +1854,7 @@ components:
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
-        totalCost: 10
+        price: 10
         currency: USD
         customerId: 5
         providerId: 2

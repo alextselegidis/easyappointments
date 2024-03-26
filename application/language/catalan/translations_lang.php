@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'No s\'han trobat registres...';
 $lang['services'] = 'Serveis';
 $lang['duration_minutes'] = 'Durada (minuts)';
 $lang['currency'] = 'Moneda';
-$lang['total_cost'] = 'Cost total';
 $lang['category'] = 'Categoria';
 $lang['no_category'] = 'Sense categoria';
 $lang['description'] = 'Descripció';

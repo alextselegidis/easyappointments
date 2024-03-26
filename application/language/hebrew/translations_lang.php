@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'לא נמצאו רשומות...';
 $lang['services'] = 'שירותים';
 $lang['duration_minutes'] = 'משך (דקות)';
 $lang['currency'] = 'מטבע';
-$lang['total_cost'] = 'עלות כוללת';
 $lang['category'] = 'קטגוריה';
 $lang['no_category'] = 'ללא קטגוריה';
 $lang['description'] = 'תיאור';

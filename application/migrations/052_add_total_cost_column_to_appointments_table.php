@@ -11,16 +11,16 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_total_cost_column_to_appointments_table extends EA_Migration
+class Migration_Add_price_column_to_appointments_table extends EA_Migration
 {
     /**
      * Upgrade method.
      */
     public function up()
     {
-        if (!$this->db->field_exists('total_cost', 'appointments')) {
+        if (!$this->db->field_exists('price', 'appointments')) {
             $fields = [
-                'total_cost' => [
+                'price' => [
                     'type' => 'DECIMAL',
                     'constraint' => '10,2',
                     'null' => true,
@@ -38,7 +38,7 @@ class Migration_Add_total_cost_column_to_appointments_table extends EA_Migration
             // Update existing records
             $sql = "UPDATE `appointments`
             JOIN `services` ON `appointments`.`id_services` = `services`.`id`
-            SET `appointments`.`total_cost` = `services`.`price`,
+            SET `appointments`.`price` = `services`.`price`,
                 `appointments`.`currency` = `services`.`currency`";
             $this->db->query($sql);
 
@@ -50,8 +50,8 @@ class Migration_Add_total_cost_column_to_appointments_table extends EA_Migration
      */
     public function down()
     {
-        if ($this->db->field_exists('total_cost', 'appointments')) {
-            $this->dbforge->drop_column('appointments', 'total_cost');
+        if ($this->db->field_exists('price', 'appointments')) {
+            $this->dbforge->drop_column('appointments', 'price');
             $this->dbforge->drop_column('appointments', 'currency');
         }
     }

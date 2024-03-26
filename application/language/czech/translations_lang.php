@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Nebyly nalezeny žádné záznamy...';
 $lang['services'] = 'Služby';
 $lang['duration_minutes'] = 'Doba trvání (minuty)';
 $lang['currency'] = 'Měna';
-$lang['total_cost'] = 'Celkové náklady';
 $lang['category'] = 'Kategorie';
 $lang['no_category'] = 'Žádná kategorie';
 $lang['description'] = 'Popis';

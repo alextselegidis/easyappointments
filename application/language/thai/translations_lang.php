@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'ไม่พบบันทึก...';
 $lang['services'] = 'บริการ';
 $lang['duration_minutes'] = 'ระยะเวลา (นาที)';
 $lang['currency'] = 'สกุลเงิน';
-$lang['total_cost'] = 'รายได้รวม';
 $lang['category'] = 'หมวดหมู่';
 $lang['no_category'] = 'ไม่มีหมวดหมู่';
 $lang['description'] = 'คำอธิบาย';

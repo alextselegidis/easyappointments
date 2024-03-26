@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Kayıt bulunamadı ...';
 $lang['services'] = 'Hizmetler';
 $lang['duration_minutes'] = 'Süre (Dakika)';
 $lang['currency'] = 'Para Birimi';
-$lang['total_cost'] = 'Toplam maliyet';
 $lang['category'] = 'Kategori';
 $lang['no_category'] = 'Kategorisiz';
 $lang['description'] = 'Açıklama';

@@ -118,7 +118,6 @@ $lang['no_records_found'] = '没有找到记录...';
 $lang['services'] = '服务项目';
 $lang['duration_minutes'] = '时长 (Minutes)';
 $lang['currency'] = '币种';
-$lang['total_cost'] = '总成本';
 $lang['category'] = '类别';
 $lang['no_category'] = '无类别';
 $lang['description'] = '描述';

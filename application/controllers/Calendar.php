@@ -256,13 +256,13 @@ class Calendar extends EA_Controller
                     'id_users_provider',
                     'id_users_customer',
                     'id_services',
-                    'total_cost',
+                    'price',
                     'currency',
                 ]);
 
                 // Persist price and currency (at time of initial booking creation)
                 // Fallback to setting the standard service price & currency
-                $appointment['total_cost'] = $appointment['total_cost'] ?? $service['price'];
+                $appointment['price'] = $appointment['price'] ?? $service['price'];
                 $appointment['currency'] = $appointment['currency'] ?? $service['currency'];
 
                 $appointment['id'] = $this->appointments_model->save($appointment);

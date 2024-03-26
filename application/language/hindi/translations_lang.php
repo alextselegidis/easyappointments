@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'कोई रिकॉर्ड नहीं मि
 $lang['services'] = 'सेवाएँ';
 $lang['duration_minutes'] = 'अवधि (मिनट)';
 $lang['currency'] = 'मुद्रा';
-$lang['total_cost'] = 'कुल लागत';
 $lang['category'] = 'श्रेणी';
 $lang['no_category'] = 'श्रेणी नहीं है';
 $lang['description'] = 'विवरण';

@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'لا يوجد أي تسجيل ..';
 $lang['services'] = 'الخدمات';
 $lang['duration_minutes'] = 'المدة (الدقائق)';
 $lang['currency'] = 'العملة';
-$lang['total_cost'] = 'التكلفة الإجمالية';
 $lang['category'] = 'الفئة';
 $lang['no_category'] = 'لا يوجد فئة';
 $lang['description'] = 'الوصف';

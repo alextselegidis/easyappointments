@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Nincs ilyen adat...';
 $lang['services'] = 'Szolgáltatások';
 $lang['duration_minutes'] = 'Időtartam (perc)';
 $lang['currency'] = 'Pénznem';
-$lang['total_cost'] = 'Teljes költség';
 $lang['category'] = 'Kategória';
 $lang['no_category'] = 'Nincs kategorizálva';
 $lang['description'] = 'Leírás';

@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'رکوردی یافت نشد...';
 $lang['services'] = 'خدمات';
 $lang['duration_minutes'] = 'مدت زمان (دقیقه)';
 $lang['currency'] = 'واحد پول';
-$lang['total_cost'] = 'هزینه کل';
 $lang['category'] = 'دسته بندی';
 $lang['no_category'] = 'بدون دسته بندی';
 $lang['description'] = 'توضیحات';

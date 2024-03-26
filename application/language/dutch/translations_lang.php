@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'Geen records gevonden';
 $lang['services'] = 'Diensten';
 $lang['duration_minutes'] = 'Duur (minuten)';
 $lang['currency'] = 'Valuta';
-$lang['total_cost'] = 'Totale kosten';
 $lang['category'] = 'Categorie';
 $lang['no_category'] = 'Geen categorie';
 $lang['description'] = 'Beschrijving';

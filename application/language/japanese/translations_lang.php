@@ -118,7 +118,6 @@ $lang['no_records_found'] = 'データが見つかりません...';
 $lang['services'] = 'サービスメニュー';
 $lang['duration_minutes'] = '所要時間 (分)';
 $lang['currency'] = '通貨';
-$lang['total_cost'] = '総費用';
 $lang['category'] = 'カテゴリー';
 $lang['no_category'] = 'カテゴリーなし';
 $lang['description'] = '説明';

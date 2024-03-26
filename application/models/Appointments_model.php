@@ -41,7 +41,7 @@ class Appointments_model extends EA_Model
         'color' => 'color',
         'status' => 'status',
         'notes' => 'notes',
-        'totalCost' => 'total_cost',
+        'price' => 'price',
         'currency' => 'currency',
         'hash' => 'hash',
         'serviceId' => 'id_services',
@@ -64,7 +64,7 @@ class Appointments_model extends EA_Model
         $this->validate($appointment);
 
         // If not passed, take from service
-        if (!isset($appointment['total_cost']) || !isset($appointment['currency'])) {
+        if (!isset($appointment['price']) || !isset($appointment['currency'])) {
             
             $service = $this->services_model->find($appointment['id_services']);
             
@@ -72,8 +72,8 @@ class Appointments_model extends EA_Model
                 throw new InvalidArgumentException('The provided service ID was not found in the database: ' . $appointment['id_services']);
             }
             
-            if (!isset($appointment['total_cost'])) {
-                $appointment['total_cost'] = $service['price'];
+            if (!isset($appointment['price'])) {
+                $appointment['price'] = $service['price'];
             }
 
             if (!isset($appointment['currency'])) {
@@ -559,7 +559,7 @@ class Appointments_model extends EA_Model
             'status' => $appointment['status'],
             'location' => $appointment['location'],
             'notes' => $appointment['notes'],
-            'totalCost' => $appointment['total_cost'],
+            'price' => $appointment['price'],
             'currency' => $appointment['currency'],
             'customerId' => $appointment['id_users_customer'] !== null ? (int) $appointment['id_users_customer'] : null,
             'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
@@ -613,8 +613,8 @@ class Appointments_model extends EA_Model
             $decoded_request['notes'] = $appointment['notes'];
         }
 
-        if (array_key_exists('totalCost', $appointment)) {
-            $decoded_request['total_cost'] = $appointment['totalCost'];
+        if (array_key_exists('price', $appointment)) {
+            $decoded_request['price'] = $appointment['price'];
         }
 
         if (array_key_exists('currency', $appointment)) {
