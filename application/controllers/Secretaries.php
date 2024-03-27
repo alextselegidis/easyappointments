@@ -72,6 +72,8 @@ class Secretaries extends EA_Controller
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
             'providers' => $providers,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
