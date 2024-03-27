@@ -1794,6 +1794,10 @@ components:
           type: string
         notes:
           type: string
+        price:
+          type: string
+        currency:
+          type: string
         customerId:
           type: integer
         providerId:
@@ -1812,6 +1816,8 @@ components:
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
+        price: 10
+        currency: USD
         customerId: 5
         providerId: 2
         serviceId: 6
@@ -1831,6 +1837,10 @@ components:
           type: string
         notes:
           type: string
+        price:
+          type: string
+        currency:
+          type: string
         customerId:
           type: integer
         providerId:
@@ -1844,6 +1854,8 @@ components:
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
+        price: 10
+        currency: USD
         customerId: 5
         providerId: 2
         serviceId: 6

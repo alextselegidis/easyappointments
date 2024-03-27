@@ -147,7 +147,9 @@ You can also try the GET requests with your browser by navigating to the respect
     "id": 1, 
     "book": "2016-07-08 12:57:00", 
     "start": "2016-07-08 18:00:00", 
-    "end": "2016-07-08 18:30:00", 
+    "end": "2016-07-08 18:30:00",
+    "price": "10",
+    "currency": "USD",
     "hash": "apTWVbSvBJXR", 
     "location": "Test Street 1A, 12345 Some State, Some Place"
     "notes": "This is a test appointment.",

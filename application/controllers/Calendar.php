@@ -219,6 +219,11 @@ class Calendar extends EA_Controller
 
             if ($appointment_data) {
                 $appointment = $appointment_data;
+                $service = $this->services_model->find($appointment['id_services']);
+
+                if(!$service) {
+                    throw new RuntimeException('Invalid service selection');
+                }
 
                 $required_permissions = !empty($appointment['id'])
                     ? can('add', PRIV_APPOINTMENTS)
@@ -251,7 +256,14 @@ class Calendar extends EA_Controller
                     'id_users_provider',
                     'id_users_customer',
                     'id_services',
+                    'price',
+                    'currency',
                 ]);
+
+                // Persist price and currency (at time of initial booking creation)
+                // Fallback to setting the standard service price & currency
+                $appointment['price'] = $appointment['price'] ?? $service['price'];
+                $appointment['currency'] = $appointment['currency'] ?? $service['currency'];
 
                 $appointment['id'] = $this->appointments_model->save($appointment);
             }

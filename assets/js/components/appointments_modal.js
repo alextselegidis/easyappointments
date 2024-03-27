@@ -37,6 +37,8 @@ App.Components.AppointmentsModal = (function () {
     const $appointmentId = $('#appointment-id');
     const $appointmentLocation = $('#appointment-location');
     const $appointmentStatus = $('#appointment-status');
+    const $appointmentPrice = $('#appointment-price');
+    const $appointmentCurrency = $('#appointment-currency');
     const $appointmentColor = $('#appointment-color');
     const $appointmentNotes = $('#appointment-notes');
     const $reloadAppointments = $('#reload-appointments');
@@ -102,6 +104,8 @@ App.Components.AppointmentsModal = (function () {
                 color: App.Components.ColorSelection.getColor($appointmentColor),
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
+                price: $appointmentPrice.val(),
+                currency: $appointmentCurrency.val(),
                 is_unavailability: Number(false),
             };
 
@@ -365,8 +369,13 @@ App.Components.AppointmentsModal = (function () {
                 return Number(availableService.id) === Number(serviceId);
             });
 
-            if (service?.color) {
-                App.Components.ColorSelection.getColor($appointmentColor, service.color);
+            if (service) {
+                if (service.color) {
+                    App.Components.ColorSelection.getColor($appointmentColor, service.color);
+                }
+
+                $appointmentCurrency.val(service.currency);
+                $appointmentPrice.val(service.price);
             }
 
             const duration = service ? service.duration : 60;

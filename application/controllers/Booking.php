@@ -419,6 +419,8 @@ class Booking extends EA_Controller
             $appointment['id_users_customer'] = $customer_id;
             $appointment['is_unavailability'] = false;
             $appointment['color'] = $service['color'];
+            $appointment['price'] = $service['price'];
+            $appointment['currency'] = $service['currency'];
 
             $appointment_status_options_json = setting('appointment_status_options', '[]');
             $appointment_status_options = json_decode($appointment_status_options_json, true) ?? [];

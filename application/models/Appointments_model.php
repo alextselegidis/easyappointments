@@ -41,6 +41,8 @@ class Appointments_model extends EA_Model
         'color' => 'color',
         'status' => 'status',
         'notes' => 'notes',
+        'price' => 'price',
+        'currency' => 'currency',
         'hash' => 'hash',
         'serviceId' => 'id_services',
         'providerId' => 'id_users_provider',
@@ -60,6 +62,24 @@ class Appointments_model extends EA_Model
     public function save(array $appointment): int
     {
         $this->validate($appointment);
+
+        // If not passed, take from service
+        if (!isset($appointment['price']) || !isset($appointment['currency'])) {
+            
+            $service = $this->services_model->find($appointment['id_services']);
+            
+            if (!$service) {
+                throw new InvalidArgumentException('The provided service ID was not found in the database: ' . $appointment['id_services']);
+            }
+            
+            if (!isset($appointment['price'])) {
+                $appointment['price'] = $service['price'];
+            }
+
+            if (!isset($appointment['currency'])) {
+                $appointment['currency'] = $service['currency'];
+            }
+        }
 
         if (empty($appointment['id'])) {
             return $this->insert($appointment);
@@ -539,6 +559,8 @@ class Appointments_model extends EA_Model
             'status' => $appointment['status'],
             'location' => $appointment['location'],
             'notes' => $appointment['notes'],
+            'price' => $appointment['price'],
+            'currency' => $appointment['currency'],
             'customerId' => $appointment['id_users_customer'] !== null ? (int) $appointment['id_users_customer'] : null,
             'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
@@ -589,6 +611,14 @@ class Appointments_model extends EA_Model
 
         if (array_key_exists('notes', $appointment)) {
             $decoded_request['notes'] = $appointment['notes'];
+        }
+
+        if (array_key_exists('price', $appointment)) {
+            $decoded_request['price'] = $appointment['price'];
+        }
+
+        if (array_key_exists('currency', $appointment)) {
+            $decoded_request['currency'] = $appointment['currency'];
         }
 
         if (array_key_exists('customerId', $appointment)) {
