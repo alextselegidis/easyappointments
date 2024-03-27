@@ -23,6 +23,7 @@ window.App.Utils.UI = (function () {
     function getDateFormat() {
         switch (vars('date_format')) {
             case 'D.M.YYYY':
+                return 'j.n.Y';
             case 'DD.MM.YYYY':
                 return 'd.m.Y';
             case 'MM/DD/YYYY':

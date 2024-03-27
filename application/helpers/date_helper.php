@@ -22,7 +22,7 @@ if (!function_exists('get_date_format')) {
         $date_format = setting('date_format');
 
         return match ($date_format) {
-            'D.M.YYYY' => 'd.m.Y',
+            'D.M.YYYY' => 'j.n.Y',
             'DD.MM.YYYY' => 'd.m.Y',
             'MM/DD/YYYY' => 'm/d/Y',
             'YYYY-MM-DD' => 'Y-m-d',
