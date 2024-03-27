@@ -338,6 +338,7 @@ $lang['table'] = 'Table';
 $lang['date'] = 'Date';
 $lang['about'] = 'About';
 $lang['booking_settings'] = 'Booking Settings';
+$lang['fields'] = 'Fields';
 $lang['display'] = 'Display';
 $lang['require'] = 'Require';
 $lang['color'] = 'Color';
