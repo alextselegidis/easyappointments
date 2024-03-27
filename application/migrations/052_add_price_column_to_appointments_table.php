@@ -36,10 +36,11 @@ class Migration_Add_price_column_to_appointments_table extends EA_Migration
             $this->dbforge->add_column('appointments', $fields);
 
             // Update existing records
-            $sql = "UPDATE `appointments`
-            JOIN `services` ON `appointments`.`id_services` = `services`.`id`
+            $sql = "UPDATE `" . $this->db->dbprefix('appointments') . "` AS `appointments`
+            JOIN `" . $this->db->dbprefix('services') . "` AS `services` ON `appointments`.`id_services` = `services`.`id`
             SET `appointments`.`price` = `services`.`price`,
                 `appointments`.`currency` = `services`.`currency`";
+
             $this->db->query($sql);
 
         }
