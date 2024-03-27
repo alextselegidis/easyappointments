@@ -22,12 +22,13 @@ window.App.Utils.UI = (function () {
      */
     function getDateFormat() {
         switch (vars('date_format')) {
-            case 'DMY':
-                return 'd/m/Y';
-            case 'MDY':
+            case 'D.M.YYYY':
+            case 'DD.MM.YYYY':
+                return 'd.m.Y';
+            case 'MM/DD/YYYY':
                 return 'm/d/Y';
-            case 'YMD':
-                return 'Y/m/d';
+            case 'YYYY-MM-DD':
+                return 'Y-m-d';
             default:
                 throw new Error('Invalid date format value.');
         }
