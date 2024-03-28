@@ -40,6 +40,11 @@ class Login extends EA_Controller
      */
     public function index()
     {
+        if (session('user_id')) {
+            redirect('calendar');
+            return;
+        }
+
         html_vars([
             'page_title' => lang('login'),
             'base_url' => config('base_url'),
