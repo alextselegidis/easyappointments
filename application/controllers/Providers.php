@@ -76,6 +76,8 @@ class Providers extends EA_Controller
             'min_password_length' => MIN_PASSWORD_LENGTH,
             'timezones' => $this->timezones->to_array(),
             'services' => $services,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
