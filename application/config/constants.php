@@ -73,9 +73,9 @@ const PRIV_USER_SETTINGS = 'user_settings';
 const PRIV_WEBHOOKS = 'webhooks';
 const PRIV_BLOCKED_PERIODS = 'blocked_periods';
 
-const DATE_FORMAT_DMY = 'DMY';
-const DATE_FORMAT_MDY = 'MDY';
-const DATE_FORMAT_YMD = 'YMD';
+const DATE_FORMAT_DMY = 'DD.MM.YYYY';
+const DATE_FORMAT_MDY = 'MM/DD/YYYY';
+const DATE_FORMAT_YMD = 'YYYY-MM-DD';
 
 const TIME_FORMAT_REGULAR = 'regular';
 const TIME_FORMAT_MILITARY = 'military';
