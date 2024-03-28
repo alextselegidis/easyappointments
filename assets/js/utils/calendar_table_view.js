@@ -566,12 +566,12 @@ App.Utils.CalendarTableView = (function () {
                 (!filterProviderIds.length && !filterServiceIds.length) ||
                 (filterProviderIds.length &&
                     !filterServiceIds.length &&
-                    filterProviderIds.indexOf(provider.id) !== -1) ||
+                    filterProviderIds.indexOf(provider.id.toString()) !== -1) ||
                 (!filterProviderIds.length && filterServiceIds.length && servedServiceIds.length) ||
                 (filterProviderIds.length &&
                     filterServiceIds.length &&
                     servedServiceIds.length &&
-                    filterProviderIds.indexOf(provider.id) !== -1)
+                    filterProviderIds.indexOf(provider.id.toString()) !== -1)
             );
         });
 
@@ -655,12 +655,13 @@ App.Utils.CalendarTableView = (function () {
         let columnFormat = '';
 
         switch (vars('date_format')) {
-            case 'DMY':
-                columnFormat = 'ddd D/M';
+            case 'D.M.YYYY':
+            case 'DD.MM.YYYY':
+                columnFormat = 'ddd D.M';
                 break;
 
-            case 'MDY':
-            case 'YMD':
+            case 'MM/DD/YYYY':
+            case 'YYYY-MM-DD':
                 columnFormat = 'ddd M/D';
                 break;
 
