@@ -36,6 +36,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "select2": "^4.1.0-rc.0",
+    "sortablejs": "^1.15.2",
     "tippy.js": "^6.3.7",
     "trumbowyg": "^2.26.0"
   },

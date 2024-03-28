@@ -90,6 +90,31 @@ App.Pages.Services = (function () {
         });
 
         /**
+         * Event: Sort service by dragging
+         */
+
+        const sorting = new Sortable(document.querySelector('.results'), {
+            onUpdate : async function(ev){
+                resetForm();
+                let afterId;
+                const currentItemId = ev.item.dataset['id'];
+
+                if (ev.newIndex == 0)
+                    afterId = -1;
+                else if (ev.item.previousSibling !== null && ev.item.previousSibling.classList.contains('service-row')) {
+                    afterId = parseInt(ev.item.previousSibling.dataset['id']);
+                }
+                try {
+                    await sort(currentItemId, afterId)
+                }
+                catch (err){
+                    $services.find('.form-message').addClass('alert-danger').text(lang('error')).show();
+                    return false;
+                }
+            }
+        });
+        
+        /**
          * Event: Add New Service Button "Click"
          */
         $services.on('click', '#add-service', () => {
@@ -210,6 +235,25 @@ App.Pages.Services = (function () {
     }
 
     /**
+     * Sort service record
+     * @async
+     * 
+     * @param {Number} serviceId Id of service to sort
+     * 
+     * @param {Number} afterId Id of service to place after
+     * 
+     * @return {Promise<Number>}
+     */
+    function sort(serviceId, afterId){
+        
+        return App.Http.Services.sort(serviceId, afterId)
+        .then(response => {
+            App.Layouts.Backend.displayNotification(lang('service_saved'));
+            return response.row_order;
+        });
+    }
+
+    /**
      * Delete a service record from database.
      *
      * @param {Number} id Record ID to be deleted.
@@ -319,7 +363,7 @@ App.Pages.Services = (function () {
             $filterServices.find('.results').empty();
 
             response.forEach((service) => {
-                $filterServices.find('.results').append(getFilterHtml(service)).append($('<hr/>'));
+                $filterServices.find('.results').append(getFilterHtml(service));
             });
 
             if (response.length === 0) {
@@ -434,5 +478,6 @@ App.Pages.Services = (function () {
         getFilterHtml,
         resetForm,
         select,
+        sort,
     };
 })();
