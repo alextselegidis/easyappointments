@@ -566,12 +566,12 @@ App.Utils.CalendarTableView = (function () {
                 (!filterProviderIds.length && !filterServiceIds.length) ||
                 (filterProviderIds.length &&
                     !filterServiceIds.length &&
-                    filterProviderIds.indexOf(provider.id) !== -1) ||
+                    filterProviderIds.indexOf(provider.id.toString()) !== -1) ||
                 (!filterProviderIds.length && filterServiceIds.length && servedServiceIds.length) ||
                 (filterProviderIds.length &&
                     filterServiceIds.length &&
                     servedServiceIds.length &&
-                    filterProviderIds.indexOf(provider.id) !== -1)
+                    filterProviderIds.indexOf(provider.id.toString()) !== -1)
             );
         });
 
