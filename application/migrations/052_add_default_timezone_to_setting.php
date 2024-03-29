@@ -11,7 +11,7 @@
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
-class Migration_Add_weekday_start_setting extends EA_Migration
+class Migration_Add_default_timezone_setting extends EA_Migration
 {
     /**
      * Upgrade method.
