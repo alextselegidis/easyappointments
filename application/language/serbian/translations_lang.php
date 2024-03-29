@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Serbian
+$lang['no_username_value_provided'] = 'No username value provided.';
+$lang['no_password_value_provided'] = 'No password value provided.';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'Zakažite posetu';
 $lang['step_one_title'] = 'Izaberite uslugu i izvršioca usluge ';
 $lang['select_service'] = 'Izaberite uslugu';

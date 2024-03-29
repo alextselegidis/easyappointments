@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Estonian
+$lang['no_username_value_provided'] = 'No username value provided.';
+$lang['no_password_value_provided'] = 'No password value provided.';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'Broneeri aeg';
 $lang['service_and_provider'] = 'Vali teenus ja isik';
 $lang['select_service'] = 'Vali teenus';

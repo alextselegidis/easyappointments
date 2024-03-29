@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Chinese
+$lang['no_username_value_provided'] = 'No username value provided.';
+$lang['no_password_value_provided'] = 'No password value provided.';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = '准备预约';
 $lang['service_and_provider'] = '选择服务人员以及服务项目';
 $lang['select_service'] = '选择您需要的服务项目';

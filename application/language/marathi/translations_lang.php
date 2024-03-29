@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Marathi
+$lang['no_username_value_provided'] = 'No username value provided.';
+$lang['no_password_value_provided'] = 'No password value provided.';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'अपॉईंटमेंट बुक करा';
 $lang['service_and_provider'] = 'प्रदाता आणि सेवा निवडा';
 $lang['select_service'] = 'सेवा निवडा';

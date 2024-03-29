@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Hungarian
+$lang['no_username_value_provided'] = 'No username value provided.';
+$lang['no_password_value_provided'] = 'No password value provided.';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'Foglalj időpontot a ...';
 $lang['service_and_provider'] = 'Válassz szolgáltatást és szolgáltatót';
 $lang['select_service'] = 'Válassz szolgáltatást';
