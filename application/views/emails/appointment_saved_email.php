@@ -2,6 +2,7 @@
 /**
  * Local variables.
  *
+ * @var string $status
  * @var string $subject
  * @var string $message
  * @var array $appointment
@@ -43,6 +44,14 @@
         </h2>
 
         <table id="appointment-details">
+            <tr>
+                <td class="label" style="padding: 3px;font-weight: bold;">
+                    <?= lang('status') ?>
+                </td>
+                <td style="padding: 3px;">
+                    <?= e($status) ?>
+                </td>
+            </tr>
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;">
                     <?= lang('service') ?>
