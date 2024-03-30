@@ -73,12 +73,15 @@ class Email_messages
         string $recipient_email,
         string $ics_stream,
         string $timezone = null,
+        string $status = null,
     ): void {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
 
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
+        
+        $status = $appointment['status'];
 
         if ($timezone && $timezone !== $provider['timezone']) {
             $custom_timezone = new DateTimeZone($timezone);
@@ -93,6 +96,7 @@ class Email_messages
         $html = $this->CI->load->view(
             'emails/appointment_saved_email',
             [
+                'status' => $status,
                 'subject' => $subject,
                 'message' => $message,
                 'appointment' => $appointment,
