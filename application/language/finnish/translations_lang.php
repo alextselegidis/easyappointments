@@ -307,7 +307,7 @@ $lang['display_privacy_policy'] = 'Näytä tietosuojalauseke';
 $lang['privacy_policy_content'] = 'Tietosuojalausekkeen sisältö';
 $lang['website_using_cookies_to_ensure_best_experience'] = 'Tämä sivusto käyttää evästeitä mahdollistaakseen sujuvan käyttökokemuksen.';
 $lang['read_and_agree_to_terms_and_conditions'] = 'Olen lukenut {$link}käyttöehdot{/$link} ja hyväksyn ne.';
-$lang['read_and_agree_to_privacy_policy'] = 'Olen lukennut {$link}tietosuojalausekkeen{/$link} ja hyväksyn sen.';
+$lang['read_and_agree_to_privacy_policy'] = 'Olen lukenut {$link}tietosuojalausekkeen{/$link} ja hyväksyn sen.';
 $lang['delete_personal_information_hint'] = 'Poista kaikki varauksesi ja henkilökohtaiset tietosi järjestelmästä.';
 $lang['delete_personal_information'] = 'Poista henkilökohtainen data';
 $lang['delete_personal_information_prompt'] = 'Oletko aivan varma että haluat poistaa kaikki tietosi? Tätä ei voida perua.';
@@ -457,4 +457,5 @@ $lang['webhook_saved'] = 'Webhook tallennettiin onnistuneesti.';
 $lang['webhook_deleted'] = 'Webhook dpoistettiin onnistuneesti.';
 $lang['delete_webhook'] = 'Poista webhook';
 $lang['contact_info'] = 'Yhteystiedot';
+$lang['customer_is_already_booked'] = 'Sinulla on jo varaus valitsemallasi hetkellä.';
 // End
