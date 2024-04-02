@@ -457,4 +457,6 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
+$lang['customer_is_already_booked'] = 'Customer is already booked.';
+
 // End
