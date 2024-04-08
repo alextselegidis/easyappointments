@@ -81,6 +81,17 @@
                 </td>
             </tr>
 
+            <?php if (!empty($appointment['status'])): ?>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">
+                        <?= lang('status') ?>
+                    </td>
+                    <td style="padding: 3px;">
+                        <?= e($appointment['status']) ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
             <tr>
                 <td class="label" style="padding: 3px;font-weight: bold;">
                     <?= lang('description') ?>
