@@ -419,8 +419,8 @@ App.Pages.Booking = (function () {
                 });
 
             // Scroll to the top of the page. Especially on a mobile device this is very useful.
-            if (window.innerWidth < 576) {
-                const scrollingElement = (document.scrollingElement || document.body);
+            const scrollingElement = (document.scrollingElement || document.body);
+            if (window.innerHeight < scrollingElement.scrollHeight) {
                 scrollingElement.scrollTop = 0;
             }
         });
