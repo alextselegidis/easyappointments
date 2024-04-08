@@ -1,8 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Hindi
-$lang['no_username_value_provided'] = 'No username value provided.';
-$lang['no_password_value_provided'] = 'No password value provided.';
-$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'नअपॉइंटमेंट बुक करें';
 $lang['service_and_provider'] = 'प्रदान करनेवाला और सेवा का चयन करें';
 $lang['select_service'] = 'सेवा का चयन करें';
@@ -456,4 +453,5 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 // End

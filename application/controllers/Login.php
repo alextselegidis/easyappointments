@@ -59,13 +59,13 @@ class Login extends EA_Controller
             $username = request('username');
 
             if (empty($username)) {
-                throw new InvalidArgumentException(lang('no_username_value_provided'));
+                throw new InvalidArgumentException('No username value provided.');
             }
 
             $password = request('password');
 
             if (empty($password)) {
-                throw new InvalidArgumentException(lang('no_password_value_provided'));
+                throw new InvalidArgumentException('No password value provided.');
             }
 
             $user_data = $this->accounts->check_login($username, $password);

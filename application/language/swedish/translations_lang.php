@@ -1,8 +1,6 @@
 <?php defined('BASEPATH') or exit('Direktaccess till skriptet är inte tillåtet');
 // Swedish
-$lang['no_username_value_provided'] = 'Inget användarnamn har angetts';
-$lang['no_password_value_provided'] = 'Inget lösenord har angetts.';
-$lang['invalid_credentials_provided'] = 'Ogiltiga användaruppgifter har angetts, var vänlig och försök igen.';
+$lang['swedish'] = 'Svenska';
 $lang['page_title'] = 'Boka tid med ...';
 $lang['service_and_provider'] = 'Välj tjänst och leverantör';
 $lang['select_service'] = 'Välj tjänst';
@@ -456,4 +454,5 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
+$lang['invalid_credentials_provided'] = 'Ogiltiga användaruppgifter har angetts, var vänlig och försök igen.';
 // End

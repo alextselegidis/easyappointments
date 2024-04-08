@@ -1,8 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Finnish
-$lang['no_username_value_provided'] = 'Käyttäjätunnus puuttuu.';
-$lang['no_password_value_provided'] = 'Salasana puuttuu.';
-$lang['invalid_credentials_provided'] = 'Tunnukset olivat virheelliset, ole hyvä ja yritä uudelleen.';
 $lang['page_title'] = 'Varaa aika';
 $lang['service_and_provider'] = 'Valitse palvelu ja palveluntuottaja';
 $lang['select_service'] = 'Valitse palvelupaketti';
@@ -458,4 +455,5 @@ $lang['webhook_deleted'] = 'Webhook dpoistettiin onnistuneesti.';
 $lang['delete_webhook'] = 'Poista webhook';
 $lang['contact_info'] = 'Yhteystiedot';
 $lang['customer_is_already_booked'] = 'Sinulla on jo varaus valitsemallasi hetkellä.';
+$lang['invalid_credentials_provided'] = 'Tunnukset olivat virheelliset, ole hyvä ja yritä uudelleen.';
 // End

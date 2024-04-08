@@ -1,8 +1,5 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 // Thai
-$lang['no_username_value_provided'] = 'No username value provided.';
-$lang['no_password_value_provided'] = 'No password value provided.';
-$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'จองการนัดหมายกับ';
 $lang['service_and_provider'] = 'บริการและผู้ให้บริการ';
 $lang['select_service'] = 'เลือก บริการ';
@@ -457,4 +454,5 @@ $lang['sync_method_prompt'] = 'คุณต้องการใช้วิธ�
 $lang['caldav_server'] = 'เซิร์ฟเวอร์ CalDAV';
 $lang['caldav_connection_info_prompt'] = 'โปรดป้อนข้อมูลการเชื่อมต่อของเซิร์ฟเวอร์ CalDAV เป้าหมาย';
 $lang['connect'] = 'เชื่อมต่อ';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 // End

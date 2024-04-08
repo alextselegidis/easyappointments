@@ -1,8 +1,5 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Czech
-$lang['no_username_value_provided'] = 'No username value provided.';
-$lang['no_password_value_provided'] = 'No password value provided.';
-$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['page_title'] = 'Rezervace schůzky s';
 $lang['service_and_provider'] = 'Výběr služby a poskytovatele';
 $lang['select_service'] = 'Vyberte službu';
@@ -456,4 +453,5 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
+$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 // End
