@@ -81,7 +81,6 @@ App.Pages.BlockedPeriods = (function () {
             $filterBlockedPeriods.find('button').prop('disabled', true);
             $filterBlockedPeriods.find('.results').css('color', '#AAA');
             App.Utils.UI.setDateTimePickerValue($startDateTime, new Date(moment().format('YYYY-MM-DD 00:00')));
-            // App.Utils.UI.setDateTimePickerValue($endDateTime, new Date(moment().format('YYYY-MM-DD 24:00')));
         });
 
         /**
