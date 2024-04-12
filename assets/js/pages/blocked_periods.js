@@ -80,6 +80,8 @@ App.Pages.BlockedPeriods = (function () {
             $blockedPeriods.find('.record-details .form-label span').prop('hidden', false);
             $filterBlockedPeriods.find('button').prop('disabled', true);
             $filterBlockedPeriods.find('.results').css('color', '#AAA');
+            App.Utils.UI.setDateTimePickerValue($startDateTime, new Date(moment().format('YYYY-MM-DD 00:00')));
+            // App.Utils.UI.setDateTimePickerValue($endDateTime, new Date(moment().format('YYYY-MM-DD 24:00')));
         });
 
         /**
@@ -154,6 +156,16 @@ App.Pages.BlockedPeriods = (function () {
             resetForm();
             if (id !== '') {
                 select(id, true);
+            }
+        });
+
+        /**
+         * Event: start-date-time "Change"
+         */
+        $startDateTime.on('change', () => {
+            // If ndDateTime is not yet set, set it to the end of day at startDateTime
+            if (typeof(App.Utils.UI.getDateTimePickerValue($endDateTime)) === "undefined") {
+                App.Utils.UI.setDateTimePickerValue($endDateTime, new Date(moment(App.Utils.UI.getDateTimePickerValue($startDateTime)).format('YYYY-MM-DD 24:00')));
             }
         });
     }
