@@ -162,7 +162,7 @@ App.Pages.BlockedPeriods = (function () {
          * Event: start-date-time "Change"
          */
         $startDateTime.on('change', () => {
-            // If ndDateTime is not yet set, set it to the end of day at startDateTime
+            // If endDateTime is not yet set, set it to the end of day at startDateTime
             if (typeof(App.Utils.UI.getDateTimePickerValue($endDateTime)) === "undefined") {
                 App.Utils.UI.setDateTimePickerValue($endDateTime, new Date(moment(App.Utils.UI.getDateTimePickerValue($startDateTime)).format('YYYY-MM-DD 24:00')));
             }
