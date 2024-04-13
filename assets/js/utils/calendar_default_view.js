@@ -305,6 +305,7 @@ App.Utils.CalendarDefaultView = (function () {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
                 fullCalendar.setOption('selectable', false);
                 fullCalendar.setOption('editable', false);
+                $('#insert-working-plan-exception').hide();
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
                 fullCalendar.setOption('selectable', true);
