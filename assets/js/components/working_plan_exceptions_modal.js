@@ -162,15 +162,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         const isNonWorkingDay = $isNonWorkingDay.prop('checked');
 
         const workingPlanException = isNonWorkingDay
-            ? {
-                start: moment(App.Utils.UI.getDateTimePickerValue($start)).format('00:00'),
-                end: moment(App.Utils.UI.getDateTimePickerValue($end)).format('23:59'),
-                breaks: [],
-              }
+            ? null
             : {
-                start: moment(App.Utils.UI.getDateTimePickerValue($start)).format('HH:mm'),
-                end: moment(App.Utils.UI.getDateTimePickerValue($end)).format('HH:mm'),
-                breaks: getBreaks(),
+                  start: moment(App.Utils.UI.getDateTimePickerValue($start)).format('HH:mm'),
+                  end: moment(App.Utils.UI.getDateTimePickerValue($end)).format('HH:mm'),
+                  breaks: getBreaks(),
               };
 
         deferred.resolve(date, workingPlanException);
