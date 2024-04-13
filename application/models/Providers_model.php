@@ -497,9 +497,9 @@ class Providers_model extends EA_Model
     public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception = null)
     {
         // Validate the working plan exception data.
-        $start = date('H:i', strtotime($working_plan_exception['start']));
+        $start = (!empty($working_plan_exception['start']) ? date('H:i', strtotime($working_plan_exception['start'])) : null);
 
-        $end = date('H:i', strtotime($working_plan_exception['end']));
+         $end = (!empty($working_plan_exception['end']) ? date('H:i', strtotime($working_plan_exception['end'])) : null);
 
         if ($start > $end) {
             throw new InvalidArgumentException('Working plan exception start date must be before the end date.');
