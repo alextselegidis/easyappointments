@@ -319,7 +319,7 @@ class Providers_model extends EA_Model
         foreach ($settings as $name => $value) {
             // Sort working plans exceptions in descending order that they are easier to modify later on.
             if ($name === 'working_plan_exceptions') {
-                $value = json_decode($value, true);
+                if (!is_array($value)) $value = json_decode($value, true);
 
                 if (!$value) {
                     $value = [];

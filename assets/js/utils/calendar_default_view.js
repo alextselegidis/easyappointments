@@ -211,7 +211,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $popoverTarget.popover('dispose');
             }
 
-            if (lastFocusedEventData.extendedProps.data.workingPlanException) {
+            // lastFocusedEventData.extendedProps.data.workingPlanException has value null on a full day exception
+            if (lastFocusedEventData.extendedProps.data.workingPlanException !== undefined) {
                 const providerId = $selectFilterItem.val();
 
                 const provider = vars('available_providers').find(
