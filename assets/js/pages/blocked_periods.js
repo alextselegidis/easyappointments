@@ -80,6 +80,9 @@ App.Pages.BlockedPeriods = (function () {
             $blockedPeriods.find('.record-details .form-label span').prop('hidden', false);
             $filterBlockedPeriods.find('button').prop('disabled', true);
             $filterBlockedPeriods.find('.results').css('color', '#AAA');
+
+            App.Utils.UI.setDateTimePickerValue($startDateTime, moment('00:00', 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($endDateTime, moment('00:00', 'HH:mm').add(1, 'day').toDate());
         });
 
         /**
