@@ -32,6 +32,10 @@ App.Pages.Login = (function () {
         const username = $username.val();
         const password = $password.val();
 
+        if (!username || !password) {
+            return;
+        }
+
         const $alert = $('.alert');
 
         $alert.addClass('d-none');

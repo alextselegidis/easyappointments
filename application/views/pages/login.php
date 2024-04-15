@@ -18,14 +18,18 @@
         <label for="username" class="form-label">
             <?= lang('username') ?>
         </label>
-        <input type="text" id="username" placeholder="<?= lang('enter_username_here') ?>" class="form-control"/>
+        <input type="text" id="username" placeholder="<?= lang(
+            'enter_username_here',
+        ) ?>" class="form-control" required/>
     </div>
 
     <div class="mb-5">
         <label for="password" class="form-label">
             <?= lang('password') ?>
         </label>
-        <input type="password" id="password" placeholder="<?= lang('enter_password_here') ?>" class="form-control"/>
+        <input type="password" id="password" placeholder="<?= lang(
+            'enter_password_here',
+        ) ?>" class="form-control" required/>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-5">
