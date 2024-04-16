@@ -48,7 +48,7 @@ if (!function_exists('array_find')) {
             throw new InvalidArgumentException('No filter function provided.');
         }
 
-        return array_filter($array, $callback)[0] ?? null;
+        return array_values(array_filter($array, $callback))[0] ?? null;
     }
 }
 
