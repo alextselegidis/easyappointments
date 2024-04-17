@@ -215,6 +215,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         );
     }
 
+    function resetTimeSelection() {
+        App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
+        App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
+    }
+
     /**
      * Open the modal and start adding a new working plan exception.
      *
@@ -224,8 +229,8 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         deferred = $.Deferred();
 
         App.Utils.UI.setDateTimePickerValue($date, new Date());
-        App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
-        App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
+
+        resetTimeSelection();
 
         $isNonWorkingDay.prop('checked', false);
 
@@ -450,11 +455,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     }
 
     /**
-     * Event: Is Non Working Day "Change"
+     * Event: Is Non-Working Day "Change"
      */
     function onIsNonWorkingDayChange() {
         const isNonWorkingDay = $isNonWorkingDay.prop('checked');
-
+        resetTimeSelection();
         toggleFieldsByNonWorkingDay(isNonWorkingDay);
     }
 

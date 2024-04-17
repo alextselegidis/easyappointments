@@ -26,6 +26,7 @@ App.Pages.BlockedPeriods = (function () {
 
     let filterResults = {};
     let filterLimit = 20;
+    let backupStartDateTimeObject = undefined;
 
     /**
      * Add the page event listeners.
@@ -80,6 +81,9 @@ App.Pages.BlockedPeriods = (function () {
             $blockedPeriods.find('.record-details .form-label span').prop('hidden', false);
             $filterBlockedPeriods.find('button').prop('disabled', true);
             $filterBlockedPeriods.find('.results').css('color', '#AAA');
+
+            App.Utils.UI.setDateTimePickerValue($startDateTime, moment('00:00', 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($endDateTime, moment('00:00', 'HH:mm').add(1, 'day').toDate());
         });
 
         /**
@@ -155,6 +159,27 @@ App.Pages.BlockedPeriods = (function () {
             if (id !== '') {
                 select(id, true);
             }
+        });
+
+        $blockedPeriods.on('focus', '#start-date-time', () => {
+            backupStartDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDateTime);
+        });
+
+        /**
+         * Event: Start Date Time Input "Change"
+         */
+        $blockedPeriods.on('change', '#start-date-time', (event) => {
+            const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDateTime);
+
+            if (!backupStartDateTimeObject || !endDateTimeObject) {
+                return;
+            }
+
+            const endDateTimeMoment = moment(endDateTimeObject);
+            const backupStartDateTimeMoment = moment(backupStartDateTimeObject);
+            const diff = endDateTimeMoment.diff(backupStartDateTimeMoment);
+            const newEndDateTimeMoment = endDateTimeMoment.clone().add(diff, 'milliseconds');
+            App.Utils.UI.setDateTimePickerValue($endDateTime, newEndDateTimeMoment.toDate());
         });
     }
 
@@ -295,6 +320,8 @@ App.Pages.BlockedPeriods = (function () {
 
         $blockedPeriods.find('.record-details .is-invalid').removeClass('is-invalid');
         $blockedPeriods.find('.record-details .form-message').hide();
+
+        backupStartDateTimeObject = undefined;
     }
 
     /**
