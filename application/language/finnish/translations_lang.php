@@ -453,4 +453,5 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
+$lang['working_plan_exception_start_before_end'] = 'Työsuunnitelman poikkeuksen alkamisajan on oltava ennen päättymisaikaa.';
 // End

@@ -502,7 +502,7 @@ class Providers_model extends EA_Model
         $end = date('H:i', strtotime($working_plan_exception['end']));
 
         if ($start > $end) {
-            throw new InvalidArgumentException('Working plan exception start date must be before the end date.');
+            throw new InvalidArgumentException(lang('working_plan_exception_start_before_end'));
         }
 
         // Make sure the provider record exists.

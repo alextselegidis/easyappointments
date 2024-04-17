@@ -454,4 +454,5 @@ $lang['sync_method_prompt'] = 'คุณต้องการใช้วิธ�
 $lang['caldav_server'] = 'เซิร์ฟเวอร์ CalDAV';
 $lang['caldav_connection_info_prompt'] = 'โปรดป้อนข้อมูลการเชื่อมต่อของเซิร์ฟเวอร์ CalDAV เป้าหมาย';
 $lang['connect'] = 'เชื่อมต่อ';
+$lang['working_plan_exception_start_before_end'] = 'Working plan exception start date must be before the end date.';
 // End
