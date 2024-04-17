@@ -216,8 +216,12 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     }
 
     function resetTimeSelection() {
-        App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
-        App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
+        const company_working_plan = JSON.parse(vars('company_working_plan'));
+        let weekDay = moment().day();
+        weekDay = App.Utils.Date.getWeekdayName(weekDay);
+        
+        App.Utils.UI.setDateTimePickerValue($start, moment(company_working_plan[weekDay]['start'], 'HH:mm').toDate());
+        App.Utils.UI.setDateTimePickerValue($end, moment(company_working_plan[weekDay]['end'], 'HH:mm').toDate());
     }
 
     /**
