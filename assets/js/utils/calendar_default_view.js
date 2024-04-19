@@ -35,6 +35,7 @@ App.Utils.CalendarDefaultView = (function () {
     let $popoverTarget;
     let fullCalendar = null;
     let lastFocusedEventData; // Contains event data for later use.
+    let backupExceptionDate = undefined;
 
     /**
      * Add the utility event listeners.
@@ -91,6 +92,7 @@ App.Utils.CalendarDefaultView = (function () {
 
             if (data.hasOwnProperty('workingPlanException')) {
                 const date = lastFocusedEventData.extendedProps.data.date;
+                backupExceptionDate = date;
                 const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
                 const provider = lastFocusedEventData.extendedProps.data.provider;
 
@@ -115,6 +117,13 @@ App.Utils.CalendarDefaultView = (function () {
 
                             $reloadAppointments.trigger('click'); // Update the calendar.
                         };
+
+                        if (backupExceptionDate != date) {
+                            // if date has changed, delete the old working plan exception before saving on the new date
+                            deleteWorkingPlanExceptionsData(provider, backupExceptionDate);
+                            App.Http.Calendar.deleteWorkingPlanException(backupExceptionDate, provider.id, successCallback);
+                            backupExceptionDate = undefined;
+                        }                        
 
                         App.Http.Calendar.saveWorkingPlanException(
                             date,
@@ -224,19 +233,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                 const successCallback = () => {
                     App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
-
-                    const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
-                    delete workingPlanExceptions[date];
-
-                    for (const index in vars('available_providers')) {
-                        const availableProvider = vars('available_providers')[index];
-
-                        if (Number(availableProvider.id) === Number(providerId)) {
-                            availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
-                            break;
-                        }
-                    }
-
+                    deleteWorkingPlanExceptionsData(provider, date);
                     $reloadAppointments.trigger('click'); // Update the calendar.
                 };
 
@@ -369,6 +366,24 @@ App.Utils.CalendarDefaultView = (function () {
         const notes = event.extendedProps.data.notes;
 
         return notes.length > 100 ? notes.substring(0, 100) + '...' : notes;
+    }
+
+    /**
+     * Delete working plan exception data.
+     *
+     */
+    function deleteWorkingPlanExceptionsData(provider, deleteDate) {
+        const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+        delete workingPlanExceptions[deleteDate];
+
+        for (const index in vars('available_providers')) {
+            const availableProvider = vars('available_providers')[index];
+
+            if (Number(availableProvider.id) === Number(provider.id)) {
+                availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
+                break;
+            }
+        }
     }
 
     /**
