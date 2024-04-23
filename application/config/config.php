@@ -345,10 +345,12 @@ $config['encryption_key'] = base64_encode(APPPATH);
 | 'sess_match_ip'			= Whether to match the user's IP address when reading the session data
 | 'sess_match_useragent'	= Whether to match the User Agent when reading the session data
 | 'sess_time_to_update'		= how many seconds between CI refreshing Session Information
+| 'sess_samesite'			= Session cookie SameSite attribute: Lax (default), Strict or None
 |
 */
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ea_session';
+$config['sess_samesite'] = 'Strict';
 $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = __DIR__ . '/../../storage/sessions';
 $config['sess_match_ip'] = false;
@@ -364,12 +366,19 @@ $config['sess_regenerate_destroy'] = false;
 | 'cookie_domain' = Set to .your-domain.com for site-wide cookies
 | 'cookie_path'   =  Typically will be a forward slash
 | 'cookie_secure' =  Cookies will only be set if a secure HTTPS connection exists.
+| 'cookie_httponly' = Cookie will only be accessible via HTTP(S) (no javascript)
+| 'cookie_samesite' = Cookie's samesite attribute (Lax, Strict or None)
+|
+| Note: These settings (with the exception of 'cookie_prefix' and
+|       'cookie_httponly') will also affect sessions.
 |
 */
 $config['cookie_prefix'] = '';
 $config['cookie_domain'] = '';
 $config['cookie_path'] = '/';
 $config['cookie_secure'] = strpos($config['base_url'], 'https') !== false;
+$config['cookie_httponly'] = true;
+$config['cookie_samesite'] = 'Lax';
 
 /*
 |--------------------------------------------------------------------------
