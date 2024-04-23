@@ -18,10 +18,6 @@ body {
     height: 100%;
 }
 
-body {
-    background-color: #f5f8fa;
-}
-
 #main {
     min-height: 100%;
 }
@@ -30,7 +26,6 @@ body {
  ------------------------------------------------------------------------------ */
 
 #book-appointment-wizard {
-    background: #fff;
     min-height: 480px;
     padding: 0;
     margin: auto;
@@ -285,7 +280,7 @@ body {
     #book-appointment-wizard {
         border-radius: 0.25rem;
         overflow: hidden;
-        box-shadow: rgba(45, 62, 80, 0.12) 0 1px 5px 0;
+        box-shadow: rgba(138, 195, 255, 0.12) 0 1px 5px 0;
     }
 
     #book-appointment-wizard #company-name {
