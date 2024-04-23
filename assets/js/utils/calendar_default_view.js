@@ -860,19 +860,12 @@ App.Utils.CalendarDefaultView = (function () {
                 id_users_provider: info.event.extendedProps.data.id_users_provider,
             };
 
-            info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
-
             // Define success callback function.
             successCallback = () => {
                 // Display success notification to user.
                 const undoFunction = () => {
-                    unavailability.end_datetime = info.event.extendedProps.data.end_datetime = moment(
-                        unavailability.end_datetime,
-                    )
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
-                        .format('YYYY-MM-DD HH:mm:ss');
 
-                    App.Http.Calendar.saveAppointment(unavailability).done(() => {
+                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -1017,8 +1010,6 @@ App.Utils.CalendarDefaultView = (function () {
                     unavailability.end_datetime = moment(unavailability.end_datetime)
                         .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
-
-                    unavailability.is_unavailability = Number(unavailability.is_unavailability);
 
                     info.event.extendedProps.data.start_datetime = unavailability.start_datetime;
                     info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
