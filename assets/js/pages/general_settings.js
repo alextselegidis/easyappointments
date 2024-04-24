@@ -20,8 +20,9 @@ App.Pages.GeneralSettings = (function () {
     const $companyLogoPreview = $('#company-logo-preview');
     const $removeCompanyLogo = $('#remove-company-logo');
     const $companyColor = $('#company-color');
+    const $linkTheme = $('#link-theme');
     const $resetCompanyColor = $('#reset-company-color');
-    let companyLogoBase64 = '';
+    let companyLogoBase64, theme = '';
 
     /**
      * Check if the form has invalid values.
@@ -70,6 +71,10 @@ App.Pages.GeneralSettings = (function () {
                 $resetCompanyColor.prop('hidden', false);
             }
 
+            if (generalSetting.name === 'theme' && generalSetting.value !== '') {
+                theme = generalSetting.value;
+            }
+
             const $field = $('[data-field="' + generalSetting.name + '"]');
 
             $field.is(':checkbox')
@@ -83,6 +88,9 @@ App.Pages.GeneralSettings = (function () {
 
         $('[data-field]').each((index, field) => {
             const $field = $(field);
+
+            if($field.data('field') === 'theme')
+                theme = $field.val();
 
             generalSettings.push({
                 name: $field.data('field'),
@@ -99,7 +107,7 @@ App.Pages.GeneralSettings = (function () {
     }
 
     /**
-     * Save the account information.
+     * Save the general settings informations and replace link theme css if changed.
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
@@ -108,10 +116,19 @@ App.Pages.GeneralSettings = (function () {
             return;
         }
 
+        const oTheme = theme;
+
         const generalSettings = serialize();
 
         App.Http.GeneralSettings.save(generalSettings).done(() => {
             App.Layouts.Backend.displayNotification(lang('settings_saved'));
+
+            if(theme != oTheme) {
+                $linkTheme.prop('href',
+                    $linkTheme.prop('href').replace('themes/'+oTheme, 'themes/'+theme)
+                );
+            }
+
         });
     }
 
