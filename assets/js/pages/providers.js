@@ -288,7 +288,7 @@ App.Pages.Providers = (function () {
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#password, #password-confirm').addClass('is-invalid');
-                throw new Error(lang('password_length_notice').replace('$number', MIN_PASSWORD_LENGTH));
+                throw new Error(lang('password_length_notice').replace('$number', vars('min_password_length')));
             }
 
             // Validate user email.
