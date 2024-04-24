@@ -20,9 +20,8 @@ App.Pages.GeneralSettings = (function () {
     const $companyLogoPreview = $('#company-logo-preview');
     const $removeCompanyLogo = $('#remove-company-logo');
     const $companyColor = $('#company-color');
-    const $linkTheme = $('#link-theme');
     const $resetCompanyColor = $('#reset-company-color');
-    let companyLogoBase64, theme = '';
+    let companyLogoBase64, theme, color = '';
 
     /**
      * Check if the form has invalid values.
@@ -67,11 +66,14 @@ App.Pages.GeneralSettings = (function () {
                 return;
             }
 
-            if (generalSetting.name === 'company_color' && generalSetting.value !== '#ffffff') {
-                $resetCompanyColor.prop('hidden', false);
+            if (generalSetting.name === 'company_color') {
+                color = generalSetting.value;
+                if (generalSetting.value !== '#ffffff') {
+                    $resetCompanyColor.prop('hidden', false);
+                }
             }
 
-            if (generalSetting.name === 'theme' && generalSetting.value !== '') {
+            if (generalSetting.name === 'theme') {
                 theme = generalSetting.value;
             }
 
@@ -89,6 +91,8 @@ App.Pages.GeneralSettings = (function () {
         $('[data-field]').each((index, field) => {
             const $field = $(field);
 
+            if($field.data('field') === 'company_color')
+                color = $field.val();
             if($field.data('field') === 'theme')
                 theme = $field.val();
 
@@ -107,7 +111,7 @@ App.Pages.GeneralSettings = (function () {
     }
 
     /**
-     * Save the general settings informations and replace link theme css if changed.
+     * Save the general settings informations, add notification reload button when color or theme changed.
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
@@ -117,16 +121,27 @@ App.Pages.GeneralSettings = (function () {
         }
 
         const oTheme = theme;
+        const oColor = color;
 
         const generalSettings = serialize();
 
         App.Http.GeneralSettings.save(generalSettings).done(() => {
-            App.Layouts.Backend.displayNotification(lang('settings_saved'));
 
-            if(theme != oTheme) {
-                $linkTheme.prop('href',
-                    $linkTheme.prop('href').replace('themes/'+oTheme, 'themes/'+theme)
-                );
+            if(theme != oTheme || color != oColor) {
+
+                const refreshFunction = () => {
+                    document.location.reload();
+                };
+
+                App.Layouts.Backend.displayNotification(lang('settings_saved'), [
+                    {
+                        'label': '⟳ ' + lang('reload'),
+                        'function': refreshFunction,
+                    },
+                ]);
+
+            } else {
+                App.Layouts.Backend.displayNotification(lang('settings_saved'));
             }
 
         });
