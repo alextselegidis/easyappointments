@@ -252,9 +252,9 @@ App.Pages.Customers = (function () {
     function resetForm() {
         $customers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $customers.find('.record-details .form-label span').prop('hidden', true);
-        $customers.find('.record-details #timezone').val('UTC');
+        $customers.find('.record-details #timezone').val(moment.tz.guess() || 'UTC');
 
-        $language.val('english');
+        $language.val(vars('language') || 'english');
 
         $customerAppointments.empty();
 
