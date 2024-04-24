@@ -321,7 +321,7 @@ class Booking extends EA_Controller
             }
 
             if (!array_key_exists('phone_number', $customer)) {
-                $customer['address'] = '';
+                $customer['phone_number'] = '';
             }
 
             // Check appointment availability before registering it to the database.
