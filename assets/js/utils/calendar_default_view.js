@@ -211,7 +211,7 @@ App.Utils.CalendarDefaultView = (function () {
                 $popoverTarget.popover('dispose');
             }
 
-            if (lastFocusedEventData.extendedProps.data.workingPlanException) {
+            if (lastFocusedEventData.extendedProps.data.workingPlanException !== undefined) {
                 const providerId = $selectFilterItem.val();
 
                 const provider = vars('available_providers').find(
@@ -1256,7 +1256,7 @@ App.Utils.CalendarDefaultView = (function () {
                     calendarEventSource.push(unavailabilityEvent);
                 });
 
-                response.blocked_periods.forEach((blockedPeriod) => {
+                response?.blocked_periods?.forEach((blockedPeriod) => {
                     const blockedPeriodEvent = {
                         title: blockedPeriod.name,
                         start: moment(blockedPeriod.start_datetime).toDate(),
