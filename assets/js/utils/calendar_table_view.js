@@ -697,7 +697,7 @@ App.Utils.CalendarTableView = (function () {
             firstDay: firstWeekdayNumber,
             slotDuration: '00:15:00',
             snapDuration: '00:15:00',
-            scrollTime: '07:00:00',
+            scrollTime: moment().format('HH') + ':00:00',
             slotLabelInterval: '01:00',
             eventTimeFormat: timeFormat,
             eventTextColor: '#333',
