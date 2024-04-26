@@ -78,7 +78,7 @@ class Providers_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $provider)
+    public function validate(array $provider): void
     {
         // If a provider ID is provided then check whether the record really exists in the database.
         if (!empty($provider['id'])) {
@@ -303,7 +303,7 @@ class Providers_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $provider_id, array $settings)
+    protected function save_settings(int $provider_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -341,7 +341,7 @@ class Providers_model extends EA_Model
      * @param string $name Setting name.
      * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $provider_id, string $name, mixed $value = null)
+    public function set_setting(int $provider_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id])) {
             throw new RuntimeException('Could not set the new provider setting value: ' . $name);
@@ -397,7 +397,7 @@ class Providers_model extends EA_Model
      * @param int $provider_id Provider ID.
      * @param array $service_ids Service IDs.
      */
-    protected function save_service_ids(int $provider_id, array $service_ids)
+    protected function save_service_ids(int $provider_id, array $service_ids): void
     {
         // Re-insert the provider-service connections.
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
@@ -489,13 +489,15 @@ class Providers_model extends EA_Model
      *
      * @param int $provider_id Provider ID.
      * @param string $date Working plan exception date (in YYYY-MM-DD format).
-     * @param array $working_plan_exception Associative array with the working plan exception data.
+     * @param array|null $working_plan_exception Associative array with the working plan exception data.
      *
-     * @throws InvalidArgumentException
      * @throws Exception
      */
-    public function save_working_plan_exception(int $provider_id, string $date, array $working_plan_exception = null)
-    {
+    public function save_working_plan_exception(
+        int $provider_id,
+        string $date,
+        array $working_plan_exception = null,
+    ): void {
         // Validate the working plan exception data.
         $start = date('H:i', strtotime($working_plan_exception['start']));
 
@@ -577,7 +579,7 @@ class Providers_model extends EA_Model
      *
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function delete_working_plan_exception(int $provider_id, string $date)
+    public function delete_working_plan_exception(int $provider_id, string $date): void
     {
         $provider = $this->find($provider_id);
 
@@ -591,7 +593,7 @@ class Providers_model extends EA_Model
 
         $provider['settings']['working_plan_exceptions'] = empty($working_plan_exceptions)
             ? '{}'
-            : $working_plan_exceptions;
+            : json_encode($working_plan_exceptions);
 
         $this->update($provider);
     }
@@ -722,7 +724,7 @@ class Providers_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function load(array &$provider, array $resources)
+    public function load(array &$provider, array $resources): void
     {
         if (empty($provider) || empty($resources)) {
             return;
@@ -749,7 +751,7 @@ class Providers_model extends EA_Model
      *
      * @param array $provider Provider data.
      */
-    public function api_encode(array &$provider)
+    public function api_encode(array &$provider): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $provider) ? (int) $provider['id'] : null,
@@ -808,7 +810,7 @@ class Providers_model extends EA_Model
      * @param array $provider API resource.
      * @param array|null $base Base provider data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$provider, array $base = null)
+    public function api_decode(array &$provider, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 
