@@ -104,14 +104,18 @@ App.Pages.GeneralSettings = (function () {
     function onSaveSettingsClick() {
         if (isInvalid()) {
             App.Layouts.Backend.displayNotification(lang('settings_are_invalid'));
-
             return;
         }
 
         const generalSettings = serialize();
 
         App.Http.GeneralSettings.save(generalSettings).done(() => {
-            App.Layouts.Backend.displayNotification(lang('settings_saved'));
+            App.Layouts.Backend.displayNotification(lang('settings_saved'), [
+                {
+                    label: lang('reload'), // Reload Page
+                    function: () => window.location.reload(),
+                },
+            ]);
         });
     }
 
