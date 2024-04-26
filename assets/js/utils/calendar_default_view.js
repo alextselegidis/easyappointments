@@ -868,7 +868,7 @@ App.Utils.CalendarDefaultView = (function () {
                         .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    App.Http.Calendar.saveAppointment(unavailability).done(() => {
+                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -1485,7 +1485,7 @@ App.Utils.CalendarDefaultView = (function () {
             firstDay: firstWeekdayNumber,
             slotDuration: '00:15:00',
             snapDuration: '00:15:00',
-            scrollTime: moment().format('HH') + ':00:00',
+            scrollTime: '07:00:00',
             slotLabelInterval: '01:00',
             eventTimeFormat: timeFormat,
             eventTextColor: '#333',
