@@ -618,8 +618,9 @@ class Calendar extends EA_Controller
 
             $record_id = request('record_id');
 
-            $filter_type = request('filter_type');
             $is_all = request('record_id') === FILTER_TYPE_ALL;
+
+            $filter_type = request('filter_type');
 
             if (!$filter_type && !$is_all) {
                 json_response([
@@ -680,7 +681,7 @@ class Calendar extends EA_Controller
             // Get unavailability periods (only for provider).
             $response['unavailabilities'] = [];
 
-            if ($filter_type == FILTER_TYPE_PROVIDER) {
+            if ($filter_type == FILTER_TYPE_PROVIDER || $is_all) {
                 $where_clause =
                     $where_id .
                     ' = ' .
