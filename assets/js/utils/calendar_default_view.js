@@ -303,12 +303,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $selectFilterItem.val() === 'all'
             ) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
-                fullCalendar.setOption('selectable', false);
-                fullCalendar.setOption('editable', false);
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
-                fullCalendar.setOption('selectable', true);
-                fullCalendar.setOption('editable', true);
 
                 const providerId = $selectFilterItem.val();
 
