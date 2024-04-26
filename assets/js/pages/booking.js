@@ -321,10 +321,15 @@ App.Pages.Booking = (function () {
         $selectProvider.on('change', (event) => {
             const $target = $(event.target);
 
+            const todayDateTimeObject = new Date();
+            const todayDateTimeMoment = moment(todayDateTimeObject);
+
+            App.Utils.UI.setDateTimePickerValue($selectDate, todayDateTimeObject);
+
             App.Http.Booking.getUnavailableDates(
                 $target.val(),
                 $selectService.val(),
-                moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
+                todayDateTimeMoment.format('YYYY-MM-DD'),
             );
             updateConfirmFrame();
         });
@@ -887,7 +892,7 @@ App.Pages.Booking = (function () {
         }
 
         if (Number(service.price) > 0) {
-            additionalInfoParts.push(`${lang('price')}: ${service.price} ${service.currency}`);
+            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
         }
 
         if (service.location) {

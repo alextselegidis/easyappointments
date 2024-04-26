@@ -233,9 +233,9 @@ App.Http.Booking = (function () {
      * @param {Number} providerId The selected provider ID.
      * @param {Number} serviceId The selected service ID.
      * @param {String} selectedDateString Y-m-d value of the selected date.
-     * @param {Number} monthChangeStep Whether to add or subtract months.
+     * @param {Number} [monthChangeStep] Whether to add or subtract months.
      */
-    function getUnavailableDates(providerId, serviceId, selectedDateString, monthChangeStep) {
+    function getUnavailableDates(providerId, serviceId, selectedDateString, monthChangeStep = 1) {
         if (processingUnavailableDates) {
             return;
         }
@@ -268,7 +268,7 @@ App.Http.Booking = (function () {
                     searchedMonthStart = selectedDateString;
                 }
 
-                if (searchedMonthCounter >= 3) {
+                if (searchedMonthCounter >= 2) {
                     // Need to mark the current month dates as unavailable
                     const selectedDateMoment = moment(searchedMonthStart);
                     const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
@@ -278,7 +278,7 @@ App.Http.Booking = (function () {
                         unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
                         startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
                     }
-                    applyUnavailableDates(unavailableDates, searchedMonthStart, false);
+                    applyUnavailableDates(unavailableDates, searchedMonthStart, true);
                     searchedMonthStart = undefined;
                     searchedMonthCounter = 0;
                     return; // Stop searching
@@ -312,6 +312,17 @@ App.Http.Booking = (function () {
         const selectedDate = selectedDateMoment.toDate();
         const numberOfDays = selectedDateMoment.daysInMonth();
 
+        // If all the days are unavailable then hide the appointments hours.
+        if (unavailableDates.length === numberOfDays) {
+            $availableHours.text(lang('no_available_hours'));
+        }
+
+        // Grey out unavailable dates.
+        $('#select-date')[0]._flatpickr.set(
+            'disable',
+            unavailableDates.map((unavailableDate) => new Date(unavailableDate)),
+        );
+
         if (setDate && !vars('manage_mode')) {
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
@@ -323,17 +334,6 @@ App.Http.Booking = (function () {
                 }
             }
         }
-
-        // If all the days are unavailable then hide the appointments hours.
-        if (unavailableDates.length === numberOfDays) {
-            $availableHours.text(lang('no_available_hours'));
-        }
-
-        // Grey out unavailable dates.
-        $('#select-date')[0]._flatpickr.set(
-            'disable',
-            unavailableDates.map((unavailableDate) => new Date(unavailableDate)),
-        );
 
         const dateQueryParam = App.Utils.Url.queryParam('date');
 
