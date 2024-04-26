@@ -340,8 +340,8 @@ App.Pages.Providers = (function () {
         $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $providers.find('.record-details .form-label span').prop('hidden', true);
         $providers.find('.record-details #calendar-view').val('default');
-        $providers.find('.record-details #language').val('english');
-        $providers.find('.record-details #timezone').val('UTC');
+        $providers.find('.record-details #language').val(vars('language') || 'english');
+        $providers.find('.record-details #timezone').val(moment.tz.guess() || 'UTC');
         $providers.find('.record-details #is-private').prop('checked', false);
         $providers.find('.record-details #notifications').prop('checked', true);
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
