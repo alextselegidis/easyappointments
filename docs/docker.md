@@ -39,6 +39,8 @@ In the host machine the server is accessible from `http://localhost` and the dat
 
 You can additionally access phpMyAdmin from `http://localhost:8080` (credentials are `root` / `secret`) and Mailpit from `http://localhost:8025`.
 
+Baikal, a self-hosted CalDAV server used to develop the CalDAV syncing integration is available on `http://localhost:8100`. 
+
 **Attention:** This configuration is meant to make development easier. It is not intended to server as a production environment!
 
 A production image of Easy!Appointments can be found at: https://github.com/alextselegidis/easyappointments-docker
