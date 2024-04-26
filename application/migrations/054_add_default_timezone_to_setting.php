@@ -21,7 +21,7 @@ class Migration_Add_default_timezone_setting extends EA_Migration
         if (!$this->db->get_where('settings', ['name' => 'default_timezone'])->num_rows()) {
             $this->db->insert('settings', [
                 'name' => 'default_timezone',
-                'value' => 'UTC',
+                'value' => date_default_timezone_get(),
             ]);
         }
     }
