@@ -75,7 +75,7 @@ root {
 }
 
 #footer {
-    background-color: #f7f7f7;
+    background-color: var(--bs-body-bg);
     border-top: 1px solid #ddd;
     font-size: 11px;
 }
