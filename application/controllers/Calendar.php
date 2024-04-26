@@ -621,8 +621,9 @@ class Calendar extends EA_Controller
             $record_id = request('record_id');
 
             $filter_type = request('filter_type');
+            $is_all = request('record_id') === FILTER_TYPE_ALL;
 
-            if (!$filter_type && $record_id !== FILTER_TYPE_ALL) {
+            if (!$filter_type && !$is_all) {
                 json_response([
                     'appointments' => [],
                     'unavailabilities' => [],
@@ -675,6 +676,8 @@ class Calendar extends EA_Controller
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
+
+            unset($appointment);
 
             // Get unavailability periods (only for provider).
             $response['unavailabilities'] = [];
