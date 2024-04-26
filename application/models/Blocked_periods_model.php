@@ -46,6 +46,7 @@ class Blocked_periods_model extends EA_Model
      * @return int Returns the blocked-period ID.
      *
      * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function save(array $blocked_period): int
     {
@@ -64,8 +65,9 @@ class Blocked_periods_model extends EA_Model
      * @param array $blocked_period Associative array with the blocked-period data.
      *
      * @throws InvalidArgumentException
+     * @throws Exception
      */
-    public function validate(array $blocked_period)
+    public function validate(array $blocked_period): void
     {
         // If a blocked-period ID is provided then check whether the record really exists in the database.
         if (!empty($blocked_period['id'])) {
@@ -301,7 +303,7 @@ class Blocked_periods_model extends EA_Model
      *
      * @param array $blocked_period Blocked period data.
      */
-    public function api_encode(array &$blocked_period)
+    public function api_encode(array &$blocked_period): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $blocked_period) ? (int) $blocked_period['id'] : null,
@@ -320,7 +322,7 @@ class Blocked_periods_model extends EA_Model
      * @param array $blocked_period API resource.
      * @param array|null $base Base blocked-period data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$blocked_period, array $base = null)
+    public function api_decode(array &$blocked_period, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

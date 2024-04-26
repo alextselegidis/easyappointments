@@ -34,7 +34,7 @@ class User extends EA_Controller
     /**
      * Redirect to the login page.
      */
-    public function index()
+    public function index(): void
     {
         redirect('login');
     }

@@ -54,7 +54,7 @@ class Booking extends EA_Controller
      *
      * @param string $appointment_hash
      */
-    public function reschedule(string $appointment_hash)
+    public function reschedule(string $appointment_hash): void
     {
         html_vars(['appointment_hash' => $appointment_hash]);
 
@@ -66,7 +66,7 @@ class Booking extends EA_Controller
      *
      * This method creates the appointment book wizard.
      */
-    public function index()
+    public function index(): void
     {
         if (!is_app_installed()) {
             redirect('installation');
@@ -289,7 +289,7 @@ class Booking extends EA_Controller
     /**
      * Register the appointment to the database.
      */
-    public function register()
+    public function register(): void
     {
         try {
             $disable_booking = setting('disable_booking');
@@ -584,7 +584,7 @@ class Booking extends EA_Controller
      * This method answers to an AJAX request. It calculates the available hours for the given service, provider and
      * date.
      */
-    public function get_available_hours()
+    public function get_available_hours(): void
     {
         try {
             $disable_booking = setting('disable_booking');
@@ -666,7 +666,7 @@ class Booking extends EA_Controller
      *
      * Outputs a JSON string with the unavailability dates. that are unavailability.
      */
-    public function get_unavailable_dates()
+    public function get_unavailable_dates(): void
     {
         try {
             $disable_booking = setting('disable_booking');

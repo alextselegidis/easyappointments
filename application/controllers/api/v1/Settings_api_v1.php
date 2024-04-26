@@ -35,7 +35,7 @@ class Settings_api_v1 extends EA_Controller
     /**
      * Get a setting collection.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $keyword = $this->api->request_keyword();

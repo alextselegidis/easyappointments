@@ -33,7 +33,7 @@ class Consents extends EA_Controller
     /**
      * Save (insert or update) the consent
      */
-    public function save()
+    public function save(): void
     {
         try {
             $consent = request('consent');

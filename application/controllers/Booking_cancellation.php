@@ -46,7 +46,7 @@ class Booking_cancellation extends EA_Controller
      *
      * @param string $appointment_hash This appointment hash identifier.
      */
-    public function of(string $appointment_hash)
+    public function of(string $appointment_hash): void
     {
         try {
             $disable_booking = setting('disable_booking');

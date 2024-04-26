@@ -45,7 +45,7 @@ class Update extends EA_Controller
      * This method can be used either by loading the page in the browser or by an ajax request. But it will answer with
      * JSON encoded data.
      */
-    public function index()
+    public function index(): void
     {
         try {
             $user_id = session('user_id');
