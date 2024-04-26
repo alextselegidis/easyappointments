@@ -1514,6 +1514,8 @@ App.Utils.CalendarTableView = (function () {
 
             const appointment = {...info.event.extendedProps.data};
 
+            appointment.is_unavailability = 0;
+
             // Must delete the following because only appointment data should be provided to the AJAX call.
             delete appointment.customer;
             delete appointment.provider;
@@ -1546,7 +1548,7 @@ App.Utils.CalendarTableView = (function () {
                 $footer.css('position', 'static'); // Footer position fix.
 
                 // Update the event data for later use.
-                info.event.setProp('data', event.extendedProps.data);
+                info.event.setProp('data', info.event.extendedProps.data);
             };
 
             // Update appointment data.
@@ -1634,7 +1636,7 @@ App.Utils.CalendarTableView = (function () {
                 .add({days: info.delta.days, millisecond: info.delta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
 
-            appointment.is_unavailability = Number(appointment.is_unavailability);
+            appointment.is_unavailability = 0;
 
             info.event.extendedProps.data.start_datetime = appointment.start_datetime;
             info.event.extendedProps.data.end_datetime = appointment.end_datetime;
@@ -1688,12 +1690,14 @@ App.Utils.CalendarTableView = (function () {
             successCallback = () => {
                 const undoFunction = () => {
                     unavailability.start_datetime = moment(unavailability.start_datetime)
-                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
+                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
                     unavailability.end_datetime = moment(unavailability.end_datetime)
-                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
+                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
+
+                    unavailability.is_unavailability = 1;
 
                     info.event.extendedProps.data.start_datetime = unavailability.start_datetime;
                     info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
