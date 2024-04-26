@@ -42,7 +42,7 @@ class Secretaries extends EA_Controller
      * On this page secretary users will be able to manage secretaries, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('secretaries')]);
 
@@ -89,7 +89,7 @@ class Secretaries extends EA_Controller
     /**
      * Filter secretaries by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_USERS)) {
@@ -115,7 +115,7 @@ class Secretaries extends EA_Controller
     /**
      * Store a new secretary.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_USERS)) {
@@ -172,7 +172,7 @@ class Secretaries extends EA_Controller
     /**
      * Find a secretary.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_USERS)) {
@@ -192,7 +192,7 @@ class Secretaries extends EA_Controller
     /**
      * Update a secretary.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_USERS)) {
@@ -250,7 +250,7 @@ class Secretaries extends EA_Controller
     /**
      * Remove a secretary.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_USERS)) {

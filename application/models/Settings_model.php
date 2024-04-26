@@ -62,7 +62,7 @@ class Settings_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $setting)
+    public function validate(array $setting): void
     {
         // If a setting ID is provided then check whether the record really exists in the database.
         if (!empty($setting['id'])) {
@@ -288,7 +288,7 @@ class Settings_model extends EA_Model
      *
      * @param array $setting Setting data.
      */
-    public function api_encode(array &$setting)
+    public function api_encode(array &$setting): void
     {
         $encoded_resource = [
             'name' => $setting['name'],
@@ -304,7 +304,7 @@ class Settings_model extends EA_Model
      * @param array $setting API resource.
      * @param array|null $base Base setting data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$setting, array $base = null)
+    public function api_decode(array &$setting, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

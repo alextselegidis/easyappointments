@@ -44,7 +44,7 @@ class Account extends EA_Controller
     /**
      * Render the settings page.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('account')]);
 
@@ -79,7 +79,7 @@ class Account extends EA_Controller
     /**
      * Save general settings.
      */
-    public function save()
+    public function save(): void
     {
         try {
             if (cannot('edit', PRIV_USER_SETTINGS)) {
@@ -131,7 +131,7 @@ class Account extends EA_Controller
     /**
      * Make sure the username is valid and unique in the database.
      */
-    public function validate_username()
+    public function validate_username(): void
     {
         try {
             $username = request('username');

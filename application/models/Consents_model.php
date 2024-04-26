@@ -54,7 +54,7 @@ class Consents_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $consent)
+    public function validate(array $consent): void
     {
         if (empty($consent['ip']) || empty($consent['type'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($consent, true));

@@ -44,7 +44,7 @@ class Integrations extends EA_Controller
     /**
      * Render the settings page.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('about')]);
 

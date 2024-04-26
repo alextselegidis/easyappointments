@@ -53,7 +53,7 @@ class Appointments extends EA_Controller
     /**
      * Filter appointments by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
@@ -79,7 +79,7 @@ class Appointments extends EA_Controller
     /**
      * Store a new appointment.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_APPOINTMENTS)) {
@@ -118,7 +118,7 @@ class Appointments extends EA_Controller
     /**
      * Find an appointment.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
@@ -138,7 +138,7 @@ class Appointments extends EA_Controller
     /**
      * Update a appointment.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_APPOINTMENTS)) {
@@ -174,7 +174,7 @@ class Appointments extends EA_Controller
     /**
      * Remove a appointment.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_APPOINTMENTS)) {

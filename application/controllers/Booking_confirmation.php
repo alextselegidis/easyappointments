@@ -40,7 +40,7 @@ class Booking_confirmation extends EA_Controller
      *
      * @throws Exception
      */
-    public function of()
+    public function of(): void
     {
         $appointment_hash = $this->uri->segment(3);
 

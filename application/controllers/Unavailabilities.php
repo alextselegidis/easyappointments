@@ -38,7 +38,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Filter unavailabilities by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
@@ -64,7 +64,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Store a new unavailability.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_APPOINTMENTS)) {
@@ -109,7 +109,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Find an unavailability.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
@@ -129,7 +129,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Update a unavailability.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_APPOINTMENTS)) {
@@ -160,7 +160,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Remove a unavailability.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_APPOINTMENTS)) {

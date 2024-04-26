@@ -63,7 +63,7 @@ class Service_categories_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $service_category)
+    public function validate(array $service_category): void
     {
         // If a service-category ID is provided then check whether the record really exists in the database.
         if (!empty($service_category['id'])) {
@@ -297,7 +297,7 @@ class Service_categories_model extends EA_Model
      *
      * @param array $service_category Category data.
      */
-    public function api_encode(array &$service_category)
+    public function api_encode(array &$service_category): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $service_category) ? (int) $service_category['id'] : null,
@@ -316,7 +316,7 @@ class Service_categories_model extends EA_Model
      * @param array $service_category API resource.
      * @param array|null $base Base service-category data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$service_category, array $base = null)
+    public function api_decode(array &$service_category, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

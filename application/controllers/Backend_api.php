@@ -44,7 +44,7 @@ class Backend_api extends EA_Controller
     /**
      * Get Calendar Events
      */
-    public function ajax_get_calendar_events()
+    public function ajax_get_calendar_events(): void
     {
         redirect('calendar/get_calendar_appointments_for_table_view');
     }
@@ -52,7 +52,7 @@ class Backend_api extends EA_Controller
     /**
      * Get the registered appointments for the given date period and record.
      */
-    public function ajax_get_calendar_appointments()
+    public function ajax_get_calendar_appointments(): void
     {
         redirect('calendar/get_calendar_appointments');
     }
@@ -60,7 +60,7 @@ class Backend_api extends EA_Controller
     /**
      * Save appointment changes that are made from the backend calendar page.
      */
-    public function ajax_save_appointment()
+    public function ajax_save_appointment(): void
     {
         redirect('calendar/save_appointment');
     }
@@ -68,7 +68,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete appointment from the database.
      */
-    public function ajax_delete_appointment()
+    public function ajax_delete_appointment(): void
     {
         redirect('calendar/delete_appointment');
     }
@@ -76,7 +76,7 @@ class Backend_api extends EA_Controller
     /**
      * Disable a providers sync setting.
      */
-    public function ajax_disable_provider_sync()
+    public function ajax_disable_provider_sync(): void
     {
         redirect('google/disable_provider_sync');
     }
@@ -84,7 +84,7 @@ class Backend_api extends EA_Controller
     /**
      * Filter the customer records with the given key string.
      */
-    public function ajax_filter_customers()
+    public function ajax_filter_customers(): void
     {
         redirect('customers/search');
     }
@@ -92,7 +92,7 @@ class Backend_api extends EA_Controller
     /**
      * Insert or update an unavailability.
      */
-    public function ajax_save_unavailability()
+    public function ajax_save_unavailability(): void
     {
         redirect('calendar/save_unavailability');
     }
@@ -100,7 +100,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete an unavailability time period from database.
      */
-    public function ajax_delete_unavailability()
+    public function ajax_delete_unavailability(): void
     {
         redirect('calendar/delete_unavailability');
     }
@@ -108,7 +108,7 @@ class Backend_api extends EA_Controller
     /**
      * Insert of update working plan exceptions to database.
      */
-    public function ajax_save_working_plan_exception()
+    public function ajax_save_working_plan_exception(): void
     {
         redirect('calendar/save_working_plan_exception');
     }
@@ -116,7 +116,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete a working plan exceptions time period to database.
      */
-    public function ajax_delete_working_plan_exception()
+    public function ajax_delete_working_plan_exception(): void
     {
         redirect('calendar/delete_working_plan_exception');
     }
@@ -124,7 +124,7 @@ class Backend_api extends EA_Controller
     /**
      * Save (insert or update) a customer record.
      */
-    public function ajax_save_customer()
+    public function ajax_save_customer(): void
     {
         redirect('customers/create'); // or "customers/update"
     }
@@ -132,7 +132,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete customer from database.
      */
-    public function ajax_delete_customer()
+    public function ajax_delete_customer(): void
     {
         redirect('customers/destroy');
     }
@@ -140,7 +140,7 @@ class Backend_api extends EA_Controller
     /**
      * Save (insert or update) service record.
      */
-    public function ajax_save_service()
+    public function ajax_save_service(): void
     {
         redirect('services/create'); // or "services/update"
     }
@@ -148,7 +148,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete service record from database.
      */
-    public function ajax_delete_service()
+    public function ajax_delete_service(): void
     {
         redirect('services/destroy');
     }
@@ -156,7 +156,7 @@ class Backend_api extends EA_Controller
     /**
      * Filter service records by given key string.
      */
-    public function ajax_filter_services()
+    public function ajax_filter_services(): void
     {
         redirect('services/search');
     }
@@ -164,7 +164,7 @@ class Backend_api extends EA_Controller
     /**
      * Save (insert or update) category record.
      */
-    public function ajax_save_service_category()
+    public function ajax_save_service_category(): void
     {
         redirect('categories/create'); // or "categories/update"
     }
@@ -172,7 +172,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete category record from database.
      */
-    public function ajax_delete_service_category()
+    public function ajax_delete_service_category(): void
     {
         redirect('categories/destroy');
     }
@@ -180,7 +180,7 @@ class Backend_api extends EA_Controller
     /**
      * Filter services categories with key string.
      */
-    public function ajax_filter_service_categories()
+    public function ajax_filter_service_categories(): void
     {
         redirect('categories/search');
     }
@@ -188,7 +188,7 @@ class Backend_api extends EA_Controller
     /**
      * Filter admin records with string key.
      */
-    public function ajax_filter_admins()
+    public function ajax_filter_admins(): void
     {
         redirect('admins/search');
     }
@@ -196,7 +196,7 @@ class Backend_api extends EA_Controller
     /**
      * Save (insert or update) admin record into database.
      */
-    public function ajax_save_admin()
+    public function ajax_save_admin(): void
     {
         redirect('admins/create'); // or "admins/update"
     }
@@ -204,7 +204,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete an admin record from the database.
      */
-    public function ajax_delete_admin()
+    public function ajax_delete_admin(): void
     {
         redirect('admins/destroy');
     }
@@ -212,7 +212,7 @@ class Backend_api extends EA_Controller
     /**
      * Filter provider records with string key.
      */
-    public function ajax_filter_providers()
+    public function ajax_filter_providers(): void
     {
         redirect('providers/search');
     }
@@ -220,7 +220,7 @@ class Backend_api extends EA_Controller
     /**
      * Save (insert or update) a provider record into database.
      */
-    public function ajax_save_provider()
+    public function ajax_save_provider(): void
     {
         redirect('providers/create'); // or "providers/update"
     }
@@ -228,7 +228,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete a provider record from the database.
      */
-    public function ajax_delete_provider()
+    public function ajax_delete_provider(): void
     {
         redirect('providers/destroy');
     }
@@ -236,7 +236,7 @@ class Backend_api extends EA_Controller
     /**
      * Filter secretary records with string key.
      */
-    public function ajax_filter_secretaries()
+    public function ajax_filter_secretaries(): void
     {
         redirect('secretaries/search');
     }
@@ -244,7 +244,7 @@ class Backend_api extends EA_Controller
     /**
      * Save (insert or update) a secretary record into database.
      */
-    public function ajax_save_secretary()
+    public function ajax_save_secretary(): void
     {
         redirect('secretaries/create'); // or "secretaries/update"
     }
@@ -252,7 +252,7 @@ class Backend_api extends EA_Controller
     /**
      * Delete a secretary record from the database.
      */
-    public function ajax_delete_secretary()
+    public function ajax_delete_secretary(): void
     {
         redirect('secretaries/destroy');
     }
@@ -260,7 +260,7 @@ class Backend_api extends EA_Controller
     /**
      * Save a setting or multiple settings in the database.
      */
-    public function ajax_save_settings()
+    public function ajax_save_settings(): void
     {
         redirect('general_settings/save'); // or "business_settings/save", "booking_settings/save", "legal_settings/save"
     }
@@ -268,7 +268,7 @@ class Backend_api extends EA_Controller
     /**
      * This method checks whether the username already exists in the database.
      */
-    public function ajax_validate_username()
+    public function ajax_validate_username(): void
     {
         redirect('account/validate_username');
     }
@@ -276,7 +276,7 @@ class Backend_api extends EA_Controller
     /**
      * Change system language for current user.
      */
-    public function ajax_change_language()
+    public function ajax_change_language(): void
     {
         redirect('account/change_language');
     }
@@ -284,7 +284,7 @@ class Backend_api extends EA_Controller
     /**
      * This method will return a list of the available Google Calendars.
      */
-    public function ajax_get_google_calendars()
+    public function ajax_get_google_calendars(): void
     {
         redirect('google/get_google_calendars');
     }
@@ -292,7 +292,7 @@ class Backend_api extends EA_Controller
     /**
      * Select a specific google calendar for a provider.
      */
-    public function ajax_select_google_calendar()
+    public function ajax_select_google_calendar(): void
     {
         redirect('google/select_google_calendar');
     }
@@ -300,7 +300,7 @@ class Backend_api extends EA_Controller
     /**
      * Apply global working plan to all providers.
      */
-    public function ajax_apply_global_working_plan()
+    public function ajax_apply_global_working_plan(): void
     {
         redirect('business_settings/apply_global_working_plan');
     }

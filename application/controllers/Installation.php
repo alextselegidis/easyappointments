@@ -39,7 +39,7 @@ class Installation extends EA_Controller
     /**
      * Display the installation page.
      */
-    public function index()
+    public function index(): void
     {
         if (is_app_installed()) {
             redirect();

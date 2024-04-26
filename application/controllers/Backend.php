@@ -46,7 +46,7 @@ class Backend extends EA_Controller
      *
      * @param string $appointment_hash Appointment edit dialog will appear when the page loads (default '').
      */
-    public function index(string $appointment_hash = '')
+    public function index(string $appointment_hash = ''): void
     {
         if (empty($appointment_hash)) {
             redirect('calendar');
@@ -58,7 +58,7 @@ class Backend extends EA_Controller
     /**
      * Display the customers page.
      */
-    public function customers()
+    public function customers(): void
     {
         redirect('customers');
     }
@@ -66,7 +66,7 @@ class Backend extends EA_Controller
     /**
      * Display the services page.
      */
-    public function services()
+    public function services(): void
     {
         redirect('services');
     }
@@ -77,7 +77,7 @@ class Backend extends EA_Controller
      * Notice: Since the "users" page is split into multiple pages (providers, secretaries, admins), this method will
      * redirect to "providers" page by default
      */
-    public function users()
+    public function users(): void
     {
         redirect('providers');
     }
@@ -88,7 +88,7 @@ class Backend extends EA_Controller
      * Notice: Since the "settings" page is split into multiple pages (general, business, booking etc), this method will
      * redirect to "general" page by default.
      */
-    public function settings()
+    public function settings(): void
     {
         redirect('general_settings');
     }
@@ -96,7 +96,7 @@ class Backend extends EA_Controller
     /**
      * Display the update page.
      */
-    public function update()
+    public function update(): void
     {
         redirect('update');
     }
