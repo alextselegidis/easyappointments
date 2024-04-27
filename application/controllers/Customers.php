@@ -44,7 +44,7 @@ class Customers extends EA_Controller
      * On this page admin users will be able to manage customers, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('customers')]);
 
@@ -112,7 +112,7 @@ class Customers extends EA_Controller
     /**
      * Find a customer.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_CUSTOMERS)) {
@@ -138,7 +138,7 @@ class Customers extends EA_Controller
     /**
      * Filter customers by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_CUSTOMERS)) {
@@ -182,7 +182,7 @@ class Customers extends EA_Controller
     /**
      * Store a new customer.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_CUSTOMERS)) {
@@ -232,7 +232,7 @@ class Customers extends EA_Controller
     /**
      * Update a customer.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_CUSTOMERS)) {
@@ -285,7 +285,7 @@ class Customers extends EA_Controller
     /**
      * Remove a customer.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_CUSTOMERS)) {

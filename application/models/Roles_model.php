@@ -61,7 +61,7 @@ class Roles_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $role)
+    public function validate(array $role): void
     {
         // If a role ID is provided then check whether the record really exists in the database.
         if (!empty($role['id'])) {

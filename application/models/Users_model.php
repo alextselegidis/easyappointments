@@ -76,7 +76,7 @@ class Users_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $user)
+    public function validate(array $user): void
     {
         // If a user ID is provided then check whether the record really exists in the database.
         if (!empty($user['id'])) {
@@ -138,7 +138,7 @@ class Users_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $user_id, array $settings)
+    protected function save_settings(int $user_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -163,7 +163,7 @@ class Users_model extends EA_Model
      * @param string $name Setting name.
      * @param string $value Setting value.
      */
-    public function set_setting(int $user_id, string $name, string $value)
+    public function set_setting(int $user_id, string $name, string $value): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $user_id])) {
             throw new RuntimeException('Could not set the new user setting value: ' . $name);

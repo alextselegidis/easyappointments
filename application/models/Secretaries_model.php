@@ -76,7 +76,7 @@ class Secretaries_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $secretary)
+    public function validate(array $secretary): void
     {
         // If a secretary ID is provided then check whether the record really exists in the database.
         if (!empty($secretary['id'])) {
@@ -306,7 +306,7 @@ class Secretaries_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $secretary_id, array $settings)
+    protected function save_settings(int $secretary_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -331,7 +331,7 @@ class Secretaries_model extends EA_Model
      * @param string $name Setting name.
      * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $secretary_id, string $name, mixed $value = null)
+    public function set_setting(int $secretary_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $secretary_id])) {
             throw new RuntimeException('Could not set the new secretary setting value: ' . $name);
@@ -387,7 +387,7 @@ class Secretaries_model extends EA_Model
      * @param int $secretary_id Secretary ID.
      * @param array $provider_ids Provider IDs.
      */
-    protected function save_provider_ids(int $secretary_id, array $provider_ids)
+    protected function save_provider_ids(int $secretary_id, array $provider_ids): void
     {
         // Re-insert the secretary-provider connections.
         $this->db->delete('secretaries_providers', ['id_users_secretary' => $secretary_id]);
@@ -554,7 +554,7 @@ class Secretaries_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function load(array &$secretary, array $resources)
+    public function load(array &$secretary, array $resources): void
     {
         if (empty($secretary) || empty($resources)) {
             return;
@@ -581,7 +581,7 @@ class Secretaries_model extends EA_Model
      *
      * @param array $secretary Secretary data.
      */
-    public function api_encode(array &$secretary)
+    public function api_encode(array &$secretary): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $secretary) ? (int) $secretary['id'] : null,
@@ -613,7 +613,7 @@ class Secretaries_model extends EA_Model
      * @param array $secretary API resource.
      * @param array|null $base Base secretary data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$secretary, array $base = null)
+    public function api_decode(array &$secretary, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

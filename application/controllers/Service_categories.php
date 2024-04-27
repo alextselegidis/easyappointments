@@ -41,7 +41,7 @@ class Service_categories extends EA_Controller
      * On this page admin users will be able to manage service-categories, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('service_categories')]);
 
@@ -78,7 +78,7 @@ class Service_categories extends EA_Controller
     /**
      * Filter service-categories by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_SERVICES)) {
@@ -104,7 +104,7 @@ class Service_categories extends EA_Controller
     /**
      * Store a new service-category.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_SERVICES)) {
@@ -133,7 +133,7 @@ class Service_categories extends EA_Controller
     /**
      * Find a service-category.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_SERVICES)) {
@@ -153,7 +153,7 @@ class Service_categories extends EA_Controller
     /**
      * Update a service-category.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_SERVICES)) {
@@ -182,7 +182,7 @@ class Service_categories extends EA_Controller
     /**
      * Remove a service-category.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_SERVICES)) {

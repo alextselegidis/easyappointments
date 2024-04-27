@@ -76,7 +76,7 @@ class Admins_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $admin)
+    public function validate(array $admin): void
     {
         // If an admin ID is provided then check whether the record really exists in the database.
         if (!empty($admin['id'])) {
@@ -277,7 +277,7 @@ class Admins_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $admin_id, array $settings)
+    protected function save_settings(int $admin_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -302,7 +302,7 @@ class Admins_model extends EA_Model
      * @param string $name Setting name.
      * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $admin_id, string $name, mixed $value = null)
+    public function set_setting(int $admin_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id])) {
             throw new RuntimeException('Could not set the new admin setting value: ' . $name);
@@ -534,7 +534,7 @@ class Admins_model extends EA_Model
      *
      * @param array $admin Admin data.
      */
-    public function api_encode(array &$admin)
+    public function api_encode(array &$admin): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $admin) ? (int) $admin['id'] : null,
@@ -565,7 +565,7 @@ class Admins_model extends EA_Model
      * @param array $admin API resource.
      * @param array|null $base Base admin data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$admin, array $base = null)
+    public function api_decode(array &$admin, array $base = null): void
     {
         $decoded_resource = $base ?? [];
 

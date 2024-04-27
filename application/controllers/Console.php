@@ -50,8 +50,10 @@ class Console extends EA_Controller
      * Usage:
      *
      * php index.php console install
+     *
+     * @throws Exception
      */
-    public function install()
+    public function install(): void
     {
         $this->instance->migrate('fresh');
 
@@ -70,7 +72,7 @@ class Console extends EA_Controller
      * Notice:
      *
      * Do not use this method to install the app as it will not seed the database with the initial entries (admin,
-     * provider, service, settings etc).
+     * provider, service, settings etc.).
      *
      * Usage:
      *
@@ -80,7 +82,7 @@ class Console extends EA_Controller
      *
      * @param string $type
      */
-    public function migrate(string $type = '')
+    public function migrate(string $type = ''): void
     {
         $this->instance->migrate($type);
     }
@@ -93,8 +95,9 @@ class Console extends EA_Controller
      * Usage:
      *
      * php index.php console seed
+     * @throws Exception
      */
-    public function seed()
+    public function seed(): void
     {
         $this->instance->seed();
     }
@@ -112,7 +115,7 @@ class Console extends EA_Controller
      *
      * @throws Exception
      */
-    public function backup()
+    public function backup(): void
     {
         $this->instance->backup($GLOBALS['argv'][3] ?? null);
     }
@@ -130,7 +133,7 @@ class Console extends EA_Controller
      *
      * php index.php console sync
      */
-    public function sync()
+    public function sync(): void
     {
         $providers = $this->providers_model->get();
 
@@ -152,7 +155,7 @@ class Console extends EA_Controller
      *
      * php index.php console help
      */
-    public function help()
+    public function help(): void
     {
         $help = [
             '',

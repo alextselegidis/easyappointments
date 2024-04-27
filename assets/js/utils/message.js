@@ -27,10 +27,12 @@ window.App.Utils.Message = (function () {
      * @param {String} message The message of the dialog.
      * @param {Array} [buttons] Contains the dialog buttons along with their functions.
      * @param {Boolean} [isDismissible] If true, the button will show the close X in the header and close with the press of the Escape button.
+     *
+     * @return {jQuery|null} Return the #message-modal selector or null if the arguments are invalid.
      */
     function show(title, message, buttons = null, isDismissible = true) {
         if (!title || !message) {
-            return;
+            return null;
         }
 
         if (!buttons) {
@@ -105,7 +107,9 @@ window.App.Utils.Message = (function () {
 
         messageModal.show();
 
-        $('#message-modal').css('z-index', '99999').next().css('z-index', '9999');
+        $messageModal.css('z-index', '99999').next().css('z-index', '9999');
+
+        return $messageModal;
     }
 
     return {

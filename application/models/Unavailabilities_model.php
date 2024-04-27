@@ -73,7 +73,7 @@ class Unavailabilities_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $unavailability)
+    public function validate(array $unavailability): void
     {
         // If an unavailability ID is provided then check whether the record really exists in the database.
         if (!empty($unavailability['id'])) {
@@ -349,7 +349,7 @@ class Unavailabilities_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function load(array &$unavailability, array $resources)
+    public function load(array &$unavailability, array $resources): void
     {
         if (empty($unavailability) || empty($resources)) {
             return;
@@ -374,7 +374,7 @@ class Unavailabilities_model extends EA_Model
      *
      * @param array $unavailability Unavailability data.
      */
-    public function api_encode(array &$unavailability)
+    public function api_encode(array &$unavailability): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $unavailability) ? (int) $unavailability['id'] : null,
@@ -399,7 +399,7 @@ class Unavailabilities_model extends EA_Model
      * @param array $unavailability API resource.
      * @param array|null $base Base unavailability data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$unavailability, array $base = null)
+    public function api_decode(array &$unavailability, array $base = null): void
     {
         $decoded_request = $base ?: [];
 

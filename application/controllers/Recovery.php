@@ -34,7 +34,7 @@ class Recovery extends EA_Controller
     /**
      * Display the password recovery page.
      */
-    public function index()
+    public function index(): void
     {
         $company_name = setting('company_name');
 

@@ -28,7 +28,7 @@ App.Http.Calendar = (function () {
      * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function saveAppointment(appointment, customer, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/save_appointment');
@@ -61,7 +61,7 @@ App.Http.Calendar = (function () {
      * @param {Number} appointmentId
      * @param {String} cancellationReason
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function deleteAppointment(appointmentId, cancellationReason) {
         const url = App.Utils.Url.siteUrl('calendar/delete_appointment');
@@ -82,7 +82,7 @@ App.Http.Calendar = (function () {
      * @param {Function} [successCallback] The ajax success callback function.
      * @param {Function} [errorCallback] The ajax failure callback function.
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function saveUnavailability(unavailability, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/save_unavailability');
@@ -110,7 +110,7 @@ App.Http.Calendar = (function () {
      *
      * @param {Number} unavailabilityId
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function deleteUnavailability(unavailabilityId) {
         const url = App.Utils.Url.siteUrl('calendar/delete_unavailability');
@@ -132,7 +132,7 @@ App.Http.Calendar = (function () {
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function saveWorkingPlanException(date, workingPlanException, providerId, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/save_working_plan_exception');
@@ -165,7 +165,7 @@ App.Http.Calendar = (function () {
      * @param {Function} [successCallback]
      * @param {Function} [errorCallback]
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function deleteWorkingPlanException(date, providerId, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/delete_working_plan_exception');
@@ -219,7 +219,7 @@ App.Http.Calendar = (function () {
      * @param {Date} startDate
      * @param {Date} endDate
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function getCalendarAppointmentsForTableView(startDate, endDate) {
         const url = App.Utils.Url.siteUrl('calendar/get_calendar_appointments_for_table_view');

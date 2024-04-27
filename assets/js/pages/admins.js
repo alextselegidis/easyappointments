@@ -336,8 +336,8 @@ App.Pages.Admins = (function () {
         $admins.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $admins.find('.record-details .form-label span').prop('hidden', true);
         $admins.find('.record-details #calendar-view').val('default');
-        $admins.find('.record-details #language').val('english');
-        $admins.find('.record-details #timezone').val('UTC');
+        $admins.find('.record-details #language').val(vars('language') || 'english');
+        $admins.find('.record-details #timezone').val(moment.tz.guess() || 'UTC');
         $admins.find('.record-details #notifications').prop('checked', true);
         $('#edit-admin, #delete-admin').prop('disabled', true);
 

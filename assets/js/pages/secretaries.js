@@ -285,24 +285,24 @@ App.Pages.Secretaries = (function () {
                 }
             });
             if (missingRequired) {
-                throw new Error('Fields with * are  required.');
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
                 $('#password, #password-confirm').addClass('is-invalid');
-                throw new Error('Passwords mismatch!');
+                throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#password, #password-confirm').addClass('is-invalid');
-                throw new Error('Password must be at least ' + vars('min_password_length') + ' characters long.');
+                throw new Error(lang('password_length_notice').replace('$number', vars('min_password_length')));
             }
 
             // Validate user email.
             if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
-                throw new Error('Invalid email address!');
+                throw new Error(lang('invalid_email'));
             }
 
             // Validate phone number.
@@ -324,7 +324,7 @@ App.Pages.Secretaries = (function () {
             // Check if username exists
             if ($username.attr('already-exists') === 'true') {
                 $username.addClass('is-invalid');
-                throw new Error('Username already exists.');
+                throw new Error(lang('username_already_exists'));
             }
 
             return true;
@@ -344,7 +344,8 @@ App.Pages.Secretaries = (function () {
         $secretaries.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $secretaries.find('.record-details .form-label span').prop('hidden', true);
         $secretaries.find('.record-details #calendar-view').val('default');
-        $secretaries.find('.record-details #timezone').val('UTC');
+        $secretaries.find('.record-details #language').val(vars('language') || 'english');
+        $secretaries.find('.record-details #timezone').val(moment.tz.guess() || 'UTC');
         $secretaries.find('.record-details #notifications').prop('checked', true);
         $secretaries.find('.add-edit-delete-group').show();
         $secretaries.find('.save-cancel-group').hide();

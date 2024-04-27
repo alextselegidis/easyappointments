@@ -82,7 +82,7 @@ class Customers_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $customer)
+    public function validate(array $customer): void
     {
         // If a customer ID is provided then check whether the record really exists in the database.
         if (!empty($customer['id'])) {
@@ -443,7 +443,7 @@ class Customers_model extends EA_Model
      *
      * @param array $customer Customer data.
      */
-    public function api_encode(array &$customer)
+    public function api_encode(array &$customer): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $customer) ? (int) $customer['id'] : null,
@@ -472,7 +472,7 @@ class Customers_model extends EA_Model
      * @param array $customer API resource.
      * @param array|null $base Base customer data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$customer, array $base = null)
+    public function api_decode(array &$customer, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

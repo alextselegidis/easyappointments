@@ -44,7 +44,7 @@ class Business_settings extends EA_Controller
     /**
      * Render the settings page.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('business_settings')]);
 
@@ -82,7 +82,7 @@ class Business_settings extends EA_Controller
     /**
      * Save general settings.
      */
-    public function save()
+    public function save(): void
     {
         try {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {

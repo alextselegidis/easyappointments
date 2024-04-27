@@ -211,7 +211,7 @@ App.Utils.CalendarDefaultView = (function () {
                 $popoverTarget.popover('dispose');
             }
 
-            if (lastFocusedEventData.extendedProps.data.workingPlanException) {
+            if (lastFocusedEventData.extendedProps.data.workingPlanException !== undefined) {
                 const providerId = $selectFilterItem.val();
 
                 const provider = vars('available_providers').find(
@@ -303,12 +303,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $selectFilterItem.val() === 'all'
             ) {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
-                fullCalendar.setOption('selectable', false);
-                fullCalendar.setOption('editable', false);
             } else {
                 $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
-                fullCalendar.setOption('selectable', true);
-                fullCalendar.setOption('editable', true);
 
                 const providerId = $selectFilterItem.val();
 
@@ -869,10 +865,10 @@ App.Utils.CalendarDefaultView = (function () {
                     unavailability.end_datetime = info.event.extendedProps.data.end_datetime = moment(
                         unavailability.end_datetime,
                     )
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    App.Http.Calendar.saveAppointment(unavailability).done(() => {
+                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -959,7 +955,7 @@ App.Utils.CalendarDefaultView = (function () {
                 .add({days: info.delta.days, millisecond: info.delta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
 
-            appointment.is_unavailability = Number(appointment.is_unavailability);
+            appointment.is_unavailability = 0;
 
             info.event.extendedProps.data.start_datetime = appointment.start_datetime;
             info.event.extendedProps.data.end_datetime = appointment.end_datetime;
@@ -1018,7 +1014,7 @@ App.Utils.CalendarDefaultView = (function () {
                         .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    unavailability.is_unavailability = Number(unavailability.is_unavailability);
+                    unavailability.is_unavailability = 1;
 
                     info.event.extendedProps.data.start_datetime = unavailability.start_datetime;
                     info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
@@ -1256,7 +1252,7 @@ App.Utils.CalendarDefaultView = (function () {
                     calendarEventSource.push(unavailabilityEvent);
                 });
 
-                response.blocked_periods.forEach((blockedPeriod) => {
+                response?.blocked_periods?.forEach((blockedPeriod) => {
                     const blockedPeriodEvent = {
                         title: blockedPeriod.name,
                         start: moment(blockedPeriod.start_datetime).toDate(),

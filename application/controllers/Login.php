@@ -38,7 +38,7 @@ class Login extends EA_Controller
     /**
      * Render the login page.
      */
-    public function index()
+    public function index(): void
     {
         if (session('user_id')) {
             redirect('calendar');
@@ -58,7 +58,7 @@ class Login extends EA_Controller
     /**
      * Validate the provided credentials and start a new session if the validation was successful.
      */
-    public function validate()
+    public function validate(): void
     {
         try {
             $username = request('username');

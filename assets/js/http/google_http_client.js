@@ -21,7 +21,7 @@ App.Http.Google = (function () {
      * @param {Number} providerId
      * @param {String} googleCalendarId
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function selectGoogleCalendar(providerId, googleCalendarId) {
         const url = App.Utils.Url.siteUrl('google/select_google_calendar');
@@ -40,7 +40,7 @@ App.Http.Google = (function () {
      *
      * @param {Number} providerId
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function disableProviderSync(providerId) {
         const url = App.Utils.Url.siteUrl('google/disable_provider_sync');
@@ -58,7 +58,7 @@ App.Http.Google = (function () {
      *
      * @param {Number} providerId
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function getGoogleCalendars(providerId) {
         const url = App.Utils.Url.siteUrl('google/get_google_calendars');
@@ -76,7 +76,7 @@ App.Http.Google = (function () {
      *
      * @param {Number} providerId
      *
-     * @return {*|jQuery.jqXHR}
+     * @return {*|jQuery}
      */
     function syncWithGoogle(providerId) {
         const url = App.Utils.Url.siteUrl('google/sync/' + providerId);

@@ -23,7 +23,7 @@ class Logout extends EA_Controller
     /**
      * Render the logout page.
      */
-    public function index()
+    public function index(): void
     {
         $this->session->sess_destroy();
 
