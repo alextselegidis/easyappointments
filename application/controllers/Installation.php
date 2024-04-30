@@ -67,7 +67,7 @@ class Installation extends EA_Controller
             $this->instance->migrate();
 
             // Insert admin
-            $admin['timezone'] = 'UTC';
+            $admin['timezone'] = date_default_timezone_get();
             $admin['settings']['username'] = $admin['username'];
             $admin['settings']['password'] = $admin['password'];
             $admin['settings']['notifications'] = true;
@@ -79,6 +79,7 @@ class Installation extends EA_Controller
                 'user_id' => $admin['id'],
                 'user_email' => $admin['email'],
                 'role_slug' => DB_SLUG_ADMIN,
+                'language' => $admin['language'],
                 'timezone' => $admin['timezone'],
                 'username' => $admin['settings']['username'],
             ]);
