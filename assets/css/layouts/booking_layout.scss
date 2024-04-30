@@ -365,15 +365,11 @@ body {
 
 #message-frame,
 #success-frame {
-    background: #fff;
-    border: 1px solid #dddada;
-    padding: 70px;
-}
-
-#message-frame #message-icon,
-#success-frame #success-icon {
-    margin-top: 20px;
-    margin-right: 20px;
+    background: var(--bs-body-bg);
+    text-align: center;
+    height: auto;
+    border: none;
+    padding: 35px;
 }
 
 #message-frame .alert,
@@ -381,16 +377,10 @@ body {
     margin-top: 20px;
 }
 
-#message-frame,
-#success-frame {
-    text-align: center;
-    height: auto;
-    border: none;
-    padding: 35px;
-}
-
 #message-frame #message-icon,
 #success-frame #success-icon {
+    margin-top: 20px;
+    margin-right: 20px;
     width: 64px;
     display: block;
     margin: auto;
