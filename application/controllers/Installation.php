@@ -108,6 +108,8 @@ class Installation extends EA_Controller
                 'email' => 'jane@example.org',
                 'phone_number' => '+1 (000) 000-0000',
                 'services' => [$service_id],
+                'language' => $admin['language'],
+                'timezone' => $admin['timezone'],
                 'settings' => [
                     'username' => 'janedoe',
                     'password' => random_string(),
