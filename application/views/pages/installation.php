@@ -101,6 +101,21 @@
                 <input type="password" id="password-confirm" class="form-control required" maxlength="512">
             </div>
 
+            <div class="mb-3">
+                <label class="form-label" for="language">
+                    <?= lang('language') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <select id="language" class="form-control required">
+                    <?php $config_lang = config('language');
+                    foreach (vars('available_languages') as $lang): ?>
+                        <option value="<?= $lang ?>"<?= ($lang == $config_lang ?' selected':'') ?>>
+                            <?= ucfirst($lang) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
         </div>
 
         <div class="company-settings col-12 col-sm-5">
