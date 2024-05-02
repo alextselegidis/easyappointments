@@ -11,6 +11,7 @@
  * @var array $settings
  * @var array $timezone
  * @var string $appointment_link
+ * @var string $payment_link
  */
 ?>
 
@@ -37,6 +38,18 @@
         <p>
             <?= $message ?>
         </p>
+
+        <?php if (config('stripe_payment_feature') && ! empty($payment_link)): ?>
+            <h2>
+                <?= lang('appointment_payment_title') ?>
+            </h2>
+            <?php if ($appointment['is_paid']): ?>
+                <p><?= lang('appointment_paymentPaid_text') ?></p>
+            <?php else: ?>
+                <p><?= lang('appointment_payment_text') ?></p>
+                <a href="<?= $payment_link ?>" style="width: 600px;"><?= $payment_link ?></a>
+            <?php endif ?>
+        <?php endif ?>
 
         <h2>
             <?= lang('appointment_details_title') ?>

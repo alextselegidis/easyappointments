@@ -47,6 +47,7 @@ class Services_model extends EA_Model
         'attendantsNumber' => 'attendants_number',
         'isPrivate' => 'is_private',
         'serviceCategoryId' => 'id_service_categories',
+        'paymentLink' => 'payment_link',
     ];
 
     /**
@@ -419,6 +420,7 @@ class Services_model extends EA_Model
             'attendantsNumber' => (int) $service['attendants_number'],
             'serviceCategoryId' =>
                 $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null,
+            'paymentLink' => $service['payment_link'],
         ];
 
         $service = $encoded_resource;
@@ -462,7 +464,13 @@ class Services_model extends EA_Model
             $decoded_resource['location'] = $service['location'];
         }
 
-        if (array_key_exists('availabilitiesType', $service)) {
+        if (array_key_exists('paymentLink', $service))
+        {
+            $decoded_resource['payment_link'] = $service['paymentLink'];
+        }
+
+        if (array_key_exists('availabilitiesType', $service))
+        {
             $decoded_resource['availabilities_type'] = $service['availabilitiesType'];
         }
 

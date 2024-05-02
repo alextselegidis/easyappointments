@@ -161,6 +161,16 @@
                     <?= e($customer['address']) ?>
                 </td>
             </tr>
+            <?php if (config('stripe_payment_feature') && ! empty($appointment['payment_intent']) ): ?>
+                <tr>
+                    <td class="label" style="padding: 3px;font-weight: bold;">
+                        <?= lang('payment_intent') ?>
+                    </td>
+                    <td style="padding: 3px;">
+                        <?= e($appointment['payment_intent']) ?>
+                    </td>
+                </tr>
+            <?php endif ?>
         </table>
 
         <h2>

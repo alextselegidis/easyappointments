@@ -39,6 +39,8 @@ App.Components.AppointmentsModal = (function () {
     const $appointmentStatus = $('#appointment-status');
     const $appointmentColor = $('#appointment-color');
     const $appointmentNotes = $('#appointment-notes');
+    const $appointmentIsPaid = $('#appointment-is-paid');
+    const $goToPayment = $('#go_to_payment');
     const $reloadAppointments = $('#reload-appointments');
     const $selectFilterItem = $('#select-filter-item');
     const $selectService = $('#select-service');
@@ -99,6 +101,7 @@ App.Components.AppointmentsModal = (function () {
                 start_datetime: startDatetime,
                 end_datetime: endDatetime,
                 location: $appointmentLocation.val(),
+                is_paid: Number($appointmentIsPaid.prop('checked')),
                 color: App.Components.ColorSelection.getColor($appointmentColor),
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
@@ -432,6 +435,16 @@ App.Components.AppointmentsModal = (function () {
             $customField3.val('');
             $customField4.val('');
             $customField5.val('');
+        });
+
+        /**
+         * Event: Enter New Customer Button "Click"
+         */
+        $goToPayment.on('click', () => {
+            const payment_intent = $goToPayment.prop("data-payment-intent")
+            if(payment_intent){
+                window.open("https://dashboard.stripe.com/test/payments/" + payment_intent, "_blank");
+            }
         });
     }
 

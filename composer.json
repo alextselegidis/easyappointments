@@ -38,7 +38,8 @@
         "jsvrcek/ics": "^0.8.4",
         "monolog/monolog": "^2.8.0",
         "google/apiclient": "^2.12.6",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "guzzlehttp/guzzle": "^7.5.0",
+        "stripe/stripe-php": "^13.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
