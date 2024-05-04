@@ -147,11 +147,14 @@ class CI_Session {
 			setcookie(
 				$this->_config['cookie_name'],
 				session_id(),
-				(empty($this->_config['cookie_lifetime']) ? 0 : time() + $this->_config['cookie_lifetime']),
-				$this->_config['cookie_path'],
-				$this->_config['cookie_domain'],
-				$this->_config['cookie_secure'],
-				TRUE
+				[
+					'expires' => (empty($this->_config['cookie_lifetime']) ? 0 : time() + $this->_config['cookie_lifetime']),
+					'path' => $this->_config['cookie_path'],
+					'domain' => $this->_config['cookie_domain'],
+					'secure' => $this->_config['cookie_secure'],
+					'httponly' => TRUE,
+					'samesite' => $this->_config['cookie_samesite']
+				]
 			);
 		}
 
@@ -267,13 +270,30 @@ class CI_Session {
 		isset($params['cookie_domain']) OR $params['cookie_domain'] = config_item('cookie_domain');
 		isset($params['cookie_secure']) OR $params['cookie_secure'] = (bool) config_item('cookie_secure');
 
-		session_set_cookie_params(
-			$params['cookie_lifetime'],
-			$params['cookie_path'],
-			$params['cookie_domain'],
-			$params['cookie_secure'],
-			TRUE // HttpOnly; Yes, this is intentional and not configurable for security reasons
-		);
+		isset($params['cookie_samesite']) OR $params['cookie_samesite'] = config_item('sess_samesite');
+		if ( ! isset($params['cookie_samesite']))
+		{
+			$params['cookie_samesite'] = ini_get('session.cookie_samesite');
+		}
+
+		if (isset($params['cookie_samesite']))
+		{
+			$params['cookie_samesite'] = ucfirst(strtolower($params['cookie_samesite']));
+			in_array($params['cookie_samesite'], ['Lax', 'Strict', 'None'], TRUE) OR $params['cookie_samesite'] = 'Lax';
+		}
+		else
+		{
+			$params['cookie_samesite'] = 'Lax';
+		}
+
+		session_set_cookie_params([
+			'lifetime' => $params['cookie_lifetime'],
+			'path'     => $params['cookie_path'],
+			'domain'   => $params['cookie_domain'],
+			'secure'   => $params['cookie_secure'],
+			'httponly' => TRUE,// Yes, this is intentional and not configurable for security reasons
+			'samesite' => $params['cookie_samesite']
+		]);
 
 		if (empty($expiration))
 		{
