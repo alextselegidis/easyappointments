@@ -674,13 +674,13 @@ App.Pages.Booking = (function () {
                     ${providerOptionText}
                 </div>
                 <div class="mb-2">
-                    <i class="fas fa-clock me-2"></i>
-                    ${service.duration} ${lang('minutes')}
-                </div>
-                <div class="mb-2">
                     <i class="fas fa-calendar-day me-2"></i>
                     ${formattedSelectedDate}
                 </div> 
+                <div class="mb-2">
+                    <i class="fas fa-clock me-2"></i>
+                    ${service.duration} ${lang('minutes')}
+                </div>
                 <div class="mb-2">
                     <i class="fas fa-globe me-2"></i>
                     ${timezoneOptionText}
