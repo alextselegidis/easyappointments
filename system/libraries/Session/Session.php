@@ -105,7 +105,7 @@ class CI_Session {
 		$class = new $class($this->_config);
 		if ($class instanceof SessionHandlerInterface)
 		{
-			session_set_save_handler($class, TRUE);
+			@session_set_save_handler($class, TRUE);
 		}
 		else
 		{
@@ -260,14 +260,14 @@ class CI_Session {
 		}
 		else
 		{
-			ini_set('session.name', $params['cookie_name']);
+			@ini_set('session.name', $params['cookie_name']);
 		}
 
 		isset($params['cookie_path']) OR $params['cookie_path'] = config_item('cookie_path');
 		isset($params['cookie_domain']) OR $params['cookie_domain'] = config_item('cookie_domain');
 		isset($params['cookie_secure']) OR $params['cookie_secure'] = (bool) config_item('cookie_secure');
 
-		session_set_cookie_params(
+		@session_set_cookie_params(
 			$params['cookie_lifetime'],
 			$params['cookie_path'],
 			$params['cookie_domain'],
@@ -282,7 +282,7 @@ class CI_Session {
 		else
 		{
 			$params['expiration'] = (int) $expiration;
-			ini_set('session.gc_maxlifetime', $expiration);
+			@ini_set('session.gc_maxlifetime', $expiration);
 		}
 
 		$params['match_ip'] = (bool) (isset($params['match_ip']) ? $params['match_ip'] : config_item('sess_match_ip'));
@@ -292,10 +292,10 @@ class CI_Session {
 		$this->_config = $params;
 
 		// Security is king
-		ini_set('session.use_trans_sid', 0);
-		ini_set('session.use_strict_mode', 1);
-		ini_set('session.use_cookies', 1);
-		ini_set('session.use_only_cookies', 1);
+		@ini_set('session.use_trans_sid', 0);
+		@ini_set('session.use_strict_mode', 1);
+		@ini_set('session.use_cookies', 1);
+		@ini_set('session.use_only_cookies', 1);
 
 		$this->_configure_sid_length();
 	}
@@ -326,19 +326,19 @@ class CI_Session {
 			{
 				if ($hash_function !== '1')
 				{
-					ini_set('session.hash_function', 1);
+					@ini_set('session.hash_function', 1);
 				}
 
 				$bits = 160;
 			}
 			elseif ( ! in_array($hash_function, hash_algos(), TRUE))
 			{
-				ini_set('session.hash_function', 1);
+				@ini_set('session.hash_function', 1);
 				$bits = 160;
 			}
 			elseif (($bits = strlen(hash($hash_function, 'dummy', false)) * 4) < 160)
 			{
-				ini_set('session.hash_function', 1);
+				@ini_set('session.hash_function', 1);
 				$bits = 160;
 			}
 
@@ -353,7 +353,7 @@ class CI_Session {
 			{
 				// Add as many more characters as necessary to reach at least 160 bits
 				$sid_length += (int) ceil((160 % $bits) / $bits_per_character);
-				ini_set('session.sid_length', $sid_length);
+				@ini_set('session.sid_length', $sid_length);
 			}
 		}
 
