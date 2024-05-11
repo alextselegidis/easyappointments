@@ -17,6 +17,7 @@
  * Old Name: FrontendBookApi
  */
 App.Http.Booking = (function () {
+    const $selectDate = $('#select-date');
     const $selectService = $('#select-service');
     const $selectProvider = $('#select-provider');
     const $availableHours = $('#available-hours');
@@ -264,49 +265,53 @@ App.Http.Booking = (function () {
             type: 'GET',
             data: data,
             dataType: 'json',
-        }).done((response) => {
-            // In case the current month has no availability, the app will try the next one or the one after in order to
-            // find a date that has at least one slot
+        })
+            .done((response) => {
+                // In case the current month has no availability, the app will try the next one or the one after in order to
+                // find a date that has at least one slot
 
-            if (response.is_month_unavailable) {
-                if (!searchedMonthStart) {
-                    searchedMonthStart = selectedDateString;
-                }
-
-                if (searchedMonthCounter >= MONTH_SEARCH_LIMIT) {
-                    // Need to mark the current month dates as unavailable
-                    const selectedDateMoment = moment(searchedMonthStart);
-                    const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
-                    const endOfMonthMoment = selectedDateMoment.clone().endOf('month');
-                    const unavailableDates = [];
-
-                    while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
-                        unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
-                        startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
+                if (response.is_month_unavailable) {
+                    if (!searchedMonthStart) {
+                        searchedMonthStart = selectedDateString;
                     }
 
-                    applyUnavailableDates(unavailableDates, searchedMonthStart, true);
-                    searchedMonthStart = undefined;
-                    searchedMonthCounter = 0;
+                    if (searchedMonthCounter >= MONTH_SEARCH_LIMIT) {
+                        // Need to mark the current month dates as unavailable
+                        const selectedDateMoment = moment(searchedMonthStart);
+                        const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
+                        const endOfMonthMoment = selectedDateMoment.clone().endOf('month');
+                        const unavailableDates = [];
 
-                    return; // Stop searching
+                        while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
+                            unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
+                            startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
+                        }
+
+                        applyUnavailableDates(unavailableDates, searchedMonthStart, true);
+                        searchedMonthStart = undefined;
+                        searchedMonthCounter = 0;
+
+                        return; // Stop searching
+                    }
+
+                    searchedMonthCounter++;
+
+                    const selectedDateMoment = moment(selectedDateString);
+                    selectedDateMoment.add(1, 'month');
+
+                    const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
+                    getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
+
+                    return;
                 }
 
-                searchedMonthCounter++;
-
-                const selectedDateMoment = moment(selectedDateString);
-                selectedDateMoment.add(1, 'month');
-
-                const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
-                getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
-
-                return;
-            }
-
-            unavailableDatesBackup = response;
-            selectedDateStringBackup = selectedDateString;
-            applyUnavailableDates(response, selectedDateString, true);
-        });
+                unavailableDatesBackup = response;
+                selectedDateStringBackup = selectedDateString;
+                applyUnavailableDates(response, selectedDateString, true);
+            })
+            .fail(() => {
+                $selectDate.parent().fadeTo(400, 1);
+            });
     }
 
     function applyPreviousUnavailableDates() {
@@ -315,6 +320,8 @@ App.Http.Booking = (function () {
 
     function applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
         setDate = setDate || false;
+
+        $selectDate.parent().fadeTo(400, 1);
 
         processingUnavailableDates = true;
 
@@ -329,7 +336,7 @@ App.Http.Booking = (function () {
         }
 
         // Grey out unavailable dates.
-        $('#select-date')[0]._flatpickr.set(
+        $selectDate[0]._flatpickr.set(
             'disable',
             unavailableDates.map((unavailableDate) => new Date(unavailableDate)),
         );
@@ -339,7 +346,7 @@ App.Http.Booking = (function () {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
 
                 if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
-                    App.Utils.UI.setDateTimePickerValue($('#select-date'), currentDate);
+                    App.Utils.UI.setDateTimePickerValue($selectDate, currentDate);
                     getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
                     break;
                 }
@@ -356,7 +363,7 @@ App.Http.Booking = (function () {
                 !unavailableDates.includes(dateQueryParam) &&
                 dateQueryParamMoment.format('YYYY-MM') === selectedDateMoment.format('YYYY-MM')
             ) {
-                App.Utils.UI.setDateTimePickerValue($('#select-date'), dateQueryParamMoment.toDate());
+                App.Utils.UI.setDateTimePickerValue($selectDate, dateQueryParamMoment.toDate());
             }
         }
 
