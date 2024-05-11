@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="<?= config('language_code') ?>">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
@@ -24,7 +24,7 @@
 <div class="content container">
     <div class="welcome">
         <h3>Welcome to the Easy!Appointments installation page.</h3>
-        <p>
+        <p><details>
             This page will help you set the main settings of your Easy!Appointments installation. You will be able to
             edit these settings and many more in the backend session of your system. Remember to use the
             <strong class="text-primary"><?= site_url('user/login') ?></strong> URL to connect to the backend section
@@ -36,68 +36,130 @@
             submit new issues on
             <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
             in order to help our development process.
-        </p>
+        </details></p>
     </div>
 
-    <div class="alert d-none"></div>
+    <div class="alert" hidden></div>
 
     <div class="row">
         <div class="admin-settings col-12 col-sm-5">
-            <h3>Administrator</h3>
+            <h3 class="text-black-50 mb-3 fw-light">Administrator</h3>
 
             <div class="mb-3">
-                <label for="first-name" class="form-label">First Name</label>
-                <input type="text" id="first-name" class="form-control"/>
+                <label class="form-label" for="first-name">
+                    <?= lang('first_name') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="first-name" class="form-control required" maxlength="256">
             </div>
 
             <div class="mb-3">
-                <label for="last-name" class="form-label">Last Name</label>
-                <input type="text" id="last-name" class="form-control"/>
+                <label class="form-label" for="last-name">
+                    <?= lang('last_name') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="last-name" class="form-control required" maxlength="512">
             </div>
 
             <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="text" id="email" class="form-control"/>
+                <label class="form-label" for="email">
+                    <?= lang('email') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="email" class="form-control required" maxlength="512">
             </div>
 
             <div class="mb-3">
-                <label for="phone-number" class="form-label">Phone Number</label>
-                <input type="text" id="phone-number" class="form-control"/>
+                <label class="form-label" for="phone-number">
+                    <?= lang('phone_number') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="phone-number" class="form-control required" maxlength="128">
             </div>
 
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" id="username" class="form-control"/>
+                <label class="form-label" for="username">
+                    <?= lang('username') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="username" class="form-control required" maxlength="256">
             </div>
 
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" id="password" class="form-control"/>
+                <label class="form-label" for="password">
+                    <?= lang('password') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="password" id="password" class="form-control required" maxlength="512">
             </div>
 
             <div class="mb-3">
-                <label for="retype-password" class="form-label">Retype Password</label>
-                <input type="password" id="retype-password" class="form-control"/>
+                <label class="form-label" for="password-confirm">
+                    <?= lang('retype_password') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input type="password" id="password-confirm" class="form-control required" maxlength="512">
             </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="language">
+                    <?= lang('language') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <select id="language" class="form-control required">
+                    <?php $config_lang = config('language');
+                    foreach (vars('available_languages') as $lang): ?>
+                        <option value="<?= $lang ?>"<?= ($lang == $config_lang ?' selected':'') ?>>
+                            <?= ucfirst($lang) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
         </div>
 
         <div class="company-settings col-12 col-sm-5">
-            <h3>Company</h3>
+            <h3 class="text-black-50 mb-3 fw-light"><?= lang('company') ?></h3>
 
             <div class="mb-3">
-                <label for="company-name" class="form-label">Company Name</label>
-                <input type="text" id="company-name" class="form-control"/>
+                <label class="form-label" for="company-name">
+                    <?= lang('company_name') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="company-name" data-field="company_name" class="required form-control">
+                <div class="form-text text-muted">
+                    <small>
+                        <?= lang('company_name_hint') ?>
+                    </small>
+                </div>
             </div>
 
             <div class="mb-3">
-                <label for="company-email" class="form-label">Company Email</label>
-                <input type="text" id="company-email" class="form-control"/>
+                <label class="form-label" for="company-email">
+                    <?= lang('company_email') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="company-email" data-field="company_email" class="required form-control">
+                <div class="form-text text-muted">
+                    <small>
+                        <?= lang('company_email_hint') ?>
+                    </small>
+                </div>
             </div>
 
             <div class="mb-3">
-                <label for="company-link" class="form-label">Company Link</label>
-                <input type="text" id="company-link" class="form-control"/>
+                <label class="form-label" for="company-link">
+                    <?= lang('company_link') ?>
+                    <span class="text-danger">*</span>
+                </label>
+                <input id="company-link" data-field="company_link" class="required form-control">
+                <div class="form-text text-muted">
+                    <small>
+                        <?= lang('company_link_hint') ?>
+                    </small>
+                </div>
             </div>
+
         </div>
     </div>
 
