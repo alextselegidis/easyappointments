@@ -453,4 +453,5 @@ $lang['webhook_saved'] = 'Webhook enregistré avec succès.';
 $lang['webhook_deleted'] = 'Webhook supprimé avec succès.';
 $lang['delete_webhook'] = 'Supprimer le webhook';
 $lang['contact_info'] = 'Coordonnées';
+$lang['hide_from_public'] = 'Hide From Public';
 // End

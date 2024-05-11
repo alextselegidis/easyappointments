@@ -453,4 +453,5 @@ $lang['webhook_saved'] = 'Webhook bol úspešne uložený.';
 $lang['webhook_deleted'] = 'Webhook bol úspešne odstránený.';
 $lang['delete_webhook'] = 'Odstrániť webhook';
 $lang['contact_info'] = 'Kontaktné informácie';
+$lang['hide_from_public'] = 'Hide From Public';
 // End
