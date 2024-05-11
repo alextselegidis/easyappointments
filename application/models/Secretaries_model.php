@@ -222,25 +222,9 @@ class Secretaries_model extends EA_Model
         $secretaries = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
 
         foreach ($secretaries as &$secretary) {
-            $secretary['settings'] = $this->db
-                ->get_where('user_settings', ['id_users' => $secretary['id']])
-                ->row_array();
-
-            unset(
-                $secretary['settings']['id_users'],
-                $secretary['settings']['password'],
-                $secretary['settings']['salt'],
-            );
-
-            $secretary_provider_connections = $this->db
-                ->get_where('secretaries_providers', ['id_users_secretary' => $secretary['id']])
-                ->result_array();
-
-            $secretary['providers'] = [];
-
-            foreach ($secretary_provider_connections as $secretary_provider_connection) {
-                $secretary['providers'][] = (int) $secretary_provider_connection['id_users_provider'];
-            }
+            $this->cast($secretary);
+            $secretary['settings'] = $this->get_settings($secretary['id']);
+            $secretary['providers'] = $this->get_provider_ids($secretary['id']);
         }
 
         return $secretaries;
@@ -292,21 +276,21 @@ class Secretaries_model extends EA_Model
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        $this->save_settings($secretary['id'], $settings);
-        $this->save_provider_ids($secretary['id'], $provider_ids);
+        $this->set_settings($secretary['id'], $settings);
+        $this->set_provider_ids($secretary['id'], $provider_ids);
 
         return $secretary['id'];
     }
 
     /**
-     * Save the secretary settings.
+     * Set the secretary settings.
      *
      * @param int $secretary_id Secretary ID.
      * @param array $settings Associative array with the settings data.
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $secretary_id, array $settings): void
+    public function set_settings(int $secretary_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -322,6 +306,22 @@ class Secretaries_model extends EA_Model
         foreach ($settings as $name => $value) {
             $this->set_setting($secretary_id, $name, $value);
         }
+    }
+
+    /**
+     * Get the secretary settings.
+     *
+     * @param int $secretary_id Secretary ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $secretary_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
     }
 
     /**
@@ -375,19 +375,19 @@ class Secretaries_model extends EA_Model
             throw new RuntimeException('Could not update secretary.');
         }
 
-        $this->save_settings($secretary['id'], $settings);
-        $this->save_provider_ids($secretary['id'], $provider_ids);
+        $this->set_settings($secretary['id'], $settings);
+        $this->set_provider_ids($secretary['id'], $provider_ids);
 
         return (int) $secretary['id'];
     }
 
     /**
-     * Save the secretary provider IDs.
+     * Set the secretary provider IDs.
      *
      * @param int $secretary_id Secretary ID.
      * @param array $provider_ids Provider IDs.
      */
-    protected function save_provider_ids(int $secretary_id, array $provider_ids): void
+    public function set_provider_ids(int $secretary_id, array $provider_ids): void
     {
         // Re-insert the secretary-provider connections.
         $this->db->delete('secretaries_providers', ['id_users_secretary' => $secretary_id]);
@@ -400,6 +400,26 @@ class Secretaries_model extends EA_Model
 
             $this->db->insert('secretaries_providers', $secretary_provider_connection);
         }
+    }
+
+    /**
+     * Get the secretary provider IDs.
+     *
+     * @param int $secretary_id Secretary ID.
+     */
+    public function get_provider_ids(int $secretary_id): array
+    {
+        $secretary_provider_connections = $this->db
+            ->get_where('secretaries_providers', ['id_users_secretary' => $secretary_id])
+            ->result_array();
+
+        $provider_ids = [];
+
+        foreach ($secretary_provider_connections as $secretary_provider_connection) {
+            $provider_ids[] = (int) $secretary_provider_connection['id_users_provider'];
+        }
+
+        return $provider_ids;
     }
 
     /**
@@ -522,25 +542,9 @@ class Secretaries_model extends EA_Model
             ->result_array();
 
         foreach ($secretaries as &$secretary) {
-            $secretary['settings'] = $this->db
-                ->get_where('user_settings', ['id_users' => $secretary['id']])
-                ->row_array();
-
-            unset(
-                $secretary['settings']['id_users'],
-                $secretary['settings']['password'],
-                $secretary['settings']['salt'],
-            );
-
-            $secretary_provider_connections = $this->db
-                ->get_where('secretaries_providers', ['id_users_secretary' => $secretary['id']])
-                ->result_array();
-
-            $secretary['providers'] = [];
-
-            foreach ($secretary_provider_connections as $secretary_provider_connection) {
-                $secretary['providers'][] = (int) $secretary_provider_connection['id_users_provider'];
-            }
+            $this->cast($secretary);
+            $secretary['settings'] = $this->get_settings($secretary['id']);
+            $secretary['providers'] = $this->get_provider_ids($secretary['id']);
         }
 
         return $secretaries;
@@ -731,19 +735,9 @@ class Secretaries_model extends EA_Model
             );
         }
 
-        $secretary['settings'] = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
-
-        unset($secretary['settings']['id_users'], $secretary['settings']['password'], $secretary['settings']['salt']);
-
-        $secretary_provider_connections = $this->db
-            ->get_where('secretaries_providers', ['id_users_secretary' => $secretary_id])
-            ->result_array();
-
-        $secretary['providers'] = [];
-
-        foreach ($secretary_provider_connections as $secretary_provider_connection) {
-            $secretary['providers'][] = (int) $secretary_provider_connection['id_users_provider'];
-        }
+        $this->cast($secretary);
+        $secretary['settings'] = $this->get_settings($secretary['id']);
+        $secretary['providers'] = $this->get_provider_ids($secretary['id']);
 
         return $secretary;
     }
