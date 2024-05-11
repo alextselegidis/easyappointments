@@ -130,8 +130,8 @@
                                         <span class="text-danger">*</span>
                                     </label>
                                     <select id="calendar-view" class="form-control required">
-                                        <option value="default">Default</option>
-                                        <option value="table">Table</option>
+                                        <option value="default"><?= lang('default') ?></option>
+                                        <option value="table"><?= lang('table') ?></option>
                                     </select>
                                 </div>
 
