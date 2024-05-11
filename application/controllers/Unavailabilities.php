@@ -20,6 +20,16 @@
  */
 class Unavailabilities extends EA_Controller
 {
+    public array $allowed_unavailability_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'is_unavailability',
+        'id_users_provider',
+    ];
+
     /**
      * Unavailabilities constructor.
      */
@@ -73,19 +83,7 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = request('unavailability');
 
-            $this->unavailabilities_model->only($unavailability, [
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-            ]);
+            $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
@@ -137,6 +135,8 @@ class Unavailabilities extends EA_Controller
             }
 
             $unavailability = request('unavailability');
+
+            $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 

@@ -20,6 +20,8 @@
  */
 class Booking_settings extends EA_Controller
 {
+    public array $allowed_setting_fields = ['id', 'name', 'value'];
+
     /**
      * Booking_settings constructor.
      */
@@ -100,7 +102,7 @@ class Booking_settings extends EA_Controller
                     $setting['id'] = $existing_setting['id'];
                 }
 
-                $this->settings_model->only($setting, ['id', 'name', 'value']);
+                $this->settings_model->only($setting, $this->allowed_setting_fields);
 
                 $this->settings_model->save($setting);
             }

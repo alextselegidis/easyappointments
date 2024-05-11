@@ -20,6 +20,39 @@
  */
 class Calendar extends EA_Controller
 {
+    public array $allowed_customer_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'timezone',
+        'language',
+        'notes',
+        'custom_field_1',
+        'custom_field_2',
+        'custom_field_3',
+        'custom_field_4',
+        'custom_field_5',
+    ];
+    public array $allowed_appointment_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'color',
+        'status',
+        'is_unavailability',
+        'id_users_provider',
+        'id_users_customer',
+        'id_services',
+    ];
+
     /**
      * Calendar constructor.
      */
@@ -198,25 +231,7 @@ class Calendar extends EA_Controller
                     throw new RuntimeException('You do not have the required permissions for this task.');
                 }
 
-                $this->customers_model->only($customer, [
-                    'id',
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'phone_number',
-                    'address',
-                    'city',
-                    'state',
-                    'zip_code',
-                    'timezone',
-                    'language',
-                    'notes',
-                    'custom_field_1',
-                    'custom_field_2',
-                    'custom_field_3',
-                    'custom_field_4',
-                    'custom_field_5',
-                ]);
+                $this->customers_model->only($customer, $this->allowed_customer_fields);
 
                 $customer['id'] = $this->customers_model->save($customer);
             }
@@ -245,19 +260,7 @@ class Calendar extends EA_Controller
                     $this->synchronization->remove_appointment_on_provider_change($appointment['id']);
                 }
 
-                $this->appointments_model->only($appointment, [
-                    'id',
-                    'start_datetime',
-                    'end_datetime',
-                    'location',
-                    'notes',
-                    'color',
-                    'status',
-                    'is_unavailability',
-                    'id_users_provider',
-                    'id_users_customer',
-                    'id_services',
-                ]);
+                $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
                 $appointment['id'] = $this->appointments_model->save($appointment);
             }

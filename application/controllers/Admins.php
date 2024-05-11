@@ -20,6 +20,25 @@
  */
 class Admins extends EA_Controller
 {
+    public array $allowed_admin_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'mobile_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'settings',
+    ];
+
+    public array $allowed_admin_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
     /**
      * Admins constructor.
      */
@@ -117,23 +136,9 @@ class Admins extends EA_Controller
 
             $admin = request('admin');
 
-            $this->admins_model->only($admin, [
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->admins_model->only($admin, $this->allowed_admin_fields);
 
-            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -182,24 +187,9 @@ class Admins extends EA_Controller
 
             $admin = request('admin');
 
-            $this->admins_model->only($admin, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->admins_model->only($admin, $this->allowed_admin_fields);
 
-            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 
