@@ -17,6 +17,8 @@
 App.Pages.Calendar = (function () {
     const $insertWorkingPlanException = $('#insert-working-plan-exception');
 
+    const moment = window.moment;
+
     /**
      * Add the page event listeners.
      */
@@ -150,13 +152,13 @@ App.Pages.Calendar = (function () {
             App.Utils.CalendarDefaultView.initialize();
         }
 
-        addEventListeners();
+        App.Pages.Calendar.addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
-        initialize,
+        addEventListeners,
         getSelectionEndDate,
     };
 })();
