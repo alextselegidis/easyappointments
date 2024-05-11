@@ -40,8 +40,8 @@ App.Pages.Webhooks = (function () {
             event.preventDefault();
             const key = $filterWebhooks.find('.key').val();
             $filterWebhooks.find('.selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.Webhooks.resetForm();
+            App.Pages.Webhooks.filter(key);
         });
 
         /**
@@ -59,7 +59,7 @@ App.Pages.Webhooks = (function () {
 
             const webhook = filterResults.find((filterResult) => Number(filterResult.id) === Number(webhookId));
 
-            display(webhook);
+            App.Pages.Webhooks.display(webhook);
 
             $filterWebhooks.find('.selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
@@ -70,7 +70,7 @@ App.Pages.Webhooks = (function () {
          * Event: Add New Webhook Button "Click"
          */
         $webhooks.on('click', '#add-webhook', () => {
-            resetForm();
+            App.Pages.Webhooks.resetForm();
             $webhooks.find('.add-edit-delete-group').hide();
             $webhooks.find('.save-cancel-group').show();
             $webhooks.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -87,7 +87,7 @@ App.Pages.Webhooks = (function () {
         $webhooks.on('click', '#cancel-webhook', () => {
             const id = $id.val();
 
-            resetForm();
+            App.Pages.Webhooks.resetForm();
 
             if (id !== '') {
                 select(id, true);
@@ -120,11 +120,11 @@ App.Pages.Webhooks = (function () {
                 webhook.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.Webhooks.validate()) {
                 return;
             }
 
-            save(webhook);
+            App.Pages.Webhooks.save(webhook);
         });
 
         /**
@@ -154,7 +154,7 @@ App.Pages.Webhooks = (function () {
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
-                        remove(webhookId);
+                        App.Pages.Webhooks.remove(webhookId);
                         messageModal.dispose();
                     },
                 },
@@ -173,9 +173,9 @@ App.Pages.Webhooks = (function () {
     function save(webhook) {
         App.Http.Webhooks.save(webhook).then((response) => {
             App.Layouts.Backend.displayNotification(lang('webhook_saved'));
-            resetForm();
+            App.Pages.Webhooks.resetForm();
             $filterWebhooks.find('.key').val('');
-            filter('', response.id, true);
+            App.Pages.Webhooks.filter('', response.id, true);
         });
     }
 
@@ -187,8 +187,8 @@ App.Pages.Webhooks = (function () {
     function remove(id) {
         App.Http.Webhooks.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('webhook_deleted'));
-            resetForm();
-            filter($filterWebhooks.find('.key').val());
+            App.Pages.Webhooks.resetForm();
+            App.Pages.Webhooks.filter($filterWebhooks.find('.key').val());
         });
     }
 
@@ -280,7 +280,7 @@ App.Pages.Webhooks = (function () {
             $filterWebhooks.find('.results').empty();
 
             response.forEach((webhook) => {
-                $filterWebhooks.find('.results').append(getFilterHtml(webhook)).append($('<hr/>'));
+                $filterWebhooks.find('.results').append(App.Pages.Webhooks.getFilterHtml(webhook)).append($('<hr/>'));
             });
 
             if (response.length === 0) {
@@ -296,13 +296,13 @@ App.Pages.Webhooks = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.Webhooks.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-webhooks .results');
             }
 
             if (selectId) {
-                select(selectId, show);
+                App.Pages.Webhooks.select(selectId, show);
             }
         });
     }
@@ -355,7 +355,7 @@ App.Pages.Webhooks = (function () {
         if (show) {
             const webhook = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
-            display(webhook);
+            App.Pages.Webhooks.display(webhook);
 
             $('#edit-webhook, #delete-webhook').prop('disabled', false);
         }
@@ -365,9 +365,9 @@ App.Pages.Webhooks = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.Webhooks.resetForm();
+        App.Pages.Webhooks.filter('');
+        App.Pages.Webhooks.addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
@@ -376,8 +376,11 @@ App.Pages.Webhooks = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();
