@@ -124,7 +124,7 @@ class CI_Session {
 			unset($_COOKIE[$this->_config['cookie_name']]);
 		}
 
-		session_start();
+		@session_start();
 
 		// Is session ID auto-regeneration configured? (ignoring ajax requests)
 		if ((empty($_SERVER['HTTP_X_REQUESTED_WITH']) OR strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) !== 'xmlhttprequest')
