@@ -20,6 +20,8 @@
                 <?= lang('customers') ?>
             </h4>
 
+            <?php slot('after_page_title'); ?>
+
             <div class="results">
                 <!-- JS -->
             </div>
@@ -62,6 +64,8 @@
                         <?= lang('cancel') ?>
                     </button>
                 </div>
+
+                <?php slot('after_page_actions'); ?>
             </div>
 
             <input id="customer-id" type="hidden">
@@ -191,6 +195,8 @@
                         </label>
                         <textarea id="notes" rows="4" class="form-control" disabled></textarea>
                     </div>
+
+                    <?php slot('after_primary_fields'); ?>
                 </div>
 
                 <div class="col-12 col-md-6">
@@ -199,6 +205,8 @@
                     </h4>
 
                     <div id="customer-appointments" class="card bg-white border"></div>
+
+                    <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>
         </div>

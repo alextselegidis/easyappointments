@@ -76,6 +76,8 @@
                     <i class="fas fa-calendar-alt"></i>
                 </a>
             <?php endif; ?>
+
+            <?php slot('after_calendar_actions'); ?>
         </div>
     </div>
 

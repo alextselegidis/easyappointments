@@ -28,6 +28,8 @@
                             <select id="unavailability-provider" class="form-control"></select>
                         </div>
 
+                        <?php slot('after_select_appointment_provider'); ?>
+                     
                         <div class="mb-3">
                             <label for="unavailability-start" class="form-label">
                                 <?= lang('start') ?>
@@ -55,16 +57,16 @@
                                     <small>
                                         <?= lang('provider') ?>:
                                         <span class="provider-timezone">
-                                                    -
-                                                </span>
+                                            -
+                                        </span>
                                     </small>
                                 </div>
                                 <div class="w-50 p-1 text-center">
                                     <small>
                                         <?= lang('current_user') ?>:
                                         <span>
-                                                    <?= $timezones[session('timezone', 'UTC')] ?>
-                                                </span>
+                                            <?= $timezones[session('timezone', 'UTC')] ?>
+                                        </span>
                                     </small>
                                 </div>
                             </div>
@@ -76,10 +78,14 @@
                             </label>
                             <textarea id="unavailability-notes" rows="3" class="form-control"></textarea>
                         </div>
+
+                        <?php slot('after_primary_unavailability_fields'); ?>
                     </fieldset>
                 </form>
             </div>
             <div class="modal-footer">
+                <?php slot('after_unavailability_actions'); ?>
+                
                 <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>

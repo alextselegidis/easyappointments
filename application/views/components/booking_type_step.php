@@ -74,6 +74,8 @@
                         ?>
                     </select>
                 </div>
+                
+                <?php slot('after_select_service'); ?>
 
                 <div class="mb-3">
                     <label for="select-provider">
@@ -83,9 +85,14 @@
                     <select id="select-provider" class="form-control"></select>
                 </div>
 
+                <?php slot('after_select_provider'); ?>
+
                 <div id="service-description" class="small">
                     <!-- JS -->
                 </div>
+
+                <?php slot('after_service_description'); ?>
+                
             </div>
         </div>
     </div>

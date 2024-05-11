@@ -16,10 +16,14 @@
             <div id="appointment-details" class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
                 <!-- JS -->
             </div>
+
             <div id="customer-details" class="col-12 col-md-6 text-center text-md-end">
                 <!-- JS -->
             </div>
+       
         </div>
+
+        <?php slot('after_details'); ?>
         
         <?php if (setting('require_captcha')): ?>
             <div class="row frame-content m-auto">
@@ -36,6 +40,8 @@
                 </div>
             </div>
         <?php endif; ?>
+        
+        <?php slot('after_captcha'); ?>
     </div>
 
     <div class="d-flex fs-6 justify-content-around">
@@ -62,6 +68,8 @@
                 </label>
             </div>
         <?php endif; ?>
+
+        <?php slot('after_select_policies'); ?>
     </div>
 
     <div class="command-buttons">

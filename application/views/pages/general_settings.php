@@ -193,6 +193,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>

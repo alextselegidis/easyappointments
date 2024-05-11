@@ -79,6 +79,8 @@
                                class="<?= $require_phone_number ? 'required' : '' ?> form-control"/>
                     </div>
                 <?php endif; ?>
+
+                <?php slot('info_first_column'); ?>
             </div>
 
             <div class="col-12 col-md-6 field-col mx-auto">
@@ -130,10 +132,15 @@
                                   class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
                     </div>
                 <?php endif; ?>
+            
+                <?php slot('info_second_column'); ?>
+                
             </div>
 
             <div class="mb-3">
                 <?php component('custom_fields'); ?>
+
+                <?php slot('after_custom_fields'); ?>
             </div>
         </div>
     </div>
