@@ -72,7 +72,7 @@ class Webhooks_model extends EA_Model
      */
     public function validate(array $webhook): void
     {
-        if (empty($webhook['name']) || empty($webhook['url']) || empty($webhook['actions'])) {
+        if (empty($webhook['name']) || empty($webhook['url'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($webhook, true));
         }
     }
