@@ -111,6 +111,8 @@ App.Pages.Booking = (function () {
             },
 
             onMonthChange: (selectedDates, dateStr, instance) => {
+                $selectDate.parent().fadeTo(400, 0.3); // Change opacity during loading
+
                 if (monthTimeout) {
                     clearTimeout(monthTimeout);
                 }
