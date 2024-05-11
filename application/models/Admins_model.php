@@ -211,10 +211,7 @@ class Admins_model extends EA_Model
 
         foreach ($admins as &$admin) {
             $this->cast($admin);
-
-            $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
-
-            unset($admin['settings']['id_users'], $admin['settings']['password'], $admin['settings']['salt']);
+            $admin['settings'] = $this->get_settings($admin['id']);
         }
 
         return $admins;
@@ -264,7 +261,7 @@ class Admins_model extends EA_Model
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        $this->save_settings($admin['id'], $settings);
+        $this->set_settings($admin['id'], $settings);
 
         return $admin['id'];
     }
@@ -277,7 +274,7 @@ class Admins_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $admin_id, array $settings): void
+    public function set_settings(int $admin_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -293,6 +290,22 @@ class Admins_model extends EA_Model
         foreach ($settings as $name => $value) {
             $this->set_setting($admin_id, $name, $value);
         }
+    }
+
+    /**
+     * Get the admin settings.
+     *
+     * @param int $admin_id Admin ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $admin_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
     }
 
     /**
@@ -347,7 +360,7 @@ class Admins_model extends EA_Model
             throw new RuntimeException('Could not update admin.');
         }
 
-        $this->save_settings($admin['id'], $settings);
+        $this->set_settings($admin['id'], $settings);
 
         return $admin['id'];
     }
@@ -390,10 +403,7 @@ class Admins_model extends EA_Model
         }
 
         $this->cast($admin);
-
-        $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
-
-        unset($admin['settings']['id_users'], $admin['settings']['password'], $admin['settings']['salt']);
+        $admin['settings'] = $this->get_settings($admin['id']);
 
         return $admin;
     }
@@ -507,10 +517,7 @@ class Admins_model extends EA_Model
 
         foreach ($admins as &$admin) {
             $this->cast($admin);
-
-            $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
-
-            unset($admin['settings']['id_users'], $admin['settings']['password'], $admin['settings']['salt']);
+            $admin['settings'] = $this->get_settings($admin['id']);
         }
 
         return $admins;

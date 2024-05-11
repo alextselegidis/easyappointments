@@ -225,20 +225,8 @@ class Providers_model extends EA_Model
 
         foreach ($providers as &$provider) {
             $this->cast($provider);
-
-            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
-
-            unset($provider['settings']['id_users'], $provider['settings']['password'], $provider['settings']['salt']);
-
-            $provider['services'] = [];
-
-            $service_provider_connections = $this->db
-                ->get_where('services_providers', ['id_users' => $provider['id']])
-                ->result_array();
-
-            foreach ($service_provider_connections as $service_provider_connection) {
-                $provider['services'][] = (int) $service_provider_connection['id_services'];
-            }
+            $provider['settings'] = $this->get_settings($provider['id']);
+            $provider['services'] = $this->get_service_ids($provider['id']);
         }
 
         return $providers;
@@ -289,8 +277,8 @@ class Providers_model extends EA_Model
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        $this->save_settings($provider['id'], $settings);
-        $this->save_service_ids($provider['id'], $service_ids);
+        $this->set_settings($provider['id'], $settings);
+        $this->set_service_ids($provider['id'], $service_ids);
 
         return $provider['id'];
     }
@@ -303,7 +291,7 @@ class Providers_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $provider_id, array $settings): void
+    public function set_settings(int $provider_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -332,6 +320,22 @@ class Providers_model extends EA_Model
 
             $this->set_setting($provider_id, $name, $value);
         }
+    }
+
+    /**
+     * Get the provider settings.
+     *
+     * @param int $provider_id Provider ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $provider_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
     }
 
     /**
@@ -385,8 +389,8 @@ class Providers_model extends EA_Model
             throw new RuntimeException('Could not update provider.');
         }
 
-        $this->save_settings($provider['id'], $settings);
-        $this->save_service_ids($provider['id'], $service_ids);
+        $this->set_settings($provider['id'], $settings);
+        $this->set_service_ids($provider['id'], $service_ids);
 
         return $provider['id'];
     }
@@ -397,7 +401,7 @@ class Providers_model extends EA_Model
      * @param int $provider_id Provider ID.
      * @param array $service_ids Service IDs.
      */
-    protected function save_service_ids(int $provider_id, array $service_ids): void
+    public function set_service_ids(int $provider_id, array $service_ids): void
     {
         // Re-insert the provider-service connections.
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
@@ -410,6 +414,26 @@ class Providers_model extends EA_Model
 
             $this->db->insert('services_providers', $service_provider_connection);
         }
+    }
+
+    /**
+     * Get the provider service IDs.
+     *
+     * @param int $provider_id Provider ID.
+     */
+    public function get_service_ids(int $provider_id): array
+    {
+        $service_provider_connections = $this->db
+            ->get_where('services_providers', ['id_users' => $provider_id])
+            ->result_array();
+
+        $service_ids = [];
+
+        foreach ($service_provider_connections as $service_provider_connection) {
+            $service_ids[] = (int) $service_provider_connection['id_services'];
+        }
+
+        return $service_ids;
     }
 
     /**
@@ -553,20 +577,8 @@ class Providers_model extends EA_Model
         }
 
         $this->cast($provider);
-
-        $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
-
-        unset($provider['settings']['id_users'], $provider['settings']['password'], $provider['settings']['salt']);
-
-        $service_provider_connections = $this->db
-            ->get_where('services_providers', ['id_users' => $provider_id])
-            ->result_array();
-
-        $provider['services'] = [];
-
-        foreach ($service_provider_connections as $service_provider_connection) {
-            $provider['services'][] = (int) $service_provider_connection['id_services'];
-        }
+        $provider['settings'] = $this->get_settings($provider['id']);
+        $provider['services'] = $this->get_service_ids($provider['id']);
 
         return $provider;
     }
@@ -622,25 +634,8 @@ class Providers_model extends EA_Model
 
         foreach ($providers as &$provider) {
             $this->cast($provider);
-
-            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
-
-            unset(
-                $provider['settings']['id_users'],
-                $provider['settings']['username'],
-                $provider['settings']['password'],
-                $provider['settings']['salt'],
-            );
-
-            $provider['services'] = [];
-
-            $service_provider_connections = $this->db
-                ->get_where('services_providers', ['id_users' => $provider['id']])
-                ->result_array();
-
-            foreach ($service_provider_connections as $service_provider_connection) {
-                $provider['services'][] = (int) $service_provider_connection['id_services'];
-            }
+            $provider['settings'] = $this->get_settings($provider['id']);
+            $provider['services'] = $this->get_service_ids($provider['id']);
         }
 
         return $providers;
@@ -697,20 +692,8 @@ class Providers_model extends EA_Model
 
         foreach ($providers as &$provider) {
             $this->cast($provider);
-
-            $provider['settings'] = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
-
-            unset($provider['settings']['id_users'], $provider['settings']['password'], $provider['settings']['salt']);
-
-            $provider['services'] = [];
-
-            $service_provider_connections = $this->db
-                ->get_where('services_providers', ['id_users' => $provider['id']])
-                ->result_array();
-
-            foreach ($service_provider_connections as $service_provider_connection) {
-                $provider['services'][] = (int) $service_provider_connection['id_services'];
-            }
+            $provider['settings'] = $this->get_settings($provider['id']);
+            $provider['services'] = $this->get_service_ids($provider['id']);
         }
 
         return $providers;
