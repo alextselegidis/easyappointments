@@ -454,4 +454,6 @@ $lang['webhook_deleted'] = 'Webhook poistettu onnistuneesti.';
 $lang['delete_webhook'] = 'Poista Webhook';
 $lang['contact_info'] = 'Yhteystiedot';
 $lang['hide_from_public'] = 'Hide From Public';
+$lang['matomo_analytics_site_id'] = 'Matomo Analytics Site ID';
+$lang['matomo_analytics_site_id_hint'] = 'Set the site ID that will be tracked by Matomo (the default site has the ID "1").';
 // End
