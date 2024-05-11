@@ -530,7 +530,7 @@ class Timezones
      */
     public function get_default_timezone(): string
     {
-        return 'UTC';
+        return date_default_timezone_get();
     }
 
     /**
