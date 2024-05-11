@@ -20,6 +20,8 @@
                 <?= lang('secretaries') ?>
             </h4>
 
+            <?php slot('after_page_title'); ?>
+            
             <div class="results">
                 <!-- JS -->
             </div>
@@ -51,6 +53,8 @@
                         <?= lang('cancel') ?>
                     </button>
                 </div>
+
+                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -137,6 +141,8 @@
                         </label>
                         <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                     </div>
+
+                    <?php slot('after_primary_fields'); ?>
                 </div>
                 <div class="settings col-12 col-md-6">
                     <div class="mb-3">
@@ -225,6 +231,8 @@
                     <div id="secretary-providers" class="card card-body bg-white border">
                         <!-- JS -->
                     </div>
+
+                    <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>
         </div>

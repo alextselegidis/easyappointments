@@ -135,6 +135,8 @@
                         <?php component('appointment_status_options', [
                             'attributes' => 'id="appointment-status-options"',
                         ]); ?>
+
+                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>
