@@ -150,7 +150,7 @@
                     <input class="form-check-input" type="checkbox" id="is-private">
 
                     <label class="form-check-label" for="is-private">
-                        <?= lang('private') ?>
+                        <?= lang('hide_from_public') ?>
                     </label>
                 </div>
 

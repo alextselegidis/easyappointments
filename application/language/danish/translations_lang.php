@@ -453,8 +453,5 @@ $lang['webhook_saved'] = 'Webhook saved successfully.';
 $lang['webhook_deleted'] = 'Webhook deleted successfully.';
 $lang['delete_webhook'] = 'Delete Webhook';
 $lang['contact_info'] = 'Contact Info';
-$lang['default_timezone'] = 'Default Timezone';
-$lang['default_timezone_hint'] = 'This will be the Default Timezome for new Users, new Customers and new Appointments';
-$lang['default_language'] = 'Default Language';
-$lang['default_language_hint'] = 'This will be the Default Language for new Users and new Customers';
+$lang['hide_from_public'] = 'Hide From Public';
 // End
