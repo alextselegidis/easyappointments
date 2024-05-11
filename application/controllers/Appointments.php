@@ -62,11 +62,11 @@ class Appointments extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $appointments = $this->appointments_model->search($keyword, $limit, $offset, $order_by);
 
