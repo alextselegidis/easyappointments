@@ -178,6 +178,8 @@ class Calendar extends EA_Controller
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
             'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
