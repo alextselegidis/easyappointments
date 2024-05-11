@@ -113,6 +113,7 @@ class Booking extends EA_Controller
         $disable_booking = setting('disable_booking');
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
+        $matomo_analytics_site_id = setting('matomo_analytics_site_id');
 
         if ($disable_booking) {
             $disable_booking_message = setting('disable_booking_message');
@@ -125,6 +126,7 @@ class Booking extends EA_Controller
                 'message_icon' => base_url('assets/img/error.png'),
                 'google_analytics_code' => $google_analytics_code,
                 'matomo_analytics_url' => $matomo_analytics_url,
+                'matomo_analytics_site_id' => $matomo_analytics_site_id,
             ]);
 
             $this->load->view('pages/booking_message');
@@ -197,6 +199,7 @@ class Booking extends EA_Controller
                     'message_icon' => base_url('assets/img/error.png'),
                     'google_analytics_code' => $google_analytics_code,
                     'matomo_analytics_url' => $matomo_analytics_url,
+                    'matomo_analytics_site_id' => $matomo_analytics_site_id,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -225,6 +228,7 @@ class Booking extends EA_Controller
                     'message_icon' => base_url('assets/img/error.png'),
                     'google_analytics_code' => $google_analytics_code,
                     'matomo_analytics_url' => $matomo_analytics_url,
+                    'matomo_analytics_site_id' => $matomo_analytics_site_id,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -301,6 +305,7 @@ class Booking extends EA_Controller
             'display_delete_personal_information' => $display_delete_personal_information,
             'google_analytics_code' => $google_analytics_code,
             'matomo_analytics_url' => $matomo_analytics_url,
+            'matomo_analytics_site_id' => $matomo_analytics_site_id,
             'timezones' => $timezones,
             'grouped_timezones' => $grouped_timezones,
             'manage_mode' => $manage_mode,
