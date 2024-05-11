@@ -40,42 +40,49 @@
         <p>
             <?= lang('about_app_support') ?>
         </p>
-
-        <div class="d-lg-flex justify-content-start flex-wrap alight-items-center mb-5">
-            <div class="text-center w-50 mb-3 pe-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org">
+        
+        <div class="row mb-5">
+            <div class="col-lg-6 mb-3">
+                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     <?= lang('official_website') ?>
                 </a>
             </div>
 
-            <div class="text-center w-50 mb-3 ps-3">
+            <div class="col-lg-6 mb-3">
                 <a class="btn btn-outline-secondary d-block"
-                   href="https://groups.google.com/forum/#!forum/easy-appointments">
+                   href="https://groups.google.com/forum/#!forum/easy-appointments" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     <?= lang('support_group') ?>
                 </a>
             </div>
 
-            <div class="text-center w-50 mb-3 pe-3">
+            <div class="col-lg-6 mb-3">
                 <a class="btn btn-outline-secondary d-block"
-                   href="https://github.com/alextselegidis/easyappointments/issues">
+                   href="https://github.com/alextselegidis/easyappointments/issues" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     <?= lang('project_issues') ?>
                 </a>
             </div>
 
-            <div class="text-center w-50 mb-3 ps-3">
-                <a class="btn btn-outline-secondary d-block" href="https://facebook.com/easyappts">
+            <div class="col-lg-6 mb-3">
+                <a class="btn btn-outline-secondary d-block" href="https://facebook.com/easyappts" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     Facebook
                 </a>
             </div>
 
-            <div class="text-center w-50 mb-3 pe-3">
-                <a class="btn btn-outline-secondary d-block" href="https://twitter.com/easyappts">
+            <div class="col-lg-6 mb-3">
+                <a class="btn btn-outline-secondary d-block" href="https://twitter.com/easyappts" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     Twitter
+                </a>
+            </div>
+
+            <div class="col-lg-6 mb-3">
+                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org/get-a-free-quote" target="_blank">
+                    <i class="fas fa-external-link-alt me-2"></i>
+                    Customize E!A
                 </a>
             </div>
         </div>

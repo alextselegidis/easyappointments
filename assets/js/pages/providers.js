@@ -55,8 +55,8 @@ App.Pages.Providers = (function () {
             event.preventDefault();
             const key = $('#filter-providers .key').val();
             $('.selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.Providers.resetForm();
+            App.Pages.Providers.filter(key);
         });
 
         /**
@@ -73,7 +73,7 @@ App.Pages.Providers = (function () {
             const providerId = $(event.currentTarget).attr('data-id');
             const provider = filterResults.find((filterResult) => Number(filterResult.id) === Number(providerId));
 
-            display(provider);
+            App.Pages.Providers.display(provider);
             $filterProviders.find('.selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-provider, #delete-provider').prop('disabled', false);
@@ -83,7 +83,7 @@ App.Pages.Providers = (function () {
          * Event: Add New Provider Button "Click"
          */
         $providers.on('click', '#add-provider', () => {
-            resetForm();
+            App.Pages.Providers.resetForm();
             $filterProviders.find('button').prop('disabled', true);
             $filterProviders.find('.results').css('color', '#AAA');
             $providers.find('.add-edit-delete-group').hide();
@@ -141,7 +141,7 @@ App.Pages.Providers = (function () {
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
-                        remove(providerId);
+                        App.Pages.Providers.remove(providerId);
                         messageModal.dispose();
                     },
                 },
@@ -195,11 +195,11 @@ App.Pages.Providers = (function () {
                 provider.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.Providers.validate()) {
                 return;
             }
 
-            save(provider);
+            App.Pages.Providers.save(provider);
         });
 
         /**
@@ -209,9 +209,9 @@ App.Pages.Providers = (function () {
          */
         $providers.on('click', '#cancel-provider', () => {
             const id = $('#filter-providers .selected').attr('data-id');
-            resetForm();
+            App.Pages.Providers.resetForm();
             if (id) {
-                select(id, true);
+                App.Pages.Providers.select(id, true);
             }
         });
 
@@ -237,9 +237,9 @@ App.Pages.Providers = (function () {
     function save(provider) {
         App.Http.Providers.save(provider).then((response) => {
             App.Layouts.Backend.displayNotification(lang('provider_saved'));
-            resetForm();
+            App.Pages.Providers.resetForm();
             $('#filter-providers .key').val('');
-            filter('', response.id, true);
+            App.Pages.Providers.filter('', response.id, true);
         });
     }
 
@@ -251,8 +251,8 @@ App.Pages.Providers = (function () {
     function remove(id) {
         App.Http.Providers.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('provider_deleted'));
-            resetForm();
-            filter($('#filter-providers .key').val());
+            App.Pages.Providers.resetForm();
+            App.Pages.Providers.filter($('#filter-providers .key').val());
         });
     }
 
@@ -340,8 +340,8 @@ App.Pages.Providers = (function () {
         $providers.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $providers.find('.record-details .form-label span').prop('hidden', true);
         $providers.find('.record-details #calendar-view').val('default');
-        $providers.find('.record-details #language').val(vars('language') || 'english');
-        $providers.find('.record-details #timezone').val(moment.tz.guess() || 'UTC');
+        $providers.find('.record-details #language').val(vars('default_language'));
+        $providers.find('.record-details #timezone').val(vars('default_timezone'));
         $providers.find('.record-details #is-private').prop('checked', false);
         $providers.find('.record-details #notifications').prop('checked', true);
         $providers.find('.add-break, .add-working-plan-exception, #reset-working-plan').prop('disabled', true);
@@ -468,7 +468,7 @@ App.Pages.Providers = (function () {
 
             $filterProviders.find('.results').empty();
             response.forEach((provider) => {
-                $('#filter-providers .results').append(getFilterHtml(provider)).append($('<hr/>'));
+                $('#filter-providers .results').append(App.Pages.Providers.getFilterHtml(provider)).append($('<hr/>'));
             });
 
             if (!response.length) {
@@ -484,13 +484,13 @@ App.Pages.Providers = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.Providers.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-providers .results');
             }
 
             if (selectId) {
-                select(selectId, show);
+                App.Pages.Providers.select(selectId, show);
             }
         });
     }
@@ -542,7 +542,7 @@ App.Pages.Providers = (function () {
         if (show) {
             const provider = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
-            display(provider);
+            App.Pages.Providers.display(provider);
 
             $('#edit-provider, #delete-provider').prop('disabled', false);
         }
@@ -555,9 +555,9 @@ App.Pages.Providers = (function () {
         workingPlanManager = new App.Utils.WorkingPlan();
         workingPlanManager.addEventListeners();
 
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.Providers.resetForm();
+        App.Pages.Providers.filter('');
+        App.Pages.Providers.addEventListeners();
 
         vars('services').forEach((service) => {
             const checkboxId = `provider-service-${service.id}`;
@@ -595,8 +595,11 @@ App.Pages.Providers = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();

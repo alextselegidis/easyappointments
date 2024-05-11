@@ -20,6 +20,24 @@
  */
 class Services extends EA_Controller
 {
+    public array $allowed_service_fields = [
+        'id',
+        'name',
+        'duration',
+        'price',
+        'currency',
+        'description',
+        'color',
+        'location',
+        'availabilities_type',
+        'attendants_number',
+        'is_private',
+        'id_service_categories',
+    ];
+    public array $optional_service_fields = [
+        'id_service_categories' => null,
+    ];
+
     /**
      * Services constructor.
      */
@@ -88,11 +106,11 @@ class Services extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $services = $this->services_model->search($keyword, $limit, $offset, $order_by);
 
@@ -114,23 +132,9 @@ class Services extends EA_Controller
 
             $service = request('service');
 
-            $this->services_model->only($service, [
-                'name',
-                'duration',
-                'price',
-                'currency',
-                'description',
-                'color',
-                'location',
-                'availabilities_type',
-                'attendants_number',
-                'is_private',
-                'id_service_categories',
-            ]);
+            $this->services_model->only($service, $this->allowed_service_fields);
 
-            $this->services_model->optional($service, [
-                'id_service_categories' => null,
-            ]);
+            $this->services_model->optional($service, $this->optional_service_fields);
 
             $service_id = $this->services_model->save($service);
 
@@ -179,24 +183,9 @@ class Services extends EA_Controller
 
             $service = request('service');
 
-            $this->services_model->only($service, [
-                'id',
-                'name',
-                'duration',
-                'price',
-                'currency',
-                'description',
-                'color',
-                'location',
-                'availabilities_type',
-                'attendants_number',
-                'is_private',
-                'id_service_categories',
-            ]);
+            $this->services_model->only($service, $this->allowed_service_fields);
 
-            $this->services_model->optional($service, [
-                'id_service_categories' => null,
-            ]);
+            $this->services_model->optional($service, $this->optional_service_fields);
 
             $service_id = $this->services_model->save($service);
 

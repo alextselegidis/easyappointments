@@ -20,6 +20,31 @@
  */
 class Secretaries extends EA_Controller
 {
+    public array $allowed_provider_fields = ['id', 'first_name', 'last_name'];
+    public array $allowed_secretary_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'alt_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'is_private',
+        'id_roles',
+        'settings',
+        'providers',
+    ];
+    public array $allowed_secretary_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+    public array $optional_secretary_fields = [
+        'providers' => [],
+    ];
+
     /**
      * Secretaries constructor.
      */
@@ -63,7 +88,7 @@ class Secretaries extends EA_Controller
         $providers = $this->providers_model->get();
 
         foreach ($providers as &$provider) {
-            $this->providers_model->only($provider, ['id', 'first_name', 'last_name']);
+            $this->providers_model->only($provider, $this->allowed_provider_fields);
         }
 
         script_vars([
@@ -72,6 +97,8 @@ class Secretaries extends EA_Controller
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
             'providers' => $providers,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -98,11 +125,11 @@ class Secretaries extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $secretaries = $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
 
@@ -124,35 +151,11 @@ class Secretaries extends EA_Controller
 
             $secretary = request('secretary');
 
-            $this->secretaries_model->only($secretary, [
-                'first_name',
-                'last_name',
-                'email',
-                'alt_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'is_private',
-                'id_roles',
-                'settings',
-                'providers',
-            ]);
+            $this->secretaries_model->only($secretary, $this->allowed_secretary_fields);
 
-            $this->secretaries_model->only($secretary['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view',
-            ]);
+            $this->secretaries_model->only($secretary['settings'], $this->allowed_secretary_setting_fields);
 
-            $this->secretaries_model->optional($secretary, [
-                'providers' => [],
-            ]);
+            $this->secretaries_model->optional($secretary, $this->optional_secretary_fields);
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
@@ -201,36 +204,11 @@ class Secretaries extends EA_Controller
 
             $secretary = request('secretary');
 
-            $this->secretaries_model->only($secretary, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'alt_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'is_private',
-                'id_roles',
-                'settings',
-                'providers',
-            ]);
+            $this->secretaries_model->only($secretary, $this->allowed_secretary_fields);
 
-            $this->secretaries_model->only($secretary['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view',
-            ]);
+            $this->secretaries_model->only($secretary['settings'], $this->allowed_secretary_setting_fields);
 
-            $this->secretaries_model->optional($secretary, [
-                'providers' => [],
-            ]);
+            $this->secretaries_model->optional($secretary, $this->optional_secretary_fields);
 
             $secretary_id = $this->secretaries_model->save($secretary);
 

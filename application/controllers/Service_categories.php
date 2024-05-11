@@ -20,6 +20,8 @@
  */
 class Service_categories extends EA_Controller
 {
+    public array $allowed_service_category_fields = ['id', 'name', 'description'];
+
     /**
      * Service-categories constructor.
      */
@@ -87,11 +89,11 @@ class Service_categories extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $service_categories = $this->service_categories_model->search($keyword, $limit, $offset, $order_by);
 
@@ -113,7 +115,7 @@ class Service_categories extends EA_Controller
 
             $service_category = request('service_category');
 
-            $this->service_categories_model->only($service_category, ['name', 'description']);
+            $this->service_categories_model->only($service_category, $this->allowed_service_category_fields);
 
             $service_category_id = $this->service_categories_model->save($service_category);
 
@@ -162,7 +164,7 @@ class Service_categories extends EA_Controller
 
             $service_category = request('service_category');
 
-            $this->service_categories_model->only($service_category, ['id', 'name', 'description']);
+            $this->service_categories_model->only($service_category, $this->allowed_service_category_fields);
 
             $service_category_id = $this->service_categories_model->save($service_category);
 

@@ -20,6 +20,26 @@
  */
 class Customers extends EA_Controller
 {
+    public array $allowed_customer_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'custom_field_1',
+        'custom_field_2',
+        'custom_field_3',
+        'custom_field_4',
+        'custom_field_5',
+    ];
+
     /**
      * Customers constructor.
      */
@@ -87,6 +107,8 @@ class Customers extends EA_Controller
             'time_format' => $time_format,
             'timezones' => $this->timezones->to_array(),
             'secretary_providers' => $secretary_providers,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -147,11 +169,11 @@ class Customers extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $customers = $this->customers_model->search($keyword, $limit, $offset, $order_by);
 
@@ -195,24 +217,7 @@ class Customers extends EA_Controller
 
             $customer = request('customer');
 
-            $this->customers_model->only($customer, [
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -247,25 +252,7 @@ class Customers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
-            $this->customers_model->only($customer, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
 

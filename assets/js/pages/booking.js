@@ -107,10 +107,12 @@ App.Pages.Booking = (function () {
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
-                updateConfirmFrame();
+                App.Pages.Booking.updateConfirmFrame();
             },
 
             onMonthChange: (selectedDates, dateStr, instance) => {
+                $selectDate.parent().fadeTo(400, 0.3); // Change opacity during loading
+
                 if (monthTimeout) {
                     clearTimeout(monthTimeout);
                 }
@@ -310,7 +312,7 @@ App.Pages.Booking = (function () {
 
             App.Http.Booking.getAvailableHours(moment(date).format('YYYY-MM-DD'));
 
-            updateConfirmFrame();
+            App.Pages.Booking.updateConfirmFrame();
         });
 
         /**
@@ -331,7 +333,7 @@ App.Pages.Booking = (function () {
                 $selectService.val(),
                 todayDateTimeMoment.format('YYYY-MM-DD'),
             );
-            updateConfirmFrame();
+            App.Pages.Booking.updateConfirmFrame();
         });
 
         /**
@@ -368,9 +370,9 @@ App.Pages.Booking = (function () {
                 moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
             );
 
-            updateConfirmFrame();
+            App.Pages.Booking.updateConfirmFrame();
 
-            updateServiceDescription(serviceId);
+            App.Pages.Booking.updateServiceDescription(serviceId);
         });
 
         /**
@@ -404,10 +406,10 @@ App.Pages.Booking = (function () {
             // If we are on the 3rd tab then we will need to validate the user's input before proceeding to the next
             // step.
             if ($target.attr('data-step_index') === '3') {
-                if (!validateCustomerForm()) {
+                if (!App.Pages.Booking.validateCustomerForm()) {
                     return; // Validation failed, do not continue.
                 } else {
-                    updateConfirmFrame();
+                    App.Pages.Booking.updateConfirmFrame();
                 }
             }
 
@@ -457,7 +459,7 @@ App.Pages.Booking = (function () {
         $availableHours.on('click', '.available-hour', (event) => {
             $availableHours.find('.selected-hour').removeClass('selected-hour');
             $(event.target).addClass('selected-hour');
-            updateConfirmFrame();
+            App.Pages.Booking.updateConfirmFrame();
         });
 
         if (manageMode) {
@@ -859,7 +861,7 @@ App.Pages.Booking = (function () {
             $customField4.val(customer.custom_field_4);
             $customField5.val(customer.custom_field_5);
 
-            updateConfirmFrame();
+            App.Pages.Booking.updateConfirmFrame();
 
             return true;
         } catch (exc) {
@@ -932,7 +934,8 @@ App.Pages.Booking = (function () {
 
     return {
         manageMode,
-        initialize,
         updateConfirmFrame,
+        updateServiceDescription,
+        validateCustomerForm,
     };
 })();

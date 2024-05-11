@@ -20,6 +20,25 @@
  */
 class Admins extends EA_Controller
 {
+    public array $allowed_admin_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'mobile_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'settings',
+    ];
+
+    public array $allowed_admin_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
     /**
      * Admins constructor.
      */
@@ -64,6 +83,8 @@ class Admins extends EA_Controller
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -89,11 +110,11 @@ class Admins extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $admins = $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
@@ -115,23 +136,9 @@ class Admins extends EA_Controller
 
             $admin = request('admin');
 
-            $this->admins_model->only($admin, [
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->admins_model->only($admin, $this->allowed_admin_fields);
 
-            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -180,24 +187,9 @@ class Admins extends EA_Controller
 
             $admin = request('admin');
 
-            $this->admins_model->only($admin, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->admins_model->only($admin, $this->allowed_admin_fields);
 
-            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 

@@ -20,6 +20,8 @@
  */
 class Blocked_periods extends EA_Controller
 {
+    public array $allowed_blocked_period_fields = ['id', 'name', 'start_datetime', 'end_datetime', 'notes'];
+
     /**
      * Blocked_periods constructor.
      */
@@ -90,11 +92,11 @@ class Blocked_periods extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $blocked_periods = $this->blocked_periods_model->search($keyword, $limit, $offset, $order_by);
 
@@ -116,7 +118,7 @@ class Blocked_periods extends EA_Controller
 
             $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($blocked_period, ['name', 'start_datetime', 'end_datetime', 'notes']);
+            $this->blocked_periods_model->only($blocked_period, $this->allowed_blocked_period_fields);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
@@ -165,13 +167,7 @@ class Blocked_periods extends EA_Controller
 
             $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($blocked_period, [
-                'id',
-                'name',
-                'start_datetime',
-                'end_datetime',
-                'notes',
-            ]);
+            $this->blocked_periods_model->only($blocked_period, $this->allowed_blocked_period_fields);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 

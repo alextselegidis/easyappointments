@@ -20,6 +20,8 @@
                 <?= lang('admins') ?>
             </h4>
 
+            <?php slot('after_page_title'); ?>
+
             <div class="results">
                 <!-- JS -->
             </div>
@@ -51,6 +53,8 @@
                         <?= lang('cancel') ?>
                     </button>
                 </div>
+
+                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -138,6 +142,8 @@
                         </label>
                         <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                     </div>
+
+                    <?php slot('after_primary_fields'); ?>
                 </div>
                 <div class="settings col-12 col-md-6">
                     <div class="mb-3">
@@ -172,8 +178,8 @@
                             <span class="text-danger" hidden>*</span>
                         </label>
                         <select id="calendar-view" class="form-control required" disabled>
-                            <option value="default">Default</option>
-                            <option value="table">Table</option>
+                            <option value="default"><?= lang('default') ?></option>
+                            <option value="table"><?= lang('table') ?></option>
                         </select>
                     </div>
 
@@ -216,6 +222,8 @@
                             </label>
                         </div>
                     </div>
+                    
+                    <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>
         </div>

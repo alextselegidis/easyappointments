@@ -20,6 +20,38 @@
  */
 class Providers extends EA_Controller
 {
+    public array $allowed_provider_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'alt_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'is_private',
+        'id_roles',
+        'settings',
+        'services',
+    ];
+    public array $allowed_provider_setting_fields = [
+        'username',
+        'password',
+        'working_plan',
+        'working_plan_exceptions',
+        'notifications',
+        'calendar_view',
+    ];
+    public array $allowed_service_fields = ['id', 'name'];
+    public array $optional_provider_fields = [
+        'services' => [],
+    ];
+
     /**
      * Providers constructor.
      */
@@ -63,7 +95,7 @@ class Providers extends EA_Controller
         $services = $this->services_model->get();
 
         foreach ($services as &$service) {
-            $this->services_model->only($service, ['id', 'name']);
+            $this->services_model->only($service, $this->allowed_service_fields);
         }
 
         script_vars([
@@ -76,6 +108,8 @@ class Providers extends EA_Controller
             'min_password_length' => MIN_PASSWORD_LENGTH,
             'timezones' => $this->timezones->to_array(),
             'services' => $services,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -102,11 +136,11 @@ class Providers extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $providers = $this->providers_model->search($keyword, $limit, $offset, $order_by);
 
@@ -128,37 +162,11 @@ class Providers extends EA_Controller
 
             $provider = request('provider');
 
-            $this->providers_model->only($provider, [
-                'first_name',
-                'last_name',
-                'email',
-                'alt_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'is_private',
-                'id_roles',
-                'settings',
-                'services',
-            ]);
+            $this->providers_model->only($provider, $this->allowed_provider_fields);
 
-            $this->providers_model->only($provider['settings'], [
-                'username',
-                'password',
-                'working_plan',
-                'working_plan_exceptions',
-                'notifications',
-                'calendar_view',
-            ]);
+            $this->providers_model->only($provider['settings'], $this->allowed_provider_setting_fields);
 
-            $this->providers_model->optional($provider, [
-                'services' => [],
-            ]);
+            $this->providers_model->optional($provider, $this->optional_provider_fields);
 
             $provider_id = $this->providers_model->save($provider);
 
@@ -207,38 +215,11 @@ class Providers extends EA_Controller
 
             $provider = request('provider');
 
-            $this->providers_model->only($provider, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'alt_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'is_private',
-                'id_roles',
-                'settings',
-                'services',
-            ]);
+            $this->providers_model->only($provider, $this->allowed_provider_fields);
 
-            $this->providers_model->only($provider['settings'], [
-                'username',
-                'password',
-                'working_plan',
-                'working_plan_exceptions',
-                'notifications',
-                'calendar_view',
-            ]);
+            $this->providers_model->only($provider['settings'], $this->allowed_provider_setting_fields);
 
-            $this->providers_model->optional($provider, [
-                'services' => [],
-            ]);
+            $this->providers_model->optional($provider, $this->optional_provider_fields);
 
             $provider_id = $this->providers_model->save($provider);
 

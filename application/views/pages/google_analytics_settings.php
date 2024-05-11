@@ -46,6 +46,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <?php slot('after_primary_appointment_fields'); ?>
                 </fieldset>
             </form>
         </div>

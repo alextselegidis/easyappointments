@@ -453,4 +453,11 @@ $lang['webhook_saved'] = 'Webhook bol úspešne uložený.';
 $lang['webhook_deleted'] = 'Webhook bol úspešne odstránený.';
 $lang['delete_webhook'] = 'Odstrániť webhook';
 $lang['contact_info'] = 'Kontaktné informácie';
+$lang['hide_from_public'] = 'Hide From Public';
+$lang['matomo_analytics_site_id'] = 'Matomo Analytics Site ID';
+$lang['matomo_analytics_site_id_hint'] = 'Set the site ID that will be tracked by Matomo (the default site has the ID "1").';
+$lang['default_timezone'] = 'Default Timezone';
+$lang['default_timezone_hint'] = 'Set the default timezone value that will be used for new records.';
+$lang['default_language'] = 'Default Language';
+$lang['default_language_hint'] = 'Set the default language value that will be used for new records.';
 // End

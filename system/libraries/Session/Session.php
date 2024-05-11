@@ -137,7 +137,7 @@ class CI_Session {
 			}
 			elseif ($_SESSION['__ci_last_regenerate'] < (time() - $regenerate_time))
 			{
-				$this->sess_regenerate((bool) config_item('sess_regenerate_destroy'));
+				$this->sess_regenerate();
 			}
 		}
 		// Another work-around ... PHP doesn't seem to send the session cookie
@@ -691,8 +691,9 @@ class CI_Session {
 	 * @param	bool	$destroy	Destroy old session data flag
 	 * @return	void
 	 */
-	public function sess_regenerate($destroy = FALSE)
+	public function sess_regenerate($destroy = null)
 	{
+		$destroy = boolval($destroy !== null ? $destroy : config_item('sess_regenerate_destroy'));
 		$_SESSION['__ci_last_regenerate'] = time();
 		session_regenerate_id($destroy);
 	}

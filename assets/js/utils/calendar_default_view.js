@@ -56,8 +56,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $calendar,
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),
-                calendarView.currentStart,
-                calendarView.currentEnd,
+                calendarView.activeStart,
+                calendarView.activeEnd,
             );
         });
 
@@ -1153,8 +1153,8 @@ App.Utils.CalendarDefaultView = (function () {
             $calendar,
             $selectFilterItem.val(),
             $('#select-filter-item option:selected').attr('type'),
-            fullCalendar.view.currentStart,
-            fullCalendar.view.currentEnd,
+            fullCalendar.view.activeStart,
+            fullCalendar.view.activeEnd,
         );
 
         $(window).trigger('resize'); // Places the footer on the bottom.
@@ -1641,8 +1641,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $calendar,
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),
-                fullCalendar.view.currentStart,
-                fullCalendar.view.currentEnd,
+                fullCalendar.view.activeStart,
+                fullCalendar.view.activeEnd,
             );
         }, 60000);
     }

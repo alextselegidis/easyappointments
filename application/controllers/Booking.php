@@ -23,6 +23,39 @@
  */
 class Booking extends EA_Controller
 {
+    public array $allowed_customer_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'timezone',
+        'language',
+        'custom_field_1',
+        'custom_field_2',
+        'custom_field_3',
+        'custom_field_4',
+        'custom_field_5',
+    ];
+    public mixed $allowed_provider_fields = ['id', 'first_name', 'last_name', 'services', 'timezone'];
+    public array $allowed_appointment_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'color',
+        'status',
+        'is_unavailability',
+        'id_users_provider',
+        'id_users_customer',
+        'id_services',
+    ];
+
     /**
      * Booking constructor.
      */
@@ -80,6 +113,7 @@ class Booking extends EA_Controller
         $disable_booking = setting('disable_booking');
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
+        $matomo_analytics_site_id = setting('matomo_analytics_site_id');
 
         if ($disable_booking) {
             $disable_booking_message = setting('disable_booking_message');
@@ -92,6 +126,7 @@ class Booking extends EA_Controller
                 'message_icon' => base_url('assets/img/error.png'),
                 'google_analytics_code' => $google_analytics_code,
                 'matomo_analytics_url' => $matomo_analytics_url,
+                'matomo_analytics_site_id' => $matomo_analytics_site_id,
             ]);
 
             $this->load->view('pages/booking_message');
@@ -105,13 +140,7 @@ class Booking extends EA_Controller
         foreach ($available_providers as &$available_provider) {
             // Only expose the required provider data.
 
-            $this->providers_model->only($available_provider, [
-                'id',
-                'first_name',
-                'last_name',
-                'services',
-                'timezone',
-            ]);
+            $this->providers_model->only($available_provider, $this->allowed_provider_fields);
         }
 
         $date_format = setting('date_format');
@@ -170,6 +199,7 @@ class Booking extends EA_Controller
                     'message_icon' => base_url('assets/img/error.png'),
                     'google_analytics_code' => $google_analytics_code,
                     'matomo_analytics_url' => $matomo_analytics_url,
+                    'matomo_analytics_site_id' => $matomo_analytics_site_id,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -198,6 +228,7 @@ class Booking extends EA_Controller
                     'message_icon' => base_url('assets/img/error.png'),
                     'google_analytics_code' => $google_analytics_code,
                     'matomo_analytics_url' => $matomo_analytics_url,
+                    'matomo_analytics_site_id' => $matomo_analytics_site_id,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -233,6 +264,8 @@ class Booking extends EA_Controller
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -272,6 +305,7 @@ class Booking extends EA_Controller
             'display_delete_personal_information' => $display_delete_personal_information,
             'google_analytics_code' => $google_analytics_code,
             'matomo_analytics_url' => $matomo_analytics_url,
+            'matomo_analytics_site_id' => $matomo_analytics_site_id,
             'timezones' => $timezones,
             'grouped_timezones' => $grouped_timezones,
             'manage_mode' => $manage_mode,
@@ -394,24 +428,7 @@ class Booking extends EA_Controller
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
 
-            $this->customers_model->only($customer, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
             $customer = $this->customers_model->find($customer_id);
@@ -424,19 +441,7 @@ class Booking extends EA_Controller
             $appointment_status_options = json_decode($appointment_status_options_json, true) ?? [];
             $appointment['status'] = $appointment_status_options[0] ?? null;
 
-            $this->appointments_model->only($appointment, [
-                'id',
-                'start_datetime',
-                'end_datetime',
-                'location',
-                'notes',
-                'color',
-                'status',
-                'is_unavailability',
-                'id_users_provider',
-                'id_users_customer',
-                'id_services',
-            ]);
+            $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
             $appointment = $this->appointments_model->find($appointment_id);

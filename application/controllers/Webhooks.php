@@ -20,6 +20,8 @@
  */
 class Webhooks extends EA_Controller
 {
+    public array $allowed_webhook_fields = ['id', 'name', 'url', 'actions', 'secret_token', 'is_ssl_verified', 'notes'];
+
     /**
      * Webhooks constructor.
      */
@@ -106,11 +108,11 @@ class Webhooks extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $webhooks = $this->webhooks_model->search($keyword, $limit, $offset, $order_by);
 
@@ -132,14 +134,7 @@ class Webhooks extends EA_Controller
 
             $webhook = request('webhook');
 
-            $this->webhooks_model->only($webhook, [
-                'name',
-                'url',
-                'actions',
-                'secret_token',
-                'is_ssl_verified',
-                'notes',
-            ]);
+            $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 
@@ -164,15 +159,7 @@ class Webhooks extends EA_Controller
 
             $webhook = request('webhook');
 
-            $this->webhooks_model->only($webhook, [
-                'id',
-                'name',
-                'url',
-                'actions',
-                'secret_token',
-                'is_ssl_verified',
-                'notes',
-            ]);
+            $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 

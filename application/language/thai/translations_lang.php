@@ -454,4 +454,11 @@ $lang['sync_method_prompt'] = 'คุณต้องการใช้วิธ�
 $lang['caldav_server'] = 'เซิร์ฟเวอร์ CalDAV';
 $lang['caldav_connection_info_prompt'] = 'โปรดป้อนข้อมูลการเชื่อมต่อของเซิร์ฟเวอร์ CalDAV เป้าหมาย';
 $lang['connect'] = 'เชื่อมต่อ';
+$lang['hide_from_public'] = 'Hide From Public';
+$lang['matomo_analytics_site_id'] = 'Matomo Analytics Site ID';
+$lang['matomo_analytics_site_id_hint'] = 'Set the site ID that will be tracked by Matomo (the default site has the ID "1").';
+$lang['default_timezone'] = 'Default Timezone';
+$lang['default_timezone_hint'] = 'Set the default timezone value that will be used for new records.';
+$lang['default_language'] = 'Default Language';
+$lang['default_language_hint'] = 'Set the default language value that will be used for new records.';
 // End
