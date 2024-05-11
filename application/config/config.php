@@ -353,7 +353,7 @@ $config['sess_expiration'] = 7200;
 $config['sess_save_path'] = __DIR__ . '/../../storage/sessions';
 $config['sess_match_ip'] = false;
 $config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = false;
+$config['sess_regenerate_destroy'] = true;
 
 /*
 |--------------------------------------------------------------------------
