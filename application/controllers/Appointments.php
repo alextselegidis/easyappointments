@@ -23,6 +23,19 @@
  */
 class Appointments extends EA_Controller
 {
+    public array $allowed_appointment_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'color',
+        'is_unavailability',
+        'id_users_provider',
+        'id_users_customer',
+        'id_services',
+    ];
+
     /**
      * Appointments constructor.
      */
@@ -88,17 +101,7 @@ class Appointments extends EA_Controller
 
             $appointment = json_decode(request('appointment'), true);
 
-            $this->appointments_model->only($appointment, [
-                'start_datetime',
-                'end_datetime',
-                'location',
-                'notes',
-                'color',
-                'is_unavailability',
-                'id_users_provider',
-                'id_users_customer',
-                'id_services',
-            ]);
+            $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
@@ -147,18 +150,7 @@ class Appointments extends EA_Controller
 
             $appointment = json_decode(request('appointment'), true);
 
-            $this->appointments_model->only($appointment, [
-                'id',
-                'start_datetime',
-                'end_datetime',
-                'location',
-                'notes',
-                'color',
-                'is_unavailability',
-                'id_users_provider',
-                'id_users_customer',
-                'id_services',
-            ]);
+            $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 

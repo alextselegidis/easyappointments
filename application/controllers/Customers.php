@@ -20,6 +20,26 @@
  */
 class Customers extends EA_Controller
 {
+    public array $allowed_customer_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'custom_field_1',
+        'custom_field_2',
+        'custom_field_3',
+        'custom_field_4',
+        'custom_field_5',
+    ];
+
     /**
      * Customers constructor.
      */
@@ -195,24 +215,7 @@ class Customers extends EA_Controller
 
             $customer = request('customer');
 
-            $this->customers_model->only($customer, [
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -247,25 +250,7 @@ class Customers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
-            $this->customers_model->only($customer, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
 

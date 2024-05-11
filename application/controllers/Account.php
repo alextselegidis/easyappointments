@@ -20,6 +20,24 @@
  */
 class Account extends EA_Controller
 {
+    public array $allowed_user_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'mobile_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'settings',
+    ];
+    public array $allowed_user_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
     /**
      * Account constructor.
      */
@@ -90,24 +108,9 @@ class Account extends EA_Controller
 
             $account['id'] = session('user_id');
 
-            $this->users_model->only($account, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->users_model->only($account, $this->allowed_user_fields);
 
-            $this->users_model->only($account['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->users_model->only($account['settings'], $this->allowed_user_setting_fields);
 
             if (empty($account['password'])) {
                 unset($account['password']);
