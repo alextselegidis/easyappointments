@@ -36,6 +36,8 @@ App.Pages.Customers = (function () {
     const $formMessage = $('#form-message');
     const $customerAppointments = $('#customer-appointments');
 
+    const moment = window.moment;
+
     let filterResults = {};
     let filterLimit = 20;
 
@@ -53,8 +55,8 @@ App.Pages.Customers = (function () {
             const key = $filterCustomers.find('.key').val();
             $filterCustomers.find('.selected').removeClass('selected');
             filterLimit = 20;
-            resetForm();
-            filter(key);
+            App.Pages.Customers.resetForm();
+            App.Pages.Customers.filter(key);
         });
 
         /**
@@ -82,7 +84,7 @@ App.Pages.Customers = (function () {
          * Event: Add Customer Button "Click"
          */
         $customers.on('click', '#add-customer', () => {
-            resetForm();
+            App.Pages.Customers.resetForm();
             $customers.find('#add-edit-delete-group').hide();
             $customers.find('#save-cancel-group').show();
             $customers.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -109,7 +111,7 @@ App.Pages.Customers = (function () {
         $customers.on('click', '#cancel-customer', () => {
             const id = $id.val();
 
-            resetForm();
+            App.Pages.Customers.resetForm();
 
             if (id) {
                 select(id, true);
@@ -142,11 +144,11 @@ App.Pages.Customers = (function () {
                 customer.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.Customers.validate()) {
                 return;
             }
 
-            save(customer);
+            App.Pages.Customers.save(customer);
         });
 
         /**
@@ -164,7 +166,7 @@ App.Pages.Customers = (function () {
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
-                        remove(customerId);
+                        App.Pages.Customers.remove(customerId);
                         messageModal.dispose();
                     },
                 },
@@ -182,9 +184,9 @@ App.Pages.Customers = (function () {
     function save(customer) {
         App.Http.Customers.save(customer).then((response) => {
             App.Layouts.Backend.displayNotification(lang('customer_saved'));
-            resetForm();
+            App.Pages.Customers.resetForm();
             $('#filter-customers .key').val('');
-            filter('', response.id, true);
+            App.Pages.Customers.filter('', response.id, true);
         });
     }
 
@@ -196,8 +198,8 @@ App.Pages.Customers = (function () {
     function remove(id) {
         App.Http.Customers.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('customer_deleted'));
-            resetForm();
-            filter($('#filter-customers .key').val());
+            App.Pages.Customers.resetForm();
+            App.Pages.Customers.filter($('#filter-customers .key').val());
         });
     }
 
@@ -392,7 +394,7 @@ App.Pages.Customers = (function () {
             $filterCustomers.find('.results').empty();
 
             response.forEach((customer) => {
-                $('#filter-customers .results').append(getFilterHtml(customer)).append($('<hr/>'));
+                $('#filter-customers .results').append(App.Pages.Customers.getFilterHtml(customer)).append($('<hr/>'));
             });
 
             if (!response.length) {
@@ -408,13 +410,13 @@ App.Pages.Customers = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.Customers.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-customers .results');
             }
 
             if (selectId) {
-                select(selectId, show);
+                App.Pages.Customers.select(selectId, show);
             }
         });
     }
@@ -466,7 +468,7 @@ App.Pages.Customers = (function () {
         if (show) {
             const customer = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
-            display(customer);
+            App.Pages.Customers.display(customer);
 
             $('#edit-customer, #delete-customer').prop('disabled', false);
         }
@@ -476,9 +478,9 @@ App.Pages.Customers = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        addEventListeners();
-        filter('');
+        App.Pages.Customers.resetForm();
+        App.Pages.Customers.addEventListeners();
+        App.Pages.Customers.filter('');
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
@@ -487,8 +489,11 @@ App.Pages.Customers = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();
