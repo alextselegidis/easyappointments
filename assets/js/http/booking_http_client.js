@@ -23,6 +23,8 @@ App.Http.Booking = (function () {
     const $captchaHint = $('#captcha-hint');
     const $captchaTitle = $('.captcha-title');
 
+    const MONTH_SEARCH_LIMIT = 2; // Months in the future
+
     const moment = window.moment;
 
     let unavailableDatesBackup;
@@ -263,32 +265,41 @@ App.Http.Booking = (function () {
             data: data,
             dataType: 'json',
         }).done((response) => {
+            // In case the current month has no availability, the app will try the next one or the one after in order to
+            // find a date that has at least one slot
+
             if (response.is_month_unavailable) {
                 if (!searchedMonthStart) {
                     searchedMonthStart = selectedDateString;
                 }
 
-                if (searchedMonthCounter >= 2) {
+                if (searchedMonthCounter >= MONTH_SEARCH_LIMIT) {
                     // Need to mark the current month dates as unavailable
                     const selectedDateMoment = moment(searchedMonthStart);
                     const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
                     const endOfMonthMoment = selectedDateMoment.clone().endOf('month');
                     const unavailableDates = [];
+
                     while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
                         unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
                         startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
                     }
+
                     applyUnavailableDates(unavailableDates, searchedMonthStart, true);
                     searchedMonthStart = undefined;
                     searchedMonthCounter = 0;
+
                     return; // Stop searching
                 }
 
                 searchedMonthCounter++;
+
                 const selectedDateMoment = moment(selectedDateString);
                 selectedDateMoment.add(1, 'month');
+
                 const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
                 getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
+
                 return;
             }
 
