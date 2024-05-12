@@ -148,14 +148,14 @@ App.Pages.Webhooks = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         App.Pages.Webhooks.remove(webhookId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

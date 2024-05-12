@@ -158,14 +158,14 @@ App.Pages.Secretaries = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(secretaryId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

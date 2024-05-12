@@ -475,7 +475,7 @@ App.Pages.Booking = (function () {
                     {
                         text: lang('close'),
                         click: (event, messageModal) => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         },
                     },
                     {
@@ -514,7 +514,7 @@ App.Pages.Booking = (function () {
                     {
                         text: lang('cancel'),
                         click: (event, messageModal) => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         },
                     },
                     {

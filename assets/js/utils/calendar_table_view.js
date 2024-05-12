@@ -306,7 +306,7 @@ App.Utils.CalendarTableView = (function () {
                     {
                         text: lang('cancel'),
                         click: (event, messageModal) => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         },
                     },
                     {
@@ -317,7 +317,7 @@ App.Utils.CalendarTableView = (function () {
                             const cancellationReason = $('#cancellation-reason').val();
 
                             App.Http.Calendar.deleteAppointment(appointmentId, cancellationReason).done(() => {
-                                messageModal.dispose();
+                                messageModal.hide();
 
                                 // Refresh calendar event items.
                                 $reloadAppointments.trigger('click');
@@ -1749,7 +1749,7 @@ App.Utils.CalendarTableView = (function () {
                     App.Utils.UI.setDateTimePickerValue($('#unavailability-start'), info.start);
                     App.Utils.UI.setDateTimePickerValue($('#unavailability-end'), info.end);
 
-                    messageModal.dispose();
+                    messageModal.hide();
                 },
             },
             {
@@ -1792,7 +1792,7 @@ App.Utils.CalendarTableView = (function () {
                         App.Pages.Calendar.getSelectionEndDate(info),
                     );
 
-                    messageModal.dispose();
+                    messageModal.hide();
                 },
             },
         ];

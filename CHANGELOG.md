@@ -46,6 +46,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add support for custom fields on customers (#1133)
 - Add from email/name and reply-to settings in the email.php configuration file (#1465)
 - Create a new setting that will define the default timezone of the application (#1390)
+- Integrate CalDAV Protocol for appointment syncing (#209)
 
 ### Changed
 
