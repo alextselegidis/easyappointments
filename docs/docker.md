@@ -43,6 +43,10 @@ Baikal, a self-hosted CalDAV server used to develop the CalDAV syncing integrati
 
 While activating CalDAV sync with the local Docker-based Baikal, you will need to first create a new Baikal user and then the credentials you defined along with the http://baikal/dav.php URL
 
+Openldap is configured to run through `openldap` container and ports `389` and `636`. 
+
+Phpldapadmin, an admin portal for openldap is available on `http://localhost:8200` (credentials are `cn=admin,dc=example,dc=org` / `admin`).
+
 **Attention:** This configuration is meant to make development easier. It is not intended to server as a production environment!
 
 A production image of Easy!Appointments can be found at: https://github.com/alextselegidis/easyappointments-docker
