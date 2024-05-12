@@ -166,7 +166,7 @@ class Caldav extends EA_Controller
                 $events_model = $CI->unavailabilities_model;
             }
 
-            // If current appointment not synced yet, add to Google Calendar.
+            // If current appointment not synced yet, add to CalDAV Calendar.
 
             if (!$local_event['id_caldav_calendar']) {
                 if (!$local_event['is_unavailability']) {
@@ -175,14 +175,14 @@ class Caldav extends EA_Controller
                     $caldav_event_id = $CI->caldav_sync->save_unavailability($local_event, $provider);
                 }
 
-                $local_event['id_google_calendar'] = $caldav_event_id;
+                $local_event['id_caldav_calendar'] = $caldav_event_id;
 
                 $events_model->save($local_event); // Save the CalDAV Calendar ID.
 
                 continue;
             }
 
-            // Appointment is synced with Google Calendar.
+            // Appointment is synced with CalDAV Calendar.
 
             try {
                 $caldav_event = $CI->caldav_sync->get_event($provider, $local_event['id_caldav_calendar']);
@@ -191,7 +191,7 @@ class Caldav extends EA_Controller
                     throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                 }
 
-                // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
+                // If CalDAV Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
                 $local_event_start = strtotime($local_event['start_datetime']);
                 $local_event_end = strtotime($local_event['end_datetime']);
 
@@ -214,7 +214,7 @@ class Caldav extends EA_Controller
                     $events_model->save($local_event);
                 }
             } catch (Throwable) {
-                // Appointment not found on Google Calendar, delete from Easy!Appointments.
+                // Appointment not found on CalDAV Calendar, delete from Easy!Appointments.
                 $events_model->delete($local_event['id']);
 
                 $local_event['id_caldav_calendar'] = null;
@@ -266,7 +266,7 @@ class Caldav extends EA_Controller
                 'location' => $caldav_event['location'],
                 'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
                 'id_users_provider' => $provider_id,
-                'id_google_calendar' => $caldav_event['id'],
+                'id_caldav_calendar' => $caldav_event['id'],
             ];
 
             $CI->unavailabilities_model->save($local_event);
@@ -371,44 +371,5 @@ class Caldav extends EA_Controller
         } catch (Throwable $e) {
             json_exception($e);
         }
-    }
-
-    /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function test(): void
-    {
-        $appointment = $this->appointments_model->find(5);
-        $service = $this->services_model->find($appointment['id_services']);
-        $provider = $this->providers_model->find($appointment['id_users_provider']);
-        $customer = $this->customers_model->find($appointment['id_users_customer']);
-
-        // Save example
-
-        // $caldav_event_id = $this->caldav_sync->save_appointment($appointment, $service, $provider, $customer);
-        // dd($caldav_event_id);
-
-        // Delete example
-
-        // $this->caldav_sync->delete_appointment($provider, $appointment['id_caldav_calendar']);
-
-        // Get event example
-
-        // $event = $this->caldav_sync->get_event($provider, $appointment['id_caldav_calendar']);
-        // dd($event);
-
-        // Get sync events example
-
-        // $events = $this->caldav_sync->get_sync_events($provider, '2024-05-06 00:00:00', '2024-05-13 00:00:00');
-        // dd($events);
-
-        // Save unavailability
-
-        // $unavailability = $this->unavailabilities_model->find(2);
-        // $unavailability_provider = $this->providers_model->find($unavailability['id_users_provider']);
-        //
-        // $this->caldav_sync->save_unavailability($unavailability, $unavailability_provider);
-
-        self::sync(2); // Sync jane
     }
 }
