@@ -70,7 +70,8 @@ class Caldav_sync
 
             $caldav_calendar = $provider['settings']['caldav_calendar'];
 
-            $caldav_event_id = $this->CI->ics_file->generate_uid($appointment['id']) . '.ics';
+            $caldav_event_id =
+                $appointment['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($appointment['id']);
 
             $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
 
@@ -107,7 +108,8 @@ class Caldav_sync
 
             $caldav_calendar = $provider['settings']['caldav_calendar'];
 
-            $caldav_event_id = $this->CI->ics_file->generate_uid($unavailability['id']) . '.ics';
+            $caldav_event_id =
+                $unavailability['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($unavailability['id']);
 
             $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
 
@@ -420,7 +422,7 @@ class Caldav_sync
      */
     private function get_caldav_event_uri(string $caldav_calendar, ?string $caldav_event_id = null): string
     {
-        return trim($caldav_calendar, '/') . ($caldav_event_id ? '/' . $caldav_event_id : '');
+        return trim($caldav_calendar, '/') . ($caldav_event_id ? '/' . $caldav_event_id . '.ics' : '');
     }
 
     /**

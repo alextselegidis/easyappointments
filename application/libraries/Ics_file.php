@@ -78,7 +78,7 @@ class Ics_file
             ->setEnd($appointment_end)
             ->setStatus('CONFIRMED')
             ->setSummary($service['name'])
-            ->setUid($this->generate_uid($appointment['id']));
+            ->setUid($appointment['id_caldav_calendar'] ?: $this->generate_uid($appointment['id']));
 
         if (!empty($service['location'])) {
             $location = new Location();
@@ -198,7 +198,7 @@ class Ics_file
             ->setEnd($unavailability_end)
             ->setStatus('CONFIRMED')
             ->setSummary('Unavailability')
-            ->setUid($this->generate_uid($unavailability['id']));
+            ->setUid($unavailability['id_caldav_calendar'] ?: $this->generate_uid($unavailability['id']));
 
         $event->setDescription(str_replace("\n", "\\n", (string) $unavailability['notes']));
 
