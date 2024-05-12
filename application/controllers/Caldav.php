@@ -365,6 +365,8 @@ class Caldav extends EA_Controller
 
             $this->providers_model->save($provider);
 
+            $this->appointments_model->clear_caldav_sync_ids($provider_id);
+
             json_response([
                 'success' => true,
             ]);
