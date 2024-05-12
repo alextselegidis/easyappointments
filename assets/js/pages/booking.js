@@ -424,6 +424,13 @@ App.Pages.Booking = (function () {
                     $('#step-' + nextTabIndex).addClass('active-step');
                     $('#wizard-frame-' + nextTabIndex).fadeIn();
                 });
+
+            // Scroll to the top of the page. On a small screen, especially on a mobile device, this is very useful.
+            const scrollingElement = (document.scrollingElement || document.body);
+            if (window.innerHeight < scrollingElement.scrollHeight) {
+                scrollingElement.scrollTop = 0;
+            }
+
         });
 
         /**
