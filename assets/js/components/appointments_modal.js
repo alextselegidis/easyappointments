@@ -450,7 +450,7 @@ App.Components.AppointmentsModal = (function () {
         $appointmentStatus.val(defaultStatusValue);
 
         $language.val(vars('default_language'));
-        $timezone.val(vars('default_timezone'))
+        $timezone.val(vars('default_timezone'));
 
         // Reset color.
         $appointmentColor.find('.color-selection-option:first').trigger('click');
