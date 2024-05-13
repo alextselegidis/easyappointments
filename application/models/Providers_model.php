@@ -748,6 +748,7 @@ class Providers_model extends EA_Model
             'state' => $provider['state'],
             'zip' => $provider['zip_code'],
             'notes' => $provider['notes'],
+            'is_private' => $provider['is_private'],
             'timezone' => $provider['timezone'],
         ];
 
@@ -862,6 +863,10 @@ class Providers_model extends EA_Model
 
         if (array_key_exists('services', $provider)) {
             $decoded_resource['services'] = $provider['services'];
+        }
+
+        if (array_key_exists('isPrivate', $provider)) {
+            $decoded_resource['is_private'] = (bool) $provider['isPrivate'];
         }
 
         if (array_key_exists('settings', $provider)) {

@@ -7,6 +7,7 @@
 /docs/plato/html
 /docker/mysql/
 /docker/baikal/
+/docker/openldap/
 /node_modules/
 /npm-debug.log
 /assets/js/**/*.min.js

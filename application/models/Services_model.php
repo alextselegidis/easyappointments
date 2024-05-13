@@ -417,6 +417,7 @@ class Services_model extends EA_Model
             'location' => $service['location'],
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int) $service['attendants_number'],
+            'isPrivate' => (bool) $service['is_private'],
             'serviceCategoryId' =>
                 $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null,
         ];
@@ -472,6 +473,10 @@ class Services_model extends EA_Model
 
         if (array_key_exists('serviceCategoryId', $service)) {
             $decoded_resource['id_service_categories'] = $service['serviceCategoryId'];
+        }
+
+        if (array_key_exists('isPrivate', $service)) {
+            $decoded_resource['is_private'] = (bool) $service['isPrivate'];
         }
 
         $service = $decoded_resource;
