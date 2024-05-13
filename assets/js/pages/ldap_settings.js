@@ -57,6 +57,11 @@ App.Pages.LdapSettings = (function () {
         }
     }
 
+    /**
+     * Apply the setting values to the UI form.
+     *
+     * @param {Array} ldapSettings
+     */
     function deserialize(ldapSettings) {
         ldapSettings.forEach((ldapSetting) => {
             const $field = $('[data-field="' + ldapSetting.name + '"]');
@@ -67,6 +72,11 @@ App.Pages.LdapSettings = (function () {
         });
     }
 
+    /**
+     * Prepare an array of setting values based on the UI form.
+     *
+     * @return {Array}
+     */
     function serialize() {
         const ldapSettings = [];
 

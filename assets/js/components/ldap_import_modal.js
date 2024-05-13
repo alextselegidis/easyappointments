@@ -35,6 +35,11 @@ App.Components.LdapImportModal = (function () {
 
     let deferred;
 
+    /**
+     * Validate the import modal form.
+     *
+     * @return {Boolean}
+     */
     function validate() {
         $modal.find('.is-invalid').removeClass('is-invalid');
 
@@ -51,6 +56,13 @@ App.Components.LdapImportModal = (function () {
         return !missingRequiredField;
     }
 
+    /**
+     * Get the right HTTP client for the create-user request.
+     *
+     * @param {String} roleSlug
+     *
+     * @return {Object}
+     */
     function getHttpClient(roleSlug) {
         switch (roleSlug) {
             case App.Layouts.Backend.DB_SLUG_CUSTOMER:
@@ -66,6 +78,13 @@ App.Components.LdapImportModal = (function () {
         }
     }
 
+    /**
+     * Get the user data object, based on the form values the user provided.
+     *
+     * @param {String} roleSlug
+     *
+     * @return {Object}
+     */
     function getUser(roleSlug) {
         const user = {
             first_name: $firstName.val(),
@@ -102,6 +121,9 @@ App.Components.LdapImportModal = (function () {
         $password.val('');
     }
 
+    /**
+     * Save the current user data.
+     */
     function onSaveClick() {
         if (!validate()) {
             return;
@@ -120,6 +142,9 @@ App.Components.LdapImportModal = (function () {
         });
     }
 
+    /**
+     * Reset the modal every time it's hidden.
+     */
     function onModalHidden() {
         resetModal();
 
@@ -128,6 +153,9 @@ App.Components.LdapImportModal = (function () {
         }
     }
 
+    /**
+     * Reset the modal fields and state.
+     */
     function resetModal() {
         $modal.find('input, select, textarea').val('');
         $modal.find(':checkbox').prop('checked', false);
