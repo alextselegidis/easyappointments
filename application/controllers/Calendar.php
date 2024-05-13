@@ -177,6 +177,7 @@ class Calendar extends EA_Controller
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
+            'google_sync_feature' => config('google_sync_feature'),
             'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
@@ -215,6 +216,7 @@ class Calendar extends EA_Controller
     {
         try {
             $customer_data = request('customer_data');
+
             $appointment_data = request('appointment_data');
 
             $this->check_event_permissions((int) $appointment_data['id_users_provider']);
@@ -250,8 +252,8 @@ class Calendar extends EA_Controller
                     throw new RuntimeException('You do not have the required permissions for this task.');
                 }
 
-                // If the appointment does not contain the customer record id, then it means that is going to be
-                // inserted.
+                // If the appointment does not contain the customer record id, then it means that is going to be inserted.
+
                 if (!isset($appointment['id_users_customer'])) {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
                 }
@@ -713,12 +715,6 @@ class Calendar extends EA_Controller
                 $response['unavailabilities'] = $this->unavailabilities_model->get($where_clause);
             }
 
-            foreach ($response['unavailabilities'] as &$unavailability) {
-                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
-            }
-
-            unset($appointment);
-
             $user_id = session('user_id');
 
             $role_slug = session('role_slug');
@@ -764,6 +760,12 @@ class Calendar extends EA_Controller
 
                 $response['unavailabilities'] = array_values($response['unavailabilities']);
             }
+
+            foreach ($response['unavailabilities'] as &$unavailability) {
+                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
+            }
+
+            unset($unavailability);
 
             // Add blocked periods to the response.
             $start_date = request('start_date');

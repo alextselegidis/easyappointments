@@ -1802,6 +1802,8 @@ components:
           type: integer
         googleCalendarId:
           type: string
+        caldavCalendarId:
+          type: string
       example:
         id: 1
         book: '2021-01-01 12:00:00'
@@ -1816,6 +1818,7 @@ components:
         providerId: 2
         serviceId: 6
         googleCalendarId: null
+        caldavCalendarId: null
     AppointmentPayload:
       type: object
       properties:
@@ -1867,7 +1870,9 @@ components:
         providerId:
           type: integer
         googleCalendarId:
-          type: integer
+          type: string
+        caldavCalendarId:
+          type: string
       example:
         id: 1
         book: '2021-01-01 12:00:00'
@@ -1878,6 +1883,7 @@ components:
         notes: This is a test unavailability.
         providerId: 2
         googleCalendarId: null
+        caldavCalendarId: null
     UnavailabilityPayload:
       type: object
       properties:
@@ -2241,6 +2247,16 @@ components:
               type: string
             googleToken:
               type: string
+            caldavSync:
+              type: boolean
+            caldavUrl:
+              type: string
+            caldavUsername:
+              type: string
+            caldavPassword:
+              type: string
+            caldavCalendar:
+              type: string
             syncFutureDays:
               type: string
             syncPastDays:
@@ -2269,6 +2285,11 @@ components:
           googleSync: false
           googleCalendar: null
           googleToken: null
+          caldavSync: false
+          caldavUrl: null
+          caldavUsername: null
+          caldavPassword: null
+          caldavCalendar: null
           syncFutureDays: 90
           syncPastDays: 30
           workingPlan:
@@ -2341,6 +2362,16 @@ components:
               type: string
             googleToken:
               type: string
+            caldavSync:
+              type: boolean
+            caldavUrl:
+              type: string
+            caldavUsername:
+              type: string
+            caldavPassword:
+              type: string
+            caldavCalendar:
+              type: string
             syncFutureDays:
               type: string
             syncPastDays:
@@ -2368,6 +2399,11 @@ components:
           googleSync: false
           googleCalendar: null
           googleToken: null
+          caldavSync: false
+          caldavUrl: null
+          caldavUsername: null
+          caldavPassword: null
+          caldavCalendar: null
           syncFutureDays: 90
           syncPastDays: 30
           workingPlan:

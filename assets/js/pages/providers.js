@@ -135,14 +135,14 @@ App.Pages.Providers = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         App.Pages.Providers.remove(providerId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

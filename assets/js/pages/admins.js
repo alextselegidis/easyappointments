@@ -154,14 +154,14 @@ App.Pages.Admins = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         App.Pages.Admins.remove(adminId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

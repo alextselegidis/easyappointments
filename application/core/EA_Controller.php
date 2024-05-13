@@ -60,6 +60,7 @@
  * @property Email_messages $email_messages
  * @property Captcha_builder $captcha_builder
  * @property Google_Sync $google_sync
+ * @property Caldav_Sync $caldav_sync
  * @property Ics_file $ics_file
  * @property Instance $instance
  * @property Notifications $notifications

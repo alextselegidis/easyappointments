@@ -46,6 +46,7 @@ class Appointments_model extends EA_Model
         'providerId' => 'id_users_provider',
         'customerId' => 'id_users_customer',
         'googleCalendarId' => 'id_google_calendar',
+        'caldavCalendarId' => 'id_caldav_calendar',
     ];
 
     /**
@@ -329,6 +330,16 @@ class Appointments_model extends EA_Model
     }
 
     /**
+     * Remove all the Google Calendar event IDs from appointment records.
+     *
+     * @param int $provider_id Matching provider ID.
+     */
+    public function clear_caldav_sync_ids(int $provider_id): void
+    {
+        $this->db->update('appointments', ['id_caldav_calendar' => null], ['id_users_provider' => $provider_id]);
+    }
+
+    /**
      * Get the attendants number for the requested period.
      *
      * @param DateTime $start Period start.
@@ -544,6 +555,8 @@ class Appointments_model extends EA_Model
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
             'googleCalendarId' =>
                 $appointment['id_google_calendar'] !== null ? $appointment['id_google_calendar'] : null,
+            'caldavCalendarId' =>
+                $appointment['id_caldav_calendar'] !== null ? $appointment['id_caldav_calendar'] : null,
         ];
 
         $appointment = $encoded_resource;
@@ -605,6 +618,10 @@ class Appointments_model extends EA_Model
 
         if (array_key_exists('googleCalendarId', $appointment)) {
             $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+        }
+
+        if (array_key_exists('caldavCalendarId', $appointment)) {
+            $decoded_request['id_caldav_calendar'] = $appointment['caldavCalendarId'];
         }
 
         $decoded_request['is_unavailability'] = false;

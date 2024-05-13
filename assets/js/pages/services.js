@@ -178,14 +178,14 @@ App.Pages.Services = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         App.Pages.Services.remove(serviceId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

@@ -78,7 +78,7 @@ class Ics_file
             ->setEnd($appointment_end)
             ->setStatus('CONFIRMED')
             ->setSummary($service['name'])
-            ->setUid($appointment['id']);
+            ->setUid($appointment['id_caldav_calendar'] ?: $this->generate_uid($appointment['id']));
 
         if (!empty($service['location'])) {
             $location = new Location();
@@ -180,5 +180,52 @@ class Ics_file
         $calendarExport->addCalendar($calendar);
 
         return $calendarExport->getStream();
+    }
+
+    public function get_unavailability_stream(array $unavailability, array $provider): string
+    {
+        $unavailability_timezone = new DateTimeZone($provider['timezone']);
+
+        $unavailability_start = new DateTime($unavailability['start_datetime'], $unavailability_timezone);
+
+        $unavailability_end = new DateTime($unavailability['end_datetime'], $unavailability_timezone);
+
+        // Set up the event.
+        $event = new CalendarEvent();
+
+        $event
+            ->setStart($unavailability_start)
+            ->setEnd($unavailability_end)
+            ->setStatus('CONFIRMED')
+            ->setSummary('Unavailability')
+            ->setUid($unavailability['id_caldav_calendar'] ?: $this->generate_uid($unavailability['id']));
+
+        $event->setDescription(str_replace("\n", "\\n", (string) $unavailability['notes']));
+
+        // Set the organizer.
+        $organizer = new Organizer(new Formatter());
+
+        $organizer->setValue($provider['email'])->setName($provider['first_name'] . ' ' . $provider['last_name']);
+
+        $event->setOrganizer($organizer);
+
+        // Setup calendar.
+        $calendar = new Ics_calendar();
+
+        $calendar
+            ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
+            ->setTimezone(new DateTimeZone($provider['timezone']))
+            ->addEvent($event);
+
+        // Setup exporter.
+        $calendarExport = new CalendarExport(new CalendarStream(), new Formatter());
+        $calendarExport->addCalendar($calendar);
+
+        return $calendarExport->getStream();
+    }
+
+    public function generate_uid(int $db_record_id): string
+    {
+        return 'ea-' . md5($db_record_id);
     }
 }

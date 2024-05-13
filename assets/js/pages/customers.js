@@ -160,14 +160,14 @@ App.Pages.Customers = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         App.Pages.Customers.remove(customerId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

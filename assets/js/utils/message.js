@@ -47,8 +47,10 @@ window.App.Utils.Message = (function () {
             ];
         }
 
-        if (messageModal?.dispose && messageModal?._element) {
+        if (messageModal?.dispose && messageModal?.hide && messageModal?._element) {
+            messageModal.hide();
             messageModal.dispose();
+            messageModal = undefined;
         }
 
         $('#message-modal').remove();
@@ -90,7 +92,7 @@ window.App.Utils.Message = (function () {
             }
 
             const $button = $(`
-                <button type="button" class="${button.className}" data-bs-dismiss="modal">
+                <button type="button" class="${button.className}">
                     ${button.text}
                 </button>
             `).appendTo($messageModal.find('.modal-footer'));

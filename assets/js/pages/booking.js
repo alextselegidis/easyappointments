@@ -424,12 +424,6 @@ App.Pages.Booking = (function () {
                     $('#step-' + nextTabIndex).addClass('active-step');
                     $('#wizard-frame-' + nextTabIndex).fadeIn();
                 });
-
-            // Scroll to the top of the page. On a small screen, especially on a mobile device, this is very useful.
-            const scrollingElement = (document.scrollingElement || document.body);
-            if (window.innerHeight < scrollingElement.scrollHeight) {
-                scrollingElement.scrollTop = 0;
-            }
         });
 
         /**
@@ -481,7 +475,7 @@ App.Pages.Booking = (function () {
                     {
                         text: lang('close'),
                         click: (event, messageModal) => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         },
                     },
                     {
@@ -520,7 +514,7 @@ App.Pages.Booking = (function () {
                     {
                         text: lang('cancel'),
                         click: (event, messageModal) => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         },
                     },
                     {
@@ -677,14 +671,14 @@ App.Pages.Booking = (function () {
             <div>
                 <div class="mb-2 fw-bold fs-3">
                     ${serviceOptionText}
-                </div>
+                </div> 
                 <div class="mb-2 fw-bold text-muted">
                     ${providerOptionText}
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-calendar-day me-2"></i>
                     ${formattedSelectedDate}
-                </div>
+                </div> 
                 <div class="mb-2">
                     <i class="fas fa-clock me-2"></i>
                     ${service.duration} ${lang('minutes')}
@@ -692,12 +686,12 @@ App.Pages.Booking = (function () {
                 <div class="mb-2">
                     <i class="fas fa-globe me-2"></i>
                     ${timezoneOptionText}
-                </div>
+                </div> 
                 <div class="mb-2" ${!Number(service.price) ? 'hidden' : ''}>
                     <i class="fas fa-cash-register me-2"></i>
                     ${Number(service.price).toFixed(2)} ${service.currency}
                 </div>
-            </div>
+            </div>     
         `);
 
         // Render the customer information
