@@ -2024,6 +2024,8 @@ components:
           type: string
         attendantsNumber:
           type: integer
+        isPrivate:
+          type: boolean
         categoryId:
           type: integer
       example:
@@ -2036,6 +2038,7 @@ components:
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
+        isPrivate: false
         serviceCategoryId: null
     ServicePayload:
       type: object
@@ -2056,6 +2059,8 @@ components:
           type: string
         attendantsNumber:
           type: integer
+        isPrivate:
+          type: boolean
         serviceCategoryId:
           type: integer
       example:
@@ -2067,6 +2072,7 @@ components:
         description: This is a test service.
         availabilitiesType: flexible
         attendantsNumber: 1
+        isPrivate: false
         serviceCategoryId: null
     ServiceCategoryRecord:
       type: object
@@ -2226,6 +2232,8 @@ components:
           type: string
         language:
           type: string
+        isPrivate:
+          type: boolean
         services:
           type: array
           items:
@@ -2277,6 +2285,7 @@ components:
         timezone: UTC
         language: english
         services: [ ]
+        isPrivate: false
         settings:
           username: chrisdoe
           password: Password@123
@@ -2340,6 +2349,8 @@ components:
           type: string
         language:
           type: string
+        isPrivate:
+          type: boolean
         services:
           type: array
           items:
@@ -2390,6 +2401,7 @@ components:
         notes: This is a test provider.
         timezone: UTC
         language: english
+        isPrivate: false
         services: [ ]
         settings:
           username: chrisdoe
