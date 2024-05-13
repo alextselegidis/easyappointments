@@ -45,6 +45,7 @@ class Secretaries_model extends EA_Model
         'timezone' => 'timezone',
         'language' => 'language',
         'notes' => 'notes',
+        'ldapDn' => 'ldap_dn',
         'roleId' => 'id_roles',
     ];
 
@@ -601,6 +602,8 @@ class Secretaries_model extends EA_Model
             'notes' => $secretary['notes'],
             'providers' => $secretary['providers'],
             'timezone' => $secretary['timezone'],
+            'language' => $secretary['language'],
+            'ldapDn' => $secretary['ldap_dn'],
             'settings' => [
                 'username' => $secretary['settings']['username'],
                 'notifications' => filter_var($secretary['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
@@ -667,6 +670,14 @@ class Secretaries_model extends EA_Model
 
         if (array_key_exists('timezone', $secretary)) {
             $decoded_resource['timezone'] = $secretary['timezone'];
+        }
+
+        if (array_key_exists('language', $secretary)) {
+            $decoded_resource['language'] = $secretary['language'];
+        }
+
+        if (array_key_exists('ldapDn', $secretary)) {
+            $decoded_resource['ldap_dn'] = $secretary['ldapDn'];
         }
 
         if (array_key_exists('providers', $secretary)) {

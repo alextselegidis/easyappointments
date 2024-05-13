@@ -35,6 +35,7 @@ class Providers extends EA_Controller
         'timezone',
         'language',
         'is_private',
+        'ldap_dn',
         'id_roles',
         'settings',
         'services',
@@ -52,6 +53,11 @@ class Providers extends EA_Controller
         'services' => [],
     ];
 
+    public array $optional_provider_setting_fields = [
+        'working_plan' => null,
+        'working_plan_exceptions' => '{}',
+    ];
+
     /**
      * Providers constructor.
      */
@@ -66,6 +72,8 @@ class Providers extends EA_Controller
         $this->load->library('accounts');
         $this->load->library('timezones');
         $this->load->library('webhooks_client');
+
+        $this->optional_provider_setting_fields['working_plan'] = setting('company_working_plan');
     }
 
     /**
@@ -168,6 +176,8 @@ class Providers extends EA_Controller
 
             $this->providers_model->optional($provider, $this->optional_provider_fields);
 
+            $this->providers_model->optional($provider['settings'], $this->optional_provider_setting_fields);
+
             $provider_id = $this->providers_model->save($provider);
 
             $provider = $this->providers_model->find($provider_id);
@@ -220,6 +230,8 @@ class Providers extends EA_Controller
             $this->providers_model->only($provider['settings'], $this->allowed_provider_setting_fields);
 
             $this->providers_model->optional($provider, $this->optional_provider_fields);
+
+            $this->providers_model->optional($provider['settings'], $this->optional_provider_setting_fields);
 
             $provider_id = $this->providers_model->save($provider);
 

@@ -41,7 +41,7 @@ window.App.Utils.Message = (function () {
                     text: lang('close'),
                     className: 'btn btn-outline-primary',
                     click: function (event, messageModal) {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];

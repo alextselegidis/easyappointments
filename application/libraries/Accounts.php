@@ -161,4 +161,24 @@ class Accounts
             ->get()
             ->num_rows() > 0;
     }
+
+    /**
+     * Get a user record based on the provided username value
+     *
+     * @param string $username
+     *
+     * @return array|null
+     */
+    public function get_user_by_username(string $username): ?array
+    {
+        $user_settings = $this->CI->db->get_where('user_settings', ['username' => $username])->row_array();
+
+        if (!$user_settings) {
+            return null;
+        }
+
+        $user_id = $user_settings['id_users'];
+
+        return $this->CI->users_model->find($user_id);
+    }
 }

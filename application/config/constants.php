@@ -94,6 +94,16 @@ const EVENT_MINIMUM_DURATION = 5; // Minutes
 
 const DEFAULT_COMPANY_COLOR = '#ffffff';
 
+const LDAP_DEFAULT_FILTER = '(&(objectClass=person)(|(cn={{KEYWORD}})(sn={{KEYWORD}})(mail={{KEYWORD}})(givenName={{KEYWORD}})(uid={{KEYWORD}})))';
+
+const LDAP_DEFAULT_FIELD_MAPPING = [
+    'first_name' => 'givenname',
+    'last_name' => 'sn',
+    'email' => 'mail',
+    'phone_number' => 'telephonenumber',
+    'username' => 'cn',
+];
+
 /*
 |--------------------------------------------------------------------------
 | Webhook Actions

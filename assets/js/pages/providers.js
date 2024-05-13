@@ -30,6 +30,7 @@ App.Pages.Providers = (function () {
     const $notes = $('#notes');
     const $language = $('#language');
     const $timezone = $('#timezone');
+    const $ldapDn = $('#ldap-dn');
     const $username = $('#username');
     const $password = $('#password');
     const $passwordConfirmation = $('#password-confirm');
@@ -168,6 +169,7 @@ App.Pages.Providers = (function () {
                 notes: $notes.val(),
                 language: $language.val(),
                 timezone: $timezone.val(),
+                ldap_dn: $ldapDn.val(),
                 settings: {
                     username: $username.val(),
                     working_plan: JSON.stringify(workingPlanManager.get()),
@@ -384,6 +386,7 @@ App.Pages.Providers = (function () {
         $notes.val(provider.notes);
         $language.val(provider.language);
         $timezone.val(provider.timezone);
+        $ldapDn.val(provider.ldap_dn);
 
         $username.val(provider.settings.username);
         $calendarView.val(provider.settings.calendar_view);

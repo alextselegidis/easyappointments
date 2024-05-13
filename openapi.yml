@@ -1936,6 +1936,8 @@ components:
           type: string
         customField5:
           type: string
+        ldapDn:
+          type: string          
         notes:
           type: string
       example:
@@ -1953,6 +1955,7 @@ components:
         customField3: Value3
         customField4: Value4
         customField5: Value5
+        ldapDn: null
         notes: This is a test customer.
     CustomerPayload:
       type: object
@@ -1985,6 +1988,8 @@ components:
           type: string
         customField5:
           type: string
+        ldapDn:
+          type: string
         notes:
           type: string
       example:
@@ -2001,6 +2006,7 @@ components:
         customField3: Value3
         customField4: Value4
         customField5: Value5
+        ldapDn: null
         notes: This is a test customer.
     ServiceRecord:
       type: object
@@ -2122,6 +2128,10 @@ components:
           type: string
         timezone:
           type: string
+        language:
+          type: string
+        ldapDn:
+          type: string
         settings:
           type: object
           properties:
@@ -2146,6 +2156,8 @@ components:
         zip: '12345'
         notes: This is a test admin.
         timezone: UTC
+        language: english
+        ldapDn: null
         settings:
           username: jasondoe
           password: Password@123
@@ -2176,6 +2188,8 @@ components:
           type: string
         language:
           type: string
+        ldapDn:
+          type: string
         settings:
           type: object
           properties:
@@ -2200,6 +2214,7 @@ components:
         notes: This is a test admin.
         timezone: UTC
         language: english
+        ldapDn: null
         settings:
           username: jasondoe
           password: Password@123
@@ -2234,6 +2249,8 @@ components:
           type: string
         isPrivate:
           type: boolean
+        ldapDn:
+          type: string
         services:
           type: array
           items:
@@ -2286,6 +2303,7 @@ components:
         language: english
         services: [ ]
         isPrivate: false
+        ldapDn: null
         settings:
           username: chrisdoe
           password: Password@123
@@ -2351,6 +2369,8 @@ components:
           type: string
         isPrivate:
           type: boolean
+        ldapDn:
+          type: string
         services:
           type: array
           items:
@@ -2402,6 +2422,7 @@ components:
         timezone: UTC
         language: english
         isPrivate: false
+        ldapDn: null
         services: [ ]
         settings:
           username: chrisdoe
@@ -2468,6 +2489,8 @@ components:
           type: string
         language:
           type: string
+        ldapDn:
+          type: string
         providers:
           type: array
           items:
@@ -2497,6 +2520,7 @@ components:
         notes: This is a test service.
         timezone: UTC
         language: english
+        ldapDn: null
         providers: [ ]
         settings:
           username: jessydoe
@@ -2528,6 +2552,8 @@ components:
           type: string
         language:
           type: string
+        ldapDn:
+          type: string
         providers:
           type: array
           items:
@@ -2556,6 +2582,7 @@ components:
         notes: This is a test service.
         timezone: UTC
         language: english
+        ldapDn: null
         providers: [ ]
         settings:
           username: jessydoe
