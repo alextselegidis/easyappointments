@@ -477,4 +477,5 @@ $lang['user_imported'] = 'Η εγγραφή χρήστη εισήχθη με ε�
 $lang['import'] = 'Εισαγωγή';
 $lang['ldap_dn'] = 'LDAP DN';
 $lang['role'] = 'Ρόλος';
+$lang['at_least_one_field_required'] = 'Τουλάχιστον ένα πεδίο πρέπει να έχει οριστεί ως υποχρεωτικό στη σελίδα κράτησης.';
 // End

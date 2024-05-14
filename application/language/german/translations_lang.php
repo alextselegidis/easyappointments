@@ -477,4 +477,5 @@ $lang['user_imported'] = 'Der Benutzerdatensatz wurde erfolgreich importiert.';
 $lang['import'] = 'Importieren';
 $lang['ldap_dn'] = 'LDAP-DN';
 $lang['role'] = 'Rolle';
+$lang['at_least_one_field_required'] = 'Mindestens ein Feld muss auf der Buchungsseite als erforderlich gekennzeichnet sein.';
 // End
