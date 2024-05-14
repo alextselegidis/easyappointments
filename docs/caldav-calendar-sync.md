@@ -7,7 +7,7 @@ the CalDAV integration of Easy!Appointments.
 
 ## Initial Setup
 
-By default, Baikal is configured to run on localhost:9000, so it can be accessed by opening the browser to this address.
+By default, Baikal is configured to run on localhost:8100, so it can be accessed by opening the browser to this address.
 
 The first time the app is executed, it will display a small initial-configuration form that has to be submitted for
 Baikal to work.
@@ -41,10 +41,10 @@ the initial setup.
 While trying to enable the CalDAV sync from the Easy!Appointments calendar page, use the following credentials after
 clicking on "Enable Sync" > "CalDAV".
 
-- URL: http://localhost:9000/dav.php
+- URL: http://baikal:8100/dav.php
 - Username: <from-previous-step>
 - Password: <from-previous-step>
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.0.*
 
 [Back](readme.md)
