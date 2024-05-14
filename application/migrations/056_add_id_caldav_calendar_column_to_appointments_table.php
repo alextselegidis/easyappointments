@@ -22,7 +22,7 @@ class Migration_Add_id_caldav_calendar_column_to_appointments_table extends EA_M
             $fields = [
                 'id_caldav_calendar' => [
                     'type' => 'TEXT',
-                    'default' => '',
+                    'null' => null,
                     'after' => 'id_google_calendar',
                 ],
             ];

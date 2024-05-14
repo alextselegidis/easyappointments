@@ -24,7 +24,7 @@
 <div class="content container">
     <div class="welcome">
         <h3>Welcome to the Easy!Appointments installation page.</h3>
-        <p><details>
+        <p>
             This page will help you set the main settings of your Easy!Appointments installation. You will be able to
             edit these settings and many more in the backend session of your system. Remember to use the
             <strong class="text-primary"><?= site_url('user/login') ?></strong> URL to connect to the backend section
@@ -36,7 +36,7 @@
             submit new issues on
             <a href="https://github.com/alextselegidis/easyappointments/issues">GitHub Issues</a>
             in order to help our development process.
-        </details></p>
+        </p>
     </div>
 
     <div class="alert" hidden></div>
@@ -107,12 +107,14 @@
                     <span class="text-danger">*</span>
                 </label>
                 <select id="language" class="form-control required">
-                    <?php $config_lang = config('language');
+                    <?php
+                    $config_lang = config('language');
                     foreach (vars('available_languages') as $lang): ?>
-                        <option value="<?= $lang ?>"<?= ($lang == $config_lang ?' selected':'') ?>>
+                        <option value="<?= $lang ?>"<?= $lang == $config_lang ? ' selected' : '' ?>>
                             <?= ucfirst($lang) ?>
                         </option>
-                    <?php endforeach; ?>
+                    <?php endforeach;
+                    ?>
                 </select>
             </div>
 

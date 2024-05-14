@@ -52,6 +52,12 @@ App.Pages.BookingSettings = (function () {
                 throw new Error(lang('at_least_one_field'));
             }
 
+            // Ensure there is at least one field required.
+
+            if (!$('.require-switch:checked').length) {
+                throw new Error(lang('at_least_one_field_required'));
+            }
+
             return false;
         } catch (error) {
             App.Layouts.Backend.displayNotification(error.message);
