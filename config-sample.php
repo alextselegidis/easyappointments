@@ -1,12 +1,12 @@
 <?php
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -48,11 +48,6 @@ class Config {
     // ------------------------------------------------------------------------
 
     const GOOGLE_SYNC_FEATURE   = FALSE; // Enter TRUE or FALSE
-    const GOOGLE_PRODUCT_NAME   = '';
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
-    const GOOGLE_API_KEY        = '';
 }
-
-/* End of file config.php */
-/* Location: ./config.php */
