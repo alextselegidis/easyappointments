@@ -28,6 +28,7 @@ class Login extends EA_Controller
         parent::__construct();
 
         $this->load->library('accounts');
+        $this->load->library('ldap_client');
         $this->load->library('email_messages');
 
         script_vars([
@@ -74,6 +75,10 @@ class Login extends EA_Controller
             }
 
             $user_data = $this->accounts->check_login($username, $password);
+
+            if (empty($user_data)) {
+                $user_data = $this->ldap_client->check_login($username, $password);
+            }
 
             if (empty($user_data)) {
                 throw new InvalidArgumentException('Invalid credentials provided, please try again.');

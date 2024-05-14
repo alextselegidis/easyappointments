@@ -44,6 +44,7 @@ class Users_model extends EA_Model
         'zip' => 'zip_code',
         'timezone' => 'timezone',
         'language' => 'language',
+        'ldapDn' => 'ldap_dn',
         'notes' => 'notes',
         'roleId' => 'id_roles',
     ];
@@ -125,7 +126,7 @@ class Users_model extends EA_Model
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        $this->save_settings($user['id'], $settings);
+        $this->set_settings($user['id'], $settings);
 
         return $user['id'];
     }
@@ -138,7 +139,7 @@ class Users_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $user_id, array $settings): void
+    protected function set_settings(int $user_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -154,6 +155,22 @@ class Users_model extends EA_Model
         foreach ($settings as $name => $value) {
             $this->set_setting($user_id, $name, $value);
         }
+    }
+
+    /**
+     * Get the user settings.
+     *
+     * @param int $user_id User ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $user_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
     }
 
     /**
@@ -200,7 +217,7 @@ class Users_model extends EA_Model
             throw new RuntimeException('Could not update user.');
         }
 
-        $this->save_settings($user['id'], $settings);
+        $this->set_settings($user['id'], $settings);
 
         return $user['id'];
     }
@@ -236,9 +253,7 @@ class Users_model extends EA_Model
 
         $this->cast($user);
 
-        $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
-
-        unset($user['settings']['id_users'], $user['settings']['password'], $user['settings']['salt']);
+        $user['settings'] = $this->get_settings($user['id']);
 
         return $user;
     }
@@ -346,10 +361,7 @@ class Users_model extends EA_Model
 
         foreach ($users as &$user) {
             $this->cast($user);
-
-            $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row_array();
-
-            unset($user['settings']['id_users'], $user['settings']['password'], $user['settings']['salt']);
+            $user['settings'] = $this->get_settings($user['id']);
         }
 
         return $users;
@@ -383,10 +395,7 @@ class Users_model extends EA_Model
 
         foreach ($users as &$user) {
             $this->cast($user);
-
-            $user['settings'] = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row_array();
-
-            unset($user['settings']['id_users'], $user['settings']['password'], $user['settings']['salt']);
+            $user['settings'] = $this->get_settings($user['id']);
         }
 
         return $users;

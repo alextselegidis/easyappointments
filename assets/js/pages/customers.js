@@ -27,6 +27,7 @@ App.Pages.Customers = (function () {
     const $zipCode = $('#zip-code');
     const $timezone = $('#timezone');
     const $language = $('#language');
+    const $ldapDn = $('#ldap-dn');
     const $customField1 = $('#custom-field-1');
     const $customField2 = $('#custom-field-2');
     const $customField3 = $('#custom-field-3');
@@ -138,6 +139,7 @@ App.Pages.Customers = (function () {
                 custom_field_3: $customField3.val(),
                 custom_field_4: $customField4.val(),
                 custom_field_5: $customField5.val(),
+                ldap_dn: $ldapDn.val(),
             };
 
             if ($id.val()) {
@@ -288,6 +290,7 @@ App.Pages.Customers = (function () {
         $notes.val(customer.notes);
         $timezone.val(customer.timezone);
         $language.val(customer.language || 'english');
+        $ldapDn.val(customer.ldap_dn);
         $customField1.val(customer.custom_field_1);
         $customField2.val(customer.custom_field_2);
         $customField3.val(customer.custom_field_3);
