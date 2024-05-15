@@ -94,18 +94,47 @@ App.Pages.Services = (function () {
          */
 
         const sorting = new Sortable(document.querySelector('.results'), {
+            onStart : function(ev) {
+                if (ev.from.querySelector('hr') == null)
+                    return;
+                if (! (ev.item.nextSibling && ev.item.nextSibling.tagName == 'HR'))
+                    return;
+                ev.item.dataset['hadHR'] = true;
+                ev.item.nextSibling.remove();
+            },
             onUpdate : async function(ev){
                 resetForm();
                 let afterId;
                 const currentItemId = ev.item.dataset['id'];
+                const hadHR =  ev.item.dataset['hadHR'] == 'true';
+;
 
                 if (ev.newIndex == 0)
                     afterId = -1;
-                else if (ev.item.previousSibling !== null && ev.item.previousSibling.classList.contains('service-row')) {
-                    afterId = parseInt(ev.item.previousSibling.dataset['id']);
+                else if (ev.item.previousSibling !== null) {
+                    let prevItem =ev.item.previousSibling;
+                    if (prevItem.tagName == 'HR')
+                        prevItem = prevItem.previousSibling;
+                    
+                    if (! prevItem.classList.contains('service-row')){
+                        window.App.Utils.Message.show(lang('unexpected_issues'),'Failed to get previous service to sort!');
+                        throw 'Failed to get previous service to sort';
+                    }
+                    
+                    afterId = parseInt(prevItem.dataset['id']);
+                    
                 }
                 try {
-                    await sort(currentItemId, afterId)
+                    await sort(currentItemId, afterId);
+                    if (hadHR)
+                    {
+                        const newHr = document.createElement('HR');
+                        if (ev.oldIndex < ev.newIndex)
+                            ev.item.before(newHr);
+                        else
+                            ev.item.after(newHr);
+                        delete ev.item.dataset.hadHR;
+                    }
                 }
                 catch (err){
                     $services.find('.form-message').addClass('alert-danger').text(lang('error')).show();
