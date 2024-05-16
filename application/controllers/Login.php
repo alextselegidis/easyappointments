@@ -28,6 +28,7 @@ class Login extends EA_Controller
         parent::__construct();
 
         $this->load->library('accounts');
+        $this->load->library('ldap_client');
         $this->load->library('email_messages');
 
         script_vars([
@@ -38,8 +39,13 @@ class Login extends EA_Controller
     /**
      * Render the login page.
      */
-    public function index()
+    public function index(): void
     {
+        if (session('user_id')) {
+            redirect('calendar');
+            return;
+        }
+
         html_vars([
             'page_title' => lang('login'),
             'base_url' => config('base_url'),
@@ -53,7 +59,7 @@ class Login extends EA_Controller
     /**
      * Validate the provided credentials and start a new session if the validation was successful.
      */
-    public function validate()
+    public function validate(): void
     {
         try {
             $username = request('username');
@@ -69,6 +75,10 @@ class Login extends EA_Controller
             }
 
             $user_data = $this->accounts->check_login($username, $password);
+
+            if (empty($user_data)) {
+                $user_data = $this->ldap_client->check_login($username, $password);
+            }
 
             if (empty($user_data)) {
                 throw new InvalidArgumentException('Invalid credentials provided, please try again.');

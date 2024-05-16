@@ -27,7 +27,7 @@ class Localization extends EA_Controller
      *
      * Notice: This method used to be in the Backend_api.php.
      */
-    public function change_language()
+    public function change_language(): void
     {
         try {
             // Check if language exists in the available languages.

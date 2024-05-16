@@ -20,6 +20,8 @@
  */
 class Webhooks extends EA_Controller
 {
+    public array $allowed_webhook_fields = ['id', 'name', 'url', 'actions', 'secret_token', 'is_ssl_verified', 'notes'];
+
     /**
      * Webhooks constructor.
      */
@@ -40,7 +42,7 @@ class Webhooks extends EA_Controller
      * On this page admin users will be able to manage webhooks, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('webhooks')]);
 
@@ -97,7 +99,7 @@ class Webhooks extends EA_Controller
     /**
      * Filter webhooks by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_WEBHOOKS)) {
@@ -106,11 +108,11 @@ class Webhooks extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $webhooks = $this->webhooks_model->search($keyword, $limit, $offset, $order_by);
 
@@ -123,7 +125,7 @@ class Webhooks extends EA_Controller
     /**
      * Store a new webhook.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_WEBHOOKS)) {
@@ -132,14 +134,7 @@ class Webhooks extends EA_Controller
 
             $webhook = request('webhook');
 
-            $this->webhooks_model->only($webhook, [
-                'name',
-                'url',
-                'actions',
-                'secret_token',
-                'is_ssl_verified',
-                'notes',
-            ]);
+            $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 
@@ -155,7 +150,7 @@ class Webhooks extends EA_Controller
     /**
      * Update a webhook.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_WEBHOOKS)) {
@@ -164,15 +159,7 @@ class Webhooks extends EA_Controller
 
             $webhook = request('webhook');
 
-            $this->webhooks_model->only($webhook, [
-                'id',
-                'name',
-                'url',
-                'actions',
-                'secret_token',
-                'is_ssl_verified',
-                'notes',
-            ]);
+            $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 
@@ -188,7 +175,7 @@ class Webhooks extends EA_Controller
     /**
      * Remove a webhook.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_WEBHOOKS)) {
@@ -210,7 +197,7 @@ class Webhooks extends EA_Controller
     /**
      * Find a webhook.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_WEBHOOKS)) {

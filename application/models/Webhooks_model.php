@@ -8,7 +8,7 @@
  * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.3.2
+ * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
 /**
@@ -70,9 +70,9 @@ class Webhooks_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $webhook)
+    public function validate(array $webhook): void
     {
-        if (empty($webhook['name']) || empty($webhook['url']) || empty($webhook['actions'])) {
+        if (empty($webhook['name']) || empty($webhook['url'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($webhook, true));
         }
     }
@@ -304,7 +304,7 @@ class Webhooks_model extends EA_Model
      * @param array $webhook API resource.
      * @param array|null $base Base webhook data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$webhook, array $base = null)
+    public function api_decode(array &$webhook, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

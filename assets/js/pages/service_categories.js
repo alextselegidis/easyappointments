@@ -36,8 +36,8 @@ App.Pages.ServiceCategories = (function () {
             event.preventDefault();
             const key = $('#filter-service-categories .key').val();
             $('.selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.ServiceCategories.resetForm();
+            App.Pages.ServiceCategories.filter(key);
         });
 
         /**
@@ -69,7 +69,7 @@ App.Pages.ServiceCategories = (function () {
          * Event: Add Service-Category Button "Click"
          */
         $serviceCategories.on('click', '#add-service-category', () => {
-            resetForm();
+            App.Pages.ServiceCategories.resetForm();
             $serviceCategories.find('.add-edit-delete-group').hide();
             $serviceCategories.find('.save-cancel-group').show();
             $serviceCategories.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -100,14 +100,14 @@ App.Pages.ServiceCategories = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(serviceCategoryId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];
@@ -132,7 +132,7 @@ App.Pages.ServiceCategories = (function () {
                 return;
             }
 
-            save(serviceCategory);
+            App.Pages.ServiceCategories.save(serviceCategory);
         });
 
         /**
@@ -140,7 +140,7 @@ App.Pages.ServiceCategories = (function () {
          */
         $serviceCategories.on('click', '#cancel-service-category', () => {
             const id = $id.val();
-            resetForm();
+            App.Pages.ServiceCategories.resetForm();
             if (id !== '') {
                 select(id, true);
             }
@@ -162,7 +162,9 @@ App.Pages.ServiceCategories = (function () {
             $('#filter-service-categories .results').empty();
 
             response.forEach((serviceCategory) => {
-                $('#filter-service-categories .results').append(getFilterHtml(serviceCategory)).append($('<hr/>'));
+                $('#filter-service-categories .results')
+                    .append(App.Pages.ServiceCategories.getFilterHtml(serviceCategory))
+                    .append($('<hr/>'));
             });
 
             if (response.length === 0) {
@@ -178,7 +180,7 @@ App.Pages.ServiceCategories = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.ServiceCategories.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-service-categories .results');
             }
@@ -197,9 +199,9 @@ App.Pages.ServiceCategories = (function () {
     function save(serviceCategory) {
         App.Http.ServiceCategories.save(serviceCategory).then((response) => {
             App.Layouts.Backend.displayNotification(lang('service_category_saved'));
-            resetForm();
+            App.Pages.ServiceCategories.resetForm();
             $filterServiceCategories.find('.key').val('');
-            filter('', response.id, true);
+            App.Pages.ServiceCategories.filter('', response.id, true);
         });
     }
 
@@ -211,8 +213,8 @@ App.Pages.ServiceCategories = (function () {
     function remove(id) {
         App.Http.ServiceCategories.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('service_category_deleted'));
-            resetForm();
-            filter($('#filter-service-categories .key').val());
+            App.Pages.ServiceCategories.resetForm();
+            App.Pages.ServiceCategories.filter($('#filter-service-categories .key').val());
         });
     }
 
@@ -321,9 +323,9 @@ App.Pages.ServiceCategories = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.ServiceCategories.resetForm();
+        App.Pages.ServiceCategories.filter('');
+        App.Pages.ServiceCategories.addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
@@ -332,8 +334,11 @@ App.Pages.ServiceCategories = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();

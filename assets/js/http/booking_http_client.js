@@ -17,11 +17,14 @@
  * Old Name: FrontendBookApi
  */
 App.Http.Booking = (function () {
+    const $selectDate = $('#select-date');
     const $selectService = $('#select-service');
     const $selectProvider = $('#select-provider');
     const $availableHours = $('#available-hours');
     const $captchaHint = $('#captcha-hint');
     const $captchaTitle = $('.captcha-title');
+
+    const MONTH_SEARCH_LIMIT = 2; // Months in the future
 
     const moment = window.moment;
 
@@ -233,9 +236,9 @@ App.Http.Booking = (function () {
      * @param {Number} providerId The selected provider ID.
      * @param {Number} serviceId The selected service ID.
      * @param {String} selectedDateString Y-m-d value of the selected date.
-     * @param {Number} monthChangeStep Whether to add or subtract months.
+     * @param {Number} [monthChangeStep] Whether to add or subtract months.
      */
-    function getUnavailableDates(providerId, serviceId, selectedDateString, monthChangeStep) {
+    function getUnavailableDates(providerId, serviceId, selectedDateString, monthChangeStep = 1) {
         if (processingUnavailableDates) {
             return;
         }
@@ -262,40 +265,53 @@ App.Http.Booking = (function () {
             type: 'GET',
             data: data,
             dataType: 'json',
-        }).done((response) => {
-            if (response.is_month_unavailable) {
-                if (!searchedMonthStart) {
-                    searchedMonthStart = selectedDateString;
-                }
+        })
+            .done((response) => {
+                // In case the current month has no availability, the app will try the next one or the one after in order to
+                // find a date that has at least one slot
 
-                if (searchedMonthCounter >= 3) {
-                    // Need to mark the current month dates as unavailable
-                    const selectedDateMoment = moment(searchedMonthStart);
-                    const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
-                    const endOfMonthMoment = selectedDateMoment.clone().endOf('month');
-                    const unavailableDates = [];
-                    while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
-                        unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
-                        startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
+                if (response.is_month_unavailable) {
+                    if (!searchedMonthStart) {
+                        searchedMonthStart = selectedDateString;
                     }
-                    applyUnavailableDates(unavailableDates, searchedMonthStart, false);
-                    searchedMonthStart = undefined;
-                    searchedMonthCounter = 0;
-                    return; // Stop searching
+
+                    if (searchedMonthCounter >= MONTH_SEARCH_LIMIT) {
+                        // Need to mark the current month dates as unavailable
+                        const selectedDateMoment = moment(searchedMonthStart);
+                        const startOfMonthMoment = selectedDateMoment.clone().startOf('month');
+                        const endOfMonthMoment = selectedDateMoment.clone().endOf('month');
+                        const unavailableDates = [];
+
+                        while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
+                            unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
+                            startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
+                        }
+
+                        applyUnavailableDates(unavailableDates, searchedMonthStart, true);
+                        searchedMonthStart = undefined;
+                        searchedMonthCounter = 0;
+
+                        return; // Stop searching
+                    }
+
+                    searchedMonthCounter++;
+
+                    const selectedDateMoment = moment(selectedDateString);
+                    selectedDateMoment.add(1, 'month');
+
+                    const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
+                    getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
+
+                    return;
                 }
 
-                searchedMonthCounter++;
-                const selectedDateMoment = moment(selectedDateString);
-                selectedDateMoment.add(1, 'month');
-                const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
-                getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
-                return;
-            }
-
-            unavailableDatesBackup = response;
-            selectedDateStringBackup = selectedDateString;
-            applyUnavailableDates(response, selectedDateString, true);
-        });
+                unavailableDatesBackup = response;
+                selectedDateStringBackup = selectedDateString;
+                applyUnavailableDates(response, selectedDateString, true);
+            })
+            .fail(() => {
+                $selectDate.parent().fadeTo(400, 1);
+            });
     }
 
     function applyPreviousUnavailableDates() {
@@ -305,6 +321,8 @@ App.Http.Booking = (function () {
     function applyUnavailableDates(unavailableDates, selectedDateString, setDate) {
         setDate = setDate || false;
 
+        $selectDate.parent().fadeTo(400, 1);
+
         processingUnavailableDates = true;
 
         // Select first enabled date.
@@ -312,28 +330,28 @@ App.Http.Booking = (function () {
         const selectedDate = selectedDateMoment.toDate();
         const numberOfDays = selectedDateMoment.daysInMonth();
 
-        if (setDate && !vars('manage_mode')) {
-            for (let i = 1; i <= numberOfDays; i++) {
-                const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
-
-                if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
-                    App.Utils.UI.setDateTimePickerValue($('#select-date'), currentDate);
-                    getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
-                    break;
-                }
-            }
-        }
-
         // If all the days are unavailable then hide the appointments hours.
         if (unavailableDates.length === numberOfDays) {
             $availableHours.text(lang('no_available_hours'));
         }
 
         // Grey out unavailable dates.
-        $('#select-date')[0]._flatpickr.set(
+        $selectDate[0]._flatpickr.set(
             'disable',
             unavailableDates.map((unavailableDate) => new Date(unavailableDate)),
         );
+
+        if (setDate && !vars('manage_mode')) {
+            for (let i = 1; i <= numberOfDays; i++) {
+                const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+
+                if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
+                    App.Utils.UI.setDateTimePickerValue($selectDate, currentDate);
+                    getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
+                    break;
+                }
+            }
+        }
 
         const dateQueryParam = App.Utils.Url.queryParam('date');
 
@@ -345,7 +363,7 @@ App.Http.Booking = (function () {
                 !unavailableDates.includes(dateQueryParam) &&
                 dateQueryParamMoment.format('YYYY-MM') === selectedDateMoment.format('YYYY-MM')
             ) {
-                App.Utils.UI.setDateTimePickerValue($('#select-date'), dateQueryParamMoment.toDate());
+                App.Utils.UI.setDateTimePickerValue($selectDate, dateQueryParamMoment.toDate());
             }
         }
 

@@ -46,6 +46,7 @@ class Appointments_model extends EA_Model
         'providerId' => 'id_users_provider',
         'customerId' => 'id_users_customer',
         'googleCalendarId' => 'id_google_calendar',
+        'caldavCalendarId' => 'id_caldav_calendar',
     ];
 
     /**
@@ -75,7 +76,7 @@ class Appointments_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $appointment)
+    public function validate(array $appointment): void
     {
         // If an appointment ID is provided then check whether the record really exists in the database.
         if (!empty($appointment['id'])) {
@@ -323,9 +324,19 @@ class Appointments_model extends EA_Model
      *
      * @param int $provider_id Matching provider ID.
      */
-    public function clear_google_sync_ids(int $provider_id)
+    public function clear_google_sync_ids(int $provider_id): void
     {
         $this->db->update('appointments', ['id_google_calendar' => null], ['id_users_provider' => $provider_id]);
+    }
+
+    /**
+     * Remove all the Google Calendar event IDs from appointment records.
+     *
+     * @param int $provider_id Matching provider ID.
+     */
+    public function clear_caldav_sync_ids(int $provider_id): void
+    {
+        $this->db->update('appointments', ['id_caldav_calendar' => null], ['id_users_provider' => $provider_id]);
     }
 
     /**
@@ -482,7 +493,7 @@ class Appointments_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function load(array &$appointment, array $resources)
+    public function load(array &$appointment, array $resources): void
     {
         if (empty($appointment) || empty($resources)) {
             return;
@@ -527,7 +538,7 @@ class Appointments_model extends EA_Model
      *
      * @param array $appointment Appointment data.
      */
-    public function api_encode(array &$appointment)
+    public function api_encode(array &$appointment): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $appointment) ? (int) $appointment['id'] : null,
@@ -543,7 +554,9 @@ class Appointments_model extends EA_Model
             'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
             'googleCalendarId' =>
-                $appointment['id_google_calendar'] !== null ? (int) $appointment['id_google_calendar'] : null,
+                $appointment['id_google_calendar'] !== null ? $appointment['id_google_calendar'] : null,
+            'caldavCalendarId' =>
+                $appointment['id_caldav_calendar'] !== null ? $appointment['id_caldav_calendar'] : null,
         ];
 
         $appointment = $encoded_resource;
@@ -555,7 +568,7 @@ class Appointments_model extends EA_Model
      * @param array $appointment API resource.
      * @param array|null $base Base appointment data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$appointment, array $base = null)
+    public function api_decode(array &$appointment, array $base = null): void
     {
         $decoded_request = $base ?: [];
 
@@ -583,6 +596,10 @@ class Appointments_model extends EA_Model
             $decoded_request['location'] = $appointment['location'];
         }
 
+        if (array_key_exists('status', $appointment)) {
+            $decoded_request['status'] = $appointment['status'];
+        }
+
         if (array_key_exists('notes', $appointment)) {
             $decoded_request['notes'] = $appointment['notes'];
         }
@@ -601,6 +618,10 @@ class Appointments_model extends EA_Model
 
         if (array_key_exists('googleCalendarId', $appointment)) {
             $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+        }
+
+        if (array_key_exists('caldavCalendarId', $appointment)) {
+            $decoded_request['id_caldav_calendar'] = $appointment['caldavCalendarId'];
         }
 
         $decoded_request['is_unavailability'] = false;

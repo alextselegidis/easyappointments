@@ -18,10 +18,6 @@ body {
     height: 100%;
 }
 
-body {
-    background-color: #f5f8fa;
-}
-
 #main {
     min-height: 100%;
 }
@@ -30,7 +26,6 @@ body {
  ------------------------------------------------------------------------------ */
 
 #book-appointment-wizard {
-    background: #fff;
     min-height: 480px;
     padding: 0;
     margin: auto;
@@ -285,7 +280,7 @@ body {
     #book-appointment-wizard {
         border-radius: 0.25rem;
         overflow: hidden;
-        box-shadow: rgba(45, 62, 80, 0.12) 0 1px 5px 0;
+        box-shadow: rgba(138, 195, 255, 0.12) 0 1px 5px 0;
     }
 
     #book-appointment-wizard #company-name {
@@ -370,15 +365,11 @@ body {
 
 #message-frame,
 #success-frame {
-    background: #fff;
-    border: 1px solid #dddada;
-    padding: 70px;
-}
-
-#message-frame #message-icon,
-#success-frame #success-icon {
-    margin-top: 20px;
-    margin-right: 20px;
+    background: var(--bs-body-bg);
+    text-align: center;
+    height: auto;
+    border: none;
+    padding: 35px;
 }
 
 #message-frame .alert,
@@ -386,16 +377,10 @@ body {
     margin-top: 20px;
 }
 
-#message-frame,
-#success-frame {
-    text-align: center;
-    height: auto;
-    border: none;
-    padding: 35px;
-}
-
 #message-frame #message-icon,
 #success-frame #success-icon {
+    margin-top: 20px;
+    margin-right: 20px;
     width: 64px;
     display: block;
     margin: auto;

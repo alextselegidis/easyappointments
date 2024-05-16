@@ -19,6 +19,9 @@
             <h4 class="text-black-50 mb-3 fw-light">
                 <?= lang('services') ?>
             </h4>
+
+            <?php slot('after_page_title'); ?>
+            
             <div class="results">
                 <!-- JS -->
             </div>
@@ -50,6 +53,8 @@
                         <?= lang('cancel') ?>
                     </button>
                 </div>
+
+                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -145,7 +150,7 @@
                     <input class="form-check-input" type="checkbox" id="is-private">
 
                     <label class="form-check-label" for="is-private">
-                        <?= lang('private') ?>
+                        <?= lang('hide_from_public') ?>
                     </label>
                 </div>
 
@@ -162,6 +167,8 @@
                 </label>
                 <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
+
+            <?php slot('after_primary_fields'); ?>
         </div>
     </div>
 </div>

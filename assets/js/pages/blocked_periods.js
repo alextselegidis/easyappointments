@@ -26,6 +26,7 @@ App.Pages.BlockedPeriods = (function () {
 
     let filterResults = {};
     let filterLimit = 20;
+    let backupStartDateTimeObject = undefined;
 
     /**
      * Add the page event listeners.
@@ -40,8 +41,8 @@ App.Pages.BlockedPeriods = (function () {
             event.preventDefault();
             const key = $('#filter-blocked-periods .key').val();
             $('.selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.BlockedPeriods.resetForm();
+            App.Pages.BlockedPeriods.filter(key);
         });
 
         /**
@@ -63,7 +64,7 @@ App.Pages.BlockedPeriods = (function () {
                 (filterResult) => Number(filterResult.id) === Number(blockedPeriodId),
             );
 
-            display(blockedPeriod);
+            App.Pages.BlockedPeriods.display(blockedPeriod);
             $('#filter-blocked-periods .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-blocked-period, #delete-blocked-period').prop('disabled', false);
@@ -73,13 +74,16 @@ App.Pages.BlockedPeriods = (function () {
          * Event: Add Blocked-Period Button "Click"
          */
         $blockedPeriods.on('click', '#add-blocked-period', () => {
-            resetForm();
+            App.Pages.BlockedPeriods.resetForm();
             $blockedPeriods.find('.add-edit-delete-group').hide();
             $blockedPeriods.find('.save-cancel-group').show();
             $blockedPeriods.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $blockedPeriods.find('.record-details .form-label span').prop('hidden', false);
             $filterBlockedPeriods.find('button').prop('disabled', true);
             $filterBlockedPeriods.find('.results').css('color', '#AAA');
+
+            App.Utils.UI.setDateTimePickerValue($startDateTime, moment('00:00', 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($endDateTime, moment('00:00', 'HH:mm').add(1, 'day').toDate());
         });
 
         /**
@@ -104,14 +108,14 @@ App.Pages.BlockedPeriods = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
-                        remove(blockedPeriodId);
-                        messageModal.dispose();
+                        App.Pages.BlockedPeriods.remove(blockedPeriodId);
+                        messageModal.hide();
                     },
                 },
             ];
@@ -139,11 +143,11 @@ App.Pages.BlockedPeriods = (function () {
                 blockedPeriod.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.BlockedPeriods.validate()) {
                 return;
             }
 
-            save(blockedPeriod);
+            App.Pages.BlockedPeriods.save(blockedPeriod);
         });
 
         /**
@@ -151,10 +155,31 @@ App.Pages.BlockedPeriods = (function () {
          */
         $blockedPeriods.on('click', '#cancel-blocked-period', () => {
             const id = $id.val();
-            resetForm();
+            App.Pages.BlockedPeriods.resetForm();
             if (id !== '') {
-                select(id, true);
+                App.Pages.BlockedPeriods.select(id, true);
             }
+        });
+
+        $blockedPeriods.on('focus', '#start-date-time', () => {
+            backupStartDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDateTime);
+        });
+
+        /**
+         * Event: Start Date Time Input "Change"
+         */
+        $blockedPeriods.on('change', '#start-date-time', (event) => {
+            const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDateTime);
+
+            if (!backupStartDateTimeObject || !endDateTimeObject) {
+                return;
+            }
+
+            const endDateTimeMoment = moment(endDateTimeObject);
+            const backupStartDateTimeMoment = moment(backupStartDateTimeObject);
+            const diff = endDateTimeMoment.diff(backupStartDateTimeMoment);
+            const newEndDateTimeMoment = endDateTimeMoment.clone().add(diff, 'milliseconds');
+            App.Utils.UI.setDateTimePickerValue($endDateTime, newEndDateTimeMoment.toDate());
         });
     }
 
@@ -173,7 +198,9 @@ App.Pages.BlockedPeriods = (function () {
             $('#filter-blocked-periods .results').empty();
 
             response.forEach((blockedPeriod) => {
-                $('#filter-blocked-periods .results').append(getFilterHtml(blockedPeriod)).append($('<hr/>'));
+                $('#filter-blocked-periods .results')
+                    .append(App.Pages.BlockedPeriods.getFilterHtml(blockedPeriod))
+                    .append($('<hr/>'));
             });
 
             if (response.length === 0) {
@@ -189,13 +216,13 @@ App.Pages.BlockedPeriods = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.BlockedPeriods.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-blocked-periods .results');
             }
 
             if (selectId) {
-                select(selectId, show);
+                App.Pages.BlockedPeriods.select(selectId, show);
             }
         });
     }
@@ -208,9 +235,9 @@ App.Pages.BlockedPeriods = (function () {
     function save(blockedPeriod) {
         App.Http.BlockedPeriods.save(blockedPeriod).then((response) => {
             App.Layouts.Backend.displayNotification(lang('blocked_period_saved'));
-            resetForm();
+            App.Pages.BlockedPeriods.resetForm();
             $filterBlockedPeriods.find('.key').val('');
-            filter('', response.id, true);
+            App.Pages.BlockedPeriods.filter('', response.id, true);
         });
     }
 
@@ -222,8 +249,8 @@ App.Pages.BlockedPeriods = (function () {
     function remove(id) {
         App.Http.BlockedPeriods.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('blocked_period_deleted'));
-            resetForm();
-            filter($('#filter-blocked-periods .key').val());
+            App.Pages.BlockedPeriods.resetForm();
+            App.Pages.BlockedPeriods.filter($('#filter-blocked-periods .key').val());
         });
     }
 
@@ -295,6 +322,8 @@ App.Pages.BlockedPeriods = (function () {
 
         $blockedPeriods.find('.record-details .is-invalid').removeClass('is-invalid');
         $blockedPeriods.find('.record-details .form-message').hide();
+
+        backupStartDateTimeObject = undefined;
     }
 
     /**
@@ -333,7 +362,7 @@ App.Pages.BlockedPeriods = (function () {
         if (show) {
             const blockedPeriod = filterResults.find((blockedPeriod) => Number(blockedPeriod.id) === Number(id));
 
-            display(blockedPeriod);
+            App.Pages.BlockedPeriods.display(blockedPeriod);
 
             $('#edit-blocked-period, #delete-blocked-period').prop('disabled', false);
         }
@@ -343,9 +372,9 @@ App.Pages.BlockedPeriods = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.BlockedPeriods.resetForm();
+        App.Pages.BlockedPeriods.filter('');
+        App.Pages.BlockedPeriods.addEventListeners();
         App.Utils.UI.initializeDateTimePicker($startDateTime);
         App.Utils.UI.initializeDateTimePicker($endDateTime);
     }
@@ -356,8 +385,11 @@ App.Pages.BlockedPeriods = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();

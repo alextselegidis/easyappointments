@@ -20,6 +20,27 @@
  */
 class Customers extends EA_Controller
 {
+    public array $allowed_customer_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'custom_field_1',
+        'custom_field_2',
+        'custom_field_3',
+        'custom_field_4',
+        'custom_field_5',
+        'ldap_dn',
+    ];
+
     /**
      * Customers constructor.
      */
@@ -44,7 +65,7 @@ class Customers extends EA_Controller
      * On this page admin users will be able to manage customers, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('customers')]);
 
@@ -87,6 +108,8 @@ class Customers extends EA_Controller
             'time_format' => $time_format,
             'timezones' => $this->timezones->to_array(),
             'secretary_providers' => $secretary_providers,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -112,7 +135,7 @@ class Customers extends EA_Controller
     /**
      * Find a customer.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_CUSTOMERS)) {
@@ -138,7 +161,7 @@ class Customers extends EA_Controller
     /**
      * Filter customers by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_CUSTOMERS)) {
@@ -147,11 +170,11 @@ class Customers extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $customers = $this->customers_model->search($keyword, $limit, $offset, $order_by);
 
@@ -182,7 +205,7 @@ class Customers extends EA_Controller
     /**
      * Store a new customer.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_CUSTOMERS)) {
@@ -195,24 +218,7 @@ class Customers extends EA_Controller
 
             $customer = request('customer');
 
-            $this->customers_model->only($customer, [
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -232,7 +238,7 @@ class Customers extends EA_Controller
     /**
      * Update a customer.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_CUSTOMERS)) {
@@ -247,25 +253,7 @@ class Customers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
-            $this->customers_model->only($customer, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'custom_field_1',
-                'custom_field_2',
-                'custom_field_3',
-                'custom_field_4',
-                'custom_field_5',
-            ]);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -285,7 +273,7 @@ class Customers extends EA_Controller
     /**
      * Remove a customer.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_CUSTOMERS)) {

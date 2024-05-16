@@ -45,8 +45,8 @@ App.Pages.Services = (function () {
             event.preventDefault();
             const key = $filterServices.find('.key').val();
             $filterServices.find('.selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.Services.resetForm();
+            App.Pages.Services.filter(key);
         });
 
         /**
@@ -83,7 +83,7 @@ App.Pages.Services = (function () {
 
             $services.find('.record-details h4').find('a').remove().end().append($link);
 
-            display(service);
+            App.Pages.Services.display(service);
             $filterServices.find('.selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-service, #delete-service').prop('disabled', false);
@@ -118,7 +118,7 @@ App.Pages.Services = (function () {
          * Event: Add New Service Button "Click"
          */
         $services.on('click', '#add-service', () => {
-            resetForm();
+            App.Pages.Services.resetForm();
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -145,10 +145,10 @@ App.Pages.Services = (function () {
         $services.on('click', '#cancel-service', () => {
             const id = $id.val();
 
-            resetForm();
+            App.Pages.Services.resetForm();
 
             if (id !== '') {
-                select(id, true);
+                App.Pages.Services.select(id, true);
             }
         });
 
@@ -174,11 +174,11 @@ App.Pages.Services = (function () {
                 service.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.Services.validate()) {
                 return;
             }
 
-            save(service);
+            App.Pages.Services.save(service);
         });
 
         /**
@@ -203,14 +203,14 @@ App.Pages.Services = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
-                        remove(serviceId);
-                        messageModal.dispose();
+                        App.Pages.Services.remove(serviceId);
+                        messageModal.hide();
                     },
                 },
             ];
@@ -228,9 +228,29 @@ App.Pages.Services = (function () {
     function save(service) {
         App.Http.Services.save(service).then((response) => {
             App.Layouts.Backend.displayNotification(lang('service_saved'));
-            resetForm();
+            App.Pages.Services.resetForm();
             $filterServices.find('.key').val('');
-            filter('', response.id, true);
+<<<<<<<<<<<<<<\n>>>>>>>>>>>>>>
+            App.Pages.Services.filter('', response.id, true);
+        });
+    }
+
+    /**
+     * Sort service record
+     * @async
+     * 
+     * @param {Number} serviceId Id of service to sort
+     * 
+     * @param {Number} afterId Id of service to place after
+     * 
+     * @return {Promise<Number>}
+     */
+    function sort(serviceId, afterId){
+        
+        return App.Http.Services.sort(serviceId, afterId)
+        .then(response => {
+            App.Layouts.Backend.displayNotification(lang('service_saved'));
+            return response.row_order;
         });
     }
 
@@ -261,8 +281,8 @@ App.Pages.Services = (function () {
     function remove(id) {
         App.Http.Services.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('service_deleted'));
-            resetForm();
-            filter($filterServices.find('.key').val());
+            App.Pages.Services.resetForm();
+            App.Pages.Services.filter($filterServices.find('.key').val());
         });
     }
 
@@ -363,7 +383,7 @@ App.Pages.Services = (function () {
             $filterServices.find('.results').empty();
 
             response.forEach((service) => {
-                $filterServices.find('.results').append(getFilterHtml(service));
+                $filterServices.find('.results').append(App.Pages.Services.getFilterHtml(service)).append($('<hr/>'));
             });
 
             if (response.length === 0) {
@@ -379,13 +399,13 @@ App.Pages.Services = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.Services.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-services .results');
             }
 
             if (selectId) {
-                select(selectId, show);
+                App.Pages.Services.select(selectId, show);
             }
         });
     }
@@ -436,7 +456,7 @@ App.Pages.Services = (function () {
         if (show) {
             const service = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
-            display(service);
+            App.Pages.Services.display(service);
 
             $('#edit-service, #delete-service').prop('disabled', false);
         }
@@ -463,9 +483,9 @@ App.Pages.Services = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.Services.resetForm();
+        App.Pages.Services.filter('');
+        App.Pages.Services.addEventListeners();
         updateAvailableServiceCategories();
     }
 
@@ -475,9 +495,12 @@ App.Pages.Services = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
         sort,
     };
 })();

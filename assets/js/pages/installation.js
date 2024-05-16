@@ -25,7 +25,8 @@ App.Pages.Installation = (function () {
     const $phoneNumber = $('#phone-number');
     const $username = $('#username');
     const $password = $('#password');
-    const $retypePassword = $('#retype-password');
+    const $passwordConfirm = $('#password-confirm');
+    const $language = $('#language');
     const $companyName = $('#company-name');
     const $companyEmail = $('#company-email');
     const $companyLink = $('#company-link');
@@ -97,31 +98,31 @@ App.Pages.Installation = (function () {
             });
 
             if (missingRequired) {
-                throw new Error('All the page fields are required.');
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate Passwords
-            if ($password.val() !== $retypePassword.val()) {
+            if ($password.val() !== $passwordConfirm.val()) {
                 $password.addClass('is-invalid');
-                $retypePassword.addClass('is-invalid');
-                throw new Error('Passwords do not match!');
+                $passwordConfirm.addClass('is-invalid');
+                throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < MIN_PASSWORD_LENGTH) {
                 $password.addClass('is-invalid');
-                $retypePassword.addClass('is-invalid');
-                throw new Error(`The password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
+                $passwordConfirm.addClass('is-invalid');
+                throw new Error(lang('password_length_notice').replace('$number', MIN_PASSWORD_LENGTH));
             }
 
             // Validate Email
             if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
-                throw new Error('The email address is invalid!');
+                throw new Error(lang('invalid_email'));
             }
 
             if (!App.Utils.Validation.email($companyEmail.val())) {
                 $companyEmail.addClass('is-invalid');
-                throw new Error('The email address is invalid!');
+                throw new Error(lang('invalid_email'));
             }
 
             return true;
@@ -145,6 +146,7 @@ App.Pages.Installation = (function () {
             phone_number: $phoneNumber.val(),
             username: $username.val(),
             password: $password.val(),
+            language: $language.val(),
         };
     }
 

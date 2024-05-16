@@ -20,6 +20,8 @@
  */
 class Blocked_periods extends EA_Controller
 {
+    public array $allowed_blocked_period_fields = ['id', 'name', 'start_datetime', 'end_datetime', 'notes'];
+
     /**
      * Blocked_periods constructor.
      */
@@ -41,7 +43,7 @@ class Blocked_periods extends EA_Controller
      * On this page admin users will be able to manage blocked-periods, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('blocked_periods')]);
 
@@ -81,7 +83,7 @@ class Blocked_periods extends EA_Controller
     /**
      * Filter blocked-periods by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_BLOCKED_PERIODS)) {
@@ -90,11 +92,11 @@ class Blocked_periods extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $blocked_periods = $this->blocked_periods_model->search($keyword, $limit, $offset, $order_by);
 
@@ -107,7 +109,7 @@ class Blocked_periods extends EA_Controller
     /**
      * Store a new service-category.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_BLOCKED_PERIODS)) {
@@ -116,7 +118,7 @@ class Blocked_periods extends EA_Controller
 
             $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($blocked_period, ['name', 'start_datetime', 'end_datetime', 'notes']);
+            $this->blocked_periods_model->only($blocked_period, $this->allowed_blocked_period_fields);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
@@ -136,7 +138,7 @@ class Blocked_periods extends EA_Controller
     /**
      * Find a service-category.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_BLOCKED_PERIODS)) {
@@ -156,7 +158,7 @@ class Blocked_periods extends EA_Controller
     /**
      * Update a service-category.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_BLOCKED_PERIODS)) {
@@ -165,13 +167,7 @@ class Blocked_periods extends EA_Controller
 
             $blocked_period = request('blocked_period');
 
-            $this->blocked_periods_model->only($blocked_period, [
-                'id',
-                'name',
-                'start_datetime',
-                'end_datetime',
-                'notes',
-            ]);
+            $this->blocked_periods_model->only($blocked_period, $this->allowed_blocked_period_fields);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
@@ -191,7 +187,7 @@ class Blocked_periods extends EA_Controller
     /**
      * Remove a service-category.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_BLOCKED_PERIODS)) {

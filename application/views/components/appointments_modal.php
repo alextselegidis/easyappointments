@@ -108,6 +108,8 @@
                                     </select>
                                 </div>
 
+                                <?php slot('after_select_appointment_service'); ?>
+                              
                                 <div class="mb-3">
                                     <label for="select-provider" class="form-label">
                                         <?= lang('provider') ?>
@@ -115,6 +117,8 @@
                                     </label>
                                     <select id="select-provider" class="required form-control"></select>
                                 </div>
+
+                                <?php slot('after_select_appointment_provider'); ?>
 
                                 <div class="mb-3">
                                     <?php component('color_selection', ['attributes' => 'id="appointment-color"']); ?>
@@ -183,9 +187,13 @@
                                     <label for="appointment-notes" class="form-label"><?= lang('notes') ?></label>
                                     <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
                                 </div>
+
+                                <?php slot('after_primary_appointment_fields'); ?>
                             </div>
                         </div>
                     </fieldset>
+
+                    <?php slot('after_appointment_details'); ?>
 
                     <br>
 
@@ -335,6 +343,8 @@
                                     <textarea id="customer-notes" rows="2"
                                               class="<?= $require_notes ? 'required' : '' ?> form-control"></textarea>
                                 </div>
+
+                                <?php slot('after_primary_customer_fields'); ?>
                             </div>
 
                             <div class="mb-3">
@@ -342,10 +352,14 @@
                             </div>
                         </div>
                     </fieldset>
+
+                    <?php slot('after_customer_details'); ?>
                 </form>
             </div>
 
             <div class="modal-footer">
+                <?php slot('before_appointment_actions'); ?>
+                
                 <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>

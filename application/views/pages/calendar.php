@@ -4,30 +4,49 @@
 
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
-        <div id="calendar-filter" class="col-md-4">
+        <div id="calendar-filter" class="col-md-3">
             <div class="calendar-filter-items">
-                <select id="select-filter-item" class="form-control col"
-                        data-tippy-content="<?= lang('select_filter_item_hint') ?>">
+                <select id="select-filter-item"
+                        class="form-control col"
+                        data-tippy-content="<?= lang('select_filter_item_hint') ?>"
+                        aria-label="Filter">
+                    <!-- JS -->
                 </select>
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-md-8">
-            <?php if (
-                (session('role_slug') == DB_SLUG_ADMIN || session('role_slug') == DB_SLUG_PROVIDER) &&
-                config('google_sync_feature') == true
-            ): ?>
-                <button id="google-sync" class="btn btn-primary"
-                        data-tippy-content="<?= lang('trigger_google_sync_hint') ?>">
-                    <i class="fas fa-sync-alt me-2"></i>
-                    <span><?= lang('synchronize') ?></span>
+        <div id="calendar-actions" class="col-md-9">
+            <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
+                <button
+                    id="enable-sync"
+                    class="btn btn-light"
+                    data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>"
+                    hidden>
+                    <i class="fas fa-rotate me-2"></i>
+                    <?= lang('enable_sync') ?>
                 </button>
 
-                <button id="enable-sync" class="btn btn-light" data-bs-toggle="button"
-                        data-tippy-content="<?= lang('enable_appointment_sync_hint') ?>">
-                    <i class="fas fa-calendar-alt me-2"></i>
-                    <span><?= lang('enable_sync') ?></span>
-                </button>
+                <div class="btn-group" id="sync-button-group" hidden>
+                    <button type="button" class="btn btn-light" id="trigger-sync" data-tippy-content="<?= lang(
+                        'trigger_sync_hint',
+                    ) ?>">
+                        <i class="fas fa-rotate me-2"></i>
+                        <?= lang('synchronize') ?>
+                    </button>
+                    <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="visually-hidden">
+                            Toggle Dropdown
+                        </span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <a class="dropdown-item" href="#" id="disable-sync">
+                                <?= lang('disable_sync') ?>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             <?php endif; ?>
 
             <?php if (can('add', PRIV_APPOINTMENTS)): ?>
@@ -63,19 +82,21 @@
                 <i class="fas fa-sync-alt"></i>
             </button>
 
-            <?php if (vars('calendar_view') === 'default'): ?>
+            <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
                 <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=table') ?>"
                    data-tippy-content="<?= lang('table') ?>">
                     <i class="fas fa-table"></i>
                 </a>
             <?php endif; ?>
 
-            <?php if (vars('calendar_view') === 'table'): ?>
+            <?php if (vars('calendar_view') === CALENDAR_VIEW_TABLE): ?>
                 <a class="btn btn-light mb-0" href="<?= site_url('calendar?view=default') ?>"
                    data-tippy-content="<?= lang('default') ?>">
                     <i class="fas fa-calendar-alt"></i>
                 </a>
             <?php endif; ?>
+
+            <?php slot('after_calendar_actions'); ?>
         </div>
     </div>
 
@@ -105,8 +126,6 @@
     'timezone' => vars('timezone'),
 ]); ?>
 
-<?php component('select_google_calendar_modal'); ?>
-
 <?php component('working_plan_exceptions_modal'); ?>
 
 <?php end_section('content'); ?>
@@ -123,11 +142,14 @@
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_google_sync.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/calendar_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/google_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
+<?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
+    <script src="<?= asset_url('assets/js/utils/calendar_sync.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/http/google_http_client.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/http/caldav_http_client.js') ?>"></script>
+<?php endif; ?>
 <script src="<?= asset_url('assets/js/pages/calendar.js') ?>"></script>
 
 <?php end_section('scripts'); ?>

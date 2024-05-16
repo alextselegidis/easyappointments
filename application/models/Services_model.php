@@ -78,7 +78,7 @@ class Services_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $service)
+    public function validate(array $service): void
     {
         // If a service ID is provided then check whether the record really exists in the database.
         if (!empty($service['id'])) {
@@ -393,7 +393,7 @@ class Services_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function load(array &$service, array $resources)
+    public function load(array &$service, array $resources): void
     {
         if (empty($service) || empty($resources)) {
             return;
@@ -418,7 +418,7 @@ class Services_model extends EA_Model
      *
      * @param array $service Service data.
      */
-    public function api_encode(array &$service)
+    public function api_encode(array &$service): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $service) ? (int) $service['id'] : null,
@@ -431,6 +431,7 @@ class Services_model extends EA_Model
             'location' => $service['location'],
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int) $service['attendants_number'],
+            'isPrivate' => (bool) $service['is_private'],
             'serviceCategoryId' =>
                 $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null,
         ];
@@ -444,7 +445,7 @@ class Services_model extends EA_Model
      * @param array $service API resource.
      * @param array|null $base Base service data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$service, array $base = null)
+    public function api_decode(array &$service, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 
@@ -492,6 +493,10 @@ class Services_model extends EA_Model
 
         if (array_key_exists('serviceCategoryId', $service)) {
             $decoded_resource['id_service_categories'] = $service['serviceCategoryId'];
+        }
+
+        if (array_key_exists('isPrivate', $service)) {
+            $decoded_resource['is_private'] = (bool) $service['isPrivate'];
         }
 
         $service = $decoded_resource;

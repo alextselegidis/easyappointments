@@ -20,6 +20,32 @@
  */
 class Secretaries extends EA_Controller
 {
+    public array $allowed_provider_fields = ['id', 'first_name', 'last_name'];
+    public array $allowed_secretary_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'alt_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'is_private',
+        'ldap_dn',
+        'id_roles',
+        'settings',
+        'providers',
+    ];
+    public array $allowed_secretary_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+    public array $optional_secretary_fields = [
+        'providers' => [],
+    ];
+
     /**
      * Secretaries constructor.
      */
@@ -42,7 +68,7 @@ class Secretaries extends EA_Controller
      * On this page secretary users will be able to manage secretaries, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('secretaries')]);
 
@@ -63,7 +89,7 @@ class Secretaries extends EA_Controller
         $providers = $this->providers_model->get();
 
         foreach ($providers as &$provider) {
-            $this->providers_model->only($provider, ['id', 'first_name', 'last_name']);
+            $this->providers_model->only($provider, $this->allowed_provider_fields);
         }
 
         script_vars([
@@ -72,6 +98,8 @@ class Secretaries extends EA_Controller
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
             'providers' => $providers,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -89,7 +117,7 @@ class Secretaries extends EA_Controller
     /**
      * Filter secretaries by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_USERS)) {
@@ -98,11 +126,11 @@ class Secretaries extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $secretaries = $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
 
@@ -115,7 +143,7 @@ class Secretaries extends EA_Controller
     /**
      * Store a new secretary.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_USERS)) {
@@ -124,35 +152,11 @@ class Secretaries extends EA_Controller
 
             $secretary = request('secretary');
 
-            $this->secretaries_model->only($secretary, [
-                'first_name',
-                'last_name',
-                'email',
-                'alt_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'is_private',
-                'id_roles',
-                'settings',
-                'providers',
-            ]);
+            $this->secretaries_model->only($secretary, $this->allowed_secretary_fields);
 
-            $this->secretaries_model->only($secretary['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view',
-            ]);
+            $this->secretaries_model->only($secretary['settings'], $this->allowed_secretary_setting_fields);
 
-            $this->secretaries_model->optional($secretary, [
-                'providers' => [],
-            ]);
+            $this->secretaries_model->optional($secretary, $this->optional_secretary_fields);
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
@@ -172,7 +176,7 @@ class Secretaries extends EA_Controller
     /**
      * Find a secretary.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_USERS)) {
@@ -192,7 +196,7 @@ class Secretaries extends EA_Controller
     /**
      * Update a secretary.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_USERS)) {
@@ -201,36 +205,11 @@ class Secretaries extends EA_Controller
 
             $secretary = request('secretary');
 
-            $this->secretaries_model->only($secretary, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'alt_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'is_private',
-                'id_roles',
-                'settings',
-                'providers',
-            ]);
+            $this->secretaries_model->only($secretary, $this->allowed_secretary_fields);
 
-            $this->secretaries_model->only($secretary['settings'], [
-                'username',
-                'password',
-                'notifications',
-                'calendar_view',
-            ]);
+            $this->secretaries_model->only($secretary['settings'], $this->allowed_secretary_setting_fields);
 
-            $this->secretaries_model->optional($secretary, [
-                'providers' => [],
-            ]);
+            $this->secretaries_model->optional($secretary, $this->optional_secretary_fields);
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
@@ -250,7 +229,7 @@ class Secretaries extends EA_Controller
     /**
      * Remove a secretary.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_USERS)) {

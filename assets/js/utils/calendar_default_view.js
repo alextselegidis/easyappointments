@@ -56,8 +56,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $calendar,
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),
-                calendarView.currentStart,
-                calendarView.currentEnd,
+                calendarView.activeStart,
+                calendarView.activeEnd,
             );
         });
 
@@ -211,7 +211,7 @@ App.Utils.CalendarDefaultView = (function () {
                 $popoverTarget.popover('dispose');
             }
 
-            if (lastFocusedEventData.extendedProps.data.workingPlanException) {
+            if (lastFocusedEventData.extendedProps.data.workingPlanException !== undefined) {
                 const providerId = $selectFilterItem.val();
 
                 const provider = vars('available_providers').find(
@@ -248,7 +248,7 @@ App.Utils.CalendarDefaultView = (function () {
                     {
                         text: lang('cancel'),
                         click: (event, messageModal) => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         },
                     },
                     {
@@ -259,7 +259,7 @@ App.Utils.CalendarDefaultView = (function () {
                             const cancellationReason = $('#cancellation-reason').val();
 
                             App.Http.Calendar.deleteAppointment(appointmentId, cancellationReason).done(() => {
-                                messageModal.dispose();
+                                messageModal.hide();
 
                                 // Refresh calendar event items.
                                 $reloadAppointments.trigger('click');
@@ -297,44 +297,17 @@ App.Utils.CalendarDefaultView = (function () {
          * Load the appointments that correspond to the select filter item and display them on the calendar.
          */
         $selectFilterItem.on('change', () => {
-            // If current value is service, then the sync buttons must be disabled.
-            if (
-                $selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_SERVICE ||
-                $selectFilterItem.val() === 'all'
-            ) {
-                $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', true);
-                fullCalendar.setOption('selectable', false);
-                fullCalendar.setOption('editable', false);
-            } else {
-                $('#google-sync, #enable-sync, #insert-appointment, #insert-dropdown').prop('disabled', false);
-                fullCalendar.setOption('selectable', true);
-                fullCalendar.setOption('editable', true);
+            const providerId = $selectFilterItem.val();
 
-                const providerId = $selectFilterItem.val();
+            const provider = vars('available_providers').find(
+                (availableProvider) => Number(availableProvider.id) === Number(providerId),
+            );
 
-                const provider = vars('available_providers').find(
-                    (availableProvider) => Number(availableProvider.id) === Number(providerId),
-                );
-
-                if (provider && provider.timezone) {
-                    $('.provider-timezone').text(vars('timezones')[provider.timezone]);
-                }
-
-                // If the user has already the sync enabled then apply the proper style changes.
-                if ($selectFilterItem.find('option:selected').attr('google-sync') === 'true') {
-                    $('#enable-sync').removeClass('btn-light').addClass('btn-secondary enabled');
-                    $('#enable-sync span').text(lang('disable_sync'));
-                    $('#google-sync').prop('disabled', false);
-                } else {
-                    $('#enable-sync').removeClass('btn-secondary enabled').addClass('btn-light');
-                    $('#enable-sync span').text(lang('enable_sync'));
-                    $('#google-sync').prop('disabled', true);
-                }
-
-                $('#insert-working-plan-exception').toggle(
-                    providerId !== App.Utils.CalendarDefaultView.FILTER_TYPE_ALL,
-                );
+            if (provider && provider.timezone) {
+                $('.provider-timezone').text(vars('timezones')[provider.timezone]);
             }
+
+            $('#insert-working-plan-exception').toggle(providerId !== App.Utils.CalendarDefaultView.FILTER_TYPE_ALL);
 
             $reloadAppointments.trigger('click');
 
@@ -869,10 +842,10 @@ App.Utils.CalendarDefaultView = (function () {
                     unavailability.end_datetime = info.event.extendedProps.data.end_datetime = moment(
                         unavailability.end_datetime,
                     )
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
+                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    App.Http.Calendar.saveAppointment(unavailability).done(() => {
+                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -959,7 +932,7 @@ App.Utils.CalendarDefaultView = (function () {
                 .add({days: info.delta.days, millisecond: info.delta.milliseconds})
                 .format('YYYY-MM-DD HH:mm:ss');
 
-            appointment.is_unavailability = Number(appointment.is_unavailability);
+            appointment.is_unavailability = 0;
 
             info.event.extendedProps.data.start_datetime = appointment.start_datetime;
             info.event.extendedProps.data.end_datetime = appointment.end_datetime;
@@ -1018,7 +991,7 @@ App.Utils.CalendarDefaultView = (function () {
                         .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    unavailability.is_unavailability = Number(unavailability.is_unavailability);
+                    unavailability.is_unavailability = 1;
 
                     info.event.extendedProps.data.start_datetime = unavailability.start_datetime;
                     info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
@@ -1067,7 +1040,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     App.Utils.UI.setDateTimePickerValue($('#unavailability-end'), info.end);
 
-                    messageModal.dispose();
+                    messageModal.hide();
                 },
             },
             {
@@ -1125,7 +1098,7 @@ App.Utils.CalendarDefaultView = (function () {
                         App.Pages.Calendar.getSelectionEndDate(info),
                     );
 
-                    messageModal.dispose();
+                    messageModal.hide();
                 },
             },
         ];
@@ -1157,8 +1130,8 @@ App.Utils.CalendarDefaultView = (function () {
             $calendar,
             $selectFilterItem.val(),
             $('#select-filter-item option:selected').attr('type'),
-            fullCalendar.view.currentStart,
-            fullCalendar.view.currentEnd,
+            fullCalendar.view.activeStart,
+            fullCalendar.view.activeEnd,
         );
 
         $(window).trigger('resize'); // Places the footer on the bottom.
@@ -1256,7 +1229,7 @@ App.Utils.CalendarDefaultView = (function () {
                     calendarEventSource.push(unavailabilityEvent);
                 });
 
-                response.blocked_periods.forEach((blockedPeriod) => {
+                response?.blocked_periods?.forEach((blockedPeriod) => {
                     const blockedPeriodEvent = {
                         title: blockedPeriod.name,
                         start: moment(blockedPeriod.start_datetime).toDate(),
@@ -1534,12 +1507,13 @@ App.Utils.CalendarDefaultView = (function () {
                 'label': lang('providers'),
                 'type': 'providers-group',
                 'html': vars('available_providers').map((availableProvider) => {
-                    const hasGoogleSync = availableProvider.settings.google_sync === '1' ? 'true' : 'false';
+                    const {settings} = availableProvider;
 
                     return $('<option/>', {
                         'value': availableProvider.id,
                         'type': FILTER_TYPE_PROVIDER,
-                        'google-sync': hasGoogleSync,
+                        'google-sync': settings.google_sync,
+                        'caldav-sync': settings.caldav_sync,
                         'text': availableProvider.first_name + ' ' + availableProvider.last_name,
                     });
                 }),
@@ -1645,8 +1619,8 @@ App.Utils.CalendarDefaultView = (function () {
                 $calendar,
                 $selectFilterItem.val(),
                 $selectFilterItem.find('option:selected').attr('type'),
-                fullCalendar.view.currentStart,
-                fullCalendar.view.currentEnd,
+                fullCalendar.view.activeStart,
+                fullCalendar.view.activeEnd,
             );
         }, 60000);
     }

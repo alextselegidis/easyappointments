@@ -45,6 +45,7 @@ class Admins_model extends EA_Model
         'timezone' => 'timezone',
         'language' => 'language',
         'notes' => 'notes',
+        'ldapDn' => 'ldap_dn',
         'roleId' => 'id_roles',
     ];
 
@@ -76,7 +77,7 @@ class Admins_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $admin)
+    public function validate(array $admin): void
     {
         // If an admin ID is provided then check whether the record really exists in the database.
         if (!empty($admin['id'])) {
@@ -211,10 +212,7 @@ class Admins_model extends EA_Model
 
         foreach ($admins as &$admin) {
             $this->cast($admin);
-
-            $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
-
-            unset($admin['settings']['id_users'], $admin['settings']['password'], $admin['settings']['salt']);
+            $admin['settings'] = $this->get_settings($admin['id']);
         }
 
         return $admins;
@@ -264,7 +262,7 @@ class Admins_model extends EA_Model
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        $this->save_settings($admin['id'], $settings);
+        $this->set_settings($admin['id'], $settings);
 
         return $admin['id'];
     }
@@ -277,7 +275,7 @@ class Admins_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    protected function save_settings(int $admin_id, array $settings)
+    public function set_settings(int $admin_id, array $settings): void
     {
         if (empty($settings)) {
             throw new InvalidArgumentException('The settings argument cannot be empty.');
@@ -296,13 +294,29 @@ class Admins_model extends EA_Model
     }
 
     /**
+     * Get the admin settings.
+     *
+     * @param int $admin_id Admin ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $admin_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
+    }
+
+    /**
      * Set the value of an admin setting.
      *
      * @param int $admin_id Admin ID.
      * @param string $name Setting name.
      * @param mixed|null $value Setting value.
      */
-    public function set_setting(int $admin_id, string $name, mixed $value = null)
+    public function set_setting(int $admin_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id])) {
             throw new RuntimeException('Could not set the new admin setting value: ' . $name);
@@ -347,7 +361,7 @@ class Admins_model extends EA_Model
             throw new RuntimeException('Could not update admin.');
         }
 
-        $this->save_settings($admin['id'], $settings);
+        $this->set_settings($admin['id'], $settings);
 
         return $admin['id'];
     }
@@ -390,10 +404,7 @@ class Admins_model extends EA_Model
         }
 
         $this->cast($admin);
-
-        $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
-
-        unset($admin['settings']['id_users'], $admin['settings']['password'], $admin['settings']['salt']);
+        $admin['settings'] = $this->get_settings($admin['id']);
 
         return $admin;
     }
@@ -507,10 +518,7 @@ class Admins_model extends EA_Model
 
         foreach ($admins as &$admin) {
             $this->cast($admin);
-
-            $admin['settings'] = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
-
-            unset($admin['settings']['id_users'], $admin['settings']['password'], $admin['settings']['salt']);
+            $admin['settings'] = $this->get_settings($admin['id']);
         }
 
         return $admins;
@@ -534,7 +542,7 @@ class Admins_model extends EA_Model
      *
      * @param array $admin Admin data.
      */
-    public function api_encode(array &$admin)
+    public function api_encode(array &$admin): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $admin) ? (int) $admin['id'] : null,
@@ -549,6 +557,8 @@ class Admins_model extends EA_Model
             'zip' => $admin['zip_code'],
             'notes' => $admin['notes'],
             'timezone' => $admin['timezone'],
+            'language' => $admin['language'],
+            'ldapDn' => $admin['ldap_dn'],
             'settings' => [
                 'username' => $admin['settings']['username'],
                 'notifications' => filter_var($admin['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
@@ -565,7 +575,7 @@ class Admins_model extends EA_Model
      * @param array $admin API resource.
      * @param array|null $base Base admin data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$admin, array $base = null)
+    public function api_decode(array &$admin, array $base = null): void
     {
         $decoded_resource = $base ?? [];
 
@@ -615,6 +625,14 @@ class Admins_model extends EA_Model
 
         if (array_key_exists('timezone', $admin)) {
             $decoded_resource['timezone'] = $admin['timezone'];
+        }
+
+        if (array_key_exists('language', $admin)) {
+            $decoded_resource['language'] = $admin['language'];
+        }
+
+        if (array_key_exists('ldapDn', $admin)) {
+            $decoded_resource['ldap_dn'] = $admin['ldapDn'];
         }
 
         if (array_key_exists('settings', $admin)) {

@@ -20,6 +20,24 @@
  */
 class Services extends EA_Controller
 {
+    public array $allowed_service_fields = [
+        'id',
+        'name',
+        'duration',
+        'price',
+        'currency',
+        'description',
+        'color',
+        'location',
+        'availabilities_type',
+        'attendants_number',
+        'is_private',
+        'id_service_categories',
+    ];
+    public array $optional_service_fields = [
+        'id_service_categories' => null,
+    ];
+
     /**
      * Services constructor.
      */
@@ -41,7 +59,7 @@ class Services extends EA_Controller
      * On this page admin users will be able to manage services, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('services')]);
 
@@ -79,7 +97,7 @@ class Services extends EA_Controller
     /**
      * Filter services by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_SERVICES)) {
@@ -88,11 +106,11 @@ class Services extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'row_order ASC, update_datetime DESC';
+            $order_by = request('order_by', 'row_order ASC, update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $services = $this->services_model->search($keyword, $limit, $offset, $order_by);
 
@@ -105,7 +123,7 @@ class Services extends EA_Controller
     /**
      * Store a new service.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_SERVICES)) {
@@ -114,23 +132,9 @@ class Services extends EA_Controller
 
             $service = request('service');
 
-            $this->services_model->only($service, [
-                'name',
-                'duration',
-                'price',
-                'currency',
-                'description',
-                'color',
-                'location',
-                'availabilities_type',
-                'attendants_number',
-                'is_private',
-                'id_service_categories',
-            ]);
+            $this->services_model->only($service, $this->allowed_service_fields);
 
-            $this->services_model->optional($service, [
-                'id_service_categories' => null,
-            ]);
+            $this->services_model->optional($service, $this->optional_service_fields);
 
             $service_id = $this->services_model->save($service);
 
@@ -150,7 +154,7 @@ class Services extends EA_Controller
     /**
      * Find a service.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('delete', PRIV_SERVICES)) {
@@ -170,7 +174,7 @@ class Services extends EA_Controller
     /**
      * Update a service.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_SERVICES)) {
@@ -179,24 +183,9 @@ class Services extends EA_Controller
 
             $service = request('service');
 
-            $this->services_model->only($service, [
-                'id',
-                'name',
-                'duration',
-                'price',
-                'currency',
-                'description',
-                'color',
-                'location',
-                'availabilities_type',
-                'attendants_number',
-                'is_private',
-                'id_service_categories',
-            ]);
+            $this->services_model->only($service, $this->allowed_service_fields);
 
-            $this->services_model->optional($service, [
-                'id_service_categories' => null,
-            ]);
+            $this->services_model->optional($service, $this->optional_service_fields);
 
             $service_id = $this->services_model->save($service);
 
@@ -216,7 +205,7 @@ class Services extends EA_Controller
     /**
      * Remove a service.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_SERVICES)) {

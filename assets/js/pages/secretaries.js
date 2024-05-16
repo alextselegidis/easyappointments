@@ -29,6 +29,7 @@ App.Pages.Secretaries = (function () {
     const $notes = $('#notes');
     const $language = $('#language');
     const $timezone = $('#timezone');
+    const $ldapDn = $('#ldap-dn');
     const $username = $('#username');
     const $password = $('#password');
     const $passwordConfirmation = $('#password-confirm');
@@ -92,8 +93,8 @@ App.Pages.Secretaries = (function () {
             event.preventDefault();
             const key = $('#filter-secretaries .key').val();
             $filterSecretaries.find('.selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.Secretaries.resetForm();
+            App.Pages.Secretaries.filter(key);
         });
 
         /**
@@ -111,7 +112,7 @@ App.Pages.Secretaries = (function () {
 
             const secretary = filterResults.find((filterResult) => Number(filterResult.id) === Number(secretaryId));
 
-            display(secretary);
+            App.Pages.Secretaries.display(secretary);
 
             $('#filter-secretaries .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
@@ -122,7 +123,7 @@ App.Pages.Secretaries = (function () {
          * Event: Add New Secretary Button "Click"
          */
         $secretaries.on('click', '#add-secretary', () => {
-            resetForm();
+            App.Pages.Secretaries.resetForm();
             $filterSecretaries.find('button').prop('disabled', true);
             $filterSecretaries.find('.results').css('color', '#AAA');
 
@@ -158,14 +159,14 @@ App.Pages.Secretaries = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
                         remove(secretaryId);
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
             ];
@@ -190,6 +191,7 @@ App.Pages.Secretaries = (function () {
                 notes: $notes.val(),
                 language: $language.val(),
                 timezone: $timezone.val(),
+                ldap_dn: $ldapDn.val(),
                 settings: {
                     username: $username.val(),
                     notifications: Number($notifications.prop('checked')),
@@ -216,11 +218,11 @@ App.Pages.Secretaries = (function () {
                 secretary.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.Secretaries.validate()) {
                 return;
             }
 
-            save(secretary);
+            App.Pages.Secretaries.save(secretary);
         });
 
         /**
@@ -246,9 +248,9 @@ App.Pages.Secretaries = (function () {
     function save(secretary) {
         App.Http.Secretaries.save(secretary).done((response) => {
             App.Layouts.Backend.displayNotification(lang('secretary_saved'));
-            resetForm();
+            App.Pages.Secretaries.resetForm();
             $('#filter-secretaries .key').val('');
-            filter('', response.id, true);
+            App.Pages.Secretaries.filter('', response.id, true);
         });
     }
 
@@ -260,8 +262,8 @@ App.Pages.Secretaries = (function () {
     function remove(id) {
         App.Http.Secretaries.destroy(id).done(() => {
             App.Layouts.Backend.displayNotification(lang('secretary_deleted'));
-            resetForm();
-            filter($('#filter-secretaries .key').val());
+            App.Pages.Secretaries.resetForm();
+            App.Pages.Secretaries.filter($('#filter-secretaries .key').val());
         });
     }
 
@@ -285,24 +287,24 @@ App.Pages.Secretaries = (function () {
                 }
             });
             if (missingRequired) {
-                throw new Error('Fields with * are  required.');
+                throw new Error(lang('fields_are_required'));
             }
 
             // Validate passwords.
             if ($password.val() !== $passwordConfirmation.val()) {
                 $('#password, #password-confirm').addClass('is-invalid');
-                throw new Error('Passwords mismatch!');
+                throw new Error(lang('passwords_mismatch'));
             }
 
             if ($password.val().length < vars('min_password_length') && $password.val() !== '') {
                 $('#password, #password-confirm').addClass('is-invalid');
-                throw new Error('Password must be at least ' + vars('min_password_length') + ' characters long.');
+                throw new Error(lang('password_length_notice').replace('$number', vars('min_password_length')));
             }
 
             // Validate user email.
             if (!App.Utils.Validation.email($email.val())) {
                 $email.addClass('is-invalid');
-                throw new Error('Invalid email address!');
+                throw new Error(lang('invalid_email'));
             }
 
             // Validate phone number.
@@ -324,7 +326,7 @@ App.Pages.Secretaries = (function () {
             // Check if username exists
             if ($username.attr('already-exists') === 'true') {
                 $username.addClass('is-invalid');
-                throw new Error('Username already exists.');
+                throw new Error(lang('username_already_exists'));
             }
 
             return true;
@@ -344,7 +346,8 @@ App.Pages.Secretaries = (function () {
         $secretaries.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $secretaries.find('.record-details .form-label span').prop('hidden', true);
         $secretaries.find('.record-details #calendar-view').val('default');
-        $secretaries.find('.record-details #timezone').val('UTC');
+        $secretaries.find('.record-details #timezone').val(vars('default_timezone'));
+        $secretaries.find('.record-details #language').val(vars('default_language'));
         $secretaries.find('.record-details #notifications').prop('checked', true);
         $secretaries.find('.add-edit-delete-group').show();
         $secretaries.find('.save-cancel-group').hide();
@@ -373,6 +376,7 @@ App.Pages.Secretaries = (function () {
         $notes.val(secretary.notes);
         $language.val(secretary.language);
         $timezone.val(secretary.timezone);
+        $ldapDn.val(secretary.ldap_dn);
 
         $username.val(secretary.settings.username);
         $calendarView.val(secretary.settings.calendar_view);
@@ -406,7 +410,10 @@ App.Pages.Secretaries = (function () {
             $filterSecretaries.find('.results').empty();
 
             response.forEach((secretary) => {
-                $filterSecretaries.find('.results').append(getFilterHtml(secretary)).append($('<hr/>'));
+                $filterSecretaries
+                    .find('.results')
+                    .append(App.Pages.Secretaries.getFilterHtml(secretary))
+                    .append($('<hr/>'));
             });
 
             if (!response.length) {
@@ -422,7 +429,7 @@ App.Pages.Secretaries = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.Customers.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-secretaries .results');
             }
@@ -481,7 +488,7 @@ App.Pages.Secretaries = (function () {
         if (show) {
             const secretary = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
-            display(secretary);
+            App.Pages.Secretaries.display(secretary);
 
             $('#edit-secretary, #delete-secretary').prop('disabled', false);
         }
@@ -491,9 +498,9 @@ App.Pages.Secretaries = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.Secretaries.resetForm();
+        App.Pages.Secretaries.filter('');
+        App.Pages.Secretaries.addEventListeners();
 
         vars('providers').forEach((provider) => {
             const checkboxId = `provider-service-${provider.id}`;
@@ -531,8 +538,11 @@ App.Pages.Secretaries = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();

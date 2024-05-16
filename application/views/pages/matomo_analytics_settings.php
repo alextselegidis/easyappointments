@@ -44,8 +44,23 @@
                                     </small>
                                 </div>
                             </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="matomo-analytics-site-id">
+                                    <?= lang('matomo_analytics_site_id') ?>
+                                </label>
+                                <input id="matomo-analytics-site-id" data-field="matomo_analytics_site_id"
+                                       class="form-control">
+                                <div class="form-text text-muted">
+                                    <small>
+                                        <?= lang('matomo_analytics_site_id_hint') ?>
+                                    </small>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
+                    <?php slot('after_primary_appointment_fields'); ?>
                 </fieldset>
             </form>
         </div>

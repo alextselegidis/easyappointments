@@ -20,6 +20,16 @@
  */
 class Unavailabilities extends EA_Controller
 {
+    public array $allowed_unavailability_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'is_unavailability',
+        'id_users_provider',
+    ];
+
     /**
      * Unavailabilities constructor.
      */
@@ -38,7 +48,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Filter unavailabilities by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
@@ -47,11 +57,11 @@ class Unavailabilities extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $unavailabilities = $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
 
@@ -64,7 +74,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Store a new unavailability.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_APPOINTMENTS)) {
@@ -73,19 +83,7 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = request('unavailability');
 
-            $this->unavailabilities_model->only($unavailability, [
-                'first_name',
-                'last_name',
-                'email',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-            ]);
+            $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
@@ -109,7 +107,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Find an unavailability.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
@@ -129,7 +127,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Update a unavailability.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_APPOINTMENTS)) {
@@ -137,6 +135,8 @@ class Unavailabilities extends EA_Controller
             }
 
             $unavailability = request('unavailability');
+
+            $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
@@ -160,7 +160,7 @@ class Unavailabilities extends EA_Controller
     /**
      * Remove a unavailability.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_APPOINTMENTS)) {

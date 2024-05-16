@@ -28,17 +28,19 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
+        "ext-simplexml": "*",
         "ext-fileinfo": "*",
         "gregwar/captcha": "^1.1.9",
         "jsvrcek/ics": "^0.8.4",
         "monolog/monolog": "^2.8.0",
         "google/apiclient": "^2.12.6",
-        "guzzlehttp/guzzle": "^7.5.0"
+        "guzzlehttp/guzzle": "^7.5.0",
+        "sabre/vobject": "^4.5"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",

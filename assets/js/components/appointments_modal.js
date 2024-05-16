@@ -365,6 +365,10 @@ App.Components.AppointmentsModal = (function () {
                 return Number(availableService.id) === Number(serviceId);
             });
 
+            if (service?.color) {
+                App.Components.ColorSelection.getColor($appointmentColor, service.color);
+            }
+
             const duration = service ? service.duration : 60;
 
             const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
@@ -420,8 +424,8 @@ App.Components.AppointmentsModal = (function () {
             $address.val('');
             $city.val('');
             $zipCode.val('');
-            $language.val('english');
-            $timezone.val('UTC');
+            $language.val(vars('default_language'));
+            $timezone.val(vars('default_timezone'));
             $customerNotes.val('');
             $customField1.val('');
             $customField2.val('');
@@ -445,8 +449,8 @@ App.Components.AppointmentsModal = (function () {
         const defaultStatusValue = $appointmentStatus.find('option:first').val();
         $appointmentStatus.val(defaultStatusValue);
 
-        $language.val('english');
-        $timezone.val('UTC');
+        $language.val(vars('default_language'));
+        $timezone.val(vars('default_timezone'));
 
         // Reset color.
         $appointmentColor.find('.color-selection-option:first').trigger('click');

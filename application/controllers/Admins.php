@@ -20,6 +20,26 @@
  */
 class Admins extends EA_Controller
 {
+    public array $allowed_admin_fields = [
+        'id',
+        'first_name',
+        'last_name',
+        'email',
+        'mobile_number',
+        'phone_number',
+        'address',
+        'city',
+        'state',
+        'zip_code',
+        'notes',
+        'timezone',
+        'language',
+        'ldap_dn',
+        'settings',
+    ];
+
+    public array $allowed_admin_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
     /**
      * Admins constructor.
      */
@@ -41,7 +61,7 @@ class Admins extends EA_Controller
      * On this page admin users will be able to manage admins, which are eventually selected by customers during the
      * booking process.
      */
-    public function index()
+    public function index(): void
     {
         session(['dest_url' => site_url('admins')]);
 
@@ -64,6 +84,8 @@ class Admins extends EA_Controller
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
+            'default_language' => setting('default_language'),
+            'default_timezone' => setting('default_timezone'),
         ]);
 
         html_vars([
@@ -80,7 +102,7 @@ class Admins extends EA_Controller
     /**
      * Filter admins by the provided keyword.
      */
-    public function search()
+    public function search(): void
     {
         try {
             if (cannot('view', PRIV_USERS)) {
@@ -89,11 +111,11 @@ class Admins extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'update_datetime DESC');
 
             $limit = request('limit', 1000);
 
-            $offset = 0;
+            $offset = (int) request('offset', '0');
 
             $admins = $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
@@ -106,7 +128,7 @@ class Admins extends EA_Controller
     /**
      * Store a new admin.
      */
-    public function store()
+    public function store(): void
     {
         try {
             if (cannot('add', PRIV_USERS)) {
@@ -115,23 +137,9 @@ class Admins extends EA_Controller
 
             $admin = request('admin');
 
-            $this->admins_model->only($admin, [
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->admins_model->only($admin, $this->allowed_admin_fields);
 
-            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -151,7 +159,7 @@ class Admins extends EA_Controller
     /**
      * Find an admin.
      */
-    public function find()
+    public function find(): void
     {
         try {
             if (cannot('view', PRIV_USERS)) {
@@ -171,7 +179,7 @@ class Admins extends EA_Controller
     /**
      * Update an admin.
      */
-    public function update()
+    public function update(): void
     {
         try {
             if (cannot('edit', PRIV_USERS)) {
@@ -180,24 +188,9 @@ class Admins extends EA_Controller
 
             $admin = request('admin');
 
-            $this->admins_model->only($admin, [
-                'id',
-                'first_name',
-                'last_name',
-                'email',
-                'mobile_number',
-                'phone_number',
-                'address',
-                'city',
-                'state',
-                'zip_code',
-                'notes',
-                'timezone',
-                'language',
-                'settings',
-            ]);
+            $this->admins_model->only($admin, $this->allowed_admin_fields);
 
-            $this->admins_model->only($admin['settings'], ['username', 'password', 'notifications', 'calendar_view']);
+            $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -217,7 +210,7 @@ class Admins extends EA_Controller
     /**
      * Remove an admin.
      */
-    public function destroy()
+    public function destroy(): void
     {
         try {
             if (cannot('delete', PRIV_USERS)) {

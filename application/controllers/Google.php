@@ -74,7 +74,7 @@ class Google extends EA_Controller
             $google_sync = $CI->providers_model->get_setting($provider['id'], 'google_sync');
 
             if (!$google_sync) {
-                return; // The selected provider does not have the Google Syncing enabled.
+                return; // The selected provider does not have the Google Sync enabled.
             }
 
             $google_token = json_decode($provider['settings']['google_token'], true);
@@ -82,9 +82,9 @@ class Google extends EA_Controller
             $CI->google_sync->refresh_token($google_token['refresh_token']);
 
             // Fetch provider's appointments that belong to the sync time period.
-            $sync_past_days = $CI->providers_model->get_setting($provider['id'], 'sync_past_days');
+            $sync_past_days = $provider['settings']['sync_past_days'];
 
-            $sync_future_days = $CI->providers_model->get_setting($provider['id'], 'sync_future_days');
+            $sync_future_days = $provider['settings']['sync_future_days'];
 
             $start = strtotime('-' . $sync_past_days . ' days', strtotime(date('Y-m-d')));
 
@@ -124,13 +124,17 @@ class Google extends EA_Controller
 
                 // If current appointment not synced yet, add to Google Calendar.
                 if (!$local_event['id_google_calendar']) {
-                    $google_event = $CI->google_sync->add_appointment(
-                        $local_event,
-                        $provider,
-                        $service,
-                        $customer,
-                        $settings,
-                    );
+                    if (!$local_event['is_unavailability']) {
+                        $google_event = $CI->google_sync->add_appointment(
+                            $local_event,
+                            $provider,
+                            $service,
+                            $customer,
+                            $settings,
+                        );
+                    } else {
+                        $google_event = $CI->google_sync->add_unavailability($provider, $local_event);
+                    }
 
                     $local_event['id_google_calendar'] = $google_event->getId();
 

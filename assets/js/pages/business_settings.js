@@ -117,7 +117,7 @@ App.Pages.BusinessSettings = (function () {
             {
                 text: lang('cancel'),
                 click: (event, messageModal) => {
-                    messageModal.dispose();
+                    messageModal.hide();
                 },
             },
             {
@@ -130,7 +130,7 @@ App.Pages.BusinessSettings = (function () {
                             App.Layouts.Backend.displayNotification(lang('working_plans_got_updated'));
                         })
                         .always(() => {
-                            messageModal.dispose();
+                            messageModal.hide();
                         });
                 },
             },

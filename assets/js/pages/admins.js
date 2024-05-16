@@ -29,6 +29,7 @@ App.Pages.Admins = (function () {
     const $notes = $('#notes');
     const $language = $('#language');
     const $timezone = $('#timezone');
+    const $ldapDn = $('#ldap-dn');
     const $username = $('#username');
     const $password = $('#password');
     const $passwordConfirmation = $('#password-confirm');
@@ -92,8 +93,8 @@ App.Pages.Admins = (function () {
             event.preventDefault();
             const key = $('#filter-admins .key').val();
             $('#filter-admins .selected').removeClass('selected');
-            resetForm();
-            filter(key);
+            App.Pages.Admins.resetForm();
+            App.Pages.Admins.filter(key);
         });
 
         /**
@@ -111,7 +112,7 @@ App.Pages.Admins = (function () {
 
             const admin = filterResults.find((filterResult) => Number(filterResult.id) === Number(adminId));
 
-            display(admin);
+            App.Pages.Admins.display(admin);
             $('#filter-admins .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-admin, #delete-admin').prop('disabled', false);
@@ -121,7 +122,7 @@ App.Pages.Admins = (function () {
          * Event: Add New Admin Button "Click"
          */
         $admins.on('click', '#add-admin', () => {
-            resetForm();
+            App.Pages.Admins.resetForm();
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
             $admins.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -154,14 +155,14 @@ App.Pages.Admins = (function () {
                 {
                     text: lang('cancel'),
                     click: (event, messageModal) => {
-                        messageModal.dispose();
+                        messageModal.hide();
                     },
                 },
                 {
                     text: lang('delete'),
                     click: (event, messageModal) => {
-                        remove(adminId);
-                        messageModal.dispose();
+                        App.Pages.Admins.remove(adminId);
+                        messageModal.hide();
                     },
                 },
             ];
@@ -186,6 +187,7 @@ App.Pages.Admins = (function () {
                 notes: $notes.val(),
                 language: $language.val(),
                 timezone: $timezone.val(),
+                ldap_dn: $ldapDn.val(),
                 settings: {
                     username: $username.val(),
                     notifications: Number($notifications.prop('checked')),
@@ -203,11 +205,11 @@ App.Pages.Admins = (function () {
                 admin.id = $id.val();
             }
 
-            if (!validate()) {
+            if (!App.Pages.Admins.validate()) {
                 return;
             }
 
-            save(admin);
+            App.Pages.Admins.save(admin);
         });
 
         /**
@@ -218,10 +220,10 @@ App.Pages.Admins = (function () {
         $admins.on('click', '#cancel-admin', () => {
             const id = $id.val();
 
-            resetForm();
+            App.Pages.Admins.resetForm();
 
             if (id) {
-                select(id, true);
+                App.Pages.Admins.select(id, true);
             }
         });
     }
@@ -235,9 +237,9 @@ App.Pages.Admins = (function () {
     function save(admin) {
         App.Http.Admins.save(admin).then((response) => {
             App.Layouts.Backend.displayNotification(lang('admin_saved'));
-            resetForm();
+            App.Pages.Admins.resetForm();
             $('#filter-admins .key').val('');
-            filter('', response.id, true);
+            App.Pages.Admins.filter('', response.id, true);
         });
     }
 
@@ -249,8 +251,8 @@ App.Pages.Admins = (function () {
     function remove(id) {
         App.Http.Admins.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('admin_deleted'));
-            resetForm();
-            filter($('#filter-admins .key').val());
+            App.Pages.Admins.resetForm();
+            App.Pages.Admins.filter($('#filter-admins .key').val());
         });
     }
 
@@ -336,8 +338,8 @@ App.Pages.Admins = (function () {
         $admins.find('.record-details').find('input, select, textarea').val('').prop('disabled', true);
         $admins.find('.record-details .form-label span').prop('hidden', true);
         $admins.find('.record-details #calendar-view').val('default');
-        $admins.find('.record-details #language').val('english');
-        $admins.find('.record-details #timezone').val('UTC');
+        $admins.find('.record-details #language').val(vars('default_language'));
+        $admins.find('.record-details #timezone').val(vars('default_timezone'));
         $admins.find('.record-details #notifications').prop('checked', true);
         $('#edit-admin, #delete-admin').prop('disabled', true);
 
@@ -364,6 +366,7 @@ App.Pages.Admins = (function () {
         $notes.val(admin.notes);
         $language.val(admin.language);
         $timezone.val(admin.timezone);
+        $ldapDn.val(admin.ldap_dn);
 
         $username.val(admin.settings.username);
         $calendarView.val(admin.settings.calendar_view);
@@ -386,7 +389,7 @@ App.Pages.Admins = (function () {
             $filterAdmins.find('.results').empty();
 
             response.forEach((admin) => {
-                $filterAdmins.find('.results').append(getFilterHtml(admin)).append($('<hr/>'));
+                $filterAdmins.find('.results').append(App.Pages.Admins.getFilterHtml(admin)).append($('<hr/>'));
             });
 
             if (!response.length) {
@@ -402,13 +405,13 @@ App.Pages.Admins = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        filter(keyword, selectId, show);
+                        App.Pages.Admins.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-admins .results');
             }
 
             if (selectId) {
-                select(selectId, show);
+                App.Pages.Admins.select(selectId, show);
             }
         });
     }
@@ -462,7 +465,7 @@ App.Pages.Admins = (function () {
         if (show) {
             const admin = filterResults.find((filterResult) => Number(filterResult.id) === Number(id));
 
-            display(admin);
+            App.Pages.Admins.display(admin);
 
             $('#edit-admin, #delete-admin').prop('disabled', false);
         }
@@ -472,9 +475,9 @@ App.Pages.Admins = (function () {
      * Initialize the module.
      */
     function initialize() {
-        resetForm();
-        filter('');
-        addEventListeners();
+        App.Pages.Admins.resetForm();
+        App.Pages.Admins.filter('');
+        App.Pages.Admins.addEventListeners();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
@@ -483,8 +486,11 @@ App.Pages.Admins = (function () {
         filter,
         save,
         remove,
+        validate,
         getFilterHtml,
         resetForm,
+        display,
         select,
+        addEventListeners,
     };
 })();

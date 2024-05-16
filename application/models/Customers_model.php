@@ -49,6 +49,7 @@ class Customers_model extends EA_Model
         'customField4' => 'custom_field_4',
         'customField5' => 'custom_field_5',
         'notes' => 'notes',
+        'ldapDn' => 'ldap_dn',
     ];
 
     /**
@@ -82,7 +83,7 @@ class Customers_model extends EA_Model
      *
      * @throws InvalidArgumentException
      */
-    public function validate(array $customer)
+    public function validate(array $customer): void
     {
         // If a customer ID is provided then check whether the record really exists in the database.
         if (!empty($customer['id'])) {
@@ -443,7 +444,7 @@ class Customers_model extends EA_Model
      *
      * @param array $customer Customer data.
      */
-    public function api_encode(array &$customer)
+    public function api_encode(array &$customer): void
     {
         $encoded_resource = [
             'id' => array_key_exists('id', $customer) ? (int) $customer['id'] : null,
@@ -461,6 +462,7 @@ class Customers_model extends EA_Model
             'customField3' => $customer['custom_field_3'],
             'customField4' => $customer['custom_field_4'],
             'customField5' => $customer['custom_field_5'],
+            'ldapDn' => $customer['ldap_dn'],
         ];
 
         $customer = $encoded_resource;
@@ -472,7 +474,7 @@ class Customers_model extends EA_Model
      * @param array $customer API resource.
      * @param array|null $base Base customer data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$customer, array $base = null)
+    public function api_decode(array &$customer, array $base = null): void
     {
         $decoded_resource = $base ?: [];
 
@@ -530,6 +532,10 @@ class Customers_model extends EA_Model
 
         if (array_key_exists('customField5', $customer)) {
             $decoded_resource['custom_field_5'] = $customer['customField5'];
+        }
+
+        if (array_key_exists('ldapDn', $customer)) {
+            $decoded_resource['ldap_dn'] = $customer['ldapDn'];
         }
 
         if (array_key_exists('notes', $customer)) {
