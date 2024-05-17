@@ -385,6 +385,7 @@ class Booking extends EA_Controller
                 $customer['id'] = $this->customers_model->find_record_id($customer);
 
                 $existing_appointments = $this->appointments_model->get([
+                    'id !=' => $manage_mode ? $appointment['id'] : null,
                     'id_users_customer' => $customer['id'],
                     'start_datetime <=' => $appointment['start_datetime'],
                     'end_datetime >=' => $appointment['end_datetime'],
