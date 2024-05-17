@@ -70,9 +70,7 @@ window.App.Utils.Message = (function () {
                             }
                         </div>
                         <div class="modal-body">
-                            <p>
-                                ${message}
-                            </p>
+                            ${message}
                         </div>
                         <div class="modal-footer">
                             <!-- * -->
