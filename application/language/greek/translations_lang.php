@@ -478,4 +478,5 @@ $lang['import'] = 'Εισαγωγή';
 $lang['ldap_dn'] = 'LDAP DN';
 $lang['role'] = 'Ρόλος';
 $lang['at_least_one_field_required'] = 'Τουλάχιστον ένα πεδίο πρέπει να έχει οριστεί ως υποχρεωτικό στη σελίδα κράτησης.';
+$lang['customer_is_already_booked'] = 'This customer already has an appointment during the requested reservation period.';
 // End
