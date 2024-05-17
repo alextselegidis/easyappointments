@@ -1494,6 +1494,8 @@ App.Utils.CalendarDefaultView = (function () {
 
         fullCalendar.render();
 
+        $calendar.data('fullCalendar', fullCalendar);
+
         // Trigger once to set the proper footer position after calendar initialization.
         onWindowResize();
 
