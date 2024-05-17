@@ -419,6 +419,8 @@ App.Utils.CalendarDefaultView = (function () {
                     }),
                     $('<br/>'),
 
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
+
                     $('<hr/>'),
 
                     $('<div/>', {
@@ -520,6 +522,8 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': startTime ? vars('timezones')[provider.timezone] : '-',
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -688,6 +692,8 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 

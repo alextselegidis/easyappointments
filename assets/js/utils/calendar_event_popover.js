@@ -120,9 +120,21 @@ App.Utils.CalendarEventPopover = (function () {
         }).html();
     }
 
+    /**
+     * Render custom content into the popover of events.
+     *
+     * @param {Object} info The info object as passed from FullCalendar
+     *
+     * @return {Object|String|null} Return HTML string, a jQuery selector or null for nothing.
+     */
+    function renderCustomContent(info) {
+        return null; // Default behavior
+    }
+
     return {
         renderPhoneIcon,
         renderMapIcon,
         renderMailIcon,
+        renderCustomContent,
     };
 })();
