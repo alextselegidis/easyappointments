@@ -1146,6 +1146,8 @@ App.Utils.CalendarTableView = (function () {
                     }),
                     $('<br/>'),
 
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
+
                     $('<hr/>'),
 
                     $('<div/>', {
@@ -1250,6 +1252,8 @@ App.Utils.CalendarTableView = (function () {
                         'text': vars('timezones')[info.event.extendedProps.data.provider.timezone],
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -1415,6 +1419,8 @@ App.Utils.CalendarTableView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
