@@ -83,15 +83,15 @@ class Ldap_client
         }
 
         // Check LDAP environment and configuration
-
-        if (!extension_loaded('ldap')) {
-            throw new RuntimeException('The LDAP extension is not loaded.');
-        }
-
+        
         $ldap_is_active = setting('ldap_is_active');
 
         if (!$ldap_is_active) {
             return null;
+        }
+
+        if (!extension_loaded('ldap')) {
+            throw new RuntimeException('The LDAP extension is not loaded.');
         }
 
         // Match user by username
