@@ -86,7 +86,7 @@ class Booking_settings extends EA_Controller
     {
         try {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $settings = request('booking_settings', []);

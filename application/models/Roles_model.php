@@ -95,7 +95,7 @@ class Roles_model extends EA_Model
         $role['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('roles', $role)) {
-            throw new RuntimeException('Could not insert role.');
+            throw new RuntimeException(lang('role_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -115,7 +115,7 @@ class Roles_model extends EA_Model
         $role['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('roles', $role, ['id' => $role['id']])) {
-            throw new RuntimeException('Could not update role.');
+            throw new RuntimeException(lang('role_not_updated'));
         }
 
         return $role['id'];

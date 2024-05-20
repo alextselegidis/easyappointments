@@ -125,7 +125,7 @@ class Email_messages
         $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics', 'text/vcalendar');
 
         if (!$this->CI->email->send(false)) {
-            throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
+            throw new RuntimeException(lang('email_not_sent') . $this->CI->email->print_debugger());
         }
     }
 
@@ -200,7 +200,7 @@ class Email_messages
         $this->CI->email->message($html);
 
         if (!$this->CI->email->send(false)) {
-            throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
+            throw new RuntimeException(lang('email_not_sent') . $this->CI->email->print_debugger());
         }
     }
 
@@ -240,7 +240,7 @@ class Email_messages
         $this->CI->email->message($html);
 
         if (!$this->CI->email->send(false)) {
-            throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
+            throw new RuntimeException(lang('email_not_sent') . $this->CI->email->print_debugger());
         }
     }
 }

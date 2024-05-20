@@ -76,7 +76,7 @@ class Consents_model extends EA_Model
         $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('consents', $consent)) {
-            throw new RuntimeException('Could not insert consent.');
+            throw new RuntimeException(lang('consent_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -96,7 +96,7 @@ class Consents_model extends EA_Model
         $consent['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('consents', $consent, ['id' => $consent['id']])) {
-            throw new RuntimeException('Could not update consent.');
+            throw new RuntimeException(lang('consent_not_updated'));
         }
 
         return $consent['id'];

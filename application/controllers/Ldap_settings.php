@@ -79,7 +79,7 @@ class Ldap_settings extends EA_Controller
     {
         try {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $settings = request('ldap_settings', []);
@@ -113,11 +113,11 @@ class Ldap_settings extends EA_Controller
     {
         try {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             if (!extension_loaded('ldap')) {
-                throw new RuntimeException('The LDAP extension is not loaded.');
+                throw new RuntimeException(lang('ldap_not_loaded.'));
             }
 
             $keyword = request('keyword');

@@ -96,7 +96,7 @@ class Settings_model extends EA_Model
         $setting['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('settings', $setting)) {
-            throw new RuntimeException('Could not insert setting.');
+            throw new RuntimeException(lang('setting_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -116,7 +116,7 @@ class Settings_model extends EA_Model
         $setting['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('settings', $setting, ['id' => $setting['id']])) {
-            throw new RuntimeException('Could not update setting.');
+            throw new RuntimeException(lang('setting_not_updated'));
         }
 
         return $setting['id'];

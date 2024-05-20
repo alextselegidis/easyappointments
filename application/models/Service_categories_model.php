@@ -99,7 +99,7 @@ class Service_categories_model extends EA_Model
         $service_category['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('service_categories', $service_category)) {
-            throw new RuntimeException('Could not insert service-category.');
+            throw new RuntimeException(lang('category_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -119,7 +119,7 @@ class Service_categories_model extends EA_Model
         $service_category['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('service_categories', $service_category, ['id' => $service_category['id']])) {
-            throw new RuntimeException('Could not update service categories.');
+            throw new RuntimeException(lang('categories_not_updated'));
         }
 
         return $service_category['id'];

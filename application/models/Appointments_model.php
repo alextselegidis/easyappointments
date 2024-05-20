@@ -216,7 +216,7 @@ class Appointments_model extends EA_Model
         $appointment['hash'] = random_string('alnum', 12);
 
         if (!$this->db->insert('appointments', $appointment)) {
-            throw new RuntimeException('Could not insert appointment.');
+            throw new RuntimeException(lang('appointment_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -236,7 +236,7 @@ class Appointments_model extends EA_Model
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('appointments', $appointment, ['id' => $appointment['id']])) {
-            throw new RuntimeException('Could not update appointment record.');
+            throw new RuntimeException(lang('appointment_record_not_updated'));
         }
 
         return $appointment['id'];

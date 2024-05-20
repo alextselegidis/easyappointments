@@ -171,7 +171,7 @@ class Instance
         }
 
         if (!is_writable($path)) {
-            throw new RuntimeException('The backup path is not writable: ' . $path);
+            throw new RuntimeException(lang('backup_path_not_writable') . $path);
         }
 
         $contents = $this->CI->dbutil->backup();

@@ -166,7 +166,7 @@ class Services_model extends EA_Model
         $service['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('services', $service)) {
-            throw new RuntimeException('Could not insert service.');
+            throw new RuntimeException(lang('service_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -186,7 +186,7 @@ class Services_model extends EA_Model
         $service['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('services', $service, ['id' => $service['id']])) {
-            throw new RuntimeException('Could not update service.');
+            throw new RuntimeException(lang('service_not_updated'));
         }
 
         return $service['id'];

@@ -60,7 +60,7 @@ class Ldap_client
             $salt = substr(base64_decode(substr($hashed_password, 6)), 20);
             $encrypted_password = '{SSHA}' . base64_encode(sha1($password . $salt, true) . $salt);
         } else {
-            throw new RuntimeException('Unsupported password hash format');
+            throw new RuntimeException(lang('unsupported_pw_hash_format'));
         }
 
         return $hashed_password === $encrypted_password;
@@ -242,7 +242,7 @@ class Ldap_client
     private function check_environment(): void
     {
         if (!extension_loaded('ldap')) {
-            throw new RuntimeException('The LDAP extension is not loaded.');
+            throw new RuntimeException(lang('ldap_not_loaded.'))
         }
     }
 }

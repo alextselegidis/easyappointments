@@ -129,7 +129,7 @@ class Accounts
             ->get();
 
         if (!$query->num_rows()) {
-            throw new RuntimeException('The username was not found in the database: ' . $username);
+            throw new RuntimeException(lang('username_not_in_db') . $username);
         }
 
         $user = $query->row_array();

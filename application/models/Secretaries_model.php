@@ -241,7 +241,7 @@ class Secretaries_model extends EA_Model
         $role = $this->db->get_where('roles', ['slug' => DB_SLUG_SECRETARY])->row_array();
 
         if (empty($role)) {
-            throw new RuntimeException('The secretary role was not found in the database.');
+            throw new RuntimeException(lang('secretary_role_not_in_db'));
         }
 
         return $role['id'];
@@ -270,7 +270,7 @@ class Secretaries_model extends EA_Model
         unset($secretary['providers'], $secretary['settings']);
 
         if (!$this->db->insert('users', $secretary)) {
-            throw new RuntimeException('Could not insert secretary.');
+            throw new RuntimeException(lang('secretary_not_inserted'));
         }
 
         $secretary['id'] = $this->db->insert_id();
@@ -335,7 +335,7 @@ class Secretaries_model extends EA_Model
     public function set_setting(int $secretary_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $secretary_id])) {
-            throw new RuntimeException('Could not set the new secretary setting value: ' . $name);
+            throw new RuntimeException(lang('secretary_setting_not_set') . $name);
         }
     }
 
@@ -362,7 +362,7 @@ class Secretaries_model extends EA_Model
             $existing_settings = $this->db->get_where('user_settings', ['id_users' => $secretary['id']])->row_array();
 
             if (empty($existing_settings)) {
-                throw new RuntimeException('No settings record found for secretary with ID: ' . $secretary['id']);
+                throw new RuntimeException(lang('secretary_setting_record_not_found') . $secretary['id']);
             }
 
             if (empty($existing_settings['salt'])) {
@@ -373,7 +373,7 @@ class Secretaries_model extends EA_Model
         }
 
         if (!$this->db->update('users', $secretary, ['id' => $secretary['id']])) {
-            throw new RuntimeException('Could not update secretary.');
+            throw new RuntimeException(lang('secretary_not_updated'));
         }
 
         $this->set_settings($secretary['id'], $settings);
@@ -487,7 +487,7 @@ class Secretaries_model extends EA_Model
         $settings = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
 
         if (!array_key_exists($name, $settings)) {
-            throw new RuntimeException('The requested setting value was not found: ' . $secretary_id);
+            throw new RuntimeException(lang('secretary_setting_value_not_found') . $secretary_id);
         }
 
         return $settings[$name];

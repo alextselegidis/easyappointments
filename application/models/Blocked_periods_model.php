@@ -115,7 +115,7 @@ class Blocked_periods_model extends EA_Model
         $blocked_period['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('blocked_periods', $blocked_period)) {
-            throw new RuntimeException('Could not insert blocked-period.');
+            throw new RuntimeException(lang('blocked_period_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -135,7 +135,7 @@ class Blocked_periods_model extends EA_Model
         $blocked_period['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('blocked_periods', $blocked_period, ['id' => $blocked_period['id']])) {
-            throw new RuntimeException('Could not update blocked periods.');
+            throw new RuntimeException(lang('blocked_periods_not_updated'));
         }
 
         return $blocked_period['id'];

@@ -63,7 +63,7 @@ class EA_Input extends CI_Input
         $input_stream = $CI->input->raw_input_stream;
 
         if (empty($input_stream)) {
-            throw new RuntimeException('Cannot get JSON attribute from an empty input stream.');
+            throw new RuntimeException(lang('no_json_from_empty_stream'));
         }
 
         $payload = json_decode($input_stream, true);

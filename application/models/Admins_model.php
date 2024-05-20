@@ -228,7 +228,7 @@ class Admins_model extends EA_Model
         $role = $this->db->get_where('roles', ['slug' => DB_SLUG_ADMIN])->row_array();
 
         if (empty($role)) {
-            throw new RuntimeException('The admin role was not found in the database.');
+            throw new RuntimeException(lang('admin_role_not_in_db'));
         }
 
         return $role['id'];
@@ -255,7 +255,7 @@ class Admins_model extends EA_Model
         $admin['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('users', $admin)) {
-            throw new RuntimeException('Could not insert admin.');
+            throw new RuntimeException(lang('admin_not_inserted'));
         }
 
         $admin['id'] = $this->db->insert_id();
@@ -319,7 +319,7 @@ class Admins_model extends EA_Model
     public function set_setting(int $admin_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id])) {
-            throw new RuntimeException('Could not set the new admin setting value: ' . $name);
+            throw new RuntimeException(lang('admin_setting_not_set') . $name);
         }
     }
 
@@ -345,7 +345,7 @@ class Admins_model extends EA_Model
             $existing_settings = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
 
             if (empty($existing_settings)) {
-                throw new RuntimeException('No settings record found for admin with ID: ' . $admin['id']);
+                throw new RuntimeException(lang('admin_setting_record_not_found') . $admin['id']);
             }
 
             if (empty($existing_settings['salt'])) {
@@ -358,7 +358,7 @@ class Admins_model extends EA_Model
         $admin['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('users', $admin, ['id' => $admin['id']])) {
-            throw new RuntimeException('Could not update admin.');
+            throw new RuntimeException(lang('admin_not_updated'));
         }
 
         $this->set_settings($admin['id'], $settings);
@@ -380,7 +380,7 @@ class Admins_model extends EA_Model
         $count = $this->db->get_where('users', ['id_roles' => $role_id])->num_rows();
 
         if ($count <= 1) {
-            throw new RuntimeException('Record could not be deleted as the app requires at least one admin user.');
+            throw new RuntimeException(lang('admin_record_not_deleted'));
         }
 
         $this->db->delete('users', ['id' => $admin_id]);
@@ -461,7 +461,7 @@ class Admins_model extends EA_Model
         $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
 
         if (!array_key_exists($name, $settings)) {
-            throw new RuntimeException('The requested setting value was not found: ' . $admin_id);
+            throw new RuntimeException(lang('admin_setting_value_not_found') . $admin_id);
         }
 
         return $settings[$name];

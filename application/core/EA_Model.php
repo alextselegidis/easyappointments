@@ -72,7 +72,7 @@ class EA_Model extends CI_Model
             return $this->value($field, $record_id);
         }
 
-        throw new RuntimeException('The "get_value" is not defined in model: ', __CLASS__);
+        throw new RuntimeException(lang('get_value_not_defined'), __CLASS__);
     }
 
     /**
@@ -92,7 +92,7 @@ class EA_Model extends CI_Model
             return $this->find($record_id);
         }
 
-        throw new RuntimeException('The "get_row" is not defined in model: ', __CLASS__);
+        throw new RuntimeException(lang('get_row_not_defined'), __CLASS__);
     }
 
     /**
@@ -157,7 +157,7 @@ class EA_Model extends CI_Model
                     break;
 
                 default:
-                    throw new RuntimeException('Unsupported cast type provided: ' . $cast);
+                    throw new RuntimeException(lang('unsupported_cast_type') . $cast);
             }
         }
     }

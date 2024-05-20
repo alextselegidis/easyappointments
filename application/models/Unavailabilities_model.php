@@ -185,7 +185,7 @@ class Unavailabilities_model extends EA_Model
         $unavailability['is_unavailability'] = true;
 
         if (!$this->db->insert('appointments', $unavailability)) {
-            throw new RuntimeException('Could not insert unavailability.');
+            throw new RuntimeException(lang('unavailability_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -205,7 +205,7 @@ class Unavailabilities_model extends EA_Model
         $unavailability['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('appointments', $unavailability, ['id' => $unavailability['id']])) {
-            throw new RuntimeException('Could not update unavailability record.');
+            throw new RuntimeException(lang('unavailability_record_not_updated'));
         }
 
         return $unavailability['id'];

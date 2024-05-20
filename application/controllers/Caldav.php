@@ -47,7 +47,7 @@ class Caldav extends EA_Controller
             $user_id = session('user_id');
 
             if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $caldav_url = request('caldav_url');
@@ -292,7 +292,7 @@ class Caldav extends EA_Controller
             $user_id = session('user_id');
 
             if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $calendars = $this->caldav_sync->get_caldav_calendars($provider_id);
@@ -318,7 +318,7 @@ class Caldav extends EA_Controller
             $user_id = session('user_id');
 
             if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $calendar_id = request('calendar_id');
@@ -352,7 +352,7 @@ class Caldav extends EA_Controller
             $user_id = session('user_id');
 
             if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $provider = $this->providers_model->find($provider_id);

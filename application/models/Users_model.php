@@ -119,7 +119,7 @@ class Users_model extends EA_Model
         unset($user['settings']);
 
         if (!$this->db->insert('users', $user)) {
-            throw new RuntimeException('Could not insert user.');
+            throw new RuntimeException(lang('user_not_inserted'));
         }
 
         $user['id'] = $this->db->insert_id();
@@ -183,7 +183,7 @@ class Users_model extends EA_Model
     public function set_setting(int $user_id, string $name, string $value): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $user_id])) {
-            throw new RuntimeException('Could not set the new user setting value: ' . $name);
+            throw new RuntimeException(lang('user_setting_not_set') . $name);
         }
     }
 
@@ -207,14 +207,14 @@ class Users_model extends EA_Model
             $existing_settings = $this->db->get_where('user_settings', ['id_users' => $user['id']])->row_array();
 
             if (empty($existing_settings)) {
-                throw new RuntimeException('No settings record found for user with ID: ' . $user['id']);
+                throw new RuntimeException(lang('user_setting_record_not_found') . $user['id']);
             }
 
             $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
         }
 
         if (!$this->db->update('users', $user, ['id' => $user['id']])) {
-            throw new RuntimeException('Could not update user.');
+            throw new RuntimeException(lang('user_not_updated'));
         }
 
         $this->set_settings($user['id'], $settings);
@@ -310,7 +310,7 @@ class Users_model extends EA_Model
         $settings = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
 
         if (empty($settings[$name])) {
-            throw new RuntimeException('The requested setting value was not found: ' . $user_id);
+            throw new RuntimeException(lang('setting_value_not_found') . $user_id);
         }
 
         return $settings[$name];

@@ -402,7 +402,7 @@ class Caldav_sync
         $provider = $this->CI->providers_model->find($provider_id);
 
         if (!$provider['settings']['caldav_sync']) {
-            throw new RuntimeException('The selected provider does not have the CalDAV sync enabled: ' . $provider_id);
+            throw new RuntimeException(lang('provider_has_not_enabled_caldav_sync') . $provider_id);
         }
 
         $caldav_url = $provider['settings']['caldav_url'];

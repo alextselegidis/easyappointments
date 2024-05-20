@@ -101,7 +101,7 @@ class Account extends EA_Controller
     {
         try {
             if (cannot('edit', PRIV_USER_SETTINGS)) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
+                throw new RuntimeException(lang('no_permissions'));
             }
 
             $account = request('account');

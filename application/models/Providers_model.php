@@ -243,7 +243,7 @@ class Providers_model extends EA_Model
         $role = $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row_array();
 
         if (empty($role)) {
-            throw new RuntimeException('The provider role was not found in the database.');
+            throw new RuntimeException(lang('provider_role_not_in_db'));
         }
 
         return $role['id'];
@@ -271,7 +271,7 @@ class Providers_model extends EA_Model
         unset($provider['services'], $provider['settings']);
 
         if (!$this->db->insert('users', $provider)) {
-            throw new RuntimeException('Could not insert provider.');
+            throw new RuntimeException(lang('provider_not_inserted'));
         }
 
         $provider['id'] = $this->db->insert_id();
@@ -349,7 +349,7 @@ class Providers_model extends EA_Model
     public function set_setting(int $provider_id, string $name, mixed $value = null): void
     {
         if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $provider_id])) {
-            throw new RuntimeException('Could not set the new provider setting value: ' . $name);
+            throw new RuntimeException(lang('provider_setting_not_set') . $name);
         }
     }
 
@@ -376,7 +376,7 @@ class Providers_model extends EA_Model
             $existing_settings = $this->db->get_where('user_settings', ['id_users' => $provider['id']])->row_array();
 
             if (empty($existing_settings)) {
-                throw new RuntimeException('No settings record found for provider with ID: ' . $provider['id']);
+                throw new RuntimeException(lang('provider_setting_record_not_found') . $provider['id']);
             }
 
             if (empty($existing_settings['salt'])) {
@@ -387,7 +387,7 @@ class Providers_model extends EA_Model
         }
 
         if (!$this->db->update('users', $provider, ['id' => $provider['id']])) {
-            throw new RuntimeException('Could not update provider.');
+            throw new RuntimeException(lang('provider_not_updated'));
         }
 
         $this->set_settings($provider['id'], $settings);
@@ -503,7 +503,7 @@ class Providers_model extends EA_Model
         $settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
 
         if (!array_key_exists($name, $settings)) {
-            throw new RuntimeException('The requested setting value was not found: ' . $provider_id);
+            throw new RuntimeException(lang('provider_setting_value_not_found') . $provider_id);
         }
 
         return $settings[$name];

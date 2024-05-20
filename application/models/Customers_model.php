@@ -189,7 +189,7 @@ class Customers_model extends EA_Model
         $role = $this->db->get_where('roles', ['slug' => DB_SLUG_CUSTOMER])->row_array();
 
         if (empty($role)) {
-            throw new RuntimeException('The customer role was not found in the database.');
+            throw new RuntimeException(lang('customer_role_not_in_db'));
         }
 
         return $role['id'];
@@ -269,7 +269,7 @@ class Customers_model extends EA_Model
         $customer['id_roles'] = $this->get_customer_role_id();
 
         if (!$this->db->insert('users', $customer)) {
-            throw new RuntimeException('Could not insert customer.');
+            throw new RuntimeException(lang('customer_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -289,7 +289,7 @@ class Customers_model extends EA_Model
         $customer['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('users', $customer, ['id' => $customer['id']])) {
-            throw new RuntimeException('Could not update customer.');
+            throw new RuntimeException(lang('customer_not_updated'));
         }
 
         return $customer['id'];

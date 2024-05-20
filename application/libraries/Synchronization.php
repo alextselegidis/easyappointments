@@ -60,7 +60,7 @@ class Synchronization
 
             if ($provider['settings']['google_sync']) {
                 if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+                    throw new RuntimeException(lang('no_google_token_for_provider') . $provider['id']);
                 }
 
                 $google_token = json_decode($provider['settings']['google_token'], true);
@@ -122,7 +122,7 @@ class Synchronization
 
             if ($provider['settings']['google_sync'] && !empty($appointment['id_google_calendar'])) {
                 if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+                    throw new RuntimeException(lang('no_google_token_for_provider') . $provider['id']);
                 }
 
                 $google_token = json_decode($provider['settings']['google_token'], true);
@@ -162,7 +162,7 @@ class Synchronization
 
             if ($provider['settings']['google_sync']) {
                 if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+                    throw new RuntimeException(lang('no_google_token_for_provider') . $provider['id']);
                 }
 
                 $google_token = json_decode($provider['settings']['google_token'], true);
@@ -215,7 +215,7 @@ class Synchronization
 
             if ($provider['settings']['google_sync'] && !empty($unavailability['id_google_calendar'])) {
                 if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+                    throw new RuntimeException(lang('no_google_token_for_provider') . $provider['id']);
                 }
 
                 $google_token = json_decode($provider['settings']['google_token'], true);

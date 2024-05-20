@@ -92,7 +92,7 @@ class Webhooks_model extends EA_Model
         $webhook['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->insert('webhooks', $webhook)) {
-            throw new RuntimeException('Could not insert webhook.');
+            throw new RuntimeException(lang('webhook_not_inserted'));
         }
 
         return $this->db->insert_id();
@@ -112,7 +112,7 @@ class Webhooks_model extends EA_Model
         $webhook['update_datetime'] = date('Y-m-d H:i:s');
 
         if (!$this->db->update('webhooks', $webhook, ['id' => $webhook['id']])) {
-            throw new RuntimeException('Could not update webhook.');
+            throw new RuntimeException(lang('webhook_not_updated'));
         }
 
         return $webhook['id'];
