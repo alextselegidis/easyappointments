@@ -84,9 +84,7 @@ class Ldap_client
 
         // Check LDAP environment and configuration
 
-        if (!extension_loaded('ldap')) {
-            throw new RuntimeException('The LDAP extension is not loaded.');
-        }
+        $this->check_environment();
 
         $ldap_is_active = setting('ldap_is_active');
 
@@ -109,32 +107,32 @@ class Ldap_client
         $user_dn = setting('ldap_user_dn');
         $ldap_password = setting('ldap_password');
 
-        $connection = ldap_connect($host, $port);
+        $connection = @ldap_connect($host, $port);
 
         if (!$connection) {
-            throw new Exception('Could not connect to LDAP server: ' . ldap_error($connection));
+            throw new Exception('Could not connect to LDAP server: ' . @ldap_error($connection));
         }
 
-        ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($connection, LDAP_OPT_REFERRALS, 0); // We need this for doing an LDAP search.
+        @ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
+        @ldap_set_option($connection, LDAP_OPT_REFERRALS, 0); // We need this for doing an LDAP search.
 
-        $bind = ldap_bind($connection, $user_dn, $ldap_password);
+        $bind = @ldap_bind($connection, $user_dn, $ldap_password);
 
         if (!$bind) {
-            throw new Exception('LDAP bind failed: ' . ldap_error($connection));
+            throw new Exception('LDAP bind failed: ' . @ldap_error($connection));
         }
 
         // Check the provided password against the LDAP service
 
         $filter = '(objectclass=*)';
 
-        $result = ldap_search($connection, $user['ldap_dn'], $filter);
+        $result = @ldap_search($connection, $user['ldap_dn'], $filter);
 
         if (!$result) {
             return null;
         }
 
-        $ldap_entries = ldap_get_entries($connection, $result);
+        $ldap_entries = @ldap_get_entries($connection, $result);
 
         foreach ($ldap_entries as $ldap_entry) {
             if (!is_array($ldap_entry) || empty($ldap_entry['dn']) || $ldap_entry['dn'] !== $user['ldap_dn']) {
@@ -173,6 +171,8 @@ class Ldap_client
      */
     public function search(string $keyword): array
     {
+        $this->check_environment();
+
         $host = setting('ldap_host');
         $port = (int) setting('ldap_port');
         $user_dn = setting('ldap_user_dn');
@@ -180,32 +180,32 @@ class Ldap_client
         $base_dn = setting('ldap_base_dn');
         $filter = setting('ldap_filter');
 
-        $connection = ldap_connect($host, $port);
+        $connection = @ldap_connect($host, $port);
 
         if (!$connection) {
-            throw new Exception('Could not connect to LDAP server: ' . ldap_error($connection));
+            throw new Exception('Could not connect to LDAP server: ' . @ldap_error($connection));
         }
 
-        ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($connection, LDAP_OPT_REFERRALS, 0); // We need this for doing an LDAP search.
+        @ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
+        @ldap_set_option($connection, LDAP_OPT_REFERRALS, 0); // We need this for doing an LDAP search.
 
-        $bind = ldap_bind($connection, $user_dn, $password);
+        $bind = @ldap_bind($connection, $user_dn, $password);
 
         if (!$bind) {
-            throw new Exception('LDAP bind failed: ' . ldap_error($connection));
+            throw new Exception('LDAP bind failed: ' . @ldap_error($connection));
         }
 
         $wildcard_keyword = !empty($keyword) ? '*' . $keyword . '*' : '*';
 
         $interpolated_filter = str_replace('{{KEYWORD}}', $wildcard_keyword, $filter);
 
-        $result = ldap_search($connection, $base_dn, $interpolated_filter);
+        $result = @ldap_search($connection, $base_dn, $interpolated_filter);
 
         if (!$result) {
-            throw new Exception('Search failed: ' . ldap_error($connection));
+            throw new Exception('Search failed: ' . @ldap_error($connection));
         }
 
-        $ldap_entries = ldap_get_entries($connection, $result);
+        $ldap_entries = @ldap_get_entries($connection, $result);
 
         // Flatten the LDAP entries so that they become easier to import
 
@@ -232,5 +232,17 @@ class Ldap_client
         }
 
         return $entries;
+    }
+
+    /**
+     * Check if the ldap extension is installed
+     *
+     * @return void
+     */
+    private function check_environment(): void
+    {
+        if (!extension_loaded('ldap')) {
+            throw new RuntimeException('The LDAP extension is not loaded.');
+        }
     }
 }
