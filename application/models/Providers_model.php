@@ -635,8 +635,10 @@ class Providers_model extends EA_Model
             ->select('users.*')
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
+            ->join('services_providers', 'services_providers.id_users = users.id', 'inner')
             ->where('roles.slug', DB_SLUG_PROVIDER)
             ->order_by('first_name ASC, last_name ASC, email ASC')
+            ->group_by('users.id')
             ->get()
             ->result_array();
 

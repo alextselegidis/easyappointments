@@ -550,8 +550,8 @@ App.Utils.CalendarTableView = (function () {
             'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format')),
         }).appendTo($dateColumn);
 
-        const filterProviderIds = $filterProvider.val();
-        const filterServiceIds = $filterService.val();
+        const filterProviderIds = $filterProvider.val().map((filterProviderId) => Number(filterProviderId));
+        const filterServiceIds = $filterService.val().map((filterServiceId) => Number(filterServiceId));
 
         let providers = vars('available_providers').filter((provider) => {
             const servedServiceIds = provider.services.filter((serviceId) => {
