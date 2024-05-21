@@ -524,6 +524,13 @@ class Providers_model extends EA_Model
         array $working_plan_exception = null,
     ): void {
         // Validate the working plan exception data.
+
+        if (empty($working_plan_exception['start']) || empty($working_plan_exception['end'])) {
+            throw new InvalidArgumentException(
+                'Empty start and/or end time provided: ' . json_encode($working_plan_exception),
+            );
+        }
+
         $start = date('H:i', strtotime($working_plan_exception['start']));
 
         $end = date('H:i', strtotime($working_plan_exception['end']));
