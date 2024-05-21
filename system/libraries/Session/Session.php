@@ -695,7 +695,7 @@ class CI_Session {
 	{
 		$destroy = boolval($destroy !== null ? $destroy : config_item('sess_regenerate_destroy'));
 		$_SESSION['__ci_last_regenerate'] = time();
-		session_regenerate_id($destroy);
+		@session_regenerate_id($destroy);
 	}
 
 	// ------------------------------------------------------------------------
