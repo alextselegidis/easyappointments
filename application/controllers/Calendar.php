@@ -468,6 +468,8 @@ class Calendar extends EA_Controller
 
             $date = request('date');
 
+            $original_date = request('original_date');
+
             $working_plan_exception = request('working_plan_exception');
 
             if (!$working_plan_exception) {
@@ -477,6 +479,10 @@ class Calendar extends EA_Controller
             $provider_id = request('provider_id');
 
             $this->providers_model->save_working_plan_exception($provider_id, $date, $working_plan_exception);
+
+            if ($date !== $original_date) {
+                $this->providers_model->delete_working_plan_exception($provider_id, $original_date);
+            }
 
             json_response([
                 'success' => true,

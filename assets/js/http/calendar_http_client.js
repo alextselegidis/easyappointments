@@ -131,10 +131,18 @@ App.Http.Calendar = (function () {
      * @param {Number} providerId Contains the working plan exceptions data.
      * @param {Function} successCallback The ajax success callback function.
      * @param {Function} errorCallback The ajax failure callback function.
+     * @param {Date} [originalDate] On edit, provide the original date.
      *
      * @return {*|jQuery}
      */
-    function saveWorkingPlanException(date, workingPlanException, providerId, successCallback, errorCallback) {
+    function saveWorkingPlanException(
+        date,
+        workingPlanException,
+        providerId,
+        successCallback,
+        errorCallback,
+        originalDate,
+    ) {
         const url = App.Utils.Url.siteUrl('calendar/save_working_plan_exception');
 
         const data = {
@@ -142,6 +150,7 @@ App.Http.Calendar = (function () {
             date: date,
             working_plan_exception: workingPlanException,
             provider_id: providerId,
+            original_date: originalDate,
         };
 
         return $.post(url, data)

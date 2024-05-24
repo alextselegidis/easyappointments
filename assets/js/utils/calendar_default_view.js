@@ -90,11 +90,11 @@ App.Utils.CalendarDefaultView = (function () {
             const data = lastFocusedEventData.extendedProps.data;
 
             if (data.hasOwnProperty('workingPlanException')) {
-                const date = lastFocusedEventData.extendedProps.data.date;
+                const originalDate = lastFocusedEventData.extendedProps.data.date;
                 const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
                 const provider = lastFocusedEventData.extendedProps.data.provider;
 
-                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
+                App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
                     (date, workingPlanException) => {
                         const successCallback = () => {
                             App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
@@ -102,6 +102,10 @@ App.Utils.CalendarDefaultView = (function () {
                             const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                             workingPlanExceptions[date] = workingPlanException;
+
+                            if (date !== originalDate) {
+                                delete workingPlanExceptions[originalDate];
+                            }
 
                             for (const index in vars('available_providers')) {
                                 const availableProvider = vars('available_providers')[index];
@@ -122,6 +126,7 @@ App.Utils.CalendarDefaultView = (function () {
                             provider.id,
                             successCallback,
                             null,
+                            originalDate,
                         );
                     },
                 );
