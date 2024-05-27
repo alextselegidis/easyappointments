@@ -766,6 +766,7 @@ class Providers_model extends EA_Model
             'is_private' => $provider['is_private'],
             'ldapDn' => $provider['ldap_dn'],
             'timezone' => $provider['timezone'],
+            'language' => $provider['language'],
         ];
 
         if (array_key_exists('services', $provider)) {
@@ -875,6 +876,10 @@ class Providers_model extends EA_Model
 
         if (array_key_exists('timezone', $provider)) {
             $decoded_resource['timezone'] = $provider['timezone'];
+        }
+
+        if (array_key_exists('language', $provider)) {
+            $decoded_resource['language'] = $provider['language'];
         }
 
         if (array_key_exists('services', $provider)) {
