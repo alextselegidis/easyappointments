@@ -525,15 +525,16 @@ class Providers_model extends EA_Model
     ): void {
         // Validate the working plan exception data.
 
-        if (empty($working_plan_exception['start']) || empty($working_plan_exception['end'])) {
+        if (empty($working_plan_exception)){
+            $start = $end = null;
+        } elseif (empty($working_plan_exception['start']) || empty($working_plan_exception['end'])) {
             throw new InvalidArgumentException(
                 'Empty start and/or end time provided: ' . json_encode($working_plan_exception),
             );
+        } else {
+            $start = date('H:i', strtotime($working_plan_exception['start']));
+            $end = date('H:i', strtotime($working_plan_exception['end']));
         }
-
-        $start = date('H:i', strtotime($working_plan_exception['start']));
-
-        $end = date('H:i', strtotime($working_plan_exception['end']));
 
         if ($start > $end) {
             throw new InvalidArgumentException('Working plan exception start date must be before the end date.');
@@ -599,7 +600,7 @@ class Providers_model extends EA_Model
      *
      * @throws Exception If $provider_id argument is invalid.
      */
-    public function delete_working_plan_exception(int $provider_id, string $date): void
+    public function delete_working_plan_exception(int $provider_id, ?string $date): void
     {
         $provider = $this->find($provider_id);
 
