@@ -480,7 +480,7 @@ class Calendar extends EA_Controller
 
             $this->providers_model->save_working_plan_exception($provider_id, $date, $working_plan_exception);
 
-            if ($date !== $original_date) {
+            if ($original_date && $date !== $original_date) {
                 $this->providers_model->delete_working_plan_exception($provider_id, $original_date);
             }
 
