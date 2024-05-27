@@ -479,4 +479,5 @@ $lang['ldap_dn'] = 'LDAP DN';
 $lang['role'] = 'Role';
 $lang['at_least_one_field_required'] = 'At least one field must be set as required in the booking page.';
 $lang['customer_is_already_booked'] = 'This customer already has an appointment during the requested reservation period.';
+$lang['fields'] = 'Fields';
 // End

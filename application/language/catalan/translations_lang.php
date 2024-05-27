@@ -479,4 +479,5 @@ $lang['ldap_dn'] = 'LDAP DN';
 $lang['role'] = 'Rol';
 $lang['at_least_one_field_required'] = 'Com a mínim un camp s\'ha de marcar com a obligatori a la pàgina de reserva.';
 $lang['customer_is_already_booked'] = 'This customer already has an appointment during the requested reservation period.';
+$lang['fields'] = 'Fields';
 // End
