@@ -444,7 +444,7 @@ App.Components.AppointmentsModal = (function () {
     function resetModal() {
         // Empty form fields.
         $appointmentsModal.find('input, textarea').val('');
-        $appointmentsModal.find('.modal-message').fadeOut();
+        $appointmentsModal.find('.modal-message').addClass('.d-none');
 
         const defaultStatusValue = $appointmentStatus.find('option:first').val();
         $appointmentStatus.val(defaultStatusValue);
