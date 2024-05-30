@@ -20,12 +20,7 @@ class Migration_Add_date_format_setting extends EA_Migration
      */
     public function up()
     {
-        if (!$this->db->get_where('settings', ['name' => 'date_format'])->num_rows()) {
-            $this->db->insert('settings', [
-                'name' => 'date_format',
-                'value' => 'DMY',
-            ]);
-        }
+        $this->db->update('settings', ['value' => 'DD.MM.YYYY'], ['name' => 'date_format']);
     }
 
     /**
