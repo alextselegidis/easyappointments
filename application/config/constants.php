@@ -94,7 +94,28 @@ const EVENT_MINIMUM_DURATION = 5; // Minutes
 
 const DEFAULT_COMPANY_COLOR = '#ffffff';
 
-const LDAP_DEFAULT_FILTER = '(&(objectClass=person)(|(cn={{KEYWORD}})(sn={{KEYWORD}})(mail={{KEYWORD}})(givenName={{KEYWORD}})(uid={{KEYWORD}})))';
+const LDAP_DEFAULT_FILTER = '(&(objectClass=*)(|(cn={{KEYWORD}})(sn={{KEYWORD}})(mail={{KEYWORD}})(givenName={{KEYWORD}})(uid={{KEYWORD}})))';
+
+const LDAP_WHITELISTED_ATTRIBUTES = [
+    'givenname',
+    'cn',
+    'dn',
+    'sn',
+    'mail',
+    'telephonenumber',
+    'description',
+    'member',
+    'objectclass',
+    'objectcategory',
+    'instancetype',
+    'whencreated',
+    'name',
+    'samaccountname',
+    'samaccounttype',
+    'objectcategory',
+    'memberof',
+    'distinguishedname',
+];
 
 const LDAP_DEFAULT_FIELD_MAPPING = [
     'first_name' => 'givenname',

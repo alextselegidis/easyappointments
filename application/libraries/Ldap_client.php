@@ -221,7 +221,7 @@ class Ldap_client
             ];
 
             foreach ($ldap_entry as $key => $value) {
-                if (!is_array($value)) {
+                if (!is_array($value) || !in_array($key, LDAP_WHITELISTED_ATTRIBUTES)) {
                     continue;
                 }
 
