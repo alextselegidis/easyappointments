@@ -65,7 +65,7 @@ App.Pages.Booking = (function () {
      * Initialize the module.
      */
     function initialize() {
-        if (Boolean(Number(vars('display_cookie_notice')))) {
+        if (Boolean(Number(vars('display_cookie_notice'))) && window?.cookieconsent) {
             cookieconsent.initialise({
                 palette: {
                     popup: {
@@ -426,11 +426,10 @@ App.Pages.Booking = (function () {
                 });
 
             // Scroll to the top of the page. On a small screen, especially on a mobile device, this is very useful.
-            const scrollingElement = (document.scrollingElement || document.body);
+            const scrollingElement = document.scrollingElement || document.body;
             if (window.innerHeight < scrollingElement.scrollHeight) {
                 scrollingElement.scrollTop = 0;
             }
-
         });
 
         /**
