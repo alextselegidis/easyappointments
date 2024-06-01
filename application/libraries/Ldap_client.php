@@ -39,34 +39,6 @@ class Ldap_client
     }
 
     /**
-     * Validate the provided password with an LDAP hashed password.
-     *
-     * @param string $password
-     * @param string $hashed_password
-     *
-     * @return bool
-     */
-    public function validate_password(string $password, string $hashed_password): bool
-    {
-        if (empty($hashed_password) || ($hashed_password[0] !== '{' && $password === $hashed_password)) {
-            return false;
-        }
-
-        if (str_starts_with($hashed_password, '{MD5}')) {
-            $encrypted_password = '{MD5}' . base64_encode(md5($password, true));
-        } elseif (str_starts_with($hashed_password, '{SHA1}')) {
-            $encrypted_password = '{SHA}' . base64_encode(sha1($password, true));
-        } elseif (str_starts_with($hashed_password, '{SSHA}')) {
-            $salt = substr(base64_decode(substr($hashed_password, 6)), 20);
-            $encrypted_password = '{SSHA}' . base64_encode(sha1($password . $salt, true) . $salt);
-        } else {
-            throw new RuntimeException('Unsupported password hash format');
-        }
-
-        return $hashed_password === $encrypted_password;
-    }
-
-    /**
      * Try authenticating the user with LDAP
      *
      * @param string $username
@@ -106,7 +78,7 @@ class Ldap_client
         $ldap_port = (int) setting('ldap_port');
 
         $connection = @ldap_connect($ldap_host, $ldap_port);
-
+        @ldap_set_option($connection, LDAP_OPT_PROTOCOL_VERSION, 3);
         $user_bind = @ldap_bind($connection, $user['ldap_dn'], $password);
 
         if ($user_bind) {
