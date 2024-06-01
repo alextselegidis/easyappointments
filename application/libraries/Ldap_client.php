@@ -56,14 +56,14 @@ class Ldap_client
 
         // Check LDAP environment and configuration
 
-        $this->check_environment();
-
         $ldap_is_active = setting('ldap_is_active');
 
         if (!$ldap_is_active) {
             return null;
         }
-
+ 
+        $this->check_environment();
+       
         // Match user by username
 
         $user = $this->CI->accounts->get_user_by_username($username);
