@@ -199,17 +199,17 @@ App.Pages.LdapSettings = (function () {
         }
 
         const $entry = $(`
-            <div class="card mb-2">
-                <div class="card-header">
+            <div class="card small mb-2">
+                <div class="card-header p-2 fw-bold">
                     ${entry.dn}
                 </div>
-                <div class="card-body">
+                <div class="card-body p-2">
                     <p class="d-block mb-2">${lang('content')}</p>
                     
                     <pre class="overflow-y-auto bg-light rounded p-2" style="max-height: 200px">${JSON.stringify(entry, null, 2)}</pre>
                     
                     <div class="d-lg-flex">
-                        <button class="btn btn-outline-primary ldap-import ms-lg-auto">
+                        <button class="btn btn-outline-primary btn-sm px-4 ldap-import ms-lg-auto">
                             ${lang('import')}
                         </button>
                     </div>
