@@ -40,7 +40,8 @@
         "monolog/monolog": "^2.8.0",
         "google/apiclient": "^2.12.6",
         "guzzlehttp/guzzle": "^7.5.0",
-        "sabre/vobject": "^4.5"
+        "sabre/vobject": "^4.5",
+        "ezyang/htmlpurifier": "^4.17"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
