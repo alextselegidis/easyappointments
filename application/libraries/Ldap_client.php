@@ -54,7 +54,7 @@ class Ldap_client
             throw new InvalidArgumentException('No username value provided.');
         }
 
-        // Check LDAP environment and configuration
+        // Check LDAP configuration and environment
 
         $ldap_is_active = setting('ldap_is_active');
 
