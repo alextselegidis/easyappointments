@@ -178,3 +178,21 @@ if (!function_exists('slot')) {
         }
     }
 }
+
+if (!function_exists('pure_html')) {
+    /**
+     * Use this function in order to render HTML that comes from a text editor or similar, but strip the JS from it.
+     *
+     * @param string $markup
+     *
+     * @return string
+     */
+    function pure_html(string $markup): string
+    {
+        $config = HTMLPurifier_Config::createDefault();
+
+        $purifier = new HTMLPurifier($config);
+
+        return $purifier->purify($markup);
+    }
+}
