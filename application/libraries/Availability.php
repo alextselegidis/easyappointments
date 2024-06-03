@@ -330,7 +330,7 @@ class Availability
      *
      * @throws Exception
      */
-    protected function get_available_periods(string $date, array $provider, int $exclude_appointment_id = null): array
+    public function get_available_periods(string $date, array $provider, int $exclude_appointment_id = null): array
     {
         // Get the service, provider's working plan and provider appointments.
         $working_plan = json_decode($provider['settings']['working_plan'], true);
