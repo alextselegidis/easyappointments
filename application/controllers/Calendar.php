@@ -99,7 +99,9 @@ class Calendar extends EA_Controller
      */
     public function index(string $appointment_hash = ''): void
     {
-        session(['dest_url' => site_url('backend/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : ''))]);
+        session([
+            'dest_url' => site_url('calendar/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : '')),
+        ]);
 
         $user_id = session('user_id');
 
