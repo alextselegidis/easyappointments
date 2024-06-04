@@ -165,7 +165,7 @@
                             <?= lang('language') ?>
                             <span class="text-danger" hidden>*</span>
                         </label>
-                        <select id="language" class="form-control required" disabled>
+                        <select id="language" class="form-select required" disabled>
                             <?php foreach (vars('available_languages') as $available_language): ?>
                                 <option value="<?= $available_language ?>">
                                     <?= ucfirst($available_language) ?>

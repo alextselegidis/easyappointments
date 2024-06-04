@@ -25,7 +25,7 @@
                             <label for="unavailability-provider" class="form-label">
                                 <?= lang('provider') ?>
                             </label>
-                            <select id="unavailability-provider" class="form-control"></select>
+                            <select id="unavailability-provider" class="form-select"></select>
                         </div>
 
                         <?php slot('after_select_appointment_provider'); ?>

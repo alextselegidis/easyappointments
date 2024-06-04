@@ -28,7 +28,7 @@
                         <?= lang('role') ?>
                         <span class="text-danger">*</span>
                     </label>
-                    <select id="ldap-import-role-slug" class="form-control required">
+                    <select id="ldap-import-role-slug" class="form-select required">
                         <?php foreach ($roles as $role): ?>
                             <option value="<?= $role['slug'] ?>">
                                 <?= $role['name'] ?>

@@ -106,7 +106,7 @@
                     <?= lang('language') ?>
                     <span class="text-danger">*</span>
                 </label>
-                <select id="language" class="form-control required">
+                <select id="language" class="form-select required">
                     <?php
                     $config_lang = config('language');
                     foreach (vars('available_languages') as $lang): ?>

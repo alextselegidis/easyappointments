@@ -102,7 +102,7 @@
                 <label class="form-label" for="service-category-id">
                     <?= lang('category') ?>
                 </label>
-                <select id="service-category-id" class="form-control" disabled></select>
+                <select id="service-category-id" class="form-select" disabled></select>
             </div>
 
             <div class="mb-3">
@@ -110,7 +110,7 @@
                     <?= lang('availabilities_type') ?>
 
                 </label>
-                <select id="availabilities-type" class="form-control" disabled>
+                <select id="availabilities-type" class="form-select" disabled>
                     <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
                         <?= lang('flexible') ?>
                     </option>

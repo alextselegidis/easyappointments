@@ -39,7 +39,7 @@
                                         <?= lang('service') ?>
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select id="select-service" class="required form-control">
+                                    <select id="select-service" class="required form-select">
                                         <?php
                                         // Group services by category, only if there is at least one service
                                         // with a parent category.
@@ -115,7 +115,7 @@
                                         <?= lang('provider') ?>
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select id="select-provider" class="required form-control"></select>
+                                    <select id="select-provider" class="required form-select"></select>
                                 </div>
 
                                 <?php slot('after_select_appointment_provider'); ?>
@@ -135,7 +135,7 @@
                                     <label for="appointment-status" class="form-label">
                                         <?= lang('status') ?>
                                     </label>
-                                    <select id="appointment-status" class="form-control">
+                                    <select id="appointment-status" class="form-select">
                                         <?php foreach ($appointment_status_options as $appointment_status_option): ?>
                                             <option value="<?= e($appointment_status_option) ?>">
                                                 <?= e($appointment_status_option) ?>
@@ -276,7 +276,7 @@
                                         <?= lang('language') ?>
                                         <span class="text-danger" hidden>*</span>
                                     </label>
-                                    <select id="language" class="form-control required">
+                                    <select id="language" class="form-select required">
                                         <?php foreach (vars('available_languages') as $available_language): ?>
                                             <option value="<?= $available_language ?>">
                                                 <?= ucfirst($available_language) ?>

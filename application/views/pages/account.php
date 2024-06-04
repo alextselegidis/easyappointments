@@ -129,7 +129,7 @@
                                     <label class="form-label" for="calendar-view"><?= lang('calendar') ?>
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select id="calendar-view" class="form-control required">
+                                    <select id="calendar-view" class="form-select required">
                                         <option value="default"><?= lang('default') ?></option>
                                         <option value="table"><?= lang('table') ?></option>
                                     </select>
@@ -140,7 +140,7 @@
                                         <?= lang('language') ?>
                                         <span class="text-danger" hidden>*</span>
                                     </label>
-                                    <select id="language" class="form-control required">
+                                    <select id="language" class="form-select required">
                                         <?php foreach (vars('available_languages') as $available_language): ?>
                                             <option value="<?= $available_language ?>">
                                                 <?= ucfirst($available_language) ?>
