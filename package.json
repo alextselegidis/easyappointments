@@ -39,11 +39,11 @@
   },
   "devDependencies": {
     "fs-extra": "^0.26.7",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-changed": "^3.2.0",
     "gulp-clean-css": "^3.10.0",
     "gulp-debug": "^4.0.0",
-    "gulp-load-plugins": "^1.6.0",
+    "gulp-load-plugins": "^2.0.8",
     "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
     "gulp-rename": "^1.4.0",
