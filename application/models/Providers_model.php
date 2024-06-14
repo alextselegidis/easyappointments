@@ -799,9 +799,6 @@ class Providers_model extends EA_Model
                 'caldavPassword' => array_key_exists('caldav_password', $provider['settings'])
                     ? $provider['settings']['caldav_password']
                     : null,
-                'caldavCalendar' => array_key_exists('caldav_calendar', $provider['settings'])
-                    ? $provider['settings']['caldav_calendar']
-                    : null,
                 'syncFutureDays' => array_key_exists('sync_future_days', $provider['settings'])
                     ? (int) $provider['settings']['sync_future_days']
                     : null,
@@ -947,10 +944,6 @@ class Providers_model extends EA_Model
 
             if (array_key_exists('caldavPassword', $provider['settings'])) {
                 $decoded_resource['settings']['caldav_password'] = $provider['settings']['caldavPassword'];
-            }
-
-            if (array_key_exists('caldavCalendar', $provider['settings'])) {
-                $decoded_resource['settings']['caldav_calendar'] = $provider['settings']['caldavCalendar'];
             }
 
             if (array_key_exists('syncFutureDays', $provider['settings'])) {

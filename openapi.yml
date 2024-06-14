@@ -2280,8 +2280,6 @@ components:
               type: string
             caldavPassword:
               type: string
-            caldavCalendar:
-              type: string
             syncFutureDays:
               type: string
             syncPastDays:
@@ -2316,7 +2314,6 @@ components:
           caldavUrl: null
           caldavUsername: null
           caldavPassword: null
-          caldavCalendar: null
           syncFutureDays: 90
           syncPastDays: 30
           workingPlan:
@@ -2401,8 +2398,6 @@ components:
               type: string
             caldavPassword:
               type: string
-            caldavCalendar:
-              type: string
             syncFutureDays:
               type: string
             syncPastDays:
@@ -2436,7 +2431,6 @@ components:
           caldavUrl: null
           caldavUsername: null
           caldavPassword: null
-          caldavCalendar: null
           syncFutureDays: 90
           syncPastDays: 30
           workingPlan:

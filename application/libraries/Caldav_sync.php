@@ -14,6 +14,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Psr\Http\Message\ResponseInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
 
@@ -68,12 +69,10 @@ class Caldav_sync
 
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $caldav_calendar = $provider['settings']['caldav_calendar'];
-
             $caldav_event_id =
                 $appointment['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($appointment['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
+            $uri = $this->get_caldav_event_uri($caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -106,12 +105,10 @@ class Caldav_sync
 
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $caldav_calendar = $provider['settings']['caldav_calendar'];
-
             $caldav_event_id =
                 $unavailability['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($unavailability['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
+            $uri = $this->get_caldav_event_uri($caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -138,9 +135,7 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $caldav_calendar = $provider['settings']['caldav_calendar'];
-
-            $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
+            $uri = $this->get_caldav_event_uri($caldav_event_id);
 
             $client->request('DELETE', $uri);
         } catch (GuzzleException $e) {
@@ -162,9 +157,7 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $caldav_calendar = $provider['settings']['caldav_calendar'];
-
-            $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
+            $uri = $this->get_caldav_event_uri($caldav_event_id);
 
             $response = $client->request('GET', $uri);
 
@@ -194,41 +187,7 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $caldav_calendar = $provider['settings']['caldav_calendar'];
-
-            $uri = $this->get_caldav_event_uri($caldav_calendar);
-
-            $start_date_time_object = new DateTime($start_date_time);
-            $formatted_start_date_time = $start_date_time_object->format('Ymd\THis\Z');
-            $end_date_time_object = new DateTime($end_date_time);
-            $formatted_end_date_time = $end_date_time_object->format('Ymd\THis\Z');
-
-            $response = $client->request('REPORT', $uri, [
-                'headers' => [
-                    'Content-Type' => 'application/xml',
-                    'Depth' => '1',
-                ],
-                'body' =>
-                    '
-                <c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
-                    <d:prop>
-                        <d:getetag />
-                        <c:calendar-data />
-                    </d:prop>
-                    <c:filter>
-                        <c:comp-filter name="VCALENDAR">
-                            <c:comp-filter name="VEVENT">
-                                <c:time-range start="' .
-                    $formatted_start_date_time .
-                    '" end="' .
-                    $formatted_end_date_time .
-                    '"/>	
-                            </c:comp-filter>
-                        </c:comp-filter>
-                    </c:filter>
-                </c:calendar-query>
-            ',
-            ]);
+            $response = $this->fetch_events($client, $start_date_time, $end_date_time);
 
             $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
 
@@ -246,94 +205,6 @@ class Caldav_sync
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
             return [];
-        }
-    }
-
-    /**
-     * Return available Caldav Calendars for specific user.
-     *
-     * The given user's token must already exist in db in order to get access to his
-     * Caldav Calendar account.
-     *
-     * @return array Returns an array with the available calendars.
-     *
-     * @throws Exception
-     */
-    public function get_caldav_calendars(int $provider_id): array
-    {
-        try {
-            $provider = $this->CI->providers_model->find($provider_id);
-
-            if (!$provider['settings']['caldav_sync']) {
-                throw new RuntimeException(
-                    'The selected provider does not have the CalDAV sync enabled: ' . $provider_id,
-                );
-            }
-
-            $caldav_url = $provider['settings']['caldav_url'];
-            $caldav_username = $provider['settings']['caldav_username'];
-            $caldav_password = $provider['settings']['caldav_password'];
-
-            $client = $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
-
-            $caldav_calendars = [];
-
-            $response = $client->request('PROPFIND', 'calendars/' . $caldav_username);
-
-            $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
-
-            foreach ($xml->children('d', true) as $response) {
-                $resource_type = $response->propstat->prop->resourcetype->children('cal', true)->getName();
-
-                if ($resource_type !== 'calendar') {
-                    continue;
-                }
-
-                $caldav_calendars[] = [
-                    'id' => $this->sanitize_href($caldav_url, $response->href),
-                    'summary' => (string) $response->propstat->prop->displayname,
-                ];
-            }
-
-            return $caldav_calendars;
-        } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to get the CalDAV calendars');
-            return [];
-        }
-    }
-
-    /**
-     * Connect to the remote CalDAV server and get the default calendar URL.
-     *
-     * @param string $caldav_url
-     * @param string $caldav_username
-     * @param string $caldav_password
-     *
-     * @return string|null
-     *
-     * @throws Exception
-     */
-    public function get_default_calendar(string $caldav_url, string $caldav_username, string $caldav_password): ?string
-    {
-        try {
-            $client = $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
-
-            $response = $client->request('PROPFIND', 'calendars/' . $caldav_username);
-
-            $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
-
-            foreach ($xml->children('d', true) as $response) {
-                $resource_type = $response->propstat->prop->resourcetype->children('cal', true)->getName();
-
-                if ($resource_type === 'calendar') {
-                    return $this->sanitize_href($caldav_url, $response->href); // Use this response as the default calendar
-                }
-            }
-
-            return null;
-        } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to check CalDAV credentials');
-            return null;
         }
     }
 
@@ -390,11 +261,24 @@ class Caldav_sync
         ]);
     }
 
-    private function sanitize_href(string $caldav_url, string $href): string
+    /**
+     * @throws Exception
+     * @throws GuzzleException
+     */
+    public function test_connection(string $caldav_url, string $caldav_username, string $caldav_password): void
     {
-        $parts = parse_url($caldav_url);
+        try {
+            // Fetch some events to see if the connection is valid
+            $client = $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
 
-        return str_replace($parts['path'], '', $href);
+            $start_date_time = date('Y-m-d 00:00:00');
+            $end_date_time = date('Y-m-d 23:59:59');
+
+            $this->fetch_events($client, $start_date_time, $end_date_time);
+        } catch (GuzzleException $e) {
+            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            throw $e;
+        }
     }
 
     private function get_http_client_by_provider_id(int $provider_id): Client
@@ -415,14 +299,13 @@ class Caldav_sync
     /**
      * Generate the event URI, used in various requests.
      *
-     * @param string $caldav_calendar
      * @param string|null $caldav_event_id
      *
      * @return string
      */
-    private function get_caldav_event_uri(string $caldav_calendar, ?string $caldav_event_id = null): string
+    private function get_caldav_event_uri(?string $caldav_event_id = null): string
     {
-        return trim($caldav_calendar, '/') . ($caldav_event_id ? '/' . $caldav_event_id . '.ics' : '');
+        return $caldav_event_id ? '/' . $caldav_event_id . '.ics' : '';
     }
 
     /**
@@ -474,5 +357,44 @@ class Caldav_sync
             'status' => (string) $vevent->STATUS,
             'location' => (string) $vevent->LOCATION,
         ];
+    }
+
+    /**
+     * @throws GuzzleException
+     * @throws Exception
+     */
+    private function fetch_events(Client $client, string $start_date_time, string $end_date_time): ResponseInterface
+    {
+        $start_date_time_object = new DateTime($start_date_time);
+        $formatted_start_date_time = $start_date_time_object->format('Ymd\THis\Z');
+        $end_date_time_object = new DateTime($end_date_time);
+        $formatted_end_date_time = $end_date_time_object->format('Ymd\THis\Z');
+
+        return $client->request('REPORT', '', [
+            'headers' => [
+                'Content-Type' => 'application/xml',
+                'Depth' => '1',
+            ],
+            'body' =>
+                '
+                <c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+                    <d:prop>
+                        <d:getetag />
+                        <c:calendar-data />
+                    </d:prop>
+                    <c:filter>
+                        <c:comp-filter name="VCALENDAR">
+                            <c:comp-filter name="VEVENT">
+                                <c:time-range start="' .
+                $formatted_start_date_time .
+                '" end="' .
+                $formatted_end_date_time .
+                '"/>	
+                            </c:comp-filter>
+                        </c:comp-filter>
+                    </c:filter>
+                </c:calendar-query>
+            ',
+        ]);
     }
 }

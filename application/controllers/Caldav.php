@@ -11,6 +11,8 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+use GuzzleHttp\Exception\GuzzleException;
+
 /**
  * Caldav controller.
  *
@@ -54,19 +56,7 @@ class Caldav extends EA_Controller
             $caldav_username = request('caldav_username');
             $caldav_password = request('caldav_password');
 
-            $default_caldav_calendar = $this->caldav_sync->get_default_calendar(
-                $caldav_url,
-                $caldav_username,
-                $caldav_password,
-            );
-
-            if (!$default_caldav_calendar) {
-                json_response([
-                    'success' => false,
-                ]);
-
-                return;
-            }
+            $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
 
             $provider = $this->providers_model->find($provider_id);
 
@@ -74,12 +64,16 @@ class Caldav extends EA_Controller
             $provider['settings']['caldav_url'] = $caldav_url;
             $provider['settings']['caldav_username'] = $caldav_username;
             $provider['settings']['caldav_password'] = $caldav_password;
-            $provider['settings']['caldav_calendar'] = $default_caldav_calendar;
 
             $this->providers_model->save($provider);
 
             json_response([
                 'success' => true,
+            ]);
+        } catch (GuzzleException | InvalidArgumentException $e) {
+            json_response([
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -278,62 +272,6 @@ class Caldav extends EA_Controller
     }
 
     /**
-     * Get CalDAV Calendars
-     *
-     * This method will return a list of the available CalDAV Calendars.
-     *
-     * @return void
-     */
-    public function get_caldav_calendars(): void
-    {
-        try {
-            $provider_id = (int) request('provider_id');
-
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
-            }
-
-            $calendars = $this->caldav_sync->get_caldav_calendars($provider_id);
-
-            json_response($calendars);
-        } catch (Throwable $e) {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Select a specific caldav calendar for a provider.
-     *
-     * All the appointments will be synced with this particular calendar.
-     *
-     * @return void
-     */
-    public function select_caldav_calendar(): void
-    {
-        try {
-            $provider_id = (int) request('provider_id');
-
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
-            }
-
-            $calendar_id = request('calendar_id');
-
-            $this->providers_model->set_setting($provider_id, 'caldav_calendar', $calendar_id);
-
-            json_response([
-                'success' => true,
-            ]);
-        } catch (Throwable $e) {
-            json_exception($e);
-        }
-    }
-
-    /**
      * Disable a providers sync setting.
      *
      * This method resets the CalDAV related settings from the user_settings DB table.
@@ -361,7 +299,6 @@ class Caldav extends EA_Controller
             $provider['settings']['caldav_url'] = null;
             $provider['settings']['caldav_username'] = null;
             $provider['settings']['caldav_password'] = null;
-            $provider['settings']['caldav_calendar'] = null;
 
             $this->providers_model->save($provider);
 
