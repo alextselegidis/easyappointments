@@ -176,7 +176,7 @@ App.Utils.CalendarSync = (function () {
             <div>
                 <div class="mb-3">
                     <label for="caldav-url" class="form-label">
-                        ${lang('url')}
+                        ${lang('calendar_url')}
                     </label>
                     <input type="text" class="form-control" id="caldav-url"/>
                 </div> 

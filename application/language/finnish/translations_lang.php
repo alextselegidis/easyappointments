@@ -481,4 +481,5 @@ $lang['at_least_one_field_required'] = 'Varaussivulla tulee olla vähintään yk
 $lang['customer_is_already_booked'] = 'This customer already has an appointment during the requested reservation period.';
 $lang['fields'] = 'Fields';
 $lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
+$lang['calendar_url'] = 'Calendar URL';
 // End
