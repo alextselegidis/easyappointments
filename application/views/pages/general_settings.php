@@ -121,7 +121,7 @@
                                         <?= lang('theme') ?>
                                     </label>
 
-                                    <select id="theme" data-field="theme" class="form-control">
+                                    <select id="theme" data-field="theme" class="form-select">
                                         <?php foreach (vars('available_themes') as $available_theme): ?>
                                             <option value="<?= $available_theme ?>">
                                                 <?= ucfirst($available_theme) ?>
@@ -147,7 +147,7 @@
                                     <label class="form-label" for="date-format">
                                         <?= lang('date_format') ?>
                                     </label>
-                                    <select class="form-control" id="date-format" data-field="date_format">
+                                    <select class="form-select" id="date-format" data-field="date_format">
                                         <option value="D.M.YYYY">D.M.YYYY</option>
                                         <option value="DD.MM.YYYY">DD.MM.YYYY</option>
                                         <option value="MM/DD/YYYY">MM/DD/YYYY</option>
@@ -163,7 +163,7 @@
                                     <label class="form-label" for="time-format">
                                         <?= lang('time_format') ?>
                                     </label>
-                                    <select class="form-control" id="time-format" data-field="time_format">
+                                    <select class="form-select" id="time-format" data-field="time_format">
                                         <option value="<?= TIME_FORMAT_REGULAR ?>">H:MM AM/PM</option>
                                         <option value="<?= TIME_FORMAT_MILITARY ?>">HH:MM</option>
                                     </select>
@@ -177,7 +177,7 @@
                                     <label class="form-label" for="first-weekday">
                                         <?= lang('first_weekday') ?>
                                     </label>
-                                    <select class="form-control" id="first-weekday" data-field="first_weekday">
+                                    <select class="form-select" id="first-weekday" data-field="first_weekday">
                                         <option value="sunday"><?= lang('sunday') ?></option>
                                         <option value="monday"><?= lang('monday') ?></option>
                                         <option value="tuesday"><?= lang('tuesday') ?></option>
@@ -192,8 +192,47 @@
                                         </small>
                                     </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="default-language">
+                                        <?= lang('default_language') ?>
+                                        <span class="text-danger" hidden>*</span>
+                                    </label>
+                                    <select id="default-language" class="form-select required" data-field="default_language">
+                                        <?php foreach (vars('available_languages') as $available_language): ?>
+                                            <option value="<?= $available_language ?>">
+                                                <?= ucfirst($available_language) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('default_language_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="default-timezone">
+                                        <?= lang('default_timezone') ?>
+                                        <span class="text-danger" hidden>*</span>
+                                    </label>
+                                    <?php component('timezone_dropdown', [
+                                        'attributes' =>
+                                            'id="default-timezone" data-field="default_timezone" class="form-control required"',
+                                        'grouped_timezones' => vars('grouped_timezones'),
+                                    ]); ?>
+                                </div>
+                                <div class="form-text text-muted">
+                                    <small>
+                                        <?= lang('default_timezone_hint') ?>
+                                    </small>
+                                </div>
+
                             </div>
                         </div>
+
+                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>
