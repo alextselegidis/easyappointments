@@ -457,6 +457,7 @@ class Customers_model extends EA_Model
             'zip' => $customer['zip_code'],
             'notes' => $customer['notes'],
             'timezone' => $customer['timezone'],
+            'language' => $customer['language'],
             'customField1' => $customer['custom_field_1'],
             'customField2' => $customer['custom_field_2'],
             'customField3' => $customer['custom_field_3'],
@@ -512,6 +513,10 @@ class Customers_model extends EA_Model
 
         if (array_key_exists('language', $customer)) {
             $decoded_resource['language'] = $customer['language'];
+        }
+
+        if (array_key_exists('timezone', $customer)) {
+            $decoded_resource['timezone'] = $customer['timezone'];
         }
 
         if (array_key_exists('customField1', $customer)) {
