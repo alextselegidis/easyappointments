@@ -407,8 +407,13 @@ body legend {
     text-shadow: none;
 }
 
+#calendar-page .fc-daygrid-day-top {
+    font-size: 11px;
+}
+
 #calendar-page .fc-event-time {
     font-weight: bold;
+    font-size: 11px;
 }
 
 #calendar-page .fc-event-title {
@@ -471,6 +476,7 @@ body legend {
     background-color: #4790ca;
     color: #333;
     min-height: 12px;
+    font-size: 11px;
 }
 
 #existing-customers-list {
