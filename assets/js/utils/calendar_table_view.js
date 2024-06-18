@@ -785,6 +785,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability',
             };
 
@@ -805,6 +806,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability',
             };
 
@@ -822,6 +824,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability',
             };
 
@@ -843,6 +846,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability fc-break',
             };
 

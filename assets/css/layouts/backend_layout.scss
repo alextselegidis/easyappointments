@@ -398,7 +398,8 @@ body legend {
     font-weight: bold;
     color: #333;
     text-shadow: 0 1px 0 #e6e6e6;
-    opacity: 0.7;
+    opacity: 0.55;
+    border: 1px solid #e6e6e6;
 }
 
 #calendar-page #calendar .fc-unavailability.fc-blocked-period {
