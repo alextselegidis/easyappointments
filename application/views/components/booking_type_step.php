@@ -18,6 +18,9 @@
                     </label>
 
                     <select id="select-service" class="form-select">
+                        <option value="">
+                            <?= lang('please_select') ?>
+                        </option>
                         <?php
                         // Group services by category, only if there is at least one service with a parent category.
                         $has_category = false;
@@ -82,7 +85,11 @@
                         <strong><?= lang('provider') ?></strong>
                     </label>
 
-                    <select id="select-provider" class="form-select"></select>
+                    <select id="select-provider" class="form-select">
+                        <option value="">
+                            <?= lang('please_select') ?>
+                        </option>
+                    </select>
                 </div>
 
                 <?php slot('after_select_provider'); ?>

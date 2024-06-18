@@ -348,6 +348,8 @@ App.Pages.Booking = (function () {
 
             $selectProvider.empty();
 
+            $selectProvider.append(new Option(lang('please_select'), ''));
+
             vars('available_providers').forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
                 const canServeService =
@@ -361,7 +363,7 @@ App.Pages.Booking = (function () {
 
             // Add the "Any Provider" entry.
             if ($selectProvider.find('option').length > 1 && vars('display_any_provider') === '1') {
-                $selectProvider.prepend(new Option(lang('any_provider'), 'any-provider', true, true));
+                $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
             }
 
             App.Http.Booking.getUnavailableDates(

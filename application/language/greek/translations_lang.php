@@ -482,4 +482,5 @@ $lang['customer_is_already_booked'] = 'This customer already has an appointment 
 $lang['fields'] = 'Fields';
 $lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['calendar_url'] = 'Calendar URL';
+$lang['please_select'] = 'Παρακαλώ Επιλέξτε';
 // End
