@@ -106,7 +106,11 @@ window.App.Utils.Message = (function () {
         });
 
         $messageModal.on('shown.bs.modal', () => {
-            $messageModal.find('.modal-footer button:last').focus();
+            $messageModal
+                .find('.modal-footer button:last')
+                .removeClass('btn-outline-primary')
+                .addClass('btn-primary')
+                .focus();
         });
 
         messageModal.show();
