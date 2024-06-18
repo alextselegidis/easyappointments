@@ -50,13 +50,13 @@ class Ldap_client
      */
     public function check_login(string $username, string $password): ?array
     {
+        if (!extension_loaded('ldap')) {
+            return null;
+        }
+
         if (empty($username)) {
             throw new InvalidArgumentException('No username value provided.');
         }
-
-        // Check LDAP environment and configuration
-
-        $this->check_environment();
 
         $ldap_is_active = setting('ldap_is_active');
 
