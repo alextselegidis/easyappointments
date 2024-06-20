@@ -470,6 +470,10 @@ body legend {
     color: #555;
 }
 
+#calendar .fc-daygrid-event-dot {
+    display: none;
+}
+
 #calendar .fc-event {
     border: 1px solid #7cbae8;
     background-color: #7cbae8;
