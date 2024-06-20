@@ -26,7 +26,7 @@ if (!function_exists('request')) {
      *
      * @throws InvalidArgumentException
      */
-    function request(string $key = null, $default = null)
+    function request(string $key = null, $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -57,7 +57,7 @@ if (!function_exists('response')) {
      * @param int $status
      * @param array $headers
      */
-    function response(string $content = '', int $status = 200, array $headers = [])
+    function response(string $content = '', int $status = 200, array $headers = []): void
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -78,7 +78,7 @@ if (!function_exists('response')) {
      * @param int $status
      * @param array $headers
      */
-    function response(string $content = '', int $status = 200, array $headers = [])
+    function response(string $content = '', int $status = 200, array $headers = []): void
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -105,7 +105,7 @@ if (!function_exists('json_response')) {
      * @param int $status
      * @param array $headers
      */
-    function json_response(array $content = [], int $status = 200, array $headers = [])
+    function json_response(array $content = [], int $status = 200, array $headers = []): void
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -131,16 +131,17 @@ if (!function_exists('json_exception')) {
      *
      * @param Throwable $e
      */
-    function json_exception(Throwable $e)
+    function json_exception(Throwable $e): void
     {
-        json_response(
-            [
-                'success' => false,
-                'message' => $e->getMessage(),
-                'trace' => config('debug') ? $e->getTrace() : [],
-            ],
-            500,
-        );
+        $response = [
+            'success' => false,
+            'message' => $e->getMessage(),
+            'trace' => config('debug') ? $e->getTrace() : [],
+        ];
+
+        log_message('error', 'JSON exception: ' . json_encode($response));
+
+        json_response($response, 500);
     }
 }
 
@@ -158,7 +159,7 @@ if (!function_exists('abort')) {
      *
      * @return void
      */
-    function abort(int $code, string $message = '', array $headers = [])
+    function abort(int $code, string $message = '', array $headers = []): void
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
