@@ -312,7 +312,9 @@ App.Utils.CalendarDefaultView = (function () {
                 $('.provider-timezone').text(vars('timezones')[provider.timezone]);
             }
 
-            $('#insert-working-plan-exception').toggle(providerId !== App.Utils.CalendarDefaultView.FILTER_TYPE_ALL);
+            $('#insert-working-plan-exception').toggle(
+                providerId === App.Utils.CalendarDefaultView.FILTER_TYPE_PROVIDER,
+            );
 
             $reloadAppointments.trigger('click');
 
