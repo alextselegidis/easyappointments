@@ -284,6 +284,10 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+
+                                <?php component('custom_fields'); ?>
+
+                                <?php slot('after_primary_customer_custom_fields'); ?>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
@@ -345,10 +349,6 @@
                                 </div>
 
                                 <?php slot('after_primary_customer_fields'); ?>
-                            </div>
-
-                            <div class="mb-3">
-                                <?php component('custom_fields'); ?>
                             </div>
                         </div>
                     </fieldset>

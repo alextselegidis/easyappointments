@@ -81,6 +81,10 @@
                 <?php endif; ?>
 
                 <?php slot('info_first_column'); ?>
+
+                <?php component('custom_fields'); ?>
+
+                <?php slot('after_custom_fields'); ?>
             </div>
 
             <div class="col-12 col-md-6 field-col mx-auto">
@@ -134,14 +138,8 @@
                 <?php endif; ?>
             
                 <?php slot('info_second_column'); ?>
-                
             </div>
 
-            <div class="mb-3">
-                <?php component('custom_fields'); ?>
-
-                <?php slot('after_custom_fields'); ?>
-            </div>
         </div>
     </div>
 
