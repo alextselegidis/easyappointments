@@ -478,9 +478,9 @@ $lang['import'] = 'Importa';
 $lang['ldap_dn'] = 'LDAP DN';
 $lang['role'] = 'Rol';
 $lang['at_least_one_field_required'] = 'Com a mínim un camp s\'ha de marcar com a obligatori a la pàgina de reserva.';
-$lang['customer_is_already_booked'] = 'This customer already has an appointment during the requested reservation period.';
-$lang['fields'] = 'Fields';
-$lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
-$lang['calendar_url'] = 'Calendar URL';
-$lang['please_select'] = 'Please Select';
+$lang['customer_is_already_booked'] = 'Aquest client ja té una cita en el període de reserva sol·licitat.';
+$lang['fields'] = 'Camps';
+$lang['invalid_credentials_provided'] = 'Les credencials no són vàlides, torneu-ho a provar un altre cop.';
+$lang['calendar_url'] = 'URL del calendari';
+$lang['please_select'] = 'Si us plau, seleccioneu';
 // End
