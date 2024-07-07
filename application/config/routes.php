@@ -64,6 +64,9 @@ $route['translate_uri_dashes'] = false;
 | Set the appropriate headers so that iframe control and permissions are 
 | properly configured.
 |
+| Enable this if you want to disable use of Easy!Appointments within an 
+| iframe.
+|
 | Options:
 |
 |   - DENY 
@@ -71,7 +74,7 @@ $route['translate_uri_dashes'] = false;
 |
 */
 
-header('X-Frame-Options: SAMEORIGIN');
+// header('X-Frame-Options: SAMEORIGIN');
 
 /*
 | -------------------------------------------------------------------------
