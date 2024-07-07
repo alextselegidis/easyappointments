@@ -17,7 +17,6 @@
  * Old Name: FrontendBook
  */
 App.Pages.Booking = (function () {
-    const $cookieNoticeLink = $('.cc-link');
     const $selectDate = $('#select-date');
     const $selectService = $('#select-service');
     const $selectProvider = $('#select-provider');
@@ -83,10 +82,12 @@ App.Pages.Booking = (function () {
                 },
             });
 
+            const $cookieNoticeLink = $('.cc-link');
+
             $cookieNoticeLink.replaceWith(
                 $('<a/>', {
-                    'data-toggle': 'modal',
-                    'data-target': '#cookie-notice-modal',
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#cookie-notice-modal',
                     'href': '#',
                     'class': 'cc-link',
                     'text': $cookieNoticeLink.text(),
