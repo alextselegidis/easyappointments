@@ -7,7 +7,7 @@
         <div id="calendar-filter" class="col-md-3">
             <div class="calendar-filter-items">
                 <select id="select-filter-item"
-                        class="form-control col"
+                        class="form-select col"
                         data-tippy-content="<?= lang('select_filter_item_hint') ?>"
                         aria-label="Filter">
                     <!-- JS -->

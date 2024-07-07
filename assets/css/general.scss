@@ -427,7 +427,8 @@ body .popover-body a {
     color: #dc3545;
 }
 
-.has-error .form-control {
+.has-error .form-control,
+.has-error .form-select {
     border-color: #dc3545;
 }
 

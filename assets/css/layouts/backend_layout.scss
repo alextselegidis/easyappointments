@@ -196,7 +196,9 @@ body legend {
 }
 
 .backend-page .form-control:disabled,
-.backend-page .form-control[readonly] {
+.backend-page .form-control[readonly],
+.backend-page .form-select:disabled,
+.backend-page .form-select[readonly] {
     background-color: #fff;
     color: #666;
     border-color: #fff;
@@ -610,7 +612,8 @@ body .form-horizontal .controls {
         text-align: right;
     }
 
-    #calendar-page #calendar-filter .form-group .form-control {
+    #calendar-page #calendar-filter .form-group .form-control,
+    #calendar-page #calendar-filter .form-group .form-select {
         max-width: 300px;
         margin-bottom: 0;
     }
@@ -845,7 +848,8 @@ body .form-horizontal .controls {
 #working-plan-exceptions-breaks {
     table-layout: fixed;
 
-    .form-control {
+    .form-control,
+    .form-select {
         width: 100% !important;
     }
 }
@@ -997,7 +1001,8 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
-#booking-settings-page .fields-row .form-control {
+#booking-settings-page .fields-row .form-control,
+#booking-settings-page .fields-row .form-select {
     border: 1px dashed #999 !important;
 }
 
