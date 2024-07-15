@@ -650,9 +650,10 @@ App.Pages.Booking = (function () {
 
         $displayBookingSelection.text(`${lang('service')} │ ${lang('provider')}`); // Notice: "│" is a custom ASCII char
 
+        const serviceOptionText = $selectService.find('option:selected').text();
+        const providerOptionText = $selectProvider.find('option:selected').text();
+
         if (serviceId && providerId) {
-            const serviceOptionText = $selectService.find('option:selected').text();
-            const providerOptionText = $selectProvider.find('option:selected').text();
             $displayBookingSelection.text(`${serviceOptionText} │ ${providerOptionText}`);
         }
 
