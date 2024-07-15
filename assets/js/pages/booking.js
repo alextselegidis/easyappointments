@@ -656,10 +656,6 @@ App.Pages.Booking = (function () {
             $displayBookingSelection.text(`${serviceOptionText} │ ${providerOptionText}`);
         }
 
-        $('.display-selected-service')
-            .text(serviceId ? serviceOptionText : lang('service_and_provider'))
-            .removeClass('invisible');
-
         if (!$availableHours.find('.selected-hour').text()) {
             return; // No time is selected, skip the rest of this function...
         }
