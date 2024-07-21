@@ -316,11 +316,11 @@ App.Utils.CalendarSync = (function () {
 
         App.Http.Caldav.syncWithCaldav(providerId)
             .done(() => {
-                App.Layouts.Backend.displayNotification(lang('calendar_sync_completed'));
+                App.Layouts.Backend.displayNotification(lang('caldav_sync_completed'));
                 $reloadAppointments.trigger('click');
             })
             .fail(() => {
-                App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+                App.Layouts.Backend.displayNotification(lang('caldav_sync_failed'));
             });
     }
 
