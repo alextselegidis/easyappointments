@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // German
 $lang['page_title'] = 'Vereinbaren Sie einen Termin mit';
-$lang['service_and_provider'] = 'Feuerstätten und Kaminkehrer wählen';
+$lang['service_and_provider'] = 'Dienstleistung & Anbieter';
 $lang['select_service'] = 'Auswahl der Dienstleistung';
 $lang['select_provider'] = 'Auswahl des Anbieters';
 $lang['duration'] = 'Dauer';
@@ -41,8 +41,8 @@ $lang['appointment_booked'] = 'Ihr Termin ist erfolgreich gebucht worden.';
 $lang['thank_you_for_appointment'] = 'Vielen Dank für die Terminauswahl mit uns. Weiter unten können Sie Ihre Termindaten sehen. Änderungen können durch Klicken auf den Termin-Link durchgeführt werden.';
 $lang['appointment_details_title'] = 'Termindaten';
 $lang['customer_details_title'] = 'Kundendaten';
-$lang['service'] = 'Feuerstätten';
-$lang['provider'] = 'Kaminkehrer';
+$lang['service'] = 'Dienstleistung';
+$lang['provider'] = 'Anbieter';
 $lang['customer'] = 'Kunde';
 $lang['start'] = 'Beginn';
 $lang['end'] = 'Ende';
