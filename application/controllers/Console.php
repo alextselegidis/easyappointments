@@ -12,6 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 require_once __DIR__ . '/Google.php';
+require_once __DIR__ . '/Caldav.php';
 
 /**
  * Console controller.
