@@ -157,6 +157,8 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
+            $timezone = new DateTimeZone($provider['timezone']);
+
             $uri = $this->get_caldav_event_uri($caldav_event_id);
 
             $response = $client->request('GET', $uri);
@@ -165,7 +167,7 @@ class Caldav_sync
 
             $vcalendar = Reader::read($ics_file);
 
-            return $this->convert_caldav_event_to_array_event($vcalendar->VEVENT);
+            return $this->convert_caldav_event_to_array_event($vcalendar->VEVENT, $timezone);
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
             return null;
@@ -187,6 +189,8 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
+            $timezone = new DateTimeZone($provider['timezone']);
+
             $response = $this->fetch_events($client, $start_date_time, $end_date_time);
 
             $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
@@ -198,7 +202,11 @@ class Caldav_sync
 
                 $vcalendar = Reader::read($ics_file);
 
-                $events[] = $this->convert_caldav_event_to_array_event($vcalendar->VEVENT);
+                $newVCalendar = $vcalendar->expand(new DateTime($start_date_time), new DateTime($end_date_time));
+
+                foreach($newVCalendar->VEVENT as $event) {
+                    $events[] = $this->convert_caldav_event_to_array_event($event, $timezone);
+                }
             }
 
             return $events;
@@ -343,13 +351,18 @@ class Caldav_sync
      *
      * @throws Exception
      */
-    private function convert_caldav_event_to_array_event(VEvent $vevent): array
+    private function convert_caldav_event_to_array_event(VEvent $vevent, $timezone): array
     {
-        $start_date_time_object = new DateTime((string) $vevent->DTSTART);
-        $end_date_time_object = new DateTime((string) $vevent->DTEND);
+        $UTC = new DateTimeZone("UTC");
+        $start_date_time_object = new DateTime((string) $vevent->DTSTART, $UTC);
+        $end_date_time_object = new DateTime((string) $vevent->DTEND, $UTC);
+    
+        $start_date_time_object->setTimezone($timezone);
+        $end_date_time_object->setTimezone($timezone);
 
         return [
-            'id' => (string) $vevent->UID,
+            // UID isn't unique if part of a recurring event
+            'id' => ((string) $vevent->UID) . ((string) $vevent->DTSTART),
             'summary' => (string) $vevent->SUMMARY,
             'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
             'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
