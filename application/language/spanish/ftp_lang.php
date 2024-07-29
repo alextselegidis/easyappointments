@@ -37,15 +37,15 @@
  */
 defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['ftp_no_connection'] = 'Unable to locate a valid connection ID. Please make sure you are connected before performing any file routines.';
-$lang['ftp_unable_to_connect'] = 'Unable to connect to your FTP server using the supplied hostname.';
-$lang['ftp_unable_to_login'] = 'Unable to login to your FTP server. Please check your username and password.';
-$lang['ftp_unable_to_mkdir'] = 'Unable to create the directory you have specified.';
-$lang['ftp_unable_to_changedir'] = 'Unable to change directories.';
-$lang['ftp_unable_to_chmod'] = 'Unable to set file permissions. Please check your path.';
-$lang['ftp_unable_to_upload'] = 'Unable to upload the specified file. Please check your path.';
-$lang['ftp_unable_to_download'] = 'Unable to download the specified file. Please check your path.';
-$lang['ftp_no_source_file'] = 'Unable to locate the source file. Please check your path.';
-$lang['ftp_unable_to_rename'] = 'Unable to rename the file.';
-$lang['ftp_unable_to_delete'] = 'Unable to delete the file.';
-$lang['ftp_unable_to_move'] = 'Unable to move the file. Please make sure the destination directory exists.';
+$lang['ftp_no_connection'] = 'No se pudo encontrar un ID de conexión válido. Asegúrate de estar conectado antes de realizar cualquier operación con archivos.';
+$lang['ftp_unable_to_connect'] = 'No se pudo conectar a tu servidor FTP con el nombre de host proporcionado.';
+$lang['ftp_unable_to_login'] = 'No se pudo iniciar sesión en tu servidor FTP. Por favor, verifica tu nombre de usuario y contraseña.';
+$lang['ftp_unable_to_mkdir'] = 'No se pudo crear el directorio que especificaste.';
+$lang['ftp_unable_to_changedir'] = 'No se pudo cambiar de directorio.';
+$lang['ftp_unable_to_chmod'] = 'No se pudieron establecer los permisos del archivo. Por favor, verifica la ruta.';
+$lang['ftp_unable_to_upload'] = 'No se pudo subir el archivo especificado. Por favor, verifica la ruta.';
+$lang['ftp_unable_to_download'] = 'No se pudo descargar el archivo especificado. Por favor, verifica la ruta.';
+$lang['ftp_no_source_file'] = 'No se pudo encontrar el archivo de origen. Por favor, verifica la ruta.';
+$lang['ftp_unable_to_rename'] = 'No se pudo renombrar el archivo.';
+$lang['ftp_unable_to_delete'] = 'No se pudo eliminar el archivo.';
+$lang['ftp_unable_to_move'] = 'No se pudo mover el archivo. Asegúrate de que el directorio de destino exista.';
