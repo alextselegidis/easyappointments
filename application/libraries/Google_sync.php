@@ -452,7 +452,7 @@ class Google_sync
                 '/' .
                 $appointment_end_instance->format('Ymd\THis\Z'),
             'location' => setting('company_name'),
-            'details' => 'View/Change Appointment: ' . site_url('appointments/index/' . $appointment['hash']),
+            'details' => 'View/Change Appointment: ' . site_url('booking/reschedule/' . $appointment['hash']),
             'add' => implode(', ', $add),
         ];
 
