@@ -284,7 +284,7 @@ App.Http.Booking = (function () {
 
                         while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
                             unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
-                            startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
+                            startOfMonthMoment.add(Math.abs(monthChangeStep), 'days'); // Move to the next day
                         }
 
                         applyUnavailableDates(unavailableDates, searchedMonthStart, true);
