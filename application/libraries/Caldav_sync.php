@@ -72,7 +72,7 @@ class Caldav_sync
             $caldav_event_id =
                 $appointment['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($appointment['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -108,7 +108,7 @@ class Caldav_sync
             $caldav_event_id =
                 $unavailability['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($unavailability['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -135,7 +135,7 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('DELETE', $uri);
         } catch (GuzzleException $e) {
@@ -157,7 +157,7 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $response = $client->request('GET', $uri);
 
@@ -303,9 +303,9 @@ class Caldav_sync
      *
      * @return string
      */
-    private function get_caldav_event_uri(?string $caldav_event_id = null): string
+    private function get_caldav_event_uri(string $caldav_calendar, ?string $caldav_event_id = null): string
     {
-        return $caldav_event_id ? '/' . $caldav_event_id . '.ics' : '';
+        return rtrim($caldav_calendar, '/') . ($caldav_event_id ? '/' . $caldav_event_id . '.ics' : '');
     }
 
     /**
