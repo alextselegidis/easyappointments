@@ -675,17 +675,14 @@ App.Pages.Booking = (function () {
         const selectedDateMoment = moment(selectedDateObject);
         const selectedDate = selectedDateMoment.format('YYYY-MM-DD');
         const selectedTime = $availableHours.find('.selected-hour').text();
-        const selectedDateTime = `${selectedDate} ${selectedTime}`;
 
-        let formattedSelectedDate;
+        let formattedSelectedDate = '';
 
         if (selectedDateObject) {
-            formattedSelectedDate = App.Utils.Date.format(
-                selectedDateTime,
-                vars('date_format'),
-                vars('time_format'),
-                true,
-            );
+            formattedSelectedDate =
+                App.Utils.Date.format(selectedDate, vars('date_format'), vars('time_format'), false) +
+                ' ' +
+                selectedTime;
         }
 
         const timezoneOptionText = $selectTimezone.find('option:selected').text();

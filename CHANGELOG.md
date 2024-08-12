@@ -3,6 +3,13 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Fix the date parsing issue on Safari web browsers during the booking process (#1584)
+
+
 ## [1.5.0] - 2024-07-07
 
 ### Added
