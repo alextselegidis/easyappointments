@@ -97,8 +97,8 @@ class Customers_model extends EA_Model
         }
 
         // Make sure all required fields are provided.
-        $require_first_name = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
-        $require_last_name = filter_var(setting('require_last'), FILTER_VALIDATE_BOOLEAN);
+        $require_first_name = filter_var(setting('require_first_name'), FILTER_VALIDATE_BOOLEAN);
+        $require_last_name = filter_var(setting('require_last_name'), FILTER_VALIDATE_BOOLEAN);
         $require_email = filter_var(setting('require_email'), FILTER_VALIDATE_BOOLEAN);
         $require_phone_number = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
         $require_address = filter_var(setting('require_address'), FILTER_VALIDATE_BOOLEAN);
