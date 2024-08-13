@@ -30,6 +30,10 @@ class Unavailabilities extends EA_Controller
         'id_users_provider',
     ];
 
+    public array $optional_unavailability_fields = [
+        //
+    ];
+
     /**
      * Unavailabilities constructor.
      */
@@ -85,6 +89,8 @@ class Unavailabilities extends EA_Controller
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
+            $this->unavailabilities_model->optional($unavailability, $this->optional_unavailability_fields);
+
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
@@ -137,6 +143,8 @@ class Unavailabilities extends EA_Controller
             $unavailability = request('unavailability');
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
+
+            $this->unavailabilities_model->optional($unavailability, $this->optional_unavailability_fields);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 

@@ -37,6 +37,10 @@ class Appointments extends EA_Controller
         'id_services',
     ];
 
+    public array $optional_appointment_fields = [
+        //
+    ];
+
     /**
      * Appointments constructor.
      */
@@ -104,6 +108,8 @@ class Appointments extends EA_Controller
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
+            $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
+
             $appointment_id = $this->appointments_model->save($appointment);
 
             $appointment = $this->appointments_model->find($appointment);
@@ -152,6 +158,8 @@ class Appointments extends EA_Controller
             $appointment = json_decode(request('appointment'), true);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
+
+            $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
