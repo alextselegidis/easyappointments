@@ -413,6 +413,7 @@ class Services_model extends EA_Model
             'duration' => (int) $service['duration'],
             'price' => (float) $service['price'],
             'currency' => $service['currency'],
+            'color' => $service['color'],
             'description' => $service['description'],
             'location' => $service['location'],
             'availabilitiesType' => $service['availabilities_type'],
