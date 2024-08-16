@@ -2042,7 +2042,7 @@ components:
         duration: 30
         price: 10
         currency: USD
-        color: #a1b2c3
+        color: '#123456'
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
         availabilitiesType: flexible
@@ -2079,7 +2079,7 @@ components:
         duration: 30
         price: 10
         currency: USD
-        color: #a1b2c3
+        color: '#123456'
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
         availabilitiesType: flexible
