@@ -3,6 +3,8 @@
  * Local variables.
  *
  * @var array $available_services
+ * @var array $available_providers
+ * @var bool $hide_provider_dropdown
  */
 ?>
 
@@ -80,17 +82,24 @@
                 
                 <?php slot('after_select_service'); ?>
 
-                <div class="mb-3">
-                    <label for="select-provider">
-                        <strong><?= lang('provider') ?></strong>
-                    </label>
+                <?php if (empty($hide_provider_dropdown)): ?>
+                    <div class="mb-3">
+                        <label for="select-provider">
+                            <strong><?= lang('provider') ?></strong>
+                        </label>
 
-                    <select id="select-provider" class="form-select">
-                        <option value="">
-                            <?= lang('please_select') ?>
-                        </option>
-                    </select>
-                </div>
+                        <select id="select-provider" class="form-select">
+                            <option value="">
+                                <?= lang('please_select') ?>
+                            </option>
+                            <?php foreach ($available_providers as $provider): ?>
+                                <option value="<?= $provider['id']; ?>">
+                                    <?= $provider['first_name'] . ' ' . $provider['last_name']; ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </div>
+                <?php endif; ?>
 
                 <?php slot('after_select_provider'); ?>
 

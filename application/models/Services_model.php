@@ -298,6 +298,51 @@ class Services_model extends EA_Model
     }
 
     /**
+     * Get all the service records by provider
+     *
+     * @param int $provider_id
+     * 
+     * @param bool $without_private Only include the public services.
+     *
+     * @return array Returns an array of services.
+     */
+    public function get_services_by_provider(int $provider_id, bool $without_private = false): array
+    {
+        if ($without_private) {
+            $this->db->where('services.is_private', false);
+        }
+
+        $services = $this->db
+        ->select('services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id')
+        ->from('services')
+        ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
+        ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
+        ->where('services_providers.id_users', $provider_id)
+        ->order_by('name ASC')
+        ->get()
+        ->result_array();
+
+        //debug
+        // $query = $this->db
+        // ->select('services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id')
+        // ->from('services')
+        // ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
+        // ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
+        // ->where('services_providers.id_users', $provider_id)
+        // ->order_by('name ASC');
+
+        // $sql = $query->get_compiled_select();
+        // var_dump($sql);
+        // die();
+
+        foreach ($services as &$service) {
+            $this->cast($service);
+        }
+
+        return $services;
+    }
+
+    /**
      * Get all services that match the provided criteria.
      *
      * @param array|string|null $where Where conditions

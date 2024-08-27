@@ -40,6 +40,7 @@ App.Pages.Booking = (function () {
     const $customField5 = $('#custom-field-5');
     const tippy = window.tippy;
     const moment = window.moment;
+    const provider_id = App.Utils.Url.queryParam('provider');
 
     /**
      * Determines the functionality of the page.
@@ -129,9 +130,9 @@ App.Pages.Booking = (function () {
                     );
 
                     const monthChangeStep = detectDatepickerMonthChangeStep(previousMoment, displayedMonthMoment);
-
+                    
                     App.Http.Booking.getUnavailableDates(
-                        $selectProvider.val(),
+                        provider_id,
                         $selectService.val(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
                         monthChangeStep,
@@ -153,7 +154,7 @@ App.Pages.Booking = (function () {
                     const monthChangeStep = detectDatepickerMonthChangeStep(previousMoment, displayedMonthMoment);
 
                     App.Http.Booking.getUnavailableDates(
-                        $selectProvider.val(),
+                        provider_id,
                         $selectService.val(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
                         monthChangeStep,
@@ -330,21 +331,21 @@ App.Pages.Booking = (function () {
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $selectProvider.on('change', (event) => {
-            const $target = $(event.target);
+        // $selectProvider.on('change', (event) => {
+        //     const $target = $(event.target);
 
-            const todayDateTimeObject = new Date();
-            const todayDateTimeMoment = moment(todayDateTimeObject);
+            // const todayDateTimeObject = new Date();
+            // const todayDateTimeMoment = moment(todayDateTimeObject);
 
-            App.Utils.UI.setDateTimePickerValue($selectDate, todayDateTimeObject);
+            // App.Utils.UI.setDateTimePickerValue($selectDate, todayDateTimeObject);
 
-            App.Http.Booking.getUnavailableDates(
-                $target.val(),
-                $selectService.val(),
-                todayDateTimeMoment.format('YYYY-MM-DD'),
-            );
-            App.Pages.Booking.updateConfirmFrame();
-        });
+            // App.Http.Booking.getUnavailableDates(
+            //     $target.val(),
+            //     $selectService.val(),
+            //     todayDateTimeMoment.format('YYYY-MM-DD'),
+            // );
+            // App.Pages.Booking.updateConfirmFrame();
+        // });
 
         /**
          * Event: Selected Service "Changed"
@@ -360,6 +361,18 @@ App.Pages.Booking = (function () {
 
             $selectProvider.append(new Option(lang('please_select'), ''));
 
+            const todayDateTimeObject = new Date();
+            const todayDateTimeMoment = moment(todayDateTimeObject);
+
+            App.Utils.UI.setDateTimePickerValue($selectDate, todayDateTimeObject);
+
+            App.Http.Booking.getUnavailableDates(
+                provider_id,
+                $selectService.val(),
+                todayDateTimeMoment.format('YYYY-MM-DD'),
+            );
+            App.Pages.Booking.updateConfirmFrame();
+
             vars('available_providers').forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
                 const canServeService =
@@ -371,13 +384,13 @@ App.Pages.Booking = (function () {
                 }
             });
 
-            // Add the "Any Provider" entry.
-            if ($selectProvider.find('option').length > 1 && vars('display_any_provider') === '1') {
-                $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
-            }
+            // // Add the "Any Provider" entry.
+            // if ($selectProvider.find('option').length > 1 && vars('display_any_provider') === '1') {
+            //     $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
+            // }
 
             App.Http.Booking.getUnavailableDates(
-                $selectProvider.val(),
+                provider_id,
                 $target.val(),
                 moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
             );
@@ -396,8 +409,11 @@ App.Pages.Booking = (function () {
         $('.button-next').on('click', (event) => {
             const $target = $(event.currentTarget);
 
-            // If we are on the first step and there is no provider selected do not continue with the next step.
-            if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
+            // Check if the provider selection is required based on the visibility of the dropdown
+            const providerDropdownVisible = $selectProvider.closest('.mb-3').is(':visible');
+
+            // If we are on the first step and provider selection is required but not selected, do not continue.
+            if ($target.attr('data-step_index') === '1' && providerDropdownVisible && !$selectProvider.val()) {
                 return;
             }
 

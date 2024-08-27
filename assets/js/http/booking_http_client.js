@@ -47,6 +47,7 @@ App.Http.Booking = (function () {
 
         // Find the selected service duration (it is going to be send within the "data" object).
         const serviceId = $selectService.val();
+        const providerId = $selectProvider.val() ? $selectProvider.val() : App.Utils.Url.queryParam('provider');
 
         // Default value of duration (in minutes).
         let serviceDuration = 15;
@@ -64,11 +65,11 @@ App.Http.Booking = (function () {
 
         // Make ajax post request and get the available hours.
         const url = App.Utils.Url.siteUrl('booking/get_available_hours');
-
+    
         const data = {
             csrf_token: vars('csrf_token'),
             service_id: $selectService.val(),
-            provider_id: $selectProvider.val(),
+            provider_id: providerId,
             selected_date: selectedDate,
             service_duration: serviceDuration,
             manage_mode: Number(vars('manage_mode') || 0),
@@ -76,21 +77,21 @@ App.Http.Booking = (function () {
         };
 
         $.post(url, data).done((response) => {
+            
             $availableHours.empty();
 
             // The response contains the available hours for the selected provider and service. Fill the available
             // hours div with response data.
             if (response.length > 0) {
-                let providerId = $selectProvider.val();
-
-                if (providerId === 'any-provider') {
-                    for (const availableProvider of vars('available_providers')) {
-                        if (availableProvider.services.indexOf(Number(serviceId)) !== -1) {
-                            providerId = availableProvider.id; // Use first available provider.
-                            break;
-                        }
-                    }
-                }
+                // let providerId = $selectProvider.val();
+                // if (providerId === 'any-provider') {
+                //     for (const availableProvider of vars('available_providers')) {
+                //         if (availableProvider.services.indexOf(Number(serviceId)) !== -1) {
+                //             providerId = availableProvider.id; // Use first available provider.
+                //             break;
+                //         }
+                //     }
+                // }
 
                 const provider = vars('available_providers').find(
                     (availableProvider) => Number(providerId) === Number(availableProvider.id),
@@ -165,8 +166,10 @@ App.Http.Booking = (function () {
             }
         }
 
-        const formData = JSON.parse($('input[name="post_data"]').val());
-
+        let formData = JSON.parse($('input[name="post_data"]').val());
+        const paramProviderId = App.Utils.Url.queryParam('provider');
+        formData['appointment']['id_users_provider'] = $selectProvider.val() ? $selectProvider.val() : paramProviderId;
+ 
         const data = {
             csrf_token: vars('csrf_token'),
             post_data: formData,
@@ -181,9 +184,9 @@ App.Http.Booking = (function () {
         }
 
         const url = App.Utils.Url.siteUrl('booking/register');
-
+        console.log(formData)
         const $layer = $('<div/>');
-
+        
         $.ajax({
             url: url,
             method: 'post',

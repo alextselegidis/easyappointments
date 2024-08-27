@@ -134,8 +134,26 @@ class Booking extends EA_Controller
             return;
         }
 
+        $provider_id = $this->input->get('provider'); // Get provider ID from query parameter
+        $hide_provider_dropdown = false;
+
+
+        if($provider_id){
+            
+            $available_services = $this->services_model->get_services_by_provider($provider_id,true);
+            $available_providers = $this->providers_model->get_available_providers(true);
+            $available_providers = [$this->providers_model->find($provider_id)];
+
+            // Set a flag to hide provider dropdown
+            $hide_provider_dropdown = true;
+        } else {
+
         $available_services = $this->services_model->get_available_services(true);
         $available_providers = $this->providers_model->get_available_providers(true);
+        }
+
+
+
 
         foreach ($available_providers as &$available_provider) {
             // Only expose the required provider data.
@@ -271,6 +289,7 @@ class Booking extends EA_Controller
         html_vars([
             'available_services' => $available_services,
             'available_providers' => $available_providers,
+            'hide_provider_dropdown' => $hide_provider_dropdown,
             'theme' => $theme,
             'company_name' => $company_name,
             'company_logo' => $company_logo,
@@ -472,7 +491,8 @@ class Booking extends EA_Controller
                 'appointment_id' => $appointment['id'],
                 'appointment_hash' => $appointment['hash'],
             ];
-
+            var_dump($response);
+            die();
             json_response($response);
         } catch (Throwable $e) {
             json_exception($e);
@@ -496,7 +516,6 @@ class Booking extends EA_Controller
     protected function check_datetime_availability(): ?int
     {
         $post_data = request('post_data');
-
         $appointment = $post_data['appointment'];
 
         $appointment_start = new DateTime($appointment['start_datetime']);
@@ -505,17 +524,18 @@ class Booking extends EA_Controller
 
         $hour = $appointment_start->format('H:i');
 
-        if ($appointment['id_users_provider'] === ANY_PROVIDER) {
-            $appointment['id_users_provider'] = $this->search_any_provider($appointment['id_services'], $date, $hour);
+        // if ($appointment['id_users_provider'] === ANY_PROVIDER) {
+        //     $appointment['id_users_provider'] = $this->search_any_provider($appointment['id_services'], $date, $hour);
 
-            return $appointment['id_users_provider'];
-        }
+        //     return $appointment['id_users_provider'];
+        // }
 
         $service = $this->services_model->find($appointment['id_services']);
 
         $exclude_appointment_id = $appointment['id'] ?? null;
-
-        $provider = $this->providers_model->find($appointment['id_users_provider']);
+        die();
+        $provider = $this->providers_model->find($post_data['id_users_provider']);
+        
 
         $available_hours = $this->availability->get_available_hours(
             $date,
@@ -687,7 +707,7 @@ class Booking extends EA_Controller
             $selected_date = new DateTime($selected_date_string);
             $number_of_days_in_month = (int) $selected_date->format('t');
             $unavailable_dates = [];
-
+            
             $provider_ids =
                 $provider_id === ANY_PROVIDER ? $this->search_providers_by_service($service_id) : [$provider_id];
 
