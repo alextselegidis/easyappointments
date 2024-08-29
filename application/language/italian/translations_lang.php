@@ -483,4 +483,5 @@ $lang['fields'] = 'Campi';
 $lang['invalid_credentials_provided'] = 'Credenziali fornite non valide, riprova.';
 $lang['calendar_url'] = 'URL Calendario';
 $lang['please_select'] = 'Seleziona Per Favore';
+$lang['search'] = 'Search';
 // End

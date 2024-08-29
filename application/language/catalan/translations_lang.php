@@ -483,4 +483,5 @@ $lang['fields'] = 'Camps';
 $lang['invalid_credentials_provided'] = 'Les credencials no són vàlides, torneu-ho a provar un altre cop.';
 $lang['calendar_url'] = 'URL del calendari';
 $lang['please_select'] = 'Si us plau, seleccioneu';
+$lang['search'] = 'Search';
 // End

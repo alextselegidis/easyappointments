@@ -483,4 +483,5 @@ $lang['fields'] = 'Felder';
 $lang['invalid_credentials_provided'] = 'Fehlerhafte Zugangsdaten. Bitte erneut versuchen.';
 $lang['calendar_url'] = 'Kalender-URL';
 $lang['please_select'] = 'Bitte wählen';
+$lang['search'] = 'Search';
 // End
