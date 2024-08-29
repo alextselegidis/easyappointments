@@ -1444,7 +1444,7 @@ App.Utils.CalendarDefaultView = (function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided!', vars('date_format'));
+                throw new Error('Invalid date format setting provided: ' + vars('date_format'));
         }
 
         // Time formats
@@ -1461,7 +1461,7 @@ App.Utils.CalendarDefaultView = (function () {
                 slotTimeFormat = 'h a';
                 break;
             default:
-                throw new Error('Invalid time format setting provided!', vars('time_format'));
+                throw new Error('Invalid time format setting provided: ' + vars('time_format'));
         }
 
         const initialView = window.innerWidth < 468 ? 'timeGridDay' : 'timeGridWeek';
