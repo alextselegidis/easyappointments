@@ -64,7 +64,7 @@
 </div>
 
 <footer>
-    Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
+    Powered by <a href="https://digiworks.agency">DigiWorks Agency</a>
 </footer>
 
 <script src="<?= asset_url('assets/vendor/@fortawesome-fontawesome-free/fontawesome.min.js') ?>"></script>

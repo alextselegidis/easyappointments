@@ -103,7 +103,13 @@ class Booking extends EA_Controller
     {
         if (!is_app_installed()) {
             redirect('installation');
+            $this->load->view('pages/login');
+            return;
+        }
 
+        $provider_id = $this->input->get('provider');
+        if (!$provider_id) {
+            redirect('login'); // Assuming 'login' is the route or page you want to redirect to
             return;
         }
 

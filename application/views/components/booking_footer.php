@@ -10,7 +10,7 @@
     <small>
         <span class="footer-powered-by small">
             Powered By
-            <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+            <a href="https://digiworks.agency" target="_blank">DigiWorks Agency</a>
         </span>
 
         <span class="footer-options">
