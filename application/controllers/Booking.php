@@ -491,8 +491,7 @@ class Booking extends EA_Controller
                 'appointment_id' => $appointment['id'],
                 'appointment_hash' => $appointment['hash'],
             ];
-            var_dump($response);
-            die();
+
             json_response($response);
         } catch (Throwable $e) {
             json_exception($e);
@@ -533,8 +532,8 @@ class Booking extends EA_Controller
         $service = $this->services_model->find($appointment['id_services']);
 
         $exclude_appointment_id = $appointment['id'] ?? null;
-        die();
-        $provider = $this->providers_model->find($post_data['id_users_provider']);
+        
+        $provider = $this->providers_model->find($appointment['id_users_provider']);
         
 
         $available_hours = $this->availability->get_available_hours(
