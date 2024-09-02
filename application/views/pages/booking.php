@@ -3,7 +3,6 @@
 <?php section('content'); ?>
 
 <!-- Booking Cancellation Frame -->
-
 <?php component('booking_cancellation_frame', [
     'manage_mode' => vars('manage_mode'),
     'appointment_data' => vars('appointment_data'),
@@ -11,15 +10,21 @@
 ]); ?>
 
 <!-- Select Service & Provider -->
+<?php
+    // Define the variable to check if the provider dropdown should be hidden
+    $hide_provider_dropdown = vars('hide_provider_dropdown');
+?>
 
-<?php component('booking_type_step', ['available_services' => vars('available_services')]); ?>
+<?php component('booking_type_step', [
+    'available_services' => vars('available_services'),
+    'available_providers' => vars('available_providers'),
+    'hide_provider_dropdown' => $hide_provider_dropdown,
+]); ?>
 
 <!-- Pick An Appointment Date -->
-
 <?php component('booking_time_step', ['grouped_timezones' => vars('grouped_timezones')]); ?>
 
 <!-- Enter Customer Information -->
-
 <?php component('booking_info_step', [
     'display_first_name' => vars('display_first_name'),
     'require_first_name' => vars('require_first_name'),
@@ -40,7 +45,6 @@
 ]); ?>
 
 <!-- Appointment Data Confirmation -->
-
 <?php component('booking_final_step', [
     'manage_mode' => vars('manage_mode'),
     'display_terms_and_conditions' => vars('display_terms_and_conditions'),
