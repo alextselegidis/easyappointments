@@ -72,7 +72,7 @@ class Caldav_sync
             $caldav_event_id =
                 $appointment['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($appointment['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -108,7 +108,7 @@ class Caldav_sync
             $caldav_event_id =
                 $unavailability['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($unavailability['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -135,7 +135,7 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('DELETE', $uri);
         } catch (GuzzleException $e) {
@@ -157,7 +157,9 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
-            $uri = $this->get_caldav_event_uri($caldav_event_id);
+            $provider_timezone_object = new DateTimeZone($provider['timezone']);
+
+            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $response = $client->request('GET', $uri);
 
@@ -165,7 +167,7 @@ class Caldav_sync
 
             $vcalendar = Reader::read($ics_file);
 
-            return $this->convert_caldav_event_to_array_event($vcalendar->VEVENT);
+            return $this->convert_caldav_event_to_array_event($vcalendar->VEVENT, $provider_timezone_object);
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
             return null;
@@ -187,6 +189,8 @@ class Caldav_sync
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
 
+            $provider_timezone_object = new DateTimeZone($provider['timezone']);
+
             $response = $this->fetch_events($client, $start_date_time, $end_date_time);
 
             $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
@@ -198,7 +202,13 @@ class Caldav_sync
 
                 $vcalendar = Reader::read($ics_file);
 
-                $events[] = $this->convert_caldav_event_to_array_event($vcalendar->VEVENT);
+                $expanded_vcalendar = $vcalendar->expand(new DateTime($start_date_time), new DateTime($end_date_time));
+
+                foreach ($expanded_vcalendar->VEVENT as $event) {
+                    $events[] = $this->convert_caldav_event_to_array_event($event, $provider_timezone_object);
+                }
+
+                // $events[] = $this->convert_caldav_event_to_array_event($vcalendar->VEVENT, $provider_timezone_object);
             }
 
             return $events;
@@ -299,13 +309,14 @@ class Caldav_sync
     /**
      * Generate the event URI, used in various requests.
      *
+     * @param string $caldav_calendar
      * @param string|null $caldav_event_id
      *
      * @return string
      */
-    private function get_caldav_event_uri(?string $caldav_event_id = null): string
+    private function get_caldav_event_uri(string $caldav_calendar, ?string $caldav_event_id = null): string
     {
-        return $caldav_event_id ? '/' . $caldav_event_id . '.ics' : '';
+        return $caldav_event_id ? rtrim($caldav_calendar, '/') . '/' . $caldav_event_id . '.ics' : '';
     }
 
     /**
@@ -338,18 +349,24 @@ class Caldav_sync
      * @link https://sabre.io/vobject/icalendar
      *
      * @param VEvent $vevent Holds the VEVENT information
+     * @param DateTimeZone $timezone_object The date timezone values
      *
      * @return array
      *
-     * @throws Exception
+     * @throws DateMalformedStringException
      */
-    private function convert_caldav_event_to_array_event(VEvent $vevent): array
+    private function convert_caldav_event_to_array_event(VEvent $vevent, DateTimeZone $timezone_object): array
     {
-        $start_date_time_object = new DateTime((string) $vevent->DTSTART);
-        $end_date_time_object = new DateTime((string) $vevent->DTEND);
+        $utc_timezone_object = new DateTimeZone('UTC'); // Convert from UTC to local provider timezone
+
+        $start_date_time_object = new DateTime((string) $vevent->DTSTART, $utc_timezone_object);
+        $start_date_time_object->setTimezone($timezone_object);
+
+        $end_date_time_object = new DateTime((string) $vevent->DTEND, $utc_timezone_object);
+        $end_date_time_object->setTimezone($timezone_object);
 
         return [
-            'id' => (string) $vevent->UID,
+            'id' => ((string) $vevent->UID) . '-' . random_string(),
             'summary' => (string) $vevent->SUMMARY,
             'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
             'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
