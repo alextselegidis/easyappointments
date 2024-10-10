@@ -131,6 +131,6 @@ Open your browser to the Easy!Appointments installation URL, login to the backen
 
 Use the data of the old `configuration.php` file in the new `config.php`. 
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.0.*
 
 [Back](readme.md)
