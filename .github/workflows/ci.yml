@@ -1,0 +1,23 @@
+name: CI
+
+on: [ push ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git clone
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        uses: php-actions/composer@v6
+        with:
+          php_version: 8.2
+          php_extensions: gd
+          version: 2
+      - name: PHPUnit Tests
+        uses: php-actions/phpunit@v3
+        env:
+          TEST_NAME: Test
+        with:
+          configuration: phpunit.xml

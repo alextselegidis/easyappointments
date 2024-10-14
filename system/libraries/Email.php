@@ -1862,12 +1862,12 @@ class CI_Email {
 
 		if ( ! $this->_validate_email_for_shell($from))
 		{
-			return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
+			return @mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str);
 		}
 
 		// most documentation of sendmail using the "-f" flag lacks a space after it, however
 		// we've encountered servers that seem to require it to be in place.
-		return mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$from);
+		return @mail($this->_recipients, $this->_subject, $this->_finalbody, $this->_header_str, '-f '.$from);
 	}
 
 	// --------------------------------------------------------------------

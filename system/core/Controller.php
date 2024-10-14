@@ -65,6 +65,23 @@ class CI_Controller {
 	 */
 	public $load;
 
+    /**
+     * Dynamic Class Props
+     *
+     * @var array
+     */
+    public $props = [];
+
+    public function __get(string $name): mixed
+    {
+        return $this->props[$name] ?? NULL;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->props[$name] = $value;
+    }
+
 	/**
 	 * Class constructor
 	 *
@@ -79,7 +96,7 @@ class CI_Controller {
 		// so that CI can run as one big super object.
 		foreach (is_loaded() as $var => $class)
 		{
-			$this->$var =& load_class($class);
+			$this->$var = load_class($class);
 		}
 
 		$this->load =& load_class('Loader', 'core');

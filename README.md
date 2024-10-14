@@ -80,7 +80,7 @@ You can build the files by running `npm run build`. This command will bundle eve
 
 You will need to perform the following steps to install the application on your server:
 
-* Make sure that your server has Apache/Nginx, PHP and MySQL installed.
+* Make sure that your server has Apache/Nginx, PHP (8.2+) and MySQL installed.
 * Create a new database (or use an existing one).
 * Copy the "easyappointments" source folder on your server.
 * Make sure that the "storage" directory is writable.
