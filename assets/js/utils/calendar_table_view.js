@@ -785,7 +785,6 @@ App.Utils.CalendarTableView = (function () {
                 end: end,
                 allDay: false,
                 color: '#BEBEBE',
-                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability',
@@ -807,7 +806,6 @@ App.Utils.CalendarTableView = (function () {
                 end: workDateStart.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
-                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability',
@@ -826,7 +824,6 @@ App.Utils.CalendarTableView = (function () {
                 end: end.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
-                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability',
@@ -849,7 +846,6 @@ App.Utils.CalendarTableView = (function () {
                 end: breakEnd.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
-                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability fc-break',
@@ -1124,8 +1120,19 @@ App.Utils.CalendarTableView = (function () {
                 endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
             }
 
+            const provider = info.event.extendedProps.data.provider;
+
             $html = $('<div/>', {
                 'html': [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('provider'),
+                    }),
+                    $('<span/>', {
+                        'text': `${provider.first_name} ${provider.last_name}`,
+                    }),
+                    $('<br/>'),
+
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
                         'text': lang('start'),

@@ -387,8 +387,19 @@ App.Utils.CalendarDefaultView = (function () {
                 endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
             }
 
+            const provider = info.event.extendedProps.data.provider;
+
             $html = $('<div/>', {
                 'html': [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('provider'),
+                    }),
+                    $('<span/>', {
+                        'text': `${provider.first_name} ${provider.last_name}`,
+                    }),
+                    $('<br/>'),
+
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
                         'text': lang('start'),
@@ -1343,7 +1354,6 @@ App.Utils.CalendarDefaultView = (function () {
                             editable: false,
                             display: 'background',
                             className: 'fc-unavailability',
-                            display: 'block',
                         };
 
                         calendarEventSource.push(unavailabilityEvent);
@@ -1371,7 +1381,6 @@ App.Utils.CalendarDefaultView = (function () {
                             editable: false,
                             display: 'background',
                             className: 'fc-unavailability',
-                            display: 'block',
                         };
 
                         calendarEventSource.push(unavailabilityEvent);
@@ -1395,7 +1404,6 @@ App.Utils.CalendarDefaultView = (function () {
                             editable: false,
                             display: 'background',
                             className: 'fc-unavailability',
-                            display: 'block',
                         };
 
                         calendarEventSource.push(unavailabilityEvent);
@@ -1422,7 +1430,6 @@ App.Utils.CalendarDefaultView = (function () {
                             editable: false,
                             display: 'background',
                             className: 'fc-unavailability fc-break',
-                            display: 'block',
                         };
 
                         calendarEventSource.push(unavailabilityEvent);
