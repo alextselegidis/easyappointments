@@ -765,6 +765,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                 allDay: true,
                 color: '#879DB4',
+                display: 'block',
                 editable: false,
                 className: 'fc-working-plan-exception fc-custom',
                 data: {
@@ -784,6 +785,7 @@ App.Utils.CalendarTableView = (function () {
                 end: end,
                 allDay: false,
                 color: '#BEBEBE',
+                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability',
@@ -805,6 +807,7 @@ App.Utils.CalendarTableView = (function () {
                 end: workDateStart.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
+                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability',
@@ -823,6 +826,7 @@ App.Utils.CalendarTableView = (function () {
                 end: end.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
+                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability',
@@ -845,6 +849,7 @@ App.Utils.CalendarTableView = (function () {
                 end: breakEnd.toDate(),
                 allDay: false,
                 color: '#BEBEBE',
+                display: 'block',
                 editable: false,
                 display: 'background',
                 className: 'fc-unavailability fc-break',
@@ -907,6 +912,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(appointment.end_datetime).toDate(),
                 allDay: false,
                 color: appointment.color,
+                display: 'block',
                 data: appointment, // Store appointment data for later use.
             });
         }
@@ -942,6 +948,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(unavailability.end_datetime).toDate(),
                 allDay: false,
                 color: '#879DB4',
+                display: 'block',
                 editable: true,
                 className: 'fc-unavailability fc-custom',
                 data: unavailability,
@@ -979,6 +986,7 @@ App.Utils.CalendarTableView = (function () {
                 backgroundColor: '#d65069',
                 borderColor: '#d65069',
                 textColor: '#ffffff',
+                display: 'block',
                 editable: false,
                 className: 'fc-blocked-period fc-unavailability',
                 data: blockedPeriod,
