@@ -8,6 +8,7 @@ developers to maintain and readjust their custom modifications on the main proje
 ### Fixed
 
 - Fix the date parsing issue on Safari web browsers during the booking process (#1584)
+- Fix working plan configuration am/pm hour parsing so that it works in all languages (#1606)
 
 
 ## [1.5.0] - 2024-07-07
