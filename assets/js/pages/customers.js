@@ -75,7 +75,7 @@ App.Pages.Customers = (function () {
             const customerId = $(event.currentTarget).attr('data-id');
             const customer = filterResults.find((filterResult) => Number(filterResult.id) === Number(customerId));
 
-            display(customer);
+            App.Pages.Customers.display(customer);
             $('#filter-customers .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-customer, #delete-customer').prop('disabled', false);

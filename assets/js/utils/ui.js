@@ -131,7 +131,7 @@ window.App.Utils.UI = (function () {
             weekAbbreviation: lang('week_short'),
             scrollTitle: lang('scroll_to_increment'),
             toggleTitle: lang('click_to_toggle'),
-            amPM: [lang('am'), lang('pm')],
+            amPM: ['am', 'pm'],
             yearAriaLabel: lang('year'),
             monthAriaLabel: lang('month'),
             hourAriaLabel: lang('hour'),

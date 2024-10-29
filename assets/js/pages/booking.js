@@ -38,6 +38,7 @@ App.Pages.Booking = (function () {
     const $customField3 = $('#custom-field-3');
     const $customField4 = $('#custom-field-4');
     const $customField5 = $('#custom-field-5');
+    const $displayBookingSelection = $('.display-booking-selection');
     const tippy = window.tippy;
     const moment = window.moment;
 
@@ -644,19 +645,23 @@ App.Pages.Booking = (function () {
      * customer settings and input for the appointment booking.
      */
     function updateConfirmFrame() {
-        const serviceOptionText = $selectService.find('option:selected').text();
-        $('.display-selected-service').text(serviceOptionText).removeClass('invisible');
+        const serviceId = $selectService.val();
+        const providerId = $selectProvider.val();
 
+        $displayBookingSelection.text(`${lang('service')} │ ${lang('provider')}`); // Notice: "│" is a custom ASCII char
+
+        const serviceOptionText = $selectService.find('option:selected').text();
         const providerOptionText = $selectProvider.find('option:selected').text();
-        $('.display-selected-provider').text(providerOptionText).removeClass('invisible');
+
+        if (serviceId && providerId) {
+            $displayBookingSelection.text(`${serviceOptionText} │ ${providerOptionText}`);
+        }
 
         if (!$availableHours.find('.selected-hour').text()) {
             return; // No time is selected, skip the rest of this function...
         }
 
         // Render the appointment details
-
-        const serviceId = $selectService.val();
 
         const service = vars('available_services').find(
             (availableService) => Number(availableService.id) === Number(serviceId),
@@ -670,17 +675,14 @@ App.Pages.Booking = (function () {
         const selectedDateMoment = moment(selectedDateObject);
         const selectedDate = selectedDateMoment.format('YYYY-MM-DD');
         const selectedTime = $availableHours.find('.selected-hour').text();
-        const selectedDateTime = `${selectedDate} ${selectedTime}`;
 
-        let formattedSelectedDate;
+        let formattedSelectedDate = '';
 
         if (selectedDateObject) {
-            formattedSelectedDate = App.Utils.Date.format(
-                selectedDateTime,
-                vars('date_format'),
-                vars('time_format'),
-                true,
-            );
+            formattedSelectedDate =
+                App.Utils.Date.format(selectedDate, vars('date_format'), vars('time_format'), false) +
+                ' ' +
+                selectedTime;
         }
 
         const timezoneOptionText = $selectTimezone.find('option:selected').text();

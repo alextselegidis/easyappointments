@@ -30,7 +30,7 @@ if ($request_uri === '.') {
     $request_uri = '';
 }
 
-$config['base_url'] = trim($protocol . $domain . $request_uri, '/');
+$config['base_url'] = !is_cli() ? trim($protocol . $domain . $request_uri, '/') : Config::BASE_URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,46 +88,53 @@ $config['url_suffix'] = '';
 
 $languages = [
     'ar' => 'arabic',
+    'bs' => 'bosnian',
     'bu' => 'bulgarian',
     'ca' => 'catalan',
-    'zh' => 'chinese',
-    'hr' => 'croatian',
     'cs' => 'czech',
     'da' => 'danish',
-    'nl' => 'dutch',
-    'en' => 'english',
-    'et' => 'estonian',
-    'fi' => 'finnish',
-    'fr' => 'french',
     'de' => 'german',
     'el' => 'greek',
+    'en' => 'english',
+    'es' => 'spanish',
+    'et' => 'estonian',
+    'fa' => 'persian',
+    'fi' => 'finnish',
+    'fr' => 'french',
     'he' => 'hebrew',
     'hi' => 'hindi',
+    'hr' => 'croatian',
     'hu' => 'hungarian',
     'it' => 'italian',
     'ja' => 'japanese',
-    'fa' => 'persian',
     'lb' => 'luxembourgish',
+    'lt' => 'lithuanian',
+    'lv' => 'latvian',
     'mr' => 'marathi',
+    'nl' => 'dutch',
+    'no' => 'norwegian',
     'pl' => 'polish',
     'pt' => 'portuguese',
     'ro' => 'romanian',
-    'ru' => 'russian',
     'rs' => 'serbian',
+    'ru' => 'russian',
     'sk' => 'slovak',
-    'es' => 'spanish',
+    'sl' => 'slovenian',
     'sv' => 'swedish',
     'th' => 'thai',
     'tr' => 'turkish',
+    'zh' => 'chinese',
 ];
 
 $config['language_codes'] = $languages;
 
 $language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
 
-$config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
-    ? $languages[$language_code]
-    : Config::LANGUAGE;
+$config['language'] =
+    $_GET['language'] ??
+    (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
+        ? $languages[$language_code]
+        : Config::LANGUAGE);
 
 $config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 
@@ -143,6 +150,7 @@ $config['language_code'] = array_search($config['language'], $languages) ?: 'en'
 */
 $config['available_languages'] = [
     'arabic',
+    'bosnian',
     'bulgarian',
     'catalan',
     'chinese',
@@ -161,8 +169,11 @@ $config['available_languages'] = [
     'hungarian',
     'italian',
     'japanese',
+    'latvian',
+    'lithuanian',
     'luxembourgish',
     'marathi',
+    'norwegian',
     'persian',
     'polish',
     'portuguese',
@@ -171,6 +182,7 @@ $config['available_languages'] = [
     'russian',
     'serbian',
     'slovak',
+    'slovenian',
     'spanish',
     'swedish',
     'thai',

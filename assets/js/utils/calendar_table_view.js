@@ -765,6 +765,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                 allDay: true,
                 color: '#879DB4',
+                display: 'block',
                 editable: false,
                 className: 'fc-working-plan-exception fc-custom',
                 data: {
@@ -907,6 +908,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(appointment.end_datetime).toDate(),
                 allDay: false,
                 color: appointment.color,
+                display: 'block',
                 data: appointment, // Store appointment data for later use.
             });
         }
@@ -942,6 +944,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(unavailability.end_datetime).toDate(),
                 allDay: false,
                 color: '#879DB4',
+                display: 'block',
                 editable: true,
                 className: 'fc-unavailability fc-custom',
                 data: unavailability,
@@ -979,6 +982,7 @@ App.Utils.CalendarTableView = (function () {
                 backgroundColor: '#d65069',
                 borderColor: '#d65069',
                 textColor: '#ffffff',
+                display: 'block',
                 editable: false,
                 className: 'fc-blocked-period fc-unavailability',
                 data: blockedPeriod,
@@ -1116,8 +1120,19 @@ App.Utils.CalendarTableView = (function () {
                 endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
             }
 
+            const provider = info.event.extendedProps.data.provider;
+
             $html = $('<div/>', {
                 'html': [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('provider'),
+                    }),
+                    $('<span/>', {
+                        'text': `${provider.first_name} ${provider.last_name}`,
+                    }),
+                    $('<br/>'),
+
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
                         'text': lang('start'),

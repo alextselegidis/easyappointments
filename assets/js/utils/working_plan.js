@@ -43,7 +43,7 @@ App.Utils.WorkingPlan = (function () {
         enableSubmit = false;
 
         /**
-         * Setup the dom elements of a given working plan.
+         * Set up the dom elements of a given working plan.
          *
          * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
          */

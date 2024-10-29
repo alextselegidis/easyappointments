@@ -20,6 +20,12 @@
  */
 class Business_settings extends EA_Controller
 {
+    public array $allowed_setting_fields = ['id', 'name', 'value'];
+
+    public array $optional_setting_fields = [
+        //
+    ];
+
     /**
      * Business_logic constructor.
      */
@@ -102,7 +108,9 @@ class Business_settings extends EA_Controller
                     $setting['id'] = $existing_setting['id'];
                 }
 
-                $this->settings_model->only($setting, ['id', 'name', 'value']);
+                $this->settings_model->only($setting, $this->allowed_setting_fields);
+
+                $this->settings_model->optional($setting, $this->optional_setting_fields);
 
                 $this->settings_model->save($setting);
             }

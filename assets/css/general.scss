@@ -13,6 +13,10 @@ html {
     height: 100%;
 }
 
+select {
+    -webkit-appearance: none;
+}
+
 @-moz-document url-prefix() {
     body .checkbox input[type='checkbox'] {
         float: left;
@@ -473,6 +477,7 @@ body .clearfix {
     span.flatpickr-weekday {
         background: #429a82;
         color: white;
+        -webkit-appearance: none;
     }
 
     .flatpickr-day.endRange,
