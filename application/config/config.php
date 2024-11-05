@@ -186,6 +186,7 @@ $config['available_languages'] = [
     'spanish',
     'swedish',
     'thai',
+    'traditional-chinese',
     'turkish',
 ];
 
