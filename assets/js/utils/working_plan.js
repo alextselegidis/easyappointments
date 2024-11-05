@@ -529,20 +529,21 @@ App.Utils.WorkingPlan = (function () {
              * @param {jQuery.Event} event
              */
             $(document).on('click', '.save-break', (event) => {
+                const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
                 // Break's start time must always be prior to break's end.
                 const element = event.target;
 
                 const $modifiedRow = $(element).closest('tr');
 
-                const startMoment = moment($modifiedRow.find('.break-start input').val(), 'HH:mm');
+                const startMoment = moment($modifiedRow.find('.break-start input').val(), timeFormat);
 
-                const endMoment = moment($modifiedRow.find('.break-end input').val(), 'HH:mm');
+                const endMoment = moment($modifiedRow.find('.break-end input').val(), timeFormat);
 
                 if (startMoment.isAfter(endMoment)) {
                     $modifiedRow.find('.break-end input').val(
                         startMoment
                             .add(1, 'hour')
-                            .format(vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm')
+                            .format(timeFormat)
                             .toLowerCase(),
                     );
                 }
