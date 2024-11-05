@@ -229,6 +229,8 @@ class Caldav extends EA_Controller
             }
         }
 
+        $hide_notes = config('google_hide_notes');
+
         foreach ($caldav_events as $caldav_event) {
             if ($caldav_event['status'] === 'CANCELLED') {
                 continue;
@@ -258,7 +260,7 @@ class Caldav extends EA_Controller
                 'start_datetime' => $caldav_event['start_datetime'],
                 'end_datetime' => $caldav_event['end_datetime'],
                 'location' => $caldav_event['location'],
-                'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
+                'notes' => $hide_notes ? "External" : $caldav_event['summary'] . ' ' . $caldav_event['description'],
                 'id_users_provider' => $provider_id,
                 'id_caldav_calendar' => $caldav_event['id'],
             ];
