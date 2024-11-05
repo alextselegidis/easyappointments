@@ -510,3 +510,8 @@ body .clearfix {
         visibility: hidden;
     }
 }
+
+.cc-revoke,
+.cc-window {
+    z-index: 999 !important;
+}
