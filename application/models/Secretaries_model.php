@@ -139,7 +139,7 @@ class Secretaries_model extends EA_Model
 
         // New users must always have a password value set.
         if (empty($secretary['id']) && empty($secretary['settings']['password'])) {
-            throw new InvalidArgumentException('The provider password cannot be empty when inserting a new record.');
+            throw new InvalidArgumentException('The secretary password cannot be empty when inserting a new record.');
         }
 
         // Validate calendar view type value.
