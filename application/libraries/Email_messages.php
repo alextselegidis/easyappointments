@@ -11,6 +11,10 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
 /**
  * Email messages library.
  *
@@ -59,6 +63,8 @@ class Email_messages
      * @param string $ics_stream ICS file contents.
      * @param string|null $timezone Custom timezone.
      *
+     * @throws DateInvalidTimeZoneException
+     * @throws DateMalformedStringException
      * @throws Exception
      */
     public function send_appointment_saved(
@@ -106,27 +112,18 @@ class Email_messages
             true,
         );
 
-        $from_name = config('from_name') ?: $settings['company_name'];
-        $from_address = config('from_address') ?: $settings['company_email'];
-        $reply_to = config('reply_to') ?: $settings['company_email'];
+        $php_mailer = $this->get_php_mailer();
 
-        $this->CI->email->from($from_address, $from_name);
+        $php_mailer->addAddress($recipient_email);
 
-        if ($reply_to) {
-            $this->CI->email->reply_to($reply_to);
-        }
+        $php_mailer->isHTML();
+        $php_mailer->Subject = $subject;
+        $php_mailer->Body = $html;
+        $php_mailer->AltBody = $html;
 
-        $this->CI->email->to($recipient_email);
+        $php_mailer->addStringAttachment($ics_stream, 'invitation.ics', PHPMailer::ENCODING_BASE64, 'text/vcalendar');
 
-        $this->CI->email->subject($subject);
-
-        $this->CI->email->message($html);
-
-        $this->CI->email->attach($ics_stream, 'attachment', 'invitation.ics', 'text/vcalendar');
-
-        if (!$this->CI->email->send(false)) {
-            throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
-        }
+        $php_mailer->send();
     }
 
     /**
@@ -141,6 +138,8 @@ class Email_messages
      * @param string|null $reason Removal reason.
      * @param string|null $timezone Custom timezone.
      *
+     * @throws DateInvalidTimeZoneException
+     * @throws DateMalformedStringException
      * @throws Exception
      */
     public function send_appointment_deleted(
@@ -183,25 +182,18 @@ class Email_messages
             true,
         );
 
-        $from_name = config('from_name') ?: $settings['company_name'];
-        $from_address = config('from_address') ?: $settings['company_email'];
-        $reply_to = config('reply_to') ?: $settings['company_email'];
+        $subject = lang('appointment_cancelled_title');
 
-        $this->CI->email->from($from_address, $from_name);
+        $php_mailer = $this->get_php_mailer();
 
-        if ($reply_to) {
-            $this->CI->email->reply_to($reply_to);
-        }
+        $php_mailer->addAddress($recipient_email);
 
-        $this->CI->email->to($recipient_email);
+        $php_mailer->isHTML();
+        $php_mailer->Subject = $subject;
+        $php_mailer->Body = $html;
+        $php_mailer->AltBody = $html;
 
-        $this->CI->email->subject(lang('appointment_cancelled_title'));
-
-        $this->CI->email->message($html);
-
-        if (!$this->CI->email->send(false)) {
-            throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
-        }
+        $php_mailer->send();
     }
 
     /**
@@ -210,6 +202,8 @@ class Email_messages
      * @param string $password New password.
      * @param string $recipient_email Recipient email address.
      * @param array $settings App settings.
+     *
+     * @throws Exception
      */
     public function send_password(string $password, string $recipient_email, array $settings): void
     {
@@ -223,24 +217,50 @@ class Email_messages
             true,
         );
 
-        $from_name = config('from_name') ?: $settings['company_name'];
-        $from_address = config('from_address') ?: $settings['company_email'];
-        $reply_to = config('reply_to') ?: $settings['company_email'];
+        $subject = lang('new_account_password');
 
-        $this->CI->email->from($from_address, $from_name);
+        $php_mailer = $this->get_php_mailer();
 
-        if ($reply_to) {
-            $this->CI->email->reply_to($reply_to);
+        $php_mailer->addAddress($recipient_email);
+
+        $php_mailer->isHTML();
+        $php_mailer->Subject = $subject;
+        $php_mailer->Body = $html;
+        $php_mailer->AltBody = $html;
+
+        $php_mailer->send();
+    }
+
+    /**
+     * Create PHP Mailer instance based on the email configuration.
+     *
+     * @return PHPMailer
+     *
+     * @throws Exception
+     */
+    private function get_php_mailer(): PHPMailer
+    {
+        $php_mailer = new PHPMailer(true);
+
+        $php_mailer->SMTPDebug = config('smtp_debug') ? SMTP::DEBUG_SERVER : null;
+
+        if (config('protocol') === 'smtp') {
+            $php_mailer->isSMTP();
+            $php_mailer->Host = config('smtp_host');
+            $php_mailer->SMTPAuth = config('smtp_auth');
+            $php_mailer->Username = config('smtp_user');
+            $php_mailer->Password = config('smtp_pass');
+            $php_mailer->SMTPSecure = config('smtp_crypto');
+            $php_mailer->Port = config('smtp_port');
         }
 
-        $this->CI->email->to($recipient_email);
+        $from_name = config('from_name') ?: setting('company_name');
+        $from_address = config('from_address') ?: setting('company_email');
+        $reply_to_address = config('reply_to') ?: setting('company_email');
 
-        $this->CI->email->subject(lang('new_account_password'));
+        $php_mailer->setFrom($from_address, $from_name);
+        $php_mailer->addReplyTo($reply_to_address);
 
-        $this->CI->email->message($html);
-
-        if (!$this->CI->email->send(false)) {
-            throw new RuntimeException('Email was not sent: ' . $this->CI->email->print_debugger());
-        }
+        return $php_mailer;
     }
 }

@@ -42,7 +42,8 @@
         "guzzlehttp/guzzle": "^7.5.0",
         "sabre/vobject": "^4.5",
         "ezyang/htmlpurifier": "^4.17",
-        "symfony/finder": "^6.4"
+        "symfony/finder": "^6.4",
+        "phpmailer/phpmailer": "^6.9"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
