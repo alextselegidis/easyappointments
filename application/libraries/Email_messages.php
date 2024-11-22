@@ -242,6 +242,7 @@ class Email_messages
     {
         $php_mailer = new PHPMailer(true);
 
+        $php_mailer->CharSet = 'UTF-8';
         $php_mailer->SMTPDebug = config('smtp_debug') ? SMTP::DEBUG_SERVER : null;
 
         if (config('protocol') === 'smtp') {
