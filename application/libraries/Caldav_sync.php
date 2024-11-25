@@ -14,6 +14,7 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use Jsvrcek\ICS\Exception\CalendarEventException;
 use Psr\Http\Message\ResponseInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
@@ -37,6 +38,8 @@ class Caldav_sync
      *
      * This method initializes the Caldav client class and the Calendar service class so that they can be used by the
      * other methods.
+     *
+     * @throws Exception If there is an issue with the initialization.
      */
     public function __construct()
     {
@@ -60,7 +63,7 @@ class Caldav_sync
      *
      * @return string|null Returns the event ID
      *
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException If there's an issue generating the ICS file.
      */
     public function save_appointment(array $appointment, array $service, array $provider, array $customer): ?string
     {
@@ -96,11 +99,16 @@ class Caldav_sync
      *
      * @return string|null Returns the event ID
      *
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException If there's an issue generating the ICS file.
      */
     public function save_unavailability(array $unavailability, array $provider): ?string
     {
         try {
+            //            If the unavailability is reccuring don't sync
+            if (strpos($unavailability['id_caldav_calendar'], 'RECURRENCE') !== false) {
+                return $unavailability['id_caldav_calendar'];
+            }
+
             $ics_file = $this->get_unavailability_ics_file($unavailability, $provider);
 
             $client = $this->get_http_client_by_provider_id($provider['id']);
@@ -150,7 +158,7 @@ class Caldav_sync
      * @param string $caldav_event_id CalDAV calendar event ID.
      *
      * @return array|null
-     * @throws Exception
+     * @throws Exception If there’s an issue parsing the ICS data.
      */
     public function get_event(array $provider, string $caldav_event_id): ?array
     {
@@ -182,40 +190,140 @@ class Caldav_sync
      * @param string $end_date_time The end date of sync period.
      *
      * @return array
-     * @throws Exception
+     * @throws Exception If there's an issue with event fetching or parsing.
      */
     public function get_sync_events(array $provider, string $start_date_time, string $end_date_time): array
     {
         try {
             $client = $this->get_http_client_by_provider_id($provider['id']);
-
             $provider_timezone_object = new DateTimeZone($provider['timezone']);
 
             $response = $this->fetch_events($client, $start_date_time, $end_date_time);
 
-            $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
-
-            $events = [];
-
-            foreach ($xml->children('d', true) as $response) {
-                $ics_file = (string) $response->propstat->prop->children('cal', true);
-
-                $vcalendar = Reader::read($ics_file);
-
-                $expanded_vcalendar = $vcalendar->expand(new DateTime($start_date_time), new DateTime($end_date_time));
-
-                foreach ($expanded_vcalendar->VEVENT as $event) {
-                    $events[] = $this->convert_caldav_event_to_array_event($event, $provider_timezone_object);
-                }
-
-                // $events[] = $this->convert_caldav_event_to_array_event($vcalendar->VEVENT, $provider_timezone_object);
+            if (!$response->getBody()) {
+                log_message('error', 'No response body from fetch_events' . PHP_EOL);
+                return [];
             }
 
-            return $events;
+            $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
+
+            if ($xml->children('d', true)) {
+                return $this->parse_xml_events($xml, $start_date_time, $end_date_time, $provider_timezone_object);
+            }
+
+            $ics_file_urls = $this->extract_ics_file_urls($response->getBody());
+            return $this->fetch_and_parse_ics_files(
+                $client,
+                $ics_file_urls,
+                $start_date_time,
+                $end_date_time,
+                $provider_timezone_object,
+            );
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
             return [];
         }
+    }
+
+    private function parse_xml_events(
+        SimpleXMLElement $xml,
+        string $start_date_time,
+        string $end_date_time,
+        DateTimeZone $timezone,
+    ): array {
+        $events = [];
+
+        foreach ($xml->children('d', true) as $response) {
+            $ics_contents = (string) $response->propstat->prop->children('cal', true);
+
+            $events = array_merge(
+                $events,
+                $this->expand_ics_content($ics_contents, $start_date_time, $end_date_time, $timezone),
+            );
+        }
+
+        return $events;
+    }
+
+    private function extract_ics_file_urls(string $body): array
+    {
+        $ics_files = [];
+        $lines = explode("\n", $body);
+        foreach ($lines as $line) {
+            if (preg_match('/\/calendars\/.*?\.ics/', $line, $matches)) {
+                $ics_files[] = $matches[0];
+            }
+        }
+        return $ics_files;
+    }
+
+    /**
+     * Fetch and parse the ICS files from the remote server
+     *
+     * @param Client $client
+     * @param array $ics_file_urls
+     * @param string $start_date_time
+     * @param string $end_date_time
+     * @param DateTimeZone $timezone_OBJECT
+     *
+     * @return array
+     */
+    private function fetch_and_parse_ics_files(
+        Client $client,
+        array $ics_file_urls,
+        string $start_date_time,
+        string $end_date_time,
+        DateTimeZone $timezone_OBJECT,
+    ): array {
+        $events = [];
+
+        foreach ($ics_file_urls as $ics_file_url) {
+            try {
+                $ics_response = $client->request('GET', $ics_file_url);
+
+                $ics_contents = $ics_response->getBody()->getContents();
+
+                if (empty($ics_contents)) {
+                    log_message('error', 'ICS file data is empty for URL: ' . $ics_file_url . PHP_EOL);
+                    continue;
+                }
+
+                $events = array_merge(
+                    $events,
+                    $this->expand_ics_content($ics_contents, $start_date_time, $end_date_time, $timezone_OBJECT),
+                );
+            } catch (GuzzleException $e) {
+                log_message(
+                    'error',
+                    'Failed to fetch ICS content from ' . $ics_file_url . ': ' . $e->getMessage() . PHP_EOL,
+                );
+            }
+        }
+
+        return $events;
+    }
+
+    private function expand_ics_content(
+        string $ics_contents,
+        string $start_date_time,
+        string $end_date_time,
+        DateTimeZone $timezone_object,
+    ): array {
+        $events = [];
+
+        try {
+            $vcalendar = Reader::read($ics_contents);
+
+            $expanded_vcalendar = $vcalendar->expand(new DateTime($start_date_time), new DateTime($end_date_time));
+
+            foreach ($expanded_vcalendar->VEVENT as $event) {
+                $events[] = $this->convert_caldav_event_to_array_event($event, $timezone_object);
+            }
+        } catch (Throwable $e) {
+            log_message('error', 'Failed to parse or expand calendar data: ' . $e->getMessage() . PHP_EOL);
+        }
+
+        return $events;
     }
 
     /**
@@ -247,6 +355,10 @@ class Caldav_sync
         log_message('error', $message . ' ' . $guzzle_info);
     }
 
+    /**
+     * @throws Exception If there is an invalid CalDAV URL or credentials.
+     * @throws GuzzleException If there’s an issue with the HTTP request.
+     */
     private function get_http_client(string $caldav_url, string $caldav_username, string $caldav_password): Client
     {
         if (!filter_var($caldav_url, FILTER_VALIDATE_URL)) {
@@ -254,11 +366,11 @@ class Caldav_sync
         }
 
         if (!$caldav_username) {
-            throw new InvalidArgumentException('Invalid CalDAV username provided: ' . $caldav_username);
+            throw new InvalidArgumentException('Missing CalDAV username');
         }
 
         if (!$caldav_password) {
-            throw new InvalidArgumentException('Invalid CalDAV password provided: ' . $caldav_password);
+            throw new InvalidArgumentException('Missing CalDAV password');
         }
 
         return new Client([
@@ -320,7 +432,7 @@ class Caldav_sync
     }
 
     /**
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException
      */
     private function get_appointment_ics_file(
         array $appointment,
@@ -334,7 +446,7 @@ class Caldav_sync
     }
 
     /**
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException
      */
     private function get_unavailability_ics_file(array $unavailability, array $provider): string
     {
@@ -365,8 +477,26 @@ class Caldav_sync
         $end_date_time_object = new DateTime((string) $vevent->DTEND, $utc_timezone_object);
         $end_date_time_object->setTimezone($timezone_object);
 
+        // Check if the event is recurring
+
+        $is_recurring_event =
+            isset($vevent->RRULE) ||
+            isset($vevent->RDATE) ||
+            isset($vevent->{'RECURRENCE-ID'}) ||
+            isset($vevent->EXDATE);
+
+        // Generate ID based on recurrence status
+
+        $event_id = (string) $vevent->UID;
+
+        if ($is_recurring_event) {
+            $event_id .= '-RECURRENCE-' . random_string();
+        }
+
+        // Return the converted event
+
         return [
-            'id' => ((string) $vevent->UID) . '-' . random_string(),
+            'id' => $event_id,
             'summary' => (string) $vevent->SUMMARY,
             'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
             'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),

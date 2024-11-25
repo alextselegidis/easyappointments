@@ -340,6 +340,24 @@ class Appointments_model extends EA_Model
     }
 
     /**
+     * Deletes recurring CalDAV events for the provided date period.
+     *
+     * @param string $start_date_time
+     * @param string $end_date_time
+     *
+     * @return void
+     */
+    public function delete_caldav_recurring_events(string $start_date_time, string $end_date_time): void
+    {
+        $this
+            ->db
+            ->where('start_datetime >=', $start_date_time)
+            ->where('end_datetime <=', $end_date_time)
+            ->like('id_caldav_calendar', '%RECURRENCE%')
+            ->delete('appointments');
+    }
+
+    /**
      * Get the attendants number for the requested period.
      *
      * @param DateTime $start Period start.

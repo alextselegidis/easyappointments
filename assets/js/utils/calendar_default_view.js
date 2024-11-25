@@ -1645,7 +1645,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Automatically refresh the calendar page every 10 seconds (without loading animation).
         setInterval(() => {
-            if ($('.popover').length) {
+            if ($('.popover').length || App.Utils.CalendarSync.isCurrentlySyncing()) {
                 return;
             }
 
