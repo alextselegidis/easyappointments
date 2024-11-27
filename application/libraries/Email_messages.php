@@ -112,13 +112,7 @@ class Email_messages
             true,
         );
 
-        $php_mailer = $this->get_php_mailer();
-
-        $php_mailer->addAddress($recipient_email);
-
-        $php_mailer->Subject = $subject;
-        $php_mailer->Body = $html;
-        $php_mailer->AltBody = $html;
+        $php_mailer = $this->get_php_mailer($recipient_email, $subject, $html);
 
         $php_mailer->addStringAttachment($ics_stream, 'invitation.ics', PHPMailer::ENCODING_BASE64, 'text/vcalendar');
 
@@ -183,13 +177,7 @@ class Email_messages
 
         $subject = lang('appointment_cancelled_title');
 
-        $php_mailer = $this->get_php_mailer();
-
-        $php_mailer->addAddress($recipient_email);
-
-        $php_mailer->Subject = $subject;
-        $php_mailer->Body = $html;
-        $php_mailer->AltBody = $html;
+        $php_mailer = $this->get_php_mailer($recipient_email, $subject, $html);
 
         $php_mailer->send();
     }
@@ -217,13 +205,7 @@ class Email_messages
 
         $subject = lang('new_account_password');
 
-        $php_mailer = $this->get_php_mailer();
-
-        $php_mailer->addAddress($recipient_email);
-
-        $php_mailer->Subject = $subject;
-        $php_mailer->Body = $html;
-        $php_mailer->AltBody = $html;
+        $php_mailer = $this->get_php_mailer($recipient_email, $subject, $html);
 
         $php_mailer->send();
     }
@@ -231,12 +213,19 @@ class Email_messages
     /**
      * Create PHP Mailer instance based on the email configuration.
      *
+     * @param string|null $recipient_email
+     * @param string|null $subject
+     * @param string|null $html
+     *
      * @return PHPMailer
      *
      * @throws Exception
      */
-    private function get_php_mailer(): PHPMailer
-    {
+    private function get_php_mailer(
+        string $recipient_email = null,
+        string $subject = null,
+        string $html = null,
+    ): PHPMailer {
         $php_mailer = new PHPMailer(true);
 
         $php_mailer->isHTML();
@@ -259,6 +248,19 @@ class Email_messages
 
         $php_mailer->setFrom($from_address, $from_name);
         $php_mailer->addReplyTo($reply_to_address);
+
+        if ($recipient_email) {
+            $php_mailer->addAddress($recipient_email);
+        }
+
+        if ($subject) {
+            $php_mailer->Subject = $subject;
+        }
+
+        if ($html) {
+            $php_mailer->Body = $html;
+            $php_mailer->AltBody = $html;
+        }
 
         return $php_mailer;
     }
