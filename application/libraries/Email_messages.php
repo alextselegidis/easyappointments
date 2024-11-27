@@ -116,7 +116,6 @@ class Email_messages
 
         $php_mailer->addAddress($recipient_email);
 
-        $php_mailer->isHTML();
         $php_mailer->Subject = $subject;
         $php_mailer->Body = $html;
         $php_mailer->AltBody = $html;
@@ -188,7 +187,6 @@ class Email_messages
 
         $php_mailer->addAddress($recipient_email);
 
-        $php_mailer->isHTML();
         $php_mailer->Subject = $subject;
         $php_mailer->Body = $html;
         $php_mailer->AltBody = $html;
@@ -223,7 +221,6 @@ class Email_messages
 
         $php_mailer->addAddress($recipient_email);
 
-        $php_mailer->isHTML();
         $php_mailer->Subject = $subject;
         $php_mailer->Body = $html;
         $php_mailer->AltBody = $html;
@@ -242,6 +239,7 @@ class Email_messages
     {
         $php_mailer = new PHPMailer(true);
 
+        $php_mailer->isHTML();
         $php_mailer->CharSet = 'UTF-8';
         $php_mailer->SMTPDebug = config('smtp_debug') ? SMTP::DEBUG_SERVER : null;
 
