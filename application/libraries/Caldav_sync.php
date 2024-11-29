@@ -104,9 +104,8 @@ class Caldav_sync
     public function save_unavailability(array $unavailability, array $provider): ?string
     {
         try {
-            //            If the unavailability is reccuring don't sync
-            if (strpos($unavailability['id_caldav_calendar'], 'RECURRENCE') !== false) {
-                return $unavailability['id_caldav_calendar'];
+            if (str_contains((string) $unavailability['id_caldav_calendar'], 'RECURRENCE')) {
+                return $unavailability['id_caldav_calendar'] ?? null; // Do not sync recurring unavailabilities
             }
 
             $ics_file = $this->get_unavailability_ics_file($unavailability, $provider);
