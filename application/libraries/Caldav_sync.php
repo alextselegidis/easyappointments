@@ -466,45 +466,63 @@ class Caldav_sync
      *
      * @throws DateMalformedStringException
      */
-    private function convert_caldav_event_to_array_event(VEvent $vevent, DateTimeZone $timezone_object): array
+    private function convert_caldav_event_to_array_event(VEvent $vevent, DateTimeZone $default_timezone): array
     {
-        $utc_timezone_object = new DateTimeZone('UTC'); // Convert from UTC to local provider timezone
-
-        $start_date_time_object = new DateTime((string) $vevent->DTSTART, $utc_timezone_object);
-        $start_date_time_object->setTimezone($timezone_object);
-
-        $end_date_time_object = new DateTime((string) $vevent->DTEND, $utc_timezone_object);
-        $end_date_time_object->setTimezone($timezone_object);
-
-        // Check if the event is recurring
-
-        $is_recurring_event =
-            isset($vevent->RRULE) ||
-            isset($vevent->RDATE) ||
-            isset($vevent->{'RECURRENCE-ID'}) ||
-            isset($vevent->EXDATE);
-
-        // Generate ID based on recurrence status
-
-        $event_id = (string) $vevent->UID;
-
-        if ($is_recurring_event) {
-            $event_id .= '-RECURRENCE-' . random_string();
+        try {
+            // Extract the raw DTSTART and DTEND values
+            $raw_start = (string)$vevent->DTSTART;
+            $raw_end = (string)$vevent->DTEND;
+    
+            // Handle timezone extraction
+            $start_date_time_object = $this->extract_datetime_with_timezone($raw_start, $default_timezone);
+            $end_date_time_object = $this->extract_datetime_with_timezone($raw_end, $default_timezone);
+    
+            // Generate event ID (handle recurring events)
+            $is_recurring_event = isset($vevent->RRULE) || isset($vevent->RDATE) || isset($vevent->{'RECURRENCE-ID'}) || isset($vevent->EXDATE);
+            $event_id = (string)$vevent->UID;
+            if ($is_recurring_event) {
+                $event_id .= '-RECURRENCE-' . bin2hex(random_bytes(8));
+            }
+    
+            // Return the event data
+            return [
+                'id' => $event_id,
+                'summary' => (string)$vevent->SUMMARY ?? '',
+                'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
+                'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
+                'description' => (string)$vevent->DESCRIPTION ?? '',
+                'status' => (string)$vevent->STATUS ?? 'CONFIRMED',
+                'location' => (string)$vevent->LOCATION ?? '',
+            ];
+        } catch (Exception $e) {
+            error_log('Error processing CalDAV event: ' . $e->getMessage());
+            throw $e;
         }
-
-        // Return the converted event
-
-        return [
-            'id' => $event_id,
-            'summary' => (string) $vevent->SUMMARY,
-            'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
-            'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
-            'description' => (string) $vevent->DESCRIPTION,
-            'status' => (string) $vevent->STATUS,
-            'location' => (string) $vevent->LOCATION,
-        ];
     }
-
+    
+    private function extract_datetime_with_timezone(string $date_time_string, DateTimeZone $default_timezone): DateTime
+    {
+        try {
+            if (strpos($date_time_string, 'TZID=') !== false) {
+                // Extract the TZID and use it
+                preg_match('/TZID=([^:]+):/', $date_time_string, $matches);
+                $timezone_name = $matches[1];
+                $date_time_string = preg_replace('/TZID=[^:]+:/', '', $date_time_string);
+                $date_time_object = new DateTime($date_time_string, new DateTimeZone($timezone_name));
+            } elseif (substr($date_time_string, -1) === 'Z') {
+                // Handle UTC timestamps
+                $date_time_object = new DateTime($date_time_string, new DateTimeZone('UTC'));
+            } else {
+                // Default to the provided timezone
+                $date_time_object = new DateTime($date_time_string, $default_timezone);
+            }
+    
+            return $date_time_object;
+        } catch (Exception $e) {
+            error_log('Error extracting DateTime with timezone: ' . $e->getMessage());
+            throw $e;
+        }
+    }
     /**
      * @throws GuzzleException
      * @throws Exception
