@@ -150,7 +150,7 @@ class Caldav extends EA_Controller
         // Sync each appointment with CalDAV Calendar by following the project's sync protocol (see documentation).
 
         foreach ($local_events as $local_event) {
-            if (str_contains($local_event['id_caldav_calendar'], 'RECURRENCE')) {
+            if (str_contains((string) $local_event['id_caldav_calendar'], 'RECURRENCE')) {
                 continue;
             }
 
