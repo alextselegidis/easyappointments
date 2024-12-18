@@ -183,7 +183,7 @@ class Caldav extends EA_Controller
             try {
                 $caldav_event = $CI->caldav_sync->get_event($provider, $local_event['id_caldav_calendar']);
 
-                if ($caldav_event['status'] === 'CANCELLED') {
+                if (!$caldav_event || $caldav_event['status'] === 'CANCELLED') {
                     throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                 }
 
