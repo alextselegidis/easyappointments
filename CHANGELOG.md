@@ -20,6 +20,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fix ICS file mimetype (#1630)
 - Incorrect Timezone Handling in CalDAV Synchronization Causes Time Shifts (#1626)
 - No color change in the appointment modal window (in the backend calendar) (#1641)
+- The plain user password might appear in the log messages in case of an error (#1590)
 
 
 
