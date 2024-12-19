@@ -458,6 +458,37 @@ class Caldav_sync
     }
 
     /**
+     * Try to parse the CalDAV event date-time value with the right timezone.
+     *
+     * @throws DateMalformedStringException
+     * @throws DateInvalidTimeZoneException
+     */
+    private function parse_date_time_object(string $caldav_date_time, DateTimeZone $default_timezone_object): DateTime
+    {
+        try {
+            if (str_contains($caldav_date_time, 'TZID=')) {
+                // Extract the TZID and use it
+                preg_match('/TZID=([^:]+):/', $caldav_date_time, $matches);
+                $parsed_timezone = $matches[1];
+                $parsed_timezone_object = new DateTimeZone($parsed_timezone);
+                $date_time = preg_replace('/TZID=[^:]+:/', '', $caldav_date_time);
+                $date_time_object = new DateTime($date_time, $parsed_timezone_object);
+            } elseif (str_ends_with($caldav_date_time, 'Z')) {
+                // Handle UTC timestamps
+                $date_time_object = new DateTime($caldav_date_time, new DateTimeZone('UTC'));
+            } else {
+                // Default to the provided timezone
+                $date_time_object = new DateTime($caldav_date_time, $default_timezone_object);
+            }
+
+            return $date_time_object;
+        } catch (Throwable $e) {
+            error_log('Error parsing date-time value (' . $caldav_date_time . ') with timezone: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    /**
      * Convert the VEvent object to an associative array
      *
      * @link https://sabre.io/vobject/icalendar
@@ -467,45 +498,50 @@ class Caldav_sync
      *
      * @return array
      *
-     * @throws DateMalformedStringException
+     * @throws Throwable
      */
     private function convert_caldav_event_to_array_event(VEvent $vevent, DateTimeZone $timezone_object): array
     {
-        $utc_timezone_object = new DateTimeZone('UTC'); // Convert from UTC to local provider timezone
+        try {
+            $caldav_start_date_time = (string) $vevent->DTSTART;
+            $start_date_time_object = $this->parse_date_time_object($caldav_start_date_time, $timezone_object);
+            $start_date_time_object->setTimezone($timezone_object); // Convert to the provider timezone
 
-        $start_date_time_object = new DateTime((string) $vevent->DTSTART, $utc_timezone_object);
-        $start_date_time_object->setTimezone($timezone_object);
+            $caldav_end_date_time = (string) $vevent->DTEND;
+            $end_date_time_object = $this->parse_date_time_object($caldav_end_date_time, $timezone_object);
+            $end_date_time_object->setTimezone($timezone_object); // Convert to the provider timezone
 
-        $end_date_time_object = new DateTime((string) $vevent->DTEND, $utc_timezone_object);
-        $end_date_time_object->setTimezone($timezone_object);
+            // Check if the event is recurring
 
-        // Check if the event is recurring
+            $is_recurring_event =
+                isset($vevent->RRULE) ||
+                isset($vevent->RDATE) ||
+                isset($vevent->{'RECURRENCE-ID'}) ||
+                isset($vevent->EXDATE);
 
-        $is_recurring_event =
-            isset($vevent->RRULE) ||
-            isset($vevent->RDATE) ||
-            isset($vevent->{'RECURRENCE-ID'}) ||
-            isset($vevent->EXDATE);
+            // Generate ID based on recurrence status
 
-        // Generate ID based on recurrence status
+            $event_id = (string) $vevent->UID;
 
-        $event_id = (string) $vevent->UID;
+            if ($is_recurring_event) {
+                $event_id .= '-RECURRENCE-' . random_string();
+            }
 
-        if ($is_recurring_event) {
-            $event_id .= '-RECURRENCE-' . random_string();
+            // Return the converted event
+
+            return [
+                'id' => $event_id,
+                'summary' => (string) $vevent->SUMMARY ?? null ?: '',
+                'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
+                'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
+                'description' => (string) $vevent->DESCRIPTION ?? null ?: '',
+                'status' => (string) $vevent->STATUS ?? null ?: 'CONFIRMED',
+                'location' => (string) $vevent->LOCATION ?? null ?: '',
+            ];
+        } catch (Throwable $e) {
+            error_log('Error parsing CalDAV event object (' . var_export($vevent, true) . '): ' . $e->getMessage());
+            throw $e;
         }
-
-        // Return the converted event
-
-        return [
-            'id' => $event_id,
-            'summary' => (string) $vevent->SUMMARY,
-            'start_datetime' => $start_date_time_object->format('Y-m-d H:i:s'),
-            'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
-            'description' => (string) $vevent->DESCRIPTION,
-            'status' => (string) $vevent->STATUS,
-            'location' => (string) $vevent->LOCATION,
-        ];
     }
 
     /**

@@ -17,6 +17,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fix various 1.5.0 API issues (#1562)
 - Correct email issues by replacing the internal email library with phpmailer (#1587)
 - Fix ICS file mimetype (#1630)
+- Incorrect Timezone Handling in CalDAV Synchronization Causes Time Shifts (#1626)
 
 
 
