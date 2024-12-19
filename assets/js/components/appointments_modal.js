@@ -366,7 +366,7 @@ App.Components.AppointmentsModal = (function () {
             });
 
             if (service?.color) {
-                App.Components.ColorSelection.getColor($appointmentColor, service.color);
+                App.Components.ColorSelection.setColor($appointmentColor, service.color);
             }
 
             const duration = service ? service.duration : 60;

@@ -18,8 +18,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Correct email issues by replacing the internal email library with phpmailer (#1587)
 - Fix ICS file mimetype (#1630)
 - Incorrect Timezone Handling in CalDAV Synchronization Causes Time Shifts (#1626)
-
-
+- No color change in the appointment modal window (in the backend calendar) (#1641)
 
 
 
