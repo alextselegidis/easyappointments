@@ -483,4 +483,5 @@ $lang['fields'] = '欄位';
 $lang['invalid_credentials_provided'] = '提供的憑證無效，請重試。';
 $lang['calendar_url'] = '日曆網址';
 $lang['please_select'] = '請選擇';
+$lang['secret_header'] = 'Secret Header';
 // End

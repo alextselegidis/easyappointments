@@ -483,4 +483,5 @@ $lang['fields'] = 'Polia';
 $lang['invalid_credentials_provided'] = 'Poskytnuté údaje sú neplatné, skúste to prosím znova.';
 $lang['calendar_url'] = 'URL kalendára';
 $lang['please_select'] = 'Vyberte prosím';
+$lang['secret_header'] = 'Secret Header';
 // End

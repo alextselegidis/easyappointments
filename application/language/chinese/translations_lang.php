@@ -496,4 +496,5 @@ $lang['email'] = '电子邮件';
 $lang['website'] = '网站';
 $lang['social_media'] = '社交媒体';
 $lang['follow_us'] = '关注我们';
+$lang['secret_header'] = 'Secret Header';
 // End

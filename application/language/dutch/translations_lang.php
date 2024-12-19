@@ -494,4 +494,5 @@ $lang['event_detail'] = 'Evenement Detail';
 $lang['event_success'] = 'Evenement succesvol toegevoegd.';
 $lang['event_update_success'] = 'Evenement succesvol bijgewerkt.';
 $lang['event_delete_success'] = 'Evenement succesvol verwijderd.';
+$lang['secret_header'] = 'Secret Header';
 // End

@@ -489,4 +489,5 @@ $lang['export'] = 'Exportovat';
 $lang['open'] = 'Otevřít';
 $lang['close'] = 'Zavřít';
 $lang['confirm_delete'] = 'Opravdu chcete odstranit tento záznam?';
+$lang['secret_header'] = 'Secret Header';
 // End

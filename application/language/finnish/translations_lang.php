@@ -483,4 +483,5 @@ $lang['fields'] = 'Kentät';
 $lang['invalid_credentials_provided'] = 'Tunnukset olivat virheelliset, ole hyvä ja yritä uudelleen.';
 $lang['calendar_url'] = 'Kalenterin URL';
 $lang['please_select'] = 'Valitse';
+$lang['secret_header'] = 'Secret Header';
 // End

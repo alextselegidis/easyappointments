@@ -483,4 +483,5 @@ $lang['fields'] = 'ฟิลด์';
 $lang['invalid_credentials_provided'] = 'ข้อมูลรับรองไม่ถูกต้อง กรุณาลองอีกครั้ง';
 $lang['calendar_url'] = 'URL ปฏิทิน';
 $lang['please_select'] = 'กรุณาเลือก';
+$lang['secret_header'] = 'Secret Header';
 // End

@@ -20,7 +20,16 @@
  */
 class Webhooks extends EA_Controller
 {
-    public array $allowed_webhook_fields = ['id', 'name', 'url', 'actions', 'secret_token', 'is_ssl_verified', 'notes'];
+    public array $allowed_webhook_fields = [
+        'id',
+        'name',
+        'url',
+        'actions',
+        'secret_header',
+        'secret_token',
+        'is_ssl_verified',
+        'notes',
+    ];
 
     public array $optional_webhook_fields = [
         //

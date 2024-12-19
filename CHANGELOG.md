@@ -8,6 +8,7 @@ developers to maintain and readjust their custom modifications on the main proje
 ### Added
 
 - Add support for PHP 8.4 (#1640)
+- Add new secret token header field to webhooks and default to X-EA-Token (#1607)
  
 ### Fixed
 

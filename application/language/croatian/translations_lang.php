@@ -483,4 +483,5 @@ $lang['fields'] = 'Polja';
 $lang['invalid_credentials_provided'] = 'Pruženi podaci za prijavu su neispravni, pokušajte ponovo.';
 $lang['calendar_url'] = 'URL Kalendar';
 $lang['please_select'] = 'Molimo Odaberite';
+$lang['secret_header'] = 'Secret Header';
 // End

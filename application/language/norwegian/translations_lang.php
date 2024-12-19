@@ -458,4 +458,5 @@ $lang['default_timezone_hint'] = 'Angi standard tidssoneverdi som skal brukes fo
 $lang['default_language'] = 'Standardspråk';
 $lang['default_language_hint'] = 'Angi standard språkverdi som skal brukes for nye poster.';
 $lang['sync_method_prompt'] = 'Hvilken synkroniseringsmetode ønsker du å bruke?';
+$lang['secret_header'] = 'Secret Header';
 // End

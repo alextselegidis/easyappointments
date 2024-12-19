@@ -483,4 +483,5 @@ $lang['fields'] = 'Felter';
 $lang['invalid_credentials_provided'] = 'Ugyldige legitimationsoplysninger angivet, prøv igen.';
 $lang['calendar_url'] = 'Kalender URL';
 $lang['please_select'] = 'Vælg venligst';
+$lang['secret_header'] = 'Secret Header';
 // End

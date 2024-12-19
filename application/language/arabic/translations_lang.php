@@ -483,4 +483,5 @@ $lang['fields'] = 'الحقول';
 $lang['invalid_credentials_provided'] = 'تم تقديم بيانات اعتماد غير صالحة، يرجى المحاولة مرة أخرى';
 $lang['calendar_url'] = 'عنوان URL للتقويم';
 $lang['please_select'] = 'يرجى الاختيار';
+$lang['secret_header'] = 'Secret Header';
 // End

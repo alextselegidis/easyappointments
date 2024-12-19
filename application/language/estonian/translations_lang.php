@@ -483,4 +483,5 @@ $lang['fields'] = 'Väljad';
 $lang['invalid_credentials_provided'] = 'Esitatud andmed on vigased, palun proovige uuesti.';
 $lang['calendar_url'] = 'Kalendri URL';
 $lang['please_select'] = 'Palun Valige';
+$lang['secret_header'] = 'Secret Header';
 // End

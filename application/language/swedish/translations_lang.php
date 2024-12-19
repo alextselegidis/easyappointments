@@ -483,4 +483,5 @@ $lang['fields'] = 'Fält';
 $lang['invalid_credentials_provided'] = 'Ogiltiga uppgifter angivna, vänligen försök igen.';
 $lang['calendar_url'] = 'Kalender-URL';
 $lang['please_select'] = 'Vänligen välj';
+$lang['secret_header'] = 'Secret Header';
 // End

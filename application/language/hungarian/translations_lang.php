@@ -483,4 +483,5 @@ $lang['fields'] = 'Mezők';
 $lang['invalid_credentials_provided'] = 'Érvénytelen hitelesítő adatok lettek megadva, kérem próbálja újra.';
 $lang['calendar_url'] = 'Naptár URL';
 $lang['please_select'] = 'Kérem válasszon';
+$lang['secret_header'] = 'Secret Header';
 // End

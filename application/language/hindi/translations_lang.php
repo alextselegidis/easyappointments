@@ -483,4 +483,5 @@ $lang['fields'] = 'फ़ील्ड्स';
 $lang['invalid_credentials_provided'] = 'अमान्य क्रेडेंशियल्स प्रदान किए गए हैं, कृपया पुनः प्रयास करें।';
 $lang['calendar_url'] = 'कैलेंडर URL';
 $lang['please_select'] = 'कृपया चयन करें';
+$lang['secret_header'] = 'Secret Header';
 // End

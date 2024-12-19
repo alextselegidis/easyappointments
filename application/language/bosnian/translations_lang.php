@@ -483,4 +483,5 @@ $lang['fields'] = 'Polja';
 $lang['invalid_credentials_provided'] = 'Nevažeći akreditivi su navedeni, pokušajte ponovo.';
 $lang['calendar_url'] = 'URL kalendara';
 $lang['please_select'] = 'Molimo izaberite';
+$lang['secret_header'] = 'Secret Header';
 // End

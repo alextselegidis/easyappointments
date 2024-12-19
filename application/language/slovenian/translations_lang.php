@@ -483,4 +483,5 @@ $lang['fields'] = 'Polja';
 $lang['invalid_credentials_provided'] = 'Navedene neveljavne poverilnice, poskusite znova.';
 $lang['calendar_url'] = 'URL koledarja';
 $lang['please_select'] = 'Prosim izberite';
+$lang['secret_header'] = 'Secret Header';
 // End

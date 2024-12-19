@@ -483,4 +483,5 @@ $lang['fields'] = 'Fields';
 $lang['invalid_credentials_provided'] = 'Pateikti negaliojantys duomenys, bandykite dar kartą.';
 $lang['calendar_url'] = 'Kalendoriaus URL';
 $lang['please_select'] = 'Prašome pasirinkti';
+$lang['secret_header'] = 'Secret Header';
 // End

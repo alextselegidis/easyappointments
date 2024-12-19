@@ -483,4 +483,5 @@ $lang['fields'] = 'Alanlar';
 $lang['invalid_credentials_provided'] = 'Geçersiz kimlik bilgileri sağlandı, lütfen tekrar deneyin.';
 $lang['calendar_url'] = 'Takvim URL';
 $lang['please_select'] = 'Lütfen Seçin';
+$lang['secret_header'] = 'Secret Header';
 // End

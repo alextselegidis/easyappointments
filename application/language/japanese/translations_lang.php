@@ -483,4 +483,5 @@ $lang['fields'] = 'フィールド';
 $lang['invalid_credentials_provided'] = '無効な認証情報が提供されました。もう一度お試しください。';
 $lang['calendar_url'] = 'カレンダーURL';
 $lang['please_select'] = '選択してください';
+$lang['secret_header'] = 'Secret Header';
 // End

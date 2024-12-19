@@ -450,4 +450,5 @@ $lang['webhook_saved'] = 'WebHook נשמר בהצלחה.';
 $lang['webhook_deleted'] = 'WebHook נמחק בהצלחה.';
 $lang['delete_webhook'] = 'מחק WebHook';
 $lang['contact_info'] = 'מידע ליצירת קשר';
+$lang['secret_header'] = 'Secret Header';
 // End

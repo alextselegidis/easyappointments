@@ -483,4 +483,5 @@ $lang['fields'] = 'Pola';
 $lang['invalid_credentials_provided'] = 'Podano nieprawidłowe dane logowania, spróbuj ponownie.';
 $lang['calendar_url'] = 'URL kalendarza';
 $lang['please_select'] = 'Proszę wybrać';
+$lang['secret_header'] = 'Secret Header';
 // End

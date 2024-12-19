@@ -483,4 +483,5 @@ $lang['fields'] = 'فیلدها';
 $lang['invalid_credentials_provided'] = 'اعتبارنامه‌های نامعتبر ارائه شده است، لطفاً دوباره تلاش کنید.';
 $lang['calendar_url'] = 'URL تقویم';
 $lang['please_select'] = 'لطفاً انتخاب کنید';
+$lang['secret_header'] = 'Secret Header';
 // End

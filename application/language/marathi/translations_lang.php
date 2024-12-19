@@ -483,4 +483,5 @@ $lang['fields'] = 'फील्ड';
 $lang['invalid_credentials_provided'] = 'अवैध प्रमाणपत्रे प्रदान केली गेली, कृपया पुन्हा प्रयत्न करा.';
 $lang['calendar_url'] = 'कॅलेंडर URL';
 $lang['please_select'] = 'कृपया निवडा';
+$lang['secret_header'] = 'Secret Header';
 // End

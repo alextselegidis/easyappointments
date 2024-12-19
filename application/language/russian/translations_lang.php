@@ -483,4 +483,5 @@ $lang['fields'] = 'Поля';
 $lang['invalid_credentials_provided'] = 'Предоставлены неверные учетные данные, пожалуйста, попробуйте снова.';
 $lang['calendar_url'] = 'URL Календаря';
 $lang['please_select'] = 'Пожалуйста, выберите';
+$lang['secret_header'] = 'Secret Header';
 // End

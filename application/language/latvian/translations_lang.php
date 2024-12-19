@@ -483,4 +483,5 @@ $lang['fields'] = 'Lauki';
 $lang['invalid_credentials_provided'] = 'Sniegti nepareizi akreditācijas dati, lūdzu, mēģiniet vēlreiz.';
 $lang['calendar_url'] = 'Kalendāra URL';
 $lang['please_select'] = 'Lūdzu, izvēlieties';
+$lang['secret_header'] = 'Secret Header';
 // End

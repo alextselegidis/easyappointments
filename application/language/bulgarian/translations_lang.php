@@ -482,4 +482,5 @@ $lang['display_on_calendar'] = 'Покажи в календара';
 $lang['display_in_services'] = 'Покажи в услугите';
 $lang['import_ldap_users'] = 'Импортиране на LDAP потребители';
 $lang['manage_providers'] = 'Управление на доставчици';
+$lang['secret_header'] = 'Secret Header';
 // End
