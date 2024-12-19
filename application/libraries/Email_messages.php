@@ -114,7 +114,7 @@ class Email_messages
 
         $php_mailer = $this->get_php_mailer($recipient_email, $subject, $html);
 
-        $php_mailer->addStringAttachment($ics_stream, 'invitation.ics', PHPMailer::ENCODING_BASE64, 'text/vcalendar');
+        $php_mailer->addStringAttachment($ics_stream, 'invitation.ics', PHPMailer::ENCODING_BASE64, 'text/calendar');
 
         $php_mailer->send();
     }
