@@ -336,7 +336,7 @@ class Users_model extends EA_Model
      *
      * @return array Returns an array of settings.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $users = $this->db
             ->select()
@@ -378,10 +378,10 @@ class Users_model extends EA_Model
      * @return array Returns an array of users.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -422,7 +422,7 @@ class Users_model extends EA_Model
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username(string $username, int $user_id = null): bool
+    public function validate_username(string $username, ?int $user_id = null): bool
     {
         if (!empty($user_id)) {
             $this->db->where('id_users !=', $user_id);

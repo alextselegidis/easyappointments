@@ -258,6 +258,8 @@ class Google_sync
      *
      * @param array $provider Provider data.
      * @param string $google_event_id The Google Calendar event ID to be removed.
+     *
+     * @throws \Google\Service\Exception
      */
     public function delete_appointment(array $provider, string $google_event_id): void
     {
@@ -340,6 +342,8 @@ class Google_sync
      *
      * @param array $provider Provider data.
      * @param string $google_event_id Google Calendar event ID to be removed.
+     *
+     * @throws \Google\Service\Exception
      */
     public function delete_unavailability(array $provider, string $google_event_id): void
     {
@@ -353,6 +357,8 @@ class Google_sync
      * @param string $google_event_id Google Calendar event ID.
      *
      * @return Event Returns the Google Calendar event.
+     *
+     * @throws \Google\Service\Exception
      */
     public function get_event(array $provider, string $google_event_id): Event
     {
@@ -367,6 +373,8 @@ class Google_sync
      * @param string $end The end date of sync period.
      *
      * @return Events Returns a collection of events.
+     *
+     * @throws \Google\Service\Exception
      */
     public function get_sync_events(string $google_calendar, string $start, string $end): Events
     {
@@ -386,6 +394,8 @@ class Google_sync
      * Google Calendar account.
      *
      * @return array Returns an array with the available calendars.
+     *
+     * @throws \Google\Service\Exception
      */
     public function get_google_calendars(): array
     {

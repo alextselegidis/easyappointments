@@ -224,7 +224,7 @@ class Service_categories_model extends EA_Model
      *
      * @return array Returns an array of service categories.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $service_categories = $this->db
             ->select()
@@ -257,10 +257,10 @@ class Service_categories_model extends EA_Model
      * @return array Returns an array of service categories.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -316,7 +316,7 @@ class Service_categories_model extends EA_Model
      * @param array $service_category API resource.
      * @param array|null $base Base service-category data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$service_category, array $base = null): void
+    public function api_decode(array &$service_category, ?array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

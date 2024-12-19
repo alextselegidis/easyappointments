@@ -63,7 +63,7 @@ class Appointments extends EA_Controller
      *
      * @deprecated Since 1.5
      */
-    public function index(string $appointment_hash = '')
+    public function index(string $appointment_hash = ''): void
     {
         redirect('booking/' . $appointment_hash);
     }

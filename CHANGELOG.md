@@ -5,11 +5,16 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Added
+
+- Add support for PHP 8.4 (#1640)
+ 
 ### Fixed
 
 - Fix the date parsing issue on Safari web browsers during the booking process (#1584)
 - Fix working plan configuration am/pm hour parsing so that it works in all languages (#1606)
 - Improve the CalDAV syncing mechanism so that it connects to more systems without problems (#1622)
+
 
 
 ## [1.5.0] - 2024-07-07

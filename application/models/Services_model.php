@@ -308,10 +308,10 @@ class Services_model extends EA_Model
      * @return array Returns an array of services.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -350,7 +350,7 @@ class Services_model extends EA_Model
      *
      * @return array Returns an array of services.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $services = $this->db
             ->select()
@@ -431,7 +431,7 @@ class Services_model extends EA_Model
      * @param array $service API resource.
      * @param array|null $base Base service data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$service, array $base = null): void
+    public function api_decode(array &$service, ?array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

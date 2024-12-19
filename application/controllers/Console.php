@@ -11,6 +11,8 @@
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
+use Jsvrcek\ICS\Exception\CalendarEventException;
+
 require_once __DIR__ . '/Google.php';
 require_once __DIR__ . '/Caldav.php';
 
@@ -133,6 +135,10 @@ class Console extends EA_Controller
      * Usage:
      *
      * php index.php console sync
+     *
+     * @throws CalendarEventException
+     * @throws Exception
+     * @throws Throwable
      */
     public function sync(): void
     {

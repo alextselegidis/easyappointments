@@ -180,7 +180,7 @@ class Secretaries_model extends EA_Model
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username(string $username, int $secretary_id = null): bool
+    public function validate_username(string $username, ?int $secretary_id = null): bool
     {
         if (!empty($secretary_id)) {
             $this->db->where('id_users !=', $secretary_id);
@@ -205,10 +205,10 @@ class Secretaries_model extends EA_Model
      * @return array Returns an array of secretaries.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         $role_id = $this->get_secretary_role_id();
 
@@ -515,7 +515,7 @@ class Secretaries_model extends EA_Model
      *
      * @return array Returns an array of secretaries.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $role_id = $this->get_secretary_role_id();
 
@@ -620,7 +620,7 @@ class Secretaries_model extends EA_Model
      * @param array $secretary API resource.
      * @param array|null $base Base secretary data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$secretary, array $base = null): void
+    public function api_decode(array &$secretary, ?array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

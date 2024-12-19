@@ -49,7 +49,7 @@ class Ics_provider implements Iterator
      *     array key value will be passed as an argument. The closure should return an array containing the next
      *     batch of items.
      */
-    public function __construct(Closure $provider = null)
+    public function __construct(?Closure $provider = null)
     {
         $this->provider = $provider;
     }

@@ -77,7 +77,7 @@ class Customers_api_v1 extends EA_Controller
      *
      * @param int|null $id Customer ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->customers_model->get(['id' => $id]);

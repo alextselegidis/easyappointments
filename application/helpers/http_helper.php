@@ -26,7 +26,7 @@ if (!function_exists('request')) {
      *
      * @throws InvalidArgumentException
      */
-    function request(string $key = null, $default = null): mixed
+    function request(?string $key = null, $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

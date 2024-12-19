@@ -16,7 +16,7 @@ class Migration_Add_ldap_rows_to_settings_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         $now = date('Y-m-d H:i:s');
 
@@ -101,7 +101,7 @@ class Migration_Add_ldap_rows_to_settings_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'ldap_is_active'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'ldap_is_active']);

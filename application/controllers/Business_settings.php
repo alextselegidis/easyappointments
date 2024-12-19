@@ -124,7 +124,7 @@ class Business_settings extends EA_Controller
     /**
      * Apply global working plan to all providers.
      */
-    public function apply_global_working_plan()
+    public function apply_global_working_plan(): void
     {
         try {
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {

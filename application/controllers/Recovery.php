@@ -50,7 +50,7 @@ class Recovery extends EA_Controller
     /**
      * Recover the user password and notify the user via email.
      */
-    public function perform()
+    public function perform(): void
     {
         try {
             $username = request('username');

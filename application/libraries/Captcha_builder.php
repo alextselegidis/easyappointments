@@ -106,7 +106,7 @@ class Captcha_builder
      */
     protected $allowedBackgroundImageTypes = ['image/png', 'image/jpeg', 'image/gif'];
 
-    public function __construct($phrase = null, PhraseBuilderInterface $builder = null)
+    public function __construct($phrase = null, ?PhraseBuilderInterface $builder = null)
     {
         if ($builder === null) {
             $this->builder = new PhraseBuilder();
@@ -119,6 +119,7 @@ class Captcha_builder
 
     /**
      * Generate the image
+     * @throws Exception
      */
     public function build($width = 150, $height = 40, $font = null, $fingerprint = null)
     {
@@ -134,6 +135,8 @@ class Captcha_builder
             $font =
                 __DIR__ . '/../../vendor/gregwar/captcha/src/Gregwar/Captcha/Font/captcha' . $this->rand(0, 5) . '.ttf';
         }
+
+        $bg = null;
 
         if (empty($this->backgroundImages)) {
             // if background images list is not set, use a color fill as a background

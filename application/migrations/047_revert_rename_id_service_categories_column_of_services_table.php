@@ -16,7 +16,7 @@ class Migration_Revert_rename_id_service_categories_column_of_services_table ext
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if ($this->db->field_exists('id_categories', 'services')) {
             $this->db->query(
@@ -51,7 +51,7 @@ class Migration_Revert_rename_id_service_categories_column_of_services_table ext
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('id_service_categories', 'services')) {
             $this->db->query(

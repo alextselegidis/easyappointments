@@ -86,7 +86,7 @@ class Caldav_sync
 
             return $caldav_event_id;
         } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            $this->handle_guzzle_exception($e, 'Failed to save CalDAV appointment event');
             return null;
         }
     }
@@ -126,7 +126,7 @@ class Caldav_sync
 
             return $caldav_event_id;
         } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            $this->handle_guzzle_exception($e, 'Failed to save CalDAV unavailability event');
             return null;
         }
     }
@@ -146,7 +146,7 @@ class Caldav_sync
 
             $client->request('DELETE', $uri);
         } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            $this->handle_guzzle_exception($e, 'Failed to delete CalDAV event');
         }
     }
 
@@ -176,7 +176,7 @@ class Caldav_sync
 
             return $this->convert_caldav_event_to_array_event($vcalendar->VEVENT, $provider_timezone_object);
         } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            $this->handle_guzzle_exception($e, 'Failed to get CalDAV event');
             return null;
         }
     }
@@ -219,7 +219,7 @@ class Caldav_sync
                 $provider_timezone_object,
             );
         } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            $this->handle_guzzle_exception($e, 'Failed to get CalDAV sync events');
             return [];
         }
     }
@@ -397,11 +397,14 @@ class Caldav_sync
 
             $this->fetch_events($client, $start_date_time, $end_date_time);
         } catch (GuzzleException $e) {
-            $this->handle_guzzle_exception($e, 'Failed to save CalDAV event');
+            $this->handle_guzzle_exception($e, 'Failed to test CalDAV connection');
             throw $e;
         }
     }
 
+    /**
+     * @throws GuzzleException
+     */
     private function get_http_client_by_provider_id(int $provider_id): Client
     {
         $provider = $this->CI->providers_model->find($provider_id);

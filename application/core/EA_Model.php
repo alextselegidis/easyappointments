@@ -105,7 +105,7 @@ class EA_Model extends CI_Model
      *
      * @return array Returns an array of records.
      */
-    public function get_batch($where = null, int $limit = null, int $offset = null, string $order_by = null): array
+    public function get_batch($where = null, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         return $this->get($where, $limit, $offset, $order_by);
     }

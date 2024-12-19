@@ -12,6 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 use GuzzleHttp\Exception\GuzzleException;
+use Jsvrcek\ICS\Exception\CalendarEventException;
 
 /**
  * Caldav controller.
@@ -87,7 +88,7 @@ class Caldav extends EA_Controller
      *
      * @return void
      *
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException
      * @throws Exception
      * @throws Throwable
      */

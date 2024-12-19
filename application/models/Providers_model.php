@@ -182,7 +182,7 @@ class Providers_model extends EA_Model
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username(string $username, int $provider_id = null): bool
+    public function validate_username(string $username, ?int $provider_id = null): bool
     {
         if (!empty($provider_id)) {
             $this->db->where('id_users !=', $provider_id);
@@ -207,10 +207,10 @@ class Providers_model extends EA_Model
      * @return array Returns an array of providers.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         $role_id = $this->get_provider_role_id();
 
@@ -521,7 +521,7 @@ class Providers_model extends EA_Model
     public function save_working_plan_exception(
         int $provider_id,
         string $date,
-        array $working_plan_exception = null,
+        ?array $working_plan_exception = null,
     ): void {
         // Validate the working plan exception data.
 
@@ -678,7 +678,7 @@ class Providers_model extends EA_Model
      *
      * @return array Returns an array of providers.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $role_id = $this->get_provider_role_id();
 
@@ -823,7 +823,7 @@ class Providers_model extends EA_Model
      * @param array $provider API resource.
      * @param array|null $base Base provider data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$provider, array $base = null): void
+    public function api_decode(array &$provider, ?array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

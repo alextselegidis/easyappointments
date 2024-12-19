@@ -51,7 +51,7 @@ class EA_Input extends CI_Input
      *
      * @return mixed
      */
-    public function json(string $index = null, bool $xss_clean = false): mixed
+    public function json(?string $index = null, bool $xss_clean = false): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

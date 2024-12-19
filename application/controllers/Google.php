@@ -41,7 +41,7 @@ class Google extends EA_Controller
      * needs to be relatively small, because a lot of API calls might be necessary and this will lead to consuming the
      * Google limit for the Calendar API usage.
      */
-    public static function sync(string $provider_id = null): void
+    public static function sync(?string $provider_id = null): void
     {
         try {
             /** @var EA_Controller $CI */

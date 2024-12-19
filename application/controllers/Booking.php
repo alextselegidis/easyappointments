@@ -551,7 +551,7 @@ class Booking extends EA_Controller
      *
      * @throws Exception
      */
-    protected function search_any_provider(int $service_id, string $date, string $hour = null): ?int
+    protected function search_any_provider(int $service_id, string $date, ?string $hour = null): ?int
     {
         $available_providers = $this->providers_model->get_available_providers(true);
 

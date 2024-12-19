@@ -193,7 +193,7 @@ class Consents_model extends EA_Model
      *
      * @return array Returns an array of consents.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $consents = $this->db
             ->select()
@@ -228,10 +228,10 @@ class Consents_model extends EA_Model
      * @return array Returns an array of consents.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);

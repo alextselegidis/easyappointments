@@ -16,7 +16,7 @@ class Migration_Add_is_private_column_to_users_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('is_private', 'users')) {
             $fields = [
@@ -35,7 +35,7 @@ class Migration_Add_is_private_column_to_users_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('is_private', 'users')) {
             $this->dbforge->drop_column('users', 'is_private');

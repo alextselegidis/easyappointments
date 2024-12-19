@@ -18,7 +18,7 @@ class Migration_Add_api_token_setting extends EA_Migration
      *
      * @throws Exception
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'api_token'])->num_rows()) {
             $this->db->insert('settings', [
@@ -33,7 +33,7 @@ class Migration_Add_api_token_setting extends EA_Migration
      *
      * @throws Exception
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'api_token'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'api_token']);

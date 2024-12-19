@@ -32,7 +32,7 @@ if (!function_exists('setting')) {
      *
      * @throws InvalidArgumentException
      */
-    function setting(array|string $key = null, mixed $default = null): mixed
+    function setting(array|string|null $key = null, mixed $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

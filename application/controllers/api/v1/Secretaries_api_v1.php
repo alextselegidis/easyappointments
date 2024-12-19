@@ -77,7 +77,7 @@ class Secretaries_api_v1 extends EA_Controller
      *
      * @param int|null $id Secretary ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->secretaries_model->get(['id' => $id]);
