@@ -106,7 +106,7 @@ class Booking extends EA_Controller
 
             return;
         }
-
+     
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
         $company_color = setting('company_color');
@@ -114,6 +114,13 @@ class Booking extends EA_Controller
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
         $matomo_analytics_site_id = setting('matomo_analytics_site_id');
+
+        /* Edit by Stefano Beccalli */
+        if ($disable_booking) {
+            redirect('login');
+            exit();
+        }
+    
 
         if ($disable_booking) {
             $disable_booking_message = setting('disable_booking_message');
