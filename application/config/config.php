@@ -87,6 +87,7 @@ $config['url_suffix'] = '';
 */
 
 $languages = [
+    'sq' => 'albanian',
     'ar' => 'arabic',
     'bs' => 'bosnian',
     'bu' => 'bulgarian',
@@ -149,6 +150,7 @@ $config['language_code'] = array_search($config['language'], $languages) ?: 'en'
 |
 */
 $config['available_languages'] = [
+    'albanian',
     'arabic',
     'bosnian',
     'bulgarian',
