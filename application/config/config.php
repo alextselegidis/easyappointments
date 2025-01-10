@@ -24,7 +24,7 @@ $protocol =
 
 $domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-$request_uri = dirname($_SERVER['SCRIPT_NAME']);
+$request_uri = dirname($_SERVER['SCRIPT_NAME'] ?? 'index.php');
 
 if ($request_uri === '.') {
     $request_uri = '';
