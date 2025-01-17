@@ -9,7 +9,9 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Add support for PHP 8.4 (#1640)
 - Add new secret token header field to webhooks and default to X-EA-Token (#1607)
- 
+- Add company colors to notifications (#1569)
+- Add Albanian Language Translations (#1646)
+
 ### Fixed
 
 - Fix the date parsing issue on Safari web browsers during the booking process (#1584)
