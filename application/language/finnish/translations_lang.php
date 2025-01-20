@@ -457,7 +457,7 @@ $lang['default_timezone'] = 'Oletusaikavyöhyke';
 $lang['default_timezone_hint'] = 'Aseta uusissa tietueissa käytettävä aikavyöhyke';
 $lang['default_language'] = 'Oletuskieli';
 $lang['default_language_hint'] = 'Aseta uusissa tietueissa käytettävä oletuskieli';
-lang['sync_method_prompt'] = 'Mitä synkronointimenetelmää haluat käyttää?';
+$lang['sync_method_prompt'] = 'Mitä synkronointimenetelmää haluat käyttää?';
 $lang['caldav_server'] = 'CalDAV palvelin';
 $lang['caldav_connection_info_prompt'] = 'Määritä CalDAV-palvelimen yhteysasetukset.';
 $lang['connect'] = 'Yhdistä';
@@ -483,4 +483,5 @@ $lang['fields'] = 'Kentät';
 $lang['invalid_credentials_provided'] = 'Tunnukset olivat virheelliset, ole hyvä ja yritä uudelleen.';
 $lang['calendar_url'] = 'Kalenterin URL';
 $lang['please_select'] = 'Valitse';
+$lang['secret_header'] = 'Secret Header';
 // End

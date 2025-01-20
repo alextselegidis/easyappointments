@@ -60,7 +60,7 @@
     "zip-dir": "^2.0.0"
   },
   "scripts": {
-    "start": "npx gulp",
+    "start": "npx --yes gulp",
     "build": "npx gulp build",
     "docs": "npx gulp docs"
   }

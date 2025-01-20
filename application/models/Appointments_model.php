@@ -175,10 +175,10 @@ class Appointments_model extends EA_Model
      * @return array Returns an array of appointments.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -340,6 +340,23 @@ class Appointments_model extends EA_Model
     }
 
     /**
+     * Deletes recurring CalDAV events for the provided date period.
+     *
+     * @param string $start_date_time
+     * @param string $end_date_time
+     *
+     * @return void
+     */
+    public function delete_caldav_recurring_events(string $start_date_time, string $end_date_time): void
+    {
+        $this->db
+            ->where('start_datetime >=', $start_date_time)
+            ->where('end_datetime <=', $end_date_time)
+            ->like('id_caldav_calendar', '%RECURRENCE%')
+            ->delete('appointments');
+    }
+
+    /**
      * Get the attendants number for the requested period.
      *
      * @param DateTime $start Period start.
@@ -355,7 +372,7 @@ class Appointments_model extends EA_Model
         DateTime $end,
         int $service_id,
         int $provider_id,
-        int $exclude_appointment_id = null,
+        ?int $exclude_appointment_id = null,
     ): int {
         if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
@@ -399,7 +416,7 @@ class Appointments_model extends EA_Model
         DateTime $end,
         int $service_id,
         int $provider_id,
-        int $exclude_appointment_id = null,
+        ?int $exclude_appointment_id = null,
     ): int {
         if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
@@ -446,7 +463,7 @@ class Appointments_model extends EA_Model
      *
      * @return array Returns an array of appointments.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $appointments = $this->db
             ->select('appointments.*')
@@ -568,7 +585,7 @@ class Appointments_model extends EA_Model
      * @param array $appointment API resource.
      * @param array|null $base Base appointment data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$appointment, array $base = null): void
+    public function api_decode(array &$appointment, ?array $base = null): void
     {
         $decoded_request = $base ?: [];
 

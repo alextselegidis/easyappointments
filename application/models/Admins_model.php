@@ -168,7 +168,7 @@ class Admins_model extends EA_Model
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username(string $username, int $admin_id = null): bool
+    public function validate_username(string $username, ?int $admin_id = null): bool
     {
         if (!empty($admin_id)) {
             $this->db->where('id_users !=', $admin_id);
@@ -193,10 +193,10 @@ class Admins_model extends EA_Model
      * @return array Returns an array of admins.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         $role_id = $this->get_admin_role_id();
 
@@ -489,7 +489,7 @@ class Admins_model extends EA_Model
      *
      * @return array Returns an array of admins.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $role_id = $this->get_admin_role_id();
 
@@ -575,7 +575,7 @@ class Admins_model extends EA_Model
      * @param array $admin API resource.
      * @param array|null $base Base admin data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$admin, array $base = null): void
+    public function api_decode(array &$admin, ?array $base = null): void
     {
         $decoded_resource = $base ?? [];
 

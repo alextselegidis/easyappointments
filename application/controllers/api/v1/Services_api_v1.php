@@ -33,7 +33,7 @@ class Services_api_v1 extends EA_Controller
     }
 
     /**
-     * Get an service collection.
+     * Get a service collection.
      */
     public function index(): void
     {
@@ -77,7 +77,7 @@ class Services_api_v1 extends EA_Controller
      *
      * @param int|null $id Service ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->services_model->get(['id' => $id]);
@@ -137,7 +137,7 @@ class Services_api_v1 extends EA_Controller
     }
 
     /**
-     * Update an service.
+     * Update a service.
      *
      * @param int $id Service ID.
      */
@@ -171,7 +171,7 @@ class Services_api_v1 extends EA_Controller
     }
 
     /**
-     * Delete an service.
+     * Delete a service.
      *
      * @param int $id Service ID.
      */

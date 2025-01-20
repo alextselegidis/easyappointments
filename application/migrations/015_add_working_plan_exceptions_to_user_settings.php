@@ -16,7 +16,7 @@ class Migration_Add_working_plan_exceptions_to_user_settings extends EA_Migratio
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('working_plan_exceptions', 'user_settings')) {
             $fields = [
@@ -34,7 +34,7 @@ class Migration_Add_working_plan_exceptions_to_user_settings extends EA_Migratio
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('working_plan_exceptions', 'user_settings')) {
             $this->dbforge->drop_column('user_settings', 'working_plan_exceptions');

@@ -18,7 +18,7 @@ class Migration_Add_date_format_setting extends EA_Migration
      *
      * @throws Exception
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'date_format'])->num_rows()) {
             $this->db->insert('settings', [
@@ -33,7 +33,7 @@ class Migration_Add_date_format_setting extends EA_Migration
      *
      * @throws Exception
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'date_format'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'date_format']);

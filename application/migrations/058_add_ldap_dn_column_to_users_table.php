@@ -16,7 +16,7 @@ class Migration_Add_ldap_dn_column_to_users_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('ldap_dn', 'users')) {
             $fields = [
@@ -34,7 +34,7 @@ class Migration_Add_ldap_dn_column_to_users_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('ldap_dn', 'users')) {
             $this->dbforge->drop_column('users', 'ldap_dn');

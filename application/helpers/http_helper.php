@@ -26,7 +26,7 @@ if (!function_exists('request')) {
      *
      * @throws InvalidArgumentException
      */
-    function request(string $key = null, $default = null): mixed
+    function request(?string $key = null, $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -136,10 +136,12 @@ if (!function_exists('json_exception')) {
         $response = [
             'success' => false,
             'message' => $e->getMessage(),
-            'trace' => config('debug') ? $e->getTrace() : [],
+            'trace' => trace($e),
         ];
 
         log_message('error', 'JSON exception: ' . json_encode($response));
+
+        unset($response['trace']); // Do not send the trace to the browser as it might contain sensitive info
 
         json_response($response, 500);
     }
@@ -169,5 +171,21 @@ if (!function_exists('abort')) {
         }
 
         show_error($message, $code);
+    }
+}
+
+if (!function_exists('trace')) {
+    /**
+     * Prepare a well formatted string for an exception
+     *
+     * @param Throwable $e
+     *
+     * @return string
+     */
+    function trace(Throwable $e): string
+    {
+        return get_class($e) .
+            " '{$e->getMessage()}' in {$e->getFile()}({$e->getLine()})\n" .
+            "{$e->getTraceAsString()}";
     }
 }

@@ -16,7 +16,7 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if ($this->db->field_exists('is_unavailable', 'appointments')) {
             $fields = [
@@ -35,7 +35,7 @@ class Migration_Rename_is_unavailable_column_of_appointments_table extends EA_Mi
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('is_unavailability', 'appointments')) {
             $fields = [

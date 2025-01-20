@@ -39,6 +39,11 @@ class Calendar extends EA_Controller
         'custom_field_4',
         'custom_field_5',
     ];
+
+    public array $optional_customer_fields = [
+        //
+    ];
+
     public array $allowed_appointment_fields = [
         'id',
         'start_datetime',
@@ -51,6 +56,10 @@ class Calendar extends EA_Controller
         'id_users_provider',
         'id_users_customer',
         'id_services',
+    ];
+
+    public array $optional_appointment_fields = [
+        //
     ];
 
     /**
@@ -237,6 +246,8 @@ class Calendar extends EA_Controller
 
                 $this->customers_model->only($customer, $this->allowed_customer_fields);
 
+                $this->customers_model->optional($customer, $this->optional_customer_fields);
+
                 $customer['id'] = $this->customers_model->save($customer);
             }
 
@@ -266,6 +277,8 @@ class Calendar extends EA_Controller
 
                 $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
+                $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
+
                 $appointment['id'] = $this->appointments_model->save($appointment);
             }
 
@@ -278,10 +291,13 @@ class Calendar extends EA_Controller
             $customer = $this->customers_model->find($appointment['id_users_customer']);
             $service = $this->services_model->find($appointment['id_services']);
 
+            $company_color = setting('company_color');
+
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_link' => setting('company_link'),
                 'company_email' => setting('company_email'),
+                'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];
@@ -354,10 +370,13 @@ class Calendar extends EA_Controller
             $customer = $this->customers_model->find($appointment['id_users_customer']);
             $service = $this->services_model->find($appointment['id_services']);
 
+            $company_color = setting('company_color');
+
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_email' => setting('company_email'),
                 'company_link' => setting('company_link'),
+                'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];

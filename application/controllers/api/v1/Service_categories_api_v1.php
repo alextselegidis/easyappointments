@@ -77,7 +77,7 @@ class Service_categories_api_v1 extends EA_Controller
      *
      * @param int|null $id Service-category ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->service_categories_model->get(['id' => $id]);

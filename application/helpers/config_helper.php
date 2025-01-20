@@ -74,7 +74,7 @@ if (!function_exists('script_vars')) {
      *
      * @throws InvalidArgumentException
      */
-    function script_vars(array|string $key = null, mixed $default = null): mixed
+    function script_vars(array|string|null $key = null, mixed $default = null): mixed
     {
         $script_vars = config('script_vars', []);
 
@@ -119,7 +119,7 @@ if (!function_exists('html_vars')) {
      *
      * @throws InvalidArgumentException
      */
-    function html_vars(array|string $key = null, mixed $default = null): mixed
+    function html_vars(array|string|null $key = null, mixed $default = null): mixed
     {
         $html_vars = config('html_vars', []);
 
@@ -164,7 +164,7 @@ if (!function_exists('vars')) {
      *
      * @throws InvalidArgumentException
      */
-    function vars(array|string $key = null, mixed $default = null): mixed
+    function vars(array|string|null $key = null, mixed $default = null): mixed
     {
         return html_vars($key) ?? (script_vars($key) ?? $default);
     }

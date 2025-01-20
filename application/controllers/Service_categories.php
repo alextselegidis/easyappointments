@@ -22,6 +22,8 @@ class Service_categories extends EA_Controller
 {
     public array $allowed_service_category_fields = ['id', 'name', 'description'];
 
+    public array $optional_service_category_fields = [];
+
     /**
      * Service-categories constructor.
      */
@@ -117,6 +119,8 @@ class Service_categories extends EA_Controller
 
             $this->service_categories_model->only($service_category, $this->allowed_service_category_fields);
 
+            $this->service_categories_model->optional($service_category, $this->optional_service_category_fields);
+
             $service_category_id = $this->service_categories_model->save($service_category);
 
             $service_category = $this->service_categories_model->find($service_category_id);
@@ -165,6 +169,8 @@ class Service_categories extends EA_Controller
             $service_category = request('service_category');
 
             $this->service_categories_model->only($service_category, $this->allowed_service_category_fields);
+
+            $this->service_categories_model->optional($service_category, $this->optional_service_category_fields);
 
             $service_category_id = $this->service_categories_model->save($service_category);
 

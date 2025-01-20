@@ -16,7 +16,7 @@ class Migration_Add_caldav_columns_to_user_settings_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('caldav_sync', 'user_settings')) {
             $fields = [
@@ -87,7 +87,7 @@ class Migration_Add_caldav_columns_to_user_settings_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('caldav_sync', 'user_settings')) {
             $this->dbforge->drop_column('user_settings', 'caldav_sync');

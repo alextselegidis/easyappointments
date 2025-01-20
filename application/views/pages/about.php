@@ -73,9 +73,9 @@
             </div>
 
             <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://twitter.com/easyappts" target="_blank">
+                <a class="btn btn-outline-secondary d-block" href="https://x.com/easyappts" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
-                    Twitter
+                    X.com
                 </a>
             </div>
 

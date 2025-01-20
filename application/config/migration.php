@@ -9,7 +9,7 @@
 | whenever you intend to do a schema migration.
 |
 */
-$config['migration_enabled'] = TRUE;
+$config['migration_enabled'] = true;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +28,9 @@ $config['migration_version'] = 0;
 | Migrations Path
 |--------------------------------------------------------------------------
 |
-| Path to your migrations folder.
+| Path to your "migrations" folder.
 | Typically, it will be within your application path.
-| Also, writing permission is required within the migrations path.
+| Also, writing permission is required within the "migrations" path.
 |
 */
 $config['migration_path'] = APPPATH . 'migrations/';

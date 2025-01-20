@@ -54,7 +54,7 @@ services:
       API_URL: openapi.yml
   
   baikal:
-    image: ckulka/baikal:0.9.4-apache
+    image: ckulka/baikal:0.10.1-apache
     ports:
       - "8100:80"
     volumes:

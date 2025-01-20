@@ -80,7 +80,7 @@
                 
                 <?php slot('after_select_service'); ?>
 
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="select-provider">
                         <strong><?= lang('provider') ?></strong>
                     </label>

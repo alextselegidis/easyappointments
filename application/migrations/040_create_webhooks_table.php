@@ -16,7 +16,7 @@ class Migration_Create_webhooks_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->table_exists('webhooks')) {
             $this->dbforge->add_field([
@@ -75,7 +75,7 @@ class Migration_Create_webhooks_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->table_exists('webhooks')) {
             $this->dbforge->drop_table('webhooks');

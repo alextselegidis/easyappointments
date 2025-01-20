@@ -97,8 +97,8 @@ class Customers_model extends EA_Model
         }
 
         // Make sure all required fields are provided.
-        $require_first_name = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
-        $require_last_name = filter_var(setting('require_last'), FILTER_VALIDATE_BOOLEAN);
+        $require_first_name = filter_var(setting('require_first_name'), FILTER_VALIDATE_BOOLEAN);
+        $require_last_name = filter_var(setting('require_last_name'), FILTER_VALIDATE_BOOLEAN);
         $require_email = filter_var(setting('require_email'), FILTER_VALIDATE_BOOLEAN);
         $require_phone_number = filter_var(setting('require_phone_number'), FILTER_VALIDATE_BOOLEAN);
         $require_address = filter_var(setting('require_address'), FILTER_VALIDATE_BOOLEAN);
@@ -155,10 +155,10 @@ class Customers_model extends EA_Model
      * @return array Returns an array of customers.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         $role_id = $this->get_customer_role_id();
 
@@ -392,7 +392,7 @@ class Customers_model extends EA_Model
      *
      * @return array Returns an array of customers.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $role_id = $this->get_customer_role_id();
 
@@ -475,7 +475,7 @@ class Customers_model extends EA_Model
      * @param array $customer API resource.
      * @param array|null $base Base customer data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$customer, array $base = null): void
+    public function api_decode(array &$customer, ?array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

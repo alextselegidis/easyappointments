@@ -30,7 +30,7 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         foreach ($this->tables as $table) {
             if ($this->db->field_exists('delete_datetime', $table)) {
@@ -42,7 +42,7 @@ class Migration_Drop_delete_datetime_column_from_all_tables extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         foreach ($this->tables as $table) {
             if (!$this->db->field_exists('delete_datetime', $table)) {

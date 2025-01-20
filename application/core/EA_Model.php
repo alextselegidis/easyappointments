@@ -105,7 +105,7 @@ class EA_Model extends CI_Model
      *
      * @return array Returns an array of records.
      */
-    public function get_batch($where = null, int $limit = null, int $offset = null, string $order_by = null): array
+    public function get_batch($where = null, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         return $this->get($where, $limit, $offset, $order_by);
     }
@@ -189,12 +189,12 @@ class EA_Model extends CI_Model
     {
         if (is_assoc($record)) {
             foreach ($fields as $field => $default) {
-                $record[$field] = $record[$field] ?? $default;
+                $record[$field] = $record[$field] ?? null ?: $default;
             }
         } else {
             foreach ($record as &$record_item) {
                 foreach ($fields as $field => $default) {
-                    $record_item[$field] = $record_item[$field] ?? $default;
+                    $record_item[$field] = $record_item[$field] ?? null ?: $default;
                 }
             }
         }

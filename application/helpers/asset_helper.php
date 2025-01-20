@@ -22,7 +22,7 @@
  *
  * @return string Returns the final asset URL.
  */
-function asset_url(string $uri = '', string $protocol = null): string
+function asset_url(string $uri = '', ?string $protocol = null): string
 {
     $debug = config('debug');
 

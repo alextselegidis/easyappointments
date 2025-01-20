@@ -96,7 +96,7 @@ class EA_Controller extends CI_Controller
     {
         $user_id = session('user_id');
 
-        if (!$user_id) {
+        if (!$user_id || !$this->db->table_exists('users')) {
             return;
         }
 
