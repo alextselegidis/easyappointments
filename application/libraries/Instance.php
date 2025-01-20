@@ -162,7 +162,7 @@ class Instance
      *
      * @throws Exception
      */
-    public function backup(string $path = null): void
+    public function backup(?string $path): void
     {
         $path = $path ?? APPPATH . '/../storage/backups';
 
