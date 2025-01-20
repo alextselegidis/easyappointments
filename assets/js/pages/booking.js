@@ -174,6 +174,14 @@ App.Pages.Booking = (function () {
 
         optimizeContactInfoDisplay();
 
+        const serviceOptionCount = $selectService.find('option').length;
+
+        if (serviceOptionCount === 2) {
+            $selectService.find('option[value=""]').remove();
+            const firstServiceId = $selectService.find('option:first').attr('value');
+            $selectService.val(firstServiceId).trigger('change');
+        }
+
         // If the manage mode is true, the appointment data should be loaded by default.
         if (manageMode) {
             applyAppointmentData(vars('appointment_data'), vars('provider_data'), vars('customer_data'));
@@ -202,7 +210,7 @@ App.Pages.Booking = (function () {
                 for (const index in vars('available_providers')) {
                     const provider = vars('available_providers')[index];
 
-                    if (provider.id === selectedProviderId && provider.services.length > 0) {
+                    if (Number(provider.id) === Number(selectedProviderId) && provider.services.length > 0) {
                         $selectService.val(provider.services[0]).trigger('change');
                     }
                 }
@@ -344,6 +352,7 @@ App.Pages.Booking = (function () {
                 $selectService.val(),
                 todayDateTimeMoment.format('YYYY-MM-DD'),
             );
+
             App.Pages.Booking.updateConfirmFrame();
         });
 
@@ -356,6 +365,7 @@ App.Pages.Booking = (function () {
         $selectService.on('change', (event) => {
             const $target = $(event.target);
             const serviceId = $selectService.val();
+            $selectProvider.parent().prop('hidden', !Boolean(serviceId));
 
             $selectProvider.empty();
 
@@ -372,8 +382,17 @@ App.Pages.Booking = (function () {
                 }
             });
 
-            // Add the "Any Provider" entry.
-            if ($selectProvider.find('option').length > 2 && vars('display_any_provider') === '1') {
+            const providerOptionCount = $selectProvider.find('option').length;
+
+            // Remove the "Please Select" option, if there is only one provider available
+
+            if (providerOptionCount === 2) {
+                $selectProvider.find('option[value=""]').remove();
+            }
+
+            // Add the "Any Provider" entry
+
+            if (providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
                 $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
             }
 
@@ -517,7 +536,7 @@ App.Pages.Booking = (function () {
                 );
 
                 $cancellationReason = $('<textarea/>', {
-                    'class': 'form-control',
+                    'class': 'form-control mt-2',
                     'id': 'cancellation-reason',
                     'rows': '3',
                     'css': {
@@ -650,10 +669,10 @@ App.Pages.Booking = (function () {
 
         $displayBookingSelection.text(`${lang('service')} │ ${lang('provider')}`); // Notice: "│" is a custom ASCII char
 
-        const serviceOptionText = $selectService.find('option:selected').text();
-        const providerOptionText = $selectProvider.find('option:selected').text();
+        const serviceOptionText = serviceId ? $selectService.find('option:selected').text() : lang('service');
+        const providerOptionText = providerId ? $selectProvider.find('option:selected').text() : lang('provider');
 
-        if (serviceId && providerId) {
+        if (serviceId || providerId) {
             $displayBookingSelection.text(`${serviceOptionText} │ ${providerOptionText}`);
         }
 

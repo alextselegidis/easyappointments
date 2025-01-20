@@ -24,6 +24,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - No color change in the appointment modal window (in the backend calendar) (#1641)
 - The plain user password might appear in the log messages in case of an error (#1590)
 - Fix loop when going a month back in an edge case (#1577)
+- Dedicated provider links do not pre-select the relevant provider on the booking page (#1651)
+- Correct the service / provider booking header display (#1650)
 
 
 
