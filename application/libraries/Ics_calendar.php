@@ -344,7 +344,7 @@ class Ics_calendar extends Calendar {
     }
 
     /**
-     * @return Provider returs array of CalendarTodo objects
+     * @return Provider returns array of CalendarTodo objects
      */
     public function getTodos()
     {
@@ -372,7 +372,7 @@ class Ics_calendar extends Calendar {
     }
 
     /**
-     * @return Provider returs array of CalendarFreeBusy objects
+     * @return Provider returns array of CalendarFreeBusy objects
      */
     public function getFreeBusy()
     {

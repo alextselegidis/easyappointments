@@ -616,8 +616,8 @@ window.GeneralFunctions = window.GeneralFunctions || {};
     exports.ISO8601DateString = function (date, dateFormatSetting) {
         var dayArray;
 
-        // It's necessary to manually parse the date because Date.parse() not support some formats tha instead are
-        // supported by Easy!Appointments. The unsupported format is dd/MM/yyyy.
+        // It's necessary to manually parse the date because Date.parse() not support some formats that instead
+        // are supported by Easy!Appointments. The unsupported format is dd/MM/yyyy.
         switch (dateFormatSetting) {
             case 'DMY':
                 dayArray = date.split('/');

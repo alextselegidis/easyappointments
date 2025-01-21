@@ -123,7 +123,7 @@ class Google_sync {
      *
      * @param string $refresh_token The provider's refresh token. This value is
      * stored in the database and used every time we need to make actions to his
-     * Google Caledar account.
+     * Google Calendar account.
      */
     public function refresh_token($refresh_token)
     {
@@ -140,7 +140,7 @@ class Google_sync {
      * @param array $appointment Contains the appointment record data.
      * @param array $provider Contains the provider record data.
      * @param array $service Contains the service record data.
-     * @param array $customer Contains the customer recod data.
+     * @param array $customer Contains the customer record data.
      * @param array $settings Contains some company settings that are used by this method.
      *
      * @return Google_Service_Calendar_Event Returns the Google_Event class object.
@@ -195,8 +195,8 @@ class Google_sync {
      * @param array $appointment Contains the appointment record data.
      * @param array $provider Contains the provider record data.
      * @param array $service Contains the service record data.
-     * @param array $customer Contains the customer recod data.
-     * @parma array $settings Contains some company settings that are used by this method.
+     * @param array $customer Contains the customer record data.
+     * @param array $settings Contains some company settings that are used by this method.
      *
      * @return Google_Service_Calendar_Event Returns the Google_Service_Calendar_Event class object.
      */

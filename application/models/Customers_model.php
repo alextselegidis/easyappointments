@@ -285,7 +285,7 @@ class Customers_model extends EA_Model {
      * @return array Returns an associative array with the selected record's data. Each key has the same name as the
      * database field names.
      *
-     * @throws Exception If $customer_id argumnet is invalid.
+     * @throws Exception If $customer_id argument is invalid.
      */
     public function get_row($customer_id)
     {

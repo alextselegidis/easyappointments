@@ -2,7 +2,7 @@
 
 > Learn in which ways you can get involved with the project development!
 
-Easy!Appointments is an open source project and thus the connection with the users community is stronger than commercial projects. People can contribute in the development and spread of this project and make it even better so that they, themselves can take advantage of it in order to fulfill their business needs. Bellow are described the ways that you can help Easy!Appointments get better.
+Easy!Appointments is an open source project and thus the connection with the users community is stronger than commercial projects. People can contribute in the development and spread of this project and make it even better so that they, themselves can take advantage of it in order to fulfill their business needs. Below are described the ways that you can help Easy!Appointments improve.
 
 ### Testing 
 
