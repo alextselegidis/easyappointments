@@ -363,6 +363,22 @@
 
                                     <div class="mb-3">
                                         <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="auto-select-single-provider"
+                                                data-field="auto_select_single_provider">
+                                            <label class="form-check-label" for="auto-select-single-provider">
+                                                <?= lang('auto_select_single_provider') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('auto_select_single_provider_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="display-login-button"
                                                    data-field="display_login_button">
                                             <label class="form-check-label" for="display-login-button">
