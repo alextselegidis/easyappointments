@@ -484,4 +484,6 @@ $lang['invalid_credentials_provided'] = 'Invalid credentials provided, please tr
 $lang['calendar_url'] = 'Calendar URL';
 $lang['please_select'] = 'Please Select';
 $lang['secret_header'] = 'Secret Header';
+$lang['auto_select_single_provider'] = 'Automatically select a single provider';
+$lang['auto_select_single_provider_hint'] = 'Automatically select the provider when only one is available for the chosen service.';
 // End
