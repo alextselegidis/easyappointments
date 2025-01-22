@@ -105,7 +105,7 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.initializeDatePicker($selectDate, {
             inline: true,
-            minDate: moment().add(2, 'days').startOf('day').toDate(),
+            minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
@@ -168,7 +168,6 @@ App.Pages.Booking = (function () {
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
         $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
-        $selectTimezone.hide();
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
