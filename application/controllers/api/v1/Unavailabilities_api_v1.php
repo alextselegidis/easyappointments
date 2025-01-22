@@ -50,8 +50,42 @@ class Unavailabilities_api_v1 extends EA_Controller
 
             $with = $this->api->request_with();
 
+            $where = null;
+
+            // Date query param.
+
+            $date = request('date');
+
+            if (!empty($date)) {
+                $where['DATE(start_datetime)'] = (new DateTime($date))->format('Y-m-d');
+            }
+
+            // From query param.
+
+            $from = request('from');
+
+            if (!empty($from)) {
+                $where['DATE(start_datetime) >='] = (new DateTime($from))->format('Y-m-d');
+            }
+
+            // Till query param.
+
+            $till = request('till');
+
+            if (!empty($till)) {
+                $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
+            }
+
+            // Provider ID query param.
+
+            $provider_id = request('providerId');
+
+            if (!empty($provider_id)) {
+                $where['id_users_provider'] = $provider_id;
+            }
+
             $unavailabilities = empty($keyword)
-                ? $this->unavailabilities_model->get(null, $limit, $offset, $order_by)
+                ? $this->unavailabilities_model->get($where, $limit, $offset, $order_by)
                 : $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
 
             foreach ($unavailabilities as &$unavailability) {
