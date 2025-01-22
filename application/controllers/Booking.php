@@ -448,10 +448,13 @@ class Booking extends EA_Controller
             $appointment_id = $this->appointments_model->save($appointment);
             $appointment = $this->appointments_model->find($appointment_id);
 
+            $company_color = setting('company_color');
+            
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_link' => setting('company_link'),
                 'company_email' => setting('company_email'),
+                'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];
@@ -552,7 +555,7 @@ class Booking extends EA_Controller
      *
      * @throws Exception
      */
-    protected function search_any_provider(int $service_id, string $date, string $hour = null): ?int
+    protected function search_any_provider(int $service_id, string $date, ?string $hour = null): ?int
     {
         $available_providers = $this->providers_model->get_available_providers(true);
 
