@@ -105,7 +105,7 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.initializeDatePicker($selectDate, {
             inline: true,
-            minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
+            minDate: moment().add(2, 'days').startOf('day').toDate(),
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
@@ -168,6 +168,7 @@ App.Pages.Booking = (function () {
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
         $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
+        $selectTimezone.hide();
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
@@ -362,32 +363,36 @@ App.Pages.Booking = (function () {
          * When the user clicks on a service, its available providers should
          * become visible.
          */
+        
         $selectService.on('change', (event) => {
             const $target = $(event.target);
             const serviceId = $selectService.val();
-            $selectProvider.parent().prop('hidden', !Boolean(serviceId));
-
+            
+        
             $selectProvider.empty();
-
             $selectProvider.append(new Option(lang('please_select'), ''));
-
+        
             vars('available_providers').forEach((provider) => {
-                // If the current provider is able to provide the selected service, add him to the list box.
-                const canServeService =
-                    provider.services.filter((providerServiceId) => Number(providerServiceId) === Number(serviceId))
-                        .length > 0;
-
+                // Überprüfen, ob der Anbieter den ausgewählten Service anbietet.
+                const canServeService = provider.services.some((providerServiceId) => 
+                    Number(providerServiceId) === Number(serviceId)
+                );
+        
                 if (canServeService) {
                     $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
                 }
             });
-
+        
             const providerOptionCount = $selectProvider.find('option').length;
-
-            // Remove the "Please Select" option, if there is only one provider available
-
-            if (providerOptionCount === 2) {
+            const autoSelectSingleProvider = Boolean(Number(vars('auto_select_single_provider')));
+            
+            // console.log('Auto-Select aktiviert:', autoSelectSingleProvider);
+            // console.log('Anzahl der Anbieteroptionen:', providerOptionCount);
+            // Wenn Auto-Select aktiviert ist und genau ein Anbieter verfügbar ist
+            if (autoSelectSingleProvider && providerOptionCount === 2) {
                 $selectProvider.find('option[value=""]').remove();
+                const firstProviderId = $selectProvider.find('option:first').attr('value');
+                $selectProvider.val(firstProviderId).trigger('change'); // Triggert das Change-Event
             }
 
             // Add the "Any Provider" entry
