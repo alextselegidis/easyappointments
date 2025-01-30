@@ -874,6 +874,15 @@ App.Pages.Booking = (function () {
             App.Utils.UI.setDateTimePickerValue($selectDate, startMoment.toDate());
             App.Http.Booking.getAvailableHours(startMoment.format('YYYY-MM-DD'));
 
+            // Update unavailable dates while in manage mode
+            
+               App.Http.Booking.getUnavailableDates(
+                   appointment.id_users_provider,
+                   appointment.id_services,
+                   startMoment.format('YYYY-MM-DD')
+               );
+            
+            
             // Apply Customer's Data
             $lastName.val(customer.last_name);
             $firstName.val(customer.first_name);
