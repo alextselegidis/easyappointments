@@ -23,7 +23,7 @@
 <?php endif; ?>
 
 <?php if (substr($google_analytics_code ?? '', 0, 2) === 'G-'): ?>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=' . $google_analytics_code . '"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?= e($google_analytics_code) ?>"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 

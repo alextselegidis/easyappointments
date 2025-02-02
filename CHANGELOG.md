@@ -3,6 +3,15 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Fix the GTag script URL html rendering (#1666)
+
+
+
+
 ## [1.5.1] - 2025-01-20
 
 ### Added
