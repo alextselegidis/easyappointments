@@ -36,7 +36,7 @@
                                 <label class="form-label" for="google-analytics-code">
                                     <?= lang('google_analytics_code') ?>
                                 </label>
-                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
+                                <input id="google-analytics-code" placeholder="G-XXXXXXXXXX"
                                        class="form-control" data-field="google_analytics_code">
                                 <div class="form-text text-muted">
                                     <small>
