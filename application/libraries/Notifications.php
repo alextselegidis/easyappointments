@@ -80,19 +80,30 @@ class Notifications
                 $subject = $manage_mode ? lang('appointment_details_changed') : lang('appointment_booked');
                 $message = $manage_mode ? '' : lang('thank_you_for_appointment');
 
-                $this->CI->email_messages->send_appointment_saved(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $subject,
-                    $message,
-                    $customer_link,
-                    $customer['email'],
-                    $ics_stream,
-                    $customer['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_saved(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $subject,
+                        $message,
+                        $customer_link,
+                        $customer['email'],
+                        $ics_stream,
+                        $customer['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email confirmation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to customer '.$customer['first_name'].' '.$customer['last_name'].' ('.$customer['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
 
             // Notify provider.
@@ -107,19 +118,30 @@ class Notifications
                 $subject = $manage_mode ? lang('appointment_details_changed') : lang('appointment_added_to_your_plan');
                 $message = $manage_mode ? '' : lang('appointment_link_description');
 
-                $this->CI->email_messages->send_appointment_saved(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $subject,
-                    $message,
-                    $provider_link,
-                    $provider['email'],
-                    $ics_stream,
-                    $provider['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_saved(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $subject,
+                        $message,
+                        $provider_link,
+                        $provider['email'],
+                        $ics_stream,
+                        $provider['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email confirmation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to provider '.$provider['first_name'].' '.$provider['last_name'].' ('.$provider['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
 
             // Notify admins.
@@ -135,19 +157,30 @@ class Notifications
                 $subject = $manage_mode ? lang('appointment_details_changed') : lang('appointment_added_to_your_plan');
                 $message = $manage_mode ? '' : lang('appointment_link_description');
 
-                $this->CI->email_messages->send_appointment_saved(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $subject,
-                    $message,
-                    $provider_link,
-                    $admin['email'],
-                    $ics_stream,
-                    $admin['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_saved(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $subject,
+                        $message,
+                        $provider_link,
+                        $admin['email'],
+                        $ics_stream,
+                        $admin['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email confirmation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to admin '.$admin['first_name'].' '.$admin['last_name'].' ('.$admin['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
 
             // Notify secretaries.
@@ -167,19 +200,30 @@ class Notifications
                 $subject = $manage_mode ? lang('appointment_details_changed') : lang('appointment_added_to_your_plan');
                 $message = $manage_mode ? '' : lang('appointment_link_description');
 
-                $this->CI->email_messages->send_appointment_saved(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $subject,
-                    $message,
-                    $provider_link,
-                    $secretary['email'],
-                    $ics_stream,
-                    $secretary['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_saved(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $subject,
+                        $message,
+                        $provider_link,
+                        $secretary['email'],
+                        $ics_stream,
+                        $secretary['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email confirmation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to secretary '.$secretary['first_name'].' '.$secretary['last_name'].' ('.$secretary['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
         } catch (Throwable $e) {
             log_message(
@@ -226,16 +270,27 @@ class Notifications
                 config(['language' => $provider['language']]);
                 $this->CI->lang->load('translations');
 
-                $this->CI->email_messages->send_appointment_deleted(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $provider['email'],
-                    $cancellation_reason,
-                    $provider['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_deleted(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $provider['email'],
+                        $cancellation_reason,
+                        $provider['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email cancellation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to provider '.$provider['first_name'].' '.$provider['last_name'].' ('.$provider['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
 
             // Notify customer.
@@ -246,16 +301,27 @@ class Notifications
                 config(['language' => $customer['language']]);
                 $this->CI->lang->load('translations');
 
-                $this->CI->email_messages->send_appointment_deleted(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $customer['email'],
-                    $cancellation_reason,
-                    $customer['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_deleted(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $customer['email'],
+                        $cancellation_reason,
+                        $customer['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email cancellation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to customer '.$customer['first_name'].' '.$customer['last_name'].' ('.$customer['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
 
             // Notify admins.
@@ -269,16 +335,27 @@ class Notifications
                 config(['language' => $admin['language']]);
                 $this->CI->lang->load('translations');
 
-                $this->CI->email_messages->send_appointment_deleted(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $admin['email'],
-                    $cancellation_reason,
-                    $admin['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_deleted(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $admin['email'],
+                        $cancellation_reason,
+                        $admin['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email cancellation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to admin '.$admin['first_name'].' '.$admin['last_name'].' ('.$admin['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
 
             // Notify secretaries.
@@ -296,16 +373,27 @@ class Notifications
                 config(['language' => $secretary['language']]);
                 $this->CI->lang->load('translations');
 
-                $this->CI->email_messages->send_appointment_deleted(
-                    $appointment,
-                    $provider,
-                    $service,
-                    $customer,
-                    $settings,
-                    $secretary['email'],
-                    $cancellation_reason,
-                    $secretary['timezone'],
-                );
+                try{
+                    $this->CI->email_messages->send_appointment_deleted(
+                        $appointment,
+                        $provider,
+                        $service,
+                        $customer,
+                        $settings,
+                        $secretary['email'],
+                        $cancellation_reason,
+                        $secretary['timezone'],
+                    );
+                }
+                catch(Exception $e){
+                    log_message(
+                        'error',
+                        'Notifications - Could not email cancellation details of appointment (' .
+                            ($appointment['id'] ?? '-') .
+                            ') to secretary '.$secretary['first_name'].' '.$secretary['last_name'].' ('.$secretary['email'] . ') : ' .
+                            $e->getMessage(),
+                    );
+                }
             }
         } catch (Throwable $e) {
             log_message(
