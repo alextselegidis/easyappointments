@@ -26,7 +26,7 @@ function asset_url(string $uri = '', ?string $protocol = null): string
 {
     $debug = config('debug');
 
-    $cache_busting_token = !$debug ? '?' . config('cache_busting_token') : '';
+    $cache_busting_token = '?' . config('cache_busting_token');
 
     if (str_contains(basename($uri), '.js') && !str_contains(basename($uri), '.min.js') && !$debug) {
         $uri = str_replace('.js', '.min.js', $uri);
