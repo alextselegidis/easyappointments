@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f00f67c9827238194f47415195401b18",
+    "content-hash": "6001a1ec538a591fbe7b755b676c7429",
     "packages": [
+        {
+            "name": "codeigniter/framework",
+            "version": "3.1.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bcit-ci/CodeIgniter.git",
+                "reference": "bcb17eb8ba53a85de154439d0ab8ff1bed047bc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bcit-ci/CodeIgniter/zipball/bcb17eb8ba53a85de154439d0ab8ff1bed047bc9",
+                "reference": "bcb17eb8ba53a85de154439d0ab8ff1bed047bc9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.7"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.6.*",
+                "phpunit/phpunit": "4.* || 5.* || 9.*"
+            },
+            "suggest": {
+                "paragonie/random_compat": "Provides better randomness in PHP 5.x"
+            },
+            "type": "project",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The CodeIgniter framework",
+            "homepage": "https://codeigniter.com",
+            "support": {
+                "forum": "http://forum.codeigniter.com/",
+                "issues": "https://github.com/bcit-ci/CodeIgniter/issues",
+                "slack": "https://codeigniterchat.slack.com",
+                "source": "https://github.com/bcit-ci/CodeIgniter",
+                "wiki": "https://github.com/bcit-ci/CodeIgniter/wiki"
+            },
+            "time": "2022-03-03T13:21:49+00:00"
+        },
         {
             "name": "ezyang/htmlpurifier",
             "version": "v4.18.0",
@@ -4443,11 +4483,11 @@
     "platform": {
         "php": ">=8.1",
         "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-gd": "*",
-        "ext-simplexml": "*",
-        "ext-fileinfo": "*"
+        "ext-simplexml": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.6.0"
