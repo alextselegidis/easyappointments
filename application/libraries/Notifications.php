@@ -64,9 +64,9 @@ class Notifications
         try {
             $current_language = config('language');
 
-            $customer_link = site_url('booking/reschedule/' . $appointment['hash']);
+            $customer_link = base_url('booking/reschedule/' . $appointment['hash']);
 
-            $provider_link = site_url('calendar/reschedule/' . $appointment['hash']);
+            $provider_link = base_url('calendar/reschedule/' . $appointment['hash']);
 
             $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
 
