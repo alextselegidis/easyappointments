@@ -9,6 +9,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Fix the GTag script URL html rendering (#1666)
 - Fix the "Load More" JS error in secretaries page (#1677)
+- Fix the PHP compatibility error of the appointments index API endpoint (#1678)
 
 
 
