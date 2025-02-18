@@ -50,6 +50,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_Loader {
 
+    /**
+     * Dynamic Class Props
+     *
+     * @var array
+     */
+    public $props = [];
+
+    public function __get(string $name): mixed
+    {
+        return $this->props[$name] ?? NULL;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->props[$name] = $value;
+    }
+
 	// All these are set automatically. Don't mess with them.
 	/**
 	 * Nesting level of the output buffering mechanism
@@ -397,7 +414,7 @@ class CI_Loader {
 		$CI->db = '';
 
 		// Load the DB class
-		$CI->db =& DB($params, $query_builder);
+		$CI->db = DB($params, $query_builder);
 		return $this;
 	}
 
@@ -929,7 +946,7 @@ class CI_Loader {
 		{
 			if ( ! isset($this->$_ci_key))
 			{
-				$this->$_ci_key =& $_ci_CI->$_ci_key;
+				$this->$_ci_key = $_ci_CI->$_ci_key;
 			}
 		}
 

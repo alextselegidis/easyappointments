@@ -1,39 +1,43 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.3.2
  * ---------------------------------------------------------------------------- */
 
+use Jsvrcek\ICS\Exception\CalendarEventException;
+
 require_once __DIR__ . '/Google.php';
+require_once __DIR__ . '/Caldav.php';
 
 /**
- * Class Console
+ * Console controller.
  *
- * CLI commands of Easy!Appointments, can only be executed from a terminal and not with a direct request.
+ * Handles all the Console related operations.
  */
-class Console extends EA_Controller {
+class Console extends EA_Controller
+{
     /**
      * Console constructor.
      */
     public function __construct()
     {
-        if ( ! is_cli())
-        {
+        if (!is_cli()) {
             exit('No direct script access allowed');
         }
 
         parent::__construct();
 
         $this->load->dbutil();
-        $this->load->helper('file');
-        $this->load->library('migration');
+
+        $this->load->library('instance');
+
         $this->load->model('admins_model');
         $this->load->model('customers_model');
         $this->load->model('providers_model');
@@ -49,23 +53,29 @@ class Console extends EA_Controller {
      * Usage:
      *
      * php index.php console install
+     *
+     * @throws Exception
      */
-    public function install()
+    public function install(): void
     {
-        $this->migrate('fresh');
-        $this->seed();
-        $this->output->set_output(PHP_EOL . '⇾ Installation completed, login with "administrator" / "administrator".' . PHP_EOL . PHP_EOL);
+        $this->instance->migrate('fresh');
+
+        $password = $this->instance->seed();
+
+        response(
+            PHP_EOL . '⇾ Installation completed, login with "administrator" / "' . $password . '".' . PHP_EOL . PHP_EOL,
+        );
     }
 
     /**
      * Migrate the database to the latest state.
      *
-     * Use this method to upgrade an existing installation to the latest database state.
+     * Use this method to upgrade an Easy!Appointments instance to the latest database state.
      *
      * Notice:
      *
      * Do not use this method to install the app as it will not seed the database with the initial entries (admin,
-     * provider, service, settings etc). Use the UI installation page for this.
+     * provider, service, settings etc.).
      *
      * Usage:
      *
@@ -75,17 +85,9 @@ class Console extends EA_Controller {
      *
      * @param string $type
      */
-    public function migrate($type = '')
+    public function migrate(string $type = ''): void
     {
-        if ($type === 'fresh' && $this->migration->version(0) === FALSE)
-        {
-            show_error($this->migration->error_string());
-        }
-
-        if ($this->migration->latest() === FALSE)
-        {
-            show_error($this->migration->error_string());
-        }
+        $this->instance->migrate($type);
     }
 
     /**
@@ -96,72 +98,17 @@ class Console extends EA_Controller {
      * Usage:
      *
      * php index.php console seed
+     * @throws Exception
      */
-    public function seed()
+    public function seed(): void
     {
-        // Settings
-        $this->settings_model->set_setting('company_name', 'Company Name');
-        $this->settings_model->set_setting('company_email', 'info@example.org');
-        $this->settings_model->set_setting('company_link', 'https://example.org');
-
-        // Admin
-        $this->admins_model->add([
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'email' => 'john@example.org',
-            'phone_number' => '+1 (000) 000-0000',
-            'settings' => [
-                'username' => 'administrator',
-                'password' => 'administrator',
-                'notifications' => TRUE,
-                'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ],
-        ]);
-
-        // Service
-        $service_id = $this->services_model->add([
-            'name' => 'Service',
-            'duration' => '30',
-            'price' => '0',
-            'currency' => '',
-            'availabilities_type' => 'flexible',
-            'attendants_number' => '1'
-        ]);
-
-        // Provider
-        $this->providers_model->add([
-            'first_name' => 'Jane',
-            'last_name' => 'Doe',
-            'email' => 'jane@example.org',
-            'phone_number' => '+1 (000) 000-0000',
-            'services' => [
-                $service_id
-            ],
-            'settings' => [
-                'username' => 'janedoe',
-                'password' => 'janedoe',
-                'working_plan' => $this->settings_model->get_setting('company_working_plan'),
-                'notifications' => TRUE,
-                'google_sync' => FALSE,
-                'sync_past_days' => 30,
-                'sync_future_days' => 90,
-                'calendar_view' => CALENDAR_VIEW_DEFAULT
-            ],
-        ]);
-
-        // Customer
-        $this->customers_model->add([
-            'first_name' => 'James',
-            'last_name' => 'Doe',
-            'email' => 'james@example.org',
-            'phone_number' => '+1 (000) 000-0000',
-        ]);
+        $this->instance->seed();
     }
 
     /**
-     * Create a backup file.
+     * Create a database backup file.
      *
-     * Use this method to backup your Easy!Appointments data.
+     * Use this method to back up your Easy!Appointments data.
      *
      * Usage:
      *
@@ -171,25 +118,9 @@ class Console extends EA_Controller {
      *
      * @throws Exception
      */
-    public function backup()
+    public function backup(): void
     {
-        $path = isset($GLOBALS['argv'][3]) ? $GLOBALS['argv'][3] : APPPATH . '/../storage/backups';
-
-        if ( ! file_exists($path))
-        {
-            throw new Exception('The backup path does not exist™: ' . $path);
-        }
-
-        if ( ! is_writable($path))
-        {
-            throw new Exception('The backup path is not writable: ' . $path);
-        }
-
-        $contents = $this->dbutil->backup();
-
-        $filename = 'easyappointments-backup-' . date('Y-m-d-His') . '.gz';
-
-        write_file(rtrim($path, '/') . '/' . $filename, $contents);
+        $this->instance->backup($GLOBALS['argv'][3] ?? null);
     }
 
     /**
@@ -204,22 +135,25 @@ class Console extends EA_Controller {
      * Usage:
      *
      * php index.php console sync
+     *
+     * @throws CalendarEventException
+     * @throws Exception
+     * @throws Throwable
      */
-    public function sync()
+    public function sync(): void
     {
-        $providers = $this->providers_model->get_batch();
+        $providers = $this->providers_model->get();
 
-        foreach ($providers as $provider)
-        {
-            if ( ! filter_var($provider['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN))
-            {
-                continue;
+        foreach ($providers as $provider) {
+            if (filter_var($provider['settings']['google_sync'], FILTER_VALIDATE_BOOLEAN)) {
+                Google::sync((string) $provider['id']);
             }
 
-            Google::sync($provider['id']);
+            if (filter_var($provider['settings']['caldav_sync'], FILTER_VALIDATE_BOOLEAN)) {
+                Caldav::sync((string) $provider['id']);
+            }
         }
     }
-
 
     /**
      * Show help information about the console capabilities.
@@ -230,7 +164,7 @@ class Console extends EA_Controller {
      *
      * php index.php console help
      */
-    public function help()
+    public function help(): void
     {
         $help = [
             '',
@@ -244,6 +178,8 @@ class Console extends EA_Controller {
             '',
             '⇾ php index.php console migrate',
             '⇾ php index.php console migrate fresh',
+            '⇾ php index.php console migrate up',
+            '⇾ php index.php console migrate down',
             '⇾ php index.php console seed',
             '⇾ php index.php console install',
             '⇾ php index.php console backup',
@@ -252,6 +188,6 @@ class Console extends EA_Controller {
             '',
         ];
 
-        $this->output->set_output(implode(PHP_EOL, $help));
+        response(implode(PHP_EOL, $help));
     }
 }

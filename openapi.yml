@@ -1,0 +1,2672 @@
+openapi: 3.0.3
+info:
+  title: Easy!Appointments API
+  version: 1.0.0
+  description: These are the OpenAPI specs that describe the REST API of Easy!Appointments.
+  termsOfService: https://easyappointments.org/terms-and-conditions
+  contact:
+    name: Easy!Appointments
+    url: https://easyappointments.org
+    email: info@easyappointments.org
+  license:
+    name: GPL-3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.en.html
+externalDocs:
+  description: Find out more about Easy!Appointments
+  url: https://easyappointments.org/docs.html
+servers:
+  - url: https://demo.easyappointments.org/index.php/api/v1/
+  - url: http://localhost/index.php/api/v1/
+tags:
+  - name: admins
+  - name: appointments
+  - name: availabilities
+  - name: customers
+  - name: providers
+  - name: secretaries
+  - name: service_categories
+  - name: services
+  - name: settings
+  - name: unavailabilities
+  - name: webhooks
+paths:
+  /availabilities:
+    get:
+      tags:
+        - availabilities
+      summary: Gets availability
+      parameters:
+        - name: providerId
+          in: query
+          schema:
+            type: integer
+        - name: serviceId
+          in: query
+          schema:
+            type: integer
+        - name: date
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /appointments:
+    get:
+      tags:
+        - appointments
+      summary: Get all appointments
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+        - name: aggregates
+          in: query
+          schema:
+            type: string
+          deprecated: true
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+        - name: till
+          in: query
+          schema:
+            type: string
+        - name: serviceId
+          in: query
+          schema:
+            type: integer
+        - name: providerId
+          in: query
+          schema:
+            type: integer
+        - name: customerId
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - appointments
+      summary: Create an appointment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /appointments/{appointmentId}:
+    get:
+      tags:
+        - appointments
+      summary: Get an appointment
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - appointments
+      summary: Update an appointment
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppointmentPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppointmentRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - appointments
+      summary: Delete an appointment
+      parameters:
+        - name: appointmentId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /unavailabilities:
+    get:
+      tags:
+        - unavailabilities
+      summary: Get all unavailabilities
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - unavailabilities
+      summary: Create an unavailability
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnavailabilityPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /unavailabilities/{unavailabilityId}:
+    get:
+      tags:
+        - unavailabilities
+      summary: Get an unavailability
+      parameters:
+        - name: unavailabilityId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - unavailabilities
+      summary: Update an unavailability
+      parameters:
+        - name: unavailabilityId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnavailabilityPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnavailabilityRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - unavailabilities
+      summary: Delete an unavailability
+      parameters:
+        - name: unavailabilityId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /customers:
+    get:
+      tags:
+        - customers
+      summary: Get all customers
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - customers
+      summary: Create a customer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+      x-codegen-request-body-name: body
+  /customers/{customerId}:
+    get:
+      tags:
+        - customers
+      summary: Get a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - customers
+      summary: Update a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - customers
+      summary: Delete a customer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /services:
+    get:
+      tags:
+        - services
+      summary: Get all services
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - services
+      summary: Create a service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicePayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /services/{serviceId}:
+    get:
+      tags:
+        - services
+      summary: Get a service
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - services
+      summary: Update a service
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServicePayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - services
+      summary: Delete a service
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /service_categories:
+    get:
+      tags:
+        - service_categories
+      summary: Get all service-categories
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceCategoryRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - service_categories
+      summary: Create a service-category
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCategoryPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceCategoryRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /service_categories/{serviceCategoryId}:
+    get:
+      tags:
+        - service_categories
+      summary: Get a service-category
+      parameters:
+        - name: serviceCategoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceCategoryRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - service_categories
+      summary: Update a service-category
+      parameters:
+        - name: serviceCategoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceCategoryPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceCategoryRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - service_categories
+      summary: Delete a service-category
+      parameters:
+        - name: serviceCategoryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /admins:
+    get:
+      tags:
+        - admins
+      summary: Get all admins
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - admins
+      summary: Create an admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /admins/{adminId}:
+    get:
+      tags:
+        - admins
+      summary: Get an admin
+      parameters:
+        - name: adminId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - admins
+      summary: Update an admin
+      parameters:
+        - name: adminId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdminPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - admins
+      summary: Delete an admin
+      parameters:
+        - name: adminId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /providers:
+    get:
+      tags:
+        - providers
+      summary: Get all providers
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - providers
+      summary: Create a provider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /providers/{providerId}:
+    get:
+      tags:
+        - providers
+      summary: Get a provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - providers
+      summary: Update a provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - providers
+      summary: Delete a provider
+      parameters:
+        - name: providerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /secretaries:
+    get:
+      tags:
+        - secretaries
+      summary: Get all secretaries
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - secretaries
+      summary: Create a secretary
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecretaryPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /secretaries/{secretaryId}:
+    get:
+      tags:
+        - secretaries
+      summary: Get a secretary
+      parameters:
+        - name: secretaryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - secretaries
+      summary: Update a secretary
+      parameters:
+        - name: secretaryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecretaryPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecretaryRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - secretaries
+      summary: Delete a secretary
+      parameters:
+        - name: secretaryId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /settings:
+    get:
+      tags:
+        - settings
+      summary: Get all settings
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServiceRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /settings/{settingName}:
+    get:
+      tags:
+        - settings
+      summary: Get a setting
+      parameters:
+        - name: settingName
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - settings
+      summary: Update a setting
+      parameters:
+        - name: settingName
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SettingRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /webhooks:
+    get:
+      tags:
+        - webhooks
+      summary: Get all webhooks
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - webhooks
+      summary: Create a webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /webhooks/{webhookId}:
+    get:
+      tags:
+        - webhooks
+      summary: Get a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - webhooks
+      summary: Update a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - webhooks
+      summary: Delete a webhook
+      parameters:
+        - name: webhookId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+components:
+  schemas:
+    Availabilities:
+      type: array
+      items:
+        type: string
+    AppointmentRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        book:
+          type: string
+        start:
+          type: string
+        end:
+          type: string
+        hash:
+          type: string
+        location:
+          type: string
+        color:
+          type: string
+        status:
+          type: string
+        notes:
+          type: string
+        customerId:
+          type: integer
+        providerId:
+          type: integer
+        serviceId:
+          type: integer
+        googleCalendarId:
+          type: string
+        caldavCalendarId:
+          type: string
+      example:
+        id: 1
+        book: '2021-01-01 12:00:00'
+        start: '2021-01-01 17:00:00'
+        end: '2021-01-01 18:00:00'
+        hash: apTWVbSvBJXR
+        location: Test Street 1A, 12345 Some State, Some Place
+        color: '#123456'
+        status: Booked
+        notes: This is a test appointment.
+        customerId: 5
+        providerId: 2
+        serviceId: 6
+        googleCalendarId: null
+        caldavCalendarId: null
+    AppointmentPayload:
+      type: object
+      properties:
+        start:
+          type: string
+        end:
+          type: string
+        location:
+          type: string
+        color:
+          type: string
+        status:
+          type: string
+        notes:
+          type: string
+        customerId:
+          type: integer
+        providerId:
+          type: integer
+        serviceId:
+          type: integer
+      example:
+        start: '2021-01-01 17:00:00'
+        end: '2021-01-01 18:00:00'
+        location: Test Street 1A, 12345 Some State, Some Place
+        color: '#123456'
+        status: Booked
+        notes: This is a test appointment.
+        customerId: 5
+        providerId: 2
+        serviceId: 6
+    UnavailabilityRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        book:
+          type: string
+        start:
+          type: string
+        end:
+          type: string
+        hash:
+          type: string
+        location:
+          type: string
+        notes:
+          type: string
+        providerId:
+          type: integer
+        googleCalendarId:
+          type: string
+        caldavCalendarId:
+          type: string
+      example:
+        id: 1
+        book: '2021-01-01 12:00:00'
+        start: '2021-01-01 17:00:00'
+        end: '2021-01-01 18:00:00'
+        hash: apTWVbSvBJXR
+        location: Test Street 1A, 12345 Some State, Some Place
+        notes: This is a test unavailability.
+        providerId: 2
+        googleCalendarId: null
+        caldavCalendarId: null
+    UnavailabilityPayload:
+      type: object
+      properties:
+        start:
+          type: string
+        end:
+          type: string
+        location:
+          type: string
+        notes:
+          type: string
+        providerId:
+          type: integer
+      example:
+        start: '2021-01-01 17:00:00'
+        end: '2021-01-01 18:00:00'
+        location: Test Street 1A, 12345 Some State, Some Place
+        notes: This is a test appointment.
+        providerId: 2
+    CustomerRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        customField1:
+          type: string
+        customField2:
+          type: string 
+        customField3:
+          type: string
+        customField4:
+          type: string
+        customField5:
+          type: string
+        ldapDn:
+          type: string          
+        notes:
+          type: string
+      example:
+        id: 1
+        firstName: Steve
+        lastName: Doe
+        email: steve@example.org
+        phone: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        timezone: UTC
+        language: english
+        customField1: Value1
+        customField2: Value2
+        customField3: Value3
+        customField4: Value4
+        customField5: Value5
+        ldapDn: null
+        notes: This is a test customer.
+    CustomerPayload:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        customField1:
+          type: string
+        customField2:
+          type: string
+        customField3:
+          type: string
+        customField4:
+          type: string
+        customField5:
+          type: string
+        ldapDn:
+          type: string
+        notes:
+          type: string
+      example:
+        firstName: Steve
+        lastName: Doe
+        email: steve@example.org
+        phone: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        timezone: UTC
+        language: english
+        customField1: Value1
+        customField2: Value2
+        customField3: Value3
+        customField4: Value4
+        customField5: Value5
+        ldapDn: null
+        notes: This is a test customer.
+    ServiceRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        duration:
+          type: integer
+        price:
+          type: number
+          format: float
+        currency:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
+        availabilitiesType:
+          type: string
+        attendantsNumber:
+          type: integer
+        isPrivate:
+          type: boolean
+        categoryId:
+          type: integer
+      example:
+        id: 1
+        name: Test Service
+        duration: 30
+        price: 10
+        currency: USD
+        location: Test Street 1A, 12345 Some State, Some Place
+        description: This is a test service.
+        availabilitiesType: flexible
+        attendantsNumber: 1
+        isPrivate: false
+        serviceCategoryId: null
+    ServicePayload:
+      type: object
+      properties:
+        name:
+          type: string
+        duration:
+          type: integer
+        price:
+          type: number
+        currency:
+          type: string
+        location:
+          type: string
+        description:
+          type: string
+        availabilitiesType:
+          type: string
+        attendantsNumber:
+          type: integer
+        isPrivate:
+          type: boolean
+        serviceCategoryId:
+          type: integer
+      example:
+        name: Test Service
+        duration: 30
+        price: 10
+        currency: USD
+        location: Test Street 1A, 12345 Some State, Some Place
+        description: This is a test service.
+        availabilitiesType: flexible
+        attendantsNumber: 1
+        isPrivate: false
+        serviceCategoryId: null
+    ServiceCategoryRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        id: 1
+        name: Test Category
+        description: This is a test category.
+    ServiceCategoryPayload:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        name: Test Category
+        description: This is a test category.
+    AdminRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        ldapDn:
+          type: string
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+      example:
+        id: 1
+        firstName: Jason
+        lastName: Doe
+        email: jason@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test admin.
+        timezone: UTC
+        language: english
+        ldapDn: null
+        settings:
+          username: jasondoe
+          password: Password@123
+          notifications: true
+          calendarView: default
+    AdminPayload:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        ldapDn:
+          type: string
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+      example:
+        firstName: Jason
+        lastName: Doe
+        email: jason@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test admin.
+        timezone: UTC
+        language: english
+        ldapDn: null
+        settings:
+          username: jasondoe
+          password: Password@123
+          notifications: true
+          calendarView: default
+    ProviderRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        isPrivate:
+          type: boolean
+        ldapDn:
+          type: string
+        services:
+          type: array
+          items:
+            type: integer
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+            googleSync:
+              type: boolean
+            googleCalendar:
+              type: string
+            googleToken:
+              type: string
+            caldavSync:
+              type: boolean
+            caldavUrl:
+              type: string
+            caldavUsername:
+              type: string
+            caldavPassword:
+              type: string
+            syncFutureDays:
+              type: string
+            syncPastDays:
+              type: string
+            workingPlan:
+              type: string
+      example:
+        id: 1
+        firstName: Chris
+        lastName: Doe
+        email: chris@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test provider.
+        timezone: UTC
+        language: english
+        services: [ ]
+        isPrivate: false
+        ldapDn: null
+        settings:
+          username: chrisdoe
+          password: Password@123
+          notifications: true
+          calendarView: default
+          googleSync: false
+          googleCalendar: null
+          googleToken: null
+          caldavSync: false
+          caldavUrl: null
+          caldavUsername: null
+          caldavPassword: null
+          syncFutureDays: 90
+          syncPastDays: 30
+          workingPlan:
+            sunday: null
+            monday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            tuesday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            wednesday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            thursday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            friday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            saturday: null
+    ProviderPayload:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        isPrivate:
+          type: boolean
+        ldapDn:
+          type: string
+        services:
+          type: array
+          items:
+            type: integer
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+            googleSync:
+              type: boolean
+            googleCalendar:
+              type: string
+            googleToken:
+              type: string
+            caldavSync:
+              type: boolean
+            caldavUrl:
+              type: string
+            caldavUsername:
+              type: string
+            caldavPassword:
+              type: string
+            syncFutureDays:
+              type: string
+            syncPastDays:
+              type: string
+            workingPlan:
+              type: string
+      example:
+        firstName: Chris
+        lastName: Doe
+        email: chris@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test provider.
+        timezone: UTC
+        language: english
+        isPrivate: false
+        ldapDn: null
+        services: [ ]
+        settings:
+          username: chrisdoe
+          password: Password@123
+          notifications: true
+          calendarView: default
+          googleSync: false
+          googleCalendar: null
+          googleToken: null
+          caldavSync: false
+          caldavUrl: null
+          caldavUsername: null
+          caldavPassword: null
+          syncFutureDays: 90
+          syncPastDays: 30
+          workingPlan:
+            sunday: null
+            monday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            tuesday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            wednesday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            thursday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            friday:
+              start: '09:00'
+              end: '17:00'
+              breaks: [ ]
+            saturday: null
+    SecretaryRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        ldapDn:
+          type: string
+        providers:
+          type: array
+          items:
+            type: integer
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+      example:
+        id: 1
+        firstName: Jessy
+        lastName: Doe
+        email: jessy@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test service.
+        timezone: UTC
+        language: english
+        ldapDn: null
+        providers: [ ]
+        settings:
+          username: jessydoe
+          password: Password@123
+          notifications: true
+          calendarView: default
+    SecretaryPayload:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        mobile:
+          type: string
+        phone:
+          type: string
+        address:
+          type: string
+        city:
+          type: string
+        zip:
+          type: string
+        notes:
+          type: string
+        timezone:
+          type: string
+        language:
+          type: string
+        ldapDn:
+          type: string
+        providers:
+          type: array
+          items:
+            type: integer
+        settings:
+          type: object
+          properties:
+            username:
+              type: string
+            password:
+              type: string
+              format: password
+            notifications:
+              type: boolean
+            calendarView:
+              type: string
+      example:
+        firstName: Jessy
+        lastName: Doe
+        email: jessy@example.org
+        mobile: '+10000000000'
+        phone: '+10000000000'
+        address: Test Street 1A
+        city: Some Place
+        zip: '12345'
+        notes: This is a test service.
+        timezone: UTC
+        language: english
+        ldapDn: null
+        providers: [ ]
+        settings:
+          username: jessydoe
+          password: Password@123
+          notifications: true
+          calendarView: default
+    SettingRecord:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+      example:
+        name: company_name
+        value: ACME Inc
+    SettingPayload:
+      type: object
+      properties:
+        value:
+          type: string
+      example:
+        value: ACME Inc
+    WebhookRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        url:
+          type: string
+        actions:
+          type: string
+        secretToken:
+          type: string
+        isSslVerified:
+          type: boolean
+        notes:
+          type: string
+      example:
+        id: 1
+        name: Test Webhook
+        url: https://example.org/webhook?withTestQueryParam=Value
+        actions: appointment_create,appointment_update,customer_delete,category_create
+        secretToken: SecureSecretTokenHere
+        isSslVerified: true
+        notes: This is a webhook.
+    WebhookPayload:
+      type: object
+      properties:
+        name:
+          type: string
+        url:
+          type: string
+        actions:
+          type: string
+        secretToken:
+          type: string
+        isSslVerified:
+          type: boolean
+        notes:
+          type: string
+      example:
+        name: Test Webhook
+        url: https://example.org/webhook?withTestQueryParam=Value
+        actions: appointment_create,appointment_update,customer_delete,category_create
+        secretToken: SecureSecretTokenHere
+        isSslVerified: true
+        notes: This is a webhook.
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      example:
+        success: false
+        message: Test error message with debug info.
+  securitySchemes:
+    BearerToken:
+      type: http
+      scheme: bearer
+      description: >-
+        You can generate the API key from the settings page to authorize with
+        Bearer Token.
+    BasicAuth:
+      type: http
+      scheme: basic
+      description: >-
+        You can use the credentials of an admin user to authorize with Basic
+        Auth.

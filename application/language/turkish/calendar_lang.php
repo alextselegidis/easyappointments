@@ -26,59 +26,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['cal_su'] = 'Su';
-$lang['cal_mo'] = 'Mo';
-$lang['cal_tu'] = 'Tu';
-$lang['cal_we'] = 'We';
-$lang['cal_th'] = 'Th';
-$lang['cal_fr'] = 'Fr';
-$lang['cal_sa'] = 'Sa';
-$lang['cal_sun'] = 'Sun';
-$lang['cal_mon'] = 'Mon';
-$lang['cal_tue'] = 'Tue';
-$lang['cal_wed'] = 'Wed';
-$lang['cal_thu'] = 'Thu';
-$lang['cal_fri'] = 'Fri';
-$lang['cal_sat'] = 'Sat';
-$lang['cal_sunday'] = 'Sunday';
-$lang['cal_monday'] = 'Monday';
-$lang['cal_tuesday'] = 'Tuesday';
-$lang['cal_wednesday'] = 'Wednesday';
-$lang['cal_thursday'] = 'Thursday';
-$lang['cal_friday'] = 'Friday';
-$lang['cal_saturday'] = 'Saturday';
-$lang['cal_jan'] = 'Jan';
-$lang['cal_feb'] = 'Feb';
-$lang['cal_mar'] = 'Mar';
-$lang['cal_apr'] = 'Apr';
-$lang['cal_may'] = 'May';
-$lang['cal_jun'] = 'Jun';
-$lang['cal_jul'] = 'Jul';
-$lang['cal_aug'] = 'Aug';
-$lang['cal_sep'] = 'Sep';
-$lang['cal_oct'] = 'Oct';
-$lang['cal_nov'] = 'Nov';
-$lang['cal_dec'] = 'Dec';
-$lang['cal_january'] = 'January';
-$lang['cal_february'] = 'February';
-$lang['cal_march'] = 'March';
-$lang['cal_april'] = 'April';
-$lang['cal_mayl'] = 'May';
-$lang['cal_june'] = 'June';
-$lang['cal_july'] = 'July';
-$lang['cal_august'] = 'August';
-$lang['cal_september'] = 'September';
-$lang['cal_october'] = 'October';
-$lang['cal_november'] = 'November';
-$lang['cal_december'] = 'December';
+$lang['cal_su'] = 'Pr';
+$lang['cal_mo'] = 'Pt';
+$lang['cal_tu'] = 'Sa';
+$lang['cal_we'] = 'Ça';
+$lang['cal_th'] = 'Pe';
+$lang['cal_fr'] = 'Cu';
+$lang['cal_sa'] = 'Ct';
+$lang['cal_sun'] = 'Pzr';
+$lang['cal_mon'] = 'Pzt';
+$lang['cal_tue'] = 'Sal';
+$lang['cal_wed'] = 'Çar';
+$lang['cal_thu'] = 'Per';
+$lang['cal_fri'] = 'Cum';
+$lang['cal_sat'] = 'Cmt';
+$lang['cal_sunday'] = 'Pazar';
+$lang['cal_monday'] = 'Pazartesi';
+$lang['cal_tuesday'] = 'Salı';
+$lang['cal_wednesday'] = 'Çarşamba';
+$lang['cal_thursday'] = 'Perşembe';
+$lang['cal_friday'] = 'Cuma';
+$lang['cal_saturday'] = 'Cumartesi';
+$lang['cal_jan'] = 'Ock';
+$lang['cal_feb'] = 'Şbt';
+$lang['cal_mar'] = 'Mrt';
+$lang['cal_apr'] = 'Nsn';
+$lang['cal_may'] = 'Mys';
+$lang['cal_jun'] = 'Haz';
+$lang['cal_jul'] = 'Tem';
+$lang['cal_aug'] = 'Ags';
+$lang['cal_sep'] = 'Eyl';
+$lang['cal_oct'] = 'Ekm';
+$lang['cal_nov'] = 'Ksm';
+$lang['cal_dec'] = 'Ara';
+$lang['cal_january'] = 'Ocak';
+$lang['cal_february'] = 'Şubat';
+$lang['cal_march'] = 'Mart';
+$lang['cal_april'] = 'Nisan';
+$lang['cal_mayl'] = 'Mayıs';
+$lang['cal_june'] = 'Haziran';
+$lang['cal_july'] = 'Temmuz';
+$lang['cal_august'] = 'Ağustos';
+$lang['cal_september'] = 'Eylül';
+$lang['cal_october'] = 'Ekim';
+$lang['cal_november'] = 'Kasım';
+$lang['cal_december'] = 'Aralık';

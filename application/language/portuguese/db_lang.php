@@ -2,12 +2,12 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @author    CodeIgniter community
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'Definições de ligação à base de dados insuficientes, com base na string que introduziu.';
 $lang['db_unable_to_connect'] = 'Incapaz de fazer uma ligação ao servidor da base de dados, com base nas definições que forneceu.';
@@ -27,7 +27,7 @@ $lang['db_unable_to_drop'] = 'Não é possível apagar a base de dados indicada'
 $lang['db_unsupported_feature'] = 'Esta funcionalidade não é suportada pela plataforma de base de dados que está a usar.';
 $lang['db_unsupported_compression'] = 'O formato de compressão de ficheiros que escolheu não é suportado pelo seu servidor.';
 $lang['db_filepath_error'] = 'Incapaz de escrever dados no caminho de ficheiro que indicou.';
-$lang['db_invalid_cache_path'] = 'O cainho da cache que indicou não é válido ou não é tem permissões de escrita.';
+$lang['db_invalid_cache_path'] = 'O caminho da cache que indicou não é válido ou não tem permissões de escrita.';
 $lang['db_table_name_required'] = 'É necessário um nome de tabela para essa operação.';
 $lang['db_column_name_required'] = 'É necessário um nome de coluna para essa operação.';
 $lang['db_column_definition_required'] = 'É necessário uma definição de coluna para essa operação.';

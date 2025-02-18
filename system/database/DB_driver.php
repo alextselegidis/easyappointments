@@ -52,6 +52,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 abstract class CI_DB_driver {
 
+    /**
+     * Dynamic Class Props
+     *
+     * @var array
+     */
+    public $props = [];
+
+    public function __get(string $name): mixed
+    {
+        return $this->props[$name] ?? NULL;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->props[$name] = $value;
+    }
+
 	/**
 	 * Data Source Name / Connect string
 	 *
@@ -1220,9 +1237,8 @@ abstract class CI_DB_driver {
 				else
 				{
 					/* We have no other choice but to just get the first element's key.
-					 * Due to array_shift() accepting its argument by reference, if
-					 * E_STRICT is on, this would trigger a warning. So we'll have to
-					 * assign it first.
+					 * Due to array_shift() accepting its argument by reference, So we'll 
+					 * have to assign it first.
 					 */
 					$key = array_keys($row);
 					$key = array_shift($key);

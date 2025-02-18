@@ -26,33 +26,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['ut_test_name'] = 'Test Name';
-$lang['ut_test_datatype'] = 'Test Datatype';
-$lang['ut_res_datatype'] = 'Expected Datatype';
-$lang['ut_result'] = 'Result';
-$lang['ut_undefined'] = 'Undefined Test Name';
-$lang['ut_file'] = 'File Name';
-$lang['ut_line'] = 'Line Number';
-$lang['ut_passed'] = 'Passed';
-$lang['ut_failed'] = 'Failed';
-$lang['ut_boolean'] = 'Boolean';
-$lang['ut_integer'] = 'Integer';
-$lang['ut_float'] = 'Float';
-$lang['ut_double'] = 'Float'; // can be the same as float
-$lang['ut_string'] = 'String';
-$lang['ut_array'] = 'Array';
-$lang['ut_object'] = 'Object';
-$lang['ut_resource'] = 'Resource';
+$lang['ut_test_name'] = 'Имя теста';
+$lang['ut_test_datatype'] = 'Тестовый тип данных';
+$lang['ut_res_datatype'] = 'Ожидаемый тип данных';
+$lang['ut_result'] = 'Результат';
+$lang['ut_undefined'] = 'Неопределенное имя теста';
+$lang['ut_file'] = 'Имя файла';
+$lang['ut_line'] = 'Номер строки';
+$lang['ut_passed'] = 'Пройденный';
+$lang['ut_failed'] = 'Неудачный';
+$lang['ut_boolean'] = 'Логический';
+$lang['ut_integer'] = 'Целочисленный';
+$lang['ut_float'] = 'Дробный';
+$lang['ut_double'] = 'Дробный'; // can be the same as float
+$lang['ut_string'] = 'Строка';
+$lang['ut_array'] = 'Массив';
+$lang['ut_object'] = 'Объект';
+$lang['ut_resource'] = 'Ресурс';
 $lang['ut_null'] = 'Null';
-$lang['ut_notes'] = 'Notes';
+$lang['ut_notes'] = 'Примечания';

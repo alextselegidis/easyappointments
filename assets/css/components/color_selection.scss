@@ -1,0 +1,19 @@
+.color-selection {
+    max-width: 400px;
+
+    .color-selection-option {
+        border: none;
+        color: white;
+        width: 32px;
+        height: 32px;
+
+        .fa-check {
+            display: none;
+            margin: auto;
+        }
+
+        &.selected .fa-check {
+            display: block;
+        }
+    }
+}

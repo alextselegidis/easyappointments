@@ -1,13 +1,13 @@
 <?php
 /**
-* System messages translation for CodeIgniter(tm)
-*
-* @author	Kaustubh Kulkarni from JustInClicks.com
-* @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
-* @license	http://opensource.org/licenses/MIT MIT License
-* @link	https://codeigniter.com
-*/
-defined('BASEPATH') OR exit('No direct script access allowed');
+ * System messages translation for CodeIgniter(tm)
+ *
+ * @author    Kaustubh Kulkarni from JustInClicks.com
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT MIT License
+ * @link    https://codeigniter.com
+ */
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['migration_none_found'] = 'कोणतेही स्थलांतर आढळले नाही.';
 $lang['migration_not_found'] = 'यासह कोणतेही स्थलांतरण आवृत्ती क्रमांक आढळू शकला नाही:% s.';
