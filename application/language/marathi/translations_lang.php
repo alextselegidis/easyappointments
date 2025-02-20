@@ -484,4 +484,7 @@ $lang['invalid_credentials_provided'] = 'अवैध प्रमाणपत�
 $lang['calendar_url'] = 'कॅलेंडर URL';
 $lang['please_select'] = 'कृपया निवडा';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

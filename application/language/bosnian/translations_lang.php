@@ -484,4 +484,7 @@ $lang['invalid_credentials_provided'] = 'Nevažeći akreditivi su navedeni, poku
 $lang['calendar_url'] = 'URL kalendara';
 $lang['please_select'] = 'Molimo izaberite';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

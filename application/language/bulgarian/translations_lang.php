@@ -483,4 +483,7 @@ $lang['display_in_services'] = 'Покажи в услугите';
 $lang['import_ldap_users'] = 'Импортиране на LDAP потребители';
 $lang['manage_providers'] = 'Управление на доставчици';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

@@ -459,4 +459,7 @@ $lang['default_language'] = 'Standardspråk';
 $lang['default_language_hint'] = 'Angi standard språkverdi som skal brukes for nye poster.';
 $lang['sync_method_prompt'] = 'Hvilken synkroniseringsmetode ønsker du å bruke?';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

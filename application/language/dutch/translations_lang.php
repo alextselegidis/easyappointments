@@ -495,4 +495,7 @@ $lang['event_success'] = 'Evenement succesvol toegevoegd.';
 $lang['event_update_success'] = 'Evenement succesvol bijgewerkt.';
 $lang['event_delete_success'] = 'Evenement succesvol verwijderd.';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

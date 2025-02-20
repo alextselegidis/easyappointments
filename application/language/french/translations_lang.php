@@ -484,4 +484,7 @@ $lang['invalid_credentials_provided'] = 'Identifiants fournis invalides, veuille
 $lang['calendar_url'] = 'URL du Calendrier';
 $lang['please_select'] = 'Veuillez Sélectionner';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

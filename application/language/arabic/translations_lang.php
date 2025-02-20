@@ -484,4 +484,7 @@ $lang['invalid_credentials_provided'] = 'تم تقديم بيانات اعتما
 $lang['calendar_url'] = 'عنوان URL للتقويم';
 $lang['please_select'] = 'يرجى الاختيار';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

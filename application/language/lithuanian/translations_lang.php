@@ -484,4 +484,7 @@ $lang['invalid_credentials_provided'] = 'Pateikti negaliojantys duomenys, bandyk
 $lang['calendar_url'] = 'Kalendoriaus URL';
 $lang['please_select'] = 'Prašome pasirinkti';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Lankstaus tvarkaraščio žingsnis';
+$lang['step_minutes'] = 'Žingsnis (minutėmis)';
+$lang['flexible_schedule_step_hint'] = 'Nurodykite tvarkaraščio žingsnį, naudotiną paslaugoms, kurioms pasirinktas lankstus tvarkaraščio tipas.';
 // End

@@ -497,4 +497,7 @@ $lang['website'] = '网站';
 $lang['social_media'] = '社交媒体';
 $lang['follow_us'] = '关注我们';
 $lang['secret_header'] = 'Secret Header';
+$lang['flexible_schedule_step'] = 'Flexible Schedule Step';
+$lang['step_minutes'] = 'Step (minutes)';
+$lang['flexible_schedule_step_hint'] = 'Set the step to be used for available intervals when booking services for which availabilities type is flexible.';
 // End

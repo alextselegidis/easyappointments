@@ -122,6 +122,21 @@
                             </div>
                         </div>
 
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('flexible_schedule_step') ?></h5>
+
+                        <div class="mb-5">
+                            <label for="flexible-schedule-step" class="form-label">
+                                <?= lang('step_minutes') ?>
+                            </label>
+                            <input id="flexible-schedule-step" data-field="flexible_schedule_step" class="form-control"
+                                   type="number" min="5">
+                            <div class="form-text text-muted">
+                                <small>
+                                    <?= lang('flexible_schedule_step_hint') ?>
+                                </small>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-start align-items-center mb-3">
                             <h5 class="text-black-50 mb-0 me-3 fw-light">
                                 <?= lang('appointment_status_options') ?>

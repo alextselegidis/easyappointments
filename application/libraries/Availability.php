@@ -533,8 +533,9 @@ class Availability
     /**
      * Calculate the available appointment hours.
      *
-     * Calculate the available appointment hours for the given date. The empty spaces are broken down to 15 min and if
-     * the service fit in each quarter then a new available hour is added to the "$available_hours" array.
+     * Calculate the available appointment hours for the given date. The empty spaces are broken down to either
+     * service duration (if service availabilities type is fixed) or depending on the flexible_schedule_step setting.
+     * If the service fits in the resulting slot then a new available hour is added to the "$available_hours" array.
      *
      * @param string $date Selected date (Y-m-d).
      * @param array $service Service data.
@@ -553,7 +554,7 @@ class Availability
 
             $end_hour = new DateTime($date . ' ' . $period['end']);
 
-            $interval = $service['availabilities_type'] === AVAILABILITIES_TYPE_FIXED ? (int) $service['duration'] : 15;
+            $interval = $service['availabilities_type'] === AVAILABILITIES_TYPE_FIXED ? (int) $service['duration'] : setting('flexible_schedule_step');
 
             $current_hour = $start_hour;
 
