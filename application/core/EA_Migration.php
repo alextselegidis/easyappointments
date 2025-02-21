@@ -11,7 +11,7 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-require_once __DIR__ . '/../../system/libraries/Migration.php';
+require_once BASEPATH . 'libraries/Migration.php';
 
 /**
  * Easy!Appointments migration.
