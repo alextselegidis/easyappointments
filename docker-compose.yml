@@ -5,15 +5,16 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
     volumes:
-      - '.:/var/www/html'
-      - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini'
+      - '.:/var/www/html:ro,cached'
+      - './storage:/var/www/html/storage:rw,cached'
+      - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini:ro,cached'
 
   nginx:
     image: 'nginx:1.23.3-alpine'
     working_dir: /var/www/html
     volumes:
-      - '.:/var/www/html'
-      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+      - '.:/var/www/html:ro,cached'
+      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro,cached'
     ports:
       - '80:80'
 
@@ -52,7 +53,7 @@ services:
       - ./openapi.yml:/usr/share/nginx/html/openapi.yml
     environment:
       API_URL: openapi.yml
-  
+
   baikal:
     image: ckulka/baikal:0.10.1-apache
     ports:
@@ -61,7 +62,7 @@ services:
       - ./docker/baikal:/var/www/html
       - ./docker/baikal/config:/var/www/baikal/config
       - ./docker/baikal/data:/var/www/baikal/Specific
-  
+
   openldap:
     image: osixia/openldap:1.5.0
     hostname: openldap

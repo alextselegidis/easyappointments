@@ -10,9 +10,9 @@
 /docker/openldap/
 /node_modules/
 /npm-debug.log
-/assets/js/**/*.min.js
-/assets/css/**/*.css
-/assets/vendor
+/public/assets/js/**/*.min.js
+/public/assets/css/**/*.css
+/public/assets/vendor
 /config.php
 /storage/backups/*
 !/storage/backups/.htaccess
