@@ -128,7 +128,7 @@ route_api_resource($route, 'appointments', 'api/v1/');
 
 route_api_resource($route, 'admins', 'api/v1/');
 
-route_api_resource($route, 'categories', 'api/v1/');
+route_api_resource($route, 'service_categories', 'api/v1/');
 
 route_api_resource($route, 'customers', 'api/v1/');
 

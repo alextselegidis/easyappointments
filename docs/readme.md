@@ -10,7 +10,6 @@ Welcome to the documentation pages of Easy!Appointments. Navigate through the av
 - [Docker](docker.md)
 - [Google Calendar Sync](google-calendar-sync.md)
 - [CalDAV Calendar Sync](caldav-calendar-sync.md)
-- [CalDAV Calendar Sync](caldav-calendar-sync.md)
 - [FAQ](faq.md)
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.1.*

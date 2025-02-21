@@ -215,7 +215,7 @@ class Settings_model extends EA_Model
      *
      * @return array Returns an array of settings.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $settings = $this->db
             ->select()
@@ -248,10 +248,10 @@ class Settings_model extends EA_Model
      * @return array Returns an array of settings.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -304,7 +304,7 @@ class Settings_model extends EA_Model
      * @param array $setting API resource.
      * @param array|null $base Base setting data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$setting, array $base = null): void
+    public function api_decode(array &$setting, ?array $base = null): void
     {
         $decoded_resource = $base ?: [];
 

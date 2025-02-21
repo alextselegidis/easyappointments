@@ -46,7 +46,7 @@
     "babel-preset-minify": "^0.5.2",
     "del": "^6.0.0",
     "fs-extra": "^11.1.0",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.0",
     "gulp-babel": "^8.0.0",
     "gulp-cached": "^1.1.1",
     "gulp-changed": "^4.0.3",
@@ -60,7 +60,7 @@
     "zip-dir": "^2.0.0"
   },
   "scripts": {
-    "start": "npx gulp",
+    "start": "npx --yes gulp",
     "build": "npx gulp build",
     "docs": "npx gulp docs"
   }

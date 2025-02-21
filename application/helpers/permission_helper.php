@@ -25,7 +25,7 @@ if (!function_exists('can')) {
      *
      * @return bool
      */
-    function can(string $action, string $resource, int $user_id = null): bool
+    function can(string $action, string $resource, ?int $user_id = null): bool
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -65,7 +65,7 @@ if (!function_exists('cannot')) {
      *
      * @return bool
      */
-    function cannot(string $action, string $resource, int $user_id = null): bool
+    function cannot(string $action, string $resource, ?int $user_id = null): bool
     {
         return !can($action, $resource, $user_id);
     }

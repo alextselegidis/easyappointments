@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="SSH" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="docker exec -it $(basename &quot;$PWD&quot;)-php-fpm-1 bash" />
+    <option name="SCRIPT_TEXT" value="if [ -z &quot;$(docker compose ls | grep $(basename &quot;$PWD&quot;))&quot; ]; then docker stop $(docker ps -a -q) &amp;&amp; docker network prune -f &amp;&amp; docker compose up -d --force-recreate &amp;&amp; docker exec -it $(basename &quot;$PWD&quot;)-php-fpm-1 bash; else docker exec -it $(basename &quot;$PWD&quot;)-php-fpm-1 bash; fi" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />

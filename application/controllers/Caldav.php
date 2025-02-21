@@ -12,6 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 use GuzzleHttp\Exception\GuzzleException;
+use Jsvrcek\ICS\Exception\CalendarEventException;
 
 /**
  * Caldav controller.
@@ -87,7 +88,7 @@ class Caldav extends EA_Controller
      *
      * @return void
      *
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException
      * @throws Exception
      * @throws Throwable
      */
@@ -150,6 +151,10 @@ class Caldav extends EA_Controller
         // Sync each appointment with CalDAV Calendar by following the project's sync protocol (see documentation).
 
         foreach ($local_events as $local_event) {
+            if (str_contains((string) $local_event['id_caldav_calendar'], 'RECURRENCE')) {
+                continue;
+            }
+
             if (!$local_event['is_unavailability']) {
                 $service = $CI->services_model->find($local_event['id_services']);
                 $customer = $CI->customers_model->find($local_event['id_users_customer']);
@@ -159,8 +164,6 @@ class Caldav extends EA_Controller
                 $customer = null;
                 $events_model = $CI->unavailabilities_model;
             }
-
-            // If current appointment not synced yet, add to CalDAV Calendar.
 
             if (!$local_event['id_caldav_calendar']) {
                 if (!$local_event['is_unavailability']) {
@@ -181,7 +184,7 @@ class Caldav extends EA_Controller
             try {
                 $caldav_event = $CI->caldav_sync->get_event($provider, $local_event['id_caldav_calendar']);
 
-                if ($caldav_event['status'] === 'CANCELLED') {
+                if (!$caldav_event || $caldav_event['status'] === 'CANCELLED') {
                     throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                 }
 
@@ -192,19 +195,15 @@ class Caldav extends EA_Controller
                 $caldav_event_start = new DateTime($caldav_event['start_datetime']);
                 $caldav_event_end = new DateTime($caldav_event['end_datetime']);
 
-                $caldav_event_notes = $local_event['is_unavailability']
-                    ? $caldav_event['summary'] . ' ' . $caldav_event['description']
-                    : $caldav_event['description'];
-
                 $is_different =
                     $local_event_start !== $caldav_event_start->getTimestamp() ||
                     $local_event_end !== $caldav_event_end->getTimestamp() ||
-                    $local_event['notes'] !== $caldav_event_notes;
+                    $local_event['notes'] !== $caldav_event['description'];
 
                 if ($is_different) {
                     $local_event['start_datetime'] = $caldav_event_start->format('Y-m-d H:i:s');
                     $local_event['end_datetime'] = $caldav_event_end->format('Y-m-d H:i:s');
-                    $local_event['notes'] = $caldav_event_notes;
+                    $local_event['notes'] = $caldav_event['description'];
                     $events_model->save($local_event);
                 }
             } catch (Throwable) {
@@ -228,6 +227,8 @@ class Caldav extends EA_Controller
                 throw $e;
             }
         }
+
+        $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time);
 
         foreach ($caldav_events as $caldav_event) {
             if ($caldav_event['status'] === 'CANCELLED') {

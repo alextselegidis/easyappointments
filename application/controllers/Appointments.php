@@ -30,10 +30,15 @@ class Appointments extends EA_Controller
         'location',
         'notes',
         'color',
+        'status',
         'is_unavailability',
         'id_users_provider',
         'id_users_customer',
         'id_services',
+    ];
+
+    public array $optional_appointment_fields = [
+        //
     ];
 
     /**
@@ -58,7 +63,7 @@ class Appointments extends EA_Controller
      *
      * @deprecated Since 1.5
      */
-    public function index(string $appointment_hash = '')
+    public function index(string $appointment_hash = ''): void
     {
         redirect('booking/' . $appointment_hash);
     }
@@ -102,6 +107,8 @@ class Appointments extends EA_Controller
             $appointment = json_decode(request('appointment'), true);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
+
+            $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
@@ -151,6 +158,8 @@ class Appointments extends EA_Controller
             $appointment = json_decode(request('appointment'), true);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
+
+            $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 

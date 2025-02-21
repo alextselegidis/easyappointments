@@ -22,7 +22,7 @@ class Migration_Add_future_booking_limit_setting extends CI_Migration
      *
      * @throws Exception
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'future_booking_limit'])->num_rows()) {
             $this->db->insert('settings', [
@@ -37,7 +37,7 @@ class Migration_Add_future_booking_limit_setting extends CI_Migration
      *
      * @throws Exception
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'future_booking_limit'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'future_booking_limit']);

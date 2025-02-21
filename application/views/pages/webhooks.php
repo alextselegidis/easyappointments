@@ -79,13 +79,21 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="duration">
+                <label class="form-label" for="url">
                     <?= lang('url') ?>
                     <span class="text-danger" hidden>*</span>
                 </label>
                 <input id="url" class="form-control required" disabled>
             </div>
 
+            <div class="mb-3">
+                <label class="form-label" for="secret-header">
+                    <?= lang('secret_header') ?>
+                </label>
+
+                <input id="secret-header" class="form-control" disabled>
+            </div>
+            
             <div class="mb-3">
                 <label class="form-label" for="secret-token">
                     <?= lang('secret_token') ?>

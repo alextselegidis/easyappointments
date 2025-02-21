@@ -77,7 +77,7 @@ class Providers_api_v1 extends EA_Controller
      *
      * @param int|null $id Provider ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->providers_model->get(['id' => $id]);

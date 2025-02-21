@@ -16,7 +16,7 @@ class Migration_Add_ldap_rows_to_settings_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         $now = date('Y-m-d H:i:s');
 
@@ -26,36 +26,72 @@ class Migration_Add_ldap_rows_to_settings_table extends EA_Migration
         ];
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_is_active'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_is_active', 'value' => '0']);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_is_active',
+                'value' => '0',
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_host'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_host', 'value' => '']);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_host',
+                'value' => '',
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_port'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_port', 'value' => '']);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_port',
+                'value' => '',
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_user_dn'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_user_dn', 'value' => '']);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_user_dn',
+                'value' => '',
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_password'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_password', 'value' => '']);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_password',
+                'value' => '',
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_base_dn'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_base_dn', 'value' => '']);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_base_dn',
+                'value' => '',
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_filter'])->num_rows()) {
-            $this->db->insert('settings', [...$timestamps, 'name' => 'ldap_filter', 'value' => LDAP_DEFAULT_FILTER]);
+            $this->db->insert('settings', [
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
+                'name' => 'ldap_filter',
+                'value' => LDAP_DEFAULT_FILTER,
+            ]);
         }
 
         if (!$this->db->get_where('settings', ['name' => 'ldap_field_mapping'])->num_rows()) {
             $this->db->insert('settings', [
-                ...$timestamps,
+                'create_datetime' => $timestamps['create_datetime'],
+                'update_datetime' => $timestamps['update_datetime'],
                 'name' => 'ldap_field_mapping',
                 'value' => json_encode(LDAP_DEFAULT_FIELD_MAPPING, JSON_PRETTY_PRINT),
             ]);
@@ -65,7 +101,7 @@ class Migration_Add_ldap_rows_to_settings_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'ldap_is_active'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'ldap_is_active']);

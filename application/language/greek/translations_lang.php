@@ -424,7 +424,7 @@ $lang['september_short'] = 'Σεπ';
 $lang['october_short'] = 'Οκτ';
 $lang['november_short'] = 'Νοε';
 $lang['december_short'] = 'Δεκ';
-$lang['am'] = 'Είμαι';
+$lang['am'] = 'π.μ.';
 $lang['pm'] = 'μ.μ.';
 $lang['to'] = 'στο';
 $lang['click_to_toggle'] = 'Κάντε κλικ για εναλλαγή';
@@ -483,4 +483,5 @@ $lang['fields'] = 'Fields';
 $lang['invalid_credentials_provided'] = 'Invalid credentials provided, please try again.';
 $lang['calendar_url'] = 'Calendar URL';
 $lang['please_select'] = 'Παρακαλώ Επιλέξτε';
+$lang['secret_header'] = 'Secret Header';
 // End

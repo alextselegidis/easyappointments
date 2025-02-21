@@ -16,7 +16,7 @@ class Migration_Add_language_to_users extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('language', 'users')) {
             $fields = [
@@ -35,7 +35,7 @@ class Migration_Add_language_to_users extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         $this->dbforge->drop_column('users', 'language');
     }

@@ -65,7 +65,7 @@ class Appointments_api_v1 extends EA_Controller
             $date = request('date');
 
             if (!empty($date)) {
-                $where['DATE(start_datetime)'] = (new DateTime($date))->format('Y-m-d');
+                $where['DATE(start_datetime)'] = new DateTime($date)->format('Y-m-d');
             }
 
             // From query param.
@@ -73,7 +73,7 @@ class Appointments_api_v1 extends EA_Controller
             $from = request('from');
 
             if (!empty($from)) {
-                $where['DATE(start_datetime) >='] = (new DateTime($from))->format('Y-m-d');
+                $where['DATE(start_datetime) >='] = new DateTime($from)->format('Y-m-d');
             }
 
             // Till query param.
@@ -81,7 +81,7 @@ class Appointments_api_v1 extends EA_Controller
             $till = request('till');
 
             if (!empty($till)) {
-                $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
+                $where['DATE(end_datetime) <='] = new DateTime($till)->format('Y-m-d');
             }
 
             // Service ID query param.
@@ -150,15 +150,12 @@ class Appointments_api_v1 extends EA_Controller
         if ($aggregates) {
             $appointment['service'] = $this->services_model->find(
                 $appointment['id_services'] ?? ($appointment['serviceId'] ?? null),
-                true,
             );
             $appointment['provider'] = $this->providers_model->find(
                 $appointment['id_users_provider'] ?? ($appointment['providerId'] ?? null),
-                true,
             );
             $appointment['customer'] = $this->customers_model->find(
                 $appointment['id_users_customer'] ?? ($appointment['customerId'] ?? null),
-                true,
             );
             $this->services_model->api_encode($appointment['service']);
             $this->providers_model->api_encode($appointment['provider']);
@@ -171,7 +168,7 @@ class Appointments_api_v1 extends EA_Controller
      *
      * @param int|null $id Appointment ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->appointments_model->get(['id' => $id]);
@@ -262,20 +259,23 @@ class Appointments_api_v1 extends EA_Controller
      * @param array $appointment Appointment data.
      * @param string $action Performed action ("store" or "update").
      */
-    private function notify_and_sync_appointment(array $appointment, string $action = 'store')
+    private function notify_and_sync_appointment(array $appointment, string $action = 'store'): void
     {
         $manage_mode = $action === 'update';
 
-        $service = $this->services_model->find($appointment['id_services'], true);
+        $service = $this->services_model->find($appointment['id_services']);
 
-        $provider = $this->providers_model->find($appointment['id_users_provider'], true);
+        $provider = $this->providers_model->find($appointment['id_users_provider']);
 
-        $customer = $this->customers_model->find($appointment['id_users_customer'], true);
+        $customer = $this->customers_model->find($appointment['id_users_customer']);
+
+        $company_color = setting('company_color');
 
         $settings = [
             'company_name' => setting('company_name'),
             'company_email' => setting('company_email'),
             'company_link' => setting('company_link'),
+            'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
             'date_format' => setting('date_format'),
             'time_format' => setting('time_format'),
         ];
@@ -346,16 +346,19 @@ class Appointments_api_v1 extends EA_Controller
 
             $deleted_appointment = $occurrences[0];
 
-            $service = $this->services_model->find($deleted_appointment['id_services'], true);
+            $service = $this->services_model->find($deleted_appointment['id_services']);
 
-            $provider = $this->providers_model->find($deleted_appointment['id_users_provider'], true);
+            $provider = $this->providers_model->find($deleted_appointment['id_users_provider']);
 
-            $customer = $this->customers_model->find($deleted_appointment['id_users_customer'], true);
+            $customer = $this->customers_model->find($deleted_appointment['id_users_customer']);
+
+            $company_color = setting('company_color');
 
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_email' => setting('company_email'),
                 'company_link' => setting('company_link'),
+                'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];

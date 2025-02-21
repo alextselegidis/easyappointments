@@ -25,6 +25,7 @@ App.Utils.CalendarSync = (function () {
     const $reloadAppointments = $('#reload-appointments');
 
     const FILTER_TYPE_PROVIDER = 'provider';
+    let isSyncing = false;
 
     function hasSync(type) {
         const $selectedOption = $selectFilterItem.find('option:selected');
@@ -168,6 +169,9 @@ App.Utils.CalendarSync = (function () {
             })
             .fail(() => {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+            })
+            .always(() => {
+                isSyncing = false;
             });
     }
 
@@ -321,6 +325,9 @@ App.Utils.CalendarSync = (function () {
             })
             .fail(() => {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+            })
+            .always(() => {
+                isSyncing = false;
             });
     }
 
@@ -372,6 +379,7 @@ App.Utils.CalendarSync = (function () {
 
     function onTriggerSyncClick() {
         const hasGoogleSync = hasSync('google');
+        isSyncing = true;
 
         if (hasGoogleSync) {
             triggerGoogleSync();
@@ -383,6 +391,10 @@ App.Utils.CalendarSync = (function () {
         if (hasCalSync) {
             triggerCaldavSync();
         }
+    }
+
+    function isCurrentlySyncing() {
+        return isSyncing;
     }
 
     /**
@@ -399,5 +411,6 @@ App.Utils.CalendarSync = (function () {
 
     return {
         initialize,
+        isCurrentlySyncing,
     };
 })();

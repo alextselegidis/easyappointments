@@ -16,7 +16,7 @@ class Migration_Drop_caldav_calendar_column_from_user_settings_table extends EA_
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if ($this->db->field_exists('caldav_calendar', 'user_settings')) {
             $this->dbforge->drop_column('user_settings', 'caldav_calendar');
@@ -26,7 +26,7 @@ class Migration_Drop_caldav_calendar_column_from_user_settings_table extends EA_
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if (!$this->db->field_exists('caldav_calendar', 'user_settings')) {
             $fields = [

@@ -111,7 +111,7 @@ class Unavailabilities_api_v1 extends EA_Controller
      *
      * @param int|null $id Unavailability ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->unavailabilities_model->get(['id' => $id]);

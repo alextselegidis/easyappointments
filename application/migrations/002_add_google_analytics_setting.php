@@ -18,7 +18,7 @@ class Migration_Add_google_analytics_setting extends EA_Migration
      *
      * @throws Exception
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'google_analytics_code'])->num_rows()) {
             $this->db->insert('settings', [
@@ -33,7 +33,7 @@ class Migration_Add_google_analytics_setting extends EA_Migration
      *
      * @throws Exception
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'google_analytics_code'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'google_analytics_code']);

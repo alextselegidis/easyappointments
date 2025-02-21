@@ -36,7 +36,16 @@ class Account extends EA_Controller
         'language',
         'settings',
     ];
+
+    public array $optional_user_fields = [
+        //
+    ];
+
     public array $allowed_user_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
+    public array $optional_user_setting_fields = [
+        //
+    ];
 
     /**
      * Account constructor.
@@ -110,7 +119,11 @@ class Account extends EA_Controller
 
             $this->users_model->only($account, $this->allowed_user_fields);
 
+            $this->users_model->optional($account, $this->optional_user_fields);
+
             $this->users_model->only($account['settings'], $this->allowed_user_setting_fields);
+
+            $this->users_model->optional($account['settings'], $this->optional_user_setting_fields);
 
             if (empty($account['password'])) {
                 unset($account['password']);

@@ -36,23 +36,22 @@
  * @filesource
  */
 defined('BASEPATH') or exit('No direct script access allowed');
-
-$lang['ut_test_name'] = 'Test Name';
-$lang['ut_test_datatype'] = 'Test Datatype';
-$lang['ut_res_datatype'] = 'Expected Datatype';
-$lang['ut_result'] = 'Result';
-$lang['ut_undefined'] = 'Undefined Test Name';
-$lang['ut_file'] = 'File Name';
-$lang['ut_line'] = 'Line Number';
-$lang['ut_passed'] = 'Passed';
-$lang['ut_failed'] = 'Failed';
-$lang['ut_boolean'] = 'Boolean';
-$lang['ut_integer'] = 'Integer';
+$lang['ut_test_name'] = 'Nome do Teste';
+$lang['ut_test_datatype'] = 'Tipo de Dado do Teste';
+$lang['ut_res_datatype'] = 'Tipo de Dado Esperado';
+$lang['ut_result'] = 'Resultado';
+$lang['ut_undefined'] = 'Nome do Teste Não Definido';
+$lang['ut_file'] = 'Nome do Arquivo';
+$lang['ut_line'] = 'Número da Linha';
+$lang['ut_passed'] = 'Passou';
+$lang['ut_failed'] = 'Falhou';
+$lang['ut_boolean'] = 'Booleano';
+$lang['ut_integer'] = 'Inteiro';
 $lang['ut_float'] = 'Float';
-$lang['ut_double'] = 'Float'; // can be the same as float
+$lang['ut_double'] = 'Float'; // pode ser o mesmo que float
 $lang['ut_string'] = 'String';
 $lang['ut_array'] = 'Array';
-$lang['ut_object'] = 'Object';
-$lang['ut_resource'] = 'Resource';
-$lang['ut_null'] = 'Null';
-$lang['ut_notes'] = 'Notes';
+$lang['ut_object'] = 'Objeto';
+$lang['ut_resource'] = 'Recurso';
+$lang['ut_null'] = 'Nulo';
+$lang['ut_notes'] = 'Notas';

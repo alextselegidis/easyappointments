@@ -16,7 +16,7 @@ class Migration_Create_blocked_periods_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->table_exists('blocked_periods')) {
             $this->dbforge->add_field([
@@ -61,7 +61,7 @@ class Migration_Create_blocked_periods_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->table_exists('blocked_periods')) {
             $this->dbforge->drop_table('blocked_periods');

@@ -24,13 +24,13 @@ $protocol =
 
 $domain = $_SERVER['HTTP_HOST'] ?? 'localhost';
 
-$request_uri = dirname($_SERVER['SCRIPT_NAME']);
+$request_uri = dirname($_SERVER['SCRIPT_NAME'] ?? 'index.php');
 
 if ($request_uri === '.') {
     $request_uri = '';
 }
 
-$config['base_url'] = trim($protocol . $domain . $request_uri, '/');
+$config['base_url'] = !is_cli() ? trim($protocol . $domain . $request_uri, '/') : Config::BASE_URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,7 +53,7 @@ $config['index_page'] = 'index.php';
 | URI string.  The default setting of 'AUTO' works for most servers.
 | If your links do not seem to work, try one of the other delicious flavors:
 |
-| 'AUTO'			Default - auto detects
+| 'AUTO'			Default - auto-detects
 | 'PATH_INFO'		Uses the PATH_INFO
 | 'QUERY_STRING'	Uses the QUERY_STRING
 | 'REQUEST_URI'		Uses the REQUEST_URI
@@ -87,47 +87,55 @@ $config['url_suffix'] = '';
 */
 
 $languages = [
+    'sq' => 'albanian',
     'ar' => 'arabic',
+    'bs' => 'bosnian',
     'bu' => 'bulgarian',
     'ca' => 'catalan',
-    'zh' => 'chinese',
-    'hr' => 'croatian',
     'cs' => 'czech',
     'da' => 'danish',
-    'nl' => 'dutch',
-    'en' => 'english',
-    'et' => 'estonian',
-    'fi' => 'finnish',
-    'fr' => 'french',
     'de' => 'german',
     'el' => 'greek',
+    'en' => 'english',
+    'es' => 'spanish',
+    'et' => 'estonian',
+    'fa' => 'persian',
+    'fi' => 'finnish',
+    'fr' => 'french',
     'he' => 'hebrew',
     'hi' => 'hindi',
+    'hr' => 'croatian',
     'hu' => 'hungarian',
     'it' => 'italian',
     'ja' => 'japanese',
-    'fa' => 'persian',
     'lb' => 'luxembourgish',
+    'lt' => 'lithuanian',
+    'lv' => 'latvian',
     'mr' => 'marathi',
+    'nl' => 'dutch',
+    'no' => 'norwegian',
     'pl' => 'polish',
     'pt' => 'portuguese',
     'ro' => 'romanian',
-    'ru' => 'russian',
     'rs' => 'serbian',
+    'ru' => 'russian',
     'sk' => 'slovak',
-    'es' => 'spanish',
+    'sl' => 'slovenian',
     'sv' => 'swedish',
     'th' => 'thai',
     'tr' => 'turkish',
+    'zh' => 'chinese',
 ];
 
 $config['language_codes'] = $languages;
 
 $language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
 
-$config['language'] = isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
-    ? $languages[$language_code]
-    : Config::LANGUAGE;
+$config['language'] =
+    $_GET['language'] ??
+    (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
+        ? $languages[$language_code]
+        : Config::LANGUAGE);
 
 $config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 
@@ -142,7 +150,9 @@ $config['language_code'] = array_search($config['language'], $languages) ?: 'en'
 |
 */
 $config['available_languages'] = [
+    'albanian',
     'arabic',
+    'bosnian',
     'bulgarian',
     'catalan',
     'chinese',
@@ -161,8 +171,11 @@ $config['available_languages'] = [
     'hungarian',
     'italian',
     'japanese',
+    'latvian',
+    'lithuanian',
     'luxembourgish',
     'marathi',
+    'norwegian',
     'persian',
     'polish',
     'portuguese',
@@ -171,9 +184,11 @@ $config['available_languages'] = [
     'russian',
     'serbian',
     'slovak',
+    'slovenian',
     'spanish',
     'swedish',
     'thai',
+    'traditional-chinese',
     'turkish',
 ];
 
@@ -223,7 +238,7 @@ $config['subclass_prefix'] = 'EA_';
 | characters they will get a warning message.
 |
 | As a security measure you are STRONGLY encouraged to restrict URLs to
-| as few characters as possible.  By default only these are allowed: a-z 0-9~%.:_-
+| as few characters as possible.  By default, only these are allowed: a-z 0-9~%.:_-
 |
 | Leave blank to allow all characters -- but only if you are insane.
 |
@@ -452,7 +467,7 @@ $config['proxy_ips'] = '';
 |--------------------------------------------------------------------------
 |
 | Toggle the rate limiting feature in your application. Using rate limiting
-| will control the number of requests a client can sent to the app.
+| will control the number of requests a client can send to the app.
 |
 */
 $config['rate_limiting'] = true;

@@ -143,10 +143,10 @@ class Unavailabilities_model extends EA_Model
      * @return array Returns an array of unavailabilities.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
@@ -310,7 +310,7 @@ class Unavailabilities_model extends EA_Model
      *
      * @return array Returns an array of unavailabilities.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $unavailabilities = $this->db
             ->select()
@@ -399,7 +399,7 @@ class Unavailabilities_model extends EA_Model
      * @param array $unavailability API resource.
      * @param array|null $base Base unavailability data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$unavailability, array $base = null): void
+    public function api_decode(array &$unavailability, ?array $base = null): void
     {
         $decoded_request = $base ?: [];
 

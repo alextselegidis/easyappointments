@@ -20,6 +20,7 @@ App.Pages.Webhooks = (function () {
     const $name = $('#name');
     const $url = $('#url');
     const $actions = $('#actions');
+    const $secretHeader = $('#secret-header');
     const $secretToken = $('#secret-token');
     const $isSslVerified = $('#is-ssl-verified');
     const $notes = $('#notes');
@@ -102,6 +103,7 @@ App.Pages.Webhooks = (function () {
                 name: $name.val(),
                 url: $url.val(),
                 actions: '',
+                secret_header: $secretHeader.val(),
                 secret_token: $secretToken.val(),
                 is_ssl_verified: Number($isSslVerified.prop('checked')),
                 notes: $notes.val(),
@@ -254,6 +256,7 @@ App.Pages.Webhooks = (function () {
         $id.val(webhook.id);
         $name.val(webhook.name);
         $url.val(webhook.url);
+        $secretHeader.val(webhook.secret_header);
         $secretToken.val(webhook.secret_token);
         $isSslVerified.prop('checked', Boolean(Number(webhook.is_ssl_verified)));
 

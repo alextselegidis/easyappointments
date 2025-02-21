@@ -107,10 +107,10 @@ Get the data of a customer with ID 34:
 curl http://ea-installation/index.php/api/v1/customers/34 --user username:password
 ```
 
-Update the name of a category with ID 23: 
+Update the name of a service category with ID 23: 
 
 ```
-curl -H 'Content-Type: application/json' -X PUT -d '{"name": "New Name!"}' http://ea-installation/index.php/api/v1/categories/23 --user username:password
+curl -H 'Content-Type: application/json' -X PUT -d '{"name": "New Name!"}' http://ea-installation/index.php/api/v1/service_categories/23 --user username:password
 ```
 
 Delete the service with ID 15: 
@@ -225,7 +225,7 @@ You can also try the GET requests with your browser by navigating to the respect
     "description": "This is a test service.",
     "availabilitiesType": "flexible",
     "attendantsNumber": 1,
-    "categoryId": null
+    "serviceCategoryId": null
 }
 ```
 
@@ -236,7 +236,7 @@ You can also try the GET requests with your browser by navigating to the respect
 
 * The `availabilitiesType` must be either `flexible` or `fixed`.
 
-### Categories
+### Service Categories
 
 **Resource JSON**
 
@@ -248,10 +248,10 @@ You can also try the GET requests with your browser by navigating to the respect
 }
 ```
 
-- `GET /api/v1/categories[/:id]` Get all the categories or a specific one by providing the ID in the URI. 
-- `POST /api/v1/categories` Provide the new category JSON in the request body to insert a new record. 
-- `PUT /api/v1/categories/:id` Provide the updated category JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/categories/:id` Remove an existing category record.
+- `GET /api/v1/service_categories[/:id]` Get all the service categories or a specific one by providing the ID in the URI. 
+- `POST /api/v1/service_categories` Provide the new service category JSON in the request body to insert a new record. 
+- `PUT /api/v1/service_categories/:id` Provide the updated service category JSON in the request body to update an existing record. The ID in the URI is required. 
+- `DELETE /api/v1/service_categories/:id` Remove an existing service category record.
 
 ### Admins
 
@@ -498,6 +498,6 @@ fastcgi_param PHP_AUTH_PW $http_authorization;
 
 [[Source]](http://serverfault.com/a/520943)
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.1.*
 
 [Back](readme.md)
