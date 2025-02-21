@@ -2022,6 +2022,8 @@ components:
           format: float
         currency:
           type: string
+        color:
+          type: string
         location:
           type: string
         description:
@@ -2040,6 +2042,7 @@ components:
         duration: 30
         price: 10
         currency: USD
+        color: '#123456'
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
         availabilitiesType: flexible
@@ -2056,6 +2059,8 @@ components:
         price:
           type: number
         currency:
+          type: string
+        color:
           type: string
         location:
           type: string
@@ -2074,6 +2079,7 @@ components:
         duration: 30
         price: 10
         currency: USD
+        color: '#123456'
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
         availabilitiesType: flexible
