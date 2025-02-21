@@ -28,7 +28,7 @@ define('LINE_BREAK', php_sapi_name() === 'cli' ? "\n" : '<br>');
 
 function detect_local_version()
 {
-    $config_file_path = __DIR__ . '/application/config/config.php';
+    $config_file_path = __DIR__ . '/application/config/app.php';
 
     if ( ! file_exists($config_file_path))
     {
