@@ -185,6 +185,9 @@ function vendor(done) {
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/vendor/flatpickr'));
 
+    //libphonenumber-js
+    gulp.src(['node_modules/libphonenumber-js/bundle/libphonenumber-js.min.js']).pipe(gulp.dest('assets/vendor/libphonenumber-js'));
+
     done();
 }
 

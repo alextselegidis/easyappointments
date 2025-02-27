@@ -135,6 +135,17 @@
                                             </label>
                                         </div>
                                     </div>
+
+                                    <div class="d-flex">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input validate-switch" type="checkbox"
+                                                   id="validate-phone-number"
+                                                   data-field="validate_phone_number">
+                                            <label class="form-check-label" for="validate-phone-number">
+                                                <?= lang('validate') ?>
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
