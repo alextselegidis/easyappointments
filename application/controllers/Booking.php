@@ -11,6 +11,10 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberUtil;
+
 /**
  * Booking controller.
  *
@@ -154,6 +158,7 @@ class Booking extends EA_Controller
         $require_email = setting('require_email');
         $display_phone_number = setting('display_phone_number');
         $require_phone_number = setting('require_phone_number');
+        $validate_phone_number = setting('validate_phone_number');
         $display_address = setting('display_address');
         $require_address = setting('require_address');
         $display_city = setting('display_city');
@@ -286,6 +291,7 @@ class Booking extends EA_Controller
             'require_email' => $require_email,
             'display_phone_number' => $display_phone_number,
             'require_phone_number' => $require_phone_number,
+            'validate_phone_number' => $validate_phone_number,
             'display_address' => $display_address,
             'require_address' => $require_address,
             'display_city' => $display_city,
@@ -354,6 +360,26 @@ class Booking extends EA_Controller
 
             if (!array_key_exists('phone_number', $customer)) {
                 $customer['phone_number'] = '';
+            }
+
+            if (setting('validate_phone_number') && ($customer['phone_number'] !== '')) {
+                $phone_util = PhoneNumberUtil::getInstance();
+                try {
+                    $parsed_phone_number = $phone_util->parse($customer['phone_number']);
+                } catch (NumberParseException $e) {
+                    $error_message = match($e->getCode()) {
+                        NumberParseException::INVALID_COUNTRY_CODE => 'invalid_phone_country_code',
+                        default => 'invalid_phone',
+                    };
+
+                    throw new RuntimeException(lang($error_message), previous: $e);
+                }
+
+                if (!$phone_util->isValidNumber($parsed_phone_number)) {
+                    throw new RuntimeException(lang('invalid_phone'));
+                }
+
+                $customer['phone_number'] = $phone_util->format($parsed_phone_number, PhoneNumberFormat::E164);
             }
 
             // Check appointment availability before registering it to the database.

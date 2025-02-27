@@ -26,24 +26,31 @@
         "google",
         "services"
     ],
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
     "minimum-stability": "stable",
     "require": {
         "php": ">=8.1",
         "ext-curl": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-gd": "*",
         "ext-simplexml": "*",
-        "ext-fileinfo": "*",
+        "ezyang/htmlpurifier": "^4.17",
+        "giggsey/libphonenumber-for-php": "^8.13",
+        "google/apiclient": "^2.12.6",
         "gregwar/captcha": "^1.1.9",
+        "guzzlehttp/guzzle": "^7.9.2",
         "jsvrcek/ics": "^0.8.4",
         "monolog/monolog": "^2.8.0",
-        "google/apiclient": "^2.12.6",
-        "guzzlehttp/guzzle": "^7.9.2",
+        "phpmailer/phpmailer": "^6.9",
         "sabre/vobject": "^4.5",
-        "ezyang/htmlpurifier": "^4.17",
-        "symfony/finder": "^6.4",
-        "phpmailer/phpmailer": "^6.9"
+        "symfony/finder": "^6.4"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
