@@ -1,0 +1,11 @@
+.idea
+.github
+.run
+application/language/*
+build
+docker
+docs
+node_modules
+storage
+system
+vendor

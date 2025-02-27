@@ -2,13 +2,13 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
+ * @author    CodeIgniter community
  * @author  Mohsen Shamohamadi (mhsenpc@gmail.com)
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['migration_none_found'] = 'مهاجرتی یافت نشد.';
 $lang['migration_not_found'] = 'مهاجرتی با نسخه %s یافت نشد.';

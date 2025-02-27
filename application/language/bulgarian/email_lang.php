@@ -2,13 +2,13 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
- * @author	Ivan Tcholakov
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @author    CodeIgniter community
+ * @author    Ivan Tcholakov
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['email_must_be_array'] = 'Email-адресът трябва да се предаде за валидиране чрез масив (array).';
 $lang['email_invalid_address'] = 'Грешен email-адрес: %s';

@@ -26,16 +26,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('Direktaccess till skriptet är inte tillåtet');
 
 $lang['profiler_database'] = 'DATABASE';
 $lang['profiler_controller_info'] = 'CLASS/METHOD';
@@ -48,13 +48,13 @@ $lang['profiler_memory_usage'] = 'MEMORY USAGE';
 $lang['profiler_config'] = 'CONFIG VARIABLES';
 $lang['profiler_session_data'] = 'SESSION DATA';
 $lang['profiler_headers'] = 'HTTP HEADERS';
-$lang['profiler_no_db'] = 'Database driver is not currently loaded';
-$lang['profiler_no_queries'] = 'No queries were run';
-$lang['profiler_no_post'] = 'No POST data exists';
-$lang['profiler_no_get'] = 'No GET data exists';
-$lang['profiler_no_uri'] = 'No URI data exists';
-$lang['profiler_no_memory'] = 'Memory Usage Unavailable';
-$lang['profiler_no_profiles'] = 'No Profile data - all Profiler sections have been disabled.';
-$lang['profiler_section_hide'] = 'Hide';
-$lang['profiler_section_show'] = 'Show';
-$lang['profiler_seconds'] = 'seconds';
+$lang['profiler_no_db'] = 'Databasdrivrutinen är för närvarande inte laddad';
+$lang['profiler_no_queries'] = 'Inga frågor kördes';
+$lang['profiler_no_post'] = 'Inga POST-data finns';
+$lang['profiler_no_get'] = 'Det finns inga GET-data';
+$lang['profiler_no_uri'] = 'Det finns inga URI-data';
+$lang['profiler_no_memory'] = 'Minnesanvändning är inte tillgänglig';
+$lang['profiler_no_profiles'] = 'Inga profildata - alla Profiler-sektioner har inaktiverats.';
+$lang['profiler_section_hide'] = 'Göm';
+$lang['profiler_section_show'] = 'Visa';
+$lang['profiler_seconds'] = 'Sekunder';

@@ -103,7 +103,7 @@ class CI_Cache_file extends CI_Driver {
 
 		if (write_file($this->_cache_path.$id, serialize($contents)))
 		{
-			chmod($this->_cache_path.$id, 0640);
+			@chmod($this->_cache_path.$id, 0640);
 			return TRUE;
 		}
 
@@ -274,7 +274,7 @@ class CI_Cache_file extends CI_Driver {
 
 		$data = unserialize(file_get_contents($this->_cache_path.$id));
 
-		if ($data['ttl'] > 0 && time() > $data['time'] + $data['ttl'])
+		if ($data && $data['ttl'] > 0 && time() > $data['time'] + $data['ttl'])
 		{
 			file_exists($this->_cache_path.$id) && unlink($this->_cache_path.$id);
 			return FALSE;

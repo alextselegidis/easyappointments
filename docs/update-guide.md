@@ -6,6 +6,27 @@ If you get a `500 Internal Server Error` message then you must check the error l
 
 Before you start following the steps below, make sure you **backup** your database and files. 
 
+### Updating from v1.4.x to v1.5.x
+
+###### Step 1: Update your Easy!Appointments files
+
+Replace all files and directories in your installation directory (keep root config.php).
+
+> Note: If you have any custom developed files in these directories, please make copies of them first.
+
+###### Step 2: Run the database migrations
+
+Database migrations will bring your database structure to the latest state.
+
+**Browser**
+
+Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+
+**Console**
+
+If you have console access to your server then head to the installation directory and run `php index.php console migrate`.
+
+
 ### Updating from v1.3.x to v1.4.x
 
 ###### Step 1: Update your Easy!Appointments files 
@@ -110,6 +131,6 @@ Open your browser to the Easy!Appointments installation URL, login to the backen
 
 Use the data of the old `configuration.php` file in the new `config.php`. 
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.1.*
 
 [Back](readme.md)
