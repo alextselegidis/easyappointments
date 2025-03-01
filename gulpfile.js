@@ -87,6 +87,7 @@ function scripts() {
         .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
         .pipe(plumber())
         .pipe(changed('assets/js/**/*'))
+        .pipe(gulp.dest('public/assets/js'))
         .pipe(babel({comments: false}))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('public/assets/js'));
