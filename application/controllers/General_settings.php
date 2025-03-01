@@ -54,7 +54,7 @@ class General_settings extends EA_Controller
 
         $role_slug = session('role_slug');
 
-        $available_theme_files = glob(__DIR__ . '/../../assets/css/themes/*.min.css');
+        $available_theme_files = glob(__DIR__ . '/../../public/assets/css/themes/*.min.css');
 
         $available_themes = array_map(function ($available_theme_file) {
             return str_replace('.min.css', '', basename($available_theme_file));
