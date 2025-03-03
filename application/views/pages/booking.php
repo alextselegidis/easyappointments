@@ -50,6 +50,7 @@
 <?php end_section('content'); ?>
 
 <?php section('scripts'); ?>
+<script src="<?= asset_url('assets/vendor/libphonenumber-js/libphonenumber-js.min.js'); ?>'"></script>
 
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
