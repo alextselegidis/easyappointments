@@ -445,6 +445,7 @@ App.Components.AppointmentsModal = (function () {
         // Empty form fields.
         $appointmentsModal.find('input, textarea').val('');
         $appointmentsModal.find('.modal-message').addClass('.d-none');
+        $appointmentsModal.find('.is-invalid').removeClass('is-invalid');
 
         const defaultStatusValue = $appointmentStatus.find('option:first').val();
         $appointmentStatus.val(defaultStatusValue);
@@ -510,6 +511,7 @@ App.Components.AppointmentsModal = (function () {
 
         App.Utils.UI.initializeDateTimePicker($endDatetime);
         App.Utils.UI.setDateTimePickerValue($endDatetime, endDatetime);
+        $appointmentsModal.find('.modal-message').removeClass('alert-danger').text('').addClass('d-none');
     }
 
     /**
