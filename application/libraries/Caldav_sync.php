@@ -524,7 +524,7 @@ class Caldav_sync
             $event_id = (string) $vevent->UID;
 
             if ($is_recurring_event) {
-                $event_id .= '-RECURRENCE-' . random_string();
+                $event_id .= '-RECURRENCE-' . $caldav_start_date_time;
             }
 
             // Return the converted event
