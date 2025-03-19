@@ -765,7 +765,7 @@ App.Pages.Booking = (function () {
                 <div class="mb-2" ${!email ? 'hidden' : ''}>
                     ${email}
                 </div>
-                <div class="mb-2" ${!email ? 'hidden' : ''}>
+                <div class="mb-2" ${!phoneNumber ? 'hidden' : ''}>
                     ${phoneNumber}
                 </div>
                 <div class="mb-2" ${!address ? 'hidden' : ''}>
