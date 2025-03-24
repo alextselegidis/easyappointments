@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e7ace6fdcb345caee1f5febc80eff60c",
+    "content-hash": "cc5c4c512e57952e76f4a2adb7add77e",
     "packages": [
         {
             "name": "ezyang/htmlpurifier",
@@ -2470,12 +2470,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "af199f9f0a8c465dd03b06977d83d5b5cbe32a3a"
+                "reference": "786548323f3a9452244ddf83672e34c260d6b717"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/af199f9f0a8c465dd03b06977d83d5b5cbe32a3a",
-                "reference": "af199f9f0a8c465dd03b06977d83d5b5cbe32a3a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/786548323f3a9452244ddf83672e34c260d6b717",
+                "reference": "786548323f3a9452244ddf83672e34c260d6b717",
                 "shasum": ""
             },
             "conflict": {
@@ -3152,7 +3152,7 @@
                 "t3/dce": "<0.11.5|>=2.2,<2.6.2",
                 "t3g/svg-sanitizer": "<1.0.3",
                 "t3s/content-consent": "<1.0.3|>=2,<2.0.2",
-                "tastyigniter/tastyigniter": "<3.3",
+                "tastyigniter/tastyigniter": "<4",
                 "tcg/voyager": "<=1.8",
                 "tecnickcom/tc-lib-pdf-font": "<2.6.4",
                 "tecnickcom/tcpdf": "<6.8",
@@ -3341,7 +3341,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-03-19T17:05:08+00:00"
+            "time": "2025-03-21T18:06:15+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -4373,6 +4373,6 @@
         "ext-simplexml": "*",
         "ext-fileinfo": "*"
     },
-    "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "platform-dev": {},
+    "plugin-api-version": "2.6.0"
 }
