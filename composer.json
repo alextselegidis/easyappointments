@@ -1,7 +1,7 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
-    "version": "1.5.1",
+    "version": "dev-1.5.0",
     "homepage": "https://easyappointments.org",
     "type": "project",
     "license": "GPL-3.0",
@@ -39,18 +39,23 @@
         "jsvrcek/ics": "^0.8.4",
         "monolog/monolog": "^2.8.0",
         "google/apiclient": "^2.12.6",
-        "guzzlehttp/guzzle": "^7.9.2",
+        "guzzlehttp/guzzle": "^7.5.0",
         "sabre/vobject": "^4.5",
         "ezyang/htmlpurifier": "^4.17",
-        "symfony/finder": "^6.4",
-        "phpmailer/phpmailer": "^6.9"
+        "symfony/finder": "^6.4"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
         "phpunit/phpunit": "^9.6"
     },
     "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
         "test": "APP_ENV=testing php vendor/bin/phpunit"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Calendar"
+        ]
     },
     "autoload": {
         "psr-4": {
