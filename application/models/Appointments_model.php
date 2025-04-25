@@ -646,4 +646,24 @@ class Appointments_model extends EA_Model
 
         $appointment = $decoded_request;
     }
+
+    /**
+     * Calculate the end date time of an appointment based on the selected service.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @return string Returns the end date time value.
+     *
+     * @throws Exception
+     */
+    public function calculate_end_datetime(array $appointment): string
+    {
+        $duration = $this->db->get_where('services', ['id' => $appointment['id_services']])?->row()?->duration;
+
+        $end_date_time_object = new DateTime($appointment['start_datetime']);
+
+        $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
+
+        return $end_date_time_object->format('Y-m-d H:i:s');
+    }
 }

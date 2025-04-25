@@ -216,7 +216,7 @@ class Appointments_api_v1 extends EA_Controller
             }
 
             if (!array_key_exists('end_datetime', $appointment)) {
-                $appointment['end_datetime'] = $this->calculate_end_datetime($appointment);
+                $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
             }
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -231,26 +231,6 @@ class Appointments_api_v1 extends EA_Controller
         } catch (Throwable $e) {
             json_exception($e);
         }
-    }
-
-    /**
-     * Calculate the end date time of an appointment based on the selected service.
-     *
-     * @param array $appointment Appointment data.
-     *
-     * @return string Returns the end date time value.
-     *
-     * @throws Exception
-     */
-    private function calculate_end_datetime(array $appointment): string
-    {
-        $duration = $this->services_model->value($appointment['id_services'], 'duration');
-
-        $end = new DateTime($appointment['start_datetime']);
-
-        $end->add(new DateInterval('PT' . $duration . 'M'));
-
-        return $end->format('Y-m-d H:i:s');
     }
 
     /**
