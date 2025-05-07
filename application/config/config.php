@@ -125,7 +125,9 @@ $languages = [
     'th' => 'thai',
     'tr' => 'turkish',
     'zh' => 'chinese',
+    'uk' => 'ukrainian', 
 ];
+
 
 $config['language_codes'] = $languages;
 
@@ -190,6 +192,7 @@ $config['available_languages'] = [
     'thai',
     'traditional-chinese',
     'turkish',
+    'ukrainian',
 ];
 
 /*
