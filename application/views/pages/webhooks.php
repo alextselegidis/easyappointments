@@ -159,9 +159,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/webhooks_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/webhooks.js') ?>"></script>
 

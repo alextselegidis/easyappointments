@@ -58,7 +58,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/google_analytics_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/google_analytics_settings.js') ?>"></script>
 
