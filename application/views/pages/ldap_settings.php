@@ -154,7 +154,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/providers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/secretaries_http_client.js') ?>"></script>
