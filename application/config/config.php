@@ -30,7 +30,7 @@ if ($request_uri === '.') {
     $request_uri = '';
 }
 
-$config['base_url'] = !is_cli() ? trim($protocol . $domain . $request_uri, '/') : Config::BASE_URL;
+$config['base_url'] = rtrim(!is_cli() ? $protocol . $domain . $request_uri : Config::BASE_URL, '/');
 
 /*
 |--------------------------------------------------------------------------
@@ -125,9 +125,8 @@ $languages = [
     'th' => 'thai',
     'tr' => 'turkish',
     'zh' => 'chinese',
-    'uk' => 'ukrainian', 
+    'uk' => 'ukrainian',
 ];
-
 
 $config['language_codes'] = $languages;
 
