@@ -64,25 +64,28 @@ class Appointments_api_v1 extends EA_Controller
 
             $date = request('date');
 
-            if (!empty($date)) {
-                $where['DATE(start_datetime)'] = new DateTime($date)->format('Y-m-d');
-            }
+	    if (!empty($date)) {
+		$dta_tmp = new DateTime($date);
+		$where['DATE(start_datetime)'] = $dta_tmp->format('Y-m-d');
+	   }
 
             // From query param.
 
             $from = request('from');
 
-            if (!empty($from)) {
-                $where['DATE(start_datetime) >='] = new DateTime($from)->format('Y-m-d');
-            }
+            if (!empty($date)) {
+                $dta_tmp = new DateTime($date);
+                $where['DATE(start_datetime)'] = $dta_tmp->format('Y-m-d');
+           }
 
             // Till query param.
 
             $till = request('till');
 
-            if (!empty($till)) {
-                $where['DATE(end_datetime) <='] = new DateTime($till)->format('Y-m-d');
-            }
+	   if (!empty($date)) {
+                $dta_tmp = new DateTime($date);
+                $where['DATE(start_datetime)'] = $dta_tmp->format('Y-m-d');
+           }
 
             // Service ID query param.
 
