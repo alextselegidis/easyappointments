@@ -320,7 +320,7 @@ class Timezones
             'Europe/Kaliningrad' => 'Kaliningrad (+2:00)',
             'Europe/Kiev' => 'Kiev (+2:00)',
             'Europe/Mariehamn' => 'Mariehamn (+2:00)',
-            'Europe/Minsk' => 'Minsk (+2:00)',
+            'Europe/Minsk' => 'Minsk (+3:00)',
             'Europe/Nicosia' => 'Nicosia (+2:00)',
             'Europe/Riga' => 'Riga (+2:00)',
             'Europe/Simferopol' => 'Simferopol (+2:00)',
