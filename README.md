@@ -70,11 +70,12 @@ $ npm install && composer install
 
 # Start the file watcher
 $ npm start
+
+# Build the files, this command will bundle everything to a `build` directory
+$ npm run build
 ```
 
 Note: If you're using Linux Bash for Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node` from the command prompt.
-
-You can build the files by running `npm run build`. This command will bundle everything to a `build` directory.
 
 ## Installation
 
