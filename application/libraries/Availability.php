@@ -557,6 +557,12 @@ class Availability
 
             $current_hour = $start_hour;
 
+            $buffer_before = new DateInterval('PT' . (int) $service['buffer_before'] . 'M');
+            $current_hour->add($buffer_before);
+
+            $buffer_after = new DateInterval('PT' . (int) $service['buffer_after'] . 'M');
+            $end_hour->sub($buffer_after);
+
             $diff = $current_hour->diff($end_hour);
 
             while ($diff->h * 60 + $diff->i >= (int) $service['duration'] && $diff->invert === 0) {
