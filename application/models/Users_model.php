@@ -94,8 +94,7 @@ class Users_model extends EA_Model
         if (
             empty($user['first_name']) ||
             empty($user['last_name']) ||
-            empty($user['email']) ||
-            empty($user['phone_number'])
+            empty($user['email'])
         ) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($user, true));
         }
