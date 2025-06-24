@@ -50,6 +50,33 @@
 
             <?php if (can('add', PRIV_APPOINTMENTS)): ?>
                 <div class="dropdown d-sm-inline-block">
+                    <button class="btn btn-light" type="button" title="<?= lang('blocker') ?>" data-bs-toggle="dropdown">
+                        <i class="fas fa-hand"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="#" id="add-block-sync">
+                                <?= lang('add_block_sync') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#" id="sync-block-servers">
+                                <?= lang('sync_block_servers') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <span class="dropdown-header"><?= lang('blocker_server_list')  ?> (Reload to refresh)</s>
+                        </li>
+                        <?php foreach (vars('block_servers') as $server): ?>
+                            <li>
+                                <a class="dropdown-item block-server" href="#" data-server_id="<?= $server['id'] ?>">
+                                    <?= $server['id'].' : <span class="server-url">'.$server['caldav_url'].'</span>'  ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                <div class="dropdown d-sm-inline-block">
                     <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
                         <i class="fas fa-plus-square"></i>
                     </button>

@@ -174,6 +174,23 @@ class Calendar extends EA_Controller
 
         $appointment_status_options = setting('appointment_status_options');
 
+        // Query all block_servers for this provider
+        $block_servers = [];
+        if ($role_slug === DB_SLUG_PROVIDER) {
+            $block_servers = $this->blocked_periods_model->get(['user_id' => $user_id]);
+        } elseif ($role_slug === DB_SLUG_SECRETARY || $role_slug === DB_SLUG_ADMIN) {
+            // For secretaries, get blocked periods for all their providers
+            foreach ($available_providers as $provider_id) {
+            $block_servers = array_merge(
+                $block_servers,
+                        $block_servers = $this->db->get_where('caldav_block_servers', ['user_id' => $provider_id['id']])->result_array()
+            );
+            }
+        } else {
+            // For admins or others, get all blocked periods
+            $block_servers = $this->blocked_periods_model->get();
+        }
+
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
@@ -188,6 +205,7 @@ class Calendar extends EA_Controller
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
+            'block_servers' => $block_servers,
             'google_sync_feature' => config('google_sync_feature'),
             'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
             'default_language' => setting('default_language'),
