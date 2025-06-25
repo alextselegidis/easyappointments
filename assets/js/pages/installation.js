@@ -91,6 +91,10 @@ App.Pages.Installation = (function () {
             let missingRequired = false;
 
             $fields.each((index, field) => {
+                // Skip phone number field from required check
+                if ($(field).attr('id') === 'phone-number') {
+                    return;
+                }
                 if (!$(field).val()) {
                     $(field).addClass('is-invalid');
                     missingRequired = true;
