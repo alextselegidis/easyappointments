@@ -27,9 +27,8 @@
                 </button>
 
                 <div class="btn-group" id="sync-button-group" hidden>
-                    <button type="button" class="btn btn-light" id="trigger-sync" data-tippy-content="<?= lang(
-                        'trigger_sync_hint',
-                    ) ?>">
+                    <button type="button" class="btn btn-light" id="trigger-sync"
+                            data-tippy-content="<?= lang('trigger_sync_hint') ?>">
                         <i class="fas fa-rotate me-2"></i>
                         <?= lang('synchronize') ?>
                     </button>

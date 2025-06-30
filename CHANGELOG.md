@@ -12,7 +12,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fix the PHP compatibility error of the appointments index API endpoint (#1678)
 - Catch individual email delivery exceptions (#1670)
 - Apply permission checks to the appointment and unavailability search (#1753)
-
+- Make sure the sync button is visible on provider log in (#1749)
 
 
 ## [1.5.1] - 2025-01-20
