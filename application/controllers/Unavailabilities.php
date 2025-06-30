@@ -69,6 +69,33 @@ class Unavailabilities extends EA_Controller
 
             $unavailabilities = $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
 
+            $user_id = session('user_id');
+            $role_slug = session('role_slug');
+
+            // If the current user is a provider he must only see his own appointments.
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                foreach ($unavailabilities as $index => $unavailability) {
+                    if ((int) $unavailability['id_users_provider'] !== (int) $user_id) {
+                        unset($unavailabilities[$index]);
+                    }
+                }
+
+                $unavailabilities = array_values($unavailabilities);
+            }
+
+            // If the current user is a secretary he must only see the unavailabilities of his providers.
+            if ($role_slug === DB_SLUG_SECRETARY) {
+                $provider_ids = $this->secretaries_model->find($user_id)['providers'];
+
+                foreach ($unavailabilities as $index => $unavailability) {
+                    if (!in_array((int) $unavailability['id_users_provider'], $provider_ids)) {
+                        unset($unavailabilities[$index]);
+                    }
+                }
+
+                $unavailabilities = array_values($unavailabilities);
+            }
+
             json_response($unavailabilities);
         } catch (Throwable $e) {
             json_exception($e);
