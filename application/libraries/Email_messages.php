@@ -11,9 +11,9 @@
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
+use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
 
 /**
  * Email messages library.
@@ -228,7 +228,6 @@ class Email_messages
     ): PHPMailer {
         $php_mailer = new PHPMailer(true);
 
-        $php_mailer->isHTML();
         $php_mailer->CharSet = 'UTF-8';
         $php_mailer->SMTPDebug = config('smtp_debug') ? SMTP::DEBUG_SERVER : null;
 
@@ -258,8 +257,16 @@ class Email_messages
         }
 
         if ($html) {
+            $plain_text = str_replace(["\n\n", "\n\n\n"], '', strip_tags($html));
+
+            if (config('mailtype') === 'html') {
+                $php_mailer->isHTML();
+            } else {
+                $html = $plain_text;
+            }
+
             $php_mailer->Body = $html;
-            $php_mailer->AltBody = $html;
+            $php_mailer->AltBody = $plain_text;
         }
 
         return $php_mailer;
