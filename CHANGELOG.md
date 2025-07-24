@@ -14,6 +14,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Apply permission checks to the appointment and unavailability search (#1753)
 - Make sure the sync button is visible on provider log in (#1749)
 - Update unavailable dates after applying appointment data while rescheduling (#1662)
+- Make sure that any-provider does not include hidden providers while generating availability (#1733)
 
 
 ## [1.5.1] - 2025-01-20

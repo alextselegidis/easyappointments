@@ -625,7 +625,7 @@ class Booking extends EA_Controller
             $service = $this->services_model->find($service_id);
 
             if ($provider_id === ANY_PROVIDER) {
-                $providers = $this->providers_model->get();
+                $providers = $this->providers_model->get_available_providers(true);
 
                 $available_hours = [];
 
