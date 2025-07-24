@@ -13,6 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Catch individual email delivery exceptions (#1670)
 - Apply permission checks to the appointment and unavailability search (#1753)
 - Make sure the sync button is visible on provider log in (#1749)
+- Update unavailable dates after applying appointment data while rescheduling (#1662)
 
 
 ## [1.5.1] - 2025-01-20
