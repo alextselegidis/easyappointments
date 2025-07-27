@@ -125,7 +125,7 @@ App.Http.Caldav = (function () {
     }
 
     function syncBlockServers(providerId) {
-        const url = App.Utils.Url.siteUrl('caldav/sync_block_servers');
+        const url = App.Utils.Url.siteUrl('caldav/sync_block_servers/' + providerId);
 
         const data = {
             csrf_token: vars('csrf_token'),

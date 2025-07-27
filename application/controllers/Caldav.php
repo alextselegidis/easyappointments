@@ -411,25 +411,31 @@ class Caldav extends EA_Controller
      *
      * @return void
      */
-    public function sync_block_servers(): void
+    public static function sync_block_servers(string $provider_id): void
     {
-        $provider_id = request('provider_id');
+        /** @var EA_Controller $CI */
+        $CI = get_instance();
+
+
+        $CI->load->library('caldav_sync');
+        $CI->load->model('providers_model');
+        $CI->load->model('appointments_model');
+        $db = $CI->load->database('', true);
         $user_id = session('user_id');
         if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
             throw new RuntimeException('You do not have the required permissions for this task.');
         }
 
-        $block_servers = $this->db->get_where('caldav_block_servers', ['user_id' => $provider_id])->result_array();
+        $block_servers = $db->get_where('caldav_block_servers', ['user_id' => $provider_id])->result_array();
 
         foreach ($block_servers as $block_server) {
-            $this->load->library('caldav_sync');
             $start_date_time = date('Y-m-d 00:00:00');
             $end_date_time = date('Y-m-d 23:59:59', strtotime('+30 days'));
 
-            $provider = $this->providers_model->find($provider_id);
+            $provider = $CI->providers_model->find($provider_id);
 
             // Use block server credentials for sync
-            $events = $this->caldav_sync->get_sync_events([
+            $events = $CI->caldav_sync->get_sync_events([
                 'settings' => [
                     'caldav_url' => $block_server['caldav_url'],
                     'caldav_username' => $block_server['caldav_username'],
@@ -444,7 +450,7 @@ class Caldav extends EA_Controller
             $current_event_ids = array_column($events, 'id');
 
             // Fetch all read-only appointments for this block server and provider
-            $existing_appointments = $this->appointments_model->get_blocker([
+            $existing_appointments = $CI->appointments_model->get_blocker([
                 'id_caldav_block_server' => $block_server['id'],
                 'id_users_provider' => $provider_id,
             ]);
@@ -452,13 +458,13 @@ class Caldav extends EA_Controller
             // Delete appointments not present in CalDAV anymore
             foreach ($existing_appointments as $appointment) {
                 if (!in_array($appointment['id_caldav_calendar'], $current_event_ids)) {
-                    $this->appointments_model->delete($appointment['id']);
+                    $CI->appointments_model->delete($appointment['id']);
                 }
             }
 
             // Add or update current events
             foreach ($events as $event) {
-                $exists = $this->appointments_model->get_blocker([
+                $exists = $CI->appointments_model->get_blocker([
                     'id_caldav_calendar' => $event['id'],
                     'id_caldav_block_server' => $block_server['id'],
                 ]);
@@ -471,16 +477,16 @@ class Caldav extends EA_Controller
                         $exists[0]['start_datetime'] = $event['start_datetime'];
                         $exists[0]['end_datetime'] = $event['end_datetime'];
                         $exists[0]['is_blocker'] = true;
-                        $this->appointments_model->save($exists[0]);
+                        $CI->appointments_model->save($exists[0]);
                     }
                     continue; // Event already exists, skip to the next one.
                 }
 
-                $this->appointments_model->save([
+                $CI->appointments_model->save([
                     'start_datetime' => $event['start_datetime'],
                     'end_datetime' => $event['end_datetime'],
                     'location' => $event['location'],
-                    'notes' => $event['summary'] . ';$;' . $event['description'],
+                    'notes' => $event['summary'],
                     'id_users_provider' => $provider_id,
                     'id_services' => null,
                     'id_users_customer' => null,
