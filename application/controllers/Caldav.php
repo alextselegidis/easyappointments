@@ -422,7 +422,7 @@ class Caldav extends EA_Controller
         $CI->load->model('appointments_model');
         $db = $CI->load->database('', true);
         $user_id = session('user_id');
-        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id  && !is_cli()) {
             throw new RuntimeException('You do not have the required permissions for this task.');
         }
 
