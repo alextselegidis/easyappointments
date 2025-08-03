@@ -194,8 +194,30 @@ class Caldav_sync
     public function get_sync_events(array $provider, string $start_date_time, string $end_date_time): array
     {
         try {
-            $client = $this->get_http_client_by_provider_id($provider['id']);
-            $provider_timezone_object = new DateTimeZone($provider['timezone']);
+             // Support both provider and block server parameter structures
+            if (isset($provider['settings'])) {
+                $settings = $provider['settings'];
+                $caldav_url = $settings['caldav_url'] ?? null;
+                $caldav_username = $settings['caldav_username'] ?? null;
+                $caldav_password = $settings['caldav_password'] ?? null;
+            } else {
+                $caldav_url = $provider['caldav_url'] ?? null;
+                $caldav_username = $provider['caldav_username'] ?? null;
+                $caldav_password = $provider['caldav_password'] ?? null;
+            }
+
+            // Timezone
+            $timezone = $provider['timezone'] ?? ($provider['settings']['timezone'] ?? 'UTC');
+            $provider_timezone_object = new DateTimeZone($timezone);
+
+            // Use credentials directly if present, otherwise fallback to provider ID
+            if ($caldav_url && $caldav_username && $caldav_password) {
+                $client = $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
+            } elseif (isset($provider['id'])) {
+                $client = $this->get_http_client_by_provider_id($provider['id']);
+            } else {
+                throw new InvalidArgumentException('Missing CalDAV credentials or provider ID.');
+            }
 
             $response = $this->fetch_events($client, $start_date_time, $end_date_time);
 

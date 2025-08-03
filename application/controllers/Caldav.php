@@ -81,6 +81,76 @@ class Caldav extends EA_Controller
         }
     }
 
+    
+    /**
+     * Connect to the target CalDAV server
+     *
+     * @return void
+     */
+    public function add_block_server(): void
+    {
+        try {
+            $provider_id = request('provider_id');
+            $user_id = session('user_id');
+
+            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
+            $caldav_url = request('caldav_url');
+            $caldav_username = request('caldav_username');
+            $caldav_password = request('caldav_password');
+
+            $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
+
+            // Insert into caldav_block_servers
+            $this->db->insert('ea_caldav_block_servers', [
+                'user_id' => $provider_id,
+                'caldav_url' => $caldav_url,
+                'caldav_username' => $caldav_username,
+                'caldav_password' => $caldav_password,
+            ]);
+
+            json_response([
+                'success' => true,
+            ]);
+        } catch (GuzzleException | InvalidArgumentException $e) {
+            json_response([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ]);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    public function delete_block_server(): void{
+        try{
+            
+            $provider_id = request('provider_id');
+            $block_server_id = request('block_server_id');
+            $user_id = session('user_id');
+            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
+            // Delete all appointments associated with this block server and provider
+            $this->db->where('id_caldav_block_server', $block_server_id)
+                     ->where('id_users_provider', $provider_id)
+                     ->delete('ea_appointments');
+
+            // Delete the block server itself
+            $this->db->where('id', $block_server_id)
+                     ->delete('ea_caldav_block_servers');
+
+            json_response([
+                'success' => true,
+            ]);
+        }catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
     /**
      * Sync the provider events with the remote CalDAV calendar.
      *
@@ -143,6 +213,7 @@ class Caldav extends EA_Controller
         $where = [
             'start_datetime >=' => $start_date_time,
             'end_datetime <=' => $end_date_time,
+            'read_only =' => '0',
             'id_users_provider' => $provider['id'],
         ];
 
@@ -333,5 +404,102 @@ class Caldav extends EA_Controller
         } catch (Throwable $e) {
             json_exception($e);
         }
+    }
+
+    /**
+     * Sync events from block servers
+     *
+     * @return void
+     */
+    public static function sync_block_servers(string $provider_id): void
+    {
+        /** @var EA_Controller $CI */
+        $CI = get_instance();
+
+
+        $CI->load->library('caldav_sync');
+        $CI->load->model('providers_model');
+        $CI->load->model('appointments_model');
+        $db = $CI->load->database('', true);
+        $user_id = session('user_id');
+        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id  && !is_cli()) {
+            throw new RuntimeException('You do not have the required permissions for this task.');
+        }
+
+        $block_servers = $db->get_where('caldav_block_servers', ['user_id' => $provider_id])->result_array();
+
+        foreach ($block_servers as $block_server) {
+            $start_date_time = date('Y-m-d 00:00:00');
+            $end_date_time = date('Y-m-d 23:59:59', strtotime('+30 days'));
+
+            $provider = $CI->providers_model->find($provider_id);
+
+            // Use block server credentials for sync
+            $events = $CI->caldav_sync->get_sync_events([
+                'settings' => [
+                    'caldav_url' => $block_server['caldav_url'],
+                    'caldav_username' => $block_server['caldav_username'],
+                    'caldav_password' => $block_server['caldav_password'],
+                    'caldav_sync' => true,
+                ],
+                'timezone' => $provider['timezone'],
+                'id' => $provider_id,
+            ], $start_date_time, $end_date_time);
+
+            // Collect current CalDAV event IDs
+            $current_event_ids = array_column($events, 'id');
+
+            // Fetch all read-only appointments for this block server and provider
+            $existing_appointments = $CI->appointments_model->get_blocker([
+                'id_caldav_block_server' => $block_server['id'],
+                'id_users_provider' => $provider_id,
+            ]);
+
+            // Delete appointments not present in CalDAV anymore
+            foreach ($existing_appointments as $appointment) {
+                if (!in_array($appointment['id_caldav_calendar'], $current_event_ids)) {
+                    $CI->appointments_model->delete($appointment['id']);
+                }
+            }
+
+            // Add or update current events
+            foreach ($events as $event) {
+                $exists = $CI->appointments_model->get_blocker([
+                    'id_caldav_calendar' => $event['id'],
+                    'id_caldav_block_server' => $block_server['id'],
+                ]);
+                if ($exists ) {
+                    
+                $is_different =
+                    $exists[0]['start_datetime'] !== $event['start_datetime'] ||
+                    $exists[0]['end_datetime'] !== $event['end_datetime'];
+                    if ($is_different) {
+                        $exists[0]['start_datetime'] = $event['start_datetime'];
+                        $exists[0]['end_datetime'] = $event['end_datetime'];
+                        $exists[0]['is_blocker'] = true;
+                        $CI->appointments_model->save($exists[0]);
+                    }
+                    continue; // Event already exists, skip to the next one.
+                }
+
+                $CI->appointments_model->save([
+                    'start_datetime' => $event['start_datetime'],
+                    'end_datetime' => $event['end_datetime'],
+                    'location' => $event['location'],
+                    'notes' => $event['summary'],
+                    'id_users_provider' => $provider_id,
+                    'id_services' => null,
+                    'id_users_customer' => null,
+                    'id_caldav_calendar' => $event['id'],
+                    'is_unavailability' => true,
+                    'read_only' => true,
+                    'id_caldav_block_server' => $block_server['id'],
+                    'is_blocker' => true,
+                    'status' => 'CONFIRMED',
+                ]);
+            }
+        }
+
+        json_response(['success' => true]);
     }
 }

@@ -27,6 +27,8 @@ class Appointments_model extends EA_Model
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
+        'read_only' => 'boolean',
+        'id_caldav_block_server' => 'integer', // <-- Add this line
     ];
 
     /**
@@ -61,7 +63,8 @@ class Appointments_model extends EA_Model
     public function save(array $appointment): int
     {
         $this->validate($appointment);
-
+        //remove is_blocker from appointment data
+        unset($appointment['is_blocker']);
         if (empty($appointment['id'])) {
             return $this->insert($appointment);
         } else {
@@ -92,14 +95,14 @@ class Appointments_model extends EA_Model
         // Make sure all required fields are provided.
 
         $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
-
-        if (
+        $isBlocker = isset($appointment['is_blocker'])?(bool)$appointment['is_blocker']:false;
+        if ( !$isBlocker && (
             empty($appointment['start_datetime']) ||
             empty($appointment['end_datetime']) ||
             empty($appointment['id_services']) ||
             empty($appointment['id_users_provider']) ||
             empty($appointment['id_users_customer']) ||
-            (empty($appointment['notes']) && $require_notes)
+            (empty($appointment['notes']) && $require_notes))
         ) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, true));
         }
@@ -132,7 +135,7 @@ class Appointments_model extends EA_Model
             ->get()
             ->num_rows();
 
-        if (!$count) {
+        if (!$count && !$isBlocker) {
             throw new InvalidArgumentException(
                 'The appointment provider ID was not found in the database: ' . $appointment['id_users_provider'],
             );
@@ -190,6 +193,31 @@ class Appointments_model extends EA_Model
 
         $appointments = $this->db
             ->get_where('appointments', ['is_unavailability' => false], $limit, $offset)
+            ->result_array();
+
+        foreach ($appointments as &$appointment) {
+            $this->cast($appointment);
+        }
+
+        return $appointments;
+    }
+
+    public function get_blocker(
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by) {
+            $this->db->order_by($this->db->escape($order_by));
+        }
+
+        $appointments = $this->db
+            ->get_where('appointments', null, $limit, $offset)
             ->result_array();
 
         foreach ($appointments as &$appointment) {
@@ -353,6 +381,7 @@ class Appointments_model extends EA_Model
             ->where('start_datetime >=', $start_date_time)
             ->where('end_datetime <=', $end_date_time)
             ->where('is_unavailability', true)
+            ->where('id_caldav_block_server =', null, false)
             ->like('id_caldav_calendar', 'RECURRENCE')
             ->delete('appointments');
     }

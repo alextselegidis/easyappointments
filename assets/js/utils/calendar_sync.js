@@ -20,9 +20,12 @@ App.Utils.CalendarSync = (function () {
     const $selectFilterItem = $('#select-filter-item');
     const $enableSync = $('#enable-sync');
     const $disableSync = $('#disable-sync');
+    const $addBlockSync = $('#add-block-sync');
+    const $syncBlockServers = $('#sync-block-servers');
     const $triggerSync = $('#trigger-sync');
     const $syncButtonGroup = $('#sync-button-group');
     const $reloadAppointments = $('#reload-appointments');
+    const $blockServers = $('.block-server');
 
     const FILTER_TYPE_PROVIDER = 'provider';
     let isSyncing = false;
@@ -362,6 +365,113 @@ App.Utils.CalendarSync = (function () {
         ]);
     }
 
+    function onAddBlockSyncClick() {
+        let defaultCaldavUrl = '',
+            defaultCaldavUsername = '',
+            defaultCaldavPassword = '';
+        const $container = $(`
+            <div>
+                <div class="mb-3">
+                    <label for="caldav-url" class="form-label">
+                        ${lang('calendar_url')}
+                    </label>
+                    <input type="text" class="form-control" id="caldav-url" value="${defaultCaldavUrl}"/>
+                </div> 
+                <div class="mb-3">
+                    <label for="caldav-username" class="form-label">
+                        ${lang('username')}
+                    </label>
+                    <input type="text" class="form-control" id="caldav-username" value="${defaultCaldavUsername}"/>
+                </div> 
+                <div class="mb-3">
+                    <label for="caldav-password" class="form-label">
+                        ${lang('password')}
+                    </label>
+                    <input type="password" class="form-control" id="caldav-password" value="${defaultCaldavPassword}"/>
+                </div>    
+                
+                <div class="alert alert-danger" hidden>
+                    <!-- JS -->
+                </div>
+            </div>
+        `);
+
+        const $messageModal = App.Utils.Message.show(
+            lang('add_block_sync'),
+            lang('caldav_connection_info_prompt_block_only'),
+            [
+                {
+                    text: lang('cancel'),
+                    click: (event, messageModal) => {
+                        messageModal.hide();
+                    },
+                },
+                {
+                    text: lang('connect'),
+                    click: (event, messageModal) => {
+                        const providerId = $selectFilterItem.val();
+
+                        $messageModal.find('.is-invalid').removeClass('is-invalid');
+
+                        const $alert = $messageModal.find('.alert');
+                        $alert.text('').prop('hidden', true);
+
+                        const $caldavUrl = $container.find('#caldav-url');
+                        const caldavUrl = $caldavUrl.val();
+
+                        if (!caldavUrl) {
+                            $caldavUrl.addClass('is-invalid');
+                            return;
+                        }
+
+                        const $caldavUsername = $container.find('#caldav-username');
+                        const caldavUsername = $caldavUsername.val();
+
+                        if (!caldavUsername) {
+                            $caldavUsername.addClass('is-invalid');
+                            return;
+                        }
+
+                        const $caldavPassword = $container.find('#caldav-password');
+                        const caldavPassword = $caldavPassword.val();
+
+                        if (!caldavPassword) {
+                            $caldavPassword.addClass('is-invalid');
+                            return;
+                        }
+
+                        App.Http.Caldav.addBlockServer(providerId, caldavUrl, caldavUsername, caldavPassword).done(
+                            (response) => {
+                                if (!response.success) {
+                                    $caldavUrl.addClass('is-invalid');
+                                    $caldavUsername.addClass('is-invalid');
+                                    $caldavPassword.addClass('is-invalid');
+
+                                    $alert.text(lang('login_failed') + ' ' + response.message).prop('hidden', false);
+
+                                    return;
+                                }
+
+                                const $selectedOption = $selectFilterItem.find('option:selected');
+
+                                $selectedOption.attr('caldav-sync', '1');
+
+                                updateSyncButtons();
+                                $syncBlockServers.trigger('click');
+
+                                App.Layouts.Backend.displayNotification(lang('sync_calendar_selected'));
+
+                                messageModal.hide();
+                            },
+                        );
+                    },
+                },
+            ],
+        );
+
+        $messageModal.find('.modal-body').append($container);
+    }
+
     function onDisableSyncClick() {
         const hasGoogleSync = hasSync('google');
 
@@ -376,6 +486,33 @@ App.Utils.CalendarSync = (function () {
             disableCaldavSync();
         }
     }
+
+    function onSyncBlockServersClick() {
+        const providerId = $selectFilterItem.val();
+        App.Http.Caldav.syncBlockServers(providerId).done((response) => {
+            if (!response.success) {
+                $alert.text(lang('calendar_sync_failed') + ' ' + response.message).prop('hidden', false);
+                return;
+            }
+            $reloadAppointments.trigger('click');
+            App.Layouts.Backend.displayNotification(lang('sync_block_calendar_selected'));
+        });
+    }
+    function onBlockServerClick($event) {
+        const providerId = $selectFilterItem.val();
+        console.log($($event.currentTarget).data());
+        if(confirm(lang('delete_block_server'))) {
+        App.Http.Caldav.deleteBlockServer(providerId,$($event.currentTarget).data().server_id).done((response) => {
+            if (!response.success) {
+                $alert.text(lang('block_server_deletion_failed') + ' ' + response.message).prop('hidden', false);
+
+                return;
+            }
+            $syncBlockServers.trigger('click');
+            App.Layouts.Backend.displayNotification(lang('block_server_deletion_success'));
+        });
+    }
+}
 
     function onTriggerSyncClick() {
         const hasGoogleSync = hasSync('google');
@@ -404,8 +541,13 @@ App.Utils.CalendarSync = (function () {
         $selectFilterItem.on('change', onSelectFilterItemChange);
         $enableSync.on('click', onEnableSyncClick);
         $disableSync.on('click', onDisableSyncClick);
+        $addBlockSync.on('click', onAddBlockSyncClick);
+        $syncBlockServers.on('click', onSyncBlockServersClick);
         $triggerSync.on('click', onTriggerSyncClick);
         updateSyncButtons();
+        $blockServers.each((index,blockServer) => {
+            $(blockServer).on('click', onBlockServerClick)
+        });
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

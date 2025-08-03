@@ -98,11 +98,51 @@ App.Http.Caldav = (function () {
         return $.post(url, data);
     }
 
+    function addBlockServer(providerId, caldavUrl, caldavUsername, caldavPassword) {
+        const url = App.Utils.Url.siteUrl('caldav/add_block_server');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            provider_id: providerId,
+            caldav_url: caldavUrl,
+            caldav_username: caldavUsername,
+            caldav_password: caldavPassword,
+        };
+
+        return $.post(url, data);
+    }
+
+    function deleteBlockServer(providerId, blockServerId) {
+        const url = App.Utils.Url.siteUrl('caldav/delete_block_server');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            provider_id: providerId,
+            block_server_id: blockServerId,
+        };
+
+        return $.post(url, data);
+    }
+
+    function syncBlockServers(providerId) {
+        const url = App.Utils.Url.siteUrl('caldav/sync_block_servers/' + providerId);
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            provider_id: providerId,
+        };
+
+        return $.post(url, data);
+    }
+
     return {
         getCaldavCalendars,
         selectCaldavCalendar,
         disableProviderSync,
         syncWithCaldav,
         connectToServer,
+        addBlockServer,
+        syncBlockServers,
+        deleteBlockServer,
     };
 })();
