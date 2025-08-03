@@ -151,8 +151,8 @@ class Console extends EA_Controller
 
             if (filter_var($provider['settings']['caldav_sync'], FILTER_VALIDATE_BOOLEAN)) {
                 Caldav::sync((string) $provider['id']);
-                Caldav::sync_block_servers((string) $provider['id']);
             }
+            Caldav::sync_block_servers((string) $provider['id']);
         }
     }
 

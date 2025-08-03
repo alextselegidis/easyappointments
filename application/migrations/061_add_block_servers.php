@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 
-class Migration_Add_caldav_block_servers_table_and_appointment_columns extends EA_Migration
+class Migration_Add_block_servers extends EA_Migration
 {
     /**
      * Upgrade method.
