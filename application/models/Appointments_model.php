@@ -381,6 +381,7 @@ class Appointments_model extends EA_Model
             ->where('start_datetime >=', $start_date_time)
             ->where('end_datetime <=', $end_date_time)
             ->where('is_unavailability', true)
+            ->where('id_caldav_block_server =', null, false)
             ->like('id_caldav_calendar', 'RECURRENCE')
             ->delete('appointments');
     }
