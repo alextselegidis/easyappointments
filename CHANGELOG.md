@@ -16,6 +16,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Update unavailable dates after applying appointment data while rescheduling (#1662)
 - Make sure that any-provider does not include hidden providers while generating availability (#1733)
 - Provide "text" version of the emails in addition to HTML (#1711)
+- Trigger webhook requests when managing records via the API (#1676)
 
 
 ## [1.5.1] - 2025-01-20
