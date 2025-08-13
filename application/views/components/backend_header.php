@@ -99,9 +99,9 @@
                             <?= lang('settings') ?>
                         </a>
                     <?php endif; ?>
-                    
+
                     <?php slot('after_settings_dropdown_item'); ?>
-                    
+
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('account') ?>
                     </a>

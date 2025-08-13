@@ -235,6 +235,22 @@ class Admins_model extends EA_Model
     }
 
     /**
+     * Get the admin settings.
+     *
+     * @param int $admin_id Admin ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $admin_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
+    }
+
+    /**
      * Insert a new admin into the database.
      *
      * @param array $admin Associative array with the admin data.
@@ -291,22 +307,6 @@ class Admins_model extends EA_Model
         foreach ($settings as $name => $value) {
             $this->set_setting($admin_id, $name, $value);
         }
-    }
-
-    /**
-     * Get the admin settings.
-     *
-     * @param int $admin_id Admin ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function get_settings(int $admin_id): array
-    {
-        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
-
-        unset($settings['id_users'], $settings['password'], $settings['salt']);
-
-        return $settings;
     }
 
     /**

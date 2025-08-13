@@ -31,7 +31,7 @@
                     </div>
 
                     <?php slot('after_select_timezone'); ?>
-                    
+
 
                     <div id="available-hours"></div>
 

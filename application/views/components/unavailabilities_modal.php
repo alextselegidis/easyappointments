@@ -29,7 +29,7 @@
                         </div>
 
                         <?php slot('after_select_appointment_provider'); ?>
-                     
+
                         <div class="mb-3">
                             <label for="unavailability-start" class="form-label">
                                 <?= lang('start') ?>
@@ -85,7 +85,7 @@
             </div>
             <div class="modal-footer">
                 <?php slot('after_unavailability_actions'); ?>
-                
+
                 <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>

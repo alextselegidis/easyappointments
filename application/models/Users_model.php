@@ -158,22 +158,6 @@ class Users_model extends EA_Model
     }
 
     /**
-     * Get the user settings.
-     *
-     * @param int $user_id User ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function get_settings(int $user_id): array
-    {
-        $settings = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
-
-        unset($settings['id_users'], $settings['password'], $settings['salt']);
-
-        return $settings;
-    }
-
-    /**
      * Set the value of a user setting.
      *
      * @param int $user_id User ID.
@@ -256,6 +240,22 @@ class Users_model extends EA_Model
         $user['settings'] = $this->get_settings($user['id']);
 
         return $user;
+    }
+
+    /**
+     * Get the user settings.
+     *
+     * @param int $user_id User ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $user_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
     }
 
     /**

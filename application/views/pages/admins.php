@@ -231,7 +231,7 @@
                             </label>
                         </div>
                     </div>
-                    
+
                     <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>

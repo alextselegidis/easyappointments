@@ -243,18 +243,6 @@ class Appointments_model extends EA_Model
     }
 
     /**
-     * Remove an existing appointment from the database.
-     *
-     * @param int $appointment_id Appointment ID.
-     *
-     * @throws RuntimeException
-     */
-    public function delete(int $appointment_id): void
-    {
-        $this->db->delete('appointments', ['id' => $appointment_id]);
-    }
-
-    /**
      * Get a specific appointment from the database.
      *
      * @param int $appointment_id The ID of the record to be returned.
@@ -355,6 +343,18 @@ class Appointments_model extends EA_Model
             ->where('is_unavailability', true)
             ->like('id_caldav_calendar', 'RECURRENCE')
             ->delete('appointments');
+    }
+
+    /**
+     * Remove an existing appointment from the database.
+     *
+     * @param int $appointment_id Appointment ID.
+     *
+     * @throws RuntimeException
+     */
+    public function delete(int $appointment_id): void
+    {
+        $this->db->delete('appointments', ['id' => $appointment_id]);
     }
 
     /**

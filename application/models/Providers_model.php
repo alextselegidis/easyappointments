@@ -250,6 +250,42 @@ class Providers_model extends EA_Model
     }
 
     /**
+     * Get the provider settings.
+     *
+     * @param int $provider_id Provider ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $provider_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
+    }
+
+    /**
+     * Get the provider service IDs.
+     *
+     * @param int $provider_id Provider ID.
+     */
+    public function get_service_ids(int $provider_id): array
+    {
+        $service_provider_connections = $this->db
+            ->get_where('services_providers', ['id_users' => $provider_id])
+            ->result_array();
+
+        $service_ids = [];
+
+        foreach ($service_provider_connections as $service_provider_connection) {
+            $service_ids[] = (int) $service_provider_connection['id_services'];
+        }
+
+        return $service_ids;
+    }
+
+    /**
      * Insert a new provider into the database.
      *
      * @param array $provider Associative array with the provider data.
@@ -321,22 +357,6 @@ class Providers_model extends EA_Model
 
             $this->set_setting($provider_id, $name, $value);
         }
-    }
-
-    /**
-     * Get the provider settings.
-     *
-     * @param int $provider_id Provider ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function get_settings(int $provider_id): array
-    {
-        $settings = $this->db->get_where('user_settings', ['id_users' => $provider_id])->row_array();
-
-        unset($settings['id_users'], $settings['password'], $settings['salt']);
-
-        return $settings;
     }
 
     /**
@@ -415,26 +435,6 @@ class Providers_model extends EA_Model
 
             $this->db->insert('services_providers', $service_provider_connection);
         }
-    }
-
-    /**
-     * Get the provider service IDs.
-     *
-     * @param int $provider_id Provider ID.
-     */
-    public function get_service_ids(int $provider_id): array
-    {
-        $service_provider_connections = $this->db
-            ->get_where('services_providers', ['id_users' => $provider_id])
-            ->result_array();
-
-        $service_ids = [];
-
-        foreach ($service_provider_connections as $service_provider_connection) {
-            $service_ids[] = (int) $service_provider_connection['id_services'];
-        }
-
-        return $service_ids;
     }
 
     /**

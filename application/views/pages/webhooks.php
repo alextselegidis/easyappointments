@@ -33,7 +33,7 @@
                     <i class="fas fa-chevron-left me-2"></i>
                     <?= lang('back') ?>
                 </a>
-                
+
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-webhook" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>
@@ -93,7 +93,7 @@
 
                 <input id="secret-header" class="form-control" disabled>
             </div>
-            
+
             <div class="mb-3">
                 <label class="form-label" for="secret-token">
                     <?= lang('secret_token') ?>

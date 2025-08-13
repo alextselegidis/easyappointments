@@ -303,7 +303,7 @@
                     </table>
 
                     <?php slot('after_working_plan'); ?>
-                   
+
                     <br>
 
                     <h4 class="text-black-50 mb-3 fw-light">
@@ -336,7 +336,7 @@
                     </table>
 
                     <?php slot('after_breaks'); ?>
-                    
+
                     <br>
 
                     <h4 class="text-black-50 mb-3 fw-light">
@@ -369,7 +369,7 @@
                     </table>
 
                     <?php component('working_plan_exceptions_modal'); ?>
-                
+
                     <?php slot('after_working_plan_exceptions'); ?>
                 </div>
             </div>

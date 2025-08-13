@@ -21,7 +21,7 @@
             </h4>
 
             <?php slot('after_page_title'); ?>
-            
+
             <div class="results">
                 <!-- JS -->
             </div>

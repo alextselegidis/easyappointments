@@ -34,7 +34,7 @@
                     <i class="fas fa-chevron-left me-2"></i>
                     <?= lang('back') ?>
                 </a>
-                
+
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-blocked-period" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>

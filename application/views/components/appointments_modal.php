@@ -109,7 +109,7 @@
                                 </div>
 
                                 <?php slot('after_select_appointment_service'); ?>
-                              
+
                                 <div class="mb-3">
                                     <label for="select-provider" class="form-label">
                                         <?= lang('provider') ?>
@@ -359,7 +359,7 @@
 
             <div class="modal-footer">
                 <?php slot('before_appointment_actions'); ?>
-                
+
                 <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>
