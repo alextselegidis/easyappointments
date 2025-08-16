@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Esitatud andmed on vigased, palun proov
 $lang['calendar_url'] = 'Kalendri URL';
 $lang['please_select'] = 'Palun Valige';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

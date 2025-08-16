@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Neplatné přihlašovací údaje, zkust
 $lang['calendar_url'] = 'URL kalendáře';
 $lang['please_select'] = 'Zvolte prosím';
 $lang['secret_header'] = 'Tajná hlavička';
+$lang['search'] = 'Search';
 // End

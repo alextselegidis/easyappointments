@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Ugyldige legitimationsoplysninger angiv
 $lang['calendar_url'] = 'Kalender URL';
 $lang['please_select'] = 'Vælg venligst';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

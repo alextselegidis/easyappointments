@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'अवैध प्रमाणपत�
 $lang['calendar_url'] = 'कॅलेंडर URL';
 $lang['please_select'] = 'कृपया निवडा';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Kredencialet e dhëna janë të pavlefs
 $lang['calendar_url'] = 'URL-ja e Kalendarit';
 $lang['please_select'] = 'Zgjidhni';
 $lang['secret_header'] = 'Header-i Sekret';
+$lang['search'] = 'Search';
 // End

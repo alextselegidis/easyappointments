@@ -427,6 +427,7 @@ $lang['december_short'] = 'Grd';
 $lang['am'] = 'priešpiet';
 $lang['pm'] = 'popiet';
 $lang['to'] = 'iki';
+$lang['click_to_toggle'] = 'Click To Toggle';
 $lang['week_short'] = 'Sav.';
 $lang['scroll_to_increment'] = 'Slinkite padidinimui';
 $lang['year'] = 'Metai';
@@ -483,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Pateikti negaliojantys duomenys, bandyk
 $lang['calendar_url'] = 'Kalendoriaus URL';
 $lang['please_select'] = 'Pasirinkite';
 $lang['secret_header'] = 'Slapta antraštė';
+$lang['search'] = 'Search';
 // End

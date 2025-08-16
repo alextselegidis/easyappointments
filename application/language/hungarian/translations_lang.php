@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Érvénytelen hitelesítő adatok lette
 $lang['calendar_url'] = 'Naptár URL';
 $lang['please_select'] = 'Kérem válasszon';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Les credencials no són vàlides, torne
 $lang['calendar_url'] = 'URL del calendari';
 $lang['please_select'] = 'Si us plau, seleccioneu';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

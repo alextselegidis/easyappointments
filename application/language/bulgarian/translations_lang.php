@@ -478,9 +478,11 @@ $lang['import'] = 'Импортиране';
 $lang['ldap_dn'] = 'LDAP DN';
 $lang['role'] = 'Роля';
 $lang['at_least_one_field_required'] = 'Поне едно поле трябва да бъде зададено като задължително на страницата за резервации.';
+$lang['customer_is_already_booked'] = 'This customer already has an appointment during the requested reservation period.';
 $lang['display_on_calendar'] = 'Покажи в календара';
 $lang['display_in_services'] = 'Покажи в услугите';
 $lang['import_ldap_users'] = 'Импортиране на LDAP потребители';
 $lang['manage_providers'] = 'Управление на доставчици';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

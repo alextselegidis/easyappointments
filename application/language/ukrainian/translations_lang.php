@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Невірні облікові дан�
 $lang['calendar_url'] = 'URL календаря';
 $lang['please_select'] = 'Будь ласка, виберіть';
 $lang['secret_header'] = 'Секретний заголовок';
+$lang['search'] = 'Search';
 // End

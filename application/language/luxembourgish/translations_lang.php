@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Onvalabel Benotzerdaten, probéiert w.e
 $lang['calendar_url'] = 'Kalenner URL';
 $lang['please_select'] = 'Wielt w.e.g.';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

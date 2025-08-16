@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Navedene neveljavne poverilnice, poskus
 $lang['calendar_url'] = 'URL koledarja';
 $lang['please_select'] = 'Prosim izberite';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

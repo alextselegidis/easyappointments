@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Tunnukset olivat virheelliset, ole hyv√
 $lang['calendar_url'] = 'Kalenterin URL';
 $lang['please_select'] = 'Valitse';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End
