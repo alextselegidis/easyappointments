@@ -41,9 +41,15 @@ class Secretaries extends EA_Controller
         'settings',
         'providers',
     ];
-    public array $allowed_secretary_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
     public array $optional_secretary_fields = [
         'providers' => [],
+    ];
+
+    public array $allowed_secretary_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
+    public array $optional_secretary_setting_fields = [
+        //
     ];
 
     /**
@@ -154,9 +160,11 @@ class Secretaries extends EA_Controller
 
             $this->secretaries_model->only($secretary, $this->allowed_secretary_fields);
 
+            $this->secretaries_model->optional($secretary, $this->optional_secretary_fields);
+
             $this->secretaries_model->only($secretary['settings'], $this->allowed_secretary_setting_fields);
 
-            $this->secretaries_model->optional($secretary, $this->optional_secretary_fields);
+            $this->secretaries_model->optional($secretary['settings'], $this->optional_secretary_setting_fields);
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
