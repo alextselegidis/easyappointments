@@ -16,7 +16,7 @@ jobs:
           php_extensions: gd
           version: 2
       - name: PHPUnit Tests
-        uses: php-actions/phpunit@v3
+        uses: php-actions/phpunit@v4
         env:
           TEST_NAME: Test
         with:
