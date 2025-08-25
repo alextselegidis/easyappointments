@@ -10,9 +10,6 @@
 /docker/openldap/
 /node_modules/
 /npm-debug.log
-/assets/js/**/*.min.js
-/assets/css/**/*.css
-/assets/vendor
 /config.php
 /storage/backups/*
 !/storage/backups/.htaccess
@@ -28,6 +25,5 @@
 !/storage/sessions/index.html
 /storage/uploads/*
 !/storage/uploads/index.html
-/vendor/
 /metafile
 .DS_Store

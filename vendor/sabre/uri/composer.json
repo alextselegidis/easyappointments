@@ -1,0 +1,68 @@
+{
+    "name": "sabre/uri",
+    "description": "Functions for making sense out of URIs.",
+    "keywords": [
+        "URI",
+        "URL",
+        "rfc3986"
+    ],
+    "homepage": "http://sabre.io/uri/",
+    "license": "BSD-3-Clause",
+    "require": {
+        "php": "^7.4 || ^8.0"
+    },
+    "authors": [
+        {
+            "name": "Evert Pot",
+            "email": "me@evertpot.com",
+            "homepage": "http://evertpot.com/",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "forum": "https://groups.google.com/group/sabredav-discuss",
+        "source": "https://github.com/fruux/sabre-uri"
+    },
+    "autoload": {
+        "files" : [
+            "lib/functions.php"
+        ],
+        "psr-4" : {
+            "Sabre\\Uri\\" : "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sabre\\Uri\\": "tests/Uri"
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan-phpunit": "^1.4",
+        "phpstan/phpstan-strict-rules": "^1.6",
+        "phpstan/extension-installer": "^1.4",
+        "phpunit/phpunit" : "^9.6"
+    },
+    "scripts": {
+        "phpstan": [
+            "phpstan analyse lib tests"
+        ],
+        "cs-fixer": [
+            "php-cs-fixer fix"
+        ],
+        "phpunit": [
+            "phpunit --configuration tests/phpunit.xml"
+        ],
+        "test": [
+            "composer phpstan",
+            "composer cs-fixer",
+            "composer phpunit"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    }
+}
