@@ -355,7 +355,7 @@ class Users_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->db->escape($order_by))
+            ->order_by($this->quote_order_by($order_by))
             ->get()
             ->result_array();
 
@@ -388,7 +388,7 @@ class Users_model extends EA_Model
         }
 
         if ($order_by !== null) {
-            $this->db->order_by($this->db->escape($order_by));
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
         $users = $this->db->get('users', $limit, $offset)->result_array();
