@@ -264,6 +264,7 @@ class Booking extends EA_Controller
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,
+            'customer_token' => $customer_token,
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
         ]);
@@ -309,7 +310,6 @@ class Booking extends EA_Controller
             'timezones' => $timezones,
             'grouped_timezones' => $grouped_timezones,
             'manage_mode' => $manage_mode,
-            'customer_token' => $customer_token,
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,
