@@ -437,24 +437,22 @@ class Google_sync
         $customer = $this->CI->customers_model->find($appointment['id_users_customer']);
 
         $provider_timezone_instance = new DateTimeZone($provider['timezone']);
-
         $utc_timezone_instance = new DateTimeZone('UTC');
 
         $appointment_start_instance = new DateTime($appointment['start_datetime'], $provider_timezone_instance);
-
         $appointment_start_instance->setTimezone($utc_timezone_instance);
 
         $appointment_end_instance = new DateTime($appointment['end_datetime'], $provider_timezone_instance);
-
         $appointment_end_instance->setTimezone($utc_timezone_instance);
 
+        // Collect invitees
         $add = [$provider['email']];
-
         if (!empty($customer['email'])) {
             $add[] = $customer['email'];
         }
 
-        $add_to_google_url_params = [
+        // Base params (everything except add)
+        $params = [
             'action' => 'TEMPLATE',
             'text' => $service['name'],
             'dates' =>
@@ -463,9 +461,16 @@ class Google_sync
                 $appointment_end_instance->format('Ymd\THis\Z'),
             'location' => setting('company_name'),
             'details' => 'View/Change Appointment: ' . site_url('booking/reschedule/' . $appointment['hash']),
-            'add' => implode(', ', $add),
         ];
 
-        return 'https://calendar.google.com/calendar/render?' . http_build_query($add_to_google_url_params);
+        // Build base query
+        $query = http_build_query($params);
+
+        // Append each guest separately
+        foreach ($add as $email) {
+            $query .= '&add=' . rawurlencode($email);
+        }
+
+        return 'https://calendar.google.com/calendar/render?' . $query;
     }
 }
