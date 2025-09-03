@@ -1,0 +1,33 @@
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  COMPOSER_HOME: "$CI_PROJECT_DIR/.composer"
+
+before_script:
+  - apt-get update -y
+  - apt-get install -y unzip git curl php-cli php-mbstring php-xml composer
+
+build:
+  stage: build
+  script:
+    - composer install --no-interaction
+  artifacts:
+    paths:
+      - vendor/
+
+test:
+  stage: test
+  script:
+    - echo "No tests defined yet"
+  allow_failure: true
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deployment step placeholder"
+  environment:
+    name: staging
+    url: http://staging.example.com
