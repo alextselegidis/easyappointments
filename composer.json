@@ -43,11 +43,11 @@
         "sabre/vobject": "^4.5",
         "ezyang/htmlpurifier": "^4.17",
         "symfony/finder": "^6.4",
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "phpunit/phpunit": "^9.5"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^9.6"
+        "roave/security-advisories": "dev-master"
     },
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
@@ -60,7 +60,11 @@
     },
     "autoload": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "App\\": "application/"
+            
         }
     }
+
+    
 }

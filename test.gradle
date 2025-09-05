@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+// Run PHPUnit tests
+task phpUnitTest(type: Exec) {
+    description = 'Run PHPUnit tests'
+    group = 'verification'
+
+    def phpunit = file('phpunit').exists() ? './phpunit' : 'vendor/bin/phpunit'
+
+    // Run PHPUnit with the --configuration option to specify phpunit.xml
+    commandLine 'php', phpunit,
+                '--configuration', 'phpunit.xml',  // Specify the phpunit.xml config file
+                '--testdox',                       // Use TestDox output format (optional)
+                '--colors=always',                 // Colorize the output (optional)
+                '--log-junit', 'build/test-logs/test-results.xml',  // Log JUnit XML report
+                'tests'                            // Run tests located in the 'tests' directory
+}
+
+
+test {
+    dependsOn phpUnitTest
+    reports {
+        junitXml.required.set(true)   // Generate JUnit XML report
+        html.required.set(true)       // Gradle should still attempt to generate an HTML report
+    }
+}
