@@ -1,0 +1,51 @@
+
+services:
+  db:
+    image: mysql:8.4
+    platform: linux/amd64
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootsecret}
+      MYSQL_DATABASE: ${DB_NAME:-easyappointments}
+      MYSQL_USER: ${DB_USER:-ea_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-ea_pass}
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+
+  app:
+    image: alextselegidis/easyappointments:latest
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      BASE_URL: ${BASE_URL:-http://localhost:8080}
+      DEBUG_MODE: "TRUE"
+      DB_HOST: db
+      DB_NAME: ${DB_NAME:-easyappointments}
+      DB_USERNAME: ${DB_USER:-ea_user}
+      DB_PASSWORD: ${DB_PASSWORD:-ea_pass}
+    volumes:
+      - ea_storage:/var/www/html/storage
+    ports:
+      - "8080:80"
+
+  phpmyadmin:
+    image: phpmyadmin:5-apache
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PMA_HOST: db
+      PMA_USER: ${DB_USER:-ea_user}
+      PMA_PASSWORD: ${DB_PASSWORD:-ea_pass}
+    ports:
+      - "8081:80"
+
+volumes:
+  db_data:
+  ea_storage:

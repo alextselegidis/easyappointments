@@ -1,0 +1,63 @@
+plugins { id 'base' }
+
+// Because this build file lives in /deploy, the repo root is its parent folder.
+def repoRoot    = file('..').canonicalFile
+def composeFile = new File(repoRoot, "deploy/docker-compose.yml").absolutePath
+
+// Prefer .env at repo root; if not there, fall back to deploy/.env
+def rootEnvFile   = new File(repoRoot, ".env")
+def deployEnvFile = new File(repoRoot, "deploy/.env")
+def envFile       = (rootEnvFile.exists() ? rootEnvFile : deployEnvFile).absolutePath
+
+def dockerCmd = "docker"  // Works on Windows too when Docker Desktop is installed
+
+tasks.register("deployUp", Exec) {
+    group = "deployment"
+    description = "Build and start the Dockerized staging environment"
+    workingDir repoRoot
+    commandLine dockerCmd, "compose", "-f", composeFile, "--env-file", envFile, "up", "-d", "--build"
+}
+
+tasks.register("deployLogs", Exec) {
+    group = "deployment"
+    description = "Tail logs from the app container"
+    workingDir repoRoot
+    commandLine dockerCmd, "compose", "-f", composeFile, "--env-file", envFile, "logs", "-f", "app"
+}
+
+tasks.register("deployDown", Exec) {
+    group = "deployment"
+    description = "Stop and remove the staging environment"
+    workingDir repoRoot
+    commandLine dockerCmd, "compose", "-f", composeFile, "--env-file", envFile, "down", "-v"
+}
+
+tasks.register("printPaths") {
+    group = "deployment"
+    description = "Print resolved paths for debugging"
+    doLast {
+        println "repoRoot   = ${repoRoot}"
+        println "composeFile= ${composeFile}"
+        println "envFile    = ${envFile}"
+    }
+}
+
+tasks.register("deployStatus") {
+    group = "deployment"
+    description = "Show URLs and next steps"
+    doLast {
+        println "\n--- Easy!Appointments Staging ---"
+        println "Compose file:  ${composeFile}"
+        println "Env file:      ${envFile}"
+        println "App URL:       ${System.getenv('BASE_URL') ?: 'http://localhost:8080'}"
+        println "phpMyAdmin:    http://localhost:8081"
+        println "Use 'gradle -b .\\deploy\\deploy.gradle deployLogs' to watch logs"
+    }
+}
+
+tasks.register("deployStaging") {
+    group = "deployment"
+    description = "Up + status"
+    dependsOn "deployUp"
+    finalizedBy "deployStatus"
+}
