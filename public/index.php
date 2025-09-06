@@ -47,13 +47,13 @@
  *
  */
 
-if (!file_exists(__DIR__ . '/config.php')) {
+if (!file_exists(dirname(__DIR__) . '/config.php')) {
     die(
         'The root "config.php" file is missing, please copy "config-sample.php" to "config.php" and update it with your server data.'
     );
 }
 
-require_once __DIR__ . '/config.php';
+require_once dirname(__DIR__) . '/config.php';
 
 /*
  *---------------------------------------------------------------
@@ -65,13 +65,13 @@ require_once __DIR__ . '/config.php';
  *
  */
 
-if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+if (!file_exists(dirname(__DIR__) . '/vendor/autoload.php')) {
     die(
         'The "vendor/autoload.php" file is missing, please install the Composer dependencies with "composer install" before using the app.'
     );
 }
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 /*
  *---------------------------------------------------------------
@@ -151,7 +151,7 @@ switch (ENVIRONMENT) {
  * This variable must contain the name of your "system" directory.
  * Set the path if it is not in the same directory as this file.
  */
-$system_path = 'system';
+$system_path = dirname(__DIR__) . '/system';
 
 /*
  *---------------------------------------------------------------
@@ -168,7 +168,7 @@ $system_path = 'system';
  *
  * NO TRAILING SLASH!
  */
-$application_folder = 'application';
+$application_folder = dirname(__DIR__) . '/application';
 
 /*
  *---------------------------------------------------------------

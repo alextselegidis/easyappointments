@@ -32,7 +32,7 @@ function archive(done) {
 
     fs.mkdirsSync('build');
     fs.copySync('application', 'build/application');
-    fs.copySync('assets', 'build/assets');
+    fs.copySync('public', 'build/public');
     fs.copySync('system', 'build/system');
 
     fs.ensureDirSync('build/storage/backups');
@@ -54,7 +54,6 @@ function archive(done) {
     fs.ensureDirSync('build/storage/uploads');
     fs.copySync('storage/uploads/index.html', 'build/storage/uploads/index.html');
 
-    fs.copySync('index.php', 'build/index.php');
     fs.copySync('patch.php', 'build/patch.php');
     fs.copySync('composer.json', 'build/composer.json');
     fs.copySync('composer.lock', 'build/composer.lock');
@@ -79,8 +78,7 @@ function archive(done) {
 }
 
 function clean(done) {
-    fs.removeSync('assets/js/**/*.min.js');
-    fs.removeSync('assets/css/**/*.min.css');
+    fs.removeSync('public/assets');
     done();
 }
 
@@ -89,9 +87,10 @@ function scripts() {
         .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
         .pipe(plumber())
         .pipe(changed('assets/js/**/*'))
+        .pipe(gulp.dest('public/assets/js'))
         .pipe(babel({comments: false}))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/js'));
+        .pipe(gulp.dest('public/assets/js'));
 }
 
 function styles() {
@@ -100,90 +99,96 @@ function styles() {
         .pipe(plumber())
         .pipe(cached())
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest('assets/css'))
+        .pipe(gulp.dest('public/assets/css'))
         .pipe(css())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/css'));
+        .pipe(gulp.dest('public/assets/css'));
+}
+
+function images() {
+    return gulp
+        .src(['assets/img/**'])
+        .pipe(gulp.dest('public/assets/img'))
 }
 
 function watch(done) {
-    gulp.watch(['assets/js/**/*.js', '!assets/js/**/*.min.js'], gulp.parallel(scripts));
-    gulp.watch(['assets/css/**/*.scss', '!assets/css/**/*.css'], gulp.parallel(styles));
+    gulp.watch(['assets/js/**/*.js'], gulp.parallel(scripts));
+    gulp.watch(['assets/css/**/*.scss'], gulp.parallel(styles));
     done();
 }
 
 function vendor(done) {
-    del.sync(['assets/vendor/**', '!assets/vendor/index.html']);
+    del.sync(['public/assets/vendor/**', '!public/assets/vendor/index.html']);
 
     // bootstrap
     gulp.src([
         'node_modules/bootstrap/dist/js/bootstrap.min.js',
         'node_modules/bootstrap/dist/css/bootstrap.min.css',
-    ]).pipe(gulp.dest('assets/vendor/bootstrap'));
+    ]).pipe(gulp.dest('public/assets/vendor/bootstrap'));
 
     // @fortawesome-fontawesome-free
     gulp.src([
         'node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js',
         'node_modules/@fortawesome/fontawesome-free/js/solid.min.js',
-    ]).pipe(gulp.dest('assets/vendor/@fortawesome-fontawesome-free'));
+    ]).pipe(gulp.dest('public/assets/vendor/@fortawesome-fontawesome-free'));
 
     // cookieconsent
     gulp.src([
         'node_modules/cookieconsent/build/cookieconsent.min.js',
         'node_modules/cookieconsent/build/cookieconsent.min.css',
-    ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
+    ]).pipe(gulp.dest('public/assets/vendor/cookieconsent'));
 
     // fullcalendar
-    gulp.src(['node_modules/fullcalendar/index.global.min.js']).pipe(gulp.dest('assets/vendor/fullcalendar'));
+    gulp.src(['node_modules/fullcalendar/index.global.min.js']).pipe(gulp.dest('public/assets/vendor/fullcalendar'));
 
     // fullcalendar-moment
     gulp.src(['node_modules/@fullcalendar/moment/index.global.min.js']).pipe(
-        gulp.dest('assets/vendor/fullcalendar-moment'),
+        gulp.dest('public/assets/vendor/fullcalendar-moment'),
     );
 
     // jquery
-    gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('assets/vendor/jquery'));
+    gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('public/assets/vendor/jquery'));
 
     // jquery-jeditable
     gulp.src(['node_modules/jquery-jeditable/dist/jquery.jeditable.min.js']).pipe(
-        gulp.dest('assets/vendor/jquery-jeditable'),
+        gulp.dest('public/assets/vendor/jquery-jeditable'),
     );
 
     // moment
-    gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('assets/vendor/moment'));
+    gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('public/assets/vendor/moment'));
 
     // moment-timezone
     gulp.src(['node_modules/moment-timezone/builds/moment-timezone-with-data.min.js']).pipe(
-        gulp.dest('assets/vendor/moment-timezone'),
+        gulp.dest('public/assets/vendor/moment-timezone'),
     );
 
     // @popperjs-core
-    gulp.src(['node_modules/@popperjs/core/dist/umd/popper.min.js']).pipe(gulp.dest('assets/vendor/@popperjs-core'));
+    gulp.src(['node_modules/@popperjs/core/dist/umd/popper.min.js']).pipe(gulp.dest('public/assets/vendor/@popperjs-core'));
 
     // select2
     gulp.src(['node_modules/select2/dist/js/select2.min.js', 'node_modules/select2/dist/css/select2.min.css']).pipe(
-        gulp.dest('assets/vendor/select2'),
+        gulp.dest('public/assets/vendor/select2'),
     );
 
     // tippy.js
-    gulp.src(['node_modules/tippy.js/dist/tippy-bundle.umd.min.js']).pipe(gulp.dest('assets/vendor/tippy.js'));
+    gulp.src(['node_modules/tippy.js/dist/tippy-bundle.umd.min.js']).pipe(gulp.dest('public/assets/vendor/tippy.js'));
 
     // trumbowyg
     gulp.src(['node_modules/trumbowyg/dist/trumbowyg.min.js', 'node_modules/trumbowyg/dist/ui/trumbowyg.min.css']).pipe(
-        gulp.dest('assets/vendor/trumbowyg'),
+        gulp.dest('public/assets/vendor/trumbowyg'),
     );
 
-    gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg']).pipe(gulp.dest('assets/vendor/trumbowyg/ui'));
+    gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg']).pipe(gulp.dest('public/assets/vendor/trumbowyg/ui'));
 
     // flatpickr
     gulp.src(['node_modules/flatpickr/dist/flatpickr.min.js', 'node_modules/flatpickr/dist/flatpickr.min.css']).pipe(
-        gulp.dest('assets/vendor/flatpickr'),
+        gulp.dest('public/assets/vendor/flatpickr'),
     );
 
     gulp.src(['node_modules/flatpickr/dist/themes/material_green.css'])
         .pipe(css())
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('assets/vendor/flatpickr'));
+        .pipe(gulp.dest('public/assets/vendor/flatpickr'));
 
     done();
 }
@@ -192,7 +197,8 @@ exports.clean = gulp.series(clean);
 exports.vendor = gulp.series(vendor);
 exports.scripts = gulp.series(scripts);
 exports.styles = gulp.series(styles);
-exports.compile = gulp.series(clean, vendor, scripts, styles);
-exports.dev = gulp.series(clean, vendor, scripts, styles, watch);
-exports.build = gulp.series(clean, vendor, scripts, styles, archive);
+exports.images = gulp.series(images);
+exports.compile = gulp.series(clean, vendor, scripts, styles, images);
+exports.dev = gulp.series(clean, vendor, scripts, styles, images, watch);
+exports.build = gulp.series(clean, vendor, scripts, styles, images, archive);
 exports.default = exports.dev;
