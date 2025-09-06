@@ -1,0 +1,219 @@
+// =====================================
+// Plugins
+// =====================================
+plugins {
+    id 'base'  // Provides basic task types: Copy, Zip, Delete
+}
+
+// =====================================
+// Project Information
+// =====================================
+group = 'com.easyappointments'
+version = '1.0.0'
+
+// =====================================
+// Global Variables
+// =====================================
+ext {
+    buildDirPath = "${projectDir}/build"
+    distDirPath = "${buildDirPath}/dist"
+    composerCmd = System.getProperty("os.name").toLowerCase().contains("windows") ? "composer.bat" : "composer"
+    npmCmd = System.getProperty("os.name").toLowerCase().contains("windows") ? "npm.cmd" : "npm"
+}
+
+// -----------------------------
+// Check PHP Version Task
+// Ensures PHP >= 8.2 is installed
+// -----------------------------
+tasks.register("checkPhpVersion") {
+    doLast {
+        println "Checking PHP version..."
+        def process = ["php", "-r", "echo PHP_VERSION;"].execute()
+        process.waitFor()
+        def version = process.in.text.trim()
+        println "PHP version installed: $version"
+        if (!version.startsWith("8.2") && !version.startsWith("8.3")) {
+            throw new GradleException("PHP >= 8.2 is required. Found: $version")
+        }
+    }
+}
+
+// -----------------------------
+// Check PHP Extensions Task
+// Ensures required extensions are enabled
+// -----------------------------
+tasks.register("checkPhpExtensions") {
+    doLast {
+        def required = ["curl", "mbstring", "gd", "fileinfo", "openssl","mysqli"]
+        println "Checking required PHP extensions..."
+        def process = ["php", "-m"].execute()
+        process.waitFor()
+        def extensions = process.in.text.readLines().collect { it.toLowerCase().trim() }
+        def missing = required.findAll { !extensions.contains(it) }
+        if (!missing.isEmpty()) {
+            throw new GradleException("❌ Missing PHP extensions: ${missing.join(', ')}. Enable them in php.ini")
+        } else {
+            println "✅ All required PHP extensions are enabled."
+        }
+    }
+}
+
+// -----------------------------
+// Composer Install Task
+// Installs PHP dependencies
+// -----------------------------
+tasks.register("composerInstall") {
+    dependsOn("checkPhpVersion", "checkPhpExtensions")
+    doLast {
+        println "Installing PHP dependencies..."
+        exec {
+            workingDir projectDir
+            commandLine composerCmd, "install", "--no-dev", "--optimize-autoloader"
+        }
+    }
+}
+
+// -----------------------------
+// NPM Install Task
+// Installs Node.js dependencies
+// -----------------------------
+tasks.register("npmInstall") {
+    doLast {
+        println "Installing Node.js dependencies..."
+        exec {
+            workingDir projectDir
+            commandLine npmCmd, "install"
+        }
+    }
+}
+
+// -----------------------------
+// NPM Build Task
+// Builds frontend assets
+// -----------------------------
+tasks.register("npmBuild") {
+    dependsOn("npmInstall")
+    doLast {
+        println "Building frontend assets..."
+        exec {
+            workingDir projectDir
+            commandLine npmCmd, "run", "build"
+        }
+    }
+}
+
+// -----------------------------
+// Prepare Build Directory Task
+// Creates clean build directories
+// -----------------------------
+tasks.register("prepareBuildDir") {
+    dependsOn("composerInstall", "npmBuild")
+    doLast {
+        println "Preparing build directory..."
+        delete(buildDirPath)
+        mkdir(buildDirPath)
+        mkdir(distDirPath)
+    }
+}
+
+// -----------------------------
+// Copy Application Files Task
+// Copies source files (excluding unnecessary folders)
+// -----------------------------
+tasks.register("copyAppFiles", Copy) {
+    dependsOn("prepareBuildDir")
+
+    // Copy folders with structure
+    from("application") {
+        into "application"
+    }
+    from("assets") {
+        into "assets"
+    }
+    from("storage") {
+        into "storage"
+    }
+    from("system") {
+        into "system"
+    }
+    from("tests") {
+        into "tests"
+    }
+
+    // Copy files at root
+    from(
+        "composer.json",
+        "composer.lock",
+        "index.php",
+        "package.json",
+        "package-lock.json",
+        "babel.config.json",
+        "gulpfile.js",
+        "README.md",
+        "LICENSE",
+        "CHANGELOG.md"
+    )
+
+    // Copy and rename config
+    from("config-sample.php") {
+        rename { "config.php" }
+    }
+
+    into("${distDirPath}/easyappointments")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    includeEmptyDirs = true
+}
+
+
+// -----------------------------
+// Copy Vendor Task
+// Copies PHP dependencies from vendor folder
+// -----------------------------
+tasks.register("copyVendor", Copy) {
+    dependsOn("composerInstall", "prepareBuildDir")
+    from("vendor")
+    into("${distDirPath}/easyappointments/vendor")
+    doNotTrackState("Vendor folder may contain external files; incremental build disabled")
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// -----------------------------
+// Copy Frontend Assets Task
+// Copies built frontend assets
+// -----------------------------
+tasks.register("copyFrontend", Copy) {
+    dependsOn("npmBuild", "prepareBuildDir")
+    from("public/assets")
+    into("${distDirPath}/easyappointments/public/assets")
+    doNotTrackState("Frontend assets copy; incremental tracking disabled")
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// -----------------------------
+// Package Application Task
+// Creates ZIP archive of the application
+// -----------------------------
+tasks.register("packageApp", Zip) {
+    dependsOn("copyAppFiles", "copyVendor", "copyFrontend")
+    archiveFileName.set("easyappointments.zip")
+    destinationDirectory.set(file(buildDirPath))
+    from("${distDirPath}/easyappointments")
+}
+
+// -----------------------------
+// Main Build Task
+// Orchestrates the entire build pipeline
+// -----------------------------
+tasks.register("buildApp") {
+    dependsOn("packageApp")
+    doLast {
+        println "✅ Easy!Appointments packaged successfully: ${buildDirPath}/easyappointments.zip"
+    }
+}
+
+// Hook Gradle's default build task
+tasks.named("build") {
+    dependsOn("buildApp")
+}
