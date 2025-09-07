@@ -62,7 +62,6 @@
         "psr-4": {
             "Tests\\": "tests/",
             "App\\": "application/"
-            
         }
     }
 

@@ -5,13 +5,13 @@
          bootstrap="tests/bootstrap.php"
          colors="true"
 >
+
     <testsuites>
         <testsuite name="Application Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
 
-    <!-- Corrected logging configuration -->
     <logging>
         <junit outputFile="build/reports/tests/test/results.xml"/>
         <testdoxHtml outputFile="build/reports/tests/test/index.html"/>
