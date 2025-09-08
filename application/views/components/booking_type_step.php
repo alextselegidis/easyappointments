@@ -78,8 +78,6 @@
                     </select>
                 </div>
 
-                <?php slot('after_select_service'); ?>
-
                 <div class="mb-3" hidden>
                     <label for="select-provider">
                         <strong><?= lang('provider') ?></strong>
@@ -92,13 +90,9 @@
                     </select>
                 </div>
 
-                <?php slot('after_select_provider'); ?>
-
                 <div id="service-description" class="small">
                     <!-- JS -->
                 </div>
-
-                <?php slot('after_service_description'); ?>
 
             </div>
         </div>

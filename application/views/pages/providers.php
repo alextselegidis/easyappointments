@@ -20,8 +20,6 @@
                 <?= lang('providers') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
             <div class="results">
                 <!-- JS -->
             </div>
@@ -54,7 +52,6 @@
                     </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <ul class="nav nav-pills switch-view">
@@ -164,7 +161,6 @@
                                 <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                             </div>
 
-                            <?php slot('after_primary_fields'); ?>
                         </div>
                         <div class="settings col-12 col-md-6">
                             <div class="mb-3">
@@ -277,7 +273,6 @@
                                 <!-- JS -->
                             </div>
 
-                            <?php slot('after_secondary_fields'); ?>
                         </div>
                     </div>
                 </div>
@@ -301,8 +296,6 @@
                         </thead>
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
-
-                    <?php slot('after_working_plan'); ?>
 
                     <br>
 
@@ -334,8 +327,6 @@
                         </thead>
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
-
-                    <?php slot('after_breaks'); ?>
 
                     <br>
 
@@ -370,7 +361,6 @@
 
                     <?php component('working_plan_exceptions_modal'); ?>
 
-                    <?php slot('after_working_plan_exceptions'); ?>
                 </div>
             </div>
         </div>

@@ -15,7 +15,6 @@
             <div class="col-12 col-md-6">
                 <div id="select-date"></div>
 
-                <?php slot('after_select_date'); ?>
             </div>
 
             <div class="col-12 col-md-6">
@@ -30,12 +29,8 @@
                         ]); ?>
                     </div>
 
-                    <?php slot('after_select_timezone'); ?>
-
-
                     <div id="available-hours"></div>
 
-                    <?php slot('after_available_hours'); ?>
                 </div>
             </div>
         </div>

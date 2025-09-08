@@ -23,8 +23,6 @@
 
         </div>
 
-        <?php slot('after_details'); ?>
-
         <?php if (setting('require_captcha')): ?>
             <div class="row frame-content m-auto">
                 <div class="col">
@@ -41,7 +39,6 @@
             </div>
         <?php endif; ?>
 
-        <?php slot('after_captcha'); ?>
     </div>
 
     <div class="d-flex fs-6 justify-content-around">
@@ -69,7 +66,6 @@
             </div>
         <?php endif; ?>
 
-        <?php slot('after_select_policies'); ?>
     </div>
 
     <div class="command-buttons">

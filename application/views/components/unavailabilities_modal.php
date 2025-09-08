@@ -28,8 +28,6 @@
                             <select id="unavailability-provider" class="form-select"></select>
                         </div>
 
-                        <?php slot('after_select_appointment_provider'); ?>
-
                         <div class="mb-3">
                             <label for="unavailability-start" class="form-label">
                                 <?= lang('start') ?>
@@ -79,12 +77,10 @@
                             <textarea id="unavailability-notes" rows="3" class="form-control"></textarea>
                         </div>
 
-                        <?php slot('after_primary_unavailability_fields'); ?>
                     </fieldset>
                 </form>
             </div>
             <div class="modal-footer">
-                <?php slot('after_unavailability_actions'); ?>
 
                 <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
