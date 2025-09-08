@@ -4,7 +4,7 @@
 
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
-        <div id="calendar-filter" class="col-md-3">
+        <div id="calendar-filter" class="col-lg-3">
             <div class="calendar-filter-items">
                 <select id="select-filter-item"
                         class="form-select col"
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-md-9">
+        <div id="calendar-actions" class="col-lg-9">
             <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
                 <button
                     id="enable-sync"

@@ -27,7 +27,7 @@
         <h2 class="frame-title"><?= lang('customer_information') ?></h2>
 
         <div class="row frame-content">
-            <div class="col-12 col-md-6 field-col mx-auto">
+            <div class="col-12 col-lg-6 field-col mx-auto">
                 <?php if ($display_first_name): ?>
                     <div class="mb-3">
                         <label for="first-name" class="form-label">
@@ -84,7 +84,7 @@
 
             </div>
 
-            <div class="col-12 col-md-6 field-col mx-auto">
+            <div class="col-12 col-lg-6 field-col mx-auto">
                 <?php if ($display_address): ?>
                     <div class="mb-3">
                         <label for="address" class="form-label">

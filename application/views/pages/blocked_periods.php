@@ -5,7 +5,7 @@
 <div class="container backend-page" id="blocked-periods-page">
 
     <div class="row" id="blocked-periods">
-        <div id="filter-blocked-periods" class="filter-records column col-12 col-md-5">
+        <div id="filter-blocked-periods" class="filter-records column col-12 col-lg-5">
             <form class="input-append mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="record-details col-12 col-md-5">
+        <div class="record-details col-12 col-lg-5">
             <div class="btn-toolbar mb-4">
                 <a href="<?= site_url('business_settings') ?>" class="btn btn-outline-primary me-2">
                     <i class="fas fa-chevron-left me-2"></i>

@@ -5,7 +5,7 @@
 <div class="container backend-page" id="service-categories-page">
 
     <div class="row" id="service-categories">
-        <div id="filter-service-categories" class="filter-records column col-12 col-md-5">
+        <div id="filter-service-categories" class="filter-records column col-12 col-lg-5">
             <form class="input-append mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="record-details col-12 col-md-5">
+        <div class="record-details col-12 col-lg-5">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-service-category" class="btn btn-primary">

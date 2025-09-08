@@ -4,7 +4,7 @@
 
 <div class="container backend-page" id="admins-page">
     <div class="row" id="admins">
-        <div id="filter-admins" class="filter-records column col-12 col-md-5">
+        <div id="filter-admins" class="filter-records column col-12 col-lg-5">
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-7">
+        <div class="record-details column col-12 col-lg-7">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-admin" class="btn btn-primary">
@@ -63,7 +63,7 @@
             <input type="hidden" id="id" class="record-id">
 
             <div class="row">
-                <div class="details col-12 col-md-6">
+                <div class="details col-12 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label" for="first-name">
                             <?= lang('first_name') ?>
@@ -141,7 +141,7 @@
                     </div>
 
                 </div>
-                <div class="settings col-12 col-md-6">
+                <div class="settings col-12 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label" for="username">
                             <?= lang('username') ?>

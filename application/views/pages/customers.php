@@ -4,7 +4,7 @@
 
 <div class="container backend-page" id="customers-page">
     <div class="row" id="customers">
-        <div id="filter-customers" class="filter-records col col-12 col-md-5">
+        <div id="filter-customers" class="filter-records col col-12 col-lg-5">
             <form class="mb-4">
                 <div class="input-group mb-3">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -25,7 +25,7 @@
             </div>
         </div>
 
-        <div class="record-details col-12 col-md-7">
+        <div class="record-details col-12 col-lg-7">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if (
@@ -68,7 +68,7 @@
             <input id="customer-id" type="hidden">
 
             <div class="row">
-                <div class="col-12 col-md-6" style="margin-left: 0;">
+                <div class="col-12 col-lg-6" style="margin-left: 0;">
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('details') ?>
                     </h4>
@@ -204,7 +204,7 @@
 
                 </div>
 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6">
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('appointments') ?>
                     </h4>

@@ -11,7 +11,7 @@
         <h2 class="frame-title mt-md-5"><?= lang('service_and_provider') ?></h2>
 
         <div class="row frame-content">
-            <div class="col col-md-8 offset-md-2">
+            <div class="col col-lg-8 offset-md-2">
                 <div class="mb-3">
                     <label for="select-service">
                         <strong><?= lang('service') ?></strong>
