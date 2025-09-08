@@ -21,8 +21,7 @@ const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const zip = require('zip-dir');
-
-// const debug = require('gulp-debug');
+const debug = require('gulp-debug');
 
 function archive(done) {
     const filename = 'easyappointments-0.0.0.zip';
