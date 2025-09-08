@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="blocked-periods-page">
+<div class="container backend-page" id="blocked-periods-page">
 
     <div class="row" id="blocked-periods">
         <div id="filter-blocked-periods" class="filter-records column col-12 col-md-5">

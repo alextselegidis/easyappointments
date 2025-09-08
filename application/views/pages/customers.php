@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="customers-page">
+<div class="container backend-page" id="customers-page">
     <div class="row" id="customers">
         <div id="filter-customers" class="filter-records col col-12 col-md-5">
             <form class="mb-4">

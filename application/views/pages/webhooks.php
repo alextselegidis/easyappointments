@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="webhooks-page">
+<div class="container backend-page" id="webhooks-page">
     <div class="row" id="webhooks">
         <div id="filter-webhooks" class="filter-records col col-12 col-md-5">
             <form class="mb-4">
