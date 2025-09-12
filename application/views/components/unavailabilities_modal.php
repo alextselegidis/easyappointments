@@ -8,7 +8,7 @@
 ?>
 
 <div id="unavailabilities-modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('new_unavailability_title') ?></h3>

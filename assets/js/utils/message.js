@@ -57,7 +57,7 @@ window.App.Utils.Message = (function () {
 
         const $messageModal = $(`
             <div class="modal" id="message-modal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">

@@ -7,7 +7,7 @@
 ?>
 
 <div id="terms-and-conditions-modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><?= lang('terms_and_conditions') ?></h4>
