@@ -482,6 +482,7 @@ $lang['customer_is_already_booked'] = 'This customer already has an appointment 
 $lang['display_on_calendar'] = 'Покажи в календара';
 $lang['display_in_services'] = 'Покажи в услугите';
 $lang['import_ldap_users'] = 'Импортиране на LDAP потребители';
+$lang['please_select'] = 'Моля Изберете';
 $lang['manage_providers'] = 'Управление на доставчици';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
