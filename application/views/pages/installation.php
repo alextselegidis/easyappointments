@@ -21,7 +21,7 @@
     </div>
 </header>
 
-<div class="content container">
+<div class="content container h-100">
     <div class="welcome">
         <h3>Welcome to the Easy!Appointments installation page.</h3>
         <p>
