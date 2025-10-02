@@ -77,14 +77,14 @@ class Api
 
             $password = $_SERVER['PHP_AUTH_PW'] ?? null;
 
+            if (empty($username) || empty($password)) {
+                throw new RuntimeException('Missing required credentials', 401);
+            }
+
             $user_data = $this->CI->accounts->check_login($username, $password);
 
             if (empty($user_data['role_slug']) || $user_data['role_slug'] !== DB_SLUG_ADMIN) {
-                throw new RuntimeException(
-                    'The provided credentials do not match any admin user!',
-                    401,
-                    'Unauthorized',
-                );
+                throw new RuntimeException('The provided credentials do not match any admin user', 401);
             }
         } catch (Throwable) {
             $this->request_authentication();
