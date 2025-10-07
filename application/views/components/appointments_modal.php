@@ -46,7 +46,7 @@
                                         $has_category = false;
 
                                         foreach ($available_services as $service) {
-                                            if (!empty($service['category_id'])) {
+                                            if (!empty($service['service_category_id'])) {
                                                 $has_category = true;
                                                 break;
                                             }
@@ -56,12 +56,12 @@
                                             $grouped_services = [];
 
                                             foreach ($available_services as $service) {
-                                                if (!empty($service['category_id'])) {
-                                                    if (!isset($grouped_services[$service['category_name']])) {
-                                                        $grouped_services[$service['category_name']] = [];
+                                                if (!empty($service['service_category_id'])) {
+                                                    if (!isset($grouped_services[$service['service_category_name']])) {
+                                                        $grouped_services[$service['service_category_name']] = [];
                                                     }
 
-                                                    $grouped_services[$service['category_name']][] = $service;
+                                                    $grouped_services[$service['service_category_name']][] = $service;
                                                 }
                                             }
 
@@ -70,7 +70,7 @@
                                             $grouped_services['uncategorized'] = [];
 
                                             foreach ($available_services as $service) {
-                                                if ($service['category_id'] == null) {
+                                                if ($service['service_category_id'] == null) {
                                                     $grouped_services['uncategorized'][] = $service;
                                                 }
                                             }
@@ -78,7 +78,7 @@
                                             foreach ($grouped_services as $key => $group) {
                                                 $group_label =
                                                     $key !== 'uncategorized'
-                                                        ? e($group[0]['category_name'])
+                                                        ? e($group[0]['service_category_name'])
                                                         : 'Uncategorized';
 
                                                 if (count($group) > 0) {
