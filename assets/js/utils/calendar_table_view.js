@@ -1896,6 +1896,63 @@ App.Utils.CalendarTableView = (function () {
 
         // Hide Google Calendar Sync buttons because they can not be used within this view.
         $('#enable-sync, #google-sync').hide();
+
+        // Load the modified appointment in the appointments modal
+        if (vars('edit_appointment')) {
+            const appointment = vars('edit_appointment');
+
+            const startDateTimeObject = moment(appointment.start_datetime)
+                .set({hour: 0, minutes: 0, seconds: 0})
+                .toDate();
+            const endDateTimeObject = moment(appointment.end_datetime)
+                .set({hour: 23, minutes: 59, seconds: 59})
+                .toDate();
+
+            App.Utils.UI.setDateTimePickerValue($selectDate, startDateTimeObject);
+            createView(startDateTimeObject, endDateTimeObject);
+
+            App.Components.AppointmentsModal.resetModal();
+
+            $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
+            $appointmentsModal.find('#appointment-id').val(appointment.id);
+            $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
+            $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
+
+            // Set the start and end datetime of the appointment.
+            const startDatetimeMoment = moment(appointment.start_datetime);
+            App.Utils.UI.setDateTimePickerValue(
+                $appointmentsModal.find('#start-datetime'),
+                startDatetimeMoment.toDate(),
+            );
+
+            const endDatetimeMoment = moment(appointment.end_datetime);
+            App.Utils.UI.setDateTimePickerValue($appointmentsModal.find('#end-datetime'), endDatetimeMoment.toDate());
+
+            const customer = appointment.customer;
+            $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+            $appointmentsModal.find('#first-name').val(customer.first_name);
+            $appointmentsModal.find('#last-name').val(customer.last_name);
+            $appointmentsModal.find('#email').val(customer.email);
+            $appointmentsModal.find('#phone-number').val(customer.phone_number);
+            $appointmentsModal.find('#address').val(customer.address);
+            $appointmentsModal.find('#city').val(customer.city);
+            $appointmentsModal.find('#zip-code').val(customer.zip_code);
+            $appointmentsModal.find('#language').val(customer.language);
+            $appointmentsModal.find('#timezone').val(customer.timezone);
+            $appointmentsModal.find('#appointment-location').val(appointment.location);
+            $appointmentsModal.find('#appointment-status').val(appointment.status);
+            $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+            $appointmentsModal.find('#customer-notes').val(customer.notes);
+            $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
+            $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
+            $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);
+            $appointmentsModal.find('#custom-field-4').val(customer.custom_field_4);
+            $appointmentsModal.find('#custom-field-5').val(customer.custom_field_5);
+
+            App.Components.ColorSelection.setColor($appointmentsModal.find('#appointment-color'), appointment.color);
+
+            $appointmentsModal.modal('show');
+        }
     }
 
     return {
