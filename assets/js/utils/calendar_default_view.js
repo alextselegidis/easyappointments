@@ -1343,7 +1343,7 @@ App.Utils.CalendarDefaultView = (function () {
                     }
 
                     // Non-working day.
-                    if (sortedWorkingPlan[weekdayName] === null) {
+                    if (sortedWorkingPlan[weekdayName] == null) {
                         // Add a full day unavailability event.
                         unavailabilityEvent = {
                             title: lang('not_working'),
