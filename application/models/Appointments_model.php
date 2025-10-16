@@ -219,7 +219,49 @@ class Appointments_model extends EA_Model
             throw new RuntimeException('Could not insert appointment.');
         }
 
-        return $this->db->insert_id();
+        $appointment_id = $this->db->insert_id();
+
+        $service = $this->db->get_where('services', ['id' => $appointment['id_services']])->row_array();
+        if (!$service) {
+            throw new RuntimeException('Could not find the service for the appointment.');
+        }
+        
+        $bufferBefore = $service['buffer_before'];
+        $bufferAfter = $service['buffer_after'];
+        
+        if($bufferBefore > 0) {
+            $bufferBefore = $bufferBefore * 60;
+            $unavailability['start_datetime'] = date('Y-m-d H:i:s', strtotime($appointment['start_datetime']) - $bufferBefore);
+            $unavailability['end_datetime'] = $appointment['start_datetime'];
+            $unavailability['book_datetime'] = $appointment['book_datetime'];
+            $unavailability['create_datetime'] = $appointment['create_datetime'];
+            $unavailability['update_datetime'] = $appointment['update_datetime'];
+            $unavailability['hash'] = random_string('alnum', 12);
+            $unavailability['is_unavailability'] = true;
+            $unavailability['id_users_provider'] = $appointment['id_users_provider'];
+
+            if (!$this->db->insert('appointments', $unavailability)) {
+                throw new RuntimeException('Could not insert unavailability.');
+            }
+        }
+        
+        if($bufferAfter > 0) {
+            $bufferAfter = $bufferAfter * 60;
+            $unavailability['start_datetime'] = $appointment['end_datetime'];
+            $unavailability['end_datetime'] = date('Y-m-d H:i:s', strtotime($appointment['end_datetime']) + $bufferAfter);
+            $unavailability['book_datetime'] = $appointment['book_datetime'];
+            $unavailability['create_datetime'] = $appointment['create_datetime'];
+            $unavailability['update_datetime'] = $appointment['update_datetime'];
+            $unavailability['hash'] = random_string('alnum', 12);
+            $unavailability['is_unavailability'] = true;
+            $unavailability['id_users_provider'] = $appointment['id_users_provider'];
+
+            if (!$this->db->insert('appointments', $unavailability)) {
+                throw new RuntimeException('Could not insert unavailability.');
+            }
+        }
+        
+        return $appointment_id;
     }
 
     /**

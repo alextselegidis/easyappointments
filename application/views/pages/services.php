@@ -80,6 +80,22 @@
             </div>
 
             <div class="mb-3">
+                <label class="form-label" for="buffer-before">
+                    <?= lang('buffer-before') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="buffer-before" class="form-control" type="number" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="buffer-after">
+                    <?= lang('buffer-after') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="buffer-after" class="form-control" type="number" disabled>
+            </div>
+
+            <div class="mb-3">
                 <label class="form-label" for="price">
                     <?= lang('price') ?>
                     <span class="text-danger" hidden>*</span>
