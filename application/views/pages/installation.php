@@ -70,14 +70,6 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="phone-number">
-                    <?= lang('phone_number') ?>
-                    <span class="text-danger">*</span>
-                </label>
-                <input id="phone-number" class="form-control required" maxlength="128">
-            </div>
-
-            <div class="mb-3">
                 <label class="form-label" for="username">
                     <?= lang('username') ?>
                     <span class="text-danger">*</span>
