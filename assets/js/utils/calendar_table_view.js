@@ -713,6 +713,7 @@ App.Utils.CalendarTableView = (function () {
             selectable: true,
             selectHelper: true,
             themeSystem: 'bootstrap5',
+            selectLongPressDelay: 100,
             headerToolbar: {
                 left: 'listDay,timeGridDay',
                 center: '',
