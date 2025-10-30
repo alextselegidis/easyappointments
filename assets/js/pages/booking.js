@@ -19,6 +19,7 @@
 App.Pages.Booking = (function () {
     const $selectDate = $('#select-date');
     const $selectService = $('#select-service');
+    const $selectSubservices = $('#select-subservices');
     const $selectProvider = $('#select-provider');
     const $selectTimezone = $('#select-timezone');
     const $firstName = $('#first-name');
@@ -365,8 +366,34 @@ App.Pages.Booking = (function () {
         $selectService.on('change', (event) => {
             const $target = $(event.target);
             const serviceId = $selectService.val();
-            $selectProvider.parent().prop('hidden', !Boolean(serviceId));
+            $showSubServices = false;
+            
+            if (!Boolean(serviceId)) {
+                $selectSubservices.parent().prop('hidden', true);
+                return;
+            }
 
+            $selectSubservices.empty();
+            $selectSubservices.append(new Option(lang('please_select'), ''));
+
+            const availableSubservices = vars('available_subservices');
+            availableSubservices.forEach((subservice) => {
+                if (subservice.parentservice == serviceId) {
+                    $selectSubservices.append(new Option(subservice.name, subservice.id));
+                    $showSubServices = true;
+                }
+            });
+            
+            
+            $selectSubservices.parent().prop('hidden', !$showSubServices);
+        });
+
+        $selectSubservices.on('change', (event) => {
+            const $target = $(event.target);
+            const serviceId = $selectService.val();
+            
+            $selectProvider.parent().prop('hidden', !Boolean(serviceId));
+            
             $selectProvider.empty();
 
             $selectProvider.append(new Option(lang('please_select'), ''));
@@ -398,7 +425,7 @@ App.Pages.Booking = (function () {
 
             App.Http.Booking.getUnavailableDates(
                 $selectProvider.val(),
-                $target.val(),
+                $selectService.val(),
                 moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
             );
 

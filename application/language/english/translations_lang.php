@@ -42,6 +42,7 @@ $lang['thank_you_for_appointment'] = 'Thank you for arranging an appointment wit
 $lang['appointment_details_title'] = 'Appointment Details';
 $lang['customer_details_title'] = 'Customer Details';
 $lang['service'] = 'Service';
+$lang['subservice'] = 'Sub-service';
 $lang['provider'] = 'Provider';
 $lang['customer'] = 'Customer';
 $lang['start'] = 'Start';

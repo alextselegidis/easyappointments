@@ -79,6 +79,17 @@
                 </div>
 
                 <div class="mb-3" hidden>
+                    <label for="select-subservices">
+                        <strong><?= lang('subservice') ?></strong>
+                    </label>
+                    <select id="select-subservices" class="form-select">
+                        <option value="">
+                            <?= lang('please_select') ?>
+                        </option>
+                    </select>
+                </div>
+
+                <div class="mb-3" hidden>
                     <label for="select-provider">
                         <strong><?= lang('provider') ?></strong>
                     </label>

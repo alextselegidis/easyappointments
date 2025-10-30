@@ -29,6 +29,8 @@ class Services_model extends EA_Model
         'attendants_number' => 'integer',
         'is_private' => 'boolean',
         'id_service_categories' => 'integer',
+        'is_subservice' => 'boolean',
+        'parentservice' => 'integer',
     ];
 
     /**
@@ -47,6 +49,7 @@ class Services_model extends EA_Model
         'attendantsNumber' => 'attendants_number',
         'isPrivate' => 'is_private',
         'serviceCategoryId' => 'id_service_categories',
+        'isSubservice' => 'is_subservice'
     ];
 
     /**
@@ -272,7 +275,7 @@ class Services_model extends EA_Model
      *
      * @return array Returns an array of services.
      */
-    public function get_available_services(bool $without_private = false): array
+    public function get_available_services(bool $without_private = false, bool $subservices = false): array
     {
         if ($without_private) {
             $this->db->where('services.is_private', false);
@@ -281,7 +284,7 @@ class Services_model extends EA_Model
         $services = $this->db
             ->distinct()
             ->select(
-                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
+                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id, 0 AS service_id',
             )
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
@@ -289,7 +292,7 @@ class Services_model extends EA_Model
             ->order_by('name ASC')
             ->get()
             ->result_array();
-
+        
         foreach ($services as &$service) {
             $this->cast($service);
         }
@@ -297,6 +300,29 @@ class Services_model extends EA_Model
         return $services;
     }
 
+    public function get_available_subservices(bool $without_private = false, bool $subservices = false): array {
+        if ($without_private) {
+            $this->db->where('s1.is_private', false);
+        }
+
+        $services = $this->db
+            ->distinct()
+            ->select(
+                's1.*, "" AS service_category_name, 0 AS service_category_id, sub.service as parentservice',
+            )
+            ->from('services s1')
+            ->join('subservices sub', 'sub.subservice = s1.id','inner')
+            ->order_by('name ASC')
+            ->get()
+            ->result_array();
+        
+        foreach ($services as &$service) {
+            $this->cast($service);
+        }
+
+        return $services;
+
+    }
     /**
      * Get all services that match the provided criteria.
      *

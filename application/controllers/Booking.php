@@ -135,6 +135,7 @@ class Booking extends EA_Controller
         }
 
         $available_services = $this->services_model->get_available_services(true);
+        $available_subservices = $this->services_model->get_available_subservices(true);
         $available_providers = $this->providers_model->get_available_providers(true);
 
         foreach ($available_providers as &$available_provider) {
@@ -254,6 +255,7 @@ class Booking extends EA_Controller
         script_vars([
             'manage_mode' => $manage_mode,
             'available_services' => $available_services,
+            'available_subservices' => $available_subservices,
             'available_providers' => $available_providers,
             'date_format' => $date_format,
             'time_format' => $time_format,
@@ -271,6 +273,7 @@ class Booking extends EA_Controller
 
         html_vars([
             'available_services' => $available_services,
+            'available_subservices' => $available_subservices,
             'available_providers' => $available_providers,
             'theme' => $theme,
             'company_name' => $company_name,
