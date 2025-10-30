@@ -80,6 +80,7 @@ App.Pages.Booking = (function () {
                 },
                 content: {
                     message: lang('website_using_cookies_to_ensure_best_experience'),
+                    link: lang('learn_more'),
                     dismiss: 'OK',
                 },
             });
