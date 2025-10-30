@@ -5,6 +5,10 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Changed
+
+- Make the phone number field of backend users optional (#1709)
+
 ### Fixed
 
 - Cannot modify appointment if provider changes time zone (#1789)

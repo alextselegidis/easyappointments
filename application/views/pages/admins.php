@@ -91,9 +91,8 @@
                     <div class="mb-3">
                         <label class="form-label" for="phone-number">
                             <?= lang('phone_number') ?>
-                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="phone-number" class="form-control required" maxlength="128" disabled>
+                        <input id="phone-number" class="form-control" maxlength="128" disabled>
                     </div>
 
                     <div class="mb-3">

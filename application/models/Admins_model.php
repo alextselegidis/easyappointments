@@ -94,8 +94,7 @@ class Admins_model extends EA_Model
         if (
             empty($admin['first_name']) ||
             empty($admin['last_name']) ||
-            empty($admin['email']) ||
-            empty($admin['phone_number'])
+            empty($admin['email'])
         ) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($admin, true));
         }
