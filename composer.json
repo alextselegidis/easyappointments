@@ -37,17 +37,17 @@
         "ext-fileinfo": "*",
         "gregwar/captcha": "^1.3.0",
         "jsvrcek/ics": "^0.8.5",
-        "monolog/monolog": "^2.10.0",
-        "google/apiclient": "^2.18.3",
+        "monolog/monolog": "^3.9.0",
+        "google/apiclient": "^2.18.4",
         "guzzlehttp/guzzle": "^7.10.0",
         "sabre/vobject": "^4.5.7",
-        "ezyang/htmlpurifier": "^4.18",
+        "ezyang/htmlpurifier": "^4.19",
         "symfony/finder": "^6.4",
-        "phpmailer/phpmailer": "^6.10"
+        "phpmailer/phpmailer": "^7.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^12.4.2"
     },
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
