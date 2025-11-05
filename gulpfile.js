@@ -98,7 +98,13 @@ function styles() {
         .src(['assets/css/**/*.scss', '!assets/css/**/*.min.css'])
         .pipe(plumber())
         .pipe(cached())
-        .pipe(sass().on('error', sass.logError))
+        .pipe(
+            sass({
+                // @link https://github.com/twbs/bootstrap/issues/40962
+                silenceDeprecations: ['legacy-js-api', 'color-functions', 'global-builtin', 'import'],
+                quietDeps: true,
+            }).on('error', sass.logError),
+        )
         .pipe(gulp.dest('assets/css'))
         .pipe(css())
         .pipe(rename({suffix: '.min'}))
