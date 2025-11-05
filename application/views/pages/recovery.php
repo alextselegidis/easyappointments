@@ -29,8 +29,8 @@
         <input type="text" id="email" placeholder="<?= lang('enter_email_here') ?>" class="form-control"/>
     </div>
 
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <a href="<?= site_url('login') ?>" class="user-login">
+    <div class="d-flex flex-column-reverse flex-lg-row justify-content-between my-5 gap-3">
+        <a href="<?= site_url('login') ?>" class="btn btn-outline-secondary btn-large">
             <?= lang('go_to_login') ?>
         </a>
 

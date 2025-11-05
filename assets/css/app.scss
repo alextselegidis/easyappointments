@@ -6,26 +6,22 @@
  * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.5.0
+ * @since       v1.6.0
  * ---------------------------------------------------------------------------- */
 
-body {
-    width: 100vw;
-    height: 100vh;
-    display: table-cell;
-    vertical-align: middle;
+/* UTILITIES 
+   ------------------------------------------------------------------------- */
+
+// Full viewport height only on mobile
+
+.min-vh-mobile {
+    min-height: 100vh;
 }
 
-#login-frame {
-    width: 630px;
-    margin: auto;
-    border: 1px solid #dddada;
-    padding: 70px;
-}
+// Normal height on lg and above
 
-@media (max-width: 640px) {
-    #login-frame {
-        width: 100%;
-        padding: 20px;
+@media (min-width: 992px) {
+    .min-vh-mobile {
+        min-height: 0;
     }
 }
