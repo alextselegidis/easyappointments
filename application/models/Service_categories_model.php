@@ -280,6 +280,30 @@ class Service_categories_model extends EA_Model
     }
 
     /**
+     * Get all services that match the provided criteria.
+     *
+     * @param array|string|null $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of service categories.
+     */
+	public function get_id_key(
+		array|string|null $where = null,
+		?int $limit = null,
+		?int $offset = null,
+		?string $order_by = null,
+	): array {
+		$set = $this->get( $where, $limit, $offset, $order_by );
+		$keyd = [];
+        foreach($set as $value) {
+			$keyd[ $value['id'] ] = $value;
+        }
+		return $keyd;
+	}
+
+    /**
      * Load related resources to a service-category.
      *
      * @param array $service_category Associative array with the service-category data.

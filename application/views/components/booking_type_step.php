@@ -55,7 +55,9 @@
 
                             foreach ($grouped_services as $key => $group) {
                                 $group_label =
-                                    $key !== 'uncategorized' ? $group[0]['service_category_name'] : 'Uncategorized';
+                                    $key !== 'uncategorized' ? $group[0]['service_category_name'] : lang('uncategorized');
+                                
+                                    //$key !== 'uncategorized' ? $group[0]['service_category_name'] : 'Uncategorized';
 
                                 if (count($group) > 0) {
                                     echo '<optgroup label="' . e($group_label) . '">';

@@ -8,7 +8,7 @@
  * @link        https://easyappointments.org
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
-
+@use "sass:color";
 root {
     display: block;
 }
@@ -95,6 +95,48 @@ body {
     text-align: center;
     margin-bottom: 30px;
     color: #666;
+}
+
+#book-appointment-wizard .booking-group-title {
+    font-size: x-large;
+    font-weight: bolder;
+    margin-top: 1em;
+    margin-top: 0.75em;
+}
+
+#book-appointment-wizard .card {
+    min-height: 200px;
+    clip-path: border-box;
+    background-color: var(--company-color);
+    //filter: brightness(150%);
+    color: var(--company-color);
+    .card-title {
+        height: 35% !important;
+        font-weight: bold;
+        color: var(--bs-body-bg);
+        padding: 0.5em 1em 0.5em 1em;
+    }
+    .card-body {
+        padding-top: 0;
+    }
+    .card-footer {
+        background: var(--company-color);
+        .btn {
+            background: var(--company-color);
+            filter: brightness(50%);
+            p {
+                color: white;
+                filter: brightness(200%);
+            }
+            border: 0;
+        }
+        p {
+            // align-content: center;
+            margin-bottom: 0;
+            justify-self: right;
+            font-size: small;
+        }
+    }
 }
 
 #book-appointment-wizard .frame-container .frame-content {

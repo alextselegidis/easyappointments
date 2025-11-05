@@ -69,6 +69,7 @@ class Booking extends EA_Controller
         $this->load->model('secretaries_model');
         $this->load->model('service_categories_model');
         $this->load->model('services_model');
+        $this->load->model('subservices_model');
         $this->load->model('customers_model');
         $this->load->model('settings_model');
         $this->load->model('consents_model');
@@ -135,8 +136,9 @@ class Booking extends EA_Controller
         }
 
         $available_services = $this->services_model->get_available_services(true);
-        $available_subservices = $this->services_model->get_available_subservices(true);
+        $available_subservices = $this->subservices_model->get_available_subservices(true);
         $available_providers = $this->providers_model->get_available_providers(true);
+		$available_categories = $this->service_categories_model->get_id_key();
 
         foreach ($available_providers as &$available_provider) {
             // Only expose the required provider data.
@@ -254,6 +256,7 @@ class Booking extends EA_Controller
 
         script_vars([
             'manage_mode' => $manage_mode,
+            'available_categories' => $available_categories,
             'available_services' => $available_services,
             'available_subservices' => $available_subservices,
             'available_providers' => $available_providers,
@@ -272,6 +275,7 @@ class Booking extends EA_Controller
         ]);
 
         html_vars([
+            'available_categories' => $available_categories,
             'available_services' => $available_services,
             'available_subservices' => $available_subservices,
             'available_providers' => $available_providers,

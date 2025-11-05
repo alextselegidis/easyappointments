@@ -1,13 +1,12 @@
 /*.zip
 /.idea/
 /.tmp-package/
+/.phpdoc/
 /build/
 /docs/apigen/html
 /docs/jsdoc/html
 /docs/plato/html
-/docker/mysql/
-/docker/baikal/
-/docker/openldap/
+/docker/
 /node_modules/
 /npm-debug.log
 /assets/js/**/*.min.js
