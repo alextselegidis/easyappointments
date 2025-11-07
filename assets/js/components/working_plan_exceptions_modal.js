@@ -216,8 +216,23 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     }
 
     function resetTimeSelection() {
-        App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
-        App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
+        const dateTimeObject = App.Utils.UI.getDateTimePickerValue($date);
+        const plannedHours = getWeekdaysPlannedHours(App.Utils.Date.getWeekdayName(moment(dateTimeObject).day()));
+        App.Utils.UI.setDateTimePickerValue($start, moment(plannedHours['start'], 'HH:mm').toDate());
+        App.Utils.UI.setDateTimePickerValue($end, moment(plannedHours['end'], 'HH:mm').toDate());
+    }
+
+    function getWeekdaysPlannedHours(weekDay) {
+        hours = {};
+        const company_working_plan = JSON.parse(vars('company_working_plan'));
+        if (company_working_plan[weekDay]) {
+            hours["start"] = company_working_plan[weekDay]['start'];
+            hours["end"] = company_working_plan[weekDay]['end'];
+        } else {
+            hours["start"] = '08:00';
+            hours["end"] = '16:00';
+        }
+        return hours;
     }
 
     /**
@@ -272,8 +287,9 @@ App.Components.WorkingPlanExceptionsModal = (function () {
                 $breaks.find('tbody .working-plan-exceptions-break-start, tbody .working-plan-exceptions-break-end'),
             );
         } else {
-            App.Utils.UI.setDateTimePickerValue($start, moment('08:00', 'HH:mm').toDate());
-            App.Utils.UI.setDateTimePickerValue($end, moment('20:00', 'HH:mm').toDate());
+            const plannedHours = getWeekdaysPlannedHours(App.Utils.Date.getWeekdayName(moment(date).day()));
+            App.Utils.UI.setDateTimePickerValue($start, moment(plannedHours['start'], 'HH:mm').toDate());
+            App.Utils.UI.setDateTimePickerValue($end, moment(plannedHours['end'], 'HH:mm').toDate());
             $breaks.find('tbody').html(renderNoBreaksRow());
         }
 
@@ -455,6 +471,16 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     }
 
     /**
+     * Event: Edit Date "Change"
+     */
+    function onEditDateChange() {
+        const dateTimeObject = App.Utils.UI.getDateTimePickerValue($date);
+        const plannedHours = getWeekdaysPlannedHours(App.Utils.Date.getWeekdayName(moment(dateTimeObject).day()));
+        App.Utils.UI.setDateTimePickerValue($start, moment(plannedHours['start'], 'HH:mm').toDate());
+        App.Utils.UI.setDateTimePickerValue($end, moment(plannedHours['end'], 'HH:mm').toDate());
+    }
+
+    /**
      * Event: Is Non-Working Day "Change"
      */
     function onIsNonWorkingDayChange() {
@@ -477,7 +503,8 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             .on('click', '.working-plan-exceptions-edit-break', onEditBreakClick)
             .on('click', '.working-plan-exceptions-delete-break', onDeleteBreakClick)
             .on('click', '.working-plan-exceptions-save-break', onSaveBreakClick)
-            .on('click', '.working-plan-exceptions-cancel-break', onCancelBreakClick);
+            .on('click', '.working-plan-exceptions-cancel-break', onCancelBreakClick)
+            .on('change', '#working-plan-exceptions-date', onEditDateChange);
 
         $save.on('click', onSaveClick);
 
