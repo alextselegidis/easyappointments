@@ -225,7 +225,7 @@ App.Components.AppointmentsModal = (function () {
          */
         $selectCustomer.on('click', (event) => {
             if (!$existingCustomersList.is(':visible')) {
-                $(event.target).find('span').text(lang('hide'));
+                $(event.currentTarget).find('span').text(lang('hide'));
                 $existingCustomersList.empty();
                 $existingCustomersList.slideDown('slow');
                 $filterExistingCustomers.fadeIn('slow').val('');
@@ -239,7 +239,7 @@ App.Components.AppointmentsModal = (function () {
             } else {
                 $existingCustomersList.slideUp('slow');
                 $filterExistingCustomers.fadeOut('slow');
-                $(event.target).find('span').text(lang('select'));
+                $(event.currentTarget).find('span').text(lang('select'));
             }
         });
 
