@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 // Thai
 $lang['page_title'] = 'จองการนัดหมายกับ';
 $lang['service_and_provider'] = 'บริการและผู้ให้บริการ';
@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'ข้อมูลรับรองไ
 $lang['calendar_url'] = 'URL ปฏิทิน';
 $lang['please_select'] = 'กรุณาเลือก';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

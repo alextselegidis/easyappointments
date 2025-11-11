@@ -405,6 +405,7 @@ App.Utils.CalendarSync = (function () {
         $enableSync.on('click', onEnableSyncClick);
         $disableSync.on('click', onDisableSyncClick);
         $triggerSync.on('click', onTriggerSyncClick);
+        updateSyncButtons();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

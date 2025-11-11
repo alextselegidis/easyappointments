@@ -26,6 +26,7 @@ class Services_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('webhooks_client');
 
         $this->api->auth();
 
@@ -128,6 +129,8 @@ class Services_api_v1 extends EA_Controller
 
             $created_service = $this->services_model->find($service_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $created_service);
+
             $this->services_model->api_encode($created_service);
 
             json_response($created_service, 201);
@@ -162,6 +165,8 @@ class Services_api_v1 extends EA_Controller
 
             $updated_service = $this->services_model->find($service_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $updated_service);
+
             $this->services_model->api_encode($updated_service);
 
             json_response($updated_service);
@@ -186,7 +191,11 @@ class Services_api_v1 extends EA_Controller
                 return;
             }
 
+            $deleted_service = $occurrences[0];
+
             $this->services_model->delete($id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_DELETE, $deleted_service);
 
             response('', 204);
         } catch (Throwable $e) {

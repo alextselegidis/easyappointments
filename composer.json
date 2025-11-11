@@ -1,7 +1,7 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
-    "version": "1.5.1",
+    "version": "1.5.2",
     "homepage": "https://easyappointments.org",
     "type": "project",
     "license": "GPL-3.0",
@@ -50,7 +50,13 @@
         "phpunit/phpunit": "^9.6"
     },
     "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
         "test": "APP_ENV=testing php vendor/bin/phpunit"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Calendar"
+        ]
     },
     "autoload": {
         "psr-4": {

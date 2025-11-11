@@ -367,13 +367,17 @@ App.Utils.WorkingPlan = (function () {
             $('.working-plan tbody').on('click', 'input:checkbox', (event) => {
                 const id = $(event.currentTarget).attr('id');
 
+                const isRegularFormat = vars('time_format') === 'regular';
+                const defaultStartTime = isRegularFormat ? '9:00 am' : '09:00';
+                const defaultEndTime = isRegularFormat ? '6:00 pm' : '18:00';
+
                 if ($(event.currentTarget).prop('checked') === true) {
                     $('#' + id + '-start')
                         .prop('disabled', false)
-                        .val('9:00 AM');
+                        .val(defaultStartTime);
                     $('#' + id + '-end')
                         .prop('disabled', false)
-                        .val('6:00 PM');
+                        .val(defaultEndTime);
                 } else {
                     $('#' + id + '-start')
                         .prop('disabled', true)
@@ -540,12 +544,9 @@ App.Utils.WorkingPlan = (function () {
                 const endMoment = moment($modifiedRow.find('.break-end input').val(), timeFormat);
 
                 if (startMoment.isAfter(endMoment)) {
-                    $modifiedRow.find('.break-end input').val(
-                        startMoment
-                            .add(1, 'hour')
-                            .format(timeFormat)
-                            .toLowerCase(),
-                    );
+                    $modifiedRow
+                        .find('.break-end input')
+                        .val(startMoment.add(1, 'hour').format(timeFormat).toLowerCase());
                 }
 
                 this.enableSubmit = true;

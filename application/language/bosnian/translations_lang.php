@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Nevažeći akreditivi su navedeni, poku
 $lang['calendar_url'] = 'URL kalendara';
 $lang['please_select'] = 'Molimo izaberite';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

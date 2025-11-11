@@ -185,7 +185,7 @@ class Appointments_model extends EA_Model
         }
 
         if ($order_by) {
-            $this->db->order_by($order_by);
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
         $appointments = $this->db
@@ -282,18 +282,6 @@ class Appointments_model extends EA_Model
         }
 
         return $appointment['id'];
-    }
-
-    /**
-     * Remove an existing appointment from the database.
-     *
-     * @param int $appointment_id Appointment ID.
-     *
-     * @throws RuntimeException
-     */
-    public function delete(int $appointment_id): void
-    {
-        $this->db->delete('appointments', ['id' => $appointment_id]);
     }
 
     /**
@@ -394,8 +382,21 @@ class Appointments_model extends EA_Model
         $this->db
             ->where('start_datetime >=', $start_date_time)
             ->where('end_datetime <=', $end_date_time)
-            ->like('id_caldav_calendar', '%RECURRENCE%')
+            ->where('is_unavailability', true)
+            ->like('id_caldav_calendar', 'RECURRENCE')
             ->delete('appointments');
+    }
+
+    /**
+     * Remove an existing appointment from the database.
+     *
+     * @param int $appointment_id Appointment ID.
+     *
+     * @throws RuntimeException
+     */
+    public function delete(int $appointment_id): void
+    {
+        $this->db->delete('appointments', ['id' => $appointment_id]);
     }
 
     /**
@@ -533,7 +534,7 @@ class Appointments_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($order_by)
+            ->order_by($this->quote_order_by($order_by))
             ->get()
             ->result_array();
 
@@ -686,5 +687,25 @@ class Appointments_model extends EA_Model
         $decoded_request['is_unavailability'] = false;
 
         $appointment = $decoded_request;
+    }
+
+    /**
+     * Calculate the end date time of an appointment based on the selected service.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @return string Returns the end date time value.
+     *
+     * @throws Exception
+     */
+    public function calculate_end_datetime(array $appointment): string
+    {
+        $duration = $this->db->get_where('services', ['id' => $appointment['id_services']])?->row()?->duration;
+
+        $end_date_time_object = new DateTime($appointment['start_datetime']);
+
+        $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
+
+        return $end_date_time_object->format('Y-m-d H:i:s');
     }
 }

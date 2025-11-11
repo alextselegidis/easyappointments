@@ -21,6 +21,7 @@ tags:
   - name: admins
   - name: appointments
   - name: availabilities
+  - name: blocked_periods
   - name: customers
   - name: providers
   - name: secretaries
@@ -1767,6 +1768,180 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
+  /blocked_peroids:
+    get:
+      tags:
+        - blocked_peroids
+      summary: Get all blocked_peroids
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BlockedPeroidRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - blocked_peroids
+      summary: Create an blocked_peroid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockedPeroidPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedPeroidRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /blocked_peroids/{blockedPeroidId}:
+    get:
+      tags:
+        - blocked_peroids
+      summary: Get an blocked_peroid
+      parameters:
+        - name: blockedPeroidId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedPeroidRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - blocked_peroids
+      summary: Update an blocked_peroid
+      parameters:
+        - name: blockedPeroidId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockedPeroidPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlockedPeroidRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - blocked_peroids
+      summary: Delete an blocked_peroid
+      parameters:
+        - name: blockedPeroidId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
 components:
   schemas:
     Availabilities:
@@ -2647,6 +2822,41 @@ components:
         secretToken: SecureSecretTokenHere
         isSslVerified: true
         notes: This is a webhook.
+    BlockedPeroidRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        start:
+          type: string
+        end:
+          type: string
+        notes:
+          type: string
+      example:
+        id: 1
+        name: Test blocked peroid
+        start: '2025-07-01 08:00:00'
+        end: '2021-07-31 18:00:00'
+        notes: This is a test blocked peroid.
+    BlockedPeroidPayload:
+      type: object
+      properties:
+        name:
+          type: string
+        start:
+          type: string
+        end:
+          type: string
+        notes:
+          type: string
+      example:
+        name: Test blocked peroid
+        start: '2021-01-01 17:00:00'
+        end: '2021-01-01 18:00:00'
+        notes: This is a test blocked peroid.
     ErrorResponse:
       type: object
       properties:

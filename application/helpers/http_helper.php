@@ -184,8 +184,18 @@ if (!function_exists('trace')) {
      */
     function trace(Throwable $e): string
     {
-        return get_class($e) .
-            " '{$e->getMessage()}' in {$e->getFile()}({$e->getLine()})\n" .
-            "{$e->getTraceAsString()}";
+        $trace = $e->getTrace();
+
+        $filtered_trace = array_map(function ($entry) {
+            return array_filter(
+                $entry,
+                function ($key) {
+                    return $key !== 'object'; // Exclude object data
+                },
+                ARRAY_FILTER_USE_KEY,
+            );
+        }, $trace);
+
+        return var_export($filtered_trace, true);
     }
 }

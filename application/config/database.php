@@ -47,7 +47,7 @@
 */
 
 $active_group = 'default';
-$query_builder = true;
+$query_builder = TRUE;
 
 $db['default']['hostname'] = Config::DB_HOST;
 $db['default']['username'] = Config::DB_USERNAME;
@@ -55,15 +55,15 @@ $db['default']['password'] = Config::DB_PASSWORD;
 $db['default']['database'] = Config::DB_NAME;
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = 'ea_';
-$db['default']['pconnect'] = true;
-$db['default']['db_debug'] = true;
-$db['default']['cache_on'] = false;
+$db['default']['pconnect'] = FALSE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
 $db['default']['cachedir'] = '';
 $db['default']['char_set'] = 'utf8mb4';
 $db['default']['dbcollat'] = 'utf8mb4_unicode_ci';
 $db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = true;
-$db['default']['stricton'] = false;
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

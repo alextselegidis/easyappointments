@@ -82,11 +82,9 @@ class EA_Controller extends CI_Controller
         $this->load->library('accounts');
 
         $this->ensure_user_exists();
-
+        $this->configure_timezone();
         $this->configure_language();
-
         $this->load_common_html_vars();
-
         $this->load_common_script_vars();
 
         rate_limit($this->input->ip_address());
@@ -153,5 +151,19 @@ class EA_Controller extends CI_Controller
             'language' => config('language'),
             'language_code' => config('language_code'),
         ]);
+    }
+
+    /**
+     * Set the default timezone of the app, based on the selected setting.
+     */
+    private function configure_timezone(): void
+    {
+        if (!$this->db->table_exists('settings')) {
+            return;
+        }
+
+        $default_timezone = setting('default_timezone');
+
+        date_default_timezone_set($default_timezone);
     }
 }

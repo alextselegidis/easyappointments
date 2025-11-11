@@ -32,6 +32,7 @@ class Appointments_api_v1 extends EA_Controller
         $this->load->model('settings_model');
 
         $this->load->library('api');
+        $this->load->library('webhooks_client');
         $this->load->library('synchronization');
         $this->load->library('notifications');
 
@@ -65,7 +66,7 @@ class Appointments_api_v1 extends EA_Controller
             $date = request('date');
 
             if (!empty($date)) {
-                $where['DATE(start_datetime)'] = new DateTime($date)->format('Y-m-d');
+                $where['DATE(start_datetime)'] = (new DateTime($date))->format('Y-m-d');
             }
 
             // From query param.
@@ -73,7 +74,7 @@ class Appointments_api_v1 extends EA_Controller
             $from = request('from');
 
             if (!empty($from)) {
-                $where['DATE(start_datetime) >='] = new DateTime($from)->format('Y-m-d');
+                $where['DATE(start_datetime) >='] = (new DateTime($from))->format('Y-m-d');
             }
 
             // Till query param.
@@ -81,7 +82,7 @@ class Appointments_api_v1 extends EA_Controller
             $till = request('till');
 
             if (!empty($till)) {
-                $where['DATE(end_datetime) <='] = new DateTime($till)->format('Y-m-d');
+                $where['DATE(end_datetime) <='] = (new DateTime($till))->format('Y-m-d');
             }
 
             // Service ID query param.
@@ -216,7 +217,7 @@ class Appointments_api_v1 extends EA_Controller
             }
 
             if (!array_key_exists('end_datetime', $appointment)) {
-                $appointment['end_datetime'] = $this->calculate_end_datetime($appointment);
+                $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
             }
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -231,26 +232,6 @@ class Appointments_api_v1 extends EA_Controller
         } catch (Throwable $e) {
             json_exception($e);
         }
-    }
-
-    /**
-     * Calculate the end date time of an appointment based on the selected service.
-     *
-     * @param array $appointment Appointment data.
-     *
-     * @return string Returns the end date time value.
-     *
-     * @throws Exception
-     */
-    private function calculate_end_datetime(array $appointment): string
-    {
-        $duration = $this->services_model->value($appointment['id_services'], 'duration');
-
-        $end = new DateTime($appointment['start_datetime']);
-
-        $end->add(new DateInterval('PT' . $duration . 'M'));
-
-        return $end->format('Y-m-d H:i:s');
     }
 
     /**
@@ -275,7 +256,8 @@ class Appointments_api_v1 extends EA_Controller
             'company_name' => setting('company_name'),
             'company_email' => setting('company_email'),
             'company_link' => setting('company_link'),
-            'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
+            'company_color' =>
+                !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
             'date_format' => setting('date_format'),
             'time_format' => setting('time_format'),
         ];
@@ -290,6 +272,8 @@ class Appointments_api_v1 extends EA_Controller
             $settings,
             $manage_mode,
         );
+
+        $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
     }
 
     /**
@@ -358,7 +342,8 @@ class Appointments_api_v1 extends EA_Controller
                 'company_name' => setting('company_name'),
                 'company_email' => setting('company_email'),
                 'company_link' => setting('company_link'),
-                'company_color' => !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
+                'company_color' =>
+                    !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];
@@ -374,6 +359,8 @@ class Appointments_api_v1 extends EA_Controller
                 $customer,
                 $settings,
             );
+
+            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $deleted_appointment);
 
             response('', 204);
         } catch (Throwable $e) {

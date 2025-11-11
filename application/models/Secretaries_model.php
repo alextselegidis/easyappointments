@@ -217,7 +217,7 @@ class Secretaries_model extends EA_Model
         }
 
         if ($order_by !== null) {
-            $this->db->order_by($order_by);
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
         $secretaries = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -245,6 +245,42 @@ class Secretaries_model extends EA_Model
         }
 
         return $role['id'];
+    }
+
+    /**
+     * Get the secretary settings.
+     *
+     * @param int $secretary_id Secretary ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $secretary_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
+    }
+
+    /**
+     * Get the secretary provider IDs.
+     *
+     * @param int $secretary_id Secretary ID.
+     */
+    public function get_provider_ids(int $secretary_id): array
+    {
+        $secretary_provider_connections = $this->db
+            ->get_where('secretaries_providers', ['id_users_secretary' => $secretary_id])
+            ->result_array();
+
+        $provider_ids = [];
+
+        foreach ($secretary_provider_connections as $secretary_provider_connection) {
+            $provider_ids[] = (int) $secretary_provider_connection['id_users_provider'];
+        }
+
+        return $provider_ids;
     }
 
     /**
@@ -307,22 +343,6 @@ class Secretaries_model extends EA_Model
         foreach ($settings as $name => $value) {
             $this->set_setting($secretary_id, $name, $value);
         }
-    }
-
-    /**
-     * Get the secretary settings.
-     *
-     * @param int $secretary_id Secretary ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function get_settings(int $secretary_id): array
-    {
-        $settings = $this->db->get_where('user_settings', ['id_users' => $secretary_id])->row_array();
-
-        unset($settings['id_users'], $settings['password'], $settings['salt']);
-
-        return $settings;
     }
 
     /**
@@ -401,26 +421,6 @@ class Secretaries_model extends EA_Model
 
             $this->db->insert('secretaries_providers', $secretary_provider_connection);
         }
-    }
-
-    /**
-     * Get the secretary provider IDs.
-     *
-     * @param int $secretary_id Secretary ID.
-     */
-    public function get_provider_ids(int $secretary_id): array
-    {
-        $secretary_provider_connections = $this->db
-            ->get_where('secretaries_providers', ['id_users_secretary' => $secretary_id])
-            ->result_array();
-
-        $provider_ids = [];
-
-        foreach ($secretary_provider_connections as $secretary_provider_connection) {
-            $provider_ids[] = (int) $secretary_provider_connection['id_users_provider'];
-        }
-
-        return $provider_ids;
     }
 
     /**
@@ -538,7 +538,7 @@ class Secretaries_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($order_by)
+            ->order_by($this->quote_order_by($order_by))
             ->get()
             ->result_array();
 

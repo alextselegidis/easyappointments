@@ -429,7 +429,7 @@ App.Pages.Secretaries = (function () {
                     'text': lang('load_more'),
                     'click': () => {
                         filterLimit += 20;
-                        App.Pages.Customers.filter(keyword, selectId, show);
+                        App.Pages.Secretaries.filter(keyword, selectId, show);
                     },
                 }).appendTo('#filter-secretaries .results');
             }

@@ -34,7 +34,7 @@
                     <i class="fas fa-chevron-left me-2"></i>
                     <?= lang('back') ?>
                 </a>
-                
+
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-blocked-period" class="btn btn-primary">
                         <i class="fas fa-plus-square me-2"></i>
@@ -112,9 +112,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/blocked_periods_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/blocked_periods.js') ?>"></script>

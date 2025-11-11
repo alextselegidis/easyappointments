@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'تم تقديم بيانات اعتما
 $lang['calendar_url'] = 'عنوان URL للتقويم';
 $lang['please_select'] = 'يرجى الاختيار';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

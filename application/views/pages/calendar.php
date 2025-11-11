@@ -27,9 +27,8 @@
                 </button>
 
                 <div class="btn-group" id="sync-button-group" hidden>
-                    <button type="button" class="btn btn-light" id="trigger-sync" data-tippy-content="<?= lang(
-                        'trigger_sync_hint',
-                    ) ?>">
+                    <button type="button" class="btn btn-light" id="trigger-sync"
+                            data-tippy-content="<?= lang('trigger_sync_hint') ?>">
                         <i class="fas fa-rotate me-2"></i>
                         <?= lang('synchronize') ?>
                     </button>
@@ -135,11 +134,7 @@
 <script src="<?= asset_url('assets/vendor/fullcalendar/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/fullcalendar-moment/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>

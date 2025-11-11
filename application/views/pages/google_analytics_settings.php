@@ -36,7 +36,7 @@
                                 <label class="form-label" for="google-analytics-code">
                                     <?= lang('google_analytics_code') ?>
                                 </label>
-                                <input id="google-analytics-code" placeholder="UA-XXXXXXXX-XX or G-XXXXXXXXXX"
+                                <input id="google-analytics-code" placeholder="G-XXXXXXXXXX"
                                        class="form-control" data-field="google_analytics_code">
                                 <div class="form-text text-muted">
                                     <small>
@@ -58,7 +58,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/google_analytics_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/google_analytics_settings.js') ?>"></script>
 

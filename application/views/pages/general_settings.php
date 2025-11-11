@@ -197,7 +197,8 @@
                                         <?= lang('default_language') ?>
                                         <span class="text-danger" hidden>*</span>
                                     </label>
-                                    <select id="default-language" class="form-select required" data-field="default_language">
+                                    <select id="default-language" class="form-select required"
+                                            data-field="default_language">
                                         <?php foreach (vars('available_languages') as $available_language): ?>
                                             <option value="<?= $available_language ?>">
                                                 <?= ucfirst($available_language) ?>
@@ -243,7 +244,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/general_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/general_settings.js') ?>"></script>
 

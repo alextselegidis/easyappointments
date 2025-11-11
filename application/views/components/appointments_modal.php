@@ -109,7 +109,7 @@
                                 </div>
 
                                 <?php slot('after_select_appointment_service'); ?>
-                              
+
                                 <div class="mb-3">
                                     <label for="select-provider" class="form-label">
                                         <?= lang('provider') ?>
@@ -184,8 +184,15 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="appointment-notes" class="form-label"><?= lang('notes') ?></label>
-                                    <textarea id="appointment-notes" class="form-control" rows="3"></textarea>
+                                    <label for="appointment-notes" class="form-label">
+                                        <?= lang('notes') ?>
+                                        <?php if ($require_notes): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif; ?>
+                                    </label>
+                                    <textarea id="appointment-notes" class="<?= $require_notes
+                                        ? 'required'
+                                        : '' ?> form-control" rows="3"></textarea>
                                 </div>
 
                                 <?php slot('after_primary_appointment_fields'); ?>
@@ -340,12 +347,8 @@
                                 <div class="mb-3">
                                     <label for="customer-notes" class="form-label">
                                         <?= lang('notes') ?>
-                                        <?php if ($require_notes): ?>
-                                            <span class="text-danger">*</span>
-                                        <?php endif; ?>
                                     </label>
-                                    <textarea id="customer-notes" rows="2"
-                                              class="<?= $require_notes ? 'required' : '' ?> form-control"></textarea>
+                                    <textarea id="customer-notes" rows="2" class="form-control"></textarea>
                                 </div>
 
                                 <?php slot('after_primary_customer_fields'); ?>
@@ -359,7 +362,7 @@
 
             <div class="modal-footer">
                 <?php slot('before_appointment_actions'); ?>
-                
+
                 <button class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>

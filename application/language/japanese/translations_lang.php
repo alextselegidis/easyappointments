@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = '無効な認証情報が提供されま
 $lang['calendar_url'] = 'カレンダーURL';
 $lang['please_select'] = '選択してください';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

@@ -132,9 +132,13 @@ class Caldav extends EA_Controller
 
         $sync_future_days = $provider['settings']['sync_future_days'];
 
-        $start_date_time = date('Y-m-d H:i:s', strtotime('-' . $sync_past_days . ' days'));
+        $start_date_time_object = new DateTime('-' . $sync_past_days . ' days');
+        $start_date_time_object->setTime(0, 0);
+        $start_date_time = $start_date_time_object->format('Y-m-d H:i:s');
 
-        $end_date_time = date('Y-m-d H:i:s', strtotime('+' . $sync_future_days . ' days'));
+        $end_date_time_object = new DateTime('+' . $sync_future_days . ' days');
+        $end_date_time_object->setTime(23, 59, 59);
+        $end_date_time = $end_date_time_object->format('Y-m-d H:i:s');
 
         $where = [
             'start_datetime >=' => $start_date_time,
@@ -250,6 +254,24 @@ class Caldav extends EA_Controller
             ]);
 
             if (!empty($unavailability_results)) {
+                continue;
+            }
+
+            $matching_unavailability = $CI->unavailabilities_model
+                ->query()
+                ->where([
+                    'start_datetime' => $caldav_event['start_datetime'],
+                    'end_datetime' => $caldav_event['end_datetime'],
+                    'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
+                    'id_users_provider' => $provider_id,
+                ])
+                ->get()
+                ->row_array();
+
+            if ($matching_unavailability) {
+                // Update the ID of the matching unavailability record.
+                $matching_unavailability['id_caldav_calendar'] = $caldav_event['id'];
+                $CI->unavailabilities_model->save($matching_unavailability);
                 continue;
             }
 

@@ -64,7 +64,7 @@
             </div>
             <div class="modal-footer">
                 <?php slot('before_working_plan_exception_actions'); ?>
-                
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>

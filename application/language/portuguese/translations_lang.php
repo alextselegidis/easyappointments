@@ -25,7 +25,7 @@ $lang['language'] = 'Idioma';
 $lang['no_language'] = 'Sem idioma';
 $lang['fields_are_required'] = '* campos obrigatorios';
 $lang['appointment_confirmation'] = 'Confirmar Evento';
-$lang['confirm'] = 'Comfirmar';
+$lang['confirm'] = 'Confirmar';
 $lang['update'] = 'Atualizar';
 $lang['cancel_appointment_hint'] = 'Pressione o botão "cancelar" para remover o compromisso da agenda (da empresa).';
 $lang['cancel'] = 'Cancelar';
@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Credenciais inválidas fornecidas, por 
 $lang['calendar_url'] = 'URL do Calendário';
 $lang['please_select'] = 'Por Favor Selecione';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

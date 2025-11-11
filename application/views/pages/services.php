@@ -21,7 +21,7 @@
             </h4>
 
             <?php slot('after_page_title'); ?>
-            
+
             <div class="results">
                 <!-- JS -->
             </div>
@@ -193,9 +193,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/services_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/service_categories_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/services.js') ?>"></script>

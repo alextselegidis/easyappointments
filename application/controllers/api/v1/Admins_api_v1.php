@@ -28,6 +28,7 @@ class Admins_api_v1 extends EA_Controller
         $this->load->model('admins_model');
 
         $this->load->library('api');
+        $this->load->library('webhooks_client');
 
         $this->api->auth();
 
@@ -134,6 +135,8 @@ class Admins_api_v1 extends EA_Controller
 
             $created_admin = $this->admins_model->find($admin_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_ADMIN_SAVE, $created_admin);
+
             $this->admins_model->api_encode($created_admin);
 
             json_response($created_admin, 201);
@@ -168,6 +171,8 @@ class Admins_api_v1 extends EA_Controller
 
             $updated_admin = $this->admins_model->find($admin_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_ADMIN_SAVE, $updated_admin);
+
             $this->admins_model->api_encode($updated_admin);
 
             json_response($updated_admin);
@@ -192,7 +197,11 @@ class Admins_api_v1 extends EA_Controller
                 return;
             }
 
+            $deleted_admin = $occurrences[0];
+
             $this->admins_model->delete($id);
+
+            $this->webhooks_client->trigger(WEBHOOK_ADMIN_DELETE, $deleted_admin);
 
             response('', 204);
         } catch (Throwable $e) {

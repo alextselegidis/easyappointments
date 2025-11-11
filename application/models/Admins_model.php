@@ -204,7 +204,7 @@ class Admins_model extends EA_Model
         }
 
         if ($order_by !== null) {
-            $this->db->order_by($order_by);
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
         $admins = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
@@ -231,6 +231,22 @@ class Admins_model extends EA_Model
         }
 
         return $role['id'];
+    }
+
+    /**
+     * Get the admin settings.
+     *
+     * @param int $admin_id Admin ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $admin_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
     }
 
     /**
@@ -290,22 +306,6 @@ class Admins_model extends EA_Model
         foreach ($settings as $name => $value) {
             $this->set_setting($admin_id, $name, $value);
         }
-    }
-
-    /**
-     * Get the admin settings.
-     *
-     * @param int $admin_id Admin ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function get_settings(int $admin_id): array
-    {
-        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
-
-        unset($settings['id_users'], $settings['password'], $settings['salt']);
-
-        return $settings;
     }
 
     /**
@@ -511,7 +511,7 @@ class Admins_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($order_by)
+            ->order_by($this->quote_order_by($order_by))
             ->get()
             ->result_array();
 

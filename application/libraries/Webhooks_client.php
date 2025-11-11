@@ -89,7 +89,7 @@ class Webhooks_client
                 ],
             ]);
 
-            echo $response->getBody()->getContents(); // Use this for quick debugging
+            // echo $response->getBody()->getContents(); // Use this for quick debugging
         } catch (Throwable $e) {
             log_message(
                 'error',

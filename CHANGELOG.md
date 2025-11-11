@@ -3,6 +3,31 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Cannot modify appointment if provider changes time zone (#1789)
+
+
+
+
+## [1.5.2] - 2025-08-26
+
+### Fixed
+
+- Fix the GTag script URL html rendering (#1666)
+- Fix the "Load More" JS error in secretaries page (#1677)
+- Fix the PHP compatibility error of the appointments index API endpoint (#1678)
+- Catch individual email delivery exceptions (#1670)
+- Apply permission checks to the appointment and unavailability search (#1753)
+- Make sure the sync button is visible on provider log in (#1749)
+- Update unavailable dates after applying appointment data while rescheduling (#1662)
+- Make sure that any-provider does not include hidden providers while generating availability (#1733)
+- Provide "text" version of the emails in addition to HTML (#1711)
+- Trigger webhook requests when managing records via the API (#1676)
+
+
 ## [1.5.1] - 2025-01-20
 
 ### Added

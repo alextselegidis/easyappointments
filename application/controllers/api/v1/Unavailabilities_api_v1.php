@@ -26,6 +26,7 @@ class Unavailabilities_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('webhooks_client');
 
         $this->api->auth();
 
@@ -128,6 +129,8 @@ class Unavailabilities_api_v1 extends EA_Controller
 
             $created_unavailability = $this->unavailabilities_model->find($unavailability_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $created_unavailability);
+
             $this->unavailabilities_model->api_encode($created_unavailability);
 
             json_response($created_unavailability, 201);
@@ -162,6 +165,8 @@ class Unavailabilities_api_v1 extends EA_Controller
 
             $updated_unavailability = $this->unavailabilities_model->find($unavailability_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_SAVE, $updated_unavailability);
+
             $this->unavailabilities_model->api_encode($updated_unavailability);
 
             json_response($updated_unavailability);
@@ -186,7 +191,11 @@ class Unavailabilities_api_v1 extends EA_Controller
                 return;
             }
 
+            $deleted_unavailability = $occurrences[0];
+
             $this->unavailabilities_model->delete($id);
+
+            $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $deleted_unavailability);
 
             response('', 204);
         } catch (Throwable $e) {

@@ -55,7 +55,7 @@ $route['default_controller'] = 'booking';
 
 $route['404_override'] = '';
 
-$route['translate_uri_dashes'] = false;
+$route['translate_uri_dashes'] = FALSE;
 
 /*
 | -------------------------------------------------------------------------
@@ -89,16 +89,19 @@ header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? '*')); // N
 
 header('Access-Control-Allow-Credentials: "true"');
 
-if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])) {
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
+{
     // May also be using PUT, PATCH, HEAD etc
     header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD');
 }
 
-if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])) {
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
+{
     header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
 }
 
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
+{
     exit(0);
 }
 
@@ -141,6 +144,8 @@ route_api_resource($route, 'services', 'api/v1/');
 route_api_resource($route, 'unavailabilities', 'api/v1/');
 
 route_api_resource($route, 'webhooks', 'api/v1/');
+
+route_api_resource($route, 'blocked_periods', 'api/v1/');
 
 $route['api/v1/settings']['get'] = 'api/v1/settings_api_v1/index';
 

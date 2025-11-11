@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Podano nieprawidłowe dane logowania, s
 $lang['calendar_url'] = 'URL kalendarza';
 $lang['please_select'] = 'Proszę wybrać';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

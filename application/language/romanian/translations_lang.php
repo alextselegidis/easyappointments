@@ -484,4 +484,5 @@ $lang['invalid_credentials_provided'] = 'Credențiale invalide furnizate, vă ru
 $lang['calendar_url'] = 'URL Calendar';
 $lang['please_select'] = 'Vă Rugăm să Selectați';
 $lang['secret_header'] = 'Secret Header';
+$lang['search'] = 'Search';
 // End

@@ -202,7 +202,11 @@ class Admins extends EA_Controller
 
             $this->admins_model->only($admin, $this->allowed_admin_fields);
 
+            $this->admins_model->optional($admin, $this->optional_admin_fields);
+
             $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
+
+            $this->admins_model->optional($admin['settings'], $this->optional_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 

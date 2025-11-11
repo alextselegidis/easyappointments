@@ -136,7 +136,7 @@
                                   class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
                     </div>
                 <?php endif; ?>
-            
+
                 <?php slot('info_second_column'); ?>
             </div>
 

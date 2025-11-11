@@ -77,7 +77,7 @@
                         ?>
                     </select>
                 </div>
-                
+
                 <?php slot('after_select_service'); ?>
 
                 <div class="mb-3" hidden>
@@ -99,7 +99,7 @@
                 </div>
 
                 <?php slot('after_service_description'); ?>
-                
+
             </div>
         </div>
     </div>

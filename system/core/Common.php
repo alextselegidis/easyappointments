@@ -464,6 +464,24 @@ if ( ! function_exists('log_message'))
 			// references cannot be directly assigned to static variables, so we use an array
 			$_log[0] =& load_class('Log', 'core');
 		}
+        
+        if ($level === 'error') {
+            $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 3);
+
+            $filtered_trace = array_map(function ($entry) {
+                return array_filter(
+                    $entry,
+                    function ($key) {
+                        return $key !== 'object'; // Exclude object data
+                    },
+                    ARRAY_FILTER_USE_KEY,
+                );
+            }, $trace);
+
+            $trace_text = var_export($filtered_trace, true);
+            
+            $message .= ' Trace: ' . $trace_text;
+        }
 
 		$_log[0]->write_log($level, $message);
 	}
