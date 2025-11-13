@@ -93,15 +93,26 @@ body {
 #book-appointment-wizard .frame-container .frame-title {
     font-weight: lighter;
     text-align: center;
-    margin-bottom: 30px;
+    // margin-bottom: 30px;
+    margin-bottom: 15px;
     color: #666;
 }
 
 #book-appointment-wizard .booking-group-title {
     font-size: x-large;
     font-weight: bolder;
-    margin-top: 1em;
-    margin-top: 0.75em;
+    // margin-top: 1em;
+    // margin-top: 0.75em;
+    //margin-top: 15px;
+}
+
+#book-appointment-wizard .entity-group {
+    margin-top: 30px;
+}
+
+#book-appointment-wizard .services-group .btn {
+    color: var(--bs-body-bg);
+    background-color: var(--company-color);
 }
 
 #book-appointment-wizard .card {
@@ -109,7 +120,7 @@ body {
     clip-path: border-box;
     background-color: var(--company-color);
     //filter: brightness(150%);
-    color: var(--company-color);
+    color: var(--bs-body-bg);
     .card-title {
         height: 35% !important;
         font-weight: bold;
@@ -121,21 +132,24 @@ body {
     }
     .card-footer {
         background: var(--company-color);
+        border-top: 1px var(--company-color-dark) solid;
         .btn {
-            background: var(--company-color);
-            filter: brightness(50%);
+            background: var(--company-color-dark);
             p {
-                color: white;
-                filter: brightness(200%);
+                color: var(--bs-body-bg);
             }
-            border: 0;
+            &:hover {
+                transform: translate(1%, 1%) scale(1.1);
+            }
         }
         p {
-            // align-content: center;
+            color: var(--company-color-dark);
             margin-bottom: 0;
-            justify-self: right;
-            font-size: small;
+            justify-self: left;
+            font-size: x-small;
         }
+        
+        
     }
 }
 

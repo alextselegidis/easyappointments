@@ -29,11 +29,12 @@ $price = number_format( num: 0.0 + $service['price'], decimals: 2,
     <div class="card-footer">
         <div class="row">
             <div class="col">
-                <p class="btn rounded-pill service-selector" data="<?= $service['id']; ?>"> <?= lang('select'); ?></p>
+                <div class="btn rounded-pill">
+                <p data="<?= $service['id']; ?>"> <?= lang('select'); ?></p>
+                </div>
             </div>
             <div class="col">
-                <p>€ <?= $price; ?></p>
-                <p>Duur: <?= $duration ?> min.</p>
+                <p>€ <?= $price; ?>,  <?= $duration ?> min.</p>
             </div>
          </div>
     </div>

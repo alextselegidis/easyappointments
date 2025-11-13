@@ -1,5 +1,7 @@
 <?php
 /**
+ * TODO: Calculate proper light and dark Controllers
+ * 
  * @var string $company_color
  */
 ?>
@@ -8,6 +10,8 @@
 <style type="text/css">
     :root {
         --company-color: <?= $company_color; ?>;
+        --company-color-light: #e6d8d8;
+        --company-color-dark: #3f3e3eff;
     }
 </style>  
 <?php endif; ?>
