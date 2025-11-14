@@ -16,7 +16,8 @@
 <?php  
     component('booking_type_step_new', [
         'available_services' => vars('available_services'),
-        'available_categories' => vars('available_categories')
+        'available_categories' => vars('available_categories'),
+        'available_subservices' => vars('available_subservices'),
     ]); 
 ?>
 

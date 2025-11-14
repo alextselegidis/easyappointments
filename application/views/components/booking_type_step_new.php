@@ -4,6 +4,7 @@
  *
  * @var array $available_services
  * @var array $available_categories
+ * @var array $available_subservices
  */
 ?>
 <div id="data-island" style="visibility: hidden;">
@@ -43,7 +44,9 @@
                         {
 						    ?>
                                 <div class="categories-group entity-group container">
-                                <span class="booking-group-title"> <?= lang('categories'); ?></span>
+                                    <p>
+                                        <span class="booking-group-title"> <?= lang('categories'); ?></span>
+                                    </p>
                                 <div class="row justify-content-left row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
                             <?php
                             foreach(array_keys($grouped_services) as $key) 
@@ -65,21 +68,21 @@
 
 					foreach ( $grouped_services as $group ) {
                         $name = lang( 'services' );
-						$hidden = '';
+						$hide = '';
 						$groupid = '0';
 
                         if (isset($group['category'])) {
 							$name = $group['category']['name'];
-							$hidden = 'display-none';
+                            $hide = 'hidden';
                             $groupid = $group['category']['id'];
                         }
 						
 
                     ?>
-                            <div class="services-group entity-group container groupid-<?= $groupid; ?> <?= $hidden; ?>">
+                            <div class="services-group entity-group container groupid-<?= $groupid; ?>" <?= $hide ?>>
                     
                             <p> 
-                                <span class="btn btn-back rounded-pill display-none"><i class="fas fa-angles-left"></i></span>
+                                <span class="btn btn-back rounded-pill" hidden><i class="fas fa-angles-left"></i></span>
                                 <span class="booking-group-title"><?= $name; ?></span>
                             </p>
                     
@@ -95,10 +98,22 @@
                         echo '</div></div>';
                 
 					}
+
+                    // Create subservice cards
                     ?>
+                    <div class="services-group subservices-group entity-group container">
+                    <div class="row justify-content-left row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
+                    <?php
+                    foreach ($available_subservices as $subservice) {
+                        echo '<div class="col subservice parentserviceid-'.$subservice["parentservice"].'" hidden>';
+                        component( 'booking_service_card', [ 'service' => $subservice ] );
+                        echo '</div>';
+                    }
+                    ?>
+                    </div></div>
                 </div>
 
-                <div class="mb-3" hidden>
+                <!-- <div class="mb-3" hidden>
                     <label for="select-subservices">
                         <strong><?= lang('subservice') ?></strong>
                     </label>
@@ -107,7 +122,7 @@
                             <?= lang('please_select') ?>
                         </option>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="mb-3" hidden>
                     <label for="select-provider">

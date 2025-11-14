@@ -1,4 +1,6 @@
 <?php
+
+use BcMath\Number;
 /**
  * Local variables.
  *
@@ -9,10 +11,12 @@ $title = $service['name'];
 
 $descr = $service['description'];
 
+$isSubservice = ((int) $service['is_subservice']) > 0;
+
 $duration = $service['duration'];
 
 $price = number_format( num: 0.0 + $service['price'], decimals: 2,
-	decimal_separator: ',', thousands_separator: '.' );
+    decimal_separator: ',', thousands_separator: '.' );
 
 ?>
 

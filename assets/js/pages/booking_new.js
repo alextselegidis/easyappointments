@@ -44,7 +44,8 @@ App.Pages.Booking = (function () {
     const moment = window.moment;
     const $serviceSelectBtns = $('.booking-service-card .btn');
     const $categorySelectBtns = $('.booking-category-card .btn');
-    
+    const $serviceCards = $('.booking-service-card');
+
     // Current selections
     const $dataSelectedCategory = $('#selectedCategory');
     const $dataSelectedService = $('#selectedService');
@@ -70,7 +71,34 @@ App.Pages.Booking = (function () {
     }
 
     /**
-     * Getter for the selected service dataelement
+     * Looks up the service object by the passed ID
+     * 
+     * @param {int or string} serviceId 
+     * @returns 
+     */
+    function getServiceById(serviceId) {
+        const service = vars('available_services').find(
+            (availableService) => Number(availableService.id) === Number(serviceId),
+        );
+        return service;
+    }
+
+    function getSubServices(serviceId) {
+        // const service = vars('available_subservices').find(
+        //     (subService) => Number(subService.parentservice) === Number(serviceId),
+        // );
+        const avss = vars('available_subservices');
+        let subservices = [];
+        avss.forEach(ss => {
+            if (ss.parentservice === Number(serviceId)) {
+                subservices.push(ss);
+            };
+        });
+        return subservices;
+    }
+
+    /**
+     * Getter for the selected service data element
      * 
      * @returns id of the selected service or NULL
      */
@@ -79,7 +107,7 @@ App.Pages.Booking = (function () {
     }
 
     /**
-     * Setter for the selected service dataelement
+     * Setter for the selected service data element
      * 
      * @param {*} serviceId 
      */
@@ -94,13 +122,28 @@ App.Pages.Booking = (function () {
             return;
         }
         $dataSelectedService.val(newId);
+        
         serviceSelectionCompleted();
     }
 
+    /**
+     * Getter for the selected category data element
+     * 
+     * @returns id of the selected category or NULL
+     */
     function getSelectedCategory() {
         return Number($dataSelectedCategory.val());
     }
 
+    /**
+     * Setter for the selected category data element
+     * When set is makes the services within that category
+     * visible and hides the rest.
+     * 
+     * Category ID 0 means back
+     * 
+     * @param {*} categoryId
+     */
     function setSelectedCategory(categoryId) {
         if (isNaN(Number(categoryId))) {
             return;
@@ -119,19 +162,11 @@ App.Pages.Booking = (function () {
             
         Array.from($categoryGroups).forEach(el => {
             const $element = $(el);
-            if ($element.hasClass(selGr)) {
-                $element.removeClass('display-none');
-            } else {
-                $element.addClass('display-none');
-            }
+            $element.prop('hidden', !$element.hasClass(selGr));
         }); 
-        if (newId > 0) {
-            $('.categories-group').addClass('display-none');
-            $('.services-group .btn-back').removeClass('display-none');
-        } else {
-            $('.categories-group').removeClass('display-none');
-            $('.services-group .btn-back').addClass('display-none');
-        }
+
+        $('.categories-group').prop('hidden', (newId > 0));
+        $('.services-group .btn-back').prop('hidden', !(newId > 0));
     }
     
     /**
@@ -208,7 +243,7 @@ App.Pages.Booking = (function () {
 
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
-                        $dataSelectedService.val(),
+                        getSelectedService(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
                         monthChangeStep,
                     );
@@ -230,7 +265,7 @@ App.Pages.Booking = (function () {
 
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
-                        $dataSelectedService.val(),
+                        getSelectedService(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
                         monthChangeStep,
                     );
@@ -391,10 +426,16 @@ App.Pages.Booking = (function () {
     }
 
     function serviceSelectionCompleted() {
-        //const serviceId = $selectService.val();
-        const serviceId = $dataSelectedService.val();
+        const serviceId = getSelectedService();
         $selectProvider.parent().prop('hidden', !Boolean(serviceId));
         
+        const subservices = getSubServices(serviceId);
+
+        if (subservices.length > 0) {
+            $('.subservices-group').prop('hidden', false);
+            //$('.col.subservice')
+            return;
+        }
         $selectProvider.empty();
 
         $selectProvider.append(new Option(lang('please_select'), ''));
@@ -426,7 +467,7 @@ App.Pages.Booking = (function () {
 
         App.Http.Booking.getUnavailableDates(
             $selectProvider.val(),
-            $dataSelectedService.val(),
+            getSelectedService(),
             moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
         );
 
@@ -489,7 +530,7 @@ App.Pages.Booking = (function () {
 
             App.Http.Booking.getUnavailableDates(
                 $target.val(),
-                $dataSelectedService.val(),
+                getSelectedService(),
                 todayDateTimeMoment.format('YYYY-MM-DD'),
             );
 
@@ -789,12 +830,13 @@ App.Pages.Booking = (function () {
      * customer settings and input for the appointment booking.
      */
     function updateConfirmFrame() {
-        const serviceId = $dataSelectedService.val();
+        const serviceId = getSelectedService();
         const providerId = $selectProvider.val();
 
         $displayBookingSelection.text(`${lang('service')} │ ${lang('provider')}`); // Notice: "│" is a custom ASCII char
 
-        const serviceOptionText = serviceId ? $selectService.find('option:selected').text() : lang('service');
+        //const serviceOptionText = serviceId ? $selectService.find('option:selected').text() : lang('service');
+        const serviceOptionText = serviceId ? getServiceById(serviceId)['name'] : lang('service');
         const providerOptionText = providerId ? $selectProvider.find('option:selected').text() : lang('provider');
 
         if (serviceId || providerId) {
@@ -932,7 +974,7 @@ App.Pages.Booking = (function () {
             notes: $notes.val(),
             is_unavailability: false,
             id_users_provider: $selectProvider.val(),
-            id_services: $dataSelectedService.val(),
+            id_services: getSelectedService(),
         };
 
         data.manage_mode = Number(manageMode);
@@ -954,7 +996,7 @@ App.Pages.Booking = (function () {
      */
     function calculateEndDatetime() {
         // Find selected service duration.
-        const serviceId = $dataSelectedService.val();
+        const serviceId = getSelectedService();
 
         const service = vars('available_services').find(
             (availableService) => Number(availableService.id) === Number(serviceId),
