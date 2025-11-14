@@ -121,6 +121,8 @@ body {
     font-size: xx-small;
 }
 
+
+
 #book-appointment-wizard .card {
     min-height: 200px;
     clip-path: border-box;
@@ -136,7 +138,6 @@ body {
         padding-top: 0;
     }
     .card-footer {
-        --bs-card-cap-bg: var(--company-color);
         --bs-card-border-width: 1px;
         --bs-card-border-color: var(--company-color-dark);
         .btn {
@@ -156,6 +157,11 @@ body {
         }
         
         
+    }
+    
+    &.selected-subservice {
+        filter: brightness(1.2);
+        border: 2px solid var(--company-color-dark);
     }
 }
 

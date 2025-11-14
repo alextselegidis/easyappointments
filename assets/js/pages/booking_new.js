@@ -44,13 +44,12 @@ App.Pages.Booking = (function () {
     const moment = window.moment;
     const $serviceSelectBtns = $('.booking-service-card .btn');
     const $categorySelectBtns = $('.booking-category-card .btn');
-    const $serviceCards = $('.booking-service-card');
+    const $checkSubservices = $('.check-subservice');
 
     // Current selections
     const $dataSelectedCategory = $('#selectedCategory');
-    const $dataSelectedService = $('#selectedService');
-    const $dataSelectedProvider = $('#selectedProvider');
-    
+    const $dataSelectedServices = $('#selectedService');
+        
     /**
      * Determines the functionality of the page.
      *
@@ -84,17 +83,16 @@ App.Pages.Booking = (function () {
     }
 
     function getSubServices(serviceId) {
-        // const service = vars('available_subservices').find(
-        //     (subService) => Number(subService.parentservice) === Number(serviceId),
-        // );
-        const avss = vars('available_subservices');
-        let subservices = [];
-        avss.forEach(ss => {
-            if (ss.parentservice === Number(serviceId)) {
-                subservices.push(ss);
-            };
-        });
+        const subservices = vars('available_subservices').filter(ss => ss.parentservice === Number(serviceId));
         return subservices;
+    }
+
+    function getSelectedSubServices() {
+        const selectedSubservices = [];
+        $('.check-subservice:checked').each((index, element) => {
+            selectedSubservices.push(Number($(element).val()));
+        });
+        return selectedSubservices;
     }
 
     /**
@@ -103,7 +101,7 @@ App.Pages.Booking = (function () {
      * @returns id of the selected service or NULL
      */
     function getSelectedService() {
-        return Number($dataSelectedService.val());
+        return Number($dataSelectedServices.val());
     }
 
     /**
@@ -121,7 +119,7 @@ App.Pages.Booking = (function () {
         if (curr == newId) {
             return;
         }
-        $dataSelectedService.val(newId);
+        $dataSelectedServices.val(newId);
         
         serviceSelectionCompleted();
     }
@@ -157,6 +155,11 @@ App.Pages.Booking = (function () {
 
         $dataSelectedCategory.val(newId);
 
+        showCategoryCards(categoryId);
+    }
+
+    function showCategoryCards(categoryId) {
+        const catNr = Number(categoryId);
         const selGr = 'groupid-'+categoryId;
         const $categoryGroups = $('.services-group');
             
@@ -165,14 +168,15 @@ App.Pages.Booking = (function () {
             $element.prop('hidden', !$element.hasClass(selGr));
         }); 
 
-        $('.categories-group').prop('hidden', (newId > 0));
-        $('.services-group .btn-back').prop('hidden', !(newId > 0));
+        $('.categories-group').prop('hidden', (catNr > 0));
+        $('.services-group .btn-back').prop('hidden', !(catNr > 0));
     }
     
     /**
      * Initialize the module.
      */
     function initialize() {
+
         if (Boolean(Number(vars('display_cookie_notice'))) && window?.cookieconsent) {
             cookieconsent.initialise({
                 palette: {
@@ -427,13 +431,21 @@ App.Pages.Booking = (function () {
 
     function serviceSelectionCompleted() {
         const serviceId = getSelectedService();
-        $selectProvider.parent().prop('hidden', !Boolean(serviceId));
         
+        $selectProvider.parent().prop('hidden', true);
+
         const subservices = getSubServices(serviceId);
 
+        $('.subservices-group').prop('hidden', !(subservices.length > 0));
+        
         if (subservices.length > 0) {
-            $('.subservices-group').prop('hidden', false);
-            //$('.col.subservice')
+            $('.category-group').prop('hidden', true);
+            Array.from($('.col.subservice')).forEach(el => {
+                const $element = $(el);
+                const parentId = Number($element.attr('data-parentid'));
+                $element.prop('hidden', !(parentId === Number(serviceId)));
+            });
+
             return;
         }
         $selectProvider.empty();
@@ -465,6 +477,8 @@ App.Pages.Booking = (function () {
             $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
         }
 
+        $selectProvider.parent().prop('hidden', !Boolean(serviceId));
+        
         App.Http.Booking.getUnavailableDates(
             $selectProvider.val(),
             getSelectedService(),
@@ -479,6 +493,10 @@ App.Pages.Booking = (function () {
      * Add the page event listeners.
      */
     function addEventListeners() {
+        $('#test-button').on('click', () => {
+            const selectedSubservices = getSelectedSubServices();
+            alert('Selected subservices: ' + selectedSubservices.join(', '));
+        });
         /**
          * Event: Timezone "Changed"
          */
@@ -535,6 +553,13 @@ App.Pages.Booking = (function () {
             );
 
             App.Pages.Booking.updateConfirmFrame();
+        });
+
+        $checkSubservices.on('change', (event) => {
+            const $target = $(event.target);
+            const $parentcard = $target.closest('.booking-service-card');
+            
+            $parentcard.toggleClass('selected-subservice', $target.is(':checked'));
         });
 
         /**

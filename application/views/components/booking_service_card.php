@@ -33,9 +33,20 @@ $price = number_format( num: 0.0 + $service['price'], decimals: 2,
     <div class="card-footer">
         <div class="row">
             <div class="col">
-                <div class="btn rounded-pill">
-                <p data="<?= $service['id']; ?>"> <?= lang('select'); ?></p>
-                </div>
+                <?php if ($isSubservice) { ?>
+                    <div class="form-check">
+                        <label class="form-check-label" for="subservice-<?= $service['id']; ?>">Voeg toe</label>
+                        <input type="checkbox" class="form-check-input check-subservice" id="subservice-<?= $service['id']; ?>" value="<?= $service['id']; ?>">
+                    </div>
+                <?php } else { ?>
+                    <div class="btn rounded-pill">
+                        <p data="<?= $service['id']; ?>"> <?= lang('select'); ?></p>
+                    </div>
+                <?php } ?>
+
+                
+
+
             </div>
             <div class="col">
                 <p>€ <?= $price; ?>,  <?= $duration ?> min.</p>
