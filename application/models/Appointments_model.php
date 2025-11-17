@@ -610,6 +610,10 @@ class Appointments_model extends EA_Model
             $decoded_resource['hash'] = $appointment['hash'];
         }
 
+        if (array_key_exists('color', $appointment)) {
+            $decoded_resource['color'] = $appointment['color'];
+        }
+
         if (array_key_exists('location', $appointment)) {
             $decoded_resource['location'] = $appointment['location'];
         }
