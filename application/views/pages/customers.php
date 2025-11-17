@@ -161,6 +161,19 @@
                     </div>
 
                     <div class="mb-3">
+                        <label for="date-of-birth" class="form-label">
+                            <?= lang('date_of_birth') ?>
+                            <?php if (vars('require_date_of_birth')): ?>
+                                <span class="text-danger" hidden>*</span>
+                            <?php endif; ?>
+                        </label>
+                        <input type="text" id="date-of-birth"
+                               class="<?= vars('require_date_of_birth') ? 'required' : '' ?> form-control"
+                               maxlength="120" disabled/>
+                    </div>
+
+
+                    <div class="mb-3">
                         <label class="form-label" for="language">
                             <?= lang('language') ?>
                             <span class="text-danger" hidden>*</span>
