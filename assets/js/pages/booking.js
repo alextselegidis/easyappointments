@@ -781,8 +781,6 @@ App.Pages.Booking = (function () {
         `);
 
         // Update appointment form data for submission to server when the user confirms the appointment.
-
-        // TODO format dateOfBirth
         let dateOfBirth;
         try {
             dateOfBirth = moment(App.Utils.UI.getDateTimePickerValue($dateOfBirth)).format('YYYY-MM-DD')
@@ -800,7 +798,7 @@ App.Pages.Booking = (function () {
             address: $address.val(),
             city: $city.val(),
             zip_code: $zipCode.val(),
-            date_of_birth: dateOfBirth, // $dateOfBirth.val(),
+            date_of_birth: dateOfBirth,
             timezone: $selectTimezone.val(),
             custom_field_1: $customField1.val(),
             custom_field_2: $customField2.val(),
