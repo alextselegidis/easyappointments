@@ -305,13 +305,17 @@ App.Pages.Customers = (function () {
 
         $customerAppointments.empty();
 
-        const dob = App.Utils.Date.format(
-                moment(customer.date_of_birth).toDate(),
-                vars('date_format'),
-                vars('time_format'),
-                false,
-            );
-        $dateOfBirth.val(dob);
+        try {
+            const dob = App.Utils.Date.format(
+                    moment(customer.date_of_birth).toDate(),
+                    vars('date_format'),
+                    vars('time_format'),
+                    false,
+                );
+            $dateOfBirth.val(dob);
+        } catch(e) {
+            // Nothing to do. Just no valid date
+        }
 
         if (!customer.appointments.length) {
             $('<p/>', {
