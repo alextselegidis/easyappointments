@@ -10,6 +10,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 ## Should haves
 
 - [x] Date of birth for clients
+- [ ] Delete button on appointments modal
 
 ## Want to haves
 
