@@ -9,7 +9,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 
 ## Should haves
 
-- [ ] Date of birth for clients
+- [x] Date of birth for clients
 
 ## Want to haves
 
