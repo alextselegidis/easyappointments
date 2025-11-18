@@ -35,6 +35,7 @@ class Booking extends EA_Controller
         'zip_code',
         'timezone',
         'language',
+        'date_of_birth',
         'custom_field_1',
         'custom_field_2',
         'custom_field_3',
@@ -165,6 +166,8 @@ class Booking extends EA_Controller
         $require_zip_code = setting('require_zip_code');
         $display_notes = setting('display_notes');
         $require_notes = setting('require_notes');
+        $display_date_of_birth = setting('display_date_of_birth');
+        $require_date_of_birth = setting('require_date_of_birth');
         $display_cookie_notice = setting('display_cookie_notice');
         $cookie_notice_content = setting('cookie_notice_content');
         $display_terms_and_conditions = setting('display_terms_and_conditions');
@@ -302,6 +305,8 @@ class Booking extends EA_Controller
             'require_zip_code' => $require_zip_code,
             'display_notes' => $display_notes,
             'require_notes' => $require_notes,
+            'display_date_of_birth' => $display_date_of_birth,
+            'require_date_of_birth' => $require_date_of_birth,
             'display_cookie_notice' => $display_cookie_notice,
             'cookie_notice_content' => $cookie_notice_content,
             'display_terms_and_conditions' => $display_terms_and_conditions,

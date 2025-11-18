@@ -29,6 +29,7 @@ App.Pages.Booking = (function () {
     const $address = $('#address');
     const $city = $('#city');
     const $zipCode = $('#zip-code');
+    const $dateOfBirth = $('#date-of-birth');
     const $notes = $('#notes');
     const $captchaTitle = $('.captcha-title');
     const $availableHours = $('#available-hours');
@@ -166,6 +167,8 @@ App.Pages.Booking = (function () {
         });
 
         App.Utils.UI.setDateTimePickerValue($selectDate, new Date());
+
+        App.Utils.UI.initializeDateTimePicker($dateOfBirth, {'enableTime': false, 'dateFormat': 'd-m-Y'});
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
@@ -806,6 +809,12 @@ App.Pages.Booking = (function () {
         `);
 
         // Update appointment form data for submission to server when the user confirms the appointment.
+        let dateOfBirth;
+        try {
+            dateOfBirth = moment(App.Utils.UI.getDateTimePickerValue($dateOfBirth)).format('YYYY-MM-DD')
+        } catch(e) {
+            dateOfBirth = null;
+        }
 
         const data = {};
 
@@ -817,6 +826,7 @@ App.Pages.Booking = (function () {
             address: $address.val(),
             city: $city.val(),
             zip_code: $zipCode.val(),
+            date_of_birth: dateOfBirth,
             timezone: $selectTimezone.val(),
             custom_field_1: $customField1.val(),
             custom_field_2: $customField2.val(),

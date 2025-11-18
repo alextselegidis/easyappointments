@@ -110,7 +110,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
+                                <div class="form-group mb-5">
                                     <label for="phone-number" class="form-label">
                                         <?= lang('phone_number') ?>
                                         <span class="text-danger">*</span>
@@ -131,6 +131,32 @@
                                                    id="require-phone-number"
                                                    data-field="require_phone_number">
                                             <label class="form-check-label" for="require-phone-number">
+                                                <?= lang('require') ?>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="notes" class="form-label">
+                                        <?= lang('notes') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea id="notes" class="form-control mb-2" rows="1" readonly></textarea>
+                                    <div class="d-flex">
+                                        <div class="form-check form-switch me-4">
+                                            <input class="form-check-input display-switch" type="checkbox"
+                                                   id="display-notes"
+                                                   data-field="display_notes">
+                                            <label class="form-check-label" for="display-notes">
+                                                <?= lang('display') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input require-switch" type="checkbox"
+                                                   id="require-notes"
+                                                   data-field="require_notes">
+                                            <label class="form-check-label" for="require-notes">
                                                 <?= lang('require') ?>
                                             </label>
                                         </div>
@@ -217,27 +243,27 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group mb-3">
-                                    <label for="notes" class="form-label">
-                                        <?= lang('notes') ?>
+                                <div class="form-group mb-5">
+                                    <label for="date-of-birth" class="form-label">
+                                        <?= lang('date_of_birth') ?>
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <textarea id="notes" class="form-control mb-2" rows="1" readonly></textarea>
+                                    <input type="text" id="date-of-birth" class="form-control mb-2" readonly/>
                                     <div class="d-flex">
                                         <div class="form-check form-switch me-4">
                                             <input class="form-check-input display-switch" type="checkbox"
-                                                   id="display-notes"
-                                                   data-field="display_notes">
-                                            <label class="form-check-label" for="display-notes">
+                                                   id="display-date-of-birth"
+                                                   data-field="display_date_of_birth">
+                                            <label class="form-check-label" for="display-date-of-birth">
                                                 <?= lang('display') ?>
                                             </label>
                                         </div>
 
                                         <div class="form-check form-switch">
                                             <input class="form-check-input require-switch" type="checkbox"
-                                                   id="require-notes"
-                                                   data-field="require_notes">
-                                            <label class="form-check-label" for="require-notes">
+                                                   id="require-date-of-birth"
+                                                   data-field="require_date_of_birth">
+                                            <label class="form-check-label" for="require-date-of-birth">
                                                 <?= lang('require') ?>
                                             </label>
                                         </div>

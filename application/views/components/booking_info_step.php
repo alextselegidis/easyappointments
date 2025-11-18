@@ -18,6 +18,9 @@
  * @var string $require_zip_code
  * @var string $display_notes
  * @var string $require_notes
+ * @var string $display_date_of_birth
+ * @var string $require_date_of_birth
+
  */
 ?>
 
@@ -118,6 +121,18 @@
                             <?php endif; ?>
                         </label>
                         <input type="text" id="zip-code" class="<?= $require_zip_code ? 'required' : '' ?> form-control"
+                               maxlength="120"/>
+                    </div>
+                <?php endif; ?>
+                <?php if ($display_date_of_birth): ?>
+                    <div class="mb-3">
+                        <label for="date-of-birth" class="form-label">
+                            <?= lang('date_of_birth') ?>
+                            <?php if ($require_date_of_birth): ?>
+                                <span class="text-danger">*</span>
+                            <?php endif; ?>
+                        </label>
+                        <input type="text" id="date-of-birth" class="<?= $require_date_of_birth ? 'required' : '' ?> form-control"
                                maxlength="120"/>
                     </div>
                 <?php endif; ?>
