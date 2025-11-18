@@ -1768,11 +1768,11 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /blocked_peroids:
+  /blocked_periods:
     get:
       tags:
-        - blocked_peroids
-      summary: Get all blocked_peroids
+        - blocked_periods
+      summary: Get all blocked_periods
       parameters:
         - name: page
           in: query
@@ -1806,7 +1806,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BlockedPeroidRecord'
+                  $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1821,13 +1821,13 @@ paths:
         - BasicAuth: [ ]
     post:
       tags:
-        - blocked_peroids
-      summary: Create an blocked_peroid
+        - blocked_periods
+      summary: Create an blocked_period
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BlockedPeroidPayload'
+              $ref: '#/components/schemas/BlockedPeriodPayload'
         required: true
       responses:
         '201':
@@ -1835,7 +1835,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BlockedPeroidRecord'
+                $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1848,13 +1848,13 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /blocked_peroids/{blockedPeroidId}:
+  /blocked_periods/{blockedPeriodId}:
     get:
       tags:
-        - blocked_peroids
-      summary: Get an blocked_peroid
+        - blocked_periods
+      summary: Get an blocked_period
       parameters:
-        - name: blockedPeroidId
+        - name: blockedPeriodId
           in: path
           required: true
           schema:
@@ -1865,7 +1865,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BlockedPeroidRecord'
+                $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '404':
@@ -1881,10 +1881,10 @@ paths:
         - BasicAuth: [ ]
     put:
       tags:
-        - blocked_peroids
-      summary: Update an blocked_peroid
+        - blocked_periods
+      summary: Update an blocked_period
       parameters:
-        - name: blockedPeroidId
+        - name: blockedPeriodId
           in: path
           required: true
           schema:
@@ -1893,7 +1893,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BlockedPeroidPayload'
+              $ref: '#/components/schemas/BlockedPeriodPayload'
         required: true
       responses:
         '200':
@@ -1901,7 +1901,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BlockedPeroidRecord'
+                $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '404':
@@ -1918,10 +1918,10 @@ paths:
         - BasicAuth: [ ]
     delete:
       tags:
-        - blocked_peroids
-      summary: Delete an blocked_peroid
+        - blocked_periods
+      summary: Delete an blocked_period
       parameters:
-        - name: blockedPeroidId
+        - name: blockedPeriodId
           in: path
           required: true
           schema:
@@ -2822,7 +2822,7 @@ components:
         secretToken: SecureSecretTokenHere
         isSslVerified: true
         notes: This is a webhook.
-    BlockedPeroidRecord:
+    BlockedPeriodRecord:
       type: object
       properties:
         id:
@@ -2837,11 +2837,11 @@ components:
           type: string
       example:
         id: 1
-        name: Test blocked peroid
+        name: Test blocked period
         start: '2025-07-01 08:00:00'
         end: '2021-07-31 18:00:00'
-        notes: This is a test blocked peroid.
-    BlockedPeroidPayload:
+        notes: This is a test blocked period.
+    BlockedPeriodPayload:
       type: object
       properties:
         name:
@@ -2853,10 +2853,10 @@ components:
         notes:
           type: string
       example:
-        name: Test blocked peroid
+        name: Test blocked period
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
-        notes: This is a test blocked peroid.
+        notes: This is a test blocked period.
     ErrorResponse:
       type: object
       properties:

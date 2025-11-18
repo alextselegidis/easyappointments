@@ -12,13 +12,12 @@
         <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
 
         <div class="row frame-content">
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-lg-6">
                 <div id="select-date"></div>
 
-                <?php slot('after_select_date'); ?>
             </div>
 
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-lg-6">
                 <div id="select-time">
                     <div class="mb-3">
                         <label for="select-timezone" class="form-label">
@@ -30,12 +29,8 @@
                         ]); ?>
                     </div>
 
-                    <?php slot('after_select_timezone'); ?>
-
-
                     <div id="available-hours"></div>
 
-                    <?php slot('after_available_hours'); ?>
                 </div>
             </div>
         </div>

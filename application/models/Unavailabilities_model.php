@@ -401,46 +401,46 @@ class Unavailabilities_model extends EA_Model
      */
     public function api_decode(array &$unavailability, ?array $base = null): void
     {
-        $decoded_request = $base ?: [];
+        $decoded_resource = $base ?: [];
 
         if (array_key_exists('id', $unavailability)) {
-            $decoded_request['id'] = $unavailability['id'];
+            $decoded_resource['id'] = $unavailability['id'];
         }
 
         if (array_key_exists('book', $unavailability)) {
-            $decoded_request['book_datetime'] = $unavailability['book'];
+            $decoded_resource['book_datetime'] = $unavailability['book'];
         }
 
         if (array_key_exists('start', $unavailability)) {
-            $decoded_request['start_datetime'] = $unavailability['start'];
+            $decoded_resource['start_datetime'] = $unavailability['start'];
         }
 
         if (array_key_exists('end', $unavailability)) {
-            $decoded_request['end_datetime'] = $unavailability['end'];
+            $decoded_resource['end_datetime'] = $unavailability['end'];
         }
 
         if (array_key_exists('hash', $unavailability)) {
-            $decoded_request['hash'] = $unavailability['hash'];
+            $decoded_resource['hash'] = $unavailability['hash'];
         }
 
         if (array_key_exists('location', $unavailability)) {
-            $decoded_request['location'] = $unavailability['location'];
+            $decoded_resource['location'] = $unavailability['location'];
         }
 
         if (array_key_exists('notes', $unavailability)) {
-            $decoded_request['notes'] = $unavailability['notes'];
+            $decoded_resource['notes'] = $unavailability['notes'];
         }
 
         if (array_key_exists('providerId', $unavailability)) {
-            $decoded_request['id_users_provider'] = $unavailability['providerId'];
+            $decoded_resource['id_users_provider'] = $unavailability['providerId'];
         }
 
         if (array_key_exists('googleCalendarId', $unavailability)) {
-            $decoded_request['id_google_calendar'] = $unavailability['googleCalendarId'];
+            $decoded_resource['id_google_calendar'] = $unavailability['googleCalendarId'];
         }
 
-        $decoded_request['is_unavailability'] = true;
+        $decoded_resource['is_unavailability'] = true;
 
-        $unavailability = $decoded_request;
+        $unavailability = $decoded_resource;
     }
 }

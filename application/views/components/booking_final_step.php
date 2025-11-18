@@ -13,17 +13,15 @@
         <h2 class="frame-title"><?= lang('appointment_confirmation') ?></h2>
 
         <div class="row frame-content m-auto pt-md-4 mb-4">
-            <div id="appointment-details" class="col-12 col-md-6 text-center text-md-start mb-2 mb-md-0">
+            <div id="appointment-details" class="col-12 col-lg-6 text-center text-md-start mb-2 mb-md-0">
                 <!-- JS -->
             </div>
 
-            <div id="customer-details" class="col-12 col-md-6 text-center text-md-end">
+            <div id="customer-details" class="col-12 col-lg-6 text-center text-md-end">
                 <!-- JS -->
             </div>
 
         </div>
-
-        <?php slot('after_details'); ?>
 
         <?php if (setting('require_captcha')): ?>
             <div class="row frame-content m-auto">
@@ -41,7 +39,6 @@
             </div>
         <?php endif; ?>
 
-        <?php slot('after_captcha'); ?>
     </div>
 
     <div class="d-flex fs-6 justify-content-around">
@@ -69,7 +66,6 @@
             </div>
         <?php endif; ?>
 
-        <?php slot('after_select_policies'); ?>
     </div>
 
     <div class="command-buttons">

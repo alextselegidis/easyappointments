@@ -11,7 +11,7 @@
         <h2 class="frame-title mt-md-5"><?= lang('service_and_provider') ?></h2>
 
         <div class="row frame-content">
-            <div class="col col-md-8 offset-md-2">
+            <div class="col col-lg-8 offset-md-2">
                 <div class="mb-3">
                     <label for="select-service">
                         <strong><?= lang('service') ?></strong>
@@ -55,7 +55,9 @@
 
                             foreach ($grouped_services as $key => $group) {
                                 $group_label =
-                                    $key !== 'uncategorized' ? $group[0]['service_category_name'] : 'Uncategorized';
+                                    $key !== 'uncategorized' ? $group[0]['service_category_name'] : lang('uncategorized');
+                                
+                                    //$key !== 'uncategorized' ? $group[0]['service_category_name'] : 'Uncategorized';
 
                                 if (count($group) > 0) {
                                     echo '<optgroup label="' . e($group_label) . '">';
@@ -78,7 +80,16 @@
                     </select>
                 </div>
 
-                <?php slot('after_select_service'); ?>
+                <div class="mb-3" hidden>
+                    <label for="select-subservices">
+                        <strong><?= lang('subservice') ?></strong>
+                    </label>
+                    <select id="select-subservices" class="form-select">
+                        <option value="">
+                            <?= lang('please_select') ?>
+                        </option>
+                    </select>
+                </div>
 
                 <div class="mb-3" hidden>
                     <label for="select-provider">
@@ -92,13 +103,9 @@
                     </select>
                 </div>
 
-                <?php slot('after_select_provider'); ?>
-
                 <div id="service-description" class="small">
                     <!-- JS -->
                 </div>
-
-                <?php slot('after_service_description'); ?>
 
             </div>
         </div>

@@ -18,7 +18,7 @@
  */
 App.Http.Booking = (function () {
     const $selectDate = $('#select-date');
-    const $selectService = $('#select-service');
+    const $selectService = $('#selectedService');
     const $selectProvider = $('#select-provider');
     const $availableHours = $('#available-hours');
     const $captchaHint = $('#captcha-hint');

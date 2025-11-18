@@ -2,10 +2,10 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="service-categories-page">
+<div class="container backend-page" id="service-categories-page">
 
     <div class="row" id="service-categories">
-        <div id="filter-service-categories" class="filter-records column col-12 col-md-5">
+        <div id="filter-service-categories" class="filter-records column col-12 col-lg-5">
             <form class="input-append mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -21,14 +21,12 @@
                 <?= lang('service_categories') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
             <div class="results">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details col-12 col-md-5">
+        <div class="record-details col-12 col-lg-5">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-service-category" class="btn btn-primary">
@@ -55,7 +53,6 @@
                     </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -81,7 +78,6 @@
                 <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
 
-            <?php slot('after_primary_fields'); ?>
         </div>
     </div>
 

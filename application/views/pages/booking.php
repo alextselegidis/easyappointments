@@ -12,7 +12,14 @@
 
 <!-- Select Service & Provider -->
 
-<?php component('booking_type_step', ['available_services' => vars('available_services')]); ?>
+<?php  //component('booking_type_step', ['available_services' => vars('available_services')]); ?>
+<?php  
+    component('booking_type_step_new', [
+        'available_services' => vars('available_services'),
+        'available_categories' => vars('available_categories'),
+        'available_subservices' => vars('available_subservices'),
+    ]); 
+?>
 
 <!-- Pick An Appointment Date -->
 
@@ -56,6 +63,7 @@
 <script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/booking_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/booking.js') ?>"></script>
+<!-- <script src="<?= asset_url('assets/js/pages/booking.js') ?>"></script> -->
+<script src="<?= asset_url('assets/js/pages/booking_new.js') ?>"></script>
 
 <?php end_section('scripts'); ?>

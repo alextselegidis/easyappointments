@@ -382,6 +382,7 @@ class Google_sync
             'timeMin' => date(DateTimeInterface::RFC3339, $start),
             'timeMax' => date(DateTimeInterface::RFC3339, $end),
             'singleEvents' => true,
+            'maxResults' => 2500,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);

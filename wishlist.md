@@ -1,5 +1,7 @@
 # Wishlist
 
+Some stuff I'd like to change so this system is usable in my situation.
+
 ## Must haves
 
 - [ ] Subservices (see branch add_subservices)

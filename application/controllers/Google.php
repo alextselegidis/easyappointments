@@ -224,7 +224,10 @@ class Google extends EA_Controller
                 $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
                 $google_event_end->setTimezone($provider_timezone);
 
-                $appointment_results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()]);
+                $appointment_results = $CI->appointments_model->get([
+                    'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
+                ]);
 
                 if (!empty($appointment_results)) {
                     continue;
@@ -232,6 +235,7 @@ class Google extends EA_Controller
 
                 $unavailability_results = $CI->unavailabilities_model->get([
                     'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
                 ]);
 
                 if (!empty($unavailability_results)) {

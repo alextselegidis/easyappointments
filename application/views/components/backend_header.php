@@ -83,8 +83,6 @@
                 </div>
             </li>
 
-            <?php slot('before_user_nav_item'); ?>
-
             <?php $hidden = can('view', PRIV_SYSTEM_SETTINGS) || can('view', PRIV_USER_SETTINGS) ? '' : 'd-none'; ?>
             <?php $active = $active_menu == PRIV_SYSTEM_SETTINGS ? 'active' : ''; ?>
             <li class="nav-item dropdown <?= $active . $hidden ?>">
@@ -99,8 +97,6 @@
                             <?= lang('settings') ?>
                         </a>
                     <?php endif; ?>
-
-                    <?php slot('after_settings_dropdown_item'); ?>
 
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('account') ?>

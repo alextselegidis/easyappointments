@@ -29,7 +29,6 @@ App.Pages.Booking = (function () {
     const $address = $('#address');
     const $city = $('#city');
     const $zipCode = $('#zip-code');
-    const $dateOfBirth = $('#date-of-birth');
     const $notes = $('#notes');
     const $captchaTitle = $('.captcha-title');
     const $availableHours = $('#available-hours');
@@ -43,7 +42,14 @@ App.Pages.Booking = (function () {
     const $displayBookingSelection = $('.display-booking-selection');
     const tippy = window.tippy;
     const moment = window.moment;
+    const $serviceSelectBtns = $('.booking-service-card .btn');
+    const $categorySelectBtns = $('.booking-category-card .btn');
+    const $checkSubservices = $('.check-subservice');
 
+    // Current selections
+    const $dataSelectedCategory = $('#selectedCategory');
+    const $dataSelectedServices = $('#selectedService');
+        
     /**
      * Determines the functionality of the page.
      *
@@ -64,9 +70,113 @@ App.Pages.Booking = (function () {
     }
 
     /**
+     * Looks up the service object by the passed ID
+     * 
+     * @param {int or string} serviceId 
+     * @returns 
+     */
+    function getServiceById(serviceId) {
+        const service = vars('available_services').find(
+            (availableService) => Number(availableService.id) === Number(serviceId),
+        );
+        return service;
+    }
+
+    function getSubServices(serviceId) {
+        const subservices = vars('available_subservices').filter(ss => ss.parentservice === Number(serviceId));
+        return subservices;
+    }
+
+    function getSelectedSubServices() {
+        const selectedSubservices = [];
+        $('.check-subservice:checked').each((index, element) => {
+            selectedSubservices.push(Number($(element).val()));
+        });
+        return selectedSubservices;
+    }
+
+    /**
+     * Getter for the selected service data element
+     * 
+     * @returns id of the selected service or NULL
+     */
+    function getSelectedService() {
+        return Number($dataSelectedServices.val());
+    }
+
+    /**
+     * Setter for the selected service data element
+     * 
+     * @param {*} serviceId 
+     */
+    function setSelectedService(serviceId) {
+        if (isNaN(Number(serviceId))) {
+            return;
+        }
+        const curr = getSelectedService();
+        const newId = Number(serviceId);
+
+        if (curr == newId) {
+            return;
+        }
+        $dataSelectedServices.val(newId);
+        
+        serviceSelectionCompleted();
+    }
+
+    /**
+     * Getter for the selected category data element
+     * 
+     * @returns id of the selected category or NULL
+     */
+    function getSelectedCategory() {
+        return Number($dataSelectedCategory.val());
+    }
+
+    /**
+     * Setter for the selected category data element
+     * When set is makes the services within that category
+     * visible and hides the rest.
+     * 
+     * Category ID 0 means back
+     * 
+     * @param {*} categoryId
+     */
+    function setSelectedCategory(categoryId) {
+        if (isNaN(Number(categoryId))) {
+            return;
+        }
+        const curr = getSelectedCategory();
+        const newId = Number(categoryId);
+
+        if (curr == newId) {
+            return;
+        }
+
+        $dataSelectedCategory.val(newId);
+
+        showCategoryCards(categoryId);
+    }
+
+    function showCategoryCards(categoryId) {
+        const catNr = Number(categoryId);
+        const selGr = 'groupid-'+categoryId;
+        const $categoryGroups = $('.services-group');
+            
+        Array.from($categoryGroups).forEach(el => {
+            const $element = $(el);
+            $element.prop('hidden', !$element.hasClass(selGr));
+        }); 
+
+        $('.categories-group').prop('hidden', (catNr > 0));
+        $('.services-group .btn-back').prop('hidden', !(catNr > 0));
+    }
+    
+    /**
      * Initialize the module.
      */
     function initialize() {
+
         if (Boolean(Number(vars('display_cookie_notice'))) && window?.cookieconsent) {
             cookieconsent.initialise({
                 palette: {
@@ -98,6 +208,7 @@ App.Pages.Booking = (function () {
                 }),
             );
         }
+
 
         manageMode = vars('manage_mode');
 
@@ -136,7 +247,7 @@ App.Pages.Booking = (function () {
 
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
-                        $selectService.val(),
+                        getSelectedService(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
                         monthChangeStep,
                     );
@@ -158,7 +269,7 @@ App.Pages.Booking = (function () {
 
                     App.Http.Booking.getUnavailableDates(
                         $selectProvider.val(),
-                        $selectService.val(),
+                        getSelectedService(),
                         displayedMonthMoment.format('YYYY-MM-DD'),
                         monthChangeStep,
                     );
@@ -167,8 +278,6 @@ App.Pages.Booking = (function () {
         });
 
         App.Utils.UI.setDateTimePickerValue($selectDate, new Date());
-
-        App.Utils.UI.initializeDateTimePicker($dateOfBirth, {'enableTime': false, 'dateFormat': 'd-m-Y'});
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
@@ -320,10 +429,74 @@ App.Pages.Booking = (function () {
         });
     }
 
+    function serviceSelectionCompleted() {
+        const serviceId = getSelectedService();
+        
+        $selectProvider.parent().prop('hidden', true);
+
+        const subservices = getSubServices(serviceId);
+
+        $('.subservices-group').prop('hidden', !(subservices.length > 0));
+        
+        if (subservices.length > 0) {
+            $('.category-group').prop('hidden', true);
+            Array.from($('.col.subservice')).forEach(el => {
+                const $element = $(el);
+                const parentId = Number($element.attr('data-parentid'));
+                $element.prop('hidden', !(parentId === Number(serviceId)));
+            });
+
+            return;
+        }
+        $selectProvider.empty();
+
+        $selectProvider.append(new Option(lang('please_select'), ''));
+
+        vars('available_providers').forEach((provider) => {
+            // If the current provider is able to provide the selected service, add him to the list box.
+            const canServeService =
+                provider.services.filter((providerServiceId) => Number(providerServiceId) === Number(serviceId))
+                    .length > 0;
+
+            if (canServeService) {
+                $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+            }
+        });
+
+        const providerOptionCount = $selectProvider.find('option').length;
+
+        // Remove the "Please Select" option, if there is only one provider available
+
+        if (providerOptionCount === 2) {
+            $selectProvider.find('option[value=""]').remove();
+        }
+
+        // Add the "Any Provider" entry
+
+        if (providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
+            $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
+        }
+
+        $selectProvider.parent().prop('hidden', !Boolean(serviceId));
+        
+        App.Http.Booking.getUnavailableDates(
+            $selectProvider.val(),
+            getSelectedService(),
+            moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
+        );
+
+        App.Pages.Booking.updateConfirmFrame();
+
+        App.Pages.Booking.updateServiceDescription(serviceId);
+    }
     /**
      * Add the page event listeners.
      */
     function addEventListeners() {
+        $('#test-button').on('click', () => {
+            const selectedSubservices = getSelectedSubServices();
+            alert('Selected subservices: ' + selectedSubservices.join(', '));
+        });
         /**
          * Event: Timezone "Changed"
          */
@@ -337,6 +510,27 @@ App.Pages.Booking = (function () {
             App.Http.Booking.getAvailableHours(moment(date).format('YYYY-MM-DD'));
 
             App.Pages.Booking.updateConfirmFrame();
+        });
+
+        /**
+         * Event: Select service on servicecard
+         */
+        $serviceSelectBtns.on('click', (event) => {
+            if (!$(event.target).attr('data')) {
+                return;
+            }
+            setSelectedService($(event.target).attr('data'));
+        });
+
+        $categorySelectBtns.on('click', (event) =>  {
+            if (!$(event.target).attr('data')) {
+                return;
+            }
+            setSelectedCategory($(event.target).attr('data'));
+        });
+
+        $('.services-group .btn-back').on('click', (event) => {
+            setSelectedCategory(0);
         });
 
         /**
@@ -354,11 +548,18 @@ App.Pages.Booking = (function () {
 
             App.Http.Booking.getUnavailableDates(
                 $target.val(),
-                $selectService.val(),
+                getSelectedService(),
                 todayDateTimeMoment.format('YYYY-MM-DD'),
             );
 
             App.Pages.Booking.updateConfirmFrame();
+        });
+
+        $checkSubservices.on('change', (event) => {
+            const $target = $(event.target);
+            const $parentcard = $target.closest('.booking-service-card');
+            
+            $parentcard.toggleClass('selected-subservice', $target.is(':checked'));
         });
 
         /**
@@ -394,48 +595,7 @@ App.Pages.Booking = (function () {
 
         $selectSubservices.on('change', (event) => {
             const $target = $(event.target);
-            const serviceId = $selectService.val();
-            
-            $selectProvider.parent().prop('hidden', !Boolean(serviceId));
-            
-            $selectProvider.empty();
-
-            $selectProvider.append(new Option(lang('please_select'), ''));
-
-            vars('available_providers').forEach((provider) => {
-                // If the current provider is able to provide the selected service, add him to the list box.
-                const canServeService =
-                    provider.services.filter((providerServiceId) => Number(providerServiceId) === Number(serviceId))
-                        .length > 0;
-
-                if (canServeService) {
-                    $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
-                }
-            });
-
-            const providerOptionCount = $selectProvider.find('option').length;
-
-            // Remove the "Please Select" option, if there is only one provider available
-
-            if (providerOptionCount === 2) {
-                $selectProvider.find('option[value=""]').remove();
-            }
-
-            // Add the "Any Provider" entry
-
-            if (providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
-                $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
-            }
-
-            App.Http.Booking.getUnavailableDates(
-                $selectProvider.val(),
-                $selectService.val(),
-                moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
-            );
-
-            App.Pages.Booking.updateConfirmFrame();
-
-            App.Pages.Booking.updateServiceDescription(serviceId);
+            serviceSelectionCompleted();
         });
 
         /**
@@ -695,12 +855,13 @@ App.Pages.Booking = (function () {
      * customer settings and input for the appointment booking.
      */
     function updateConfirmFrame() {
-        const serviceId = $selectService.val();
+        const serviceId = getSelectedService();
         const providerId = $selectProvider.val();
 
         $displayBookingSelection.text(`${lang('service')} │ ${lang('provider')}`); // Notice: "│" is a custom ASCII char
 
-        const serviceOptionText = serviceId ? $selectService.find('option:selected').text() : lang('service');
+        //const serviceOptionText = serviceId ? $selectService.find('option:selected').text() : lang('service');
+        const serviceOptionText = serviceId ? getServiceById(serviceId)['name'] : lang('service');
         const providerOptionText = providerId ? $selectProvider.find('option:selected').text() : lang('provider');
 
         if (serviceId || providerId) {
@@ -809,12 +970,6 @@ App.Pages.Booking = (function () {
         `);
 
         // Update appointment form data for submission to server when the user confirms the appointment.
-        let dateOfBirth;
-        try {
-            dateOfBirth = moment(App.Utils.UI.getDateTimePickerValue($dateOfBirth)).format('YYYY-MM-DD')
-        } catch(e) {
-            dateOfBirth = null;
-        }
 
         const data = {};
 
@@ -826,7 +981,6 @@ App.Pages.Booking = (function () {
             address: $address.val(),
             city: $city.val(),
             zip_code: $zipCode.val(),
-            date_of_birth: dateOfBirth,
             timezone: $selectTimezone.val(),
             custom_field_1: $customField1.val(),
             custom_field_2: $customField2.val(),
@@ -845,7 +999,7 @@ App.Pages.Booking = (function () {
             notes: $notes.val(),
             is_unavailability: false,
             id_users_provider: $selectProvider.val(),
-            id_services: $selectService.val(),
+            id_services: getSelectedService(),
         };
 
         data.manage_mode = Number(manageMode);
@@ -867,7 +1021,7 @@ App.Pages.Booking = (function () {
      */
     function calculateEndDatetime() {
         // Find selected service duration.
-        const serviceId = $selectService.val();
+        const serviceId = getSelectedService();
 
         const service = vars('available_services').find(
             (availableService) => Number(availableService.id) === Number(serviceId),

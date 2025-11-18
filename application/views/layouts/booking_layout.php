@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/flatpickr.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/material_green.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/' . vars('theme') . '.css') ?>">
+    <?php component('company_theme', ['company_color' => vars('company_color')]); ?>
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking_layout.css') ?>">
 

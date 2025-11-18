@@ -8,7 +8,7 @@
  * @link        https://easyappointments.org
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
-
+@use "sass:color";
 root {
     display: block;
 }
@@ -93,8 +93,76 @@ body {
 #book-appointment-wizard .frame-container .frame-title {
     font-weight: lighter;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     color: #666;
+}
+
+/* BOOKING GROUPS AND CARDS
+ ------------------------------------------------------------------------------ */
+
+#book-appointment-wizard .booking-group-title {
+    font-size: x-large;
+    font-weight: bolder;
+    // margin-top: 1em;
+    // margin-top: 0.75em;
+    //margin-top: 15px;
+}
+
+#book-appointment-wizard .entity-group {
+    margin-top: 30px;
+}
+
+#book-appointment-wizard .services-group .btn-back {
+    --bs-btn-color: var(--bs-body-bg);
+    --bs-btn-hover-color: var(--bs-body-bg);
+    --bs-btn-bg: var(--company-color);
+    --bs-btn-hover-bg: var(--company-color);
+    translate: 0 -10%;
+    font-size: xx-small;
+}
+
+
+
+#book-appointment-wizard .card {
+    min-height: 200px;
+    clip-path: border-box;
+    --bs-card-bg: var(--company-color);
+    --bs-card-color: var(--bs-body-bg);
+    .card-title {
+        height: 35% !important;
+        font-weight: bold;
+        --bs-card-title-color: var(--bs-body-bg);
+        padding: 0.5em 1em 0.5em 1em;
+    }
+    .card-body {
+        padding-top: 0;
+    }
+    .card-footer {
+        --bs-card-border-width: 1px;
+        --bs-card-border-color: var(--company-color-dark);
+        .btn {
+            --bs-btn-bg: var(--company-color-dark);
+            --bs-btn-hover-bg: var(--company-color-dark);
+            --bs-btn-color: var(--bs-body-bg);
+            --bs-btn-hover-color: var(--bs-body-bg);
+            &:hover {
+                transform: translate(1%, 1%) scale(1.1);
+            }
+        }
+        p {
+            --bs-body-bg: var(--company-color-dark);
+            margin-bottom: 0;
+            justify-self: left;
+            font-size: x-small;
+        }
+        
+        
+    }
+    
+    &.selected-subservice {
+        filter: brightness(1.2);
+        border: 2px solid var(--company-color-dark);
+    }
 }
 
 #book-appointment-wizard .frame-container .frame-content {
@@ -422,4 +490,11 @@ body {
         border-bottom: 1px solid #e4e1c9;
         text-align: left;
     }
+}
+
+.cc-window.cc-banner.cc-bottom {
+    background-color: rgba(215, 220, 224, 0.8);
+    border: black 1px solid;
+    margin: 1em;
+    width: inherit;
 }

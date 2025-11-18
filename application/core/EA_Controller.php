@@ -48,6 +48,7 @@
  * @property Roles_model $roles_model
  * @property Secretaries_model $secretaries_model
  * @property Services_model $services_model
+ * @property Subservices_model $subservices_model $name
  * @property Settings_model $settings_model
  * @property Unavailabilities_model $unavailabilities_model
  * @property Users_model $users_model

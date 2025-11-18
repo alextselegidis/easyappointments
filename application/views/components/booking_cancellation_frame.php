@@ -10,10 +10,10 @@
 
 <?php if ($manage_mode): ?>
     <div id="cancel-appointment-frame" class="row booking-header-bar">
-        <div class="col-md-10">
+        <div class="col-lg-10">
             <small><?= lang('cancel_appointment_hint') ?></small>
         </div>
-        <div class="col-md-2">
+        <div class="col-lg-2">
             <form id="cancel-appointment-form" method="post"
                   action="<?= site_url('booking_cancellation/of/' . $appointment_data['hash']) ?>">
 
@@ -28,10 +28,10 @@
     </div>
     <?php if ($display_delete_personal_information): ?>
         <div class="booking-header-bar row">
-            <div class="col-md-10">
+            <div class="col-lg-10">
                 <small><?= lang('delete_personal_information_hint') ?></small>
             </div>
-            <div class="col-md-2">
+            <div class="col-lg-2">
                 <button id="delete-personal-information" class="btn btn-danger btn-sm">
                     <i class="fas fa-trash me-2"></i>
                     <?= lang('delete') ?>

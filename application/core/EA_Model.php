@@ -215,12 +215,16 @@ class EA_Model extends CI_Model
     /**
      * Escape the order by statements in order to avoid SQL injection issues
      *
-     * @param string $order_by
+     * @param string|null $order_by
      *
-     * @return string
+     * @return string|null
      */
-    function quote_order_by(string $order_by): string
+    function quote_order_by(?string $order_by): ?string
     {
+        if (!$order_by) {
+            return null;
+        }
+
         $parts = explode(',', $order_by);
         $quoted_parts = [];
 

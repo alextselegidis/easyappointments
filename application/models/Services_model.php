@@ -274,6 +274,15 @@ class Services_model extends EA_Model
      */
     public function get_available_services(bool $without_private = false): array
     {
+        // First create a sub-query to filer out all sub-services
+		$subQuery = $this->db
+			->distinct()
+			->select( 'subservice' )
+			->from( 'subservices' );
+		$subSql = $subQuery->get_compiled_select();
+
+		$this->db->where( key: 'ea_services.id not in (' . $subSql . ')' );
+
         if ($without_private) {
             $this->db->where('services.is_private', false);
         }
@@ -286,10 +295,11 @@ class Services_model extends EA_Model
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
             ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
+            
             ->order_by('name ASC')
             ->get()
             ->result_array();
-
+        
         foreach ($services as &$service) {
             $this->cast($service);
         }
@@ -297,6 +307,7 @@ class Services_model extends EA_Model
         return $services;
     }
 
+    
     /**
      * Get all services that match the provided criteria.
      *
