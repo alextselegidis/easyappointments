@@ -11,6 +11,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 
 - [x] Date of birth for clients
 - [ ] Delete button on appointments modal
+- [ ] Login for customers (to view and edit info and appointments)
 
 ## Want to haves
 
