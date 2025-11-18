@@ -49,6 +49,7 @@ class Customers_model extends EA_Model
         'customField4' => 'custom_field_4',
         'customField5' => 'custom_field_5',
         'notes' => 'notes',
+        'dateOfBirth' => 'date_of_birth',
         'ldapDn' => 'ldap_dn',
     ];
 
@@ -104,6 +105,7 @@ class Customers_model extends EA_Model
         $require_address = filter_var(setting('require_address'), FILTER_VALIDATE_BOOLEAN);
         $require_city = filter_var(setting('require_city'), FILTER_VALIDATE_BOOLEAN);
         $require_zip_code = filter_var(setting('require_zip_code'), FILTER_VALIDATE_BOOLEAN);
+        $require_date_of_birth = filter_var(setting('require_date_of_birth'), FILTER_VALIDATE_BOOLEAN);
 
         if (
             (empty($customer['first_name']) && $require_first_name) ||
@@ -112,7 +114,8 @@ class Customers_model extends EA_Model
             (empty($customer['phone_number']) && $require_phone_number) ||
             (empty($customer['address']) && $require_address) ||
             (empty($customer['city']) && $require_city) ||
-            (empty($customer['zip_code']) && $require_zip_code)
+            (empty($customer['zip_code']) && $require_zip_code) ||
+            (empty($customer['date_of_birth']) && $require_date_of_birth)
         ) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($customer, true));
         }
@@ -288,6 +291,17 @@ class Customers_model extends EA_Model
     {
         $customer['update_datetime'] = date('Y-m-d H:i:s');
 
+        // Don't delete existing values
+		$old_customer = $this->find( $customer['id'] );
+        if ($old_customer) {
+            foreach(array_keys($old_customer) as $key) {
+                if ((!isset($customer[$key])) || ($customer[$key] == null) || (strlen(trim($customer[$key])) < 1 )) {
+					$customer[ $key ] = $old_customer[ $key ];
+                }
+            }
+        }
+        
+
         if (!$this->db->update('users', $customer, ['id' => $customer['id']])) {
             throw new RuntimeException('Could not update customer.');
         }
@@ -411,6 +425,7 @@ class Customers_model extends EA_Model
             ->or_like('city', $keyword)
             ->or_like('state', $keyword)
             ->or_like('zip_code', $keyword)
+            ->or_like('date_of_birth', $keyword)
             ->or_like('notes', $keyword)
             ->group_end()
             ->limit($limit)
@@ -455,6 +470,7 @@ class Customers_model extends EA_Model
             'address' => $customer['address'],
             'city' => $customer['city'],
             'zip' => $customer['zip_code'],
+            'dateOfBirth' => $customer['date_of_birth'],
             'notes' => $customer['notes'],
             'timezone' => $customer['timezone'],
             'language' => $customer['language'],
@@ -509,6 +525,10 @@ class Customers_model extends EA_Model
 
         if (array_key_exists('zip', $customer)) {
             $decoded_resource['zip_code'] = $customer['zip'];
+        }
+
+        if (array_key_exists('dateOfBirth', $customer)) {
+            $decoded_resource['date_of_birth'] = $customer['dateOfBirth'];
         }
 
         if (array_key_exists('language', $customer)) {

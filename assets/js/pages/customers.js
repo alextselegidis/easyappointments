@@ -25,6 +25,7 @@ App.Pages.Customers = (function () {
     const $address = $('#address');
     const $city = $('#city');
     const $zipCode = $('#zip-code');
+    const $dateOfBirth = $('#date-of-birth') ;
     const $timezone = $('#timezone');
     const $language = $('#language');
     const $ldapDn = $('#ldap-dn');
@@ -123,6 +124,9 @@ App.Pages.Customers = (function () {
          * Event: Save Add/Edit Customer Operation "Click"
          */
         $customers.on('click', '#save-customer', () => {
+            const dateOfBirthObject = App.Utils.UI.getDateTimePickerValue($dateOfBirth);
+            const dateOfBirth = moment(dateOfBirthObject).format('YYYY-MM-DD');
+
             const customer = {
                 first_name: $firstName.val(),
                 last_name: $lastName.val(),
@@ -131,6 +135,7 @@ App.Pages.Customers = (function () {
                 address: $address.val(),
                 city: $city.val(),
                 zip_code: $zipCode.val(),
+                date_of_birth: dateOfBirth,
                 notes: $notes.val(),
                 timezone: $timezone.val(),
                 language: $language.val() || 'english',
@@ -287,6 +292,7 @@ App.Pages.Customers = (function () {
         $address.val(customer.address);
         $city.val(customer.city);
         $zipCode.val(customer.zip_code);
+        //$dateOfBirth.val(customer.date_of_birth);
         $notes.val(customer.notes);
         $timezone.val(customer.timezone);
         $language.val(customer.language || 'english');
@@ -298,6 +304,18 @@ App.Pages.Customers = (function () {
         $customField5.val(customer.custom_field_5);
 
         $customerAppointments.empty();
+
+        try {
+            const dob = App.Utils.Date.format(
+                    moment(customer.date_of_birth).toDate(),
+                    vars('date_format'),
+                    vars('time_format'),
+                    false,
+                );
+            $dateOfBirth.val(dob);
+        } catch(e) {
+            // Nothing to do. Just no valid date
+        }
 
         if (!customer.appointments.length) {
             $('<p/>', {
@@ -484,6 +502,7 @@ App.Pages.Customers = (function () {
         App.Pages.Customers.resetForm();
         App.Pages.Customers.addEventListeners();
         App.Pages.Customers.filter('');
+        App.Utils.UI.initializeDateTimePicker($dateOfBirth, {'enableTime': false, 'dateFormat': 'd-m-Y'});
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

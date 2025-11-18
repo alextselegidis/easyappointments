@@ -39,6 +39,7 @@ class Customers extends EA_Controller
         'custom_field_4',
         'custom_field_5',
         'ldap_dn',
+        'date_of_birth',
     ];
 
     public array $optional_customer_fields = [
@@ -114,6 +115,7 @@ class Customers extends EA_Controller
             'secretary_providers' => $secretary_providers,
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
+            'first_weekday' =>  setting('first_weekday'),
         ]);
 
         html_vars([

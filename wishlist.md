@@ -12,5 +12,6 @@
 ## Want to haves
 
 - [x] Fallback default language
+- [ ] Formattable date seperator
 
 ## Could haves
