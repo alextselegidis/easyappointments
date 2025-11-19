@@ -23,4 +23,4 @@ Some stuff I'd like to change so this system is usable in my situation.
 ## Could haves
 
 ## To fix
-- [ ] When saving customerinfo without birthday it overwrites existing birthday with current date
+- [x] When saving customerinfo without birthday it overwrites existing birthday with current date
