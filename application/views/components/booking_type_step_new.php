@@ -42,7 +42,7 @@
                             $grouped_services[ $group_name ]['services'][] = $service;
                         }
 
-                        // Check if there are categoriesother then 'uncategorized'
+                        // Check if there are categories other then 'uncategorized'
                         if (count($grouped_services) > 1) 
                         {
 						    ?>
