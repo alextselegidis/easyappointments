@@ -441,6 +441,16 @@ class Booking extends EA_Controller
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
 
+            // Don't delete existing values
+            $old_customer = $this->customers_model->find( $customer['id'] );
+            if ($old_customer) {
+                foreach(array_keys($old_customer) as $key) {
+                    if ((!isset($customer[$key])) || ($customer[$key] == null) || (strlen(trim($customer[$key])) < 1 )) {
+            			$customer[ $key ] = $old_customer[ $key ];
+                    }
+                }
+            }
+
             $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);

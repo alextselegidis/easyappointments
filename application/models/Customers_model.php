@@ -291,18 +291,11 @@ class Customers_model extends EA_Model
     {
         $customer['update_datetime'] = date('Y-m-d H:i:s');
 
-        // Don't delete existing values
-		$old_customer = $this->find( $customer['id'] );
-        if ($old_customer) {
-            foreach(array_keys($old_customer) as $key) {
-                if ((!isset($customer[$key])) || ($customer[$key] == null) || (strlen(trim($customer[$key])) < 1 )) {
-					$customer[ $key ] = $old_customer[ $key ];
-                }
-            }
-        }
-        
+        if ( ! isset( $customer['date_of_birth'] ) ) {
+			$customer['date_of_birth'] = null;
+		}
 
-        if (!$this->db->update('users', $customer, ['id' => $customer['id']])) {
+		if (!$this->db->update('users', $customer, ['id' => $customer['id']])) {
             throw new RuntimeException('Could not update customer.');
         }
 
