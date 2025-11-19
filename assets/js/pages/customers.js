@@ -124,8 +124,15 @@ App.Pages.Customers = (function () {
          * Event: Save Add/Edit Customer Operation "Click"
          */
         $customers.on('click', '#save-customer', () => {
-            const dateOfBirthObject = App.Utils.UI.getDateTimePickerValue($dateOfBirth);
-            const dateOfBirth = moment(dateOfBirthObject).format('YYYY-MM-DD');
+            let dateOfBirth = App.Utils.UI.getDateTimePickerValue($dateOfBirth);
+            if (dateOfBirth) {
+                try {
+                    dateOfBirth = moment(dateOfBirth).format('YYYY-MM-DD');
+                } catch(e) {
+                    // Just ignore and keep empty
+                }
+            }
+            
 
             const customer = {
                 first_name: $firstName.val(),
