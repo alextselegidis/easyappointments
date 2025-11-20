@@ -11,7 +11,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 
 - [x] Date of birth for clients
 - [ ] Delete button on appointments modal
-- [ ] Extra info field for booking
+- [x] ~~Extra info field for booking~~ (Was existing option)
 
 ## Want to haves
 
