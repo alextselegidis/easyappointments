@@ -134,6 +134,7 @@ App.Utils.CalendarDefaultView = (function () {
                 const appointment = lastFocusedEventData.extendedProps.data;
 
                 App.Components.AppointmentsModal.resetModal();
+                App.Components.AppointmentsModal.setAppointment(appointment);
 
                 // Apply appointment data and show modal dialog.
                 $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));

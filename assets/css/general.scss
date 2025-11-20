@@ -188,6 +188,15 @@ body .ui-widget button {
     font-size: 1rem;
 }
 
+.listbox-option {
+    background-color: inherit;
+    &:checked {
+        background-color: inherit;
+    }
+}
+
+
+
 body .ui-datepicker .ui-datepicker-buttonpane button {
     padding: 6px 16px;
 }

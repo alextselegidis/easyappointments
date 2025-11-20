@@ -107,6 +107,7 @@
 
 <?php component('appointments_modal', [
     'available_services' => vars('available_services'),
+    'available_subservices' => vars('available_subservices'),
     'appointment_status_options' => vars('appointment_status_options'),
     'timezones' => vars('timezones'),
     'require_first_name' => vars('require_first_name'),

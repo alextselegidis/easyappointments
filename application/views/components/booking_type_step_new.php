@@ -107,7 +107,7 @@
                     <div class="services-group subservices-group entity-group container" hidden>
                         <p> 
                             <span class="btn btn-back rounded-pill"><i class="fas fa-angles-left"></i></span>
-                            <span class="booking-group-title">Extraatjes</span>
+                            <span class="booking-group-title"><?= lang('subservices'); ?></span>
                         </p>
                     <div class="row justify-content-left row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
                     <?php

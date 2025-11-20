@@ -216,8 +216,11 @@ class Appointments_model extends EA_Model
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
         $appointment['hash'] = random_string('alnum', 12);
 
-		$subServices = $appointment['ids_subservices'] ?: [];
-		unset( $appointment['ids_subservices'] );
+        $subServices = [];
+        if (isset($appointment['ids_subservices'])) {
+            $subServices = $appointment['ids_subservices'] ?: [];
+            unset( $appointment['ids_subservices'] );
+        }
 
         if (!$this->db->insert('appointments', $appointment)) {
             throw new RuntimeException('Could not insert appointment.');
@@ -243,8 +246,11 @@ class Appointments_model extends EA_Model
     {
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
 
-        $subServices = $appointment['ids_subservices'] ?: [];
-		unset( $appointment['ids_subservices'] );
+        $subServices = [];
+        if (isset($appointment['ids_subservices'])) {
+            $subServices = $appointment['ids_subservices'] ?: [];
+            unset( $appointment['ids_subservices'] );
+        }
 
         if (!$this->db->update('appointments', $appointment, ['id' => $appointment['id']])) {
             throw new RuntimeException('Could not update appointment record.');

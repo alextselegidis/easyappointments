@@ -42,6 +42,7 @@ App.Components.AppointmentsModal = (function () {
     const $reloadAppointments = $('#reload-appointments');
     const $selectFilterItem = $('#select-filter-item');
     const $selectService = $('#select-service');
+    const $selectSubservice = $('#select-subservices');
     const $selectProvider = $('#select-provider');
     const $insertAppointment = $('#insert-appointment');
     const $existingCustomersList = $('#existing-customers-list');
@@ -51,8 +52,15 @@ App.Components.AppointmentsModal = (function () {
     const $customField3 = $('#custom-field-3');
     const $customField4 = $('#custom-field-4');
     const $customField5 = $('#custom-field-5');
+    const $subserviceOptions = $selectSubservice.find('.form-check');
 
     const moment = window.moment;
+
+    let selectedSubservices = [];
+    
+    function setAppointment(appointment) {
+        selectedSubservices = (appointment)?appointment.ids_subservices:[];
+    }
 
     /**
      * Update the displayed timezone.
@@ -93,6 +101,19 @@ App.Components.AppointmentsModal = (function () {
             const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDatetime);
             const endDatetime = moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss');
 
+            // Reset selected Subservices array
+            const serviceId = Number($selectService.val());
+            selectedSubservices = [];
+            Array.from($subserviceOptions).forEach((el) => {
+                $el = $(el);
+                $inp = $el.find("input");
+                if (Number($el.attr('data-parent')) == Number(serviceId)) {
+                    if ($inp.prop('checked')) {
+                        selectedSubservices.push(Number($inp.attr('data-value')));
+                    }
+                }
+            }) ;
+            
             const appointment = {
                 id_services: $selectService.val(),
                 id_users_provider: $selectProvider.val(),
@@ -103,6 +124,7 @@ App.Components.AppointmentsModal = (function () {
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
                 is_unavailability: Number(false),
+                ids_subservices: selectedSubservices,
             };
 
             if ($appointmentId.val() !== '') {
@@ -347,6 +369,20 @@ App.Components.AppointmentsModal = (function () {
             }, 1000);
         });
 
+        $subserviceOptions.on('click', (event) => {
+            const $tgt = $(event.target);
+            const id = Number($tgt.attr('data-value'));
+            if (id) {
+                const i = selectedSubservices.indexOf(id);
+                if (i >= 0) {
+                    selectedSubservices.splice(i,1);
+                }
+                if ($tgt.prop('checked')) {
+                    selectedSubservices.push(id);
+                }
+            }
+        });
+
         /**
          * Event: Selected Service "Change"
          *
@@ -368,6 +404,22 @@ App.Components.AppointmentsModal = (function () {
             if (service?.color) {
                 App.Components.ColorSelection.setColor($appointmentColor, service.color);
             }
+
+            // Fill subservices
+            $subserviceOptions.detach();
+            Array.from($subserviceOptions).forEach((el) => {
+                $el = $(el);
+                $inp = $el.find("input");
+                if (Number($el.attr('data-parent')) == Number(serviceId)) {
+                    $selectSubservice.append($el);
+                    const ss_id = Number($inp.attr('data-value'));
+                    if (selectedSubservices.indexOf(ss_id) >=0 ) {
+                        $inp.prop('checked', true);
+                    }
+                } else {
+                    $inp.prop('checked', false);
+                }
+            }) ;
 
             const duration = service ? service.duration : 60;
 
@@ -583,5 +635,6 @@ App.Components.AppointmentsModal = (function () {
     return {
         resetModal,
         validateAppointmentForm,
+        setAppointment,
     };
 })();
