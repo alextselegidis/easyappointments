@@ -156,7 +156,7 @@ class EA_Model extends CI_Model
                     $record[$attribute] = (string) $record[$attribute];
                     break;
 
-                default:
+				default:
                     throw new RuntimeException('Unsupported cast type provided: ' . $cast);
             }
         }

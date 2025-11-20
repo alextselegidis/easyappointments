@@ -50,6 +50,8 @@ App.Pages.Booking = (function () {
     // Current selections
     const $dataSelectedCategory = $('#selectedCategory');
     const $dataSelectedServices = $('#selectedService');
+
+    let dataSelectedSubServices = [];
         
     /**
      * Determines the functionality of the page.
@@ -89,11 +91,15 @@ App.Pages.Booking = (function () {
     }
 
     function getSelectedSubServices() {
-        const selectedSubservices = [];
-        $('.check-subservice:checked').each((index, element) => {
-            selectedSubservices.push(Number($(element).val()));
-        });
-        return selectedSubservices;
+        // const selectedSubservices = [];
+        // $('.check-subservice:checked').each((index, element) => {
+        //     const subId = Number($(element).val());
+        //     if (!selectedSubservices.includes(subId)) {
+        //         selectedSubservices.push(subId);
+        //     }
+        // });
+        // return selectedSubservices;
+        return dataSelectedSubServices;
     }
 
     /**
@@ -120,6 +126,10 @@ App.Pages.Booking = (function () {
         if (curr == newId) {
             return;
         }
+
+        // Selected service has chaged, so delete all selected subservices
+        dataSelectedSubServices = [];
+
         $dataSelectedServices.val(newId);
         
         serviceSelectionCompleted();
@@ -280,7 +290,7 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.setDateTimePickerValue($selectDate, new Date());
 
-        App.Utils.UI.initializeDateTimePicker($dateOfBirth, {'enableTime': false, 'dateFormat': 'd-m-Y'});
+        App.Utils.UI.initializeDatePicker($dateOfBirth);
 
         const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
@@ -449,7 +459,7 @@ App.Pages.Booking = (function () {
                 $element.prop('hidden', !(parentId === Number(serviceId)));
             });
 
-            return;
+            //return;
         }
         $selectProvider.empty();
 
@@ -561,8 +571,21 @@ App.Pages.Booking = (function () {
         $checkSubservices.on('change', (event) => {
             const $target = $(event.target);
             const $parentcard = $target.closest('.booking-service-card');
-            
-            $parentcard.toggleClass('selected-subservice', $target.is(':checked'));
+            const isChecked = $target.is(':checked');
+            const val = Number($target.val());
+     
+            $parentcard.toggleClass('selected-subservice', isChecked);
+
+            if (isChecked) {
+                if(!dataSelectedSubServices.includes(val)) {
+                    dataSelectedSubServices.push(val);
+                }
+            } else {
+                const i = dataSelectedSubServices.indexOf(val);
+                if (i >= 0) {
+                    dataSelectedSubServices.splice(i,1);
+                }
+            }
         });
 
         /**
@@ -598,6 +621,10 @@ App.Pages.Booking = (function () {
 
         $selectSubservices.on('change', (event) => {
             const $target = $(event.target);
+            const val = Number($target.val());
+            
+            dataSelectedSubServices = [val];
+            
             serviceSelectionCompleted();
         });
 
@@ -973,11 +1000,13 @@ App.Pages.Booking = (function () {
         `);
 
         // Update appointment form data for submission to server when the user confirms the appointment.
-        let dateOfBirth;
+        let dateOfBirth = App.Utils.UI.getDateTimePickerValue($dateOfBirth);
         try {
-            dateOfBirth = moment(App.Utils.UI.getDateTimePickerValue($dateOfBirth)).format('YYYY-MM-DD')
+            if (dateOfBirth) {
+                dateOfBirth = moment(dateOfBirth).format('YYYY-MM-DD')
+            }
         } catch(e) {
-            dateOfBirth = null;
+            // Dont change anything
         }
 
         const data = {};
@@ -1010,6 +1039,7 @@ App.Pages.Booking = (function () {
             is_unavailability: false,
             id_users_provider: $selectProvider.val(),
             id_services: getSelectedService(),
+            ids_subservices: dataSelectedSubServices,
         };
 
         data.manage_mode = Number(manageMode);

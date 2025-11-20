@@ -194,6 +194,7 @@ class Appointments_model extends EA_Model
 
         foreach ($appointments as &$appointment) {
             $this->cast($appointment);
+            $this->addSubservices($appointment);
         }
 
         return $appointments;
@@ -215,11 +216,18 @@ class Appointments_model extends EA_Model
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
         $appointment['hash'] = random_string('alnum', 12);
 
+		$subServices = $appointment['ids_subservices'] ?: [];
+		unset( $appointment['ids_subservices'] );
+
         if (!$this->db->insert('appointments', $appointment)) {
             throw new RuntimeException('Could not insert appointment.');
         }
 
-        return $this->db->insert_id();
+        //return $this->db->insert_id();
+
+        $appointmentId = $this->db->insert_id();
+		$this->storeSubservices( $appointmentId, $subServices );
+		return $appointmentId;
     }
 
     /**
@@ -235,9 +243,14 @@ class Appointments_model extends EA_Model
     {
         $appointment['update_datetime'] = date('Y-m-d H:i:s');
 
+        $subServices = $appointment['ids_subservices'] ?: [];
+		unset( $appointment['ids_subservices'] );
+
         if (!$this->db->update('appointments', $appointment, ['id' => $appointment['id']])) {
             throw new RuntimeException('Could not update appointment record.');
         }
+
+		$this->storeSubservices( $appointment['id'], $subServices );
 
         return $appointment['id'];
     }
@@ -262,6 +275,8 @@ class Appointments_model extends EA_Model
         }
 
         $this->cast($appointment);
+
+        $this->addSubservices($appointment);
 
         return $appointment;
     }
@@ -665,5 +680,40 @@ class Appointments_model extends EA_Model
         $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
 
         return $end_date_time_object->format('Y-m-d H:i:s');
+    }
+
+    protected function storeSubservices(int $appointmentId, array $subservices) 
+    {
+		$data['create_datetime'] = date('Y-m-d H:i:s');
+        $data['update_datetime'] = date('Y-m-d H:i:s');
+		$data['appointment'] = $appointmentId;
+
+		$this->deleteSubservices( $appointmentId );
+
+		foreach ( $subservices as $subservice ) {
+			$data['subservice'] = $subservice;
+			if ( ! $this->db->insert( 'appointments_subservices', $data ) ) {
+				throw new RuntimeException( 'Could not insert subservice.' );
+			}
+		}
+    }
+
+    protected function deleteSubservices(int $appointmentId)
+    {
+        $this->db->delete('appointments_subservices', ['appointment' => $appointmentId]);
+    }
+
+    protected function addSubservices(array &$appointment)
+    {
+        $appointment['ids_subservices'] = [];
+
+		$subservices = $this->db
+			->get_where( 'appointments_subservices', 'appointment = ' . $appointment['id'] )
+			->result_array();
+
+        foreach($subservices as $subservice) {
+			$appointment['ids_subservices'][] = (int) $subservice['subservice'];
+        }
+
     }
 }
