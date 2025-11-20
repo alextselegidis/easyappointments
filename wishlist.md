@@ -19,6 +19,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [ ] Login for customers (to view and edit info and appointments)
 - [ ] Formattable date seperator
 - [ ] Customer info linked to cookie
+- [ ] Switch between card and classic booking layout
 
 ## Could haves
 
