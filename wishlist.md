@@ -20,6 +20,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [ ] Formattable date seperator
 - [ ] Customer info linked to cookie
 - [ ] Switch between card and classic booking layout
+- [ ] Clean up IDE warnings
 
 ## Could haves
 
