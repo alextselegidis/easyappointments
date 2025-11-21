@@ -8,7 +8,6 @@
  */
 ?>
 <div id="data-island" style="visibility: hidden;">
-    <input id="selectedCategory"/>
     <input id="selectedService"/>
     <input id="selectedProvider"/>
 </div>

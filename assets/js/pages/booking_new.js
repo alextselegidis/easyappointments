@@ -48,11 +48,15 @@ App.Pages.Booking = (function () {
     const $checkSubservices = $('.check-subservice');
 
     // Current selections
-    const $dataSelectedCategory = $('#selectedCategory');
-    const $dataSelectedServices = $('#selectedService');
+    
+    //const $dataSelectedServices = $('#selectedService');
 
+    let dataSelectedService = 0;
+    let dataSelectedCategory = 0;
     let dataSelectedSubServices = [];
-        
+    let totalDuration = 0;
+    let totalPrice = 0;
+
     /**
      * Determines the functionality of the page.
      *
@@ -91,24 +95,53 @@ App.Pages.Booking = (function () {
     }
 
     function getSelectedSubServices() {
-        // const selectedSubservices = [];
-        // $('.check-subservice:checked').each((index, element) => {
-        //     const subId = Number($(element).val());
-        //     if (!selectedSubservices.includes(subId)) {
-        //         selectedSubservices.push(subId);
-        //     }
-        // });
-        // return selectedSubservices;
         return dataSelectedSubServices;
     }
 
+    function getTotalDuration() {
+        updateTotals();
+        return totalDuration;
+    }
+
+    function updateTotals() {
+        
+        const service = vars('available_services').find(
+            (availableService) => Number(availableService.id) === Number(getSelectedService()),
+        );
+
+        if (!service) {
+            totalDuration = 0;
+            totalPrice = 0;
+            return; // Service not found
+        }
+        
+
+        if (service) {
+            const subs = getSubServices(service.id);
+
+            totalDuration = Number(service.duration);
+            totalPrice = Number(service.price);
+            
+            subs.forEach((s) => {
+                if (dataSelectedSubServices.includes(s.id)) {
+                    if (s.duration) {
+                        totalDuration += Number(s.duration);
+                    }
+
+                    if (s.price) {
+                        totalPrice += Number(s.price);
+                    }
+                }
+            });
+        }
+    }
     /**
      * Getter for the selected service data element
      * 
      * @returns id of the selected service or NULL
      */
     function getSelectedService() {
-        return Number($dataSelectedServices.val());
+        return dataSelectedService;
     }
 
     /**
@@ -127,10 +160,10 @@ App.Pages.Booking = (function () {
             return;
         }
 
-        // Selected service has chaged, so delete all selected subservices
+        // Selected service has changed, so delete all selected subservices
         dataSelectedSubServices = [];
 
-        $dataSelectedServices.val(newId);
+        dataSelectedService = newId;
         
         serviceSelectionCompleted();
     }
@@ -141,7 +174,7 @@ App.Pages.Booking = (function () {
      * @returns id of the selected category or NULL
      */
     function getSelectedCategory() {
-        return Number($dataSelectedCategory.val());
+        return dataSelectedCategory;
     }
 
     /**
@@ -164,7 +197,7 @@ App.Pages.Booking = (function () {
             return;
         }
 
-        $dataSelectedCategory.val(newId);
+        dataSelectedCategory= newId;
 
         showCategoryCards(categoryId);
     }
@@ -586,6 +619,8 @@ App.Pages.Booking = (function () {
                     dataSelectedSubServices.splice(i,1);
                 }
             }
+
+            serviceSelectionCompleted();
         });
 
         /**
@@ -1061,11 +1096,11 @@ App.Pages.Booking = (function () {
      */
     function calculateEndDatetime() {
         // Find selected service duration.
-        const serviceId = getSelectedService();
+        // const serviceId = getSelectedService();
 
-        const service = vars('available_services').find(
-            (availableService) => Number(availableService.id) === Number(serviceId),
-        );
+        // const service = vars('available_services').find(
+        //     (availableService) => Number(availableService.id) === Number(serviceId),
+        // );
 
         // Add the duration to the start datetime.
         const selectedDate = moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD');
@@ -1074,10 +1109,14 @@ App.Pages.Booking = (function () {
 
         const startMoment = moment(selectedDate + ' ' + selectedHour);
 
+        if (totalDuration == 0) {
+            updateTotals();
+        }
+
         let endMoment;
 
-        if (service.duration && startMoment) {
-            endMoment = startMoment.clone().add({'minutes': parseInt(service.duration)});
+        if (totalDuration && startMoment) {
+            endMoment = startMoment.clone().add({'minutes': totalDuration});
         } else {
             endMoment = moment();
         }
@@ -1167,13 +1206,15 @@ App.Pages.Booking = (function () {
         // Render the additional service information
 
         const additionalInfoParts = [];
+        
+        updateTotals();
 
-        if (service.duration) {
-            additionalInfoParts.push(`${lang('duration')}: ${service.duration} ${lang('minutes')}`);
+        if (totalDuration > 0) {
+            additionalInfoParts.push(`${lang('duration')}: ${totalDuration} ${lang('minutes')}`);
         }
 
-        if (Number(service.price) > 0) {
-            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+        if (totalPrice > 0) {
+            additionalInfoParts.push(`${lang('price')}: ${totalPrice.toFixed(2)} ${service.currency}`);
         }
 
         if (service.location) {
@@ -1210,5 +1251,8 @@ App.Pages.Booking = (function () {
         updateConfirmFrame,
         updateServiceDescription,
         validateCustomerForm,
+        getSelectedService,
+        getSelectedSubServices,
+        getTotalDuration,
     };
 })();

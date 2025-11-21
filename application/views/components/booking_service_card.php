@@ -35,8 +35,14 @@ $price = number_format( num: 0.0 + $service['price'], decimals: 2,
             <div class="col">
                 <?php if ($isSubservice) { ?>
                     <div class="form-check">
-                        <label class="form-check-label" for="subservice-<?= $service['id']; ?>">Voeg toe</label>
-                        <input type="checkbox" class="form-check-input check-subservice" id="subservice-<?= $service['id']; ?>" value="<?= $service['id']; ?>">
+                        <label class="form-check-label" 
+                               for="subservice-<?= $service['id']; ?>_<?= $service['parentservice']; ?>"
+                        >Voeg toe</label>
+                        <input type="checkbox" 
+                               class="form-check-input check-subservice" 
+                               id="subservice-<?= $service['id']; ?>_<?= $service['parentservice']; ?>" 
+                               value="<?= $service['id']; ?>"
+                        />
                     </div>
                 <?php } else { ?>
                     <div class="btn rounded-pill">

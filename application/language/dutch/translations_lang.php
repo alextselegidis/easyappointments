@@ -1,8 +1,9 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Dutch
 $lang['page_title'] = 'Boek afspraak met';
-$lang['service_and_provider'] = 'Kies een dienst en een medewerker';
-$lang['select_service'] = 'Kies een dienst';
+$lang['service_and_provider'] = 'Kies een behandeling en een medewerker';
+$lang['select_service'] = 'Kies een behandeling';
+$lang['select_subservice'] = 'Selecteer eventuele aanvullingen';
 $lang['select_provider'] = 'Kies een medewerker';
 $lang['duration'] = 'Duur';
 $lang['minutes'] = 'minuten';
@@ -115,7 +116,7 @@ $lang['invalid_email'] = 'Ongeldig e-mailadres.';
 $lang['customers'] = 'Klanten';
 $lang['details'] = 'Details';
 $lang['no_records_found'] = 'Geen records gevonden';
-$lang['services'] = 'Diensten';
+$lang['services'] = 'Behandelingen';
 $lang['duration_minutes'] = 'Duur (minuten)';
 $lang['currency'] = 'Valuta';
 $lang['category'] = 'Categorie';

@@ -3,6 +3,7 @@
 $lang['page_title'] = 'Book Appointment With';
 $lang['service_and_provider'] = 'Service & Provider';
 $lang['select_service'] = 'Select Service';
+$lang['select_subservice'] = 'Select Subservice';
 $lang['select_provider'] = 'Select Provider';
 $lang['duration'] = 'Duration';
 $lang['minutes'] = 'Minutes';

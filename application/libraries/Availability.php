@@ -61,6 +61,7 @@ class Availability
         array $service,
         array $provider,
         ?int $exclude_appointment_id = null,
+        ?int $total_duration = 0,
     ): array {
         if ($this->CI->blocked_periods_model->is_entire_date_blocked($date)) {
             return [];
@@ -71,7 +72,12 @@ class Availability
         } else {
             $available_periods = $this->get_available_periods($date, $provider, $exclude_appointment_id);
 
-            $available_hours = $this->generate_available_hours($date, $service, $available_periods);
+            $available_hours = $this->generate_available_hours(
+                date: $date, 
+                service: $service, 
+                empty_periods: $available_periods,
+                total_duration: $total_duration,
+            );
         }
 
         $available_hours = $this->consider_book_advance_timeout($date, $available_hours, $provider);
@@ -544,22 +550,31 @@ class Availability
      *
      * @throws Exception
      */
-    protected function generate_available_hours(string $date, array $service, array $empty_periods): array
+    protected function generate_available_hours(
+        string $date, 
+        array $service, 
+        array $empty_periods, 
+        ?int $total_duration = 0,
+    ): array
     {
         $available_hours = [];
 
+        if (!$total_duration) {
+			$total_duration = (int) $service['duration'];
+        }
         foreach ($empty_periods as $period) {
             $start_hour = new DateTime($date . ' ' . $period['start']);
 
             $end_hour = new DateTime($date . ' ' . $period['end']);
 
-            $interval = $service['availabilities_type'] === AVAILABILITIES_TYPE_FIXED ? (int) $service['duration'] : 15;
+            $interval = $service['availabilities_type'] === AVAILABILITIES_TYPE_FIXED ? $total_duration : 15;
 
             $current_hour = $start_hour;
 
             $diff = $current_hour->diff($end_hour);
 
-            while ($diff->h * 60 + $diff->i >= (int) $service['duration'] && $diff->invert === 0) {
+            //while ($diff->h * 60 + $diff->i >= (int) $service['duration'] && $diff->invert === 0) {
+            while ($diff->h * 60 + $diff->i >= $total_duration && $diff->invert === 0) {
                 $available_hours[] = $current_hour->format('H:i');
 
                 $current_hour->add(new DateInterval('PT' . $interval . 'M'));
