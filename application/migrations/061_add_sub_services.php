@@ -64,19 +64,6 @@ class Migration_Add_Sub_Services extends EA_Migration
             );
         }
 
-        if (!$this->db->field_exists('is_subservice', 'services')) {
-            $fields = [
-                'is_subservice' => [
-                    'type' => 'TINYINT',
-                    'constraint' => '4',
-                    'default' => 0,
-                    'after' => 'id_service_categories',
-                ],
-            ];
-
-            $this->dbforge->add_column('services', $fields);
-        }
-
         if (!$this->db->table_exists('appointments_subservices')) {
             $this->dbforge->add_field([
                 'create_datetime' => [
@@ -131,11 +118,6 @@ class Migration_Add_Sub_Services extends EA_Migration
     public function down(): void
     {
         
-
-        if ($this->db->field_exists('is_subservice', 'services')) {
-            $this->dbforge->drop_column('services', 'is_subservice');
-        }
-
         if ($this->db->table_exists('subservices')) {
 
             $this->db->query(

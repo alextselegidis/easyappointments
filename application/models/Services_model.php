@@ -290,14 +290,13 @@ class Services_model extends EA_Model
         $services = $this->db
             ->distinct()
             ->select(
-                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
+                'services.*, 0 as is_subservice, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
             )
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
             ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
-            
             ->order_by('name ASC')
-            ->get()
+		    ->get()
             ->result_array();
         
         foreach ($services as &$service) {
