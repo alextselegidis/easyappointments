@@ -259,7 +259,6 @@ App.Pages.Services = (function () {
             App.Layouts.Backend.displayNotification(lang('service_saved'));
             App.Pages.Services.resetForm();
             $filterServices.find('.key').val('');
-<<<<<<<<<<<<<<\n>>>>>>>>>>>>>>
             App.Pages.Services.filter('', response.id, true);
         });
     }
