@@ -284,7 +284,7 @@ App.Http.Booking = (function () {
 
                         while (startOfMonthMoment.isSameOrBefore(endOfMonthMoment)) {
                             unavailableDates.push(startOfMonthMoment.format('YYYY-MM-DD'));
-                            startOfMonthMoment.add(monthChangeStep, 'days'); // Move to the next day
+                            startOfMonthMoment.add(Math.abs(monthChangeStep), 'days'); // Move to the next day
                         }
 
                         applyUnavailableDates(unavailableDates, searchedMonthStart, true);
@@ -338,7 +338,7 @@ App.Http.Booking = (function () {
         // Grey out unavailable dates.
         $selectDate[0]._flatpickr.set(
             'disable',
-            unavailableDates.map((unavailableDate) => new Date(unavailableDate)),
+            unavailableDates.map((unavailableDate) => new Date(unavailableDate + 'T00:00')),
         );
 
         if (setDate && !vars('manage_mode')) {

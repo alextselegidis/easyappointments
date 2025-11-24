@@ -21,7 +21,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         $this->dbforge->add_field([
             'id' => [
@@ -543,7 +543,7 @@ class Migration_Specific_calendar_sync extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         $this->db->query(
             'ALTER TABLE `' .

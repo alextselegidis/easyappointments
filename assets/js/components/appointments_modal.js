@@ -80,7 +80,7 @@ App.Components.AppointmentsModal = (function () {
          */
         $saveAppointment.on('click', () => {
             // Before doing anything the appointment data need to be validated.
-            if (!validateAppointmentForm()) {
+            if (!App.Components.AppointmentsModal.validateAppointmentForm()) {
                 return;
             }
 
@@ -165,7 +165,7 @@ App.Components.AppointmentsModal = (function () {
         $insertAppointment.on('click', () => {
             $('.popover').remove();
 
-            resetModal();
+            App.Components.AppointmentsModal.resetModal();
 
             // Set the selected filter item and find the next appointment time as the default modal values.
             if ($selectFilterItem.find('option:selected').attr('type') === 'provider') {
@@ -225,7 +225,7 @@ App.Components.AppointmentsModal = (function () {
          */
         $selectCustomer.on('click', (event) => {
             if (!$existingCustomersList.is(':visible')) {
-                $(event.target).find('span').text(lang('hide'));
+                $(event.currentTarget).find('span').text(lang('hide'));
                 $existingCustomersList.empty();
                 $existingCustomersList.slideDown('slow');
                 $filterExistingCustomers.fadeIn('slow').val('');
@@ -239,7 +239,7 @@ App.Components.AppointmentsModal = (function () {
             } else {
                 $existingCustomersList.slideUp('slow');
                 $filterExistingCustomers.fadeOut('slow');
-                $(event.target).find('span').text(lang('select'));
+                $(event.currentTarget).find('span').text(lang('select'));
             }
         });
 
@@ -366,7 +366,7 @@ App.Components.AppointmentsModal = (function () {
             });
 
             if (service?.color) {
-                App.Components.ColorSelection.getColor($appointmentColor, service.color);
+                App.Components.ColorSelection.setColor($appointmentColor, service.color);
             }
 
             const duration = service ? service.duration : 60;
@@ -444,7 +444,8 @@ App.Components.AppointmentsModal = (function () {
     function resetModal() {
         // Empty form fields.
         $appointmentsModal.find('input, textarea').val('');
-        $appointmentsModal.find('.modal-message').fadeOut();
+        $appointmentsModal.find('.modal-message').addClass('.d-none');
+        $appointmentsModal.find('.is-invalid').removeClass('is-invalid');
 
         const defaultStatusValue = $appointmentStatus.find('option:first').val();
         $appointmentStatus.val(defaultStatusValue);
@@ -510,6 +511,7 @@ App.Components.AppointmentsModal = (function () {
 
         App.Utils.UI.initializeDateTimePicker($endDatetime);
         App.Utils.UI.setDateTimePickerValue($endDatetime, endDatetime);
+        $appointmentsModal.find('.modal-message').removeClass('alert-danger').text('').addClass('d-none');
     }
 
     /**
@@ -580,5 +582,6 @@ App.Components.AppointmentsModal = (function () {
 
     return {
         resetModal,
+        validateAppointmentForm,
     };
 })();

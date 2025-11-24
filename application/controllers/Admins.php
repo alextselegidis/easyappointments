@@ -38,7 +38,15 @@ class Admins extends EA_Controller
         'settings',
     ];
 
+    public array $optional_admin_fields = [
+        //
+    ];
+
     public array $allowed_admin_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+
+    public array $optional_admin_setting_fields = [
+        //
+    ];
 
     /**
      * Admins constructor.
@@ -139,7 +147,11 @@ class Admins extends EA_Controller
 
             $this->admins_model->only($admin, $this->allowed_admin_fields);
 
+            $this->admins_model->optional($admin, $this->optional_admin_fields);
+
             $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
+
+            $this->admins_model->optional($admin['settings'], $this->optional_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -190,7 +202,11 @@ class Admins extends EA_Controller
 
             $this->admins_model->only($admin, $this->allowed_admin_fields);
 
+            $this->admins_model->optional($admin, $this->optional_admin_fields);
+
             $this->admins_model->only($admin['settings'], $this->allowed_admin_setting_fields);
+
+            $this->admins_model->optional($admin['settings'], $this->optional_admin_setting_fields);
 
             $admin_id = $this->admins_model->save($admin);
 

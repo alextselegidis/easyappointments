@@ -16,7 +16,7 @@ class Migration_Add_service_availabilities_type extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('availabilities_type', 'services')) {
             $fields = [
@@ -37,7 +37,7 @@ class Migration_Add_service_availabilities_type extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('availabilities_type', 'services')) {
             $this->dbforge->drop_column('services', 'availabilities_type');

@@ -40,7 +40,7 @@
         <p>
             <?= lang('about_app_support') ?>
         </p>
-        
+
         <div class="row mb-5">
             <div class="col-lg-6 mb-3">
                 <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org" target="_blank">
@@ -73,14 +73,15 @@
             </div>
 
             <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://twitter.com/easyappts" target="_blank">
+                <a class="btn btn-outline-secondary d-block" href="https://x.com/easyappts" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
-                    Twitter
+                    X.com
                 </a>
             </div>
 
             <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org/get-a-free-quote" target="_blank">
+                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org/get-a-free-quote"
+                   target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     Customize E!A
                 </a>

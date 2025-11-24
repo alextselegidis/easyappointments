@@ -72,7 +72,7 @@ class EA_Security extends CI_Security
             is_string($_COOKIE[$this->_csrf_cookie_name]) &&
             hash_equals($csrf_token, $_COOKIE[$this->_csrf_cookie_name]);
 
-        // We kill this since we're done and we don't want to pollute the _POST array
+        // We kill this since we're done, and we don't want to pollute the _POST array
         unset($_POST[$this->_csrf_token_name]);
 
         // Regenerate on every submission?

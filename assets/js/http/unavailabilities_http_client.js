@@ -98,7 +98,7 @@ App.Http.Unavailabilities = (function () {
             keyword,
             limit,
             offset,
-            order_by: orderBy,
+            order_by: orderBy || undefined,
         };
 
         return $.post(url, data);

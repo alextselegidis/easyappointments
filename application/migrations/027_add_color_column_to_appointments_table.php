@@ -16,7 +16,7 @@ class Migration_Add_color_column_to_appointments_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('color', 'appointments')) {
             $fields = [
@@ -35,7 +35,7 @@ class Migration_Add_color_column_to_appointments_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('color', 'appointments')) {
             $this->dbforge->drop_column('appointments', 'color');

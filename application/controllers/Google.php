@@ -41,7 +41,7 @@ class Google extends EA_Controller
      * needs to be relatively small, because a lot of API calls might be necessary and this will lead to consuming the
      * Google limit for the Calendar API usage.
      */
-    public static function sync(string $provider_id = null): void
+    public static function sync(?string $provider_id = null): void
     {
         try {
             /** @var EA_Controller $CI */
@@ -102,10 +102,14 @@ class Google extends EA_Controller
 
             $local_events = [...$appointments, ...$unavailabilities];
 
+            $company_color = setting('company_color');
+
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_link' => setting('company_link'),
                 'company_email' => setting('company_email'),
+                'company_color' =>
+                    !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
             ];
 
             $provider_timezone = new DateTimeZone($provider['timezone']);
@@ -220,7 +224,10 @@ class Google extends EA_Controller
                 $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
                 $google_event_end->setTimezone($provider_timezone);
 
-                $appointment_results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()]);
+                $appointment_results = $CI->appointments_model->get([
+                    'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
+                ]);
 
                 if (!empty($appointment_results)) {
                     continue;
@@ -228,6 +235,7 @@ class Google extends EA_Controller
 
                 $unavailability_results = $CI->unavailabilities_model->get([
                     'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
                 ]);
 
                 if (!empty($unavailability_results)) {

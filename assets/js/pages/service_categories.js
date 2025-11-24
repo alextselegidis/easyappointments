@@ -59,7 +59,7 @@ App.Pages.ServiceCategories = (function () {
                 (filterResult) => Number(filterResult.id) === Number(serviceCategoryId),
             );
 
-            display(serviceCategory);
+            App.Pages.ServiceCategories.display(serviceCategory);
             $('#filter-service-categories .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-service-category, #delete-service-category').prop('disabled', false);
@@ -313,7 +313,7 @@ App.Pages.ServiceCategories = (function () {
         if (show) {
             const serviceCategory = filterResults.find((serviceCategory) => Number(serviceCategory.id) === Number(id));
 
-            display(serviceCategory);
+            App.Pages.ServiceCategories.display(serviceCategory);
 
             $('#edit-service-category, #delete-service-category').prop('disabled', false);
         }

@@ -30,10 +30,15 @@ class Appointments extends EA_Controller
         'location',
         'notes',
         'color',
+        'status',
         'is_unavailability',
         'id_users_provider',
         'id_users_customer',
         'id_services',
+    ];
+
+    public array $optional_appointment_fields = [
+        //
     ];
 
     /**
@@ -58,7 +63,7 @@ class Appointments extends EA_Controller
      *
      * @deprecated Since 1.5
      */
-    public function index(string $appointment_hash = '')
+    public function index(string $appointment_hash = ''): void
     {
         redirect('booking/' . $appointment_hash);
     }
@@ -83,6 +88,33 @@ class Appointments extends EA_Controller
 
             $appointments = $this->appointments_model->search($keyword, $limit, $offset, $order_by);
 
+            $user_id = session('user_id');
+            $role_slug = session('role_slug');
+
+            // If the current user is a provider he must only see his own appointments.
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                foreach ($appointments as $index => $appointment) {
+                    if ((int) $appointment['id_users_provider'] !== (int) $user_id) {
+                        unset($appointments[$index]);
+                    }
+                }
+
+                $appointments = array_values($appointments);
+            }
+
+            // If the current user is a secretary he must only see the appointments of his providers.
+            if ($role_slug === DB_SLUG_SECRETARY) {
+                $provider_ids = $this->secretaries_model->find($user_id)['providers'];
+
+                foreach ($appointments as $index => $appointment) {
+                    if (!in_array((int) $appointment['id_users_provider'], $provider_ids)) {
+                        unset($appointments[$index]);
+                    }
+                }
+
+                $appointments = array_values($appointments);
+            }
+
             json_response($appointments);
         } catch (Throwable $e) {
             json_exception($e);
@@ -102,6 +134,8 @@ class Appointments extends EA_Controller
             $appointment = json_decode(request('appointment'), true);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
+
+            $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
@@ -151,6 +185,8 @@ class Appointments extends EA_Controller
             $appointment = json_decode(request('appointment'), true);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
+
+            $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 

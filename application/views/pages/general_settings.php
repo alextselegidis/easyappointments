@@ -121,7 +121,7 @@
                                         <?= lang('theme') ?>
                                     </label>
 
-                                    <select id="theme" data-field="theme" class="form-control">
+                                    <select id="theme" data-field="theme" class="form-select">
                                         <?php foreach (vars('available_themes') as $available_theme): ?>
                                             <option value="<?= $available_theme ?>">
                                                 <?= ucfirst($available_theme) ?>
@@ -147,7 +147,7 @@
                                     <label class="form-label" for="date-format">
                                         <?= lang('date_format') ?>
                                     </label>
-                                    <select class="form-control" id="date-format" data-field="date_format">
+                                    <select class="form-select" id="date-format" data-field="date_format">
                                         <option value="DMY">DMY</option>
                                         <option value="MDY">MDY</option>
                                         <option value="YMD">YMD</option>
@@ -162,7 +162,7 @@
                                     <label class="form-label" for="time-format">
                                         <?= lang('time_format') ?>
                                     </label>
-                                    <select class="form-control" id="time-format" data-field="time_format">
+                                    <select class="form-select" id="time-format" data-field="time_format">
                                         <option value="<?= TIME_FORMAT_REGULAR ?>">H:MM AM/PM</option>
                                         <option value="<?= TIME_FORMAT_MILITARY ?>">HH:MM</option>
                                     </select>
@@ -176,7 +176,7 @@
                                     <label class="form-label" for="first-weekday">
                                         <?= lang('first_weekday') ?>
                                     </label>
-                                    <select class="form-control" id="first-weekday" data-field="first_weekday">
+                                    <select class="form-select" id="first-weekday" data-field="first_weekday">
                                         <option value="sunday"><?= lang('sunday') ?></option>
                                         <option value="monday"><?= lang('monday') ?></option>
                                         <option value="tuesday"><?= lang('tuesday') ?></option>
@@ -197,7 +197,8 @@
                                         <?= lang('default_language') ?>
                                         <span class="text-danger" hidden>*</span>
                                     </label>
-                                    <select id="default-language" class="form-control required" data-field="default_language">
+                                    <select id="default-language" class="form-select required"
+                                            data-field="default_language">
                                         <?php foreach (vars('available_languages') as $available_language): ?>
                                             <option value="<?= $available_language ?>">
                                                 <?= ucfirst($available_language) ?>
@@ -217,7 +218,8 @@
                                         <span class="text-danger" hidden>*</span>
                                     </label>
                                     <?php component('timezone_dropdown', [
-                                        'attributes' => 'id="default-timezone" data-field="default_timezone" class="form-control required"',
+                                        'attributes' =>
+                                            'id="default-timezone" data-field="default_timezone" class="form-control required"',
                                         'grouped_timezones' => vars('grouped_timezones'),
                                     ]); ?>
                                 </div>
@@ -230,7 +232,6 @@
                             </div>
                         </div>
 
-                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>
@@ -242,7 +243,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/general_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/general_settings.js') ?>"></script>
 

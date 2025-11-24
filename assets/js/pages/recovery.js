@@ -38,22 +38,24 @@ App.Pages.Recovery = (function () {
         const username = $username.val();
         const email = $email.val();
 
-        App.Http.Recovery.perform(username, email).done((response) => {
-            $alert.removeClass('d-none alert-danger alert-success');
+        App.Http.Recovery.perform(username, email)
+            .done((response) => {
+                $alert.removeClass('d-none alert-danger alert-success');
 
-            $getNewPassword.prop('disabled', false);
-
-            if (response.success) {
-                $alert.addClass('alert-success');
-                $alert.text(lang('new_password_sent_with_email'));
-            } else {
-                $alert.addClass('alert-danger');
-                $alert.text(
-                    'The operation failed! Please enter a valid username ' +
-                        'and email address in order to get a new password.',
-                );
-            }
-        });
+                if (response.success) {
+                    $alert.addClass('alert-success');
+                    $alert.text(lang('new_password_sent_with_email'));
+                } else {
+                    $alert.addClass('alert-danger');
+                    $alert.text(
+                        'The operation failed! Please enter a valid username ' +
+                            'and email address in order to get a new password.',
+                    );
+                }
+            })
+            .always(() => {
+                $getNewPassword.prop('disabled', false);
+            });
     }
 
     $form.on('submit', onFormSubmit);

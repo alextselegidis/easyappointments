@@ -134,7 +134,6 @@
                     </div>
                 </div>
 
-                <?php slot('after_integration_cards'); ?>
             </div>
         </div>
     </div>

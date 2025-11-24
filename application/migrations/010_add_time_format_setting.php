@@ -16,7 +16,7 @@ class Migration_Add_time_format_setting extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'time_format'])->num_rows()) {
             $this->db->insert('settings', [
@@ -29,7 +29,7 @@ class Migration_Add_time_format_setting extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'time_format'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'time_format']);

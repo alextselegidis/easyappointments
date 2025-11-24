@@ -51,7 +51,7 @@ class EA_Input extends CI_Input
      *
      * @return mixed
      */
-    public function json(string $index = null, bool $xss_clean = false)
+    public function json(?string $index = null, bool $xss_clean = false): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -63,7 +63,7 @@ class EA_Input extends CI_Input
         $input_stream = $CI->input->raw_input_stream;
 
         if (empty($input_stream)) {
-            throw new RuntimeException('Cannot get JSON attribute from an empty input stream.');
+            return null;
         }
 
         $payload = json_decode($input_stream, true);

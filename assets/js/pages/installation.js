@@ -22,7 +22,6 @@ App.Pages.Installation = (function () {
     const $firstName = $('#first-name');
     const $lastName = $('#last-name');
     const $email = $('#email');
-    const $phoneNumber = $('#phone-number');
     const $username = $('#username');
     const $password = $('#password');
     const $passwordConfirm = $('#password-confirm');
@@ -143,7 +142,6 @@ App.Pages.Installation = (function () {
             first_name: $firstName.val(),
             last_name: $lastName.val(),
             email: $email.val(),
-            phone_number: $phoneNumber.val(),
             username: $username.val(),
             password: $password.val(),
             language: $language.val(),

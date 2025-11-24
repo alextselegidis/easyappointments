@@ -51,6 +51,6 @@ Phpldapadmin, an admin portal for openldap is available on `http://localhost:820
 
 A production image of Easy!Appointments can be found at: https://github.com/alextselegidis/easyappointments-docker
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.1.*
 
 [Back](readme.md)

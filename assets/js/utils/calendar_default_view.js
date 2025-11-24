@@ -90,11 +90,11 @@ App.Utils.CalendarDefaultView = (function () {
             const data = lastFocusedEventData.extendedProps.data;
 
             if (data.hasOwnProperty('workingPlanException')) {
-                const date = lastFocusedEventData.extendedProps.data.date;
+                const originalDate = lastFocusedEventData.extendedProps.data.date;
                 const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
                 const provider = lastFocusedEventData.extendedProps.data.provider;
 
-                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
+                App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
                     (date, workingPlanException) => {
                         const successCallback = () => {
                             App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
@@ -102,6 +102,10 @@ App.Utils.CalendarDefaultView = (function () {
                             const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                             workingPlanExceptions[date] = workingPlanException;
+
+                            if (date !== originalDate) {
+                                delete workingPlanExceptions[originalDate];
+                            }
 
                             for (const index in vars('available_providers')) {
                                 const availableProvider = vars('available_providers')[index];
@@ -122,6 +126,7 @@ App.Utils.CalendarDefaultView = (function () {
                             provider.id,
                             successCallback,
                             null,
+                            originalDate,
                         );
                     },
                 );
@@ -307,7 +312,9 @@ App.Utils.CalendarDefaultView = (function () {
                 $('.provider-timezone').text(vars('timezones')[provider.timezone]);
             }
 
-            $('#insert-working-plan-exception').toggle(providerId !== App.Utils.CalendarDefaultView.FILTER_TYPE_ALL);
+            $('#insert-working-plan-exception').toggle(
+                providerId === App.Utils.CalendarDefaultView.FILTER_TYPE_PROVIDER,
+            );
 
             $reloadAppointments.trigger('click');
 
@@ -380,8 +387,19 @@ App.Utils.CalendarDefaultView = (function () {
                 endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
             }
 
+            const provider = info.event.extendedProps.data.provider;
+
             $html = $('<div/>', {
                 'html': [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('provider'),
+                    }),
+                    $('<span/>', {
+                        'text': `${provider.first_name} ${provider.last_name}`,
+                    }),
+                    $('<br/>'),
+
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
                         'text': lang('start'),
@@ -418,6 +436,8 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -520,6 +540,8 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': startTime ? vars('timezones')[provider.timezone] : '-',
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -688,6 +710,8 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -1201,6 +1225,7 @@ App.Utils.CalendarDefaultView = (function () {
                         allDay: false,
                         color: appointment.color,
                         data: appointment, // Store appointment data for later use.
+                        display: 'block',
                     };
 
                     calendarEventSource.push(appointmentEvent);
@@ -1224,6 +1249,7 @@ App.Utils.CalendarDefaultView = (function () {
                         editable: true,
                         className: 'fc-unavailability fc-custom',
                         data: unavailability,
+                        display: 'block',
                     };
 
                     calendarEventSource.push(unavailabilityEvent);
@@ -1241,6 +1267,7 @@ App.Utils.CalendarDefaultView = (function () {
                         editable: false,
                         className: 'fc-blocked-period fc-unavailability',
                         data: blockedPeriod,
+                        display: 'block',
                     };
 
                     calendarEventSource.push(blockedPeriodEvent);
@@ -1304,6 +1331,7 @@ App.Utils.CalendarDefaultView = (function () {
                             color: '#879DB4',
                             editable: false,
                             className: 'fc-working-plan-exception fc-custom',
+                            display: 'block',
                             data: {
                                 date: weekdayDate,
                                 workingPlanException: workingPlanExceptions[weekdayDate],
@@ -1324,6 +1352,7 @@ App.Utils.CalendarDefaultView = (function () {
                             allDay: false,
                             color: '#BEBEBE',
                             editable: false,
+                            display: 'background',
                             className: 'fc-unavailability',
                         };
 
@@ -1350,6 +1379,7 @@ App.Utils.CalendarDefaultView = (function () {
                             allDay: false,
                             color: '#BEBEBE',
                             editable: false,
+                            display: 'background',
                             className: 'fc-unavailability',
                         };
 
@@ -1372,6 +1402,7 @@ App.Utils.CalendarDefaultView = (function () {
                             allDay: false,
                             color: '#BEBEBE',
                             editable: false,
+                            display: 'background',
                             className: 'fc-unavailability',
                         };
 
@@ -1397,6 +1428,7 @@ App.Utils.CalendarDefaultView = (function () {
                             allDay: false,
                             color: '#BEBEBE',
                             editable: false,
+                            display: 'background',
                             className: 'fc-unavailability fc-break',
                         };
 
@@ -1427,7 +1459,7 @@ App.Utils.CalendarDefaultView = (function () {
                 break;
 
             default:
-                throw new Error('Invalid date format setting provided!', vars('date_format'));
+                throw new Error('Invalid date format setting provided: ' + vars('date_format'));
         }
 
         // Time formats
@@ -1444,7 +1476,7 @@ App.Utils.CalendarDefaultView = (function () {
                 slotTimeFormat = 'h a';
                 break;
             default:
-                throw new Error('Invalid time format setting provided!', vars('time_format'));
+                throw new Error('Invalid time format setting provided: ' + vars('time_format'));
         }
 
         const initialView = window.innerWidth < 468 ? 'timeGridDay' : 'timeGridWeek';
@@ -1472,6 +1504,7 @@ App.Utils.CalendarDefaultView = (function () {
             selectable: true,
             selectMirror: true,
             themeSystem: 'bootstrap5',
+            selectLongPressDelay: 100,
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
@@ -1493,6 +1526,8 @@ App.Utils.CalendarDefaultView = (function () {
         });
 
         fullCalendar.render();
+
+        $calendar.data('fullCalendar', fullCalendar);
 
         // Trigger once to set the proper footer position after calendar initialization.
         onWindowResize();
@@ -1611,7 +1646,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         // Automatically refresh the calendar page every 10 seconds (without loading animation).
         setInterval(() => {
-            if ($('.popover').length) {
+            if ($('.popover').length || App.Utils.CalendarSync.isCurrentlySyncing()) {
                 return;
             }
 

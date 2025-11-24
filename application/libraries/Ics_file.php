@@ -177,6 +177,7 @@ class Ics_file
 
         // Setup exporter.
         $calendarExport = new CalendarExport(new CalendarStream(), new Formatter());
+        $calendarExport->setDateTimeFormat('utc');
         $calendarExport->addCalendar($calendar);
 
         return $calendarExport->getStream();
@@ -219,6 +220,7 @@ class Ics_file
 
         // Setup exporter.
         $calendarExport = new CalendarExport(new CalendarStream(), new Formatter());
+        $calendarExport->setDateTimeFormat('utc');
         $calendarExport->addCalendar($calendar);
 
         return $calendarExport->getStream();

@@ -40,6 +40,11 @@ class Providers extends EA_Controller
         'settings',
         'services',
     ];
+
+    public array $optional_provider_fields = [
+        'services' => [],
+    ];
+
     public array $allowed_provider_setting_fields = [
         'username',
         'password',
@@ -48,15 +53,13 @@ class Providers extends EA_Controller
         'notifications',
         'calendar_view',
     ];
-    public array $allowed_service_fields = ['id', 'name'];
-    public array $optional_provider_fields = [
-        'services' => [],
-    ];
 
     public array $optional_provider_setting_fields = [
         'working_plan' => null,
         'working_plan_exceptions' => '{}',
     ];
+
+    public array $allowed_service_fields = ['id', 'name'];
 
     /**
      * Providers constructor.

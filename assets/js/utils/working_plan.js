@@ -43,7 +43,7 @@ App.Utils.WorkingPlan = (function () {
         enableSubmit = false;
 
         /**
-         * Setup the dom elements of a given working plan.
+         * Set up the dom elements of a given working plan.
          *
          * @param {Object} workingPlan Contains the working hours and breaks for each day of the week.
          */
@@ -367,13 +367,17 @@ App.Utils.WorkingPlan = (function () {
             $('.working-plan tbody').on('click', 'input:checkbox', (event) => {
                 const id = $(event.currentTarget).attr('id');
 
+                const isRegularFormat = vars('time_format') === 'regular';
+                const defaultStartTime = isRegularFormat ? '9:00 am' : '09:00';
+                const defaultEndTime = isRegularFormat ? '6:00 pm' : '18:00';
+
                 if ($(event.currentTarget).prop('checked') === true) {
                     $('#' + id + '-start')
                         .prop('disabled', false)
-                        .val('9:00 AM');
+                        .val(defaultStartTime);
                     $('#' + id + '-end')
                         .prop('disabled', false)
-                        .val('6:00 PM');
+                        .val(defaultEndTime);
                 } else {
                     $('#' + id + '-start')
                         .prop('disabled', true)
@@ -529,22 +533,20 @@ App.Utils.WorkingPlan = (function () {
              * @param {jQuery.Event} event
              */
             $(document).on('click', '.save-break', (event) => {
+                const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
                 // Break's start time must always be prior to break's end.
                 const element = event.target;
 
                 const $modifiedRow = $(element).closest('tr');
 
-                const startMoment = moment($modifiedRow.find('.break-start input').val(), 'HH:mm');
+                const startMoment = moment($modifiedRow.find('.break-start input').val(), timeFormat);
 
-                const endMoment = moment($modifiedRow.find('.break-end input').val(), 'HH:mm');
+                const endMoment = moment($modifiedRow.find('.break-end input').val(), timeFormat);
 
                 if (startMoment.isAfter(endMoment)) {
-                    $modifiedRow.find('.break-end input').val(
-                        startMoment
-                            .add(1, 'hour')
-                            .format(vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm')
-                            .toLowerCase(),
-                    );
+                    $modifiedRow
+                        .find('.break-end input')
+                        .val(startMoment.add(1, 'hour').format(timeFormat).toLowerCase());
                 }
 
                 this.enableSubmit = true;

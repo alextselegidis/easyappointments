@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Start" type="ShConfigurationType">
-    <option name="SCRIPT_TEXT" value="docker stop $(docker ps -a -q) &amp;&amp; docker compose up -d &amp;&amp; docker exec -it $(basename &quot;$PWD&quot;)-php-fpm-1 npm start" />
+    <option name="SCRIPT_TEXT" value="if [ -z &quot;$(docker compose ls | grep $(basename &quot;$PWD&quot;))&quot; ]; then docker stop $(docker ps -a -q) &amp;&amp; docker network prune -f &amp;&amp; docker compose up -d --force-recreate &amp;&amp; docker exec -it $(basename &quot;$PWD&quot;)-php-fpm-1 npm start; else echo &quot;Docker compose is already running\!&quot;; fi  " />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />
     <option name="SCRIPT_OPTIONS" value="" />

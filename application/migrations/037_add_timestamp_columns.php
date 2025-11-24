@@ -26,7 +26,7 @@ class Migration_Add_timestamp_columns extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         foreach ($this->tables as $table) {
             foreach ($this->columns as $column) {
@@ -48,7 +48,7 @@ class Migration_Add_timestamp_columns extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         foreach ($this->tables as $table) {
             foreach ($this->columns as $column) {

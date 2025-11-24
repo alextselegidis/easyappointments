@@ -21,7 +21,7 @@ class Migration_Add_custom_fields_columns_to_users_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         for ($i = self::FIELD_NUMBER; $i > 0; $i--) {
             $field_name = 'custom_field_' . $i;
@@ -43,7 +43,7 @@ class Migration_Add_custom_fields_columns_to_users_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         for ($i = self::FIELD_NUMBER; $i > 0; $i--) {
             $field_name = 'custom_fields_' . $i;

@@ -54,7 +54,7 @@ class Migration_Add_booking_field_settings extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         foreach ($this->fields as $field => $props) {
             foreach ($props as $prop => $value) {
@@ -81,7 +81,7 @@ class Migration_Add_booking_field_settings extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         foreach ($this->fields as $field => $props) {
             foreach ($props as $prop => $value) {

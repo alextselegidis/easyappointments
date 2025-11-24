@@ -264,6 +264,7 @@ class Booking extends EA_Controller
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,
+            'customer_token' => $customer_token,
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
         ]);
@@ -309,7 +310,6 @@ class Booking extends EA_Controller
             'timezones' => $timezones,
             'grouped_timezones' => $grouped_timezones,
             'manage_mode' => $manage_mode,
-            'customer_token' => $customer_token,
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,
@@ -385,6 +385,7 @@ class Booking extends EA_Controller
                 $customer['id'] = $this->customers_model->find_record_id($customer);
 
                 $existing_appointments = $this->appointments_model->get([
+                    'id !=' => $manage_mode ? $appointment['id'] : null,
                     'id_users_customer' => $customer['id'],
                     'start_datetime <=' => $appointment['start_datetime'],
                     'end_datetime >=' => $appointment['end_datetime'],
@@ -440,16 +441,21 @@ class Booking extends EA_Controller
             $appointment_status_options_json = setting('appointment_status_options', '[]');
             $appointment_status_options = json_decode($appointment_status_options_json, true) ?? [];
             $appointment['status'] = $appointment_status_options[0] ?? null;
+            $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
             $appointment = $this->appointments_model->find($appointment_id);
 
+            $company_color = setting('company_color');
+
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_link' => setting('company_link'),
                 'company_email' => setting('company_email'),
+                'company_color' =>
+                    !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];
@@ -550,7 +556,7 @@ class Booking extends EA_Controller
      *
      * @throws Exception
      */
-    protected function search_any_provider(int $service_id, string $date, string $hour = null): ?int
+    protected function search_any_provider(int $service_id, string $date, ?string $hour = null): ?int
     {
         $available_providers = $this->providers_model->get_available_providers(true);
 
@@ -619,7 +625,7 @@ class Booking extends EA_Controller
             $service = $this->services_model->find($service_id);
 
             if ($provider_id === ANY_PROVIDER) {
-                $providers = $this->providers_model->get();
+                $providers = $this->providers_model->get_available_providers(true);
 
                 $available_hours = [];
 

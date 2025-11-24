@@ -50,7 +50,7 @@ class Recovery extends EA_Controller
     /**
      * Recover the user password and notify the user via email.
      */
-    public function perform()
+    public function perform(): void
     {
         try {
             $username = request('username');
@@ -67,11 +67,15 @@ class Recovery extends EA_Controller
 
             $new_password = $this->accounts->regenerate_password($username, $email);
 
+            $company_color = setting('company_color');
+
             if ($new_password) {
                 $settings = [
                     'company_name' => setting('company_name'),
                     'company_link' => setting('company_link'),
                     'company_email' => setting('company_email'),
+                    'company_color' =>
+                        !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 ];
 
                 $this->email_messages->send_password($new_password, $email, $settings);

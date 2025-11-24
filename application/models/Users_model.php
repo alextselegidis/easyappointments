@@ -158,22 +158,6 @@ class Users_model extends EA_Model
     }
 
     /**
-     * Get the user settings.
-     *
-     * @param int $user_id User ID.
-     *
-     * @throws InvalidArgumentException
-     */
-    public function get_settings(int $user_id): array
-    {
-        $settings = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
-
-        unset($settings['id_users'], $settings['password'], $settings['salt']);
-
-        return $settings;
-    }
-
-    /**
      * Set the value of a user setting.
      *
      * @param int $user_id User ID.
@@ -259,6 +243,22 @@ class Users_model extends EA_Model
     }
 
     /**
+     * Get the user settings.
+     *
+     * @param int $user_id User ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function get_settings(int $user_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $user_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
+    }
+
+    /**
      * Get a specific field value from the database.
      *
      * @param int $user_id User ID.
@@ -336,7 +336,7 @@ class Users_model extends EA_Model
      *
      * @return array Returns an array of settings.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $users = $this->db
             ->select()
@@ -355,7 +355,7 @@ class Users_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($order_by)
+            ->order_by($this->quote_order_by($order_by))
             ->get()
             ->result_array();
 
@@ -378,17 +378,17 @@ class Users_model extends EA_Model
      * @return array Returns an array of users.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
         }
 
         if ($order_by !== null) {
-            $this->db->order_by($order_by);
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
         $users = $this->db->get('users', $limit, $offset)->result_array();
@@ -422,7 +422,7 @@ class Users_model extends EA_Model
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username(string $username, int $user_id = null): bool
+    public function validate_username(string $username, ?int $user_id = null): bool
     {
         if (!empty($user_id)) {
             $this->db->where('id_users !=', $user_id);

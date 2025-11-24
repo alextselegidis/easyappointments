@@ -22,7 +22,7 @@ class Migration_Add_appointment_status_options_setting extends CI_Migration
      *
      * @throws Exception
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'appointment_status_options'])->num_rows()) {
             $this->db->insert('settings', [
@@ -37,7 +37,7 @@ class Migration_Add_appointment_status_options_setting extends CI_Migration
      *
      * @throws Exception
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'appointment_status_options'])->num_rows()) {
             $this->db->delete('settings', ['name' => 'status_options']);

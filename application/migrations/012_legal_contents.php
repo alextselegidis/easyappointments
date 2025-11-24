@@ -16,7 +16,7 @@ class Migration_Legal_contents extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->get_where('settings', ['name' => 'display_cookie_notice'])->num_rows()) {
             $this->db->insert('settings', [
@@ -111,7 +111,7 @@ class Migration_Legal_contents extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->get_where('settings', ['name' => 'display_cookie_notice'])->num_rows()) {
             $this->db->delete('settings', [

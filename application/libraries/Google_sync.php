@@ -258,6 +258,8 @@ class Google_sync
      *
      * @param array $provider Provider data.
      * @param string $google_event_id The Google Calendar event ID to be removed.
+     *
+     * @throws \Google\Service\Exception
      */
     public function delete_appointment(array $provider, string $google_event_id): void
     {
@@ -340,6 +342,8 @@ class Google_sync
      *
      * @param array $provider Provider data.
      * @param string $google_event_id Google Calendar event ID to be removed.
+     *
+     * @throws \Google\Service\Exception
      */
     public function delete_unavailability(array $provider, string $google_event_id): void
     {
@@ -353,6 +357,8 @@ class Google_sync
      * @param string $google_event_id Google Calendar event ID.
      *
      * @return Event Returns the Google Calendar event.
+     *
+     * @throws \Google\Service\Exception
      */
     public function get_event(array $provider, string $google_event_id): Event
     {
@@ -367,6 +373,8 @@ class Google_sync
      * @param string $end The end date of sync period.
      *
      * @return Events Returns a collection of events.
+     *
+     * @throws \Google\Service\Exception
      */
     public function get_sync_events(string $google_calendar, string $start, string $end): Events
     {
@@ -374,6 +382,7 @@ class Google_sync
             'timeMin' => date(DateTimeInterface::RFC3339, $start),
             'timeMax' => date(DateTimeInterface::RFC3339, $end),
             'singleEvents' => true,
+            'maxResults' => 2500,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);
@@ -386,6 +395,8 @@ class Google_sync
      * Google Calendar account.
      *
      * @return array Returns an array with the available calendars.
+     *
+     * @throws \Google\Service\Exception
      */
     public function get_google_calendars(): array
     {
@@ -427,24 +438,22 @@ class Google_sync
         $customer = $this->CI->customers_model->find($appointment['id_users_customer']);
 
         $provider_timezone_instance = new DateTimeZone($provider['timezone']);
-
         $utc_timezone_instance = new DateTimeZone('UTC');
 
         $appointment_start_instance = new DateTime($appointment['start_datetime'], $provider_timezone_instance);
-
         $appointment_start_instance->setTimezone($utc_timezone_instance);
 
         $appointment_end_instance = new DateTime($appointment['end_datetime'], $provider_timezone_instance);
-
         $appointment_end_instance->setTimezone($utc_timezone_instance);
 
+        // Collect invitees
         $add = [$provider['email']];
-
         if (!empty($customer['email'])) {
             $add[] = $customer['email'];
         }
 
-        $add_to_google_url_params = [
+        // Base params (everything except add)
+        $params = [
             'action' => 'TEMPLATE',
             'text' => $service['name'],
             'dates' =>
@@ -452,10 +461,17 @@ class Google_sync
                 '/' .
                 $appointment_end_instance->format('Ymd\THis\Z'),
             'location' => setting('company_name'),
-            'details' => 'View/Change Appointment: ' . site_url('appointments/index/' . $appointment['hash']),
-            'add' => implode(', ', $add),
+            'details' => 'View/Change Appointment: ' . site_url('booking/reschedule/' . $appointment['hash']),
         ];
 
-        return 'https://calendar.google.com/calendar/render?' . http_build_query($add_to_google_url_params);
+        // Build base query
+        $query = http_build_query($params);
+
+        // Append each guest separately
+        foreach ($add as $email) {
+            $query .= '&add=' . rawurlencode($email);
+        }
+
+        return 'https://calendar.google.com/calendar/render?' . $query;
     }
 }

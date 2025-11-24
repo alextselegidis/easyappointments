@@ -16,7 +16,7 @@ class Migration_Remove_prefix_from_fkey_constraints extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         // Drop table constraints.
         $this->db->query(
@@ -181,7 +181,7 @@ class Migration_Remove_prefix_from_fkey_constraints extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         // Drop table constraints.
         $this->db->query(

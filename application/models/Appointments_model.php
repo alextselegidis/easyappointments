@@ -175,17 +175,17 @@ class Appointments_model extends EA_Model
      * @return array Returns an array of appointments.
      */
     public function get(
-        array|string $where = null,
-        int $limit = null,
-        int $offset = null,
-        string $order_by = null,
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
     ): array {
         if ($where !== null) {
             $this->db->where($where);
         }
 
         if ($order_by) {
-            $this->db->order_by($order_by);
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
         $appointments = $this->db
@@ -240,18 +240,6 @@ class Appointments_model extends EA_Model
         }
 
         return $appointment['id'];
-    }
-
-    /**
-     * Remove an existing appointment from the database.
-     *
-     * @param int $appointment_id Appointment ID.
-     *
-     * @throws RuntimeException
-     */
-    public function delete(int $appointment_id): void
-    {
-        $this->db->delete('appointments', ['id' => $appointment_id]);
     }
 
     /**
@@ -340,6 +328,36 @@ class Appointments_model extends EA_Model
     }
 
     /**
+     * Deletes recurring CalDAV events for the provided date period.
+     *
+     * @param string $start_date_time
+     * @param string $end_date_time
+     *
+     * @return void
+     */
+    public function delete_caldav_recurring_events(string $start_date_time, string $end_date_time): void
+    {
+        $this->db
+            ->where('start_datetime >=', $start_date_time)
+            ->where('end_datetime <=', $end_date_time)
+            ->where('is_unavailability', true)
+            ->like('id_caldav_calendar', 'RECURRENCE')
+            ->delete('appointments');
+    }
+
+    /**
+     * Remove an existing appointment from the database.
+     *
+     * @param int $appointment_id Appointment ID.
+     *
+     * @throws RuntimeException
+     */
+    public function delete(int $appointment_id): void
+    {
+        $this->db->delete('appointments', ['id' => $appointment_id]);
+    }
+
+    /**
      * Get the attendants number for the requested period.
      *
      * @param DateTime $start Period start.
@@ -355,7 +373,7 @@ class Appointments_model extends EA_Model
         DateTime $end,
         int $service_id,
         int $provider_id,
-        int $exclude_appointment_id = null,
+        ?int $exclude_appointment_id = null,
     ): int {
         if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
@@ -399,7 +417,7 @@ class Appointments_model extends EA_Model
         DateTime $end,
         int $service_id,
         int $provider_id,
-        int $exclude_appointment_id = null,
+        ?int $exclude_appointment_id = null,
     ): int {
         if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
@@ -446,7 +464,7 @@ class Appointments_model extends EA_Model
      *
      * @return array Returns an array of appointments.
      */
-    public function search(string $keyword, int $limit = null, int $offset = null, string $order_by = null): array
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $appointments = $this->db
             ->select('appointments.*')
@@ -474,7 +492,7 @@ class Appointments_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($order_by)
+            ->order_by($this->quote_order_by($order_by))
             ->get()
             ->result_array();
 
@@ -568,64 +586,88 @@ class Appointments_model extends EA_Model
      * @param array $appointment API resource.
      * @param array|null $base Base appointment data to be overwritten with the provided values (useful for updates).
      */
-    public function api_decode(array &$appointment, array $base = null): void
+    public function api_decode(array &$appointment, ?array $base = null): void
     {
-        $decoded_request = $base ?: [];
+        $decoded_resource = $base ?: [];
 
         if (array_key_exists('id', $appointment)) {
-            $decoded_request['id'] = $appointment['id'];
+            $decoded_resource['id'] = $appointment['id'];
         }
 
         if (array_key_exists('book', $appointment)) {
-            $decoded_request['book_datetime'] = $appointment['book'];
+            $decoded_resource['book_datetime'] = $appointment['book'];
         }
 
         if (array_key_exists('start', $appointment)) {
-            $decoded_request['start_datetime'] = $appointment['start'];
+            $decoded_resource['start_datetime'] = $appointment['start'];
         }
 
         if (array_key_exists('end', $appointment)) {
-            $decoded_request['end_datetime'] = $appointment['end'];
+            $decoded_resource['end_datetime'] = $appointment['end'];
         }
 
         if (array_key_exists('hash', $appointment)) {
-            $decoded_request['hash'] = $appointment['hash'];
+            $decoded_resource['hash'] = $appointment['hash'];
+        }
+
+        if (array_key_exists('color', $appointment)) {
+            $decoded_resource['color'] = $appointment['color'];
         }
 
         if (array_key_exists('location', $appointment)) {
-            $decoded_request['location'] = $appointment['location'];
+            $decoded_resource['location'] = $appointment['location'];
         }
 
         if (array_key_exists('status', $appointment)) {
-            $decoded_request['status'] = $appointment['status'];
+            $decoded_resource['status'] = $appointment['status'];
         }
 
         if (array_key_exists('notes', $appointment)) {
-            $decoded_request['notes'] = $appointment['notes'];
+            $decoded_resource['notes'] = $appointment['notes'];
         }
 
         if (array_key_exists('customerId', $appointment)) {
-            $decoded_request['id_users_customer'] = $appointment['customerId'];
+            $decoded_resource['id_users_customer'] = $appointment['customerId'];
         }
 
         if (array_key_exists('providerId', $appointment)) {
-            $decoded_request['id_users_provider'] = $appointment['providerId'];
+            $decoded_resource['id_users_provider'] = $appointment['providerId'];
         }
 
         if (array_key_exists('serviceId', $appointment)) {
-            $decoded_request['id_services'] = $appointment['serviceId'];
+            $decoded_resource['id_services'] = $appointment['serviceId'];
         }
 
         if (array_key_exists('googleCalendarId', $appointment)) {
-            $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+            $decoded_resource['id_google_calendar'] = $appointment['googleCalendarId'];
         }
 
         if (array_key_exists('caldavCalendarId', $appointment)) {
-            $decoded_request['id_caldav_calendar'] = $appointment['caldavCalendarId'];
+            $decoded_resource['id_caldav_calendar'] = $appointment['caldavCalendarId'];
         }
 
-        $decoded_request['is_unavailability'] = false;
+        $decoded_resource['is_unavailability'] = false;
 
-        $appointment = $decoded_request;
+        $appointment = $decoded_resource;
+    }
+
+    /**
+     * Calculate the end date time of an appointment based on the selected service.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @return string Returns the end date time value.
+     *
+     * @throws Exception
+     */
+    public function calculate_end_datetime(array $appointment): string
+    {
+        $duration = $this->db->get_where('services', ['id' => $appointment['id_services']])?->row()?->duration;
+
+        $end_date_time_object = new DateTime($appointment['start_datetime']);
+
+        $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
+
+        return $end_date_time_object->format('Y-m-d H:i:s');
     }
 }

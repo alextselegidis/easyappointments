@@ -10,7 +10,7 @@
     </small>
 </p>
 
-<div class="d-flex justify-content-between my-5">
+<div class="d-flex flex-column-reverse flex-lg-row justify-content-between my-5 gap-3">
     <a href="<?= site_url('login') ?>" class="btn btn-outline-secondary btn-large">
         <i class="fas fa-wrench me-2"></i>
         <?= lang('backend_section') ?>

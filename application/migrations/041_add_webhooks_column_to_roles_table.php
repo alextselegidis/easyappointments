@@ -16,7 +16,7 @@ class Migration_Add_webhooks_column_to_roles_table extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('webhooks', 'roles')) {
             $fields = [
@@ -38,7 +38,7 @@ class Migration_Add_webhooks_column_to_roles_table extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('webhooks', 'roles')) {
             $this->dbforge->drop_column('roles', 'webhooks');

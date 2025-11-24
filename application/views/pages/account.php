@@ -52,9 +52,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="phone-number">
                                         <?= lang('phone_number') ?>
-                                        <span class="text-danger">*</span>
                                     </label>
-                                    <input id="phone-number" class="form-control required">
+                                    <input id="phone-number" class="form-control">
                                 </div>
 
                                 <div class="mb-3">
@@ -129,7 +128,7 @@
                                     <label class="form-label" for="calendar-view"><?= lang('calendar') ?>
                                         <span class="text-danger">*</span>
                                     </label>
-                                    <select id="calendar-view" class="form-control required">
+                                    <select id="calendar-view" class="form-select required">
                                         <option value="default"><?= lang('default') ?></option>
                                         <option value="table"><?= lang('table') ?></option>
                                     </select>
@@ -140,7 +139,7 @@
                                         <?= lang('language') ?>
                                         <span class="text-danger" hidden>*</span>
                                     </label>
-                                    <select id="language" class="form-control required">
+                                    <select id="language" class="form-select required">
                                         <?php foreach (vars('available_languages') as $available_language): ?>
                                             <option value="<?= $available_language ?>">
                                                 <?= ucfirst($available_language) ?>
@@ -187,8 +186,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/account.js') ?>"></script>
 

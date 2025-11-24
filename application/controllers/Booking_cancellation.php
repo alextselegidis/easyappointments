@@ -88,10 +88,14 @@ class Booking_cancellation extends EA_Controller
 
             $service = $this->services_model->find($appointment['id_services']);
 
+            $company_color = setting('company_color');
+
             $settings = [
                 'company_name' => setting('company_name'),
                 'company_email' => setting('company_email'),
                 'company_link' => setting('company_link'),
+                'company_color' =>
+                    !empty($company_color) && $company_color != DEFAULT_COMPANY_COLOR ? $company_color : null,
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];

@@ -13,6 +13,10 @@ html {
     height: 100%;
 }
 
+select {
+    -webkit-appearance: none;
+}
+
 @-moz-document url-prefix() {
     body .checkbox input[type='checkbox'] {
         float: left;
@@ -402,7 +406,7 @@ li.language:hover {
 }
 
 body .popover {
-    max-width: 400px;
+    max-width: 430px;
 }
 
 body .popover-body strong {
@@ -427,7 +431,8 @@ body .popover-body a {
     color: #dc3545;
 }
 
-.has-error .form-control {
+.has-error .form-control,
+.has-error .form-select {
     border-color: #dc3545;
 }
 
@@ -472,6 +477,7 @@ body .clearfix {
     span.flatpickr-weekday {
         background: #429a82;
         color: white;
+        -webkit-appearance: none;
     }
 
     .flatpickr-day.endRange,
@@ -503,4 +509,9 @@ body .clearfix {
         width: 0;
         visibility: hidden;
     }
+}
+
+.cc-revoke,
+.cc-window {
+    z-index: 999 !important;
 }

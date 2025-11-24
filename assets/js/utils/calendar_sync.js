@@ -25,6 +25,7 @@ App.Utils.CalendarSync = (function () {
     const $reloadAppointments = $('#reload-appointments');
 
     const FILTER_TYPE_PROVIDER = 'provider';
+    let isSyncing = false;
 
     function hasSync(type) {
         const $selectedOption = $selectFilterItem.find('option:selected');
@@ -168,29 +169,32 @@ App.Utils.CalendarSync = (function () {
             })
             .fail(() => {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+            })
+            .always(() => {
+                isSyncing = false;
             });
     }
 
-    function enableCaldavSync() {
+    function enableCaldavSync(defaultCaldavUrl = '', defaultCaldavUsername = '', defaultCaldavPassword = '') {
         const $container = $(`
             <div>
                 <div class="mb-3">
                     <label for="caldav-url" class="form-label">
-                        ${lang('url')}
+                        ${lang('calendar_url')}
                     </label>
-                    <input type="text" class="form-control" id="caldav-url"/>
+                    <input type="text" class="form-control" id="caldav-url" value="${defaultCaldavUrl}"/>
                 </div> 
                 <div class="mb-3">
                     <label for="caldav-username" class="form-label">
                         ${lang('username')}
                     </label>
-                    <input type="text" class="form-control" id="caldav-username"/>
+                    <input type="text" class="form-control" id="caldav-username" value="${defaultCaldavUsername}"/>
                 </div> 
                 <div class="mb-3">
                     <label for="caldav-password" class="form-label">
                         ${lang('password')}
                     </label>
-                    <input type="password" class="form-control" id="caldav-password"/>
+                    <input type="password" class="form-control" id="caldav-password" value="${defaultCaldavPassword}"/>
                 </div>    
                 
                 <div class="alert alert-danger" hidden>
@@ -247,7 +251,7 @@ App.Utils.CalendarSync = (function () {
                                 $caldavUsername.addClass('is-invalid');
                                 $caldavPassword.addClass('is-invalid');
 
-                                $alert.text(lang('login_failed')).prop('hidden', false);
+                                $alert.text(lang('login_failed') + ' ' + response.message).prop('hidden', false);
 
                                 return;
                             }
@@ -258,7 +262,7 @@ App.Utils.CalendarSync = (function () {
 
                             updateSyncButtons();
 
-                            selectCaldavCalendar();
+                            App.Layouts.Backend.displayNotification(lang('sync_calendar_selected'));
 
                             messageModal.hide();
                         },
@@ -296,7 +300,6 @@ App.Utils.CalendarSync = (function () {
                     provider.settings.caldav_url = null;
                     provider.settings.caldav_username = null;
                     provider.settings.caldav_password = null;
-                    provider.settings.caldav_calendar = null;
 
                     App.Http.Caldav.disableProviderSync(provider.id);
 
@@ -312,43 +315,6 @@ App.Utils.CalendarSync = (function () {
         ]);
     }
 
-    function selectCaldavCalendar() {
-        const providerId = $selectFilterItem.val();
-
-        App.Http.Caldav.getCaldavCalendars(providerId).done((caldavCalendars) => {
-            const $selectCaldavCalendar = $(`
-                <select class="form-control">
-                    <!-- JS -->
-                </select>
-            `);
-
-            caldavCalendars.forEach((caldavCalendar) => {
-                $selectCaldavCalendar.append(new Option(caldavCalendar.summary, caldavCalendar.id));
-            });
-
-            const $messageModal = App.Utils.Message.show(
-                lang('select_sync_calendar'),
-                lang('select_sync_calendar_prompt'),
-                [
-                    {
-                        text: lang('select'),
-                        click: (event, messageModal) => {
-                            const caldavCalendarId = $selectCaldavCalendar.val();
-
-                            App.Http.Caldav.selectCaldavCalendar(providerId, caldavCalendarId).done(() => {
-                                App.Layouts.Backend.displayNotification(lang('sync_calendar_selected'));
-                            });
-
-                            messageModal.hide();
-                        },
-                    },
-                ],
-            );
-
-            $selectCaldavCalendar.appendTo($messageModal.find('.modal-body'));
-        });
-    }
-
     function triggerCaldavSync() {
         const providerId = $selectFilterItem.val();
 
@@ -359,6 +325,9 @@ App.Utils.CalendarSync = (function () {
             })
             .fail(() => {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+            })
+            .always(() => {
+                isSyncing = false;
             });
     }
 
@@ -410,6 +379,7 @@ App.Utils.CalendarSync = (function () {
 
     function onTriggerSyncClick() {
         const hasGoogleSync = hasSync('google');
+        isSyncing = true;
 
         if (hasGoogleSync) {
             triggerGoogleSync();
@@ -423,6 +393,10 @@ App.Utils.CalendarSync = (function () {
         }
     }
 
+    function isCurrentlySyncing() {
+        return isSyncing;
+    }
+
     /**
      * Initialize the module.
      */
@@ -431,11 +405,13 @@ App.Utils.CalendarSync = (function () {
         $enableSync.on('click', onEnableSyncClick);
         $disableSync.on('click', onDisableSyncClick);
         $triggerSync.on('click', onTriggerSyncClick);
+        updateSyncButtons();
     }
 
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
         initialize,
+        isCurrentlySyncing,
     };
 })();

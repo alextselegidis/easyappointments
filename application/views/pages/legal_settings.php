@@ -79,7 +79,6 @@
                             </div>
                         </div>
 
-                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>
@@ -92,7 +91,6 @@
 <?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/legal_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/legal_settings.js') ?>"></script>
 

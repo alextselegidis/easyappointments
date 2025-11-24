@@ -11,6 +11,9 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
+use GuzzleHttp\Exception\GuzzleException;
+use Jsvrcek\ICS\Exception\CalendarEventException;
+
 /**
  * Caldav controller.
  *
@@ -54,19 +57,7 @@ class Caldav extends EA_Controller
             $caldav_username = request('caldav_username');
             $caldav_password = request('caldav_password');
 
-            $default_caldav_calendar = $this->caldav_sync->get_default_calendar(
-                $caldav_url,
-                $caldav_username,
-                $caldav_password,
-            );
-
-            if (!$default_caldav_calendar) {
-                json_response([
-                    'success' => false,
-                ]);
-
-                return;
-            }
+            $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
 
             $provider = $this->providers_model->find($provider_id);
 
@@ -74,12 +65,16 @@ class Caldav extends EA_Controller
             $provider['settings']['caldav_url'] = $caldav_url;
             $provider['settings']['caldav_username'] = $caldav_username;
             $provider['settings']['caldav_password'] = $caldav_password;
-            $provider['settings']['caldav_calendar'] = $default_caldav_calendar;
 
             $this->providers_model->save($provider);
 
             json_response([
                 'success' => true,
+            ]);
+        } catch (GuzzleException | InvalidArgumentException $e) {
+            json_response([
+                'success' => false,
+                'message' => $e->getMessage(),
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -93,7 +88,7 @@ class Caldav extends EA_Controller
      *
      * @return void
      *
-     * @throws \Jsvrcek\ICS\Exception\CalendarEventException
+     * @throws CalendarEventException
      * @throws Exception
      * @throws Throwable
      */
@@ -137,9 +132,13 @@ class Caldav extends EA_Controller
 
         $sync_future_days = $provider['settings']['sync_future_days'];
 
-        $start_date_time = date('Y-m-d H:i:s', strtotime('-' . $sync_past_days . ' days'));
+        $start_date_time_object = new DateTime('-' . $sync_past_days . ' days');
+        $start_date_time_object->setTime(0, 0);
+        $start_date_time = $start_date_time_object->format('Y-m-d H:i:s');
 
-        $end_date_time = date('Y-m-d H:i:s', strtotime('+' . $sync_future_days . ' days'));
+        $end_date_time_object = new DateTime('+' . $sync_future_days . ' days');
+        $end_date_time_object->setTime(23, 59, 59);
+        $end_date_time = $end_date_time_object->format('Y-m-d H:i:s');
 
         $where = [
             'start_datetime >=' => $start_date_time,
@@ -156,6 +155,10 @@ class Caldav extends EA_Controller
         // Sync each appointment with CalDAV Calendar by following the project's sync protocol (see documentation).
 
         foreach ($local_events as $local_event) {
+            if (str_contains((string) $local_event['id_caldav_calendar'], 'RECURRENCE')) {
+                continue;
+            }
+
             if (!$local_event['is_unavailability']) {
                 $service = $CI->services_model->find($local_event['id_services']);
                 $customer = $CI->customers_model->find($local_event['id_users_customer']);
@@ -165,8 +168,6 @@ class Caldav extends EA_Controller
                 $customer = null;
                 $events_model = $CI->unavailabilities_model;
             }
-
-            // If current appointment not synced yet, add to CalDAV Calendar.
 
             if (!$local_event['id_caldav_calendar']) {
                 if (!$local_event['is_unavailability']) {
@@ -187,7 +188,7 @@ class Caldav extends EA_Controller
             try {
                 $caldav_event = $CI->caldav_sync->get_event($provider, $local_event['id_caldav_calendar']);
 
-                if ($caldav_event['status'] === 'CANCELLED') {
+                if (!$caldav_event || $caldav_event['status'] === 'CANCELLED') {
                     throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                 }
 
@@ -198,19 +199,15 @@ class Caldav extends EA_Controller
                 $caldav_event_start = new DateTime($caldav_event['start_datetime']);
                 $caldav_event_end = new DateTime($caldav_event['end_datetime']);
 
-                $caldav_event_notes = $local_event['is_unavailability']
-                    ? $caldav_event['summary'] . ' ' . $caldav_event['description']
-                    : $caldav_event['description'];
-
                 $is_different =
                     $local_event_start !== $caldav_event_start->getTimestamp() ||
                     $local_event_end !== $caldav_event_end->getTimestamp() ||
-                    $local_event['notes'] !== $caldav_event_notes;
+                    $local_event['notes'] !== $caldav_event['description'];
 
                 if ($is_different) {
                     $local_event['start_datetime'] = $caldav_event_start->format('Y-m-d H:i:s');
                     $local_event['end_datetime'] = $caldav_event_end->format('Y-m-d H:i:s');
-                    $local_event['notes'] = $caldav_event_notes;
+                    $local_event['notes'] = $caldav_event['description'];
                     $events_model->save($local_event);
                 }
             } catch (Throwable) {
@@ -235,6 +232,8 @@ class Caldav extends EA_Controller
             }
         }
 
+        $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time);
+
         foreach ($caldav_events as $caldav_event) {
             if ($caldav_event['status'] === 'CANCELLED') {
                 continue;
@@ -258,6 +257,24 @@ class Caldav extends EA_Controller
                 continue;
             }
 
+            $matching_unavailability = $CI->unavailabilities_model
+                ->query()
+                ->where([
+                    'start_datetime' => $caldav_event['start_datetime'],
+                    'end_datetime' => $caldav_event['end_datetime'],
+                    'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
+                    'id_users_provider' => $provider_id,
+                ])
+                ->get()
+                ->row_array();
+
+            if ($matching_unavailability) {
+                // Update the ID of the matching unavailability record.
+                $matching_unavailability['id_caldav_calendar'] = $caldav_event['id'];
+                $CI->unavailabilities_model->save($matching_unavailability);
+                continue;
+            }
+
             // Record doesn't exist in the Easy!Appointments, so add the event now.
 
             $local_event = [
@@ -275,62 +292,6 @@ class Caldav extends EA_Controller
         json_response([
             'success' => true,
         ]);
-    }
-
-    /**
-     * Get CalDAV Calendars
-     *
-     * This method will return a list of the available CalDAV Calendars.
-     *
-     * @return void
-     */
-    public function get_caldav_calendars(): void
-    {
-        try {
-            $provider_id = (int) request('provider_id');
-
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
-            }
-
-            $calendars = $this->caldav_sync->get_caldav_calendars($provider_id);
-
-            json_response($calendars);
-        } catch (Throwable $e) {
-            json_exception($e);
-        }
-    }
-
-    /**
-     * Select a specific caldav calendar for a provider.
-     *
-     * All the appointments will be synced with this particular calendar.
-     *
-     * @return void
-     */
-    public function select_caldav_calendar(): void
-    {
-        try {
-            $provider_id = (int) request('provider_id');
-
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
-                throw new RuntimeException('You do not have the required permissions for this task.');
-            }
-
-            $calendar_id = request('calendar_id');
-
-            $this->providers_model->set_setting($provider_id, 'caldav_calendar', $calendar_id);
-
-            json_response([
-                'success' => true,
-            ]);
-        } catch (Throwable $e) {
-            json_exception($e);
-        }
     }
 
     /**
@@ -361,7 +322,6 @@ class Caldav extends EA_Controller
             $provider['settings']['caldav_url'] = null;
             $provider['settings']['caldav_username'] = null;
             $provider['settings']['caldav_password'] = null;
-            $provider['settings']['caldav_calendar'] = null;
 
             $this->providers_model->save($provider);
 

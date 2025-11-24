@@ -4,10 +4,10 @@
 
 <div class="container-fluid backend-page" id="calendar-page">
     <div class="row" id="calendar-toolbar">
-        <div id="calendar-filter" class="col-md-3">
+        <div id="calendar-filter" class="col-lg-3">
             <div class="calendar-filter-items">
                 <select id="select-filter-item"
-                        class="form-control col"
+                        class="form-select col"
                         data-tippy-content="<?= lang('select_filter_item_hint') ?>"
                         aria-label="Filter">
                     <!-- JS -->
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-md-9">
+        <div id="calendar-actions" class="col-lg-9">
             <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
                 <button
                     id="enable-sync"
@@ -27,9 +27,8 @@
                 </button>
 
                 <div class="btn-group" id="sync-button-group" hidden>
-                    <button type="button" class="btn btn-light" id="trigger-sync" data-tippy-content="<?= lang(
-                        'trigger_sync_hint',
-                    ) ?>">
+                    <button type="button" class="btn btn-light" id="trigger-sync"
+                            data-tippy-content="<?= lang('trigger_sync_hint') ?>">
                         <i class="fas fa-rotate me-2"></i>
                         <?= lang('synchronize') ?>
                     </button>
@@ -96,7 +95,6 @@
                 </a>
             <?php endif; ?>
 
-            <?php slot('after_calendar_actions'); ?>
         </div>
     </div>
 
@@ -135,11 +133,7 @@
 <script src="<?= asset_url('assets/vendor/fullcalendar/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/fullcalendar-moment/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>

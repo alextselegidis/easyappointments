@@ -81,7 +81,7 @@ class Login extends EA_Controller
             }
 
             if (empty($user_data)) {
-                throw new InvalidArgumentException('Invalid credentials provided, please try again.');
+                throw new InvalidArgumentException(lang('invalid_credentials_provided'));
             }
 
             $this->session->sess_regenerate();

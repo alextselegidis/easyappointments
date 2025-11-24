@@ -16,7 +16,7 @@ class Migration_Modify_sync_period_columns extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         $fields = [
             'sync_past_days' => [
@@ -59,7 +59,7 @@ class Migration_Modify_sync_period_columns extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         $fields = [
             'sync_past_days' => [

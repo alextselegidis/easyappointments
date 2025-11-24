@@ -2,9 +2,9 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="customers-page">
+<div class="container backend-page" id="customers-page">
     <div class="row" id="customers">
-        <div id="filter-customers" class="filter-records col col-12 col-md-5">
+        <div id="filter-customers" class="filter-records col col-12 col-lg-5">
             <form class="mb-4">
                 <div class="input-group mb-3">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,14 +20,12 @@
                 <?= lang('customers') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
             <div class="results">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details col-12 col-md-7">
+        <div class="record-details col-12 col-lg-7">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
                     <?php if (
@@ -65,13 +63,12 @@
                     </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <input id="customer-id" type="hidden">
 
             <div class="row">
-                <div class="col-12 col-md-6" style="margin-left: 0;">
+                <div class="col-12 col-lg-6" style="margin-left: 0;">
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('details') ?>
                     </h4>
@@ -165,7 +162,7 @@
                             <?= lang('language') ?>
                             <span class="text-danger" hidden>*</span>
                         </label>
-                        <select id="language" class="form-control required" disabled>
+                        <select id="language" class="form-select required" disabled>
                             <?php foreach (vars('available_languages') as $available_language): ?>
                                 <option value="<?= $available_language ?>">
                                     <?= ucfirst($available_language) ?>
@@ -205,17 +202,15 @@
                         <textarea id="notes" rows="4" class="form-control" disabled></textarea>
                     </div>
 
-                    <?php slot('after_primary_fields'); ?>
                 </div>
 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6">
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('appointments') ?>
                     </h4>
 
                     <div id="customer-appointments" class="card bg-white border"></div>
 
-                    <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>
         </div>
@@ -226,10 +221,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/customers.js') ?>"></script>
 

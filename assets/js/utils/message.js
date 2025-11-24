@@ -57,7 +57,7 @@ window.App.Utils.Message = (function () {
 
         const $messageModal = $(`
             <div class="modal" id="message-modal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">
@@ -70,9 +70,7 @@ window.App.Utils.Message = (function () {
                             }
                         </div>
                         <div class="modal-body">
-                            <p>
-                                ${message}
-                            </p>
+                            ${message}
                         </div>
                         <div class="modal-footer">
                             <!-- * -->
@@ -105,6 +103,14 @@ window.App.Utils.Message = (function () {
         messageModal = new bootstrap.Modal('#message-modal', {
             keyboard: isDismissible,
             backdrop: 'static',
+        });
+
+        $messageModal.on('shown.bs.modal', () => {
+            $messageModal
+                .find('.modal-footer button:last')
+                .removeClass('btn-outline-primary')
+                .addClass('btn-primary')
+                .focus();
         });
 
         messageModal.show();

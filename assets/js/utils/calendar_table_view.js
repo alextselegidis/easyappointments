@@ -165,11 +165,11 @@ App.Utils.CalendarTableView = (function () {
             let endMoment;
 
             if (lastFocusedEventData.extendedProps.data.workingPlanException) {
-                const date = lastFocusedEventData.extendedProps.data.date;
+                const originalDate = lastFocusedEventData.extendedProps.data.date;
                 const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
                 const provider = lastFocusedEventData.extendedProps.data.provider;
 
-                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
+                App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
                     (date, workingPlanException) => {
                         const successCallback = () => {
                             App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
@@ -177,6 +177,10 @@ App.Utils.CalendarTableView = (function () {
                             const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
 
                             workingPlanExceptions[date] = workingPlanException;
+
+                            if (date !== originalDate) {
+                                delete workingPlanExceptions[originalDate];
+                            }
 
                             for (const index in vars('available_providers')) {
                                 const availableProvider = vars('available_providers')[index];
@@ -197,6 +201,7 @@ App.Utils.CalendarTableView = (function () {
                             provider.id,
                             successCallback,
                             null,
+                            originalDate,
                         );
                     },
                 );
@@ -550,8 +555,8 @@ App.Utils.CalendarTableView = (function () {
             'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format')),
         }).appendTo($dateColumn);
 
-        const filterProviderIds = $filterProvider.val();
-        const filterServiceIds = $filterService.val();
+        const filterProviderIds = $filterProvider.val().map((filterProviderId) => Number(filterProviderId));
+        const filterServiceIds = $filterService.val().map((filterServiceId) => Number(filterServiceId));
 
         let providers = vars('available_providers').filter((provider) => {
             const servedServiceIds = provider.services.filter((serviceId) => {
@@ -708,6 +713,7 @@ App.Utils.CalendarTableView = (function () {
             selectable: true,
             selectHelper: true,
             themeSystem: 'bootstrap5',
+            selectLongPressDelay: 100,
             headerToolbar: {
                 left: 'listDay,timeGridDay',
                 center: '',
@@ -760,6 +766,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day'),
                 allDay: true,
                 color: '#879DB4',
+                display: 'block',
                 editable: false,
                 className: 'fc-working-plan-exception fc-custom',
                 data: {
@@ -780,6 +787,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability',
             };
 
@@ -800,6 +808,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability',
             };
 
@@ -817,6 +826,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability',
             };
 
@@ -838,6 +848,7 @@ App.Utils.CalendarTableView = (function () {
                 allDay: false,
                 color: '#BEBEBE',
                 editable: false,
+                display: 'background',
                 className: 'fc-unavailability fc-break',
             };
 
@@ -898,6 +909,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(appointment.end_datetime).toDate(),
                 allDay: false,
                 color: appointment.color,
+                display: 'block',
                 data: appointment, // Store appointment data for later use.
             });
         }
@@ -933,6 +945,7 @@ App.Utils.CalendarTableView = (function () {
                 end: moment(unavailability.end_datetime).toDate(),
                 allDay: false,
                 color: '#879DB4',
+                display: 'block',
                 editable: true,
                 className: 'fc-unavailability fc-custom',
                 data: unavailability,
@@ -970,6 +983,7 @@ App.Utils.CalendarTableView = (function () {
                 backgroundColor: '#d65069',
                 borderColor: '#d65069',
                 textColor: '#ffffff',
+                display: 'block',
                 editable: false,
                 className: 'fc-blocked-period fc-unavailability',
                 data: blockedPeriod,
@@ -1107,8 +1121,19 @@ App.Utils.CalendarTableView = (function () {
                 endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
             }
 
+            const provider = info.event.extendedProps.data.provider;
+
             $html = $('<div/>', {
                 'html': [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('provider'),
+                    }),
+                    $('<span/>', {
+                        'text': `${provider.first_name} ${provider.last_name}`,
+                    }),
+                    $('<br/>'),
+
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
                         'text': lang('start'),
@@ -1145,6 +1170,8 @@ App.Utils.CalendarTableView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -1250,6 +1277,8 @@ App.Utils.CalendarTableView = (function () {
                         'text': vars('timezones')[info.event.extendedProps.data.provider.timezone],
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -1415,6 +1444,8 @@ App.Utils.CalendarTableView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    App.Utils.CalendarEventPopover.renderCustomContent(info),
 
                     $('<hr/>'),
 
@@ -1866,6 +1897,63 @@ App.Utils.CalendarTableView = (function () {
 
         // Hide Google Calendar Sync buttons because they can not be used within this view.
         $('#enable-sync, #google-sync').hide();
+
+        // Load the modified appointment in the appointments modal
+        if (vars('edit_appointment')) {
+            const appointment = vars('edit_appointment');
+
+            const startDateTimeObject = moment(appointment.start_datetime)
+                .set({hour: 0, minutes: 0, seconds: 0})
+                .toDate();
+            const endDateTimeObject = moment(appointment.end_datetime)
+                .set({hour: 23, minutes: 59, seconds: 59})
+                .toDate();
+
+            App.Utils.UI.setDateTimePickerValue($selectDate, startDateTimeObject);
+            createView(startDateTimeObject, endDateTimeObject);
+
+            App.Components.AppointmentsModal.resetModal();
+
+            $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
+            $appointmentsModal.find('#appointment-id').val(appointment.id);
+            $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
+            $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
+
+            // Set the start and end datetime of the appointment.
+            const startDatetimeMoment = moment(appointment.start_datetime);
+            App.Utils.UI.setDateTimePickerValue(
+                $appointmentsModal.find('#start-datetime'),
+                startDatetimeMoment.toDate(),
+            );
+
+            const endDatetimeMoment = moment(appointment.end_datetime);
+            App.Utils.UI.setDateTimePickerValue($appointmentsModal.find('#end-datetime'), endDatetimeMoment.toDate());
+
+            const customer = appointment.customer;
+            $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+            $appointmentsModal.find('#first-name').val(customer.first_name);
+            $appointmentsModal.find('#last-name').val(customer.last_name);
+            $appointmentsModal.find('#email').val(customer.email);
+            $appointmentsModal.find('#phone-number').val(customer.phone_number);
+            $appointmentsModal.find('#address').val(customer.address);
+            $appointmentsModal.find('#city').val(customer.city);
+            $appointmentsModal.find('#zip-code').val(customer.zip_code);
+            $appointmentsModal.find('#language').val(customer.language);
+            $appointmentsModal.find('#timezone').val(customer.timezone);
+            $appointmentsModal.find('#appointment-location').val(appointment.location);
+            $appointmentsModal.find('#appointment-status').val(appointment.status);
+            $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+            $appointmentsModal.find('#customer-notes').val(customer.notes);
+            $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
+            $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
+            $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);
+            $appointmentsModal.find('#custom-field-4').val(customer.custom_field_4);
+            $appointmentsModal.find('#custom-field-5').val(customer.custom_field_5);
+
+            App.Components.ColorSelection.setColor($appointmentsModal.find('#appointment-color'), appointment.color);
+
+            $appointmentsModal.modal('show');
+        }
     }
 
     return {

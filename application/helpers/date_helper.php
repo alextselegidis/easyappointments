@@ -148,9 +148,9 @@ if (!function_exists('format_timezone')) {
      *
      * @param string $value
      *
-     * @return string
+     * @return string|null
      */
-    function format_timezone(string $value): string
+    function format_timezone(string $value): ?string
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

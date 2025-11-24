@@ -44,7 +44,7 @@ class User extends EA_Controller
      *
      * @deprecated Since 1.5 Use the Login controller instead.
      */
-    public function login()
+    public function login(): void
     {
         redirect('login');
     }
@@ -54,7 +54,7 @@ class User extends EA_Controller
      *
      * @deprecated Since 1.5 Use the Logout controller instead.
      */
-    public function logout()
+    public function logout(): void
     {
         redirect('logout');
     }
@@ -64,7 +64,7 @@ class User extends EA_Controller
      *
      * @deprecated Since 1.5 Use the Logout controller instead.
      */
-    public function forgot_password()
+    public function forgot_password(): void
     {
         redirect('recovery');
     }

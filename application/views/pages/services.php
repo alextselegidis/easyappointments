@@ -2,9 +2,9 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="services-page">
+<div class="container backend-page" id="services-page">
     <div class="row" id="services">
-        <div id="filter-services" class="filter-records col col-12 col-md-5">
+        <div id="filter-services" class="filter-records col col-12 col-lg-5">
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,14 +20,12 @@
                 <?= lang('services') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-            
             <div class="results">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-5">
+        <div class="record-details column col-12 col-lg-5">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-service" class="btn btn-primary">
@@ -54,7 +52,6 @@
                     </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -102,7 +99,7 @@
                 <label class="form-label" for="service-category-id">
                     <?= lang('category') ?>
                 </label>
-                <select id="service-category-id" class="form-control" disabled></select>
+                <select id="service-category-id" class="form-select" disabled></select>
             </div>
 
             <div class="mb-3">
@@ -110,7 +107,7 @@
                     <?= lang('availabilities_type') ?>
 
                 </label>
-                <select id="availabilities-type" class="form-control" disabled>
+                <select id="availabilities-type" class="form-select" disabled>
                     <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
                         <?= lang('flexible') ?>
                     </option>
@@ -168,7 +165,6 @@
                 <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
 
-            <?php slot('after_primary_fields'); ?>
         </div>
     </div>
 </div>
@@ -177,9 +173,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/services_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/service_categories_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/services.js') ?>"></script>

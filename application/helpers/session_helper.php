@@ -32,7 +32,7 @@ if (!function_exists('session')) {
      *
      * @throws InvalidArgumentException
      */
-    function session(array|string $key = null, mixed $default = null): mixed
+    function session(array|string|null $key = null, mixed $default = null): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();

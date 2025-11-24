@@ -2,9 +2,9 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="providers-page">
+<div class="container backend-page" id="providers-page">
     <div class="row" id="providers">
-        <div id="filter-providers" class="filter-records column col-12 col-md-5">
+        <div id="filter-providers" class="filter-records column col-12 col-lg-5">
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,14 +20,12 @@
                 <?= lang('providers') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
             <div class="results">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-7">
+        <div class="record-details column col-12 col-lg-7">
             <div class="float-md-start mb-4 me-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-provider" class="btn btn-primary">
@@ -54,7 +52,6 @@
                     </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <ul class="nav nav-pills switch-view">
@@ -86,7 +83,7 @@
                     <input type="hidden" id="id" class="record-id">
 
                     <div class="row">
-                        <div class="details col-12 col-md-6">
+                        <div class="details col-12 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label" for="first-name">
                                     <?= lang('first_name') ?>
@@ -114,9 +111,8 @@
                             <div class="mb-3">
                                 <label class="form-label" for="phone-number">
                                     <?= lang('phone_number') ?>
-                                    <span class="text-danger" hidden>*</span>
                                 </label>
-                                <input id="phone-number" class="form-control required" max="128" disabled>
+                                <input id="phone-number" class="form-control" max="128" disabled>
                             </div>
 
                             <div class="mb-3">
@@ -164,9 +160,8 @@
                                 <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                             </div>
 
-                            <?php slot('after_primary_fields'); ?>
                         </div>
-                        <div class="settings col-12 col-md-6">
+                        <div class="settings col-12 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label" for="username">
                                     <?= lang('username') ?>
@@ -199,7 +194,7 @@
                                     <?= lang('calendar') ?>
                                     <span class="text-danger" hidden>*</span>
                                 </label>
-                                <select id="calendar-view" class="form-control required" disabled>
+                                <select id="calendar-view" class="form-select required" disabled>
                                     <option value="default"><?= lang('default') ?></option>
                                     <option value="table"><?= lang('table') ?></option>
                                 </select>
@@ -210,7 +205,7 @@
                                     <?= lang('language') ?>
                                     <span class="text-danger" hidden>*</span>
                                 </label>
-                                <select id="language" class="form-control required" disabled>
+                                <select id="language" class="form-select required" disabled>
                                     <?php foreach (vars('available_languages') as $available_language): ?>
                                         <option value="<?= $available_language ?>">
                                             <?= ucfirst($available_language) ?>
@@ -277,7 +272,6 @@
                                 <!-- JS -->
                             </div>
 
-                            <?php slot('after_secondary_fields'); ?>
                         </div>
                     </div>
                 </div>
@@ -302,8 +296,6 @@
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
 
-                    <?php slot('after_working_plan'); ?>
-                   
                     <br>
 
                     <h4 class="text-black-50 mb-3 fw-light">
@@ -335,8 +327,6 @@
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
 
-                    <?php slot('after_breaks'); ?>
-                    
                     <br>
 
                     <h4 class="text-black-50 mb-3 fw-light">
@@ -369,8 +359,7 @@
                     </table>
 
                     <?php component('working_plan_exceptions_modal'); ?>
-                
-                    <?php slot('after_working_plan_exceptions'); ?>
+
                 </div>
             </div>
         </div>
@@ -382,12 +371,7 @@
 <?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/providers_http_client.js') ?>"></script>

@@ -16,7 +16,7 @@ class Migration_Add_calendar_view_setting extends EA_Migration
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
         if (!$this->db->field_exists('calendar_view', 'user_settings')) {
             $fields = [
@@ -36,7 +36,7 @@ class Migration_Add_calendar_view_setting extends EA_Migration
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
         if ($this->db->field_exists('calendar_view', 'user_settings')) {
             $this->dbforge->drop_column('user_settings', 'calendar_view');

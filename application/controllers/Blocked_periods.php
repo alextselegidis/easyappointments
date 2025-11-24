@@ -22,6 +22,10 @@ class Blocked_periods extends EA_Controller
 {
     public array $allowed_blocked_period_fields = ['id', 'name', 'start_datetime', 'end_datetime', 'notes'];
 
+    public array $optional_blocked_period_fields = [
+        //
+    ];
+
     /**
      * Blocked_periods constructor.
      */
@@ -120,6 +124,8 @@ class Blocked_periods extends EA_Controller
 
             $this->blocked_periods_model->only($blocked_period, $this->allowed_blocked_period_fields);
 
+            $this->blocked_periods_model->optional($blocked_period, $this->optional_blocked_period_fields);
+
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
             $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
@@ -168,6 +174,8 @@ class Blocked_periods extends EA_Controller
             $blocked_period = request('blocked_period');
 
             $this->blocked_periods_model->only($blocked_period, $this->allowed_blocked_period_fields);
+
+            $this->blocked_periods_model->optional($blocked_period, $this->optional_blocked_period_fields);
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 

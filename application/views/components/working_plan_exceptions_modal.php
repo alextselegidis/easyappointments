@@ -1,5 +1,5 @@
 <div class="modal" id="working-plan-exceptions-modal">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title"><?= lang('working_plan_exception') ?></h5>
@@ -60,11 +60,9 @@
                     <tbody><!-- Dynamic Content --></tbody>
                 </table>
 
-                <?php slot('after_primary_working_plan_exception_fields'); ?>
             </div>
             <div class="modal-footer">
-                <?php slot('before_working_plan_exception_actions'); ?>
-                
+
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <?= lang('cancel') ?>
                 </button>

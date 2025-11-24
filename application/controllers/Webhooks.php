@@ -20,7 +20,20 @@
  */
 class Webhooks extends EA_Controller
 {
-    public array $allowed_webhook_fields = ['id', 'name', 'url', 'actions', 'secret_token', 'is_ssl_verified', 'notes'];
+    public array $allowed_webhook_fields = [
+        'id',
+        'name',
+        'url',
+        'actions',
+        'secret_header',
+        'secret_token',
+        'is_ssl_verified',
+        'notes',
+    ];
+
+    public array $optional_webhook_fields = [
+        //
+    ];
 
     /**
      * Webhooks constructor.
@@ -136,6 +149,8 @@ class Webhooks extends EA_Controller
 
             $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 
+            $this->webhooks_model->optional($webhook, $this->optional_webhook_fields);
+
             $webhook_id = $this->webhooks_model->save($webhook);
 
             json_response([
@@ -160,6 +175,8 @@ class Webhooks extends EA_Controller
             $webhook = request('webhook');
 
             $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
+
+            $this->webhooks_model->optional($webhook, $this->optional_webhook_fields);
 
             $webhook_id = $this->webhooks_model->save($webhook);
 

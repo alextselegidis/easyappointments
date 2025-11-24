@@ -26,6 +26,7 @@ class Service_categories_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('webhooks_client');
 
         $this->api->auth();
 
@@ -77,7 +78,7 @@ class Service_categories_api_v1 extends EA_Controller
      *
      * @param int|null $id Service-category ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->service_categories_model->get(['id' => $id]);
@@ -128,6 +129,8 @@ class Service_categories_api_v1 extends EA_Controller
 
             $created_service_category = $this->service_categories_model->find($service_category_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_SAVE, $created_service_category);
+
             $this->service_categories_model->api_encode($created_service_category);
 
             json_response($created_service_category, 201);
@@ -162,6 +165,8 @@ class Service_categories_api_v1 extends EA_Controller
 
             $updated_service_category = $this->service_categories_model->find($service_category_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_SAVE, $updated_service_category);
+
             $this->service_categories_model->api_encode($updated_service_category);
 
             json_response($updated_service_category);
@@ -186,7 +191,11 @@ class Service_categories_api_v1 extends EA_Controller
                 return;
             }
 
+            $deleted_service_category = $occurrences[0];
+
             $this->service_categories_model->delete($id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_CATEGORY_DELETE, $deleted_service_category);
 
             response('', 204);
         } catch (Throwable $e) {

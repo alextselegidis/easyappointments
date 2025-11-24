@@ -11,13 +11,16 @@
         <h2 class="frame-title mt-md-5"><?= lang('service_and_provider') ?></h2>
 
         <div class="row frame-content">
-            <div class="col col-md-8 offset-md-2">
+            <div class="col col-lg-8 offset-md-2">
                 <div class="mb-3">
                     <label for="select-service">
                         <strong><?= lang('service') ?></strong>
                     </label>
 
-                    <select id="select-service" class="form-control">
+                    <select id="select-service" class="form-select">
+                        <option value="">
+                            <?= lang('please_select') ?>
+                        </option>
                         <?php
                         // Group services by category, only if there is at least one service with a parent category.
                         $has_category = false;
@@ -74,25 +77,23 @@
                         ?>
                     </select>
                 </div>
-                
-                <?php slot('after_select_service'); ?>
 
-                <div class="mb-3">
+                <div class="mb-3" hidden>
                     <label for="select-provider">
                         <strong><?= lang('provider') ?></strong>
                     </label>
 
-                    <select id="select-provider" class="form-control"></select>
+                    <select id="select-provider" class="form-select">
+                        <option value="">
+                            <?= lang('please_select') ?>
+                        </option>
+                    </select>
                 </div>
-
-                <?php slot('after_select_provider'); ?>
 
                 <div id="service-description" class="small">
                     <!-- JS -->
                 </div>
 
-                <?php slot('after_service_description'); ?>
-                
             </div>
         </div>
     </div>

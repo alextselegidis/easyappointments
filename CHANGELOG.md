@@ -5,6 +5,61 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Changed
+
+- Make the phone number field of backend users optional (#1709)
+
+### Fixed
+
+- Cannot modify appointment if provider changes time zone (#1789)
+- Fix the customer appointment link so that it opens the modal even in the table calendar view (-)
+
+
+
+## [1.5.2] - 2025-08-26
+
+### Fixed
+
+- Fix the GTag script URL html rendering (#1666)
+- Fix the "Load More" JS error in secretaries page (#1677)
+- Fix the PHP compatibility error of the appointments index API endpoint (#1678)
+- Catch individual email delivery exceptions (#1670)
+- Apply permission checks to the appointment and unavailability search (#1753)
+- Make sure the sync button is visible on provider log in (#1749)
+- Update unavailable dates after applying appointment data while rescheduling (#1662)
+- Make sure that any-provider does not include hidden providers while generating availability (#1733)
+- Provide "text" version of the emails in addition to HTML (#1711)
+- Trigger webhook requests when managing records via the API (#1676)
+
+
+## [1.5.1] - 2025-01-20
+
+### Added
+
+- Add support for PHP 8.4 (#1640)
+- Add new secret token header field to webhooks and default to X-EA-Token (#1607)
+- Add company colors to notifications (#1569)
+- Add Albanian Language Translations (#1646)
+
+### Fixed
+
+- Fix the date parsing issue on Safari web browsers during the booking process (#1584)
+- Fix working plan configuration am/pm hour parsing so that it works in all languages (#1606)
+- Improve the CalDAV syncing mechanism so that it connects to more systems without problems (#1622)
+- Fix various 1.5.0 API issues (#1562)
+- Correct email issues by replacing the internal email library with phpmailer (#1587)
+- Fix ICS file mimetype (#1630)
+- Incorrect Timezone Handling in CalDAV Synchronization Causes Time Shifts (#1626)
+- No color change in the appointment modal window (in the backend calendar) (#1641)
+- The plain user password might appear in the log messages in case of an error (#1590)
+- Fix loop when going a month back in an edge case (#1577)
+- Dedicated provider links do not pre-select the relevant provider on the booking page (#1651)
+- Correct the service / provider booking header display (#1650)
+
+
+
+## [1.5.0] - 2024-07-07
+
 ### Added
 
 - Display month with the earliest available day (#1075)

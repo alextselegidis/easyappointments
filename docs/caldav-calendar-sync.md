@@ -41,10 +41,10 @@ the initial setup.
 While trying to enable the CalDAV sync from the Easy!Appointments calendar page, use the following credentials after
 clicking on "Enable Sync" > "CalDAV".
 
-- URL: http://baikal:8100/dav.php
-- Username: <from-previous-step>
-- Password: <from-previous-step>
+- URL: http://baikal/dav.php/calendars/<username-from-previous-step>/default/
+- Username: <username-from-previous-step>
+- Password: <password-from-previous-step>
 
-*This document applies to Easy!Appointments v1.5.0.*
+*This document applies to Easy!Appointments v1.5.1.*
 
 [Back](readme.md)

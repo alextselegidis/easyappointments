@@ -12,7 +12,7 @@
  * ---------------------------------------------------------------------------- */
 
 /*
- * This file can only be used in a testing environment and only from the termninal.
+ * This file can only be used in a testing environment and only from the terminal.
  */
 
 if (ENVIRONMENT !== 'testing' || !is_cli()) {

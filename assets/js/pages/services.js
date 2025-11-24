@@ -500,11 +500,11 @@ App.Pages.Services = (function () {
         App.Http.ServiceCategories.search('', 999).then((response) => {
             $serviceCategoryId.empty();
 
+            $serviceCategoryId.append(new Option('', '')).val('');
+
             response.forEach((serviceCategory) => {
                 $serviceCategoryId.append(new Option(serviceCategory.name, serviceCategory.id));
             });
-
-            $serviceCategoryId.append(new Option('', '')).val('');
         });
     }
 

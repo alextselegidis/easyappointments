@@ -2,9 +2,9 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="admins-page">
+<div class="container backend-page" id="admins-page">
     <div class="row" id="admins">
-        <div id="filter-admins" class="filter-records column col-12 col-md-5">
+        <div id="filter-admins" class="filter-records column col-12 col-lg-5">
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,14 +20,12 @@
                 <?= lang('admins') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
             <div class="results">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-7">
+        <div class="record-details column col-12 col-lg-7">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="add-admin" class="btn btn-primary">
@@ -54,7 +52,6 @@
                     </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -66,7 +63,7 @@
             <input type="hidden" id="id" class="record-id">
 
             <div class="row">
-                <div class="details col-12 col-md-6">
+                <div class="details col-12 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label" for="first-name">
                             <?= lang('first_name') ?>
@@ -94,9 +91,8 @@
                     <div class="mb-3">
                         <label class="form-label" for="phone-number">
                             <?= lang('phone_number') ?>
-                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="phone-number" class="form-control required" maxlength="128" disabled>
+                        <input id="phone-number" class="form-control" maxlength="128" disabled>
                     </div>
 
                     <div class="mb-3">
@@ -143,9 +139,8 @@
                         <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                     </div>
 
-                    <?php slot('after_primary_fields'); ?>
                 </div>
-                <div class="settings col-12 col-md-6">
+                <div class="settings col-12 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label" for="username">
                             <?= lang('username') ?>
@@ -177,7 +172,7 @@
                             <?= lang('calendar') ?>
                             <span class="text-danger" hidden>*</span>
                         </label>
-                        <select id="calendar-view" class="form-control required" disabled>
+                        <select id="calendar-view" class="form-select required" disabled>
                             <option value="default"><?= lang('default') ?></option>
                             <option value="table"><?= lang('table') ?></option>
                         </select>
@@ -188,7 +183,7 @@
                             <?= lang('language') ?>
                             <span class="text-danger" hidden>*</span>
                         </label>
-                        <select id="language" class="form-control required" disabled>
+                        <select id="language" class="form-select required" disabled>
                             <?php foreach (vars('available_languages') as $available_language): ?>
                                 <option value="<?= $available_language ?>">
                                     <?= ucfirst($available_language) ?>
@@ -231,8 +226,7 @@
                             </label>
                         </div>
                     </div>
-                    
-                    <?php slot('after_secondary_fields'); ?>
+
                 </div>
             </div>
         </div>
@@ -243,9 +237,6 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/admins_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/admins.js') ?>"></script>

@@ -26,6 +26,7 @@ class Secretaries_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('webhooks_client');
 
         $this->api->auth();
 
@@ -77,7 +78,7 @@ class Secretaries_api_v1 extends EA_Controller
      *
      * @param int|null $id Secretary ID.
      */
-    public function show(int $id = null): void
+    public function show(?int $id = null): void
     {
         try {
             $occurrences = $this->secretaries_model->get(['id' => $id]);
@@ -130,6 +131,8 @@ class Secretaries_api_v1 extends EA_Controller
 
             $created_secretary = $this->secretaries_model->find($secretary_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_SECRETARY_SAVE, $created_secretary);
+
             $this->secretaries_model->api_encode($created_secretary);
 
             json_response($created_secretary, 201);
@@ -164,6 +167,8 @@ class Secretaries_api_v1 extends EA_Controller
 
             $updated_secretary = $this->secretaries_model->find($secretary_id);
 
+            $this->webhooks_client->trigger(WEBHOOK_SECRETARY_SAVE, $updated_secretary);
+
             $this->secretaries_model->api_encode($updated_secretary);
 
             json_response($updated_secretary);
@@ -188,7 +193,11 @@ class Secretaries_api_v1 extends EA_Controller
                 return;
             }
 
+            $deleted_secretary = $occurrences[0];
+
             $this->secretaries_model->delete($id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SECRETARY_DELETE, $deleted_secretary);
 
             response('', 204);
         } catch (Throwable $e) {

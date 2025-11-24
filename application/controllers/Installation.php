@@ -54,7 +54,7 @@ class Installation extends EA_Controller
     /**
      * Installs Easy!Appointments on the server.
      */
-    public function perform()
+    public function perform(): void
     {
         try {
             if (is_app_installed()) {

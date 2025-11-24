@@ -196,7 +196,9 @@ body legend {
 }
 
 .backend-page .form-control:disabled,
-.backend-page .form-control[readonly] {
+.backend-page .form-control[readonly],
+.backend-page .form-select:disabled,
+.backend-page .form-select[readonly] {
     background-color: #fff;
     color: #666;
     border-color: #fff;
@@ -397,8 +399,8 @@ body legend {
     border-radius: 0;
     font-weight: bold;
     color: #333;
-    text-shadow: 0 1px 0 #e6e6e6;
-    opacity: 0.7;
+    opacity: 0.75;
+    border: 1px solid #e6e6e6;
 }
 
 #calendar-page #calendar .fc-unavailability.fc-blocked-period {
@@ -406,8 +408,13 @@ body legend {
     text-shadow: none;
 }
 
+#calendar-page .fc-daygrid-day-top {
+    font-size: 11px;
+}
+
 #calendar-page .fc-event-time {
     font-weight: bold;
+    font-size: 11px;
 }
 
 #calendar-page .fc-event-title {
@@ -465,10 +472,16 @@ body legend {
     color: #555;
 }
 
+#calendar .fc-daygrid-event-dot {
+    display: none;
+}
+
 #calendar .fc-event {
-    border: 1px solid #4790ca;
-    background-color: #4790ca;
+    border: 1px solid #7cbae8;
+    background-color: #7cbae8;
+    color: #333;
     min-height: 12px;
+    font-size: 11px;
 }
 
 #existing-customers-list {
@@ -551,7 +564,7 @@ body .form-horizontal .controls {
 
 #calendar .calendar-view > div {
     width: 100%;
-    min-width: 100% !important;
+    min-width: 100%;
     overflow: auto;
 }
 
@@ -599,7 +612,8 @@ body .form-horizontal .controls {
         text-align: right;
     }
 
-    #calendar-page #calendar-filter .form-group .form-control {
+    #calendar-page #calendar-filter .form-group .form-control,
+    #calendar-page #calendar-filter .form-group .form-select {
         max-width: 300px;
         margin-bottom: 0;
     }
@@ -834,7 +848,8 @@ body .form-horizontal .controls {
 #working-plan-exceptions-breaks {
     table-layout: fixed;
 
-    .form-control {
+    .form-control,
+    .form-select {
         width: 100% !important;
     }
 }
@@ -986,7 +1001,8 @@ body .form-horizontal .controls {
     margin-left: 12px;
 }
 
-#booking-settings-page .fields-row .form-control {
+#booking-settings-page .fields-row .form-control,
+#booking-settings-page .fields-row .form-select {
     border: 1px dashed #999 !important;
 }
 

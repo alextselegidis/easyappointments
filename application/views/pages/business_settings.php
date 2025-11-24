@@ -136,7 +136,6 @@
                             'attributes' => 'id="appointment-status-options"',
                         ]); ?>
 
-                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>
@@ -149,10 +148,7 @@
 <?php section('scripts'); ?>
 
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/working_plan.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/business_settings_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/pages/business_settings.js') ?>"></script>

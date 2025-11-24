@@ -85,7 +85,7 @@ class Backend extends EA_Controller
     /**
      * Display settings page.
      *
-     * Notice: Since the "settings" page is split into multiple pages (general, business, booking etc), this method will
+     * Notice: Since the "settings" page is split into multiple pages (general, business, booking etc.), this method will
      * redirect to "general" page by default.
      */
     public function settings(): void
