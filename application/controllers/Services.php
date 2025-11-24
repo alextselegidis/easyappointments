@@ -106,7 +106,7 @@ class Services extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = 'update_datetime DESC';
+            $order_by = request('order_by', 'row_order ASC');
 
             $limit = request('limit', 1000);
 
