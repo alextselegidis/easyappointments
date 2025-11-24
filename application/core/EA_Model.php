@@ -263,7 +263,7 @@ class EA_Model extends CI_Model
         $rows = $this->db
                 ->select(['id', $column])
                 ->from($table)
-                ->order_by($column)
+                ->order_by($this->quote_order_by($column))
                 ->get()
                 ->result_array();
         
@@ -376,7 +376,7 @@ class EA_Model extends CI_Model
             ->select(['id', $column])
             ->from($table)
             ->where($column .'>=', $newOr)
-            ->order_by($column)
+            ->order_by($this->quote_order_by($column))
             ->get()
             ->result_array();
 
