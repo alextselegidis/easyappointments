@@ -15,7 +15,7 @@ class Migration_Add_sort_column_to_service_table extends EA_Migration {
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up():void
     {
         if ( ! $this->db->field_exists('row_order', 'services'))
         {
@@ -35,7 +35,7 @@ class Migration_Add_sort_column_to_service_table extends EA_Migration {
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down():void
     {
         if ( ! $this->db->field_exists('row_order', 'services'))
         {
