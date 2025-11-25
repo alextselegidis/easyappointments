@@ -64,31 +64,60 @@ class Api
      */
     public function auth(): void
     {
-        try {
-            // Bearer token.
-            $api_token = setting('api_token');
-
-            if (!empty($api_token) && $api_token === $this->get_bearer_token()) {
-                return;
-            }
-
-            // Basic auth.
-            $username = $_SERVER['PHP_AUTH_USER'] ?? null;
-
-            $password = $_SERVER['PHP_AUTH_PW'] ?? null;
-
-            if (empty($username) || empty($password)) {
-                throw new RuntimeException('Missing required credentials', 401);
-            }
-
-            $user_data = $this->CI->accounts->check_login($username, $password);
-
-            if (empty($user_data['role_slug']) || $user_data['role_slug'] !== DB_SLUG_ADMIN) {
-                throw new RuntimeException('The provided credentials do not match any admin user', 401);
-            }
-        } catch (Throwable) {
+        // Bearer token.
+        if ($this->check_bearer_token()) {
+            return;
+        }
+        // Basic Auth.
+        else if ($this->check_basic_auth()) {
+            return;
+        }
+        // Unauthorized.
+        else 
+        {
             $this->request_authentication();
         }
+
+    }
+
+    /**
+     * Checks that request contains basic authentication headers.
+     * When they are found, the credentials are validated
+     * @return bool Credentials are valid and user belongs to admin role 
+     */
+    private function check_basic_auth(): bool
+    {
+        $username = $_SERVER['PHP_AUTH_USER'] ?? null;
+
+        $password = $_SERVER['PHP_AUTH_PW'] ?? null;
+
+        if (empty($username) || empty($password)) {
+            return false;
+        }
+
+        $user_data = $this->CI->accounts->check_login($username, $password);
+
+        if (empty($user_data['role_slug']) || $user_data['role_slug'] !== DB_SLUG_ADMIN) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Checks if Bearer token is provided in the request headers.
+     * If system does not have an API token set, it returns false.
+     *  @return bool
+     */
+    private function check_bearer_token(): bool
+    {
+        $api_token = setting('api_token');
+
+        if (empty($api_token)) {
+            return false;
+        }
+        else 
+            return ($api_token === $this->get_bearer_token());
     }
 
     /**
