@@ -55,9 +55,8 @@ You get this warning because PHP is not configured with a timezone setting. This
 
 ## How should I configure my Caddy server to run Easy!Appointments?
 
-This is not a bug report, but a request to add information to the documentation.
+It is rather easy:
 
-I managed to run Easy!Appointments together with [Caddy](https://caddyserver.com/). It is rather easy:
 1. Install `Caddy`.
 2. Install (and run) `php-fpm`, e.g. `sudo apt install php-fpm`.
 3. Install and configure `Easy!Appointments`, e.g. to `/var/www/html/easyappointments`.
