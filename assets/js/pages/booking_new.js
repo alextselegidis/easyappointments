@@ -1035,6 +1035,7 @@ App.Pages.Booking = (function () {
         `);
 
         // Update appointment form data for submission to server when the user confirms the appointment.
+        updateTotals();
         let dateOfBirth = App.Utils.UI.getDateTimePickerValue($dateOfBirth);
         try {
             if (dateOfBirth) {
@@ -1075,6 +1076,7 @@ App.Pages.Booking = (function () {
             id_users_provider: $selectProvider.val(),
             id_services: getSelectedService(),
             ids_subservices: dataSelectedSubServices,
+            total_price: totalPrice,
         };
 
         data.manage_mode = Number(manageMode);

@@ -56,6 +56,7 @@ class Booking extends EA_Controller
         'id_users_customer',
         'id_services',
         'ids_subservices',
+        'total_price',
     ];
 
     /**
