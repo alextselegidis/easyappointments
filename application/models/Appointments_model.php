@@ -27,6 +27,7 @@ class Appointments_model extends EA_Model
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
+        'total_price' => 'float',
     ];
 
     /**
@@ -47,6 +48,7 @@ class Appointments_model extends EA_Model
         'customerId' => 'id_users_customer',
         'googleCalendarId' => 'id_google_calendar',
         'caldavCalendarId' => 'id_caldav_calendar',
+        'totalPrice' => 'total_price',
     ];
 
     /**

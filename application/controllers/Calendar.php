@@ -57,6 +57,7 @@ class Calendar extends EA_Controller
         'id_users_customer',
         'id_services',
         'ids_subservices',
+        'total_price',
     ];
 
     public array $optional_appointment_fields = [
@@ -190,6 +191,7 @@ class Calendar extends EA_Controller
             'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,
             'available_services' => $available_services,
+            'available_subservices' => $available_subservices,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
             'google_sync_feature' => config('google_sync_feature'),

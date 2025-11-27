@@ -206,6 +206,11 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="total_price" class="form-label"><?= lang('price') ?> (Euro)</label>
+                                    <input id="total_price" class="required form-control">
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="appointment-notes" class="form-label">
                                         <?= lang('notes') ?>
                                         <?php if ($require_notes): ?>
