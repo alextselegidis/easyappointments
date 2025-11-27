@@ -106,7 +106,7 @@ class Services extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = request('order_by', 'update_datetime DESC');
+            $order_by = request('order_by', 'row_order ASC');
 
             $limit = request('limit', 1000);
 
@@ -224,6 +224,47 @@ class Services extends EA_Controller
                 'success' => true,
             ]);
         } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Arrange service order
+     */
+    public function sort()
+    {
+        try {
+
+            if (cannot('edit', PRIV_SERVICES))
+            {
+                abort(403, 'Forbidden');
+            }
+
+            $service_id = request('service_id');
+            if (($service_id = filter_var($service_id, FILTER_VALIDATE_INT)) === FALSE)
+            {
+                abort(400,'Invalid ID value');
+            }
+
+            $insertAfterId = request('after');
+            if (($insertAfterId = filter_var($insertAfterId,FILTER_VALIDATE_INT)) === FALSE)
+            {
+                abort(400,'Invalid after value, must be ID or -1');
+            }
+
+            if ($insertAfterId <= 0)
+            {
+                $insertAfterId = FALSE;
+            }
+
+            $service = $this->services_model->find($service_id);
+
+            $service['row_order'] = $this->services_model->set_service_order($service['id'], $insertAfterId);
+
+            return json_response($service);
+        }
+        catch (Throwable $e)
+        {
             json_exception($e);
         }
     }

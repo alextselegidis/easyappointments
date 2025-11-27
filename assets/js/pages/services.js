@@ -90,6 +90,60 @@ App.Pages.Services = (function () {
         });
 
         /**
+         * Event: Sort service by dragging
+         */
+
+        const sorting = new Sortable(document.querySelector('.results'), {
+            onStart : function(ev) {
+                if (ev.from.querySelector('hr') == null)
+                    return;
+                if (! (ev.item.nextSibling && ev.item.nextSibling.tagName == 'HR'))
+                    return;
+                ev.item.dataset['hadHR'] = true;
+                ev.item.nextSibling.remove();
+            },
+            onUpdate : async function(ev){
+                resetForm();
+                let afterId;
+                const currentItemId = ev.item.dataset['id'];
+                const hadHR =  ev.item.dataset['hadHR'] == 'true';
+;
+
+                if (ev.newIndex == 0)
+                    afterId = -1;
+                else if (ev.item.previousSibling !== null) {
+                    let prevItem =ev.item.previousSibling;
+                    if (prevItem.tagName == 'HR')
+                        prevItem = prevItem.previousSibling;
+                    
+                    if (! prevItem.classList.contains('service-row')){
+                        window.App.Utils.Message.show(lang('unexpected_issues'),'Failed to get previous service to sort!');
+                        throw 'Failed to get previous service to sort';
+                    }
+                    
+                    afterId = parseInt(prevItem.dataset['id']);
+                    
+                }
+                try {
+                    await sort(currentItemId, afterId);
+                    if (hadHR)
+                    {
+                        const newHr = document.createElement('HR');
+                        if (ev.oldIndex < ev.newIndex)
+                            ev.item.before(newHr);
+                        else
+                            ev.item.after(newHr);
+                        delete ev.item.dataset.hadHR;
+                    }
+                }
+                catch (err){
+                    $services.find('.form-message').addClass('alert-danger').text(lang('error')).show();
+                    return false;
+                }
+            }
+        });
+        
+        /**
          * Event: Add New Service Button "Click"
          */
         $services.on('click', '#add-service', () => {
@@ -206,6 +260,44 @@ App.Pages.Services = (function () {
             App.Pages.Services.resetForm();
             $filterServices.find('.key').val('');
             App.Pages.Services.filter('', response.id, true);
+        });
+    }
+
+    /**
+     * Sort service record
+     * @async
+     * 
+     * @param {Number} serviceId Id of service to sort
+     * 
+     * @param {Number} afterId Id of service to place after
+     * 
+     * @return {Promise<Number>}
+     */
+    function sort(serviceId, afterId){
+        
+        return App.Http.Services.sort(serviceId, afterId)
+        .then(response => {
+            App.Layouts.Backend.displayNotification(lang('service_saved'));
+            return response.row_order;
+        });
+    }
+
+    /**
+     * Sort service record
+     * @async
+     * 
+     * @param {Number} serviceId Id of service to sort
+     * 
+     * @param {Number} afterId Id of service to place after
+     * 
+     * @return {Promise<Number>}
+     */
+    function sort(serviceId, afterId){
+        
+        return App.Http.Services.sort(serviceId, afterId)
+        .then(response => {
+            App.Layouts.Backend.displayNotification(lang('service_saved'));
+            return response.row_order;
         });
     }
 
@@ -437,5 +529,6 @@ App.Pages.Services = (function () {
         display,
         select,
         addEventListeners,
+        sort,
     };
 })();

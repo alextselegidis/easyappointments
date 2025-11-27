@@ -29,6 +29,7 @@ class Services_model extends EA_Model
         'attendants_number' => 'integer',
         'is_private' => 'boolean',
         'id_service_categories' => 'integer',
+        'row_order' => 'integer',
     ];
 
     /**
@@ -37,6 +38,7 @@ class Services_model extends EA_Model
     protected array $api_resource = [
         'id' => 'id',
         'name' => 'name',
+        'order' => 'row_order',
         'duration' => 'duration',
         'price' => 'price',
         'currency' => 'currency',
@@ -164,6 +166,7 @@ class Services_model extends EA_Model
     {
         $service['create_datetime'] = date('Y-m-d H:i:s');
         $service['update_datetime'] = date('Y-m-d H:i:s');
+        $service['row_order'] = $this->db->count_all('services');
 
         if (!$this->db->insert('services', $service)) {
             throw new RuntimeException('Could not insert service.');
@@ -188,7 +191,7 @@ class Services_model extends EA_Model
         if (!$this->db->update('services', $service, ['id' => $service['id']])) {
             throw new RuntimeException('Could not update service.');
         }
-
+        
         return $service['id'];
     }
 
@@ -202,6 +205,7 @@ class Services_model extends EA_Model
     public function delete(int $service_id): void
     {
         $this->db->delete('services', ['id' => $service_id]);
+        $this->sort_column('services');
     }
 
     /**
@@ -286,7 +290,7 @@ class Services_model extends EA_Model
             ->from('services')
             ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
             ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
-            ->order_by('name ASC')
+            ->order_by('row_order,name ASC')
             ->get()
             ->result_array();
 
@@ -320,6 +324,10 @@ class Services_model extends EA_Model
         if ($order_by !== null) {
             $this->db->order_by($this->quote_order_by($order_by));
         }
+        else
+        {
+            $this->db->order_by('row_order');
+        }
 
         $services = $this->db->get('services', $limit, $offset)->result_array();
 
@@ -352,6 +360,11 @@ class Services_model extends EA_Model
      */
     public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
+        if ($order_by === NULL)
+        {
+            $order_by = 'row_order';
+        }
+
         $services = $this->db
             ->select()
             ->from('services')
@@ -410,6 +423,7 @@ class Services_model extends EA_Model
         $encoded_resource = [
             'id' => array_key_exists('id', $service) ? (int) $service['id'] : null,
             'name' => $service['name'],
+            'order' => $service['row_order'],
             'duration' => (int) $service['duration'],
             'price' => (float) $service['price'],
             'currency' => $service['currency'],
@@ -443,7 +457,13 @@ class Services_model extends EA_Model
             $decoded_resource['name'] = $service['name'];
         }
 
-        if (array_key_exists('duration', $service)) {
+        if (array_key_exists('order', $service))
+        {
+            $decoded_resource['row_order'] = $service['order'];
+        }
+
+        if (array_key_exists('duration', $service))
+        {
             $decoded_resource['duration'] = $service['duration'];
         }
 
@@ -481,4 +501,22 @@ class Services_model extends EA_Model
 
         $service = $decoded_resource;
     }
+
+    /**
+     * Sort service
+     * 
+     * @param int $service_id Service ID
+     * @param int|bool $afterServiceId ID of service that service should be inserted after, or FALSE to set to beginning
+     * 
+     * @return int New place in table
+     */
+
+     public function set_service_order(int $service_id, $afterServiceId)
+     {
+       $service = $this->find($service_id);
+
+       $this->insert_row_order_after('services',$service,$afterServiceId);
+
+       return $this->value($service['id'],'row_order');
+     }
 }

@@ -185,6 +185,9 @@ function vendor(done) {
         gulp.dest('assets/vendor/flatpickr'),
     );
 
+    // sortablejs
+    gulp.src(['node_modules/sortablejs/Sortable.min.js']).pipe(gulp.dest('assets/vendor/sortablejs'));
+
     gulp.src(['node_modules/flatpickr/dist/themes/material_green.css'])
         .pipe(css())
         .pipe(rename({suffix: '.min'}))

@@ -50,6 +50,7 @@
 <script src="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/flatpickr/flatpickr.min.js') ?>"></script>
+<script src="<?= asset_url('assets/vendor/sortablejs/Sortable.min.js') ?>"></script>
 
 <script src="<?= asset_url('assets/js/app.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
