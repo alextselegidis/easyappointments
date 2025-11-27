@@ -48,12 +48,32 @@ The following link points to a common question that many users ask. The default 
 ## DateTime::__construct(): It is not safe to rely on the system's timezone settings...
 
 You get this warning because PHP is not configured with a timezone setting. This is a very important setting especially for Easy!Appointments, cause otherwise you might get into trouble with the appointment hours. After
- installing the application, make sure that the php.ini "date.timezone" setting has the correct value depending 
+ installing the application, make sure that the php.ini "date.timezone" setting has the correct value depending on 
  your location. You can find a list of the [available timezone setting on php.net](http://www.google.com/url?q=http%3A%2F%2Fphp.net%2Fmanual%2Fen%2Ftimezones.php&sa=D&sntz=1&usg=AFQjCNFtFw3O6UQXAKFKWCXqhSd9Z0UwgQ). If you cannot modify your php.ini file try to add the following command at the top of `index.php`. 
  
  `date_default_timezone_set('America/Los_Angeles'); // Use your own timezone string.`
 
+## How should I configure my Caddy server to run Easy!Appointments?
 
-*This document applies to Easy!Appointments v1.5.1.*
+It is rather easy:
+
+1. Install `Caddy`.
+2. Install (and run) `php-fpm`, e.g. `sudo apt install php-fpm`.
+3. Install and configure `Easy!Appointments`, e.g. to `/var/www/html/easyappointments`.
+4. Add this to your `/etc/caddy/Caddyfile` and adapt it to your needs:
+
+```Caddyfile
+easyappointments.example.com {
+        root * /var/www/html/easyappointments
+        encode gzip zstd
+        php_fastcgi unix//run/php/php-fpm.sock
+        file_server
+}
+```
+
+5. Restart `Caddy`, e.g. `sudo systemctl restart caddy.server`
+
+
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)

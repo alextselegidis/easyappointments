@@ -13,6 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Cannot modify appointment if provider changes time zone (#1789)
 - Fix the customer appointment link so that it opens the modal even in the table calendar view (-)
+- Run the session garbage collector once in a while to avoid session bloat (#1793)
 
 
 

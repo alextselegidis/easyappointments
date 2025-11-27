@@ -12,4 +12,4 @@ Welcome to the documentation pages of Easy!Appointments. Navigate through the av
 - [CalDAV Calendar Sync](caldav-calendar-sync.md)
 - [FAQ](faq.md)
 
-*This document applies to Easy!Appointments v1.5.1.*
+*This document applies to Easy!Appointments v1.5.2.*
