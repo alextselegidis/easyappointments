@@ -55,6 +55,8 @@ class Booking extends EA_Controller
         'id_users_provider',
         'id_users_customer',
         'id_services',
+        'ids_subservices',
+        'total_price',
     ];
 
     /**
@@ -441,6 +443,16 @@ class Booking extends EA_Controller
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
 
+            // Don't delete existing values
+            $old_customer = $this->customers_model->find( $customer['id'] );
+            if ($old_customer) {
+                foreach(array_keys($old_customer) as $key) {
+                    if ((!isset($customer[$key])) || ($customer[$key] == null) || (strlen(trim($customer[$key])) < 1 )) {
+            			$customer[ $key ] = $old_customer[ $key ];
+                    }
+                }
+            }
+
             $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
@@ -453,8 +465,10 @@ class Booking extends EA_Controller
             $appointment_status_options_json = setting('appointment_status_options', '[]');
             $appointment_status_options = json_decode($appointment_status_options_json, true) ?? [];
             $appointment['status'] = $appointment_status_options[0] ?? null;
-            $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
-
+            if (!isset($appointment['end_datetime'])) {
+                $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
+            }
+            
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
@@ -617,7 +631,8 @@ class Booking extends EA_Controller
             $provider_id = request('provider_id');
             $service_id = request('service_id');
             $selected_date = request('selected_date');
-
+			$total_duration = request( 'service_duration' );
+            
             // Do not continue if there was no provider selected (more likely there is no provider in the system).
 
             if (empty($provider_id)) {
@@ -635,6 +650,10 @@ class Booking extends EA_Controller
             // that will provide the requested service.
 
             $service = $this->services_model->find($service_id);
+            if (empty($total_duration)) {
+				$total_duration = $service['duration'];
+            }
+			$total_duration = (int) $total_duration;
 
             if ($provider_id === ANY_PROVIDER) {
                 $providers = $this->providers_model->get_available_providers(true);
@@ -647,10 +666,11 @@ class Booking extends EA_Controller
                     }
 
                     $provider_available_hours = $this->availability->get_available_hours(
-                        $selected_date,
-                        $service,
-                        $provider,
-                        $exclude_appointment_id,
+                        date: $selected_date,
+                        service: $service,
+                        provider: $provider,
+                        exclude_appointment_id: $exclude_appointment_id,
+                        total_duration: $total_duration,
                     );
 
                     $available_hours = array_merge($available_hours, $provider_available_hours);
@@ -665,10 +685,11 @@ class Booking extends EA_Controller
                 $provider = $this->providers_model->find($provider_id);
 
                 $response = $this->availability->get_available_hours(
-                    $selected_date,
-                    $service,
-                    $provider,
-                    $exclude_appointment_id,
+                    date: $selected_date,
+                    service: $service,
+                    provider: $provider,
+                    exclude_appointment_id: $exclude_appointment_id,
+                    total_duration: $total_duration,
                 );
             }
 
@@ -701,6 +722,7 @@ class Booking extends EA_Controller
             $appointment_id = request('appointment_id');
             $manage_mode = filter_var(request('manage_mode'), FILTER_VALIDATE_BOOLEAN);
             $selected_date_string = request('selected_date');
+			$total_duration = request( 'total_duration' );
             $selected_date = new DateTime($selected_date_string);
             $number_of_days_in_month = (int) $selected_date->format('t');
             $unavailable_dates = [];
@@ -731,6 +753,7 @@ class Booking extends EA_Controller
                         $service,
                         $provider,
                         $exclude_appointment_id,
+                        $total_duration,
                     );
 
                     if (!empty($available_hours)) {

@@ -3,6 +3,7 @@
  * Local variables.
  *
  * @var array $available_services
+ * @var array $available_subservices
  * @var array $appointment_status_options
  * @var array $timezones
  * @var array $require_first_name
@@ -107,7 +108,32 @@
                                         ?>
                                     </select>
                                 </div>
-
+                                <div class="mb-3">
+                                    <label for="select-subservices" class="form-label">
+                                        <?= lang('subservices') ?>
+                                    </label>
+                                    <div id="select-subservices">
+                                    <?php foreach($available_subservices as $subservice): ?>
+                                        <div 
+                                            class="form-check" 
+                                            id="fc_subs_<?= $subservice['id']; ?>"
+                                            data-parent="<?= $subservice['parentservice']; ?>" 
+                                            >
+                                        
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                data-value="<?= $subservice['id']; ?>"
+                                                id="subs_<?= $subservice['id']; ?>"
+                                            ></input>
+                                            <label class="form-check-label" for="subs_<?= $subservice['id']; ?>">
+                                                <?= $subservice['name']; ?>
+                                            </label>
+                                        </div>
+                                    <?php endforeach ?>
+                                    </div>
+                                </div>
+                                
                                 <div class="mb-3">
                                     <label for="select-provider" class="form-label">
                                         <?= lang('provider') ?>
@@ -177,6 +203,11 @@
                                             </small>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="total_price" class="form-label"><?= lang('price') ?> (Euro)</label>
+                                    <input id="total_price" class="required form-control">
                                 </div>
 
                                 <div class="mb-3">

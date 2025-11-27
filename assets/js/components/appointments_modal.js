@@ -42,7 +42,9 @@ App.Components.AppointmentsModal = (function () {
     const $reloadAppointments = $('#reload-appointments');
     const $selectFilterItem = $('#select-filter-item');
     const $selectService = $('#select-service');
+    const $selectSubservice = $('#select-subservices');
     const $selectProvider = $('#select-provider');
+    const $totalPrice = $('#total_price');
     const $insertAppointment = $('#insert-appointment');
     const $existingCustomersList = $('#existing-customers-list');
     const $newCustomer = $('#new-customer');
@@ -51,8 +53,47 @@ App.Components.AppointmentsModal = (function () {
     const $customField3 = $('#custom-field-3');
     const $customField4 = $('#custom-field-4');
     const $customField5 = $('#custom-field-5');
+    const $subserviceOptions = $selectSubservice.find('.form-check');
 
     const moment = window.moment;
+
+    let selectedSubservices = [];
+    let totalPrice = 0;
+    
+    function calculateTotals() {
+        const service = getSelectedService();
+        let price = 0;
+        let duration = 60;
+
+        if (service) {
+            price = service.price;
+            duration = Number(service.duration);
+            selectedSubservices.forEach((subserviceId) => {
+                const subService = vars('available_subservices').find((availableSubservice) => {
+                    return Number(availableSubservice.id) === Number(subserviceId);
+                });
+                price += subService.price;
+                duration += Number(subService.duration);
+            });
+        }
+
+        totalPrice = price;
+
+        $totalPrice.val(App.Utils.String.formatPrice(totalPrice));
+        const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
+        const endDateTimeObject = new Date(startDateTimeObject.getTime() + duration * 60000);
+        App.Utils.UI.setDateTimePickerValue($endDatetime, endDateTimeObject);
+    }
+
+    function setAppointment(appointment) {
+        selectedSubservices = (appointment)?appointment.ids_subservices:[];
+
+        $appointmentId.val(appointment.id);
+        $selectService.val(appointment.id_services).trigger('change');
+        $selectProvider.val(appointment.id_users_provider);
+        totalPrice = appointment.total_price?appointment.total_price:0;
+        $totalPrice.val(App.Utils.String.formatPrice(totalPrice));
+    }
 
     /**
      * Update the displayed timezone.
@@ -67,6 +108,17 @@ App.Components.AppointmentsModal = (function () {
         if (provider && provider.timezone) {
             $('.provider-timezone').text(vars('timezones')[provider.timezone]);
         }
+    }
+
+    function getSelectedService() {
+        const serviceId = $selectService.val();
+
+        // Automatically update the service duration.
+        const service = vars('available_services').find((availableService) => {
+            return Number(availableService.id) === Number(serviceId);
+        });
+
+        return service;
     }
 
     /**
@@ -93,6 +145,19 @@ App.Components.AppointmentsModal = (function () {
             const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDatetime);
             const endDatetime = moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss');
 
+            // Reset selected Subservices array
+            const serviceId = Number($selectService.val());
+            selectedSubservices = [];
+            Array.from($subserviceOptions).forEach((el) => {
+                $el = $(el);
+                $inp = $el.find("input");
+                if (Number($el.attr('data-parent')) == Number(serviceId)) {
+                    if ($inp.prop('checked')) {
+                        selectedSubservices.push(Number($inp.attr('data-value')));
+                    }
+                }
+            }) ;
+            
             const appointment = {
                 id_services: $selectService.val(),
                 id_users_provider: $selectProvider.val(),
@@ -103,6 +168,8 @@ App.Components.AppointmentsModal = (function () {
                 status: $appointmentStatus.val(),
                 notes: $appointmentNotes.val(),
                 is_unavailability: Number(false),
+                ids_subservices: selectedSubservices,
+                total_price: totalPrice,
             };
 
             if ($appointmentId.val() !== '') {
@@ -347,6 +414,22 @@ App.Components.AppointmentsModal = (function () {
             }, 1000);
         });
 
+        $subserviceOptions.on('click', (event) => {
+            const $tgt = $(event.target);
+            const id = Number($tgt.attr('data-value'));
+            if (id) {
+                const i = selectedSubservices.indexOf(id);
+                if (i >= 0) {
+                    selectedSubservices.splice(i,1);
+                }
+                if ($tgt.prop('checked')) {
+                    selectedSubservices.push(id);
+                }
+            }
+
+            calculateTotals();
+        });
+
         /**
          * Event: Selected Service "Change"
          *
@@ -354,26 +437,33 @@ App.Components.AppointmentsModal = (function () {
          * update the start and end time of the appointment.
          */
         $selectService.on('change', () => {
-            const serviceId = $selectService.val();
-
+            const service = getSelectedService();
+            const serviceId = service.id;
             const providerId = $selectProvider.val();
 
             $selectProvider.empty();
-
-            // Automatically update the service duration.
-            const service = vars('available_services').find((availableService) => {
-                return Number(availableService.id) === Number(serviceId);
-            });
 
             if (service?.color) {
                 App.Components.ColorSelection.setColor($appointmentColor, service.color);
             }
 
-            const duration = service ? service.duration : 60;
+            // Fill subservices
+            $subserviceOptions.detach();
+            Array.from($subserviceOptions).forEach((el) => {
+                $el = $(el);
+                $inp = $el.find("input");
+                if (Number($el.attr('data-parent')) == Number(serviceId)) {
+                    $selectSubservice.append($el);
+                    const ss_id = Number($inp.attr('data-value'));
+                    if (selectedSubservices.indexOf(ss_id) >=0 ) {
+                        $inp.prop('checked', true);
+                    }
+                } else {
+                    $inp.prop('checked', false);
+                }
+            }) ;
 
-            const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
-            const endDateTimeObject = new Date(startDateTimeObject.getTime() + duration * 60000);
-            App.Utils.UI.setDateTimePickerValue($endDatetime, endDateTimeObject);
+            calculateTotals();
 
             // Update the providers select box.
 
@@ -560,6 +650,8 @@ App.Components.AppointmentsModal = (function () {
                 throw new Error(lang('start_date_before_end_error'));
             }
 
+            totalPrice = App.Utils.String.deformatPrice($totalPrice.val());
+            
             return true;
         } catch (error) {
             $appointmentsModal
@@ -583,5 +675,6 @@ App.Components.AppointmentsModal = (function () {
     return {
         resetModal,
         validateAppointmentForm,
+        setAppointment,
     };
 })();

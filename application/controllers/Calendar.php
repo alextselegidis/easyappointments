@@ -56,6 +56,8 @@ class Calendar extends EA_Controller
         'id_users_provider',
         'id_users_customer',
         'id_services',
+        'ids_subservices',
+        'total_price',
     ];
 
     public array $optional_appointment_fields = [
@@ -74,6 +76,7 @@ class Calendar extends EA_Controller
         $this->load->model('blocked_periods_model');
         $this->load->model('customers_model');
         $this->load->model('services_model');
+        $this->load->model('subservices_model');
         $this->load->model('providers_model');
         $this->load->model('roles_model');
 
@@ -170,6 +173,8 @@ class Calendar extends EA_Controller
 
         $available_services = $this->services_model->get_available_services();
 
+		$available_subservices = $this->subservices_model->get_available_subservices();
+
         $calendar_view = request('view', $user['settings']['calendar_view']);
 
         $appointment_status_options = setting('appointment_status_options');
@@ -186,6 +191,7 @@ class Calendar extends EA_Controller
             'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,
             'available_services' => $available_services,
+            'available_subservices' => $available_subservices,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
             'google_sync_feature' => config('google_sync_feature'),
@@ -205,6 +211,7 @@ class Calendar extends EA_Controller
             'calendar_view' => $calendar_view,
             'available_providers' => $available_providers,
             'available_services' => $available_services,
+            'available_subservices' => $available_subservices,
             'secretary_providers' => $secretary_providers,
             'appointment_status_options' => json_decode($appointment_status_options, true) ?? [],
             'require_first_name' => setting('require_first_name'),

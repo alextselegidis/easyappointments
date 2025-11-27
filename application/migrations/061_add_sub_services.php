@@ -64,18 +64,52 @@ class Migration_Add_Sub_Services extends EA_Migration
             );
         }
 
-        if (!$this->db->field_exists('is_subservice', 'services')) {
-            $fields = [
-                'is_subservice' => [
-                    'type' => 'TINYINT',
-                    'constraint' => '4',
-                    'default' => 0,
-                    'after' => 'id_service_categories',
+        if (!$this->db->table_exists('appointments_subservices')) {
+            $this->dbforge->add_field([
+                'create_datetime' => [
+                    'type' => 'DATETIME',
+                    'null' => true,
                 ],
-            ];
+                'update_datetime' => [
+                    'type' => 'DATETIME',
+                    'null' => true,
+                ],
+                'appointment' => [
+                    'type' => 'INT',
+                    'constraint' => 11,
+                ],
+                'subservice' => [
+                    'type' => 'INT',
+                    'constraint' => 11,
+                ],
+            ]);
 
-            $this->dbforge->add_column('services', $fields);
+            $this->dbforge->add_key('appointment', true);
+            $this->dbforge->add_key('subservice', true);
+            // Also create seperate indexes
+            $this->dbforge->add_key('appointment');
+            $this->dbforge->add_key('subservice');
+
+            $this->dbforge->create_table('appointments_subservices', true, ['engine' => 'InnoDB']);
+
+            $this->db->query(
+                'ALTER TABLE `' .
+                    $this->db->dbprefix('appointments_subservices') .
+                    '`
+                ADD CONSTRAINT `subservice_service` FOREIGN KEY (`subservice`) REFERENCES `' .
+                    $this->db->dbprefix('services') .
+                    '` (`id`)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE,
+
+                ADD CONSTRAINT `appointment_appointments` FOREIGN KEY (`appointment`) REFERENCES `' .
+                    $this->db->dbprefix('appointments') .
+                    '` (`id`)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE',
+            );
         }
+
     }
 
     /**
@@ -83,21 +117,30 @@ class Migration_Add_Sub_Services extends EA_Migration
      */
     public function down(): void
     {
-        $this->db->query(
-            'ALTER TABLE `' . $this->db->dbprefix('subservices') . '` DROP FOREIGN KEY `subservice_subservice`',
-        );
-        $this->db->query(
-            'ALTER TABLE `' . $this->db->dbprefix('subservices') . '` DROP FOREIGN KEY `subservice_service`',
-        );
-
-        if ($this->db->field_exists('is_subservice', 'services')) {
-            $this->dbforge->drop_column('services', 'is_subservice');
-        }
-
+        
         if ($this->db->table_exists('subservices')) {
+
+            $this->db->query(
+                'ALTER TABLE `' . $this->db->dbprefix('subservices') . '` DROP FOREIGN KEY `subservice_subservice`',
+            );
+            $this->db->query(
+                'ALTER TABLE `' . $this->db->dbprefix('subservices') . '` DROP FOREIGN KEY `subservice_service`',
+            );
+            
             $this->dbforge->drop_table('subservices');
         }
 
+        if ($this->db->table_exists('appointments_subservices')) {
+
+            $this->db->query(
+                'ALTER TABLE `' . $this->db->dbprefix('appointments_subservices') . '` DROP FOREIGN KEY `appointment_appointments`',
+            );
+            $this->db->query(
+                'ALTER TABLE `' . $this->db->dbprefix('appointments_subservices') . '` DROP FOREIGN KEY `subservice_service`',
+            );
+            
+            $this->dbforge->drop_table('appointments_subservices');
+        }
         
     }
 }

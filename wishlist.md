@@ -4,15 +4,15 @@ Some stuff I'd like to change so this system is usable in my situation.
 
 ## Must haves
 
-- [ ] Subservices (see branch add_subservices)
-- [ ] Cards for services (see branch add_subservices)
+- [x] Subservices (see branch add_subservices)
+- [x] Cards for services (see branch add_subservices)
 
 ## Should haves
 
 - [x] Date of birth for clients
 - [ ] Delete button on appointments modal
 - [x] ~~Extra info field for booking~~ (Was existing option)
-- [ ] Total price and duration stored in appointment
+- [x] Total price stored in appointment
 
 ## Want to haves
 
@@ -22,6 +22,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [ ] Customer info linked to cookie
 - [ ] Switch between card and classic booking layout
 - [ ] Clean up IDE warnings
+- [ ] Customer info linked to cookie
 
 ## Could haves
 

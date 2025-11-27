@@ -46,7 +46,7 @@ App.Http.Booking = (function () {
         $availableHours.empty();
 
         // Find the selected service duration (it is going to be send within the "data" object).
-        const serviceId = $selectService.val();
+        const serviceId = App.Pages.Booking.getSelectedService();
 
         // Default value of duration (in minutes).
         let serviceDuration = 15;
@@ -55,9 +55,7 @@ App.Http.Booking = (function () {
             (availableService) => Number(availableService.id) === Number(serviceId),
         );
 
-        if (service) {
-            serviceDuration = service.duration;
-        }
+        serviceDuration = App.Pages.Booking.getTotalDuration();
 
         // If the manage mode is true then the appointment's start date should return as available too.
         const appointmentId = vars('manage_mode') ? vars('appointment_data').id : null;
@@ -67,7 +65,7 @@ App.Http.Booking = (function () {
 
         const data = {
             csrf_token: vars('csrf_token'),
-            service_id: $selectService.val(),
+            service_id: serviceId,
             provider_id: $selectProvider.val(),
             selected_date: selectedDate,
             service_duration: serviceDuration,
@@ -258,6 +256,7 @@ App.Http.Booking = (function () {
             csrf_token: vars('csrf_token'),
             manage_mode: Number(App.Pages.Booking.manageMode),
             appointment_id: appointmentId,
+            total_duration: Number(App.Pages.Booking.getTotalDuration()),
         };
 
         $.ajax({

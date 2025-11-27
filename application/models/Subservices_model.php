@@ -46,7 +46,7 @@ class Subservices_model extends Services_model {
         $services = $this->db
             ->distinct()
             ->select(
-                's1.*, "" AS service_category_name, 0 AS service_category_id, sub.service as parentservice',
+                's1.*, 1 AS is_subservice, "" AS service_category_name, 0 AS service_category_id, sub.service as parentservice',
             )
             ->from('services s1')
             ->join('subservices sub', 'sub.subservice = s1.id','inner')

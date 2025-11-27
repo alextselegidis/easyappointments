@@ -41,8 +41,26 @@ window.App.Utils.String = (function () {
         return $('<div/>').text(content).html();
     }
 
+    /**
+     * 
+     * @param {string|number} price 
+     * @param {string} curr 
+     */
+    function formatPrice(price) {
+        result = (Math.round(Number(price) * 100) / 100).toFixed(2);
+        return (''+result).replace('.',',');
+    }
+
+    function deformatPrice(price) {
+        return Number((''+price).replace(',','.'));
+    }
+
     return {
         upperCaseFirstLetter,
         escapeHtml,
+        formatPrice,
+        deformatPrice,
     };
+
+    
 })();

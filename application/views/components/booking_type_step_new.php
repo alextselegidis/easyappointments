@@ -8,7 +8,6 @@
  */
 ?>
 <div id="data-island" style="visibility: hidden;">
-    <input id="selectedCategory"/>
     <input id="selectedService"/>
     <input id="selectedProvider"/>
 </div>
@@ -42,7 +41,7 @@
                             $grouped_services[ $group_name ]['services'][] = $service;
                         }
 
-                        // Check if there are categoriesother then 'uncategorized'
+                        // Check if there are categories other then 'uncategorized'
                         if (count($grouped_services) > 1) 
                         {
 						    ?>
@@ -107,7 +106,7 @@
                     <div class="services-group subservices-group entity-group container" hidden>
                         <p> 
                             <span class="btn btn-back rounded-pill"><i class="fas fa-angles-left"></i></span>
-                            <span class="booking-group-title">Extraatjes</span>
+                            <span class="booking-group-title"><?= lang('subservices'); ?></span>
                         </p>
                     <div class="row justify-content-left row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
                     <?php
