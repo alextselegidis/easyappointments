@@ -280,7 +280,7 @@
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <div class="col-sm-6">
                                     <div class="form-group mb-5">
-                                        <label for="first-name" class="form-label">
+                                        <label for="custom-field-<?= $i ?>" class="form-label">
                                             <?= lang('custom_field') ?> #<?= $i ?>
                                             <span class="text-danger">*</span>
                                         </label>
