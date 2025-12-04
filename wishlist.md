@@ -6,6 +6,8 @@ Some stuff I'd like to change so this system is usable in my situation.
 
 - [x] Subservices (see branch add_subservices)
 - [x] Cards for services (see branch add_subservices)
+- [ ] Merge booking_new.js into booking.js
+- [ ] Merge booking_type_step_new.php into booking_type_step.php
 
 ## Should haves
 
