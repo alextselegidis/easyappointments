@@ -10,7 +10,6 @@
  * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
-
 /**
  * Booking controller.
  *
@@ -142,6 +141,17 @@ class Booking extends EA_Controller
         $available_subservices = $this->subservices_model->get_available_subservices(true);
         $available_providers = $this->providers_model->get_available_providers(true);
 		$available_categories = $this->service_categories_model->get_id_key();
+		$loggedin_user = null;
+        if (isset($_COOKIE[config_item('cust_cookie_name')])) {
+			$cookie = explode('__',$_COOKIE[ config_item( 'cust_cookie_name' ) ],2);
+
+            // $customer_id.'__'.hash('sha256',$customer['email']),
+    		$uid = intval( $cookie[0] );
+			$tst_user = $this->customers_model->find( $uid );
+            if ($cookie[1] == hash('sha256',$tst_user['email'])) {
+				$loggedin_user = $tst_user;
+            }
+        }
 
         foreach ($available_providers as &$available_provider) {
             // Only expose the required provider data.
@@ -277,6 +287,7 @@ class Booking extends EA_Controller
             'customer_token' => $customer_token,
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
+            'loggedin_user' => $loggedin_user,
         ]);
 
         html_vars([
@@ -327,6 +338,7 @@ class Booking extends EA_Controller
             'appointment_data' => $appointment,
             'provider_data' => $provider,
             'customer_data' => $customer,
+            'loggedin_user' => $loggedin_user,
         ]);
 
         $this->load->view('pages/booking');
@@ -338,7 +350,8 @@ class Booking extends EA_Controller
     public function register(): void
     {
         try {
-            $disable_booking = setting('disable_booking');
+
+			$disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
                 abort(403);
@@ -444,19 +457,33 @@ class Booking extends EA_Controller
             $customer['language'] = session('language') ?? config('language');
 
             // Don't delete existing values
-            $old_customer = $this->customers_model->find( $customer['id'] );
-            if ($old_customer) {
-                foreach(array_keys($old_customer) as $key) {
-                    if ((!isset($customer[$key])) || ($customer[$key] == null) || (strlen(trim($customer[$key])) < 1 )) {
-            			$customer[ $key ] = $old_customer[ $key ];
-                    }
-                }
-            }
+			if ( isset( $customer['id'] ) ) {
+				$old_customer = $this->customers_model->find( $customer['id'] );
+				if ( $old_customer ) {
+					foreach ( array_keys( $old_customer ) as $key ) {
+						if ( ( ! isset( $customer[ $key ] ) ) || ( $customer[ $key ] == null ) || ( strlen( trim( $customer[ $key ] ) ) < 1 ) ) {
+							$customer[ $key ] = $old_customer[ $key ];
+						}
+					}
+				}
+			}
+
+			$store_cust_cookie = isset( $customer['save_info'] ) && ( $customer['save_info'] == 'true' );
 
             $this->customers_model->only($customer, $this->allowed_customer_fields);
 
             $customer_id = $this->customers_model->save($customer);
             $customer = $this->customers_model->find($customer_id);
+
+            if ($store_cust_cookie) {
+                get_instance()->load->helper( 'cookie' );
+
+                set_cookie(
+                    config_item('cust_cookie_name'),
+                    $customer_id.'__'.hash('sha256',$customer['email']),
+                    config_item('cust_cookie_expire'),
+                );
+            }
 
             $appointment['id_users_customer'] = $customer_id;
             $appointment['is_unavailability'] = false;
@@ -497,7 +524,7 @@ class Booking extends EA_Controller
                 $manage_mode,
             );
 
-            $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
+			$this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
 
             $response = [
                 'appointment_id' => $appointment['id'],

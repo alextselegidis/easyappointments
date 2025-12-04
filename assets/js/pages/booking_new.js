@@ -419,6 +419,25 @@ App.Pages.Booking = (function () {
                     .fadeIn();
             }
 
+            const loggedInUser = vars('loggedin_user');
+            if (loggedInUser) {
+                setField('#first-name', loggedInUser.first_name);
+                setField('#last-name', loggedInUser.last_name);
+                setField('#email', loggedInUser.email);
+                setField('#phone-number', loggedInUser.phone_number);
+                setField('#address', loggedInUser.address);
+                setField('#city', loggedInUser.city);
+                setField('#zip-code', loggedInUser.zip_code);
+                setField('#date-of-birth', loggedInUser.date_of_birth, 'DATE');
+                setField('#notes', loggedInUser.notes);
+                setField('#custom_field_1', loggedInUser.custom_field_1);
+                setField('#custom_field_2', loggedInUser.custom_field_2);
+                setField('#custom_field_3', loggedInUser.custom_field_3);
+                setField('#custom_field_4', loggedInUser.custom_field_4);
+                setField('#custom_field_5', loggedInUser.custom_field_5);
+                setField('#save-cust-info', true, 'BOOL');
+            }
+
             prefillFromQueryParam('#first-name', 'first_name');
             prefillFromQueryParam('#last-name', 'last_name');
             prefillFromQueryParam('#email', 'email');
@@ -426,17 +445,38 @@ App.Pages.Booking = (function () {
             prefillFromQueryParam('#address', 'address');
             prefillFromQueryParam('#city', 'city');
             prefillFromQueryParam('#zip-code', 'zip');
+            prefillFromQueryParam('#date-of-birth', 'dob');
         }
     }
 
-    function prefillFromQueryParam(field, param) {
+    function setField(field, value, format = 'default') {
         const $target = $(field);
 
         if (!$target.length) {
             return;
         }
+        switch (format) {
+            case 'DATE':
+                value = App.Utils.Date.format(value, 'DMY');
+                break;
+            case 'BOOL':
+                $target.prop('checked', value);
+                return;
+            default:
+                // Do nothing
+                break;
+        }
+        $target.val(value);
+    }
 
-        $target.val(App.Utils.Url.queryParam(param));
+    function prefillFromQueryParam(field, param) {
+        const val = App.Utils.Url.queryParam(param); 
+
+        if (!val || !val.length) {
+            return;
+        }
+
+        setField(field, val);
     }
 
     /**
@@ -539,10 +579,6 @@ App.Pages.Booking = (function () {
      * Add the page event listeners.
      */
     function addEventListeners() {
-        $('#test-button').on('click', () => {
-            const selectedSubservices = getSelectedSubServices();
-            alert('Selected subservices: ' + selectedSubservices.join(', '));
-        });
         /**
          * Event: Timezone "Changed"
          */
@@ -1062,6 +1098,7 @@ App.Pages.Booking = (function () {
             custom_field_3: $customField3.val(),
             custom_field_4: $customField4.val(),
             custom_field_5: $customField5.val(),
+            save_info: $('#save-cust-info').prop('checked'),
         };
 
         data.appointment = {

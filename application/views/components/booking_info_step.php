@@ -85,6 +85,25 @@
 
                 <?php component('custom_fields'); ?>
 
+                <?php if ($display_notes): ?>
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">
+                            <?= lang('notes') ?>
+                            <?php if ($require_notes): ?>
+                                <span class="text-danger">*</span>
+                            <?php endif; ?>
+                        </label>
+                        <textarea id="notes" maxlength="500"
+                                  class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
+                    </div>
+                <?php endif; ?>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="save-cust-info"/>
+                    <label class="form-check-label" for=""save-cust-info>
+                        Informatie opslaan voor volgende keer
+                    </label>
+                </div>
+
             </div>
 
             <div class="col-12 col-lg-6 field-col mx-auto">
@@ -136,18 +155,7 @@
                                maxlength="120"/>
                     </div>
                 <?php endif; ?>
-                <?php if ($display_notes): ?>
-                    <div class="mb-3">
-                        <label for="notes" class="form-label">
-                            <?= lang('notes') ?>
-                            <?php if ($require_notes): ?>
-                                <span class="text-danger">*</span>
-                            <?php endif; ?>
-                        </label>
-                        <textarea id="notes" maxlength="500"
-                                  class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
-                    </div>
-                <?php endif; ?>
+                
 
             </div>
 
