@@ -122,7 +122,7 @@ class Booking extends EA_Controller
 
             html_vars([
                 'show_message' => true,
-                'page_title' => lang('page_title') . ' ' . $company_name,
+                'page_title' => lang('page_title') . ' ' . e($company_name),
                 'message_title' => lang('booking_is_disabled'),
                 'message_text' => $disable_booking_message,
                 'message_icon' => base_url('assets/img/error.png'),
