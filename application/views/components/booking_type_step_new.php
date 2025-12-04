@@ -11,7 +11,7 @@
     <input id="selectedService"/>
     <input id="selectedProvider"/>
 </div>
-<button type="button" id="test-button" class="btn btn-secondary">Test</button>
+
 <div id="wizard-frame-1" class="wizard-frame" style="visibility: hidden;">
     
     <div class="frame-container">

@@ -46,6 +46,7 @@
     'require_notes' => vars('require_notes'),
     'display_date_of_birth' => vars('display_date_of_birth'),
     'require_date_of_birth' => vars('require_date_of_birth'),
+    'loggedin_user' => vars('loggedin_user'),
 ]); ?>
 
 <!-- Appointment Data Confirmation -->

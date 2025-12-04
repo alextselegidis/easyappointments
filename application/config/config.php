@@ -475,5 +475,7 @@ $config['proxy_ips'] = '';
 */
 $config['rate_limiting'] = TRUE;
 
+$config['cust_cookie_name'] = 'ea_cust_cookie';
+$config['cust_cookie_expire'] = 31556926; // 31556926 seconds = 1 year
 /* End of file config.php */
 /* Location: ./application/config/config.php */
