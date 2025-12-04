@@ -31,10 +31,12 @@ class Captcha extends EA_Controller
     }
 
     /**
-     * Make a request to this method to get a captcha image.
+     * Make a page request to this method in order to output a fresh captcha image.
      */
     public function index(): void
     {
+        method('get');
+
         $this->captcha_builder->setDistortion(true);
         $this->captcha_builder->setMaxBehindLines(1);
         $this->captcha_builder->setMaxFrontLines(1);

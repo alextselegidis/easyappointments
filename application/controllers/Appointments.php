@@ -65,6 +65,8 @@ class Appointments extends EA_Controller
      */
     public function index(string $appointment_hash = ''): void
     {
+        method('get');
+
         redirect('booking/' . $appointment_hash);
     }
 
@@ -74,6 +76,8 @@ class Appointments extends EA_Controller
     public function search(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -127,6 +131,8 @@ class Appointments extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -158,6 +164,8 @@ class Appointments extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -178,6 +186,8 @@ class Appointments extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -205,6 +215,8 @@ class Appointments extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }

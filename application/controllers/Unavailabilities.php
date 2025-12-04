@@ -55,6 +55,8 @@ class Unavailabilities extends EA_Controller
     public function search(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -108,6 +110,8 @@ class Unavailabilities extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -143,6 +147,8 @@ class Unavailabilities extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -158,11 +164,13 @@ class Unavailabilities extends EA_Controller
     }
 
     /**
-     * Update a unavailability.
+     * Update an unavailability.
      */
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
@@ -193,11 +201,13 @@ class Unavailabilities extends EA_Controller
     }
 
     /**
-     * Remove a unavailability.
+     * Remove an unavailability.
      */
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }

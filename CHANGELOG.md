@@ -5,6 +5,10 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Added
+
+- Added request method check on each request so that only allowed methods are accepted (-)
+
 ### Changed
 
 - Make the phone number field of backend users optional (#1709)

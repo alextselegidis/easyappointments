@@ -41,6 +41,8 @@ class Installation extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         if (is_app_installed()) {
             redirect();
             return;
@@ -57,6 +59,8 @@ class Installation extends EA_Controller
     public function perform(): void
     {
         try {
+            method('post');
+
             if (is_app_installed()) {
                 return;
             }

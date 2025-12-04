@@ -108,6 +108,8 @@ class Calendar extends EA_Controller
      */
     public function index(string $appointment_hash = ''): void
     {
+        method('get');
+
         session([
             'dest_url' => site_url('calendar/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : '')),
         ]);
@@ -226,6 +228,8 @@ class Calendar extends EA_Controller
     public function save_appointment(): void
     {
         try {
+            method('post');
+
             $customer_data = request('customer_data');
 
             $appointment_data = request('appointment_data');
@@ -351,6 +355,8 @@ class Calendar extends EA_Controller
     public function delete_appointment(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', 'appointments')) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
@@ -413,6 +419,7 @@ class Calendar extends EA_Controller
     public function save_unavailability(): void
     {
         try {
+            method('post');
             // Check privileges
             $unavailability = request('unavailability');
 
@@ -452,6 +459,7 @@ class Calendar extends EA_Controller
      */
     public function delete_unavailability(): void
     {
+        method('post');
         try {
             if (cannot('delete', PRIV_APPOINTMENTS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
@@ -485,6 +493,7 @@ class Calendar extends EA_Controller
     public function save_working_plan_exception(): void
     {
         try {
+            method('post');
             if (cannot('edit', PRIV_USERS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
@@ -521,7 +530,7 @@ class Calendar extends EA_Controller
     public function delete_working_plan_exception(): void
     {
         try {
-            $required_permissions = can('edit', PRIV_CUSTOMERS);
+            method('post');
 
             if (!$required_permissions) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
@@ -548,6 +557,7 @@ class Calendar extends EA_Controller
      */
     public function get_calendar_appointments_for_table_view(): void
     {
+        method('get');
         try {
             $required_permissions = can('view', PRIV_APPOINTMENTS);
 
@@ -647,6 +657,7 @@ class Calendar extends EA_Controller
      */
     public function get_calendar_appointments(): void
     {
+        method('get');
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');

@@ -38,6 +38,8 @@ class General_settings extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('general_settings')]);
 
         $user_id = session('user_id');
@@ -84,6 +86,8 @@ class General_settings extends EA_Controller
     public function save(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
@@ -91,11 +95,7 @@ class General_settings extends EA_Controller
             $settings = request('general_settings', []);
 
             foreach ($settings as $setting) {
-                $existing_setting = $this->settings_model
-                    ->query()
-                    ->where('name', $setting['name'])
-                    ->get()
-                    ->row_array();
+                $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
 
                 if (!empty($existing_setting)) {
                     $setting['id'] = $existing_setting['id'];

@@ -349,6 +349,8 @@ class Google extends EA_Controller
     public function get_google_calendars(): void
     {
         try {
+            method('get');
+
             $provider_id = (int) request('provider_id');
 
             if (empty($provider_id)) {
@@ -386,6 +388,8 @@ class Google extends EA_Controller
     public function select_google_calendar(): void
     {
         try {
+            method('post');
+
             $provider_id = request('provider_id');
 
             $user_id = session('user_id');
@@ -416,6 +420,8 @@ class Google extends EA_Controller
     public function disable_provider_sync(): void
     {
         try {
+            method('post');
+
             $provider_id = request('provider_id');
 
             if (!$provider_id) {

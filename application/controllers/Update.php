@@ -48,6 +48,8 @@ class Update extends EA_Controller
     public function index(): void
     {
         try {
+            method('get');
+
             $user_id = session('user_id');
 
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {

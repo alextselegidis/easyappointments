@@ -24,12 +24,14 @@ class Localization extends EA_Controller
      * Change system language for current user.
      *
      * The language setting is stored in session data and retrieved every time the user visits any of the system pages.
-     *
-     * Notice: This method used to be in the Backend_api.php.
+    /**
+     * Change the language of the user.
      */
     public function change_language(): void
     {
         try {
+            method('post');
+
             // Check if language exists in the available languages.
             $language = request('language');
 

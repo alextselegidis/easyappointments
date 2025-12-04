@@ -36,6 +36,8 @@ class Recovery extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         $company_name = setting('company_name');
 
         html_vars([
@@ -53,6 +55,8 @@ class Recovery extends EA_Controller
     public function perform(): void
     {
         try {
+            method('post');
+
             $username = request('username');
 
             if (empty($username)) {

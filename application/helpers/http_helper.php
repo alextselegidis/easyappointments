@@ -199,3 +199,30 @@ if (!function_exists('trace')) {
         return var_export($filtered_trace, true);
     }
 }
+
+if (!function_exists('method')) {
+    /**
+     * Ensure the HTTP request method matches the expected method.
+     *
+     * Example:
+     *
+     * method('POST'); // Throws an exception if the request method is not POST
+     *
+     * @param string $expected_method The expected HTTP method (GET, POST, PUT, DELETE, etc.)
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     */
+    function method(string $expected_method): void
+    {
+        /** @var EA_Controller $CI */
+        $CI = &get_instance();
+
+        $current_method = $CI->input->method();
+
+        if (strtoupper($current_method) !== strtoupper($expected_method)) {
+            throw new RuntimeException("Method not allowed. Expected {$expected_method}, got {$current_method}.");
+        }
+    }
+}

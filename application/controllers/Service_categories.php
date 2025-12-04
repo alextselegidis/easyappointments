@@ -40,13 +40,15 @@ class Service_categories extends EA_Controller
     }
 
     /**
-     * Render the backend service-categories page.
+     * Render the backend service categories page.
      *
-     * On this page admin users will be able to manage service-categories, which are eventually selected by customers during the
+     * On this page admin users will be able to manage service categories, which are eventually selected by customers during the
      * booking process.
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('service_categories')]);
 
         $user_id = session('user_id');
@@ -80,11 +82,13 @@ class Service_categories extends EA_Controller
     }
 
     /**
-     * Filter service-categories by the provided keyword.
+     * Filter service categories by the provided keyword.
      */
     public function search(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -111,6 +115,8 @@ class Service_categories extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -142,6 +148,8 @@ class Service_categories extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -162,6 +170,8 @@ class Service_categories extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -193,6 +203,8 @@ class Service_categories extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }

@@ -71,6 +71,8 @@ class Customers extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('customers')]);
 
         $user_id = session('user_id');
@@ -142,6 +144,8 @@ class Customers extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
@@ -168,6 +172,8 @@ class Customers extends EA_Controller
     public function search(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
@@ -212,6 +218,8 @@ class Customers extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
@@ -247,6 +255,8 @@ class Customers extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
@@ -284,6 +294,8 @@ class Customers extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }

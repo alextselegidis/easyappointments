@@ -73,6 +73,8 @@ class Account extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('account')]);
 
         $user_id = session('user_id');
@@ -109,6 +111,8 @@ class Account extends EA_Controller
     public function save(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_USER_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
@@ -150,6 +154,8 @@ class Account extends EA_Controller
     public function validate_username(): void
     {
         try {
+            method('post');
+
             $username = request('username');
 
             $user_id = request('user_id');

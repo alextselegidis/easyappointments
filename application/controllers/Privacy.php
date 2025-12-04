@@ -31,11 +31,13 @@ class Privacy extends EA_Controller
     }
 
     /**
-     * Remove all customer data (including appointments) from the system.
+     * Remove a customer's personal information from the system.
      */
     public function delete_personal_information(): void
     {
         try {
+            method('post');
+
             $display_delete_personal_information = setting('display_delete_personal_information');
 
             if (!$display_delete_personal_information) {

@@ -41,6 +41,8 @@ class Login extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         if (session('user_id')) {
             redirect('calendar');
             return;
@@ -62,6 +64,8 @@ class Login extends EA_Controller
     public function validate(): void
     {
         try {
+            method('post');
+
             $username = request('username');
 
             if (empty($username)) {

@@ -87,6 +87,8 @@ class Providers extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('providers')]);
 
         $user_id = session('user_id');
@@ -141,6 +143,8 @@ class Providers extends EA_Controller
     public function search(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
@@ -167,6 +171,8 @@ class Providers extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
@@ -202,6 +208,8 @@ class Providers extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
@@ -222,6 +230,8 @@ class Providers extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
@@ -257,6 +267,8 @@ class Providers extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }

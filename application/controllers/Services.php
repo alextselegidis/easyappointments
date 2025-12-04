@@ -61,6 +61,8 @@ class Services extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('services')]);
 
         $user_id = session('user_id');
@@ -100,6 +102,8 @@ class Services extends EA_Controller
     public function search(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -126,6 +130,8 @@ class Services extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -157,7 +163,9 @@ class Services extends EA_Controller
     public function find(): void
     {
         try {
-            if (cannot('delete', PRIV_SERVICES)) {
+            method('get');
+
+            if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
@@ -177,6 +185,8 @@ class Services extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
@@ -208,6 +218,8 @@ class Services extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }

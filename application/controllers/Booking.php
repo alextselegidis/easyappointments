@@ -96,11 +96,13 @@ class Booking extends EA_Controller
 
     /**
      * Render the booking page.
-     *
-     * This method creates the appointment book wizard.
+    /**
+     * Render the booking page.
      */
     public function index(): void
     {
+        method('get');
+
         if (!is_app_installed()) {
             redirect('installation');
 
@@ -324,6 +326,8 @@ class Booking extends EA_Controller
     public function register(): void
     {
         try {
+            method('post');
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -596,6 +600,8 @@ class Booking extends EA_Controller
     public function get_available_hours(): void
     {
         try {
+            method('get');
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -667,7 +673,7 @@ class Booking extends EA_Controller
     }
 
     /**
-     * Get Unavailable Dates
+     * Get the available appointment dates for the selected date period.
      *
      * Get an array with the available dates of a specific provider, service and month of the year. Provide the
      * "provider_id", "service_id" and "selected_date" as GET parameters to the request. The "selected_date" parameter
@@ -678,6 +684,8 @@ class Booking extends EA_Controller
     public function get_unavailable_dates(): void
     {
         try {
+            method('get');
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
