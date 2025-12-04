@@ -600,7 +600,7 @@ class Booking extends EA_Controller
     public function get_available_hours(): void
     {
         try {
-            method('get');
+            method('post');
 
             $disable_booking = setting('disable_booking');
 
