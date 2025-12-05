@@ -9,175 +9,339 @@
  * @since       v1.5.0
  * ---------------------------------------------------------------------------- */
 
-// Lux 5.3.7
-// Bootswatch
+// Apple Glass Design Theme
+// Inspired by macOS/iOS glassmorphism
 
-$theme: 'lux' !default;
+$theme: 'glass' !default;
 
 //
 // Color system
 //
 
 $white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #f0f1f2 !default;
-$gray-300: #e0e1e2 !default;
-$gray-400: #cdcecf !default;
-$gray-500: #adb5bd !default;
-$gray-600: #919aa1 !default;
-$gray-700: #55595c !default;
-$gray-800: #343a40 !default;
-$gray-900: #1a1a1a !default;
+$gray-100: #fbfbfd !default;
+$gray-200: #f5f5f7 !default;
+$gray-300: #e8e8ed !default;
+$gray-400: #d2d2d7 !default;
+$gray-500: #86868b !default;
+$gray-600: #6e6e73 !default;
+$gray-700: #424245 !default;
+$gray-800: #2d2d2d !default;
+$gray-900: #1d1d1f !default;
 $black: #000 !default;
 
-$blue: #007bff !default;
-$indigo: #6610f2 !default;
-$purple: #6f42c1 !default;
-$pink: #e83e8c !default;
-$red: #d9534f !default;
-$orange: #fd7e14 !default;
-$yellow: #f0ad4e !default;
-$green: #4bbf73 !default;
-$teal: #20c997 !default;
-$cyan: #1f9bcf !default;
+// Apple-inspired colors
+$blue: #007aff !default;
+$indigo: #5856d6 !default;
+$purple: #af52de !default;
+$pink: #ff2d55 !default;
+$red: #ff3b30 !default;
+$orange: #ff9500 !default;
+$yellow: #ffcc00 !default;
+$green: #34c759 !default;
+$teal: #5ac8fa !default;
+$cyan: #32ade6 !default;
 
-$primary: #439982 !default;
-$secondary: $white !default;
+$primary: #429a82 !default;
+$secondary: $gray-200 !default;
 $success: $green !default;
-$info: $cyan !default;
-$warning: $yellow !default;
+$info: $teal !default;
+$warning: $orange !default;
 $danger: $red !default;
 $light: $gray-100 !default;
-$dark: $gray-800 !default;
+$dark: $gray-900 !default;
 
-$min-contrast-ratio: 1.9 !default;
+$min-contrast-ratio: 2.5 !default;
 
-// Options
+// Options - Enable rounded corners for glass effect
 
-$enable-rounded: false !default;
+$enable-rounded: true !default;
+$enable-shadows: true !default;
+$enable-gradients: false !default;
+
+// Border radius - Larger, softer corners like Apple
+
+$border-radius: 0.75rem !default;
+$border-radius-sm: 0.5rem !default;
+$border-radius-lg: 1rem !default;
+$border-radius-xl: 1.25rem !default;
+$border-radius-xxl: 1.5rem !default;
+$border-radius-pill: 50rem !default;
 
 // Body
 
-$body-color: $gray-700 !default;
+$body-bg: $white !default;
+$body-color: $gray-900 !default;
 
-// Fonts
+// Fonts - Apple SF Pro inspired
 
 // stylelint-disable-next-line value-keyword-case
 $font-family-sans-serif:
-    'Nunito Sans',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif,
-    'Apple Color Emoji',
-    'Segoe UI Emoji',
-    'Segoe UI Symbol' !default;
+    -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol' !default;
 
-$font-weight-lighter: lighter !default;
-$font-weight-light: 200 !default;
-$font-weight-normal: 300 !default;
-$font-weight-medium: 400 !default;
-$font-weight-semibold: 500 !default;
-$font-weight-bold: 600 !default;
-$font-weight-bolder: bolder !default;
+$font-weight-lighter: 200 !default;
+$font-weight-light: 300 !default;
+$font-weight-normal: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-semibold: 600 !default;
+$font-weight-bold: 700 !default;
+$font-weight-bolder: 800 !default;
 
-$h1-font-size: 2rem !default;
-$h2-font-size: 1.75rem !default;
+$font-size-base: 1rem !default;
+$font-size-sm: 0.875rem !default;
+$font-size-lg: 1.125rem !default;
+
+$h1-font-size: 2.5rem !default;
+$h2-font-size: 2rem !default;
 $h3-font-size: 1.5rem !default;
 $h4-font-size: 1.25rem !default;
 $h5-font-size: 1rem !default;
-$h6-font-size: 0.75rem !default;
+$h6-font-size: 0.875rem !default;
 $headings-font-weight: 600 !default;
-$headings-color: $gray-900 !default;
+$headings-color: $gray-800 !default;
+$headings-line-height: 1.2 !default;
+
+// Shadows - Soft, layered Apple-style shadows
+
+$box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.05),
+    0 2px 4px -1px rgba(0, 0, 0, 0.03) !default;
+$box-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03) !default;
+$box-shadow-lg:
+    0 20px 25px -5px rgba(0, 0, 0, 0.08),
+    0 10px 10px -5px rgba(0, 0, 0, 0.02) !default;
+$box-shadow-inset: inset 0 1px 2px rgba(0, 0, 0, 0.05) !default;
 
 // Tables
 
-$table-color: initial !default;
+$table-color: $gray-900 !default;
+$table-bg: transparent !default;
+$table-striped-bg: rgba($gray-500, 0.03) !default;
+$table-hover-bg: rgba($gray-500, 0.05) !default;
+$table-border-color: rgba(0, 0, 0, 0.06) !default;
+$table-cell-padding-y: 1rem !default;
+$table-cell-padding-x: 1rem !default;
 
-$table-border-color: rgba(0, 0, 0, 0.05) !default;
+// Buttons + Forms - Rounded, soft appearance
 
-// Buttons + Forms
+$btn-padding-y: 0.625rem !default;
+$btn-padding-x: 1.25rem !default;
+$btn-font-size: 0.9375rem !default;
+$btn-line-height: 1.5 !default;
+$btn-font-weight: 500 !default;
+$btn-border-radius: 0.625rem !default;
+$btn-border-radius-sm: 0.5rem !default;
+$btn-border-radius-lg: 0.75rem !default;
 
-// Buttons
+$btn-padding-y-sm: 0.375rem !default;
+$btn-padding-x-sm: 0.875rem !default;
+$btn-padding-y-lg: 0.875rem !default;
+$btn-padding-x-lg: 1.5rem !default;
 
-$btn-line-height: 1.5rem !default;
-$input-btn-padding-y: 0.75rem !default;
-$input-btn-padding-x: 1.5rem !default;
-$input-btn-padding-y-sm: 0.5rem !default;
-$input-btn-padding-x-sm: 1rem !default;
-$input-btn-padding-y-lg: 2rem !default;
-$input-btn-padding-x-lg: 2rem !default;
-$btn-font-weight: 600 !default;
+$btn-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !default;
+$btn-focus-box-shadow: 0 0 0 3px rgba($primary, 0.25) !default;
 
-// Forms
+// Forms - Clean, minimal inputs
 
+$input-padding-y: 0.625rem !default;
+$input-padding-x: 0.875rem !default;
+$input-font-size: 1rem !default;
 $input-line-height: 1.5 !default;
-$input-bg: $gray-200 !default;
-$input-disabled-bg: $gray-300 !default;
-$input-group-addon-bg: $gray-300 !default;
+$input-bg: $white !default;
+$input-disabled-bg: $gray-100 !default;
+$input-border-color: $gray-300 !default;
+$input-border-width: 1px !default;
+$input-border-radius: 0.625rem !default;
+$input-border-radius-sm: 0.5rem !default;
+$input-border-radius-lg: 0.75rem !default;
+$input-focus-border-color: $primary !default;
+$input-focus-box-shadow: 0 0 0 3px rgba($primary, 0.15) !default;
+$input-placeholder-color: $gray-500 !default;
+$input-group-addon-bg: $gray-100 !default;
+$input-group-addon-border-color: $gray-300 !default;
 
+$form-select-border-radius: $input-border-radius !default;
 $form-select-disabled-color: $gray-600 !default;
 $form-select-disabled-bg: $input-disabled-bg !default;
 
-// Navbar
+$form-check-input-border-radius: 0.375rem !default;
 
-$navbar-padding-y: 1.5rem !default;
+// Navbar - Clean, minimal
+
+$navbar-padding-y: 1rem !default;
+$navbar-padding-x: 1.5rem !default;
+$navbar-nav-link-padding-x: 1rem !default;
+$navbar-brand-font-size: 1.125rem !default;
 $navbar-dark-hover-color: $white !default;
-$navbar-light-color: rgba($black, 0.3) !default;
+$navbar-light-color: $gray-600 !default;
 $navbar-light-hover-color: $gray-900 !default;
-$navbar-light-active-color: $gray-900 !default;
+$navbar-light-active-color: $primary !default;
+
+// Cards - Glass effect base
+
+$card-spacer-y: 1.25rem !default;
+$card-spacer-x: 1.5rem !default;
+$card-border-width: 1px !default;
+$card-border-color: rgba(0, 0, 0, 0.08) !default;
+$card-border-radius: 1rem !default;
+$card-box-shadow: $box-shadow !default;
+$card-cap-bg: transparent !default;
+$card-cap-padding-y: 1rem !default;
+$card-bg: rgba(255, 255, 255, 0.9) !default;
+
+// Modals - Floating glass panels
+
+$modal-content-border-width: 0 !default;
+$modal-content-border-radius: 1rem !default;
+$modal-content-box-shadow-xs: $box-shadow-lg !default;
+$modal-content-box-shadow-sm-up: $box-shadow-lg !default;
+$modal-backdrop-opacity: 0.3 !default;
+$modal-header-border-width: 0 !default;
+$modal-footer-border-width: 0 !default;
+$modal-header-padding-y: 1.25rem !default;
+$modal-header-padding-x: 1.5rem !default;
+
+// Dropdowns - Floating menus
+
+$dropdown-padding-y: 0.5rem !default;
+$dropdown-border-width: 0 !default;
+$dropdown-border-radius: 0.75rem !default;
+$dropdown-box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12) !default;
+$dropdown-link-hover-bg: $gray-100 !default;
+$dropdown-item-padding-y: 0.625rem !default;
+$dropdown-item-padding-x: 1rem !default;
 
 // Pagination
 
+$pagination-padding-y: 0.5rem !default;
+$pagination-padding-x: 0.875rem !default;
+$pagination-border-radius: 0.5rem !default;
+$pagination-border-width: 0 !default;
 $pagination-border-color: transparent !default;
-$pagination-hover-border-color: $pagination-border-color !default;
-$pagination-disabled-border-color: $pagination-border-color !default;
+$pagination-hover-bg: $gray-100 !default;
+$pagination-hover-border-color: transparent !default;
+$pagination-focus-box-shadow: 0 0 0 3px rgba($primary, 0.15) !default;
+$pagination-active-bg: $primary !default;
+$pagination-disabled-border-color: transparent !default;
 
-// Popovers
+// Tooltips & Popovers
 
+$tooltip-border-radius: 0.5rem !default;
+$tooltip-padding-y: 0.5rem !default;
+$tooltip-padding-x: 0.75rem !default;
+
+$popover-border-width: 0 !default;
+$popover-border-radius: 0.75rem !default;
+$popover-box-shadow: $box-shadow-lg !default;
 $popover-header-bg: transparent !default;
-$popover-header-color: var(--bs-popover-header-color) !default;
+$popover-header-color: $gray-900 !default;
+$popover-header-padding-y: 0.75rem !default;
 
 // Toasts
 
+$toast-border-width: 0 !default;
+$toast-border-radius: 0.75rem !default;
+$toast-box-shadow: $box-shadow-lg !default;
 $toast-header-background-color: transparent !default;
+
+// Badges - Pill shaped
+
+$badge-font-size: 0.75rem !default;
+$badge-font-weight: 500 !default;
+$badge-padding-y: 0.375rem !default;
+$badge-padding-x: 0.625rem !default;
+$badge-border-radius: 0.5rem !default;
+
+// Alerts
+
+$alert-border-radius: 0.75rem !default;
+$alert-border-width: 0 !default;
+$alert-padding-y: 1rem !default;
+$alert-padding-x: 1.25rem !default;
+
+// Progress bars
+
+$progress-height: 0.5rem !default;
+$progress-border-radius: 1rem !default;
+$progress-bg: $gray-200 !default;
+
+// List group
+
+$list-group-border-radius: 0.75rem !default;
+$list-group-item-padding-y: 0.875rem !default;
+$list-group-item-padding-x: 1.25rem !default;
+$list-group-hover-bg: $gray-100 !default;
+
+// Breadcrumbs
+
+$breadcrumb-divider-color: $gray-500 !default;
+$breadcrumb-active-color: $gray-900 !default;
+
+// Close button
+
+$btn-close-opacity: 0.4 !default;
+$btn-close-hover-opacity: 0.7 !default;
+
+// Transitions - Smooth Apple-like animations
+
+$transition-base: all 0.2s ease-in-out !default;
+$transition-fade: opacity 0.2s ease-in-out !default;
 
 @import '../../../node_modules/bootstrap/scss/bootstrap';
 
-// Bootswatch (Lux)
+// Apple Glass Design - Custom Styles
 
 // Variables
 
-// Hint: Use the following $var to load a custom font.
-// $web-font-path: "https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600&display=swap" !default;
-// @if $web-font-path {
-//     @import url($web-font-path);
-// }
+$glass-bg: rgba(255, 255, 255, 0.75) !default;
+$glass-bg-light: rgba(255, 255, 255, 0.6) !default;
+$glass-border: rgba(0, 0, 0, 0.08) !default;
+$glass-blur: 20px !default;
 
-// Navbar
+// Base styles
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(135deg, rgba($primary, 0.03) 0%, rgba($primary, 0.01) 100%);
+}
+
+// Headings - Clean, no uppercase
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    letter-spacing: -0.01em;
+    color: $gray-800;
+}
+
+// Text primary color fix
+.text-primary {
+    color: $primary !important;
+}
+
+// Navbar - Glass effect
 
 .navbar {
-    font-size: $font-size-sm;
-    text-transform: uppercase;
-    font-weight: 600;
-
-    &-nav {
-        .nav-link {
-            padding-top: 0.715rem;
-            padding-bottom: 0.715rem;
-        }
-    }
-
-    &-brand {
-        margin-right: 2rem;
-    }
+    backdrop-filter: saturate(180%) blur($glass-blur);
+    -webkit-backdrop-filter: saturate(180%) blur($glass-blur);
+    background: $glass-bg;
+    border-bottom: 1px solid $glass-border;
 }
 
 .bg-light {
-    border: 1px solid $gray-400 !important;
+    background: $glass-bg !important;
+    border: 1px solid $glass-border !important;
 
     &.navbar-fixed-top {
         border-width: 0 0 1px;
@@ -188,14 +352,23 @@ $toast-header-background-color: transparent !default;
     }
 }
 
-// Buttons
+// Buttons - Soft, rounded
 
 .btn {
-    font-size: $font-size-sm;
-    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0;
+    transition: all 0.2s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
 
     &-sm {
-        font-size: 10px;
+        font-size: $font-size-sm;
     }
 
     &-warning {
@@ -208,32 +381,44 @@ $toast-header-background-color: transparent !default;
     }
 }
 
+.btn-primary {
+    background: linear-gradient(180deg, lighten($primary, 5%) 0%, $primary 100%);
+    border: none;
+    box-shadow: 0 1px 3px rgba($primary, 0.3);
+
+    &:hover {
+        background: linear-gradient(180deg, $primary 0%, darken($primary, 5%) 100%);
+        box-shadow: 0 4px 12px rgba($primary, 0.35);
+    }
+}
+
 .btn-secondary {
-    //color: #45927d;
-    color: darken($primary, 5);
+    color: $primary;
+    background: $gray-100;
+    border: 1px solid $gray-300;
+
+    &:hover {
+        background: $gray-200;
+        border-color: $gray-400;
+        color: darken($primary, 10%);
+    }
 }
 
 .btn-outline-secondary {
-    background: none;
-    border-color: #777;
-    color: #777;
+    background: transparent;
+    border-color: $gray-400;
+    color: $gray-600;
 
     &:not([disabled]):not(.disabled):hover,
     &:not([disabled]):not(.disabled):focus,
     &:not([disabled]):not(.disabled):active {
-        background-color: $gray-400;
+        background-color: $gray-100;
         border-color: $gray-400;
-        color: $white;
+        color: $gray-900;
     }
 
     &:not([disabled]):not(.disabled):focus {
-        box-shadow: 0 0 0 0.2rem rgba($gray-400, 0.5);
-    }
-
-    &[disabled],
-    &.disabled {
-        color: $gray-400;
-        border-color: $gray-400;
+        box-shadow: 0 0 0 3px rgba($gray-500, 0.2);
     }
 }
 
@@ -242,71 +427,244 @@ $toast-header-background-color: transparent !default;
 }
 
 .border-secondary {
-    border: 1px solid $gray-400 !important;
+    border: 1px solid $gray-300 !important;
 }
 
-.btn-close {
-    opacity: 0.3;
+// Cards - Glass morphism
+
+.card {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.04),
+        0 1px 2px rgba(0, 0, 0, 0.02);
+
+    &-title,
+    &-header {
+        color: $gray-800;
+        font-weight: 600;
+    }
+
+    &-header {
+        background: rgba(255, 255, 255, 0.5);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    &-footer {
+        background: rgba(255, 255, 255, 0.5);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
 }
 
-// Typography
-
-body {
-    //font-weight: 200;
-    letter-spacing: 0.05rem;
+// Sidebar glass effect (if applicable)
+.sidebar,
+.offcanvas {
+    backdrop-filter: saturate(180%) blur($glass-blur);
+    -webkit-backdrop-filter: saturate(180%) blur($glass-blur);
+    background: $glass-bg !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    text-transform: uppercase;
-    letter-spacing: 3px;
-}
-
-.text-secondary {
-    color: $body-color !important;
-}
-
-// Tables
+// Tables - Clean, minimal
 
 th {
     font-size: $font-size-sm;
+    font-weight: 600;
+    color: $gray-600;
     text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
-// Navs
+// Dropdowns - Floating glass panels
 
 .dropdown-menu {
-    font-size: $font-size-sm;
-    text-transform: uppercase;
-    border: 1px solid rgb(0 0 0 / 30%);
+    backdrop-filter: saturate(180%) blur($glass-blur);
+    -webkit-backdrop-filter: saturate(180%) blur($glass-blur);
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05);
 
     .dropdown-item {
-        padding: 1rem;
+        border-radius: 0.375rem;
+        margin: 0.125rem 0.375rem;
+        padding: 0.5rem 0.75rem;
+        width: auto;
+        transition: background 0.15s ease;
+
+        &:hover,
+        &:focus {
+            background: rgba($primary, 0.08);
+        }
+    }
+
+    .dropdown-divider {
+        margin: 0.5rem 0;
+        border-color: rgba(0, 0, 0, 0.06);
     }
 }
 
-// Indicators
+// Modals - Floating glass panels
+
+.modal-content {
+    backdrop-filter: blur($glass-blur);
+    -webkit-backdrop-filter: blur($glass-blur);
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.modal-backdrop {
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+// Forms - Clean inputs
+
+.form-control,
+.form-select {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+    background: rgba(255, 255, 255, 0.9);
+
+    &:focus {
+        background-color: $white;
+        border-color: $primary;
+    }
+}
+
+.form-label {
+    font-weight: 500;
+    font-size: $font-size-sm;
+    color: $gray-700;
+    margin-bottom: 0.375rem;
+}
+
+.input-group-text {
+    border-color: $gray-300;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+// Badges - Subtle, rounded
 
 .badge {
-    padding-top: 0.28rem;
-
-    &-pill {
-        border-radius: 10rem;
-    }
+    font-weight: 500;
 
     &.bg-secondary,
     &.bg-light {
-        color: $dark;
+        color: $gray-700;
     }
 }
 
-// Containers
+// Alerts - Soft, rounded with glass effect
+
+.alert {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    &-primary {
+        background: rgba($primary, 0.1);
+        color: darken($primary, 10%);
+    }
+
+    &-success {
+        background: rgba($success, 0.1);
+        color: darken($success, 15%);
+    }
+
+    &-danger {
+        background: rgba($danger, 0.1);
+        color: darken($danger, 10%);
+    }
+
+    &-warning {
+        background: rgba($warning, 0.1);
+        color: darken($warning, 20%);
+    }
+
+    &-info {
+        background: rgba($info, 0.1);
+        color: darken($info, 15%);
+    }
+}
+
+// Panels and containers with glass effect
+
+.panel,
+.well,
+.jumbotron {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+    border-radius: $border-radius-lg;
+}
+
+// Nav tabs with glass effect
+
+.nav-tabs {
+    border-bottom-color: $glass-border;
+
+    .nav-link {
+        border-radius: $border-radius $border-radius 0 0;
+
+        &:hover {
+            background: rgba($primary, 0.05);
+            border-color: transparent;
+        }
+
+        &.active {
+            background: $white;
+            border-color: $glass-border $glass-border $white;
+        }
+    }
+}
+
+.nav-pills {
+    .nav-link {
+        border-radius: $border-radius;
+
+        &:hover:not(.active) {
+            background: rgba($primary, 0.08);
+        }
+
+        &.active {
+            background: $primary;
+        }
+    }
+}
+
+// Toast with glass effect
+
+.toast {
+    backdrop-filter: blur($glass-blur);
+    -webkit-backdrop-filter: blur($glass-blur);
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+}
+
+// Popover with glass effect
+
+.popover {
+    backdrop-filter: blur($glass-blur);
+    -webkit-backdrop-filter: blur($glass-blur);
+    background: $glass-bg;
+    border: 1px solid $glass-border;
+}
+
+// List groups
 
 .list-group-item {
+    border-color: rgba(0, 0, 0, 0.06);
+    background: transparent;
+
+    &:hover {
+        background: rgba($primary, 0.03);
+    }
+
     h1,
     h2,
     h3,
@@ -323,15 +681,45 @@ th {
     }
 }
 
-.card {
-    &-title,
-    &-header {
-        color: inherit;
+.list-group {
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+}
+
+// Close button
+
+.btn-close {
+    opacity: 0.4;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+        opacity: 0.7;
     }
 }
 
-// Forms
+// Scrollbar - Minimal Apple style
 
-.form-label {
-    font-weight: bold;
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+
+    &:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+
+// Selection color
+
+::selection {
+    background: rgba($primary, 0.2);
+    color: $gray-900;
 }
