@@ -143,7 +143,7 @@ class Providers extends EA_Controller
     public function search(): void
     {
         try {
-            method('get');
+            method('post');
 
             if (cannot('view', PRIV_USERS)) {
                 abort(403, 'Forbidden');
