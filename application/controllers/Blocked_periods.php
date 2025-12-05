@@ -92,7 +92,7 @@ class Blocked_periods extends EA_Controller
     public function search(): void
     {
         try {
-            method('get');
+            method('post');
 
             if (cannot('view', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
