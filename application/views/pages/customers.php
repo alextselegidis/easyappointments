@@ -4,7 +4,17 @@
 
 <div class="container backend-page" id="customers-page">
     <div class="row" id="customers">
-        <div id="filter-customers" class="filter-records col col-12 col-lg-5">
+        <div id="filter-customers" class="filter-records col col-12">
+            <?php if (
+                can('add', PRIV_CUSTOMERS) &&
+                (!setting('limit_customer_access') || vars('role_slug') === DB_SLUG_ADMIN)
+            ): ?>
+                <button id="add-customer" class="btn btn-primary add-record-btn mb-4">
+                    <i class="fas fa-plus-square me-2"></i>
+                    <?= lang('add') ?>
+                </button>
+            <?php endif; ?>
+
             <form class="mb-4">
                 <div class="input-group mb-3">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -25,30 +35,14 @@
             </div>
         </div>
 
-        <div class="record-details col-12 col-lg-7">
+        <div class="record-details col-12">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
-                    <?php if (
-                        can('add', PRIV_CUSTOMERS) &&
-                        (!setting('limit_customer_access') || vars('role_slug') === DB_SLUG_ADMIN)
-                    ): ?>
-                        <button id="add-customer" class="btn btn-primary">
-                            <i class="fas fa-plus-square me-2"></i>
-                            <?= lang('add') ?>
-                        </button>
-                    <?php endif; ?>
 
                     <?php if (can('edit', PRIV_CUSTOMERS)): ?>
                         <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
                             <i class="fas fa-edit me-2"></i>
                             <?= lang('edit') ?>
-                        </button>
-                    <?php endif; ?>
-
-                    <?php if (can('delete', PRIV_CUSTOMERS)): ?>
-                        <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
-                            <i class="fas fa-trash-alt me-2"></i>
-                            <?= lang('delete') ?>
                         </button>
                     <?php endif; ?>
                 </div>
@@ -61,6 +55,12 @@
                     <button id="cancel-customer" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
+                    <?php if (can('delete', PRIV_CUSTOMERS)): ?>
+                        <button id="delete-customer" class="btn btn-outline-danger ms-2">
+                            <i class="fas fa-trash-alt me-2"></i>
+                            <?= lang('delete') ?>
+                        </button>
+                    <?php endif; ?>
                 </div>
 
             </div>

@@ -116,6 +116,17 @@ App.Pages.Admins = (function () {
             $('#filter-admins .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-admin, #delete-admin').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#admins-page').addClass('editing');
+            $admins.find('.add-edit-delete-group').hide();
+            $admins.find('.save-cancel-group').show();
+            $admins.find('#delete-admin').show(); // Show delete button when editing
+            $admins.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $admins.find('.record-details .form-label span').prop('hidden', false);
+            $('#password, #password-confirm').removeClass('required');
+            $('#filter-admins button').prop('disabled', true);
+            $('#filter-admins .results').css('color', '#AAA');
         });
 
         /**
@@ -123,8 +134,10 @@ App.Pages.Admins = (function () {
          */
         $admins.on('click', '#add-admin', () => {
             App.Pages.Admins.resetForm();
+            $('#admins-page').addClass('editing');
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
+            $admins.find('#delete-admin').hide(); // Hide delete button when adding
             $admins.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $admins.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
@@ -136,6 +149,7 @@ App.Pages.Admins = (function () {
          * Event: Edit Admin Button "Click"
          */
         $admins.on('click', '#edit-admin', () => {
+            $('#admins-page').addClass('editing');
             $admins.find('.add-edit-delete-group').hide();
             $admins.find('.save-cancel-group').show();
             $admins.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -221,6 +235,7 @@ App.Pages.Admins = (function () {
             const id = $id.val();
 
             App.Pages.Admins.resetForm();
+            $('#admins-page').removeClass('editing');
 
             if (id) {
                 App.Pages.Admins.select(id, true);
@@ -238,6 +253,7 @@ App.Pages.Admins = (function () {
         App.Http.Admins.save(admin).then((response) => {
             App.Layouts.Backend.displayNotification(lang('admin_saved'));
             App.Pages.Admins.resetForm();
+            $('#admins-page').removeClass('editing');
             $('#filter-admins .key').val('');
             App.Pages.Admins.filter('', response.id, true);
         });
@@ -252,6 +268,7 @@ App.Pages.Admins = (function () {
         App.Http.Admins.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('admin_deleted'));
             App.Pages.Admins.resetForm();
+            $('#admins-page').removeClass('editing');
             App.Pages.Admins.filter($('#filter-admins .key').val());
         });
     }

@@ -87,6 +87,17 @@ App.Pages.Services = (function () {
             $filterServices.find('.selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-service, #delete-service').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#services-page').addClass('editing');
+            $services.find('.add-edit-delete-group').hide();
+            $services.find('.save-cancel-group').show();
+            $services.find('#delete-service').show(); // Show delete button when editing
+            $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $services.find('.record-details .form-label span').prop('hidden', false);
+            $filterServices.find('button').prop('disabled', true);
+            $filterServices.find('.results').css('color', '#AAA');
+            App.Components.ColorSelection.enable($color);
         });
 
         /**
@@ -94,8 +105,10 @@ App.Pages.Services = (function () {
          */
         $services.on('click', '#add-service', () => {
             App.Pages.Services.resetForm();
+            $('#services-page').addClass('editing');
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
+            $services.find('#delete-service').hide(); // Hide delete button when adding
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $services.find('.record-details .form-label span').prop('hidden', false);
             $filterServices.find('button').prop('disabled', true);
@@ -121,6 +134,7 @@ App.Pages.Services = (function () {
             const id = $id.val();
 
             App.Pages.Services.resetForm();
+            $('#services-page').removeClass('editing');
 
             if (id !== '') {
                 App.Pages.Services.select(id, true);
@@ -160,6 +174,7 @@ App.Pages.Services = (function () {
          * Event: Edit Service Button "Click"
          */
         $services.on('click', '#edit-service', () => {
+            $('#services-page').addClass('editing');
             $services.find('.add-edit-delete-group').hide();
             $services.find('.save-cancel-group').show();
             $services.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -204,6 +219,7 @@ App.Pages.Services = (function () {
         App.Http.Services.save(service).then((response) => {
             App.Layouts.Backend.displayNotification(lang('service_saved'));
             App.Pages.Services.resetForm();
+            $('#services-page').removeClass('editing');
             $filterServices.find('.key').val('');
             App.Pages.Services.filter('', response.id, true);
         });
@@ -218,6 +234,7 @@ App.Pages.Services = (function () {
         App.Http.Services.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('service_deleted'));
             App.Pages.Services.resetForm();
+            $('#services-page').removeClass('editing');
             App.Pages.Services.filter($filterServices.find('.key').val());
         });
     }

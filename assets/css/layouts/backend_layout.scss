@@ -216,7 +216,7 @@ body legend {
 }
 
 .backend-page .filter-records {
-    max-width: 350px;
+    max-width: 100%;
     margin-bottom: 20px;
 }
 
@@ -241,18 +241,40 @@ body legend {
     cursor: pointer;
 }
 
-.backend-page .filter-records .results .entry.selected {
-    background-color: #f4f4f4;
-    border-right: 5px solid #429a82;
-}
+//.backend-page .filter-records .results .entry.selected {
+//    background-color: #f4f4f4;
+//    border-right: 5px solid #429a82;
+//}
 
 .backend-page .filter-records .results hr {
     margin: 5px 0;
 }
 
 .record-details {
-    max-width: 800px;
+    //max-width: 800px;
     margin-bottom: 20px;
+}
+
+/* CRUD List/Form Toggle Layout
+   -------------------------------------------------------------------- */
+
+/* Default state: hide form, show list */
+.backend-page .record-details {
+    display: none;
+}
+
+/* When editing or adding (form visible), hide the list */
+.backend-page.editing .filter-records {
+    display: none !important;
+}
+
+.backend-page.editing .record-details {
+    display: block;
+}
+
+/* Add button placed above the list */
+.backend-page .filter-records .add-record-btn {
+    margin-bottom: 15px;
 }
 
 .record-details input:read-only:not(.custom-control-input),

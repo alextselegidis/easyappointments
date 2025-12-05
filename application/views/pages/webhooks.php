@@ -4,7 +4,18 @@
 
 <div class="container backend-page" id="webhooks-page">
     <div class="row" id="webhooks">
-        <div id="filter-webhooks" class="filter-records col col-12 col-lg-5">
+        <div id="filter-webhooks" class="filter-records col col-12">
+            <div class="mb-4">
+                <a href="<?= site_url('integrations') ?>" class="btn btn-outline-primary me-2">
+                    <i class="fas fa-chevron-left me-2"></i>
+                    <?= lang('back') ?>
+                </a>
+                <button id="add-webhook" class="btn btn-primary add-record-btn">
+                    <i class="fas fa-plus-square me-2"></i>
+                    <?= lang('add') ?>
+                </button>
+            </div>
+
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -25,25 +36,12 @@
             </div>
         </div>
 
-        <div class="record-details column col-12 col-lg-5">
+        <div class="record-details column col-12">
             <div class="btn-toolbar mb-4">
-                <a href="<?= site_url('integrations') ?>" class="btn btn-outline-primary me-2">
-                    <i class="fas fa-chevron-left me-2"></i>
-                    <?= lang('back') ?>
-                </a>
-
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-webhook" class="btn btn-primary">
-                        <i class="fas fa-plus-square me-2"></i>
-                        <?= lang('add') ?>
-                    </button>
                     <button id="edit-webhook" class="btn btn-outline-secondary" disabled="disabled">
                         <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
-                    </button>
-                    <button id="delete-webhook" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-trash-alt me-2"></i>
-                        <?= lang('delete') ?>
                     </button>
                 </div>
 
@@ -54,6 +52,10 @@
                     </button>
                     <button id="cancel-webhook" class="btn btn-secondary">
                         <?= lang('cancel') ?>
+                    </button>
+                    <button id="delete-webhook" class="btn btn-outline-danger ms-2">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        <?= lang('delete') ?>
                     </button>
                 </div>
 

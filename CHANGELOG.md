@@ -12,6 +12,7 @@ developers to maintain and readjust their custom modifications on the main proje
 ### Changed
 
 - Make the phone number field of backend users optional (#1709)
+- Change the main CRUD layout and navigation structure (list first) (-)
 
 ### Fixed
 
