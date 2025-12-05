@@ -27,11 +27,11 @@
 <div class="d-flex align-items-center justify-content-center min-vh-100">
 
     <div class="card w-100 shadow-sm min-vh-mobile" style="max-width: 500px;">
-        <div class="card-body">
+        <div class="card-body p-5">
             <?php slot('content'); ?>
         </div>
 
-        <div class="card-footer text-center">
+        <div class="card-footer text-center py-3">
             <small>
                 Powered by
                 <a href="https://easyappointments.org">Easy!Appointments</a>
