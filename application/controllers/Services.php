@@ -102,7 +102,7 @@ class Services extends EA_Controller
     public function search(): void
     {
         try {
-            method('get');
+            method('post');
 
             if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
