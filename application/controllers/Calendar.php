@@ -557,7 +557,7 @@ class Calendar extends EA_Controller
      */
     public function get_calendar_appointments_for_table_view(): void
     {
-        method('get');
+        method('post');
         try {
             $required_permissions = can('view', PRIV_APPOINTMENTS);
 
@@ -657,7 +657,7 @@ class Calendar extends EA_Controller
      */
     public function get_calendar_appointments(): void
     {
-        method('get');
+        method('post');
         try {
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
