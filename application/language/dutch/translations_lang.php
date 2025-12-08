@@ -490,4 +490,6 @@ $lang['secret_header'] = 'Geheime header';
 $lang['search'] = 'Zoeken';
 $lang['date_of_birth'] = 'Geboortedatum';
 $lang['learn_more'] = 'Meer info';
+$lang['appearance'] = 'Uiterlijk';
+$lang['use_cards'] = 'Gebruik kaarten';
 // End

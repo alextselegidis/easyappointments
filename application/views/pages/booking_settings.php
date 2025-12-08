@@ -24,6 +24,23 @@
                             <?php endif; ?>
                         </div>
 
+                        <h5 class="text-black-50 mb-2 fw-light">
+                            <?= lang('appearance') ?>
+                        </h5>
+
+                        <div class="row py-2 mb-4 fields-row">
+                            <div class="col-lg-6">
+                                <div class="form-check form-switch  mb-2">
+                                    <label for="use-cards" class="form-label">
+                                        <?= lang('use_cards') ?>
+                                    </label>
+                                    <input class="form-check-input display-switch" type="checkbox"
+                                        id="use-cards"
+                                        data-field="use_cards"/>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <h5 class="text-black-50 mb-3 fw-light">
                             <?= lang('fields') ?>
                         </h5>
