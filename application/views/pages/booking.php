@@ -12,19 +12,13 @@
 
 <!-- Select Service & Provider -->
 
-<?php  //component('booking_type_step', ['available_services' => vars('available_services')]); ?>
 <?php
-    $use_cards = vars( 'use_cards' );
-
-if ( $use_cards ) {
-	component( 'booking_type_step_new', [
+    component( 'booking_type_step', [
 		'available_services' => vars( 'available_services' ),
 		'available_categories' => vars( 'available_categories' ),
 		'available_subservices' => vars( 'available_subservices' ),
+        'use_cards' => vars('use_cards'),
 	] );
-} else {
-    component('booking_type_step', ['available_services' => vars('available_services')]);
-}
 ?>
 
 <!-- Pick An Appointment Date -->
@@ -70,11 +64,7 @@ if ( $use_cards ) {
 <script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/booking_http_client.js') ?>"></script>
-<?php if($use_cards): ?>
-    <script src="<?= asset_url('assets/js/pages/booking_new.js') ?>"></script>
-<?php else: ?>
-    <script src="<?= asset_url('assets/js/pages/booking.js') ?>"></script>
-<?php endif ?>
+<script src="<?= asset_url('assets/js/pages/booking.js') ?>"></script>
 
 
 <?php end_section('scripts'); ?>
