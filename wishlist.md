@@ -22,7 +22,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [ ] Login for customers (to view and edit info and appointments)
 - [ ] Formattable date seperator
 - [x] Customer info linked to cookie
-- [ ] Switch between card and classic booking layout
+- [x] Switch between card and classic booking layout
 - [ ] Clean up IDE warnings
 - [ ] Customer info linked to cookie
 
