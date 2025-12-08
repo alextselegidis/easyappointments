@@ -6,6 +6,8 @@ Some stuff I'd like to change so this system is usable in my situation.
 
 - [x] Subservices (see branch add_subservices)
 - [x] Cards for services (see branch add_subservices)
+- [x] Merge booking_new.js into booking.js
+- [x] Merge booking_type_step_new.php into booking_type_step.php
 
 ## Should haves
 
@@ -19,10 +21,9 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [x] Fallback default language
 - [ ] Login for customers (to view and edit info and appointments)
 - [ ] Formattable date seperator
-- [ ] Customer info linked to cookie
-- [ ] Switch between card and classic booking layout
+- [x] Customer info linked to cookie
+- [x] Switch between card and classic booking layout
 - [ ] Clean up IDE warnings
-- [ ] Customer info linked to cookie
 
 ## Could haves
 

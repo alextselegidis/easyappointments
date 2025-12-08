@@ -117,7 +117,7 @@ class Booking extends EA_Controller
         $google_analytics_code = setting('google_analytics_code');
         $matomo_analytics_url = setting('matomo_analytics_url');
         $matomo_analytics_site_id = setting('matomo_analytics_site_id');
-
+		
         if ($disable_booking) {
             $disable_booking_message = setting('disable_booking_message');
 
@@ -191,6 +191,7 @@ class Booking extends EA_Controller
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
         $theme = request('theme', setting('theme', 'default'));
+        $use_cards = booleanSetting('use_cards');
 
         if (empty($theme) || !file_exists(__DIR__ . '/../../assets/css/themes/' . $theme . '.min.css')) {
             $theme = 'default';
@@ -288,6 +289,7 @@ class Booking extends EA_Controller
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
             'loggedin_user' => $loggedin_user,
+            'use_cards' => $use_cards,
         ]);
 
         html_vars([
@@ -339,6 +341,7 @@ class Booking extends EA_Controller
             'provider_data' => $provider,
             'customer_data' => $customer,
             'loggedin_user' => $loggedin_user,
+            'use_cards' => $use_cards,
         ]);
 
         $this->load->view('pages/booking');
