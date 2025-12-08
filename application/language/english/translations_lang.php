@@ -490,5 +490,6 @@ $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
 $lang['date_of_birth'] = 'Date of birth';
 $lang['learn_more'] = 'Learn more';
-
+$lang['appearance'] = 'Appearance';
+$lang['use_cards'] = 'Use cards';
 // End

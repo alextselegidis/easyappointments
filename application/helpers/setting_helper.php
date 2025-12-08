@@ -74,3 +74,21 @@ if (!function_exists('setting')) {
         return $setting['value'] ?? $default;
     }
 }
+
+if ( ! function_exists( 'booleanSetting' ) ) {
+    function booleanSetting(array|string|null $key = null, bool $default = null): bool {
+        
+		$val = setting( $key, $default );
+
+        if (!$val || $val == '') {
+			$val = 'false';
+        }
+
+        $val = strtolower($val.'');
+
+		$val = ( $val === '1' || $val === 'true' || $val === 'yes' );
+
+		return $val;
+
+    }
+}

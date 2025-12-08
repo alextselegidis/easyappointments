@@ -388,8 +388,10 @@ App.Pages.Booking = (function () {
                 }
             });
             
-            
             $selectSubservices.parent().prop('hidden', !$showSubServices);
+            if (!$showSubServices) {
+                $selectSubservices.trigger('change');
+            }
         });
 
         $selectSubservices.on('change', (event) => {
@@ -1009,6 +1011,32 @@ App.Pages.Booking = (function () {
         }
     }
 
+    function getTotalDuration() {
+        duration = 0;
+        const serviceId = $selectService.val();
+
+        const service = vars('available_services').find(
+            (availableService) => Number(availableService.id) === Number(serviceId),
+        );
+        if (service) {
+            duration += Number(service.duration);
+        }
+
+        const subServiceId = $selectSubservices.val();
+        const subService = vars('available_subservices').find(
+            (availableSubService) => Number(availableSubService.id) === Number(subServiceId),
+        );
+        if (subService) {
+            duration += Number(subService.duration);
+        }
+
+        return duration;
+    }
+
+    function getSelectedService() {
+        return Number($selectService.val());
+    }
+
     document.addEventListener('DOMContentLoaded', initialize);
 
     return {
@@ -1016,5 +1044,7 @@ App.Pages.Booking = (function () {
         updateConfirmFrame,
         updateServiceDescription,
         validateCustomerForm,
+        getTotalDuration,
+        getSelectedService,
     };
 })();
