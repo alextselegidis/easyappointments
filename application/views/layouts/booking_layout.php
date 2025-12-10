@@ -41,6 +41,7 @@
             <?php component('booking_header', [
                 'company_name' => vars('company_name'),
                 'company_logo' => vars('company_logo'),
+                'loggedin_user' => vars('loggedin_user'),
             ]); ?>
 
             <?php slot('content'); ?>

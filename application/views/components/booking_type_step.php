@@ -11,7 +11,7 @@
  
 
 ?>
-<div id="data-island" style="visibility: hidden;">
+<div id="data-island" style="display: none">
     <input id="selectedService"/>
     <input id="selectedProvider"/>
 </div>
@@ -19,7 +19,7 @@
 <div id="wizard-frame-1" class="wizard-frame" style="visibility: hidden;">
     
     <div class="frame-container">
-        <h2 class="frame-title mt-md-5"><?= lang('service_and_provider') ?></h2>
+        <h2 class="frame-title mt-1 mb-5"><?= lang('service_and_provider') ?></h2>
         <div class="row frame-content">
         <?php if($use_cards): ?>
             <div class="col col-lg-12">

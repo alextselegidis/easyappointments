@@ -492,4 +492,7 @@ $lang['date_of_birth'] = 'Geboortedatum';
 $lang['learn_more'] = 'Meer info';
 $lang['appearance'] = 'Uiterlijk';
 $lang['use_cards'] = 'Gebruik kaarten';
+$lang['welcome_new'] = 'Welkom bij';
+$lang['welcome_user'] = 'Welkom terug';
+$lang['click_if_not'] = 'Klik hier indien niet';
 // End
