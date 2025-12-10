@@ -417,24 +417,8 @@ App.Pages.Booking = (function () {
             }
 
             const loggedInUser = vars('loggedin_user');
-            if (loggedInUser) {
-                setField('#first-name', loggedInUser.first_name);
-                setField('#last-name', loggedInUser.last_name);
-                setField('#email', loggedInUser.email);
-                setField('#phone-number', loggedInUser.phone_number);
-                setField('#address', loggedInUser.address);
-                setField('#city', loggedInUser.city);
-                setField('#zip-code', loggedInUser.zip_code);
-                setField('#date-of-birth', loggedInUser.date_of_birth, 'DATE');
-                setField('#notes', loggedInUser.notes);
-                setField('#custom_field_1', loggedInUser.custom_field_1);
-                setField('#custom_field_2', loggedInUser.custom_field_2);
-                setField('#custom_field_3', loggedInUser.custom_field_3);
-                setField('#custom_field_4', loggedInUser.custom_field_4);
-                setField('#custom_field_5', loggedInUser.custom_field_5);
-                setField('#save-cust-info', true, 'BOOL');
-            }
-
+            setLoggedInUser(loggedInUser);
+            
             prefillFromQueryParam('#first-name', 'first_name');
             prefillFromQueryParam('#last-name', 'last_name');
             prefillFromQueryParam('#email', 'email');
@@ -443,6 +427,47 @@ App.Pages.Booking = (function () {
             prefillFromQueryParam('#city', 'city');
             prefillFromQueryParam('#zip-code', 'zip');
             prefillFromQueryParam('#date-of-birth', 'dob');
+        }
+    }
+
+    /**
+     * Fills the info fields with the passed user information,
+     * or clears them if passed NULL
+     * @param {array|null} loggedInUser 
+     */
+    function setLoggedInUser(loggedInUser = null) {
+        if (loggedInUser) {
+            setField('#first-name', loggedInUser.first_name);
+            setField('#last-name', loggedInUser.last_name);
+            setField('#email', loggedInUser.email);
+            setField('#phone-number', loggedInUser.phone_number);
+            setField('#address', loggedInUser.address);
+            setField('#city', loggedInUser.city);
+            setField('#zip-code', loggedInUser.zip_code);
+            setField('#date-of-birth', loggedInUser.date_of_birth, 'DATE');
+            setField('#notes', loggedInUser.notes);
+            setField('#custom_field_1', loggedInUser.custom_field_1);
+            setField('#custom_field_2', loggedInUser.custom_field_2);
+            setField('#custom_field_3', loggedInUser.custom_field_3);
+            setField('#custom_field_4', loggedInUser.custom_field_4);
+            setField('#custom_field_5', loggedInUser.custom_field_5);
+            setField('#save-cust-info', true, 'BOOL');
+        } else {
+            setField('#first-name', null);
+            setField('#last-name', null);
+            setField('#email', null);
+            setField('#phone-number', null);
+            setField('#address', null);
+            setField('#city', null);
+            setField('#zip-code', null);
+            setField('#date-of-birth', null);
+            setField('#notes', null);
+            setField('#custom_field_1', null);
+            setField('#custom_field_2', null);
+            setField('#custom_field_3', null);
+            setField('#custom_field_4', null);
+            setField('#custom_field_5', null);
+            setField('#save-cust-info', false, 'BOOL');
         }
     }
 
@@ -911,6 +936,12 @@ App.Pages.Booking = (function () {
             setTimeout(() => {
                 App.Http.Booking.applyPreviousUnavailableDates();
             }, 300);
+        });
+
+        $('#click-if-not-user').on('click', () => {
+            $('.logged-in').toggleClass('display-none', true);
+            $('.not-logged-in').toggleClass('display-none', false);
+            setLoggedInUser();
         });
     }
 

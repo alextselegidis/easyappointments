@@ -90,11 +90,18 @@ body {
     padding: 15px 0;
 }
 
-#book-appointment-wizard .frame-container .frame-title {
+#book-appointment-wizard  .frame-title {
     font-weight: lighter;
     text-align: center;
     margin-bottom: 15px;
     color: #666;
+    &.welkom {
+        font-weight: normal;
+        &.subtitle {
+            margin-bottom: 0;
+            font-size: 0.8rem;
+        }
+    }
 }
 
 /* BOOKING GROUPS AND CARDS

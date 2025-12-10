@@ -492,4 +492,7 @@ $lang['date_of_birth'] = 'Date of birth';
 $lang['learn_more'] = 'Learn more';
 $lang['appearance'] = 'Appearance';
 $lang['use_cards'] = 'Use cards';
+$lang['welcome_new'] = 'Welcome to ';
+$lang['welcome_user'] = 'Welcome back ';
+$lang['click_if_not'] = 'Click here if not ';
 // End
