@@ -478,14 +478,16 @@ class Booking extends EA_Controller
             $customer_id = $this->customers_model->save($customer);
             $customer = $this->customers_model->find($customer_id);
 
-            if ($store_cust_cookie) {
-                get_instance()->load->helper( 'cookie' );
+            get_instance()->load->helper( 'cookie' );
 
+            if ($store_cust_cookie) {
                 set_cookie(
                     config_item('cust_cookie_name'),
                     $customer_id.'__'.hash('sha256',$customer['email']),
                     config_item('cust_cookie_expire'),
                 );
+            } else {
+				delete_cookie( config_item( 'cust_cookie_name' ) );
             }
 
             $appointment['id_users_customer'] = $customer_id;
