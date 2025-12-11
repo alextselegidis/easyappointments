@@ -457,6 +457,8 @@
                                                 </tr>
                                             <?php endif; ?>
 
+
+                                            <?php if (!empty($appointment['status'])): ?>
                                             <tr>
                                                 <td class="label" style="padding: 3px;font-weight: bold;">
                                                     <?= lang('description') ?>
@@ -465,6 +467,7 @@
                                                     <?= e($service['description']) ?>
                                                 </td>
                                             </tr>
+                                            <?php endif; ?>
 
                                             <?php if (!empty($appointment['location'])): ?>
                                                 <tr>
