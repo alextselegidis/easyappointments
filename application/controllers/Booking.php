@@ -78,6 +78,7 @@ class Booking extends EA_Controller
         $this->load->library('notifications');
         $this->load->library('availability');
         $this->load->library('webhooks_client');
+        $this->load->library('jitsi_client');
     }
 
     /**
@@ -400,7 +401,10 @@ class Booking extends EA_Controller
                 }
             }
 
-            if (empty($appointment['location']) && !empty($service['location'])) {
+            // Jitsi integration: if enabled, generate a Jitsi meeting link for the appointment location
+            if (setting('jitsi_enabled') === '1') {
+                $appointment['location'] = $this->jitsi_client->generate_link();
+            } elseif (empty($appointment['location']) && !empty($service['location'])) {
                 $appointment['location'] = $service['location'];
             }
 

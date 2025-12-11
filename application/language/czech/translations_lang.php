@@ -486,4 +486,6 @@ $lang['please_select'] = 'Zvolte prosím';
 $lang['secret_header'] = 'Tajná hlavička';
 $lang['search'] = 'Search';
 $lang['slot_interval'] = 'Slot Interval (Minutes)';
+$lang['jitsi'] = 'Jitsi';
+$lang['jitsi_info'] = 'Enable automatic Jitsi meeting link generation for appointments. When enabled, a unique Jitsi video call link will be generated and stored as the appointment location.';
 // End
