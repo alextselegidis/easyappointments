@@ -19,9 +19,5 @@ jobs:
       - name: Install Composer dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
 
-      - name: PHPUnit Tests
-        uses: php-actions/phpunit@v4
-        env:
-          TEST_NAME: Test
-        with:
-          configuration: phpunit.xml
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit --configuration phpunit.xml
