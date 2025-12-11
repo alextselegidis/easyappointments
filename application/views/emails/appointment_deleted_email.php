@@ -475,7 +475,15 @@
                                                         <?= lang('location') ?>
                                                     </td>
                                                     <td style="padding: 3px;">
+                                                        <?php if (str_starts_with($appointment['location'], 'http')): ?>
+                                                            <a 
+                                                                href="<?= e($appointment['location']) ?>" 
+                                                                target="_blank">
+                                                                <?= e($appointment['location']) ?>
+                                                            </a>
+                                                        <?php else: ?>
                                                         <?= e($appointment['location']) ?>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                             <?php endif; ?>
