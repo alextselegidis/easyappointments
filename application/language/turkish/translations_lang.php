@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'Takvim URL';
 $lang['please_select'] = 'Lütfen Seçin';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

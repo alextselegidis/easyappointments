@@ -104,18 +104,11 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="availabilities-type">
-                    <?= lang('availabilities_type') ?>
-
+                <label class="form-label" for="slot-interval">
+                    <?= lang('slot_interval') ?>
+                    <span class="text-danger" hidden>*</span>
                 </label>
-                <select id="availabilities-type" class="form-select" disabled>
-                    <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
-                        <?= lang('flexible') ?>
-                    </option>
-                    <option value="<?= AVAILABILITIES_TYPE_FIXED ?>">
-                        <?= lang('fixed') ?>
-                    </option>
-                </select>
+                <input id="slot-interval" class="form-control required" type="number" min="1" disabled>
             </div>
 
             <div class="mb-3">

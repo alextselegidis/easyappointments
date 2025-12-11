@@ -118,7 +118,7 @@ class Instance
             'duration' => '30',
             'price' => '0',
             'currency' => '',
-            'availabilities_type' => 'flexible',
+            'slot_interval' => 15,
             'attendants_number' => '1',
         ]);
 

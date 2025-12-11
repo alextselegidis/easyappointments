@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'Kalenner URL';
 $lang['please_select'] = 'Wielt w.e.g.';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

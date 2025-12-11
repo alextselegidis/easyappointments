@@ -13,6 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Make the phone number field of backend users optional (#1709)
 - Change the main CRUD layout and navigation structure (list first) (-)
+- Replace the availabilities type with the new slot interval field (-)
 
 ### Fixed
 

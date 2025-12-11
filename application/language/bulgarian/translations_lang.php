@@ -486,4 +486,5 @@ $lang['please_select'] = 'Моля Изберете';
 $lang['manage_providers'] = 'Управление на доставчици';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

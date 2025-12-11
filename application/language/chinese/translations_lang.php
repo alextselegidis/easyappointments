@@ -485,4 +485,5 @@ $lang['calendar_url'] = '日历 URL';
 $lang['please_select'] = '请选择';
 $lang['secret_header'] = '密钥头';
 $lang['search'] = '搜索';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

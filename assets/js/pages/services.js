@@ -22,7 +22,7 @@ App.Pages.Services = (function () {
     const $price = $('#price');
     const $currency = $('#currency');
     const $serviceCategoryId = $('#service-category-id');
-    const $availabilitiesType = $('#availabilities-type');
+    const $slotInterval = $('#slot-interval');
     const $attendantsNumber = $('#attendants-number');
     const $isPrivate = $('#is-private');
     const $location = $('#location');
@@ -121,7 +121,7 @@ App.Pages.Services = (function () {
             $price.val('0');
             $currency.val('');
             $serviceCategoryId.val('');
-            $availabilitiesType.val('flexible');
+            $slotInterval.val('15');
             $attendantsNumber.val('1');
         });
 
@@ -153,7 +153,7 @@ App.Pages.Services = (function () {
                 description: $description.val(),
                 location: $location.val(),
                 color: App.Components.ColorSelection.getColor($color),
-                availabilities_type: $availabilitiesType.val(),
+                slot_interval: $slotInterval.val(),
                 attendants_number: $attendantsNumber.val(),
                 is_private: Number($isPrivate.prop('checked')),
                 id_service_categories: $serviceCategoryId.val() || undefined,
@@ -312,7 +312,7 @@ App.Pages.Services = (function () {
         $currency.val(service.currency);
         $description.val(service.description);
         $location.val(service.location);
-        $availabilitiesType.val(service.availabilities_type);
+        $slotInterval.val(service.slot_interval);
         $attendantsNumber.val(service.attendants_number);
         $isPrivate.prop('checked', service.is_private);
         App.Components.ColorSelection.setColor($color, service.color);

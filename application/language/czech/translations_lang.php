@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'URL kalendáře';
 $lang['please_select'] = 'Zvolte prosím';
 $lang['secret_header'] = 'Tajná hlavička';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

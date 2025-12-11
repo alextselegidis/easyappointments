@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'Kalendoriaus URL';
 $lang['please_select'] = 'Pasirinkite';
 $lang['secret_header'] = 'Slapta antraštė';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

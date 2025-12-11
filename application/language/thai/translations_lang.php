@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'URL ปฏิทิน';
 $lang['please_select'] = 'กรุณาเลือก';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

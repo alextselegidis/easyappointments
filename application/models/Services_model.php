@@ -43,7 +43,7 @@ class Services_model extends EA_Model
         'description' => 'description',
         'location' => 'location',
         'color' => 'color',
-        'availabilitiesType' => 'availabilities_type',
+        'slotInterval' => 'slot_interval',
         'attendantsNumber' => 'attendants_number',
         'isPrivate' => 'is_private',
         'serviceCategoryId' => 'id_service_categories',
@@ -116,31 +116,9 @@ class Services_model extends EA_Model
             }
         }
 
-        // Availabilities type must have the correct value.
-        if (
-            $service['availabilities_type'] !== null &&
-            $service['availabilities_type'] !== AVAILABILITIES_TYPE_FLEXIBLE &&
-            $service['availabilities_type'] !== AVAILABILITIES_TYPE_FIXED
-        ) {
-            throw new InvalidArgumentException(
-                'Service availabilities type must be either ' .
-                    AVAILABILITIES_TYPE_FLEXIBLE .
-                    ' or ' .
-                    AVAILABILITIES_TYPE_FIXED .
-                    ' (given ' .
-                    $service['availabilities_type'] .
-                    ')',
-            );
-        }
-
-        // Validate the availabilities type value.
-        if (
-            !empty($service['availabilities_type']) &&
-            !in_array($service['availabilities_type'], [AVAILABILITIES_TYPE_FLEXIBLE, AVAILABILITIES_TYPE_FIXED])
-        ) {
-            throw new InvalidArgumentException(
-                'The provided availabilities type is invalid: ' . $service['availabilities_type'],
-            );
+        // Make sure the slot_interval value is valid.
+        if (!empty($service['slot_interval']) && (int) $service['slot_interval'] < 1) {
+            throw new InvalidArgumentException('The service slot interval must be at least 1 minute.');
         }
 
         // Validate the attendants number value.
@@ -415,7 +393,7 @@ class Services_model extends EA_Model
             'currency' => $service['currency'],
             'description' => $service['description'],
             'location' => $service['location'],
-            'availabilitiesType' => $service['availabilities_type'],
+            'slotInterval' => (int) $service['slot_interval'],
             'attendantsNumber' => (int) $service['attendants_number'],
             'isPrivate' => (bool) $service['is_private'],
             'serviceCategoryId' =>
@@ -463,8 +441,8 @@ class Services_model extends EA_Model
             $decoded_resource['location'] = $service['location'];
         }
 
-        if (array_key_exists('availabilitiesType', $service)) {
-            $decoded_resource['availabilities_type'] = $service['availabilitiesType'];
+        if (array_key_exists('slotInterval', $service)) {
+            $decoded_resource['slot_interval'] = $service['slotInterval'];
         }
 
         if (array_key_exists('attendantsNumber', $service)) {

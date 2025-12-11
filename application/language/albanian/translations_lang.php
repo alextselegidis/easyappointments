@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'URL-ja e Kalendarit';
 $lang['please_select'] = 'Zgjidhni';
 $lang['secret_header'] = 'Header-i Sekret';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

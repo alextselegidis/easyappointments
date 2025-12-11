@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'URL Kalendara';
 $lang['please_select'] = 'Molimo izaberite';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

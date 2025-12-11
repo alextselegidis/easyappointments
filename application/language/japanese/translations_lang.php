@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'カレンダーURL';
 $lang['please_select'] = '選択してください';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

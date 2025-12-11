@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'URL календаря';
 $lang['please_select'] = 'Будь ласка, виберіть';
 $lang['secret_header'] = 'Секретний заголовок';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

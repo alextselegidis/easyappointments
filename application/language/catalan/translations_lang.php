@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'URL del calendari';
 $lang['please_select'] = 'Si us plau, seleccioneu';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End

@@ -485,4 +485,5 @@ $lang['calendar_url'] = 'Agenda-URL';
 $lang['please_select'] = 'Selecteer alstublieft';
 $lang['secret_header'] = 'Geheime header';
 $lang['search'] = 'Zoeken';
+$lang['slot_interval'] = 'Slot Interval (Minutes)';
 // End
