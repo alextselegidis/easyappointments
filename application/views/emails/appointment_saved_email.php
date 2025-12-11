@@ -163,7 +163,7 @@
         }
 
         a {
-            color: #3498db;
+            color: #429A82;
             text-decoration: underline;
         }
 
@@ -191,10 +191,10 @@
 
         .btn a {
             background-color: #ffffff;
-            border: solid 1px #3498db;
+            border: solid 1px #429A82;
             border-radius: 5px;
             box-sizing: border-box;
-            color: #3498db;
+            color: #429A82;
             cursor: pointer;
             display: inline-block;
             font-size: 14px;
@@ -206,12 +206,12 @@
         }
 
         .btn-primary table td {
-            background-color: #3498db;
+            background-color: #429A82;
         }
 
         .btn-primary a {
-            background-color: #3498db;
-            border-color: #3498db;
+            background-color: #429A82;
+            border-color: #429A82;
             color: #ffffff;
         }
 
@@ -534,13 +534,25 @@
 
                                         <br>
 
-                                        <h2>
-                                            <?= lang('appointment_link_title') ?>
-                                        </h2>
-
-                                        <a href="<?= e($appointment_link) ?>" style="width: 600px;">
-                                            <?= e($appointment_link) ?>
-                                        </a>
+                                        <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center">
+                                                        <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>
+                                                                        <a href="<?= e(
+                                                                            $appointment_link,
+                                                                        ) ?>" target="_blank">Reschedule / Cancel Appointment</a>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                         
                                         
                                     </td>
