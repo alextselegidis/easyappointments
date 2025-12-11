@@ -21,7 +21,7 @@
     <link rel="stylesheet" type="text/css"
           href="<?= asset_url('assets/css/themes/' . setting('theme', 'default') . '.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/backend_layout.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/backend.css') ?>">
 
     <?php component('company_color_style', ['company_color' => setting('company_color')]); ?>
 
