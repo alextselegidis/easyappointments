@@ -495,4 +495,5 @@ $lang['use_cards'] = 'Gebruik kaarten';
 $lang['welcome_new'] = 'Welkom bij';
 $lang['welcome_user'] = 'Welkom terug';
 $lang['click_if_not'] = 'Klik hier indien niet';
+$lang['token_copied'] = 'Token naar klembord gekopieerd';
 // End

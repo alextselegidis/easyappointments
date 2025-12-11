@@ -32,15 +32,29 @@
 
                     <div class="row">
                         <div class="col-12">
-                            <div class="mb-3">
+                            <div class=" mb-3">
                                 <label class="form-label" for="api-token">
                                     <?= lang('api_token') ?>
                                 </label>
-                                <input id="api-token" class="form-control" data-field="api_token">
-                                <div class="form-text text-muted">
-                                    <small>
-                                        <?= lang('api_token_hint') ?>
-                                    </small>
+                                <div class="input-group">
+                                    <input id="api-token" type="password" class="form-control" data-field="api_token">
+                                    <button type="button" id="hide-token" class="btn btn-outline-primary">
+                                        <i class="fas fa-eye-slash"></i>
+                                    </button>
+                                    <button type="button" id="copy-token" class="btn btn-outline-primary">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                    <button type="button" id="clear-token" class="btn btn-outline-primary">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button type="button" id="generate-token" class="btn btn-primary">
+                                        <i class="fas fa-rotate"></i>
+                                    </button>
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('api_token_hint') ?>
+                                        </small>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -99,4 +99,28 @@ class Api_settings extends EA_Controller
             json_exception($e);
         }
     }
+
+    public function generatetoken() {
+
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+            // $userId = request( 'id' );
+			// $user = $this->users_model->find( $userId );
+            // if (!isset($user['id']))  {
+			// 	throw new Exception( 'No user found for that ID' );
+            // }
+
+			// $token = md5(str_shuffle( $user['email'].time().$user['last_name']));
+            $CI = &get_instance();
+            $email = $CI->session->userdata('user_email');
+            $name = $CI->session->userdata('username');
+			$token = md5(str_shuffle( $email.time().$name));
+            response( $token);
+
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
 }

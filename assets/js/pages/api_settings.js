@@ -16,6 +16,9 @@
  */
 App.Pages.ApiSettings = (function () {
     const $saveSettings = $('#save-settings');
+    const $generateToken = $('#generate-token');
+    const $hideToken = $('#hide-token');
+    const $apiToken = $('#api-token');
 
     /**
      * Check if the form has invalid values.
@@ -75,6 +78,13 @@ App.Pages.ApiSettings = (function () {
         return apiSettings;
     }
 
+    function generateToken() {
+        App.Http.ApiSettings.generateToken().done((response) => {
+            $apiToken.val(response);
+        });
+        
+    }
+
     /**
      * Save the account information.
      */
@@ -97,6 +107,24 @@ App.Pages.ApiSettings = (function () {
      */
     function initialize() {
         $saveSettings.on('click', onSaveSettingsClick);
+
+        $generateToken.on('click', generateToken);
+
+        $('#hide-token').on('click', () => {
+            $apiToken.attr('type', $apiToken.attr('type') === 'text'?'password':'text');
+        });
+
+        $('#clear-token').on('click', () => {
+            $apiToken.val(null);
+        });
+
+        $('#copy-token').on('click', () => {
+            const token = $apiToken.val();
+            navigator.clipboard.writeText(token).then(() => {
+                App.Layouts.Backend.displayNotification(lang('token_copied'));
+            });
+            
+        });
 
         const apiSettings = vars('api_settings');
 
