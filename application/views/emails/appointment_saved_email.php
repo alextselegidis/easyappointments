@@ -390,6 +390,9 @@
                                 <tr>
                                     <td>
 
+                                        <!-- Logo at the top center, embedded as CID -->
+                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
+
                                         <h2>
                                             <?= $subject ?>
                                         </h2>
@@ -577,10 +580,3 @@
 </table>
 </body>
 </html>
-
-
-
-
-
-
-
