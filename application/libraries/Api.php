@@ -66,10 +66,14 @@ class Api
     {
         try {
             // Bearer token.
-            $api_token = setting('api_token');
-
-            if (!empty($api_token) && $api_token === $this->get_bearer_token()) {
+			$api_token = $this->get_bearer_token();
+            
+            if (!empty($api_token) && $api_token === setting('api_token')) {
                 return;
+            }
+
+            if (!empty($api_token) && $this->CI->accounts->check_user_token($api_token)) {
+				return;
             }
 
             // Basic auth.
@@ -86,6 +90,8 @@ class Api
             if (empty($user_data['role_slug']) || $user_data['role_slug'] !== DB_SLUG_ADMIN) {
                 throw new RuntimeException('The provided credentials do not match any admin user', 401);
             }
+			$this->CI->session->userdata = array_merge( $this->CI->session->userdata, $user_data );
+
         } catch (Throwable) {
             $this->request_authentication();
         }

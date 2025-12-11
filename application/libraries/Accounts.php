@@ -39,6 +39,40 @@ class Accounts
     }
 
     /**
+     * Checks a bearertoken against the userid embedded in that token
+     * If it checks out, also sets the userdata in the session
+     * 
+     * @param string $bearertoken
+     * @return bool
+     */
+    public function check_user_token($bearertoken) {
+        if (!str_starts_with($bearertoken, '#')) {
+			return false;
+        }
+
+        $parts = explode( '#', substr($bearertoken,1));
+		$retval = false;
+        
+        if ( $parts && isset($parts[1])) {
+			$id = $parts[0];
+			//$settings = $this->CI->users_model->find( intval( $id));
+            $settings = $this->CI->db
+                        ->get_where('user_settings', [
+                            'id_users' => $id
+                        ])
+                        ->row_array();
+			$retval = ( isset( $settings['bearertoken'] ) && $settings['bearertoken'] === md5( $bearertoken) );
+            
+            if ($retval) {
+				$user_data = $this->collect_userdata( $settings);
+                $this->CI->session->userdata = array_merge( $this->CI->session->userdata, $user_data );
+            }
+        }
+
+		return $retval;
+    }
+
+    /**
      * Authenticate the provided credentials.
      *
      * @param string $username Username.
@@ -63,8 +97,34 @@ class Accounts
         if (empty($user_settings)) {
             return null;
         }
+        
+		$userdata = $this->collect_userdata( $user_settings);
+		
+        return $userdata;
+    }
 
-        $user = $this->CI->users_model->find($user_settings['id_users']);
+    /**
+     * Collects userdata for account to set to CI->session->userdata
+     * 
+     * @param array|int $user
+     * @return array{language: mixed, role_slug: mixed, timezone: mixed, user_email: mixed, user_id: mixed, username: mixed}
+     */
+    public function collect_userdata($user) {
+        
+        if (!is_array($user)) {
+            $user_settings = $this->CI->db
+            ->get_where('user_settings', [
+                'id_users' => $user,
+            ])
+            ->row_array();
+			$username = $user_settings['username'];
+			$id = $user;
+        } else {
+            $username = $user['username'];
+			$id = $user['id_users'];
+        }
+
+        $user = $this->CI->users_model->find($id);
 
         $role = $this->CI->roles_model->find($user['id_roles']);
 
@@ -73,8 +133,8 @@ class Accounts
         return [
             'user_id' => $user['id'],
             'user_email' => $user['email'],
-            'username' => $username,
             'timezone' => !empty($user['timezone']) ? $user['timezone'] : $default_timezone,
+            'username' => $username,
             'language' => !empty($user['language']) ? $user['language'] : Config::LANGUAGE,
             'role_slug' => $role['slug'],
         ];

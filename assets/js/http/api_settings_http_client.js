@@ -34,12 +34,10 @@ App.Http.ApiSettings = (function () {
     }
 
     function generateToken() {
-        //return 'Generated';
+
         const url = App.Utils.Url.siteUrl('api_settings/generatetoken');
 
-        const data = {
-            id: 1,
-        };
+        const data = {};
 
         return $.get(url, data);
     }
