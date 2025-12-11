@@ -9,12 +9,18 @@ jobs:
     steps:
       - name: Git clone
         uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: gd
+
       - name: Install dependencies
         uses: php-actions/composer@v6
         with:
-          php_version: 8.3
-          php_extensions: gd
           version: 2
+
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v4
         env:
