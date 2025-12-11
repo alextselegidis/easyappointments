@@ -7,7 +7,7 @@
  */
 ?>
 
-<nav id="header" class="navbar navbar-expand-md navbar-dark">
+<nav id="header" class="navbar navbar-expand-md navbar-dark bg-primary p-0">
     <div id="header-logo" class="navbar-brand">
         <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
         <h6>EASY!APPOINTMENTS</h6>

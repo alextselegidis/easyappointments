@@ -18,7 +18,6 @@
         'assets/css/themes/' . setting('theme', 'default') . '.css',
     ) ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/app.css') ?>">
 
     <?php slot('styles'); ?>
 </head>

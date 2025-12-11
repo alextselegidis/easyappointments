@@ -17,6 +17,26 @@ select {
     -webkit-appearance: none;
 }
 
+/* UTILITIES 
+   ------------------------------------------------------------------------- */
+
+// Full viewport height only on mobile
+
+.min-vh-mobile {
+    min-height: 100vh;
+}
+
+// Normal height on lg and above
+
+@media (min-width: 992px) {
+    .min-vh-mobile {
+        min-height: 0;
+    }
+}
+
+
+
+
 @-moz-document url-prefix() {
     body .checkbox input[type='checkbox'] {
         float: left;
