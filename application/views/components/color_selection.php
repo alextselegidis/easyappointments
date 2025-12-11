@@ -4,12 +4,6 @@
  */
 ?>
 
-<?php section('styles'); ?>
-
-<link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/components/color_selection.css') ?>">
-
-<?php end_section('styles'); ?>
-
 <label class="form-label"><?= lang('color') ?></label>
 
 <div <?= $attributes ?? '' ?> class="color-selection d-flex justify-content-between mb-4">
