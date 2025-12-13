@@ -62,7 +62,9 @@ function archive(done) {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
-    childProcess.execSync('cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader');
+    childProcess.execSync(
+        'cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader --ignore-platform-reqs',
+    );
 
     fs.removeSync('build/composer.lock');
     del.sync('**/.DS_Store');
