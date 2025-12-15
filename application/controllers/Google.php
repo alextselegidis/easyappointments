@@ -281,7 +281,13 @@ class Google extends EA_Controller
      */
     public function oauth(string $provider_id): void
     {
-        if (!$this->session->userdata('user_id')) {
+        $user_id = session('user_id');
+
+        if (!$user_id) {
+            show_error('Forbidden', 403);
+        }
+
+        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
             show_error('Forbidden', 403);
         }
 
