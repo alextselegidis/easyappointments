@@ -41,7 +41,7 @@ class Account extends EA_Controller
         //
     ];
 
-    public array $allowed_user_setting_fields = ['username', 'password', 'notifications', 'calendar_view'];
+    public array $allowed_user_setting_fields = ['username', 'password', 'notifications', 'calendar_view', 'bearertoken'];
 
     public array $optional_user_setting_fields = [
         //

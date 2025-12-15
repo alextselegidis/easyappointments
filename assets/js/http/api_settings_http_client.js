@@ -33,7 +33,17 @@ App.Http.ApiSettings = (function () {
         return $.post(url, data);
     }
 
+    function generateToken() {
+
+        const url = App.Utils.Url.siteUrl('api_settings/generatetoken');
+
+        const data = {};
+
+        return $.get(url, data);
+    }
+
     return {
         save,
+        generateToken,
     };
 })();
