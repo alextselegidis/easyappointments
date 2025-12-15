@@ -57,6 +57,38 @@ class Google_sync
     }
 
     /**
+     * Get the Google Client ID from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_id(): string
+    {
+        $setting_value = setting('google_client_id');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_id') ?: '';
+    }
+
+    /**
+     * Get the Google Client Secret from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_secret(): string
+    {
+        $setting_value = setting('google_client_secret');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_secret') ?: '';
+    }
+
+    /**
      * Initialize the client, so that existing execution errors are not passed from one provider to another.
      */
     public function initialize_clients(): void
@@ -68,8 +100,8 @@ class Google_sync
         $this->client = new Google_Client();
         $this->client->setHttpClient($http);
         $this->client->setApplicationName('Easy!Appointments');
-        $this->client->setClientId(config('google_client_id'));
-        $this->client->setClientSecret(config('google_client_secret'));
+        $this->client->setClientId($this->get_client_id());
+        $this->client->setClientSecret($this->get_client_secret());
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');

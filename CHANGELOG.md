@@ -7,21 +7,22 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Added
 
-- Added request method check on each request so that only allowed methods are accepted (-)
-- Add Jitsi integration and link generation for appointments made via the public page (-)
+- Added request method check on each request so that only allowed methods are accepted
+- Add Jitsi integration and link generation for appointments made via the public page
 - Allow providers to toggle the syncing themselves (#1731)
-- Add new meeting link field to appointments for storing online video conference locations (-)
+- Add new meeting link field to appointments for storing online video conference locations
+- Create new integration section for the Google Calendar integration
 
 ### Changed
 
 - Make the phone number field of backend users optional (#1709)
-- Change the main CRUD layout and navigation structure (list first) (-)
-- Replace the availabilities type with the new slot interval field (-)
+- Change the main CRUD layout and navigation structure (list first)
+- Replace the availabilities type with the new slot interval field
 
 ### Fixed
 
 - Cannot modify appointment if provider changes time zone (#1789)
-- Fix the customer appointment link so that it opens the modal even in the table calendar view (-)
+- Fix the customer appointment link so that it opens the modal even in the table calendar view
 - Run the session garbage collector once in a while to avoid session bloat (#1793)
 
 

@@ -355,7 +355,7 @@ class Google extends EA_Controller
     public function get_google_calendars(): void
     {
         try {
-            method('get');
+            method('post');
 
             $provider_id = (int) request('provider_id');
 

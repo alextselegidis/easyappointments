@@ -490,4 +490,11 @@ $lang['slot_interval'] = 'Slot Interval (Minutes)';
 $lang['jitsi'] = 'Jitsi';
 $lang['jitsi_info'] = 'Enable automatic Jitsi meeting link generation for appointments. When enabled, a unique Jitsi video call link will be generated and stored as the meeting link.';
 $lang['meeting_link'] = 'Meeting Link';
+$lang['google_calendar'] = 'Google Calendar';
+$lang['google_calendar_info'] = 'Enable Google Calendar synchronization to sync appointments with provider Google Calendar accounts.';
+$lang['google_client_id'] = 'Client ID';
+$lang['google_client_id_info'] = 'The Client ID from your Google Cloud Console project.';
+$lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_secret_info'] = 'The Client Secret from your Google Cloud Console project.';
+$lang['google_calendar_setup_info'] = 'To enable Google Calendar sync, you need to create a project in the Google Cloud Console, enable the Google Calendar API, and create OAuth 2.0 credentials. Visit:';
 // End

@@ -191,7 +191,10 @@ class Calendar extends EA_Controller
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
-            'google_sync_feature' => config('google_sync_feature'),
+            'google_sync_feature' => filter_var(
+                setting('google_sync_feature') ?: config('google_sync_feature'),
+                FILTER_VALIDATE_BOOLEAN,
+            ),
             'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
