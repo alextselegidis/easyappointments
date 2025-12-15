@@ -35,6 +35,9 @@ App.Pages.Account = (function () {
     const notifications = $('#notifications');
     const $saveSettings = $('#save-settings');
     const $footerUserDisplayName = $('#footer-user-display-name');
+    const $generateToken = $('#generate-token');
+    const $hideToken = $('#hide-token');
+    const $apiToken = $('#api-token');
 
     /**
      * Check if the form has invalid values.
@@ -114,6 +117,7 @@ App.Pages.Account = (function () {
         $retypePassword.val('');
         $calendarView.val(account.settings.calendar_view);
         notifications.prop('checked', Boolean(Number(account.settings.notifications)));
+        $apiToken.val(account.settings.bearertoken);
     }
 
     /**
@@ -141,6 +145,7 @@ App.Pages.Account = (function () {
                 password: $password.val() || undefined,
                 calendar_view: $calendarView.val(),
                 notifications: Number(notifications.prop('checked')),
+                bearertoken: $apiToken.val(),
             },
         };
     }
@@ -183,6 +188,33 @@ App.Pages.Account = (function () {
      * Initialize the page.
      */
     function initialize() {
+        /*
+        const $generateToken = $('#generate-token');
+    const $hideToken = $('#hide-token');
+    const $apiToken = $('#api-token');
+        */
+        
+        $generateToken.on('click', () => {
+            App.Http.Account.generateToken().done((response) => {
+                $apiToken.val(response);
+            });
+        });
+
+        $('#hide-token').on('click', () => {
+            $apiToken.attr('type', $apiToken.attr('type') === 'text'?'password':'text');
+        });
+
+        $('#clear-token').on('click', () => {
+            $apiToken.val(null);
+        });
+
+        $('#copy-token').on('click', () => {
+            const token = $apiToken.val();
+            navigator.clipboard.writeText(token).then(() => {
+                App.Layouts.Backend.displayNotification(lang('token_copied'));
+            });
+        });
+
         const account = vars('account');
 
         deserialize(account);

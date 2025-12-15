@@ -61,7 +61,8 @@ class Accounts
                             'id_users' => $id
                         ])
                         ->row_array();
-			$retval = ( isset( $settings['bearertoken'] ) && $settings['bearertoken'] === md5( $bearertoken) );
+			//$retval = ( isset( $settings['bearertoken'] ) && $settings['bearertoken'] === md5( $bearertoken) );
+            $retval = ( isset( $settings['bearertoken'] ) && $settings['bearertoken'] === $parts[1] );
             
             if ($retval) {
 				$user_data = $this->collect_userdata( $settings);

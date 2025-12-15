@@ -17,7 +17,6 @@
 App.Pages.ApiSettings = (function () {
     const $saveSettings = $('#save-settings');
     const $generateToken = $('#generate-token');
-    const $hideToken = $('#hide-token');
     const $apiToken = $('#api-token');
 
     /**
@@ -82,7 +81,6 @@ App.Pages.ApiSettings = (function () {
         App.Http.ApiSettings.generateToken().done((response) => {
             $apiToken.val(response);
         });
-        
     }
 
     /**
@@ -123,7 +121,6 @@ App.Pages.ApiSettings = (function () {
             navigator.clipboard.writeText(token).then(() => {
                 App.Layouts.Backend.displayNotification(lang('token_copied'));
             });
-            
         });
 
         const apiSettings = vars('api_settings');
