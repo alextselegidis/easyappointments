@@ -61,6 +61,10 @@ class Google_calendar_settings extends EA_Controller
                 'value' => setting('google_client_secret', ''),
             ],
             [
+                'name' => 'google_meet_link_generation',
+                'value' => setting('google_meet_link_generation', '0'),
+            ],
+            [
                 'name' => 'display_add_to_google_calendar',
                 'value' => setting('display_add_to_google_calendar', '1'),
             ],

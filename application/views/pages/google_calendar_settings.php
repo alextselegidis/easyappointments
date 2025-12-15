@@ -80,6 +80,18 @@
                                 </a>
                             </div>
 
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="google-meet-link-generation"
+                                           data-field="google_meet_link_generation">
+                                    <label class="form-check-label" for="google-meet-link-generation">
+                                        <?= lang('google_meet_link_generation') ?>
+                                    </label>
+                                </div>
+                                <div class="form-text text-muted">
+                                    <?= lang('google_meet_link_generation_info') ?>
+                                </div>
+                            </div>
 
                             <div class="mb-3">
                                 <div class="form-check form-switch">

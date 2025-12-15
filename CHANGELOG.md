@@ -13,6 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add new meeting link field to appointments for storing online video conference locations
 - Create new integration section for the Google Calendar integration
 - Add settings to not display the Add to Google Calendar button in the booking confirmation page (#1763)
+- Add new Google Meet setting and meeting link support for appointments while syncing with Google (#1589)
 
 ### Changed
 

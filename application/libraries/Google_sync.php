@@ -220,8 +220,40 @@ class Google_sync
             $event->attendees[] = $event_customer;
         }
 
+        // Add Google Meet conferencing if enabled
+        if (filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN)) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
         // Add the new event to the Google Calendar.
-        return $this->service->events->insert($provider['settings']['google_calendar'], $event);
+        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event, [
+            'conferenceDataVersion' => 1,
+        ]);
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $created_event->getConferenceData() &&
+            $created_event->getConferenceData()->getEntryPoints()
+        ) {
+            $entry_points = $created_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $created_event;
     }
 
     /**
@@ -282,7 +314,46 @@ class Google_sync
             $event->attendees[] = $event_customer;
         }
 
-        return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
+        // Add Google Meet conferencing if enabled and event doesn't already have one
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            !$event->getConferenceData()
+        ) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
+        $updated_event = $this->service->events->update(
+            $provider['settings']['google_calendar'],
+            $event->getId(),
+            $event,
+            ['conferenceDataVersion' => 1],
+        );
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $updated_event->getConferenceData() &&
+            $updated_event->getConferenceData()->getEntryPoints() &&
+            empty($appointment['meeting_link'])
+        ) {
+            $entry_points = $updated_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $updated_event;
     }
 
     /**

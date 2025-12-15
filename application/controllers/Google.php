@@ -140,6 +140,8 @@ class Google extends EA_Controller
                         $google_event = $CI->google_sync->add_unavailability($provider, $local_event);
                     }
 
+                    $local_event = $CI->appointments_model->find($local_event['id']);
+
                     $local_event['id_google_calendar'] = $google_event->getId();
 
                     $events_model->save($local_event); // Save the Google Calendar ID.
