@@ -12,6 +12,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Allow providers to toggle the syncing themselves (#1731)
 - Add new meeting link field to appointments for storing online video conference locations
 - Create new integration section for the Google Calendar integration
+- Add settings to not display the Add to Google Calendar button in the booking confirmation page (#1763)
 
 ### Changed
 

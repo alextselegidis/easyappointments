@@ -496,4 +496,6 @@ $lang['google_client_id_info'] = 'The Client ID from your Google Cloud Console p
 $lang['google_client_secret'] = 'Client Secret';
 $lang['google_client_secret_info'] = 'The Client Secret from your Google Cloud Console project.';
 $lang['google_calendar_setup_info'] = 'To enable Google Calendar sync, you need to create a project in the Google Cloud Console, enable the Google Calendar API, and create OAuth 2.0 credentials. Visit:';
+$lang['display_add_to_google_calendar'] = 'Display "Add to Google Calendar" Button';
+$lang['display_add_to_google_calendar_info'] = 'Show the "Add to Google Calendar" button on the booking confirmation page, allowing customers to easily add their appointment to their personal Google Calendar.';
 // End

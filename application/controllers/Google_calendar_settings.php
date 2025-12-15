@@ -60,6 +60,10 @@ class Google_calendar_settings extends EA_Controller
                 'name' => 'google_client_secret',
                 'value' => setting('google_client_secret', ''),
             ],
+            [
+                'name' => 'display_add_to_google_calendar',
+                'value' => setting('display_add_to_google_calendar', '1'),
+            ],
         ];
 
         script_vars([

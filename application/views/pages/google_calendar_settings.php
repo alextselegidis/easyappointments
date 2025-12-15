@@ -80,6 +80,20 @@
                                 </a>
                             </div>
 
+
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="display-add-to-google-calendar"
+                                           data-field="display_add_to_google_calendar">
+                                    <label class="form-check-label" for="display-add-to-google-calendar">
+                                        <?= lang('display_add_to_google_calendar') ?>
+                                    </label>
+                                </div>
+                                <div class="form-text text-muted">
+                                    <?= lang('display_add_to_google_calendar_info') ?>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
