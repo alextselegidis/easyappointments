@@ -38,6 +38,7 @@ class Appointments_model extends EA_Model
         'start' => 'start_datetime',
         'end' => 'end_datetime',
         'location' => 'location',
+        'meetingLink' => 'meeting_link',
         'color' => 'color',
         'status' => 'status',
         'notes' => 'notes',

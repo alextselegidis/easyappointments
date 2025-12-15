@@ -10,6 +10,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Added request method check on each request so that only allowed methods are accepted (-)
 - Add Jitsi integration and link generation for appointments made via the public page (-)
 - Allow providers to toggle the syncing themselves (#1731)
+- Add new meeting link field to appointments for storing online video conference locations (-)
 
 ### Changed
 

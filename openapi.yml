@@ -1963,6 +1963,8 @@ components:
           type: string
         location:
           type: string
+        meetingLink:
+          type: string
         color:
           type: string
         status:
@@ -1986,6 +1988,7 @@ components:
         end: '2021-01-01 18:00:00'
         hash: apTWVbSvBJXR
         location: Test Street 1A, 12345 Some State, Some Place
+        meetingLink: https://meet.jit.si/example-meeting
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
@@ -2003,6 +2006,8 @@ components:
           type: string
         location:
           type: string
+        meetingLink:
+          type: string
         color:
           type: string
         status:
@@ -2019,6 +2024,7 @@ components:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
         location: Test Street 1A, 12345 Some State, Some Place
+        meetingLink: https://meet.jit.si/example-meeting
         color: '#123456'
         status: Booked
         notes: This is a test appointment.

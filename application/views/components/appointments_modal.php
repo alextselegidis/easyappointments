@@ -128,6 +128,13 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="appointment-meeting-link" class="form-label">
+                                        <?= lang('meeting_link') ?>
+                                    </label>
+                                    <input id="appointment-meeting-link" class="form-control" placeholder="https://">
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="appointment-status" class="form-label">
                                         <?= lang('status') ?>
                                     </label>

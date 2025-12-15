@@ -47,6 +47,7 @@ class Booking extends EA_Controller
         'start_datetime',
         'end_datetime',
         'location',
+        'meeting_link',
         'notes',
         'color',
         'status',
@@ -401,10 +402,12 @@ class Booking extends EA_Controller
                 }
             }
 
-            // Jitsi integration: if enabled, generate a Jitsi meeting link for the appointment location
+            // Jitsi integration: if enabled, generate a Jitsi meeting link for the appointment
             if (setting('jitsi_enabled') === '1') {
-                $appointment['location'] = $this->jitsi_client->generate_link();
-            } elseif (empty($appointment['location']) && !empty($service['location'])) {
+                $appointment['meeting_link'] = $this->jitsi_client->generate_link();
+            }
+
+            if (empty($appointment['location']) && !empty($service['location'])) {
                 $appointment['location'] = $service['location'];
             }
 

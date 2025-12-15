@@ -487,5 +487,6 @@ $lang['secret_header'] = 'Geheime header';
 $lang['search'] = 'Zoeken';
 $lang['slot_interval'] = 'Slot Interval (Minutes)';
 $lang['jitsi'] = 'Jitsi';
-$lang['jitsi_info'] = 'Enable automatic Jitsi meeting link generation for appointments. When enabled, a unique Jitsi video call link will be generated and stored as the appointment location.';
+$lang['jitsi_info'] = 'Enable automatic Jitsi meeting link generation for appointments. When enabled, a unique Jitsi video call link will be generated and stored as the meeting link.';
+$lang['meeting_link'] = 'Meeting Link';
 // End

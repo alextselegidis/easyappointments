@@ -160,6 +160,7 @@ App.Utils.CalendarDefaultView = (function () {
                 $appointmentsModal.find('#language').val(customer.language);
                 $appointmentsModal.find('#timezone').val(customer.timezone);
                 $appointmentsModal.find('#appointment-location').val(appointment.location);
+                $appointmentsModal.find('#appointment-meeting-link').val(appointment.meeting_link);
                 $appointmentsModal.find('#appointment-status').val(appointment.status);
                 $appointmentsModal.find('#appointment-notes').val(appointment.notes);
                 $appointmentsModal.find('#customer-notes').val(customer.notes);
@@ -701,6 +702,21 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': info.event.extendedProps.data.customer.phone_number || '-',
                     }),
                     $('<br/>'),
+
+                    info.event.extendedProps.data.meeting_link
+                        ? $('<strong/>', {
+                              'class': 'd-inline-block me-2',
+                              'text': lang('meeting_link'),
+                          })
+                        : null,
+                    info.event.extendedProps.data.meeting_link
+                        ? $('<a/>', {
+                              'href': info.event.extendedProps.data.meeting_link,
+                              'target': '_blank',
+                              'text': info.event.extendedProps.data.meeting_link,
+                          })
+                        : null,
+                    info.event.extendedProps.data.meeting_link ? $('<br/>') : null,
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
@@ -1624,6 +1640,7 @@ App.Utils.CalendarDefaultView = (function () {
             $appointmentsModal.find('#language').val(customer.language);
             $appointmentsModal.find('#timezone').val(customer.timezone);
             $appointmentsModal.find('#appointment-location').val(appointment.location);
+            $appointmentsModal.find('#appointment-meeting-link').val(appointment.meeting_link);
             $appointmentsModal.find('#appointment-status').val(appointment.status);
             $appointmentsModal.find('#appointment-notes').val(appointment.notes);
             $appointmentsModal.find('#customer-notes').val(customer.notes);

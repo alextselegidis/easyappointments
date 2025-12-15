@@ -49,6 +49,7 @@ class Calendar extends EA_Controller
         'start_datetime',
         'end_datetime',
         'location',
+        'meeting_link',
         'notes',
         'color',
         'status',
