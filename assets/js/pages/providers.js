@@ -90,6 +90,7 @@ App.Pages.Providers = (function () {
             $providers.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
+            $('#select-all-services, #select-none-services').prop('disabled', false);
             $providers
                 .find(
                     '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan',
@@ -119,6 +120,7 @@ App.Pages.Providers = (function () {
                 )
                 .prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
+            $('#select-all-services, #select-none-services').prop('disabled', false);
 
             // Apply default working plan
             const companyWorkingPlan = JSON.parse(vars('company_working_plan'));
@@ -139,6 +141,7 @@ App.Pages.Providers = (function () {
             $providers.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
+            $('#select-all-services, #select-none-services').prop('disabled', false);
             $providers
                 .find(
                     '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan',
@@ -250,6 +253,20 @@ App.Pages.Providers = (function () {
             const companyWorkingPlan = JSON.parse(vars('company_working_plan'));
             workingPlanManager.setup(companyWorkingPlan);
             workingPlanManager.timepickers(false);
+        });
+
+        /**
+         * Event: Select All Services Button "Click"
+         */
+        $providers.on('click', '#select-all-services', () => {
+            $('#provider-services input:checkbox').prop('checked', true);
+        });
+
+        /**
+         * Event: Select None Services Button "Click"
+         */
+        $providers.on('click', '#select-none-services', () => {
+            $('#provider-services input:checkbox').prop('checked', false);
         });
     }
 
@@ -385,6 +402,7 @@ App.Pages.Providers = (function () {
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#provider-services input:checkbox').prop('disabled', true).prop('checked', false);
+        $('#select-all-services, #select-none-services').prop('disabled', true);
         $('#provider-services a').remove();
         $('#providers .working-plan tbody').empty();
         $('#providers .breaks tbody').empty();

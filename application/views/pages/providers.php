@@ -263,10 +263,18 @@
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="form-label mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <label class="form-label mb-0">
                                     <?= lang('services') ?>
                                 </label>
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" id="select-all-services" class="btn btn-outline-secondary" disabled>
+                                        <?= lang('select_all') ?>
+                                    </button>
+                                    <button type="button" id="select-none-services" class="btn btn-outline-secondary" disabled>
+                                        <?= lang('select_none') ?>
+                                    </button>
+                                </div>
                             </div>
 
                             <div id="provider-services" class="card card-body bg-white border">

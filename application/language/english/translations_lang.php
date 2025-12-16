@@ -500,4 +500,6 @@ $lang['google_meet_link_generation'] = 'Generate Google Meet Links';
 $lang['google_meet_link_generation_info'] = 'Automatically create a Google Meet video conference link for synced appointments. The meeting link will be stored in the appointment\'s meeting link field.';
 $lang['display_add_to_google_calendar'] = 'Display "Add to Google Calendar" Button';
 $lang['display_add_to_google_calendar_info'] = 'Show the "Add to Google Calendar" button on the booking confirmation page, allowing customers to easily add their appointment to their personal Google Calendar.';
+$lang['select_all'] = 'Select All';
+$lang['select_none'] = 'Select None';
 // End

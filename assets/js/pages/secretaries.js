@@ -129,6 +129,7 @@ App.Pages.Secretaries = (function () {
             $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
+            $('#select-all-providers, #select-none-providers').prop('disabled', false);
         });
 
         /**
@@ -147,6 +148,7 @@ App.Pages.Secretaries = (function () {
             $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
+            $('#select-all-providers, #select-none-providers').prop('disabled', false);
         });
 
         /**
@@ -162,6 +164,7 @@ App.Pages.Secretaries = (function () {
             $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
+            $('#select-all-providers, #select-none-providers').prop('disabled', false);
         });
 
         /**
@@ -252,6 +255,20 @@ App.Pages.Secretaries = (function () {
             if (id) {
                 select(id, true);
             }
+        });
+
+        /**
+         * Event: Select All Providers Button "Click"
+         */
+        $secretaries.on('click', '#select-all-providers', () => {
+            $('#secretary-providers input:checkbox').prop('checked', true);
+        });
+
+        /**
+         * Event: Select None Providers Button "Click"
+         */
+        $secretaries.on('click', '#select-none-providers', () => {
+            $('#secretary-providers input:checkbox').prop('checked', false);
         });
     }
 
@@ -373,6 +390,7 @@ App.Pages.Secretaries = (function () {
         $secretaries.find('.is-invalid').removeClass('is-invalid');
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
         $('#secretary-providers input:checkbox').prop('disabled', true).prop('checked', false);
+        $('#select-all-providers, #select-none-providers').prop('disabled', true);
     }
 
     /**
