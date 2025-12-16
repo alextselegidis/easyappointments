@@ -7,7 +7,7 @@
 ?>
 
 <div id="privacy-policy-modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title"><?= lang('privacy_policy') ?></h4>

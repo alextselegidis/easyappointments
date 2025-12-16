@@ -16,7 +16,7 @@
  */
 ?>
 <div id="appointments-modal" class="modal fade">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title"><?= lang('edit_appointment_title') ?></h3>
