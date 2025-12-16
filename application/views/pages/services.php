@@ -159,6 +159,33 @@
                 <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
 
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label mb-0">
+                    <?= lang('providers') ?>
+                </label>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" id="select-all-providers" class="btn btn-outline-secondary" disabled>
+                        <?= lang('select_all') ?>
+                    </button>
+                    <button type="button" id="select-none-providers" class="btn btn-outline-secondary" disabled>
+                        <?= lang('select_none') ?>
+                    </button>
+                </div>
+            </div>
+
+            <div id="service-providers" class="card card-body bg-white border mb-3">
+                <?php foreach (vars('providers') as $provider): ?>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               id="provider-<?= $provider['id'] ?>"
+                               data-id="<?= $provider['id'] ?>" disabled>
+                        <label class="form-check-label" for="provider-<?= $provider['id'] ?>">
+                            <?= e($provider['first_name'] . ' ' . $provider['last_name']) ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
         </div>
     </div>
 </div>

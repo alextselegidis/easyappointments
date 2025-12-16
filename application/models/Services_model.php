@@ -143,11 +143,19 @@ class Services_model extends EA_Model
         $service['create_datetime'] = date('Y-m-d H:i:s');
         $service['update_datetime'] = date('Y-m-d H:i:s');
 
+        $provider_ids = $service['providers'] ?? [];
+
+        unset($service['providers']);
+
         if (!$this->db->insert('services', $service)) {
             throw new RuntimeException('Could not insert service.');
         }
 
-        return $this->db->insert_id();
+        $service_id = $this->db->insert_id();
+
+        $this->set_provider_ids($service_id, $provider_ids);
+
+        return $service_id;
     }
 
     /**
@@ -163,11 +171,62 @@ class Services_model extends EA_Model
     {
         $service['update_datetime'] = date('Y-m-d H:i:s');
 
+        $provider_ids = $service['providers'] ?? null;
+
+        unset($service['providers']);
+
         if (!$this->db->update('services', $service, ['id' => $service['id']])) {
             throw new RuntimeException('Could not update service.');
         }
 
+        if ($provider_ids !== null) {
+            $this->set_provider_ids($service['id'], $provider_ids);
+        }
+
         return $service['id'];
+    }
+
+    /**
+     * Get the service provider IDs.
+     *
+     * @param int $service_id Service ID.
+     *
+     * @return array Returns an array of provider IDs.
+     */
+    public function get_provider_ids(int $service_id): array
+    {
+        $service_provider_connections = $this->db
+            ->get_where('services_providers', ['id_services' => $service_id])
+            ->result_array();
+
+        $provider_ids = [];
+
+        foreach ($service_provider_connections as $service_provider_connection) {
+            $provider_ids[] = (int) $service_provider_connection['id_users'];
+        }
+
+        return $provider_ids;
+    }
+
+    /**
+     * Save the service provider IDs.
+     *
+     * @param int $service_id Service ID.
+     * @param array $provider_ids Provider IDs.
+     */
+    public function set_provider_ids(int $service_id, array $provider_ids): void
+    {
+        // Re-insert the service-provider connections.
+        $this->db->delete('services_providers', ['id_services' => $service_id]);
+
+        foreach ($provider_ids as $provider_id) {
+            $service_provider_connection = [
+                'id_services' => $service_id,
+                'id_users' => $provider_id,
+            ];
+
+            $this->db->insert('services_providers', $service_provider_connection);
+        }
     }
 
     /**

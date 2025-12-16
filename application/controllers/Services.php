@@ -33,6 +33,7 @@ class Services extends EA_Controller
         'attendants_number',
         'is_private',
         'id_service_categories',
+        'providers',
     ];
     public array $optional_service_fields = [
         'id_service_categories' => null,
@@ -46,6 +47,7 @@ class Services extends EA_Controller
         parent::__construct();
 
         $this->load->model('services_model');
+        $this->load->model('providers_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
@@ -79,10 +81,13 @@ class Services extends EA_Controller
 
         $role_slug = session('role_slug');
 
+        $providers = $this->providers_model->get();
+
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'event_minimum_duration' => EVENT_MINIMUM_DURATION,
+            'providers' => $providers,
         ]);
 
         html_vars([
@@ -91,6 +96,7 @@ class Services extends EA_Controller
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'providers' => $providers,
         ]);
 
         $this->load->view('pages/services');
@@ -117,6 +123,11 @@ class Services extends EA_Controller
             $offset = (int) request('offset', '0');
 
             $services = $this->services_model->search($keyword, $limit, $offset, $order_by);
+
+            // Include provider IDs for each service
+            foreach ($services as &$service) {
+                $service['providers'] = $this->services_model->get_provider_ids($service['id']);
+            }
 
             json_response($services);
         } catch (Throwable $e) {

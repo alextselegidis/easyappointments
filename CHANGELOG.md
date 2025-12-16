@@ -17,6 +17,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add Select All / None buttons to multi-checkbox fields
 - Add prompt for client notifications so that they are not sent every time an appointment changes
 - Connect RSS updates from the official blog and show them in the about page 
+- Allow users to assign a provider to the service in the services page and update the label (assign the service to)
 
 ### Changed
 
