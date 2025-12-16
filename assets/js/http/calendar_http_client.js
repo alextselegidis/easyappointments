@@ -27,15 +27,17 @@ App.Http.Calendar = (function () {
      * @param {Object} [customer] Optional, contains the customer data.
      * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
+     * @param {Boolean} [notifyCustomer] Optional, whether to send notification to customer (defaults to true).
      *
      * @return {*|jQuery}
      */
-    function saveAppointment(appointment, customer, successCallback, errorCallback) {
+    function saveAppointment(appointment, customer, successCallback, errorCallback, notifyCustomer = true) {
         const url = App.Utils.Url.siteUrl('calendar/save_appointment');
 
         const data = {
             csrf_token: vars('csrf_token'),
             appointment_data: appointment,
+            notify_customer: notifyCustomer ? 1 : 0,
         };
 
         if (customer) {

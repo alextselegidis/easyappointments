@@ -835,7 +835,7 @@ App.Utils.CalendarDefaultView = (function () {
             delete appointment.service;
 
             // Success callback
-            successCallback = () => {
+            successCallback = (notifyCustomer) => {
                 // Display success notification to user.
                 const undoFunction = () => {
                     appointment.end_datetime = info.event.extendedProps.data.end_datetime = moment(
@@ -844,7 +844,7 @@ App.Utils.CalendarDefaultView = (function () {
                         .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                         .format('YYYY-MM-DD HH:mm:ss');
 
-                    App.Http.Calendar.saveAppointment(appointment).done(() => {
+                    App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -862,8 +862,23 @@ App.Utils.CalendarDefaultView = (function () {
                 info.event.setProp('data', info.event.extendedProps.data);
             };
 
-            // Update appointment data.
-            App.Http.Calendar.saveAppointment(appointment, null, successCallback);
+            // Show confirmation dialog for notification preference
+            App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
+                {
+                    text: lang('no'),
+                    click: (event, messageModal) => {
+                        messageModal.hide();
+                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(false), null, false);
+                    },
+                },
+                {
+                    text: lang('yes'),
+                    click: (event, messageModal) => {
+                        messageModal.hide();
+                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(true), null, true);
+                    },
+                },
+            ]);
         } else {
             // Update unavailability time period.
             const unavailability = {
@@ -978,7 +993,7 @@ App.Utils.CalendarDefaultView = (function () {
             info.event.extendedProps.data.end_datetime = appointment.end_datetime;
 
             // Define success callback function.
-            successCallback = () => {
+            successCallback = (notifyCustomer) => {
                 // Define the undo function, if the user needs to reset the last change.
                 const undoFunction = () => {
                     appointment.start_datetime = moment(appointment.start_datetime)
@@ -995,7 +1010,7 @@ App.Utils.CalendarDefaultView = (function () {
                     info.event.extendedProps.data.start_datetime = appointment.start_datetime;
                     info.event.extendedProps.data.end_datetime = appointment.end_datetime;
 
-                    App.Http.Calendar.saveAppointment(appointment).done(() => {
+                    App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() => {
                         $notification.hide('blind');
                     });
 
@@ -1010,8 +1025,23 @@ App.Utils.CalendarDefaultView = (function () {
                 ]);
             };
 
-            // Update appointment data.
-            App.Http.Calendar.saveAppointment(appointment, null, successCallback);
+            // Show confirmation dialog for notification preference
+            App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
+                {
+                    text: lang('no'),
+                    click: (event, messageModal) => {
+                        messageModal.hide();
+                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(false), null, false);
+                    },
+                },
+                {
+                    text: lang('yes'),
+                    click: (event, messageModal) => {
+                        messageModal.hide();
+                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(true), null, true);
+                    },
+                },
+            ]);
         } else {
             // Update unavailability time period.
             const unavailability = {

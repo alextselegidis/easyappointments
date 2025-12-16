@@ -154,8 +154,43 @@ App.Components.AppointmentsModal = (function () {
                 $appointmentsModal.find('.modal-body').scrollTop(0);
             };
 
-            // Save appointment data.
-            App.Http.Calendar.saveAppointment(appointment, customer, successCallback, errorCallback);
+            // Check if this is an update (appointment has an ID)
+            const isUpdate = Boolean(appointment.id);
+
+            if (isUpdate) {
+                // Show confirmation dialog for notification preference
+                App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
+                    {
+                        text: lang('no'),
+                        click: (event, messageModal) => {
+                            messageModal.hide();
+                            App.Http.Calendar.saveAppointment(
+                                appointment,
+                                customer,
+                                successCallback,
+                                errorCallback,
+                                false,
+                            );
+                        },
+                    },
+                    {
+                        text: lang('yes'),
+                        click: (event, messageModal) => {
+                            messageModal.hide();
+                            App.Http.Calendar.saveAppointment(
+                                appointment,
+                                customer,
+                                successCallback,
+                                errorCallback,
+                                true,
+                            );
+                        },
+                    },
+                ]);
+            } else {
+                // New appointment - save directly with notifications enabled
+                App.Http.Calendar.saveAppointment(appointment, customer, successCallback, errorCallback, true);
+            }
         });
 
         /**

@@ -238,6 +238,8 @@ class Calendar extends EA_Controller
 
             $appointment_data = request('appointment_data');
 
+            $notify_customer = filter_var(request('notify_customer', true), FILTER_VALIDATE_BOOLEAN);
+
             $this->check_event_permissions((int) $appointment_data['id_users_provider']);
 
             // Save customer changes to the database.
@@ -313,14 +315,16 @@ class Calendar extends EA_Controller
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
-            $this->notifications->notify_appointment_saved(
-                $appointment,
-                $service,
-                $provider,
-                $customer,
-                $settings,
-                $manage_mode,
-            );
+            if ($notify_customer) {
+                $this->notifications->notify_appointment_saved(
+                    $appointment,
+                    $service,
+                    $provider,
+                    $customer,
+                    $settings,
+                    $manage_mode,
+                );
+            }
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
 

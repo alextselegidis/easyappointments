@@ -503,4 +503,8 @@ $lang['display_add_to_google_calendar'] = 'Display "Add to Google Calendar" Butt
 $lang['display_add_to_google_calendar_info'] = 'Show the "Add to Google Calendar" button on the booking confirmation page, allowing customers to easily add their appointment to their personal Google Calendar.';
 $lang['select_all'] = 'Select All';
 $lang['select_none'] = 'Select None';
+$lang['appointment_update'] = 'Appointment Update';
+$lang['notify_customer_on_update_question'] = 'Would you like to notify the customer about this change?';
+$lang['yes'] = 'Yes';
+$lang['no'] = 'No';
 // End
