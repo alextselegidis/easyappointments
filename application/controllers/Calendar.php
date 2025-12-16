@@ -84,6 +84,7 @@ class Calendar extends EA_Controller
         $this->load->library('synchronization');
         $this->load->library('timezones');
         $this->load->library('webhooks_client');
+        $this->load->library('permissions');
     }
 
     /**
@@ -177,6 +178,23 @@ class Calendar extends EA_Controller
 
         $appointment_status_options = setting('appointment_status_options');
 
+        $customers = $this->customers_model->get(null, 50, null, 'update_datetime DESC');
+
+        if (setting('limit_customer_access') && $role_slug === DB_SLUG_PROVIDER) {
+            // Only include the customers that the provider is supposed to see (they had past booking together)
+            $CI = $this;
+
+            $customers = array_values(
+                array_filter($customers, function ($customer) use ($user_id, $CI) {
+                    if (!$CI->permissions->has_customer_access($user_id, $customer['id'])) {
+                        return false;
+                    }
+
+                    return true;
+                }),
+            );
+        }
+
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
@@ -195,7 +213,7 @@ class Calendar extends EA_Controller
                 setting('google_sync_feature') ?: config('google_sync_feature'),
                 FILTER_VALIDATE_BOOLEAN,
             ),
-            'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
+            'customers' => $customers,
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
         ]);

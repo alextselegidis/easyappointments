@@ -6,7 +6,7 @@
     <img src="<?= asset_url('assets/img/logo.png') ?>" 
         alt="Easy!Appointments" class="shadow mb-3" width="72" height="72">
     <h4 class="text-primary fw-semibold mb-1"><?= lang('log_out') ?></h4>
-    <p class="text-secondary small mb-0"><?= lang('logout_success') ?></p>
+    <p class=" small mb-0"><?= lang('logout_success') ?></p>
 </div>
 
 <div class="d-grid gap-2 mb-3">
@@ -17,7 +17,7 @@
 </div>
 
 <div class="text-center">
-    <a href="<?= site_url('login') ?>" class="text-decoration-none text-secondary small">
+    <a href="<?= site_url('login') ?>" class="text-decoration-none  small">
         <i class="fas fa-arrow-left me-1"></i>
         <?= lang('backend_section') ?>
     </a>

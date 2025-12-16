@@ -30,7 +30,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Cannot modify appointment if provider changes time zone (#1789)
 - Fix the customer appointment link so that it opens the modal even in the table calendar view
 - Run the session garbage collector once in a while to avoid session bloat (#1793)
-
+- Customer limit must not allow providers to select customers in the appt modal that they are not connected with
 
 
 ## [1.5.2] - 2025-08-26
