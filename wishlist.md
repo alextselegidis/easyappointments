@@ -15,6 +15,7 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [ ] Delete button on appointments modal
 - [x] ~~Extra info field for booking~~ (Was existing option)
 - [x] Total price stored in appointment
+- [ ] Click outside of popup should (only) close popup
 
 ## Want to haves
 
