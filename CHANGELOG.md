@@ -16,6 +16,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add new Google Meet setting and meeting link support for appointments while syncing with Google (#1589)
 - Add Select All / None buttons to multi-checkbox fields
 - Add prompt for client notifications so that they are not sent every time an appointment changes
+- Connect RSS updates from the official blog and show them in the about page 
 
 ### Changed
 

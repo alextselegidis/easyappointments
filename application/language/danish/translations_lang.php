@@ -506,4 +506,7 @@ $lang['appointment_update'] = 'Appointment Update';
 $lang['notify_customer_on_update_question'] = 'Would you like to notify the customer about this change?';
 $lang['yes'] = 'Yes';
 $lang['no'] = 'No';
+$lang['latest_blog_posts'] = 'Latest Blog Posts';
+$lang['loading'] = 'Loading';
+$lang['blog_posts_load_error'] = 'Unable to load blog posts. Please visit the official website for updates.';
 // End
