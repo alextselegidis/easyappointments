@@ -25,7 +25,6 @@ Some stuff I'd like to change so this system is usable in my situation.
 - [x] Customer info linked to cookie
 - [x] Switch between card and classic booking layout
 - [ ] Clean up IDE warnings
-- [ ] REST api
 - [x] Personal API token
 - [ ] Mobile client app based on Flutter/Dart
 
