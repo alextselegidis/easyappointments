@@ -11,8 +11,8 @@
 
 $config['version'] = '1.5.2'; // This must be changed manually.
 
-$config['url'] = Config::BASE_URL;
+$config['url'] = Config::getBaseUrl();
 
-$config['debug'] = Config::DEBUG_MODE;
+$config['debug'] = Config::getDebugMode();
 
 $config['cache_busting_token'] = 'TSJ79';

@@ -31,7 +31,7 @@ if ($request_uri === '.')
     $request_uri = '';
 }
 
-$config['base_url'] = rtrim(! is_cli() ? $protocol . $domain . $request_uri : Config::BASE_URL, '/');
+$config['base_url'] = rtrim(! is_cli() ? $protocol . $domain . $request_uri : Config::getBaseUrl(), '/');
 
 /*
 |--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ $config['language'] =
     $_GET['language'] ??
     (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
         ? $languages[$language_code]
-        : Config::LANGUAGE);
+        : Config::getLanguage());
 
 $config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 

@@ -1,0 +1,46 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Docker
+docker/
+docker-compose.yml
+Dockerfile
+
+# IDE
+.vscode/
+.idea/
+.run/
+
+# Node
+node_modules/
+
+# Logs and cache
+storage/logs/*
+storage/cache/*
+storage/sessions/*
+!storage/logs/.htaccess
+!storage/logs/index.html
+!storage/cache/.htaccess
+!storage/cache/index.html
+!storage/sessions/.htaccess
+!storage/sessions/index.html
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Tests
+tests/
+phpunit.xml
+
+# Development files
+.editorconfig
+.prettierrc.json
+.prettierignore
+babel.config.json
+gulpfile.js
+
+# Keep config-sample.php as reference

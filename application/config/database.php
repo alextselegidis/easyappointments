@@ -49,10 +49,11 @@
 $active_group = 'default';
 $query_builder = TRUE;
 
-$db['default']['hostname'] = Config::DB_HOST;
-$db['default']['username'] = Config::DB_USERNAME;
-$db['default']['password'] = Config::DB_PASSWORD;
-$db['default']['database'] = Config::DB_NAME;
+$db['default']['hostname'] = Config::getDbHost();
+$db['default']['username'] = Config::getDbUsername();
+$db['default']['password'] = Config::getDbPassword();
+$db['default']['database'] = Config::getDbName();
+$db['default']['port'] = Config::getDbPort();
 $db['default']['dbdriver'] = 'mysqli';
 $db['default']['dbprefix'] = 'ea_';
 $db['default']['pconnect'] = FALSE;
