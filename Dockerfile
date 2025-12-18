@@ -24,12 +24,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     fileinfo \
     zip
 
-# Fix MPM conflict - remove all MPM configs and keep only prefork
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.conf /etc/apache2/mods-enabled/mpm_*.load \
-    && ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/ \
-    && ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
-
-# Enable Apache modules
+# Enable Apache modules (prefork is already default in php:8.2-apache)
 RUN a2enmod rewrite headers
 
 # Set working directory
@@ -58,10 +53,18 @@ RUN echo '<Directory /var/www/html>' >> /etc/apache2/apache2.conf \
     && echo '    Require all granted' >> /etc/apache2/apache2.conf \
     && echo '</Directory>' >> /etc/apache2/apache2.conf
 
-# Railway uses dynamic PORT (default 8080)
+# Set Apache to listen on PORT environment variable
+RUN sed -i 's/Listen 80/Listen ${PORT}/' /etc/apache2/ports.conf \
+    && sed -i 's/:80/:${PORT}/' /etc/apache2/sites-available/000-default.conf
+
+# Set default PORT
+ENV PORT=8080
+ENV APACHE_RUN_DIR=/var/run/apache2
+ENV APACHE_PID_FILE=/var/run/apache2/apache2.pid
+ENV APACHE_RUN_USER=www-data
+ENV APACHE_RUN_GROUP=www-data
+ENV APACHE_LOG_DIR=/var/log/apache2
+
 EXPOSE 8080
 
-# Configure Apache to listen on PORT and start
-CMD sed -i "s/Listen 80/Listen ${PORT:-8080}/" /etc/apache2/ports.conf \
-    && sed -i "s/:80/:${PORT:-8080}/" /etc/apache2/sites-available/000-default.conf \
-    && apache2-foreground
+CMD ["apache2-foreground"]
