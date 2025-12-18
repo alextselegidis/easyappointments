@@ -24,9 +24,13 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     fileinfo \
     zip
 
-# Disable conflicting MPM modules and enable required ones
-RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
-    && a2enmod mpm_prefork rewrite headers
+# Fix MPM conflict - remove all MPM configs and keep only prefork
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.conf /etc/apache2/mods-enabled/mpm_*.load \
+    && ln -sf /etc/apache2/mods-available/mpm_prefork.conf /etc/apache2/mods-enabled/ \
+    && ln -sf /etc/apache2/mods-available/mpm_prefork.load /etc/apache2/mods-enabled/
+
+# Enable Apache modules
+RUN a2enmod rewrite headers
 
 # Set working directory
 WORKDIR /var/www/html
@@ -47,22 +51,17 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 755 /var/www/html/storage
 
-# Configure Apache for Railway (dynamic PORT)
-RUN sed -i 's|/var/www/html|/var/www/html|g' /etc/apache2/sites-available/000-default.conf \
-    && echo '<Directory /var/www/html>\n\
-    Options Indexes FollowSymLinks\n\
-    AllowOverride All\n\
-    Require all granted\n\
-</Directory>' >> /etc/apache2/apache2.conf
+# Configure Apache directory permissions
+RUN echo '<Directory /var/www/html>' >> /etc/apache2/apache2.conf \
+    && echo '    Options Indexes FollowSymLinks' >> /etc/apache2/apache2.conf \
+    && echo '    AllowOverride All' >> /etc/apache2/apache2.conf \
+    && echo '    Require all granted' >> /etc/apache2/apache2.conf \
+    && echo '</Directory>' >> /etc/apache2/apache2.conf
 
 # Railway uses dynamic PORT (default 8080)
 EXPOSE 8080
 
-# Create startup script for dynamic port configuration
-RUN echo '#!/bin/bash\n\
-PORT=${PORT:-8080}\n\
-sed -i "s/Listen 80/Listen $PORT/g" /etc/apache2/ports.conf\n\
-sed -i "s/<VirtualHost \\*:80>/<VirtualHost *:$PORT>/g" /etc/apache2/sites-available/000-default.conf\n\
-exec apache2-foreground' > /start.sh && chmod +x /start.sh
-
-CMD ["/start.sh"]
+# Configure Apache to listen on PORT and start
+CMD sed -i "s/Listen 80/Listen ${PORT:-8080}/" /etc/apache2/ports.conf \
+    && sed -i "s/:80/:${PORT:-8080}/" /etc/apache2/sites-available/000-default.conf \
+    && apache2-foreground
