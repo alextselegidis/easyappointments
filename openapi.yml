@@ -1768,11 +1768,11 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /blocked_peroids:
+  /blocked_periods:
     get:
       tags:
-        - blocked_peroids
-      summary: Get all blocked_peroids
+        - blocked_periods
+      summary: Get all blocked_periods
       parameters:
         - name: page
           in: query
@@ -1821,8 +1821,8 @@ paths:
         - BasicAuth: [ ]
     post:
       tags:
-        - blocked_peroids
-      summary: Create an blocked_peroid
+        - blocked_periods
+      summary: Create an blocked_period
       requestBody:
         content:
           application/json:
@@ -1848,11 +1848,11 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /blocked_peroids/{blockedPeroidId}:
+  /blocked_periods/{blockedPeroidId}:
     get:
       tags:
-        - blocked_peroids
-      summary: Get an blocked_peroid
+        - blocked_periods
+      summary: Get an blocked_period
       parameters:
         - name: blockedPeroidId
           in: path
@@ -1881,8 +1881,8 @@ paths:
         - BasicAuth: [ ]
     put:
       tags:
-        - blocked_peroids
-      summary: Update an blocked_peroid
+        - blocked_periods
+      summary: Update an blocked_period
       parameters:
         - name: blockedPeroidId
           in: path
@@ -1918,8 +1918,8 @@ paths:
         - BasicAuth: [ ]
     delete:
       tags:
-        - blocked_peroids
-      summary: Delete an blocked_peroid
+        - blocked_periods
+      summary: Delete an blocked_period
       parameters:
         - name: blockedPeroidId
           in: path
