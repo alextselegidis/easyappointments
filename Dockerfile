@@ -24,8 +24,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     fileinfo \
     zip
 
-# Enable Apache modules
-RUN a2enmod rewrite headers
+# Disable conflicting MPM modules and enable required ones
+RUN a2dismod mpm_event mpm_worker 2>/dev/null || true \
+    && a2enmod mpm_prefork rewrite headers
 
 # Set working directory
 WORKDIR /var/www/html
