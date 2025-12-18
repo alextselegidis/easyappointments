@@ -57,7 +57,11 @@ RUN sed -i 's|/var/www/html|/var/www/html|g' /etc/apache2/sites-available/000-de
 # Railway uses dynamic PORT (default 8080)
 EXPOSE 8080
 
-# Start Apache with dynamic port from Railway
-CMD sed -i "s/Listen 80/Listen ${PORT:-8080}/g" /etc/apache2/ports.conf && \
-    sed -i "s/:80/:${PORT:-8080}/g" /etc/apache2/sites-available/000-default.conf && \
-    apache2-foreground
+# Create startup script for dynamic port configuration
+RUN echo '#!/bin/bash\n\
+PORT=${PORT:-8080}\n\
+sed -i "s/Listen 80/Listen $PORT/g" /etc/apache2/ports.conf\n\
+sed -i "s/<VirtualHost \\*:80>/<VirtualHost *:$PORT>/g" /etc/apache2/sites-available/000-default.conf\n\
+exec apache2-foreground' > /start.sh && chmod +x /start.sh
+
+CMD ["/start.sh"]
