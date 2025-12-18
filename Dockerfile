@@ -46,7 +46,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN chown -R www-data:www-data /var/www/html/storage \
     && chmod -R 755 /var/www/html/storage
 
-# Configure Apache
+# Configure Apache for Railway (dynamic PORT)
 RUN sed -i 's|/var/www/html|/var/www/html|g' /etc/apache2/sites-available/000-default.conf \
     && echo '<Directory /var/www/html>\n\
     Options Indexes FollowSymLinks\n\
@@ -54,8 +54,10 @@ RUN sed -i 's|/var/www/html|/var/www/html|g' /etc/apache2/sites-available/000-de
     Require all granted\n\
 </Directory>' >> /etc/apache2/apache2.conf
 
-# Expose port
-EXPOSE 80
+# Railway uses dynamic PORT
+EXPOSE ${PORT:-80}
 
-# Start Apache
-CMD ["apache2-foreground"]
+# Start Apache with dynamic port from Railway
+CMD sed -i "s/Listen 80/Listen ${PORT:-80}/g" /etc/apache2/ports.conf && \
+    sed -i "s/:80/:${PORT:-80}/g" /etc/apache2/sites-available/000-default.conf && \
+    apache2-foreground
