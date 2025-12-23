@@ -157,7 +157,7 @@
         }
 
         a {
-            color: #3498db;
+            color: #429A82;
             text-decoration: underline;
         }
 
@@ -185,10 +185,10 @@
 
         .btn a {
             background-color: #ffffff;
-            border: solid 1px #3498db;
+            border: solid 1px #429A82;
             border-radius: 5px;
             box-sizing: border-box;
-            color: #3498db;
+            color: #429A82;
             cursor: pointer;
             display: inline-block;
             font-size: 14px;
@@ -200,12 +200,12 @@
         }
 
         .btn-primary table td {
-            background-color: #3498db;
+            background-color: #429A82;
         }
 
         .btn-primary a {
-            background-color: #3498db;
-            border-color: #3498db;
+            background-color: #429A82;
+            border-color: #429A82;
             color: #ffffff;
         }
 
