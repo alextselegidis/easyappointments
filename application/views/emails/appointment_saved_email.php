@@ -390,8 +390,10 @@
                                 <tr>
                                     <td>
 
+                                        <?php if (file_exists(FCPATH . 'logo.png')): ?>
                                         <!-- Logo at the top center, embedded as CID -->
                                         <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
+                                        <?php endif; ?>
 
                                         <h2>
                                             <?= $subject ?>
