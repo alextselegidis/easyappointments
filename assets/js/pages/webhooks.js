@@ -275,6 +275,7 @@ App.Pages.Webhooks = (function () {
         $secretHeader.val(webhook.secret_header);
         $secretToken.val(webhook.secret_token);
         $isSslVerified.prop('checked', Boolean(Number(webhook.is_ssl_verified)));
+        $notes.val(webhook.notes);
 
         $actions.find('input:checkbox').prop('checked', false);
 
