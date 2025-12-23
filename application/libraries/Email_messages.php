@@ -116,10 +116,6 @@ class Email_messages
 
         $php_mailer->addStringAttachment($ics_stream, 'invitation.ics', PHPMailer::ENCODING_BASE64, 'text/calendar');
 
-        if (file_exists(FCPATH . 'logo.png')) {
-            $php_mailer->addEmbeddedImage(FCPATH . 'logo.png', 'logo.png', 'logo.png', 'base64', 'image/png');
-        }
-
         $php_mailer->send();
     }
 
@@ -272,6 +268,8 @@ class Email_messages
             $php_mailer->Body = $html;
             $php_mailer->AltBody = $plain_text;
         }
+
+        $php_mailer->addEmbeddedImage(FCPATH . 'assets/img/logo.png', 'logo.png', 'logo.png', 'base64', 'image/png');
 
         return $php_mailer;
     }
