@@ -493,3 +493,17 @@ $lang['app_tagline_hint'] = 'The application tagline will be displayed in the ba
 $lang['app_url'] = 'Application URL';
 $lang['app_url_hint'] = 'The application URL is used as a reference link throughout the system (leave empty to use default "https://easyappointments.org").';
 // End
+$lang['field_required'] = 'The field "%s" is required.';
+$lang['custom_field_type'] = 'Field Type';
+$lang['text'] = 'Text';
+$lang['textarea'] = 'Text Area';
+$lang['select'] = 'Dropdown';
+$lang['add_field'] = 'Add Field';
+$lang['edit_field'] = 'Edit Field';
+$lang['field_options'] = 'Field Options';
+$lang['add_option'] = 'Add Option';
+$lang['option_value'] = 'Value';
+$lang['option_label'] = 'Label';
+$lang['display_in_column'] = 'Display in Column';
+$lang['column_1'] = 'Column 1';
+$lang['column_2'] = 'Column 2';

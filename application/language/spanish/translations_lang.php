@@ -493,3 +493,17 @@ $lang['app_tagline_hint'] = 'El lema de la aplicación se mostrará en el encabe
 $lang['app_url'] = 'URL de la Aplicación';
 $lang['app_url_hint'] = 'La URL de la aplicación se utiliza como enlace de referencia en todo el sistema (dejar vacío para usar el valor predeterminado "https://easyappointments.org").';
 // End
+$lang['field_required'] = 'El campo "%s" es obligatorio.';
+$lang['custom_field_type'] = 'Tipo de Campo';
+$lang['text'] = 'Texto';
+$lang['textarea'] = 'Área de Texto';
+$lang['select'] = 'Lista Desplegable';
+$lang['add_field'] = 'Agregar Campo';
+$lang['edit_field'] = 'Editar Campo';
+$lang['field_options'] = 'Opciones del Campo';
+$lang['add_option'] = 'Agregar Opción';
+$lang['option_value'] = 'Valor';
+$lang['option_label'] = 'Etiqueta';
+$lang['display_in_column'] = 'Mostrar en Columna';
+$lang['column_1'] = 'Columna 1';
+$lang['column_2'] = 'Columna 2';
