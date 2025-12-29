@@ -168,6 +168,26 @@
             </tr>
         </table>
 
+        <?php
+        // Display custom fields if any
+        $custom_fields_data = load_custom_field_values($customer['id']);
+        if (!empty($custom_fields_data)):
+        ?>
+            <h2><?= lang('custom_fields') ?></h2>
+            <table>
+                <?php foreach ($custom_fields_data as $field_name => $field_data): ?>
+                    <tr>
+                        <td class="label" style="padding: 3px;font-weight: bold;">
+                            <?= e($field_data['label']) ?>
+                        </td>
+                        <td style="padding: 3px;">
+                            <?= e($field_data['value']) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php endif; ?>
+
         <h2>
             <?= lang('appointment_link_title') ?>
         </h2>

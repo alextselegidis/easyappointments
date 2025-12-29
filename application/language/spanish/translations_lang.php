@@ -507,3 +507,7 @@ $lang['option_label'] = 'Etiqueta';
 $lang['display_in_column'] = 'Mostrar en Columna';
 $lang['column_1'] = 'Columna 1';
 $lang['column_2'] = 'Columna 2';
+$lang['delete_custom_field'] = 'Eliminar Campo Personalizado';
+$lang['custom_field_saved'] = 'Campo personalizado guardado exitosamente.';
+$lang['custom_field_deleted'] = 'Campo personalizado eliminado exitosamente.';
+$lang['inactive'] = 'Inactivo';

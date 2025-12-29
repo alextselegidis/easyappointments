@@ -789,13 +789,14 @@ App.Pages.Booking = (function () {
             address: $address.val(),
             city: $city.val(),
             zip_code: $zipCode.val(),
-            timezone: $selectTimezone.val(),
-            custom_field_1: $customField1.val(),
-            custom_field_2: $customField2.val(),
-            custom_field_3: $customField3.val(),
-            custom_field_4: $customField4.val(),
-            custom_field_5: $customField5.val(),
+            timezone: $selectTimezone.val()
         };
+
+        // Collect custom field values dynamically
+        $('.custom-field-input').each(function() {
+            const fieldId = $(this).data('field-id');
+            data.customer['custom_field_' + fieldId] = $(this).val();
+        });
 
         data.appointment = {
             start_datetime:

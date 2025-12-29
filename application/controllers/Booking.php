@@ -434,6 +434,9 @@ class Booking extends EA_Controller
             $customer_id = $this->customers_model->save($customer);
             $customer = $this->customers_model->find($customer_id);
 
+            // Save custom field values
+            save_custom_field_values($customer_id, $customer);
+
             $appointment['id_users_customer'] = $customer_id;
             $appointment['is_unavailability'] = false;
             $appointment['color'] = $service['color'];

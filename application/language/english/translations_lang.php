@@ -507,3 +507,7 @@ $lang['option_label'] = 'Label';
 $lang['display_in_column'] = 'Display in Column';
 $lang['column_1'] = 'Column 1';
 $lang['column_2'] = 'Column 2';
+$lang['delete_custom_field'] = 'Delete Custom Field';
+$lang['custom_field_saved'] = 'Custom field saved successfully.';
+$lang['custom_field_deleted'] = 'Custom field deleted successfully.';
+$lang['inactive'] = 'Inactive';
