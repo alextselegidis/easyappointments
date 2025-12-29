@@ -144,9 +144,11 @@ class Custom_fields extends EA_Controller
 
             $keyword = request('keyword');
 
-            $limit = request('limit');
+            $limit = request('limit', null);
+            $limit = $limit !== null ? (int)$limit : null;
 
-            $offset = request('offset');
+            $offset = request('offset', null);
+            $offset = $offset !== null ? (int)$offset : null;
 
             $order_by = request('order_by');
 
