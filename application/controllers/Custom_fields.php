@@ -86,7 +86,7 @@ class Custom_fields extends EA_Controller
 
             $custom_field = $this->custom_fields_model->find($custom_field_id, true);
 
-            response($custom_field);
+            json_response($custom_field);
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -126,7 +126,7 @@ class Custom_fields extends EA_Controller
 
             $custom_field = $this->custom_fields_model->find($custom_field_id, true);
 
-            response($custom_field);
+            json_response($custom_field);
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -156,7 +156,7 @@ class Custom_fields extends EA_Controller
                 ? $this->custom_fields_model->get(null, $limit, $offset, $order_by)
                 : $this->custom_fields_model->search($keyword, $limit, $offset, $order_by);
 
-            response($custom_fields);
+            json_response($custom_fields);
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -198,7 +198,7 @@ class Custom_fields extends EA_Controller
 
             $option = $this->custom_field_options_model->find($option_id);
 
-            response($option);
+            json_response($option);
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -238,7 +238,7 @@ class Custom_fields extends EA_Controller
 
             $options = $this->custom_field_options_model->get_by_field($custom_field_id);
 
-            response($options);
+            json_response($options);
         } catch (Throwable $e) {
             json_exception($e);
         }
