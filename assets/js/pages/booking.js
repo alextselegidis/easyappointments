@@ -165,9 +165,8 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.setDateTimePickerValue($selectDate, new Date());
 
-        const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
-        $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
+        // Fixed to Mexico City timezone
+        $selectTimezone.val('America/Mexico_City');
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
