@@ -483,6 +483,13 @@ $lang['fields'] = 'Campos';
 $lang['invalid_credentials_provided'] = 'Credenciales inválidas proporcionadas, por favor intente nuevamente.';
 $lang['calendar_url'] = 'URL del Calendario';
 $lang['please_select'] = 'Por Favor Seleccione';
-$lang['secret_header'] = 'Secret Header';
-$lang['search'] = 'Search';
+$lang['secret_header'] = 'Encabezado Secreto';
+$lang['search'] = 'Buscar';
+$lang['white_label'] = 'Marca Blanca';
+$lang['app_name'] = 'Nombre de la Aplicación';
+$lang['app_name_hint'] = 'El nombre de la aplicación se mostrará en el encabezado del backend (dejar vacío para usar el valor predeterminado "EASY!APPOINTMENTS").';
+$lang['app_tagline'] = 'Lema de la Aplicación';
+$lang['app_tagline_hint'] = 'El lema de la aplicación se mostrará en el encabezado del backend (dejar vacío para usar el valor predeterminado "Online Appointment Scheduler").';
+$lang['app_url'] = 'URL de la Aplicación';
+$lang['app_url_hint'] = 'La URL de la aplicación se utiliza como enlace de referencia en todo el sistema (dejar vacío para usar el valor predeterminado "https://easyappointments.org").';
 // End

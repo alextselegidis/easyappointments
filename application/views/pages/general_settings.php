@@ -141,6 +141,49 @@
 
                         <div class="row mb-5">
                             <div class="col-12">
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('white_label') ?></h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="app-name">
+                                        <?= lang('app_name') ?>
+                                    </label>
+                                    <input id="app-name" data-field="app_name" class="form-control">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('app_name_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="app-tagline">
+                                        <?= lang('app_tagline') ?>
+                                    </label>
+                                    <input id="app-tagline" data-field="app_tagline" class="form-control">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('app_tagline_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="app-url">
+                                        <?= lang('app_url') ?>
+                                    </label>
+                                    <input id="app-url" data-field="app_url" class="form-control">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('app_url_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-12">
                                 <h5 class="text-black-50 mb-3 fw-light"><?= lang('localization') ?></h5>
 
                                 <div class="mb-3">

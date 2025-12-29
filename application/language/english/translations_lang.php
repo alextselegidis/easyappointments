@@ -485,4 +485,11 @@ $lang['calendar_url'] = 'Calendar URL';
 $lang['please_select'] = 'Please Select';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['white_label'] = 'White Label';
+$lang['app_name'] = 'Application Name';
+$lang['app_name_hint'] = 'The application name will be displayed in the backend header (leave empty to use default "EASY!APPOINTMENTS").';
+$lang['app_tagline'] = 'Application Tagline';
+$lang['app_tagline_hint'] = 'The application tagline will be displayed in the backend header (leave empty to use default "Online Appointment Scheduler").';
+$lang['app_url'] = 'Application URL';
+$lang['app_url_hint'] = 'The application URL is used as a reference link throughout the system (leave empty to use default "https://easyappointments.org").';
 // End

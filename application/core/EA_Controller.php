@@ -135,6 +135,7 @@ class EA_Controller extends CI_Controller
             'available_languages' => config('available_languages'),
             'language' => $this->lang->language,
             'csrf_token' => $this->security->get_csrf_hash(),
+            'company_logo' => $this->db->table_exists('settings') ? setting('company_logo') : '',
         ]);
     }
 

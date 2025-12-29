@@ -9,9 +9,9 @@
 
 <nav id="header" class="navbar navbar-expand-md navbar-dark">
     <div id="header-logo" class="navbar-brand">
-        <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
-        <h6>EASY!APPOINTMENTS</h6>
-        <small>Online Appointment Scheduler</small>
+        <img src="<?= vars('company_logo') ?: base_url('assets/img/logo.png') ?>" alt="logo">
+        <h6><?= e(setting('app_name') ?: 'EASY!APPOINTMENTS') ?></h6>
+        <small><?= e(setting('app_tagline') ?: 'Online Appointment Scheduler') ?></small>
     </div>
 
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#header-menu">
@@ -104,9 +104,6 @@
 
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('account') ?>
-                    </a>
-                    <a class="dropdown-item" href="<?= site_url('about') ?>">
-                        <?= lang('about') ?>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?= site_url('logout') ?>">
