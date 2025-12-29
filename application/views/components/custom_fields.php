@@ -7,14 +7,17 @@
 
 $disabled = $disabled ?? false;
 
+// Get CodeIgniter instance
+$CI =& get_instance();
+
 // Load custom fields model if not already loaded
-if (!isset($this->custom_fields_model)) {
-    $this->load->model('custom_fields_model');
-    $this->load->model('custom_field_options_model');
+if (!isset($CI->custom_fields_model)) {
+    $CI->load->model('custom_fields_model');
+    $CI->load->model('custom_field_options_model');
 }
 
 // Get all active custom fields grouped by column
-$grouped_fields = $this->custom_fields_model->get_grouped_by_column();
+$grouped_fields = $CI->custom_fields_model->get_grouped_by_column();
 
 ?>
 
@@ -51,7 +54,7 @@ $grouped_fields = $this->custom_fields_model->get_grouped_by_column();
 
                         <?php elseif ($field['type'] === 'select'): ?>
                             <?php
-                            $options = $this->custom_field_options_model->get_by_field($field['id']);
+                            $options = $CI->custom_field_options_model->get_by_field($field['id']);
                             ?>
                             <select id="custom-field-<?= $field['id'] ?>"
                                     data-field-id="<?= $field['id'] ?>"
