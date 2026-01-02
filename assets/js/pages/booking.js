@@ -103,9 +103,13 @@ App.Pages.Booking = (function () {
 
         let monthTimeout;
 
+        const advanceBookingDays = parseInt(vars('require_advance_booking_days') || '0', 10);
+
         App.Utils.UI.initializeDatePicker($selectDate, {
             inline: true,
-            minDate: moment().add(1, 'day').startOf('day').toDate(), // Require at least 1 day advance notice
+            minDate: advanceBookingDays > 0
+                ? moment().add(advanceBookingDays, 'days').startOf('day').toDate()
+                : moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
@@ -163,8 +167,11 @@ App.Pages.Booking = (function () {
             },
         });
 
-        // Set default date to tomorrow (same-day appointments not allowed)
-        App.Utils.UI.setDateTimePickerValue($selectDate, moment().add(1, 'day').toDate());
+        // Set default date based on advance booking requirement
+        const defaultDate = advanceBookingDays > 0
+            ? moment().add(advanceBookingDays, 'days').toDate()
+            : new Date();
+        App.Utils.UI.setDateTimePickerValue($selectDate, defaultDate);
 
         // Fixed to Mexico City timezone
         $selectTimezone.val('America/Mexico_City');
@@ -342,16 +349,18 @@ App.Pages.Booking = (function () {
         $selectProvider.on('change', (event) => {
             const $target = $(event.target);
 
-            // Use tomorrow as minimum date (same-day appointments not allowed)
-            const tomorrowDateTimeObject = moment().add(1, 'day').toDate();
-            const tomorrowDateTimeMoment = moment(tomorrowDateTimeObject);
+            // Use configured advance booking requirement
+            const targetDate = advanceBookingDays > 0
+                ? moment().add(advanceBookingDays, 'days').toDate()
+                : new Date();
+            const targetMoment = moment(targetDate);
 
-            App.Utils.UI.setDateTimePickerValue($selectDate, tomorrowDateTimeObject);
+            App.Utils.UI.setDateTimePickerValue($selectDate, targetDate);
 
             App.Http.Booking.getUnavailableDates(
                 $target.val(),
                 $selectService.val(),
-                tomorrowDateTimeMoment.format('YYYY-MM-DD'),
+                targetMoment.format('YYYY-MM-DD'),
             );
 
             App.Pages.Booking.updateConfirmFrame();

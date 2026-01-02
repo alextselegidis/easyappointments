@@ -122,6 +122,21 @@
                             </div>
                         </div>
 
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('minimum_advance_booking') ?></h5>
+
+                        <div class="mb-5">
+                            <label for="require-advance-booking-days" class="form-label">
+                                <?= lang('require_advance_booking_days') ?>
+                            </label>
+                            <input id="require-advance-booking-days" data-field="require_advance_booking_days" class="form-control"
+                                   type="number" min="0" max="30">
+                            <div class="form-text text-muted">
+                                <small>
+                                    <?= lang('require_advance_booking_days_hint') ?>
+                                </small>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-start align-items-center mb-3">
                             <h5 class="text-black-50 mb-0 me-3 fw-light">
                                 <?= lang('appointment_status_options') ?>
