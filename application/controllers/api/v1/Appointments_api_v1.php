@@ -30,6 +30,8 @@ class Appointments_api_v1 extends EA_Controller
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+        $this->load->model('user_subscriptions_model');
+        $this->load->model('appointment_history_model');
 
         $this->load->library('api');
         $this->load->library('webhooks_client');
@@ -220,9 +222,46 @@ class Appointments_api_v1 extends EA_Controller
                 $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
             }
 
+            // Check quota if customer has a subscription
+            $customer_id = $appointment['id_users_customer'] ?? null;
+            $subscription = null;
+
+            if ($customer_id) {
+                $subscription = $this->user_subscriptions_model->get_active_subscription($customer_id);
+
+                if ($subscription) {
+                    $quota_info = $this->user_subscriptions_model->check_quota($customer_id);
+
+                    if (!$quota_info['has_quota']) {
+                        throw new RuntimeException(
+                            lang('no_quota_remaining') ??
+                                'Δεν έχετε διαθέσιμα ραντεβού. Παρακαλώ επικοινωνήστε με το γυμναστήριο.'
+                        );
+                    }
+
+                    // Link appointment to subscription
+                    $appointment['id_user_subscriptions'] = $subscription['id'];
+                }
+            }
+
             $appointment_id = $this->appointments_model->save($appointment);
 
             $created_appointment = $this->appointments_model->find($appointment_id);
+
+            // Increment quota usage if subscription exists
+            if ($subscription) {
+                $this->user_subscriptions_model->increment_usage($subscription['id']);
+
+                // Log the action
+                $this->appointment_history_model->log_action(
+                    $appointment_id,
+                    $subscription['id'],
+                    'created',
+                    1,
+                    null,
+                    'Appointment created and quota incremented'
+                );
+            }
 
             $this->notify_and_sync_appointment($created_appointment);
 
@@ -347,6 +386,39 @@ class Appointments_api_v1 extends EA_Controller
                 'date_format' => setting('date_format'),
                 'time_format' => setting('time_format'),
             ];
+
+            // Handle quota refund based on 24-hour rule
+            $subscription_id = $deleted_appointment['id_user_subscriptions'] ?? null;
+
+            if ($subscription_id) {
+                $appointment_datetime = new DateTime($deleted_appointment['start_datetime']);
+                $now = new DateTime();
+                $hours_before = ($appointment_datetime->getTimestamp() - $now->getTimestamp()) / 3600;
+
+                if ($hours_before >= 24) {
+                    // Refund the quota
+                    $this->user_subscriptions_model->decrement_usage($subscription_id);
+
+                    $this->appointment_history_model->log_action(
+                        $id,
+                        $subscription_id,
+                        'quota_refunded',
+                        -1,
+                        $hours_before,
+                        'Appointment cancelled 24+ hours before, quota refunded'
+                    );
+                } else {
+                    // No refund
+                    $this->appointment_history_model->log_action(
+                        $id,
+                        $subscription_id,
+                        'quota_not_refunded',
+                        0,
+                        $hours_before,
+                        'Appointment cancelled less than 24 hours before, no quota refund'
+                    );
+                }
+            }
 
             $this->appointments_model->delete($id);
 

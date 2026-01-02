@@ -152,6 +152,10 @@ const WEBHOOK_ADMIN_SAVE = 'admin_save';
 const WEBHOOK_ADMIN_DELETE = 'admin_delete';
 const WEBHOOK_BLOCKED_PERIOD_SAVE = 'blocked_period_save';
 const WEBHOOK_BLOCKED_PERIOD_DELETE = 'blocked_period_delete';
+const WEBHOOK_SUBSCRIPTION_PLAN_SAVE = 'subscription_plan_save';
+const WEBHOOK_SUBSCRIPTION_PLAN_DELETE = 'subscription_plan_delete';
+const WEBHOOK_USER_SUBSCRIPTION_SAVE = 'user_subscription_save';
+const WEBHOOK_USER_SUBSCRIPTION_DELETE = 'user_subscription_delete';
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

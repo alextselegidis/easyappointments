@@ -147,6 +147,10 @@ route_api_resource($route, 'webhooks', 'api/v1/');
 
 route_api_resource($route, 'blocked_periods', 'api/v1/');
 
+route_api_resource($route, 'subscription_plans', 'api/v1/');
+
+route_api_resource($route, 'user_subscriptions', 'api/v1/');
+
 $route['api/v1/settings']['get'] = 'api/v1/settings_api_v1/index';
 
 $route['api/v1/settings/(:any)']['get'] = 'api/v1/settings_api_v1/show/$1';
