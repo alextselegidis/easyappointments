@@ -82,6 +82,8 @@ class Google_analytics_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('google_analytics_settings', 'array|null');
+
             $settings = request('google_analytics_settings', []);
 
             foreach ($settings as $setting) {

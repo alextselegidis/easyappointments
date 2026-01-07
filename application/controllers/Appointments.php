@@ -68,6 +68,11 @@ class Appointments extends EA_Controller
     {
         method('get');
 
+        // Validate appointment hash format to prevent injection
+        if (!empty($appointment_hash) && !preg_match('/^[a-fA-F0-9]{32}$/', $appointment_hash)) {
+            abort(400, 'Invalid appointment hash format.');
+        }
+
         redirect('booking/' . $appointment_hash);
     }
 
@@ -82,6 +87,11 @@ class Appointments extends EA_Controller
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -138,6 +148,8 @@ class Appointments extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('appointment', 'json');
+
             $appointment = json_decode(request('appointment'), true);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
@@ -171,7 +183,14 @@ class Appointments extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('appointment_id', 'numeric');
+
             $appointment_id = request('appointment_id');
+
+            // Validate appointment_id is a positive integer
+            if (empty($appointment_id) || !filter_var($appointment_id, FILTER_VALIDATE_INT) || $appointment_id <= 0) {
+                throw new InvalidArgumentException('Invalid appointment ID provided.');
+            }
 
             $appointment = $this->appointments_model->find($appointment_id);
 
@@ -193,7 +212,14 @@ class Appointments extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('appointment', 'json');
+
             $appointment = json_decode(request('appointment'), true);
+
+            // Validate decoded appointment is an array
+            if (!is_array($appointment)) {
+                throw new InvalidArgumentException('Invalid appointment data provided.');
+            }
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
@@ -222,7 +248,14 @@ class Appointments extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('appointment_id', 'numeric');
+
             $appointment_id = request('appointment_id');
+
+            // Validate appointment_id is a positive integer
+            if (empty($appointment_id) || !filter_var($appointment_id, FILTER_VALIDATE_INT) || $appointment_id <= 0) {
+                throw new InvalidArgumentException('Invalid appointment ID provided.');
+            }
 
             $appointment = $this->appointments_model->find($appointment_id);
 

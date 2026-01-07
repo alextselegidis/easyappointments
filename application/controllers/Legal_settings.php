@@ -82,6 +82,8 @@ class Legal_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('legal_settings', 'array|null');
+
             $settings = request('legal_settings', []);
 
             foreach ($settings as $setting) {

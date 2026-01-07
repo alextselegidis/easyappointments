@@ -55,7 +55,7 @@ $route['default_controller'] = 'booking';
 
 $route['404_override'] = '';
 
-$route['translate_uri_dashes'] = FALSE;
+$route['translate_uri_dashes'] = false;
 
 /*
 | -------------------------------------------------------------------------
@@ -64,8 +64,7 @@ $route['translate_uri_dashes'] = FALSE;
 | Set the appropriate headers so that iframe control and permissions are 
 | properly configured.
 |
-| Enable this if you want to disable use of Easy!Appointments within an 
-| iframe.
+| This prevents clickjacking attacks by disabling embedding in iframes.
 |
 | Options:
 |
@@ -74,7 +73,27 @@ $route['translate_uri_dashes'] = FALSE;
 |
 */
 
-// header('X-Frame-Options: SAMEORIGIN');
+header('X-Frame-Options: SAMEORIGIN');
+
+/*
+| -------------------------------------------------------------------------
+| SECURITY HEADERS
+| -------------------------------------------------------------------------
+| Additional security headers to protect against common web attacks.
+|
+*/
+
+// Prevent MIME type sniffing
+header('X-Content-Type-Options: nosniff');
+
+// Enable XSS filtering in older browsers
+header('X-XSS-Protection: 1; mode=block');
+
+// Referrer Policy - only send referrer for same-origin requests
+header('Referrer-Policy: strict-origin-when-cross-origin');
+
+// Permissions Policy - restrict browser features
+header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
 
 /*
 | -------------------------------------------------------------------------
@@ -83,25 +102,50 @@ $route['translate_uri_dashes'] = FALSE;
 | Set the appropriate headers so that CORS requirements are met and any 
 | incoming preflight options request succeeds. 
 |
+| IMPORTANT: For production, restrict this to your specific trusted domains.
+|
 */
 
-header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? '*')); // NOTICE: Change this header to restrict CORS access.
+// Get allowed origins from configuration or use a whitelist
+$allowed_origins = defined('CORS_ALLOWED_ORIGINS') ? explode(',', CORS_ALLOWED_ORIGINS) : [];
+$request_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
-header('Access-Control-Allow-Credentials: "true"');
+// Only allow CORS for configured origins, or same-origin requests
+if (!empty($request_origin) && (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))) {
+    header('Access-Control-Allow-Origin: ' . $request_origin);
+    header('Access-Control-Allow-Credentials: true');
+} elseif (empty($request_origin)) {
+    // No Origin header - same-origin request, no CORS needed
+} else {
+    // Origin not in whitelist - don't set CORS headers (will fail CORS check)
+}
 
-if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
-{
+if (
+    isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) &&
+    !empty($request_origin) &&
+    (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))
+) {
     // May also be using PUT, PATCH, HEAD etc
     header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD');
 }
 
-if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
-{
-    header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+if (
+    isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) &&
+    !empty($request_origin) &&
+    (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))
+) {
+    // Only allow safe headers
+    $allowed_headers = ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'X-CSRF'];
+    $requested_headers = array_map('trim', explode(',', $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']));
+    $safe_headers = array_filter($requested_headers, function ($h) use ($allowed_headers) {
+        return in_array(trim($h), $allowed_headers, true);
+    });
+    if (!empty($safe_headers)) {
+        header('Access-Control-Allow-Headers: ' . implode(', ', $safe_headers));
+    }
 }
 
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
-{
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit(0);
 }
 

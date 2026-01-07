@@ -32,16 +32,22 @@ class Localization extends EA_Controller
         try {
             method('post');
 
-            // Check if language exists in the available languages.
+            check('language', 'string');
+
             $language = request('language');
 
-            if (!in_array($language, config('available_languages'))) {
-                throw new RuntimeException(
-                    'Translations for the given language does not exist (' . request('language') . ').',
-                );
+            // Validate language is not empty
+            if (empty($language) || !is_string($language)) {
+                throw new InvalidArgumentException('Invalid language parameter.');
             }
 
-            $language = request('language');
+            // Sanitize language to only allow alphanumeric and underscore characters
+            $language = preg_replace('/[^a-zA-Z0-9_]/', '', $language);
+
+            // Check if language exists in the available languages.
+            if (!in_array($language, config('available_languages'), true)) {
+                throw new RuntimeException('Translations for the given language does not exist.');
+            }
 
             session(['language' => $language]);
 

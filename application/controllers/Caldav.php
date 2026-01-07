@@ -47,6 +47,11 @@ class Caldav extends EA_Controller
         try {
             method('post');
 
+            check('provider_id', 'numeric');
+            check('caldav_url', 'string');
+            check('caldav_username', 'string');
+            check('caldav_password', 'string');
+
             $provider_id = request('provider_id');
 
             $user_id = session('user_id');
@@ -307,6 +312,8 @@ class Caldav extends EA_Controller
     {
         try {
             method('post');
+
+            check('provider_id', 'numeric');
 
             $provider_id = request('provider_id');
 

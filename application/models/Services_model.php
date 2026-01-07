@@ -488,6 +488,10 @@ class Services_model extends EA_Model
             $decoded_resource['price'] = $service['price'];
         }
 
+        if (array_key_exists('color', $service)) {
+            $decoded_resource['color'] = $service['color'];
+        }
+
         if (array_key_exists('currency', $service)) {
             $decoded_resource['currency'] = $service['currency'];
         }

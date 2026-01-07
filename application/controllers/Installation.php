@@ -65,8 +65,71 @@ class Installation extends EA_Controller
                 return;
             }
 
+            check('admin', 'array');
+            check('company', 'array');
+
             $admin = request('admin');
             $company = request('company');
+
+            // Validate admin data
+            if (empty($admin) || !is_array($admin)) {
+                throw new InvalidArgumentException('Invalid admin data provided.');
+            }
+
+            // Validate required admin fields
+            if (
+                empty($admin['first_name']) ||
+                empty($admin['last_name']) ||
+                empty($admin['email']) ||
+                empty($admin['phone_number']) ||
+                empty($admin['username']) ||
+                empty($admin['password'])
+            ) {
+                throw new InvalidArgumentException('Missing required admin fields.');
+            }
+
+            // Validate email format
+            if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Invalid admin email format.');
+            }
+
+            // Validate username format (alphanumeric, underscore, dash, @, dot)
+            if (!preg_match('/^[a-zA-Z0-9_@.\-]{3,50}$/', $admin['username'])) {
+                throw new InvalidArgumentException(
+                    'Invalid username format. Use 3-50 alphanumeric characters, underscores, dashes, @ or dots.',
+                );
+            }
+
+            // Validate password strength
+            if (strlen($admin['password']) < 8) {
+                throw new InvalidArgumentException('Password must be at least 8 characters long.');
+            }
+
+            // Validate company data
+            if (empty($company) || !is_array($company)) {
+                throw new InvalidArgumentException('Invalid company data provided.');
+            }
+
+            // Validate required company fields
+            if (empty($company['company_name']) || empty($company['company_email'])) {
+                throw new InvalidArgumentException('Missing required company fields.');
+            }
+
+            // Validate company email format
+            if (!filter_var($company['company_email'], FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Invalid company email format.');
+            }
+
+            // Validate company link if provided
+            if (!empty($company['company_link']) && !filter_var($company['company_link'], FILTER_VALIDATE_URL)) {
+                throw new InvalidArgumentException('Invalid company link URL format.');
+            }
+
+            // Sanitize string inputs
+            $admin['first_name'] = strip_tags(trim($admin['first_name']));
+            $admin['last_name'] = strip_tags(trim($admin['last_name']));
+            $admin['phone_number'] = strip_tags(trim($admin['phone_number']));
+            $company['company_name'] = strip_tags(trim($company['company_name']));
 
             $this->instance->migrate();
 

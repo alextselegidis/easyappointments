@@ -49,19 +49,32 @@ class Accounts
      */
     public function check_login(string $username, string $password): ?array
     {
-        $salt = $this->get_salt_by_username($username);
-
-        $password = hash_password($salt, $password);
-
         $user_settings = $this->CI->db
             ->get_where('user_settings', [
                 'username' => $username,
-                'password' => $password,
             ])
             ->row_array();
 
         if (empty($user_settings)) {
             return null;
+        }
+
+        $salt = $user_settings['salt'] ?? '';
+        $stored_hash = $user_settings['password'] ?? '';
+
+        // Use the new verify_password function for secure comparison
+        if (!verify_password($salt, $password, $stored_hash)) {
+            return null;
+        }
+
+        // Rehash password if using legacy algorithm (upgrade to bcrypt)
+        if (password_needs_rehash_check($stored_hash)) {
+            $new_hash = hash_password($salt, $password);
+            $this->CI->db->update(
+                'user_settings',
+                ['password' => $new_hash],
+                ['id_users' => $user_settings['id_users']],
+            );
         }
 
         $user = $this->CI->users_model->find($user_settings['id_users']);

@@ -95,6 +95,8 @@ class Google_calendar_settings extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('google_calendar_settings', 'array|null');
+
             $google_calendar_settings = request('google_calendar_settings', []);
 
             foreach ($google_calendar_settings as $google_calendar_setting) {

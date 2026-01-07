@@ -114,6 +114,11 @@ class Services extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
+
             $keyword = request('keyword', '');
 
             $order_by = request('order_by', 'update_datetime DESC');
@@ -146,6 +151,8 @@ class Services extends EA_Controller
             if (cannot('add', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('service', 'array');
 
             $service = request('service');
 
@@ -180,7 +187,14 @@ class Services extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('service_id', 'numeric');
+
             $service_id = request('service_id');
+
+            // Validate service_id is a positive integer
+            if (empty($service_id) || !filter_var($service_id, FILTER_VALIDATE_INT) || $service_id <= 0) {
+                throw new InvalidArgumentException('Invalid service ID provided.');
+            }
 
             $service = $this->services_model->find($service_id);
 
@@ -201,6 +215,8 @@ class Services extends EA_Controller
             if (cannot('edit', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('service', 'array');
 
             $service = request('service');
 
@@ -235,7 +251,14 @@ class Services extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('service_id', 'numeric');
+
             $service_id = request('service_id');
+
+            // Validate service_id is a positive integer
+            if (empty($service_id) || !filter_var($service_id, FILTER_VALIDATE_INT) || $service_id <= 0) {
+                throw new InvalidArgumentException('Invalid service ID provided.');
+            }
 
             $service = $this->services_model->find($service_id);
 

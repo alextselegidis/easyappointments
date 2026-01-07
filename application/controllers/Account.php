@@ -117,6 +117,8 @@ class Account extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('account', 'array');
+
             $account = request('account');
 
             $account['id'] = session('user_id');
@@ -155,6 +157,9 @@ class Account extends EA_Controller
     {
         try {
             method('post');
+
+            check('username', 'string');
+            check('user_id', 'numeric|null');
 
             $username = request('username');
 

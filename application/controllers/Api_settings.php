@@ -82,6 +82,8 @@ class Api_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('api_settings', 'array|null');
+
             $settings = request('api_settings', []);
 
             foreach ($settings as $setting) {

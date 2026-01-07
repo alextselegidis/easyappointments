@@ -99,6 +99,8 @@ class Business_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('business_settings', 'array|null');
+
             $settings = request('business_settings', []);
 
             foreach ($settings as $setting) {
@@ -132,6 +134,8 @@ class Business_settings extends EA_Controller
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('working_plan', 'json');
 
             $working_plan = request('working_plan');
 

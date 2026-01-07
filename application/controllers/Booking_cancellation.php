@@ -55,11 +55,27 @@ class Booking_cancellation extends EA_Controller
                 abort(403);
             }
 
+            // Validate hash format to prevent injection
+            if (!preg_match('/^[a-fA-F0-9]{32}$/', $appointment_hash)) {
+                abort(400, 'Invalid appointment hash format.');
+            }
+
+            check('cancellation_reason', 'string');
+
             $cancellation_reason = request('cancellation_reason');
 
             if ($this->input->method() !== 'post' || empty($cancellation_reason)) {
                 abort(403, 'Forbidden');
             }
+
+            // Apply rate limiting for cancellations (5 per 10 minutes per IP)
+            $this->apply_cancellation_rate_limit();
+
+            // Verify CSRF token
+            $this->verify_csrf_token();
+
+            // Sanitize cancellation reason (limit length and strip dangerous content)
+            $cancellation_reason = strip_tags(substr(trim($cancellation_reason), 0, 1000));
 
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
@@ -127,5 +143,47 @@ class Booking_cancellation extends EA_Controller
         ]);
 
         $this->load->view('pages/booking_cancellation');
+    }
+
+    /**
+     * Apply rate limiting for cancellation attempts.
+     *
+     * @throws RuntimeException If rate limit is exceeded.
+     */
+    private function apply_cancellation_rate_limit(): void
+    {
+        $this->load->driver('cache', ['adapter' => 'file']);
+
+        $ip = $this->input->ip_address();
+        $cache_key = 'cancellation_attempts_' . str_replace([':', '.'], '_', $ip);
+
+        $attempts = $this->cache->get($cache_key);
+
+        if ($attempts === false) {
+            $this->cache->save($cache_key, 1, 600); // 10 minutes
+        } else {
+            $this->cache->save($cache_key, $attempts + 1, 600);
+
+            if ($attempts >= 5) {
+                log_message('warning', 'Cancellation rate limit exceeded for IP: ' . $ip);
+                throw new RuntimeException('Too many cancellation attempts. Please try again later.');
+            }
+        }
+    }
+
+    /**
+     * Verify CSRF token for cancellation requests.
+     *
+     * @throws RuntimeException If CSRF token is invalid.
+     */
+    private function verify_csrf_token(): void
+    {
+        $csrf_token = request('csrf_token') ?? $this->input->get_request_header('X-CSRF');
+        $csrf_cookie = $this->input->cookie('csrf_cookie');
+
+        if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
+            log_message('warning', 'Invalid CSRF token in cancellation request from IP: ' . $this->input->ip_address());
+            throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
+        }
     }
 }

@@ -51,7 +51,7 @@ class EA_Input extends CI_Input
      *
      * @return mixed
      */
-    public function json(?string $index = null, bool $xss_clean = false): mixed
+    public function json(?string $index = null, bool $xss_clean = true): mixed
     {
         /** @var EA_Controller $CI */
         $CI = &get_instance();
@@ -68,10 +68,12 @@ class EA_Input extends CI_Input
 
         $payload = json_decode($input_stream, true);
 
-        if ($xss_clean) {
-            foreach ($payload as $name => $value) {
-                $payload[$name] = $CI->security->xss_clean($value);
-            }
+        if ($payload === null && json_last_error() !== JSON_ERROR_NONE) {
+            return null;
+        }
+
+        if ($xss_clean && is_array($payload)) {
+            $payload = $this->xss_clean_recursive($payload, $CI->security);
         }
 
         if (empty($index)) {
@@ -79,5 +81,27 @@ class EA_Input extends CI_Input
         }
 
         return $payload[$index] ?? null;
+    }
+
+    /**
+     * Recursively apply XSS cleaning to an array.
+     *
+     * @param array $data The data to clean.
+     * @param CI_Security $security The security instance.
+     *
+     * @return array The cleaned data.
+     */
+    private function xss_clean_recursive(array $data, CI_Security $security): array
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $data[$key] = $this->xss_clean_recursive($value, $security);
+            } elseif (is_string($value)) {
+                $data[$key] = $security->xss_clean($value);
+            }
+            // Non-string, non-array values are left as-is (integers, booleans, etc.)
+        }
+
+        return $data;
     }
 }

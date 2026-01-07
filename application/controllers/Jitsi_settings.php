@@ -79,6 +79,8 @@ class Jitsi_settings extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('jitsi_settings', 'array|null');
+
             $jitsi_settings = request('jitsi_settings', []);
 
             foreach ($jitsi_settings as $jitsi_setting) {

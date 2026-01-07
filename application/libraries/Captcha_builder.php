@@ -655,8 +655,13 @@ class Captcha_builder
         $tempp = $this->tempDir . uniqid('captcha', true) . '.pgm';
 
         $this->save($tempj);
-        shell_exec("convert $tempj $tempp");
-        $value = trim(strtolower(shell_exec("ocrad $tempp")));
+
+        // Use escapeshellarg to prevent command injection
+        $escapedTempj = escapeshellarg($tempj);
+        $escapedTempp = escapeshellarg($tempp);
+
+        shell_exec('convert ' . $escapedTempj . ' ' . $escapedTempp);
+        $value = trim(strtolower(shell_exec('ocrad ' . $escapedTempp)));
 
         @unlink($tempj);
         @unlink($tempp);

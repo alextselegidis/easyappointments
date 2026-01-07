@@ -67,8 +67,10 @@ class Api
         try {
             // Bearer token.
             $api_token = setting('api_token');
+            $provided_token = $this->get_bearer_token();
 
-            if (!empty($api_token) && $api_token === $this->get_bearer_token()) {
+            // Use timing-safe comparison to prevent timing attacks
+            if (!empty($api_token) && !empty($provided_token) && hash_equals($api_token, $provided_token)) {
                 return;
             }
 

@@ -133,9 +133,43 @@ if (!function_exists('json_exception')) {
      */
     function json_exception(Throwable $e): void
     {
+        // Get the error message
+        $message = $e->getMessage();
+
+        // In production, sanitize certain error messages that might expose sensitive info
+        $sensitive_patterns = [
+            '/database/i',
+            '/sql/i',
+            '/query/i',
+            '/mysql/i',
+            '/postgres/i',
+            '/connection/i',
+            '/password/i',
+            '/credential/i',
+            '/api[_\s]?key/i',
+            '/secret/i',
+            '/token/i',
+            '/\\bpath\\b/i',
+            '/file[_\s]?system/i',
+        ];
+
+        $is_sensitive = false;
+        foreach ($sensitive_patterns as $pattern) {
+            if (preg_match($pattern, $message)) {
+                $is_sensitive = true;
+                break;
+            }
+        }
+
+        // If the error contains sensitive information, use a generic message
+        // Allow InvalidArgumentException and RuntimeException with safe messages through
+        if ($is_sensitive && !($e instanceof InvalidArgumentException)) {
+            $message = 'An error occurred while processing your request. Please try again later.';
+        }
+
         $response = [
             'success' => false,
-            'message' => $e->getMessage(),
+            'message' => $message,
             'trace' => trace($e),
         ];
 
@@ -223,6 +257,128 @@ if (!function_exists('method')) {
 
         if (strtoupper($current_method) !== strtoupper($expected_method)) {
             throw new RuntimeException("Method not allowed. Expected {$expected_method}, got {$current_method}.");
+        }
+    }
+}
+
+if (!function_exists('check')) {
+    /**
+     * Validate a request parameter against expected types.
+     *
+     * Supported types:
+     * - numeric: Checks if the value is numeric (integer or float string)
+     * - integer: Checks if the value is an integer
+     * - string: Checks if the value is a string
+     * - bool: Checks if the value is a boolean or boolean-like ('true', 'false', '0', '1')
+     * - array: Checks if the value is an array
+     * - email: Checks if the value is a valid email
+     * - date: Checks if the value is a valid date
+     * - null: Allows null/empty values
+     *
+     * Multiple types can be specified using pipe separator (e.g., 'numeric|null')
+     *
+     * Example:
+     *
+     * check('customer_id', 'numeric');
+     * check('customer_id', 'numeric|null');
+     * check('email', 'email|null');
+     *
+     * @param string $key The request parameter key to validate
+     * @param string $types Pipe-separated list of allowed types
+     *
+     * @return void
+     *
+     * @throws InvalidArgumentException If validation fails
+     */
+    function check(string $key, string $types): void
+    {
+        $value = request($key);
+        $allowed_types = explode('|', $types);
+
+        // Check if value is null/empty and null is allowed
+        if (($value === null || $value === '') && in_array('null', $allowed_types)) {
+            return;
+        }
+
+        // If value is null/empty and null is not allowed, throw error
+        if (($value === null || $value === '') && !in_array('null', $allowed_types)) {
+            throw new InvalidArgumentException("Request parameter '{$key}' is required and cannot be empty.");
+        }
+
+        $valid = false;
+
+        foreach ($allowed_types as $type) {
+            $type = trim($type);
+
+            switch ($type) {
+                case 'numeric':
+                    if (is_numeric($value)) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'integer':
+                    if (is_numeric($value) && (int) $value == $value) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'string':
+                    if (is_string($value)) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'bool':
+                case 'boolean':
+                    if (
+                        is_bool($value) ||
+                        in_array(strtolower((string) $value), ['true', 'false', '0', '1', 'yes', 'no'], true)
+                    ) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'array':
+                    if (is_array($value)) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'email':
+                    if (filter_var($value, FILTER_VALIDATE_EMAIL) !== false) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'date':
+                    if (strtotime($value) !== false) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'json':
+                    if (is_string($value) && json_decode($value) !== null) {
+                        $valid = true;
+                    }
+                    break;
+
+                case 'null':
+                    // Already handled above
+                    break;
+
+                default:
+                    throw new InvalidArgumentException("Unknown validation type '{$type}' for parameter '{$key}'.");
+            }
+
+            if ($valid) {
+                break;
+            }
+        }
+
+        if (!$valid) {
+            $readable_types = implode(' or ', array_filter($allowed_types, fn($t) => $t !== 'null'));
+            throw new InvalidArgumentException("Request parameter '{$key}' must be of type {$readable_types}.");
         }
     }
 }

@@ -97,6 +97,8 @@ class Booking_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('booking_settings', 'array|null');
+
             $settings = request('booking_settings', []);
 
             foreach ($settings as $setting) {

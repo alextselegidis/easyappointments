@@ -134,6 +134,11 @@ class Secretaries extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
+
             $keyword = request('keyword', '');
 
             $order_by = request('order_by', 'update_datetime DESC');
@@ -161,6 +166,8 @@ class Secretaries extends EA_Controller
             if (cannot('add', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('secretary', 'array');
 
             $secretary = request('secretary');
 
@@ -199,7 +206,14 @@ class Secretaries extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('secretary_id', 'numeric');
+
             $secretary_id = request('secretary_id');
+
+            // Validate secretary_id is a positive integer
+            if (empty($secretary_id) || !filter_var($secretary_id, FILTER_VALIDATE_INT) || $secretary_id <= 0) {
+                throw new InvalidArgumentException('Invalid secretary ID provided.');
+            }
 
             $secretary = $this->secretaries_model->find($secretary_id);
 
@@ -220,6 +234,8 @@ class Secretaries extends EA_Controller
             if (cannot('edit', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('secretary', 'array');
 
             $secretary = request('secretary');
 
@@ -256,7 +272,14 @@ class Secretaries extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('secretary_id', 'numeric');
+
             $secretary_id = request('secretary_id');
+
+            // Validate secretary_id is a positive integer
+            if (empty($secretary_id) || !filter_var($secretary_id, FILTER_VALIDATE_INT) || $secretary_id <= 0) {
+                throw new InvalidArgumentException('Invalid secretary ID provided.');
+            }
 
             $secretary = $this->secretaries_model->find($secretary_id);
 

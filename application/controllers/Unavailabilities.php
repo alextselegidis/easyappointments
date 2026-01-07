@@ -61,6 +61,11 @@ class Unavailabilities extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
+
             $keyword = request('keyword', '');
 
             $order_by = request('order_by', 'update_datetime DESC');
@@ -116,6 +121,8 @@ class Unavailabilities extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability', 'array');
+
             $unavailability = request('unavailability');
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
@@ -153,7 +160,18 @@ class Unavailabilities extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
+
+            // Validate unavailability_id is a positive integer
+            if (
+                empty($unavailability_id) ||
+                !filter_var($unavailability_id, FILTER_VALIDATE_INT) ||
+                $unavailability_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid unavailability ID provided.');
+            }
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -174,6 +192,8 @@ class Unavailabilities extends EA_Controller
             if (cannot('edit', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('unavailability', 'array');
 
             $unavailability = request('unavailability');
 
@@ -212,7 +232,18 @@ class Unavailabilities extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
+
+            // Validate unavailability_id is a positive integer
+            if (
+                empty($unavailability_id) ||
+                !filter_var($unavailability_id, FILTER_VALIDATE_INT) ||
+                $unavailability_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid unavailability ID provided.');
+            }
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 

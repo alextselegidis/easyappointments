@@ -82,6 +82,8 @@ class Matomo_analytics_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('matomo_analytics_settings', 'array|null');
+
             $settings = request('matomo_analytics_settings', []);
 
             foreach ($settings as $setting) {

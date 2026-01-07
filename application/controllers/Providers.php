@@ -149,6 +149,11 @@ class Providers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
+
             $keyword = request('keyword', '');
 
             $order_by = request('order_by', 'update_datetime DESC');
@@ -176,6 +181,8 @@ class Providers extends EA_Controller
             if (cannot('add', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('provider', 'array');
 
             $provider = request('provider');
 
@@ -214,7 +221,14 @@ class Providers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('provider_id', 'numeric');
+
             $provider_id = request('provider_id');
+
+            // Validate provider_id is a positive integer
+            if (empty($provider_id) || !filter_var($provider_id, FILTER_VALIDATE_INT) || $provider_id <= 0) {
+                throw new InvalidArgumentException('Invalid provider ID provided.');
+            }
 
             $provider = $this->providers_model->find($provider_id);
 
@@ -235,6 +249,8 @@ class Providers extends EA_Controller
             if (cannot('edit', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('provider', 'array');
 
             $provider = request('provider');
 
@@ -273,7 +289,14 @@ class Providers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('provider_id', 'numeric');
+
             $provider_id = request('provider_id');
+
+            // Validate provider_id is a positive integer
+            if (empty($provider_id) || !filter_var($provider_id, FILTER_VALIDATE_INT) || $provider_id <= 0) {
+                throw new InvalidArgumentException('Invalid provider ID provided.');
+            }
 
             $provider = $this->providers_model->find($provider_id);
 

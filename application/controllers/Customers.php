@@ -152,7 +152,14 @@ class Customers extends EA_Controller
 
             $user_id = session('user_id');
 
+            check('customer_id', 'numeric');
+
             $customer_id = request('customer_id');
+
+            // Validate customer_id is a positive integer
+            if (empty($customer_id) || !filter_var($customer_id, FILTER_VALIDATE_INT) || $customer_id <= 0) {
+                throw new InvalidArgumentException('Invalid customer ID provided.');
+            }
 
             if (!$this->permissions->has_customer_access($user_id, $customer_id)) {
                 abort(403, 'Forbidden');
@@ -177,6 +184,11 @@ class Customers extends EA_Controller
             if (cannot('view', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -228,6 +240,8 @@ class Customers extends EA_Controller
                 abort(403);
             }
 
+            check('customer', 'array');
+
             $customer = request('customer');
 
             $this->customers_model->only($customer, $this->allowed_customer_fields);
@@ -262,6 +276,8 @@ class Customers extends EA_Controller
             }
 
             $user_id = session('user_id');
+
+            check('customer', 'array');
 
             $customer = request('customer');
 
@@ -302,7 +318,14 @@ class Customers extends EA_Controller
 
             $user_id = session('user_id');
 
+            check('customer_id', 'numeric');
+
             $customer_id = request('customer_id');
+
+            // Validate customer_id is a positive integer
+            if (empty($customer_id) || !filter_var($customer_id, FILTER_VALIDATE_INT) || $customer_id <= 0) {
+                throw new InvalidArgumentException('Invalid customer ID provided.');
+            }
 
             if (!$this->permissions->has_customer_access($user_id, $customer_id)) {
                 abort(403, 'Forbidden');

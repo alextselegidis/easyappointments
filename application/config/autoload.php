@@ -80,11 +80,12 @@ $autoload['helper'] = [
     'permission',
     'rate_limit',
     'routes',
+    'security',
     'session',
     'setting',
     'string',
     'url',
-    'validation'
+    'validation',
 ];
 
 /*

@@ -38,6 +38,8 @@ class Consents extends EA_Controller
         try {
             method('post');
 
+            check('consent', 'array');
+
             $consent = request('consent');
 
             $consent['ip'] = $this->input->ip_address();

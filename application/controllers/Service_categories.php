@@ -93,6 +93,11 @@ class Service_categories extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
+
             $keyword = request('keyword', '');
 
             $order_by = request('order_by', 'update_datetime DESC');
@@ -120,6 +125,8 @@ class Service_categories extends EA_Controller
             if (cannot('add', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('service_category', 'array');
 
             $service_category = request('service_category');
 
@@ -154,7 +161,18 @@ class Service_categories extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('service_category_id', 'numeric');
+
             $service_category_id = request('service_category_id');
+
+            // Validate service_category_id is a positive integer
+            if (
+                empty($service_category_id) ||
+                !filter_var($service_category_id, FILTER_VALIDATE_INT) ||
+                $service_category_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid service category ID provided.');
+            }
 
             $service_category = $this->service_categories_model->find($service_category_id);
 
@@ -175,6 +193,8 @@ class Service_categories extends EA_Controller
             if (cannot('edit', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('service_category', 'array');
 
             $service_category = request('service_category');
 
@@ -209,7 +229,18 @@ class Service_categories extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
+            check('service_category_id', 'numeric');
+
             $service_category_id = request('service_category_id');
+
+            // Validate service_category_id is a positive integer
+            if (
+                empty($service_category_id) ||
+                !filter_var($service_category_id, FILTER_VALIDATE_INT) ||
+                $service_category_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid service category ID provided.');
+            }
 
             $service_category = $this->service_categories_model->find($service_category_id);
 

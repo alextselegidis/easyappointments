@@ -252,6 +252,10 @@ class Calendar extends EA_Controller
         try {
             method('post');
 
+            check('customer_data', 'array|null');
+            check('appointment_data', 'array');
+            check('notify_customer', 'bool|null');
+
             $customer_data = request('customer_data');
 
             $appointment_data = request('appointment_data');
@@ -387,6 +391,9 @@ class Calendar extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('appointment_id', 'numeric');
+            check('cancellation_reason', 'string|null');
+
             $appointment_id = request('appointment_id');
             $cancellation_reason = (string) request('cancellation_reason');
 
@@ -446,6 +453,9 @@ class Calendar extends EA_Controller
     {
         try {
             method('post');
+
+            check('unavailability', 'array');
+
             // Check privileges
             $unavailability = request('unavailability');
 
@@ -491,6 +501,8 @@ class Calendar extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
@@ -524,6 +536,11 @@ class Calendar extends EA_Controller
             if (cannot('edit', PRIV_USERS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('date', 'date');
+            check('original_date', 'date|null');
+            check('working_plan_exception', 'array|null');
+            check('provider_id', 'numeric');
 
             $date = request('date');
 
@@ -563,6 +580,9 @@ class Calendar extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('date', 'date');
+            check('provider_id', 'numeric');
+
             $date = request('date');
 
             $provider_id = request('provider_id');
@@ -592,6 +612,9 @@ class Calendar extends EA_Controller
             if (!$required_permissions) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('start_date', 'date');
+            check('end_date', 'date');
 
             $start_date = request('start_date') . ' 00:00:00';
 
@@ -691,6 +714,11 @@ class Calendar extends EA_Controller
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('record_id', 'string|numeric|null');
+            check('filter_type', 'string|null');
+            check('start_date', 'date');
+            check('end_date', 'date');
 
             $record_id = request('record_id');
 

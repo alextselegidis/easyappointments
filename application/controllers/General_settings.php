@@ -81,6 +81,32 @@ class General_settings extends EA_Controller
     }
 
     /**
+     * Allowed setting names that can be modified via this controller.
+     */
+    private array $allowed_settings = [
+        'company_name',
+        'company_email',
+        'company_link',
+        'company_logo',
+        'company_color',
+        'company_working_plan',
+        'book_advance_timeout',
+        'default_timezone',
+        'default_language',
+        'theme',
+        'date_format',
+        'time_format',
+        'first_weekday',
+        'require_phone_number',
+        'display_cookie_notice',
+        'cookie_notice_content',
+        'display_terms_and_conditions',
+        'terms_and_conditions_content',
+        'display_privacy_policy',
+        'privacy_policy_content',
+    ];
+
+    /**
      * Save general settings.
      */
     public function save(): void
@@ -92,9 +118,27 @@ class General_settings extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
+            check('general_settings', 'array|null');
+
             $settings = request('general_settings', []);
 
+            // Validate settings is an array
+            if (!is_array($settings)) {
+                throw new InvalidArgumentException('Invalid settings data format.');
+            }
+
             foreach ($settings as $setting) {
+                // Validate each setting has required fields
+                if (!isset($setting['name']) || !is_string($setting['name'])) {
+                    continue;
+                }
+
+                // Only allow whitelisted settings to be modified
+                if (!in_array($setting['name'], $this->allowed_settings, true)) {
+                    log_message('warning', 'Attempt to modify unauthorized setting: ' . $setting['name']);
+                    continue;
+                }
+
                 $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
 
                 if (!empty($existing_setting)) {

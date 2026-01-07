@@ -115,11 +115,20 @@ class Google_sync
      *
      * This url must be used to redirect the user to the Google user consent page,
      * where the user grants access to his data for the Easy!Appointments app.
+     *
+     * @param string|null $state Optional state parameter for CSRF protection.
      */
-    public function get_auth_url(): string
+    public function get_auth_url(?string $state = null): string
     {
         // The "max_auth_age" is needed because the user needs to always log in and not use an existing session.
-        return $this->client->createAuthUrl() . '&max_auth_age=0';
+        $auth_url = $this->client->createAuthUrl() . '&max_auth_age=0';
+
+        // Add state parameter if provided for CSRF protection
+        if ($state !== null) {
+            $auth_url .= '&state=' . urlencode($state);
+        }
+
+        return $auth_url;
     }
 
     /**
