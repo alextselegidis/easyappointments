@@ -9,6 +9,11 @@
 $disabled = $disabled ?? false;
 $custom_fields = $custom_fields ?? []; ?>
 
+<!-- CUSTOM_FIELDS COMPONENT IS RENDERING -->
+<div style="background: yellow; padding: 10px; margin: 10px 0; border: 2px solid red;">
+    <strong>TEST:</strong> Custom fields component loaded. Array count: <?= is_array($custom_fields) ? count($custom_fields) : 'NOT ARRAY' ?>
+</div>
+
 <?php if (count($custom_fields) > 0): ?>
     <div class="alert alert-info" style="margin: 10px 0;">
         <strong>DEBUG:</strong> Se encontraron <?= count($custom_fields) ?> campos personalizados.
