@@ -1,108 +1,126 @@
 version: '3.8'
 
-# CONFIGURACIÓN MODIFICADA PARA SINCRONIZACIÓN AUTOMÁTICA
-# Este archivo debe reemplazar el stack actual en:
-# /home/Victor.90/docker-compose-files/easy-appointments/docker-compose.yml
-#
-# IMPORTANTE: Esta configuración usa bind mount en lugar de volume,
-# lo que permite que los cambios en /home/Victor.90/easyapp-custom/
-# se reflejen automáticamente en el contenedor sin necesidad de copiar archivos.
-#
-# Para aplicar:
-# 1. Respalda el docker-compose.yml actual
-# 2. Reemplázalo con este archivo
-# 3. Ejecuta: docker stack deploy -c docker-compose.yml easy-appointments
+# CONFIGURACIÓN CON SINCRONIZACIÓN AUTOMÁTICA
+# Este archivo reemplaza app-data (volume) con bind mount a /home/Victor.90/easyapp-custom
+# Los cambios en el código se reflejarán automáticamente sin necesidad de copiar archivos
 
 services:
-  fpm:
-    image: your-registry/easy-appointments-fpm:latest  # Ajusta a tu imagen
-    working_dir: /var/www/html
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    volumes:
-      # CAMBIO PRINCIPAL: bind mount en lugar de volume
-      # Esto sincroniza automáticamente /home/Victor.90/easyapp-custom con /var/www/html
-      - type: bind
-        source: /home/Victor.90/easyapp-custom
-        target: /var/www/html
-        read_only: false
-
-      # PHP config override (si existe)
-      - type: bind
-        source: /home/Victor.90/docker-compose-files/easy-appointments/php-ini-overrides.ini
-        target: /usr/local/etc/php/conf.d/99-overrides.ini
-        read_only: true
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    networks:
-      - easyapp-internal
-
   nginx:
-    image: nginx:1.23.3-alpine
-    working_dir: /var/www/html
-    volumes:
-      # MISMO bind mount para nginx
-      - type: bind
-        source: /home/Victor.90/easyapp-custom
-        target: /var/www/html
-        read_only: true  # nginx solo necesita lectura
-
-      # Nginx config
-      - type: bind
-        source: /home/Victor.90/docker-compose-files/easy-appointments/nginx.conf
-        target: /etc/nginx/conf.d/default.conf
-        read_only: true
+    image: nginx:alpine
     ports:
-      - "80:80"
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-    networks:
-      - easyapp-internal
-      - easyapp-external
-
-  mysql:
-    image: mysql:8.0
+      - "8015:80"
     volumes:
-      # Base de datos sigue usando volume (datos persistentes)
-      - type: volume
-        source: mysql-data
-        target: /var/lib/mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=easyappointments
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
+      # CAMBIO: bind mount en lugar de volume (read-only para nginx)
+      - /home/Victor.90/easyapp-custom:/var/www/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - nginx-cache:/var/cache/nginx
     networks:
       - easyapp-internal
+    depends_on:
+      - fpm
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 256M
+
+  fpm:
+    image: alextselegidis/easyappointments:latest
+    environment:
+      DB_HOST: easyapp-db:3306
+      DB_NAME: easyappointments
+      DB_USERNAME: easyapp_user
+      DB_PASSWORD: EasyApp_Secure_2025!
+      BASE_URL: https://citas.honeywhale.com.mx
+
+      # SMTP Configuration (CORREGIDO)
+      MAIL_PROTOCOL: smtp
+      MAIL_SMTP_HOST: smtp.gmail.com
+      MAIL_SMTP_PORT: 587
+      MAIL_SMTP_CRYPTO: tls
+      MAIL_SMTP_AUTH: 1
+      MAIL_SMTP_USER: contacto@honeywhale.com.mx
+      MAIL_SMTP_PASS: feyq lvkq geuk foln
+      MAIL_FROM_ADDRESS: contacto@honeywhale.com.mx
+      MAIL_FROM_NAME: Honey Whale Citas
+
+      LANGUAGE: spanish
+      GOOGLE_SYNC_FEATURE: 'TRUE'
+
+    volumes:
+      # CAMBIO: bind mount en lugar de volume (read-write para PHP-FPM)
+      - /home/Victor.90/easyapp-custom:/var/www/html
+      - ./php/custom.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+    networks:
+      - easyapp-internal
+    depends_on:
+      - easyapp-db
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 512M
+
+  easyapp-db:
+    image: mariadb:11.6
+    environment:
+      MYSQL_ROOT_PASSWORD: EasyApp_Root_2025!
+      MYSQL_DATABASE: easyappointments
+      MYSQL_USER: easyapp_user
+      MYSQL_PASSWORD: EasyApp_Secure_2025!
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - easyapp-internal
+    command: >
+      --max_connections=100
+      --innodb_buffer_pool_size=512M
+      --innodb_log_file_size=128M
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1G
+
+  backup:
+    image: offen/docker-volume-backup:latest
+    volumes:
+      # Base de datos sigue usando volume (se respalda)
+      - db-data:/backup/db-data:ro
+      # CAMBIO: app-data ya no existe, ahora respaldamos directamente el directorio
+      - /home/Victor.90/easyapp-custom:/backup/app-data:ro
+      - /home/Victor.90/nas-seguro/backups/easy-appointments:/archive
+    environment:
+      BACKUP_CRON_EXPRESSION: "0 3 * * *"
+      BACKUP_FILENAME: easyappointments-%Y%m%d-%H%M%S.tar.gz
+      BACKUP_RETENTION_DAYS: 14
+    networks:
+      - easyapp-internal
+    deploy:
+      replicas: 1
+
+volumes:
+  # CAMBIO: app-data ya no se necesita
+  db-data:
+  nginx-cache:
 
 networks:
   easyapp-internal:
     driver: overlay
-    attachable: false
-  easyapp-external:
-    driver: overlay
 
-volumes:
-  # NOTA: app-data ya no se usa, pero se mantiene mysql-data
-  mysql-data:
-    driver: local
-
-# VENTAJAS DE BIND MOUNT:
-# ✓ Cambios en el código se reflejan inmediatamente
-# ✓ No necesitas copiar archivos manualmente
-# ✓ Puedes editar con git pull y los cambios se aplican
-# ✓ Desarrollo más rápido
+# VENTAJAS DE ESTA CONFIGURACIÓN:
+# ✓ Los cambios en /home/Victor.90/easyapp-custom se reflejan INMEDIATAMENTE
+# ✓ git pull en /home/Victor.90/easyapp-custom actualiza automáticamente el sitio
+# ✓ No necesitas ejecutar sync_to_container.sh manualmente
+# ✓ El backup sigue funcionando igual
+# ✓ Solo necesitas reiniciar PHP-FPM si hay cambios en caché: docker exec ... kill -USR2 1
 #
-# CONSIDERACIONES:
-# ✓ Asegúrate que /home/Victor.90/easyapp-custom existe y tiene los archivos
-# ✓ Los permisos deben ser correctos (www-data:www-data o similar)
-# ✓ El directorio debe estar en el mismo host donde corre Docker
-# ✓ Puede haber pequeña degradación de performance vs volume (generalmente imperceptible)
+# IMPORTANTE:
+# - Asegúrate que /home/Victor.90/easyapp-custom existe y tiene todos los archivos
+# - Ejecuta git pull en ese directorio antes de hacer redeploy
+# - Purga CloudFlare después de cambios en JS/CSS
