@@ -25,7 +25,7 @@
                             <?= lang('timezone') ?>
                         </label>
                         <?php component('timezone_dropdown', [
-                            'attributes' => 'id="select-timezone" class="form-select" value="UTC"',
+                            'attributes' => 'id="select-timezone" class="form-select" value="America/Mexico_City" disabled',
                             'grouped_timezones' => $grouped_timezones,
                         ]); ?>
                     </div>
