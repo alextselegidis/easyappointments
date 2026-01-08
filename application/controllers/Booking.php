@@ -146,7 +146,20 @@ class Booking extends EA_Controller
         }
 
         // Load active custom fields
-        $custom_fields = $this->custom_fields_model->get(['active' => 1]);
+        $custom_fields = $this->custom_fields_model->query()
+            ->where('active', 1)
+            ->order_by('sort_order', 'ASC')
+            ->get()
+            ->result_array();
+
+        // Cast the fields (convert types)
+        foreach ($custom_fields as &$custom_field) {
+            $custom_field['id'] = (int) $custom_field['id'];
+            $custom_field['active'] = (bool) $custom_field['active'];
+            $custom_field['required'] = (bool) $custom_field['required'];
+            $custom_field['display_column'] = (bool) $custom_field['display_column'];
+            $custom_field['sort_order'] = (int) $custom_field['sort_order'];
+        }
 
         // DEBUG - Log custom fields
         log_message('debug', 'Custom fields loaded: ' . count($custom_fields) . ' fields');
@@ -473,16 +486,21 @@ class Booking extends EA_Controller
             // Save custom field values
             if (!empty($custom_fields_data)) {
                 $this->load->model('custom_field_values_model');
-                $custom_fields = $this->custom_fields_model->get(['active' => 1]);
+                $custom_fields = $this->custom_fields_model->query()
+                    ->where('active', 1)
+                    ->order_by('sort_order', 'ASC')
+                    ->get()
+                    ->result_array();
 
                 foreach ($custom_fields as $custom_field) {
                     $field_name = $custom_field['name'];
                     if (isset($custom_fields_data[$field_name])) {
                         // Check if value already exists
-                        $existing_value = $this->custom_field_values_model->get([
-                            'id_custom_fields' => $custom_field['id'],
-                            'id_users' => $customer_id,
-                        ]);
+                        $existing_value = $this->custom_field_values_model->query()
+                            ->where('id_custom_fields', $custom_field['id'])
+                            ->where('id_users', $customer_id)
+                            ->get()
+                            ->result_array();
 
                         $value_data = [
                             'id_custom_fields' => $custom_field['id'],
