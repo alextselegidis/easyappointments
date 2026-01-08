@@ -82,7 +82,7 @@
 
                 <?php slot('info_first_column'); ?>
 
-                <?php component('custom_fields'); ?>
+                <?php component('custom_fields', ['custom_fields' => $custom_fields ?? []]); ?>
 
                 <?php slot('after_custom_fields'); ?>
             </div>
