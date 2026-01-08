@@ -161,9 +161,11 @@ class Booking extends EA_Controller
             $custom_field['sort_order'] = (int) $custom_field['sort_order'];
         }
 
-        // DEBUG - Log custom fields
-        log_message('debug', 'Custom fields loaded: ' . count($custom_fields) . ' fields');
-        log_message('debug', 'Custom fields data: ' . json_encode($custom_fields));
+        // DEBUG - Log custom fields (usando 'error' para asegurar que se vea)
+        log_message('error', '=== CUSTOM FIELDS DEBUG ===');
+        log_message('error', 'Custom fields loaded: ' . count($custom_fields) . ' fields');
+        log_message('error', 'Custom fields data: ' . json_encode($custom_fields));
+        log_message('error', '=========================');
 
         // Load options for select-type custom fields
         foreach ($custom_fields as &$custom_field) {
