@@ -1,0 +1,108 @@
+version: '3.8'
+
+# CONFIGURACIÓN MODIFICADA PARA SINCRONIZACIÓN AUTOMÁTICA
+# Este archivo debe reemplazar el stack actual en:
+# /home/Victor.90/docker-compose-files/easy-appointments/docker-compose.yml
+#
+# IMPORTANTE: Esta configuración usa bind mount en lugar de volume,
+# lo que permite que los cambios en /home/Victor.90/easyapp-custom/
+# se reflejen automáticamente en el contenedor sin necesidad de copiar archivos.
+#
+# Para aplicar:
+# 1. Respalda el docker-compose.yml actual
+# 2. Reemplázalo con este archivo
+# 3. Ejecuta: docker stack deploy -c docker-compose.yml easy-appointments
+
+services:
+  fpm:
+    image: your-registry/easy-appointments-fpm:latest  # Ajusta a tu imagen
+    working_dir: /var/www/html
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      # CAMBIO PRINCIPAL: bind mount en lugar de volume
+      # Esto sincroniza automáticamente /home/Victor.90/easyapp-custom con /var/www/html
+      - type: bind
+        source: /home/Victor.90/easyapp-custom
+        target: /var/www/html
+        read_only: false
+
+      # PHP config override (si existe)
+      - type: bind
+        source: /home/Victor.90/docker-compose-files/easy-appointments/php-ini-overrides.ini
+        target: /usr/local/etc/php/conf.d/99-overrides.ini
+        read_only: true
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - easyapp-internal
+
+  nginx:
+    image: nginx:1.23.3-alpine
+    working_dir: /var/www/html
+    volumes:
+      # MISMO bind mount para nginx
+      - type: bind
+        source: /home/Victor.90/easyapp-custom
+        target: /var/www/html
+        read_only: true  # nginx solo necesita lectura
+
+      # Nginx config
+      - type: bind
+        source: /home/Victor.90/docker-compose-files/easy-appointments/nginx.conf
+        target: /etc/nginx/conf.d/default.conf
+        read_only: true
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - easyapp-internal
+      - easyapp-external
+
+  mysql:
+    image: mysql:8.0
+    volumes:
+      # Base de datos sigue usando volume (datos persistentes)
+      - type: volume
+        source: mysql-data
+        target: /var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=easyappointments
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - easyapp-internal
+
+networks:
+  easyapp-internal:
+    driver: overlay
+    attachable: false
+  easyapp-external:
+    driver: overlay
+
+volumes:
+  # NOTA: app-data ya no se usa, pero se mantiene mysql-data
+  mysql-data:
+    driver: local
+
+# VENTAJAS DE BIND MOUNT:
+# ✓ Cambios en el código se reflejan inmediatamente
+# ✓ No necesitas copiar archivos manualmente
+# ✓ Puedes editar con git pull y los cambios se aplican
+# ✓ Desarrollo más rápido
+#
+# CONSIDERACIONES:
+# ✓ Asegúrate que /home/Victor.90/easyapp-custom existe y tiene los archivos
+# ✓ Los permisos deben ser correctos (www-data:www-data o similar)
+# ✓ El directorio debe estar en el mismo host donde corre Docker
+# ✓ Puede haber pequeña degradación de performance vs volume (generalmente imperceptible)
