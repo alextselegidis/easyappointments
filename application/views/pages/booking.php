@@ -37,6 +37,7 @@
     'require_zip_code' => vars('require_zip_code'),
     'display_notes' => vars('display_notes'),
     'require_notes' => vars('require_notes'),
+    'custom_fields' => vars('custom_fields'),
 ]); ?>
 
 <!-- Appointment Data Confirmation -->
