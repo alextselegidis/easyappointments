@@ -18,6 +18,7 @@
  * @var string $require_zip_code
  * @var string $display_notes
  * @var string $require_notes
+ * @var array $custom_fields
  */
 ?>
 
