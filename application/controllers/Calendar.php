@@ -183,16 +183,19 @@ class Calendar extends EA_Controller
             ->result_array();
 
         // Load options for each custom field
+        $this->load->model('custom_field_options_model');
         foreach ($custom_fields as &$custom_field) {
             if ($custom_field['type'] === 'select') {
-                $this->load->model('custom_field_options_model');
                 $custom_field['options'] = $this->custom_field_options_model->query()
                     ->where('id_custom_fields', $custom_field['id'])
                     ->order_by('option_order', 'ASC')
                     ->get()
                     ->result_array();
+            } else {
+                $custom_field['options'] = [];
             }
         }
+        unset($custom_field); // Break the reference
 
         script_vars([
             'user_id' => $user_id,
