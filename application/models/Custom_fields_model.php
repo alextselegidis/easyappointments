@@ -43,6 +43,7 @@ class Custom_fields_model extends EA_Model
         'displayColumn' => 'display_column',
         'sortOrder' => 'sort_order',
         'active' => 'active',
+        'columnPosition' => 'column_position',
     ];
 
     /**
