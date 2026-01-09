@@ -42,6 +42,8 @@ class Email_messages
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('settings_model');
+        $this->CI->load->model('custom_fields_model');
+        $this->CI->load->model('custom_field_values_model');
 
         $this->CI->load->library('email');
         $this->CI->load->library('ics_file');
@@ -96,6 +98,9 @@ class Email_messages
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
+        // Load custom fields for this appointment
+        $custom_fields_data = $this->get_appointment_custom_fields($appointment['id'] ?? null);
+
         $html = $this->CI->load->view(
             'emails/appointment_saved_email',
             [
@@ -108,6 +113,7 @@ class Email_messages
                 'settings' => $settings,
                 'timezone' => $timezone,
                 'appointment_link' => $appointment_link,
+                'custom_fields' => $custom_fields_data,
             ],
             true,
         );
@@ -161,6 +167,9 @@ class Email_messages
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
+        // Load custom fields for this appointment
+        $custom_fields_data = $this->get_appointment_custom_fields($appointment['id'] ?? null);
+
         $html = $this->CI->load->view(
             'emails/appointment_deleted_email',
             [
@@ -171,6 +180,7 @@ class Email_messages
                 'settings' => $settings,
                 'timezone' => $timezone,
                 'reason' => $reason,
+                'custom_fields' => $custom_fields_data,
             ],
             true,
         );
@@ -270,5 +280,50 @@ class Email_messages
         }
 
         return $php_mailer;
+    }
+
+    /**
+     * Get custom fields data for an appointment formatted for email display.
+     *
+     * @param int|null $appointment_id
+     * @return array
+     */
+    private function get_appointment_custom_fields(?int $appointment_id): array
+    {
+        if (!$appointment_id) {
+            return [];
+        }
+
+        try {
+            // Get all active custom fields
+            $custom_fields = $this->CI->custom_fields_model->query()
+                ->where('active', 1)
+                ->order_by('sort_order', 'ASC')
+                ->get()
+                ->result_array();
+
+            $custom_fields_data = [];
+
+            foreach ($custom_fields as $field) {
+                // Get the value for this appointment
+                $value_record = $this->CI->custom_field_values_model->query()
+                    ->where('id_appointments', $appointment_id)
+                    ->where('id_custom_fields', $field['id'])
+                    ->get()
+                    ->row_array();
+
+                if ($value_record && !empty($value_record['field_value'])) {
+                    $custom_fields_data[] = [
+                        'label' => $field['label'],
+                        'value' => $value_record['field_value'],
+                        'type' => $field['type'],
+                    ];
+                }
+            }
+
+            return $custom_fields_data;
+        } catch (Exception $e) {
+            return [];
+        }
     }
 }

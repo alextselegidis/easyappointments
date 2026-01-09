@@ -20,10 +20,21 @@
 
 <div class="email-container" style="width: 650px; border: 1px solid #eee; margin: 30px auto;">
     <div id="header"
-         style="background-color: <?= $settings['company_color'] ?? '#429a82' ?>; height: 45px; padding: 10px 15px;">
-        <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
-            <?= e($settings['company_name']) ?>
-        </strong>
+         style="background-color: <?= $settings['company_color'] ?? '#429a82' ?>; height: 80px; padding: 15px; text-align: center;">
+        <?php if (!empty($settings['company_logo'])): ?>
+            <?php if (strpos($settings['company_logo'], 'data:image') === 0): ?>
+                <img src="<?= $settings['company_logo'] ?>" alt="<?= e($settings['company_name']) ?>"
+                     style="max-height: 50px; max-width: 300px; vertical-align: middle;">
+            <?php else: ?>
+                <img src="<?= base_url('storage/uploads/' . $settings['company_logo']) ?>"
+                     alt="<?= e($settings['company_name']) ?>"
+                     style="max-height: 50px; max-width: 300px; vertical-align: middle;">
+            <?php endif; ?>
+        <?php else: ?>
+            <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
+                <?= e($settings['company_name']) ?>
+            </strong>
+        <?php endif; ?>
     </div>
 
     <div id="content" style="padding: 10px 15px; min-height: 400px;">
@@ -164,6 +175,25 @@
             </tr>
         </table>
 
+        <?php if (!empty($custom_fields)): ?>
+            <h2>
+                <?= lang('custom_fields') ?>
+            </h2>
+
+            <table id="custom-fields-details">
+                <?php foreach ($custom_fields as $field): ?>
+                    <tr>
+                        <td class="label" style="padding: 3px;font-weight: bold;">
+                            <?= e($field['label']) ?>
+                        </td>
+                        <td style="padding: 3px;">
+                            <?= e($field['value']) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </table>
+        <?php endif; ?>
+
         <h2>
             <?= lang('reason') ?>
         </h2>
@@ -175,11 +205,6 @@
 
     <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
                 border-top: 1px solid #EEE; background: #FAFAFA;">
-        Powered by
-        <a href="https://easyappointments.org" style="text-decoration: none;">
-            Easy!Appointments
-        </a>
-        |
         <a href="<?= e($settings['company_link']) ?>" style="text-decoration: none;">
             <?= e($settings['company_name']) ?>
         </a>
