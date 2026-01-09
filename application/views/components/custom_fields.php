@@ -9,24 +9,6 @@
 $disabled = $disabled ?? false;
 $custom_fields = $custom_fields ?? []; ?>
 
-<!-- CUSTOM_FIELDS COMPONENT IS RENDERING -->
-<div style="background: yellow; padding: 10px; margin: 10px 0; border: 2px solid red;">
-    <strong>TEST:</strong> Custom fields component loaded. Array count: <?= is_array($custom_fields) ? count($custom_fields) : 'NOT ARRAY' ?>
-</div>
-
-<?php if (count($custom_fields) > 0): ?>
-    <div class="alert alert-info" style="margin: 10px 0;">
-        <strong>DEBUG:</strong> Se encontraron <?= count($custom_fields) ?> campos personalizados.
-        <?php foreach ($custom_fields as $cf): ?>
-            <br>- <?= e($cf['name']) ?>: activo=<?= $cf['active'] ? 'SÍ' : 'NO' ?>, tipo=<?= e($cf['type']) ?>
-        <?php endforeach; ?>
-    </div>
-<?php else: ?>
-    <div class="alert alert-warning" style="margin: 10px 0;">
-        <strong>DEBUG:</strong> No se encontraron campos personalizados activos en la base de datos.
-    </div>
-<?php endif; ?>
-
 <?php foreach ($custom_fields as $custom_field): ?>
     <?php if ($custom_field['active']): ?>
         <div class="mb-3">
