@@ -46,6 +46,7 @@
     'manage_mode' => vars('manage_mode'),
     'display_terms_and_conditions' => vars('display_terms_and_conditions'),
     'display_privacy_policy' => vars('display_privacy_policy'),
+    'custom_fields' => vars('custom_fields'),
 ]); ?>
 
 <?php end_section('content'); ?>

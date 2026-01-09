@@ -5,7 +5,10 @@
  * @var bool $manage_mode
  * @var string $display_terms_and_conditions
  * @var string $display_privacy_policy
+ * @var array $custom_fields
  */
+
+$custom_fields = $custom_fields ?? [];
 ?>
 
 <div id="wizard-frame-4" class="wizard-frame" style="display:none;">
@@ -22,6 +25,44 @@
             </div>
 
         </div>
+
+        <!-- DEBUG: Custom Fields Info -->
+        <div class="row frame-content m-auto mb-3">
+            <div class="col-12">
+                <div style="background: #ff9800; color: white; padding: 15px; border-radius: 5px;">
+                    <strong>🔍 DEBUG - Custom Fields Info:</strong><br>
+                    Total campos personalizados: <?= count($custom_fields) ?><br>
+                    <?php if (!empty($custom_fields)): ?>
+                        <strong>Campos disponibles:</strong><br>
+                        <?php foreach ($custom_fields as $field): ?>
+                            - ID: <?= $field['id'] ?>,
+                            Nombre: <?= $field['name'] ?>,
+                            Label: <?= $field['label'] ?>,
+                            Activo: <?= $field['active'] ? 'SÍ' : 'NO' ?><br>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <span style="color: red;">⚠️ No hay campos personalizados disponibles</span>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // DEBUG: Verificar campos en el DOM
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('=== DEBUG DOM ===');
+                const customFieldInputs = document.querySelectorAll('.custom-field-input');
+                console.log('Campos .custom-field-input encontrados:', customFieldInputs.length);
+                customFieldInputs.forEach(function(input, index) {
+                    console.log(`Campo ${index}:`, {
+                        id: input.id,
+                        name: input.getAttribute('data-field-name'),
+                        label: input.getAttribute('data-field-label'),
+                        value: input.value
+                    });
+                });
+            });
+        </script>
 
         <?php slot('after_details'); ?>
 
