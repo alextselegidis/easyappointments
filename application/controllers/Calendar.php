@@ -76,6 +76,7 @@ class Calendar extends EA_Controller
         $this->load->model('services_model');
         $this->load->model('providers_model');
         $this->load->model('roles_model');
+        $this->load->model('custom_fields_model');
 
         $this->load->library('accounts');
         $this->load->library('google_sync');
@@ -174,6 +175,25 @@ class Calendar extends EA_Controller
 
         $appointment_status_options = setting('appointment_status_options');
 
+        // Load active custom fields with their options
+        $custom_fields = $this->custom_fields_model->query()
+            ->where('active', 1)
+            ->order_by('sort_order', 'ASC')
+            ->get()
+            ->result_array();
+
+        // Load options for each custom field
+        foreach ($custom_fields as &$custom_field) {
+            if ($custom_field['type'] === 'select') {
+                $this->load->model('custom_field_options_model');
+                $custom_field['options'] = $this->custom_field_options_model->query()
+                    ->where('id_custom_fields', $custom_field['id'])
+                    ->order_by('option_order', 'ASC')
+                    ->get()
+                    ->result_array();
+            }
+        }
+
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
@@ -215,6 +235,7 @@ class Calendar extends EA_Controller
             'require_city' => setting('require_city'),
             'require_zip_code' => setting('require_zip_code'),
             'require_notes' => setting('require_notes'),
+            'custom_fields' => $custom_fields,
         ]);
 
         $this->load->view('pages/calendar');

@@ -128,6 +128,20 @@ App.Components.AppointmentsModal = (function () {
                 custom_field_5: $customField5.val(),
             };
 
+            // Collect dynamic custom field values
+            const custom_fields_data = {};
+            $('.custom-field-input').each(function () {
+                const $field = $(this);
+                const fieldName = $field.data('field-name');
+                const fieldValue = $field.val();
+                if (fieldName && fieldValue) {
+                    custom_fields_data[fieldName] = fieldValue;
+                }
+            });
+            if (Object.keys(custom_fields_data).length > 0) {
+                customer.custom_fields_data = custom_fields_data;
+            }
+
             if ($customerId.val() !== '') {
                 // Set the id value, only if we are editing an appointment.
                 customer.id = $customerId.val();
@@ -270,6 +284,17 @@ App.Components.AppointmentsModal = (function () {
                 $customField3.val(customer.custom_field_3);
                 $customField4.val(customer.custom_field_4);
                 $customField5.val(customer.custom_field_5);
+
+                // Load dynamic custom field values
+                if (customer.custom_fields_data) {
+                    $('.custom-field-input').each(function () {
+                        const $field = $(this);
+                        const fieldName = $field.data('field-name');
+                        if (fieldName && customer.custom_fields_data[fieldName]) {
+                            $field.val(customer.custom_fields_data[fieldName]);
+                        }
+                    });
+                }
             }
 
             $selectCustomer.trigger('click'); // Hide the list.
