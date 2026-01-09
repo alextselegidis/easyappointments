@@ -496,4 +496,8 @@ $lang['calendar_url'] = 'Calendar URL';
 $lang['please_select'] = 'Please Select';
 $lang['secret_header'] = 'Secret Header';
 $lang['search'] = 'Search';
+$lang['column_position'] = 'Column Position';
+$lang['left_column'] = 'Left Column';
+$lang['right_column'] = 'Right Column';
+$lang['select_which_column_to_display_field'] = 'Select in which column this field should be displayed in the booking form';
 // End
