@@ -577,7 +577,7 @@ class Calendar extends EA_Controller
 
                 // Load custom field values for the customer
                 $this->load->model('custom_field_values_model');
-                $custom_field_values = $this->custom_field_values_model->get(['id_users' => $appointment['customer']['id']]);
+                $custom_field_values = $this->custom_field_values_model->get_by_user($appointment['customer']['id']);
                 $custom_fields = [];
                 foreach ($custom_field_values as $value) {
                     $custom_field = $this->custom_fields_model->find($value['id_custom_fields']);
@@ -730,7 +730,7 @@ class Calendar extends EA_Controller
 
                 // Load custom field values for the customer
                 $this->load->model('custom_field_values_model');
-                $custom_field_values = $this->custom_field_values_model->get(['id_users' => $appointment['customer']['id']]);
+                $custom_field_values = $this->custom_field_values_model->get_by_user($appointment['customer']['id']);
                 $custom_fields = [];
                 foreach ($custom_field_values as $value) {
                     $custom_field = $this->custom_fields_model->find($value['id_custom_fields']);
