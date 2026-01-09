@@ -152,6 +152,7 @@ App.Pages.CustomFields = (function () {
          */
         $('#add-option').on('click', function () {
             addOptionRow();
+            initializeSortable(); // Reinitialize sortable after adding new option
         });
 
         /**
@@ -188,11 +189,20 @@ App.Pages.CustomFields = (function () {
      * Initialize jQuery UI Sortable for drag and drop reordering
      */
     function initializeSortable() {
+        // Destroy existing sortable instance if it exists
+        if ($optionsList.hasClass('ui-sortable')) {
+            $optionsList.sortable('destroy');
+        }
+
+        // Initialize sortable with proper settings
         $optionsList.sortable({
             handle: '.drag-handle',
             axis: 'y',
             cursor: 'move',
             tolerance: 'pointer',
+            placeholder: 'ui-state-highlight',
+            forcePlaceholderSize: true,
+            opacity: 0.6,
             stop: function() {
                 // You can add any callback here if needed after reordering
             }

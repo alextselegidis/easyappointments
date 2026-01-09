@@ -1,5 +1,20 @@
 <?php extend('layouts/backend_layout'); ?>
 
+<?php section('styles'); ?>
+<style>
+    .ui-state-highlight {
+        height: 50px;
+        background-color: #f8f9fa;
+        border: 2px dashed #6c757d;
+        margin-bottom: 0.5rem;
+    }
+
+    .drag-handle {
+        user-select: none;
+    }
+</style>
+<?php end_section('styles'); ?>
+
 <?php section('content'); ?>
 
 <div class="container-fluid backend-page" id="custom-fields-page">
