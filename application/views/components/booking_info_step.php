@@ -83,6 +83,16 @@
 
                 <?php slot('info_first_column'); ?>
 
+                <?php
+                // DEBUG: Ver qué tiene $custom_fields
+                $debug_cf = $custom_fields ?? 'UNDEFINED';
+                if ($debug_cf === 'UNDEFINED') {
+                    echo '<div style="background:red;color:white;padding:10px;">DEBUG: $custom_fields NO DEFINIDO en booking_info_step</div>';
+                } else {
+                    echo '<div style="background:orange;color:black;padding:10px;">DEBUG: $custom_fields existe en booking_info_step. Count: ' . count($debug_cf) . '</div>';
+                }
+                ?>
+
                 <?php component('custom_fields', ['custom_fields' => $custom_fields ?? []]); ?>
 
                 <?php slot('after_custom_fields'); ?>
