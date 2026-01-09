@@ -766,6 +766,12 @@ App.Pages.Booking = (function () {
             const $field = $(this);
             const fieldLabel = $field.data('field-label');
             const fieldValue = $field.val();
+            console.log('DEBUG Custom Field:', {
+                fieldLabel: fieldLabel,
+                fieldValue: fieldValue,
+                hasLabel: !!fieldLabel,
+                hasValue: !!fieldValue
+            });
             if (fieldLabel && fieldValue) {
                 customFieldsDisplay.push({
                     label: App.Utils.String.escapeHtml(fieldLabel),
@@ -773,6 +779,7 @@ App.Pages.Booking = (function () {
                 });
             }
         });
+        console.log('DEBUG Total custom fields for display:', customFieldsDisplay.length, customFieldsDisplay);
 
         $('#customer-details').html(`
             <div>
