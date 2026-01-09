@@ -2,15 +2,17 @@
 
 <?php section('styles'); ?>
 <style>
-    .ui-state-highlight {
-        height: 50px;
-        background-color: #f8f9fa;
-        border: 2px dashed #6c757d;
-        margin-bottom: 0.5rem;
-    }
-
     .drag-handle {
         user-select: none;
+    }
+
+    .option-row.dragging {
+        opacity: 0.5;
+        background-color: #e9ecef;
+    }
+
+    .option-row {
+        transition: all 0.2s ease;
     }
 </style>
 <?php end_section('styles'); ?>

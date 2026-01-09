@@ -77,6 +77,7 @@ App.Pages.CustomFields = (function () {
             $customFields.find('.save-cancel-group').show();
             $customFields.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#add-option').prop('disabled', false); // Enable add option button
+            enableOptionControls(); // Enable option controls
             $('#name').trigger('focus');
         });
 
@@ -88,6 +89,7 @@ App.Pages.CustomFields = (function () {
             $customFields.find('.save-cancel-group').show();
             $customFields.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $('#add-option').prop('disabled', false); // Enable add option button
+            enableOptionControls(); // Enable option controls
             $('#name').trigger('focus');
         });
 
@@ -186,27 +188,47 @@ App.Pages.CustomFields = (function () {
     }
 
     /**
-     * Initialize jQuery UI Sortable for drag and drop reordering
+     * Initialize drag and drop for reordering (using native HTML5 drag and drop)
      */
     function initializeSortable() {
-        // Destroy existing sortable instance if it exists
-        if ($optionsList.hasClass('ui-sortable')) {
-            $optionsList.sortable('destroy');
-        }
+        // Remove existing event listeners
+        $optionsList.off('dragstart dragover drop dragend');
 
-        // Initialize sortable with proper settings
-        $optionsList.sortable({
-            handle: '.drag-handle',
-            axis: 'y',
-            cursor: 'move',
-            tolerance: 'pointer',
-            placeholder: 'ui-state-highlight',
-            forcePlaceholderSize: true,
-            opacity: 0.6,
-            stop: function() {
-                // You can add any callback here if needed after reordering
+        // Add drag and drop event listeners
+        $optionsList.on('dragstart', '.option-row', function(e) {
+            if ($(this).find('.option-value').prop('disabled')) {
+                e.preventDefault();
+                return false;
+            }
+            e.originalEvent.dataTransfer.effectAllowed = 'move';
+            $(this).addClass('dragging');
+        });
+
+        $optionsList.on('dragover', '.option-row', function(e) {
+            e.preventDefault();
+            e.originalEvent.dataTransfer.dropEffect = 'move';
+
+            const $dragging = $('.dragging');
+            const $this = $(this);
+
+            if ($dragging[0] !== $this[0]) {
+                const rect = this.getBoundingClientRect();
+                const midY = rect.top + rect.height / 2;
+
+                if (e.originalEvent.clientY < midY) {
+                    $this.before($dragging);
+                } else {
+                    $this.after($dragging);
+                }
             }
         });
+
+        $optionsList.on('dragend', '.option-row', function() {
+            $(this).removeClass('dragging');
+        });
+
+        // Make rows draggable
+        $('.option-row').attr('draggable', true);
     }
 
     /**
@@ -348,11 +370,32 @@ App.Pages.CustomFields = (function () {
         $('#delete-custom-field').prop('disabled', true);
         $('#add-option').prop('disabled', true); // Disable add option button
 
+        // Disable all option controls
+        disableOptionControls();
+
         $customFields.find('.selected').removeClass('selected');
         $customFields.find('.record-details .is-invalid').removeClass('is-invalid');
 
         $optionsSection.hide();
         $optionsList.empty();
+    }
+
+    /**
+     * Disable option input fields and buttons
+     */
+    function disableOptionControls() {
+        $('.option-value, .option-label').prop('disabled', true);
+        $('.move-up-option, .move-down-option, .delete-option').prop('disabled', true);
+        $('.drag-handle').css('cursor', 'not-allowed').css('opacity', '0.5');
+    }
+
+    /**
+     * Enable option input fields and buttons
+     */
+    function enableOptionControls() {
+        $('.option-value, .option-label').prop('disabled', false);
+        $('.move-up-option, .move-down-option, .delete-option').prop('disabled', false);
+        $('.drag-handle').css('cursor', 'move').css('opacity', '1');
     }
 
     /**
@@ -379,6 +422,7 @@ App.Pages.CustomFields = (function () {
                     addOptionRow(option, false); // Load existing options at the bottom
                 });
                 initializeSortable(); // Initialize drag and drop after loading options
+                disableOptionControls(); // Disable controls in view mode
             });
         } else {
             $optionsSection.hide();
