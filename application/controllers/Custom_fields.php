@@ -205,6 +205,27 @@ class Custom_fields extends EA_Controller
     }
 
     /**
+     * Save multiple options in batch (single transaction).
+     */
+    public function save_options_batch(): void
+    {
+        try {
+            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
+            $custom_field_id = request('custom_field_id');
+            $options = request('options');
+
+            $this->custom_field_options_model->save_batch($custom_field_id, $options);
+
+            response();
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    /**
      * Delete a custom field option.
      */
     public function delete_option(): void

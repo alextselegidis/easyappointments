@@ -58,6 +58,46 @@ class Custom_field_options_model extends EA_Model
     }
 
     /**
+     * Save multiple options in a single transaction (batch operation).
+     *
+     * @param int $custom_field_id The custom field ID.
+     * @param array $options Array of options to save.
+     *
+     * @return void
+     *
+     * @throws RuntimeException
+     */
+    public function save_batch(int $custom_field_id, array $options): void
+    {
+        // Start transaction
+        $this->db->trans_start();
+
+        // Delete all existing options for this custom field
+        $this->db->delete('custom_field_options', ['id_custom_fields' => $custom_field_id]);
+
+        // Insert all new options
+        foreach ($options as $option) {
+            if (!empty($option['option_value']) && !empty($option['option_label'])) {
+                $option['id_custom_fields'] = $custom_field_id;
+                $option['create_datetime'] = date('Y-m-d H:i:s');
+                $option['update_datetime'] = date('Y-m-d H:i:s');
+
+                // Remove id if present (we're inserting new records)
+                unset($option['id']);
+
+                $this->db->insert('custom_field_options', $option);
+            }
+        }
+
+        // Complete transaction
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+            throw new RuntimeException('Could not save custom field options in batch.');
+        }
+    }
+
+    /**
      * Validate the option data.
      *
      * @param array $option Associative array with the option data.

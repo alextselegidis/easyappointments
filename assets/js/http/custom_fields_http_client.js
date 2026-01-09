@@ -159,6 +159,26 @@ App.Http.CustomFields = (function () {
     }
 
     /**
+     * Save multiple options in batch (single request).
+     *
+     * @param {Number} customFieldId
+     * @param {Array} options
+     *
+     * @return {Object}
+     */
+    function saveOptionsBatch(customFieldId, options) {
+        const url = App.Utils.Url.siteUrl('custom_fields/save_options_batch');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            custom_field_id: customFieldId,
+            options: options,
+        };
+
+        return $.post(url, data);
+    }
+
+    /**
      * Delete an option.
      *
      * @param {Number} optionId
@@ -185,6 +205,7 @@ App.Http.CustomFields = (function () {
         find,
         getOptions,
         saveOption,
+        saveOptionsBatch,
         deleteOption,
     };
 })();

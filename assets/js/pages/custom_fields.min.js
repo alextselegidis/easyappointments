@@ -225,32 +225,25 @@ App.Pages.CustomFields = (function () {
         }
 
         App.Http.CustomFields.save(customField).then((response) => {
-            // If it's a select field, save the options
+            // If it's a select field, save the options in batch
             if (customField.type === 'select') {
-                const promises = [];
+                const options = [];
 
                 $('.option-row').each(function (index) {
                     const optionValue = $(this).find('.option-value').val();
                     const optionLabel = $(this).find('.option-label').val();
-                    const optionId = $(this).find('.option-id').val();
 
                     if (optionValue && optionLabel) {
-                        const option = {
-                            id_custom_fields: response.id,
+                        options.push({
                             option_value: optionValue,
                             option_label: optionLabel,
                             sort_order: index,
-                        };
-
-                        if (optionId) {
-                            option.id = optionId;
-                        }
-
-                        promises.push(App.Http.CustomFields.saveOption(option));
+                        });
                     }
                 });
 
-                Promise.all(promises).then(() => {
+                // Save all options in a single request
+                App.Http.CustomFields.saveOptionsBatch(response.id, options).then(() => {
                     App.Layouts.Backend.displayNotification(lang('custom_field_saved'));
                     resetForm();
                     $('#filter-custom-fields .key').val('');
