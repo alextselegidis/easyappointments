@@ -10,7 +10,11 @@
 <nav id="header" class="navbar navbar-expand-md navbar-dark">
     <div id="header-logo" class="navbar-brand">
         <?php if (setting('company_logo')): ?>
-            <img src="<?= base_url('storage/uploads/' . setting('company_logo')) ?>" alt="<?= e(setting('company_name') ?: 'Logo') ?>">
+            <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
+                <img src="<?= setting('company_logo') ?>" alt="<?= e(setting('company_name') ?: 'Logo') ?>">
+            <?php else: ?>
+                <img src="<?= base_url('storage/uploads/' . setting('company_logo')) ?>" alt="<?= e(setting('company_name') ?: 'Logo') ?>">
+            <?php endif; ?>
         <?php else: ?>
             <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
         <?php endif; ?>

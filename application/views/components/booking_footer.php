@@ -7,14 +7,14 @@
 ?>
 
 <div id="frame-footer">
-    <small>
+    <small class="d-flex justify-content-between align-items-center w-100">
         <!-- Powered By section hidden for white label -->
-        <?php if (setting('display_powered_by')): ?>
         <span class="footer-powered-by small">
-            Powered By
-            <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+            <?php if (setting('display_powered_by')): ?>
+                Powered By
+                <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
+            <?php endif; ?>
         </span>
-        <?php endif; ?>
 
         <span class="footer-options">
             <span id="select-language" class="badge bg-secondary">
