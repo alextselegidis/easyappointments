@@ -8,17 +8,20 @@
 
 <div id="frame-footer">
     <small>
+        <!-- Powered By section hidden for white label -->
+        <?php if (setting('display_powered_by')): ?>
         <span class="footer-powered-by small">
             Powered By
             <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
         </span>
+        <?php endif; ?>
 
         <span class="footer-options">
             <span id="select-language" class="badge bg-secondary">
                 <i class="fas fa-language me-2"></i>
                 <?= ucfirst(config('language')) ?>
             </span>
-    
+
             <?php if ($display_login_button): ?>
                 <a class="backend-link badge bg-primary text-decoration-none px-2"
                    href="<?= session('user_id') ? site_url('calendar') : site_url('login') ?>">
