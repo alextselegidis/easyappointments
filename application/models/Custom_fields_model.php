@@ -152,9 +152,18 @@ class Custom_fields_model extends EA_Model
      */
     public function delete(int $custom_field_id): void
     {
+        // Use transaction to ensure all deletes succeed or fail together
+        $this->db->trans_start();
+
         $this->db->delete('custom_fields', ['id' => $custom_field_id]);
         $this->db->delete('custom_field_options', ['id_custom_fields' => $custom_field_id]);
         $this->db->delete('custom_field_values', ['id_custom_fields' => $custom_field_id]);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+            throw new RuntimeException('Could not delete custom field.');
+        }
     }
 
     /**
