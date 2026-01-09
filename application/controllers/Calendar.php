@@ -175,9 +175,10 @@ class Calendar extends EA_Controller
 
         $appointment_status_options = setting('appointment_status_options');
 
-        // Load active custom fields with their options
+        // Load active custom fields with their options - temporarily disabled to debug 500 error
         $custom_fields = [];
-        try {
+        // TODO: Re-enable after fixing database issues
+        /*try {
             $custom_fields = $this->custom_fields_model->query()
                 ->where('active', 1)
                 ->order_by('sort_order', 'ASC')
@@ -203,7 +204,7 @@ class Calendar extends EA_Controller
         } catch (Exception $e) {
             log_message('error', 'Error loading custom fields in calendar: ' . $e->getMessage());
             $custom_fields = [];
-        }
+        }*/
 
         script_vars([
             'user_id' => $user_id,
