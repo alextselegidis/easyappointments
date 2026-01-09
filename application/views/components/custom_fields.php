@@ -23,6 +23,7 @@ $custom_fields = $custom_fields ?? []; ?>
                 <input type="text"
                        id="custom-field-<?= $custom_field['id'] ?>"
                        data-field-name="<?= e($custom_field['name']) ?>"
+                       data-field-label="<?= e($custom_field['label']) ?>"
                        class="custom-field-input <?= $custom_field['required'] ? 'required' : '' ?> form-control"
                        maxlength="255"
                        <?= $disabled ? 'disabled' : '' ?>/>
@@ -31,6 +32,7 @@ $custom_fields = $custom_fields ?? []; ?>
                 <textarea
                     id="custom-field-<?= $custom_field['id'] ?>"
                     data-field-name="<?= e($custom_field['name']) ?>"
+                    data-field-label="<?= e($custom_field['label']) ?>"
                     class="custom-field-input <?= $custom_field['required'] ? 'required' : '' ?> form-control"
                     rows="3"
                     maxlength="500"
@@ -40,6 +42,7 @@ $custom_fields = $custom_fields ?? []; ?>
                 <select
                     id="custom-field-<?= $custom_field['id'] ?>"
                     data-field-name="<?= e($custom_field['name']) ?>"
+                    data-field-label="<?= e($custom_field['label']) ?>"
                     class="custom-field-input <?= $custom_field['required'] ? 'required' : '' ?> form-control"
                     <?= $disabled ? 'disabled' : '' ?>>
                     <option value=""><?= lang('select') ?></option>

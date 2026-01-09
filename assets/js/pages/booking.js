@@ -760,6 +760,20 @@ App.Pages.Booking = (function () {
             addressParts.push(zipCode);
         }
 
+        // Collect dynamic custom fields for display
+        const customFieldsDisplay = [];
+        $('.custom-field-input').each(function () {
+            const $field = $(this);
+            const fieldLabel = $field.data('field-label');
+            const fieldValue = $field.val();
+            if (fieldLabel && fieldValue) {
+                customFieldsDisplay.push({
+                    label: App.Utils.String.escapeHtml(fieldLabel),
+                    value: App.Utils.String.escapeHtml(fieldValue)
+                });
+            }
+        });
+
         $('#customer-details').html(`
             <div>
                 <div class="mb-2 fw-bold fs-3">
@@ -780,6 +794,15 @@ App.Pages.Booking = (function () {
                 <div class="mb-2" ${!addressParts.length ? 'hidden' : ''}>
                     ${addressParts.join(', ')}
                 </div>
+                ${customFieldsDisplay.length > 0 ? `
+                    <div class="mt-3">
+                        ${customFieldsDisplay.map(field => `
+                            <div class="mb-2">
+                                <span class="fw-bold">${field.label}:</span> ${field.value}
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
             </div>
         `);
 
