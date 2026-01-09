@@ -76,6 +76,7 @@ App.Pages.CustomFields = (function () {
             $customFields.find('.add-edit-delete-group').hide();
             $customFields.find('.save-cancel-group').show();
             $customFields.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $('#add-option').prop('disabled', false); // Enable add option button
             $('#name').trigger('focus');
         });
 
@@ -86,6 +87,7 @@ App.Pages.CustomFields = (function () {
             $customFields.find('.add-edit-delete-group').hide();
             $customFields.find('.save-cancel-group').show();
             $customFields.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $('#add-option').prop('disabled', false); // Enable add option button
             $('#name').trigger('focus');
         });
 
@@ -139,6 +141,7 @@ App.Pages.CustomFields = (function () {
             const type = $(this).val();
             if (type === 'select') {
                 $optionsSection.show();
+                initializeSortable(); // Initialize drag and drop when showing options
             } else {
                 $optionsSection.hide();
             }
@@ -182,24 +185,46 @@ App.Pages.CustomFields = (function () {
     }
 
     /**
+     * Initialize jQuery UI Sortable for drag and drop reordering
+     */
+    function initializeSortable() {
+        $optionsList.sortable({
+            handle: '.drag-handle',
+            axis: 'y',
+            cursor: 'move',
+            tolerance: 'pointer',
+            stop: function() {
+                // You can add any callback here if needed after reordering
+            }
+        });
+    }
+
+    /**
      * Add an option row to the options list
      *
      * @param {Object} [option] - Option data
+     * @param {Boolean} [prepend=true] - If true, adds at the top; if false, adds at the bottom
      */
-    function addOptionRow(option) {
+    function addOptionRow(option, prepend = true) {
         const optionId = option ? option.id : '';
         const optionValue = option ? option.option_value : '';
         const optionLabel = option ? option.option_label : '';
 
         const $row = $('<div class="option-row input-group mb-2">')
             .append(`<input type="hidden" class="option-id" value="${optionId}">`)
+            .append(`<span class="input-group-text drag-handle" style="cursor: move;"><i class="fas fa-grip-vertical"></i></span>`)
             .append(`<input type="text" class="form-control option-value" placeholder="${lang('value')}" value="${optionValue}">`)
             .append(`<input type="text" class="form-control option-label" placeholder="${lang('label')}" value="${optionLabel}">`)
             .append(`<button type="button" class="btn btn-outline-secondary move-up-option" title="Move Up"><i class="fas fa-arrow-up"></i></button>`)
             .append(`<button type="button" class="btn btn-outline-secondary move-down-option" title="Move Down"><i class="fas fa-arrow-down"></i></button>`)
             .append(`<button type="button" class="btn btn-outline-danger delete-option"><i class="fas fa-trash"></i></button>`);
 
-        $optionsList.append($row);
+        // Add new options at the top, loaded options at the bottom
+        if (prepend) {
+            $optionsList.prepend($row);
+        } else {
+            $optionsList.append($row);
+        }
     }
 
     /**
@@ -311,6 +336,7 @@ App.Pages.CustomFields = (function () {
 
         $('#edit-custom-field').prop('disabled', true);
         $('#delete-custom-field').prop('disabled', true);
+        $('#add-option').prop('disabled', true); // Disable add option button
 
         $customFields.find('.selected').removeClass('selected');
         $customFields.find('.record-details .is-invalid').removeClass('is-invalid');
@@ -340,8 +366,9 @@ App.Pages.CustomFields = (function () {
 
             App.Http.CustomFields.getOptions(customField.id).then((options) => {
                 options.forEach((option) => {
-                    addOptionRow(option);
+                    addOptionRow(option, false); // Load existing options at the bottom
                 });
+                initializeSortable(); // Initialize drag and drop after loading options
             });
         } else {
             $optionsSection.hide();
