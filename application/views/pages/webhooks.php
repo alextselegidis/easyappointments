@@ -140,6 +140,12 @@
                         <?= lang('verify_ssl') ?>
                     </label>
                 </div>
+
+                <label id="ssl-cert-file-label" class="form-label" for="ssl-cert-file">
+                        <?= lang('verify_ssl_cert') ?>
+                </label>
+
+                <input class="form-control required" type="text" id="ssl-cert-file" disabled>
             </div>
 
             <div class="mb-3">

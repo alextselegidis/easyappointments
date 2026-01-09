@@ -28,6 +28,7 @@ class Webhooks extends EA_Controller
         'secret_header',
         'secret_token',
         'is_ssl_verified',
+        'ssl_cert_file',
         'notes',
     ];
 
@@ -152,6 +153,10 @@ class Webhooks extends EA_Controller
             }
 
             $webhook = request('webhook');
+            
+            if ($webhook['is_ssl_verified'] && !is_readable( $webhook['ssl_cert_file'])) {
+                throw new InvalidArgumentException('Certificate file does not exist or can not be read.');
+            }
 
             $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 
@@ -181,6 +186,10 @@ class Webhooks extends EA_Controller
             }
 
             $webhook = request('webhook');
+
+            if ($webhook['is_ssl_verified'] && !is_readable( $webhook['ssl_cert_file'])) {
+                throw new InvalidArgumentException('Certificate file does not exist or can not be read.');
+            }
 
             $this->webhooks_model->only($webhook, $this->allowed_webhook_fields);
 

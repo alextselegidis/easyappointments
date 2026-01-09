@@ -509,4 +509,5 @@ $lang['no'] = 'No';
 $lang['latest_blog_posts'] = 'Latest Blog Posts';
 $lang['loading'] = 'Loading';
 $lang['blog_posts_load_error'] = 'Unable to load blog posts. Please visit the official website for updates.';
+$lang['verify_ssl_cert'] = 'Täydellinen polku varmennetiedostolle, jolla SSL varmistetaan.';
 // End

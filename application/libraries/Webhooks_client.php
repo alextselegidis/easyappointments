@@ -81,7 +81,7 @@ class Webhooks_client
             }
 
             $response = $client->post($webhook['url'], [
-                'verify' => $webhook['is_ssl_verified'],
+                'verify' => ($webhook['is_ssl_verified'] ? $webhook['ssl_cert_file'] : $webhook['is_ssl_verified']),
                 'headers' => $headers,
                 'json' => [
                     'action' => $action,
