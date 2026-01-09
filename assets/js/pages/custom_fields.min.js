@@ -157,6 +157,28 @@ App.Pages.CustomFields = (function () {
         $optionsList.on('click', '.delete-option', function () {
             $(this).closest('.option-row').remove();
         });
+
+        /**
+         * Event: Move Up Option Button "Click"
+         */
+        $optionsList.on('click', '.move-up-option', function () {
+            const $row = $(this).closest('.option-row');
+            const $prev = $row.prev('.option-row');
+            if ($prev.length) {
+                $row.insertBefore($prev);
+            }
+        });
+
+        /**
+         * Event: Move Down Option Button "Click"
+         */
+        $optionsList.on('click', '.move-down-option', function () {
+            const $row = $(this).closest('.option-row');
+            const $next = $row.next('.option-row');
+            if ($next.length) {
+                $row.insertAfter($next);
+            }
+        });
     }
 
     /**
@@ -173,6 +195,8 @@ App.Pages.CustomFields = (function () {
             .append(`<input type="hidden" class="option-id" value="${optionId}">`)
             .append(`<input type="text" class="form-control option-value" placeholder="${lang('value')}" value="${optionValue}">`)
             .append(`<input type="text" class="form-control option-label" placeholder="${lang('label')}" value="${optionLabel}">`)
+            .append(`<button type="button" class="btn btn-outline-secondary move-up-option" title="Move Up"><i class="fas fa-arrow-up"></i></button>`)
+            .append(`<button type="button" class="btn btn-outline-secondary move-down-option" title="Move Down"><i class="fas fa-arrow-down"></i></button>`)
             .append(`<button type="button" class="btn btn-outline-danger delete-option"><i class="fas fa-trash"></i></button>`);
 
         $optionsList.append($row);
