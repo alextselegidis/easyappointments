@@ -9,20 +9,6 @@
 $disabled = $disabled ?? false;
 $custom_fields = $custom_fields ?? []; ?>
 
-<!-- DEBUG: Custom Fields en el formulario -->
-<div style="background: #2196f3; color: white; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
-    <strong>🔍 DEBUG - Campos en el formulario:</strong><br>
-    Total: <?= count($custom_fields) ?> campos<br>
-    <button type="button" onclick="
-        const fields = document.querySelectorAll('.custom-field-input');
-        let info = 'Valores actuales:\\n';
-        fields.forEach(f => {
-            info += f.id + ': [' + f.value + ']\\n';
-        });
-        alert(info);
-    " class="btn btn-sm btn-light mt-2">Ver valores actuales</button>
-</div>
-
 <?php foreach ($custom_fields as $custom_field): ?>
     <?php if ($custom_field['active']): ?>
         <div class="mb-3">
