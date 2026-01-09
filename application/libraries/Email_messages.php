@@ -42,8 +42,6 @@ class Email_messages
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('settings_model');
-        $this->CI->load->model('custom_fields_model');
-        $this->CI->load->model('custom_field_values_model');
 
         $this->CI->load->library('email');
         $this->CI->load->library('ics_file');
@@ -99,7 +97,7 @@ class Email_messages
         }
 
         // Load custom fields for this appointment
-        $custom_fields_data = $this->get_appointment_custom_fields($appointment['id'] ?? null);
+        $custom_fields_data = $this->get_appointment_custom_fields($appointment);
 
         $html = $this->CI->load->view(
             'emails/appointment_saved_email',
@@ -168,7 +166,7 @@ class Email_messages
         }
 
         // Load custom fields for this appointment
-        $custom_fields_data = $this->get_appointment_custom_fields($appointment['id'] ?? null);
+        $custom_fields_data = $this->get_appointment_custom_fields($appointment);
 
         $html = $this->CI->load->view(
             'emails/appointment_deleted_email',
@@ -285,43 +283,39 @@ class Email_messages
     /**
      * Get custom fields data for an appointment formatted for email display.
      *
-     * @param int|null $appointment_id
+     * @param array $appointment
      * @return array
      */
-    private function get_appointment_custom_fields(?int $appointment_id): array
+    private function get_appointment_custom_fields(array $appointment): array
     {
-        if (!$appointment_id) {
-            return [];
-        }
-
         try {
-            // Get all active custom fields
-            $custom_fields = $this->CI->custom_fields_model->query()
-                ->where('active', 1)
-                ->order_by('sort_order', 'ASC')
-                ->get()
-                ->result_array();
+            // Check if custom_fields already exist in the appointment array
+            if (!empty($appointment['custom_fields'])) {
+                $custom_fields_json = $appointment['custom_fields'];
 
-            $custom_fields_data = [];
+                // Parse if it's a JSON string
+                if (is_string($custom_fields_json)) {
+                    $custom_fields_json = json_decode($custom_fields_json, true);
+                }
 
-            foreach ($custom_fields as $field) {
-                // Get the value for this appointment
-                $value_record = $this->CI->custom_field_values_model->query()
-                    ->where('id_appointments', $appointment_id)
-                    ->where('id_custom_fields', $field['id'])
-                    ->get()
-                    ->row_array();
+                if (is_array($custom_fields_json)) {
+                    $custom_fields_data = [];
 
-                if ($value_record && !empty($value_record['field_value'])) {
-                    $custom_fields_data[] = [
-                        'label' => $field['label'],
-                        'value' => $value_record['field_value'],
-                        'type' => $field['type'],
-                    ];
+                    foreach ($custom_fields_json as $field_id => $field_data) {
+                        if (!empty($field_data['value'])) {
+                            $custom_fields_data[] = [
+                                'label' => $field_data['label'] ?? '',
+                                'value' => $field_data['value'],
+                                'type' => $field_data['type'] ?? 'text',
+                            ];
+                        }
+                    }
+
+                    return $custom_fields_data;
                 }
             }
 
-            return $custom_fields_data;
+            return [];
         } catch (Exception $e) {
             return [];
         }
