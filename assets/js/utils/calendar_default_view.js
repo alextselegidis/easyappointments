@@ -599,6 +599,36 @@ App.Utils.CalendarDefaultView = (function () {
                 customerInfo.push(info.event.extendedProps.data.customer.last_name);
             }
 
+            // Build custom fields HTML elements
+            const customFieldsElements = [];
+
+            // Parse custom_fields JSON from appointment data
+            if (info.event.extendedProps.data.custom_fields) {
+                try {
+                    const customFields = typeof info.event.extendedProps.data.custom_fields === 'string'
+                        ? JSON.parse(info.event.extendedProps.data.custom_fields)
+                        : info.event.extendedProps.data.custom_fields;
+
+                    // Iterate through custom fields and add to display
+                    for (const [fieldId, fieldValue] of Object.entries(customFields)) {
+                        if (fieldValue && fieldValue.value) {
+                            customFieldsElements.push(
+                                $('<strong/>', {
+                                    'class': 'd-inline-block me-2',
+                                    'text': fieldValue.label + ':',
+                                }),
+                                $('<span/>', {
+                                    'text': fieldValue.value,
+                                }),
+                                $('<br/>')
+                            );
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error parsing custom fields:', e);
+                }
+            }
+
             $html = $('<div/>', {
                 'html': [
                     $('<strong/>', {
@@ -631,41 +661,10 @@ App.Utils.CalendarDefaultView = (function () {
 
                     $('<strong/>', {
                         'class': 'd-inline-block me-2',
-                        'text': lang('timezone'),
-                    }),
-                    $('<span/>', {
-                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone],
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('status'),
-                    }),
-                    $('<span/>', {
-                        'text': info.event.extendedProps.data.status || '-',
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
                         'text': lang('service'),
                     }),
                     $('<span/>', {
                         'text': info.event.extendedProps.data.service.name,
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('provider'),
-                    }),
-                    App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.provider),
-                    $('<span/>', {
-                        'text':
-                            info.event.extendedProps.data.provider.first_name +
-                            ' ' +
-                            info.event.extendedProps.data.provider.last_name,
                     }),
                     $('<br/>'),
 
@@ -710,6 +709,9 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+
+                    // Add custom fields here
+                    ...customFieldsElements,
 
                     App.Utils.CalendarEventPopover.renderCustomContent(info),
 
