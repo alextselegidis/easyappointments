@@ -23,6 +23,7 @@ App.Pages.CustomFields = (function () {
     const $required = $('#required');
     const $displayColumn = $('#display_column');
     const $active = $('#active');
+    const $columnPosition = $('#column-position');
     const $filterCustomFields = $('#filter-custom-fields');
     const $optionsSection = $('#options-section');
     const $optionsList = $('#options-list');
@@ -188,6 +189,7 @@ App.Pages.CustomFields = (function () {
             required: $required.prop('checked') ? 1 : 0,
             display_column: $displayColumn.prop('checked') ? 1 : 0,
             active: $active.prop('checked') ? 1 : 0,
+            column_position: $columnPosition.val(),
         };
 
         if ($id.val()) {
@@ -313,6 +315,7 @@ App.Pages.CustomFields = (function () {
         $required.prop('checked', Boolean(customField.required));
         $displayColumn.prop('checked', Boolean(customField.display_column));
         $active.prop('checked', Boolean(customField.active));
+        $columnPosition.val(customField.column_position || 'left');
 
         if (customField.type === 'select') {
             $optionsSection.show();

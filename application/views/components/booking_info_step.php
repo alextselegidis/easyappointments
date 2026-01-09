@@ -83,7 +83,12 @@
 
                 <?php slot('info_first_column'); ?>
 
-                <?php component('custom_fields', ['custom_fields' => $custom_fields ?? []]); ?>
+                <?php
+                $leftColumnFields = array_filter($custom_fields ?? [], function($field) {
+                    return ($field['column_position'] ?? 'left') === 'left';
+                });
+                component('custom_fields', ['custom_fields' => $leftColumnFields]);
+                ?>
 
                 <?php slot('after_custom_fields'); ?>
             </div>
@@ -137,6 +142,13 @@
                                   class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
                     </div>
                 <?php endif; ?>
+
+                <?php
+                $rightColumnFields = array_filter($custom_fields ?? [], function($field) {
+                    return ($field['column_position'] ?? 'left') === 'right';
+                });
+                component('custom_fields', ['custom_fields' => $rightColumnFields]);
+                ?>
 
                 <?php slot('info_second_column'); ?>
             </div>

@@ -119,6 +119,21 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="column-position" class="form-label">
+                        <?= lang('column_position') ?>
+                    </label>
+                    <select id="column-position" class="form-control">
+                        <option value="left"><?= lang('left_column') ?></option>
+                        <option value="right"><?= lang('right_column') ?></option>
+                    </select>
+                    <small class="form-text text-muted">
+                        <?= lang('select_which_column_to_display_field') ?>
+                    </small>
+                </div>
+            </div>
+
             <div id="options-section" style="display:none;">
                 <hr>
                 <h5 class="text-black-50 mb-3 fw-light"><?= lang('options') ?></h5>
