@@ -500,4 +500,10 @@ $lang['column_position'] = 'Posición de Columna';
 $lang['left_column'] = 'Columna Izquierda';
 $lang['right_column'] = 'Columna Derecha';
 $lang['select_which_column_to_display_field'] = 'Selecciona en qué columna se debe mostrar este campo en el formulario de reserva';
+// Appointment status translations
+$lang['Booked'] = 'Reservada';
+$lang['Confirmed'] = 'Confirmada';
+$lang['Rescheduled'] = 'Reprogramada';
+$lang['Cancelled'] = 'Cancelada';
+$lang['Draft'] = 'Borrador';
 // End

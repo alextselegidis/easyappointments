@@ -103,7 +103,7 @@
                         <?= lang('status') ?>
                     </td>
                     <td style="padding: 3px;">
-                        <?= e($appointment['status']) ?>
+                        <?= lang($appointment['status']) ?? e($appointment['status']) ?>
                     </td>
                 </tr>
             <?php endif; ?>

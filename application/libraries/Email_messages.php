@@ -315,6 +315,28 @@ class Email_messages
                 }
             }
 
+            // If custom_fields is not in appointment, load from database
+            if (!empty($appointment['id_users_customer'])) {
+                $this->CI->load->model('custom_field_values_model');
+                $this->CI->load->model('custom_fields_model');
+
+                $custom_field_values = $this->CI->custom_field_values_model->get(['id_users' => $appointment['id_users_customer']]);
+                $custom_fields_data = [];
+
+                foreach ($custom_field_values as $value) {
+                    $custom_field = $this->CI->custom_fields_model->find($value['id_custom_fields']);
+                    if ($custom_field && $custom_field['active']) {
+                        $custom_fields_data[] = [
+                            'label' => $custom_field['label'],
+                            'value' => $value['value'],
+                            'type' => $custom_field['type'],
+                        ];
+                    }
+                }
+
+                return $custom_fields_data;
+            }
+
             return [];
         } catch (Exception $e) {
             return [];
