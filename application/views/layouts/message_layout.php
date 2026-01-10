@@ -30,13 +30,6 @@
 
             <?php slot('content'); ?>
 
-            <div class="mt-2">
-                <small>
-                    Powered by
-                    <a href="https://easyappointments.org">Easy!Appointments</a>
-                </small>
-            </div>
-
         </div>
     </div>
 </div>
