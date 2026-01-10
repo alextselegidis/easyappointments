@@ -191,10 +191,6 @@
     </button>
 </div>
 
-<footer>
-    Powered by <a href="https://easyappointments.org">Easy!Appointments</a>
-</footer>
-
 <?php component('js_vars_script'); ?>
 <?php component('js_lang_script'); ?>
 

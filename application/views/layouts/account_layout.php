@@ -26,12 +26,6 @@
 
     <?php slot('content'); ?>
 
-    <div class="mt-4">
-        <small>
-            Powered by
-            <a href="https://easyappointments.org">Easy!Appointments</a>
-        </small>
-    </div>
 </div>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
