@@ -301,7 +301,7 @@ $config['directory_trigger'] = 'd'; // experimental not currently in use
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 4; // Temporarily set to 4 for debugging emails
+$config['log_threshold'] = 1;
 
 /*
 |--------------------------------------------------------------------------

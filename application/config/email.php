@@ -7,7 +7,7 @@
 $config['useragent'] = 'Easy!Appointments';
 $config['protocol'] = 'smtp';
 $config['mailtype'] = 'html';
-$config['smtp_debug'] = '2'; // Debug mode - set to '0' after testing
+$config['smtp_debug'] = '0';
 $config['smtp_auth'] = TRUE;
 $config['smtp_host'] = 'smtp.gmail.com';
 $config['smtp_user'] = 'contacto@honeywhale.com.mx';
