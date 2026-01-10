@@ -17,8 +17,15 @@
 
     <title><?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments</title>
 
-    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
+    <?php if (vars('company_logo')): ?>
+        <?php if (strpos(vars('company_logo'), 'data:image') === 0): ?>
+            <link rel="icon" type="image/x-icon" href="<?= vars('company_logo') ?>">
+        <?php else: ?>
+            <link rel="icon" type="image/x-icon" href="<?= base_url('storage/uploads/' . vars('company_logo')) ?>">
+        <?php endif; ?>
+    <?php else: ?>
+        <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <?php endif; ?>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/cookieconsent/cookieconsent.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/flatpickr.min.css') ?>">

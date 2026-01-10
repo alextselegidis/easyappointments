@@ -11,8 +11,15 @@
 
     <title><?= vars('page_title') ?? lang('account') ?> | Easy!Appointments</title>
 
-    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
+    <?php if (setting('company_logo')): ?>
+        <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
+            <link rel="icon" type="image/x-icon" href="<?= setting('company_logo') ?>">
+        <?php else: ?>
+            <link rel="icon" type="image/x-icon" href="<?= base_url('storage/uploads/' . setting('company_logo')) ?>">
+        <?php endif; ?>
+    <?php else: ?>
+        <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <?php endif; ?>
 
     <link rel="stylesheet" type="text/css"
           href="<?= asset_url('assets/css/themes/' . setting('theme', 'default') . '.css') ?>">

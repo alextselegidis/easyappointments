@@ -6,7 +6,15 @@
     <title>Update | Easy!Appointments</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/default.min.css') ?>">
-    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <?php if (function_exists('setting') && setting('company_logo')): ?>
+        <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
+            <link rel="icon" type="image/x-icon" href="<?= setting('company_logo') ?>">
+        <?php else: ?>
+            <link rel="icon" type="image/x-icon" href="<?= base_url('storage/uploads/' . setting('company_logo')) ?>">
+        <?php endif; ?>
+    <?php else: ?>
+        <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <?php endif; ?>
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/pages/update.css') ?>">
 </head>
