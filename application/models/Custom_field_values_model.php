@@ -138,6 +138,39 @@ class Custom_field_values_model extends EA_Model
     }
 
     /**
+     * Get a specific field value record from the database.
+     *
+     * @param array|string|null $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of field values.
+     */
+    public function get(
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== null) {
+            $this->db->order_by($order_by);
+        }
+
+        $field_values = $this->db->get('custom_field_values', $limit, $offset)->result_array();
+
+        foreach ($field_values as &$field_value) {
+            $this->cast($field_value);
+        }
+
+        return $field_values;
+    }
+
+    /**
      * Get field values for a specific user.
      *
      * @param int $user_id User ID.
@@ -146,15 +179,7 @@ class Custom_field_values_model extends EA_Model
      */
     public function get_by_user(int $user_id): array
     {
-        $field_values = $this->db
-            ->get_where('custom_field_values', ['id_users' => $user_id])
-            ->result_array();
-
-        foreach ($field_values as &$field_value) {
-            $this->cast($field_value);
-        }
-
-        return $field_values;
+        return $this->get(['id_users' => $user_id]);
     }
 
     /**
