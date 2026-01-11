@@ -11,26 +11,38 @@
 
         <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
 
-        <div class="row frame-content">
-            <div class="col-12 col-lg-6">
-                <div id="select-date"></div>
+        <div class="frame-content"></div>
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <div id="select-date"></div>
 
-            </div>
+                </div>
 
-            <div class="col-12 col-lg-6">
-                <div id="select-time">
-                    <div class="mb-3">
-                        <label for="select-timezone" class="form-label">
-                            <?= lang('timezone') ?>
-                        </label>
-                        <?php component('timezone_dropdown', [
-                            'attributes' => 'id="select-timezone" class="form-select" value="UTC"',
-                            'grouped_timezones' => $grouped_timezones,
-                        ]); ?>
+                <div class="col-12 col-lg-6">
+                    <div id="select-time">
+                        <div class="mb-3">
+                            <label for="select-timezone" class="form-label">
+                                <?= lang('timezone') ?>
+                            </label>
+                            <?php component('timezone_dropdown', [
+                                'attributes' => 'id="select-timezone" class="form-select" value="UTC"',
+                                'grouped_timezones' => $grouped_timezones,
+                            ]); ?>
+                        </div>
+
+                        <div id="available-hours"></div>
+
                     </div>
-
-                    <div id="available-hours"></div>
-
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 field-col mx-auto">
+                    <div class="mb-3">
+                        <label for="notes" class="form-label">
+                            <?= lang('notes') ?>
+                        </label>
+                        <textarea id="notes" maxlength="500" class="form-control" rows="3"></textarea>
+                    </div>
                 </div>
             </div>
         </div>
