@@ -11,7 +11,7 @@
 
         <h2 class="frame-title"><?= lang('appointment_date_and_time') ?></h2>
 
-        <div class="frame-content"></div>
+        <div class="frame-content">
             <div class="row">
                 <div class="col-12 col-lg-6">
                     <div id="select-date"></div>
