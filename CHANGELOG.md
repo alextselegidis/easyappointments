@@ -9,7 +9,17 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Cannot modify appointment if provider changes time zone (#1789)
 - Fix the customer appointment link so that it opens the modal even in the table calendar view (-)
+- Do not overwrite customer data from booking page
 
+### Added
+
+- Possibility to add subservices as addon to a service
+- Option to use cards instead of dropdown for service selection (makes multiple select possible for subservices)
+- Added date of birth to customer info (with option to make it mandatory)
+- Optionally customer info linked to cookie so that info is preserved between bookings
+- Option to delete customer info from admin page
+- Store total price of booking (at time of booking) in db
+- API token on user-basis
 
 
 ## [1.5.2] - 2025-08-26
