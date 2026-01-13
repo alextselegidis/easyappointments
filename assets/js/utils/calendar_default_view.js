@@ -1263,18 +1263,46 @@ App.Utils.CalendarDefaultView = (function () {
                         title.push(customerInfo.join(' '));
                     }
 
-                    const appointmentEvent = {
-                        id: appointment.id,
-                        title: title.join(' - '),
-                        start: moment(appointment.start_datetime).toDate(),
-                        end: moment(appointment.end_datetime).toDate(),
-                        allDay: false,
-                        color: appointment.color,
-                        data: appointment, // Store appointment data for later use.
-                        display: 'block',
-                    };
+                    const start = moment(appointment.start_datetime);
+                    const end = moment(appointment.end_datetime);
+                    const titleText = title.join(' - ');
 
-                    calendarEventSource.push(appointmentEvent);
+                    // Split multi-day events for proper timeGrid display
+                    if (!start.isSame(end, 'day')) {
+                        // Day 1: start time to midnight
+                        calendarEventSource.push({
+                            id: appointment.id + '_day1',
+                            title: titleText,
+                            start: start.toDate(),
+                            end: start.clone().endOf('day').toDate(),
+                            allDay: false,
+                            color: appointment.color,
+                            data: appointment,
+                            display: 'block',
+                        });
+                        // Day 2: midnight to end time
+                        calendarEventSource.push({
+                            id: appointment.id + '_day2',
+                            title: titleText,
+                            start: end.clone().startOf('day').toDate(),
+                            end: end.toDate(),
+                            allDay: false,
+                            color: appointment.color,
+                            data: appointment,
+                            display: 'block',
+                        });
+                    } else {
+                        calendarEventSource.push({
+                            id: appointment.id,
+                            title: titleText,
+                            start: start.toDate(),
+                            end: end.toDate(),
+                            allDay: false,
+                            color: appointment.color,
+                            data: appointment,
+                            display: 'block',
+                        });
+                    }
                 });
 
                 // Add custom unavailability periods (they are always displayed on the calendar, even if the provider

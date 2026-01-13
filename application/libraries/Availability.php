@@ -123,10 +123,18 @@ class Availability
             return [];
         }
 
+        $period_start = new DateTime($date . ' ' . $date_working_plan['start']);
+        $period_end = new DateTime($date . ' ' . $date_working_plan['end']);
+
+        // If end is before or equal to start, it means the period crosses midnight (e.g., 18:00-02:00)
+        if ($period_end <= $period_start) {
+            $period_end->modify('+1 day');
+        }
+
         $periods = [
             [
-                'start' => new DateTime($date . ' ' . $date_working_plan['start']),
-                'end' => new DateTime($date . ' ' . $date_working_plan['end']),
+                'start' => $period_start,
+                'end' => $period_end,
             ],
         ];
 
@@ -201,10 +209,32 @@ class Availability
             return $periods;
         }
 
+        // Determine the working day start time for cross-midnight handling
+        // by looking at the first period's start time
+        $working_day_start_time = null;
+        if (!empty($periods) && isset($periods[0]['start'])) {
+            $first_period_start = $periods[0]['start'];
+            if ($first_period_start instanceof DateTime) {
+                $working_day_start_time = $first_period_start->format('H:i');
+            } else {
+                $working_day_start_time = $first_period_start;
+            }
+        }
+
         foreach ($breaks as $break) {
             $break_start = new DateTime($date . ' ' . $break['start']);
-
             $break_end = new DateTime($date . ' ' . $break['end']);
+
+            // For cross-midnight periods: if break time is before the working day start,
+            // the break is on the next day (e.g., break at 01:00 when work starts at 18:00)
+            if ($working_day_start_time !== null) {
+                if ($break['start'] < $working_day_start_time) {
+                    $break_start->modify('+1 day');
+                }
+                if ($break['end'] <= $working_day_start_time) {
+                    $break_end->modify('+1 day');
+                }
+            }
 
             foreach ($periods as &$period) {
                 $period_start = $period['start'];
@@ -392,13 +422,27 @@ class Availability
                 'end' => $date_working_plan['end'],
             ];
 
-            $day_start = new DateTime($date_working_plan['start']);
-            $day_end = new DateTime($date_working_plan['end']);
+            $day_start = new DateTime($date . ' ' . $date_working_plan['start']);
+            $day_end = new DateTime($date . ' ' . $date_working_plan['end']);
+
+            // If end is before or equal to start, it means the period crosses midnight (e.g., 18:00-02:00)
+            if ($day_end <= $day_start) {
+                $day_end->modify('+1 day');
+            }
 
             // Split the working plan to available time periods that do not contain the breaks in them.
             foreach ($date_working_plan['breaks'] as $break) {
-                $break_start = new DateTime($break['start']);
-                $break_end = new DateTime($break['end']);
+                $break_start = new DateTime($date . ' ' . $break['start']);
+                $break_end = new DateTime($date . ' ' . $break['end']);
+
+                // For cross-midnight periods: if break time is before the working day start,
+                // the break is on the next day (e.g., break at 01:00 when work starts at 18:00)
+                if ($break['start'] < $date_working_plan['start']) {
+                    $break_start->modify('+1 day');
+                }
+                if ($break['end'] <= $date_working_plan['start']) {
+                    $break_end->modify('+1 day');
+                }
 
                 if ($break_start < $day_start) {
                     $break_start = $day_start;
@@ -413,8 +457,16 @@ class Availability
                 }
 
                 foreach ($periods as $key => $period) {
-                    $period_start = new DateTime($period['start']);
-                    $period_end = new DateTime($period['end']);
+                    $period_start = new DateTime($date . ' ' . $period['start']);
+                    $period_end = new DateTime($date . ' ' . $period['end']);
+
+                    // Adjust for cross-midnight: if period time is before working day start, it's on the next day
+                    if ($period['start'] < $date_working_plan['start']) {
+                        $period_start->modify('+1 day');
+                    }
+                    if ($period['end'] <= $date_working_plan['start']) {
+                        $period_end->modify('+1 day');
+                    }
 
                     $remove_current_period = false;
 
@@ -459,6 +511,14 @@ class Availability
 
                 $period_start = new DateTime($date . ' ' . $period['start']);
                 $period_end = new DateTime($date . ' ' . $period['end']);
+
+                // Adjust for cross-midnight: if period time is before working day start, it's on the next day
+                if ($period['start'] < $date_working_plan['start']) {
+                    $period_start->modify('+1 day');
+                }
+                if ($period['end'] <= $date_working_plan['start']) {
+                    $period_end->modify('+1 day');
+                }
 
                 if (
                     $appointment_start <= $period_start &&
@@ -552,6 +612,11 @@ class Availability
             $start_hour = new DateTime($date . ' ' . $period['start']);
 
             $end_hour = new DateTime($date . ' ' . $period['end']);
+
+            // If end is before or equal to start, it means the period crosses midnight (e.g., 18:00-02:00)
+            if ($end_hour <= $start_hour) {
+                $end_hour->modify('+1 day');
+            }
 
             $interval = !empty($service['slot_interval']) ? (int) $service['slot_interval'] : 15;
 
