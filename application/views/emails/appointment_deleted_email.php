@@ -554,6 +554,25 @@
                                                     <?= e($customer['address']) ?>
                                                 </td>
                                             </tr>
+
+                                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                                <?php if (
+                                                    setting('display_custom_field_' . $i) &&
+                                                    !empty($customer['custom_field_' . $i])
+                                                ): ?>
+                                                    <tr>
+                                                        <td class="label" style="padding: 3px;font-weight: bold;">
+                                                            <?= e(
+                                                                setting('label_custom_field_' . $i) ?:
+                                                                lang('custom_field') . ' #' . $i,
+                                                            ) ?>
+                                                        </td>
+                                                        <td style="padding: 3px;">
+                                                            <?= e($customer['custom_field_' . $i]) ?>
+                                                        </td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            <?php endfor; ?>
                                         </table>
 
                                         <br>
