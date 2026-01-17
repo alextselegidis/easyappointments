@@ -116,6 +116,7 @@ class Customers extends EA_Controller
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
             'first_weekday' =>  setting('first_weekday'),
+            'date_seperator' => setting('date_seperator'),
         ]);
 
         html_vars([

@@ -198,6 +198,7 @@ class Calendar extends EA_Controller
             'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
+            'date_seperator' => setting('date_seperator'),
         ]);
 
         html_vars([
