@@ -145,8 +145,7 @@ class Booking extends EA_Controller
         if (isset($_COOKIE[config_item('cust_cookie_name')])) {
 			$cookie = explode('__',$_COOKIE[ config_item( 'cust_cookie_name' ) ],2);
 
-            // $customer_id.'__'.hash('sha256',$customer['email']),
-    		$uid = intval( $cookie[0] );
+            $uid = intval( $cookie[0] );
 			$tst_user = $this->customers_model->find( $uid );
             if ($cookie[1] == hash('sha256',$tst_user['email'])) {
 				$loggedin_user = $tst_user;
@@ -290,6 +289,7 @@ class Booking extends EA_Controller
             'default_timezone' => setting('default_timezone'),
             'loggedin_user' => $loggedin_user,
             'use_cards' => $use_cards,
+            'date_seperator' => setting('date_seperator'),
         ]);
 
         html_vars([
