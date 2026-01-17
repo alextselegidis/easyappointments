@@ -1038,6 +1038,14 @@ App.Utils.CalendarDefaultView = (function () {
     }
 
     function onSelect(info) {
+                    
+        if ($popoverTarget) {
+            $popoverTarget.popover('dispose');
+            $popoverTarget = null;
+            fullCalendar.unselect();
+            return;
+        }
+
         if (info.allDay) {
             return;
         }
