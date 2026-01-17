@@ -80,6 +80,9 @@ class EA_Controller extends CI_Controller
     {
         parent::__construct();
 
+        // Before anything else, load configuration items from db
+		$this->load_configs_from_db();
+
         $this->load->library('accounts');
 
         $this->ensure_user_exists();
@@ -166,5 +169,25 @@ class EA_Controller extends CI_Controller
         $default_timezone = setting('default_timezone');
 
         date_default_timezone_set($default_timezone);
+    }
+
+    /**
+     * Load configuration items from DB
+     * These can be new items, or overruling configuration items from config files
+     */
+    private function load_configs_from_db(): void
+    {
+        if (!$this->db->table_exists('configs')) {
+			return;
+        }
+
+		$this->load->model( 'configs_model' );
+
+		$configs = $this->configs_model->get();
+
+        foreach ($configs as $cfg) {
+			config( [ $cfg['name'] => $cfg['value'] ] );
+        }
+        
     }
 }
