@@ -30,3 +30,4 @@
 /vendor/
 /metafile
 .DS_Store
+.notes.txt
