@@ -27,6 +27,7 @@ window.App.Utils.Date = (function () {
      */
     function format(dateValue, dateFormatType = 'YMD', timeFormatType = 'regular', withHours = false) {
         const dateMoment = moment(dateValue);
+        const ds = vars('date_seperator')==null?'/':vars('date_seperator');
 
         if (!dateMoment.isValid()) {
             throw new Error(`Invalid date value provided: ${dateValue}`);
@@ -36,15 +37,15 @@ window.App.Utils.Date = (function () {
 
         switch (dateFormatType) {
             case 'DMY':
-                dateFormat = 'DD/MM/YYYY';
+                dateFormat = 'DD' + ds + 'MM' + ds + 'YYYY';
                 break;
 
             case 'MDY':
-                dateFormat = 'MM/DD/YYYY';
+                dateFormat = 'MM' + ds + 'DD' + ds + 'YYYY';
                 break;
 
             case 'YMD':
-                dateFormat = 'YYYY/MM/DD';
+                dateFormat = 'YYYY' + ds + 'MM' + ds + 'DD';
                 break;
 
             default:

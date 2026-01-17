@@ -21,13 +21,14 @@ window.App.Utils.UI = (function () {
      * @return {String}
      */
     function getDateFormat() {
+        const ds = vars('date_seperator')==null?'/':vars('date_seperator');
         switch (vars('date_format')) {
             case 'DMY':
-                return 'd/m/Y';
+                return 'd' + ds + 'm' + ds + 'Y';
             case 'MDY':
-                return 'm/d/Y';
+                return 'm' + ds + 'd' + ds + 'Y';
             case 'YMD':
-                return 'Y/m/d';
+                return 'Y' + ds + 'm' + ds + 'd';
             default:
                 throw new Error('Invalid date format value.');
         }
