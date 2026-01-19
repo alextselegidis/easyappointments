@@ -110,16 +110,49 @@ class EA_Controller extends CI_Controller
      */
     private function configure_language()
     {
-        $session_language = session('language');
-
-        if ($session_language) {
-            $language_codes = config('language_codes');
-
-            config([
-                'language' => $session_language,
-                'language_code' => array_search($session_language, $language_codes) ?: 'en',
-            ]);
+        $language_codes = config('language_codes');
+        // set the language code from the language GET parameter if it's a supported language
+        if (!empty($_GET['language'])) {
+            $queryLanguage = strtolower($_GET['language']);
+            $language_code = array_search($queryLanguage, $language_codes);
+            if (!$language_code) {
+                // check if the ISO 639-1 language code was set as the get parameter
+                $queryLangCode = substr($queryLanguage, 0, 2);
+                if (isset($language_codes[$queryLangCode])) {
+                    $language_code = $queryLangCode;
+                }
+            }
         }
+
+        if (empty($language_code)) {
+            // set the language code from the language SESSION parameter if it's a supported language
+            if (session('language')) {
+                $language_code = array_search(session('language'), $language_codes);
+            }
+            // set the language code from the language header if it's a supported language
+            elseif (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                $headerLangCode = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+                if (isset($language_codes[$headerLangCode])) {
+                    $language_code = $headerLangCode;
+                }
+            }
+        }
+
+        // no language set. set it to the default language defined in the config
+        if (!$language_code) {
+            $language = strtolower(Config::LANGUAGE);
+            $language_code = array_search($language, $language_codes);
+        }
+        else {
+            $language = $language_codes[$language_code];
+        }
+
+        session(['language' => $language]);
+
+        config([
+            'language' => $language,
+            'language_code' => $language_code,
+        ]);
 
         $this->lang->load('translations');
     }
