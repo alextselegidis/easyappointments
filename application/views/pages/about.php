@@ -34,61 +34,6 @@
         </div>
 
         <h4 class="fw-light text-black-50 mb-3">
-            <?= lang('support') ?>
-        </h4>
-
-        <p>
-            <?= lang('about_app_support') ?>
-        </p>
-
-        <div class="row mb-5">
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    <?= lang('official_website') ?>
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block"
-                   href="https://groups.google.com/forum/#!forum/easy-appointments" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    <?= lang('support_group') ?>
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block"
-                   href="https://github.com/alextselegidis/easyappointments/issues" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    <?= lang('project_issues') ?>
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://facebook.com/easyappts" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    Facebook
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://x.com/easyappts" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    X.com
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org/get-a-free-quote"
-                   target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    Customize E!A
-                </a>
-            </div>
-        </div>
-
-        <h4 class="fw-light text-black-50 mb-3">
             <?= lang('license') ?>
         </h4>
 
@@ -97,11 +42,10 @@
         </p>
 
         <div class="mb-5">
-            <a class="btn btn-outline-secondary d-block w-50 m-auto" href="https://www.gnu.org/licenses/gpl-3.0.en.html"
-               target="_blank">
-                <i class="fas fa-external-link-alt me-2"></i>
+            <span class="btn btn-outline-secondary d-block w-50 m-auto disabled">
+                <i class="fas fa-balance-scale me-2"></i>
                 GPL-3.0
-            </a>
+            </span>
         </div>
     </div>
 </div>

@@ -32,7 +32,7 @@ class Booking_confirmation extends EA_Controller
         $this->load->model('services_model');
         $this->load->model('customers_model');
 
-        $this->load->library('google_sync');
+        $this->load->library('ics_file');
     }
 
     /**
@@ -54,17 +54,54 @@ class Booking_confirmation extends EA_Controller
 
         $appointment = $occurrences[0];
 
-        $add_to_google_url = $this->google_sync->get_add_to_google_url($appointment['id']);
-
         html_vars([
             'page_title' => lang('success'),
             'company_color' => setting('company_color'),
-            'google_analytics_code' => setting('google_analytics_code'),
-            'matomo_analytics_url' => setting('matomo_analytics_url'),
-            'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
-            'add_to_google_url' => $add_to_google_url,
+            'appointment_hash' => $appointment_hash,
         ]);
 
         $this->load->view('pages/booking_confirmation');
+    }
+
+    /**
+     * Download the appointment as an ICS file.
+     *
+     * @throws Exception
+     */
+    public function ics(): void
+    {
+        $appointment_hash = $this->uri->segment(3);
+
+        if (empty($appointment_hash) || !preg_match('/^[a-zA-Z0-9]{12}$/', $appointment_hash)) {
+            show_error('Invalid appointment hash.', 400);
+            return;
+        }
+
+        $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
+
+        if (empty($occurrences)) {
+            show_error('Appointment not found.', 404);
+            return;
+        }
+
+        $appointment = $occurrences[0];
+
+        $provider = $this->providers_model->find($appointment['id_users_provider']);
+        $service = $this->services_model->find($appointment['id_services']);
+        $customer = $this->customers_model->find($appointment['id_users_customer']);
+
+        $ics_stream = $this->ics_file->get_stream($appointment, $service, $provider, $customer);
+
+        $filename = 'appointment-' . date('Y-m-d', strtotime($appointment['start_datetime'])) . '.ics';
+
+        header('Content-Type: text/calendar; charset=utf-8');
+        header('Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode($filename));
+        header('Content-Length: ' . strlen($ics_stream));
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+        header('X-Content-Type-Options: nosniff');
+
+        echo $ics_stream;
     }
 }

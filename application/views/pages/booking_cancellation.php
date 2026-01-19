@@ -21,12 +21,3 @@
 
 <?php end_section('content'); ?>
 
-<?php section('scripts'); ?>
-
-<?php component('google_analytics_script', ['google_analytics_code' => vars('google_analytics_code')]); ?>
-<?php component('matomo_analytics_script', [
-    'matomo_analytics_url' => vars('matomo_analytics_url'),
-    'matomo_analytics_site_id' => vars('matomo_analytics_site_id'),
-]); ?>
-<?php end_section('scripts'); ?>
-
