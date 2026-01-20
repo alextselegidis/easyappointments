@@ -496,4 +496,6 @@ $lang['welcome_new'] = 'Welkom bij';
 $lang['welcome_user'] = 'Welkom terug';
 $lang['click_if_not'] = 'Klik hier indien niet';
 $lang['token_copied'] = 'Token naar klembord gekopieerd';
+$lang['configuration'] = 'Configuratie';
+$lang['value'] = 'Waarde';
 // End

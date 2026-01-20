@@ -8,37 +8,36 @@
  * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
- * @since       v1.5.0
+ * @since       v1.6.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * General settings controller.
+ * Configuration settings controller.
  *
- * Handles general settings related operations.
+ * Handles configuration settings related operations.
  *
  * @package Controllers
  */
-class General_settings extends EA_Controller
+class Configuration_settings extends EA_Controller
 {
     /**
-     * Calendar constructor.
+     * Summary of __construct
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->load->model('settings_model');
+        $this->load->model('configs_model');
 
         $this->load->library('accounts');
-        $this->load->library('timezones');
     }
 
     /**
-     * Render the settings page.
+     * Render the configs page.
      */
     public function index(): void
     {
-        session(['dest_url' => site_url('general_settings')]);
+        session(['dest_url' => site_url('configuration_settings')]);
 
         $user_id = session('user_id');
 
@@ -60,38 +59,39 @@ class General_settings extends EA_Controller
             return str_replace('.min.css', '', basename($available_theme_file));
         }, $available_theme_files);
 
+        $cfs = $this->configs_model->get();
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
-            'general_settings' => $this->settings_model->get(),
+            'config_settings' => $this->configs_model->get(),
         ]);
 
         html_vars([
-            'page_title' => lang('settings'),
-            'active_menu' => PRIV_SYSTEM_SETTINGS,
+            'page_title' => lang('configuration'),
+            'active_menu' => PRIV_CONFIG_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'grouped_timezones' => $this->timezones->to_grouped_array(),
             'available_themes' => $available_themes,
         ]);
 
-        $this->load->view('pages/general_settings');
+        $this->load->view('pages/configuration_settings');
     }
 
     /**
-     * Save general settings.
+     * Save config settings.
      */
     public function save(): void
     {
         try {
-            if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
+            if (cannot('edit', PRIV_CONFIG_SETTINGS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
-            $settings = request('general_settings', []);
+            $settings = request('config_settings', []);
 
             foreach ($settings as $setting) {
-                $existing_setting = $this->settings_model
+                $existing_setting = $this->configs_model
                     ->query()
                     ->where('name', $setting['name'])
                     ->get()
@@ -101,7 +101,28 @@ class General_settings extends EA_Controller
                     $setting['id'] = $existing_setting['id'];
                 }
 
-                $this->settings_model->save($setting);
+                $this->configs_model->save($setting);
+            }
+
+            response();
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    public function delete(): void 
+    {
+        try {
+            if (cannot('edit', PRIV_CONFIG_SETTINGS)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
+            $settings = request('config_settings', []);
+
+            foreach ($settings as $setting) {
+                if (!empty($setting['id'])) {
+                    $this->configs_model->delete($setting['id']);
+                }
             }
 
             response();
