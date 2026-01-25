@@ -34,7 +34,7 @@ class Migration_Add_date_of_birth_column_to_users_table extends EA_Migration
                 ],
             ];
 
-            $this->dbforge->add_column('webhooks', $fields);
+            $this->dbforge->add_column('users', $fields);
         }
 
         foreach (self::SETTINGS as $name => $default_value) {
