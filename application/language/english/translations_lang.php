@@ -498,4 +498,7 @@ $lang['click_if_not'] = 'Click here if not';
 $lang['token_copied'] = 'Token copied to clipboard';
 $lang['configuration'] = 'Configuration';
 $lang['value'] = 'Value';
+$lang['date_seperator'] = 'Date seperator';
+$lang['date_seperator_hint'] = 'The character that seperates the date, month and year.';
+$lang['settings_are_invalid'] = 'Settings are invalid';
 // End

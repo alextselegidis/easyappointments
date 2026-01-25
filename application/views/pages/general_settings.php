@@ -158,6 +158,20 @@
                                         </small>
                                     </div>
                                 </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="date-seperator">
+                                        <?= lang('date_seperator') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input id="date-seperator" data-field="date_seperator" class="required form-control">
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('date_seperator_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label" for="time-format">
                                         <?= lang('time_format') ?>
