@@ -44,6 +44,7 @@
  * @property Service_categories_model $service_categories_model
  * @property Consents_model $consents_model
  * @property Customers_model $customers_model
+ * @property Configs_model $configs_model
  * @property Providers_model $providers_model
  * @property Roles_model $roles_model
  * @property Secretaries_model $secretaries_model
@@ -81,9 +82,9 @@ class EA_Controller extends CI_Controller
         parent::__construct();
 
         // Before anything else, load configuration items from db
-		$this->load_configs_from_db();
+        $this->load_configs_from_db();
 
-        $this->load->library('accounts');
+        $this->load->library( 'accounts' );
 
         $this->ensure_user_exists();
         $this->configure_timezone();
@@ -91,7 +92,7 @@ class EA_Controller extends CI_Controller
         $this->load_common_html_vars();
         $this->load_common_script_vars();
 
-        rate_limit($this->input->ip_address());
+        rate_limit( $this->input->ip_address() );
     }
 
     private function ensure_user_exists()
