@@ -267,6 +267,30 @@ body legend {
     margin: 5px;
 }
 
+.configs-table {
+    th {
+        &.col-name {
+            width: 20%;
+        }
+        &.col-value {
+            width: 40%;
+        }
+    }
+    tr {
+        .required {
+            display: flex;
+            span {
+                translate: -10px 0px;
+            }
+        }
+    }
+    input {
+        &:invalid {
+            border-color: red !important;
+        }
+    }
+    
+}
 .form-sub-button {
     width: auto;
 }

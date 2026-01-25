@@ -82,9 +82,9 @@ class EA_Controller extends CI_Controller
         parent::__construct();
 
         // Before anything else, load configuration items from db
-		$this->load_configs_from_db();
+        $this->load_configs_from_db();
 
-        $this->load->library('accounts');
+        $this->load->library( 'accounts' );
 
         $this->ensure_user_exists();
         $this->configure_timezone();
@@ -92,7 +92,7 @@ class EA_Controller extends CI_Controller
         $this->load_common_html_vars();
         $this->load_common_script_vars();
 
-        rate_limit($this->input->ip_address());
+        rate_limit( $this->input->ip_address() );
     }
 
     private function ensure_user_exists()

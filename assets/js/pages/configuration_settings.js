@@ -48,17 +48,6 @@ App.Pages.ConfigurationSettings = (function () {
         refreshTable();
     }
 
-    function field(itm, name, editable = true, required = false) {
-        const $cell = $fieldBase.clone();
-        $cell.attr('data-field', name);
-        $cell.attr('data-idx', itm['index']);
-        $cell.val(itm[name]);
-        $cell.attr('readonly', !editable);
-        if (required) {$cell.addClass('required');}
-
-        return $('<td/>').append($cell);
-    }
-
     function row(cfgItem) {
         const $btn = $btnTmpl.clone();
         const $field = $fieldBase.clone();
@@ -70,7 +59,14 @@ App.Pages.ConfigurationSettings = (function () {
         $field.attr('data-field', 'name');
         $field.attr('data-idx', cfgItem['index']);
         $field.val(cfgItem['name']);
-        $row.append($('<td/>').append($field.clone().attr('readonly', !(cfgItem['id'] == null)).addClass('required')));
+        $row.append($('<td/>').addClass('required').append('<span>*<span/>').append(
+            $field.clone()
+                .prop('readonly', !(cfgItem['id'] == null))
+                .prop('required',true)
+                //.attr('pattern','\\S+.*') // <- With whitespace
+                .attr('pattern','\\S+') // <- Without whitespace
+            )
+        );
 
         $field.attr('data-field', 'value');
         $field.attr('data-idx', cfgItem['index']);
@@ -82,12 +78,8 @@ App.Pages.ConfigurationSettings = (function () {
         $field.val(cfgItem['description']);
         $row.append($('<td/>').append($field.clone()));
 
-        // $row.append(field(cfgItem,'name', (cfgItem['id'] == null), true));
-        // $row.append(field(cfgItem,'value'));
-        // $row.append(field(cfgItem,'description'));
         $row.append($('<td/>').append($btn));
         
-
         return $row;
     }
 
@@ -150,10 +142,42 @@ App.Pages.ConfigurationSettings = (function () {
     }
 
     /**
+     * Check if the form has invalid values.
+     *
+     * @return {Boolean}
+     */
+    function isInvalid() {
+        try {
+            // Validate required fields.
+
+            let missingRequiredFields = false;
+
+            $('#configuration-settings-page .required input').each((index, requiredField) => {
+                const $requiredField = $(requiredField);
+
+                if (!$requiredField.val()) {
+                    missingRequiredFields = true;
+                }
+            });
+
+            if (missingRequiredFields) {
+                throw new Error(lang('fields_are_required'));
+            }
+
+            return missingRequiredFields;
+        } catch (error) {
+            App.Layouts.Backend.displayNotification(error.message);
+            return true;
+        }
+    }
+
+    /**
      * Save the configSettings array to the database
      */
     function save() {
         serialize();
+        if (isInvalid()) { return; }
+
         App.Http.ConfigurationSettings.save(configSettings);
         App.Http.ConfigurationSettings.remove(deletedSettings);
 

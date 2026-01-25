@@ -8,7 +8,7 @@
             <div class="col-sm-3 offset-sm-1">
                 <?php component('settings_nav'); ?>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-8">
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
@@ -21,6 +21,7 @@
                                     <i class="fas fa-arrow-rotate-right me-2"></i>
                                     <?= lang('reset') ?>
                                 </button>
+                                
                                 <button type="button" id="save-config" class="btn btn-primary">
                                     <i class="fas fa-check-square me-2"></i>
                                     <?= lang('save') ?>
@@ -31,9 +32,9 @@
                         <table class="configs-table table">
                             <thead>
                             <tr>
-                                <th><?= lang('name') ?></th>
-                                <th><?= lang('value') ?></th>
-                                <th><?= lang('description') ?></th>
+                                <th class="col-name"><?= lang('name') ?></th>
+                                <th class="col-value"><?= lang('value') ?></th>
+                                <th class="col-descr"><?= lang('description') ?></th>
                                 <th/>
                             </tr>
                             </thead>
