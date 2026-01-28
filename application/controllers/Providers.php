@@ -59,7 +59,7 @@ class Providers extends EA_Controller
         'working_plan_exceptions' => '{}',
     ];
 
-    public array $allowed_service_fields = ['id', 'name'];
+    public array $allowed_service_fields = ['id', 'name', 'is_subservice'];
 
     /**
      * Providers constructor.
@@ -104,6 +104,7 @@ class Providers extends EA_Controller
         $role_slug = session('role_slug');
 
         $services = $this->services_model->get();
+		//$services = $this->services_model->getTopServices();
 
         foreach ($services as &$service) {
             $this->services_model->only($service, $this->allowed_service_fields);

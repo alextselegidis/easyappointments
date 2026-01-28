@@ -25,6 +25,7 @@ App.Pages.Services = (function () {
     const $availabilitiesType = $('#availabilities-type');
     const $attendantsNumber = $('#attendants-number');
     const $isPrivate = $('#is-private');
+    const $isSubservice = $('#is-subservice');
     const $location = $('#location');
     const $description = $('#description');
     const $filterServices = $('#filter-services');
@@ -112,6 +113,11 @@ App.Pages.Services = (function () {
             $attendantsNumber.val('1');
         });
 
+        $isSubservice.on('change', (event) => {
+            $('.subservices').toggleClass('display-none',event.target.checked);
+        });
+
+        
         /**
          * Event: Cancel Service Button "Click"
          *
@@ -142,11 +148,23 @@ App.Pages.Services = (function () {
                 availabilities_type: $availabilitiesType.val(),
                 attendants_number: $attendantsNumber.val(),
                 is_private: Number($isPrivate.prop('checked')),
+                is_subservice: Number($isSubservice.prop('checked')),
                 id_service_categories: $serviceCategoryId.val() || undefined,
             };
 
             if ($id.val() !== '') {
                 service.id = $id.val();
+            }
+
+            if (!service.is_subservice) {
+                service['subservices'] = [];
+                
+                $('.subservice-list input').each((idx, input) => {
+                    if (input.checked) {
+                        const subId = input.attributes['data-id'].value;
+                        service['subservices'].push(subId);
+                    }
+                });
             }
 
             if (!App.Pages.Services.validate()) {
@@ -207,6 +225,8 @@ App.Pages.Services = (function () {
             $filterServices.find('.key').val('');
             App.Pages.Services.filter('', response.id, true);
         });
+        // Reload the page so that vars('config_settings') is reloaded
+        window.location.reload();
     }
 
     /**
@@ -298,10 +318,23 @@ App.Pages.Services = (function () {
         $availabilitiesType.val(service.availabilities_type);
         $attendantsNumber.val(service.attendants_number);
         $isPrivate.prop('checked', service.is_private);
+        $isSubservice.prop('checked', service.is_subservice);
         App.Components.ColorSelection.setColor($color, service.color);
 
         const serviceCategoryId = service.id_service_categories !== null ? service.id_service_categories : '';
         $serviceCategoryId.val(serviceCategoryId);
+
+        $('.sub-service-cbx').prop('checked', false);
+
+        if (!service.is_subservice) {
+            const ss = vars('subservices');
+            ss.forEach((subservice) => {
+                if (subservice.parentservice == service.id) {
+                    $('.subservice-list input[data-id="' + subservice.id + '"]').prop('checked', true);
+                }
+            });
+        }
+        $isSubservice.trigger('change');
     }
 
     /**
@@ -358,7 +391,11 @@ App.Pages.Services = (function () {
     function getFilterHtml(service) {
         const name = service.name;
 
-        const info = service.duration + ' min - ' + service.price + ' ' + service.currency;
+        let info = service.duration + ' min - ' + service.price + ' ' + service.currency;
+
+        if (service.is_subservice) {
+            info += ' (' + lang('subservice') + ')';
+        }
 
         return $('<div/>', {
             'class': 'service-row entry',
@@ -420,6 +457,38 @@ App.Pages.Services = (function () {
      */
     function initialize() {
         App.Pages.Services.resetForm();
+        
+        vars('services').forEach((service) => {
+            if (service.is_subservice) {
+                const checkboxId = `sub-service-${service.id}`;
+
+                $('<div/>', {
+                    'class': 'checkbox',
+                    'html': [
+                        $('<div/>', {
+                            'class': 'checkbox form-check',
+                            'html': [
+                                $('<input/>', {
+                                    'id': checkboxId,
+                                    'class': 'form-check-input sub-service-cbx',
+                                    'type': 'checkbox',
+                                    'data-id': service.id,
+                                    'prop': {
+                                        'disabled': true,
+                                    },
+                                }),
+                                $('<label/>', {
+                                    'class': 'form-check-label',
+                                    'text': service.name,
+                                    'for': checkboxId,
+                                }),
+                            ],
+                        }),
+                    ],
+                }).appendTo('.subservice-list');
+            }
+        });
+
         App.Pages.Services.filter('');
         App.Pages.Services.addEventListeners();
         updateAvailableServiceCategories();

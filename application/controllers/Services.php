@@ -38,6 +38,11 @@ class Services extends EA_Controller
         'id_service_categories' => null,
     ];
 
+	public array $allowed_subservice_fields = [
+        'service',
+        'subservice',
+	];
+
     /**
      * Services constructor.
      */
@@ -46,6 +51,7 @@ class Services extends EA_Controller
         parent::__construct();
 
         $this->load->model('services_model');
+        $this->load->model('subservices_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
@@ -81,6 +87,8 @@ class Services extends EA_Controller
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'event_minimum_duration' => EVENT_MINIMUM_DURATION,
+            'services' => $this->services_model->get(),
+            'subservices' => $this->subservices_model->get_available_subservices(),
         ]);
 
         html_vars([
@@ -120,6 +128,33 @@ class Services extends EA_Controller
         }
     }
 
+    // public function save(): void
+    // {
+    //     try {
+    //         $service = request('service');
+
+    //         if (cannot('edit', PRIV_SERVICES)) {
+    //             abort(403, 'Forbidden');
+    //         }
+
+    //         $this->services_model->only($service, $this->allowed_service_fields);
+
+    //         $this->services_model->optional($service, $this->optional_service_fields);
+
+    //         $service_id = $this->services_model->save($service);
+
+    //         $service = $this->services_model->find($service_id);
+
+    //         $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $service);
+
+    //         json_response([
+    //             'success' => true,
+    //             'id' => $service_id,
+    //         ]);
+    //     } catch (Throwable $e) {
+    //         json_exception($e);
+    //     }
+    // }
     /**
      * Store a new service.
      */
@@ -132,11 +167,16 @@ class Services extends EA_Controller
 
             $service = request('service');
 
+			$subservices = $service['subservices'];
+            
             $this->services_model->only($service, $this->allowed_service_fields);
 
             $this->services_model->optional($service, $this->optional_service_fields);
 
             $service_id = $this->services_model->save($service);
+
+            // We got so far, now do the subservices
+			$this->syncSubservices( $service_id, $subservices );
 
             $service = $this->services_model->find($service_id);
 
@@ -149,6 +189,65 @@ class Services extends EA_Controller
         } catch (Throwable $e) {
             json_exception($e);
         }
+    }
+
+    /**
+     * Update a service.
+     */
+    public function update(): void
+    {
+        try {
+            if (cannot('edit', PRIV_SERVICES)) {
+                abort(403, 'Forbidden');
+            }
+
+            $service = request('service');
+
+            $subservices = $service['subservices'];
+
+			$this->services_model->only($service, $this->allowed_service_fields);
+
+            $this->services_model->optional($service, $this->optional_service_fields);
+
+            $service_id = $this->services_model->save($service);
+
+            // We got so far, now do the subservices
+			$this->syncSubservices( $service_id, $subservices );
+
+            $service = $this->services_model->find($service_id);
+
+            $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $service);
+
+            json_response([
+                'success' => true,
+                'id' => $service_id,
+            ]);
+
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    protected function syncSubservices(int $service_id, array $subservice_ids): void 
+    {
+		$current = $this->subservices_model->getSubserviceIds( $service_id );
+        
+        // First, delete all relations that are not valid anymore
+        foreach($current as $currentId) {
+            $currentId = (int) $currentId;
+            if (!in_array($currentId, $subservice_ids)) {
+				$this->subservices_model->deleteSubservice( $service_id, $currentId );
+            }
+        }
+
+        // Add new relations
+        foreach($subservice_ids as $newId) {
+			$newId = (int) $newId;
+            if (!in_array($newId, $current)) {
+				$this->subservices_model->saveSubservice( $service_id, $newId );
+            }
+        }
+
     }
 
     /**
@@ -171,36 +270,7 @@ class Services extends EA_Controller
         }
     }
 
-    /**
-     * Update a service.
-     */
-    public function update(): void
-    {
-        try {
-            if (cannot('edit', PRIV_SERVICES)) {
-                abort(403, 'Forbidden');
-            }
-
-            $service = request('service');
-
-            $this->services_model->only($service, $this->allowed_service_fields);
-
-            $this->services_model->optional($service, $this->optional_service_fields);
-
-            $service_id = $this->services_model->save($service);
-
-            $service = $this->services_model->find($service_id);
-
-            $this->webhooks_client->trigger(WEBHOOK_SERVICE_SAVE, $service);
-
-            json_response([
-                'success' => true,
-                'id' => $service_id,
-            ]);
-        } catch (Throwable $e) {
-            json_exception($e);
-        }
-    }
+    
 
     /**
      * Remove a service.

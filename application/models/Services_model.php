@@ -29,6 +29,7 @@ class Services_model extends EA_Model
         'attendants_number' => 'integer',
         'is_private' => 'boolean',
         'id_service_categories' => 'integer',
+        'is_subservice' => 'boolean',
     ];
 
     /**
@@ -204,6 +205,22 @@ class Services_model extends EA_Model
         $this->db->delete('services', ['id' => $service_id]);
     }
 
+    // public function setSubServices($service): void
+    // {
+	// 	if ( ! isset( $service['subservices'] ) ) return;
+
+	// 	$service_id = (int) $service['id'];
+
+    //     $subs = $this->db->get_where('subservices', ['service' => $service_id])->row_array();
+
+    //     $this->db->delete('services', ['id' => $service_id]);
+
+    //     foreach($service['subservices'] as $sub_id) {
+
+    //     }
+
+    // }
+
     /**
      * Get a specific service from the database.
      *
@@ -331,7 +348,15 @@ class Services_model extends EA_Model
             $this->db->order_by($this->quote_order_by($order_by));
         }
 
-        $services = $this->db->get('services', $limit, $offset)->result_array();
+		$services = $this->db
+			->distinct()
+			->select( 's.*, (isnull(sub.subservice) = 0) AS is_subservice', )
+			->from( 'services s' )
+			->join( 'subservices sub', 'sub.subservice = s.id', 'left outer' )
+            ->order_by('sub.subservice')
+			->order_by( 's.name ASC' )
+			->get()
+			->result_array();
 
         foreach ($services as &$service) {
             $this->cast($service);
@@ -362,6 +387,7 @@ class Services_model extends EA_Model
      */
     public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
+        /*
         $services = $this->db
             ->select()
             ->from('services')
@@ -372,6 +398,35 @@ class Services_model extends EA_Model
             ->limit($limit)
             ->offset($offset)
             ->order_by($this->quote_order_by($order_by))
+            ->get()
+            ->result_array();
+        */
+        /*
+        $services = $this->db
+			->distinct()
+			->select( 's.*, (isnull(sub.subservice) = 0) AS is_subservice', )
+			->from( 'services s' )
+			->join( 'subservices sub', 'sub.subservice = s.id', 'left outer' )
+            ->order_by('sub.subservice')
+			->order_by( 's.name ASC' )
+			->get()
+			->result_array();
+            */    
+
+        $services = $this->db
+            ->distinct()
+			->select( 's.*, (isnull(sub.subservice) = 0) AS is_subservice', )
+			->from( 'services s' )
+			->join( 'subservices sub', 'sub.subservice = s.id', 'left outer' )
+            ->group_start()
+            ->like('name', $keyword)
+            ->or_like('description', $keyword)
+            ->group_end()
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($this->quote_order_by($order_by))
+            ->order_by('sub.subservice')
+			->order_by( 's.name ASC' )
             ->get()
             ->result_array();
 
@@ -428,6 +483,7 @@ class Services_model extends EA_Model
             'availabilitiesType' => $service['availabilities_type'],
             'attendantsNumber' => (int) $service['attendants_number'],
             'isPrivate' => (bool) $service['is_private'],
+            'isSubservice' => (bool) $service['is_subservice'],
             'serviceCategoryId' =>
                 $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null,
         ];
@@ -487,6 +543,10 @@ class Services_model extends EA_Model
 
         if (array_key_exists('isPrivate', $service)) {
             $decoded_resource['is_private'] = (bool) $service['isPrivate'];
+        }
+
+        if (array_key_exists('isSubservice', $service)) {
+            $decoded_resource['is_subservice'] = (bool) $service['isSubservice'];
         }
 
         $service = $decoded_resource;

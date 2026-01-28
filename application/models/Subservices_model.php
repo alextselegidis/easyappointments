@@ -29,6 +29,8 @@ class Subservices_model extends Services_model {
         'is_private' => 'boolean',
         'id_service_categories' => 'integer',
         'parentservice' => 'integer',
+        'service' => 'integer',
+        'subservice' => 'integer',
     ];
 
     /**
@@ -50,8 +52,9 @@ class Subservices_model extends Services_model {
             )
             ->from('services s1')
             ->join('subservices sub', 'sub.subservice = s1.id','inner')
-            ->order_by('name ASC')
-            ->get()
+            ->order_by('name ASC');
+
+        $services = $services->get()
             ->result_array();
         
         foreach ($services as &$service) {
@@ -59,6 +62,53 @@ class Subservices_model extends Services_model {
         }
 
         return $services;
+
+    }
+
+    public function getSubserviceIds(int $service_id): array
+    {
+        $services = $this->db->get_where('subservices', ['service' => $service_id])->result_array();
+		$ids = [];
+        foreach($services as $service) {
+			array_push( $ids, (int) $service['subservice'] );
+        }
+
+        return $ids;
+    }
+
+    public function deleteSubservice(int $service_id, int $subservice_id): void 
+    {
+		$this->db->delete( 'subservices', [ 'service' => $service_id, 'subservice' => $subservice_id] );
+    }
+
+    public function deleteAllSubservicesByService(int $service_id): void 
+    {
+        $this->db->delete( 'subservices', [ 'service' => $service_id ] );
+    }
+
+    public function deleteAllSubservicesBySubService(int $subservice_id): void 
+    {
+        $this->db->delete( 'subservices', [ 'subservice' => $subservice_id ] );
+    }
+
+    public function saveSubservice(int $service_id, int $subservice_id): void 
+    {
+        $subservice = $this->db->get_where('subservices', 
+            [ 'service' => $service_id, 'subservice' => $subservice_id] )->result_array();
+        
+        if ($subservice) {
+            // Already exists, do nothing
+			return;
+        }
+
+        $subservice['create_datetime'] = date('Y-m-d H:i:s');
+        $subservice['update_datetime'] = date('Y-m-d H:i:s');
+		$subservice['service'] = $service_id;
+        $subservice['subservice'] = $subservice_id;
+        
+        if (!$this->db->insert('subservices', $subservice)) {
+            throw new RuntimeException('Could not insert subservice.');
+        }
 
     }
 }

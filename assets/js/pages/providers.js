@@ -563,32 +563,34 @@ App.Pages.Providers = (function () {
         App.Pages.Providers.addEventListeners();
 
         vars('services').forEach((service) => {
-            const checkboxId = `provider-service-${service.id}`;
+            if (!service.is_subservice) {
+                const checkboxId = `provider-service-${service.id}`;
 
-            $('<div/>', {
-                'class': 'checkbox',
-                'html': [
-                    $('<div/>', {
-                        'class': 'checkbox form-check',
-                        'html': [
-                            $('<input/>', {
-                                'id': checkboxId,
-                                'class': 'form-check-input',
-                                'type': 'checkbox',
-                                'data-id': service.id,
-                                'prop': {
-                                    'disabled': true,
-                                },
-                            }),
-                            $('<label/>', {
-                                'class': 'form-check-label',
-                                'text': service.name,
-                                'for': checkboxId,
-                            }),
-                        ],
-                    }),
-                ],
-            }).appendTo('#provider-services');
+                $('<div/>', {
+                    'class': 'checkbox',
+                    'html': [
+                        $('<div/>', {
+                            'class': 'checkbox form-check',
+                            'html': [
+                                $('<input/>', {
+                                    'id': checkboxId,
+                                    'class': 'form-check-input',
+                                    'type': 'checkbox',
+                                    'data-id': service.id,
+                                    'prop': {
+                                        'disabled': true,
+                                    },
+                                }),
+                                $('<label/>', {
+                                    'class': 'form-check-label',
+                                    'text': service.name,
+                                    'for': checkboxId,
+                                }),
+                            ],
+                        }),
+                    ],
+                }).appendTo('#provider-services');
+            }
         });
     }
 

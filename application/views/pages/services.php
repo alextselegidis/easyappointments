@@ -144,6 +144,26 @@
 
             <div class="border rounded mb-3 p-3">
                 <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="is-subservice">
+
+                    <label class="form-check-label" for="is-subservice">
+                        <?= lang('is_subservice') ?>
+                    </label>
+                </div>
+                <div class="card card-body bg-white border subservices display-none">
+                    <div>
+                        <label class="form-label mb-3">
+                            <?= lang('subservices') ?>
+                        </label>
+                    </div>
+                    <div class="subservice-list">
+                        <!-- JS -->
+                     </div>
+                </div>
+            </div>
+
+            <div class="border rounded mb-3 p-3">
+                <div class="form-check form-switch">
                     <input class="form-check-input" type="checkbox" id="is-private">
 
                     <label class="form-check-label" for="is-private">

@@ -44,6 +44,7 @@ $lang['appointment_details_title'] = 'Uw afspraak';
 $lang['customer_details_title'] = 'Klantgegevens';
 $lang['service'] = 'Behandeling';
 $lang['subservice'] = 'Extra dienst';
+$lang['is_subservice'] = 'Is extra dienst';
 $lang['subservices'] = 'Extra diensten';
 $lang['provider'] = 'Medewerker';
 $lang['customer'] = 'Klant';
