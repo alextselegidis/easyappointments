@@ -174,6 +174,20 @@ class Calendar extends EA_Controller
 
         $available_services = $this->services_model->get_available_services();
 
+        // Filter services to only include those that can be served by at least one available provider
+        $provider_service_ids = [];
+        foreach ($available_providers as $provider) {
+            foreach ($provider['services'] as $service_id) {
+                $provider_service_ids[$service_id] = true;
+            }
+        }
+
+        $available_services = array_values(
+            array_filter($available_services, function ($service) use ($provider_service_ids) {
+                return isset($provider_service_ids[$service['id']]);
+            }),
+        );
+
         $calendar_view = request('view', $user['settings']['calendar_view']);
 
         $appointment_status_options = setting('appointment_status_options');
@@ -735,44 +749,56 @@ class Calendar extends EA_Controller
                 return;
             }
 
-            $record_id = $this->db->escape($record_id);
+            // Validate filter_type to prevent SQL injection via column name
+            $allowed_filter_types = [FILTER_TYPE_PROVIDER, FILTER_TYPE_SERVICE, FILTER_TYPE_ALL];
+            if ($filter_type && !in_array($filter_type, $allowed_filter_types, true)) {
+                throw new InvalidArgumentException('Invalid filter type provided.');
+            }
 
+            // Determine which column to filter by
             if ($filter_type == FILTER_TYPE_PROVIDER) {
                 $where_id = 'id_users_provider';
             } elseif ($filter_type === FILTER_TYPE_SERVICE) {
                 $where_id = 'id_services';
             } else {
-                $where_id = $record_id;
+                $where_id = 'id_users_provider'; // Default for FILTER_TYPE_ALL
             }
 
-            // Get appointments
-            $start_date = $this->db->escape(request('start_date'));
-            $end_date = $this->db->escape(date('Y-m-d', strtotime(request('end_date') . ' +1 day')));
+            // Validate record_id is numeric when not "all"
+            if (!$is_all && !is_numeric($record_id)) {
+                throw new InvalidArgumentException('Invalid record ID provided.');
+            }
 
-            $where_clause =
-                $where_id .
-                ' = ' .
-                $record_id .
-                '
-                AND ((start_datetime > ' .
-                $start_date .
-                ' AND start_datetime < ' .
-                $end_date .
-                ') 
-                or (end_datetime > ' .
-                $start_date .
-                ' AND end_datetime < ' .
-                $end_date .
-                ') 
-                or (start_datetime <= ' .
-                $start_date .
-                ' AND end_datetime >= ' .
-                $end_date .
-                ')) 
-                AND is_unavailability = 0
-            ';
+            // Get appointments using query builder for safety
+            $start_date = request('start_date');
+            $end_date = date('Y-m-d', strtotime(request('end_date') . ' +1 day'));
 
-            $response['appointments'] = $this->appointments_model->get($where_clause);
+            // Build query using CodeIgniter's query builder for SQL injection protection
+            $this->db->select('*');
+            $this->db->from('appointments');
+
+            if (!$is_all) {
+                $this->db->where($where_id, $record_id);
+            }
+
+            $this->db->group_start();
+            $this->db->group_start();
+            $this->db->where('start_datetime >', $start_date);
+            $this->db->where('start_datetime <', $end_date);
+            $this->db->group_end();
+            $this->db->or_group_start();
+            $this->db->where('end_datetime >', $start_date);
+            $this->db->where('end_datetime <', $end_date);
+            $this->db->group_end();
+            $this->db->or_group_start();
+            $this->db->where('start_datetime <=', $start_date);
+            $this->db->where('end_datetime >=', $end_date);
+            $this->db->group_end();
+            $this->db->group_end();
+
+            $this->db->where('is_unavailability', 0);
+
+            $response['appointments'] = $this->db->get()->result_array();
 
             foreach ($response['appointments'] as &$appointment) {
                 $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
@@ -786,30 +812,32 @@ class Calendar extends EA_Controller
             $response['unavailabilities'] = [];
 
             if ($filter_type == FILTER_TYPE_PROVIDER || $is_all) {
-                $where_clause =
-                    $where_id .
-                    ' = ' .
-                    $record_id .
-                    '
-                    AND ((start_datetime > ' .
-                    $start_date .
-                    ' AND start_datetime < ' .
-                    $end_date .
-                    ') 
-                    or (end_datetime > ' .
-                    $start_date .
-                    ' AND end_datetime < ' .
-                    $end_date .
-                    ') 
-                    or (start_datetime <= ' .
-                    $start_date .
-                    ' AND end_datetime >= ' .
-                    $end_date .
-                    ')) 
-                    AND is_unavailability = 1
-                ';
+                // Build query using CodeIgniter's query builder for SQL injection protection
+                $this->db->select('*');
+                $this->db->from('appointments');
 
-                $response['unavailabilities'] = $this->unavailabilities_model->get($where_clause);
+                if (!$is_all) {
+                    $this->db->where($where_id, $record_id);
+                }
+
+                $this->db->group_start();
+                $this->db->group_start();
+                $this->db->where('start_datetime >', $start_date);
+                $this->db->where('start_datetime <', $end_date);
+                $this->db->group_end();
+                $this->db->or_group_start();
+                $this->db->where('end_datetime >', $start_date);
+                $this->db->where('end_datetime <', $end_date);
+                $this->db->group_end();
+                $this->db->or_group_start();
+                $this->db->where('start_datetime <=', $start_date);
+                $this->db->where('end_datetime >=', $end_date);
+                $this->db->group_end();
+                $this->db->group_end();
+
+                $this->db->where('is_unavailability', 1);
+
+                $response['unavailabilities'] = $this->db->get()->result_array();
             }
 
             $user_id = session('user_id');
