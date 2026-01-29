@@ -342,23 +342,25 @@ class Availability
             ? json_decode($provider['settings']['working_plan_exceptions'], true)
             : [];
 
-        $escaped_provider_id = $this->CI->db->escape($provider['id']);
+        // Validate and sanitize inputs before building query
+        $provider_id = (int) $provider['id'];
 
-        $escaped_date = $this->CI->db->escape($date);
+        // Validate date format to prevent SQL injection
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            throw new InvalidArgumentException('Invalid date format provided.');
+        }
 
-        $where =
-            'id_users_provider = ' .
-            $escaped_provider_id .
-            ' AND DATE(start_datetime) <= ' .
-            $escaped_date .
-            ' AND DATE(end_datetime) >= ' .
-            $escaped_date;
+        // Build query using array-based where clause for safety
+        $where = [
+            'id_users_provider' => $provider_id,
+            'DATE(start_datetime) <=' => $date,
+            'DATE(end_datetime) >=' => $date,
+        ];
 
         // Sometimes it might be necessary to exclude an appointment from the calculation (e.g. when editing an
         // existing appointment).
         if ($exclude_appointment_id) {
-            $escaped_exclude_appointment_id = $this->CI->db->escape($exclude_appointment_id);
-            $where .= ' AND id != ' . $escaped_exclude_appointment_id;
+            $where['id !='] = (int) $exclude_appointment_id;
         }
 
         $appointments = array_values(

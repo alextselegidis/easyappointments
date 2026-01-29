@@ -221,12 +221,17 @@ class Api
 
             $db_field = $this->model->db_field($api_field);
 
+            // Skip invalid fields (security: only allow mapped fields)
+            if ($db_field === null) {
+                continue;
+            }
+
             $direction = $direction_operator === '-' ? 'DESC' : 'ASC';
 
             $order_by[] = $db_field . ' ' . $direction;
         }
 
-        return implode(', ', $order_by);
+        return !empty($order_by) ? implode(', ', $order_by) : null;
     }
 
     /**
