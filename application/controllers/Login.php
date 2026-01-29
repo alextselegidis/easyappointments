@@ -132,22 +132,35 @@ class Login extends EA_Controller
      */
     private function apply_login_rate_limit(): void
     {
-        $this->load->driver('cache', ['adapter' => 'file']);
+        try {
+            $this->load->driver('cache', ['adapter' => 'file']);
 
-        $ip = $this->input->ip_address();
-        $cache_key = 'login_attempts_' . str_replace([':', '.'], '_', $ip);
+            if (!isset($this->cache) || !is_object($this->cache)) {
+                log_message('debug', 'Cache driver not available, skipping rate limit check.');
+                return;
+            }
 
-        $attempts = $this->cache->get($cache_key);
+            $ip = $this->input->ip_address();
+            $cache_key = 'login_attempts_' . str_replace([':', '.'], '_', $ip);
 
-        if ($attempts === false) {
-            $this->cache->save($cache_key, 1, 300); // 5 minutes
-        } else {
+            $attempts = $this->cache->get($cache_key);
+
+            if ($attempts === false) {
+                $this->cache->save($cache_key, 1, 300); // 5 minutes
+                return;
+            }
             $this->cache->save($cache_key, $attempts + 1, 300);
 
             if ($attempts >= 5) {
                 log_message('warning', 'Login rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many login attempts. Please try again in a few minutes.');
             }
+        } catch (RuntimeException $e) {
+            // Re-throw rate limit exceptions
+            throw $e;
+        } catch (Throwable $e) {
+            // Log cache errors but don't block login
+            log_message('error', 'Cache error in login rate limiting: ' . $e->getMessage());
         }
     }
 }
