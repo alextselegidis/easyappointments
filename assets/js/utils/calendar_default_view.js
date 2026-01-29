@@ -1201,7 +1201,11 @@ App.Utils.CalendarDefaultView = (function () {
 
                 // Add appointments to calendar.
                 response.appointments.forEach((appointment) => {
-                    const title = [appointment.service.name];
+                    let title = [];
+                    if(filterType != FILTER_TYPE_SERVICE){
+                        // If the filter type is not service, then we display the service name.
+                        title = [appointment.service.name];
+                    }
 
                     const customerInfo = [];
 
