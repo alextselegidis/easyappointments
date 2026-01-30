@@ -24,6 +24,8 @@ class Jitsi_client
      * Generate a random Jitsi meeting link.
      *
      * @return string The generated Jitsi meeting URL.
+     *
+     * @throws \Random\RandomException
      */
     public function generate_link(): string
     {

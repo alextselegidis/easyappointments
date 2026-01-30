@@ -85,6 +85,7 @@ class Calendar extends EA_Controller
         $this->load->library('timezones');
         $this->load->library('webhooks_client');
         $this->load->library('permissions');
+        $this->load->library('jitsi_client');
     }
 
     /**
@@ -341,6 +342,11 @@ class Calendar extends EA_Controller
 
                 if ($manage_mode && !empty($appointment['id'])) {
                     $this->synchronization->remove_appointment_on_provider_change($appointment['id']);
+                }
+
+                // Jitsi integration: if enabled and meeting_link is empty, generate a Jitsi meeting link
+                if (setting('jitsi_enabled') === '1' && empty($appointment['meeting_link'])) {
+                    $appointment['meeting_link'] = $this->jitsi_client->generate_link();
                 }
 
                 $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
