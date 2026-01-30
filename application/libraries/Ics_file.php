@@ -86,7 +86,16 @@ class Ics_file
             $event->addLocation($location);
         }
 
+        $meeting_link_content = [];
+
+        if (!empty($appointment['meeting_link'])) {
+            $meeting_link_content[] = '';
+            $meeting_link_content[] = lang('meeting_link') . ': ' . $appointment['meeting_link'];
+            $meeting_link_content[] = '';
+        }
+
         $description = [
+            ...$meeting_link_content,
             '',
             lang('provider'),
             '',
