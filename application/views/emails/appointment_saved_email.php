@@ -465,7 +465,7 @@
                                                     <?= lang('description') ?>
                                                 </td>
                                                 <td style="padding: 3px;">
-                                                    <?= e($service['description']) ?>
+                                                    <?= nl2br(e($service['description'])) ?>
                                                 </td>
                                             </tr>
                                             <?php endif; ?>
