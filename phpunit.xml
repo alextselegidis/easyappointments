@@ -1,31 +1,16 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/|version|/phpunit.xsd"
-    backupGlobals="true"
-    backupStaticAttributes="false"
-    bootstrap="tests/phpunit/bootstrap.php"
+    xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="index.php"
+    colors="true"
     cacheResult="false"
-    cacheTokens="false"
-    colors="false"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
-    forceCoversAnnotation="false"
-    printerClass="PHPUnit\TextUI\ResultPrinter"
-    processIsolation="false"
-    stopOnError="false"
-    stopOnFailure="false"
-    stopOnIncomplete="false"
-    stopOnSkipped="false"
-    stopOnRisky="false"
-    testSuiteLoaderClass="PHPUnit\Runner\StandardTestSuiteLoader"
-    timeoutForSmallTests="1"
-    timeoutForMediumTests="10"
-    timeoutForLargeTests="60"
-    verbose="false">
-    <filter>
-        <whitelist>
-            <directory suffix=".php">src/engine</directory>
-        </whitelist>
-    </filter>
+>
+    <testsuites>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">./tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+    </php>
 </phpunit>

@@ -1,0 +1,96 @@
+services:
+  php-fpm:
+    build: docker/php-fpm
+    working_dir: /var/www/html
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    volumes:
+      - '.:/var/www/html'
+      - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini'
+
+  nginx:
+    image: 'nginx:1.23.3-alpine'
+    working_dir: /var/www/html
+    volumes:
+      - '.:/var/www/html'
+      - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+    ports:
+      - '80:80'
+
+  mysql:
+    image: 'mysql:8.0'
+    volumes:
+      - './docker/mysql:/var/lib/mysql'
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_DATABASE=easyappointments
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+    ports:
+      - '3306:3306'
+
+  phpmyadmin:
+    image: 'phpmyadmin:5.2.1'
+    ports:
+      - '8080:80'
+    environment:
+      - 'PMA_HOST=mysql'
+      - 'UPLOAD_LIMIT=102400K'
+
+  mailpit:
+    image: 'axllent/mailpit:v1.7'
+    ports:
+      - '8025:8025'
+      - '1025:1025'
+
+  swagger-ui:
+    platform: linux/amd64
+    image: swaggerapi/swagger-ui:v5.10.5
+    ports:
+      - "8000:8080"
+    volumes:
+      - ./openapi.yml:/usr/share/nginx/html/openapi.yml
+    environment:
+      API_URL: openapi.yml
+  
+  baikal:
+    image: ckulka/baikal:0.10.1-apache
+    ports:
+      - "8100:80"
+    volumes:
+      - ./docker/baikal:/var/www/html
+      - ./docker/baikal/config:/var/www/baikal/config
+      - ./docker/baikal/data:/var/www/baikal/Specific
+  
+  openldap:
+    image: osixia/openldap:1.5.0
+    hostname: openldap
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ./docker/openldap/certificates:/container/service/slapd/assets/certs
+      - ./docker/openldap/slapd/database:/var/lib/ldap
+      - ./docker/openldap/slapd/config:/etc/ldap/slapd.d
+    environment:
+      - LDAP_ORGANISATION=example
+      - LDAP_DOMAIN=example.org
+      - LDAP_ADMIN_USERNAME=admin
+      - LDAP_ADMIN_PASSWORD=admin
+      - LDAP_CONFIG_PASSWORD=config_pass
+      - "LDAP_BASE_DN=dc=example,dc=org"
+      - LDAP_READONLY_USER=true
+      - LDAP_READONLY_USER_USERNAME=user
+      - LDAP_READONLY_USER_PASSWORD=password
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:0.9.0
+    hostname: phpldapadmin
+    ports:
+      - "8200:80"
+    environment:
+      - PHPLDAPADMIN_LDAP_HOSTS=openldap
+      - PHPLDAPADMIN_HTTPS=false
+    depends_on:
+      - openldap
+

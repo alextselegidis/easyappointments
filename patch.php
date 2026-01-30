@@ -16,11 +16,11 @@
 
 define('FILES_JSON_URL', 'https://cdn.easyappointments.org/patch/files.json');
 
-// Setup 
+// Setup
 
 error_reporting(E_ALL);
 
-ini_set('display_errors', TRUE);
+ini_set('display_errors', true);
 
 define('LINE_BREAK', php_sapi_name() === 'cli' ? "\n" : '<br>');
 
@@ -28,25 +28,31 @@ define('LINE_BREAK', php_sapi_name() === 'cli' ? "\n" : '<br>');
 
 function detect_local_version()
 {
-    $config_file_path = __DIR__ . '/application/config/config.php';
+    $config_file_path = __DIR__ . '/application/config/app.php';
 
-    if ( ! file_exists($config_file_path))
-    {
-        die('Failed to detect the local Easy!Appointments version, please move the patch.php script in the root directory of your Easy!Appointments installation.');
+    if (!file_exists($config_file_path)) {
+        die(
+            'Failed to detect the local Easy!Appointments version, please move the patch.php script in the root directory of your Easy!Appointments installation.'
+        );
     }
 
     $contents = file_get_contents($config_file_path);
 
-    if ($contents === FALSE)
-    {
-        die('Could not read the local configuration file, please check the file permissions make sure it is readable: ' . $config_file_path);
+    if ($contents === false) {
+        die(
+            'Could not read the local configuration file, please check the file permissions make sure it is readable: ' .
+                $config_file_path
+        );
     }
 
     preg_match("/config\['version'].*=.*'(.*)';/", $contents, $matches);
 
-    if (empty($matches) || empty($matches[1]))
-    {
-        die('Could not parse the version of your installation from "' . $config_file_path . '". Please make sure this file is in its original form.');
+    if (empty($matches) || empty($matches[1])) {
+        die(
+            'Could not parse the version of your installation from "' .
+                $config_file_path .
+                '". Please make sure this file is in its original form.'
+        );
     }
 
     return $matches[1];
@@ -56,8 +62,7 @@ function get_applied_patches()
 {
     $patch_log_file_path = __DIR__ . '/patch-log.php';
 
-    if ( ! file_exists($patch_log_file_path))
-    {
+    if (!file_exists($patch_log_file_path)) {
         return [];
     }
 
@@ -68,38 +73,36 @@ function get_pending_patches($local_version, $applied_patches)
 {
     $files_json_contents = file_get_contents(FILES_JSON_URL);
 
-    if ($files_json_contents === FALSE)
-    {
-        die('Could not read the remote "files.json", make sure the "allow_url_fopen" configuration is "On" inside your "php.ini" file:' . php_ini_loaded_file());
+    if ($files_json_contents === false) {
+        die(
+            'Could not read the remote "files.json", make sure the "allow_url_fopen" configuration is "On" inside your "php.ini" file:' .
+                php_ini_loaded_file()
+        );
     }
 
-    $all_patches = json_decode($files_json_contents, TRUE);
+    $all_patches = json_decode($files_json_contents, true);
 
-    if (empty($all_patches))
-    {
+    if (empty($all_patches)) {
         die('Could not fetch remote patch information, please try again later.');
     }
 
     $version_patches = array_filter($all_patches, function ($single_patch_file) use ($local_version) {
-        return in_array($local_version, $single_patch_file['versions'], FALSE);
+        return in_array($local_version, $single_patch_file['versions'], false);
     });
 
     $pending_patches = array_filter($version_patches, function ($single_patch_file) use ($applied_patches) {
         $version_patch_filename = basename($single_patch_file['url']);
 
-        foreach ($applied_patches as $applied_patch)
-        {
-            if (basename($applied_patch['url']) === $version_patch_filename)
-            {
-                return FALSE;
+        foreach ($applied_patches as $applied_patch) {
+            if (basename($applied_patch['url']) === $version_patch_filename) {
+                return false;
             }
         }
 
-        return TRUE;
+        return true;
     });
 
-    if (empty($pending_patches))
-    {
+    if (empty($pending_patches)) {
         die('There are no new patches to apply, you may check again later.');
     }
 
@@ -110,17 +113,18 @@ function apply_pending_patches($local_version, $pending_patches)
 {
     $new_patches = [];
 
-    foreach ($pending_patches as $pending_patch)
-    {
+    foreach ($pending_patches as $pending_patch) {
         $patch_contents = file_get_contents($pending_patch['url']);
 
-        if ($patch_contents === FALSE)
-        {
-            die('Could not read the remote "' . basename($pending_patch['url']) . '", make sure the "allow_url_fopen" configuration is "On" inside your "php.ini" file.');
+        if ($patch_contents === false) {
+            die(
+                'Could not read the remote "' .
+                    basename($pending_patch['url']) .
+                    '", make sure the "allow_url_fopen" configuration is "On" inside your "php.ini" file.'
+            );
         }
 
-        if (empty($patch_contents))
-        {
+        if (empty($patch_contents)) {
             die('No contents received while fetching: ' . $pending_patch['url']);
         }
 
@@ -132,14 +136,12 @@ function apply_pending_patches($local_version, $pending_patches)
 
         $patch_body_lines = explode("\n", $patch_body);
 
-        array_shift($patch_body_lines); // Remove the first @@ line of the patch body. 
+        array_shift($patch_body_lines); // Remove the first @@ line of the patch body.
 
         $original_code_lines = [];
 
-        foreach ($patch_body_lines as $patch_line)
-        {
-            if ( ! empty($patch_line[0]) && $patch_line[0] !== '+')
-            {
+        foreach ($patch_body_lines as $patch_line) {
+            if (!empty($patch_line[0]) && $patch_line[0] !== '+') {
                 $original_code_lines[] = substr($patch_line, 1);
             }
         }
@@ -148,10 +150,8 @@ function apply_pending_patches($local_version, $pending_patches)
 
         $modified_code_lines = [];
 
-        foreach ($patch_body_lines as $patch_line)
-        {
-            if ( ! empty($patch_line[0]) && $patch_line[0] !== '-')
-            {
+        foreach ($patch_body_lines as $patch_line) {
+            if (!empty($patch_line[0]) && $patch_line[0] !== '-') {
                 $modified_code_lines[] = substr($patch_line, 1);
             }
         }
@@ -160,9 +160,11 @@ function apply_pending_patches($local_version, $pending_patches)
 
         $file_code_contents = file_get_contents($file_path_match[1]);
 
-        if ($file_code_contents === FALSE)
-        {
-            die('Could not read the local source code file, please check the file permissions make sure it is readable: ' . $file_path_match[1]);
+        if ($file_code_contents === false) {
+            die(
+                'Could not read the local source code file, please check the file permissions make sure it is readable: ' .
+                    $file_path_match[1]
+            );
         }
 
         $file_code_lines = explode("\n", $file_code_contents);
@@ -173,33 +175,47 @@ function apply_pending_patches($local_version, $pending_patches)
 
         $trimmed_affected_code_lines = array_map('trim', $affected_code_lines);
 
-        if ($trimmed_affected_code_lines === $trimmed_original_code_lines)
-        {
+        if ($trimmed_affected_code_lines === $trimmed_original_code_lines) {
             $pre_change_code_lines = array_slice($file_code_lines, 0, abs($affected_position[0]) - 1);
 
-            $post_change_code_lines = array_slice($file_code_lines, abs($affected_position[0]) + $affected_position[1] - 1);
+            $post_change_code_lines = array_slice(
+                $file_code_lines,
+                abs($affected_position[0]) + $affected_position[1] - 1,
+            );
 
-            $replaced_file_code_lines = array_merge($pre_change_code_lines, $modified_code_lines, $post_change_code_lines);
+            $replaced_file_code_lines = array_merge(
+                $pre_change_code_lines,
+                $modified_code_lines,
+                $post_change_code_lines,
+            );
 
             $patched_file_contents = implode("\n", $replaced_file_code_lines);
 
             $result = file_put_contents($file_path_match[1], $patched_file_contents);
 
-            if ($result === FALSE)
-            {
-                die('Could not write the local source code file, please check the file permissions make sure it is writable: ' . $file_path_match[1]);
+            if ($result === false) {
+                die(
+                    'Could not write the local source code file, please check the file permissions make sure it is writable: ' .
+                        $file_path_match[1]
+                );
             }
         }
 
-        $success = TRUE;
+        $success = true;
 
         $message = '';
 
-        if ($trimmed_affected_code_lines !== $trimmed_original_code_lines && array_intersect($trimmed_affected_code_lines, $trimmed_modified_code_lines) !== $trimmed_affected_code_lines)
-        {
-            $success = FALSE;
+        if (
+            $trimmed_affected_code_lines !== $trimmed_original_code_lines &&
+            array_intersect($trimmed_affected_code_lines, $trimmed_modified_code_lines) !== $trimmed_affected_code_lines
+        ) {
+            $success = false;
 
-            $message = 'IMPORTANT: The patch "' . basename($pending_patch['url']) . '" cannot be applied, because your local codebase is customized. Download and apply it manually: ' . $pending_patch['url'];
+            $message =
+                'IMPORTANT: The patch "' .
+                basename($pending_patch['url']) .
+                '" cannot be applied, because your local codebase is customized. Download and apply it manually: ' .
+                $pending_patch['url'];
 
             echo LINE_BREAK . LINE_BREAK . $message . LINE_BREAK;
         }
@@ -209,7 +225,7 @@ function apply_pending_patches($local_version, $pending_patches)
             'local_version' => $local_version,
             'url' => $pending_patch['url'],
             'success' => $success,
-            'message' => $message
+            'message' => $message,
         ];
     }
 
@@ -222,16 +238,21 @@ function update_patch_log($applied_patches, $new_patches)
 
     $patch_log_file_path = __DIR__ . '/patch-log.php';
 
-    $contents = '
+    $contents =
+        '
 <?php 
 
-return ' . preg_replace("/[0-9]+ \=\>/i", '', var_export($persisted_patches, TRUE)) . ';';
+return ' .
+        preg_replace('/[0-9]+ \=\>/i', '', var_export($persisted_patches, true)) .
+        ';';
 
     $result = file_put_contents($patch_log_file_path, $contents);
 
-    if ($result === FALSE)
-    {
-        die('Could not write the local "patch-log.php" file, please check the file permissions make sure it is writable: ' . $patch_log_file_path);
+    if ($result === false) {
+        die(
+            'Could not write the local "patch-log.php" file, please check the file permissions make sure it is writable: ' .
+                $patch_log_file_path
+        );
     }
 }
 
@@ -260,13 +281,19 @@ $pending_patches = get_pending_patches($local_version, $applied_patches);
 
 $new_patches = apply_pending_patches($local_version, $pending_patches);
 
-if (empty($new_patches))
-{
-    echo LINE_BREAK . '➜ No patches were applied, please check the PHP error logs for more information at: ' . ini_get('error_log') . LINE_BREAK;
-}
-else
-{
-    echo LINE_BREAK . 'The following patches were successfully applied: ' . LINE_BREAK . LINE_BREAK . '○ ' . get_new_patch_filenames($new_patches) . LINE_BREAK;
+if (empty($new_patches)) {
+    echo LINE_BREAK .
+        '➜ No patches were applied, please check the PHP error logs for more information at: ' .
+        ini_get('error_log') .
+        LINE_BREAK;
+} else {
+    echo LINE_BREAK .
+        'The following patches were successfully applied: ' .
+        LINE_BREAK .
+        LINE_BREAK .
+        '○ ' .
+        get_new_patch_filenames($new_patches) .
+        LINE_BREAK;
 
     update_patch_log($applied_patches, $new_patches);
 }

@@ -13,10 +13,10 @@
 | always be used to set the mode correctly.
 |
 */
-define('FILE_READ_MODE', 0644);
-define('FILE_WRITE_MODE', 0666);
-define('DIR_READ_MODE', 0755);
-define('DIR_WRITE_MODE', 0777);
+const FILE_READ_MODE = 0644;
+const FILE_WRITE_MODE = 0666;
+const DIR_READ_MODE = 0755;
+const DIR_WRITE_MODE = 0777;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,15 +27,14 @@ define('DIR_WRITE_MODE', 0777);
 |
 */
 
-define('FOPEN_READ', 'rb');
-define('FOPEN_READ_WRITE', 'r+b');
-define('FOPEN_WRITE_CREATE_DESTRUCTIVE', 'wb'); // truncates existing file data, use with care
-define('FOPEN_READ_WRITE_CREATE_DESTRUCTIVE', 'w+b'); // truncates existing file data, use with care
-define('FOPEN_WRITE_CREATE', 'ab');
-define('FOPEN_READ_WRITE_CREATE', 'a+b');
-define('FOPEN_WRITE_CREATE_STRICT', 'xb');
-define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
-
+const FOPEN_READ = 'rb';
+const FOPEN_READ_WRITE = 'r+b';
+const FOPEN_WRITE_CREATE_DESTRUCTIVE = 'wb'; // truncates existing file data, use with care
+const FOPEN_READ_WRITE_CREATE_DESTRUCTIVE = 'w+b'; // truncates existing file data, use with care
+const FOPEN_WRITE_CREATE = 'ab';
+const FOPEN_READ_WRITE_CREATE = 'a+b';
+const FOPEN_WRITE_CREATE_STRICT = 'xb';
+const FOPEN_READ_WRITE_CREATE_STRICT = 'x+b';
 
 /*
 |--------------------------------------------------------------------------
@@ -45,49 +44,114 @@ define('FOPEN_READ_WRITE_CREATE_STRICT', 'x+b');
 | These constants are used globally from the application when handling data.
 |
 */
-define('DB_SLUG_CUSTOMER', 'customer');
-define('DB_SLUG_PROVIDER', 'provider');
-define('DB_SLUG_ADMIN', 'admin');
-define('DB_SLUG_SECRETARY', 'secretary');
+const DB_SLUG_CUSTOMER = 'customer';
+const DB_SLUG_PROVIDER = 'provider';
+const DB_SLUG_ADMIN = 'admin';
+const DB_SLUG_SECRETARY = 'secretary';
 
-define('FILTER_TYPE_PROVIDER', 'provider');
-define('FILTER_TYPE_SERVICE', 'service');
+const FILTER_TYPE_ALL = 'all';
+const FILTER_TYPE_PROVIDER = 'provider';
+const FILTER_TYPE_SERVICE = 'service';
 
-define('AJAX_SUCCESS', 'SUCCESS');
-define('AJAX_FAILURE', 'FAILURE');
+const AJAX_SUCCESS = 'SUCCESS';
+const AJAX_FAILURE = 'FAILURE';
 
-define('SETTINGS_SYSTEM', 'SETTINGS_SYSTEM');
-define('SETTINGS_USER', 'SETTINGS_USER');
+const SETTINGS_SYSTEM = 'SETTINGS_SYSTEM';
+const SETTINGS_USER = 'SETTINGS_USER';
 
-define('PRIV_VIEW', 1);
-define('PRIV_ADD', 2);
-define('PRIV_EDIT', 4);
-define('PRIV_DELETE', 8);
+const PRIV_VIEW = 1;
+const PRIV_ADD = 2;
+const PRIV_EDIT = 4;
+const PRIV_DELETE = 8;
 
-define('PRIV_APPOINTMENTS', 'appointments');
-define('PRIV_CUSTOMERS', 'customers');
-define('PRIV_SERVICES', 'services');
-define('PRIV_USERS', 'users');
-define('PRIV_SYSTEM_SETTINGS', 'system_settings');
-define('PRIV_USER_SETTINGS', 'user_settings');
+const PRIV_APPOINTMENTS = 'appointments';
+const PRIV_CUSTOMERS = 'customers';
+const PRIV_SERVICES = 'services';
+const PRIV_USERS = 'users';
+const PRIV_SYSTEM_SETTINGS = 'system_settings';
+const PRIV_USER_SETTINGS = 'user_settings';
+const PRIV_WEBHOOKS = 'webhooks';
+const PRIV_BLOCKED_PERIODS = 'blocked_periods';
 
-define('DATE_FORMAT_DMY', 'DMY');
-define('DATE_FORMAT_MDY', 'MDY');
-define('DATE_FORMAT_YMD', 'YMD');
+const DATE_FORMAT_DMY = 'DMY';
+const DATE_FORMAT_MDY = 'MDY';
+const DATE_FORMAT_YMD = 'YMD';
 
-define('TIME_FORMAT_REGULAR', 'regular');
-define('TIME_FORMAT_MILITARY', 'military');
+const TIME_FORMAT_REGULAR = 'regular';
+const TIME_FORMAT_MILITARY = 'military';
 
-define('MIN_PASSWORD_LENGTH', 7);
-define('ANY_PROVIDER', 'any-provider');
+const MIN_PASSWORD_LENGTH = 7;
+const MAX_PASSWORD_LENGTH = 100;
+const ANY_PROVIDER = 'any-provider';
 
-define('CALENDAR_VIEW_DEFAULT', 'default');
-define('CALENDAR_VIEW_TABLE', 'table');
+const CALENDAR_VIEW_DEFAULT = 'default';
+const CALENDAR_VIEW_TABLE = 'table';
 
-define('AVAILABILITIES_TYPE_FLEXIBLE', 'flexible');
-define('AVAILABILITIES_TYPE_FIXED', 'fixed');
+const AVAILABILITIES_TYPE_FLEXIBLE = 'flexible';
+const AVAILABILITIES_TYPE_FIXED = 'fixed';
 
-define('EVENT_MINIMUM_DURATION', 5); // Minutes
+const EVENT_MINIMUM_DURATION = 5; // Minutes
+
+const DEFAULT_COMPANY_COLOR = '#ffffff';
+
+const LDAP_DEFAULT_FILTER = '(&(objectClass=*)(|(cn={{KEYWORD}})(sn={{KEYWORD}})(mail={{KEYWORD}})(givenName={{KEYWORD}})(uid={{KEYWORD}})))';
+
+const LDAP_WHITELISTED_ATTRIBUTES = [
+    'givenname',
+    'cn',
+    'dn',
+    'sn',
+    'mail',
+    'telephonenumber',
+    'description',
+    'member',
+    'objectclass',
+    'objectcategory',
+    'instancetype',
+    'whencreated',
+    'name',
+    'samaccountname',
+    'samaccounttype',
+    'objectcategory',
+    'memberof',
+    'distinguishedname',
+];
+
+const LDAP_DEFAULT_FIELD_MAPPING = [
+    'first_name' => 'givenname',
+    'last_name' => 'sn',
+    'email' => 'mail',
+    'phone_number' => 'telephonenumber',
+    'username' => 'cn',
+];
+
+/*
+|--------------------------------------------------------------------------
+| Webhook Actions
+|--------------------------------------------------------------------------
+|
+| External application endpoints can subscribe to these webhook actions.  
+|
+*/
+
+const WEBHOOK_APPOINTMENT_SAVE = 'appointment_save';
+const WEBHOOK_APPOINTMENT_DELETE = 'appointment_delete';
+const WEBHOOK_UNAVAILABILITY_SAVE = 'unavailability_save';
+const WEBHOOK_UNAVAILABILITY_DELETE = 'unavailability_delete';
+const WEBHOOK_CUSTOMER_SAVE = 'customer_save';
+const WEBHOOK_CUSTOMER_DELETE = 'customer_delete';
+const WEBHOOK_SERVICE_SAVE = 'service_save';
+const WEBHOOK_SERVICE_DELETE = 'service_delete';
+const WEBHOOK_SERVICE_CATEGORY_SAVE = 'service_category_save';
+const WEBHOOK_SERVICE_CATEGORY_DELETE = 'service_category_delete';
+const WEBHOOK_PROVIDER_SAVE = 'provider_save';
+const WEBHOOK_PROVIDER_DELETE = 'provider_delete';
+const WEBHOOK_SECRETARY_SAVE = 'secretary_save';
+const WEBHOOK_SECRETARY_DELETE = 'secretary_delete';
+const WEBHOOK_ADMIN_SAVE = 'admin_save';
+const WEBHOOK_ADMIN_DELETE = 'admin_delete';
+const WEBHOOK_BLOCKED_PERIOD_SAVE = 'blocked_period_save';
+const WEBHOOK_BLOCKED_PERIOD_DELETE = 'blocked_period_delete';
 
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

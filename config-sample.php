@@ -1,12 +1,12 @@
 <?php
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
@@ -24,35 +24,33 @@
  * If you are updating from version 1.0 you will have to create a new "config.php"
  * file because the old "configuration.php" is not used anymore.
  */
-class Config {
-
+class Config
+{
     // ------------------------------------------------------------------------
     // GENERAL SETTINGS
     // ------------------------------------------------------------------------
 
-    const BASE_URL      = 'http://url-to-easyappointments-directory';
-    const LANGUAGE      = 'english';
-    const DEBUG_MODE    = FALSE;
+    const BASE_URL = 'http://localhost';
+    const LANGUAGE = 'english';
+    const DEBUG_MODE = false;
 
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
 
-    const DB_HOST       = 'localhost';
-    const DB_NAME       = 'easyappointments';
-    const DB_USERNAME   = 'root';
-    const DB_PASSWORD   = 'root';
+    const DB_HOST = 'mysql';
+    const DB_NAME = 'easyappointments';
+    const DB_USERNAME = 'user';
+    const DB_PASSWORD = 'password';
 
     // ------------------------------------------------------------------------
-    // GOOGLE CALENDAR SYNC
+    // GOOGLE CALENDAR SYNC (Optional - can also be configured via UI)
     // ------------------------------------------------------------------------
-
-    const GOOGLE_SYNC_FEATURE   = FALSE; // Enter TRUE or FALSE
-    const GOOGLE_PRODUCT_NAME   = '';
-    const GOOGLE_CLIENT_ID      = '';
-    const GOOGLE_CLIENT_SECRET  = '';
-    const GOOGLE_API_KEY        = '';
+    // These settings are optional and can be configured through the admin UI
+    // at Settings > Integrations > Google Calendar. If configured here, they
+    // will be used as fallback values.
+    //
+    // const GOOGLE_SYNC_FEATURE = false;
+    // const GOOGLE_CLIENT_ID = '';
+    // const GOOGLE_CLIENT_SECRET = '';
 }
-
-/* End of file config.php */
-/* Location: ./config.php */

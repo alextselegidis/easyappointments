@@ -1,52 +1,59 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Create_appointment_location_column
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Create_appointment_location_column extends CI_Migration {
+class Migration_Create_appointment_location_column extends EA_Migration
+{
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
-        $this->db->query('
-            ALTER TABLE `' . $this->db->dbprefix('appointments') . '`
-                ADD COLUMN `location` TEXT AFTER `end_datetime`; 
-        ');
+        if (!$this->db->field_exists('location', 'appointments')) {
+            $fields = [
+                'location' => [
+                    'type' => 'TEXT',
+                    'null' => true,
+                    'after' => 'end_datetime',
+                ],
+            ];
 
-        $this->db->query('
-            ALTER TABLE `' . $this->db->dbprefix('services') . '`
-                ADD COLUMN `location` TEXT AFTER `description`; 
-        ');
+            $this->dbforge->add_column('appointments', $fields);
+        }
+
+        if (!$this->db->field_exists('location', 'services')) {
+            $fields = [
+                'location' => [
+                    'type' => 'TEXT',
+                    'null' => true,
+                    'after' => 'description',
+                ],
+            ];
+
+            $this->dbforge->add_column('services', $fields);
+        }
     }
 
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
-        $this->db->query('
-            ALTER TABLE `' . $this->db->dbprefix('appointments') . '`
-                DROP COLUMN `location`; 
-        ');
+        if ($this->db->field_exists('location', 'appointments')) {
+            $this->dbforge->drop_column('appointments', 'location');
+        }
 
-        $this->db->query('
-            ALTER TABLE `' . $this->db->dbprefix('services') . '`
-                DROP COLUMN `location`; 
-        ');
+        if ($this->db->field_exists('location', 'services')) {
+            $this->dbforge->drop_column('services', 'location');
+        }
     }
 }

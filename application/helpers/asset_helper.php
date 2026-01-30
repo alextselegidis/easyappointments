@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
@@ -22,19 +22,17 @@
  *
  * @return string Returns the final asset URL.
  */
-function asset_url($uri = '', $protocol = NULL)
+function asset_url(string $uri = '', ?string $protocol = null): string
 {
     $debug = config('debug');
 
-    $cache_busting_token = ! $debug ? '?' . config('cache_busting_token') : '';
+    $cache_busting_token = '?' . config('cache_busting_token');
 
-    if (strpos(basename($uri), '.js') !== FALSE && strpos(basename($uri), '.min.js') === FALSE && ! $debug)
-    {
+    if (str_contains(basename($uri), '.js') && !str_contains(basename($uri), '.min.js') && !$debug) {
         $uri = str_replace('.js', '.min.js', $uri);
     }
 
-    if (strpos(basename($uri), '.css') !== FALSE && strpos(basename($uri), '.min.css') === FALSE && ! $debug)
-    {
+    if (str_contains(basename($uri), '.css') && !str_contains(basename($uri), '.min.css') && !$debug) {
         $uri = str_replace('.css', '.min.css', $uri);
     }
 

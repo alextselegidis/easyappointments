@@ -1,0 +1,12 @@
+{
+    "printWidth": 120,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "bracketSameLine": false,
+    "quoteProps": "preserve",
+    "trailingComma": "all",
+    "trailingCommaPHP": true,
+    "phpVersion": "8.0",
+    "plugins": ["@prettier/plugin-php"]
+}

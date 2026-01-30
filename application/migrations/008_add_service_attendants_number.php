@@ -1,37 +1,31 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.2.0
  * ---------------------------------------------------------------------------- */
 
-/**
- * Class Migration_Add_service_attendants_number
- *
- * @property CI_DB_query_builder $db
- * @property CI_DB_forge $dbforge
- */
-class Migration_Add_service_attendants_number extends CI_Migration {
+class Migration_Add_service_attendants_number extends EA_Migration
+{
     /**
      * Upgrade method.
      */
-    public function up()
+    public function up(): void
     {
-        if ( ! $this->db->field_exists('attendants_number', 'services'))
-        {
+        if (!$this->db->field_exists('attendants_number', 'services')) {
             $fields = [
                 'attendants_number' => [
                     'type' => 'INT',
                     'constraint' => '11',
                     'default' => '1',
-                    'after' => 'availabilities_type'
-                ]
+                    'after' => 'availabilities_type',
+                ],
             ];
 
             $this->dbforge->add_column('services', $fields);
@@ -41,10 +35,9 @@ class Migration_Add_service_attendants_number extends CI_Migration {
     /**
      * Downgrade method.
      */
-    public function down()
+    public function down(): void
     {
-        if ($this->db->field_exists('attendants_number', 'services'))
-        {
+        if ($this->db->field_exists('attendants_number', 'services')) {
             $this->dbforge->drop_column('services', 'attendants_number');
         }
     }

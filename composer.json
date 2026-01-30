@@ -1,6 +1,7 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
+    "version": "1.5.2",
     "homepage": "https://easyappointments.org",
     "type": "project",
     "license": "GPL-3.0",
@@ -26,28 +27,40 @@
         "services"
     ],
     "minimum-stability": "stable",
-    "autoload": {
-        "psr-4": {
-            "EA\\Engine\\": "engine/"
-        }
-    },
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "gregwar/captcha": "^1.1",
-        "phpmailer/phpmailer": "^6.1",
-        "jsvrcek/ics": "^0.8",
-        "monolog/monolog": "^1",
-        "google/apiclient": "^2.0"
+        "ext-simplexml": "*",
+        "ext-fileinfo": "*",
+        "gregwar/captcha": "^1.3.0",
+        "jsvrcek/ics": "^0.8.5",
+        "monolog/monolog": "^3.9.0",
+        "google/apiclient": "^2.18.4",
+        "guzzlehttp/guzzle": "^7.10.0",
+        "sabre/vobject": "^4.5.7",
+        "ezyang/htmlpurifier": "^4.19",
+        "symfony/finder": "^6.4",
+        "phpmailer/phpmailer": "^7.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^12.4.2"
     },
     "scripts": {
-        "test": "php vendor/bin/phpunit tests"
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
+        "test": "APP_ENV=testing php vendor/bin/phpunit"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Calendar"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
     }
 }

@@ -1,36 +1,41 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Timezones
+ * Timezones library.
+ *
+ * Handles timezone related functionality.
+ *
+ * @package Libraries
  */
-class Timezones {
+class Timezones
+{
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * @var string
      */
-    protected $default = 'UTC';
+    protected string $default = 'UTC';
 
     /**
      * @var array
      */
-    protected $timezones = [
+    protected array $timezones = [
         'UTC' => [
-            'UTC' => 'UTC'
+            'UTC' => 'UTC',
         ],
         'America' => [
             'America/Adak' => 'Adak (-10:00)',
@@ -312,11 +317,10 @@ class Timezones {
             'Europe/Bucharest' => 'Bucharest (+2:00)',
             'Europe/Chisinau' => 'Chisinau (+2:00)',
             'Europe/Helsinki' => 'Helsinki (+2:00)',
-            'Europe/Istanbul' => 'Istanbul (+2:00)',
             'Europe/Kaliningrad' => 'Kaliningrad (+2:00)',
             'Europe/Kiev' => 'Kiev (+2:00)',
             'Europe/Mariehamn' => 'Mariehamn (+2:00)',
-            'Europe/Minsk' => 'Minsk (+2:00)',
+            'Europe/Minsk' => 'Minsk (+3:00)',
             'Europe/Nicosia' => 'Nicosia (+2:00)',
             'Europe/Riga' => 'Riga (+2:00)',
             'Europe/Simferopol' => 'Simferopol (+2:00)',
@@ -326,6 +330,7 @@ class Timezones {
             'Europe/Uzhgorod' => 'Uzhgorod (+2:00)',
             'Europe/Vilnius' => 'Vilnius (+2:00)',
             'Europe/Zaporozhye' => 'Zaporozhye (+2:00)',
+            'Europe/Istanbul' => 'Istanbul (+3:00)',
             'Europe/Moscow' => 'Moscow (+3:00)',
             'Europe/Volgograd' => 'Volgograd (+3:00)',
             'Europe/Samara' => 'Samara (+4:00)',
@@ -338,13 +343,13 @@ class Timezones {
             'Asia/Beirut' => 'Beirut (+2:00)',
             'Asia/Damascus' => 'Damascus (+2:00)',
             'Asia/Gaza' => 'Gaza (+2:00)',
-            'Asia/Istanbul' => 'Istanbul (+2:00)',
             'Asia/Jerusalem' => 'Jerusalem (+2:00)',
             'Asia/Nicosia' => 'Nicosia (+2:00)',
             'Asia/Tel_Aviv' => 'Tel_Aviv (+2:00)',
             'Asia/Aden' => 'Aden (+3:00)',
             'Asia/Baghdad' => 'Baghdad (+3:00)',
             'Asia/Bahrain' => 'Bahrain (+3:00)',
+            'Asia/Istanbul' => 'Istanbul (+3:00)',
             'Asia/Kuwait' => 'Kuwait (+3:00)',
             'Asia/Qatar' => 'Qatar (+3:00)',
             'Asia/Tehran' => 'Tehran (+3:30)',
@@ -503,9 +508,9 @@ class Timezones {
      */
     public function __construct()
     {
-        $this->CI = & get_instance();
+        $this->CI = &get_instance();
 
-        $this->CI->load->model('user_model');
+        $this->CI->load->model('users_model');
     }
 
     /**
@@ -513,23 +518,9 @@ class Timezones {
      *
      * @return array
      */
-    public function to_grouped_array()
+    public function to_grouped_array(): array
     {
         return $this->timezones;
-    }
-
-    /**
-     * Returns the session timezone or the default timezone as a fallback.
-     *
-     * @return string
-     */
-    public function get_session_timezone()
-    {
-        $default_timezone = $this->get_default_timezone();
-
-        return $this->CI->session->has_userdata('timezone')
-            ? $this->CI->session->userdata('timezone')
-            : $default_timezone;
     }
 
     /**
@@ -537,9 +528,9 @@ class Timezones {
      *
      * @return string
      */
-    public function get_default_timezone()
+    public function get_default_timezone(): string
     {
-        return 'UTC';
+        return date_default_timezone_get();
     }
 
     /**
@@ -553,10 +544,9 @@ class Timezones {
      *
      * @throws Exception
      */
-    public function convert($value, $from_timezone, $to_timezone)
+    public function convert(string $value, string $from_timezone, string $to_timezone): string
     {
-        if ( ! $to_timezone || $from_timezone === $to_timezone)
-        {
+        if (!$to_timezone || $from_timezone === $to_timezone) {
             return $value;
         }
 
@@ -578,11 +568,11 @@ class Timezones {
      *
      * @return string|null
      */
-    public function get_timezone_name($value)
+    public function get_timezone_name(string $value): ?string
     {
         $timezones = $this->to_array();
 
-        return isset($timezones[$value]) ? $timezones[$value] : NULL;
+        return $timezones[$value] ?? null;
     }
 
     /**
@@ -590,7 +580,7 @@ class Timezones {
      *
      * @return array
      */
-    public function to_array()
+    public function to_array(): array
     {
         return array_merge(...array_values($this->timezones));
     }

@@ -26,26 +26,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['ftp_no_connection']		= 'Unable to locate a valid connection ID. Please make sure you are connected before performing any file routines.';
-$lang['ftp_unable_to_connect']		= 'Unable to connect to your FTP server using the supplied hostname.';
-$lang['ftp_unable_to_login']		= 'Unable to login to your FTP server. Please check your username and password.';
-$lang['ftp_unable_to_mkdir']		= 'Unable to create the directory you have specified.';
-$lang['ftp_unable_to_changedir']	= 'Unable to change directories.';
-$lang['ftp_unable_to_chmod']		= 'Unable to set file permissions. Please check your path.';
-$lang['ftp_unable_to_upload']		= 'Unable to upload the specified file. Please check your path.';
-$lang['ftp_unable_to_download']		= 'Unable to download the specified file. Please check your path.';
-$lang['ftp_no_source_file']		= 'Unable to locate the source file. Please check your path.';
-$lang['ftp_unable_to_rename']		= 'Unable to rename the file.';
-$lang['ftp_unable_to_delete']		= 'Unable to delete the file.';
-$lang['ftp_unable_to_move']		= 'Unable to move the file. Please make sure the destination directory exists.';
+$lang['ftp_no_connection'] = 'Ei löydetty kelvollista yhteys-ID:tä. Varmista että yhteys on muodostettu ennen tiedostotoimia.';
+$lang['ftp_unable_to_connect'] = 'Määritettyyn FTP-palvelimeen ei voitu yhdistää.';
+$lang['ftp_unable_to_login'] = 'FTP-palvelimeen ei voitu kirjautua. Tarkista käyttäjätunnus ja salasana.';
+$lang['ftp_unable_to_mkdir'] = 'Kansiota ei voitu luoda.';
+$lang['ftp_unable_to_changedir'] = 'Kansiota ei voitu vaihtaa.';
+$lang['ftp_unable_to_chmod'] = 'Tiedostomäärityksiä ei voitu asettaa. Tarkista polku.';
+$lang['ftp_unable_to_upload'] = 'Tiedostoa ei voitu lähettää palvelimelle. Tarkista polku.';
+$lang['ftp_unable_to_download'] = 'Tiedostoa ei voitu ladata palvelimelta. Tarkista polku.';
+$lang['ftp_no_source_file'] = 'Lähdetiedostoa ei voitu paikantaa. Tarkista polku.';
+$lang['ftp_unable_to_rename'] = 'Tiedostoa ei voitu nimetä uudelleen.';
+$lang['ftp_unable_to_delete'] = 'Tiedostoa ei voitu poistaa.';
+$lang['ftp_unable_to_move'] = 'Tiedostoa ei voitu siirtää. Varmista että kohdekansio löytyy.';

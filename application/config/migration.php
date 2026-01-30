@@ -23,19 +23,17 @@ $config['migration_enabled'] = TRUE;
 */
 $config['migration_version'] = 0;
 
-
 /*
 |--------------------------------------------------------------------------
 | Migrations Path
 |--------------------------------------------------------------------------
 |
-| Path to your migrations folder.
+| Path to your "migrations" folder.
 | Typically, it will be within your application path.
-| Also, writing permission is required within the migrations path.
+| Also, writing permission is required within the "migrations" path.
 |
 */
 $config['migration_path'] = APPPATH . 'migrations/';
-
 
 /* End of file migration.php */
 /* Location: ./application/config/migration.php */

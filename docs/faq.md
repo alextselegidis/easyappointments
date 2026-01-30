@@ -23,7 +23,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?/$1 [L]
 ```
 
-##Booking Wizard Won't Display Any Hours
+## Booking Wizard Won't Display Any Hours
 
 This issue comes when the customer is on the appointment book wizard but he is not seeing any available appointment hours and he cannot continue either. If your installation has this problem check the apache error log and open the browser's javascript console to find any issues. This is definetely a server issue and can only fixed by contacting your hosting company. It has to do with your server settings not letting Easy!Appointments run correctly. Normally you or the web hosting company will be able to find what needs to be changed in order to solve the issue.
 
@@ -34,12 +34,12 @@ Booking Wizard Displays "There are no available appointment hours for the select
 This is not actually an issue but it happened to a user and it was indeed confusing to resolve. A clean installation of E!A has some default settings such as the default working plan that contains some breaks too during the working days. This was set this way in order for you to see how can a working plan be like and set. So if you add a service that lasts for several hours (eg. 3~4 hours) then because of the default breaks new appointments will not fit in any empty time period of your calendar and thus the customer will not be able to book appointments with you. So if your services last for long you will need to change the working plan of your providers too so new appointments will fit into their schedule.
 
 
-##Installing E!A on Subdomain Won't Load Appointment Hours
+## Installing E!A on Subdomain Won't Load Appointment Hours
 
 If you want to install Easy!Appointments on a subdomain you will have to use the subdomain URL in your "configuration.php" file and not the initial URL directory. For example if you have the subdomain "http://book.mysite.com" where E!A resides and this subdomain is mapping on "http://mysite.com/book", you will have to set $base_url = 'http://book.mysite.com' in your "configuration.php" file, otherwise you will get a No 'Access-Control-Allow-Origin' error and you won't get any available appointment hours on frontend.
 
 
-##Change the gap of the available hours of the booking wizard to 60 minutes (or similar). 
+## Change the gap of the available hours of the booking wizard to 60 minutes (or similar). 
 
 The following link points to a common question that many users ask. The default gap between the available appointment hours is 15 minutes. In the following thread there is a file attached which will change this gap to 60 minutes. 
 
@@ -48,12 +48,32 @@ The following link points to a common question that many users ask. The default 
 ## DateTime::__construct(): It is not safe to rely on the system's timezone settings...
 
 You get this warning because PHP is not configured with a timezone setting. This is a very important setting especially for Easy!Appointments, cause otherwise you might get into trouble with the appointment hours. After
- installing the application, make sure that the php.ini "date.timezone" setting has the correct value depending 
+ installing the application, make sure that the php.ini "date.timezone" setting has the correct value depending on 
  your location. You can find a list of the [available timezone setting on php.net](http://www.google.com/url?q=http%3A%2F%2Fphp.net%2Fmanual%2Fen%2Ftimezones.php&sa=D&sntz=1&usg=AFQjCNFtFw3O6UQXAKFKWCXqhSd9Z0UwgQ). If you cannot modify your php.ini file try to add the following command at the top of `index.php`. 
  
  `date_default_timezone_set('America/Los_Angeles'); // Use your own timezone string.`
 
+## How should I configure my Caddy server to run Easy!Appointments?
 
-*This document applies to Easy!Appointments v1.4.3.*
+It is rather easy:
+
+1. Install `Caddy`.
+2. Install (and run) `php-fpm`, e.g. `sudo apt install php-fpm`.
+3. Install and configure `Easy!Appointments`, e.g. to `/var/www/html/easyappointments`.
+4. Add this to your `/etc/caddy/Caddyfile` and adapt it to your needs:
+
+```Caddyfile
+easyappointments.example.com {
+        root * /var/www/html/easyappointments
+        encode gzip zstd
+        php_fastcgi unix//run/php/php-fpm.sock
+        file_server
+}
+```
+
+5. Restart `Caddy`, e.g. `sudo systemctl restart caddy.server`
+
+
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)

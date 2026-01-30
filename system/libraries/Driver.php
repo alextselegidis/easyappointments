@@ -65,6 +65,25 @@ class CI_Driver_Library {
 	 */
 	protected $lib_name;
 
+    /**
+     * Dynamic Class Props
+     *
+     * @var array
+     */
+    public $props = [];
+
+    public function __get(string $name): mixed
+    {
+        // $this->load_driver($name);
+        
+        return $this->props[$name] ?? NULL;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->props[$name] = $value;
+    }
+
 	/**
 	 * Get magic method
 	 *
@@ -74,11 +93,11 @@ class CI_Driver_Library {
 	 * @param	string	Child class name
 	 * @return	object	Child class
 	 */
-	public function __get($child)
-	{
-		// Try to load the driver
-		return $this->load_driver($child);
-	}
+	// public function __get($child)
+	// {
+	// 	// Try to load the driver
+	// 	return $this->load_driver($child);
+	// }
 
 	/**
 	 * Load driver

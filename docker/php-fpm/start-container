@@ -1,0 +1,19 @@
+#!/bin/bash
+
+echo "➜ Ignore Permission Changes"
+git config core.fileMode false
+
+echo "➜ Set Correct Permissions"
+chmod -R 777 storage
+
+echo "➜ Install Composer Dependencies"
+[[ -d vendor ]] || composer install
+
+echo "➜ Install NPM Dependencies"
+[[ -d node_modules ]] || npm install
+
+echo "➜ Build Project Assets"
+[[ -d assets/vendor ]] || npx gulp compile
+
+echo "➜ Listen To Incoming Requests"
+php-fpm

@@ -56,4 +56,3 @@ $lang['email_smtp_auth_un'] = 'אימות שם המשתמש נכשל. שגיאה
 $lang['email_smtp_auth_pw'] = 'אימות הסיסמה נכשל. שגיאה: %s';
 $lang['email_smtp_data_failure'] = 'לא ניתן לשלוח את הנתונים: %s';
 $lang['email_exit_status'] = 'קוד סטטוס ליציאה: %s';
-

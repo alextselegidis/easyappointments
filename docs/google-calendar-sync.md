@@ -28,10 +28,8 @@ Customers will be able to sync their appointments with their Google Calendars bu
 To enable the synchronization edit your root config.php file and update the Google Calendar Sync section with your API credentials.
 
   - `GOOGLE_SYNC_FEATURE` needs to be set to `TRUE`.
-  - `GOOGLE_PRODUCT_NAME` needs to have the same name as the Google Cloud Console project. 
   - `GOOGLE_CLIENT_ID` needs the client ID from the OAuth2 credentials.
   - `GOOGLE_CLIENT_SECRET` needs the client secret from the OAuth2 credentials.
-  - `GOOGLE_API_KEY` needs the API key created in the previous section.
   
 4. **Link Google Calendar and Easy!Appointments**: Go to backend/calendar page, select a provider and click on the "Enable Sync" button. A new window will pop up asking you to grant concern. Enter the user's credentials and the sync will be activated!
 
@@ -49,6 +47,6 @@ Google Developers – https://developers.google.com/google-apps/calendar
 
 E!A Support Group – https://groups.google.com/forum/#!forum/easy-appointments
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)
