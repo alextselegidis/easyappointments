@@ -164,7 +164,7 @@ App.Components.AppointmentsModal = (function () {
                         text: lang('no'),
                         click: (event, messageModal) => {
                             messageModal.hide();
-                            App.Http.Calendar.saveAppointment(
+                            App.Http.Calendar.saveAppointmentWithConflictHandling(
                                 appointment,
                                 customer,
                                 successCallback,
@@ -177,7 +177,7 @@ App.Components.AppointmentsModal = (function () {
                         text: lang('yes'),
                         click: (event, messageModal) => {
                             messageModal.hide();
-                            App.Http.Calendar.saveAppointment(
+                            App.Http.Calendar.saveAppointmentWithConflictHandling(
                                 appointment,
                                 customer,
                                 successCallback,
@@ -188,8 +188,14 @@ App.Components.AppointmentsModal = (function () {
                     },
                 ]);
             } else {
-                // New appointment - save directly with notifications enabled
-                App.Http.Calendar.saveAppointment(appointment, customer, successCallback, errorCallback, true);
+                // New appointment - save with conflict handling and notifications enabled
+                App.Http.Calendar.saveAppointmentWithConflictHandling(
+                    appointment,
+                    customer,
+                    successCallback,
+                    errorCallback,
+                    true,
+                );
             }
         });
 

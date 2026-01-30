@@ -269,12 +269,15 @@ class Calendar extends EA_Controller
             check('customer_data', 'array|null');
             check('appointment_data', 'array');
             check('notify_customer', 'bool|null');
+            check('force_save', 'bool|null');
 
             $customer_data = request('customer_data');
 
             $appointment_data = request('appointment_data');
 
             $notify_customer = filter_var(request('notify_customer', true), FILTER_VALIDATE_BOOLEAN);
+
+            $force_save = filter_var(request('force_save', false), FILTER_VALIDATE_BOOLEAN);
 
             $this->check_event_permissions((int) $appointment_data['id_users_provider']);
 
@@ -315,6 +318,25 @@ class Calendar extends EA_Controller
 
                 if (!isset($appointment['id_users_customer'])) {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
+                }
+
+                // Check if the provider has a conflicting appointment at the selected time
+                $exclude_appointment_id = !empty($appointment['id']) ? (int) $appointment['id'] : null;
+
+                $has_conflict = $this->appointments_model->has_provider_conflict(
+                    (int) $appointment['id_users_provider'],
+                    $appointment['start_datetime'],
+                    $appointment['end_datetime'],
+                    $exclude_appointment_id,
+                );
+
+                if ($has_conflict && !$force_save) {
+                    json_response([
+                        'success' => false,
+                        'conflict' => true,
+                        'message' => lang('provider_has_conflicting_appointment'),
+                    ]);
+                    return;
                 }
 
                 if ($manage_mode && !empty($appointment['id'])) {

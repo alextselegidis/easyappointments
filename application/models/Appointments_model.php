@@ -671,4 +671,38 @@ class Appointments_model extends EA_Model
 
         return $end_date_time_object->format('Y-m-d H:i:s');
     }
+
+    /**
+     * Check if the provider has a conflicting appointment at the given time period.
+     *
+     * @param int $provider_id Provider ID.
+     * @param string $start_datetime Start date time of the appointment.
+     * @param string $end_datetime End date time of the appointment.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the conflict check (useful for updates).
+     *
+     * @return bool Returns true if there is a conflict, false otherwise.
+     */
+    public function has_provider_conflict(
+        int $provider_id,
+        string $start_datetime,
+        string $end_datetime,
+        ?int $exclude_appointment_id = null,
+    ): bool {
+        $this->db->select('id')->from('appointments')->where('id_users_provider', $provider_id);
+
+        if ($exclude_appointment_id) {
+            $this->db->where('id !=', $exclude_appointment_id);
+        }
+
+        // Check for overlapping appointments:
+        // An overlap occurs when:  (existing_start < new_end) AND (existing_end > new_start)
+
+        return $this->db
+            ->group_start()
+            ->where('start_datetime <', $end_datetime)
+            ->where('end_datetime >', $start_datetime)
+            ->group_end()
+            ->get()
+            ->num_rows() > 0;
+    }
 }

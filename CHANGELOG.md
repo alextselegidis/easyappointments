@@ -20,6 +20,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Allow users to assign a provider to the service in the services page and update the label (assign the service to)
 - Perform various security optimizations in the app
 - Custom fields are displayed in appointment details popup (#1830)
+- When booking in calendar add a new check that will detect if the selected provider is still available or not
 
 ### Changed
 

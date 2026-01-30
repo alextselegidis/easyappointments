@@ -509,4 +509,9 @@ $lang['no'] = 'No';
 $lang['latest_blog_posts'] = 'Latest Blog Posts';
 $lang['loading'] = 'Loading';
 $lang['blog_posts_load_error'] = 'Unable to load blog posts. Please visit the official website for updates.';
+$lang['provider_has_conflicting_appointment'] = 'The selected provider already has another appointment at that time. Please select a different time or provider.';
+$lang['would_you_like_to_proceed'] = 'Would you like to proceed anyway?';
+$lang['proceed'] = 'Proceed';
+$lang['would_you_like_to_proceed'] = 'Would you like to proceed anyway?';
+$lang['proceed'] = 'Proceed';
 // End

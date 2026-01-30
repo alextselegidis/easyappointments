@@ -205,7 +205,7 @@ App.Utils.CalendarTableView = (function () {
                         );
                     },
                 );
-            } else if (lastFocusedEventData.extendedProps.data.is_unavailability === false) {
+            } else if (!Number(lastFocusedEventData.extendedProps.data.is_unavailability)) {
                 const appointment = lastFocusedEventData.extendedProps.data;
                 App.Components.AppointmentsModal.resetModal();
 
@@ -307,7 +307,7 @@ App.Utils.CalendarTableView = (function () {
                     // Refresh calendar event items.
                     $reloadAppointments.trigger('click');
                 });
-            } else if (!lastFocusedEventData.extendedProps.data.is_unavailability) {
+            } else if (!Number(lastFocusedEventData.extendedProps.data.is_unavailability)) {
                 const buttons = [
                     {
                         text: lang('cancel'),
@@ -1553,7 +1553,7 @@ App.Utils.CalendarTableView = (function () {
 
         let successCallback;
 
-        if (info.event.extendedProps.data.is_unavailability === false) {
+        if (!Number(info.event.extendedProps.data.is_unavailability)) {
             // Prepare appointment data.
             info.event.extendedProps.data.end_datetime = moment(info.event.extendedProps.data.end_datetime)
                 .add({days: info.endDelta.days, milliseconds: info.endDelta.milliseconds})
@@ -1604,14 +1604,28 @@ App.Utils.CalendarTableView = (function () {
                     text: lang('no'),
                     click: (event, messageModal) => {
                         messageModal.hide();
-                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(false), null, false);
+                        App.Http.Calendar.saveAppointmentWithConflictHandling(
+                            appointment,
+                            null,
+                            () => successCallback(false),
+                            null,
+                            false,
+                            () => info.revert(),
+                        );
                     },
                 },
                 {
                     text: lang('yes'),
                     click: (event, messageModal) => {
                         messageModal.hide();
-                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(true), null, true);
+                        App.Http.Calendar.saveAppointmentWithConflictHandling(
+                            appointment,
+                            null,
+                            () => successCallback(true),
+                            null,
+                            true,
+                            () => info.revert(),
+                        );
                     },
                 },
             ]);
@@ -1681,7 +1695,7 @@ App.Utils.CalendarTableView = (function () {
 
         let successCallback;
 
-        if (info.event.extendedProps.data.is_unavailability === false) {
+        if (!Number(info.event.extendedProps.data.is_unavailability)) {
             // Prepare appointment data.
             const appointment = {...info.event.extendedProps.data};
 
@@ -1744,14 +1758,28 @@ App.Utils.CalendarTableView = (function () {
                     text: lang('no'),
                     click: (event, messageModal) => {
                         messageModal.hide();
-                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(false), null, false);
+                        App.Http.Calendar.saveAppointmentWithConflictHandling(
+                            appointment,
+                            null,
+                            () => successCallback(false),
+                            null,
+                            false,
+                            () => info.revert(),
+                        );
                     },
                 },
                 {
                     text: lang('yes'),
                     click: (event, messageModal) => {
                         messageModal.hide();
-                        App.Http.Calendar.saveAppointment(appointment, null, () => successCallback(true), null, true);
+                        App.Http.Calendar.saveAppointmentWithConflictHandling(
+                            appointment,
+                            null,
+                            () => successCallback(true),
+                            null,
+                            true,
+                            () => info.revert(),
+                        );
                     },
                 },
             ]);
