@@ -15,7 +15,7 @@ services:
       - '.:/var/www/html'
       - './docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
     ports:
-      - '80:80'
+      - '${NGINX_PORT:-80}:80'
 
   mysql:
     image: 'mysql:8.0'
@@ -27,12 +27,12 @@ services:
       - MYSQL_USER=user
       - MYSQL_PASSWORD=password
     ports:
-      - '3306:3306'
+      - '${MYSQL_PORT:-3306}:3306'
 
   phpmyadmin:
     image: 'phpmyadmin:5.2.1'
     ports:
-      - '8080:80'
+      - '${PHPMYADMIN_PORT:-8080}:80'
     environment:
       - 'PMA_HOST=mysql'
       - 'UPLOAD_LIMIT=102400K'
@@ -40,14 +40,14 @@ services:
   mailpit:
     image: 'axllent/mailpit:v1.7'
     ports:
-      - '8025:8025'
-      - '1025:1025'
+      - '${MAILPIT_HTTP_PORT:-8025}:8025'
+      - '${MAILPIT_SMTP_PORT:-1025}:1025'
 
   swagger-ui:
     platform: linux/amd64
     image: swaggerapi/swagger-ui:v5.10.5
     ports:
-      - "8000:8080"
+      - "${SWAGGER_UI_PORT:-8000}:8080"
     volumes:
       - ./openapi.yml:/usr/share/nginx/html/openapi.yml
     environment:
@@ -56,7 +56,7 @@ services:
   baikal:
     image: ckulka/baikal:0.10.1-apache
     ports:
-      - "8100:80"
+      - "${BAIKAL_PORT:-8100}:80"
     volumes:
       - ./docker/baikal:/var/www/html
       - ./docker/baikal/config:/var/www/baikal/config
@@ -66,8 +66,8 @@ services:
     image: osixia/openldap:1.5.0
     hostname: openldap
     ports:
-      - "389:389"
-      - "636:636"
+      - "${OPENLDAP_PORT:-389}:389"
+      - "${OPENLDAP_SSL_PORT:-636}:636"
     volumes:
       - ./docker/openldap/certificates:/container/service/slapd/assets/certs
       - ./docker/openldap/slapd/database:/var/lib/ldap
@@ -87,7 +87,7 @@ services:
     image: osixia/phpldapadmin:0.9.0
     hostname: phpldapadmin
     ports:
-      - "8200:80"
+      - "${PHPLDAPADMIN_PORT:-8200}:80"
     environment:
       - PHPLDAPADMIN_LDAP_HOSTS=openldap
       - PHPLDAPADMIN_HTTPS=false
