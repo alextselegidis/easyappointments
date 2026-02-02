@@ -15,7 +15,6 @@
     </div>
 
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#header-menu">
-        <span class="sr-only">Toggle navigation</span>
         <span class="navbar-toggler-icon"></span>
     </button>
 
