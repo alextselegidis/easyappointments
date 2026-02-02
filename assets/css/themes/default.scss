@@ -294,7 +294,7 @@ $transition-fade: opacity 0.2s ease-in-out !default;
 
 // Variables
 
-$glass-bg: rgba(255, 255, 255, 0.75) !default;
+$glass-bg: rgba(255, 255, 255, 0.95) !default;
 $glass-bg-light: rgba(255, 255, 255, 0.6) !default;
 $glass-border: rgba(0, 0, 0, 0.08) !default;
 $glass-blur: 20px !default;
@@ -331,10 +331,9 @@ h6,
 }
 
 // Navbar - Glass effect
+// Note: backdrop-filter removed to prevent stacking context issues with dropdowns
 
 .navbar {
-    backdrop-filter: saturate(180%) blur($glass-blur);
-    -webkit-backdrop-filter: saturate(180%) blur($glass-blur);
     background: $glass-bg;
     border-bottom: 1px solid $glass-border;
 }
@@ -431,10 +430,9 @@ h6,
 }
 
 // Cards - Glass morphism
+// Note: backdrop-filter removed to prevent stacking context issues with dropdowns
 
 .card {
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
     background: $glass-bg;
     border: 1px solid $glass-border;
     box-shadow:
@@ -459,10 +457,9 @@ h6,
 }
 
 // Sidebar glass effect (if applicable)
+// Note: backdrop-filter removed to prevent stacking context issues with dropdowns
 .sidebar,
 .offcanvas {
-    backdrop-filter: saturate(180%) blur($glass-blur);
-    -webkit-backdrop-filter: saturate(180%) blur($glass-blur);
     background: $glass-bg !important;
 }
 
@@ -477,15 +474,17 @@ th {
 }
 
 // Dropdowns - Floating glass panels
+// Note: backdrop-filter creates stacking contexts that can trap dropdowns
+// We need to carefully manage z-index and positioning
 
 .dropdown-menu {
-    backdrop-filter: saturate(180%) blur($glass-blur);
-    -webkit-backdrop-filter: saturate(180%) blur($glass-blur);
-    background: $glass-bg;
+    position: absolute !important;
+    z-index: 1050 !important;
+    background: rgba(255, 255, 255, 0.98);
     border: 1px solid $glass-border;
     box-shadow:
-        0 10px 40px rgba(0, 0, 0, 0.1),
-        0 2px 8px rgba(0, 0, 0, 0.05);
+        0 10px 40px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.08);
 
     .dropdown-item {
         border-radius: 0.375rem;
@@ -505,6 +504,37 @@ th {
         border-color: rgba(0, 0, 0, 0.06);
     }
 }
+
+// Fix stacking contexts - elements with backdrop-filter create new stacking contexts
+// Setting z-index on these elements but keeping them below dropdown z-index
+.navbar {
+    z-index: 1030;
+}
+
+.card {
+    z-index: 1;
+}
+
+.sidebar,
+.offcanvas {
+    z-index: 1045;
+}
+
+.panel,
+.well,
+.jumbotron {
+    z-index: 1;
+}
+
+// Ensure dropdowns inside these containers can still escape
+.navbar .dropdown-menu,
+.card .dropdown-menu,
+.sidebar .dropdown-menu,
+.offcanvas .dropdown-menu,
+.panel .dropdown-menu {
+    z-index: 1050 !important;
+}
+
 
 // Modals - Floating glass panels
 
