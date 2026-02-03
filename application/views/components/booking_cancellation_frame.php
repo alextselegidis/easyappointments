@@ -9,7 +9,7 @@
 ?>
 
 <?php if ($manage_mode): ?>
-    <div id="cancel-appointment-frame" class="row booking-header-bar py-2 px-3 m-0 align-items-center" style="background: #ffeeba;">
+    <div id="cancel-appointment-frame" class="row booking-header-bar py-2 px-3 m-0 align-items-center bg-warning-subtle">
         <div class="col-lg-9">
             <small><?= lang('cancel_appointment_hint') ?></small>
         </div>
@@ -27,7 +27,7 @@
         </div>
     </div>
     <?php if ($display_delete_personal_information): ?>
-        <div class="booking-header-bar row py-2 px-3 m-0 align-items-center" style="background: #f8d7da;">
+        <div class="booking-header-bar row py-2 px-3 m-0 align-items-center bg-danger-subtle">
             <div class="col-lg-9">
                 <small><?= lang('delete_personal_information_hint') ?></small>
             </div>

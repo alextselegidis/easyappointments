@@ -12,8 +12,8 @@
 /* Responsive booking wizard styles (rounded corners and shadow on md+ screens) */
 @media (min-width: 768px) {
     #book-appointment-wizard {
-        border-radius: 0.375rem !important;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+        border-radius: var(--bs-border-radius) !important;
+        box-shadow: var(--bs-box-shadow-sm) !important;
     }
 }
 
@@ -21,14 +21,14 @@
 #book-appointment-wizard .book-step.active-step {
     height: 45px !important;
     width: 45px !important;
-    background: #fff !important;
+    background: var(--bs-white) !important;
     padding: 7px !important;
     margin-right: 13px !important;
     margin-top: 0 !important;
 }
 
 #book-appointment-wizard .book-step.active-step strong {
-    color: #429a82 !important;
+    color: var(--bs-primary) !important;
     font-size: 21px !important;
 }
 
@@ -38,9 +38,9 @@
 }
 
 #book-appointment-wizard #available-hours .selected-hour {
-    background-color: #439a82 !important;
-    border-color: #439a82 !important;
-    color: white !important;
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-white) !important;
 }
 
 /* Captcha refresh icon hover effect */
@@ -50,7 +50,7 @@
 }
 
 #book-appointment-wizard .captcha-title .fa-sync-alt:hover {
-    color: #1a865f;
+    color: var(--bs-primary);
 }
 
 /* Language popover list */

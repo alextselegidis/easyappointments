@@ -2,9 +2,9 @@
 
 <?php section('content'); ?>
 
-<div class="container backend-page" id="customers-page">
+<div class="container backend-page py-3" id="customers-page">
     <div class="row" id="customers">
-        <div id="filter-customers" class="filter-records col col-12">
+        <div id="filter-customers" class="filter-records col col-12 mb-4">
             <?php if (
                 can('add', PRIV_CUSTOMERS) &&
                 (!setting('limit_customer_access') || vars('role_slug') === DB_SLUG_ADMIN)
@@ -30,12 +30,12 @@
                 <?= lang('customers') ?>
             </h4>
 
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details col-12">
+        <div class="record-details col-12 mb-4">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
 
@@ -209,7 +209,7 @@
                         <?= lang('appointments') ?>
                     </h4>
 
-                    <div id="customer-appointments" class="card bg-white border"></div>
+                    <div id="customer-appointments" class="card bg-white border p-3 overflow-auto mb-4" style="min-height: 400px; max-height: 800px; max-width: 330px; width: 100%;"></div>
 
                 </div>
             </div>

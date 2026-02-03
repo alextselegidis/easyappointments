@@ -2,9 +2,9 @@
 
 <?php section('content'); ?>
 
-<div class="container backend-page" id="services-page">
+<div class="container backend-page py-3" id="services-page">
     <div class="row" id="services">
-        <div id="filter-services" class="filter-records col col-12">
+        <div id="filter-services" class="filter-records col col-12 mb-4">
             <button id="add-service" class="btn btn-primary add-record-btn mb-4">
                 <i class="fas fa-plus-square me-2"></i>
                 <?= lang('add') ?>
@@ -25,12 +25,12 @@
                 <?= lang('services') ?>
             </h4>
 
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12">
+        <div class="record-details column col-12 mb-4">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="edit-service" class="btn btn-outline-secondary" disabled="disabled">

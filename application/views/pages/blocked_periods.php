@@ -2,10 +2,10 @@
 
 <?php section('content'); ?>
 
-<div class="container backend-page" id="blocked-periods-page">
+<div class="container backend-page py-3" id="blocked-periods-page">
 
     <div class="row" id="blocked-periods">
-        <div id="filter-blocked-periods" class="filter-records column col-12">
+        <div id="filter-blocked-periods" class="filter-records column col-12 mb-4">
             <div class="mb-4">
                 <a href="<?= site_url('business_settings') ?>" class="btn btn-outline-primary me-2">
                     <i class="fas fa-chevron-left me-2"></i>
@@ -32,12 +32,12 @@
                 <?= lang('blocked_periods') ?>
             </h4>
 
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details col-12">
+        <div class="record-details col-12 mb-4">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
                     <button id="edit-blocked-period" class="btn btn-outline-secondary" disabled="disabled">

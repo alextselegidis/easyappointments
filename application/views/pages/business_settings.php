@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div id="business-logic-page" class="container backend-page">
+<div id="business-logic-page" class="container backend-page py-3">
     <div id="business-logic">
         <div class="row">
             <div class="col-sm-3 offset-sm-1">

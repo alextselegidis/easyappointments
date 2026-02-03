@@ -2,12 +2,12 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="calendar-page">
-    <div class="row" id="calendar-toolbar">
+<div class="container-fluid backend-page pt-0 pb-0" id="calendar-page">
+    <div class="row mb-3 text-white py-3 bg-dark" id="calendar-toolbar">
         <div id="calendar-filter" class="col-lg-3">
             <div class="calendar-filter-items">
                 <select id="select-filter-item"
-                        class="form-select col"
+                        class="form-select col mb-2 mb-lg-0"
                         data-tippy-content="<?= lang('select_filter_item_hint') ?>"
                         aria-label="Filter">
                     <!-- JS -->
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div id="calendar-actions" class="col-lg-9">
+        <div id="calendar-actions" class="col-lg-9 text-md-end">
             <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
                 <button
                     id="enable-sync"
