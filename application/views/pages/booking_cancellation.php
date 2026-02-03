@@ -2,13 +2,13 @@
 
 <?php section('content'); ?>
 
-<div class="d-flex align-items-center justify-content-center min-vh-100">
+<div class="d-flex align-items-center justify-content-center">
     <div class="text-center py-4 px-3">
         <div class="d-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 mx-auto mb-4" style="width: 100px; height: 100px;">
             <i class="fas fa-calendar-times fa-3x text-danger"></i>
         </div>
 
-        <h3 class="text-secondary fw-semibold mb-4"><?= lang('appointment_cancelled_title') ?></h3>
+        <h3 class="text-muted fw-semibold mb-4"><?= lang('appointment_cancelled_title') ?></h3>
 
         <p class="fs-5 text-muted mb-1">
             <?= lang('appointment_cancelled') ?>

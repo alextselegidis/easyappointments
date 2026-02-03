@@ -33,9 +33,9 @@
 </head>
 
 <body>
-<div id="main" class="container">
-    <div class="row wrapper">
-        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8 col-xxl-7">
+<div id="main" class="container min-vh-100">
+    <div class="row wrapper min-vh-100 justify-content-center align-items-center py-0 py-md-3">
+        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8 col-xxl-7 bg-white overflow-hidden p-0 my-auto">
 
             <?php component('booking_header', [
                 'company_name' => vars('company_name'),

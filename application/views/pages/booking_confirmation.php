@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div class="d-flex align-items-center justify-content-center min-vh-100">
+<div class="d-flex align-items-center justify-content-center min-vh-100-">
     <div class="text-center py-4 px-3">
         <div class="d-flex align-items-center justify-content-center rounded-circle bg-success bg-opacity-10 mx-auto mb-4" style="width: 100px; height: 100px;">
             <i class="fas fa-calendar-check fa-3x text-success"></i>

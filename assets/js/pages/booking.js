@@ -239,17 +239,15 @@ App.Pages.Booking = (function () {
 
                 $selectService.closest('.wizard-frame').find('.button-next').trigger('click');
 
-                $(document).find('.book-step:first').hide();
+                $('#step-1').hide().removeClass('d-inline-block');
 
                 $(document).find('.button-back:first').css('visibility', 'hidden');
 
-                $(document)
-                    .find('.book-step:not(:first)')
-                    .each((index, bookStepEl) =>
-                        $(bookStepEl)
-                            .find('strong')
-                            .text(index + 1),
-                    );
+                $('#steps .book-step:visible').each((index, bookStepEl) =>
+                    $(bookStepEl)
+                        .find('strong')
+                        .text(index + 1),
+                );
             } else {
                 $('#wizard-frame-1')
                     .css({

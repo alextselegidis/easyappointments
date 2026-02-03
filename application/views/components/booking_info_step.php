@@ -21,10 +21,10 @@
  */
 ?>
 
-<div id="wizard-frame-3" class="wizard-frame" style="display:none;">
-    <div class="frame-container">
+<div id="wizard-frame-3" class="wizard-frame p-3 p-md-4" style="display:none;">
+    <div class="frame-container py-3" style="min-height: 500px;">
 
-        <h2 class="frame-title"><?= lang('customer_information') ?></h2>
+        <h2 class="frame-title fw-light text-center mb-4 text-muted"><?= lang('customer_information') ?></h2>
 
         <div class="row frame-content">
             <div class="col-12 col-lg-6 field-col mx-auto">
@@ -139,13 +139,13 @@
         </div>
     </div>
 
-    <div class="command-buttons">
-        <button type="button" id="button-back-3" class="btn button-back btn-outline-secondary"
+    <div class="command-buttons text-center my-3 mx-auto d-md-flex justify-content-md-between">
+        <button type="button" id="button-back-3" class="btn button-back btn-outline-secondary" style="min-width: 120px; margin-right: 10px;"
                 data-step_index="3">
             <i class="fas fa-chevron-left me-2"></i>
             <?= lang('back') ?>
         </button>
-        <button type="button" id="button-next-3" class="btn button-next btn-dark"
+        <button type="button" id="button-next-3" class="btn button-next btn-dark" style="min-width: 120px; margin-right: 10px;"
                 data-step_index="3">
             <?= lang('next') ?>
             <i class="fas fa-chevron-right ms-2"></i>

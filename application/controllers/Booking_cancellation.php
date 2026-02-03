@@ -56,7 +56,7 @@ class Booking_cancellation extends EA_Controller
             }
 
             // Validate hash format to prevent injection
-            if (!preg_match('/^[a-fA-F0-9]{32}$/', $appointment_hash)) {
+            if (!preg_match('/^[a-zA-Z0-9]+$/', $appointment_hash)) {
                 abort(400, 'Invalid appointment hash format.');
             }
 
