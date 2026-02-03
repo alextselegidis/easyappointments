@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div id="about-page" class="container backend-page">
+<div id="about-page" class="container backend-page py-3">
     <div id="about" class="col-lg-8 offset-lg-2">
 
         <div class="text-center my-5">

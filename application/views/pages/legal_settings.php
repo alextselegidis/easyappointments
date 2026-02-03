@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div id="legal-settings-page" class="container backend-page">
+<div id="legal-settings-page" class="container backend-page py-3">
     <div id="legal-contents">
         <div class="row">
             <div class="col-sm-3 offset-sm-1">

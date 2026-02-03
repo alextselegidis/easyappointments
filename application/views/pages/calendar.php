@@ -49,7 +49,7 @@
             <?php endif; ?>
 
             <?php if (can('add', PRIV_APPOINTMENTS)): ?>
-                <div class="dropdown d-sm-inline-block">
+                <div class="dropdown d-inline-block">
                     <button class="btn btn-light" type="button" data-bs-toggle="dropdown">
                         <i class="fas fa-plus-square"></i>
                     </button>

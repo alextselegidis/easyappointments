@@ -12,7 +12,7 @@
         <img src="<?= base_url(
             'assets/img/logo.png',
         ) ?>" alt="logo" class="float-start me-2" style="width: 45px; height: 45px;">
-        <h6 class="mb-0 mt-1 fw-bold text-white" style="font-size: 15px;">EASY!APPOINTMENTS</h6>
+        <h6 class="mb-1 mt-1 fw-bold text-white" style="font-size: 15px;">EASY!APPOINTMENTS</h6>
         <small class="d-block text-white-50" style="font-size: 12px;">Online Appointment Scheduler</small>
     </div>
 
