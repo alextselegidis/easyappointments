@@ -107,6 +107,25 @@ body .modal.full-screen .modal-push {
     display: block;
 }
 
+/* CRUD pages width constraint */
+@media (min-width: 992px) {
+    .backend-page {
+        max-width: 800px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .backend-page {
+        max-width: 900px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .backend-page {
+        max-width: 1000px;
+    }
+}
+
 /* Filter records entry styling */
 .backend-page .filter-records .results .entry {
     padding: 10px 7px;
