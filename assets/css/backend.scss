@@ -260,12 +260,19 @@ body .modal.full-screen .modal-push {
 /* Calendar header and Select2 integration */
 #calendar .calendar-header {
     padding-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
 }
 
 #calendar .calendar-header label {
-    margin: 10px 0;
+    margin: 0;
     vertical-align: middle;
-    display: block;
+}
+
+#calendar .calendar-header .select-date {
+    width: auto;
 }
 
 #calendar .calendar-header .select2-container--default .select2-selection--multiple {
@@ -404,10 +411,6 @@ body .modal.full-screen .modal-push {
         text-align: left;
     }
 
-    #calendar .calendar-header label {
-        display: inline-block;
-        margin: 0 10px;
-    }
 
     #calendar .calendar-header .select2-container {
         width: 300px !important;

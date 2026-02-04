@@ -405,6 +405,8 @@ App.Utils.CalendarTableView = (function () {
             },
         });
 
+        $calendarHeader.find('.flatpickr-wrapper').addClass('w-auto');
+
         const providers = vars('available_providers').filter(
             (provider) =>
                 vars('role_slug') === App.Layouts.Backend.DB_SLUG_ADMIN ||
