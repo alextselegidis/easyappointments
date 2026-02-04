@@ -2,6 +2,12 @@
 
 <?php section('content'); ?>
 
+<?php if (empty(vars('available_services')) || empty(vars('available_providers'))): ?>
+
+<?php component('booking_no_services_message'); ?>
+
+<?php else: ?>
+
 <!-- Booking Cancellation Frame -->
 
 <?php component('booking_cancellation_frame', [
@@ -46,6 +52,8 @@
     'display_terms_and_conditions' => vars('display_terms_and_conditions'),
     'display_privacy_policy' => vars('display_privacy_policy'),
 ]); ?>
+
+<?php endif; ?>
 
 <?php end_section('content'); ?>
 

@@ -511,4 +511,6 @@ $lang['loading'] = 'Loading';
 $lang['blog_posts_load_error'] = 'Unable to load blog posts. Please visit the official website for updates.';
 $lang['would_you_like_to_proceed'] = 'Would you like to proceed anyway?';
 $lang['proceed'] = 'Proceed';
+$lang['no_available_service_providers'] = 'No Available Services';
+$lang['no_available_service_providers_message'] = 'There are currently no services or providers available for booking. Please check back later or contact us for assistance.';
 // End

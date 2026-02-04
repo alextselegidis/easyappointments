@@ -21,6 +21,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Perform various security optimizations in the app
 - Custom fields are displayed in appointment details popup (#1830)
 - When booking in calendar add a new check that will detect if the selected provider is still available or not
+- If the current user has not available services or providers to be displayed in the public booking page, then show an info message instead of the booking page
 
 ### Changed
 
