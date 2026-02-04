@@ -109,19 +109,19 @@ body .modal.full-screen .modal-push {
 
 /* CRUD pages width constraint */
 @media (min-width: 992px) {
-    .backend-page {
+    .backend-page.container {
         max-width: 800px;
     }
 }
 
 @media (min-width: 1200px) {
-    .backend-page {
+    .backend-page.container {
         max-width: 900px;
     }
 }
 
 @media (min-width: 1400px) {
-    .backend-page {
+    .backend-page.container {
         max-width: 1000px;
     }
 }

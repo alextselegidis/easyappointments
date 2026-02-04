@@ -4,10 +4,10 @@
 
 <div id="integrations-page" class="container backend-page py-3">
     <div class="row">
-        <div class="col-sm-3 offset-sm-1">
+        <div class="col-sm-3">
             <?php component('settings_nav'); ?>
         </div>
-        <div id="integrations" class="col-sm-6">
+        <div id="integrations" class="col-sm-9">
             <h4 class="text-black-50 border-bottom py-3 mb-3 fw-light">
                 <?= lang('integrations') ?>
             </h4>
