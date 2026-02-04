@@ -193,12 +193,38 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-nav-pills-link-active-bg: var(--bs-primary);
     }
 
+    .nav-pills .nav-link {
+        color: var(--bs-primary);
+    }
+
     .nav-pills .nav-link:hover:not(.active) {
         background: rgba(var(--bs-primary-rgb), 0.08);
+        color: var(--ea-primary-active);
+    }
+
+    .nav-pills .nav-link.active {
+        background: var(--bs-primary);
+        color: var(--bs-white, #fff);
+    }
+
+    .nav-pills .nav-link:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
     }
 
     .nav-tabs .nav-link:hover {
         background: rgba(var(--bs-primary-rgb), 0.05);
+        border-color: var(--bs-border-color) var(--bs-border-color) transparent;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: var(--bs-primary);
+        border-color: var(--bs-border-color) var(--bs-border-color) var(--bs-white);
+    }
+
+    .nav-tabs .nav-link:focus {
+        outline: none;
+        box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.15);
     }
 
     .nav-link {
