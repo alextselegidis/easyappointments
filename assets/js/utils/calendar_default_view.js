@@ -10,13 +10,35 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Default calendar view utility.
+ * Calendar Default View Utility
  *
- * This module implements the functionality of the default calendar view.
- *
- * Old Name: BackendCalendarDefaultView
+ * This module implements the default calendar view functionality, handling:
+ * - Calendar initialization and rendering
+ * - Appointment/unavailability CRUD operations via popovers
+ * - Event drag, drop, and resize
+ * - Working plan exceptions
+ * - Calendar filtering by provider or service
  */
 App.Utils.CalendarDefaultView = (function () {
+    // =============================================================================
+    // Constants
+    // =============================================================================
+
+    const FILTER_TYPE_ALL = 'all';
+    const FILTER_TYPE_PROVIDER = 'provider';
+    const FILTER_TYPE_SERVICE = 'service';
+
+    const EVENT_COLORS = {
+        unavailability: '#879DB4',
+        blockedPeriod: '#d65069',
+        notWorking: '#BEBEBE',
+        default: '#7cbae8',
+    };
+
+    // =============================================================================
+    // DOM Elements Cache
+    // =============================================================================
+
     const $calendarPage = $('#calendar-page');
     const $reloadAppointments = $('#reload-appointments');
     const $calendar = $('#calendar');
@@ -27,750 +49,608 @@ App.Utils.CalendarDefaultView = (function () {
     const $footer = $('#footer');
     const $notification = $('#notification');
     const $calendarToolbar = $('#calendar-toolbar');
-    const FILTER_TYPE_ALL = 'all';
-    const FILTER_TYPE_PROVIDER = 'provider';
-    const FILTER_TYPE_SERVICE = 'service';
+
+    // =============================================================================
+    // Module State
+    // =============================================================================
+
     const moment = window.moment;
-
-    let $popoverTarget;
+    let $popoverTarget = null;
     let fullCalendar = null;
-    let lastFocusedEventData; // Contains event data for later use.
+    let lastFocusedEventData = null;
+
+    // =============================================================================
+    // Helper Functions
+    // =============================================================================
 
     /**
-     * Add the utility event listeners.
-     */
-    function addEventListeners() {
-        /**
-         * Event: Reload Button "Click"
-         *
-         * When the user clicks the reload button, the calendar items need to be refreshed.
-         */
-        $reloadAppointments.on('click', () => {
-            const calendarView = fullCalendar.view;
-
-            if ($popoverTarget) {
-                $popoverTarget.popover('dispose');
-            }
-
-            refreshCalendarAppointments(
-                $calendar,
-                $selectFilterItem.val(),
-                $selectFilterItem.find('option:selected').attr('type'),
-                calendarView.activeStart,
-                calendarView.activeEnd,
-            );
-        });
-
-        /**
-         * Event: Popover Close Button "Click"
-         *
-         * Hides the open popover element.
-         */
-        $calendarPage.on('click', '.close-popover', () => {
-            if ($popoverTarget) {
-                $popoverTarget.popover('dispose');
-            }
-        });
-
-        /**
-         * Event: Popover Edit Button "Click"
-         *
-         * Enables the edit dialog of the selected calendar event.
-         *
-         * @param {jQuery.Event} event
-         */
-        $calendarPage.on('click', '.edit-popover', (event) => {
-            if ($popoverTarget) {
-                $popoverTarget.popover('dispose');
-            }
-
-            let startMoment;
-            let endMoment;
-
-            const data = lastFocusedEventData.extendedProps.data;
-
-            if (data.hasOwnProperty('workingPlanException')) {
-                const originalDate = lastFocusedEventData.extendedProps.data.date;
-                const workingPlanException = lastFocusedEventData.extendedProps.data.workingPlanException;
-                const provider = lastFocusedEventData.extendedProps.data.provider;
-
-                App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
-                    (date, workingPlanException) => {
-                        const successCallback = () => {
-                            App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
-
-                            const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
-
-                            workingPlanExceptions[date] = workingPlanException;
-
-                            if (date !== originalDate) {
-                                delete workingPlanExceptions[originalDate];
-                            }
-
-                            for (const index in vars('available_providers')) {
-                                const availableProvider = vars('available_providers')[index];
-
-                                if (Number(availableProvider.id) === Number(provider.id)) {
-                                    availableProvider.settings.working_plan_exceptions =
-                                        JSON.stringify(workingPlanExceptions);
-                                    break;
-                                }
-                            }
-
-                            $reloadAppointments.trigger('click'); // Update the calendar.
-                        };
-
-                        App.Http.Calendar.saveWorkingPlanException(
-                            date,
-                            workingPlanException,
-                            provider.id,
-                            successCallback,
-                            null,
-                            originalDate,
-                        );
-                    },
-                );
-            } else if (!Number(lastFocusedEventData.extendedProps.data.is_unavailability)) {
-                const appointment = lastFocusedEventData.extendedProps.data;
-
-                App.Components.AppointmentsModal.resetModal();
-
-                // Apply appointment data and show modal dialog.
-                $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
-                $appointmentsModal.find('#appointment-id').val(appointment.id);
-                $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
-                $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
-
-                // Set the start and end datetime of the appointment.
-                startMoment = moment(appointment.start_datetime);
-                App.Utils.UI.setDateTimePickerValue($appointmentsModal.find('#start-datetime'), startMoment.toDate());
-
-                endMoment = moment(appointment.end_datetime);
-                App.Utils.UI.setDateTimePickerValue($appointmentsModal.find('#end-datetime'), endMoment.toDate());
-
-                const customer = appointment.customer;
-                $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
-                $appointmentsModal.find('#first-name').val(customer.first_name);
-                $appointmentsModal.find('#last-name').val(customer.last_name);
-                $appointmentsModal.find('#email').val(customer.email);
-                $appointmentsModal.find('#phone-number').val(customer.phone_number);
-                $appointmentsModal.find('#address').val(customer.address);
-                $appointmentsModal.find('#city').val(customer.city);
-                $appointmentsModal.find('#zip-code').val(customer.zip_code);
-                $appointmentsModal.find('#language').val(customer.language);
-                $appointmentsModal.find('#timezone').val(customer.timezone);
-                $appointmentsModal.find('#appointment-location').val(appointment.location);
-                $appointmentsModal.find('#appointment-meeting-link').val(appointment.meeting_link);
-                $appointmentsModal.find('#appointment-status').val(appointment.status);
-                $appointmentsModal.find('#appointment-notes').val(appointment.notes);
-                $appointmentsModal.find('#customer-notes').val(customer.notes);
-                $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
-                $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
-                $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);
-                $appointmentsModal.find('#custom-field-4').val(customer.custom_field_4);
-                $appointmentsModal.find('#custom-field-5').val(customer.custom_field_5);
-
-                App.Components.ColorSelection.setColor(
-                    $appointmentsModal.find('#appointment-color'),
-                    appointment.color,
-                );
-
-                $appointmentsModal.modal('show');
-            } else {
-                const unavailability = lastFocusedEventData.extendedProps.data;
-
-                // Replace string date values with actual date objects.
-                unavailability.start_datetime = moment(lastFocusedEventData.start).format('YYYY-MM-DD HH:mm:ss');
-                startMoment = moment(unavailability.start_datetime);
-                unavailability.end_datetime = moment(lastFocusedEventData.end).format('YYYY-MM-DD HH:mm:ss');
-                endMoment = moment(unavailability.end_datetime);
-
-                App.Components.UnavailabilitiesModal.resetModal();
-
-                // Apply unavailability data to dialog.
-                $unavailabilitiesModal.find('.modal-header h3').text(lang('edit_unavailability_title'));
-                App.Utils.UI.setDateTimePickerValue(
-                    $unavailabilitiesModal.find('#unavailability-start'),
-                    startMoment.toDate(),
-                );
-                App.Utils.UI.setDateTimePickerValue(
-                    $unavailabilitiesModal.find('#unavailability-end'),
-                    endMoment.toDate(),
-                );
-                $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
-                $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
-                $unavailabilitiesModal.find('#unavailability-notes').val(unavailability.notes);
-                $unavailabilitiesModal.modal('show');
-            }
-        });
-
-        /**
-         * Event: Popover Delete Button "Click"
-         *
-         * Displays a prompt on whether the user wants the appointment to be deleted. If he confirms the
-         * deletion then an AJAX call is made to the server and deletes the appointment from the database.
-         *
-         * @param {jQuery.Event} event
-         */
-        $calendarPage.on('click', '.delete-popover', (event) => {
-            if ($popoverTarget) {
-                $popoverTarget.popover('dispose');
-            }
-
-            if (lastFocusedEventData.extendedProps.data.workingPlanException !== undefined) {
-                const providerId = $selectFilterItem.val();
-
-                const provider = vars('available_providers').find(
-                    (availableProvider) => Number(availableProvider.id) === Number(providerId),
-                );
-
-                if (!provider) {
-                    throw new Error('Provider could not be found: ' + providerId);
-                }
-
-                const successCallback = () => {
-                    App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
-
-                    const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
-                    delete workingPlanExceptions[date];
-
-                    for (const index in vars('available_providers')) {
-                        const availableProvider = vars('available_providers')[index];
-
-                        if (Number(availableProvider.id) === Number(providerId)) {
-                            availableProvider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
-                            break;
-                        }
-                    }
-
-                    $reloadAppointments.trigger('click'); // Update the calendar.
-                };
-
-                const date = moment(lastFocusedEventData.start).format('YYYY-MM-DD');
-
-                App.Http.Calendar.deleteWorkingPlanException(date, providerId, successCallback);
-            } else if (!Number(lastFocusedEventData.extendedProps.data.is_unavailability)) {
-                const buttons = [
-                    {
-                        text: lang('cancel'),
-                        click: (event, messageModal) => {
-                            messageModal.hide();
-                        },
-                    },
-                    {
-                        text: lang('delete'),
-                        click: (event, messageModal) => {
-                            const appointmentId = lastFocusedEventData.extendedProps.data.id;
-
-                            const cancellationReason = $('#cancellation-reason').val();
-
-                            App.Http.Calendar.deleteAppointment(appointmentId, cancellationReason).done(() => {
-                                messageModal.hide();
-
-                                // Refresh calendar event items.
-                                $reloadAppointments.trigger('click');
-                            });
-                        },
-                    },
-                ];
-
-                App.Utils.Message.show(
-                    lang('delete_appointment_title'),
-                    lang('write_appointment_removal_reason'),
-                    buttons,
-                );
-
-                $('<textarea/>', {
-                    'class': 'form-control w-100',
-                    'id': 'cancellation-reason',
-                    'rows': '3',
-                }).appendTo('#message-modal .modal-body');
-            } else {
-                // Do not display confirmation prompt.
-
-                const unavailabilityId = lastFocusedEventData.extendedProps.data.id;
-
-                App.Http.Calendar.deleteUnavailability(unavailabilityId).done(() => {
-                    // Refresh calendar event items.
-                    $reloadAppointments.trigger('click');
-                });
-            }
-        });
-
-        /**
-         * Event: Calendar Filter Item "Change"
-         *
-         * Load the appointments that correspond to the select filter item and display them on the calendar.
-         */
-        $selectFilterItem.on('change', () => {
-            const providerId = $selectFilterItem.val();
-
-            const provider = vars('available_providers').find(
-                (availableProvider) => Number(availableProvider.id) === Number(providerId),
-            );
-
-            if (provider && provider.timezone) {
-                $('.provider-timezone').text(vars('timezones')[provider.timezone]);
-            }
-
-            $('#insert-working-plan-exception').toggle(
-                providerId === App.Utils.CalendarDefaultView.FILTER_TYPE_PROVIDER,
-            );
-
-            $reloadAppointments.trigger('click');
-
-            window.localStorage.setItem('EasyAppointments.SelectFilterItem', $selectFilterItem.val());
-        });
-    }
-
-    /**
-     * Get Calendar Component Height
+     * Get the calendar height based on window size.
      *
-     * This method calculates the proper calendar height, in order to be displayed correctly, even when the
-     * browser window is resizing.
-     *
-     * @return {Number} Returns the calendar element height in pixels.
+     * @returns {number} Calendar height in pixels (minimum 780px).
      */
     function getCalendarHeight() {
-        const result =
-            window.innerHeight - $footer.outerHeight() - $header.outerHeight() - $calendarToolbar.outerHeight() - 60; // 60 for fine tuning
-        return result > 780 ? result : 780; // Minimum height is 800px
+        const offset = $footer.outerHeight() + $header.outerHeight() + $calendarToolbar.outerHeight() + 60;
+        const height = window.innerHeight - offset;
+        return Math.max(height, 780);
     }
 
     /**
-     * Get the event notes for the popup widget.
+     * Format a datetime string for display.
      *
-     * @param {Event} event
+     * @param {Date|string} datetime - The datetime to format.
+     * @returns {string} Formatted datetime string.
+     */
+    function formatDateTime(datetime) {
+        return App.Utils.Date.format(
+            moment(datetime).format('YYYY-MM-DD HH:mm:ss'),
+            vars('date_format'),
+            vars('time_format'),
+            true,
+        );
+    }
+
+    /**
+     * Get truncated notes for popover display.
+     *
+     * @param {Object} event - Calendar event object.
+     * @returns {string} Notes text (truncated to 100 chars) or '-'.
      */
     function getEventNotes(event) {
-        if (!event.extendedProps || !event.extendedProps.data || !event.extendedProps.data.notes) {
-            return '-';
-        }
-
-        const notes = event.extendedProps.data.notes;
-
+        const notes = event.extendedProps?.data?.notes;
+        if (!notes) return '-';
         return notes.length > 100 ? notes.substring(0, 100) + '...' : notes;
     }
 
     /**
-     * Calendar Event "Click" Callback
+     * Get the selected filter type from the dropdown.
      *
-     * When the user clicks on an appointment object on the calendar, then a data preview popover is display
-     * above the calendar item.
+     * @returns {string} Filter type constant.
+     */
+    function getSelectedFilterType() {
+        return $selectFilterItem.find('option:selected').attr('type');
+    }
+
+    /**
+     * Check if the selected filter is a provider.
      *
-     * @param {Object} info
+     * @returns {boolean}
+     */
+    function isProviderFilter() {
+        return getSelectedFilterType() === FILTER_TYPE_PROVIDER;
+    }
+
+    /**
+     * Find a provider by ID from available providers.
+     *
+     * @param {number} providerId - Provider ID to find.
+     * @returns {Object|undefined} Provider object or undefined.
+     */
+    function findProvider(providerId) {
+        return vars('available_providers').find((provider) => Number(provider.id) === Number(providerId));
+    }
+
+    /**
+     * Find a service by ID from available services.
+     *
+     * @param {number} serviceId - Service ID to find.
+     * @returns {Object|undefined} Service object or undefined.
+     */
+    function findService(serviceId) {
+        return vars('available_services').find((service) => Number(service.id) === Number(serviceId));
+    }
+
+    /**
+     * Close the current popover if open.
+     */
+    function closePopover() {
+        if ($popoverTarget) {
+            $popoverTarget.popover('dispose');
+            $popoverTarget = null;
+        }
+    }
+
+    /**
+     * Check if the event is an unavailability.
+     *
+     * @param {Object} eventData - Event data object.
+     * @returns {boolean}
+     */
+    function isUnavailability(eventData) {
+        return Boolean(Number(eventData?.is_unavailability));
+    }
+
+    /**
+     * Check if the event is a working plan exception.
+     *
+     * @param {Object} eventData - Event data object.
+     * @returns {boolean}
+     */
+    function isWorkingPlanException(eventData) {
+        return eventData?.workingPlanException !== undefined;
+    }
+
+    // =============================================================================
+    // Popover UI Builders
+    // =============================================================================
+
+    /**
+     * Create a popover button element.
+     *
+     * @param {string} className - CSS class names.
+     * @param {string} iconClass - Font Awesome icon class.
+     * @param {string} labelKey - Language key for button text.
+     * @returns {jQuery} Button element.
+     */
+    function createPopoverButton(className, iconClass, labelKey) {
+        return $('<button/>', {
+            'class': className,
+            'html': [$('<i/>', {'class': `${iconClass} me-2`}), $('<span/>', {'text': lang(labelKey)})],
+        });
+    }
+
+    /**
+     * Create the standard popover action buttons.
+     *
+     * @param {string} displayEdit - CSS class to show/hide edit button.
+     * @param {string} displayDelete - CSS class to show/hide delete button.
+     * @returns {jQuery} Button container element.
+     */
+    function createPopoverButtons(displayEdit, displayDelete) {
+        return $('<div/>', {
+            'class': 'd-flex justify-content-center',
+            'html': [
+                createPopoverButton('close-popover btn btn-outline-secondary me-2', 'fas fa-ban', 'close'),
+                createPopoverButton(
+                    `delete-popover btn btn-outline-secondary ${displayDelete}`,
+                    'fas fa-trash-alt',
+                    'delete',
+                ),
+                createPopoverButton(`edit-popover btn btn-primary ${displayEdit}`, 'fas fa-edit', 'edit'),
+            ],
+        });
+    }
+
+    /**
+     * Create a labeled text row for popover content.
+     *
+     * @param {string} labelKey - Language key for label.
+     * @param {string} text - Text content.
+     * @returns {Array<jQuery>} Array of jQuery elements.
+     */
+    function createPopoverRow(labelKey, text) {
+        return [
+            $('<strong/>', {'class': 'd-inline-block me-2', 'text': lang(labelKey)}),
+            $('<span/>', {'text': text}),
+            $('<br/>'),
+        ];
+    }
+
+    /**
+     * Build popover content for unavailability events.
+     *
+     * @param {Object} info - FullCalendar event info.
+     * @param {string} displayEdit - CSS class for edit visibility.
+     * @param {string} displayDelete - CSS class for delete visibility.
+     * @returns {jQuery} Popover content element.
+     */
+    function buildUnavailabilityPopover(info, displayEdit, displayDelete) {
+        const data = info.event.extendedProps.data;
+        const provider = data.provider;
+
+        let startDateTime = info.event.start;
+        let endDateTime = info.event.end || info.event.start;
+
+        if (data.start_datetime) {
+            startDateTime = new Date(data.start_datetime);
+            endDateTime = new Date(data.end_datetime);
+        }
+
+        return $('<div/>', {
+            'html': [
+                ...createPopoverRow('provider', `${provider.first_name} ${provider.last_name}`),
+                ...createPopoverRow('start', formatDateTime(startDateTime)),
+                ...createPopoverRow('end', formatDateTime(endDateTime)),
+                ...createPopoverRow('notes', getEventNotes(info.event)),
+                App.Utils.CalendarEventPopover.renderCustomContent(info),
+                $('<hr/>'),
+                createPopoverButtons(displayEdit, displayDelete),
+            ],
+        });
+    }
+
+    /**
+     * Build popover content for working plan exception events.
+     *
+     * @param {Object} info - FullCalendar event info.
+     * @param {string} displayDelete - CSS class for delete visibility.
+     * @returns {jQuery} Popover content element.
+     */
+    function buildWorkingPlanExceptionPopover(info, displayDelete) {
+        const {date, workingPlanException, provider} = info.event.extendedProps.data;
+        const startTime = workingPlanException?.start;
+        const endTime = workingPlanException?.end;
+
+        const formatTimeOrDash = (time) => {
+            if (!time) return '-';
+            return App.Utils.Date.format(`${date} ${time}`, vars('date_format'), vars('time_format'), true);
+        };
+
+        return $('<div/>', {
+            'html': [
+                ...createPopoverRow('provider', `${provider.first_name} ${provider.last_name}`),
+                ...createPopoverRow('start', formatTimeOrDash(startTime)),
+                ...createPopoverRow('end', formatTimeOrDash(endTime)),
+                ...createPopoverRow('timezone', startTime ? vars('timezones')[provider.timezone] : '-'),
+                App.Utils.CalendarEventPopover.renderCustomContent(info),
+                $('<hr/>'),
+                $('<div/>', {
+                    'class': 'd-flex justify-content-between',
+                    'html': [
+                        createPopoverButton('close-popover btn btn-outline-secondary me-2', 'fas fa-ban', 'close'),
+                        createPopoverButton(
+                            `delete-popover btn btn-outline-secondary ${displayDelete}`,
+                            'fas fa-trash-alt',
+                            'delete',
+                        ),
+                        createPopoverButton('edit-popover btn btn-primary', 'fas fa-edit', 'edit'),
+                    ],
+                }),
+            ],
+        });
+    }
+
+    /**
+     * Build popover content for appointment events.
+     *
+     * @param {Object} info - FullCalendar event info.
+     * @param {string} displayEdit - CSS class for edit visibility.
+     * @param {string} displayDelete - CSS class for delete visibility.
+     * @returns {jQuery} Popover content element.
+     */
+    function buildAppointmentPopover(info, displayEdit, displayDelete) {
+        const data = info.event.extendedProps.data;
+        const customer = data.customer;
+        const provider = data.provider;
+
+        const customerName = [customer.first_name, customer.last_name].filter(Boolean).join(' ') || '-';
+
+        const meetingLinkElements = data.meeting_link
+            ? [
+                  $('<strong/>', {'class': 'd-inline-block me-2', 'text': lang('meeting_link')}),
+                  $('<a/>', {'href': data.meeting_link, 'target': '_blank', 'text': data.meeting_link}),
+                  $('<br/>'),
+              ]
+            : [];
+
+        return $('<div/>', {
+            'html': [
+                ...createPopoverRow('start', formatDateTime(info.event.start)),
+                ...createPopoverRow('end', formatDateTime(info.event.end)),
+                ...createPopoverRow('timezone', vars('timezones')[provider.timezone]),
+                ...createPopoverRow('status', data.status || '-'),
+                ...createPopoverRow('service', data.service.name),
+                $('<strong/>', {'class': 'd-inline-block me-2', 'text': lang('provider')}),
+                App.Utils.CalendarEventPopover.renderMapIcon(provider),
+                $('<span/>', {'text': `${provider.first_name} ${provider.last_name}`}),
+                $('<br/>'),
+                $('<strong/>', {'class': 'd-inline-block me-2', 'text': lang('customer')}),
+                App.Utils.CalendarEventPopover.renderMapIcon(customer),
+                $('<span/>', {'class': 'd-inline-block', 'text': customerName}),
+                $('<br/>'),
+                $('<strong/>', {'class': 'd-inline-block me-2', 'text': lang('email')}),
+                App.Utils.CalendarEventPopover.renderMailIcon(customer.email),
+                $('<span/>', {'class': 'd-inline-block', 'text': customer.email || '-'}),
+                $('<br/>'),
+                $('<strong/>', {'class': 'd-inline-block me-2', 'text': lang('phone')}),
+                App.Utils.CalendarEventPopover.renderPhoneIcon(customer.phone_number),
+                $('<span/>', {'class': 'd-inline-block', 'text': customer.phone_number || '-'}),
+                $('<br/>'),
+                ...meetingLinkElements,
+                ...createPopoverRow('notes', getEventNotes(info.event)),
+                App.Utils.CalendarEventPopover.renderCustomContent(info),
+                $('<hr/>'),
+                createPopoverButtons(displayEdit, displayDelete),
+            ],
+        });
+    }
+
+    /**
+     * Build popover content for blocked period events.
+     *
+     * @param {Object} info - FullCalendar event info.
+     * @returns {jQuery} Popover content element.
+     */
+    function buildBlockedPeriodPopover(info) {
+        const data = info.event.extendedProps.data;
+
+        return $('<div/>', {
+            html: [
+                ...createPopoverRow('name', data.name || '-'),
+                ...createPopoverRow('start', formatDateTime(info.event.start)),
+                ...createPopoverRow('end', formatDateTime(info.event.end)),
+                ...createPopoverRow('notes', data.notes || '-'),
+                $('<hr/>'),
+                $('<div/>', {
+                    class: 'd-flex justify-content-center',
+                    html: [createPopoverButton('close-popover btn btn-outline-secondary', 'fas fa-ban', 'close')],
+                }),
+            ],
+        });
+    }
+
+    // =============================================================================
+    // Appointment Modal Helpers
+    // =============================================================================
+
+    /**
+     * Populate the appointments modal with appointment data.
+     *
+     * @param {Object} appointment - Appointment data object.
+     */
+    function populateAppointmentModal(appointment) {
+        const customer = appointment.customer;
+
+        App.Components.AppointmentsModal.resetModal();
+
+        $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
+        $appointmentsModal.find('#appointment-id').val(appointment.id);
+        $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
+        $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
+
+        App.Utils.UI.setDateTimePickerValue(
+            $appointmentsModal.find('#start-datetime'),
+            moment(appointment.start_datetime).toDate(),
+        );
+        App.Utils.UI.setDateTimePickerValue(
+            $appointmentsModal.find('#end-datetime'),
+            moment(appointment.end_datetime).toDate(),
+        );
+
+        // Customer fields
+        $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+        $appointmentsModal.find('#first-name').val(customer.first_name);
+        $appointmentsModal.find('#last-name').val(customer.last_name);
+        $appointmentsModal.find('#email').val(customer.email);
+        $appointmentsModal.find('#phone-number').val(customer.phone_number);
+        $appointmentsModal.find('#address').val(customer.address);
+        $appointmentsModal.find('#city').val(customer.city);
+        $appointmentsModal.find('#zip-code').val(customer.zip_code);
+        $appointmentsModal.find('#language').val(customer.language);
+        $appointmentsModal.find('#timezone').val(customer.timezone);
+        $appointmentsModal.find('#customer-notes').val(customer.notes);
+        $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
+        $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
+        $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);
+        $appointmentsModal.find('#custom-field-4').val(customer.custom_field_4);
+        $appointmentsModal.find('#custom-field-5').val(customer.custom_field_5);
+
+        // Appointment fields
+        $appointmentsModal.find('#appointment-location').val(appointment.location);
+        $appointmentsModal.find('#appointment-meeting-link').val(appointment.meeting_link);
+        $appointmentsModal.find('#appointment-status').val(appointment.status);
+        $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+
+        App.Components.ColorSelection.setColor($appointmentsModal.find('#appointment-color'), appointment.color);
+
+        $appointmentsModal.modal('show');
+    }
+
+    /**
+     * Populate the unavailabilities modal with data.
+     *
+     * @param {Object} unavailability - Unavailability data object.
+     */
+    function populateUnavailabilityModal(unavailability) {
+        App.Components.UnavailabilitiesModal.resetModal();
+
+        $unavailabilitiesModal.find('.modal-header h3').text(lang('edit_unavailability_title'));
+
+        App.Utils.UI.setDateTimePickerValue(
+            $unavailabilitiesModal.find('#unavailability-start'),
+            moment(unavailability.start_datetime).toDate(),
+        );
+        App.Utils.UI.setDateTimePickerValue(
+            $unavailabilitiesModal.find('#unavailability-end'),
+            moment(unavailability.end_datetime).toDate(),
+        );
+
+        $unavailabilitiesModal.find('#unavailability-id').val(unavailability.id);
+        $unavailabilitiesModal.find('#unavailability-provider').val(unavailability.id_users_provider);
+        $unavailabilitiesModal.find('#unavailability-notes').val(unavailability.notes);
+
+        $unavailabilitiesModal.modal('show');
+    }
+
+    // =============================================================================
+    // Working Plan Exception Handlers
+    // =============================================================================
+
+    /**
+     * Update provider's working plan exceptions in memory.
+     *
+     * @param {number} providerId - Provider ID.
+     * @param {Object} workingPlanExceptions - Updated exceptions object.
+     */
+    function updateProviderWorkingPlanExceptions(providerId, workingPlanExceptions) {
+        for (const provider of vars('available_providers')) {
+            if (Number(provider.id) === Number(providerId)) {
+                provider.settings.working_plan_exceptions = JSON.stringify(workingPlanExceptions);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Handle editing a working plan exception.
+     *
+     * @param {Object} data - Working plan exception data.
+     */
+    function handleEditWorkingPlanException(data) {
+        const {date: originalDate, workingPlanException, provider} = data;
+
+        App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
+            (date, updatedException) => {
+                const successCallback = () => {
+                    App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
+
+                    const exceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                    exceptions[date] = updatedException;
+
+                    if (date !== originalDate) {
+                        delete exceptions[originalDate];
+                    }
+
+                    updateProviderWorkingPlanExceptions(provider.id, exceptions);
+                    $reloadAppointments.trigger('click');
+                };
+
+                App.Http.Calendar.saveWorkingPlanException(
+                    date,
+                    updatedException,
+                    provider.id,
+                    successCallback,
+                    null,
+                    originalDate,
+                );
+            },
+        );
+    }
+
+    /**
+     * Handle deleting a working plan exception.
+     */
+    function handleDeleteWorkingPlanException() {
+        const providerId = $selectFilterItem.val();
+        const provider = findProvider(providerId);
+
+        if (!provider) {
+            throw new Error('Provider could not be found: ' + providerId);
+        }
+
+        const date = moment(lastFocusedEventData.start).format('YYYY-MM-DD');
+
+        const successCallback = () => {
+            App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
+
+            const exceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+            delete exceptions[date];
+
+            updateProviderWorkingPlanExceptions(providerId, exceptions);
+            $reloadAppointments.trigger('click');
+        };
+
+        App.Http.Calendar.deleteWorkingPlanException(date, providerId, successCallback);
+    }
+
+    // =============================================================================
+    // Event Handlers - Popover Actions
+    // =============================================================================
+
+    /**
+     * Handle edit popover button click.
+     */
+    function onEditPopoverClick() {
+        closePopover();
+
+        const data = lastFocusedEventData.extendedProps.data;
+
+        if (isWorkingPlanException(data)) {
+            handleEditWorkingPlanException(data);
+        } else if (!isUnavailability(data)) {
+            populateAppointmentModal(data);
+        } else {
+            const unavailability = {
+                ...data,
+                start_datetime: moment(lastFocusedEventData.start).format('YYYY-MM-DD HH:mm:ss'),
+                end_datetime: moment(lastFocusedEventData.end).format('YYYY-MM-DD HH:mm:ss'),
+            };
+            populateUnavailabilityModal(unavailability);
+        }
+    }
+
+    /**
+     * Handle delete popover button click.
+     */
+    function onDeletePopoverClick() {
+        closePopover();
+
+        const data = lastFocusedEventData.extendedProps.data;
+
+        if (isWorkingPlanException(data)) {
+            handleDeleteWorkingPlanException();
+        } else if (!isUnavailability(data)) {
+            handleDeleteAppointment(data.id);
+        } else {
+            App.Http.Calendar.deleteUnavailability(data.id).done(() => {
+                $reloadAppointments.trigger('click');
+            });
+        }
+    }
+
+    /**
+     * Show appointment deletion confirmation dialog.
+     *
+     * @param {number} appointmentId - Appointment ID to delete.
+     */
+    function handleDeleteAppointment(appointmentId) {
+        const buttons = [
+            {
+                text: lang('cancel'),
+                click: (event, messageModal) => messageModal.hide(),
+            },
+            {
+                text: lang('delete'),
+                click: (event, messageModal) => {
+                    const reason = $('#cancellation-reason').val();
+                    App.Http.Calendar.deleteAppointment(appointmentId, reason).done(() => {
+                        messageModal.hide();
+                        $reloadAppointments.trigger('click');
+                    });
+                },
+            },
+        ];
+
+        App.Utils.Message.show(lang('delete_appointment_title'), lang('write_appointment_removal_reason'), buttons);
+
+        $('<textarea/>', {
+            'class': 'form-control w-100',
+            'id': 'cancellation-reason',
+            'rows': '3',
+        }).appendTo('#message-modal .modal-body');
+    }
+
+    // =============================================================================
+    // Calendar Event Callbacks
+    // =============================================================================
+
+    /**
+     * Handle calendar event click - show popover.
+     *
+     * @param {Object} info - FullCalendar event info.
      */
     function onEventClick(info) {
         const $target = $(info.el);
-
-        if ($popoverTarget) {
-            $popoverTarget.popover('dispose');
-        }
+        closePopover();
 
         let $html;
         let displayEdit;
         let displayDelete;
 
-        // Depending on where the user clicked the event (title or empty space) we
-        // need to use different selectors to reach the parent element.
-
-        if ($target.hasClass('fc-unavailability')) {
-            displayEdit =
-                $target.hasClass('fc-custom') && vars('privileges').appointments.edit === true ? '' : 'd-none';
-            displayDelete =
-                $target.hasClass('fc-custom') && vars('privileges').appointments.delete === true ? 'me-2' : 'd-none'; // Same value at the time.
-
-            let startDateTimeObject = info.event.start;
-            let endDateTimeObject = info.event.end || info.event.start;
-
-            if (info.event.extendedProps.data) {
-                startDateTimeObject = new Date(info.event.extendedProps.data.start_datetime);
-                endDateTimeObject = new Date(info.event.extendedProps.data.end_datetime);
-            }
-
-            const provider = info.event.extendedProps.data.provider;
-
-            $html = $('<div/>', {
-                'html': [
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('provider'),
-                    }),
-                    $('<span/>', {
-                        'text': `${provider.first_name} ${provider.last_name}`,
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('start'),
-                    }),
-                    $('<span/>', {
-                        'text': App.Utils.Date.format(
-                            moment(startDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
-                            vars('date_format'),
-                            vars('time_format'),
-                            true,
-                        ),
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('end'),
-                    }),
-                    $('<span/>', {
-                        'text': App.Utils.Date.format(
-                            moment(endDateTimeObject).format('YYYY-MM-DD HH:mm:ss'),
-                            vars('date_format'),
-                            vars('time_format'),
-                            true,
-                        ),
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('notes'),
-                    }),
-                    $('<span/>', {
-                        'text': getEventNotes(info.event),
-                    }),
-                    $('<br/>'),
-
-                    App.Utils.CalendarEventPopover.renderCustomContent(info),
-
-                    $('<hr/>'),
-
-                    $('<div/>', {
-                        'class': 'd-flex justify-content-center',
-                        'html': [
-                            $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary me-2',
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-ban me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('close'),
-                                    }),
-                                ],
-                            }),
-                            $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-trash-alt me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('delete'),
-                                    }),
-                                ],
-                            }),
-                            $('<button/>', {
-                                'class': 'edit-popover btn btn-primary ' + displayEdit,
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-edit me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('edit'),
-                                    }),
-                                ],
-                            }),
-                        ],
-                    }),
-                ],
-            });
+        if ($target.hasClass('fc-blocked-period')) {
+            // Blocked periods are read-only, only show close button
+            $html = buildBlockedPeriodPopover(info);
         } else if ($target.hasClass('fc-working-plan-exception')) {
-            displayDelete =
-                $target.hasClass('fc-custom') && vars('privileges').appointments.delete === true ? 'me-2' : 'd-none';
-
-            const {date, workingPlanException, provider} = info.event.extendedProps.data;
-            const startTime = workingPlanException?.start;
-            const endTime = workingPlanException?.end;
-
-            $html = $('<div/>', {
-                'html': [
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('provider'),
-                    }),
-                    $('<span/>', {
-                        'text': `${provider.first_name} ${provider.last_name}`,
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('start'),
-                    }),
-                    $('<span/>', {
-                        'text': startTime
-                            ? App.Utils.Date.format(
-                                  `${date} ${startTime}`,
-                                  vars('date_format'),
-                                  vars('time_format'),
-                                  true,
-                              )
-                            : '-',
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('end'),
-                    }),
-                    $('<span/>', {
-                        'text': endTime
-                            ? App.Utils.Date.format(
-                                  `${date} ${endTime}`,
-                                  vars('date_format'),
-                                  vars('time_format'),
-                                  true,
-                              )
-                            : '-',
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('timezone'),
-                    }),
-                    $('<span/>', {
-                        'text': startTime ? vars('timezones')[provider.timezone] : '-',
-                    }),
-                    $('<br/>'),
-
-                    App.Utils.CalendarEventPopover.renderCustomContent(info),
-
-                    $('<hr/>'),
-
-                    $('<div/>', {
-                        'class': 'd-flex justify-content-between',
-                        'html': [
-                            $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary me-2',
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-ban me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('close'),
-                                    }),
-                                ],
-                            }),
-                            $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-trash-alt me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('delete'),
-                                    }),
-                                ],
-                            }),
-                            $('<button/>', {
-                                'class': 'edit-popover btn btn-primary',
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-edit me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('edit'),
-                                    }),
-                                ],
-                            }),
-                        ],
-                    }),
-                ],
-            });
+            displayDelete = $target.hasClass('fc-custom') && vars('privileges').appointments.delete ? 'me-2' : 'd-none';
+            $html = buildWorkingPlanExceptionPopover(info, displayDelete);
+        } else if ($target.hasClass('fc-unavailability')) {
+            const isCustom = $target.hasClass('fc-custom');
+            displayEdit = isCustom && vars('privileges').appointments.edit ? '' : 'd-none';
+            displayDelete = isCustom && vars('privileges').appointments.delete ? 'me-2' : 'd-none';
+            $html = buildUnavailabilityPopover(info, displayEdit, displayDelete);
         } else {
-            displayEdit = vars('privileges').appointments.edit === true ? '' : 'd-none';
-            displayDelete = vars('privileges').appointments.delete === true ? 'me-2' : 'd-none';
-
-            const customerInfo = [];
-
-            if (info.event.extendedProps.data.customer.first_name) {
-                customerInfo.push(info.event.extendedProps.data.customer.first_name);
-            }
-
-            if (info.event.extendedProps.data.customer.last_name) {
-                customerInfo.push(info.event.extendedProps.data.customer.last_name);
-            }
-
-            $html = $('<div/>', {
-                'html': [
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('start'),
-                    }),
-                    $('<span/>', {
-                        'text': App.Utils.Date.format(
-                            moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
-                            vars('date_format'),
-                            vars('time_format'),
-                            true,
-                        ),
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('end'),
-                    }),
-                    $('<span/>', {
-                        'text': App.Utils.Date.format(
-                            moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
-                            vars('date_format'),
-                            vars('time_format'),
-                            true,
-                        ),
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('timezone'),
-                    }),
-                    $('<span/>', {
-                        'text': vars('timezones')[info.event.extendedProps.data.provider.timezone],
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('status'),
-                    }),
-                    $('<span/>', {
-                        'text': info.event.extendedProps.data.status || '-',
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('service'),
-                    }),
-                    $('<span/>', {
-                        'text': info.event.extendedProps.data.service.name,
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('provider'),
-                    }),
-                    App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.provider),
-                    $('<span/>', {
-                        'text':
-                            info.event.extendedProps.data.provider.first_name +
-                            ' ' +
-                            info.event.extendedProps.data.provider.last_name,
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('customer'),
-                    }),
-                    App.Utils.CalendarEventPopover.renderMapIcon(info.event.extendedProps.data.customer),
-                    $('<span/>', {
-                        'class': 'd-inline-block',
-                        'text': customerInfo.length ? customerInfo.join(' ') : '-',
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('email'),
-                    }),
-                    App.Utils.CalendarEventPopover.renderMailIcon(info.event.extendedProps.data.customer.email),
-                    $('<span/>', {
-                        'class': 'd-inline-block',
-                        'text': info.event.extendedProps.data.customer.email || '-',
-                    }),
-                    $('<br/>'),
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('phone'),
-                    }),
-                    App.Utils.CalendarEventPopover.renderPhoneIcon(info.event.extendedProps.data.customer.phone_number),
-                    $('<span/>', {
-                        'class': 'd-inline-block',
-                        'text': info.event.extendedProps.data.customer.phone_number || '-',
-                    }),
-                    $('<br/>'),
-
-                    info.event.extendedProps.data.meeting_link
-                        ? $('<strong/>', {
-                              'class': 'd-inline-block me-2',
-                              'text': lang('meeting_link'),
-                          })
-                        : null,
-                    info.event.extendedProps.data.meeting_link
-                        ? $('<a/>', {
-                              'href': info.event.extendedProps.data.meeting_link,
-                              'target': '_blank',
-                              'text': info.event.extendedProps.data.meeting_link,
-                          })
-                        : null,
-                    info.event.extendedProps.data.meeting_link ? $('<br/>') : null,
-
-                    $('<strong/>', {
-                        'class': 'd-inline-block me-2',
-                        'text': lang('notes'),
-                    }),
-                    $('<span/>', {
-                        'text': getEventNotes(info.event),
-                    }),
-                    $('<br/>'),
-
-                    App.Utils.CalendarEventPopover.renderCustomContent(info),
-
-                    $('<hr/>'),
-
-                    $('<div/>', {
-                        'class': 'd-flex justify-content-center',
-                        'html': [
-                            $('<button/>', {
-                                'class': 'close-popover btn btn-outline-secondary me-2',
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-ban me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('close'),
-                                    }),
-                                ],
-                            }),
-                            $('<button/>', {
-                                'class': 'delete-popover btn btn-outline-secondary ' + displayDelete,
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-trash-alt me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('delete'),
-                                    }),
-                                ],
-                            }),
-                            $('<button/>', {
-                                'class': 'edit-popover btn btn-primary ' + displayEdit,
-                                'html': [
-                                    $('<i/>', {
-                                        'class': 'fas fa-edit me-2',
-                                    }),
-                                    $('<span/>', {
-                                        'text': lang('edit'),
-                                    }),
-                                ],
-                            }),
-                        ],
-                    }),
-                ],
-            });
+            displayEdit = vars('privileges').appointments.edit ? '' : 'd-none';
+            displayDelete = vars('privileges').appointments.delete ? 'me-2' : 'd-none';
+            $html = buildAppointmentPopover(info, displayEdit, displayDelete);
         }
 
         $target.popover({
@@ -783,178 +663,284 @@ App.Utils.CalendarDefaultView = (function () {
         });
 
         lastFocusedEventData = info.event;
-
         $target.popover('show');
-
         $popoverTarget = $target;
 
-        // Fix popover position.
+        // Fix popover position if too high
         const $popover = $calendarPage.find('.popover');
-
-        if ($popover.length > 0 && $popover.position().top < 200) {
+        if ($popover.length && $popover.position().top < 200) {
             $popover.css('top', '200px');
         }
     }
 
     /**
-     * Calendar Event "Resize" Callback
+     * Handle calendar event resize.
      *
-     * The user can change the duration of an event by resizing an appointment object on the calendar. This
-     * change needs to be stored to the database too and this is done via an ajax call.
-     *
-     * @see updateAppointmentData()
-     *
-     * @param {Object} info
+     * @param {Object} info - FullCalendar event info.
      */
     function onEventResize(info) {
-        if (vars('privileges').appointments.edit === false) {
+        if (!vars('privileges').appointments.edit) {
             info.revert();
             App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
             return;
         }
 
-        let successCallback;
+        if ($notification.is(':visible')) {
+            $notification.hide('bind');
+        }
+
+        const eventData = info.event.extendedProps.data;
+
+        if (!isUnavailability(eventData)) {
+            handleAppointmentResize(info, eventData);
+        } else {
+            handleUnavailabilityResize(info, eventData);
+        }
+    }
+
+    /**
+     * Handle appointment resize operation.
+     *
+     * @param {Object} info - FullCalendar resize info.
+     * @param {Object} eventData - Event data.
+     */
+    function handleAppointmentResize(info, eventData) {
+        eventData.end_datetime = moment(eventData.end_datetime)
+            .add({days: info.endDelta.days, milliseconds: info.endDelta.milliseconds})
+            .format('YYYY-MM-DD HH:mm:ss');
+
+        const appointment = prepareAppointmentForSave(eventData);
+
+        const successCallback = (notifyCustomer) => {
+            const undoFunction = () => {
+                appointment.end_datetime = eventData.end_datetime = moment(appointment.end_datetime)
+                    .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
+                    .format('YYYY-MM-DD HH:mm:ss');
+
+                App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() =>
+                    $notification.hide('blind'),
+                );
+                info.revert();
+            };
+
+            App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
+                {label: lang('undo'), function: undoFunction},
+            ]);
+
+            info.event.setProp('data', eventData);
+        };
+
+        showNotifyCustomerDialog(appointment, successCallback, () => info.revert());
+    }
+
+    /**
+     * Handle unavailability resize operation.
+     *
+     * @param {Object} info - FullCalendar resize info.
+     * @param {Object} eventData - Event data.
+     */
+    function handleUnavailabilityResize(info, eventData) {
+        const unavailability = {
+            id: eventData.id,
+            start_datetime: moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
+            end_datetime: moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
+            id_users_provider: eventData.id_users_provider,
+        };
+
+        eventData.end_datetime = unavailability.end_datetime;
+
+        const successCallback = () => {
+            const undoFunction = () => {
+                unavailability.end_datetime = eventData.end_datetime = moment(unavailability.end_datetime)
+                    .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
+                    .format('YYYY-MM-DD HH:mm:ss');
+
+                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                info.revert();
+            };
+
+            App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
+                {label: lang('undo'), function: undoFunction},
+            ]);
+
+            info.event.setProp('data', eventData);
+        };
+
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
+    }
+
+    /**
+     * Handle calendar event drop (drag and drop).
+     *
+     * @param {Object} info - FullCalendar event info.
+     */
+    function onEventDrop(info) {
+        if (!vars('privileges').appointments.edit) {
+            info.revert();
+            App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
+            return;
+        }
 
         if ($notification.is(':visible')) {
             $notification.hide('bind');
         }
 
-        if (!Number(info.event.extendedProps.data.is_unavailability)) {
-            // Prepare appointment data.
-            info.event.extendedProps.data.end_datetime = moment(info.event.extendedProps.data.end_datetime)
-                .add({days: info.endDelta.days, milliseconds: info.endDelta.milliseconds})
-                .format('YYYY-MM-DD HH:mm:ss');
+        const eventData = info.event.extendedProps.data;
 
-            const appointment = {...info.event.extendedProps.data};
-
-            appointment.is_unavailability = Number(appointment.is_unavailability);
-
-            // Must delete the following because only appointment data should be provided to the AJAX call.
-            delete appointment.customer;
-            delete appointment.provider;
-            delete appointment.service;
-
-            // Success callback
-            successCallback = (notifyCustomer) => {
-                // Display success notification to user.
-                const undoFunction = () => {
-                    appointment.end_datetime = info.event.extendedProps.data.end_datetime = moment(
-                        appointment.end_datetime,
-                    )
-                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
-                        .format('YYYY-MM-DD HH:mm:ss');
-
-                    App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() => {
-                        $notification.hide('blind');
-                    });
-
-                    info.revert();
-                };
-
-                App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
-                    {
-                        'label': lang('undo'),
-                        'function': undoFunction,
-                    },
-                ]);
-
-                // Update the event data for later use.
-                info.event.setProp('data', info.event.extendedProps.data);
-            };
-
-            // Show confirmation dialog for notification preference
-            App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
-                {
-                    text: lang('no'),
-                    click: (event, messageModal) => {
-                        messageModal.hide();
-                        App.Http.Calendar.saveAppointmentWithConflictHandling(
-                            appointment,
-                            null,
-                            () => successCallback(false),
-                            null,
-                            false,
-                            () => info.revert(),
-                        );
-                    },
-                },
-                {
-                    text: lang('yes'),
-                    click: (event, messageModal) => {
-                        messageModal.hide();
-                        App.Http.Calendar.saveAppointmentWithConflictHandling(
-                            appointment,
-                            null,
-                            () => successCallback(true),
-                            null,
-                            true,
-                            () => info.revert(),
-                        );
-                    },
-                },
-            ]);
+        if (!isUnavailability(eventData)) {
+            handleAppointmentDrop(info, eventData);
         } else {
-            // Update unavailability time period.
-            const unavailability = {
-                id: info.event.extendedProps.data.id,
-                start_datetime: moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
-                end_datetime: moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
-                id_users_provider: info.event.extendedProps.data.id_users_provider,
-            };
-
-            info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
-
-            // Define success callback function.
-            successCallback = () => {
-                // Display success notification to user.
-                const undoFunction = () => {
-                    unavailability.end_datetime = info.event.extendedProps.data.end_datetime = moment(
-                        unavailability.end_datetime,
-                    )
-                        .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
-                        .format('YYYY-MM-DD HH:mm:ss');
-
-                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
-                        $notification.hide('blind');
-                    });
-
-                    info.revert();
-                };
-
-                App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
-                    {
-                        'label': lang('undo'),
-                        'function': undoFunction,
-                    },
-                ]);
-
-                // Update the event data for later use.
-                info.event.setProp('data', info.event.extendedProps.data);
-            };
-
-            App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
+            handleUnavailabilityDrop(info, eventData);
         }
     }
 
     /**
-     * Calendar Window "Resize" Callback
+     * Handle appointment drop operation.
      *
-     * The calendar element needs to be re-sized too in order to fit into the window. Nevertheless, if the window
-     * becomes very small the calendar won't shrink anymore.
-     *
-     * @see getCalendarHeight()
+     * @param {Object} info - FullCalendar drop info.
+     * @param {Object} eventData - Event data.
      */
-    function onWindowResize() {
-        fullCalendar.setOption('height', getCalendarHeight());
+    function handleAppointmentDrop(info, eventData) {
+        const appointment = prepareAppointmentForSave(eventData);
+
+        appointment.start_datetime = moment(appointment.start_datetime)
+            .add({days: info.delta.days, milliseconds: info.delta.milliseconds})
+            .format('YYYY-MM-DD HH:mm:ss');
+
+        appointment.end_datetime = moment(appointment.end_datetime)
+            .add({days: info.delta.days, milliseconds: info.delta.milliseconds})
+            .format('YYYY-MM-DD HH:mm:ss');
+
+        appointment.is_unavailability = 0;
+        eventData.start_datetime = appointment.start_datetime;
+        eventData.end_datetime = appointment.end_datetime;
+
+        const successCallback = (notifyCustomer) => {
+            const undoFunction = () => {
+                const delta = {days: -info.delta.days, milliseconds: -info.delta.milliseconds};
+
+                appointment.start_datetime = moment(appointment.start_datetime)
+                    .add(delta)
+                    .format('YYYY-MM-DD HH:mm:ss');
+                appointment.end_datetime = moment(appointment.end_datetime).add(delta).format('YYYY-MM-DD HH:mm:ss');
+
+                eventData.start_datetime = appointment.start_datetime;
+                eventData.end_datetime = appointment.end_datetime;
+
+                App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() =>
+                    $notification.hide('blind'),
+                );
+                info.revert();
+            };
+
+            App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
+                {label: lang('undo'), function: undoFunction},
+            ]);
+        };
+
+        showNotifyCustomerDialog(appointment, successCallback, () => info.revert());
     }
 
     /**
-     * Calendar Day "Click" Callback
+     * Handle unavailability drop operation.
      *
-     * When the user clicks on a day square on the calendar, then he will automatically be transferred to that
-     * day view calendar.
+     * @param {Object} info - FullCalendar drop info.
+     * @param {Object} eventData - Event data.
+     */
+    function handleUnavailabilityDrop(info, eventData) {
+        const unavailability = {
+            id: eventData.id,
+            start_datetime: moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
+            end_datetime: moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
+            id_users_provider: eventData.id_users_provider,
+        };
+
+        const successCallback = () => {
+            const undoFunction = () => {
+                const delta = {days: -info.delta.days, milliseconds: -info.delta.milliseconds};
+
+                unavailability.start_datetime = moment(unavailability.start_datetime)
+                    .add(delta)
+                    .format('YYYY-MM-DD HH:mm:ss');
+                unavailability.end_datetime = moment(unavailability.end_datetime)
+                    .add(delta)
+                    .format('YYYY-MM-DD HH:mm:ss');
+                unavailability.is_unavailability = 1;
+
+                eventData.start_datetime = unavailability.start_datetime;
+                eventData.end_datetime = unavailability.end_datetime;
+
+                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                info.revert();
+            };
+
+            App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
+                {label: lang('undo'), function: undoFunction},
+            ]);
+        };
+
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback);
+    }
+
+    /**
+     * Prepare appointment object for saving (remove related data).
      *
-     * @param {Object} info
+     * @param {Object} eventData - Event data object.
+     * @returns {Object} Clean appointment object.
+     */
+    function prepareAppointmentForSave(eventData) {
+        const appointment = {...eventData};
+        appointment.is_unavailability = Number(appointment.is_unavailability);
+        delete appointment.customer;
+        delete appointment.provider;
+        delete appointment.service;
+        return appointment;
+    }
+
+    /**
+     * Show dialog asking whether to notify customer.
+     *
+     * @param {Object} appointment - Appointment data.
+     * @param {Function} successCallback - Callback on success.
+     * @param {Function} revertCallback - Callback to revert changes.
+     */
+    function showNotifyCustomerDialog(appointment, successCallback, revertCallback) {
+        App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
+            {
+                text: lang('no'),
+                click: (event, messageModal) => {
+                    messageModal.hide();
+                    App.Http.Calendar.saveAppointmentWithConflictHandling(
+                        appointment,
+                        null,
+                        () => successCallback(false),
+                        null,
+                        false,
+                        revertCallback,
+                    );
+                },
+            },
+            {
+                text: lang('yes'),
+                click: (event, messageModal) => {
+                    messageModal.hide();
+                    App.Http.Calendar.saveAppointmentWithConflictHandling(
+                        appointment,
+                        null,
+                        () => successCallback(true),
+                        null,
+                        true,
+                        revertCallback,
+                    );
+                },
+            },
+        ]);
+    }
+
+    /**
+     * Handle calendar date click.
+     *
+     * @param {Object} info - FullCalendar click info.
      */
     function onDateClick(info) {
         if (info.allDay) {
@@ -964,161 +950,12 @@ App.Utils.CalendarDefaultView = (function () {
     }
 
     /**
-     * Calendar Event "Drop" Callback
+     * Handle calendar selection (drag to create).
      *
-     * This event handler is triggered whenever the user drags and drops an event into a different position
-     * on the calendar. We need to update the database with this change. This is done via an ajax call.
-     *
-     * @param {Object} info
+     * @param {Object} info - FullCalendar selection info.
      */
-    function onEventDrop(info) {
-        if (vars('privileges').appointments.edit === false) {
-            info.revert();
-            App.Layouts.Backend.displayNotification(lang('no_privileges_edit_appointments'));
-            return;
-        }
-
-        if ($notification.is(':visible')) {
-            $notification.hide('bind');
-        }
-
-        let successCallback;
-
-        if (!Number(info.event.extendedProps.data.is_unavailability)) {
-            // Prepare appointment data.
-            const appointment = {...info.event.extendedProps.data};
-
-            // Must delete the following because only appointment data should be provided to the ajax call.
-            delete appointment.customer;
-            delete appointment.provider;
-            delete appointment.service;
-
-            appointment.start_datetime = moment(appointment.start_datetime)
-                .add({days: info.delta.days, millisecond: info.delta.milliseconds})
-                .format('YYYY-MM-DD HH:mm:ss');
-
-            appointment.end_datetime = moment(appointment.end_datetime)
-                .add({days: info.delta.days, millisecond: info.delta.milliseconds})
-                .format('YYYY-MM-DD HH:mm:ss');
-
-            appointment.is_unavailability = 0;
-
-            info.event.extendedProps.data.start_datetime = appointment.start_datetime;
-            info.event.extendedProps.data.end_datetime = appointment.end_datetime;
-
-            // Define success callback function.
-            successCallback = (notifyCustomer) => {
-                // Define the undo function, if the user needs to reset the last change.
-                const undoFunction = () => {
-                    appointment.start_datetime = moment(appointment.start_datetime)
-                        .add({
-                            days: -info.delta.days,
-                            milliseconds: -info.delta.milliseconds,
-                        })
-                        .format('YYYY-MM-DD HH:mm:ss');
-
-                    appointment.end_datetime = moment(appointment.end_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
-                        .format('YYYY-MM-DD HH:mm:ss');
-
-                    info.event.extendedProps.data.start_datetime = appointment.start_datetime;
-                    info.event.extendedProps.data.end_datetime = appointment.end_datetime;
-
-                    App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() => {
-                        $notification.hide('blind');
-                    });
-
-                    info.revert();
-                };
-
-                App.Layouts.Backend.displayNotification(lang('appointment_updated'), [
-                    {
-                        'label': lang('undo'),
-                        'function': undoFunction,
-                    },
-                ]);
-            };
-
-            // Show confirmation dialog for notification preference
-            App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
-                {
-                    text: lang('no'),
-                    click: (event, messageModal) => {
-                        messageModal.hide();
-                        App.Http.Calendar.saveAppointmentWithConflictHandling(
-                            appointment,
-                            null,
-                            () => successCallback(false),
-                            null,
-                            false,
-                            () => info.revert(),
-                        );
-                    },
-                },
-                {
-                    text: lang('yes'),
-                    click: (event, messageModal) => {
-                        messageModal.hide();
-                        App.Http.Calendar.saveAppointmentWithConflictHandling(
-                            appointment,
-                            null,
-                            () => successCallback(true),
-                            null,
-                            true,
-                            () => info.revert(),
-                        );
-                    },
-                },
-            ]);
-        } else {
-            // Update unavailability time period.
-            const unavailability = {
-                id: info.event.extendedProps.data.id,
-                start_datetime: moment(info.event.start).format('YYYY-MM-DD HH:mm:ss'),
-                end_datetime: moment(info.event.end).format('YYYY-MM-DD HH:mm:ss'),
-                id_users_provider: info.event.extendedProps.data.id_users_provider,
-            };
-
-            successCallback = () => {
-                const undoFunction = () => {
-                    unavailability.start_datetime = moment(unavailability.start_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
-                        .format('YYYY-MM-DD HH:mm:ss');
-
-                    unavailability.end_datetime = moment(unavailability.end_datetime)
-                        .add({days: -info.delta.days, milliseconds: -info.delta.milliseconds})
-                        .format('YYYY-MM-DD HH:mm:ss');
-
-                    unavailability.is_unavailability = 1;
-
-                    info.event.extendedProps.data.start_datetime = unavailability.start_datetime;
-                    info.event.extendedProps.data.end_datetime = unavailability.end_datetime;
-
-                    App.Http.Calendar.saveUnavailability(unavailability).done(() => {
-                        $notification.hide('blind');
-                    });
-
-                    info.revert();
-                };
-
-                App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
-                    {
-                        label: lang('undo'),
-                        function: undoFunction,
-                    },
-                ]);
-            };
-
-            App.Http.Calendar.saveUnavailability(unavailability, successCallback);
-        }
-    }
-
     function onSelect(info) {
-        if (info.allDay) {
-            return;
-        }
-
-        const isProviderDisplayed = $selectFilterItem.find('option:selected').attr('type') === FILTER_TYPE_PROVIDER;
+        if (info.allDay) return;
 
         const buttons = [
             {
@@ -1126,16 +963,15 @@ App.Utils.CalendarDefaultView = (function () {
                 click: (event, messageModal) => {
                     $('#insert-unavailability').trigger('click');
 
-                    if (isProviderDisplayed) {
-                        $('#unavailability-provider').val($selectFilterItem.val());
+                    const $providerSelect = $('#unavailability-provider');
+                    if (isProviderFilter()) {
+                        $providerSelect.val($selectFilterItem.val());
                     } else {
-                        $('#unavailability-provider option:first').prop('selected', true);
+                        $providerSelect.find('option:first').prop('selected', true);
                     }
-
-                    $('#unavailability-provider').trigger('change');
+                    $providerSelect.trigger('change');
 
                     App.Utils.UI.setDateTimePickerValue($('#unavailability-start'), info.start);
-
                     App.Utils.UI.setDateTimePickerValue($('#unavailability-end'), info.end);
 
                     messageModal.hide();
@@ -1145,51 +981,8 @@ App.Utils.CalendarDefaultView = (function () {
                 text: lang('appointment'),
                 click: (event, messageModal) => {
                     $('#insert-appointment').trigger('click');
+                    preselectServiceAndProvider();
 
-                    // Preselect service & provider.
-                    let service;
-
-                    if (isProviderDisplayed) {
-                        const provider = vars('available_providers').find(
-                            (availableProvider) => Number(availableProvider.id) === Number($selectFilterItem.val()),
-                        );
-
-                        if (provider) {
-                            service = vars('available_services').find(
-                                (availableService) => provider.services.indexOf(availableService.id) !== -1,
-                            );
-
-                            if (service) {
-                                $appointmentsModal.find('#select-service').val(service.id);
-                            }
-                        }
-
-                        if (!$appointmentsModal.find('#select-service').val()) {
-                            $('#select-service option:first').prop('selected', true);
-                        }
-
-                        $appointmentsModal.find('#select-service').trigger('change');
-
-                        if (provider) {
-                            $appointmentsModal.find('#select-provider').val(provider.id);
-                        }
-
-                        if (!$appointmentsModal.find('#select-provider').val()) {
-                            $appointmentsModal.find('#select-provider option:first').prop('selected', true);
-                        }
-
-                        $appointmentsModal.find('#select-provider').trigger('change');
-                    } else {
-                        service = vars('available_services').find(
-                            (availableService) => Number(availableService.id) === Number($selectFilterItem.val()),
-                        );
-
-                        if (service) {
-                            $appointmentsModal.find('#select-service').val(service.id).trigger('change');
-                        }
-                    }
-
-                    // Preselect time
                     App.Utils.UI.setDateTimePickerValue($('#start-datetime'), info.start);
                     App.Utils.UI.setDateTimePickerValue(
                         $('#end-datetime'),
@@ -1209,336 +1002,435 @@ App.Utils.CalendarDefaultView = (function () {
             .css('width', 'calc(50% - 10px)');
 
         fullCalendar.unselect();
-
         return false;
     }
 
     /**
-     * Calendar "View Render" Callback
-     *
-     * Whenever the calendar changes or refreshes its view certain actions need to be made, in order to
-     * display proper information to the user.
+     * Preselect service and provider based on current filter.
+     */
+    function preselectServiceAndProvider() {
+        const $serviceSelect = $appointmentsModal.find('#select-service');
+        const $providerSelect = $appointmentsModal.find('#select-provider');
+
+        if (isProviderFilter()) {
+            const provider = findProvider($selectFilterItem.val());
+            if (provider) {
+                const service = vars('available_services').find((s) => provider.services.indexOf(s.id) !== -1);
+                if (service) {
+                    $serviceSelect.val(service.id);
+                }
+            }
+
+            if (!$serviceSelect.val()) {
+                $serviceSelect.find('option:first').prop('selected', true);
+            }
+            $serviceSelect.trigger('change');
+
+            if (provider) {
+                $providerSelect.val(provider.id);
+            }
+            if (!$providerSelect.val()) {
+                $providerSelect.find('option:first').prop('selected', true);
+            }
+            $providerSelect.trigger('change');
+        } else {
+            const service = findService($selectFilterItem.val());
+            if (service) {
+                $serviceSelect.val(service.id).trigger('change');
+            }
+        }
+    }
+
+    /**
+     * Handle calendar window resize.
+     */
+    function onWindowResize() {
+        fullCalendar.setOption('height', getCalendarHeight());
+    }
+
+    /**
+     * Handle calendar dates change (view render).
      */
     function onDatesSet() {
-        if ($selectFilterItem.val() === null) {
-            return;
-        }
+        if (!$selectFilterItem.val()) return;
 
         refreshCalendarAppointments(
             $calendar,
             $selectFilterItem.val(),
-            $('#select-filter-item option:selected').attr('type'),
+            getSelectedFilterType(),
             fullCalendar.view.activeStart,
             fullCalendar.view.activeEnd,
         );
 
-        $(window).trigger('resize'); // Places the footer on the bottom.
+        $(window).trigger('resize');
 
-        // Remove all open popovers.
-        $('.close-popover').each((index, closePopoverButton) => {
-            if ($popoverTarget) {
-                $popoverTarget.popover('dispose');
-            }
-        });
+        // Close all open popovers
+        $('.close-popover').each(() => closePopover());
 
-        // Add new popovers.
-        $('.fv-events').each((index, eventEl) => {
-            $(eventEl).popover();
-        });
+        // Initialize new popovers
+        $('.fv-events').each((index, el) => $(el).popover());
     }
 
+    // =============================================================================
+    // Calendar Event Source Management
+    // =============================================================================
+
     /**
-     * Refresh Calendar Appointments
+     * Refresh calendar appointments from server.
      *
-     * This method reloads the registered appointments for the selected date period and filter type.
-     *
-     * @param {Object} $calendar The calendar jQuery object.
-     * @param {Number} recordId The selected record id.
-     * @param {String} filterType The filter type, could be either FILTER_TYPE_PROVIDER or FILTER_TYPE_SERVICE.
-     * @param {String} startDate Visible start date of the calendar.
-     * @param {String} endDate Visible end date of the calendar.
+     * @param {jQuery} $calendar - Calendar element.
+     * @param {string} recordId - Selected filter ID.
+     * @param {string} filterType - Filter type constant.
+     * @param {Date} startDate - View start date.
+     * @param {Date} endDate - View end date.
      */
     function refreshCalendarAppointments($calendar, recordId, filterType, startDate, endDate) {
         $('#loading').css('visibility', 'hidden');
 
-        const calendarEventSource = [];
+        const formattedStartDate = moment(startDate).format('YYYY-MM-DD');
+        const formattedEndDate = moment(endDate).format('YYYY-MM-DD');
 
-        startDate = moment(startDate).format('YYYY-MM-DD');
-
-        endDate = moment(endDate).format('YYYY-MM-DD');
-
-        App.Http.Calendar.getCalendarAppointments(recordId, startDate, endDate, filterType)
+        App.Http.Calendar.getCalendarAppointments(recordId, formattedStartDate, formattedEndDate, filterType)
             .done((response) => {
-                const calendarEventSources = fullCalendar.getEventSources();
+                // Clear existing events
+                fullCalendar.getEventSources().forEach((source) => source.remove());
 
-                calendarEventSources.forEach((calendarEventSource) => calendarEventSource.remove());
+                const events = [];
 
-                // Add appointments to calendar.
-                response.appointments.forEach((appointment) => {
-                    const title = [appointment.service.name];
+                // Add appointments
+                events.push(...createAppointmentEvents(response.appointments));
 
-                    const customerInfo = [];
+                // Add unavailabilities
+                events.push(...createUnavailabilityEvents(response.unavailabilities));
 
-                    if (appointment.customer.first_name) {
-                        customerInfo.push(appointment.customer.first_name);
-                    }
+                // Add blocked periods
+                events.push(...createBlockedPeriodEvents(response.blocked_periods));
 
-                    if (appointment.customer.last_name) {
-                        customerInfo.push(appointment.customer.last_name);
-                    }
-
-                    if (customerInfo.length) {
-                        title.push(customerInfo.join(' '));
-                    }
-
-                    const appointmentEvent = {
-                        id: appointment.id,
-                        title: title.join(' - '),
-                        start: moment(appointment.start_datetime).toDate(),
-                        end: moment(appointment.end_datetime).toDate(),
-                        allDay: false,
-                        color: appointment.color,
-                        data: appointment, // Store appointment data for later use.
-                        display: 'block',
-                    };
-
-                    calendarEventSource.push(appointmentEvent);
-                });
-
-                // Add custom unavailability periods (they are always displayed on the calendar, even if the provider
-                // won't work on that day).
-                response.unavailabilities.forEach((unavailability) => {
-                    let notes = unavailability.notes ? ' - ' + unavailability.notes : '';
-
-                    if (unavailability.notes && unavailability.notes.length > 30) {
-                        notes = ' - ' + unavailability.notes.substring(0, 30) + '...';
-                    }
-
-                    const unavailabilityEvent = {
-                        title: lang('unavailability') + notes,
-                        start: moment(unavailability.start_datetime).toDate(),
-                        end: moment(unavailability.end_datetime).toDate(),
-                        allDay: false,
-                        color: '#879DB4',
-                        editable: true,
-                        className: 'fc-unavailability fc-custom',
-                        data: unavailability,
-                        display: 'block',
-                    };
-
-                    calendarEventSource.push(unavailabilityEvent);
-                });
-
-                response?.blocked_periods?.forEach((blockedPeriod) => {
-                    const blockedPeriodEvent = {
-                        title: blockedPeriod.name,
-                        start: moment(blockedPeriod.start_datetime).toDate(),
-                        end: moment(blockedPeriod.end_datetime).toDate(),
-                        allDay: true,
-                        backgroundColor: '#d65069',
-                        borderColor: '#d65069',
-                        textColor: '#ffffff',
-                        editable: false,
-                        className: 'fc-blocked-period fc-unavailability',
-                        data: blockedPeriod,
-                        display: 'block',
-                    };
-
-                    calendarEventSource.push(blockedPeriodEvent);
-                });
-
-                const calendarView = fullCalendar.view;
-
-                if (calendarView.type === 'dayGridMonth') {
-                    return;
+                // Add working plan events (only for day/week views)
+                if (fullCalendar.view.type !== 'dayGridMonth') {
+                    events.push(...createWorkingPlanEvents(recordId));
                 }
 
-                const provider = vars('available_providers').find(
-                    (availableProvider) => Number(availableProvider.id) === Number(recordId),
-                );
-
-                const workingPlan = JSON.parse(
-                    provider ? provider.settings.working_plan : vars('company_working_plan'),
-                );
-                const workingPlanExceptions = JSON.parse(provider ? provider.settings.working_plan_exceptions : '{}');
-                let unavailabilityEvent;
-                let breakStart;
-                let breakEnd;
-                let workingPlanExceptionStart;
-                let workingPlanExceptionEnd;
-                let weekdayNumber;
-                let weekdayName;
-                let weekdayDate;
-                let workingPlanExceptionEvent;
-                let startHour;
-                let endHour;
-                let workDateStart;
-                let workDateEnd;
-
-                // Sort the working plan starting with the first day as set in General settings to correctly align
-                // breaks in the calendar display.
-                const firstWeekdayNumber = App.Utils.Date.getWeekdayId(vars('first_weekday'));
-                const sortedWorkingPlan = App.Utils.Date.sortWeekDictionary(workingPlan, firstWeekdayNumber);
-
-                const calendarDate = moment(calendarView.currentStart).clone();
-
-                while (calendarDate.toDate() < calendarView.currentEnd) {
-                    weekdayNumber = parseInt(calendarDate.format('d'));
-                    weekdayName = App.Utils.Date.getWeekdayName(weekdayNumber);
-                    weekdayDate = calendarDate.format('YYYY-MM-DD');
-
-                    // Add working plan exception event.
-                    if (workingPlanExceptions && workingPlanExceptions.hasOwnProperty(weekdayDate)) {
-                        sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
-
-                        const startTime = sortedWorkingPlan[weekdayName]?.start || '00:00';
-                        const endTime = sortedWorkingPlan[weekdayName]?.end || '00:00';
-
-                        workingPlanExceptionStart = `${weekdayDate} ${startTime}`;
-                        workingPlanExceptionEnd = `${weekdayDate} ${endTime}`;
-
-                        workingPlanExceptionEvent = {
-                            title: lang('working_plan_exception'),
-                            start: moment(workingPlanExceptionStart, 'YYYY-MM-DD HH:mm', true).toDate(),
-                            end: moment(workingPlanExceptionEnd, 'YYYY-MM-DD HH:mm', true).add(1, 'day').toDate(),
-                            allDay: true,
-                            color: '#879DB4',
-                            editable: false,
-                            className: 'fc-working-plan-exception fc-custom',
-                            display: 'block',
-                            data: {
-                                date: weekdayDate,
-                                workingPlanException: workingPlanExceptions[weekdayDate],
-                                provider: provider,
-                            },
-                        };
-
-                        calendarEventSource.push(workingPlanExceptionEvent);
-                    }
-
-                    // Non-working day.
-                    if (sortedWorkingPlan[weekdayName] === null) {
-                        // Add a full day unavailability event.
-                        unavailabilityEvent = {
-                            title: lang('not_working'),
-                            start: calendarDate.clone().toDate(),
-                            end: calendarDate.clone().add(1, 'day').toDate(),
-                            allDay: false,
-                            color: '#BEBEBE',
-                            editable: false,
-                            display: 'background',
-                            className: 'fc-unavailability',
-                        };
-
-                        calendarEventSource.push(unavailabilityEvent);
-
-                        calendarDate.add(1, 'day');
-
-                        continue; // Go to the next loop.
-                    }
-
-                    // Add unavailability period before work starts.
-                    startHour = sortedWorkingPlan[weekdayName].start.split(':');
-                    workDateStart = calendarDate.clone();
-                    workDateStart.hour(parseInt(startHour[0]));
-                    workDateStart.minute(parseInt(startHour[1]));
-
-                    if (calendarDate.toDate() < workDateStart.toDate()) {
-                        unavailabilityEvent = {
-                            title: lang('not_working'),
-                            start: calendarDate.clone().toDate(),
-                            end: moment(
-                                calendarDate.format('YYYY-MM-DD') + ' ' + sortedWorkingPlan[weekdayName].start + ':00',
-                            ).toDate(),
-                            allDay: false,
-                            color: '#BEBEBE',
-                            editable: false,
-                            display: 'background',
-                            className: 'fc-unavailability',
-                        };
-
-                        calendarEventSource.push(unavailabilityEvent);
-                    }
-
-                    // Add unavailability period after work ends.
-                    endHour = sortedWorkingPlan[weekdayName].end.split(':');
-                    workDateEnd = calendarDate.clone();
-                    workDateEnd.hour(parseInt(endHour[0]));
-                    workDateEnd.minute(parseInt(endHour[1]));
-
-                    if (calendarView.currentEnd > workDateEnd.toDate()) {
-                        unavailabilityEvent = {
-                            title: lang('not_working'),
-                            start: moment(
-                                calendarDate.format('YYYY-MM-DD') + ' ' + sortedWorkingPlan[weekdayName].end + ':00',
-                            ).toDate(),
-                            end: calendarDate.clone().add(1, 'day').toDate(),
-                            allDay: false,
-                            color: '#BEBEBE',
-                            editable: false,
-                            display: 'background',
-                            className: 'fc-unavailability',
-                        };
-
-                        calendarEventSource.push(unavailabilityEvent);
-                    }
-
-                    // Add unavailability periods during day breaks.
-                    sortedWorkingPlan[weekdayName].breaks.forEach((breakPeriod) => {
-                        const breakStartString = breakPeriod.start.split(':');
-                        breakStart = calendarDate.clone();
-                        breakStart.hour(parseInt(breakStartString[0]));
-                        breakStart.minute(parseInt(breakStartString[1]));
-
-                        const breakEndString = breakPeriod.end.split(':');
-                        breakEnd = calendarDate.clone();
-                        breakEnd.hour(parseInt(breakEndString[0]));
-                        breakEnd.minute(parseInt(breakEndString[1]));
-
-                        const unavailabilityEvent = {
-                            title: lang('break'),
-                            start: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.start).toDate(),
-                            end: moment(calendarDate.format('YYYY-MM-DD') + ' ' + breakPeriod.end).toDate(),
-                            allDay: false,
-                            color: '#BEBEBE',
-                            editable: false,
-                            display: 'background',
-                            className: 'fc-unavailability fc-break',
-                        };
-
-                        calendarEventSource.push(unavailabilityEvent);
-                    });
-
-                    calendarDate.add(1, 'day');
-                }
+                fullCalendar.addEventSource(events);
             })
             .always(() => {
                 $('#loading').css('visibility', '');
-                fullCalendar.addEventSource(calendarEventSource);
             });
     }
 
-    function initialize() {
-        // Dynamic date formats.
-        let columnFormat = {};
+    /**
+     * Create appointment calendar events.
+     *
+     * @param {Array} appointments - Appointment data array.
+     * @returns {Array} Calendar event objects.
+     */
+    function createAppointmentEvents(appointments) {
+        return appointments.map((appointment) => {
+            const customerName = [appointment.customer.first_name, appointment.customer.last_name]
+                .filter(Boolean)
+                .join(' ');
+
+            const title = customerName ? `${appointment.service.name} - ${customerName}` : appointment.service.name;
+
+            return {
+                id: appointment.id,
+                title,
+                start: moment(appointment.start_datetime).toDate(),
+                end: moment(appointment.end_datetime).toDate(),
+                allDay: false,
+                color: appointment.color,
+                data: appointment,
+                display: 'block',
+            };
+        });
+    }
+
+    /**
+     * Create unavailability calendar events.
+     *
+     * @param {Array} unavailabilities - Unavailability data array.
+     * @returns {Array} Calendar event objects.
+     */
+    function createUnavailabilityEvents(unavailabilities) {
+        return unavailabilities.map((unavailability) => {
+            let notes = unavailability.notes ? ` - ${unavailability.notes}` : '';
+            if (notes.length > 33) {
+                notes = ` - ${unavailability.notes.substring(0, 30)}...`;
+            }
+
+            return {
+                title: lang('unavailability') + notes,
+                start: moment(unavailability.start_datetime).toDate(),
+                end: moment(unavailability.end_datetime).toDate(),
+                allDay: false,
+                color: EVENT_COLORS.unavailability,
+                editable: true,
+                className: 'fc-unavailability fc-custom',
+                data: unavailability,
+                display: 'block',
+            };
+        });
+    }
+
+    /**
+     * Create blocked period calendar events.
+     *
+     * @param {Array} blockedPeriods - Blocked period data array.
+     * @returns {Array} Calendar event objects.
+     */
+    function createBlockedPeriodEvents(blockedPeriods) {
+        if (!blockedPeriods) return [];
+
+        return blockedPeriods.map((blockedPeriod) => ({
+            title: blockedPeriod.name,
+            start: moment(blockedPeriod.start_datetime).toDate(),
+            end: moment(blockedPeriod.end_datetime).toDate(),
+            allDay: true,
+            backgroundColor: EVENT_COLORS.blockedPeriod,
+            borderColor: EVENT_COLORS.blockedPeriod,
+            textColor: '#ffffff',
+            editable: false,
+            className: 'fc-blocked-period fc-unavailability',
+            data: blockedPeriod,
+            display: 'block',
+        }));
+    }
+
+    /**
+     * Create working plan related events (exceptions, breaks, non-working periods).
+     *
+     * @param {string} recordId - Provider ID.
+     * @returns {Array} Calendar event objects.
+     */
+    function createWorkingPlanEvents(recordId) {
+        const events = [];
+        const provider = findProvider(recordId);
+
+        const workingPlan = JSON.parse(provider?.settings?.working_plan || vars('company_working_plan'));
+        const workingPlanExceptions = JSON.parse(provider?.settings?.working_plan_exceptions || '{}');
+
+        const firstWeekdayNumber = App.Utils.Date.getWeekdayId(vars('first_weekday'));
+        const sortedWorkingPlan = App.Utils.Date.sortWeekDictionary(workingPlan, firstWeekdayNumber);
+
+        const calendarDate = moment(fullCalendar.view.currentStart).clone();
+        const viewEnd = fullCalendar.view.currentEnd;
+
+        while (calendarDate.toDate() < viewEnd) {
+            const weekdayNumber = parseInt(calendarDate.format('d'));
+            const weekdayName = App.Utils.Date.getWeekdayName(weekdayNumber);
+            const weekdayDate = calendarDate.format('YYYY-MM-DD');
+
+            // Apply working plan exception if exists
+            if (workingPlanExceptions[weekdayDate]) {
+                sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
+                events.push(createWorkingPlanExceptionEvent(weekdayDate, workingPlanExceptions[weekdayDate], provider));
+            }
+
+            // Handle non-working days
+            if (!sortedWorkingPlan[weekdayName]) {
+                events.push(createNonWorkingDayEvent(calendarDate));
+                calendarDate.add(1, 'day');
+                continue;
+            }
+
+            // Add before/after work unavailability
+            const dayPlan = sortedWorkingPlan[weekdayName];
+            events.push(...createWorkHoursUnavailability(calendarDate, dayPlan, viewEnd));
+
+            // Add break periods
+            events.push(...createBreakEvents(calendarDate, dayPlan.breaks));
+
+            calendarDate.add(1, 'day');
+        }
+
+        return events;
+    }
+
+    /**
+     * Create a working plan exception event.
+     *
+     * @param {string} date - Date string (YYYY-MM-DD).
+     * @param {Object} exception - Exception data.
+     * @param {Object} provider - Provider object.
+     * @returns {Object} Calendar event object.
+     */
+    function createWorkingPlanExceptionEvent(date, exception, provider) {
+        const startTime = exception?.start || '00:00';
+        const endTime = exception?.end || '00:00';
+
+        return {
+            title: lang('working_plan_exception'),
+            start: moment(`${date} ${startTime}`, 'YYYY-MM-DD HH:mm', true).toDate(),
+            end: moment(`${date} ${endTime}`, 'YYYY-MM-DD HH:mm', true).add(1, 'day').toDate(),
+            allDay: true,
+            color: EVENT_COLORS.unavailability,
+            editable: false,
+            className: 'fc-working-plan-exception fc-custom',
+            display: 'block',
+            data: {date, workingPlanException: exception, provider},
+        };
+    }
+
+    /**
+     * Create a non-working day event.
+     *
+     * @param {moment.Moment} calendarDate - Calendar date moment object.
+     * @returns {Object} Calendar event object.
+     */
+    function createNonWorkingDayEvent(calendarDate) {
+        return {
+            title: lang('not_working'),
+            start: calendarDate.clone().toDate(),
+            end: calendarDate.clone().add(1, 'day').toDate(),
+            allDay: false,
+            color: EVENT_COLORS.notWorking,
+            editable: false,
+            display: 'background',
+            className: 'fc-unavailability',
+        };
+    }
+
+    /**
+     * Create unavailability events for before/after working hours.
+     *
+     * @param {moment.Moment} calendarDate - Calendar date moment object.
+     * @param {Object} dayPlan - Day working plan.
+     * @param {Date} viewEnd - Calendar view end date.
+     * @returns {Array} Array of calendar event objects.
+     */
+    function createWorkHoursUnavailability(calendarDate, dayPlan, viewEnd) {
+        const events = [];
+        const dateStr = calendarDate.format('YYYY-MM-DD');
+
+        // Before work starts
+        const [startHour, startMin] = dayPlan.start.split(':').map(Number);
+        const workStart = calendarDate.clone().hour(startHour).minute(startMin);
+
+        if (calendarDate.toDate() < workStart.toDate()) {
+            events.push({
+                title: lang('not_working'),
+                start: calendarDate.clone().toDate(),
+                end: moment(`${dateStr} ${dayPlan.start}:00`).toDate(),
+                allDay: false,
+                color: EVENT_COLORS.notWorking,
+                editable: false,
+                display: 'background',
+                className: 'fc-unavailability',
+            });
+        }
+
+        // After work ends
+        const [endHour, endMin] = dayPlan.end.split(':').map(Number);
+        const workEnd = calendarDate.clone().hour(endHour).minute(endMin);
+
+        if (viewEnd > workEnd.toDate()) {
+            events.push({
+                title: lang('not_working'),
+                start: moment(`${dateStr} ${dayPlan.end}:00`).toDate(),
+                end: calendarDate.clone().add(1, 'day').toDate(),
+                allDay: false,
+                color: EVENT_COLORS.notWorking,
+                editable: false,
+                display: 'background',
+                className: 'fc-unavailability',
+            });
+        }
+
+        return events;
+    }
+
+    /**
+     * Create break period events.
+     *
+     * @param {moment.Moment} calendarDate - Calendar date moment object.
+     * @param {Array} breaks - Array of break periods.
+     * @returns {Array} Array of calendar event objects.
+     */
+    function createBreakEvents(calendarDate, breaks) {
+        if (!breaks) return [];
+
+        const dateStr = calendarDate.format('YYYY-MM-DD');
+
+        return breaks.map((breakPeriod) => ({
+            title: lang('break'),
+            start: moment(`${dateStr} ${breakPeriod.start}`).toDate(),
+            end: moment(`${dateStr} ${breakPeriod.end}`).toDate(),
+            allDay: false,
+            color: EVENT_COLORS.notWorking,
+            editable: false,
+            display: 'background',
+            className: 'fc-unavailability fc-break',
+        }));
+    }
+
+    // =============================================================================
+    // Event Listeners
+    // =============================================================================
+
+    /**
+     * Add all page event listeners.
+     */
+    function addEventListeners() {
+        // Reload button
+        $reloadAppointments.on('click', () => {
+            closePopover();
+            refreshCalendarAppointments(
+                $calendar,
+                $selectFilterItem.val(),
+                getSelectedFilterType(),
+                fullCalendar.view.activeStart,
+                fullCalendar.view.activeEnd,
+            );
+        });
+
+        // Popover close button
+        $calendarPage.on('click', '.close-popover', closePopover);
+
+        // Popover edit button
+        $calendarPage.on('click', '.edit-popover', onEditPopoverClick);
+
+        // Popover delete button
+        $calendarPage.on('click', '.delete-popover', onDeletePopoverClick);
+
+        // Filter change
+        $selectFilterItem.on('change', () => {
+            const providerId = $selectFilterItem.val();
+            const provider = findProvider(providerId);
+
+            if (provider?.timezone) {
+                $('.provider-timezone').text(vars('timezones')[provider.timezone]);
+            }
+
+            $('#insert-working-plan-exception').toggle(isProviderFilter());
+            $reloadAppointments.trigger('click');
+
+            window.localStorage.setItem('EasyAppointments.SelectFilterItem', providerId);
+        });
+    }
+
+    // =============================================================================
+    // Initialization
+    // =============================================================================
+
+    /**
+     * Get date/time format settings for FullCalendar.
+     *
+     * @returns {Object} Format configuration object.
+     */
+    function getFormatSettings() {
+        let columnFormat, timeFormat, slotTimeFormat;
 
         switch (vars('date_format')) {
             case 'DMY':
                 columnFormat = 'ddd D/M';
                 break;
-
             case 'MDY':
             case 'YMD':
                 columnFormat = 'ddd M/D';
                 break;
-
             default:
-                throw new Error('Invalid date format setting provided: ' + vars('date_format'));
+                throw new Error('Invalid date format setting: ' + vars('date_format'));
         }
-
-        // Time formats
-        let timeFormat = '';
-        let slotTimeFormat = '';
 
         switch (vars('time_format')) {
             case 'military':
@@ -1550,15 +1442,58 @@ App.Utils.CalendarDefaultView = (function () {
                 slotTimeFormat = 'h a';
                 break;
             default:
-                throw new Error('Invalid time format setting provided: ' + vars('time_format'));
+                throw new Error('Invalid time format setting: ' + vars('time_format'));
         }
 
+        return {columnFormat, timeFormat, slotTimeFormat};
+    }
+
+    /**
+     * Populate the filter dropdown with providers and services.
+     */
+    function populateFilterDropdown() {
+        $selectFilterItem.append(new Option(lang('all'), FILTER_TYPE_ALL, true, true));
+
+        if (vars('available_providers').length > 0) {
+            $('<optgroup/>', {
+                label: lang('providers'),
+                type: 'providers-group',
+                html: vars('available_providers').map((provider) =>
+                    $('<option/>', {
+                        value: provider.id,
+                        type: FILTER_TYPE_PROVIDER,
+                        'google-sync': provider.settings.google_sync,
+                        'caldav-sync': provider.settings.caldav_sync,
+                        text: `${provider.first_name} ${provider.last_name}`,
+                    }),
+                ),
+            }).appendTo($selectFilterItem);
+        }
+
+        if (vars('available_services').length > 0) {
+            $('<optgroup/>', {
+                label: lang('services'),
+                type: 'services-group',
+                html: vars('available_services').map((service) =>
+                    $('<option/>', {
+                        value: service.id,
+                        type: FILTER_TYPE_SERVICE,
+                        text: service.name,
+                    }),
+                ),
+            }).appendTo($selectFilterItem);
+        }
+    }
+
+    /**
+     * Initialize the calendar page.
+     */
+    function initialize() {
+        const {columnFormat, timeFormat, slotTimeFormat} = getFormatSettings();
         const initialView = window.innerWidth < 468 ? 'timeGridDay' : 'timeGridWeek';
+        const firstWeekdayNumber = App.Utils.Date.getWeekdayId(vars('first_weekday'));
 
-        const firstWeekday = vars('first_weekday');
-        const firstWeekdayNumber = App.Utils.Date.getWeekdayId(firstWeekday);
-
-        // Initialize page calendar
+        // Create FullCalendar instance
         fullCalendar = new FullCalendar.Calendar($calendar[0], {
             initialView,
             locale: vars('language_code'),
@@ -1572,7 +1507,7 @@ App.Utils.CalendarDefaultView = (function () {
             slotLabelInterval: '01:00',
             eventTimeFormat: timeFormat,
             eventTextColor: '#333',
-            eventColor: '#7cbae8',
+            eventColor: EVENT_COLORS.default,
             slotLabelFormat: slotTimeFormat,
             allDayContent: lang('all_day'),
             selectable: true,
@@ -1600,126 +1535,41 @@ App.Utils.CalendarDefaultView = (function () {
         });
 
         fullCalendar.render();
-
         $calendar.data('fullCalendar', fullCalendar);
 
-        // Trigger once to set the proper footer position after calendar initialization.
         onWindowResize();
 
-        $selectFilterItem.append(new Option(lang('all'), FILTER_TYPE_ALL, true, true));
-
+        // Setup filter dropdown
+        populateFilterDropdown();
         $('#insert-working-plan-exception').hide();
 
-        // Fill the select list boxes of the page.
-        if (vars('available_providers').length > 0) {
-            $('<optgroup/>', {
-                'label': lang('providers'),
-                'type': 'providers-group',
-                'html': vars('available_providers').map((availableProvider) => {
-                    const {settings} = availableProvider;
-
-                    return $('<option/>', {
-                        'value': availableProvider.id,
-                        'type': FILTER_TYPE_PROVIDER,
-                        'google-sync': settings.google_sync,
-                        'caldav-sync': settings.caldav_sync,
-                        'text': availableProvider.first_name + ' ' + availableProvider.last_name,
-                    });
-                }),
-            }).appendTo('#select-filter-item');
-        }
-
-        if (vars('available_services').length > 0) {
-            $('<optgroup/>', {
-                'label': lang('services'),
-                'type': 'services-group',
-                'html': vars('available_services').map((availableService) =>
-                    $('<option/>', {
-                        'value': availableService.id,
-                        'type': FILTER_TYPE_SERVICE,
-                        'text': availableService.name,
-                    }),
-                ),
-            }).appendTo('#select-filter-item');
-        }
-
-        // Check permissions.
+        // Select provider if user is a provider
         if (vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER) {
-            $selectFilterItem
-                .find('optgroup:eq(0)')
-                .find('option[value="' + vars('user_id') + '"]')
-                .prop('selected', true);
+            $selectFilterItem.find(`optgroup:eq(0) option[value="${vars('user_id')}"]`).prop('selected', true);
         }
 
-        // Add the page event listeners.
         addEventListeners();
 
-        const localSelectFilterItemValue = window.localStorage.getItem('EasyAppointments.SelectFilterItem');
-
-        if (
-            localSelectFilterItemValue &&
-            $selectFilterItem.find(`option[value="${localSelectFilterItemValue}"]`).length
-        ) {
-            $selectFilterItem.val(localSelectFilterItemValue).trigger('change');
+        // Restore saved filter selection
+        const savedFilter = window.localStorage.getItem('EasyAppointments.SelectFilterItem');
+        if (savedFilter && $selectFilterItem.find(`option[value="${savedFilter}"]`).length) {
+            $selectFilterItem.val(savedFilter).trigger('change');
         } else {
             $reloadAppointments.trigger('click');
         }
 
-        // Display the edit dialog if an appointment hash is provided.
+        // Display edit dialog if appointment hash provided
         if (vars('edit_appointment')) {
-            const appointment = vars('edit_appointment');
-
-            App.Components.AppointmentsModal.resetModal();
-
-            $appointmentsModal.find('.modal-header h3').text(lang('edit_appointment_title'));
-            $appointmentsModal.find('#appointment-id').val(appointment.id);
-            $appointmentsModal.find('#select-service').val(appointment.id_services).trigger('change');
-            $appointmentsModal.find('#select-provider').val(appointment.id_users_provider);
-
-            // Set the start and end datetime of the appointment.
-            const startDatetimeMoment = moment(appointment.start_datetime);
-            App.Utils.UI.setDateTimePickerValue(
-                $appointmentsModal.find('#start-datetime'),
-                startDatetimeMoment.toDate(),
-            );
-
-            const endDatetimeMoment = moment(appointment.end_datetime);
-            App.Utils.UI.setDateTimePickerValue($appointmentsModal.find('#end-datetime'), endDatetimeMoment.toDate());
-
-            const customer = appointment.customer;
-            $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
-            $appointmentsModal.find('#first-name').val(customer.first_name);
-            $appointmentsModal.find('#last-name').val(customer.last_name);
-            $appointmentsModal.find('#email').val(customer.email);
-            $appointmentsModal.find('#phone-number').val(customer.phone_number);
-            $appointmentsModal.find('#address').val(customer.address);
-            $appointmentsModal.find('#city').val(customer.city);
-            $appointmentsModal.find('#zip-code').val(customer.zip_code);
-            $appointmentsModal.find('#language').val(customer.language);
-            $appointmentsModal.find('#timezone').val(customer.timezone);
-            $appointmentsModal.find('#appointment-location').val(appointment.location);
-            $appointmentsModal.find('#appointment-meeting-link').val(appointment.meeting_link);
-            $appointmentsModal.find('#appointment-status').val(appointment.status);
-            $appointmentsModal.find('#appointment-notes').val(appointment.notes);
-            $appointmentsModal.find('#customer-notes').val(customer.notes);
-            $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
-            $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
-            $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);
-            $appointmentsModal.find('#custom-field-4').val(customer.custom_field_4);
-            $appointmentsModal.find('#custom-field-5').val(customer.custom_field_5);
-
-            App.Components.ColorSelection.setColor($appointmentsModal.find('#appointment-color'), appointment.color);
-
-            $appointmentsModal.modal('show');
-
-            fullCalendar.gotoDate(moment(appointment.start_datetime).toDate());
+            populateAppointmentModal(vars('edit_appointment'));
+            fullCalendar.gotoDate(moment(vars('edit_appointment').start_datetime).toDate());
         }
 
+        // Disable actions if no filter options
         if (!$selectFilterItem.find('option').length) {
             $('#calendar-actions button').prop('disabled', true);
         }
 
-        // Automatically refresh the calendar page every 10 seconds (without loading animation).
+        // Auto-refresh every 60 seconds
         setInterval(() => {
             if ($('.popover').length || App.Utils.CalendarSync.isCurrentlySyncing()) {
                 return;
@@ -1728,12 +1578,16 @@ App.Utils.CalendarDefaultView = (function () {
             refreshCalendarAppointments(
                 $calendar,
                 $selectFilterItem.val(),
-                $selectFilterItem.find('option:selected').attr('type'),
+                getSelectedFilterType(),
                 fullCalendar.view.activeStart,
                 fullCalendar.view.activeEnd,
             );
         }, 60000);
     }
+
+    // =============================================================================
+    // Public API
+    // =============================================================================
 
     return {
         initialize,
