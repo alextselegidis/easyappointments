@@ -291,10 +291,55 @@ body .modal.full-screen .modal-push {
 }
 
 /* Calendar table view */
+#calendar .calendar-view {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 #calendar .calendar-view > div {
-    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
     min-width: 100%;
-    overflow: auto;
+}
+
+#calendar .calendar-view .date-column {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+#calendar .calendar-view .date-column .date-column-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    padding: 10px 5px;
+    margin: 0;
+    background: var(--bs-light);
+    border-right: 1px solid var(--bs-border-color);
+    white-space: nowrap;
+}
+
+#calendar .calendar-view .date-column .provider-column {
+    flex-shrink: 0;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    border-right: 1px solid var(--bs-border-color);
+}
+
+#calendar .calendar-view .date-column .provider-column h6 {
+    padding: 8px 10px;
+    margin: 0;
+    background: var(--bs-light);
+    border-bottom: 1px solid var(--bs-border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#calendar .calendar-view .date-column .provider-column .calendar-wrapper {
+    height: calc(100% - 40px);
 }
 
 #calendar .calendar-view .date-column .provider-column .event {
@@ -354,7 +399,7 @@ body .modal.full-screen .modal-push {
     width: 100% !important;
 }
 
-#providers-page #providers .breaks .btn,oser 
+#providers-page #providers .breaks .btn,
 #providers-page #providers .working-plan-exceptions .btn,
 #business-logic .breaks .btn {
     margin-right: 5px;
