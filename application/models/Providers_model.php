@@ -93,11 +93,7 @@ class Providers_model extends EA_Model
         }
 
         // Make sure all required fields are provided.
-        if (
-            empty($provider['first_name']) ||
-            empty($provider['last_name']) ||
-            empty($provider['email'])
-        ) {
+        if (empty($provider['first_name']) || empty($provider['last_name']) || empty($provider['email'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($provider, true));
         }
 
@@ -711,6 +707,41 @@ class Providers_model extends EA_Model
         }
 
         return $providers;
+    }
+
+    /**
+     * Get providers as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        $role_id = $this->get_provider_role_id();
+
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $providers = $this->db
+            ->select('id, first_name, last_name')
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->order_by('first_name, last_name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($providers as $provider) {
+            $options[] = [
+                'value' => (int) $provider['id'],
+                'label' => trim($provider['first_name'] . ' ' . $provider['last_name']),
+            ];
+        }
+
+        return $options;
     }
 
     /**

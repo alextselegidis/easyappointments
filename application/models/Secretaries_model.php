@@ -91,11 +91,7 @@ class Secretaries_model extends EA_Model
         }
 
         // Make sure all required fields are provided.
-        if (
-            empty($secretary['first_name']) ||
-            empty($secretary['last_name']) ||
-            empty($secretary['email'])
-        ) {
+        if (empty($secretary['first_name']) || empty($secretary['last_name']) || empty($secretary['email'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($secretary, true));
         }
 
@@ -548,6 +544,41 @@ class Secretaries_model extends EA_Model
         }
 
         return $secretaries;
+    }
+
+    /**
+     * Get secretaries as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        $role_id = $this->get_secretary_role_id();
+
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $secretaries = $this->db
+            ->select('id, first_name, last_name')
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->order_by('first_name, last_name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($secretaries as $secretary) {
+            $options[] = [
+                'value' => (int) $secretary['id'],
+                'label' => trim($secretary['first_name'] . ' ' . $secretary['last_name']),
+            ];
+        }
+
+        return $options;
     }
 
     /**

@@ -271,6 +271,33 @@ class Settings_model extends EA_Model
     }
 
     /**
+     * Get settings as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $settings = $this->db->select('id, name')->from('settings')->order_by('name')->get()->result_array();
+
+        $options = [];
+
+        foreach ($settings as $setting) {
+            $options[] = [
+                'value' => (int) $setting['id'],
+                'label' => $setting['name'],
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to a setting.
      *
      * @param array $setting Associative array with the setting data.

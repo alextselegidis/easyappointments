@@ -505,6 +505,40 @@ class Appointments_model extends EA_Model
     }
 
     /**
+     * Get appointments as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $appointments = $this->db
+            ->select('appointments.id, appointments.start_datetime, services.name AS service_name')
+            ->from('appointments')
+            ->join('services', 'services.id = appointments.id_services', 'left')
+            ->where('is_unavailability', false)
+            ->order_by('start_datetime', 'DESC')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($appointments as $appointment) {
+            $options[] = [
+                'value' => (int) $appointment['id'],
+                'label' => $appointment['start_datetime'] . ' - ' . ($appointment['service_name'] ?? 'N/A'),
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to an appointment.
      *
      * @param array $appointment Associative array with the appointment data.

@@ -251,6 +251,43 @@ class Consents_model extends EA_Model
     }
 
     /**
+     * Get consents as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $consents = $this->db
+            ->select('id, first_name, last_name, email, type')
+            ->from('consents')
+            ->order_by('create_datetime', 'DESC')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($consents as $consent) {
+            $label = trim($consent['first_name'] . ' ' . $consent['last_name']);
+            if (!empty($consent['email'])) {
+                $label .= ' (' . $consent['email'] . ')';
+            }
+            $label .= ' - ' . $consent['type'];
+            $options[] = [
+                'value' => (int) $consent['id'],
+                'label' => $label,
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to a consent.
      *
      * @param array $consent Associative array with the consent data.

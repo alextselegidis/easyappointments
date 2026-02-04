@@ -328,6 +328,33 @@ class Roles_model extends EA_Model
     }
 
     /**
+     * Get roles as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $roles = $this->db->select('id, name')->from('roles')->order_by('name')->get()->result_array();
+
+        $options = [];
+
+        foreach ($roles as $role) {
+            $options[] = [
+                'value' => (int) $role['id'],
+                'label' => $role['name'],
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to a role.
      *
      * @param array $role Associative array with the role data.

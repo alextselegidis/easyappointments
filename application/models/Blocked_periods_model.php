@@ -253,6 +253,38 @@ class Blocked_periods_model extends EA_Model
     }
 
     /**
+     * Get blocked periods as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $blocked_periods = $this->db
+            ->select('id, name')
+            ->from('blocked_periods')
+            ->order_by('name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($blocked_periods as $blocked_period) {
+            $options[] = [
+                'value' => (int) $blocked_period['id'],
+                'label' => $blocked_period['name'],
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Get all services that match the provided criteria.
      *
      * @param array|string|null $where Where conditions

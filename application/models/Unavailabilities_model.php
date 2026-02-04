@@ -342,6 +342,43 @@ class Unavailabilities_model extends EA_Model
     }
 
     /**
+     * Get unavailabilities as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $unavailabilities = $this->db
+            ->select('appointments.id, appointments.start_datetime, appointments.notes')
+            ->from('appointments')
+            ->where('is_unavailability', true)
+            ->order_by('start_datetime', 'DESC')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($unavailabilities as $unavailability) {
+            $label = $unavailability['start_datetime'];
+            if (!empty($unavailability['notes'])) {
+                $label .= ' - ' . substr($unavailability['notes'], 0, 30);
+            }
+            $options[] = [
+                'value' => (int) $unavailability['id'],
+                'label' => $label,
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to an unavailability.
      *
      * @param array $unavailability Associative array with the unavailability data.

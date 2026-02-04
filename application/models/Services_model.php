@@ -410,6 +410,33 @@ class Services_model extends EA_Model
     }
 
     /**
+     * Get services as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $services = $this->db->select('id, name')->from('services')->order_by('name')->get()->result_array();
+
+        $options = [];
+
+        foreach ($services as $service) {
+            $options[] = [
+                'value' => (int) $service['id'],
+                'label' => $service['name'],
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to a service.
      *
      * @param array $service Associative array with the service data.

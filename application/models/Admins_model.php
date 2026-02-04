@@ -91,11 +91,7 @@ class Admins_model extends EA_Model
         }
 
         // Make sure all required fields are provided.
-        if (
-            empty($admin['first_name']) ||
-            empty($admin['last_name']) ||
-            empty($admin['email'])
-        ) {
+        if (empty($admin['first_name']) || empty($admin['last_name']) || empty($admin['email'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($admin, true));
         }
 
@@ -521,6 +517,41 @@ class Admins_model extends EA_Model
         }
 
         return $admins;
+    }
+
+    /**
+     * Get admins as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        $role_id = $this->get_admin_role_id();
+
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $admins = $this->db
+            ->select('id, first_name, last_name')
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->order_by('first_name, last_name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($admins as $admin) {
+            $options[] = [
+                'value' => (int) $admin['id'],
+                'label' => trim($admin['first_name'] . ' ' . $admin['last_name']),
+            ];
+        }
+
+        return $options;
     }
 
     /**
