@@ -237,6 +237,10 @@ class Appointments_api_v1 extends EA_Controller
     /**
      * Send the required notifications and trigger syncing after saving an appointment.
      *
+     * Sync and notifications are wrapped in try-catch so that failures (e.g. missing Google
+     * token, SMTP misconfiguration) do not prevent the webhook from being triggered when
+     * creating/updating appointments via API.
+     *
      * @param array $appointment Appointment data.
      * @param string $action Performed action ("store" or "update").
      */
@@ -262,16 +266,30 @@ class Appointments_api_v1 extends EA_Controller
             'time_format' => setting('time_format'),
         ];
 
-        $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
+        try {
+            $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
+        } catch (Throwable $e) {
+            log_message(
+                'error',
+                'Appointments API - Sync failed (webhook will still run): ' . $e->getMessage(),
+            );
+        }
 
-        $this->notifications->notify_appointment_saved(
-            $appointment,
-            $service,
-            $provider,
-            $customer,
-            $settings,
-            $manage_mode,
-        );
+        try {
+            $this->notifications->notify_appointment_saved(
+                $appointment,
+                $service,
+                $provider,
+                $customer,
+                $settings,
+                $manage_mode,
+            );
+        } catch (Throwable $e) {
+            log_message(
+                'error',
+                'Appointments API - Notify failed (webhook will still run): ' . $e->getMessage(),
+            );
+        }
 
         $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
     }
