@@ -11,6 +11,8 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use Gregwar\Captcha\CaptchaBuilder;
+
 /**
  * Captcha controller.
  *
@@ -26,8 +28,6 @@ class Captcha extends EA_Controller
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('captcha_builder');
     }
 
     /**
@@ -37,13 +37,15 @@ class Captcha extends EA_Controller
     {
         method('get');
 
-        $this->captcha_builder->setDistortion(true);
-        $this->captcha_builder->setMaxBehindLines(1);
-        $this->captcha_builder->setMaxFrontLines(1);
-        $this->captcha_builder->setBackgroundColor(255, 255, 255);
-        $this->captcha_builder->build();
-        session(['captcha_phrase' => $this->captcha_builder->getPhrase()]);
+        $captcha_builder = new CaptchaBuilder();
+
+        $captcha_builder->setDistortion(true);
+        $captcha_builder->setMaxBehindLines(1);
+        $captcha_builder->setMaxFrontLines(1);
+        $captcha_builder->setBackgroundColor(255, 255, 255);
+        $captcha_builder->build();
+        session(['captcha_phrase' => $captcha_builder->getPhrase()]);
         header('Content-type: image/jpeg');
-        $this->captcha_builder->output();
+        $captcha_builder->output();
     }
 }
