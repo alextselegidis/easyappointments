@@ -106,9 +106,16 @@ class Login extends EA_Controller
                     'info',
                     'Failed login attempt for username: ' . $username . ' from IP: ' . $this->input->ip_address(),
                 );
+
                 // Use constant time response to prevent username enumeration
                 usleep(random_int(100000, 300000)); // 100-300ms delay
-                throw new InvalidArgumentException(lang('invalid_credentials_provided'));
+
+                json_response([
+                    'success' => false,
+                    'message' => lang('invalid_credentials_provided'),
+                ]);
+
+                return;
             }
 
             $this->session->sess_regenerate(true); // Regenerate session ID and delete old session
