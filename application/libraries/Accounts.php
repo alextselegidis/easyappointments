@@ -194,4 +194,116 @@ class Accounts
 
         return $this->CI->users_model->find($user_id);
     }
+
+    /**
+     * Generate a password reset token for the user that matches the provided username and email.
+     *
+     * @param string $username Username.
+     * @param string $email Email.
+     *
+     * @return array Returns an array with 'token' and 'email' on success.
+     *
+     * @throws RuntimeException If the user was not found.
+     */
+    public function generate_reset_token(string $username, string $email): array
+    {
+        $query = $this->CI->db
+            ->select('users.id, users.email')
+            ->from('users')
+            ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
+            ->where('users.email', $email)
+            ->where('user_settings.username', $username)
+            ->get();
+
+        if (!$query->num_rows()) {
+            throw new RuntimeException('The user was not found in the database with the provided info.');
+        }
+
+        $user = $query->row_array();
+
+        // Generate a secure random token
+        $token = bin2hex(random_bytes(32));
+
+        // Hash the token for storage (we store the hash, send the plain token)
+        $token_hash = hash('sha256', $token);
+
+        // Set expiration to 1 hour from now
+        $expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+        // Store the hashed token and expiration
+        $this->CI->db->update(
+            'user_settings',
+            [
+                'password_reset_token' => $token_hash,
+                'password_reset_expires' => $expires,
+            ],
+            ['id_users' => $user['id']],
+        );
+
+        return [
+            'token' => $token,
+            'email' => $user['email'],
+        ];
+    }
+
+    /**
+     * Validate a password reset token.
+     *
+     * @param string $token The plain text token to validate.
+     *
+     * @return array|null Returns user data if valid, null otherwise.
+     */
+    public function validate_reset_token(string $token): ?array
+    {
+        $token_hash = hash('sha256', $token);
+
+        $query = $this->CI->db
+            ->select('users.id, users.email, users.first_name, users.last_name, user_settings.username')
+            ->from('users')
+            ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
+            ->where('user_settings.password_reset_token', $token_hash)
+            ->where('user_settings.password_reset_expires >', date('Y-m-d H:i:s'))
+            ->get();
+
+        if (!$query->num_rows()) {
+            return null;
+        }
+
+        return $query->row_array();
+    }
+
+    /**
+     * Reset the password using a valid token.
+     *
+     * @param string $token The plain text token.
+     * @param string $new_password The new password.
+     *
+     * @return bool Returns true on success.
+     *
+     * @throws RuntimeException If the token is invalid or expired.
+     */
+    public function reset_password_with_token(string $token, string $new_password): bool
+    {
+        $user = $this->validate_reset_token($token);
+
+        if (!$user) {
+            throw new RuntimeException('Invalid or expired password reset token.');
+        }
+
+        $salt = $this->get_salt_by_username($user['username']);
+
+        $hash_password = hash_password($salt, $new_password);
+
+        // Update the password and clear the reset token
+        $this->CI->db->update(
+            'user_settings',
+            [
+                'password' => $hash_password,
+                'password_reset_token' => null,
+                'password_reset_expires' => null,
+            ],
+            ['id_users' => $user['id']],
+        );
+        return true;
+    }
 }

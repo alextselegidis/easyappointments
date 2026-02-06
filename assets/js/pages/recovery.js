@@ -21,10 +21,9 @@ App.Pages.Recovery = (function () {
     const $getNewPassword = $('#get-new-password');
 
     /**
-     * Event: Login Button "Click"
+     * Event: Form "Submit"
      *
-     * Make an HTTP request to the server and check whether the user's credentials are right. If yes then redirect the
-     * user to the destination page, otherwise display an error message.
+     * Make an HTTP request to the server to request a password reset link.
      */
     function onFormSubmit(event) {
         event.preventDefault();
@@ -44,12 +43,12 @@ App.Pages.Recovery = (function () {
 
                 if (response.success) {
                     $alert.addClass('alert-success');
-                    $alert.text(lang('new_password_sent_with_email'));
+                    $alert.text(lang('reset_link_sent_with_email'));
                 } else {
                     $alert.addClass('alert-danger');
                     $alert.text(
                         'The operation failed! Please enter a valid username ' +
-                            'and email address in order to get a new password.',
+                            'and email address in order to receive a password reset link.',
                     );
                 }
             })

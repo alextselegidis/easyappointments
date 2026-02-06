@@ -211,6 +211,35 @@ class Email_messages
     }
 
     /**
+     * Send the password reset link.
+     *
+     * @param string $reset_link The password reset URL.
+     * @param string $recipient_email Recipient email address.
+     * @param array $settings App settings.
+     *
+     * @throws Exception
+     */
+    public function send_password_reset_link(string $reset_link, string $recipient_email, array $settings): void
+    {
+        $html = $this->CI->load->view(
+            'emails/password_reset_email',
+            [
+                'subject' => lang('password_reset_request'),
+                'message' => lang('password_reset_email_message'),
+                'reset_link' => $reset_link,
+                'settings' => $settings,
+            ],
+            true,
+        );
+
+        $subject = lang('password_reset_request');
+
+        $php_mailer = $this->get_php_mailer($recipient_email, $subject, $html);
+
+        $php_mailer->send();
+    }
+
+    /**
      * Create PHP Mailer instance based on the email configuration.
      *
      * @param string|null $recipient_email
