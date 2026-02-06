@@ -1,41 +1,37 @@
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2018, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.4.0
  * ---------------------------------------------------------------------------- */
 
-// Gulp instance and plugins.
-const gulp = require('gulp');
-const fs = require('fs-extra');
-const zip = require('zip-dir');
-const plugins = require('gulp-load-plugins')();
-const {execSync} = require('child_process');
+const babel = require('gulp-babel');
+const changed = require('gulp-changed');
+const cached = require('gulp-cached');
+const childProcess = require('child_process');
+const css = require('gulp-clean-css');
 const del = require('del');
+const fs = require('fs-extra');
+const gulp = require('gulp');
+const plumber = require('gulp-plumber');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass')(require('sass'));
+const zip = require('zip-dir');
+const debug = require('gulp-debug');
 
-// Gulp error handling.
-const source = gulp.src;
-gulp.src = function () {
-    return source.apply(gulp, arguments)
-        .pipe(plugins.plumber({
-            errorHandler: plugins.notify.onError('Error: <%= error.message %>')
-        }));
-};
-
-gulp.task('package', (done) => {
-    const archive = 'easyappointments-0.0.0.zip';
+function archive(done) {
+    const filename = 'easyappointments-0.0.0.zip';
 
     fs.removeSync('build');
-    fs.removeSync(archive);
+    fs.removeSync(filename);
 
     fs.mkdirsSync('build');
     fs.copySync('application', 'build/application');
     fs.copySync('assets', 'build/assets');
-    fs.copySync('engine', 'build/engine');
     fs.copySync('system', 'build/system');
 
     fs.ensureDirSync('build/storage/backups');
@@ -66,101 +62,144 @@ gulp.task('package', (done) => {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
-    execSync('cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader', function (err, stdout, stderr) {
-        console.log(stdout);
-        console.log(stderr);
-    });
-
-    del.sync('**/.DS_Store');
+    childProcess.execSync(
+        'cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader --ignore-platform-reqs && composer run cleanup-vendor',
+    );
 
     fs.removeSync('build/composer.lock');
-
     del.sync('**/.DS_Store');
+    del.sync('build/**/.git');
 
-    del.sync('build/vendor/codeigniter/framework/user_guide');
-
-    zip('build', {saveTo: archive}, function (err) {
-        if (err) {
-            console.log('Zip Error', err);
+    zip('build', {saveTo: filename}, function (error) {
+        if (error) {
+            console.log('Zip Error', error);
         }
 
         done();
     });
-});
+}
 
-gulp.task('clean', (done) => {
+function clean(done) {
     fs.removeSync('assets/js/**/*.min.js');
     fs.removeSync('assets/css/**/*.min.css');
     done();
-});
+}
 
-gulp.task('docs', (done) => {
-    fs.removeSync('docs/apigen/html');
-    fs.removeSync('docs/jsdoc/html');
-    fs.removeSync('docs/plato/html');
-
-    fs.mkdirSync('docs/apigen/html');
-    fs.mkdirSync('docs/jsdoc/html');
-    fs.mkdirSync('docs/plato/html');
-
-    const commands = [
-        'php docs/apigen/apigen.phar generate ' +
-        '-s "application/controllers,application/models,application/libraries" ' +
-        '-d "docs/apigen/html" --exclude "*external*" --tree --todo --template-theme "bootstrap"',
-
-        'npx jsdoc "assets/js" -d "docs/jsdoc/html"',
-
-        'npx plato -r -d "docs/plato/html" "assets/js"'
-    ];
-
-    commands.forEach(function (command) {
-        execSync(command, function (err, stdout, stderr) {
-            console.log(stdout);
-            console.log(stderr);
-        });
-    });
-
-    done();
-});
-
-gulp.task('scripts', (done) => {
-    return gulp.src([
-        'assets/js/**/*.js',
-        '!assets/js/**/*.min.js'
-    ])
-        .pipe(plugins.changed('assets/js/**/*'))
-        .pipe(plugins.uglify().on('error', console.log))
-        .pipe(plugins.rename({suffix: '.min'}))
+function scripts() {
+    return gulp
+        .src(['assets/js/**/*.js', '!assets/js/**/*.min.js'])
+        .pipe(plumber())
+        .pipe(changed('assets/js/**/*'))
+        .pipe(babel({comments: false}))
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/js'));
-});
+}
 
-gulp.task('styles', () => {
-    return gulp.src([
-        'assets/css/**/*.css',
-        '!assets/css/**/*.min.css'
-    ])
-        .pipe(plugins.changed('assets/css/**/*'))
-        .pipe(plugins.cleanCss())
-        .pipe(plugins.rename({suffix: '.min'}))
+function styles() {
+    return gulp
+        .src(['assets/css/**/*.scss', '!assets/css/**/*.min.css'])
+        .pipe(plumber())
+        .pipe(cached())
+        .pipe(
+            sass({
+                // @link https://github.com/twbs/bootstrap/issues/40962
+                silenceDeprecations: ['legacy-js-api', 'color-functions', 'global-builtin', 'import'],
+                quietDeps: true,
+            }).on('error', sass.logError),
+        )
+        .pipe(gulp.dest('assets/css'))
+        .pipe(css())
+        .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('assets/css'));
-});
+}
 
-gulp.task('watch', (done) => {
-    gulp.watch([
-        'assets/js/**/*.js',
-        '!assets/js/**/*.min.js'
-    ], gulp.parallel('scripts'));
+function watch(done) {
+    gulp.watch(['assets/js/**/*.js', '!assets/js/**/*.min.js'], gulp.parallel(scripts));
+    gulp.watch(['assets/css/**/*.scss', '!assets/css/**/*.css'], gulp.parallel(styles));
+    done();
+}
 
-    gulp.watch([
-        'assets/css/**/*.css',
-        '!assets/css/**/*.min.css'
-    ], gulp.parallel('styles'));
+function vendor(done) {
+    del.sync(['assets/vendor/**', '!assets/vendor/index.html']);
+
+    // bootstrap
+    gulp.src([
+        'node_modules/bootstrap/dist/js/bootstrap.min.js',
+        'node_modules/bootstrap/dist/css/bootstrap.min.css',
+    ]).pipe(gulp.dest('assets/vendor/bootstrap'));
+
+    // @fortawesome-fontawesome-free
+    gulp.src([
+        'node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js',
+        'node_modules/@fortawesome/fontawesome-free/js/solid.min.js',
+    ]).pipe(gulp.dest('assets/vendor/@fortawesome-fontawesome-free'));
+
+    // cookieconsent
+    gulp.src([
+        'node_modules/cookieconsent/build/cookieconsent.min.js',
+        'node_modules/cookieconsent/build/cookieconsent.min.css',
+    ]).pipe(gulp.dest('assets/vendor/cookieconsent'));
+
+    // fullcalendar
+    gulp.src(['node_modules/fullcalendar/index.global.min.js']).pipe(gulp.dest('assets/vendor/fullcalendar'));
+
+    // fullcalendar-moment
+    gulp.src(['node_modules/@fullcalendar/moment/index.global.min.js']).pipe(
+        gulp.dest('assets/vendor/fullcalendar-moment'),
+    );
+
+    // jquery
+    gulp.src(['node_modules/jquery/dist/jquery.min.js']).pipe(gulp.dest('assets/vendor/jquery'));
+
+    // jquery-jeditable
+    gulp.src(['node_modules/jquery-jeditable/dist/jquery.jeditable.min.js']).pipe(
+        gulp.dest('assets/vendor/jquery-jeditable'),
+    );
+
+    // moment
+    gulp.src(['node_modules/moment/min/moment.min.js']).pipe(gulp.dest('assets/vendor/moment'));
+
+    // moment-timezone
+    gulp.src(['node_modules/moment-timezone/builds/moment-timezone-with-data.min.js']).pipe(
+        gulp.dest('assets/vendor/moment-timezone'),
+    );
+
+    // @popperjs-core
+    gulp.src(['node_modules/@popperjs/core/dist/umd/popper.min.js']).pipe(gulp.dest('assets/vendor/@popperjs-core'));
+
+    // select2
+    gulp.src(['node_modules/select2/dist/js/select2.min.js', 'node_modules/select2/dist/css/select2.min.css']).pipe(
+        gulp.dest('assets/vendor/select2'),
+    );
+
+    // tippy.js
+    gulp.src(['node_modules/tippy.js/dist/tippy-bundle.umd.min.js']).pipe(gulp.dest('assets/vendor/tippy.js'));
+
+    // trumbowyg
+    gulp.src(['node_modules/trumbowyg/dist/trumbowyg.min.js', 'node_modules/trumbowyg/dist/ui/trumbowyg.min.css']).pipe(
+        gulp.dest('assets/vendor/trumbowyg'),
+    );
+
+    gulp.src(['node_modules/trumbowyg/dist/ui/icons.svg']).pipe(gulp.dest('assets/vendor/trumbowyg/ui'));
+
+    // flatpickr
+    gulp.src(['node_modules/flatpickr/dist/flatpickr.min.js', 'node_modules/flatpickr/dist/flatpickr.min.css']).pipe(
+        gulp.dest('assets/vendor/flatpickr'),
+    );
+
+    gulp.src(['node_modules/flatpickr/dist/themes/material_green.css'])
+        .pipe(css())
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest('assets/vendor/flatpickr'));
 
     done();
-});
+}
 
-gulp.task('dev', gulp.series('clean', 'scripts', 'styles', 'watch'));
-
-gulp.task('build', gulp.series('clean', 'scripts', 'styles', 'package'));
-
-gulp.task('default', gulp.parallel('dev'));
+exports.clean = gulp.series(clean);
+exports.vendor = gulp.series(vendor);
+exports.scripts = gulp.series(scripts);
+exports.styles = gulp.series(styles);
+exports.compile = gulp.series(clean, vendor, scripts, styles);
+exports.dev = gulp.series(clean, vendor, scripts, styles, watch);
+exports.build = gulp.series(clean, vendor, scripts, styles, archive);
+exports.default = exports.dev;

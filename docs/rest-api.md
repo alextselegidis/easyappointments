@@ -6,7 +6,7 @@ Easy!Appointments offers a flexible REST API that will enables you to handle all
 
 ### Open API Specification (Swagger File)
 
-The project has a ready-made [swagger file](https://raw.githubusercontent.com/alextselegidis/easyappointments/master/swagger.yml) you can download and use in order to create your client. 
+The project has a ready-made [OpenApi file](https://raw.githubusercontent.com/alextselegidis/easyappointments/master/openapi.yml) you can download and use in order to create your client. 
 
 This file can also be imported into Postman, so that you can quickly get started making requests towards your installation. 
 
@@ -14,7 +14,9 @@ You will find more information about Open API and Swagger on [swagger.io](https:
 
 ## Making Requests
 
-The new API (v1) supports [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) which means that you will have to send the "Authorization" header with every request you make. **Always use SSL/TLS when making requests to a production installation.** That way you can ensure that no passwords will be stolen during the requests. The API expects the username and password of an admin user. 
+The API (v1) supports [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) which means that you will have to send the "Authorization" header with every request you make. **Always use SSL/TLS when making requests to a production installation.** That way you can ensure that no passwords will be stolen during the requests. The API expects the username and password of an administrator user.
+
+Additionally you can configure your own API key in the settings page and pass it through as a Bearer Token with any of your requests.   
 
 The API follows the REST structure which means that the client can use various HTTP verbs in order to perform various operations to the resources. For example you should use a GET request for fetching resources, a POST for creating new and PUT for updating existing ones in the database. Finally a DELETE request will remove a resource from the system. 
 
@@ -54,15 +56,27 @@ If you need to get only specific values from each JSON resource provide the `fie
 http://ea-installation/index.php/api/v1/appointments?fields=id,book,hash,notes
 ```
 
-### Aggregate
+### Aggregate (Deprecated)
 
-Aggregate related data into result payload by providing the `aggregates` parameter.  
+Aggregate related data into result payload by providing the `aggregates` parameter.
+
+> Notice: this parameter only applies to appointments and will be removed in the future (use the `with` paramter instead).  
 
 ```
 http://ea-installation/index.php/api/v1/appointments?aggregates
 ```
 
 *This parameter is currently only available for appointment resources.* 
+
+### With
+
+Attach resources to the response payload with this parameter.
+
+```
+http://ea-installation/index.php/api/v1/appointments?with=customer,service,provider
+```
+
+*This parameter is only available for resources that are related to other resources.* 
 
 ### Expected Responses
  
@@ -93,10 +107,10 @@ Get the data of a customer with ID 34:
 curl http://ea-installation/index.php/api/v1/customers/34 --user username:password
 ```
 
-Update the name of a category with ID 23: 
+Update the name of a service category with ID 23: 
 
 ```
-curl -H 'Content-Type: application/json' -X PUT -d '{"name": "New Name!"}' http://ea-installation/index.php/api/v1/categories/23 --user username:password
+curl -H 'Content-Type: application/json' -X PUT -d '{"name": "New Name!"}' http://ea-installation/index.php/api/v1/service_categories/23 --user username:password
 ```
 
 Delete the service with ID 15: 
@@ -134,12 +148,13 @@ You can also try the GET requests with your browser by navigating to the respect
     "book": "2016-07-08 12:57:00", 
     "start": "2016-07-08 18:00:00", 
     "end": "2016-07-08 18:30:00", 
-    "hash": "asdf809a8sdf987a9d8f7", 
-    "notes": "These are some test notes.",
-    "customerId": 56,
-    "providerId": 4,
-    "serviceId": 7,
-    "googleCalendarId": 134
+    "hash": "apTWVbSvBJXR", 
+    "location": "Test Street 1A, 12345 Some State, Some Place"
+    "notes": "This is a test appointment.",
+    "serviceId": 1,
+    "providerId": 2,
+    "customerId": 3,
+    "googleCalendarId": null
 }
 ```
 
@@ -157,10 +172,12 @@ You can also try the GET requests with your browser by navigating to the respect
     "id": 1, 
     "book": "2016-07-08 12:57:00", 
     "start": "2016-07-08 18:00:00", 
-    "end": "2016-07-08 18:30:00", 
-    "notes": "These are some test notes.",
-    "providerId": 4,
-    "googleCalendarId": 474
+    "end": "2016-07-08 18:30:00",
+    "hash": "apTWVbSvBJXR",
+    "location": "Test Street 1A, 12345 Some State, Some Place", 
+    "notes": "This is a test unavailability.",
+    "providerId": 1,
+    "googleCalendarId": null
 }
 ```
 
@@ -175,15 +192,17 @@ You can also try the GET requests with your browser by navigating to the respect
 
 ```
 {
-    "id": 97,
+    "id": 1,
     "firstName": "John", 
     "lastName": "Doe", 
-    "email": "john@doe.com", 
-    "phone": "0123456789",
-    "address": "Some Str. 123", 
-    "city": "Some City", 
+    "email": "john@example.org", 
+    "phone": "+10000000000",
+    "address": "Test Street 1A", 
+    "city": "Some Place", 
     "zip": "12345", 
-    "notes": "Test customer notes."
+    "timezone": "UTC", 
+    "language": "english", 
+    "notes": "This is a test customer."
 }
 ```
 
@@ -198,15 +217,15 @@ You can also try the GET requests with your browser by navigating to the respect
 
 ```
 {
-    "id": 74, 
-    "name": "Male Haircut", 
-    "duration": 60, 
-    "price": 10.00,
-    "currency": "Euro", 
-    "description": "Male haircut trends.",
+    "id": 1, 
+    "name": "Test Service", 
+    "duration": 15, 
+    "price": 0.00,
+    "currency": "EUR", 
+    "description": "This is a test service.",
     "availabilitiesType": "flexible",
     "attendantsNumber": 1,
-    "categoryId": null
+    "serviceCategoryId": null
 }
 ```
 
@@ -217,22 +236,22 @@ You can also try the GET requests with your browser by navigating to the respect
 
 * The `availabilitiesType` must be either `flexible` or `fixed`.
 
-### Categories
+### Service Categories
 
 **Resource JSON**
 
 ```
 {
-    "id": 5, 
+    "id": 1, 
     "name": "Test Category", 
-    "description": "This category includes test services"
+    "description": "This is a test category."
 }
 ```
 
-- `GET /api/v1/categories[/:id]` Get all the categories or a specific one by providing the ID in the URI. 
-- `POST /api/v1/categories` Provide the new category JSON in the request body to insert a new record. 
-- `PUT /api/v1/categories/:id` Provide the updated category JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/categories/:id` Remove an existing category record.
+- `GET /api/v1/service_categories[/:id]` Get all the service categories or a specific one by providing the ID in the URI. 
+- `POST /api/v1/service_categories` Provide the new service category JSON in the request body to insert a new record. 
+- `PUT /api/v1/service_categories/:id` Provide the updated service category JSON in the request body to update an existing record. The ID in the URI is required. 
+- `DELETE /api/v1/service_categories/:id` Remove an existing service category record.
 
 ### Admins
 
@@ -240,20 +259,22 @@ You can also try the GET requests with your browser by navigating to the respect
 
 ```
 {  
-    "id": 143,
-    "firstName": "Chris",
+    "id": 1,
+    "firstName": "Jason",
     "lastName": "Doe",
-    "email": "chris@doe.com",
-    "mobile": "012345679-0",
-    "phone": "0123456789-1",
-    "address": "Some Str. 123",
-    "city": "Some City",
-    "state": "Some City",
+    "email": "jason@example.org",
+    "mobile": "+10000000000",
+    "phone": "+10000000000",
+    "address": "Test Street 1A",
+    "city": "Some Place",
+    "state": "Some State",
     "zip": "12345",
-    "notes": "Test admin notes.",
+    "timezone": "UTC",
+    "language": "english",
+    "notes": "This is a test admin.",
     "settings":{  
         "username": "chrisdoe",
-        "password": "p@ssw0rd",
+        "password": "Password@123",
         "notifications": true,
         "calendarView": "default"
     }
@@ -273,31 +294,33 @@ You can also try the GET requests with your browser by navigating to the respect
 
 ```
 {  
-    "id": 143,
-    "firstName": "Chloe",
+    "id": 1,
+    "firstName": "Chris",
     "lastName": "Doe",
-    "email": "chloe@doe.com",
-    "mobile": "012345679-0",
-    "phone": "0123456789-1",
-    "address": "Some Str. 123",
-    "city": "Some City",
+    "email": "chris@example.org",
+    "mobile": "+10000000000",
+    "phone": "+10000000000",
+    "address": "Test Street 1A",
+    "city": "Some Place",
     "state": "Some State",
     "zip": "12345",
-    "notes": "Test provider notes.",
+    "timezone": "UTC",
+    "language": "english",
+    "notes": "This is a test provider.",
     "services": [
         1,
         5,
         9
     ],
     "settings":{  
-        "username": "chloedoe",
-        "password": "p@ssw0rd",
-        "notifications":true,
-        "googleSync":true,
-        "googleCalendar": "calendar-id",
-        "googleToken": "23897dfasdf7a98gas98d9",
-        "syncFutureDays":10,
-        "syncPastDays":10,
+        "username": "chrisdoe",
+        "password": "Password@123",
+        "notifications": true,
+        "googleSync": false,
+        "googleCalendar": null,
+        "googleToken": null,
+        "syncFutureDays": 90,
+        "syncPastDays": 30,
         "calendarView": "default",
         "workingPlan":{  
             "monday":{  
@@ -320,7 +343,7 @@ You can also try the GET requests with your browser by navigating to the respect
                     }
                 ]
             },
-            "wednesday":null,
+            "wednesday": null,
             "thursday":{  
                 "start": "09:00",
                 "end": "18:00",
@@ -331,24 +354,24 @@ You can also try the GET requests with your browser by navigating to the respect
                     }
                 ]
             },
-            "friday":{  
+            "friday": {  
                 "start": "09:00",
                 "end": "18:00",
-                "breaks":[  
+                "breaks": [  
                     {  
                         "start": "14:30",
                         "end": "15:00"
                     }
                 ]
             },
-            "saturday":null,
-            "sunday":null
+            "saturday": null,
+            "sunday": null
         },
         "workingPlanExceptions": {
             "2020-01-01": {
                 "start": "08:00",
                 "end": "20:00",
-                "breaks":[  
+                "breaks": [  
                     {  
                         "start": "12:00",
                         "end": "14:00"
@@ -373,23 +396,26 @@ You can also try the GET requests with your browser by navigating to the respect
 
 ```
 {  
-    "id": 143,
-    "firstName": "Chris",
+    "id": 1,
+    "firstName": "Jessy",
     "lastName": "Doe",
-    "email": "chris@doe.com",
-    "mobile": "012345679-0",
-    "phone": "0123456789-1",
-    "address": "Some Str. 123",
-    "city": "Some City",
+    "email": "jessy@example.org",
+    "mobile": "+10000000000",
+    "phone": "+10000000000",
+    "address": "Test Street 1A",
+    "city": "Some Place",
+    "state": "Some State",
     "zip": "12345",
-    "notes": "Test secretary notes.",
+    "timezone": "UTC",
+    "language": "english",
+    "notes": "This is a test secretary.",
     "providers": [
         53,
         17
     ],
     "settings":{  
-        "username":"chrisdoe",
-        "password":"p@ssw0rd",
+        "username":"jessydoe",
+        "password":"Password@123",
         "notifications": true,
         "calendarView": "default"
     }
@@ -472,6 +498,6 @@ fastcgi_param PHP_AUTH_PW $http_authorization;
 
 [[Source]](http://serverfault.com/a/520943)
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)

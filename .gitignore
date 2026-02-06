@@ -5,12 +5,14 @@
 /docs/apigen/html
 /docs/jsdoc/html
 /docs/plato/html
-/docker/mysql/*
-!/docker/mysql/.gitkeep
+/docker/mysql/
+/docker/baikal/
+/docker/openldap/
 /node_modules/
 /npm-debug.log
 /assets/js/**/*.min.js
-/assets/css/**/*.min.css
+/assets/css/**/*.css
+/assets/vendor
 /config.php
 /storage/backups/*
 !/storage/backups/.htaccess

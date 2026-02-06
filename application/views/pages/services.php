@@ -1,0 +1,201 @@
+<?php extend('layouts/backend_layout'); ?>
+
+<?php section('content'); ?>
+
+<div class="container backend-page py-3" id="services-page">
+    <div class="row" id="services">
+        <div id="filter-services" class="filter-records col col-12 mb-4">
+            <button id="add-service" class="btn btn-primary add-record-btn mb-4">
+                <i class="fas fa-plus-square me-2"></i>
+                <?= lang('add') ?>
+            </button>
+
+            <form class="mb-4">
+                <div class="input-group">
+                    <input type="text" class="key form-control" aria-label="keyword">
+
+                    <button class="filter btn btn-outline-secondary" type="submit"
+                            data-tippy-content="<?= lang('filter') ?>">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('services') ?>
+            </h4>
+
+            <div class="results overflow-auto" style="max-height: 650px;">
+                <!-- JS -->
+            </div>
+        </div>
+
+        <div class="record-details column col-12 mb-4">
+            <div class="btn-toolbar mb-4">
+                <div class="add-edit-delete-group btn-group">
+                    <button id="edit-service" class="btn btn-outline-secondary" disabled="disabled">
+                        <i class="fas fa-edit me-2"></i>
+                        <?= lang('edit') ?>
+                    </button>
+                </div>
+
+                <div class="save-cancel-group" style="display:none;">
+                    <button id="save-service" class="btn btn-primary">
+                        <i class="fas fa-check-square me-2"></i>
+                        <?= lang('save') ?>
+                    </button>
+                    <button id="cancel-service" class="btn btn-secondary">
+                        <?= lang('cancel') ?>
+                    </button>
+                    <button id="delete-service" class="btn btn-outline-danger ms-2">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        <?= lang('delete') ?>
+                    </button>
+                </div>
+
+            </div>
+
+            <h4 class="text-black-50 mb-3 fw-light">
+                <?= lang('details') ?>
+            </h4>
+
+            <div class="form-message alert" style="display:none;"></div>
+
+            <input type="hidden" id="id">
+
+            <div class="mb-3">
+                <label class="form-label" for="name">
+                    <?= lang('name') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="name" class="form-control required" maxlength="128" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="duration">
+                    <?= lang('duration_minutes') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="duration" class="form-control required" type="number" min="<?= EVENT_MINIMUM_DURATION ?>"
+                       disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="price">
+                    <?= lang('price') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="price" class="form-control required" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="currency">
+                    <?= lang('currency') ?>
+
+                </label>
+                <input id="currency" class="form-control" maxlength="32" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="service-category-id">
+                    <?= lang('category') ?>
+                </label>
+                <select id="service-category-id" class="form-select" disabled></select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="slot-interval">
+                    <?= lang('slot_interval') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="slot-interval" class="form-control required" type="number" min="1" disabled>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="attendants-number" disabled>
+                    <?= lang('attendants_number') ?>
+                    <span class="text-danger" hidden>*</span>
+                </label>
+                <input id="attendants-number" class="form-control required" type="number" min="1">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="location">
+                    <?= lang('location') ?>
+                </label>
+                <input id="location" class="form-control" disabled>
+            </div>
+
+            <div class="mb-3">
+                <?php component('color_selection', ['attributes' => 'id="color"']); ?>
+            </div>
+
+            <div>
+                <label class="form-label mb-3">
+                    <?= lang('options') ?>
+                </label>
+            </div>
+
+            <div class="border rounded mb-3 p-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="is-private">
+
+                    <label class="form-check-label" for="is-private">
+                        <?= lang('hide_from_public') ?>
+                    </label>
+                </div>
+
+                <div class="form-text text-muted">
+                    <small>
+                        <?= lang('private_hint') ?>
+                    </small>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="description">
+                    <?= lang('description') ?>
+                </label>
+                <textarea id="description" rows="4" class="form-control" disabled></textarea>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label mb-0">
+                    <?= lang('providers') ?>
+                </label>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" id="select-all-providers" class="btn btn-outline-secondary" disabled>
+                        <?= lang('select_all') ?>
+                    </button>
+                    <button type="button" id="select-none-providers" class="btn btn-outline-secondary" disabled>
+                        <?= lang('select_none') ?>
+                    </button>
+                </div>
+            </div>
+
+            <div id="service-providers" class="card card-body bg-white border mb-3">
+                <?php foreach (vars('providers') as $provider): ?>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               id="provider-<?= $provider['id'] ?>"
+                               data-id="<?= $provider['id'] ?>" disabled>
+                        <label class="form-check-label" for="provider-<?= $provider['id'] ?>">
+                            <?= e($provider['first_name'] . ' ' . $provider['last_name']) ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<?php end_section('content'); ?>
+
+<?php section('scripts'); ?>
+
+<script src="<?= asset_url('assets/js/http/services_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/service_categories_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/services.js') ?>"></script>
+
+<?php end_section('scripts'); ?>

@@ -1,605 +1,742 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Appointments Model
+ * Appointments model.
  *
  * @package Models
  */
-class Appointments_model extends EA_Model {
+class Appointments_model extends EA_Model
+{
     /**
-     * Appointments_Model constructor.
+     * @var array
      */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->helper('data_validation');
-        $this->load->helper('string');
-    }
+    protected array $casts = [
+        'id' => 'integer',
+        'is_unavailability' => 'boolean',
+        'id_users_provider' => 'integer',
+        'id_users_customer' => 'integer',
+        'id_services' => 'integer',
+    ];
 
     /**
-     * Add an appointment record to the database.
-     *
-     * This method adds a new appointment to the database. If the appointment doesn't exists it is going to be inserted,
-     * otherwise the record is going to be updated.
-     *
-     * @param array $appointment Associative array with the appointment data. Each key has the same name with the
-     * database fields.
-     *
-     * @return int Returns the appointments id.
-     * @throws Exception
+     * @var array
      */
-    public function add($appointment)
+    protected array $api_resource = [
+        'id' => 'id',
+        'book' => 'book_datetime',
+        'start' => 'start_datetime',
+        'end' => 'end_datetime',
+        'location' => 'location',
+        'meetingLink' => 'meeting_link',
+        'color' => 'color',
+        'status' => 'status',
+        'notes' => 'notes',
+        'hash' => 'hash',
+        'serviceId' => 'id_services',
+        'providerId' => 'id_users_provider',
+        'customerId' => 'id_users_customer',
+        'googleCalendarId' => 'id_google_calendar',
+        'caldavCalendarId' => 'id_caldav_calendar',
+    ];
+
+    /**
+     * Save (insert or update) an appointment.
+     *
+     * @param array $appointment Associative array with the appointment data.
+     *
+     * @return int Returns the appointment ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function save(array $appointment): int
     {
-        // Validate the appointment data before doing anything.
         $this->validate($appointment);
 
-        // Perform insert() or update() operation.
-        if ( ! isset($appointment['id']))
-        {
-            $appointment['id'] = $this->insert($appointment);
+        if (empty($appointment['id'])) {
+            return $this->insert($appointment);
+        } else {
+            return $this->update($appointment);
         }
-        else
-        {
-            $this->update($appointment);
-        }
-
-        return $appointment['id'];
     }
 
     /**
-     * Validate appointment data before the insert or update operations are executed.
+     * Validate the appointment data.
      *
-     * @param array $appointment Contains the appointment data.
+     * @param array $appointment Associative array with the appointment data.
      *
-     * @return bool Returns the validation result.
-     *
-     * @throws Exception If appointment validation fails.
+     * @throws InvalidArgumentException
      */
-    public function validate($appointment)
+    public function validate(array $appointment): void
     {
-        // If a appointment id is given, check whether the record exists in the database.
-        if (isset($appointment['id']))
-        {
-            $num_rows = $this->db->get_where('appointments', ['id' => $appointment['id']])->num_rows();
+        // If an appointment ID is provided then check whether the record really exists in the database.
+        if (!empty($appointment['id'])) {
+            $count = $this->db->get_where('appointments', ['id' => $appointment['id']])->num_rows();
 
-            if ($num_rows === 0)
-            {
-                throw new Exception('Provided appointment id does not exist in the database.');
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The provided appointment ID does not exist in the database: ' . $appointment['id'],
+                );
             }
         }
 
-        // Check if appointment dates are valid.
-        if ( ! validate_mysql_datetime($appointment['start_datetime']))
-        {
-            throw new Exception('Appointment start datetime is invalid.');
+        // Make sure all required fields are provided.
+
+        $require_notes = filter_var(setting('require_notes'), FILTER_VALIDATE_BOOLEAN);
+
+        if (
+            empty($appointment['start_datetime']) ||
+            empty($appointment['end_datetime']) ||
+            empty($appointment['id_services']) ||
+            empty($appointment['id_users_provider']) ||
+            empty($appointment['id_users_customer']) ||
+            (empty($appointment['notes']) && $require_notes)
+        ) {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($appointment, true));
         }
 
-        if ( ! validate_mysql_datetime($appointment['end_datetime']))
-        {
-            throw new Exception('Appointment end datetime is invalid.');
+        // Make sure that the provided appointment date time values are valid.
+        if (!validate_datetime($appointment['start_datetime'])) {
+            throw new InvalidArgumentException('The appointment start date time is invalid.');
         }
 
-        // Ensure the appointment lasts longer than the minimum duration (in minutes).
+        if (!validate_datetime($appointment['end_datetime'])) {
+            throw new InvalidArgumentException('The appointment end date time is invalid.');
+        }
+
+        // Make the appointment lasts longer than the minimum duration (in minutes).
         $diff = (strtotime($appointment['end_datetime']) - strtotime($appointment['start_datetime'])) / 60;
 
-        if ($diff < EVENT_MINIMUM_DURATION)
-        {
-            throw new Exception('The appointment duration is less than the minimum duration ('
-                . EVENT_MINIMUM_DURATION . ' minutes).');
+        if ($diff < EVENT_MINIMUM_DURATION) {
+            throw new InvalidArgumentException(
+                'The appointment duration cannot be less than ' . EVENT_MINIMUM_DURATION . ' minutes.',
+            );
         }
 
-        // Check if the provider's id is valid.
-        $num_rows = $this->db
-            ->select('*')
+        // Make sure the provider ID really exists in the database.
+        $count = $this->db
+            ->select()
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('users.id', $appointment['id_users_provider'])
             ->where('roles.slug', DB_SLUG_PROVIDER)
-            ->get()->num_rows();
+            ->get()
+            ->num_rows();
 
-        if ($num_rows === 0)
-        {
-            throw new Exception('Appointment provider id is invalid.');
+        if (!$count) {
+            throw new InvalidArgumentException(
+                'The appointment provider ID was not found in the database: ' . $appointment['id_users_provider'],
+            );
         }
 
-        if ($appointment['is_unavailable'] == FALSE)
-        {
-            // Check if the customer's id is valid.
-            $num_rows = $this->db
-                ->select('*')
+        if (!filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN)) {
+            // Make sure the customer ID really exists in the database.
+            $count = $this->db
+                ->select()
                 ->from('users')
                 ->join('roles', 'roles.id = users.id_roles', 'inner')
                 ->where('users.id', $appointment['id_users_customer'])
                 ->where('roles.slug', DB_SLUG_CUSTOMER)
-                ->get()->num_rows();
+                ->get()
+                ->num_rows();
 
-            if ($num_rows === 0)
-            {
-                throw new Exception('Appointment customer id is invalid.');
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The appointment customer ID was not found in the database: ' . $appointment['id_users_customer'],
+                );
             }
 
-            // Check if the service id is valid.
-            $num_rows = $this->db->get_where('services', ['id' => $appointment['id_services']])->num_rows();
+            // Make sure the service ID really exists in the database.
+            $count = $this->db->get_where('services', ['id' => $appointment['id_services']])->num_rows();
 
-            if ($num_rows === 0)
-            {
-                throw new Exception('Appointment service id is invalid.');
+            if (!$count) {
+                throw new InvalidArgumentException('Appointment service id is invalid.');
             }
         }
-
-        return TRUE;
     }
 
     /**
-     * Insert a new appointment record to the database.
+     * Get all appointments that match the provided criteria.
      *
-     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
-     * database fields.
+     * @param array|string|null $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
      *
-     * @return int Returns the id of the new record.
-     *
-     * @throws Exception If appointment record could not be inserted.
+     * @return array Returns an array of appointments.
      */
-    protected function insert($appointment)
-    {
-        $appointment['book_datetime'] = date('Y-m-d H:i:s');
-        $appointment['hash'] = random_string('alnum', 12);
-
-        if ( ! $this->db->insert('appointments', $appointment))
-        {
-            throw new Exception('Could not insert appointment record.');
-        }
-
-        return (int)$this->db->insert_id();
-    }
-
-    /**
-     * Update an existing appointment record in the database.
-     *
-     * The appointment data argument should already include the record ID in order to process the update operation.
-     *
-     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
-     * database fields.
-     *
-     * @throws Exception If appointment record could not be updated.
-     */
-    protected function update($appointment)
-    {
-        $this->db->where('id', $appointment['id']);
-        if ( ! $this->db->update('appointments', $appointment))
-        {
-            throw new Exception('Could not update appointment record.');
-        }
-    }
-
-    /**
-     * Check if a particular appointment record already exists.
-     *
-     * This method checks whether the given appointment already exists in the database. It doesn't search with the id,
-     * but by using the following fields: "start_datetime", "end_datetime", "id_users_provider", "id_users_customer",
-     * "id_services".
-     *
-     * @param array $appointment Associative array with the appointment's data. Each key has the same name with the
-     * database fields.
-     *
-     * @return bool Returns whether the record exists or not.
-     *
-     * @throws Exception If appointment fields are missing.
-     */
-    public function exists($appointment)
-    {
-        if ( ! isset(
-            $appointment['start_datetime'],
-            $appointment['end_datetime'],
-            $appointment['id_users_provider'],
-            $appointment['id_users_customer'],
-            $appointment['id_services']
-        ))
-        {
-            throw new Exception('Not all appointment field values are provided: '
-                . print_r($appointment, TRUE));
-        }
-
-        $num_rows = $this->db->get_where('appointments', [
-            'start_datetime' => $appointment['start_datetime'],
-            'end_datetime' => $appointment['end_datetime'],
-            'id_users_provider' => $appointment['id_users_provider'],
-            'id_users_customer' => $appointment['id_users_customer'],
-            'id_services' => $appointment['id_services'],
-        ])
-            ->num_rows();
-
-        return $num_rows > 0;
-    }
-
-    /**
-     * Find the database id of an appointment record.
-     *
-     * The appointment data should include the following fields in order to get the unique id from the database:
-     * "start_datetime", "end_datetime", "id_users_provider", "id_users_customer", "id_services".
-     *
-     * IMPORTANT: The record must already exists in the database, otherwise an exception is raised.
-     *
-     * @param array $appointment Array with the appointment data. The keys of the array should have the same names as
-     * the db fields.
-     *
-     * @return int Returns the db id of the record that matches the appointment data.
-     *
-     * @throws Exception If appointment could not be found.
-     */
-    public function find_record_id($appointment)
-    {
-        $this->db->where([
-            'start_datetime' => $appointment['start_datetime'],
-            'end_datetime' => $appointment['end_datetime'],
-            'id_users_provider' => $appointment['id_users_provider'],
-            'id_users_customer' => $appointment['id_users_customer'],
-            'id_services' => $appointment['id_services']
-        ]);
-
-        $result = $this->db->get('appointments');
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find appointment record id.');
-        }
-
-        return $result->row()->id;
-    }
-
-    /**
-     * Delete an existing appointment record from the database.
-     *
-     * @param int $appointment_id The record id to be deleted.
-     *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception If $appointment_id argument is invalid.
-     */
-    public function delete($appointment_id)
-    {
-        if ( ! is_numeric($appointment_id))
-        {
-            throw new Exception('Invalid argument type $appointment_id (value:"' . $appointment_id . '")');
-        }
-
-        $num_rows = $this->db->get_where('appointments', ['id' => $appointment_id])->num_rows();
-
-        if ($num_rows == 0)
-        {
-            return FALSE; // Record does not exist.
-        }
-
-        $this->db->where('id', $appointment_id);
-        return $this->db->delete('appointments');
-    }
-
-    /**
-     * Get a specific row from the appointments table.
-     *
-     * @param int $appointment_id The record's id to be returned.
-     *
-     * @return array Returns an associative array with the selected record's data. Each key has the same name as the
-     * database field names.
-     *
-     * @throws Exception If $appointment_id argumnet is invalid.
-     */
-    public function get_row($appointment_id)
-    {
-        if ( ! is_numeric($appointment_id))
-        {
-            throw new Exception('Invalid argument given. Expected integer for the $appointment_id: '
-                . $appointment_id);
-        }
-
-        return $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
-    }
-
-    /**
-     * Get a specific field value from the database.
-     *
-     * @param string $field_name The field name of the value to be returned.
-     * @param int $appointment_id The selected record's id.
-     *
-     * @return string Returns the records value from the database.
-     *
-     * @throws Exception If $appointment_id argument is invalid.
-     * @throws Exception If $field_name argument is invalid.
-     * @throws Exception If requested appointment record was not found.
-     * @throws Exception If requested field name does not exist.
-     */
-    public function get_value($field_name, $appointment_id)
-    {
-        if ( ! is_numeric($appointment_id))
-        {
-            throw new Exception('Invalid argument given, expected integer for the $appointment_id: '
-                . $appointment_id);
-        }
-
-        if ( ! is_string($field_name))
-        {
-            throw new Exception('Invalid argument given, expected  string for the $field_name: ' . $field_name);
-        }
-
-        if ($this->db->get_where('appointments', ['id' => $appointment_id])->num_rows() == 0)
-        {
-            throw new Exception('The record with the provided ID does not exist in the database: '
-                . $appointment_id);
-        }
-
-        $row_data = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
-
-        if ( ! array_key_exists($field_name, $row_data))
-        {
-            throw new Exception('The given field name does not exist in the database: ' . $field_name);
-        }
-
-        return $row_data[$field_name];
-    }
-
-    /**
-     * Get all, or specific records from appointment's table.
-     *
-     * Example:
-     *
-     * $this->appointments_model->get_batch(['id' => $record_id]);
-     *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param mixed|null $order_by
-     * @param bool $aggregates (OPTIONAL) Defines whether to add aggregations or not.
-     *
-     * @return array Returns the rows from the database.
-     *
-     * @throws Exception
-     */
-    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL, $aggregates = FALSE)
-    {
-        if ($where !== NULL)
-        {
+    public function get(
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
+    ): array {
+        if ($where !== null) {
             $this->db->where($where);
         }
 
-        if ($order_by)
-        {
-            $this->db->order_by($order_by);
+        if ($order_by) {
+            $this->db->order_by($this->quote_order_by($order_by));
         }
 
-        $appointments = $this->db->get('appointments', $limit, $offset)->result_array();
+        $appointments = $this->db
+            ->get_where('appointments', ['is_unavailability' => false], $limit, $offset)
+            ->result_array();
 
-        foreach ($appointments as &$appointment)
-        {
-            if ($aggregates)
-            {
-                $appointment = $this->get_aggregates($appointment);
-            }
+        foreach ($appointments as &$appointment) {
+            $this->cast($appointment);
         }
 
         return $appointments;
     }
 
     /**
-     * Get the aggregates of an appointment.
+     * Insert a new appointment into the database.
      *
-     * @param array $appointment Appointment data.
+     * @param array $appointment Associative array with the appointment data.
      *
-     * @return array Returns the appointment with the aggregates.
+     * @return int Returns the appointment ID.
+     *
+     * @throws RuntimeException
      */
-    private function get_aggregates(array $appointment)
+    protected function insert(array $appointment): int
     {
-        $appointment['service'] = $this->db->get_where('services', [
-            'id' => $appointment['id_services']
-        ])->row_array();
+        $appointment['book_datetime'] = date('Y-m-d H:i:s');
+        $appointment['create_datetime'] = date('Y-m-d H:i:s');
+        $appointment['update_datetime'] = date('Y-m-d H:i:s');
+        $appointment['hash'] = random_string('alnum', 12);
 
-        $appointment['provider'] = $this->db->get_where('users', [
-            'id' => $appointment['id_users_provider']
-        ])->row_array();
+        if (!$this->db->insert('appointments', $appointment)) {
+            throw new RuntimeException('Could not insert appointment.');
+        }
 
-        $appointment['customer'] = $this->db->get_where('users', [
-            'id' => $appointment['id_users_customer']
-        ])->row_array();
+        return $this->db->insert_id();
+    }
+
+    /**
+     * Update an existing appointment.
+     *
+     * @param array $appointment Associative array with the appointment data.
+     *
+     * @return int Returns the appointment ID.
+     *
+     * @throws RuntimeException
+     */
+    protected function update(array $appointment): int
+    {
+        $appointment['update_datetime'] = date('Y-m-d H:i:s');
+
+        if (!$this->db->update('appointments', $appointment, ['id' => $appointment['id']])) {
+            throw new RuntimeException('Could not update appointment record.');
+        }
+
+        return $appointment['id'];
+    }
+
+    /**
+     * Get a specific appointment from the database.
+     *
+     * @param int $appointment_id The ID of the record to be returned.
+     *
+     * @return array Returns an array with the appointment data.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function find(int $appointment_id): array
+    {
+        $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
+
+        if (!$appointment) {
+            throw new InvalidArgumentException(
+                'The provided appointment ID was not found in the database: ' . $appointment_id,
+            );
+        }
+
+        $this->cast($appointment);
 
         return $appointment;
     }
 
     /**
-     * Inserts or updates an unavailable period record in the database.
+     * Get a specific field value from the database.
      *
-     * @param array $unavailable Contains the unavailable data.
+     * @param int $appointment_id Appointment ID.
+     * @param string $field Name of the value to be returned.
      *
-     * @return int Returns the record id.
+     * @return mixed Returns the selected appointment value from the database.
      *
-     * @throws Exception If unavailability validation fails.
-     * @throws Exception If provider record could not be found in database.
+     * @throws InvalidArgumentException
      */
-    public function add_unavailable($unavailable)
+    public function value(int $appointment_id, string $field): mixed
     {
-        // Validate period
-        $start = strtotime($unavailable['start_datetime']);
-        $end = strtotime($unavailable['end_datetime']);
-
-        if ($start > $end)
-        {
-            throw new Exception('Unavailable period start must be prior to end.');
+        if (empty($field)) {
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        // Validate provider record
-        $where_clause = [
-            'id' => $unavailable['id_users_provider'],
-            'id_roles' => $this->db->get_where('roles', ['slug' => DB_SLUG_PROVIDER])->row()->id
-        ];
-
-        if ($this->db->get_where('users', $where_clause)->num_rows() == 0)
-        {
-            throw new Exception('Provider id was not found in database.');
+        if (empty($appointment_id)) {
+            throw new InvalidArgumentException('The appointment ID argument cannot be empty.');
         }
 
-        // Add record to database (insert or update).
-        if ( ! isset($unavailable['id']))
-        {
-            $unavailable['book_datetime'] = date('Y-m-d H:i:s');
-            $unavailable['is_unavailable'] = TRUE;
+        // Check whether the appointment exists.
+        $query = $this->db->get_where('appointments', ['id' => $appointment_id]);
 
-            $this->db->insert('appointments', $unavailable);
-            $unavailable['id'] = $this->db->insert_id();
-        }
-        else
-        {
-            $this->db->where(['id' => $unavailable['id']]);
-            $this->db->update('appointments', $unavailable);
+        if (!$query->num_rows()) {
+            throw new InvalidArgumentException(
+                'The provided appointment ID was not found in the database: ' . $appointment_id,
+            );
         }
 
-        return $unavailable['id'];
+        // Check if the required field is part of the appointment data.
+        $appointment = $query->row_array();
+
+        $this->cast($appointment);
+
+        if (!array_key_exists($field, $appointment)) {
+            throw new InvalidArgumentException('The requested field was not found in the appointment data: ' . $field);
+        }
+
+        return $appointment[$field];
     }
 
     /**
-     * Delete an unavailable period.
+     * Remove all the Google Calendar event IDs from appointment records.
      *
-     * @param int $unavailable_id Record id to be deleted.
-     *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception If $unavailable_id argument is invalid.
+     * @param int $provider_id Matching provider ID.
      */
-    public function delete_unavailable($unavailable_id)
+    public function clear_google_sync_ids(int $provider_id): void
     {
-        if ( ! is_numeric($unavailable_id))
-        {
-            throw new Exception('Invalid argument type $unavailable_id: ' . $unavailable_id);
-        }
-
-        $num_rows = $this->db->get_where('appointments', ['id' => $unavailable_id])->num_rows();
-
-        if ($num_rows === 0)
-        {
-            return FALSE; // Record does not exist.
-        }
-
-        $this->db->where('id', $unavailable_id);
-
-        return $this->db->delete('appointments');
+        $this->db->update('appointments', ['id_google_calendar' => null], ['id_users_provider' => $provider_id]);
     }
 
     /**
-     * Clear google sync IDs from appointment record.
+     * Remove all the Google Calendar event IDs from appointment records.
      *
-     * @param int $provider_id The appointment provider record id.
-     *
-     * @throws Exception If $provider_id argument is invalid.
+     * @param int $provider_id Matching provider ID.
      */
-    public function clear_google_sync_ids($provider_id)
+    public function clear_caldav_sync_ids(int $provider_id): void
     {
-        if ( ! is_numeric($provider_id))
-        {
-            throw new Exception('Invalid argument type $provider_id: ' . $provider_id);
-        }
-
-        $this->db->update('appointments', ['id_google_calendar' => NULL], [
-            'id_users_provider' => $provider_id
-        ]);
+        $this->db->update('appointments', ['id_caldav_calendar' => null], ['id_users_provider' => $provider_id]);
     }
 
     /**
-     * Get appointment count for the provided start datetime.
+     * Deletes recurring CalDAV events for the provided date period.
      *
-     * @param int $service_id Selected service ID.
-     * @param string $selected_date Selected date string.
-     * @param string $hour Selected hour string.
+     * @param string $start_date_time
+     * @param string $end_date_time
      *
-     * @return int Returns the appointment number at the selected start time.
+     * @return void
      */
-    public function appointment_count_for_hour($service_id, $selected_date, $hour)
+    public function delete_caldav_recurring_events(string $start_date_time, string $end_date_time): void
     {
-        return $this->db->get_where('appointments', [
-            'id_services' => $service_id,
-            'start_datetime' => date('Y-m-d H:i:s', strtotime($selected_date . ' ' . $hour . ':00'))
-        ])->num_rows();
+        $this->db
+            ->where('start_datetime >=', $start_date_time)
+            ->where('end_datetime <=', $end_date_time)
+            ->where('is_unavailability', true)
+            ->like('id_caldav_calendar', 'RECURRENCE')
+            ->delete('appointments');
     }
 
     /**
-     * Returns the attendants number for selection period.
+     * Remove an existing appointment from the database.
      *
-     * @param DateTime $slot_start When the slot starts
-     * @param DateTime $slot_end When the slot ends.
-     * @param int $service_id Selected service ID.
-     * @param int $provider_id Selected provider ID.
-     * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
+     * @param int $appointment_id Appointment ID.
      *
-     * @return int Returns the number of attendants for selected time period.
+     * @throws RuntimeException
      */
-    public function get_attendants_number_for_period(DateTime $slot_start, DateTime $slot_end, $service_id, $provider_id, $exclude_appointment_id = NULL)
+    public function delete(int $appointment_id): void
     {
-        if ($exclude_appointment_id)
-        {
+        $this->db->delete('appointments', ['id' => $appointment_id]);
+    }
+
+    /**
+     * Get the attendants number for the requested period.
+     *
+     * @param DateTime $start Period start.
+     * @param DateTime $end Period end.
+     * @param int $service_id Service ID.
+     * @param int $provider_id Provider ID.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the result set.
+     *
+     * @return int Returns the number of appointments that match the provided criteria.
+     */
+    public function get_attendants_number_for_period(
+        DateTime $start,
+        DateTime $end,
+        int $service_id,
+        int $provider_id,
+        ?int $exclude_appointment_id = null,
+    ): int {
+        if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
         }
 
-        return (int)$this->db
+        $result = $this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')
             ->group_start()
             ->group_start()
-            ->where('start_datetime <=', $slot_start->format('Y-m-d H:i:s'))
-            ->where('end_datetime >', $slot_start->format('Y-m-d H:i:s'))
+            ->where('start_datetime <=', $start->format('Y-m-d H:i:s'))
+            ->where('end_datetime >', $start->format('Y-m-d H:i:s'))
             ->group_end()
             ->or_group_start()
-            ->where('start_datetime <', $slot_end->format('Y-m-d H:i:s'))
-            ->where('end_datetime >=', $slot_end->format('Y-m-d H:i:s'))
+            ->where('start_datetime <', $end->format('Y-m-d H:i:s'))
+            ->where('end_datetime >=', $end->format('Y-m-d H:i:s'))
             ->group_end()
             ->group_end()
             ->where('id_services', $service_id)
             ->where('id_users_provider', $provider_id)
             ->get()
-            ->row()
-            ->attendants_number;
+            ->row_array();
+
+        return $result['attendants_number'];
     }
 
     /**
+     *
      * Returns the number of the other service attendants number for the provided time slot.
      *
-     * @param DateTime $slot_start When the slot starts
-     * @param DateTime $slot_end When the slot ends.
-     * @param int $service_id Selected service ID.
-     * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
+     * @param DateTime $start Period start.
+     * @param DateTime $end Period end.
+     * @param int $service_id Service ID.
+     * @param int $provider_id Provider ID.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the result set.
      *
-     * @return int Returns the number of attendants for selected time period.
+     * @return int Returns the number of appointments that match the provided criteria.
      */
-    public function get_other_service_attendants_number(DateTime $slot_start, DateTime $slot_end, $service_id, $provider_id, $exclude_appointment_id = NULL)
-    {
-        if ($exclude_appointment_id)
-        {
+    public function get_other_service_attendants_number(
+        DateTime $start,
+        DateTime $end,
+        int $service_id,
+        int $provider_id,
+        ?int $exclude_appointment_id = null,
+    ): int {
+        if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
         }
 
-        return (int)$this->db
+        $result = $this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')
             ->group_start()
             ->group_start()
-            ->where('start_datetime <=', $slot_start->format('Y-m-d H:i:s'))
-            ->where('end_datetime >', $slot_start->format('Y-m-d H:i:s'))
+            ->where('start_datetime <=', $start->format('Y-m-d H:i:s'))
+            ->where('end_datetime >', $start->format('Y-m-d H:i:s'))
             ->group_end()
             ->or_group_start()
-            ->where('start_datetime <', $slot_end->format('Y-m-d H:i:s'))
-            ->where('end_datetime >=', $slot_end->format('Y-m-d H:i:s'))
+            ->where('start_datetime <', $end->format('Y-m-d H:i:s'))
+            ->where('end_datetime >=', $end->format('Y-m-d H:i:s'))
             ->group_end()
             ->group_end()
             ->where('id_services !=', $service_id)
             ->where('id_users_provider', $provider_id)
             ->get()
-            ->row()
-            ->attendants_number;
+            ->row_array();
+
+        return $result['attendants_number'];
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the appointments table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
+    {
+        return $this->db->from('appointments');
+    }
+
+    /**
+     * Search appointments by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of appointments.
+     */
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
+    {
+        $appointments = $this->db
+            ->select('appointments.*')
+            ->from('appointments')
+            ->join('services', 'services.id = appointments.id_services', 'left')
+            ->join('users AS providers', 'providers.id = appointments.id_users_provider', 'inner')
+            ->join('users AS customers', 'customers.id = appointments.id_users_customer', 'left')
+            ->where('is_unavailability', false)
+            ->group_start()
+            ->like('appointments.start_datetime', $keyword)
+            ->or_like('appointments.end_datetime', $keyword)
+            ->or_like('appointments.location', $keyword)
+            ->or_like('appointments.hash', $keyword)
+            ->or_like('appointments.notes', $keyword)
+            ->or_like('services.name', $keyword)
+            ->or_like('services.description', $keyword)
+            ->or_like('providers.first_name', $keyword)
+            ->or_like('providers.last_name', $keyword)
+            ->or_like('providers.email', $keyword)
+            ->or_like('providers.phone_number', $keyword)
+            ->or_like('customers.first_name', $keyword)
+            ->or_like('customers.last_name', $keyword)
+            ->or_like('customers.email', $keyword)
+            ->or_like('customers.phone_number', $keyword)
+            ->group_end()
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($this->quote_order_by($order_by))
+            ->get()
+            ->result_array();
+
+        foreach ($appointments as &$appointment) {
+            $this->cast($appointment);
+        }
+
+        return $appointments;
+    }
+
+    /**
+     * Get appointments as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $appointments = $this->db
+            ->select('appointments.id, appointments.start_datetime, services.name AS service_name')
+            ->from('appointments')
+            ->join('services', 'services.id = appointments.id_services', 'left')
+            ->where('is_unavailability', false)
+            ->order_by('start_datetime', 'DESC')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($appointments as $appointment) {
+            $options[] = [
+                'value' => (int) $appointment['id'],
+                'label' => $appointment['start_datetime'] . ' - ' . ($appointment['service_name'] ?? 'N/A'),
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
+     * Load related resources to an appointment.
+     *
+     * @param array $appointment Associative array with the appointment data.
+     * @param array $resources Resource names to be attached ("service", "provider", "customer" supported).
+     *
+     * @throws InvalidArgumentException
+     */
+    public function load(array &$appointment, array $resources): void
+    {
+        if (empty($appointment) || empty($resources)) {
+            return;
+        }
+
+        foreach ($resources as $resource) {
+            switch ($resource) {
+                case 'service':
+                    $appointment['service'] = $this->db
+                        ->get_where('services', [
+                            'id' => $appointment['id_services'] ?? ($appointment['serviceId'] ?? null),
+                        ])
+                        ->row_array();
+                    break;
+
+                case 'provider':
+                    $appointment['provider'] = $this->db
+                        ->get_where('users', [
+                            'id' => $appointment['id_users_provider'] ?? ($appointment['providerId'] ?? null),
+                        ])
+                        ->row_array();
+                    break;
+
+                case 'customer':
+                    $appointment['customer'] = $this->db
+                        ->get_where('users', [
+                            'id' => $appointment['id_users_customer'] ?? ($appointment['customerId'] ?? null),
+                        ])
+                        ->row_array();
+                    break;
+
+                default:
+                    throw new InvalidArgumentException(
+                        'The requested appointment relation is not supported: ' . $resource,
+                    );
+            }
+        }
+    }
+
+    /**
+     * Convert the database appointment record to the equivalent API resource.
+     *
+     * @param array $appointment Appointment data.
+     */
+    public function api_encode(array &$appointment): void
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $appointment) ? (int) $appointment['id'] : null,
+            'book' => $appointment['book_datetime'],
+            'start' => $appointment['start_datetime'],
+            'end' => $appointment['end_datetime'],
+            'hash' => $appointment['hash'],
+            'color' => $appointment['color'],
+            'status' => $appointment['status'],
+            'location' => $appointment['location'],
+            'notes' => $appointment['notes'],
+            'customerId' => $appointment['id_users_customer'] !== null ? (int) $appointment['id_users_customer'] : null,
+            'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
+            'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
+            'googleCalendarId' =>
+                $appointment['id_google_calendar'] !== null ? $appointment['id_google_calendar'] : null,
+            'caldavCalendarId' =>
+                $appointment['id_caldav_calendar'] !== null ? $appointment['id_caldav_calendar'] : null,
+        ];
+
+        $appointment = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database appointment record.
+     *
+     * @param array $appointment API resource.
+     * @param array|null $base Base appointment data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$appointment, ?array $base = null): void
+    {
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('id', $appointment)) {
+            $decoded_resource['id'] = $appointment['id'];
+        }
+
+        if (array_key_exists('book', $appointment)) {
+            $decoded_resource['book_datetime'] = $appointment['book'];
+        }
+
+        if (array_key_exists('start', $appointment)) {
+            $decoded_resource['start_datetime'] = $appointment['start'];
+        }
+
+        if (array_key_exists('end', $appointment)) {
+            $decoded_resource['end_datetime'] = $appointment['end'];
+        }
+
+        if (array_key_exists('hash', $appointment)) {
+            $decoded_resource['hash'] = $appointment['hash'];
+        }
+
+        if (array_key_exists('color', $appointment)) {
+            $decoded_resource['color'] = $appointment['color'];
+        }
+
+        if (array_key_exists('location', $appointment)) {
+            $decoded_resource['location'] = $appointment['location'];
+        }
+
+        if (array_key_exists('status', $appointment)) {
+            $decoded_resource['status'] = $appointment['status'];
+        }
+
+        if (array_key_exists('notes', $appointment)) {
+            $decoded_resource['notes'] = $appointment['notes'];
+        }
+
+        if (array_key_exists('customerId', $appointment)) {
+            $decoded_resource['id_users_customer'] = $appointment['customerId'];
+        }
+
+        if (array_key_exists('providerId', $appointment)) {
+            $decoded_resource['id_users_provider'] = $appointment['providerId'];
+        }
+
+        if (array_key_exists('serviceId', $appointment)) {
+            $decoded_resource['id_services'] = $appointment['serviceId'];
+        }
+
+        if (array_key_exists('googleCalendarId', $appointment)) {
+            $decoded_resource['id_google_calendar'] = $appointment['googleCalendarId'];
+        }
+
+        if (array_key_exists('caldavCalendarId', $appointment)) {
+            $decoded_resource['id_caldav_calendar'] = $appointment['caldavCalendarId'];
+        }
+
+        $decoded_resource['is_unavailability'] = false;
+
+        $appointment = $decoded_resource;
+    }
+
+    /**
+     * Calculate the end date time of an appointment based on the selected service.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @return string Returns the end date time value.
+     *
+     * @throws Exception
+     */
+    public function calculate_end_datetime(array $appointment): string
+    {
+        $duration = $this->db->get_where('services', ['id' => $appointment['id_services']])?->row()?->duration;
+
+        $end_date_time_object = new DateTime($appointment['start_datetime']);
+
+        $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
+
+        return $end_date_time_object->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * Check if the provider has a conflicting appointment at the given time period.
+     *
+     * @param int $provider_id Provider ID.
+     * @param string $start_datetime Start date time of the appointment.
+     * @param string $end_datetime End date time of the appointment.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the conflict check (useful for updates).
+     *
+     * @return bool Returns true if there is a conflict, false otherwise.
+     */
+    public function has_provider_conflict(
+        int $provider_id,
+        string $start_datetime,
+        string $end_datetime,
+        ?int $exclude_appointment_id = null,
+    ): bool {
+        $this->db->select('id')->from('appointments')->where('id_users_provider', $provider_id);
+
+        if ($exclude_appointment_id) {
+            $this->db->where('id !=', $exclude_appointment_id);
+        }
+
+        // Check for overlapping appointments:
+        // An overlap occurs when:  (existing_start < new_end) AND (existing_end > new_start)
+
+        return $this->db
+            ->group_start()
+            ->where('start_datetime <', $end_datetime)
+            ->where('end_datetime >', $start_datetime)
+            ->group_end()
+            ->get()
+            ->num_rows() > 0;
     }
 }

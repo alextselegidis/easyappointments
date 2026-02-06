@@ -1,6 +1,7 @@
 {
     "name": "alextselegidis/easyappointments",
     "description": "Open Source Web Scheduler",
+    "version": "1.5.2",
     "homepage": "https://easyappointments.org",
     "type": "project",
     "license": "GPL-3.0",
@@ -26,28 +27,66 @@
         "services"
     ],
     "minimum-stability": "stable",
-    "autoload": {
-        "psr-4": {
-            "EA\\Engine\\": "engine/"
-        }
-    },
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
         "ext-gd": "*",
-        "gregwar/captcha": "^1.1",
-        "phpmailer/phpmailer": "^6.1",
-        "jsvrcek/ics": "^0.8",
-        "monolog/monolog": "^1",
-        "google/apiclient": "^2.0"
+        "ext-simplexml": "*",
+        "ext-fileinfo": "*",
+        "ezyang/htmlpurifier": "^4.19",
+        "google/apiclient": "^2.18.4",
+        "gregwar/captcha": "^1.3.0",
+        "guzzlehttp/guzzle": "^7.10.0",
+        "jsvrcek/ics": "^0.8.5",
+        "monolog/monolog": "^3.9.0",
+        "phpmailer/phpmailer": "^7.0",
+        "sabre/vobject": "^4.5.7",
+        "symfony/finder": "^6.4"
     },
     "require-dev": {
-        "roave/security-advisories": "dev-master",
-        "phpunit/phpunit": "^9"
+        "phpunit/phpunit": "^12.4.2",
+        "roave/security-advisories": "dev-master"
     },
     "scripts": {
-        "test": "php vendor/bin/phpunit tests"
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
+        "test": "APP_ENV=testing php vendor/bin/phpunit",
+        "post-install-cmd": "@cleanup-vendor",
+        "post-update-cmd": "@cleanup-vendor",
+        "cleanup-vendor": [
+            "find vendor -type f -name '*.md' -delete",
+            "find vendor -type f -name 'CHANGELOG*' -delete",
+            "find vendor -type f -name 'UPGRADING*' -delete",
+            "find vendor -type f -name 'CONTRIBUTING*' -delete",
+            "find vendor -type f -name '.gitignore' -delete",
+            "find vendor -type f -name '.gitattributes' -delete",
+            "find vendor -type f -name 'phpunit.xml*' -delete",
+            "find vendor -type f -name 'phpstan*' -delete",
+            "find vendor -type f -name '.php-cs-fixer*' -delete",
+            "find vendor -type d -name 'tests' -exec rm -rf {} + 2>/dev/null || true",
+            "find vendor -type d -name 'Tests' -exec rm -rf {} + 2>/dev/null || true",
+            "find vendor -type d -name 'test' -exec rm -rf {} + 2>/dev/null || true",
+            "find vendor -type d -name 'docs' -exec rm -rf {} + 2>/dev/null || true",
+            "find vendor -type d -name 'doc' -exec rm -rf {} + 2>/dev/null || true",
+            "find vendor -type d -name 'examples' -exec rm -rf {} + 2>/dev/null || true"
+        ]
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Calendar"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "apcu-autoloader": true
     }
 }

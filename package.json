@@ -21,40 +21,46 @@
     "url": "https://github.com/alextselegidis/easyappointments/issues"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=14"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
-    "bootstrap": "^4.5.3",
+    "@fortawesome/fontawesome-free": "^7.1.0",
+    "@fullcalendar/moment": "^6.1.19",
+    "@popperjs/core": "^2.11.8",
+    "bootstrap": "^5.3.8",
     "cookieconsent": "^3.1.1",
-    "datejs": "0.0.2",
-    "del": "^6.0.0",
-    "fullcalendar": "^3.10.2",
-    "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.0",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.31",
-    "tippy.js": "^6.2.7",
-    "trumbowyg": "^2.21.0"
+    "flatpickr": "^4.6.13",
+    "fullcalendar": "^6.1.19",
+    "jquery": "^3.7.1",
+    "jquery-jeditable": "^2.0.19",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.6.0",
+    "select2": "^4.1.0-rc.0",
+    "tippy.js": "^6.3.7",
+    "trumbowyg": "^2.31.0"
   },
   "devDependencies": {
-    "fs-extra": "^0.26.7",
-    "gulp": "^5.0.0",
-    "gulp-changed": "^3.2.0",
-    "gulp-clean-css": "^3.10.0",
+    "@babel/core": "^7.28.5",
+    "@babel/preset-env": "^7.28.5",
+    "@prettier/plugin-php": "^0.24.0",
+    "babel-preset-minify": "^0.5.2",
+    "del": "^6.0.0",
+    "fs-extra": "^11.3.2",
+    "gulp": "^5.0.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-cached": "^1.1.1",
+    "gulp-changed": "^4.0.3",
+    "gulp-clean-css": "^4.3.0",
     "gulp-debug": "^4.0.0",
-    "gulp-load-plugins": "^2.0.8",
-    "gulp-notify": "^3.2.0",
     "gulp-plumber": "^1.2.1",
-    "gulp-rename": "^1.4.0",
-    "gulp-uglify": "^3.0.2",
-    "jsdoc": "^3.6.6",
-    "node-notifier": "^8.0.1",
-    "plato": "^1.7.0",
-    "zip-dir": "^1.0.2"
+    "gulp-rename": "^2.1.0",
+    "gulp-sass": "^6.0.1",
+    "prettier": "^3.6.2",
+    "sass": "^1.93.2",
+    "zip-dir": "^2.0.0"
   },
   "scripts": {
-    "start": "npx gulp",
+    "start": "npx --yes gulp",
     "build": "npx gulp build",
     "docs": "npx gulp docs"
   }

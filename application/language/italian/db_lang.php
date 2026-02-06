@@ -2,13 +2,13 @@
 /**
  * System messages translation for CodeIgniter(tm)
  *
- * @author	CodeIgniter community
- * @author	Stefano Mazzega
- * @copyright	Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
- * @license	http://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
+ * @author    CodeIgniter community
+ * @author    Stefano Mazzega
+ * @copyright    Copyright (c) 2014-2018, British Columbia Institute of Technology (http://bcit.ca/)
+ * @license    http://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['db_invalid_connection_str'] = 'Impossibile determinare i parametri del database dalla stringa di connessione immessa.';
 $lang['db_unable_to_connect'] = 'Impossibile connettersi al database utilizzando i parametri inseriti.';

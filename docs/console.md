@@ -23,13 +23,13 @@ The entry point for the CLI commands is the root `index.php` file which means th
 ##### Migrate 
 
 ```
-php index.php migrate
+php index.php console migrate
 ```
 
 This command will migrate the database to the latest state. 
 
 ```
-php index.php migrate fresh
+php index.php console migrate fresh
 ```
 
 This command will reset any change made by the previous migrations and start from the beginning. 
@@ -37,7 +37,7 @@ This command will reset any change made by the previous migrations and start fro
 ##### Seed
 
 ```
-php index.php seed
+php index.php console seed
 ```
 
 This command will add a test admin, provider, customer and service in the app, so that you can already run some tests.  
@@ -45,7 +45,7 @@ This command will add a test admin, provider, customer and service in the app, s
 ##### Install
 
 ```
-php index.php install
+php index.php console install
 ```
 
 This command will perform a CLI installation of Easy!Appointments. 
@@ -55,14 +55,14 @@ You can run this after your are done configuring your app from the root `config.
 ##### Backup 
 
 ```
-php index.php backup
+php index.php console backup
 ```
 
 This command will create a backup of the application data in the `storage/backups` directory. 
 
 
 ```
-php index.php backup /path/to/backup/folter
+php index.php console backup /path/to/backup/folter
 ``` 
 
 You can also provide a custom directory for your backup files. 
@@ -71,7 +71,7 @@ You can also provide a custom directory for your backup files.
 ##### Sync
 
 ```
-php index.php sync
+php index.php console sync
 ``` 
 
 This command will trigger the calendar synchronization for all the system providers. 
@@ -84,11 +84,11 @@ This way the app provider schedules will always be updated.
 ##### Help 
 
 ```
-php index.php help
+php index.php console help
 ``` 
 
 This command will give more information about the console capabilities.
 
-*This document applies to Easy!Appointments v1.4.3.*
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)

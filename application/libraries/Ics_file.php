@@ -1,13 +1,13 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.3.0
  * ---------------------------------------------------------------------------- */
 
@@ -22,27 +22,28 @@ use Jsvrcek\ICS\Model\Relationship\Organizer;
 use Jsvrcek\ICS\Utility\Formatter;
 
 /**
- * Class Ics_file
+ * Ics file library.
  *
- * An ICS file is a calendar file saved in a universal calendar format used by email and calendar clients, including
- * Microsoft Outlook, Google Calendar, and Apple Calendar.
+ * Handle ICS related functionality.
  *
- * Depends on the Jsvrcek\ICS composer package.
+ * An ICS file is a calendar file saved in a universal calendar format used by many email and calendar programs,
+ * including Microsoft Outlook, Google Calendar, and Apple Calendar.
  *
- * Notice: The Ics_calendar and Ics_provider classes are used for PHP 8.1 compatibility.
+ * @package Libraries
  */
-class Ics_file {
+class Ics_file
+{
     /**
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
      * Availability constructor.
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
         $this->CI->load->library('ics_provider');
         $this->CI->load->library('ics_calendar');
@@ -51,24 +52,25 @@ class Ics_file {
     /**
      * Get the ICS file contents for the provided arguments.
      *
-     * @param array $appointment Appointment.
-     * @param array $service Service.
-     * @param array $provider Provider.
-     * @param array $customer Customer.
+     * @param array $appointment Appointment data.
+     * @param array $service Service data.
+     * @param array $provider Provider data.
+     * @param array $customer Customer data.
      *
      * @return string Returns the contents of the ICS file.
      *
      * @throws CalendarEventException
      * @throws Exception
      */
-    public function get_stream($appointment, $service, $provider, $customer)
+    public function get_stream(array $appointment, array $service, array $provider, array $customer): string
     {
         $appointment_timezone = new DateTimeZone($provider['timezone']);
 
         $appointment_start = new DateTime($appointment['start_datetime'], $appointment_timezone);
+
         $appointment_end = new DateTime($appointment['end_datetime'], $appointment_timezone);
 
-        // Setup the event.
+        // Set up the event.
         $event = new CalendarEvent();
 
         $event
@@ -76,16 +78,24 @@ class Ics_file {
             ->setEnd($appointment_end)
             ->setStatus('CONFIRMED')
             ->setSummary($service['name'])
-            ->setUid($appointment['id']);
+            ->setUid($appointment['id_caldav_calendar'] ?: $this->generate_uid($appointment['id']));
 
-        if ( ! empty($service['location']))
-        {
+        if (!empty($service['location'])) {
             $location = new Location();
-            $location->setName((string)$service['location']);
+            $location->setName((string) $service['location']);
             $event->addLocation($location);
         }
 
+        $meeting_link_content = [];
+
+        if (!empty($appointment['meeting_link'])) {
+            $meeting_link_content[] = '';
+            $meeting_link_content[] = lang('meeting_link') . ': ' . $appointment['meeting_link'];
+            $meeting_link_content[] = '';
+        }
+
         $description = [
+            ...$meeting_link_content,
             '',
             lang('provider'),
             '',
@@ -100,7 +110,7 @@ class Ics_file {
             '',
             lang('name') . ': ' . $customer['first_name'] . ' ' . $customer['last_name'],
             lang('email') . ': ' . $customer['email'],
-            lang('phone_number') . ': ' . $customer['phone_number'],
+            lang('phone_number') . ': ' . ($customer['phone_number'] ?? '-'),
             lang('address') . ': ' . $customer['address'],
             lang('city') . ': ' . $customer['city'],
             lang('zip_code') . ': ' . $customer['zip_code'],
@@ -114,14 +124,14 @@ class Ics_file {
 
         $attendee = new Attendee(new Formatter());
 
-        if (isset($customer['email']) && ! empty($customer['email']))
-        {
+        if (isset($customer['email']) && !empty($customer['email'])) {
             $attendee->setValue($customer['email']);
         }
 
         // Add the event attendees.
         $attendee->setName($customer['first_name'] . ' ' . $customer['last_name']);
-        $attendee->setCalendarUserType('INDIVIDUAL')
+        $attendee
+            ->setCalendarUserType('INDIVIDUAL')
             ->setRole('REQ-PARTICIPANT')
             ->setParticipationStatus('NEEDS-ACTION')
             ->setRsvp('TRUE');
@@ -147,13 +157,13 @@ class Ics_file {
 
         $attendee = new Attendee(new Formatter());
 
-        if (isset($provider['email']) && ! empty($provider['email']))
-        {
+        if (isset($provider['email']) && !empty($provider['email'])) {
             $attendee->setValue($provider['email']);
         }
 
         $attendee->setName($provider['first_name'] . ' ' . $provider['last_name']);
-        $attendee->setCalendarUserType('INDIVIDUAL')
+        $attendee
+            ->setCalendarUserType('INDIVIDUAL')
             ->setRole('REQ-PARTICIPANT')
             ->setParticipationStatus('ACCEPTED')
             ->setRsvp('FALSE');
@@ -162,9 +172,7 @@ class Ics_file {
         // Set the organizer.
         $organizer = new Organizer(new Formatter());
 
-        $organizer
-            ->setValue($provider['email'])
-            ->setName($provider['first_name'] . ' ' . $provider['last_name']);
+        $organizer->setValue($provider['email'])->setName($provider['first_name'] . ' ' . $provider['last_name']);
 
         $event->setOrganizer($organizer);
 
@@ -177,9 +185,58 @@ class Ics_file {
             ->addEvent($event);
 
         // Setup exporter.
-        $calendarExport = new CalendarExport(new CalendarStream, new Formatter());
+        $calendarExport = new CalendarExport(new CalendarStream(), new Formatter());
+        $calendarExport->setDateTimeFormat('utc');
         $calendarExport->addCalendar($calendar);
 
         return $calendarExport->getStream();
+    }
+
+    public function get_unavailability_stream(array $unavailability, array $provider): string
+    {
+        $unavailability_timezone = new DateTimeZone($provider['timezone']);
+
+        $unavailability_start = new DateTime($unavailability['start_datetime'], $unavailability_timezone);
+
+        $unavailability_end = new DateTime($unavailability['end_datetime'], $unavailability_timezone);
+
+        // Set up the event.
+        $event = new CalendarEvent();
+
+        $event
+            ->setStart($unavailability_start)
+            ->setEnd($unavailability_end)
+            ->setStatus('CONFIRMED')
+            ->setSummary('Unavailability')
+            ->setUid($unavailability['id_caldav_calendar'] ?: $this->generate_uid($unavailability['id']));
+
+        $event->setDescription(str_replace("\n", "\\n", (string) $unavailability['notes']));
+
+        // Set the organizer.
+        $organizer = new Organizer(new Formatter());
+
+        $organizer->setValue($provider['email'])->setName($provider['first_name'] . ' ' . $provider['last_name']);
+
+        $event->setOrganizer($organizer);
+
+        // Setup calendar.
+        $calendar = new Ics_calendar();
+
+        $calendar
+            ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
+            ->setTimezone(new DateTimeZone($provider['timezone']))
+            ->addEvent($event);
+
+        // Setup exporter.
+        $calendarExport = new CalendarExport(new CalendarStream(), new Formatter());
+        $calendarExport->setDateTimeFormat('utc');
+        $calendarExport->addCalendar($calendar);
+
+        return $calendarExport->getStream();
+    }
+
+    public function generate_uid(int $db_record_id): string
+    {
+        return 'ea-' . md5($db_record_id);
     }
 }

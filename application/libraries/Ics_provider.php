@@ -19,22 +19,20 @@
  * Since the method signatures changed in PHP 8.1, the ReturnTypeWillChange attribute allows us to keep compatibility
  * between different PHP versions.
  */
-class Ics_provider implements \Iterator {
-    /**
-     * @var \Closure
-     */
-    private $provider;
-
+class Ics_provider implements Iterator
+{
     /**
      * @var array
      */
     public $data = [];
-
     /**
      * @var array
      */
     public $manuallyAddedData = [];
-
+    /**
+     * @var Closure
+     */
+    private $provider;
     /**
      * @var integer
      */
@@ -46,12 +44,12 @@ class Ics_provider implements \Iterator {
     private $first;
 
     /**
-     * @param \Closure $provider An optional closure for adding items in batches during iteration. The closure will be
+     * @param Closure $provider An optional closure for adding items in batches during iteration. The closure will be
      *     called each time the end of the internal data array is reached during iteration, and the current data
      *     array key value will be passed as an argument. The closure should return an array containing the next
      *     batch of items.
      */
-    public function __construct(\Closure $provider = NULL)
+    public function __construct(?Closure $provider = null)
     {
         $this->provider = $provider;
     }
@@ -112,6 +110,33 @@ class Ics_provider implements \Iterator {
     }
 
     /**
+     * Returns first event
+     *
+     * @return false|mixed
+     */
+    #[ReturnTypeWillChange]
+    public function first()
+    {
+        if (isset($this->first)) {
+            return $this->first;
+        }
+
+        if ($this->provider instanceof Closure) {
+            if ($this->valid()) {
+                return $this->first;
+            } else {
+                return false;
+            }
+        }
+
+        if (!isset($this->manuallyAddedData[0])) {
+            return false;
+        }
+
+        return $this->manuallyAddedData[0];
+    }
+
+    /**
      * get next batch from provider if data array is at the end
      *
      * @return bool
@@ -120,56 +145,18 @@ class Ics_provider implements \Iterator {
     #[ReturnTypeWillChange]
     public function valid()
     {
-        if (count($this->data) < 1)
-        {
-            if ($this->provider instanceof \Closure)
-            {
+        if (count($this->data) < 1) {
+            if ($this->provider instanceof Closure) {
                 $this->data = $this->provider->__invoke($this->key);
-                if (isset($this->data[0]))
-                {
+                if (isset($this->data[0])) {
                     $this->first = $this->data[0];
                 }
-            }
-            else
-            {
+            } else {
                 $this->data = $this->manuallyAddedData;
                 $this->manuallyAddedData = [];
             }
         }
 
         return count($this->data) > 0;
-    }
-
-    /**
-     * Returns first event
-     *
-     * @return false|mixed
-     */
-    #[ReturnTypeWillChange]
-    public function first()
-    {
-        if (isset($this->first))
-        {
-            return $this->first;
-        }
-
-        if ($this->provider instanceof \Closure)
-        {
-            if ($this->valid())
-            {
-                return $this->first;
-            }
-            else
-            {
-                return FALSE;
-            }
-        }
-
-        if ( ! isset($this->manuallyAddedData[0]))
-        {
-            return FALSE;
-        }
-
-        return $this->manuallyAddedData[0];
     }
 }

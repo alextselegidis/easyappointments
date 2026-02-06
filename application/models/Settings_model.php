@@ -1,166 +1,348 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Settings Model
+ * Settings model.
+ *
+ * Handles all the database operations of the setting resource.
  *
  * @package Models
  */
-class Settings_model extends EA_Model {
+class Settings_model extends EA_Model
+{
     /**
-     * Get setting value from database.
-     *
-     * This method returns a system setting from the database.
-     *
-     * @param string $name The database setting name.
-     *
-     * @return string Returns the database value for the selected setting.
-     *
-     * @throws Exception If the $name argument is invalid.
-     * @throws Exception If the requested $name setting does not exist in the database.
+     * @var array
      */
-    public function get_setting($name)
+    protected array $casts = [
+        'id' => 'integer',
+    ];
+
+    /**
+     * @var array
+     */
+    protected array $api_resource = [
+        'name' => 'name',
+        'value' => 'value',
+    ];
+
+    /**
+     * Save (insert or update) a setting.
+     *
+     * @param array $setting Associative array with the setting data.
+     *
+     * @return int Returns the setting ID.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function save(array $setting): int
     {
-        if ( ! is_string($name))
-        {
-            // Check argument type.
-            throw new Exception('$name argument is not a string: ' . $name);
-        }
+        $this->validate($setting);
 
-        if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
-        {
-            // Check if setting exists in db.
-            throw new Exception('$name setting does not exist in database: ' . $name);
+        if (empty($setting['id'])) {
+            return $this->insert($setting);
+        } else {
+            return $this->update($setting);
         }
-
-        $query = $this->db->get_where('settings', ['name' => $name]);
-        $setting = $query->num_rows() > 0 ? $query->row() : '';
-        return $setting->value;
     }
 
     /**
-     * This method sets the value for a specific setting on the database.
+     * Validate the setting data.
      *
-     * If the setting doesn't exist, it is going to be created, otherwise updated.
+     * @param array $setting Associative array with the setting data.
      *
-     * @param string $name The setting name.
-     * @param string $value The setting value.
-     *
-     * @return int Returns the setting database id.
-     *
-     * @throws Exception If $name argument is invalid.
-     * @throws Exception If the save operation fails.
+     * @throws InvalidArgumentException
      */
-    public function set_setting($name, $value)
+    public function validate(array $setting): void
     {
-        if ( ! is_string($name))
-        {
-            throw new Exception('$name argument is not a string: ' . $name);
-        }
+        // If a setting ID is provided then check whether the record really exists in the database.
+        if (!empty($setting['id'])) {
+            $count = $this->db->get_where('settings', ['id' => $setting['id']])->num_rows();
 
-        $query = $this->db->get_where('settings', ['name' => $name]);
-
-        if ($query->num_rows() > 0)
-        {
-            // Update setting
-            if ( ! $this->db->update('settings', ['value' => xss_clean($value)], ['name' => $name]))
-            {
-                throw new Exception('Could not update database setting.');
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The provided setting ID does not exist in the database: ' . $setting['id'],
+                );
             }
-            $setting_id = (int)$this->db->get_where('settings', ['name' => $name])->row()->id;
         }
-        else
-        {
-            // Insert setting
-            $insert_data = [
-                'name' => $name,
-                'value' => $value
+
+        // Make sure all required fields are provided.
+        if (empty($setting['name'])) {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($setting, true));
+        }
+    }
+
+    /**
+     * Insert a new setting into the database.
+     *
+     * @param array $setting Associative array with the setting data.
+     *
+     * @return int Returns the setting ID.
+     *
+     * @throws RuntimeException
+     */
+    protected function insert(array $setting): int
+    {
+        $setting['create_datetime'] = date('Y-m-d H:i:s');
+        $setting['update_datetime'] = date('Y-m-d H:i:s');
+
+        if (!$this->db->insert('settings', $setting)) {
+            throw new RuntimeException('Could not insert setting.');
+        }
+
+        return $this->db->insert_id();
+    }
+
+    /**
+     * Update an existing setting.
+     *
+     * @param array $setting Associative array with the setting data.
+     *
+     * @return int Returns the setting ID.
+     *
+     * @throws RuntimeException
+     */
+    protected function update(array $setting): int
+    {
+        $setting['update_datetime'] = date('Y-m-d H:i:s');
+
+        if (!$this->db->update('settings', $setting, ['id' => $setting['id']])) {
+            throw new RuntimeException('Could not update setting.');
+        }
+
+        return $setting['id'];
+    }
+
+    /**
+     * Remove an existing setting from the database.
+     *
+     * @param int $setting_id Setting ID.
+     *
+     * @throws RuntimeException
+     */
+    public function delete(int $setting_id): void
+    {
+        $this->db->delete('settings', ['id' => $setting_id]);
+    }
+
+    /**
+     * Get a specific setting from the database.
+     *
+     * @param int $setting_id The ID of the record to be returned.
+     *
+     * @return array Returns an array with the setting data.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function find(int $setting_id): array
+    {
+        $setting = $this->db->get_where('settings', ['id' => $setting_id])->row_array();
+
+        if (!$setting) {
+            throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
+        }
+
+        $this->cast($setting);
+
+        return $setting;
+    }
+
+    /**
+     * Get a specific field value from the database.
+     *
+     * @param int $setting_id Setting ID.
+     * @param string $field Name of the value to be returned.
+     *
+     * @return mixed Returns the selected setting value from the database.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function value(int $setting_id, string $field): mixed
+    {
+        if (empty($field)) {
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
+        }
+
+        if (empty($setting_id)) {
+            throw new InvalidArgumentException('The setting ID argument cannot be empty.');
+        }
+
+        // Check whether the setting exists.
+        $query = $this->db->get_where('settings', ['id' => $setting_id]);
+
+        if (!$query->num_rows()) {
+            throw new InvalidArgumentException('The provided setting ID was not found in the database: ' . $setting_id);
+        }
+
+        // Check if the required field is part of the setting data.
+        $setting = $query->row_array();
+
+        $this->cast($setting);
+
+        if (!array_key_exists($field, $setting)) {
+            throw new InvalidArgumentException('The requested field was not found in the setting data: ' . $field);
+        }
+
+        return $setting[$field];
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the settings table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
+    {
+        return $this->db->from('settings');
+    }
+
+    /**
+     * Search settings by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of settings.
+     */
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
+    {
+        $settings = $this->db
+            ->select()
+            ->from('settings')
+            ->group_start()
+            ->like('name', $keyword)
+            ->or_like('value', $keyword)
+            ->group_end()
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($this->quote_order_by($order_by))
+            ->get()
+            ->result_array();
+
+        foreach ($settings as &$setting) {
+            $this->cast($setting);
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Get all settings that match the provided criteria.
+     *
+     * @param array|string|null $where Where conditions
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of settings.
+     */
+    public function get(
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
+    ): array {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $settings = $this->db->get('settings', $limit, $offset)->result_array();
+
+        foreach ($settings as &$setting) {
+            $this->cast($setting);
+        }
+
+        return $settings;
+    }
+
+    /**
+     * Get settings as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $settings = $this->db->select('id, name')->from('settings')->order_by('name')->get()->result_array();
+
+        $options = [];
+
+        foreach ($settings as $setting) {
+            $options[] = [
+                'value' => (int) $setting['id'],
+                'label' => $setting['name'],
             ];
-
-            if ( ! $this->db->insert('settings', $insert_data))
-            {
-                throw new Exception('Could not insert database setting');
-            }
-
-            $setting_id = (int)$this->db->insert_id();
         }
 
-        return $setting_id;
+        return $options;
     }
 
     /**
-     * Remove a setting from the database.
+     * Load related resources to a setting.
      *
-     * @param string $name The setting name to be removed.
+     * @param array $setting Associative array with the setting data.
+     * @param array $resources Resource names to be attached.
      *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception If the $name argument is invalid.
+     * @throws InvalidArgumentException
      */
-    public function remove_setting($name)
+    public function load(array &$setting, array $resources)
     {
-        if ( ! is_string($name))
-        {
-            throw new Exception('$name is not a string: ' . $name);
-        }
-
-        if ($this->db->get_where('settings', ['name' => $name])->num_rows() == 0)
-        {
-            return FALSE; // There is no such setting.
-        }
-
-        return $this->db->delete('settings', ['name' => $name]);
+        // Users do not currently have any related resources.
     }
 
     /**
-     * Saves all the system settings into the database.
+     * Convert the database setting record to the equivalent API resource.
      *
-     * This method is useful when trying to save all the system settings at once instead of
-     * saving them one by one.
-     *
-     * @param array $settings Contains all the system settings.
-     *
-     * @return bool Returns the save operation result.
-     *
-     * @throws Exception When the update operation won't work for a specific setting.
+     * @param array $setting Setting data.
      */
-    public function save_settings($settings)
+    public function api_encode(array &$setting): void
     {
-        if ( ! is_array($settings))
-        {
-            throw new Exception('$settings argument is invalid: ' . print_r($settings, TRUE));
-        }
+        $encoded_resource = [
+            'name' => $setting['name'],
+            'value' => $setting['value'],
+        ];
 
-        foreach ($settings as $setting)
-        {
-            $this->db->where('name', $setting['name']);
-            if ( ! $this->db->update('settings', ['value' => xss_clean($setting['value'])]))
-            {
-                throw new Exception('Could not save setting (' . $setting['name']
-                    . ' - ' . $setting['value'] . ')');
-            }
-        }
-
-        return TRUE;
+        $setting = $encoded_resource;
     }
 
     /**
-     * Returns all the system settings at once.
+     * Convert the API resource to the equivalent database setting record.
      *
-     * @return array Array of all the system settings stored in the 'settings' table.
+     * @param array $setting API resource.
+     * @param array|null $base Base setting data to be overwritten with the provided values (useful for updates).
      */
-    public function get_settings()
+    public function api_decode(array &$setting, ?array $base = null): void
     {
-        return $this->db->get('settings')->result_array();
+        $decoded_resource = $base ?: [];
+
+        if (array_key_exists('name', $setting)) {
+            $decoded_resource['name'] = $setting['name'];
+        }
+
+        if (array_key_exists('value', $setting)) {
+            $decoded_resource['value'] = $setting['value'];
+        }
+
+        $setting = $decoded_resource;
     }
 }

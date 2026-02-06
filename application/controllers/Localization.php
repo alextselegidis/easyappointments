@@ -14,64 +14,50 @@
 /**
  * Localization Controller
  *
- * Contains all the location related methods.
+ * Contains all the localization related methods.
  *
  * @package Controllers
  */
-class Localization extends EA_Controller {
+class Localization extends EA_Controller
+{
     /**
      * Change system language for current user.
      *
      * The language setting is stored in session data and retrieved every time the user visits any of the system pages.
-     *
-     * Notice: This method used to be in the Backend_api.php.
+    /**
+     * Change the language of the user.
      */
-    public function ajax_change_language()
+    public function change_language(): void
     {
-        try
-        {
+        try {
+            method('post');
+
+            check('language', 'string');
+
+            $language = request('language');
+
+            // Validate language is not empty
+            if (empty($language) || !is_string($language)) {
+                throw new InvalidArgumentException('Invalid language parameter.');
+            }
+
+            // Sanitize language to only allow alphanumeric and underscore characters
+            $language = preg_replace('/[^a-zA-Z0-9_]/', '', $language);
+
             // Check if language exists in the available languages.
-            $found = FALSE;
-
-            $language = $this->input->post('language');
-
-            if (empty($language))
-            {
-                throw new Exception('No language provided.');
+            if (!in_array($language, config('available_languages'), true)) {
+                throw new RuntimeException('Translations for the given language does not exist.');
             }
 
-            foreach (config('available_languages') as $available_language)
-            {
-                if ($available_language === $language)
-                {
-                    $found = TRUE;
-                    break;
-                }
-            }
+            session(['language' => $language]);
 
-            if ( ! $found)
-            {
-                throw new Exception('The translations for the provided language do not exist: ' . $language);
-            }
+            config(['language' => $language]);
 
-            $this->session->set_userdata('language', $language);
-
-            $this->config->set_item('language', $language);
-
-            $response = AJAX_SUCCESS;
+            json_response([
+                'success' => true,
+            ]);
+        } catch (Throwable $e) {
+            json_exception($e);
         }
-        catch (Exception $exception)
-        {
-            $this->output->set_status_header(500);
-
-            $response = [
-                'message' => $exception->getMessage(),
-                'trace' => config('debug') ? $exception->getTrace() : []
-            ];
-        }
-
-        $this->output
-            ->set_content_type('application/json')
-            ->set_output(json_encode($response));
     }
 }

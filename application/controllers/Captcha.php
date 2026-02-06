@@ -1,40 +1,51 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
+ * @copyright   Copyright (c) Alex Tselegidis
  * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
  * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use Gregwar\Captcha\CaptchaBuilder;
+
 /**
- * Captcha Controller
+ * Captcha controller.
+ *
+ * Handles the captcha operations.
  *
  * @package Controllers
  */
-class Captcha extends EA_Controller {
+class Captcha extends EA_Controller
+{
     /**
      * Class Constructor
      */
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('captcha_builder');
     }
 
     /**
-     * Make a request to this method to get a captcha image.
+     * Make a page request to this method in order to output a fresh captcha image.
      */
-    public function index()
+    public function index(): void
     {
+        method('get');
+
+        $captcha_builder = new CaptchaBuilder();
+
+        $captcha_builder->setDistortion(true);
+        $captcha_builder->setMaxBehindLines(1);
+        $captcha_builder->setMaxFrontLines(1);
+        $captcha_builder->setBackgroundColor(255, 255, 255);
+        $captcha_builder->build();
+        session(['captcha_phrase' => $captcha_builder->getPhrase()]);
         header('Content-type: image/jpeg');
-        $this->captcha_builder->build();
-        $this->session->set_userdata('captcha_phrase', $this->captcha_builder->getPhrase());
-        $this->captcha_builder->output();
+        $captcha_builder->output();
     }
 }

@@ -26,26 +26,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @package	CodeIgniter
- * @author	EllisLab Dev Team
- * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
- * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
- * @license	https://opensource.org/licenses/MIT	MIT License
- * @link	https://codeigniter.com
- * @since	Version 1.0.0
+ * @package    CodeIgniter
+ * @author    EllisLab Dev Team
+ * @copyright    Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright    Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @license    https://opensource.org/licenses/MIT	MIT License
+ * @link    https://codeigniter.com
+ * @since    Version 1.0.0
  * @filesource
  */
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-$lang['ftp_no_connection']		= 'Unable to locate a valid connection ID. Please make sure you are connected before performing any file routines.';
-$lang['ftp_unable_to_connect']		= 'Unable to connect to your FTP server using the supplied hostname.';
-$lang['ftp_unable_to_login']		= 'Unable to login to your FTP server. Please check your username and password.';
-$lang['ftp_unable_to_mkdir']		= 'Unable to create the directory you have specified.';
-$lang['ftp_unable_to_changedir']	= 'Unable to change directories.';
-$lang['ftp_unable_to_chmod']		= 'Unable to set file permissions. Please check your path.';
-$lang['ftp_unable_to_upload']		= 'Unable to upload the specified file. Please check your path.';
-$lang['ftp_unable_to_download']		= 'Unable to download the specified file. Please check your path.';
-$lang['ftp_no_source_file']		= 'Unable to locate the source file. Please check your path.';
-$lang['ftp_unable_to_rename']		= 'Unable to rename the file.';
-$lang['ftp_unable_to_delete']		= 'Unable to delete the file.';
-$lang['ftp_unable_to_move']		= 'Unable to move the file. Please make sure the destination directory exists.';
+$lang['ftp_no_connection'] = 'Impossibile trovare un ID di connessione valido. Assicurati di essere connesso prima di eseguire qualsiasi routine di file.';
+$lang['ftp_unable_to_connect'] = 'Impossibile connettersi al tuo server FTP utilizzando il nome host fornito.';
+$lang['ftp_unable_to_login'] = 'Impossibile accedere al tuo server FTP. Per favore controlla il tuo nome utente e password.';
+$lang['ftp_unable_to_mkdir'] = 'Impossibile creare la directory che hai specificato.';
+$lang['ftp_unable_to_changedir'] = 'Impossibile cambiare directory.';
+$lang['ftp_unable_to_chmod'] = 'Impossibile impostare i permessi dei file. Per favore controlla il tuo percorso.';
+$lang['ftp_unable_to_upload'] = 'Impossibile caricare il file specificato. Per favore controlla il tuo percorso.';
+$lang['ftp_unable_to_download'] = 'Impossibile scaricare il file specificato. Per favore controlla il tuo percorso.';
+$lang['ftp_no_source_file'] = 'Impossibile individuare il file sorgente. Per favore controlla il tuo percorso.';
+$lang['ftp_unable_to_rename'] = 'Impossibile rinominare il file.';
+$lang['ftp_unable_to_delete'] = 'Impossibile eliminare il file.';
+$lang['ftp_unable_to_move'] = 'Impossibile spostare il file. Assicurati che la directory di destinazione esista.';

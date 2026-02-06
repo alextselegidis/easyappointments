@@ -50,6 +50,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class CI_URI {
 
+    /**
+     * Dynamic Class Props
+     * 
+     * @var array 
+     */
+    public $props = []; 
+    
+    public function __get(string $name): mixed 
+    {
+        return $this->props[$name] ?? NULL;
+    }
+
+    public function __set(string $name, mixed $value): void
+    {
+        $this->props[$name] = $value;
+    }
+
 	/**
 	 * List of cached URI segments
 	 *

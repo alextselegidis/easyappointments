@@ -1,139 +1,145 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
 /**
- * Admins Model Class
+ * Admins model.
  *
- * Handles the database actions for admin users management.
+ * Handles all the database operations of the admin resource.
  *
  * @package Models
  */
-class Admins_model extends EA_Model {
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->load->helper('general');
-        $this->load->helper('data_validation');
-    }
+class Admins_model extends EA_Model
+{
+    /**
+     * @var array
+     */
+    protected array $casts = [
+        'id' => 'integer',
+        'id_roles' => 'integer',
+    ];
 
     /**
-     * Add (insert or update) an admin user record into database.
-     *
-     * @param array $admin Contains the admin user data.
-     *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the admin data are invalid (see validate() method).
+     * @var array
      */
-    public function add($admin)
+    protected array $api_resource = [
+        'id' => 'id',
+        'firstName' => 'first_name',
+        'lastName' => 'last_name',
+        'email' => 'email',
+        'mobile' => 'mobile_number',
+        'phone' => 'phone_number',
+        'address' => 'address',
+        'city' => 'city',
+        'state' => 'state',
+        'zip' => 'zip_code',
+        'timezone' => 'timezone',
+        'language' => 'language',
+        'notes' => 'notes',
+        'ldapDn' => 'ldap_dn',
+        'roleId' => 'id_roles',
+    ];
+
+    /**
+     * Save (insert or update) an admin.
+     *
+     * @param array $admin Associative array with the admin data.
+     *
+     * @return int Returns the admin ID.
+     *
+     * @throws InvalidArgumentException
+     * @throws Exception
+     */
+    public function save(array $admin): int
     {
         $this->validate($admin);
 
-        if ($this->exists($admin) && ! isset($admin['id']))
-        {
-            $admin['id'] = $this->find_record_id($admin);
+        if (empty($admin['id'])) {
+            return $this->insert($admin);
+        } else {
+            return $this->update($admin);
         }
-
-        if ( ! isset($admin['id']))
-        {
-            $admin['id'] = $this->insert($admin);
-        }
-        else
-        {
-            $admin['id'] = $this->update($admin);
-        }
-
-        return (int)$admin['id'];
     }
 
     /**
-     * Validate admin user data before add() operation is executed.
+     * Validate the admin data.
      *
-     * @param array $admin Contains the admin user data.
+     * @param array $admin Associative array with the admin data.
      *
-     * @return bool Returns the validation result.
-     *
-     * @throws Exception When data are invalid.
+     * @throws InvalidArgumentException
      */
-    public function validate($admin)
+    public function validate(array $admin): void
     {
-        // If a record id is provided then check whether the record exists in the database.
-        if (isset($admin['id']))
-        {
-            $num_rows = $this->db->get_where('users', ['id' => $admin['id']])->num_rows();
+        // If an admin ID is provided then check whether the record really exists in the database.
+        if (!empty($admin['id'])) {
+            $count = $this->db->get_where('users', ['id' => $admin['id']])->num_rows();
 
-            if ($num_rows === 0)
-            {
-                throw new Exception('Given admin id does not exist in database: ' . $admin['id']);
+            if (!$count) {
+                throw new InvalidArgumentException(
+                    'The provided admin ID does not exist in the database: ' . $admin['id'],
+                );
             }
         }
 
-        // Validate required fields integrity.
-        if ( ! isset(
-            $admin['last_name'],
-            $admin['email'],
-            $admin['phone_number']
-        ))
-        {
-            throw new Exception('Not all required fields are provided: ' . print_r($admin, TRUE));
+        // Make sure all required fields are provided.
+        if (empty($admin['first_name']) || empty($admin['last_name']) || empty($admin['email'])) {
+            throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($admin, true));
         }
 
-        // Validate admin email address.
-        if ( ! filter_var($admin['email'], FILTER_VALIDATE_EMAIL))
-        {
-            throw new Exception('Invalid email address provided: ' . $admin['email']);
+        // Validate the email address.
+        if (!filter_var($admin['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Invalid email address provided: ' . $admin['email']);
         }
 
-        // Check if username exists.
-        if (isset($admin['settings']['username']))
-        {
-            $user_id = (isset($admin['id'])) ? $admin['id'] : '';
-            if ( ! $this->validate_username($admin['settings']['username'], $user_id))
-            {
-                throw new Exception ('Username already exists. Please select a different '
-                    . 'username for this record.');
+        // Make sure the username is unique.
+        if (!empty($admin['settings']['username'])) {
+            $admin_id = $admin['id'] ?? null;
+
+            if (!$this->validate_username($admin['settings']['username'], $admin_id)) {
+                throw new InvalidArgumentException(
+                    'The provided username is already in use, please use a different one.',
+                );
             }
         }
 
-        // Validate admin password
-        if (isset($admin['settings']['password']))
-        {
-            if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH)
-            {
-                throw new Exception('The user password must be at least '
-                    . MIN_PASSWORD_LENGTH . ' characters long.');
+        // Validate the password.
+        if (!empty($admin['settings']['password'])) {
+            if (strlen($admin['settings']['password']) < MIN_PASSWORD_LENGTH) {
+                throw new InvalidArgumentException(
+                    'The admin password must be at least ' . MIN_PASSWORD_LENGTH . ' characters long.',
+                );
             }
         }
 
-        if ( ! isset($admin['id']) && ! isset($admin['settings']['password']))
-        {
-            throw new Exception('The user password cannot be empty for new users.');
+        // New users must always have a password value set.
+        if (empty($admin['id']) && empty($admin['settings']['password'])) {
+            throw new InvalidArgumentException('The admin password cannot be empty when inserting a new record.');
         }
 
-        // Validate calendar view mode.
-        if (isset($admin['settings']['calendar_view']) && ($admin['settings']['calendar_view'] !== CALENDAR_VIEW_DEFAULT
-                && $admin['settings']['calendar_view'] !== CALENDAR_VIEW_TABLE))
-        {
-            throw new Exception('The calendar view setting must be either "' . CALENDAR_VIEW_DEFAULT
-                . '" or "' . CALENDAR_VIEW_TABLE . '", given: ' . $admin['settings']['calendar_view']);
+        // Validate calendar view type value.
+        if (
+            !empty($admin['settings']['calendar_view']) &&
+            !in_array($admin['settings']['calendar_view'], [CALENDAR_VIEW_DEFAULT, CALENDAR_VIEW_TABLE])
+        ) {
+            throw new InvalidArgumentException(
+                'The provided calendar view is invalid: ' . $admin['settings']['calendar_view'],
+            );
         }
 
-        // When inserting a record the email address must be unique.
-        $admin_id = isset($admin['id']) ? $admin['id'] : '';
+        // Make sure the email address is unique.
+        $admin_id = $admin['id'] ?? null;
 
-        $num_rows = $this->db
-            ->select('*')
+        $count = $this->db
+            ->select()
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
             ->where('roles.slug', DB_SLUG_ADMIN)
@@ -142,244 +148,258 @@ class Admins_model extends EA_Model {
             ->get()
             ->num_rows();
 
-        if ($num_rows > 0)
-        {
-            throw new Exception('Given email address belongs to another admin record. '
-                . 'Please use a different email.');
+        if ($count > 0) {
+            throw new InvalidArgumentException(
+                'The provided email address is already in use, please use a different one.',
+            );
         }
-
-        return TRUE; // Operation completed successfully.
     }
 
     /**
-     * Validate Records Username
+     * Validate the admin username.
      *
-     * @param string $username The provider records username.
-     * @param int $user_id The user record id.
+     * @param string $username Admin username.
+     * @param int|null $admin_id Admin ID.
      *
      * @return bool Returns the validation result.
      */
-    public function validate_username($username, $user_id)
+    public function validate_username(string $username, ?int $admin_id = null): bool
     {
-        if ( ! empty($user_id))
-        {
-            $this->db->where('id_users !=', $user_id);
+        if (!empty($admin_id)) {
+            $this->db->where('id_users !=', $admin_id);
         }
 
-        $this->db->where('username', $username);
-
-        return $this->db->get('user_settings')->num_rows() === 0;
-    }
-
-    /**
-     * Check whether a particular admin record exists in the database.
-     *
-     * @param array $admin Contains the admin data. The 'email' value is required to be present at the moment.
-     *
-     * @return bool Returns whether the record exists or not.
-     *
-     * @throws Exception When the 'email' value is not present on the $admin argument.
-     */
-    public function exists($admin)
-    {
-        if ( ! isset($admin['email']))
-        {
-            throw new Exception('Admin email is not provided: ' . print_r($admin, TRUE));
-        }
-
-        // This method shouldn't depend on another method of this class.
-        $num_rows = $this->db
-            ->select('*')
+        return $this->db
             ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $admin['email'])
-            ->where('roles.slug', DB_SLUG_ADMIN)
-            ->get()->num_rows();
-
-        return $num_rows > 0;
+            ->join('user_settings', 'user_settings.id_users = users.id', 'inner')
+            ->where(['username' => $username])
+            ->get()
+            ->num_rows() === 0;
     }
 
     /**
-     * Find the database record id of an admin user.
+     * Get all admins that match the provided criteria.
      *
-     * @param array $admin Contains the admin data. The 'email' value is required in order to find the record id.
+     * @param array|string|null $where Where conditions.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
      *
-     * @return int Returns the record id
-     *
-     * @throws Exception When the 'email' value is not present on the $admin array.
+     * @return array Returns an array of admins.
      */
-    public function find_record_id($admin)
+    public function get(
+        array|string|null $where = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        ?string $order_by = null,
+    ): array {
+        $role_id = $this->get_admin_role_id();
+
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $admins = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+
+        foreach ($admins as &$admin) {
+            $this->cast($admin);
+            $admin['settings'] = $this->get_settings($admin['id']);
+        }
+
+        return $admins;
+    }
+
+    /**
+     * Get the admin role ID.
+     *
+     * @return int Returns the role ID.
+     */
+    public function get_admin_role_id(): int
     {
-        if ( ! isset($admin['email']))
-        {
-            throw new Exception('Admin email was not provided: ' . print_r($admin, TRUE));
+        $role = $this->db->get_where('roles', ['slug' => DB_SLUG_ADMIN])->row_array();
+
+        if (empty($role)) {
+            throw new RuntimeException('The admin role was not found in the database.');
         }
 
-        $result = $this->db
-            ->select('users.id')
-            ->from('users')
-            ->join('roles', 'roles.id = users.id_roles', 'inner')
-            ->where('users.email', $admin['email'])
-            ->where('roles.slug', DB_SLUG_ADMIN)
-            ->get();
-
-        if ($result->num_rows() == 0)
-        {
-            throw new Exception('Could not find admin record id.');
-        }
-
-        return (int)$result->row()->id;
+        return $role['id'];
     }
 
     /**
-     * Insert a new admin record into the database.
+     * Get the admin settings.
      *
-     * @param array $admin Contains the admin data.
+     * @param int $admin_id Admin ID.
      *
-     * @return int Returns the new record id.
-     *
-     * @throws Exception When the insert operation fails.
+     * @throws InvalidArgumentException
      */
-    protected function insert($admin)
+    public function get_settings(int $admin_id): array
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
+
+        unset($settings['id_users'], $settings['password'], $settings['salt']);
+
+        return $settings;
+    }
+
+    /**
+     * Insert a new admin into the database.
+     *
+     * @param array $admin Associative array with the admin data.
+     *
+     * @return int Returns the admin ID.
+     *
+     * @throws RuntimeException|Exception
+     */
+    protected function insert(array $admin): int
     {
         $admin['id_roles'] = $this->get_admin_role_id();
+
         $settings = $admin['settings'];
+
         unset($admin['settings']);
 
-        $this->db->trans_begin();
+        $admin['create_datetime'] = date('Y-m-d H:i:s');
+        $admin['update_datetime'] = date('Y-m-d H:i:s');
 
-        if ( ! $this->db->insert('users', $admin))
-        {
-            throw new Exception('Could not insert admin into the database.');
+        if (!$this->db->insert('users', $admin)) {
+            throw new RuntimeException('Could not insert admin.');
         }
 
-        $admin['id'] = (int)$this->db->insert_id();
-        $settings['id_users'] = $admin['id'];
+        $admin['id'] = $this->db->insert_id();
         $settings['salt'] = generate_salt();
         $settings['password'] = hash_password($settings['salt'], $settings['password']);
 
-        // Insert admin settings.
-        if ( ! $this->db->insert('user_settings', $settings))
-        {
-            $this->db->trans_rollback();
-            throw new Exception('Could not insert admin settings into the database.');
-        }
-
-        $this->db->trans_complete();
+        $this->set_settings($admin['id'], $settings);
 
         return $admin['id'];
     }
 
     /**
-     * Get the admin users role id.
+     * Save the admin settings.
      *
-     * @return int Returns the role record id.
+     * @param int $admin_id Admin ID.
+     * @param array $settings Associative array with the settings data.
+     *
+     * @throws InvalidArgumentException
      */
-    public function get_admin_role_id()
+    public function set_settings(int $admin_id, array $settings): void
     {
-        return (int)$this->db->get_where('roles', ['slug' => DB_SLUG_ADMIN])->row()->id;
+        if (empty($settings)) {
+            throw new InvalidArgumentException('The settings argument cannot be empty.');
+        }
+
+        // Make sure the settings record exists in the database.
+        $count = $this->db->get_where('user_settings', ['id_users' => $admin_id])->num_rows();
+
+        if (!$count) {
+            $this->db->insert('user_settings', ['id_users' => $admin_id]);
+        }
+
+        foreach ($settings as $name => $value) {
+            $this->set_setting($admin_id, $name, $value);
+        }
     }
 
     /**
-     * Update an existing admin record in the database.
+     * Set the value of an admin setting.
      *
-     * @param array $admin Contains the admin record data.
-     *
-     * @return int Returns the record id.
-     *
-     * @throws Exception When the update operation fails.
+     * @param int $admin_id Admin ID.
+     * @param string $name Setting name.
+     * @param mixed|null $value Setting value.
      */
-    protected function update($admin)
+    public function set_setting(int $admin_id, string $name, mixed $value = null): void
+    {
+        if (!$this->db->update('user_settings', [$name => $value], ['id_users' => $admin_id])) {
+            throw new RuntimeException('Could not set the new admin setting value: ' . $name);
+        }
+    }
+
+    /**
+     * Update an existing admin.
+     *
+     * @param array $admin Associative array with the admin data.
+     *
+     * @return int Returns the admin ID.
+     *
+     * @throws RuntimeException
+     * @throws Exception
+     */
+    protected function update(array $admin): int
     {
         $settings = $admin['settings'];
-        unset($admin['settings']);
+
         $settings['id_users'] = $admin['id'];
 
-        if (isset($settings['password']))
-        {
-            $salt = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row()->salt;
-            $settings['password'] = hash_password($salt, $settings['password']);
+        unset($admin['settings']);
+
+        if (!empty($settings['password'])) {
+            $existing_settings = $this->db->get_where('user_settings', ['id_users' => $admin['id']])->row_array();
+
+            if (empty($existing_settings)) {
+                throw new RuntimeException('No settings record found for admin with ID: ' . $admin['id']);
+            }
+
+            if (empty($existing_settings['salt'])) {
+                $existing_settings['salt'] = $settings['salt'] = generate_salt();
+            }
+
+            $settings['password'] = hash_password($existing_settings['salt'], $settings['password']);
         }
 
-        $this->db->where('id', $admin['id']);
-        if ( ! $this->db->update('users', $admin))
-        {
-            throw new Exception('Could not update admin record.');
+        $admin['update_datetime'] = date('Y-m-d H:i:s');
+
+        if (!$this->db->update('users', $admin, ['id' => $admin['id']])) {
+            throw new RuntimeException('Could not update admin.');
         }
 
-        $this->db->where('id_users', $settings['id_users']);
-        if ( ! $this->db->update('user_settings', $settings))
-        {
-            throw new Exception('Could not update admin settings.');
-        }
+        $this->set_settings($admin['id'], $settings);
 
-        return (int)$admin['id'];
+        return $admin['id'];
     }
 
     /**
-     * Delete an existing admin record from the database.
+     * Remove an existing admin from the database.
      *
-     * @param int $admin_id The admin record id to be deleted.
+     * @param int $admin_id Admin ID.
      *
-     * @return bool Returns the delete operation result.
-     *
-     * @throws Exception When the $admin_id is not a valid int value.
-     * @throws Exception When the record to be deleted is the only one admin user left on the system.
+     * @throws RuntimeException
      */
-    public function delete($admin_id)
+    public function delete(int $admin_id): void
     {
-        if ( ! is_numeric($admin_id))
-        {
-            throw new Exception('Invalid argument type $admin_id: ' . $admin_id);
+        $role_id = $this->get_admin_role_id();
+
+        $count = $this->db->get_where('users', ['id_roles' => $role_id])->num_rows();
+
+        if ($count <= 1) {
+            throw new RuntimeException('Record could not be deleted as the app requires at least one admin user.');
         }
 
-        // There must be always at least one admin user. If this is the only admin
-        // the system, it cannot be deleted.
-        $admin_count = $this->db->get_where('users',
-            ['id_roles' => $this->get_admin_role_id()])->num_rows();
-        if ($admin_count == 1)
-        {
-            throw new Exception('Record could not be deleted. The system requires at least '
-                . 'one admin user.');
-        }
-
-        $num_rows = $this->db->get_where('users', ['id' => $admin_id])->num_rows();
-        if ($num_rows == 0)
-        {
-            return FALSE; // Record does not exist in database.
-        }
-
-        return $this->db->delete('users', ['id' => $admin_id]);
+        $this->db->delete('users', ['id' => $admin_id]);
     }
 
     /**
-     * Get a specific admin record from the database.
+     * Get a specific admin from the database.
      *
-     * @param int $admin_id The id of the record to be returned.
+     * @param int $admin_id The ID of the record to be returned.
      *
-     * @return array Returns an array with the admin user data.
+     * @return array Returns an array with the admin data.
      *
-     * @throws Exception When the $admin_id is not a valid int value.
+     * @throws InvalidArgumentException
      */
-    public function get_row($admin_id)
+    public function find(int $admin_id): array
     {
-        if ( ! is_numeric($admin_id))
-        {
-            throw new Exception('$admin_id argument is not a valid numeric value: ' . $admin_id);
-        }
-
-        // Check if record exists
-        if ($this->db->get_where('users', ['id' => $admin_id])->num_rows() == 0)
-        {
-            throw new Exception('The given admin id does not match a record in the database.');
-        }
-
         $admin = $this->db->get_where('users', ['id' => $admin_id])->row_array();
 
-        $admin['settings'] = $this->db->get_where('user_settings',
-            ['id_users' => $admin_id])->row_array();
-        unset($admin['settings']['id_users']);
+        if (!$admin) {
+            throw new InvalidArgumentException('The provided admin ID was not found in the database: ' . $admin_id);
+        }
 
+        $this->cast($admin);
+        $admin['settings'] = $this->get_settings($admin['id']);
 
         return $admin;
     }
@@ -387,83 +407,289 @@ class Admins_model extends EA_Model {
     /**
      * Get a specific field value from the database.
      *
-     * @param string $field_name The field name of the value to be returned.
-     * @param int $admin_id Record id of the value to be returned.
+     * @param int $admin_id Admin ID.
+     * @param string $field Name of the value to be returned.
      *
-     * @return string Returns the selected record value from the database.
+     * @return mixed Returns the selected admin value from the database.
      *
-     * @throws Exception When the $field_name argument is not a valid string.
-     * @throws Exception When the $admin_id is not a valid int.
-     * @throws Exception When the admin record does not exist in the database.
-     * @throws Exception When the selected field value is not present on database.
+     * @throws InvalidArgumentException
      */
-    public function get_value($field_name, $admin_id)
+    public function value(int $admin_id, string $field): mixed
     {
-        if ( ! is_string($field_name))
-        {
-            throw new Exception('$field_name argument is not a string: ' . $field_name);
+        if (empty($field)) {
+            throw new InvalidArgumentException('The field argument is cannot be empty.');
         }
 
-        if ( ! is_numeric($admin_id))
-        {
-            throw new Exception('$admin_id argument is not a valid numeric value: ' . $admin_id);
+        if (empty($admin_id)) {
+            throw new InvalidArgumentException('The admin ID argument cannot be empty.');
         }
 
-        // Check whether the admin record exists.
-        $result = $this->db->get_where('users', ['id' => $admin_id]);
+        // Check whether the admin exists.
+        $query = $this->db->get_where('users', ['id' => $admin_id]);
 
-        if ($result->num_rows() === 0)
-        {
-            throw new Exception('The record with the given id does not exist in the '
-                . 'database: ' . $admin_id);
+        if (!$query->num_rows()) {
+            throw new InvalidArgumentException('The provided admin ID was not found in the database: ' . $admin_id);
         }
 
-        // Check if the required field name exist in database.
-        $row_data = $result->row_array();
+        // Check if the required field is part of the admin data.
+        $admin = $query->row_array();
 
-        if ( ! array_key_exists($field_name, $row_data))
-        {
-            throw new Exception('The given $field_name argument does not exist in the '
-                . 'database: ' . $field_name);
+        $this->cast($admin);
+
+        if (!array_key_exists($field, $admin)) {
+            throw new InvalidArgumentException('The requested field was not found in the admin data: ' . $field);
         }
 
-        return $row_data[$field_name];
+        return $admin[$field];
     }
 
     /**
-     * Get all, or specific admin records from database.
+     * Get the value of an admin setting.
      *
-     * @param mixed|null $where (OPTIONAL) The WHERE clause of the query to be executed.
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param mixed|null $order_by
+     * @param int $admin_id Admin ID.
+     * @param string $name Setting name.
      *
-     * @return array Returns an array with admin records.
+     * @return string Returns the value of the requested user setting.
      */
-    public function get_batch($where = NULL, $limit = NULL, $offset = NULL, $order_by = NULL)
+    public function get_setting(int $admin_id, string $name): string
+    {
+        $settings = $this->db->get_where('user_settings', ['id_users' => $admin_id])->row_array();
+
+        if (!array_key_exists($name, $settings)) {
+            throw new RuntimeException('The requested setting value was not found: ' . $admin_id);
+        }
+
+        return $settings[$name];
+    }
+
+    /**
+     * Get the query builder interface, configured for use with the users (admin-filtered) table.
+     *
+     * @return CI_DB_query_builder
+     */
+    public function query(): CI_DB_query_builder
     {
         $role_id = $this->get_admin_role_id();
 
-        if ($where !== NULL)
-        {
+        return $this->db->from('users')->where('id_roles', $role_id);
+    }
+
+    /**
+     * Search admins by the provided keyword.
+     *
+     * @param string $keyword Search keyword.
+     * @param int|null $limit Record limit.
+     * @param int|null $offset Record offset.
+     * @param string|null $order_by Order by.
+     *
+     * @return array Returns an array of admins.
+     */
+    public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
+    {
+        $role_id = $this->get_admin_role_id();
+
+        $admins = $this->db
+            ->select()
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->group_start()
+            ->like('first_name', $keyword)
+            ->or_like('last_name', $keyword)
+            ->or_like('CONCAT_WS(" ", first_name, last_name)', $keyword)
+            ->or_like('email', $keyword)
+            ->or_like('phone_number', $keyword)
+            ->or_like('mobile_number', $keyword)
+            ->or_like('address', $keyword)
+            ->or_like('city', $keyword)
+            ->or_like('state', $keyword)
+            ->or_like('zip_code', $keyword)
+            ->or_like('notes', $keyword)
+            ->group_end()
+            ->limit($limit)
+            ->offset($offset)
+            ->order_by($this->quote_order_by($order_by))
+            ->get()
+            ->result_array();
+
+        foreach ($admins as &$admin) {
+            $this->cast($admin);
+            $admin['settings'] = $this->get_settings($admin['id']);
+        }
+
+        return $admins;
+    }
+
+    /**
+     * Get admins as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        $role_id = $this->get_admin_role_id();
+
+        if ($where !== null) {
             $this->db->where($where);
         }
 
-        if ($order_by !== NULL)
-        {
-            $this->db->order_by($order_by);
+        $admins = $this->db
+            ->select('id, first_name, last_name')
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->order_by('first_name, last_name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($admins as $admin) {
+            $options[] = [
+                'value' => (int) $admin['id'],
+                'label' => trim($admin['first_name'] . ' ' . $admin['last_name']),
+            ];
         }
 
-        $batch = $this->db->get_where('users', ['id_roles' => $role_id], $limit, $offset)->result_array();
+        return $options;
+    }
 
-        // Get every admin settings.
-        foreach ($batch as &$admin)
-        {
-            $admin['settings'] = $this->db->get_where('user_settings',
-                ['id_users' => $admin['id']])->row_array();
-            unset($admin['settings']['id_users']);
+    /**
+     * Load related resources to an admin.
+     *
+     * @param array $admin Associative array with the admin data.
+     * @param array $resources Resource names to be attached.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function load(array &$admin, array $resources)
+    {
+        // Admins do not currently have any related resources (settings are already part of the admins).
+    }
+
+    /**
+     * Convert the database admin record to the equivalent API resource.
+     *
+     * @param array $admin Admin data.
+     */
+    public function api_encode(array &$admin): void
+    {
+        $encoded_resource = [
+            'id' => array_key_exists('id', $admin) ? (int) $admin['id'] : null,
+            'firstName' => $admin['first_name'],
+            'lastName' => $admin['last_name'],
+            'email' => $admin['email'],
+            'mobile' => $admin['mobile_number'],
+            'phone' => $admin['phone_number'],
+            'address' => $admin['address'],
+            'city' => $admin['city'],
+            'state' => $admin['state'],
+            'zip' => $admin['zip_code'],
+            'notes' => $admin['notes'],
+            'timezone' => $admin['timezone'],
+            'language' => $admin['language'],
+            'ldapDn' => $admin['ldap_dn'],
+            'settings' => [
+                'username' => $admin['settings']['username'],
+                'notifications' => filter_var($admin['settings']['notifications'], FILTER_VALIDATE_BOOLEAN),
+                'calendarView' => $admin['settings']['calendar_view'],
+            ],
+        ];
+
+        $admin = $encoded_resource;
+    }
+
+    /**
+     * Convert the API resource to the equivalent database admin record.
+     *
+     * @param array $admin API resource.
+     * @param array|null $base Base admin data to be overwritten with the provided values (useful for updates).
+     */
+    public function api_decode(array &$admin, ?array $base = null): void
+    {
+        $decoded_resource = $base ?? [];
+
+        if (array_key_exists('id', $admin)) {
+            $decoded_resource['id'] = $admin['id'];
         }
 
-        return $batch;
+        if (array_key_exists('firstName', $admin)) {
+            $decoded_resource['first_name'] = $admin['firstName'];
+        }
+
+        if (array_key_exists('lastName', $admin)) {
+            $decoded_resource['last_name'] = $admin['lastName'];
+        }
+
+        if (array_key_exists('email', $admin)) {
+            $decoded_resource['email'] = $admin['email'];
+        }
+
+        if (array_key_exists('mobile', $admin)) {
+            $decoded_resource['mobile_number'] = $admin['mobile'];
+        }
+
+        if (array_key_exists('phone', $admin)) {
+            $decoded_resource['phone_number'] = $admin['phone'];
+        }
+
+        if (array_key_exists('address', $admin)) {
+            $decoded_resource['address'] = $admin['address'];
+        }
+
+        if (array_key_exists('city', $admin)) {
+            $decoded_resource['city'] = $admin['city'];
+        }
+
+        if (array_key_exists('state', $admin)) {
+            $decoded_resource['state'] = $admin['state'];
+        }
+
+        if (array_key_exists('zip', $admin)) {
+            $decoded_resource['zip_code'] = $admin['zip'];
+        }
+
+        if (array_key_exists('notes', $admin)) {
+            $decoded_resource['notes'] = $admin['notes'];
+        }
+
+        if (array_key_exists('timezone', $admin)) {
+            $decoded_resource['timezone'] = $admin['timezone'];
+        }
+
+        if (array_key_exists('language', $admin)) {
+            $decoded_resource['language'] = $admin['language'];
+        }
+
+        if (array_key_exists('ldapDn', $admin)) {
+            $decoded_resource['ldap_dn'] = $admin['ldapDn'];
+        }
+
+        if (array_key_exists('settings', $admin)) {
+            if (empty($decoded_resource['settings'])) {
+                $decoded_resource['settings'] = [];
+            }
+
+            if (array_key_exists('username', $admin['settings'])) {
+                $decoded_resource['settings']['username'] = $admin['settings']['username'];
+            }
+
+            if (array_key_exists('password', $admin['settings'])) {
+                $decoded_resource['settings']['password'] = $admin['settings']['password'];
+            }
+
+            if (array_key_exists('notifications', $admin['settings'])) {
+                $decoded_resource['settings']['notifications'] = filter_var(
+                    $admin['settings']['notifications'],
+                    FILTER_VALIDATE_BOOLEAN,
+                );
+            }
+
+            if (array_key_exists('calendarView', $admin['settings'])) {
+                $decoded_resource['settings']['calendar_view'] = $admin['settings']['calendarView'];
+            }
+        }
+
+        $admin = $decoded_resource;
     }
 }

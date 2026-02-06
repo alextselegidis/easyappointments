@@ -11,5 +11,16 @@
 |
 */
 
+/**
+ * Add security headers to all responses.
+ */
+$hook['post_controller_constructor'][] = [
+    'class' => '',
+    'function' => 'add_security_headers',
+    'filename' => 'security_headers.php',
+    'filepath' => 'hooks',
+    'params' => [],
+];
+
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

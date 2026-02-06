@@ -1,74 +1,111 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 
 /* ----------------------------------------------------------------------------
- * Easy!Appointments - Open Source Web Scheduler
+ * Easy!Appointments - Online Appointment Scheduler
  *
  * @package     EasyAppointments
  * @author      A.Tselegidis <alextselegidis@gmail.com>
- * @copyright   Copyright (c) 2013 - 2020, Alex Tselegidis
- * @license     http://opensource.org/licenses/GPL-3.0 - GPLv3
- * @link        http://easyappointments.org
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use Google\Service\Calendar\Event;
+use Google\Service\Calendar\Events;
+
 /**
- * Class Google_sync
+ * Google sync library.
  *
- * This class implements all the core synchronization between the Google Calendar and the Easy!Appointments system.
- *
- * Do not place any model handling inside this library.
+ * Handles Google Calendar API related functionality.
  *
  * @package Libraries
  */
-class Google_sync {
+class Google_sync
+{
     /**
-     * CodeIgniter Instance
-     *
-     * @var EA_Controller
+     * @var EA_Controller|CI_Controller
      */
-    protected $CI;
+    protected EA_Controller|CI_Controller $CI;
 
     /**
-     * Google API Client
-     *
      * @var Google_Client
      */
-    protected $client;
+    protected Google_Client $client;
 
     /**
-     * Google Calendar Service
-     *
      * @var Google_Service_Calendar
      */
-    protected $service;
+    protected Google_Service_Calendar $service;
 
     /**
-     * Class Constructor
+     * Google_sync constructor.
      *
-     * This method initializes the Google client class and the Calendar service
-     * class so that they can be used by the other methods.
+     * This method initializes the Google client class and the Calendar service class so that they can be used by the
+     * other methods.
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
 
-        // Initialize google client and calendar service.
+        $this->CI->load->model('appointments_model');
+        $this->CI->load->model('customers_model');
+        $this->CI->load->model('providers_model');
+        $this->CI->load->model('services_model');
+
+        $this->initialize_clients();
+    }
+
+    /**
+     * Get the Google Client ID from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_id(): string
+    {
+        $setting_value = setting('google_client_id');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_id') ?: '';
+    }
+
+    /**
+     * Get the Google Client Secret from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_secret(): string
+    {
+        $setting_value = setting('google_client_secret');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_secret') ?: '';
+    }
+
+    /**
+     * Initialize the client, so that existing execution errors are not passed from one provider to another.
+     */
+    public function initialize_clients(): void
+    {
         $http = new GuzzleHttp\Client([
-            'verify' => false
+            'verify' => false,
         ]);
-        
+
         $this->client = new Google_Client();
         $this->client->setHttpClient($http);
-        $this->client->setApplicationName(config('google_application_name'));
-        $this->client->setClientId(config('google_client_id'));
-        $this->client->setClientSecret(config('google_client_secret'));
-        $this->client->setDeveloperKey(config('google_api_key'));
+        $this->client->setApplicationName('Easy!Appointments');
+        $this->client->setClientId($this->get_client_id());
+        $this->client->setClientSecret($this->get_client_secret());
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');
-        $this->client->addScope([
-            Google_Service_Calendar::CALENDAR,
-        ]);
+        $this->client->addScope([Google_Service_Calendar::CALENDAR]);
 
         $this->service = new Google_Service_Calendar($this->client);
     }
@@ -78,35 +115,43 @@ class Google_sync {
      *
      * This url must be used to redirect the user to the Google user consent page,
      * where the user grants access to his data for the Easy!Appointments app.
+     *
+     * @param string|null $state Optional state parameter for CSRF protection.
      */
-    public function get_auth_url()
+    public function get_auth_url(?string $state = null): string
     {
-        // "max_auth_age" is needed because the user needs to always log in
-        // and not use an existing session.
-        return $this->client->createAuthUrl() . '&max_auth_age=0';
+        // The "max_auth_age" is needed because the user needs to always log in and not use an existing session.
+        $auth_url = $this->client->createAuthUrl() . '&max_auth_age=0';
+
+        // Add state parameter if provided for CSRF protection
+        if ($state !== null) {
+            $auth_url .= '&state=' . urlencode($state);
+        }
+
+        return $auth_url;
     }
 
     /**
      * Authenticate the Google API usage.
      *
-     * When the user grants consent for his data usage, google is going to redirect
-     * the browser back to the given redirect url. There a authentication code is
-     * provided. Using this code, we can authenticate the API usage and store the
-     * token information to the database.
+     * When the user grants consent for his data usage, Google is going to redirect the browser back to the given
+     * redirect URL. There an authentication code is provided. Using this code, we can authenticate the API usage and
+     * store the token information to the database.
      *
-     * @param $code
+     * @param string $code
      *
      * @return array
      *
      * @throws Exception
      */
-    public function authenticate($code)
+    public function authenticate(string $code): array
     {
         $response = $this->client->fetchAccessTokenWithAuthCode($code);
 
-        if (isset($response['error']))
-        {
-            throw new Exception('Google Authentication Error (' . $response['error'] . '): ' . $response['error_description']);
+        if (isset($response['error'])) {
+            throw new RuntimeException(
+                'Google Authentication Error (' . $response['error'] . '): ' . $response['error_description'],
+            );
         }
 
         return $response;
@@ -115,18 +160,17 @@ class Google_sync {
     /**
      * Refresh the Google Client access token.
      *
-     * This method must be executed every time we need to make actions on a
-     * provider's Google Calendar account. A new token is necessary and the
-     * only way to get it is to use the stored refresh token that was provided
-     * when the provider granted consent to Easy!Appointments for use his
-     * Google Calendar account.
+     * This method must be executed every time we need to make actions on a provider's Google Calendar account. A new
+     * token is necessary and the only way to get it is to use the stored refresh token that was provided when the
+     * provider granted consent to Easy!Appointments for use his Google Calendar account.
      *
-     * @param string $refresh_token The provider's refresh token. This value is
-     * stored in the database and used every time we need to make actions to his
-     * Google Caledar account.
+     * @param string $refresh_token The provider's refresh token. This value is stored in the database and used every
+     * time we need to make actions to his Google Calendar account.
      */
-    public function refresh_token($refresh_token)
+    public function refresh_token(string $refresh_token): void
     {
+        $this->initialize_clients();
+
         $this->client->refreshToken($refresh_token);
     }
 
@@ -137,88 +181,38 @@ class Google_sync {
      * and the stored access token is still valid. If yes, the selected appointment record is going to be added to the
      * Google Calendar account.
      *
-     * @param array $appointment Contains the appointment record data.
-     * @param array $provider Contains the provider record data.
-     * @param array $service Contains the service record data.
-     * @param array $customer Contains the customer recod data.
-     * @param array $settings Contains some company settings that are used by this method.
+     * @param array $appointment Appointment data.
+     * @param array $provider Provider data.
+     * @param array $service Service data.
+     * @param array $customer Customer data.
+     * @param array $settings Required settings.
      *
-     * @return Google_Service_Calendar_Event Returns the Google_Event class object.
+     * @return Event Returns the Google_Event class object.
+     *
+     * @throws Exception
      */
-    public function add_appointment($appointment, $provider, $service, $customer, $settings)
-    {
-        $this->CI->load->helper('general');
-
+    public function add_appointment(
+        array $appointment,
+        array $provider,
+        array $service,
+        array $customer,
+        array $settings,
+    ): Event {
         $event = new Google_Service_Calendar_Event();
-        $event->setSummary(($service != NULL) ? $service['name'] : 'Unavailable');
+        $event->setSummary(!empty($service) ? $service['name'] : 'Unavailable');
         $event->setDescription($appointment['notes']);
-        $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $settings['company_name']);
+        $event->setLocation($appointment['location'] ?? $settings['company_name']);
 
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($appointment['start_datetime'], $timezone))->format(DateTime::RFC3339));
+        $start->setDateTime(
+            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTime::RFC3339));
-        $event->setEnd($end);
-
-        $event->attendees = [];
-
-        $event_provider = new Google_Service_Calendar_EventAttendee();
-        $event_provider->setDisplayName($provider['first_name'] . ' '
-            . $provider['last_name']);
-        $event_provider->setEmail($provider['email']);
-        $event->attendees[] = $event_provider;
-
-        if ($customer != NULL)
-        {
-            $event_customer = new Google_Service_Calendar_EventAttendee();
-            $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
-            $event_customer->setEmail($customer['email']);
-            $event->attendees[] = $event_customer;
-        }
-
-        // Add the new event to the google calendar.
-        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event);
-
-        return $created_event;
-    }
-
-    /**
-     * Update an existing appointment that is already synced with Google Calendar.
-     *
-     * This method updates the google calendar event item that is connected with the
-     * provided appointment record of Easy!Appointments.
-     *
-     * @param array $appointment Contains the appointment record data.
-     * @param array $provider Contains the provider record data.
-     * @param array $service Contains the service record data.
-     * @param array $customer Contains the customer recod data.
-     * @parma array $settings Contains some company settings that are used by this method.
-     *
-     * @return Google_Service_Calendar_Event Returns the Google_Service_Calendar_Event class object.
-     */
-    public function update_appointment($appointment, $provider, $service, $customer, $settings)
-    {
-        $this->CI->load->helper('general');
-
-        $event = $this->service->events->get($provider['settings']['google_calendar'],
-            $appointment['id_google_calendar']);
-
-        $event->setSummary($service['name']);
-        $event->setDescription($appointment['notes']);
-        $event->setLocation(isset($appointment['location']) ? $appointment['location'] : $settings['company_name']);
-
-        $timezone = new DateTimeZone($provider['timezone']);
-
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($appointment['start_datetime'], $timezone))->format(DateTime::RFC3339));
-        $event->setStart($start);
-
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTime::RFC3339));
+        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
         $event->setEnd($end);
 
         $event->attendees = [];
@@ -228,17 +222,145 @@ class Google_sync {
         $event_provider->setEmail($provider['email']);
         $event->attendees[] = $event_provider;
 
-        if ($customer != NULL)
-        {
+        if (!empty($customer['first_name']) && !empty($customer['last_name']) && !empty($customer['email'])) {
             $event_customer = new Google_Service_Calendar_EventAttendee();
-            $event_customer->setDisplayName($customer['first_name'] . ' '
-                . $customer['last_name']);
+            $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
             $event_customer->setEmail($customer['email']);
             $event->attendees[] = $event_customer;
         }
 
-        $updated_event = $this->service->events->update($provider['settings']['google_calendar'],
-            $event->getId(), $event);
+        // Add Google Meet conferencing if enabled
+        if (filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN)) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
+        // Add the new event to the Google Calendar.
+        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event, [
+            'conferenceDataVersion' => 1,
+        ]);
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $created_event->getConferenceData() &&
+            $created_event->getConferenceData()->getEntryPoints()
+        ) {
+            $entry_points = $created_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $created_event;
+    }
+
+    /**
+     * Update an existing appointment that is already synced with Google Calendar.
+     *
+     * This method updates the Google Calendar event item that is connected with the provided appointment record of
+     * Easy!Appointments.
+     *
+     * @param array $appointment Appointment data.
+     * @param array $provider Provider data.
+     * @param array $service Service data.
+     * @param array $customer Customer data.
+     * @parma array $settings Required settings.
+     *
+     * @return Event Returns the Google_Service_Calendar_Event class object.
+     *
+     * @throws Exception
+     */
+    public function update_appointment(
+        array $appointment,
+        array $provider,
+        array $service,
+        array $customer,
+        array $settings,
+    ): Event {
+        $event = $this->service->events->get(
+            $provider['settings']['google_calendar'],
+            $appointment['id_google_calendar'],
+        );
+
+        $event->setSummary($service['name']);
+        $event->setDescription($appointment['notes']);
+        $event->setLocation($appointment['location'] ?? $settings['company_name']);
+
+        $timezone = new DateTimeZone($provider['timezone']);
+
+        $start = new Google_Service_Calendar_EventDateTime();
+        $start->setDateTime(
+            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
+        );
+        $event->setStart($start);
+
+        $end = new Google_Service_Calendar_EventDateTime();
+        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $event->setEnd($end);
+
+        $event->attendees = [];
+
+        $event_provider = new Google_Service_Calendar_EventAttendee();
+        $event_provider->setDisplayName($provider['first_name'] . ' ' . $provider['last_name']);
+        $event_provider->setEmail($provider['email']);
+        $event->attendees[] = $event_provider;
+
+        if (!empty($customer['first_name']) && !empty($customer['last_name']) && !empty($customer['email'])) {
+            $event_customer = new Google_Service_Calendar_EventAttendee();
+            $event_customer->setDisplayName($customer['first_name'] . ' ' . $customer['last_name']);
+            $event_customer->setEmail($customer['email']);
+            $event->attendees[] = $event_customer;
+        }
+
+        // Add Google Meet conferencing if enabled and event doesn't already have one
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            !$event->getConferenceData()
+        ) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
+        $updated_event = $this->service->events->update(
+            $provider['settings']['google_calendar'],
+            $event->getId(),
+            $event,
+            ['conferenceDataVersion' => 1],
+        );
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $updated_event->getConferenceData() &&
+            $updated_event->getConferenceData()->getEntryPoints() &&
+            empty($appointment['meeting_link'])
+        ) {
+            $entry_points = $updated_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
 
         return $updated_event;
     }
@@ -246,114 +368,111 @@ class Google_sync {
     /**
      * Delete an existing appointment from Google Calendar.
      *
-     * @param array $provider Contains the provider record data.
-     * @param string $google_event_id The Google Calendar event id to
-     * be deleted.
+     * @param array $provider Provider data.
+     * @param string $google_event_id The Google Calendar event ID to be removed.
+     *
+     * @throws \Google\Service\Exception
      */
-    public function delete_appointment($provider, $google_event_id)
+    public function delete_appointment(array $provider, string $google_event_id): void
     {
-        try
-        {
-            $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
-        }
-        catch (Exception $ex)
-        {
-            // Event was not found on Google Calendar.
-        }
+        $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }
 
     /**
-     * Add unavailable period event to Google Calendar.
+     * Add unavailability period event to Google Calendar.
      *
-     * @param array $provider Contains the provider record data.
-     * @param array $unavailable Contains unavailable period's data.
+     * @param array $provider Provider data.
+     * @param array $unavailability Unavailable data.
      *
-     * @return Google_Service_Calendar_Event Returns the google event's object.
+     * @return Google_Service_Calendar_Event Returns the Google event.
+     *
+     * @throws Exception
      */
-    public function add_unavailable($provider, $unavailable)
+    public function add_unavailability(array $provider, array $unavailability): Google_Service_Calendar_Event
     {
-        $this->CI->load->helper('general');
-
         $event = new Google_Service_Calendar_Event();
         $event->setSummary('Unavailable');
-        $event->setDescription($unavailable['notes']);
+        $event->setDescription($unavailability['notes']);
 
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($unavailable['start_datetime'], $timezone))->format(DateTime::RFC3339));
+        $start->setDateTime(
+            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($unavailable['end_datetime'], $timezone))->format(DateTime::RFC3339));
+        $end->setDateTime(
+            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
+        );
         $event->setEnd($end);
 
-        // Add the new event to the google calendar.
-        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event);
-
-        return $created_event;
-
+        // Add the new event to the Google Calendar.
+        return $this->service->events->insert($provider['settings']['google_calendar'], $event);
     }
 
     /**
-     * Update Google Calendar unavailable period event.
+     * Update Google Calendar unavailability period event.
      *
-     * @param array $provider Contains the provider record data.
-     * @param array $unavailable Contains the unavailable period data.
+     * @param array $provider Provider data.
+     * @param array $unavailability Unavailability data.
      *
      * @return Google_Service_Calendar_Event Returns the Google_Service_Calendar_Event object.
+     *
+     * @throws Exception
      */
-    public function update_unavailable($provider, $unavailable)
+    public function update_unavailability(array $provider, array $unavailability): Google_Service_Calendar_Event
     {
-        $this->CI->load->helper('general');
+        $event = $this->service->events->get(
+            $provider['settings']['google_calendar'],
+            $unavailability['id_google_calendar'],
+        );
 
-        $event = $this->service->events->get($provider['settings']['google_calendar'],
-            $unavailable['id_google_calendar']);
-        $event->setDescription($unavailable['notes']);
+        $event->setSummary('Unavailable');
+        $event->setDescription($unavailability['notes']);
 
         $timezone = new DateTimeZone($provider['timezone']);
 
         $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime((new DateTime($unavailable['start_datetime'], $timezone))->format(DateTime::RFC3339));
+        $start->setDateTime(
+            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
+        );
         $event->setStart($start);
 
         $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($unavailable['end_datetime'], $timezone))->format(DateTime::RFC3339));
+        $end->setDateTime(
+            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
+        );
         $event->setEnd($end);
 
-        $updated_event = $this->service->events->update($provider['settings']['google_calendar'],
-            $event->getId(), $event);
-
-        return $updated_event;
+        return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
     }
 
     /**
-     * Delete unavailable period event from Google Calendar.
+     * Delete unavailability period event from Google Calendar.
      *
-     * @param array $provider Contains the provider record data.
-     * @param string $google_event_id Google Calendar event id to be deleted.
+     * @param array $provider Provider data.
+     * @param string $google_event_id Google Calendar event ID to be removed.
+     *
+     * @throws \Google\Service\Exception
      */
-    public function delete_unavailable($provider, $google_event_id)
+    public function delete_unavailability(array $provider, string $google_event_id): void
     {
-        try
-        {
-            $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
-        }
-        catch (Exception $ex)
-        {
-            // Event was not found on Google Calendar.
-        }
+        $this->service->events->delete($provider['settings']['google_calendar'], $google_event_id);
     }
 
     /**
-     * Get an event object from gcal
+     * Get a Google Calendar event.
      *
-     * @param array $provider Contains the provider record data.
-     * @param string $google_event_id Id of the google calendar event.
+     * @param array $provider Provider data.
+     * @param string $google_event_id Google Calendar event ID.
      *
-     * @return Google_Service_Calendar_Event Returns the google event object.
+     * @return Event Returns the Google Calendar event.
+     *
+     * @throws \Google\Service\Exception
      */
-    public function get_event($provider, $google_event_id)
+    public function get_event(array $provider, string $google_event_id): Event
     {
         return $this->service->events->get($provider['settings']['google_calendar'], $google_event_id);
     }
@@ -361,52 +480,110 @@ class Google_sync {
     /**
      * Get all the events between the sync period.
      *
-     * @param string $google_calendar The name of the google calendar to be used.
+     * @param string $google_calendar The name of the Google Calendar to be used.
      * @param string $start The start date of sync period.
      * @param string $end The end date of sync period.
      *
-     * @return object Returns an array with Google_Service_Calendar_Event objects that belong on the given
-     * sync period (start, end).
+     * @return Events Returns a collection of events.
+     *
+     * @throws \Google\Service\Exception
      */
-    public function get_sync_events($google_calendar, $start, $end)
+    public function get_sync_events(string $google_calendar, string $start, string $end): Events
     {
-        $this->CI->load->helper('general');
-
         $params = [
-            'timeMin' => date(DateTime::RFC3339, $start),
-            'timeMax' => date(DateTime::RFC3339, $end),
-            'singleEvents' => TRUE,
+            'timeMin' => date(DateTimeInterface::RFC3339, $start),
+            'timeMax' => date(DateTimeInterface::RFC3339, $end),
+            'singleEvents' => true,
+            'maxResults' => 2500,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);
     }
 
     /**
-     * Return available google calendars for specific user.
+     * Return available Google Calendars for specific user.
      *
      * The given user's token must already exist in db in order to get access to his
      * Google Calendar account.
      *
-     * @param string $google_token The user's token will be used to grant access to google calendar.
-     *
      * @return array Returns an array with the available calendars.
+     *
+     * @throws \Google\Service\Exception
      */
-    public function get_google_calendars()
+    public function get_google_calendars(): array
     {
-        $calendarList = $this->service->calendarList->listCalendarList();
+        $calendar_list = $this->service->calendarList->listCalendarList();
+
         $calendars = [];
-        foreach ($calendarList->items as $google_calendar)
-        {
-            if ($google_calendar->getAccessRole() === 'reader')
-            {
+
+        foreach ($calendar_list->getItems() as $google_calendar) {
+            if ($google_calendar->getAccessRole() === 'reader') {
                 continue;
             }
 
             $calendars[] = [
-                'id' => $google_calendar->id,
-                'summary' => $google_calendar->summary
+                'id' => $google_calendar->getId(),
+                'summary' => $google_calendar->getSummary(),
             ];
         }
+
         return $calendars;
+    }
+
+    /**
+     * Get the Add-To-Google-URL, that can be used by anyone to quickly add the event to Google Calendar (no API needed).
+     *
+     * @param int $appointment_id
+     *
+     * @return string
+     *
+     * @throws Exception
+     */
+    public function get_add_to_google_url(int $appointment_id): string
+    {
+        $appointment = $this->CI->appointments_model->find($appointment_id);
+
+        $service = $this->CI->services_model->find($appointment['id_services']);
+
+        $provider = $this->CI->providers_model->find($appointment['id_users_provider']);
+
+        $customer = $this->CI->customers_model->find($appointment['id_users_customer']);
+
+        $provider_timezone_instance = new DateTimeZone($provider['timezone']);
+        $utc_timezone_instance = new DateTimeZone('UTC');
+
+        $appointment_start_instance = new DateTime($appointment['start_datetime'], $provider_timezone_instance);
+        $appointment_start_instance->setTimezone($utc_timezone_instance);
+
+        $appointment_end_instance = new DateTime($appointment['end_datetime'], $provider_timezone_instance);
+        $appointment_end_instance->setTimezone($utc_timezone_instance);
+
+        // Collect invitees
+        $add = [$provider['email']];
+        if (!empty($customer['email'])) {
+            $add[] = $customer['email'];
+        }
+
+        // Base params (everything except add)
+        $params = [
+            'action' => 'TEMPLATE',
+            'text' => $service['name'],
+            'dates' =>
+                $appointment_start_instance->format('Ymd\THis\Z') .
+                '/' .
+                $appointment_end_instance->format('Ymd\THis\Z'),
+            'location' => setting('company_name'),
+            'details' => 'View/Change Appointment: ' . site_url('booking/reschedule/' . $appointment['hash']),
+        ];
+
+        // Build base query
+        $query = http_build_query($params);
+
+        // Append each guest separately
+        foreach ($add as $email) {
+            $query .= '&add=' . rawurlencode($email);
+        }
+
+        return 'https://calendar.google.com/calendar/render?' . $query;
     }
 }
