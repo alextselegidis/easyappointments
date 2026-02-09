@@ -139,10 +139,11 @@
         }
 
         h1 {
-            font-size: 35px;
+            font-size: 24px;
             font-weight: 300;
             text-align: center;
             text-transform: capitalize;
+            margin-bottom: 40px;
         }
 
         .label {
@@ -395,11 +396,11 @@
                                     <td>
 
                                         <!-- Logo at the top center, embedded as CID -->
-                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
+                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:67px; margin: auto auto 24px;">
 
-                                        <h2 style="text-align: center;">
+                                        <h1 style="text-align: center;">
                                             <?= $subject ?>
-                                        </h2>
+                                        </h1>
 
                                         <p style="text-align: center;">
                                             <?= $message ?>
@@ -580,6 +581,7 @@
                                             <?php endfor; ?>
                                         </table>
 
+                                        <br>
                                         <br>
 
                                         <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">

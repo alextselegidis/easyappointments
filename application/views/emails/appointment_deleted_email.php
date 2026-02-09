@@ -137,10 +137,11 @@
         }
 
         h1 {
-            font-size: 35px;
+            font-size: 24px;
             font-weight: 300;
             text-align: center;
             text-transform: capitalize;
+            margin-bottom: 15px;
         }
         
         .label {
@@ -393,13 +394,13 @@
                                     <td>
 
                                         <!-- Logo at the top center, embedded as CID -->
-                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
+                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:67px;margin: auto auto 24px;">
 
-                                        <h2 style="text-align: center;">
+                                        <h1 style="text-align: center;">
                                             <?= lang('appointment_cancelled_title') ?>
-                                        </h2>
+                                        </h1>
 
-                                        <p style="text-align: center;">
+                                        <p style="text-align: center; margin-bottom: 40px">
                                             <?= lang('appointment_removed_from_schedule') ?>
                                         </p>
 
