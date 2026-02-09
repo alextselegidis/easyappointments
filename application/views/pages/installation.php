@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/default.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <div id="loading" class="position-fixed top-0 start-0 w-100 vh-100 d-flex justify-content-center align-items-center d-none bg-white">
     <img src="<?= base_url('assets/img/loading.gif') ?>" alt="loading">
@@ -28,7 +28,7 @@
     </div>
 </header>
 
-<div class="container h-100">
+<div class="container flex-grow-1">
     <div class="row">
         <div class="col-lg-9 offset-lg-1">
 
@@ -198,7 +198,7 @@
     
 </div>
 
-<footer class="bg-light mt-5">
+<footer class="bg-light mt-auto">
     <div class="container">
         <div class="row">
             <div class="col-lg-9 offset-lg-1 py-3">
