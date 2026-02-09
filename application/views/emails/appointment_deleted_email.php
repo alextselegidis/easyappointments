@@ -133,7 +133,7 @@
             font-weight: 400;
             line-height: 1.4;
             margin: 0;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
         }
 
         h1 {
@@ -141,6 +141,10 @@
             font-weight: 300;
             text-align: center;
             text-transform: capitalize;
+        }
+        
+        .label {
+            width: 120px;
         }
 
         p,
@@ -391,11 +395,11 @@
                                         <!-- Logo at the top center, embedded as CID -->
                                         <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
 
-                                        <h2>
+                                        <h2 style="text-align: center;">
                                             <?= lang('appointment_cancelled_title') ?>
                                         </h2>
 
-                                        <p>
+                                        <p style="text-align: center;">
                                             <?= lang('appointment_removed_from_schedule') ?>
                                         </p>
 
