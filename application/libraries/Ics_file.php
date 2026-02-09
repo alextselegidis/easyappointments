@@ -14,6 +14,7 @@
 use Jsvrcek\ICS\CalendarExport;
 use Jsvrcek\ICS\CalendarStream;
 use Jsvrcek\ICS\Exception\CalendarEventException;
+use Jsvrcek\ICS\Model\Calendar;
 use Jsvrcek\ICS\Model\CalendarAlarm;
 use Jsvrcek\ICS\Model\CalendarEvent;
 use Jsvrcek\ICS\Model\Description\Location;
@@ -44,9 +45,6 @@ class Ics_file
     public function __construct()
     {
         $this->CI = &get_instance();
-
-        $this->CI->load->library('ics_provider');
-        $this->CI->load->library('ics_calendar');
     }
 
     /**
@@ -177,7 +175,7 @@ class Ics_file
         $event->setOrganizer($organizer);
 
         // Setup calendar.
-        $calendar = new Ics_calendar();
+        $calendar = new Calendar();
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
@@ -192,6 +190,11 @@ class Ics_file
         return $calendarExport->getStream();
     }
 
+    /**
+     * @throws DateInvalidTimeZoneException
+     * @throws CalendarEventException
+     * @throws Exception
+     */
     public function get_unavailability_stream(array $unavailability, array $provider): string
     {
         $unavailability_timezone = new DateTimeZone($provider['timezone']);
@@ -220,7 +223,7 @@ class Ics_file
         $event->setOrganizer($organizer);
 
         // Setup calendar.
-        $calendar = new Ics_calendar();
+        $calendar = new Calendar();
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
