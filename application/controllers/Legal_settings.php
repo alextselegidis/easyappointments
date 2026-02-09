@@ -58,7 +58,7 @@ class Legal_settings extends EA_Controller
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'legal_settings' => $this->settings_model->get(),
+            'legal_settings' => filter_sensitive_settings($this->settings_model->get()),
         ]);
 
         html_vars([

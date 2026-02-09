@@ -105,7 +105,7 @@ class Secretaries extends EA_Controller
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
             'min_password_length' => MIN_PASSWORD_LENGTH,
-            'providers' => $providers,
+            'providers' => filter_sensitive_users_data($providers),
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
         ]);

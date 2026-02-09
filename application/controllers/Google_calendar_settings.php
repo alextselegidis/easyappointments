@@ -73,7 +73,7 @@ class Google_calendar_settings extends EA_Controller
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'google_calendar_settings' => $google_calendar_settings,
+            'google_calendar_settings' => filter_sensitive_settings($google_calendar_settings),
         ]);
 
         html_vars([

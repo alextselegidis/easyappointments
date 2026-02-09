@@ -227,3 +227,88 @@ if (!function_exists('log_security_event')) {
         log_message('warning', $log_message);
     }
 }
+
+if (!function_exists('filter_sensitive_settings')) {
+    /**
+     * Filter sensitive data from settings array.
+     *
+     * This function removes sensitive settings like passwords, tokens, and secrets
+     * that should never be exposed to the client-side.
+     *
+     * @param array $settings The settings array to filter.
+     *
+     * @return array The filtered settings array.
+     */
+    function filter_sensitive_settings(array $settings): array
+    {
+        $sensitive_setting_names = ['api_token', 'google_client_secret', 'ldap_password'];
+        return array_filter($settings, function ($setting) use ($sensitive_setting_names) {
+            if (isset($setting['name'])) {
+                return !in_array($setting['name'], $sensitive_setting_names, true);
+            }
+            return true;
+        });
+    }
+}
+
+if (!function_exists('filter_sensitive_user_settings')) {
+    /**
+     * Filter sensitive data from user settings array.
+     *
+     * This function removes sensitive user settings like passwords, tokens, and credentials
+     * that should never be exposed to the client-side via script_vars.
+     *
+     * @param array $settings The user settings array to filter.
+     *
+     * @return array The filtered user settings array.
+     */
+    function filter_sensitive_user_settings(array $settings): array
+    {
+        $sensitive_fields = [
+            'password',
+            'salt',
+            'password_reset_token',
+            'password_reset_expires',
+            'google_token',
+            'caldav_password',
+            'caldav_username',
+        ];
+        foreach ($sensitive_fields as $field) {
+            unset($settings[$field]);
+        }
+        return $settings;
+    }
+}
+
+if (!function_exists('filter_sensitive_user_data')) {
+    /**
+     * Filter sensitive data from a user/provider/admin data array.
+     *
+     * This function removes sensitive data from user records before exposing to client-side.
+     *
+     * @param array $user The user data array to filter.
+     *
+     * @return array The filtered user data array.
+     */
+    function filter_sensitive_user_data(array $user): array
+    {
+        if (isset($user['settings'])) {
+            $user['settings'] = filter_sensitive_user_settings($user['settings']);
+        }
+        return $user;
+    }
+}
+
+if (!function_exists('filter_sensitive_users_data')) {
+    /**
+     * Filter sensitive data from an array of users/providers/admins.
+     *
+     * @param array $users The array of user data to filter.
+     *
+     * @return array The filtered array of user data.
+     */
+    function filter_sensitive_users_data(array $users): array
+    {
+        return array_map('filter_sensitive_user_data', $users);
+    }
+}

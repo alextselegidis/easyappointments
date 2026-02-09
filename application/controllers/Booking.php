@@ -280,7 +280,7 @@ class Booking extends EA_Controller
         script_vars([
             'manage_mode' => $manage_mode,
             'available_services' => $available_services,
-            'available_providers' => $available_providers,
+            'available_providers' => filter_sensitive_users_data($available_providers),
             'date_format' => $date_format,
             'time_format' => $time_format,
             'first_weekday' => $first_weekday,
@@ -288,7 +288,7 @@ class Booking extends EA_Controller
             'display_any_provider' => setting('display_any_provider'),
             'future_booking_limit' => setting('future_booking_limit'),
             'appointment_data' => $appointment,
-            'provider_data' => $provider,
+            'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,
             'customer_data' => $customer,
             'customer_token' => $customer_token,
             'default_language' => setting('default_language'),
@@ -297,7 +297,7 @@ class Booking extends EA_Controller
 
         html_vars([
             'available_services' => $available_services,
-            'available_providers' => $available_providers,
+            'available_providers' => filter_sensitive_users_data($available_providers),
             'theme' => $theme,
             'company_name' => $company_name,
             'company_logo' => $company_logo,
@@ -337,7 +337,7 @@ class Booking extends EA_Controller
             'grouped_timezones' => $grouped_timezones,
             'manage_mode' => $manage_mode,
             'appointment_data' => $appointment,
-            'provider_data' => $provider,
+            'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,
             'customer_data' => $customer,
         ]);
 

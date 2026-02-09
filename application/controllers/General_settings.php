@@ -66,7 +66,7 @@ class General_settings extends EA_Controller
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'timezones' => $this->timezones->to_array(),
-            'general_settings' => $this->settings_model->get(),
+            'general_settings' => filter_sensitive_settings($this->settings_model->get()),
         ]);
 
         html_vars([

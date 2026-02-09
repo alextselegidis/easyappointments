@@ -59,7 +59,7 @@ class Ldap_settings extends EA_Controller
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
-            'ldap_settings' => $this->settings_model->get('name like "ldap_%"'),
+            'ldap_settings' => filter_sensitive_settings($this->settings_model->get('name like "ldap_%"')),
             'ldap_default_filter' => LDAP_DEFAULT_FILTER,
             'ldap_default_field_mapping' => LDAP_DEFAULT_FIELD_MAPPING,
         ]);

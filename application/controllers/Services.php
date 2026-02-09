@@ -87,7 +87,7 @@ class Services extends EA_Controller
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'event_minimum_duration' => EVENT_MINIMUM_DURATION,
-            'providers' => $providers,
+            'providers' => filter_sensitive_users_data($providers),
         ]);
 
         html_vars([
@@ -96,7 +96,7 @@ class Services extends EA_Controller
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'providers' => $providers,
+            'providers' => filter_sensitive_users_data($providers),
         ]);
 
         $this->load->view('pages/services');
