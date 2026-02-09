@@ -95,18 +95,27 @@
                 <div class="dropdown-menu dropdown-menu-end">
                     <?php if (can('view', PRIV_SYSTEM_SETTINGS)): ?>
                         <a class="dropdown-item" href="<?= site_url('general_settings') ?>">
+                            <i class="fas fa-cogs me-2"></i>
                             <?= lang('settings') ?>
                         </a>
                     <?php endif; ?>
 
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
+                        <i class="fas fa-user me-2"></i>
                         <?= lang('account') ?>
                     </a>
                     <a class="dropdown-item" href="<?= site_url('about') ?>">
+                        <i class="fas fa-info-circle me-2"></i>
                         <?= lang('about') ?>
                     </a>
                     <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="<?= site_url('booking') ?>">
+                        <i class="fas fa-external-link me-2"></i>
+                        <?= lang('booking') ?>
+                    </a>
+                    <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?= site_url('logout') ?>">
+                        <i class="fas fa-sign-out me-2"></i>
                         <?= lang('log_out') ?>
                     </a>
                 </div>
