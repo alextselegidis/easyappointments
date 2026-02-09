@@ -43,10 +43,6 @@ if (!function_exists('setting')) {
             throw new InvalidArgumentException('The $key argument cannot be empty.');
         }
 
-        if (!$CI->db->table_exists('settings')) {
-            return null;
-        }
-
         if (is_array($key)) {
             foreach ($key as $name => $value) {
                 $setting = $CI->settings_model->query()->where('name', $name)->get()->row_array();

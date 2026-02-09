@@ -53,7 +53,9 @@ class Google_sync
         $this->CI->load->model('providers_model');
         $this->CI->load->model('services_model');
 
-        $this->initialize_clients();
+        if (is_app_installed()) {
+            $this->initialize_clients();
+        }
     }
 
     /**
