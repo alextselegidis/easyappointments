@@ -55,7 +55,7 @@ App.Utils.CalendarTableView = (function () {
     /**
      * Get the calendar height based on window size.
      *
-     * @returns {number} Calendar height in pixels (minimum 800px).
+     * @returns {number} Calendar height in pixels (minimum 400px).
      */
     function getCalendarHeight() {
         const offset = $footer.outerHeight() +

@@ -56,13 +56,13 @@ App.Utils.CalendarDefaultView = (function () {
     /**
      * Get the calendar height based on window size.
      *
-     * @returns {number} Calendar height in pixels (minimum 780px).
+     * @returns {number} Calendar height in pixels (minimum 500px).
      */
     function getCalendarHeight() {
         const offset = $footer.outerHeight() +
             $header.outerHeight() +
             $calendarToolbar.outerHeight() +
-            30;
+            35;
         const height = window.innerHeight - offset;
 
         return Math.max(height, 500);
