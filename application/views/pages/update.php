@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-    <title>Update | Easy!Appointments</title>
+    <title>Update</title>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/default.min.css') ?>">
     <?php if (function_exists('setting') && setting('company_logo')): ?>
@@ -21,7 +21,7 @@
 <body>
 <header>
     <div class="container">
-        <h1 class="page-title">Easy!Appointments Update</h1>
+        <h1 class="page-title">Update</h1>
     </div>
 </header>
 
@@ -36,7 +36,7 @@
                     </p>
                     <hr class="my-4">
                     <p>
-                        You can now use the latest Easy!Appointments version.
+                        You can now use the latest version.
                     </p>
                     <a href="<?= site_url('about') ?>" class="btn btn-success btn-large">
                         <i class="fas fa-wrench me-2"></i>

@@ -9,7 +9,7 @@
 ?>
 <html lang="en">
 <head>
-    <title><?= $subject ?> | Easy!Appointments</title>
+    <title><?= $subject ?><?= !empty($settings['company_name']) ? ' | ' . e($settings['company_name']) : '' ?></title>
 </head>
 <body style="font: 13px arial, helvetica, tahoma;">
 

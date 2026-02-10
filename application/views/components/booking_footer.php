@@ -7,15 +7,7 @@
 ?>
 
 <div id="frame-footer">
-    <small class="d-flex justify-content-between align-items-center w-100">
-        <!-- Powered By section hidden for white label -->
-        <span class="footer-powered-by small">
-            <?php if (setting('display_powered_by')): ?>
-                Powered By
-                <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
-            <?php endif; ?>
-        </span>
-
+    <small class="d-flex justify-content-end align-items-center w-100">
         <span class="footer-options">
             <span id="select-language" class="badge bg-secondary">
                 <i class="fas fa-language me-2"></i>

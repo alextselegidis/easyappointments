@@ -14,7 +14,7 @@
 
 <html lang="en">
 <head>
-    <title><?= lang('appointment_cancelled_title') ?> | Easy!Appointments</title>
+    <title><?= lang('appointment_cancelled_title') ?><?= !empty($settings['company_name']) ? ' | ' . e($settings['company_name']) : '' ?></title>
 </head>
 <body style="font: 13px arial, helvetica, tahoma;">
 

@@ -9,7 +9,7 @@
 
     <?php slot('meta'); ?>
 
-    <title><?= vars('page_title') ?? lang('backend_section') ?> | Easy!Appointments</title>
+    <title><?= vars('page_title') ?? lang('backend_section') ?><?= setting('company_name') ? ' | ' . e(setting('company_name')) : '' ?></title>
 
     <?php if (setting('company_logo')): ?>
         <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
