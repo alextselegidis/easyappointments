@@ -59,10 +59,13 @@ App.Utils.CalendarDefaultView = (function () {
      * @returns {number} Calendar height in pixels (minimum 780px).
      */
     function getCalendarHeight() {
-        const offset = $footer.outerHeight() + $header.outerHeight() + $calendarToolbar.outerHeight() + 60;
+        const offset = $footer.outerHeight() +
+            $header.outerHeight() +
+            $calendarToolbar.outerHeight() +
+            30;
         const height = window.innerHeight - offset;
 
-        return Math.max(height, 780);
+        return Math.max(height, 500);
     }
     /**
      * Get the selected filter type from the dropdown.
