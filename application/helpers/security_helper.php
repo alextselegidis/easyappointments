@@ -242,12 +242,14 @@ if (!function_exists('filter_sensitive_settings')) {
     function filter_sensitive_settings(array $settings): array
     {
         $sensitive_setting_names = ['api_token', 'google_client_secret', 'ldap_password'];
-        return array_filter($settings, function ($setting) use ($sensitive_setting_names) {
-            if (isset($setting['name'])) {
-                return !in_array($setting['name'], $sensitive_setting_names, true);
-            }
-            return true;
-        });
+        return array_values(
+            array_filter($settings, function ($setting) use ($sensitive_setting_names) {
+                if (isset($setting['name'])) {
+                    return !in_array($setting['name'], $sensitive_setting_names, true);
+                }
+                return true;
+            }),
+        );
     }
 }
 
