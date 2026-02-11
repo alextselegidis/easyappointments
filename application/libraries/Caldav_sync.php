@@ -206,8 +206,17 @@ class Caldav_sync
 
             $xml = new SimpleXMLElement($response->getBody(), 0, false, 'd', true);
 
-            if ($xml->children('d', true)) {
-                return $this->parse_xml_events($xml, $start_date_time, $end_date_time, $provider_timezone_object);
+            // Check for both prefixed namespace (xmlns:d="DAV:") and default namespace (xmlns="DAV:")
+            // Prefixed namespace: children('d', true) returns elements
+            // Default namespace: children() without params returns elements
+
+            if (count($xml->children('d', true)) > 0) {
+                return $this->parse_xml_events($xml, $start_date_time, $end_date_time, $provider_timezone_object, 'd');
+            } elseif (count($xml->children('D', true)) > 0) {
+                return $this->parse_xml_events($xml, $start_date_time, $end_date_time, $provider_timezone_object, 'D');
+            } elseif (count($xml->children()) > 0) {
+                // Default namespace - pass null to use children() without namespace parameter
+                return $this->parse_xml_events($xml, $start_date_time, $end_date_time, $provider_timezone_object, null);
             }
 
             $ics_file_urls = $this->extract_ics_file_urls($response->getBody());
@@ -229,16 +238,48 @@ class Caldav_sync
         string $start_date_time,
         string $end_date_time,
         DateTimeZone $timezone,
+        ?string $xml_namespace = 'd',
     ): array {
         $events = [];
 
-        foreach ($xml->children('d', true) as $response) {
-            $ics_contents = (string) $response->propstat->prop->children('cal', true);
+        // Handle both prefixed (xmlns:d="DAV:") and default (xmlns="DAV:") namespaces
+        $responses = $xml_namespace ? $xml->children($xml_namespace, true) : $xml->children();
 
-            $events = array_merge(
-                $events,
-                $this->expand_ics_content($ics_contents, $start_date_time, $end_date_time, $timezone),
-            );
+        foreach ($responses as $response) {
+            // CalDAV namespace can be prefixed as 'cal', 'C', or 'c', try common prefixes used by different CalDAV servers
+            $prop = $response->propstat->prop;
+
+            $ics_contents = '';
+
+            if (count($prop->children('cal', true)) > 0) {
+                $ics_contents = (string) $prop->children('cal', true);
+            } elseif (count($prop->children('C', true)) > 0) {
+                $caldav_children = $prop->children('C', true);
+
+                // Get calendar-data element
+                foreach ($caldav_children as $child) {
+                    if ($child->getName() == 'calendar-data') {
+                        $ics_contents = (string) $child;
+                        break;
+                    }
+                }
+            } elseif (count($prop->children('c', true)) > 0) {
+                $caldav_children = $prop->children('c', true);
+
+                foreach ($caldav_children as $child) {
+                    if ($child->getName() == 'calendar-data') {
+                        $ics_contents = (string) $child;
+                        break;
+                    }
+                }
+            }
+
+            if ($ics_contents) {
+                $events = array_merge(
+                    $events,
+                    $this->expand_ics_content($ics_contents, $start_date_time, $end_date_time, $timezone),
+                );
+            }
         }
 
         return $events;

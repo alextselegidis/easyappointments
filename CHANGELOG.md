@@ -11,7 +11,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add Jitsi integration and link generation for appointments made via the public page
 - Allow providers to toggle the syncing themselves (#1731)
 - Add new meeting link field to appointments for storing online video conference locations
-- Create new integration section for the Google Calendar integration
+- Create new integration section for the Google Calendar integration (#1690)
 - Add settings to not display the Add to Google Calendar button in the booking confirmation page (#1763)
 - Add new Google Meet setting and meeting link support for appointments while syncing with Google (#1589)
 - Add Select All / None buttons to multi-checkbox fields
@@ -36,6 +36,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fix the customer appointment link so that it opens the modal even in the table calendar view
 - Run the session garbage collector once in a while to avoid session bloat (#1793)
 - Customer limit must not allow providers to select customers in the appt modal that they are not connected with
+- Improve the CalDAV syncing compatibility with more systems (#1840)
 
 
 ## [1.5.2] - 2025-08-26
