@@ -49,6 +49,7 @@ class Calendar extends EA_Controller
         'start_datetime',
         'end_datetime',
         'location',
+        'meeting_link',
         'notes',
         'color',
         'status',
@@ -83,6 +84,8 @@ class Calendar extends EA_Controller
         $this->load->library('synchronization');
         $this->load->library('timezones');
         $this->load->library('webhooks_client');
+        $this->load->library('permissions');
+        $this->load->library('jitsi_client');
     }
 
     /**
@@ -108,6 +111,8 @@ class Calendar extends EA_Controller
      */
     public function index(string $appointment_hash = ''): void
     {
+        method('get');
+
         session([
             'dest_url' => site_url('calendar/index' . (!empty($appointment_hash) ? '/' . $appointment_hash : '')),
         ]);
@@ -170,9 +175,40 @@ class Calendar extends EA_Controller
 
         $available_services = $this->services_model->get_available_services();
 
+        // Filter services to only include those that can be served by at least one available provider
+        $provider_service_ids = [];
+        foreach ($available_providers as $provider) {
+            foreach ($provider['services'] as $service_id) {
+                $provider_service_ids[$service_id] = true;
+            }
+        }
+
+        $available_services = array_values(
+            array_filter($available_services, function ($service) use ($provider_service_ids) {
+                return isset($provider_service_ids[$service['id']]);
+            }),
+        );
+
         $calendar_view = request('view', $user['settings']['calendar_view']);
 
         $appointment_status_options = setting('appointment_status_options');
+
+        $customers = $this->customers_model->get(null, 50, null, 'update_datetime DESC');
+
+        if (setting('limit_customer_access') && $role_slug === DB_SLUG_PROVIDER) {
+            // Only include the customers that the provider is supposed to see (they had past booking together)
+            $CI = $this;
+
+            $customers = array_values(
+                array_filter($customers, function ($customer) use ($user_id, $CI) {
+                    if (!$CI->permissions->has_customer_access($user_id, $customer['id'])) {
+                        return false;
+                    }
+
+                    return true;
+                }),
+            );
+        }
 
         script_vars([
             'user_id' => $user_id,
@@ -184,12 +220,15 @@ class Calendar extends EA_Controller
             'timezones' => $this->timezones->to_array(),
             'privileges' => $privileges,
             'calendar_view' => $calendar_view,
-            'available_providers' => $available_providers,
+            'available_providers' => filter_sensitive_users_data($available_providers),
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'edit_appointment' => $edit_appointment,
-            'google_sync_feature' => config('google_sync_feature'),
-            'customers' => $this->customers_model->get(null, 50, null, 'update_datetime DESC'),
+            'google_sync_feature' => filter_var(
+                setting('google_sync_feature') ?: config('google_sync_feature'),
+                FILTER_VALIDATE_BOOLEAN,
+            ),
+            'customers' => $customers,
             'default_language' => setting('default_language'),
             'default_timezone' => setting('default_timezone'),
         ]);
@@ -203,7 +242,7 @@ class Calendar extends EA_Controller
             'grouped_timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $privileges,
             'calendar_view' => $calendar_view,
-            'available_providers' => $available_providers,
+            'available_providers' => filter_sensitive_users_data($available_providers),
             'available_services' => $available_services,
             'secretary_providers' => $secretary_providers,
             'appointment_status_options' => json_decode($appointment_status_options, true) ?? [],
@@ -226,9 +265,20 @@ class Calendar extends EA_Controller
     public function save_appointment(): void
     {
         try {
+            method('post');
+
+            check('customer_data', 'array|null');
+            check('appointment_data', 'array');
+            check('notify_customer', 'bool|null');
+            check('force_save', 'bool|null');
+
             $customer_data = request('customer_data');
 
             $appointment_data = request('appointment_data');
+
+            $notify_customer = filter_var(request('notify_customer', true), FILTER_VALIDATE_BOOLEAN);
+
+            $force_save = filter_var(request('force_save', false), FILTER_VALIDATE_BOOLEAN);
 
             $this->check_event_permissions((int) $appointment_data['id_users_provider']);
 
@@ -271,8 +321,32 @@ class Calendar extends EA_Controller
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
                 }
 
+                // Check if the provider has a conflicting appointment at the selected time
+                $exclude_appointment_id = !empty($appointment['id']) ? (int) $appointment['id'] : null;
+
+                $has_conflict = $this->appointments_model->has_provider_conflict(
+                    (int) $appointment['id_users_provider'],
+                    $appointment['start_datetime'],
+                    $appointment['end_datetime'],
+                    $exclude_appointment_id,
+                );
+
+                if ($has_conflict && !$force_save) {
+                    json_response([
+                        'success' => false,
+                        'conflict' => true,
+                        'message' => lang('provider_has_conflicting_appointment'),
+                    ]);
+                    return;
+                }
+
                 if ($manage_mode && !empty($appointment['id'])) {
                     $this->synchronization->remove_appointment_on_provider_change($appointment['id']);
+                }
+
+                // Jitsi integration: if enabled and meeting_link is empty, generate a Jitsi meeting link
+                if (setting('jitsi_enabled') === '1' && empty($appointment['meeting_link'])) {
+                    $appointment['meeting_link'] = $this->jitsi_client->generate_link();
                 }
 
                 $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
@@ -305,14 +379,16 @@ class Calendar extends EA_Controller
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
-            $this->notifications->notify_appointment_saved(
-                $appointment,
-                $service,
-                $provider,
-                $customer,
-                $settings,
-                $manage_mode,
-            );
+            if ($notify_customer) {
+                $this->notifications->notify_appointment_saved(
+                    $appointment,
+                    $service,
+                    $provider,
+                    $customer,
+                    $settings,
+                    $manage_mode,
+                );
+            }
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
 
@@ -351,9 +427,14 @@ class Calendar extends EA_Controller
     public function delete_appointment(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', 'appointments')) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('appointment_id', 'numeric');
+            check('cancellation_reason', 'string|null');
 
             $appointment_id = request('appointment_id');
             $cancellation_reason = (string) request('cancellation_reason');
@@ -413,6 +494,10 @@ class Calendar extends EA_Controller
     public function save_unavailability(): void
     {
         try {
+            method('post');
+
+            check('unavailability', 'array');
+
             // Check privileges
             $unavailability = request('unavailability');
 
@@ -452,10 +537,13 @@ class Calendar extends EA_Controller
      */
     public function delete_unavailability(): void
     {
+        method('post');
         try {
             if (cannot('delete', PRIV_APPOINTMENTS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('unavailability_id', 'numeric');
 
             $unavailability_id = request('unavailability_id');
 
@@ -485,9 +573,16 @@ class Calendar extends EA_Controller
     public function save_working_plan_exception(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_USERS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('date', 'date');
+            check('original_date', 'date|null');
+            check('working_plan_exception', 'array|null');
+            check('provider_id', 'numeric');
 
             $date = request('date');
 
@@ -521,11 +616,14 @@ class Calendar extends EA_Controller
     public function delete_working_plan_exception(): void
     {
         try {
-            $required_permissions = can('edit', PRIV_CUSTOMERS);
+            method('post');
 
-            if (!$required_permissions) {
+            if (cannot('edit', PRIV_USERS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('date', 'date');
+            check('provider_id', 'numeric');
 
             $date = request('date');
 
@@ -549,11 +647,16 @@ class Calendar extends EA_Controller
     public function get_calendar_appointments_for_table_view(): void
     {
         try {
+            method('post');
+
             $required_permissions = can('view', PRIV_APPOINTMENTS);
 
             if (!$required_permissions) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('start_date', 'date');
+            check('end_date', 'date');
 
             $start_date = request('start_date') . ' 00:00:00';
 
@@ -648,9 +751,16 @@ class Calendar extends EA_Controller
     public function get_calendar_appointments(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
+
+            check('record_id', 'string|numeric|null');
+            check('filter_type', 'string|null');
+            check('start_date', 'date');
+            check('end_date', 'date');
 
             $record_id = request('record_id');
 
@@ -667,44 +777,56 @@ class Calendar extends EA_Controller
                 return;
             }
 
-            $record_id = $this->db->escape($record_id);
+            // Validate filter_type to prevent SQL injection via column name
+            $allowed_filter_types = [FILTER_TYPE_PROVIDER, FILTER_TYPE_SERVICE, FILTER_TYPE_ALL];
+            if ($filter_type && !in_array($filter_type, $allowed_filter_types, true)) {
+                throw new InvalidArgumentException('Invalid filter type provided.');
+            }
 
+            // Determine which column to filter by
             if ($filter_type == FILTER_TYPE_PROVIDER) {
                 $where_id = 'id_users_provider';
             } elseif ($filter_type === FILTER_TYPE_SERVICE) {
                 $where_id = 'id_services';
             } else {
-                $where_id = $record_id;
+                $where_id = 'id_users_provider'; // Default for FILTER_TYPE_ALL
             }
 
-            // Get appointments
-            $start_date = $this->db->escape(request('start_date'));
-            $end_date = $this->db->escape(date('Y-m-d', strtotime(request('end_date') . ' +1 day')));
+            // Validate record_id is numeric when not "all"
+            if (!$is_all && !is_numeric($record_id)) {
+                throw new InvalidArgumentException('Invalid record ID provided.');
+            }
 
-            $where_clause =
-                $where_id .
-                ' = ' .
-                $record_id .
-                '
-                AND ((start_datetime > ' .
-                $start_date .
-                ' AND start_datetime < ' .
-                $end_date .
-                ') 
-                or (end_datetime > ' .
-                $start_date .
-                ' AND end_datetime < ' .
-                $end_date .
-                ') 
-                or (start_datetime <= ' .
-                $start_date .
-                ' AND end_datetime >= ' .
-                $end_date .
-                ')) 
-                AND is_unavailability = 0
-            ';
+            // Get appointments using query builder for safety
+            $start_date = request('start_date');
+            $end_date = date('Y-m-d', strtotime(request('end_date') . ' +1 day'));
 
-            $response['appointments'] = $this->appointments_model->get($where_clause);
+            // Build query using CodeIgniter's query builder for SQL injection protection
+            $this->db->select('*');
+            $this->db->from('appointments');
+
+            if (!$is_all) {
+                $this->db->where($where_id, $record_id);
+            }
+
+            $this->db->group_start();
+            $this->db->group_start();
+            $this->db->where('start_datetime >', $start_date);
+            $this->db->where('start_datetime <', $end_date);
+            $this->db->group_end();
+            $this->db->or_group_start();
+            $this->db->where('end_datetime >', $start_date);
+            $this->db->where('end_datetime <', $end_date);
+            $this->db->group_end();
+            $this->db->or_group_start();
+            $this->db->where('start_datetime <=', $start_date);
+            $this->db->where('end_datetime >=', $end_date);
+            $this->db->group_end();
+            $this->db->group_end();
+
+            $this->db->where('is_unavailability', 0);
+
+            $response['appointments'] = $this->db->get()->result_array();
 
             foreach ($response['appointments'] as &$appointment) {
                 $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
@@ -718,30 +840,32 @@ class Calendar extends EA_Controller
             $response['unavailabilities'] = [];
 
             if ($filter_type == FILTER_TYPE_PROVIDER || $is_all) {
-                $where_clause =
-                    $where_id .
-                    ' = ' .
-                    $record_id .
-                    '
-                    AND ((start_datetime > ' .
-                    $start_date .
-                    ' AND start_datetime < ' .
-                    $end_date .
-                    ') 
-                    or (end_datetime > ' .
-                    $start_date .
-                    ' AND end_datetime < ' .
-                    $end_date .
-                    ') 
-                    or (start_datetime <= ' .
-                    $start_date .
-                    ' AND end_datetime >= ' .
-                    $end_date .
-                    ')) 
-                    AND is_unavailability = 1
-                ';
+                // Build query using CodeIgniter's query builder for SQL injection protection
+                $this->db->select('*');
+                $this->db->from('appointments');
 
-                $response['unavailabilities'] = $this->unavailabilities_model->get($where_clause);
+                if (!$is_all) {
+                    $this->db->where($where_id, $record_id);
+                }
+
+                $this->db->group_start();
+                $this->db->group_start();
+                $this->db->where('start_datetime >', $start_date);
+                $this->db->where('start_datetime <', $end_date);
+                $this->db->group_end();
+                $this->db->or_group_start();
+                $this->db->where('end_datetime >', $start_date);
+                $this->db->where('end_datetime <', $end_date);
+                $this->db->group_end();
+                $this->db->or_group_start();
+                $this->db->where('start_datetime <=', $start_date);
+                $this->db->where('end_datetime >=', $end_date);
+                $this->db->group_end();
+                $this->db->group_end();
+
+                $this->db->where('is_unavailability', 1);
+
+                $response['unavailabilities'] = $this->db->get()->result_array();
             }
 
             $user_id = session('user_id');

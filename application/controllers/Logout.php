@@ -25,6 +25,8 @@ class Logout extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         $this->session->sess_destroy();
 
         $company_name = setting('company_name');

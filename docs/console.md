@@ -89,6 +89,6 @@ php index.php console help
 
 This command will give more information about the console capabilities.
 
-*This document applies to Easy!Appointments v1.5.1.*
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)

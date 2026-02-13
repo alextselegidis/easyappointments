@@ -247,6 +247,38 @@ class Service_categories_model extends EA_Model
     }
 
     /**
+     * Get service categories as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $service_categories = $this->db
+            ->select('id, name')
+            ->from('service_categories')
+            ->order_by('name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($service_categories as $service_category) {
+            $options[] = [
+                'value' => (int) $service_category['id'],
+                'label' => $service_category['name'],
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Get all services that match the provided criteria.
      *
      * @param array|string|null $where Where conditions

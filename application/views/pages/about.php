@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div id="about-page" class="container backend-page">
+<div id="about-page" class="container backend-page py-3">
     <div id="about" class="col-lg-8 offset-lg-2">
 
         <div class="text-center my-5">
@@ -30,6 +30,38 @@
                 <strong>
                     <?= config('version') ?>
                 </strong>
+            </div>
+        </div>
+
+        <h4 class="fw-light text-black-50 mb-3">
+            <?= lang('latest_blog_posts') ?>
+        </h4>
+
+        <div class="card mb-5">
+            <div class="card-body">
+                <?php if (empty(vars('blog_posts'))): ?>
+                    <div class="alert alert-warning mb-0">
+                        <?= lang('blog_posts_load_error') ?>
+                    </div>
+                <?php else: ?>
+                    <ul class="list-group list-group-flush">
+                        <?php foreach (vars('blog_posts') as $post): ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="me-auto">
+                                    <a href="<?= e($post['link']) ?>" target="_blank" class="text-decoration-none">
+                                        <?= e($post['title']) ?>
+                                        <i class="fas fa-external-link-alt ms-1 small"></i>
+                                    </a>
+                                </div>
+                                <?php if (!empty($post['pub_date'])): ?>
+                                    <span class="badge bg-light text-muted">
+                                        <?= date('M j, Y', strtotime($post['pub_date'])) ?>
+                                    </span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -107,3 +139,4 @@
 </div>
 
 <?php end_section('content'); ?>
+

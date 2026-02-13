@@ -71,6 +71,8 @@ class Customers extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('customers')]);
 
         $user_id = session('user_id');
@@ -142,13 +144,22 @@ class Customers extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
             $user_id = session('user_id');
 
+            check('customer_id', 'numeric');
+
             $customer_id = request('customer_id');
+
+            // Validate customer_id is a positive integer
+            if (empty($customer_id) || !filter_var($customer_id, FILTER_VALIDATE_INT) || $customer_id <= 0) {
+                throw new InvalidArgumentException('Invalid customer ID provided.');
+            }
 
             if (!$this->permissions->has_customer_access($user_id, $customer_id)) {
                 abort(403, 'Forbidden');
@@ -168,9 +179,16 @@ class Customers extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -183,6 +201,13 @@ class Customers extends EA_Controller
             $customers = $this->customers_model->search($keyword, $limit, $offset, $order_by);
 
             $user_id = session('user_id');
+            $role_slug = session('role_slug');
+
+            $secretary_provider_ids = [];
+
+            if ($role_slug === DB_SLUG_SECRETARY) {
+                $secretary_provider_ids = $this->secretaries_model->find($user_id)['providers'];
+            }
 
             foreach ($customers as $index => &$customer) {
                 if (!$this->permissions->has_customer_access($user_id, $customer['id'])) {
@@ -192,6 +217,24 @@ class Customers extends EA_Controller
                 }
 
                 $appointments = $this->appointments_model->get(['id_users_customer' => $customer['id']]);
+
+                // If the current user is a provider, only include their own appointments.
+                if ($role_slug === DB_SLUG_PROVIDER) {
+                    $appointments = array_filter($appointments, function ($appointment) use ($user_id) {
+                        return (int) $appointment['id_users_provider'] === (int) $user_id;
+                    });
+
+                    $appointments = array_values($appointments);
+                }
+
+                // If the current user is a secretary, only include appointments of their providers.
+                if ($role_slug === DB_SLUG_SECRETARY) {
+                    $appointments = array_filter($appointments, function ($appointment) use ($secretary_provider_ids) {
+                        return in_array((int) $appointment['id_users_provider'], $secretary_provider_ids);
+                    });
+
+                    $appointments = array_values($appointments);
+                }
 
                 foreach ($appointments as &$appointment) {
                     $this->appointments_model->load($appointment, ['service', 'provider']);
@@ -206,12 +249,15 @@ class Customers extends EA_Controller
         }
     }
 
+
     /**
      * Store a new customer.
      */
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
@@ -219,6 +265,8 @@ class Customers extends EA_Controller
             if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_visibility')) {
                 abort(403);
             }
+
+            check('customer', 'array');
 
             $customer = request('customer');
 
@@ -247,11 +295,15 @@ class Customers extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
             $user_id = session('user_id');
+
+            check('customer', 'array');
 
             $customer = request('customer');
 
@@ -284,13 +336,22 @@ class Customers extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_CUSTOMERS)) {
                 abort(403, 'Forbidden');
             }
 
             $user_id = session('user_id');
 
+            check('customer_id', 'numeric');
+
             $customer_id = request('customer_id');
+
+            // Validate customer_id is a positive integer
+            if (empty($customer_id) || !filter_var($customer_id, FILTER_VALIDATE_INT) || $customer_id <= 0) {
+                throw new InvalidArgumentException('Invalid customer ID provided.');
+            }
 
             if (!$this->permissions->has_customer_access($user_id, $customer_id)) {
                 abort(403, 'Forbidden');

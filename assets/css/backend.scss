@@ -1,0 +1,482 @@
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Online Appointment Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
+ * @since       v1.5.0
+ * ---------------------------------------------------------------------------- */
+
+/* Navigation hover and active states */
+#header #header-menu .nav-item:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+#header #header-menu .nav-item.active {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* Notification positioning */
+#notification .alert {
+    margin-bottom: 0;
+    position: fixed;
+    z-index: 200;
+    right: 15px;
+    bottom: 15px;
+}
+
+/* Modal styling */
+body .modal .modal-title {
+    color: var(--bs-white);
+}
+
+body .modal-header {
+    padding: 20px 15px;
+    background: var(--bs-primary);
+}
+
+body .modal-header h3 {
+    color: var(--bs-white);
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+body .modal-header .btn-close {
+    filter: brightness(0) invert(1);
+}
+
+body .modal-content {
+    border: none;
+}
+
+/* Full screen modal */
+body .modal.full-screen .modal-dialog {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+body .modal.full-screen .modal-content {
+    height: 100%;
+    border: none;
+    box-shadow: none;
+    overflow-y: auto;
+}
+
+body .modal.full-screen .wrapper {
+    min-height: 100%;
+    margin-bottom: -67px;
+}
+
+body .modal.full-screen .modal-footer {
+    background-color: var(--bs-light);
+    width: 100%;
+    height: 67px;
+}
+
+body .modal.full-screen .modal-push {
+    height: 67px;
+}
+
+/* Disabled form controls styling */
+.backend-page .form-control:disabled,
+.backend-page .form-control[readonly],
+.backend-page .form-select:disabled,
+.backend-page .form-select[readonly] {
+    background-color: var(--bs-white);
+    color: var(--bs-secondary);
+    border-color: var(--bs-white);
+    opacity: 1;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* CRUD List/Form Toggle Layout */
+.backend-page .record-details {
+    display: none;
+}
+
+.backend-page.editing .filter-records {
+    display: none !important;
+}
+
+.backend-page.editing .record-details {
+    display: block;
+}
+
+/* CRUD pages width constraint */
+@media (min-width: 992px) {
+    .backend-page.container {
+        max-width: 800px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .backend-page.container {
+        max-width: 900px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .backend-page.container {
+        max-width: 1000px;
+    }
+}
+
+/* Filter records entry styling */
+.backend-page .filter-records .results .entry {
+    padding: 10px 7px;
+}
+
+.backend-page .filter-records .results .entry:hover:not(.selected) {
+    background-color: var(--bs-light);
+    cursor: pointer;
+}
+
+.backend-page .filter-records .results hr {
+    margin: 5px 0;
+}
+
+/* Calendar page specific styles */
+#calendar-page #calendar {
+    margin-bottom: 15px;
+}
+
+#calendar .fc-header-toolbar {
+    display: block;
+}
+
+#calendar .fc-header-toolbar .fc-toolbar-chunk {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#calendar .fc-col-header-cell-cushion {
+    text-decoration: none;
+    text-transform: none;
+    cursor: default;
+    color: var(--bs-body-color) !important;
+}
+
+#calendar .fc-daygrid-event-dot {
+    display: none;
+}
+
+#calendar .fc-event {
+    border: 1px solid var(--bs-info);
+    background-color: var(--bs-info);
+    color: var(--bs-dark);
+    min-height: 12px;
+    font-size: 11px;
+}
+
+#calendar-page #calendar .fc-unavailability {
+    background-image: url('../../img/unavailability.jpg');
+    font-size: 14px;
+    border-radius: 0;
+    font-weight: bold;
+    color: var(--bs-dark);
+    opacity: 0.75;
+    border: 1px solid var(--bs-border-color);
+}
+
+#calendar-page #calendar .fc-unavailability.fc-blocked-period {
+    background-image: none;
+    text-shadow: none;
+}
+
+#calendar-page #calendar .fc-break {
+    background-image: url('../../img/break.jpg');
+}
+
+#calendar-page #calendar .fc-custom {
+    background-image: url('../../img/custom.jpg');
+}
+
+#calendar .fc-unavailability {
+    background: var(--bs-secondary-bg) url('../../img/unavailability.jpg');
+}
+
+#calendar-page .fc-daygrid-day-top {
+    font-size: 11px;
+}
+
+#calendar-page .fc-event-time {
+    font-weight: bold;
+    font-size: 11px;
+}
+
+#calendar-page .fc-event-title {
+    font-weight: normal;
+    font-size: 11px;
+}
+
+#calendar-page .fc-timegrid-axis-cushion,
+#calendar-page .fc-timegrid-slot-label-cushion {
+    font-size: 11px;
+}
+
+#calendar .fc-time-grid-event.fc-short .fc-title {
+    font-size: 0.7em;
+}
+
+#calendar .fc-header-title h2 {
+    font-size: 16px;
+    margin: 0;
+    line-height: 26px;
+}
+
+#calendar .fc-header .fc-button {
+    margin-bottom: 8px;
+    background-image: none !important;
+}
+
+#calendar table thead .fc-first {
+    background: var(--bs-light);
+}
+
+#calendar table thead .fc-first th {
+    vertical-align: middle;
+    padding: 2px 0;
+    color: var(--bs-secondary);
+}
+
+/* Existing customers list in appointments modal */
+#existing-customers-list {
+    height: 110px;
+    overflow-y: auto;
+    margin-bottom: 8px;
+    font-size: 12px;
+    line-height: 22px;
+}
+
+#existing-customers-list div {
+    display: inline-block;
+    width: 250px;
+    margin: 0 7px 7px 0;
+    padding: 5px;
+    border-radius: var(--bs-border-radius);
+}
+
+#existing-customers-list div:hover {
+    background: var(--bs-primary);
+    font-weight: bold;
+    color: var(--bs-white);
+    cursor: pointer;
+}
+
+#filter-existing-customers {
+    display: inline-block;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    min-height: 24px;
+    font-size: 12px;
+}
+
+/* Calendar header and Select2 integration */
+#calendar .calendar-header {
+    padding-bottom: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+#calendar .calendar-header label {
+    margin: 0;
+    vertical-align: middle;
+}
+
+#calendar .calendar-header .select-date {
+    width: auto;
+}
+
+#calendar .calendar-header .select2-container--default .select2-selection--multiple {
+    height: 38px;
+}
+
+#calendar .select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: var(--bs-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+#calendar .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: var(--bs-light);
+    border: 1px solid var(--bs-border-color);
+}
+
+/* Calendar table view */
+#calendar .calendar-view {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#calendar .calendar-view > div {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+}
+
+#calendar .calendar-view .date-column {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+#calendar .calendar-view .date-column .date-column-title {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    padding: 10px 5px;
+    margin: 0;
+    background: var(--bs-light);
+    border-right: 1px solid var(--bs-border-color);
+    white-space: nowrap;
+}
+
+#calendar .calendar-view .date-column .provider-column {
+    flex-shrink: 0;
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    border-right: 1px solid var(--bs-border-color);
+}
+
+#calendar .calendar-view .date-column .provider-column h6 {
+    padding: 8px 10px;
+    margin: 0;
+    background: var(--bs-light);
+    border-bottom: 1px solid var(--bs-border-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#calendar .calendar-view .date-column .provider-column .calendar-wrapper {
+    height: calc(100% - 40px);
+}
+
+#calendar .calendar-view .date-column .provider-column .event {
+    font-size: 10px;
+    border-radius: var(--bs-border-radius);
+    padding: 2px 3px;
+    cursor: pointer;
+    margin: 1px 25px 1px 1px;
+}
+
+#calendar .calendar-view .date-column .provider-column .event.appointment {
+    background: var(--bs-info);
+    color: var(--bs-white);
+}
+
+#calendar .calendar-view .date-column .provider-column .event.unavailability {
+    background: var(--bs-primary);
+    color: var(--bs-white);
+}
+
+/* Customer appointments in customer details */
+#customers-page #customer-appointments .appointment-row {
+    padding: 0 0 7px 0;
+    border-bottom: 1px solid var(--bs-border-color);
+    border-right: none;
+}
+
+#customers-page #customer-appointments .appointment-row:last-child {
+    border-bottom: none;
+}
+
+/* Working plan table styles */
+#providers-page #providers .working-plan-view .work-start,
+#providers-page #providers .working-plan-view .work-end,
+#business-logic .working-plan .work-start,
+#business-logic .working-plan .work-end {
+    width: 100px;
+    max-width: 100px;
+}
+
+#providers-page #providers .working-plan-view .work-start[disabled],
+#providers-page #providers .working-plan-view .work-end[disabled],
+#business-logic .working-plan .work-start[disabled],
+#business-logic .working-plan .work-end[disabled] {
+    background: none;
+    border: none;
+}
+
+/* Breaks table */
+.breaks.table,
+#working-plan-exceptions-breaks {
+    table-layout: fixed;
+}
+
+#working-plan-exceptions-breaks .form-control,
+#working-plan-exceptions-breaks .form-select {
+    width: 100% !important;
+}
+
+#providers-page #providers .breaks .btn,
+#providers-page #providers .working-plan-exceptions .btn,
+#business-logic .breaks .btn {
+    margin-right: 5px;
+    padding: 4px 7px;
+}
+
+/* Settings page specific */
+#settings-page #user-notifications.active,
+#settings-page #customer-notifications.active,
+#settings-page #display-any-provider.active,
+#settings-page #require-phone-number.active,
+#settings-page #require-captcha.active,
+#users-page #secretary-notifications.active,
+#users-page #provider-notifications.active,
+#users-page #admin-notifications.active {
+    background: var(--bs-info-bg-subtle);
+    box-shadow: none;
+}
+
+/* Booking settings dashed border */
+#booking-settings-page .fields-row .form-control,
+#booking-settings-page .fields-row .form-select {
+    border: 1px dashed var(--bs-secondary) !important;
+}
+
+/* Company logo preview */
+#company-logo-preview {
+    max-width: 256px;
+    max-height: 256px;
+}
+
+#company-color {
+    min-height: 41px;
+}
+
+.status-list-item {
+    max-width: 400px;
+}
+
+/* Backend notification z-index */
+.backend-notification {
+    z-index: 9999;
+}
+
+/* Responsive adjustments */
+@media (min-width: 768px) {
+    #calendar .fc-header-toolbar .fc-toolbar-chunk {
+        margin-bottom: 0;
+        text-align: center;
+    }
+
+    .fc-header-toolbar {
+        display: flex !important;
+        text-align: left;
+    }
+
+
+    #calendar .calendar-header .select2-container {
+        width: 300px !important;
+    }
+}

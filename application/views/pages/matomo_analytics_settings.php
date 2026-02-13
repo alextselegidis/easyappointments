@@ -2,12 +2,12 @@
 
 <?php section('content'); ?>
 
-<div id="matomo-analytics-settings-page" class="container backend-page">
+<div id="matomo-analytics-settings-page" class="container backend-page py-3">
     <div class="row">
-        <div class="col-sm-3 offset-sm-1">
+        <div class="col-sm-3">
             <?php component('settings_nav'); ?>
         </div>
-        <div id="matomo-analytics-settings" class="col-sm-6">
+        <div id="matomo-analytics-settings" class="col-sm-9">
             <form>
                 <fieldset>
                     <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
@@ -60,7 +60,6 @@
                         </div>
                     </div>
 
-                    <?php slot('after_primary_appointment_fields'); ?>
                 </fieldset>
             </form>
         </div>

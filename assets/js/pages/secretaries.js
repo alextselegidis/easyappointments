@@ -117,6 +117,19 @@ App.Pages.Secretaries = (function () {
             $('#filter-secretaries .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-secretary, #delete-secretary').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#secretaries-page').addClass('editing');
+            $filterSecretaries.find('button').prop('disabled', true);
+            $filterSecretaries.find('.results').css('color', '#AAA');
+            $secretaries.find('.add-edit-delete-group').hide();
+            $secretaries.find('.save-cancel-group').show();
+            $secretaries.find('#delete-secretary').show(); // Show delete button when editing
+            $secretaries.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $secretaries.find('.record-details .form-label span').prop('hidden', false);
+            $('#password, #password-confirm').removeClass('required');
+            $('#secretary-providers input:checkbox').prop('disabled', false);
+            $('#select-all-providers, #select-none-providers').prop('disabled', false);
         });
 
         /**
@@ -124,21 +137,25 @@ App.Pages.Secretaries = (function () {
          */
         $secretaries.on('click', '#add-secretary', () => {
             App.Pages.Secretaries.resetForm();
+            $('#secretaries-page').addClass('editing');
             $filterSecretaries.find('button').prop('disabled', true);
             $filterSecretaries.find('.results').css('color', '#AAA');
 
             $secretaries.find('.add-edit-delete-group').hide();
             $secretaries.find('.save-cancel-group').show();
+            $secretaries.find('#delete-secretary').hide(); // Hide delete button when adding
             $secretaries.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
+            $('#select-all-providers, #select-none-providers').prop('disabled', false);
         });
 
         /**
          * Event: Edit Secretary Button "Click"
          */
         $secretaries.on('click', '#edit-secretary', () => {
+            $('#secretaries-page').addClass('editing');
             $filterSecretaries.find('button').prop('disabled', true);
             $filterSecretaries.find('.results').css('color', '#AAA');
             $secretaries.find('.add-edit-delete-group').hide();
@@ -147,6 +164,7 @@ App.Pages.Secretaries = (function () {
             $secretaries.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#secretary-providers input:checkbox').prop('disabled', false);
+            $('#select-all-providers, #select-none-providers').prop('disabled', false);
         });
 
         /**
@@ -233,9 +251,24 @@ App.Pages.Secretaries = (function () {
         $secretaries.on('click', '#cancel-secretary', () => {
             const id = $id.val();
             resetForm();
+            $('#secretaries-page').removeClass('editing');
             if (id) {
                 select(id, true);
             }
+        });
+
+        /**
+         * Event: Select All Providers Button "Click"
+         */
+        $secretaries.on('click', '#select-all-providers', () => {
+            $('#secretary-providers input:checkbox').prop('checked', true);
+        });
+
+        /**
+         * Event: Select None Providers Button "Click"
+         */
+        $secretaries.on('click', '#select-none-providers', () => {
+            $('#secretary-providers input:checkbox').prop('checked', false);
         });
     }
 
@@ -249,6 +282,7 @@ App.Pages.Secretaries = (function () {
         App.Http.Secretaries.save(secretary).done((response) => {
             App.Layouts.Backend.displayNotification(lang('secretary_saved'));
             App.Pages.Secretaries.resetForm();
+            $('#secretaries-page').removeClass('editing');
             $('#filter-secretaries .key').val('');
             App.Pages.Secretaries.filter('', response.id, true);
         });
@@ -263,6 +297,7 @@ App.Pages.Secretaries = (function () {
         App.Http.Secretaries.destroy(id).done(() => {
             App.Layouts.Backend.displayNotification(lang('secretary_deleted'));
             App.Pages.Secretaries.resetForm();
+            $('#secretaries-page').removeClass('editing');
             App.Pages.Secretaries.filter($('#filter-secretaries .key').val());
         });
     }
@@ -355,6 +390,7 @@ App.Pages.Secretaries = (function () {
         $secretaries.find('.is-invalid').removeClass('is-invalid');
         $('#edit-secretary, #delete-secretary').prop('disabled', true);
         $('#secretary-providers input:checkbox').prop('disabled', true).prop('checked', false);
+        $('#select-all-providers, #select-none-providers').prop('disabled', true);
     }
 
     /**

@@ -167,8 +167,6 @@ if (!function_exists('slot')) {
 
         $section = $layout['sections'][$name] ?? null;
 
-        echo '<!-- <SLOT id="' . $layout['filename'] . '/' . $name . '" /> -->' . PHP_EOL;
-
         if (!$section) {
             return;
         }

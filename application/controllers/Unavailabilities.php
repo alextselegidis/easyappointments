@@ -55,9 +55,16 @@ class Unavailabilities extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -108,9 +115,13 @@ class Unavailabilities extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('unavailability', 'array');
 
             $unavailability = request('unavailability');
 
@@ -143,11 +154,24 @@ class Unavailabilities extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
+
+            // Validate unavailability_id is a positive integer
+            if (
+                empty($unavailability_id) ||
+                !filter_var($unavailability_id, FILTER_VALIDATE_INT) ||
+                $unavailability_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid unavailability ID provided.');
+            }
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -158,14 +182,18 @@ class Unavailabilities extends EA_Controller
     }
 
     /**
-     * Update a unavailability.
+     * Update an unavailability.
      */
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('unavailability', 'array');
 
             $unavailability = request('unavailability');
 
@@ -193,16 +221,29 @@ class Unavailabilities extends EA_Controller
     }
 
     /**
-     * Remove a unavailability.
+     * Remove an unavailability.
      */
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
+
+            // Validate unavailability_id is a positive integer
+            if (
+                empty($unavailability_id) ||
+                !filter_var($unavailability_id, FILTER_VALIDATE_INT) ||
+                $unavailability_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid unavailability ID provided.');
+            }
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 

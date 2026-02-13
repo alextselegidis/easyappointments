@@ -49,6 +49,8 @@ class Blocked_periods extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('blocked_periods')]);
 
         $user_id = session('user_id');
@@ -90,9 +92,16 @@ class Blocked_periods extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -116,9 +125,13 @@ class Blocked_periods extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('blocked_period', 'array');
 
             $blocked_period = request('blocked_period');
 
@@ -147,11 +160,24 @@ class Blocked_periods extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('blocked_period_id', 'numeric');
+
             $blocked_period_id = request('blocked_period_id');
+
+            // Validate blocked_period_id is a positive integer
+            if (
+                empty($blocked_period_id) ||
+                !filter_var($blocked_period_id, FILTER_VALIDATE_INT) ||
+                $blocked_period_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid blocked period ID provided.');
+            }
 
             $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
 
@@ -167,9 +193,13 @@ class Blocked_periods extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('blocked_period', 'array');
 
             $blocked_period = request('blocked_period');
 
@@ -198,11 +228,24 @@ class Blocked_periods extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_BLOCKED_PERIODS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('blocked_period_id', 'numeric');
+
             $blocked_period_id = request('blocked_period_id');
+
+            // Validate blocked_period_id is a positive integer
+            if (
+                empty($blocked_period_id) ||
+                !filter_var($blocked_period_id, FILTER_VALIDATE_INT) ||
+                $blocked_period_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid blocked period ID provided.');
+            }
 
             $blocked_period = $this->blocked_periods_model->find($blocked_period_id);
 

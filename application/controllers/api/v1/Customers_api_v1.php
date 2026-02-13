@@ -81,6 +81,12 @@ class Customers_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
+            // Validate ID is a positive integer
+            if (empty($id) || $id <= 0) {
+                response('', 400);
+                return;
+            }
+
             $occurrences = $this->customers_model->get(['id' => $id]);
 
             if (empty($occurrences)) {
@@ -177,6 +183,12 @@ class Customers_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
+            // Validate ID is a positive integer
+            if ($id <= 0) {
+                response('', 400);
+                return;
+            }
+
             $occurrences = $this->customers_model->get(['id' => $id]);
 
             if (empty($occurrences)) {

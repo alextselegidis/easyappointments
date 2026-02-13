@@ -30,7 +30,7 @@ window.App = (function () {
         }
 
         if (App.Utils.Message) {
-            App.Utils.Message.show(lang('unexpected_issues'), lang('unexpected_issues_message'));
+            App.Utils.Message.show('Easy!Appointments', lang('unexpected_issues_message'));
 
             $('<div/>', {
                 'class': 'card',

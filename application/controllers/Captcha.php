@@ -11,6 +11,8 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use Gregwar\Captcha\CaptchaBuilder;
+
 /**
  * Captcha controller.
  *
@@ -26,22 +28,24 @@ class Captcha extends EA_Controller
     public function __construct()
     {
         parent::__construct();
-
-        $this->load->library('captcha_builder');
     }
 
     /**
-     * Make a request to this method to get a captcha image.
+     * Make a page request to this method in order to output a fresh captcha image.
      */
     public function index(): void
     {
-        $this->captcha_builder->setDistortion(true);
-        $this->captcha_builder->setMaxBehindLines(1);
-        $this->captcha_builder->setMaxFrontLines(1);
-        $this->captcha_builder->setBackgroundColor(255, 255, 255);
-        $this->captcha_builder->build();
-        session(['captcha_phrase' => $this->captcha_builder->getPhrase()]);
+        method('get');
+
+        $captcha_builder = new CaptchaBuilder();
+
+        $captcha_builder->setDistortion(true);
+        $captcha_builder->setMaxBehindLines(1);
+        $captcha_builder->setMaxFrontLines(1);
+        $captcha_builder->setBackgroundColor(255, 255, 255);
+        $captcha_builder->build();
+        session(['captcha_phrase' => $captcha_builder->getPhrase()]);
         header('Content-type: image/jpeg');
-        $this->captcha_builder->output();
+        $captcha_builder->output();
     }
 }

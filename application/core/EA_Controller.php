@@ -81,6 +81,7 @@ class EA_Controller extends CI_Controller
 
         $this->load->library('accounts');
 
+        $this->check_storage_writable();
         $this->ensure_user_exists();
         $this->configure_timezone();
         $this->configure_language();
@@ -165,5 +166,35 @@ class EA_Controller extends CI_Controller
         $default_timezone = setting('default_timezone');
 
         date_default_timezone_set($default_timezone);
+    }
+
+    /**
+     * Check if the storage folder is writable.
+     */
+    private function check_storage_writable(): void
+    {
+        $storage_path = APPPATH . '../storage';
+
+        if (!is_dir($storage_path)) {
+            show_error(
+                'The storage folder does not exist: ' .
+                    $storage_path .
+                    '. ' .
+                    'Please create this directory and ensure it is writable by the web server.',
+                500,
+                'Storage Configuration Error',
+            );
+        }
+
+        if (!is_writable($storage_path)) {
+            show_error(
+                'The storage folder is not writable: ' .
+                    $storage_path .
+                    '. ' .
+                    'Please ensure the web server has write permissions to this directory and its subdirectories (cache, logs, sessions, uploads).',
+                500,
+                'Storage Configuration Error',
+            );
+        }
     }
 }

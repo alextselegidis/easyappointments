@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div id="account-page" class="container backend-page">
+<div id="account-page" class="container backend-page py-3">
     <div id="account">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">
@@ -52,9 +52,8 @@
                                 <div class="mb-3">
                                     <label class="form-label" for="phone-number">
                                         <?= lang('phone_number') ?>
-                                        <span class="text-danger">*</span>
                                     </label>
-                                    <input id="phone-number" class="form-control required">
+                                    <input id="phone-number" class="form-control">
                                 </div>
 
                                 <div class="mb-3">

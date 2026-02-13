@@ -31,11 +31,15 @@ class Consents extends EA_Controller
     }
 
     /**
-     * Save (insert or update) the consent
+     * Save consent record to the database.
      */
     public function save(): void
     {
         try {
+            method('post');
+
+            check('consent', 'array');
+
             $consent = request('consent');
 
             $consent['ip'] = $this->input->ip_address();

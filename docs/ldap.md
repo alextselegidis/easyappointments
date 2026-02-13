@@ -94,6 +94,6 @@ The LDAP DN is a value that can also be manually set, either from the UI or from
 If LDAP is enabled, Easy!Appointments will first try to check for the local credentials, but if this does not work, then 
 the app will try to check the password against the LDAP entry and log the user in.
 
-*This document applies to Easy!Appointments v1.5.1.*
+*This document applies to Easy!Appointments v1.5.2.*
 
 [Back](readme.md)

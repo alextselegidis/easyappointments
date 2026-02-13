@@ -41,8 +41,16 @@ App.Utils.CalendarSync = (function () {
         const hasCaldavSync = Boolean(Number($selectedOption.attr('caldav-sync')));
         const hasSync = hasGoogleSync || hasCaldavSync;
 
-        $enableSync.prop('hidden', !isProvider || hasSync);
-        $syncButtonGroup.prop('hidden', !isProvider || !hasSync);
+        // Check if the logged-in user is a provider viewing their own data
+        const isLoggedInProvider = vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER;
+        const selectedProviderId = isProvider ? Number($selectedOption.val()) : null;
+        const canManageSync =
+            isProvider &&
+            (!isLoggedInProvider || // Admins and secretaries can manage any provider
+                Number(vars('user_id')) === selectedProviderId); // Providers can only manage their own sync
+
+        $enableSync.prop('hidden', !canManageSync || hasSync);
+        $syncButtonGroup.prop('hidden', !canManageSync || !hasSync);
     }
 
     function enableGoogleSync() {

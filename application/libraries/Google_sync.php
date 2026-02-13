@@ -53,7 +53,41 @@ class Google_sync
         $this->CI->load->model('providers_model');
         $this->CI->load->model('services_model');
 
-        $this->initialize_clients();
+        if (is_app_installed()) {
+            $this->initialize_clients();
+        }
+    }
+
+    /**
+     * Get the Google Client ID from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_id(): string
+    {
+        $setting_value = setting('google_client_id');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_id') ?: '';
+    }
+
+    /**
+     * Get the Google Client Secret from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_secret(): string
+    {
+        $setting_value = setting('google_client_secret');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_secret') ?: '';
     }
 
     /**
@@ -68,8 +102,8 @@ class Google_sync
         $this->client = new Google_Client();
         $this->client->setHttpClient($http);
         $this->client->setApplicationName('Easy!Appointments');
-        $this->client->setClientId(config('google_client_id'));
-        $this->client->setClientSecret(config('google_client_secret'));
+        $this->client->setClientId($this->get_client_id());
+        $this->client->setClientSecret($this->get_client_secret());
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');
@@ -83,11 +117,20 @@ class Google_sync
      *
      * This url must be used to redirect the user to the Google user consent page,
      * where the user grants access to his data for the Easy!Appointments app.
+     *
+     * @param string|null $state Optional state parameter for CSRF protection.
      */
-    public function get_auth_url(): string
+    public function get_auth_url(?string $state = null): string
     {
         // The "max_auth_age" is needed because the user needs to always log in and not use an existing session.
-        return $this->client->createAuthUrl() . '&max_auth_age=0';
+        $auth_url = $this->client->createAuthUrl() . '&max_auth_age=0';
+
+        // Add state parameter if provided for CSRF protection
+        if ($state !== null) {
+            $auth_url .= '&state=' . urlencode($state);
+        }
+
+        return $auth_url;
     }
 
     /**
@@ -188,8 +231,40 @@ class Google_sync
             $event->attendees[] = $event_customer;
         }
 
+        // Add Google Meet conferencing if enabled
+        if (filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN)) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
         // Add the new event to the Google Calendar.
-        return $this->service->events->insert($provider['settings']['google_calendar'], $event);
+        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event, [
+            'conferenceDataVersion' => 1,
+        ]);
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $created_event->getConferenceData() &&
+            $created_event->getConferenceData()->getEntryPoints()
+        ) {
+            $entry_points = $created_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $created_event;
     }
 
     /**
@@ -250,7 +325,46 @@ class Google_sync
             $event->attendees[] = $event_customer;
         }
 
-        return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
+        // Add Google Meet conferencing if enabled and event doesn't already have one
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            !$event->getConferenceData()
+        ) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
+        $updated_event = $this->service->events->update(
+            $provider['settings']['google_calendar'],
+            $event->getId(),
+            $event,
+            ['conferenceDataVersion' => 1],
+        );
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $updated_event->getConferenceData() &&
+            $updated_event->getConferenceData()->getEntryPoints() &&
+            empty($appointment['meeting_link'])
+        ) {
+            $entry_points = $updated_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $updated_event;
     }
 
     /**
@@ -382,6 +496,7 @@ class Google_sync
             'timeMin' => date(DateTimeInterface::RFC3339, $start),
             'timeMax' => date(DateTimeInterface::RFC3339, $end),
             'singleEvents' => true,
+            'maxResults' => 2500,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);

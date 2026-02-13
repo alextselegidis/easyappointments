@@ -1,0 +1,63 @@
+/* ----------------------------------------------------------------------------
+ * Easy!Appointments - Online Appointment Scheduler
+ *
+ * @package     EasyAppointments
+ * @author      A.Tselegidis <alextselegidis@gmail.com>
+ * @copyright   Copyright (c) Alex Tselegidis
+ * @license     https://opensource.org/licenses/GPL-3.0 - GPLv3
+ * @link        https://easyappointments.org
+ * @since       v1.5.0
+ * ---------------------------------------------------------------------------- */
+
+/* Responsive booking wizard styles (rounded corners and shadow on md+ screens) */
+@media (min-width: 768px) {
+    #book-appointment-wizard {
+        border-radius: var(--bs-border-radius) !important;
+        box-shadow: var(--bs-box-shadow-sm) !important;
+    }
+}
+
+/* Active step indicator - dynamic state that changes via JavaScript */
+#book-appointment-wizard .book-step.active-step {
+    height: 45px !important;
+    width: 45px !important;
+    background: var(--bs-white) !important;
+    padding: 7px !important;
+    margin-right: 13px !important;
+    margin-top: 0 !important;
+}
+
+#book-appointment-wizard .book-step.active-step strong {
+    color: var(--bs-primary) !important;
+    font-size: 21px !important;
+}
+
+/* Selected hour button state */
+#book-appointment-wizard #available-hours .available-hour {
+    margin-bottom: 10px;
+}
+
+#book-appointment-wizard #available-hours .selected-hour {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-white) !important;
+}
+
+/* Captcha refresh icon hover effect */
+#book-appointment-wizard .captcha-title .fa-sync-alt {
+    cursor: pointer;
+    transition: all 0.3s linear;
+}
+
+#book-appointment-wizard .captcha-title .fa-sync-alt:hover {
+    color: var(--bs-primary);
+}
+
+/* Language popover list */
+.popover .popover-title {
+    text-align: center;
+}
+
+.popover .popover-content #language-list .language {
+    margin: 15px 0;
+}

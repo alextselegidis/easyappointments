@@ -1,4 +1,4 @@
-<h4 class=" text-black-50 py-3 mb-3 border-bottom fw-light">
+<h4 class=" text-black-50 py-3 mb-3 fw-light">
     <?= lang('settings') ?>
 </h4>
 

@@ -67,8 +67,10 @@ class Api
         try {
             // Bearer token.
             $api_token = setting('api_token');
+            $provided_token = $this->get_bearer_token();
 
-            if (!empty($api_token) && $api_token === $this->get_bearer_token()) {
+            // Use timing-safe comparison to prevent timing attacks
+            if (!empty($api_token) && !empty($provided_token) && hash_equals($api_token, $provided_token)) {
                 return;
             }
 
@@ -77,14 +79,14 @@ class Api
 
             $password = $_SERVER['PHP_AUTH_PW'] ?? null;
 
+            if (empty($username) || empty($password)) {
+                throw new RuntimeException('Missing required credentials', 401);
+            }
+
             $user_data = $this->CI->accounts->check_login($username, $password);
 
             if (empty($user_data['role_slug']) || $user_data['role_slug'] !== DB_SLUG_ADMIN) {
-                throw new RuntimeException(
-                    'The provided credentials do not match any admin user!',
-                    401,
-                    'Unauthorized',
-                );
+                throw new RuntimeException('The provided credentials do not match any admin user', 401);
             }
         } catch (Throwable) {
             $this->request_authentication();
@@ -219,12 +221,17 @@ class Api
 
             $db_field = $this->model->db_field($api_field);
 
+            // Skip invalid fields (security: only allow mapped fields)
+            if ($db_field === null) {
+                continue;
+            }
+
             $direction = $direction_operator === '-' ? 'DESC' : 'ASC';
 
             $order_by[] = $db_field . ' ' . $direction;
         }
 
-        return implode(', ', $order_by);
+        return !empty($order_by) ? implode(', ', $order_by) : null;
     }
 
     /**

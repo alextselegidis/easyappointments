@@ -45,6 +45,13 @@ class Caldav extends EA_Controller
     public function connect_to_server(): void
     {
         try {
+            method('post');
+
+            check('provider_id', 'numeric');
+            check('caldav_url', 'string');
+            check('caldav_username', 'string');
+            check('caldav_password', 'string');
+
             $provider_id = request('provider_id');
 
             $user_id = session('user_id');
@@ -304,6 +311,10 @@ class Caldav extends EA_Controller
     public function disable_provider_sync(): void
     {
         try {
+            method('post');
+
+            check('provider_id', 'numeric');
+
             $provider_id = request('provider_id');
 
             if (!$provider_id) {

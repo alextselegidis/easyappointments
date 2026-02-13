@@ -140,6 +140,8 @@ class Google extends EA_Controller
                         $google_event = $CI->google_sync->add_unavailability($provider, $local_event);
                     }
 
+                    $local_event = $CI->appointments_model->find($local_event['id']);
+
                     $local_event['id_google_calendar'] = $google_event->getId();
 
                     $events_model->save($local_event); // Save the Google Calendar ID.
@@ -224,7 +226,10 @@ class Google extends EA_Controller
                 $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
                 $google_event_end->setTimezone($provider_timezone);
 
-                $appointment_results = $CI->appointments_model->get(['id_google_calendar' => $google_event->getId()]);
+                $appointment_results = $CI->appointments_model->get([
+                    'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
+                ]);
 
                 if (!empty($appointment_results)) {
                     continue;
@@ -232,6 +237,7 @@ class Google extends EA_Controller
 
                 $unavailability_results = $CI->unavailabilities_model->get([
                     'id_google_calendar' => $google_event->getId(),
+                    'id_users_provider' => $provider_id,
                 ]);
 
                 if (!empty($unavailability_results)) {
@@ -277,15 +283,33 @@ class Google extends EA_Controller
      */
     public function oauth(string $provider_id): void
     {
-        if (!$this->session->userdata('user_id')) {
+        $user_id = session('user_id');
+
+        if (!$user_id) {
             show_error('Forbidden', 403);
         }
 
-        // Store the provider id for use on the callback function.
-        session(['oauth_provider_id' => $provider_id]);
+        // Validate provider_id is a positive integer
+        $provider_id = filter_var($provider_id, FILTER_VALIDATE_INT);
+        if ($provider_id === false || $provider_id <= 0) {
+            show_error('Invalid provider ID', 400);
+        }
+
+        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            show_error('Forbidden', 403);
+        }
+
+        // Generate and store OAuth state parameter to prevent CSRF
+        $oauth_state = bin2hex(random_bytes(32));
+
+        // Store the provider id and state for use on the callback function.
+        session([
+            'oauth_provider_id' => $provider_id,
+            'oauth_state' => $oauth_state,
+        ]);
 
         // Redirect browser to google user content page.
-        header('Location: ' . $this->google_sync->get_auth_url());
+        header('Location: ' . $this->google_sync->get_auth_url($oauth_state));
     }
 
     /**
@@ -307,6 +331,23 @@ class Google extends EA_Controller
         if (!session('user_id')) {
             abort(403, 'Forbidden');
         }
+
+        // Verify OAuth state to prevent CSRF attacks
+        check('state', 'string');
+        check('code', 'string|null');
+
+        $returned_state = request('state');
+        $stored_state = session('oauth_state');
+
+        if (empty($returned_state) || empty($stored_state) || !hash_equals($stored_state, $returned_state)) {
+            log_security_event('OAUTH_CSRF', 'Invalid OAuth state parameter in callback', [
+                'user_id' => session('user_id'),
+            ]);
+            abort(403, 'Security validation failed. Please try again.');
+        }
+
+        // Clear the state after verification
+        session(['oauth_state' => null]);
 
         $code = request('code');
 
@@ -345,6 +386,10 @@ class Google extends EA_Controller
     public function get_google_calendars(): void
     {
         try {
+            method('post');
+
+            check('provider_id', 'numeric');
+
             $provider_id = (int) request('provider_id');
 
             if (empty($provider_id)) {
@@ -382,6 +427,11 @@ class Google extends EA_Controller
     public function select_google_calendar(): void
     {
         try {
+            method('post');
+
+            check('provider_id', 'numeric');
+            check('calendar_id', 'string');
+
             $provider_id = request('provider_id');
 
             $user_id = session('user_id');
@@ -412,6 +462,10 @@ class Google extends EA_Controller
     public function disable_provider_sync(): void
     {
         try {
+            method('post');
+
+            check('provider_id', 'numeric');
+
             $provider_id = request('provider_id');
 
             if (!$provider_id) {

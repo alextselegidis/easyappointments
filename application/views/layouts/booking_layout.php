@@ -7,7 +7,7 @@
     <meta name="theme-color" content="#35A768">
     <meta name="google" content="notranslate">
 
-    <meta property="og:title" content="<?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments"/>
+    <meta property="og:title" content="<?= lang('page_title') . ' ' . e(vars('company_name')) ?> | Easy!Appointments"/>
     <meta property="og:description" content="Book Your Appointment With A Few Clicks"/>
     <meta property="og:url" content="<?= base_url() ?>">
     <meta property="og:image" content="<?= base_url('assets/img/social-card.png') ?>"/>
@@ -15,7 +15,7 @@
 
     <?php slot('meta'); ?>
 
-    <title><?= lang('page_title') . ' ' . vars('company_name') ?> | Easy!Appointments</title>
+    <title><?= lang('page_title') . ' ' . e(vars('company_name')) ?> | Easy!Appointments</title>
 
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
@@ -25,7 +25,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/material_green.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/' . vars('theme') . '.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/booking_layout.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
 
     <?php component('company_color_style', ['company_color' => vars('company_color')]); ?>
 
@@ -33,9 +33,9 @@
 </head>
 
 <body>
-<div id="main" class="container">
-    <div class="row wrapper">
-        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8 col-xxl-7">
+<div id="main" class="container min-vh-100">
+    <div class="row wrapper min-vh-100 justify-content-center align-items-center py-0 py-md-3">
+        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8 col-xxl-7 bg-white overflow-hidden p-0 my-auto">
 
             <?php component('booking_header', [
                 'company_name' => vars('company_name'),
