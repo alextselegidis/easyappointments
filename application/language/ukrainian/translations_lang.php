@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Введіть своє ім\
 $lang['send_reset_link'] = 'Надіслати посилання для скидання';
 $lang['reset_link_sent_with_email'] = 'Якщо обліковий запис з наданими обліковими даними існує, посилання для скидання пароля було надіслано на вашу електронну пошту.';
 $lang['provider_has_conflicting_appointment'] = 'У вибраного постачальника вже є інша зустріч у цей час. Будь ласка, виберіть інший час або постачальника.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

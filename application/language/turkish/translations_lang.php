@@ -532,4 +532,5 @@ $lang['reset_link_sent_with_email'] = 'Sağlanan bilgilerle bir hesap varsa, şi
 $lang['page_not_found_message'] = 'Unfortunately the page you requested does not exist. Please check your browser URL or head to another location using the buttons below.';
 $lang['google_analytics_code_hint'] = 'Add your Google Analytics Code to enable Google Analytics tracking on the booking pages.';
 $lang['provider_has_conflicting_appointment'] = 'Seçilen sağlayıcının o saatte zaten başka bir randevusu var. Lütfen farklı bir saat veya sağlayıcı seçin.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

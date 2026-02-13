@@ -531,4 +531,5 @@ $lang['send_reset_link'] = 'Пошаљи линк за ресетовање';
 $lang['reset_link_sent_with_email'] = 'Ако постоји налог са наведеним подацима, линк за ресетовање лозинке је послат на вашу имејл адресу.';
 $lang['service_and_provider'] = 'Service & Provider';
 $lang['provider_has_conflicting_appointment'] = 'Изабрани пружалац услуга већ има други термин у то време. Молимо изаберите друго време или пружаоца.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

@@ -538,4 +538,5 @@ $lang['october'] = 'October';
 $lang['november'] = 'November';
 $lang['now'] = 'Now';
 $lang['provider_has_conflicting_appointment'] = 'Odabrani pružalac usluga već ima drugi termin u to vrijeme. Molimo odaberite drugo vrijeme ili pružaoca.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

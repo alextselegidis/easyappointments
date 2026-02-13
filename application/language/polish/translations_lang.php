@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Wpisz swoją nazwę użytkown
 $lang['send_reset_link'] = 'Wyślij link resetujący';
 $lang['reset_link_sent_with_email'] = 'Jeśli istnieje konto z podanymi danymi, link do resetowania hasła został wysłany na Twój e-mail.';
 $lang['provider_has_conflicting_appointment'] = 'Wybrany usługodawca ma już inną wizytę w tym czasie. Proszę wybrać inny termin lub usługodawcę.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

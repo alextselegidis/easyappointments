@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Shkruani emrin e përdoruesit
 $lang['send_reset_link'] = 'Dërgo Lidhjen e Rivendosjes';
 $lang['reset_link_sent_with_email'] = 'Nëse ekziston një llogari me kredencialet e dhëna, një lidhje rivendosjeje fjalëkalimi është dërguar në emailin tuaj.';
 $lang['provider_has_conflicting_appointment'] = 'Ofruesi i zgjedhur tashmë ka një takim tjetër në atë kohë. Ju lutemi zgjidhni një kohë ose ofrues tjetër.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

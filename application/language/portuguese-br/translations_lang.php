@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Digite seu nome de usuário e
 $lang['send_reset_link'] = 'Enviar link de redefinição';
 $lang['reset_link_sent_with_email'] = 'Se existir uma conta com as credenciais fornecidas, um link de redefinição de senha foi enviado para seu e-mail.';
 $lang['provider_has_conflicting_appointment'] = 'O prestador selecionado já tem outro agendamento nesse horário. Por favor, selecione um horário ou prestador diferente.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

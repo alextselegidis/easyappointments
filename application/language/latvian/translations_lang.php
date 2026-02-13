@@ -546,4 +546,5 @@ $lang['integrations_info'] = 'Integrations enable you to make third-party connec
 $lang['click_to_toggle'] = 'Click To Toggle';
 $lang['year'] = 'Year';
 $lang['provider_has_conflicting_appointment'] = 'Izvēlētajam pakalpojumu sniedzējam jau ir cita tikšanās šajā laikā. Lūdzu, izvēlieties citu laiku vai pakalpojumu sniedzēju.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

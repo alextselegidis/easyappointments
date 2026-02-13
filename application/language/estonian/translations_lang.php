@@ -531,4 +531,5 @@ $lang['send_reset_link'] = 'Saada lähtestamislink';
 $lang['reset_link_sent_with_email'] = 'Kui antud andmetega konto on olemas, on parooli lähtestamise link saadetud teie e-postile.';
 $lang['ldap_info'] = 'This integration enables you to connect to an existing LDAP server and automatically import users into Easy!Appointments and let them SSO with their directory password (username must match).';
 $lang['provider_has_conflicting_appointment'] = 'Valitud teenusepakkujal on sel ajal juba teine kohtumine. Palun valige teine aeg või teenusepakkuja.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

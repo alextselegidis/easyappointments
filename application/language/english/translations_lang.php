@@ -530,4 +530,5 @@ $lang['no_password_provided'] = 'Please enter a password.';
 $lang['type_username_and_email_for_reset_link'] = 'Type your username and email address to receive a password reset link.';
 $lang['send_reset_link'] = 'Send Reset Link';
 $lang['reset_link_sent_with_email'] = 'If an account exists with the provided credentials, a password reset link has been sent to your email.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

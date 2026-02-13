@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Geben Sie Ihren Benutzernamen
 $lang['send_reset_link'] = 'Link zum Zurücksetzen senden';
 $lang['reset_link_sent_with_email'] = 'Wenn ein Konto mit den angegebenen Anmeldedaten existiert, wurde ein Link zum Zurücksetzen des Passworts an Ihre E-Mail gesendet.';
 $lang['provider_has_conflicting_appointment'] = 'Der ausgewählte Anbieter hat bereits einen anderen Termin zu dieser Zeit. Bitte wählen Sie eine andere Zeit oder einen anderen Anbieter.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

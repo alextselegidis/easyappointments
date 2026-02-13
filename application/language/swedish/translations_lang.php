@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Ange ditt användarnamn och e
 $lang['send_reset_link'] = 'Skicka återställningslänk';
 $lang['reset_link_sent_with_email'] = 'Om det finns ett konto kopplat till dessa uppgifter har vi skickat en återställningslänk till din e-post.';
 $lang['provider_has_conflicting_appointment'] = 'Den valda utföraren är redan bokad vid den här tiden. Vänligen välj en annan tid eller en annan person.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

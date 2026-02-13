@@ -180,6 +180,12 @@ App.Pages.Providers = (function () {
          * Event: Save Provider Button "Click"
          */
         $providers.on('click', '#save-provider', () => {
+            const workingPlan = workingPlanManager.get();
+
+            if (workingPlan === null) {
+                return;
+            }
+
             const provider = {
                 first_name: $firstName.val(),
                 last_name: $lastName.val(),
@@ -197,7 +203,7 @@ App.Pages.Providers = (function () {
                 ldap_dn: $ldapDn.val(),
                 settings: {
                     username: $username.val(),
-                    working_plan: JSON.stringify(workingPlanManager.get()),
+                    working_plan: JSON.stringify(workingPlan),
                     working_plan_exceptions: JSON.stringify(workingPlanManager.getWorkingPlanExceptions()),
                     notifications: Number($notifications.prop('checked')),
                     calendar_view: $calendarView.val(),

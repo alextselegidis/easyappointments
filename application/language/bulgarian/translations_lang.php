@@ -534,4 +534,5 @@ $lang['fields'] = 'Полета';
 $lang['invalid_credentials_provided'] = 'Предоставени са невалидни идентификационни данни, моля, опитайте отново.';
 $lang['calendar_url'] = 'URL на календара';
 $lang['provider_has_conflicting_appointment'] = 'Избраният доставчик вече има друга среща по това време. Моля, изберете друго време или доставчик.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

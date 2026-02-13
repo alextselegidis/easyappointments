@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'نام کاربری و آدر
 $lang['send_reset_link'] = 'ارسال لینک بازنشانی';
 $lang['reset_link_sent_with_email'] = 'اگر حسابی با اطلاعات ارائه شده وجود داشته باشد، لینک بازنشانی رمز عبور به ایمیل شما ارسال شده است.';
 $lang['provider_has_conflicting_appointment'] = 'ارائه‌دهنده انتخاب شده در آن زمان قرار ملاقات دیگری دارد. لطفاً زمان یا ارائه‌دهنده دیگری انتخاب کنید.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End

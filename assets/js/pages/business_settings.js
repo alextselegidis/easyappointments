@@ -77,6 +77,10 @@ App.Pages.BusinessSettings = (function () {
 
         const workingPlan = workingPlanManager.get();
 
+        if (workingPlan === null) {
+            return null;
+        }
+
         businessSettings.push({
             name: 'company_working_plan',
             value: JSON.stringify(workingPlan),
@@ -104,6 +108,10 @@ App.Pages.BusinessSettings = (function () {
 
         const businessSettings = serialize();
 
+        if (businessSettings === null) {
+            return;
+        }
+
         App.Http.BusinessSettings.save(businessSettings).done(() => {
             App.Layouts.Backend.displayNotification(lang('settings_saved'));
         });
@@ -124,6 +132,11 @@ App.Pages.BusinessSettings = (function () {
                 text: 'OK',
                 click: (event, messageModal) => {
                     const workingPlan = workingPlanManager.get();
+
+                    if (workingPlan === null) {
+                        messageModal.hide();
+                        return;
+                    }
 
                     App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan)
                         .done(() => {

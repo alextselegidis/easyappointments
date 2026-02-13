@@ -530,4 +530,5 @@ $lang['type_username_and_email_for_reset_link'] = 'Įveskite savo vartotojo vard
 $lang['send_reset_link'] = 'Siųsti atkūrimo nuorodą';
 $lang['reset_link_sent_with_email'] = 'Jei egzistuoja paskyra su pateiktais duomenimis, slaptažodžio atkūrimo nuoroda išsiųsta į jūsų el. paštą.';
 $lang['provider_has_conflicting_appointment'] = 'Pasirinktas teikėjas jau turi kitą susitikimą tuo metu. Prašome pasirinkti kitą laiką arba teikėją.';
+$lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 // End
