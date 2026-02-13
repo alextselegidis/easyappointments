@@ -850,7 +850,12 @@ App.Utils.CalendarDefaultView = (function () {
                 .filter(Boolean)
                 .join(' ');
 
-            const title = customerName ? appointment.service.name + ' - ' + customerName : appointment.service.name;
+            const type =
+                getSelectedFilterType() !== FILTER_TYPE_SERVICE
+                    ? appointment.service.name
+                    : [appointment.provider.first_name, appointment.provider.last_name].filter(Boolean).join(' ');
+
+            const title = customerName ? customerName + ' - ' + type : appointment.service.name;
 
             return {
                 id: appointment.id,

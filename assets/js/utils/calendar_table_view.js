@@ -827,7 +827,7 @@ App.Utils.CalendarTableView = (function () {
                     .filter(Boolean)
                     .join(' ');
 
-                const title = customerName ? appointment.service.name + ' - ' + customerName : appointment.service.name;
+                const title = customerName ? customerName + ' - ' + appointment.service.name : appointment.service.name;
 
                 return {
                     id: appointment.id,
