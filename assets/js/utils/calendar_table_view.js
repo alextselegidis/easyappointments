@@ -55,13 +55,18 @@ App.Utils.CalendarTableView = (function () {
     /**
      * Get the calendar height based on window size.
      *
-     * @returns {number} Calendar height in pixels (minimum 800px).
+     * @returns {number} Calendar height in pixels (minimum 700px).
      */
     function getCalendarHeight() {
-        const offset = $footer.outerHeight() + $header.outerHeight() + 60;
+        const offset =
+            $footer.outerHeight() +
+            $header.outerHeight() +
+            $calendarToolbar.outerHeight() +
+            $('.calendar-header').outerHeight() +
+            65;
         const height = window.innerHeight - offset;
 
-        return Math.max(height, 800);
+        return Math.max(height, 700);
     }
 
     /**
@@ -1393,18 +1398,6 @@ App.Utils.CalendarTableView = (function () {
      * Set calendar view size to fit the page.
      */
     function setCalendarViewSize() {
-        let height =
-            window.innerHeight -
-            $header.outerHeight() -
-            $footer.outerHeight() -
-            $calendarToolbar.outerHeight() -
-            $('.calendar-header').outerHeight() -
-            50;
-
-        if (height < 500) {
-            height = 500;
-        }
-
         const $dateColumn = $('.date-column');
 
         const $calendarViewDiv = $('.calendar-view > div');
@@ -1417,7 +1410,7 @@ App.Utils.CalendarTableView = (function () {
         $calendarViewDiv.css('min-width', width + 200);
         const dateColumnHeight = $dateColumn.outerHeight();
 
-        $('.calendar-view .not-working').outerHeight((dateColumnHeight > height ? dateColumnHeight : height) - 70);
+        $('.calendar-wrapper').height(getCalendarHeight());
     }
 
     // Event Listeners
@@ -1546,6 +1539,12 @@ App.Utils.CalendarTableView = (function () {
         // Popover delete button
 
         $calendar.on('click', '.delete-popover', onDeletePopoverClick);
+
+        // listDay button
+        $calendar.on('click', '.fc-listDay-button', setCalendarViewSize);
+
+        // timeGridDay button
+        $calendar.on('click', '.fc-timeGridDay-button', setCalendarViewSize);
     }
 
     // Initialization
