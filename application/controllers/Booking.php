@@ -233,13 +233,20 @@ class Booking extends EA_Controller
                 return;
             }
 
+            $appointment = $results[0];
+            $provider = $this->providers_model->find($appointment['id_users_provider']);
+
             // Make sure the appointment can still be rescheduled.
 
-            $start_datetime = strtotime($results[0]['start_datetime']);
+            $provider_timezone = new DateTimeZone($provider['timezone']);
 
-            $limit = strtotime('+' . $book_advance_timeout . ' minutes', strtotime('now'));
+            $appointment_start = new DateTime($appointment['start_datetime'], $provider_timezone);
 
-            if ($start_datetime < $limit) {
+            $limit = new DateTime('now', $provider_timezone);
+
+            $limit->modify('+' . $book_advance_timeout . ' minutes');
+
+            if ($appointment_start < $limit) {
                 $hours = floor($book_advance_timeout / 60);
 
                 $minutes = $book_advance_timeout % 60;
@@ -261,9 +268,6 @@ class Booking extends EA_Controller
 
                 return;
             }
-
-            $appointment = $results[0];
-            $provider = $this->providers_model->find($appointment['id_users_provider']);
             $customer = $this->customers_model->find($appointment['id_users_customer']);
             $customer_token = md5(uniqid(mt_rand(), true));
 

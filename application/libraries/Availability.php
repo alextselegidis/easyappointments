@@ -594,7 +594,9 @@ class Availability
 
         $book_advance_timeout = setting('book_advance_timeout');
 
-        $threshold = new DateTime('+' . $book_advance_timeout . ' minutes', $provider_timezone);
+        $threshold = new DateTime('now', $provider_timezone);
+
+        $threshold->modify('+' . $book_advance_timeout . ' minutes');
 
         foreach ($available_hours as $index => $value) {
             $available_hour = new DateTime($date . ' ' . $value, $provider_timezone);
@@ -631,7 +633,9 @@ class Availability
 
         $future_booking_limit = setting('future_booking_limit'); // in days
 
-        $threshold = new DateTime('+' . $future_booking_limit . ' days', $provider_timezone);
+        $threshold = new DateTime('now', $provider_timezone);
+
+        $threshold->modify('+' . $future_booking_limit . ' days');
 
         $selected_date_time = new DateTime($selected_date);
 
