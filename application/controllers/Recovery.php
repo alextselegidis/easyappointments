@@ -43,6 +43,7 @@ class Recovery extends EA_Controller
             'page_title' => lang('forgot_your_password'),
             'dest_url' => session('dest_url', site_url('backend')),
             'company_name' => $company_name,
+            'require_captcha' => setting('require_captcha'),
         ]);
 
         $this->load->view('pages/recovery');
@@ -58,6 +59,22 @@ class Recovery extends EA_Controller
 
             check('username', 'string');
             check('email', 'email');
+            check('captcha', 'string|null');
+
+            $require_captcha = (bool) setting('require_captcha');
+
+            $captcha = request('captcha');
+
+            $captcha_phrase = session('captcha_phrase');
+
+            if ($require_captcha && strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                json_response([
+                    'success' => false,
+                    'captcha_verification' => false,
+                ]);
+
+                return;
+            }
 
             $username = request('username');
 
@@ -168,6 +185,7 @@ class Recovery extends EA_Controller
             'token_valid' => true,
             'token' => $token,
             'company_name' => setting('company_name'),
+            'require_captcha' => setting('require_captcha'),
         ]);
 
         $this->load->view('pages/password_reset');
@@ -180,6 +198,23 @@ class Recovery extends EA_Controller
     {
         try {
             method('post');
+
+            check('captcha', 'string|null');
+
+            $require_captcha = (bool) setting('require_captcha');
+
+            $captcha = request('captcha');
+
+            $captcha_phrase = session('captcha_phrase');
+
+            if ($require_captcha && strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                json_response([
+                    'success' => false,
+                    'captcha_verification' => false,
+                ]);
+
+                return;
+            }
 
             $token = request('token');
             $password = request('password');

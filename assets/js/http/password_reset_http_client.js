@@ -21,10 +21,11 @@ App.Http.PasswordReset = (function () {
      * @param {String} token
      * @param {String} password
      * @param {String} passwordConfirm
+     * @param {String} captcha
      *
      * @return {Object}
      */
-    function complete(token, password, passwordConfirm) {
+    function complete(token, password, passwordConfirm, captcha) {
         const url = App.Utils.Url.siteUrl('recovery/complete');
 
         const data = {
@@ -33,6 +34,10 @@ App.Http.PasswordReset = (function () {
             password,
             password_confirm: passwordConfirm,
         };
+
+        if (captcha) {
+            data.captcha = captcha;
+        }
 
         return $.post(url, data);
     }

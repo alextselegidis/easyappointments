@@ -109,7 +109,7 @@
                         <?= lang('about') ?>
                     </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="<?= site_url('booking') ?>">
+                    <a class="dropdown-item" href="<?= site_url('booking') ?>" target="_blank">
                         <i class="fas fa-external-link me-2"></i>
                         <?= lang('booking') ?>
                     </a>

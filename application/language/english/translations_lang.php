@@ -273,6 +273,7 @@ $lang['ea_update_success'] = 'Easy!Appointments has been successfully updated.';
 $lang['require_captcha'] = 'Require CAPTCHA';
 $lang['require_captcha_hint'] = 'When enabled, the customers will have to type a random generated CAPTCHA string before booking/updating an appointment.';
 $lang['captcha_is_wrong'] = 'CAPTCHA verification failed, please try again.';
+$lang['enter_captcha_here'] = 'Enter CAPTCHA here...';
 $lang['any_provider'] = 'Any Provider';
 $lang['requested_hour_is_unavailable'] = 'The requested appointment is unfortunately not available. Please select a different hour for your appointment.';
 $lang['customer_notifications'] = 'Customer Notifications';

@@ -21,6 +21,16 @@ App.Pages.PasswordReset = (function () {
     const $passwordConfirm = $('#password-confirm');
     const $resetPassword = $('#reset-password');
     const $alert = $('.alert');
+    const $captchaText = $('.captcha-text');
+    const $captchaTitle = $('.captcha-title');
+    const $captchaHint = $('#captcha-hint');
+
+    /**
+     * Refresh the captcha image.
+     */
+    function refreshCaptcha() {
+        $('.captcha-image').attr('src', App.Utils.Url.siteUrl('captcha?' + Date.now()));
+    }
 
     /**
      * Event: Form "Submit"
@@ -51,11 +61,37 @@ App.Pages.PasswordReset = (function () {
             return;
         }
 
+        if ($captchaText.length > 0) {
+            $captchaText.removeClass('is-invalid');
+            if ($captchaText.val() === '') {
+                $captchaText.addClass('is-invalid');
+                return;
+            }
+        }
+
+        const captcha = $captchaText.length > 0 ? $captchaText.val() : null;
+
         $resetPassword.prop('disabled', true);
 
-        App.Http.PasswordReset.complete(token, password, passwordConfirm)
+        App.Http.PasswordReset.complete(token, password, passwordConfirm, captcha)
             .done((response) => {
                 $alert.removeClass('d-none alert-danger');
+
+                if (response.captcha_verification === false) {
+                    $captchaHint.text(lang('captcha_is_wrong')).fadeTo(400, 1);
+
+                    setTimeout(() => {
+                        $captchaHint.fadeTo(400, 0);
+                    }, 3000);
+
+                    refreshCaptcha();
+
+                    $captchaText.addClass('is-invalid');
+
+                    $alert.addClass('d-none');
+
+                    return;
+                }
 
                 if (response.success) {
                     $alert.addClass('alert-success');
@@ -69,6 +105,7 @@ App.Pages.PasswordReset = (function () {
                 } else {
                     $alert.addClass('alert-danger');
                     $alert.text(lang('password_reset_failed'));
+                    refreshCaptcha();
                 }
             })
             .fail((jqXHR) => {
@@ -81,6 +118,8 @@ App.Pages.PasswordReset = (function () {
                 } else {
                     $alert.text(lang('password_reset_failed'));
                 }
+
+                refreshCaptcha();
             })
             .always(() => {
                 $resetPassword.prop('disabled', false);
@@ -91,6 +130,8 @@ App.Pages.PasswordReset = (function () {
     if ($form.length) {
         $form.on('submit', onFormSubmit);
     }
+
+    $captchaTitle.on('click', 'button', refreshCaptcha);
 
     return {};
 })();

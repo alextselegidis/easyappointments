@@ -25,6 +25,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - When someone clicks on password reset, implement a link delivery and not just change the password directly
 - Add validation when saving the working plan (#1758)
 - Login / Backend button on the disabled booking page message screen  (#1777)
+- Add CAPTCHA support for all the public forms in order to block abusive requests (#1754)
 
 ### Changed
 

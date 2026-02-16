@@ -53,6 +53,7 @@ class Login extends EA_Controller
             'base_url' => config('base_url'),
             'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name'),
+            'require_captcha' => setting('require_captcha'),
         ]);
 
         $this->load->view('pages/login');
@@ -71,6 +72,22 @@ class Login extends EA_Controller
 
             check('username', 'string');
             check('password', 'string');
+            check('captcha', 'string|null');
+
+            $require_captcha = (bool) setting('require_captcha');
+
+            $captcha = request('captcha');
+
+            $captcha_phrase = session('captcha_phrase');
+
+            if ($require_captcha && strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                json_response([
+                    'success' => false,
+                    'captcha_verification' => false,
+                ]);
+
+                return;
+            }
 
             $username = request('username');
 

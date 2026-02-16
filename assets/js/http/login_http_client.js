@@ -20,10 +20,11 @@ App.Http.Login = (function () {
      *
      * @param {String} username
      * @param {String} password
+     * @param {String} captcha
      *
      * @return {Object}
      */
-    function validate(username, password) {
+    function validate(username, password, captcha) {
         const url = App.Utils.Url.siteUrl('login/validate');
 
         const data = {
@@ -31,6 +32,10 @@ App.Http.Login = (function () {
             username,
             password,
         };
+
+        if (captcha) {
+            data.captcha = captcha;
+        }
 
         return $.post(url, data);
     }
