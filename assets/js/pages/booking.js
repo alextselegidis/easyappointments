@@ -337,20 +337,7 @@ App.Pages.Booking = (function () {
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $selectProvider.on('change', (event) => {
-            const $target = $(event.target);
-
-            const todayDateTimeObject = new Date();
-            const todayDateTimeMoment = moment(todayDateTimeObject);
-
-            App.Utils.UI.setDateTimePickerValue($selectDate, todayDateTimeObject);
-
-            App.Http.Booking.getUnavailableDates(
-                $target.val(),
-                $selectService.val(),
-                todayDateTimeMoment.format('YYYY-MM-DD'),
-            );
-
+        $selectProvider.on('change', () => {
             App.Pages.Booking.updateConfirmFrame();
         });
 
@@ -394,12 +381,6 @@ App.Pages.Booking = (function () {
                 $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
             }
 
-            App.Http.Booking.getUnavailableDates(
-                $selectProvider.val(),
-                $target.val(),
-                moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
-            );
-
             App.Pages.Booking.updateConfirmFrame();
 
             App.Pages.Booking.updateServiceDescription(serviceId);
@@ -417,6 +398,21 @@ App.Pages.Booking = (function () {
             // If we are on the first step and there is no provider selected do not continue with the next step.
             if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
                 return;
+            }
+
+            // If we are on the first step, fetch unavailable dates and available hours for step 2.
+            if ($target.attr('data-step_index') === '1') {
+                const todayMoment = moment();
+
+                App.Utils.UI.setDateTimePickerValue($selectDate, todayMoment.toDate());
+
+                App.Http.Booking.getUnavailableDates(
+                    $selectProvider.val(),
+                    $selectService.val(),
+                    todayMoment.format('YYYY-MM-DD'),
+                );
+
+                App.Http.Booking.getAvailableHours(todayMoment.format('YYYY-MM-DD'));
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
