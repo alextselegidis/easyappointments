@@ -115,6 +115,7 @@ const LDAP_WHITELISTED_ATTRIBUTES = [
     'objectcategory',
     'memberof',
     'distinguishedname',
+    'uid',
 ];
 
 const LDAP_DEFAULT_FIELD_MAPPING = [
