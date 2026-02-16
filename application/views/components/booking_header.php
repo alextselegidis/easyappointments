@@ -22,7 +22,7 @@
         </div>
     </div>
 
-    <div id="steps" class="d-block d-md-inline-block float-md-end overflow-hidden mx-auto my-3 my-md-1" style="width: 190px;">
+    <div id="steps" class="d-block d-md-inline-block float-md-end overflow-hidden mx-auto my-3 my-md-1" style="width: 200px;">
         <div id="step-1" class="book-step active-step d-inline-block float-start rounded text-center bg-white"
              data-tippy-content="<?= lang('service_and_provider') ?>"
              style="height: 45px; width: 45px; padding: 7px; margin-right: 13px; transition: all 0.3s linear;">

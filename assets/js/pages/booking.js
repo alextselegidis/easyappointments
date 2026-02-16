@@ -442,12 +442,14 @@ App.Pages.Booking = (function () {
             // Display the next step tab (uses jquery animation effect).
             const nextTabIndex = parseInt($target.attr('data-step_index')) + 1;
 
+            // Update step indicator immediately
+            $('.active-step').removeClass('active-step');
+            $('#step-' + nextTabIndex).addClass('active-step');
+
             $target
                 .parents()
                 .eq(1)
                 .fadeOut(() => {
-                    $('.active-step').removeClass('active-step');
-                    $('#step-' + nextTabIndex).addClass('active-step');
                     $('#wizard-frame-' + nextTabIndex).fadeIn();
                 });
 
@@ -467,12 +469,14 @@ App.Pages.Booking = (function () {
         $('.button-back').on('click', (event) => {
             const prevTabIndex = parseInt($(event.currentTarget).attr('data-step_index')) - 1;
 
+            // Update step indicator immediately
+            $('.active-step').removeClass('active-step');
+            $('#step-' + prevTabIndex).addClass('active-step');
+
             $(event.currentTarget)
                 .parents()
                 .eq(1)
                 .fadeOut(() => {
-                    $('.active-step').removeClass('active-step');
-                    $('#step-' + prevTabIndex).addClass('active-step');
                     $('#wizard-frame-' + prevTabIndex).fadeIn();
                 });
         });

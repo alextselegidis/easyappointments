@@ -32,6 +32,21 @@
     font-size: 21px !important;
 }
 
+/* Inactive step indicator - ensures consistent styling when step becomes inactive */
+#book-appointment-wizard .book-step:not(.active-step) {
+    height: 35px !important;
+    width: 35px !important;
+    background: rgba(0,0,0,0.2) !important;
+    padding: 8px !important;
+    margin-right: 12px !important;
+    margin-top: 6px !important;
+}
+
+#book-appointment-wizard .book-step:not(.active-step) strong {
+    color: rgba(255,255,255,0.5) !important;
+    font-size: 12px !important;
+}
+
 /* Selected hour button state */
 #book-appointment-wizard #available-hours .available-hour {
     margin-bottom: 10px;
