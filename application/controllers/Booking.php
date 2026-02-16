@@ -147,6 +147,7 @@ class Booking extends EA_Controller
                 'google_analytics_code' => $google_analytics_code,
                 'matomo_analytics_url' => $matomo_analytics_url,
                 'matomo_analytics_site_id' => $matomo_analytics_site_id,
+                'display_login_button' => setting('display_login_button'),
             ]);
 
             $this->load->view('pages/booking_message');
@@ -226,6 +227,7 @@ class Booking extends EA_Controller
                     'google_analytics_code' => $google_analytics_code,
                     'matomo_analytics_url' => $matomo_analytics_url,
                     'matomo_analytics_site_id' => $matomo_analytics_site_id,
+                    'display_login_button' => $display_login_button,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -262,6 +264,7 @@ class Booking extends EA_Controller
                     'google_analytics_code' => $google_analytics_code,
                     'matomo_analytics_url' => $matomo_analytics_url,
                     'matomo_analytics_site_id' => $matomo_analytics_site_id,
+                    'display_login_button' => $display_login_button,
                 ]);
 
                 $this->load->view('pages/booking_message');

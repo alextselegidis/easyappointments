@@ -24,6 +24,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - If the current user has not available services or providers to be displayed in the public booking page, then show an info message instead of the booking page
 - When someone clicks on password reset, implement a link delivery and not just change the password directly
 - Add validation when saving the working plan (#1758)
+- Login / Backend button on the disabled booking page message screen  (#1777)
 
 ### Changed
 

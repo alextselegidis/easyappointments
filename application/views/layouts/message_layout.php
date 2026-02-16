@@ -34,6 +34,17 @@
                     Powered by
                     <a href="https://easyappointments.org">Easy!Appointments</a>
                 </small>
+
+                <?php if (vars('display_login_button')): ?>
+                    <div class="mt-3">
+                        <a class="backend-link badge bg-primary text-decoration-none px-2 d-inline-block p-1"
+                           href="<?= session('user_id') ? site_url('calendar') : site_url('login') ?>"
+                           style="min-width: 120px;">
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            <?= session('user_id') ? lang('backend_section') : lang('login') ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
             </div>
 
         </div>

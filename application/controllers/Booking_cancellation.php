@@ -89,6 +89,7 @@ class Booking_cancellation extends EA_Controller
                     'google_analytics_code' => setting('google_analytics_code'),
                     'matomo_analytics_url' => setting('matomo_analytics_url'),
                     'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
+                    'display_login_button' => setting('display_login_button'),
                 ]);
 
                 $this->load->view('pages/booking_message');
