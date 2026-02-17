@@ -550,4 +550,6 @@ $lang['provider_has_conflicting_appointment'] = 'ผู้ให้บริก�
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
 $lang['start_date'] = 'Start Date';
 $lang['end_date'] = 'End Date';
+$lang['remember_me'] = 'Remember my information';
+$lang['remember_me_hint'] = 'Save your details for faster booking next time.';
 // End

@@ -39,8 +39,11 @@ App.Pages.Booking = (function () {
     const $customField4 = $('#custom-field-4');
     const $customField5 = $('#custom-field-5');
     const $displayBookingSelection = $('.display-booking-selection');
+    const $rememberMe = $('#remember-me');
     const tippy = window.tippy;
     const moment = window.moment;
+
+    const STORAGE_KEY = 'EasyAppointments.CustomerInfo';
 
     /**
      * Determines the functionality of the page.
@@ -264,6 +267,9 @@ App.Pages.Booking = (function () {
             prefillFromQueryParam('#address', 'address');
             prefillFromQueryParam('#city', 'city');
             prefillFromQueryParam('#zip-code', 'zip');
+
+            // Initialize remember me after prefilling from query params
+            initializeRememberMe();
         }
     }
 
@@ -967,6 +973,137 @@ App.Pages.Booking = (function () {
                 </div>
             `).appendTo($serviceDescription);
         }
+    }
+
+    /**
+     * Save customer information to localStorage.
+     */
+    function saveCustomerInfo() {
+        const customerInfo = {
+            firstName: $firstName.val(),
+            lastName: $lastName.val(),
+            email: $email.val(),
+            phoneNumber: $phoneNumber.val(),
+            address: $address.val(),
+            city: $city.val(),
+            zipCode: $zipCode.val(),
+            customField1: $customField1.val(),
+            customField2: $customField2.val(),
+            customField3: $customField3.val(),
+            customField4: $customField4.val(),
+            customField5: $customField5.val(),
+            rememberMe: true,
+        };
+
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(customerInfo));
+        } catch (e) {
+            console.warn('Could not save customer info to localStorage:', e);
+        }
+    }
+
+    /**
+     * Load customer information from localStorage.
+     * GET parameters have priority over stored values.
+     */
+    function loadCustomerInfo() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+
+            if (!stored) {
+                return;
+            }
+
+            const customerInfo = JSON.parse(stored);
+
+            // Restore remember me checkbox state
+            if (customerInfo.rememberMe) {
+                $rememberMe.prop('checked', true);
+            }
+
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Only populate fields that don't have GET params and are empty
+            if (!urlParams.has('first_name') && !$firstName.val()) {
+                $firstName.val(customerInfo.firstName || '');
+            }
+            if (!urlParams.has('last_name') && !$lastName.val()) {
+                $lastName.val(customerInfo.lastName || '');
+            }
+            if (!urlParams.has('email') && !$email.val()) {
+                $email.val(customerInfo.email || '');
+            }
+            if (!urlParams.has('phone_number') && !$phoneNumber.val()) {
+                $phoneNumber.val(customerInfo.phoneNumber || '');
+            }
+            if (!urlParams.has('address') && !$address.val()) {
+                $address.val(customerInfo.address || '');
+            }
+            if (!urlParams.has('city') && !$city.val()) {
+                $city.val(customerInfo.city || '');
+            }
+            if (!urlParams.has('zip_code') && !$zipCode.val()) {
+                $zipCode.val(customerInfo.zipCode || '');
+            }
+            if (!urlParams.has('custom_field_1') && !$customField1.val()) {
+                $customField1.val(customerInfo.customField1 || '');
+            }
+            if (!urlParams.has('custom_field_2') && !$customField2.val()) {
+                $customField2.val(customerInfo.customField2 || '');
+            }
+            if (!urlParams.has('custom_field_3') && !$customField3.val()) {
+                $customField3.val(customerInfo.customField3 || '');
+            }
+            if (!urlParams.has('custom_field_4') && !$customField4.val()) {
+                $customField4.val(customerInfo.customField4 || '');
+            }
+            if (!urlParams.has('custom_field_5') && !$customField5.val()) {
+                $customField5.val(customerInfo.customField5 || '');
+            }
+        } catch (e) {
+            console.warn('Could not load customer info from localStorage:', e);
+        }
+    }
+
+    /**
+     * Clear customer information from localStorage.
+     */
+    function clearCustomerInfo() {
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {
+            console.warn('Could not clear customer info from localStorage:', e);
+        }
+    }
+
+    /**
+     * Initialize the remember me functionality.
+     */
+    function initializeRememberMe() {
+        // Skip if in manage mode (checkbox not present, use appointment data)
+        if (manageMode || !$rememberMe.length) {
+            return;
+        }
+
+        // Load stored customer info on page load
+        loadCustomerInfo();
+
+        // Handle remember me checkbox change
+        $rememberMe.on('change', function () {
+            if ($(this).prop('checked')) {
+                saveCustomerInfo();
+            } else {
+                clearCustomerInfo();
+            }
+        });
+
+        // Save customer info before form submission if remember me is checked
+        $bookAppointmentSubmit.on('click', function () {
+            if ($rememberMe.prop('checked')) {
+                saveCustomerInfo();
+            }
+        });
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

@@ -134,6 +134,20 @@
                     </div>
                 <?php endif; ?>
 
+                <?php if (!vars('manage_mode')): ?>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="checkbox" id="remember-me" class="form-check-input">
+                        <label for="remember-me" class="form-check-label">
+                            <?= lang('remember_me') ?>
+                        </label>
+                    </div>
+                    <div class="form-text text-muted small">
+                        <?= lang('remember_me_hint') ?>
+                    </div>
+                </div>
+                <?php endif; ?>
+
             </div>
 
         </div>
