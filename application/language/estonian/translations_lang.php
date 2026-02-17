@@ -536,4 +536,10 @@ $lang['start_date'] = 'Start Date';
 $lang['end_date'] = 'End Date';
 $lang['remember_me'] = 'Remember my information';
 $lang['remember_me_hint'] = 'Save your details for faster booking next time.';
+$lang['legal_notice'] = 'Legal Notice';
+$lang['legal_notice_url'] = 'Legal Notice URL';
+$lang['legal_notice_url_hint'] = 'Enter the URL to your legal notice page.';
+$lang['imprint'] = 'Imprint';
+$lang['imprint_url'] = 'Imprint URL';
+$lang['imprint_url_hint'] = 'Enter the URL to your imprint page.';
 // End

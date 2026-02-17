@@ -22,6 +22,8 @@ App.Pages.LegalSettings = (function () {
     const $termsAndConditionsContent = $('#terms-and-conditions-content');
     const $displayPrivacyPolicy = $('#display-privacy-policy');
     const $privacyPolicyContent = $('#privacy-policy-content');
+    const $legalNoticeUrl = $('#legal-notice-url');
+    const $imprintUrl = $('#imprint-url');
 
     /**
      * Check if the form has invalid values.
@@ -81,6 +83,14 @@ App.Pages.LegalSettings = (function () {
             if (legalSetting.name === 'privacy_policy_content') {
                 $privacyPolicyContent.trumbowyg('html', legalSetting.value);
             }
+
+            if (legalSetting.name === 'legal_notice_url') {
+                $legalNoticeUrl.val(legalSetting.value);
+            }
+
+            if (legalSetting.name === 'imprint_url') {
+                $imprintUrl.val(legalSetting.value);
+            }
         });
     }
 
@@ -115,6 +125,16 @@ App.Pages.LegalSettings = (function () {
         legalSettings.push({
             name: 'privacy_policy_content',
             value: $privacyPolicyContent.trumbowyg('html'),
+        });
+
+        legalSettings.push({
+            name: 'legal_notice_url',
+            value: $legalNoticeUrl.val(),
+        });
+
+        legalSettings.push({
+            name: 'imprint_url',
+            value: $imprintUrl.val(),
         });
 
         return legalSettings;

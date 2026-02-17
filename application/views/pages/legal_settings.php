@@ -76,6 +76,26 @@
                                            for="privacy-policy-content"><?= lang('privacy_policy_content') ?></label>
                                     <textarea id="privacy-policy-content" cols="30" rows="10" class="mb-3"></textarea>
                                 </div>
+
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('legal_notice') ?></h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="legal-notice-url"><?= lang('legal_notice_url') ?></label>
+                                    <input type="url" id="legal-notice-url" class="form-control" placeholder="https://...">
+                                    <div class="form-text text-muted small">
+                                        <?= lang('legal_notice_url_hint') ?>
+                                    </div>
+                                </div>
+
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('imprint') ?></h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="imprint-url"><?= lang('imprint_url') ?></label>
+                                    <input type="url" id="imprint-url" class="form-control" placeholder="https://...">
+                                    <div class="form-text text-muted small">
+                                        <?= lang('imprint_url_hint') ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

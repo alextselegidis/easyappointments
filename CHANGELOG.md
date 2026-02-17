@@ -28,6 +28,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add CAPTCHA support for all the public forms in order to block abusive requests (#1754)
 - Allow users to define working plan exceptions for multiple dates (#1706)
 - Allow customers to save their information in local storage (#1696)
+- Add a legal notice and imprint links to the booking page and the legal settings page (#1407)
 
 ### Changed
 

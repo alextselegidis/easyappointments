@@ -44,7 +44,11 @@
 
             <?php slot('content'); ?>
 
-            <?php component('booking_footer', ['display_login_button' => vars('display_login_button')]); ?>
+            <?php component('booking_footer', [
+                'display_login_button' => vars('display_login_button'),
+                'legal_notice_url' => vars('legal_notice_url'),
+                'imprint_url' => vars('imprint_url'),
+            ]); ?>
 
         </div>
     </div>

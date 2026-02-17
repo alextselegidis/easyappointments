@@ -148,6 +148,8 @@ class Booking extends EA_Controller
                 'matomo_analytics_url' => $matomo_analytics_url,
                 'matomo_analytics_site_id' => $matomo_analytics_site_id,
                 'display_login_button' => setting('display_login_button'),
+                'legal_notice_url' => setting('legal_notice_url'),
+                'imprint_url' => setting('imprint_url'),
             ]);
 
             $this->load->view('pages/booking_message');
@@ -193,6 +195,8 @@ class Booking extends EA_Controller
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
+        $legal_notice_url = setting('legal_notice_url');
+        $imprint_url = setting('imprint_url');
         $theme = request('theme', setting('theme', 'default'));
 
         // Sanitize theme parameter to prevent directory traversal
@@ -228,6 +232,8 @@ class Booking extends EA_Controller
                     'matomo_analytics_url' => $matomo_analytics_url,
                     'matomo_analytics_site_id' => $matomo_analytics_site_id,
                     'display_login_button' => $display_login_button,
+                    'legal_notice_url' => $legal_notice_url,
+                    'imprint_url' => $imprint_url,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -265,6 +271,8 @@ class Booking extends EA_Controller
                     'matomo_analytics_url' => $matomo_analytics_url,
                     'matomo_analytics_site_id' => $matomo_analytics_site_id,
                     'display_login_button' => $display_login_button,
+                    'legal_notice_url' => $legal_notice_url,
+                    'imprint_url' => $imprint_url,
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -337,6 +345,8 @@ class Booking extends EA_Controller
             'display_any_provider' => $display_any_provider,
             'display_login_button' => $display_login_button,
             'display_delete_personal_information' => $display_delete_personal_information,
+            'legal_notice_url' => $legal_notice_url,
+            'imprint_url' => $imprint_url,
             'google_analytics_code' => $google_analytics_code,
             'matomo_analytics_url' => $matomo_analytics_url,
             'matomo_analytics_site_id' => $matomo_analytics_site_id,

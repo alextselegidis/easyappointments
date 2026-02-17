@@ -33,6 +33,16 @@
                 <small>
                     Powered by
                     <a href="https://easyappointments.org">Easy!Appointments</a>
+
+                    <?php if (vars('legal_notice_url')): ?>
+                        <span class="mx-1">|</span>
+                        <a href="<?= e(vars('legal_notice_url')) ?>" target="_blank"><?= lang('legal_notice') ?></a>
+                    <?php endif; ?>
+
+                    <?php if (vars('imprint_url')): ?>
+                        <span class="mx-1">|</span>
+                        <a href="<?= e(vars('imprint_url')) ?>" target="_blank"><?= lang('imprint') ?></a>
+                    <?php endif; ?>
                 </small>
 
                 <?php if (vars('display_login_button')): ?>
