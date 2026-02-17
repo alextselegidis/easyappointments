@@ -356,11 +356,15 @@ App.Pages.Booking = (function () {
         $selectService.on('change', (event) => {
             const $target = $(event.target);
             const serviceId = $selectService.val();
+            const previousProviderId = $selectProvider.val();
+
             $selectProvider.parent().prop('hidden', !Boolean(serviceId));
 
             $selectProvider.empty();
 
             $selectProvider.append(new Option(lang('please_select'), ''));
+
+            let previousProviderCanServe = false;
 
             vars('available_providers').forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
@@ -370,6 +374,10 @@ App.Pages.Booking = (function () {
 
                 if (canServeService) {
                     $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+
+                    if (String(provider.id) === String(previousProviderId)) {
+                        previousProviderCanServe = true;
+                    }
                 }
             });
 
@@ -385,6 +393,13 @@ App.Pages.Booking = (function () {
 
             if (providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
                 $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
+            }
+
+            // Restore previous provider selection if they can serve the new service
+            if (previousProviderId && previousProviderCanServe) {
+                $selectProvider.val(previousProviderId);
+            } else if (previousProviderId === 'any-provider' && providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
+                $selectProvider.val('any-provider');
             }
 
             App.Pages.Booking.updateConfirmFrame();
