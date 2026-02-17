@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Trimite link de resetare';
 $lang['reset_link_sent_with_email'] = 'Dacă există un cont cu datele furnizate, un link de resetare a parolei a fost trimis la adresa dvs. de email.';
 $lang['provider_has_conflicting_appointment'] = 'Furnizorul selectat are deja o altă programare la acea oră. Vă rugăm să selectați o altă oră sau un alt furnizor.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

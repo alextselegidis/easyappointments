@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'שלח קישור איפוס';
 $lang['reset_link_sent_with_email'] = 'אם קיים חשבון עם הפרטים שסופקו, קישור לאיפוס סיסמה נשלח לאימייל שלך.';
 $lang['provider_has_conflicting_appointment'] = 'לספק שנבחר כבר יש פגישה אחרת באותו זמן. אנא בחר זמן או ספק אחר.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

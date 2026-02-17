@@ -30,6 +30,7 @@ tags:
   - name: settings
   - name: unavailabilities
   - name: webhooks
+  - name: working_plan_exceptions
 paths:
   /availabilities:
     get:
@@ -1942,6 +1943,200 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
+  /working_plan_exceptions:
+    get:
+      tags:
+        - working_plan_exceptions
+      summary: Get all working plan exceptions
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+        - name: providerId
+          in: query
+          description: Filter by provider ID
+          schema:
+            type: integer
+        - name: date
+          in: query
+          description: Filter by exact date (Y-m-d)
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Filter exceptions from this date (Y-m-d)
+          schema:
+            type: string
+        - name: till
+          in: query
+          description: Filter exceptions until this date (Y-m-d)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - working_plan_exceptions
+      summary: Create a working plan exception
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkingPlanExceptionPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /working_plan_exceptions/{workingPlanExceptionId}:
+    get:
+      tags:
+        - working_plan_exceptions
+      summary: Get a working plan exception
+      parameters:
+        - name: workingPlanExceptionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - working_plan_exceptions
+      summary: Update a working plan exception
+      parameters:
+        - name: workingPlanExceptionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkingPlanExceptionPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - working_plan_exceptions
+      summary: Delete a working plan exception
+      parameters:
+        - name: workingPlanExceptionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
 components:
   schemas:
     Availabilities:
@@ -2863,6 +3058,87 @@ components:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
         notes: This is a test blocked period.
+    WorkingPlanExceptionRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        startDate:
+          type: string
+          description: Start date in Y-m-d format
+        endDate:
+          type: string
+          description: End date in Y-m-d format
+        startTime:
+          type: string
+          description: Daily start time (HH:MM format), null for day off
+          nullable: true
+        endTime:
+          type: string
+          description: Daily end time (HH:MM format), null for day off
+          nullable: true
+        breaks:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+              end:
+                type: string
+        providerId:
+          type: integer
+      example:
+        id: 1
+        startDate: '2025-01-15'
+        endDate: '2025-01-20'
+        startTime: '09:00'
+        endTime: '17:00'
+        breaks:
+          - start: '12:00'
+            end: '13:00'
+        providerId: 1
+    WorkingPlanExceptionPayload:
+      type: object
+      required:
+        - startDate
+        - endDate
+        - providerId
+      properties:
+        startDate:
+          type: string
+          description: Start date in Y-m-d format
+        endDate:
+          type: string
+          description: End date in Y-m-d format
+        startTime:
+          type: string
+          description: Daily start time (HH:MM format), null for day off
+          nullable: true
+        endTime:
+          type: string
+          description: Daily end time (HH:MM format), null for day off
+          nullable: true
+        breaks:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+              end:
+                type: string
+        providerId:
+          type: integer
+      example:
+        startDate: '2025-01-15'
+        endDate: '2025-01-20'
+        startTime: '09:00'
+        endTime: '17:00'
+        breaks:
+          - start: '12:00'
+            end: '13:00'
+        providerId: 1
     ErrorResponse:
       type: object
       properties:

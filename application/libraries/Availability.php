@@ -40,6 +40,7 @@ class Availability
         $this->CI->load->model('settings_model');
         $this->CI->load->model('unavailabilities_model');
         $this->CI->load->model('blocked_periods_model');
+        $this->CI->load->model('working_plan_exceptions_model');
 
         $this->CI->load->library('ics_file');
     }
@@ -108,7 +109,7 @@ class Availability
 
         $working_plan = json_decode($provider['settings']['working_plan'], true);
 
-        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], true);
+        $working_plan_exceptions = $this->CI->working_plan_exceptions_model->get_by_provider($provider['id']);
 
         $working_day = strtolower(date('l', strtotime($date)));
 
@@ -335,12 +336,8 @@ class Availability
         // Get the service, provider's working plan and provider appointments.
         $working_plan = json_decode($provider['settings']['working_plan'], true);
 
-        // Get the provider's working plan exceptions.
-        $working_plan_exceptions_json = $provider['settings']['working_plan_exceptions'];
-
-        $working_plan_exceptions = $working_plan_exceptions_json
-            ? json_decode($provider['settings']['working_plan_exceptions'], true)
-            : [];
+        // Get the provider's working plan exceptions from the new table.
+        $working_plan_exceptions = $this->CI->working_plan_exceptions_model->get_by_provider($provider['id']);
 
         // Validate and sanitize inputs before building query
         $provider_id = (int) $provider['id'];

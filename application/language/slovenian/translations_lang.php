@@ -534,4 +534,6 @@ $lang['august'] = 'August';
 $lang['to'] = 'to';
 $lang['provider_has_conflicting_appointment'] = 'Izbrani ponudnik ima v tem času že drug termin. Prosimo, izberite drug čas ali ponudnika.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

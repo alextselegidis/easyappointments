@@ -548,4 +548,6 @@ $lang['select_sync_calendar_prompt'] = 'Select the calendar that you want to syn
 $lang['sync_calendar_selected'] = 'Sync calendar has been successfully selected.';
 $lang['provider_has_conflicting_appointment'] = 'ผู้ให้บริการที่เลือกมีนัดหมายอื่นในเวลานั้นแล้ว กรุณาเลือกเวลาหรือผู้ให้บริการอื่น';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

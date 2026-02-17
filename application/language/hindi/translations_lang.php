@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'रीसेट लिंक भेजें';
 $lang['reset_link_sent_with_email'] = 'यदि प्रदान किए गए क्रेडेंशियल्स वाला खाता मौजूद है, तो आपके ईमेल पर पासवर्ड रीसेट लिंक भेजा गया है।';
 $lang['provider_has_conflicting_appointment'] = 'चयनित प्रदाता के पास उस समय पहले से एक अन्य अपॉइंटमेंट है। कृपया कोई अन्य समय या प्रदाता चुनें।';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

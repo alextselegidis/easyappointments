@@ -146,22 +146,13 @@ App.Http.Calendar = (function () {
      *
      * @return {*|jQuery}
      */
-    function saveWorkingPlanException(
-        date,
-        workingPlanException,
-        providerId,
-        successCallback,
-        errorCallback,
-        originalDate,
-    ) {
+    function saveWorkingPlanException(workingPlanException, providerId, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/save_working_plan_exception');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            date: date,
             working_plan_exception: workingPlanException,
             provider_id: providerId,
-            original_date: originalDate,
         };
 
         return $.post(url, data)
@@ -180,19 +171,19 @@ App.Http.Calendar = (function () {
     /**
      * Delete working plan exception
      *
-     * @param {String} date
+     * @param {Number} exceptionId
      * @param {Number} providerId
      * @param {Function} [successCallback]
      * @param {Function} [errorCallback]
      *
      * @return {*|jQuery}
      */
-    function deleteWorkingPlanException(date, providerId, successCallback, errorCallback) {
+    function deleteWorkingPlanException(exceptionId, providerId, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/delete_working_plan_exception');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            date: date,
+            exception_id: exceptionId,
             provider_id: providerId,
         };
 

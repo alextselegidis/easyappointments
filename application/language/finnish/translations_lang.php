@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Lähetä palautuslinkki';
 $lang['reset_link_sent_with_email'] = 'Jos annetuilla tunnuksilla on tili, salasanan palautuslinkki on lähetetty sähköpostiisi.';
 $lang['provider_has_conflicting_appointment'] = 'Valitulla palveluntarjoajalla on jo toinen varaus kyseiselle ajalle. Valitse toinen aika tai palveluntarjoaja.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

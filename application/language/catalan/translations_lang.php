@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Envia l\'enllaç de restabliment';
 $lang['reset_link_sent_with_email'] = 'Si existeix un compte amb les credencials proporcionades, s\'ha enviat un enllaç de restabliment de contrasenya al vostre correu electrònic.';
 $lang['provider_has_conflicting_appointment'] = 'El proveïdor seleccionat ja té una altra cita en aquest horari. Si us plau, seleccioneu un altre horari o proveïdor.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

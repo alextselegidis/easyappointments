@@ -64,6 +64,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         return Math.max(height, 700);
     }
+
     /**
      * Get the selected filter type from the dropdown.
      *
@@ -72,6 +73,7 @@ App.Utils.CalendarDefaultView = (function () {
     function getSelectedFilterType() {
         return $selectFilterItem.find('option:selected').attr('type');
     }
+
     /**
      * Check if the selected filter is a provider.
      *
@@ -80,6 +82,7 @@ App.Utils.CalendarDefaultView = (function () {
     function isProviderFilter() {
         return getSelectedFilterType() === FILTER_TYPE_PROVIDER;
     }
+
     /**
      * Find a provider by ID from available providers.
      *
@@ -89,6 +92,7 @@ App.Utils.CalendarDefaultView = (function () {
     function findProvider(providerId) {
         return vars('available_providers').find((provider) => Number(provider.id) === Number(providerId));
     }
+
     /**
      * Find a service by ID from available services.
      *
@@ -98,6 +102,7 @@ App.Utils.CalendarDefaultView = (function () {
     function findService(serviceId) {
         return vars('available_services').find((service) => Number(service.id) === Number(serviceId));
     }
+
     /**
      * Close the current popover if open.
      */
@@ -107,6 +112,7 @@ App.Utils.CalendarDefaultView = (function () {
             $popoverTarget = null;
         }
     }
+
     /**
      * Check if the event is an unavailability.
      *
@@ -116,6 +122,7 @@ App.Utils.CalendarDefaultView = (function () {
     function isUnavailability(eventData) {
         return Boolean(Number(eventData?.is_unavailability));
     }
+
     /**
      * Check if the event is a working plan exception.
      *
@@ -179,6 +186,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         $appointmentsModal.modal('show');
     }
+
     /**
      * Populate the unavailabilities modal with data.
      *
@@ -220,41 +228,43 @@ App.Utils.CalendarDefaultView = (function () {
             }
         }
     }
+
     /**
      * Handle editing a working plan exception.
      *
      * @param {Object} data - Working plan exception data.
      */
     function handleEditWorkingPlanException(data) {
-        const {date: originalDate, workingPlanException, provider} = data;
+        const {workingPlanException, provider} = data;
 
-        App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
-            (date, updatedException) => {
-                const successCallback = () => {
-                    App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
+        App.Components.WorkingPlanExceptionsModal.edit(workingPlanException).done((updatedException) => {
+            const successCallback = (response) => {
+                App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
 
-                    const exceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                // Update the in-memory provider data
+                let exceptions = JSON.parse(provider.settings.working_plan_exceptions || '[]');
+                if (!Array.isArray(exceptions)) {
+                    exceptions = [];
+                }
 
-                    exceptions[date] = updatedException;
-
-                    if (date !== originalDate) {
-                        delete exceptions[originalDate];
+                // Find and update the exception, or add if new
+                const existingIndex = exceptions.findIndex((e) => e.id === updatedException.id);
+                if (existingIndex >= 0) {
+                    exceptions[existingIndex] = updatedException;
+                } else {
+                    if (response && response.id) {
+                        updatedException.id = response.id;
                     }
+                    exceptions.push(updatedException);
+                }
+                provider.settings.working_plan_exceptions = JSON.stringify(exceptions);
 
-                    updateProviderWorkingPlanExceptions(provider.id, exceptions);
-                    $reloadAppointments.trigger('click');
-                };
-                App.Http.Calendar.saveWorkingPlanException(
-                    date,
-                    updatedException,
-                    provider.id,
-                    successCallback,
-                    null,
-                    originalDate,
-                );
-            },
-        );
+                $reloadAppointments.trigger('click');
+            };
+            App.Http.Calendar.saveWorkingPlanException(updatedException, provider.id, successCallback, null);
+        });
     }
+
     /**
      * Handle deleting a working plan exception.
      */
@@ -266,19 +276,28 @@ App.Utils.CalendarDefaultView = (function () {
             throw new Error('Provider could not be found: ' + providerId);
         }
 
-        const date = moment(lastFocusedEventData.start).format('YYYY-MM-DD');
+        const data = lastFocusedEventData.extendedProps.data;
+        const exception = data.workingPlanException;
+
+        if (!exception || !exception.id) {
+            App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
+            $reloadAppointments.trigger('click');
+            return;
+        }
 
         const successCallback = () => {
             App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
 
-            const exceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+            // Update the in-memory provider data by removing the exception
+            let exceptions = JSON.parse(provider.settings.working_plan_exceptions || '[]');
+            if (Array.isArray(exceptions)) {
+                exceptions = exceptions.filter((e) => e.id !== exception.id);
+                provider.settings.working_plan_exceptions = JSON.stringify(exceptions);
+            }
 
-            delete exceptions[date];
-
-            updateProviderWorkingPlanExceptions(providerId, exceptions);
             $reloadAppointments.trigger('click');
         };
-        App.Http.Calendar.deleteWorkingPlanException(date, providerId, successCallback);
+        App.Http.Calendar.deleteWorkingPlanException(exception.id, providerId, successCallback);
     }
 
     // Event Handlers - Popover Actions
@@ -304,6 +323,7 @@ App.Utils.CalendarDefaultView = (function () {
             populateUnavailabilityModal(unavailability);
         }
     }
+
     /**
      * Handle delete popover button click.
      */
@@ -322,6 +342,7 @@ App.Utils.CalendarDefaultView = (function () {
             });
         }
     }
+
     /**
      * Show appointment deletion confirmation dialog.
      *
@@ -466,6 +487,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         showNotifyCustomerDialog(appointment, successCallback, () => info.revert());
     }
+
     /**
      * Handle unavailability resize operation.
      *
@@ -726,6 +748,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         return false;
     }
+
     /**
      * Preselect service and provider based on current filter.
      */
@@ -765,12 +788,14 @@ App.Utils.CalendarDefaultView = (function () {
             }
         }
     }
+
     /**
      * Handle calendar window resize.
      */
     function onWindowResize() {
         fullCalendar.setOption('height', getCalendarHeight());
     }
+
     /**
      * Handle calendar dates change (view render).
      */
@@ -838,6 +863,7 @@ App.Utils.CalendarDefaultView = (function () {
                 $('#loading').css('visibility', '');
             });
     }
+
     /**
      * Create appointment calendar events.
      *
@@ -869,6 +895,7 @@ App.Utils.CalendarDefaultView = (function () {
             };
         });
     }
+
     /**
      * Create unavailability calendar events.
      *
@@ -896,6 +923,7 @@ App.Utils.CalendarDefaultView = (function () {
             };
         });
     }
+
     /**
      * Create blocked period calendar events.
      *
@@ -919,6 +947,7 @@ App.Utils.CalendarDefaultView = (function () {
             display: 'block',
         }));
     }
+
     /**
      * Create working plan related events (exceptions, breaks, non-working periods).
      *
@@ -929,7 +958,33 @@ App.Utils.CalendarDefaultView = (function () {
         const events = [];
         const provider = findProvider(recordId);
         const workingPlan = JSON.parse(provider?.settings?.working_plan || vars('company_working_plan'));
-        const workingPlanExceptions = JSON.parse(provider?.settings?.working_plan_exceptions || '{}');
+        const rawExceptions = JSON.parse(provider?.settings?.working_plan_exceptions || '[]');
+
+        // Convert array format to date-keyed lookup, expanding date ranges
+        const workingPlanExceptions = {};
+        const exceptionsMap = {}; // Maps dates to their original exception object
+
+        if (Array.isArray(rawExceptions)) {
+            rawExceptions.forEach((exception) => {
+                const startDate = moment(exception.startDate);
+                const endDate = moment(exception.endDate);
+
+                while (startDate.isSameOrBefore(endDate)) {
+                    const dateStr = startDate.format('YYYY-MM-DD');
+                    workingPlanExceptions[dateStr] = {
+                        start: exception.startTime,
+                        end: exception.endTime,
+                        breaks: exception.breaks || [],
+                    };
+                    exceptionsMap[dateStr] = exception;
+                    startDate.add(1, 'day');
+                }
+            });
+        } else {
+            // Handle legacy date-keyed format
+            Object.assign(workingPlanExceptions, rawExceptions);
+        }
+
         const firstWeekdayNumber = App.Utils.Date.getWeekdayId(vars('first_weekday'));
         const sortedWorkingPlan = App.Utils.Date.sortWeekDictionary(workingPlan, firstWeekdayNumber);
         const calendarDate = moment(fullCalendar.view.currentStart).clone();
@@ -941,9 +996,17 @@ App.Utils.CalendarDefaultView = (function () {
             const weekdayDate = calendarDate.format('YYYY-MM-DD');
 
             // Apply working plan exception if exists
-            if (workingPlanExceptions[weekdayDate]) {
-                sortedWorkingPlan[weekdayName] = workingPlanExceptions[weekdayDate];
-                events.push(createWorkingPlanExceptionEvent(weekdayDate, workingPlanExceptions[weekdayDate], provider));
+            if (workingPlanExceptions.hasOwnProperty(weekdayDate)) {
+                const exceptionData = workingPlanExceptions[weekdayDate];
+                sortedWorkingPlan[weekdayName] = exceptionData;
+                const originalException = exceptionsMap[weekdayDate] || {
+                    startDate: weekdayDate,
+                    endDate: weekdayDate,
+                    startTime: exceptionData?.start || null,
+                    endTime: exceptionData?.end || null,
+                    breaks: exceptionData?.breaks || [],
+                };
+                events.push(createWorkingPlanExceptionEvent(weekdayDate, exceptionData, provider, originalException));
             }
 
             // Handle non-working days
@@ -961,24 +1024,27 @@ App.Utils.CalendarDefaultView = (function () {
             events.push(...createBreakEvents(calendarDate, dayPlan.breaks));
             calendarDate.add(1, 'day');
         }
+
         return events;
     }
+
     /**
      * Create a working plan exception event.
      *
      * @param {string} date - Date string (YYYY-MM-DD).
-     * @param {Object} exception - Exception data.
+     * @param {Object} exception - Exception data (start, end, breaks).
      * @param {Object} provider - Provider object.
+     * @param {Object} originalException - Original exception object with date range info.
      * @returns {Object} Calendar event object.
      */
-    function createWorkingPlanExceptionEvent(date, exception, provider) {
+    function createWorkingPlanExceptionEvent(date, exception, provider, originalException) {
         const startTime = exception?.start || '00:00';
         const endTime = exception?.end || '00:00';
 
         return {
             title: lang('working_plan_exception'),
-            start: moment(date + ' ' + startTime, 'YYYY-MM-DD HH:mm', true).toDate(),
-            end: moment(date + ' ' + endTime, 'YYYY-MM-DD HH:mm', true)
+            start: moment(date + ' ' + startTime, 'YYYY-MM-DD HH:mm').toDate(),
+            end: moment(date + ' ' + endTime, 'YYYY-MM-DD HH:mm')
                 .add(1, 'day')
                 .toDate(),
             allDay: true,
@@ -986,9 +1052,12 @@ App.Utils.CalendarDefaultView = (function () {
             editable: false,
             className: 'fc-working-plan-exception fc-custom',
             display: 'block',
-            data: {date, workingPlanException: exception, provider},
+            extendedProps: {
+                data: {workingPlanException: originalException, provider},
+            },
         };
     }
+
     /**
      * Create a non-working day event.
      *
@@ -1007,6 +1076,7 @@ App.Utils.CalendarDefaultView = (function () {
             className: 'fc-unavailability',
         };
     }
+
     /**
      * Create unavailability events for before/after working hours.
      *
@@ -1055,6 +1125,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         return events;
     }
+
     /**
      * Create break period events.
      *
@@ -1157,6 +1228,7 @@ App.Utils.CalendarDefaultView = (function () {
 
         return {columnFormat, timeFormat, slotTimeFormat};
     }
+
     /**
      * Populate the filter dropdown with providers and services.
      */
@@ -1193,6 +1265,7 @@ App.Utils.CalendarDefaultView = (function () {
             }).appendTo($selectFilterItem);
         }
     }
+
     /**
      * Initialize the calendar page.
      */

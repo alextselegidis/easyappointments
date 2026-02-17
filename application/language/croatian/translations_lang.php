@@ -538,4 +538,6 @@ $lang['delete_unavailability'] = 'Delete Unavailability';
 $lang['unavailability_updated'] = 'Unavailability updated successfully.';
 $lang['provider_has_conflicting_appointment'] = 'Odabrani pružatelj usluga već ima drugi termin u to vrijeme. Molimo odaberite drugo vrijeme ili pružatelja.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

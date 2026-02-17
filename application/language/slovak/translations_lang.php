@@ -532,4 +532,6 @@ $lang['reset_link_sent_with_email'] = 'Ak existuje účet s poskytnutými údajm
 $lang['time_format_hint'] = 'Change the time display format (H - Hours, M - Minutes).';
 $lang['provider_has_conflicting_appointment'] = 'Vybraný poskytovateľ už má v danom čase inú schôdzku. Vyberte prosím iný čas alebo poskytovateľa.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

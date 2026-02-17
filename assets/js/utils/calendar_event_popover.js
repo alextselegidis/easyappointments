@@ -224,11 +224,11 @@ App.Utils.CalendarEventPopover = (function () {
      */
     function buildWorkingPlanExceptionPopover(info, displayEdit, displayDelete) {
         const data = info.event.extendedProps.data;
-        const date = data.date;
+        const date = moment(info.event.start).format('YYYY-MM-DD');
         const workingPlanException = data.workingPlanException;
         const provider = data.provider;
-        const startTime = workingPlanException?.start;
-        const endTime = workingPlanException?.end;
+        const startTime = workingPlanException?.startTime;
+        const endTime = workingPlanException?.endTime;
 
         const formatTimeOrDash = function (time) {
             if (!time) {
@@ -236,6 +236,7 @@ App.Utils.CalendarEventPopover = (function () {
             }
             return App.Utils.Date.format(date + ' ' + time, vars('date_format'), vars('time_format'), true);
         };
+
         return $('<div/>', {
             html: [
                 ...createPopoverRow('provider', provider.first_name + ' ' + provider.last_name),

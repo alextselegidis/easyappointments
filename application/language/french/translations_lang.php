@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Envoyer le lien de réinitialisation';
 $lang['reset_link_sent_with_email'] = 'Si un compte existe avec les identifiants fournis, un lien de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.';
 $lang['provider_has_conflicting_appointment'] = 'Le prestataire sélectionné a déjà un autre rendez-vous à ce moment-là. Veuillez sélectionner une autre heure ou un autre prestataire.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

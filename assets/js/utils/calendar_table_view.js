@@ -268,35 +268,40 @@ App.Utils.CalendarTableView = (function () {
      * @param {Object} data - Working plan exception data.
      */
     function handleEditWorkingPlanException(data) {
-        const originalDate = data.date;
         const workingPlanException = data.workingPlanException;
         const provider = data.provider;
 
-        App.Components.WorkingPlanExceptionsModal.edit(originalDate, workingPlanException).done(
-            (date, updatedException) => {
-                const successCallback = () => {
-                    App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
+        App.Components.WorkingPlanExceptionsModal.edit(workingPlanException).done((updatedException) => {
+            const successCallback = (response) => {
+                App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
 
-                    const exceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+                // Update the in-memory provider data
+                let exceptions = JSON.parse(provider.settings.working_plan_exceptions || '[]');
+                if (!Array.isArray(exceptions)) {
+                    exceptions = [];
+                }
 
-                    exceptions[date] = updatedException;
-                    if (date !== originalDate) {
-                        delete exceptions[originalDate];
+                // Find and update the exception, or add if new
+                const existingIndex = exceptions.findIndex((e) => e.id === updatedException.id);
+                if (existingIndex >= 0) {
+                    exceptions[existingIndex] = updatedException;
+                } else {
+                    if (response && response.id) {
+                        updatedException.id = response.id;
                     }
+                    exceptions.push(updatedException);
+                }
+                provider.settings.working_plan_exceptions = JSON.stringify(exceptions);
 
-                    updateProviderWorkingPlanExceptions(provider.id, exceptions);
-                    $reloadAppointments.trigger('click');
-                };
-                App.Http.Calendar.saveWorkingPlanException(
-                    date,
-                    updatedException,
-                    provider.id,
-                    successCallback,
-                    null,
-                    originalDate,
-                );
-            },
-        );
+                $reloadAppointments.trigger('click');
+            };
+            App.Http.Calendar.saveWorkingPlanException(
+                updatedException,
+                provider.id,
+                successCallback,
+                null,
+            );
+        });
     }
 
     /**
@@ -305,20 +310,32 @@ App.Utils.CalendarTableView = (function () {
      * @param {Object} eventData - Event data containing provider info.
      */
     function handleDeleteWorkingPlanException(eventData) {
-        const date = moment(lastFocusedEventData.start).format('YYYY-MM-DD');
         const providerId = eventData.id;
+        const data = lastFocusedEventData.extendedProps.data;
+        const exception = data.workingPlanException;
+        const provider = data.provider;
+
+        if (!exception || !exception.id) {
+            App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
+            $reloadAppointments.trigger('click');
+            return;
+        }
 
         const successCallback = () => {
             App.Layouts.Backend.displayNotification(lang('working_plan_exception_deleted'));
 
-            const exceptions = JSON.parse(eventData.settings.working_plan_exceptions) || {};
+            // Update the in-memory provider data by removing the exception
+            if (provider) {
+                let exceptions = JSON.parse(provider.settings.working_plan_exceptions || '[]');
+                if (Array.isArray(exceptions)) {
+                    exceptions = exceptions.filter((e) => e.id !== exception.id);
+                    provider.settings.working_plan_exceptions = JSON.stringify(exceptions);
+                }
+            }
 
-            delete exceptions[date];
-
-            updateProviderWorkingPlanExceptions(providerId, exceptions);
             $reloadAppointments.trigger('click');
         };
-        App.Http.Calendar.deleteWorkingPlanException(date, providerId, successCallback);
+        App.Http.Calendar.deleteWorkingPlanException(exception.id, providerId, successCallback);
     }
 
     /**
@@ -910,7 +927,32 @@ App.Utils.CalendarTableView = (function () {
     function createNonWorkingHours($calendar, provider) {
         const workingPlan = JSON.parse(provider.settings.working_plan);
 
-        const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
+        const rawExceptions = JSON.parse(provider.settings.working_plan_exceptions) || [];
+
+        // Convert array format to date-keyed lookup, expanding date ranges
+        const workingPlanExceptions = {};
+        const exceptionsMap = {}; // Maps dates to their original exception object
+
+        if (Array.isArray(rawExceptions)) {
+            rawExceptions.forEach((exception) => {
+                const startDate = moment(exception.startDate);
+                const endDate = moment(exception.endDate);
+
+                while (startDate.isSameOrBefore(endDate)) {
+                    const dateStr = startDate.format('YYYY-MM-DD');
+                    workingPlanExceptions[dateStr] = {
+                        start: exception.startTime,
+                        end: exception.endTime,
+                        breaks: exception.breaks || [],
+                    };
+                    exceptionsMap[dateStr] = exception;
+                    startDate.add(1, 'day');
+                }
+            });
+        } else {
+            // Handle legacy date-keyed format
+            Object.assign(workingPlanExceptions, rawExceptions);
+        }
 
         const view = $calendar.data('fullCalendar').view;
 
@@ -926,12 +968,22 @@ App.Utils.CalendarTableView = (function () {
 
         // Apply working plan exception if exists
 
-        if (workingPlanExceptions[selDayDate]) {
-            workingPlan[selDayName] = workingPlanExceptions[selDayDate];
+        if (workingPlanExceptions.hasOwnProperty(selDayDate)) {
+            const exceptionData = workingPlanExceptions[selDayDate];
+            workingPlan[selDayName] = exceptionData;
+            const originalException = exceptionsMap[selDayDate] || {
+                startDate: selDayDate,
+                endDate: selDayDate,
+                startTime: exceptionData?.start || null,
+                endTime: exceptionData?.end || null,
+                breaks: exceptionData?.breaks || [],
+            };
+            const startTime = exceptionData?.start || '00:00';
+            const endTime = exceptionData?.end || '00:00';
             calendarEventSource.push({
                 title: lang('working_plan_exception'),
-                start: moment(selDayDate + ' ' + workingPlan[selDayName].start, 'YYYY-MM-DD HH:mm', true).toDate(),
-                end: moment(selDayDate + ' ' + workingPlan[selDayName].end, 'YYYY-MM-DD HH:mm', true)
+                start: moment(selDayDate + ' ' + startTime, 'YYYY-MM-DD HH:mm', true).toDate(),
+                end: moment(selDayDate + ' ' + endTime, 'YYYY-MM-DD HH:mm', true)
                     .add(1, 'day')
                     .toDate(),
                 allDay: true,
@@ -939,10 +991,11 @@ App.Utils.CalendarTableView = (function () {
                 display: 'block',
                 editable: false,
                 className: 'fc-working-plan-exception fc-custom',
-                data: {
-                    date: selDayDate,
-                    workingPlanException: workingPlanExceptions[selDayDate],
-                    provider: provider,
+                extendedProps: {
+                    data: {
+                        workingPlanException: originalException,
+                        provider: provider,
+                    },
                 },
             });
         }

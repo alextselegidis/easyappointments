@@ -533,4 +533,6 @@ $lang['page_not_found_message'] = 'Unfortunately the page you requested does not
 $lang['google_analytics_code_hint'] = 'Add your Google Analytics Code to enable Google Analytics tracking on the booking pages.';
 $lang['provider_has_conflicting_appointment'] = 'Seçilen sağlayıcının o saatte zaten başka bir randevusu var. Lütfen farklı bir saat veya sağlayıcı seçin.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

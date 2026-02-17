@@ -26,6 +26,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add validation when saving the working plan (#1758)
 - Login / Backend button on the disabled booking page message screen  (#1777)
 - Add CAPTCHA support for all the public forms in order to block abusive requests (#1754)
+- Allow users to define working plan exceptions for multiple dates (#1706)
 
 ### Changed
 

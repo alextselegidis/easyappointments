@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Αποστολή συνδέσμου επαναφορ
 $lang['reset_link_sent_with_email'] = 'Εάν υπάρχει λογαριασμός με τα παρεχόμενα στοιχεία, ένας σύνδεσμος επαναφοράς κωδικού έχει σταλεί στο email σας.';
 $lang['provider_has_conflicting_appointment'] = 'Ο επιλεγμένος πάροχος έχει ήδη άλλο ραντεβού εκείνη την ώρα. Παρακαλώ επιλέξτε διαφορετική ώρα ή πάροχο.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

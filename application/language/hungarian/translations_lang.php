@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Visszaállító link küldése';
 $lang['reset_link_sent_with_email'] = 'Ha létezik fiók a megadott adatokkal, a jelszó-visszaállító link elküldésre került az e-mail címére.';
 $lang['provider_has_conflicting_appointment'] = 'A kiválasztott szolgáltatónak már van másik időpontja abban az időben. Kérjük, válasszon másik időpontot vagy szolgáltatót.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

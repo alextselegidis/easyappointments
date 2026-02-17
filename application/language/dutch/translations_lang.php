@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Stuur resetlink';
 $lang['reset_link_sent_with_email'] = 'Als er een account bestaat met de opgegeven gegevens, is er een link voor het opnieuw instellen van het wachtwoord naar uw e-mail gestuurd.';
 $lang['provider_has_conflicting_appointment'] = 'De geselecteerde aanbieder heeft al een andere afspraak op dat tijdstip. Selecteer een andere tijd of aanbieder.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'リセットリンクを送信';
 $lang['reset_link_sent_with_email'] = '提供された認証情報でアカウントが存在する場合、パスワードリセットリンクがメールに送信されました。';
 $lang['provider_has_conflicting_appointment'] = '選択されたプロバイダーはその時間に既に別の予約があります。別の時間またはプロバイダーを選択してください。';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

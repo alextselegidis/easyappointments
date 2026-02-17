@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'إرسال رابط إعادة التعيين';
 $lang['reset_link_sent_with_email'] = 'إذا كان هناك حساب بالبيانات المقدمة، فقد تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.';
 $lang['provider_has_conflicting_appointment'] = 'مقدم الخدمة المختار لديه موعد آخر في ذلك الوقت. يرجى اختيار وقت أو مقدم خدمة مختلف.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

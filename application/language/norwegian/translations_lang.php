@@ -534,4 +534,6 @@ $lang['appointment'] = 'Avtale';
 $lang['username'] = 'Brukernavn';
 $lang['provider_has_conflicting_appointment'] = 'Den valgte leverandøren har allerede en annen avtale på det tidspunktet. Vennligst velg et annet tidspunkt eller leverandør.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

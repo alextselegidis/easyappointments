@@ -568,7 +568,7 @@ class Calendar extends EA_Controller
     }
 
     /**
-     * Insert of update working plan exceptions to database.
+     * Insert or update working plan exceptions to database.
      */
     public function save_working_plan_exception(): void
     {
@@ -579,31 +579,18 @@ class Calendar extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
-            check('date', 'date');
-            check('original_date', 'date|null');
-            check('working_plan_exception', 'array|null');
+            check('working_plan_exception', 'array');
             check('provider_id', 'numeric');
-
-            $date = request('date');
-
-            $original_date = request('original_date');
 
             $working_plan_exception = request('working_plan_exception');
 
-            if (!$working_plan_exception) {
-                $working_plan_exception = null;
-            }
-
             $provider_id = request('provider_id');
 
-            $this->providers_model->save_working_plan_exception($provider_id, $date, $working_plan_exception);
-
-            if ($original_date && $date !== $original_date) {
-                $this->providers_model->delete_working_plan_exception($provider_id, $original_date);
-            }
+            $exception_id = $this->providers_model->save_working_plan_exception($provider_id, $working_plan_exception);
 
             json_response([
                 'success' => true,
+                'id' => $exception_id,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -611,7 +598,7 @@ class Calendar extends EA_Controller
     }
 
     /**
-     * Delete a working plan exceptions time period to database.
+     * Delete a working plan exception from database.
      */
     public function delete_working_plan_exception(): void
     {
@@ -622,14 +609,15 @@ class Calendar extends EA_Controller
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
-            check('date', 'date');
+            check('exception_id', 'numeric');
             check('provider_id', 'numeric');
 
-            $date = request('date');
+            $exception_id = request('exception_id');
 
             $provider_id = request('provider_id');
 
-            $this->providers_model->delete_working_plan_exception($provider_id, $date);
+            $this->load->model('working_plan_exceptions_model');
+            $this->working_plan_exceptions_model->delete($exception_id);
 
             json_response([
                 'success' => true,

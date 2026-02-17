@@ -6,9 +6,19 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-3">
-                    <label class="form-label" for="working-plan-exceptions-date"><?= lang('date') ?></label>
-                    <input class="form-control" id="working-plan-exceptions-date">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="working-plan-exceptions-start-date"><?= lang('start_date') ?></label>
+                            <input class="form-control" id="working-plan-exceptions-start-date">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="working-plan-exceptions-end-date"><?= lang('end_date') ?></label>
+                            <input class="form-control" id="working-plan-exceptions-end-date">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-check form-switch mb-3">
@@ -21,15 +31,15 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="working-plan-exceptions-start"><?= lang('start') ?></label>
-                            <input class="form-control" id="working-plan-exceptions-start">
+                            <label class="form-label" for="working-plan-exceptions-start-time"><?= lang('start') ?></label>
+                            <input class="form-control" id="working-plan-exceptions-start-time">
                         </div>
                     </div>
 
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="working-plan-exceptions-end"><?= lang('end') ?></label>
-                            <input class="form-control" id="working-plan-exceptions-end">
+                            <label class="form-label" for="working-plan-exceptions-end-time"><?= lang('end') ?></label>
+                            <input class="form-control" id="working-plan-exceptions-end-time">
                         </div>
                     </div>
                 </div>

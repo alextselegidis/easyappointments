@@ -531,4 +531,6 @@ $lang['send_reset_link'] = '发送重置链接';
 $lang['reset_link_sent_with_email'] = '如果存在与所提供凭据匹配的帐户，密码重置链接已发送到您的电子邮件。';
 $lang['provider_has_conflicting_appointment'] = '所选服务提供者在该时间已有其他预约。请选择其他时间或服务提供者。';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

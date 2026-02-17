@@ -532,4 +532,6 @@ $lang['reset_link_sent_with_email'] = 'Wann e Kont mat de gegebenen Donnéeën e
 $lang['working_plans_got_updated'] = 'All the working plans got updated.';
 $lang['provider_has_conflicting_appointment'] = 'De gewielten Ubidder huet schonn en aneren Rendez-vous zu där Zäit. Wielt w.e.g. eng aner Zäit oder en aneren Ubidder.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

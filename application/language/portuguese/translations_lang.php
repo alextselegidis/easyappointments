@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Enviar link de redefinição';
 $lang['reset_link_sent_with_email'] = 'Se existir uma conta com as credenciais fornecidas, foi enviado um link de redefinição de palavra-passe para o seu email.';
 $lang['provider_has_conflicting_appointment'] = 'O prestador selecionado já tem outra marcação nesse horário. Por favor, selecione um horário ou prestador diferente.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

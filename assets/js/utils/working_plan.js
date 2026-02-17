@@ -193,18 +193,32 @@ App.Utils.WorkingPlan = (function () {
         }
 
         /**
-         * Setup the dom elements of a given working plan exception.
+         * Setup the dom elements of a given working plan exceptions array.
          *
-         * @param {Object} workingPlanExceptions Contains the working plan exception.
+         * @param {Array} workingPlanExceptions Array of working plan exception objects.
          */
         setupWorkingPlanExceptions(workingPlanExceptions) {
-            for (const date in workingPlanExceptions) {
-                const workingPlanException = workingPlanExceptions[date];
+            if (!Array.isArray(workingPlanExceptions)) {
+                // Handle legacy format (date-keyed object) by converting to array
+                const exceptions = [];
+                for (const date in workingPlanExceptions) {
+                    const exception = workingPlanExceptions[date];
+                    exceptions.push({
+                        startDate: date,
+                        endDate: date,
+                        startTime: exception?.start || null,
+                        endTime: exception?.end || null,
+                        breaks: exception?.breaks || [],
+                    });
+                }
+                workingPlanExceptions = exceptions;
+            }
 
-                this.renderWorkingPlanExceptionRow(date, workingPlanException).appendTo(
+            workingPlanExceptions.forEach((workingPlanException) => {
+                this.renderWorkingPlanExceptionRow(workingPlanException).appendTo(
                     '.working-plan-exceptions tbody',
                 );
-            }
+            });
         }
 
         /**
@@ -298,32 +312,42 @@ App.Utils.WorkingPlan = (function () {
          *
          * This method makes editable the break time cells.
          *
-         * @param {String} date In "Y-m-d" format.
-         * @param {Object} workingPlanException Contains exception information.
+         * @param {Object} workingPlanException Contains exception information (startDate, endDate, startTime, endTime, breaks).
          */
-        renderWorkingPlanExceptionRow(date, workingPlanException) {
+        renderWorkingPlanExceptionRow(workingPlanException) {
             const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
-            const start = workingPlanException?.start;
-            const end = workingPlanException?.end;
+            const startDate = workingPlanException.startDate;
+            const endDate = workingPlanException.endDate;
+            const startTime = workingPlanException.startTime;
+            const endTime = workingPlanException.endTime;
+
+            // Format the date range display
+            let dateDisplay;
+            if (startDate === endDate) {
+                dateDisplay = App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false);
+            } else {
+                dateDisplay = App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false) +
+                    ' - ' +
+                    App.Utils.Date.format(endDate, vars('date_format'), vars('time_format'), false);
+            }
 
             return $('<tr/>', {
                 'data': {
-                    'date': date,
                     'workingPlanException': workingPlanException,
                 },
                 'html': [
                     $('<td/>', {
                         'class': 'working-plan-exception-date',
-                        'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format'), false),
+                        'text': dateDisplay,
                     }),
                     $('<td/>', {
                         'class': 'working-plan-exception--start',
-                        'text': start ? moment(start, 'HH:mm').format(timeFormat).toLowerCase() : '-',
+                        'text': startTime ? moment(startTime, 'HH:mm').format(timeFormat).toLowerCase() : '-',
                     }),
                     $('<td/>', {
                         'class': 'working-plan-exception--end',
-                        'text': end ? moment(end, 'HH:mm').format(timeFormat).toLowerCase() : '-',
+                        'text': endTime ? moment(endTime, 'HH:mm').format(timeFormat).toLowerCase() : '-',
                     }),
                     $('<td/>', {
                         'html': [
@@ -563,23 +587,9 @@ App.Utils.WorkingPlan = (function () {
              * A new row is added on the table and the user can enter the new working plan exception.
              */
             $(document).on('click', '.add-working-plan-exception', () => {
-                App.Components.WorkingPlanExceptionsModal.add().done((date, workingPlanException) => {
-                    let $tr = null;
-
-                    $('.working-plan-exceptions tbody tr').each((index, tr) => {
-                        if (date === $(tr).data('date')) {
-                            $tr = $(tr);
-                            return false;
-                        }
-                    });
-
-                    let $newTr = this.renderWorkingPlanExceptionRow(date, workingPlanException);
-
-                    if ($tr) {
-                        $tr.replaceWith($newTr);
-                    } else {
-                        $newTr.appendTo('.working-plan-exceptions tbody');
-                    }
+                App.Components.WorkingPlanExceptionsModal.add().done((workingPlanException) => {
+                    let $newTr = this.renderWorkingPlanExceptionRow(workingPlanException);
+                    $newTr.appendTo('.working-plan-exceptions tbody');
                 });
             });
 
@@ -592,12 +602,11 @@ App.Utils.WorkingPlan = (function () {
              */
             $(document).on('click', '.edit-working-plan-exception', (event) => {
                 const $tr = $(event.target).closest('tr');
-                const date = $tr.data('date');
                 const workingPlanException = $tr.data('workingPlanException');
 
-                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
-                    (date, workingPlanException) => {
-                        $tr.replaceWith(this.renderWorkingPlanExceptionRow(date, workingPlanException));
+                App.Components.WorkingPlanExceptionsModal.edit(workingPlanException).done(
+                    (updatedWorkingPlanException) => {
+                        $tr.replaceWith(this.renderWorkingPlanExceptionRow(updatedWorkingPlanException));
                     },
                 );
             });
@@ -859,15 +868,17 @@ App.Utils.WorkingPlan = (function () {
         /**
          * Get the working plan exceptions settings.
          *
-         * @return {Object} Returns the working plan exceptions settings object.
+         * @return {Array} Returns an array of working plan exception objects.
          */
         getWorkingPlanExceptions() {
-            const workingPlanExceptions = {};
+            const workingPlanExceptions = [];
 
             $('.working-plan-exceptions tbody tr').each((index, tr) => {
                 const $tr = $(tr);
-                const date = $tr.data('date');
-                workingPlanExceptions[date] = $tr.data('workingPlanException');
+                const workingPlanException = $tr.data('workingPlanException');
+                if (workingPlanException) {
+                    workingPlanExceptions.push(workingPlanException);
+                }
             });
 
             return workingPlanExceptions;

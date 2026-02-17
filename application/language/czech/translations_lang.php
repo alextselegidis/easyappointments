@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Odeslat odkaz pro obnovení';
 $lang['reset_link_sent_with_email'] = 'Pokud existuje účet s poskytnutými údaji, byl na váš e-mail odeslán odkaz pro obnovení hesla.';
 $lang['provider_has_conflicting_appointment'] = 'Vybraný poskytovatel již má v daném čase jinou schůzku. Vyberte prosím jiný čas nebo poskytovatele.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

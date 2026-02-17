@@ -531,4 +531,6 @@ $lang['send_reset_link'] = 'Отправить ссылку для сброса'
 $lang['reset_link_sent_with_email'] = 'Если аккаунт с указанными данными существует, ссылка для сброса пароля была отправлена на вашу электронную почту.';
 $lang['provider_has_conflicting_appointment'] = 'У выбранного поставщика уже есть другая запись на это время. Пожалуйста, выберите другое время или поставщика.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

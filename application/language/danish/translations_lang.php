@@ -533,4 +533,6 @@ $lang['matomo_analytics_url_hint'] = 'Add the URL to your own Matomo installatio
 $lang['integrations_info'] = 'Integrations enable you to make third-party connections with external applications and APIs.';
 $lang['provider_has_conflicting_appointment'] = 'Den valgte udbyder har allerede en anden aftale på det tidspunkt. Vælg venligst et andet tidspunkt eller en anden udbyder.';
 $lang['working_plan_validation_failed'] = 'Invalid working plan configuration found.';
+$lang['start_date'] = 'Start Date';
+$lang['end_date'] = 'End Date';
 // End

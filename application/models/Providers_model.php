@@ -257,6 +257,11 @@ class Providers_model extends EA_Model
 
         unset($settings['id_users'], $settings['password'], $settings['salt']);
 
+        // Get working plan exceptions from the new table in array format
+        $this->load->model('working_plan_exceptions_model');
+        $exceptions = $this->working_plan_exceptions_model->get_all_by_provider($provider_id);
+        $settings['working_plan_exceptions'] = json_encode($exceptions);
+
         return $settings;
     }
 
@@ -337,17 +342,25 @@ class Providers_model extends EA_Model
         }
 
         foreach ($settings as $name => $value) {
-            // Sort working plans exceptions in descending order that they are easier to modify later on.
+            // Working plan exceptions are now stored in a separate table
             if ($name === 'working_plan_exceptions') {
-                $value = json_decode($value, true);
+                $this->load->model('working_plan_exceptions_model');
 
-                if (!$value) {
-                    $value = [];
+                $exceptions = json_decode($value, true);
+
+                if (!$exceptions) {
+                    $exceptions = [];
                 }
 
-                krsort($value);
+                // Delete existing exceptions for this provider
+                $this->db->where('id_users_provider', $provider_id)->delete('working_plan_exceptions');
 
-                $value = json_encode(empty($value) ? new stdClass() : $value);
+                // Insert new exceptions
+                foreach ($exceptions as $exception) {
+                    $this->save_working_plan_exception($provider_id, $exception);
+                }
+
+                continue;
             }
 
             $this->set_setting($provider_id, $name, $value);
@@ -508,34 +521,37 @@ class Providers_model extends EA_Model
      * Save a new or existing working plan exception.
      *
      * @param int $provider_id Provider ID.
-     * @param string $date Working plan exception date (in YYYY-MM-DD format).
-     * @param array|null $working_plan_exception Associative array with the working plan exception data.
+     * @param array $working_plan_exception Associative array with the working plan exception data (startDate, endDate, startTime, endTime, breaks, id).
+     *
+     * @return int Returns the exception ID.
      *
      * @throws Exception
      */
-    public function save_working_plan_exception(
-        int $provider_id,
-        string $date,
-        ?array $working_plan_exception = null,
-    ): void {
+    public function save_working_plan_exception(int $provider_id, array $working_plan_exception): int
+    {
         // Validate the working plan exception data.
+        $start_date = $working_plan_exception['startDate'] ?? null;
+        $end_date = $working_plan_exception['endDate'] ?? $start_date;
+        $start_time = $working_plan_exception['startTime'] ?? null;
+        $end_time = $working_plan_exception['endTime'] ?? null;
+        $breaks = $working_plan_exception['breaks'] ?? [];
+        $id = $working_plan_exception['id'] ?? null;
 
-        if (
-            !empty($working_plan_exception) &&
-            (empty($working_plan_exception['start']) || empty($working_plan_exception['end']))
-        ) {
-            throw new InvalidArgumentException(
-                'Empty start and/or end time provided: ' . json_encode($working_plan_exception),
-            );
+        if (empty($start_date) || empty($end_date)) {
+            throw new InvalidArgumentException('Start date and end date are required for working plan exception.');
         }
 
-        if (!empty($working_plan_exception['start']) && !empty($working_plan_exception['end'])) {
-            $start = date('H:i', strtotime($working_plan_exception['start']));
+        if (strtotime($start_date) > strtotime($end_date)) {
+            throw new InvalidArgumentException('Working plan exception start date must be before or equal to end date.');
+        }
 
-            $end = date('H:i', strtotime($working_plan_exception['end']));
+        // If start_time and end_time are provided, validate them
+        if (!empty($start_time) && !empty($end_time)) {
+            $start = date('H:i', strtotime($start_time));
+            $end = date('H:i', strtotime($end_time));
 
             if ($start > $end) {
-                throw new InvalidArgumentException('Working plan exception start date must be before the end date.');
+                throw new InvalidArgumentException('Working plan exception start time must be before end time.');
             }
         }
 
@@ -549,20 +565,22 @@ class Providers_model extends EA_Model
             throw new InvalidArgumentException('Provider ID was not found in the database: ' . $provider_id);
         }
 
-        $provider = $this->find($provider_id);
+        $this->load->model('working_plan_exceptions_model');
 
-        // Store the working plan exception.
-        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], true);
+        $exception_data = [
+            'start_date' => $start_date,
+            'end_date' => $end_date,
+            'id_users_provider' => $provider_id,
+            'start_time' => !empty($start_time) ? date('H:i', strtotime($start_time)) : null,
+            'end_time' => !empty($end_time) ? date('H:i', strtotime($end_time)) : null,
+            'breaks' => !empty($breaks) ? json_encode($breaks) : null,
+        ];
 
-        if (is_array($working_plan_exception) && !isset($working_plan_exception['breaks'])) {
-            $working_plan_exception['breaks'] = [];
+        if ($id) {
+            $exception_data['id'] = $id;
         }
 
-        $working_plan_exceptions[$date] = $working_plan_exception;
-
-        $provider['settings']['working_plan_exceptions'] = json_encode($working_plan_exceptions);
-
-        $this->update($provider);
+        return $this->working_plan_exceptions_model->save($exception_data);
     }
 
     /**
@@ -601,21 +619,9 @@ class Providers_model extends EA_Model
      */
     public function delete_working_plan_exception(int $provider_id, string $date): void
     {
-        $provider = $this->find($provider_id);
+        $this->load->model('working_plan_exceptions_model');
 
-        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], true);
-
-        if (!array_key_exists($date, $working_plan_exceptions)) {
-            return; // The selected date does not exist in provider's settings.
-        }
-
-        unset($working_plan_exceptions[$date]);
-
-        $provider['settings']['working_plan_exceptions'] = empty($working_plan_exceptions)
-            ? '{}'
-            : json_encode($working_plan_exceptions);
-
-        $this->update($provider);
+        $this->working_plan_exceptions_model->delete_by_provider_and_date($provider_id, $date);
     }
 
     /**

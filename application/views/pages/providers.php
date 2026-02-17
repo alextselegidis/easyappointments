@@ -358,7 +358,7 @@
                     <table class="working-plan-exceptions table table-striped">
                         <thead>
                         <tr>
-                            <th><?= lang('day') ?></th>
+                            <th><?= lang('date') ?></th>
                             <th><?= lang('start') ?></th>
                             <th><?= lang('end') ?></th>
                             <th><?= lang('actions') ?></th>
