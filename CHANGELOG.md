@@ -49,6 +49,10 @@ developers to maintain and readjust their custom modifications on the main proje
 - Improve the CalDAV syncing compatibility with more systems (#1840)
 - Optimize backend query during booking process (#1721)
 
+### Removed
+
+- Remove the patch.php file 
+
 
 
 ## [1.5.2] - 2025-08-26
