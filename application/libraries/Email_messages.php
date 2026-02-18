@@ -96,6 +96,8 @@ class Email_messages
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
+        $privacy_link = site_url('booking?hash=' . $appointment['hash']);
+
         $html = $this->CI->load->view(
             'emails/appointment_saved_email',
             [
@@ -108,6 +110,7 @@ class Email_messages
                 'settings' => $settings,
                 'timezone' => $timezone,
                 'appointment_link' => $appointment_link,
+                'privacy_link' => $privacy_link,
             ],
             true,
         );

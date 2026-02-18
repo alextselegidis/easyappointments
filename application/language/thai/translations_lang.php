@@ -558,4 +558,11 @@ $lang['legal_notice_url_hint'] = 'Enter the URL to your legal notice page.';
 $lang['imprint'] = 'Imprint';
 $lang['imprint_url'] = 'Imprint URL';
 $lang['imprint_url_hint'] = 'Enter the URL to your imprint page.';
+$lang['data_retention'] = 'Data Retention';
+$lang['data_retention_days'] = 'Data Retention Days';
+$lang['data_retention_days_hint'] = 'Set the number of days after which customer data will be automatically deleted. Set to 0 to disable automatic deletion.';
+$lang['manage_privacy'] = 'Manage Privacy';
+$lang['manage_privacy_hint'] = 'Click the link below to view, update or delete your personal information.';
+$lang['personal_information'] = 'Personal Information';
+$lang['personal_information_updated'] = 'Your personal information has been updated successfully.';
 // End

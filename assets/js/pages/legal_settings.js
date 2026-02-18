@@ -24,6 +24,7 @@ App.Pages.LegalSettings = (function () {
     const $privacyPolicyContent = $('#privacy-policy-content');
     const $legalNoticeUrl = $('#legal-notice-url');
     const $imprintUrl = $('#imprint-url');
+    const $dataRetentionDays = $('#data-retention-days');
 
     /**
      * Check if the form has invalid values.
@@ -91,6 +92,10 @@ App.Pages.LegalSettings = (function () {
             if (legalSetting.name === 'imprint_url') {
                 $imprintUrl.val(legalSetting.value);
             }
+
+            if (legalSetting.name === 'data_retention_days') {
+                $dataRetentionDays.val(legalSetting.value);
+            }
         });
     }
 
@@ -135,6 +140,11 @@ App.Pages.LegalSettings = (function () {
         legalSettings.push({
             name: 'imprint_url',
             value: $imprintUrl.val(),
+        });
+
+        legalSettings.push({
+            name: 'data_retention_days',
+            value: $dataRetentionDays.val() || '0',
         });
 
         return legalSettings;

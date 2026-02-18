@@ -29,6 +29,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Allow users to define working plan exceptions for multiple dates (#1706)
 - Allow customers to save their information in local storage (#1696)
 - Add a legal notice and imprint links to the booking page and the legal settings page (#1407)
+- Implementation of additional GDPR features in Easy!Appointments (#535)
+
 
 ### Changed
 

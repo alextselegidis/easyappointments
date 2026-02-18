@@ -11,6 +11,7 @@
  * @var array $settings
  * @var array $timezone
  * @var string $appointment_link
+ * @var string $privacy_link
  */
 ?>
 
@@ -628,6 +629,13 @@
                                 |
                                 <a href="<?= e($settings['company_link']) ?>" style="text-decoration: none;">
                                     <?= e($settings['company_name']) ?>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="content-block" style="padding-top: 10px;">
+                                <a href="<?= e($privacy_link) ?>" style="text-decoration: none; color: #999999; font-size: 12px;">
+                                    <?= lang('manage_privacy') ?>
                                 </a>
                             </td>
                         </tr>
