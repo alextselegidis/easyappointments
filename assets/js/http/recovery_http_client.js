@@ -21,10 +21,11 @@ App.Http.Recovery = (function () {
      * @param {String} username
      * @param {String} email
      * @param {String} captcha
+     * @param {String} altchaPayload
      *
      * @return {Object}
      */
-    function perform(username, email, captcha) {
+    function perform(username, email, captcha, altchaPayload) {
         const url = App.Utils.Url.siteUrl('recovery/perform');
 
         const data = {
@@ -35,6 +36,10 @@ App.Http.Recovery = (function () {
 
         if (captcha) {
             data.captcha = captcha;
+        }
+        
+        if (altchaPayload) {
+            data.altcha_payload = altchaPayload;
         }
 
         return $.post(url, data);

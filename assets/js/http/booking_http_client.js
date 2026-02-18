@@ -156,13 +156,26 @@ App.Http.Booking = (function () {
      */
     function registerAppointment() {
         const $captchaText = $('.captcha-text');
+        const $altchaPayload = $('#altcha-payload');
+        const $altchaHint = $('#altcha-hint');
 
+        // Validate CAPTCHA or ALTCHA
         if ($captchaText.length > 0) {
             $captchaText.removeClass('is-invalid');
             if ($captchaText.val() === '') {
                 $captchaText.addClass('is-invalid');
                 return;
             }
+        }
+        
+        if ($altchaPayload.length > 0 && $altchaPayload.val() === '') {
+            $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
+            
+            setTimeout(() => {
+                $altchaHint.fadeTo(400, 0);
+            }, 3000);
+            
+            return;
         }
 
         const formData = JSON.parse($('input[name="post_data"]').val());
@@ -174,6 +187,10 @@ App.Http.Booking = (function () {
 
         if ($captchaText.length > 0) {
             data.captcha = $captchaText.val();
+        }
+        
+        if ($altchaPayload.length > 0 && $altchaPayload.val()) {
+            data.altcha_payload = $altchaPayload.val();
         }
 
         if (vars('manage_mode')) {
@@ -212,6 +229,21 @@ App.Http.Booking = (function () {
                     $captchaTitle.find('button').trigger('click');
 
                     $captchaText.addClass('is-invalid');
+
+                    return false;
+                }
+                
+                if (response.altcha_verification === false) {
+                    $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
+
+                    setTimeout(() => {
+                        $altchaHint.fadeTo(400, 0);
+                    }, 3000);
+                    
+                    // Reset ALTCHA widget
+                    if (App.Utils.Altcha) {
+                        App.Utils.Altcha.reset('altcha-widget');
+                    }
 
                     return false;
                 }

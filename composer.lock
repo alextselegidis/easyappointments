@@ -4,8 +4,55 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "57ce6c9809511e04b87884e20a66fe63",
+    "content-hash": "5cd566630490d2eb746e9317f0504b2c",
     "packages": [
+        {
+            "name": "altcha-org/altcha",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/altcha-org/altcha-lib-php.git",
+                "reference": "9e9e70c864a9db960d071c77c778be0c9ff1a4d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/altcha-org/altcha-lib-php/zipball/9e9e70c864a9db960d071c77c778be0c9ff1a4d0",
+                "reference": "9e9e70c864a9db960d071c77c778be0c9ff1a4d0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=8.2"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.72",
+                "phpstan/extension-installer": "^1.4",
+                "phpstan/phpstan": "^2.1",
+                "phpstan/phpstan-phpunit": "^2.0",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AltchaOrg\\Altcha\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Regeci",
+                    "email": "536331+ovx@users.noreply.github.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/altcha-org/altcha-lib-php/issues",
+                "source": "https://github.com/altcha-org/altcha-lib-php/tree/v1.3.1"
+            },
+            "time": "2025-12-13T10:03:53+00:00"
+        },
         {
             "name": "ezyang/htmlpurifier",
             "version": "v4.19.0",
@@ -201,16 +248,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.431.0",
+            "version": "v0.433.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "0a3b9c8feb2ed473eb4e47214edd3211e8c29045"
+                "reference": "feb9c13e54457a6f5e157b7eae78b41566df43b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/0a3b9c8feb2ed473eb4e47214edd3211e8c29045",
-                "reference": "0a3b9c8feb2ed473eb4e47214edd3211e8c29045",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/feb9c13e54457a6f5e157b7eae78b41566df43b5",
+                "reference": "feb9c13e54457a6f5e157b7eae78b41566df43b5",
                 "shasum": ""
             },
             "require": {
@@ -239,9 +286,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.431.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.433.0"
             },
-            "time": "2026-02-02T01:06:19+00:00"
+            "time": "2026-02-16T01:42:26+00:00"
         },
         {
             "name": "google/auth",
@@ -2411,16 +2458,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "12.5.10",
+            "version": "12.5.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "1686e30f6b32d35592f878a7f56fd0421d7d56c5"
+                "reference": "89d94361ae5bc3244e7e769ee65267b2e4976749"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/1686e30f6b32d35592f878a7f56fd0421d7d56c5",
-                "reference": "1686e30f6b32d35592f878a7f56fd0421d7d56c5",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/89d94361ae5bc3244e7e769ee65267b2e4976749",
+                "reference": "89d94361ae5bc3244e7e769ee65267b2e4976749",
                 "shasum": ""
             },
             "require": {
@@ -2489,7 +2536,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.10"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/12.5.13"
             },
             "funding": [
                 {
@@ -2513,7 +2560,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-02-08T07:06:48+00:00"
+            "time": "2026-02-18T08:58:58+00:00"
         },
         {
             "name": "sebastian/cli-parser",

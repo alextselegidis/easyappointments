@@ -54,6 +54,7 @@ class Login extends EA_Controller
             'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name'),
             'require_captcha' => setting('require_captcha'),
+            'altcha_enabled' => setting('altcha_enabled'),
         ]);
 
         $this->load->view('pages/login');
@@ -76,17 +77,35 @@ class Login extends EA_Controller
 
             $require_captcha = (bool) setting('require_captcha');
 
-            $captcha = request('captcha');
+            // Validate CAPTCHA or ALTCHA
+            if ($require_captcha) {
+                $altcha_enabled = setting('altcha_enabled') === '1';
 
-            $captcha_phrase = session('captcha_phrase');
+                if ($altcha_enabled) {
+                    check('altcha_payload', 'string|null');
+                    $altcha_payload = request('altcha_payload');
 
-            if ($require_captcha && strtoupper($captcha_phrase) !== strtoupper($captcha)) {
-                json_response([
-                    'success' => false,
-                    'captcha_verification' => false,
-                ]);
+                    $this->load->library('altcha_client');
 
-                return;
+                    if (!$this->altcha_client->verify($altcha_payload)) {
+                        json_response([
+                            'success' => false,
+                            'altcha_verification' => false,
+                        ]);
+                        return;
+                    }
+                } else {
+                    $captcha = request('captcha');
+                    $captcha_phrase = session('captcha_phrase');
+
+                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                        json_response([
+                            'success' => false,
+                            'captcha_verification' => false,
+                        ]);
+                        return;
+                    }
+                }
             }
 
             $username = request('username');

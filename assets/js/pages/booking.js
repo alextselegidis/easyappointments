@@ -457,6 +457,11 @@ App.Pages.Booking = (function () {
                     return; // Validation failed, do not continue.
                 } else {
                     App.Pages.Booking.updateConfirmFrame();
+                    
+                    // Initialize ALTCHA widget if present
+                    if ($('#altcha-widget').length && App.Utils.Altcha) {
+                        App.Utils.Altcha.initialize('altcha-widget');
+                    }
                 }
             }
 

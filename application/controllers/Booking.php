@@ -447,16 +447,34 @@ class Booking extends EA_Controller
 
             $require_captcha = (bool) setting('require_captcha');
 
-            $captcha_phrase = session('captcha_phrase');
+            // Validate CAPTCHA or ALTCHA
+            if ($require_captcha) {
+                $altcha_enabled = setting('altcha_enabled') === '1';
 
-            // Validate the CAPTCHA string.
+                if ($altcha_enabled) {
+                    // Validate ALTCHA
+                    check('altcha_payload', 'string|null');
+                    $altcha_payload = request('altcha_payload');
 
-            if ($require_captcha && strtoupper($captcha_phrase) !== strtoupper($captcha)) {
-                json_response([
-                    'captcha_verification' => false,
-                ]);
+                    $this->load->library('altcha_client');
 
-                return;
+                    if (!$this->altcha_client->verify($altcha_payload)) {
+                        json_response([
+                            'altcha_verification' => false,
+                        ]);
+                        return;
+                    }
+                } else {
+                    // Validate traditional CAPTCHA
+                    $captcha_phrase = session('captcha_phrase');
+
+                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                        json_response([
+                            'captcha_verification' => false,
+                        ]);
+                        return;
+                    }
+                }
             }
 
             if ($this->customers_model->exists($customer)) {

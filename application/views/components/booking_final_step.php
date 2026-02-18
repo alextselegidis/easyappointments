@@ -24,21 +24,31 @@
         </div>
 
         <?php if (setting('require_captcha')): ?>
-            <div class="row frame-content m-auto">
-                <div class="col">
-                    <label class="captcha-title float-start my-2 mb-2 me-md-4" for="captcha-text">
-                        CAPTCHA
-                        <button class="btn btn-link text-dark text-decoration-none py-0">
-                            <i class="fas fa-sync-alt"></i>
-                        </button>
-                    </label>
-                    <img class="captcha-image float-start float-md-end mb-4 rounded" src="<?= site_url(
-                        'captcha',
-                    ) ?>" alt="CAPTCHA">
-                    <input id="captcha-text" class="captcha-text form-control w-100 mb-4" type="text" value=""/>
-                    <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
+            <?php if (setting('altcha_enabled') === '1'): ?>
+                <div class="row frame-content m-auto">
+                    <div class="col">
+                        <div id="altcha-widget" class="altcha-widget mb-2"></div>
+                        <input type="hidden" id="altcha-payload" value="">
+                        <span id="altcha-hint" class="help-block text-danger small" style="opacity:0">&nbsp;</span>
+                    </div>
                 </div>
-            </div>
+            <?php else: ?>
+                <div class="row frame-content m-auto">
+                    <div class="col">
+                        <label class="captcha-title float-start my-2 mb-2 me-md-4" for="captcha-text">
+                            CAPTCHA
+                            <button class="btn btn-link text-dark text-decoration-none py-0">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </label>
+                        <img class="captcha-image float-start float-md-end mb-4 rounded" src="<?= site_url(
+                            'captcha',
+                        ) ?>" alt="CAPTCHA">
+                        <input id="captcha-text" class="captcha-text form-control w-100 mb-4" type="text" value=""/>
+                        <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
+                    </div>
+                </div>
+            <?php endif; ?>
         <?php endif; ?>
 
     </div>

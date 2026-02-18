@@ -35,6 +35,7 @@
         "ext-gd": "*",
         "ext-simplexml": "*",
         "ext-fileinfo": "*",
+        "altcha-org/altcha": "^1.0",
         "ezyang/htmlpurifier": "^4.19",
         "google/apiclient": "^2.18.4",
         "gregwar/captcha": "^1.3.0",

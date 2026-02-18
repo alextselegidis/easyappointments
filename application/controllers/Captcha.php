@@ -48,4 +48,29 @@ class Captcha extends EA_Controller
         header('Content-type: image/jpeg');
         $captcha_builder->output();
     }
+
+    /**
+     * Generate an ALTCHA challenge.
+     */
+    public function altcha_challenge(): void
+    {
+        try {
+            method('get');
+
+            $this->load->library('altcha_client');
+
+            if (!$this->altcha_client->is_enabled()) {
+                json_response([
+                    'error' => 'ALTCHA is not enabled',
+                ], 400);
+                return;
+            }
+
+            $challenge = $this->altcha_client->create_challenge();
+
+            json_response($challenge);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
 }

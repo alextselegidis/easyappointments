@@ -10,42 +10,46 @@
  * ---------------------------------------------------------------------------- */
 
 /**
- * Login HTTP client.
+ * ALTCHA Settings HTTP client.
  *
- * This module implements the account login related HTTP requests.
+ * This module implements the ALTCHA settings related HTTP requests.
  */
-App.Http.Login = (function () {
+App.Http.AltchaSettings = (function () {
     /**
-     * Perform an account recovery.
+     * Save ALTCHA settings.
      *
-     * @param {String} username
-     * @param {String} password
-     * @param {String} captcha
-     * @param {String} altchaPayload
+     * @param {Array} altchaSettings
      *
      * @return {Object}
      */
-    function validate(username, password, captcha, altchaPayload) {
-        const url = App.Utils.Url.siteUrl('login/validate');
+    function save(altchaSettings) {
+        const url = App.Utils.Url.siteUrl('altcha_settings/save');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            username,
-            password,
+            altcha_settings: altchaSettings,
         };
 
-        if (captcha) {
-            data.captcha = captcha;
-        }
-        
-        if (altchaPayload) {
-            data.altcha_payload = altchaPayload;
-        }
+        return $.post(url, data);
+    }
+
+    /**
+     * Generate a new HMAC key.
+     *
+     * @return {Object}
+     */
+    function generateKey() {
+        const url = App.Utils.Url.siteUrl('altcha_settings/generate_key');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+        };
 
         return $.post(url, data);
     }
 
     return {
-        validate,
+        save,
+        generateKey,
     };
 })();

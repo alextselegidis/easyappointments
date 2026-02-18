@@ -88,6 +88,9 @@
 <script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<?php if (setting('altcha_enabled') === '1'): ?>
+<script src="<?= asset_url('assets/js/utils/altcha.js') ?>"></script>
+<?php endif; ?>
 <script src="<?= asset_url('assets/js/layouts/booking_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/localization_http_client.js') ?>"></script>
 
