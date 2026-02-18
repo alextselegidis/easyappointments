@@ -168,10 +168,114 @@ class Console extends EA_Controller
      */
     public function cleanup(): void
     {
+        // Clean up old session files
+        $this->cleanup_sessions();
+
+        // Clean up old log files
+        $this->cleanup_logs();
+
+        // Clean up cache files
+        $this->cleanup_cache();
+
+        // Clean up customer data based on retention policy
+        $this->cleanup_customer_data();
+    }
+
+    /**
+     * Clean up expired session files.
+     */
+    private function cleanup_sessions(): void
+    {
+        $session_path = APPPATH . '../storage/sessions';
+        $session_expiration = config_item('sess_expiration') ?: 7200;
+
+        if (!is_dir($session_path)) {
+            response(PHP_EOL . '⇾ Session directory not found.' . PHP_EOL);
+            return;
+        }
+
+        $deleted_count = 0;
+        $now = time();
+
+        foreach (glob($session_path . '/ci_session*') as $file) {
+            if (is_file($file) && ($now - filemtime($file)) > $session_expiration) {
+                if (unlink($file)) {
+                    $deleted_count++;
+                }
+            }
+        }
+
+        response(PHP_EOL . "⇾ Session cleanup completed. Deleted {$deleted_count} expired session file(s)." . PHP_EOL);
+    }
+
+    /**
+     * Clean up old log files (older than 30 days).
+     */
+    private function cleanup_logs(): void
+    {
+        $log_path = APPPATH . '../storage/logs';
+        $max_age_days = 30;
+
+        if (!is_dir($log_path)) {
+            response('⇾ Log directory not found.' . PHP_EOL);
+            return;
+        }
+
+        $deleted_count = 0;
+        $cutoff_time = time() - ($max_age_days * 86400);
+
+        foreach (glob($log_path . '/log-*.php') as $file) {
+            if (is_file($file) && filemtime($file) < $cutoff_time) {
+                if (unlink($file)) {
+                    $deleted_count++;
+                }
+            }
+        }
+
+        response("⇾ Log cleanup completed. Deleted {$deleted_count} old log file(s)." . PHP_EOL);
+    }
+
+    /**
+     * Clean up old cache files (older than 7 days).
+     */
+    private function cleanup_cache(): void
+    {
+        $cache_path = APPPATH . '../storage/cache';
+        $max_age_days = 7;
+
+        if (!is_dir($cache_path)) {
+            response('⇾ Cache directory not found.' . PHP_EOL);
+            return;
+        }
+
+        $deleted_count = 0;
+        $cutoff_time = time() - ($max_age_days * 86400);
+
+        $files = glob($cache_path . '/*');
+
+        foreach ($files as $file) {
+            // Skip index.html and .gitkeep files
+            if (is_file($file) && !in_array(basename($file), ['index.html', '.gitkeep'])) {
+                if (filemtime($file) < $cutoff_time) {
+                    if (unlink($file)) {
+                        $deleted_count++;
+                    }
+                }
+            }
+        }
+
+        response("⇾ Cache cleanup completed. Deleted {$deleted_count} old cache file(s)." . PHP_EOL);
+    }
+
+    /**
+     * Clean up customer data based on retention policy.
+     */
+    private function cleanup_customer_data(): void
+    {
         $data_retention_days = (int) setting('data_retention_days');
 
         if ($data_retention_days <= 0) {
-            response(PHP_EOL . '⇾ Data retention is disabled (set to 0 days).' . PHP_EOL . PHP_EOL);
+            response('⇾ Data retention is disabled (set to 0 days).' . PHP_EOL . PHP_EOL);
             return;
         }
 
@@ -235,7 +339,7 @@ class Console extends EA_Controller
             '⇾ php index.php console install',
             '⇾ php index.php console backup',
             '⇾ php index.php console sync',
-            '⇾ php index.php console cleanup',
+            '⇾ php index.php console cleanup    (cleans sessions, logs, cache, and customer data)',
             '',
             '',
         ];
