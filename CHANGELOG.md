@@ -38,6 +38,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Change the main CRUD layout and navigation structure (list first)
 - Replace the availabilities type with the new slot interval field
 - Keep the provider option selected in the booking page if possible (#1672)
+- Improve setting language by GET parameter (#1620)
 
 ### Fixed
 
