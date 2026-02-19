@@ -54,7 +54,6 @@ function archive(done) {
     fs.copySync('storage/uploads/index.html', 'build/storage/uploads/index.html');
 
     fs.copySync('index.php', 'build/index.php');
-    fs.copySync('patch.php', 'build/patch.php');
     fs.copySync('composer.json', 'build/composer.json');
     fs.copySync('composer.lock', 'build/composer.lock');
     fs.copySync('config-sample.php', 'build/config-sample.php');
