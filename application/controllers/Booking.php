@@ -357,9 +357,11 @@ class Booking extends EA_Controller
                 $customer['notes'] = '';
             }
 
-            // Remove guests from customer, handle in appointment only
-            if (!array_key_exists('guests', $appointment)) {
+            // Normalize guests on appointment: default when missing/invalid and clamp to minimum 1
+            if (!array_key_exists('guests', $appointment) || $appointment['guests'] === null || !is_numeric($appointment['guests'])) {
                 $appointment['guests'] = 2; // Default value for guests.
+            } else {
+                $appointment['guests'] = max(1, (int) $appointment['guests']);
             }
 
             if (!array_key_exists('phone_number', $customer)) {
