@@ -4,9 +4,32 @@ services:
     working_dir: /var/www/html
     extra_hosts:
       - host.docker.internal:host-gateway
+    environment:
+      - BASE_URL=${BASE_URL:-http://localhost}
+      - LANGUAGE=${LANGUAGE:-english}
+      - DEBUG_MODE=${DEBUG_MODE:-true}
+      - DB_HOST=${DB_HOST:-mysql}
+      - DB_NAME=${DB_NAME:-easyappointments}
+      - DB_USERNAME=${DB_USERNAME:-user}
+      - DB_PASSWORD=${DB_PASSWORD:-password}
+      - GOOGLE_SYNC_FEATURE=${GOOGLE_SYNC_FEATURE:-false}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
+      - MAIL_PROTOCOL=smtp
+      - MAIL_MAILTYPE=${MAIL_MAILTYPE:-html}
+      - MAIL_SMTP_HOST=${MAIL_SMTP_HOST:-mailpit}
+      - MAIL_SMTP_USER=${MAIL_SMTP_USER:-}
+      - MAIL_SMTP_PASS=${MAIL_SMTP_PASS:-}
+      - MAIL_SMTP_PORT=${MAIL_SMTP_PORT:-1025}
+      - MAIL_SMTP_CRYPTO=${MAIL_SMTP_CRYPTO:-}
+      - MAIL_SMTP_AUTH=${MAIL_SMTP_AUTH:-false}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-no-reply@example.com}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-"Easy Appointments"}
+      - MAIL_REPLY_TO=${MAIL_REPLY_TO:-}
     volumes:
       - '.:/var/www/html'
       - './docker/php-fpm/php-ini-overrides.ini:/usr/local/etc/php/conf.d/99-overrides.ini'
+    command: sh -c "php docker/php-fpm/generate-config.php && php-fpm"
 
   nginx:
     image: 'nginx:1.23.3-alpine'
@@ -22,10 +45,10 @@ services:
     volumes:
       - './docker/mysql:/var/lib/mysql'
     environment:
-      - MYSQL_ROOT_PASSWORD=secret
-      - MYSQL_DATABASE=easyappointments
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-secret}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-easyappointments}
+      - MYSQL_USER=${MYSQL_USER:-user}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}
     ports:
       - '3306:3306'
 
@@ -73,15 +96,15 @@ services:
       - ./docker/openldap/slapd/database:/var/lib/ldap
       - ./docker/openldap/slapd/config:/etc/ldap/slapd.d
     environment:
-      - LDAP_ORGANISATION=example
-      - LDAP_DOMAIN=example.org
-      - LDAP_ADMIN_USERNAME=admin
-      - LDAP_ADMIN_PASSWORD=admin
-      - LDAP_CONFIG_PASSWORD=config_pass
-      - "LDAP_BASE_DN=dc=example,dc=org"
-      - LDAP_READONLY_USER=true
-      - LDAP_READONLY_USER_USERNAME=user
-      - LDAP_READONLY_USER_PASSWORD=password
+      - LDAP_ORGANISATION=${LDAP_ORGANISATION:-example}
+      - LDAP_DOMAIN=${LDAP_DOMAIN:-example.org}
+      - LDAP_ADMIN_USERNAME=${LDAP_ADMIN_USERNAME:-admin}
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD:-admin}
+      - LDAP_CONFIG_PASSWORD=${LDAP_CONFIG_PASSWORD:-config_pass}
+      - "LDAP_BASE_DN=${LDAP_BASE_DN:-dc=example,dc=org}"
+      - LDAP_READONLY_USER=${LDAP_READONLY_USER:-true}
+      - LDAP_READONLY_USER_USERNAME=${LDAP_READONLY_USER_USERNAME:-user}
+      - LDAP_READONLY_USER_PASSWORD=${LDAP_READONLY_USER_PASSWORD:-password}
 
   phpldapadmin:
     image: osixia/phpldapadmin:0.9.0
@@ -89,8 +112,8 @@ services:
     ports:
       - "8200:80"
     environment:
-      - PHPLDAPADMIN_LDAP_HOSTS=openldap
-      - PHPLDAPADMIN_HTTPS=false
+      - PHPLDAPADMIN_LDAP_HOSTS=${PHPLDAPADMIN_LDAP_HOSTS:-openldap}
+      - PHPLDAPADMIN_HTTPS=${PHPLDAPADMIN_HTTPS:-false}
     depends_on:
       - openldap
 

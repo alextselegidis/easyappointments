@@ -31,3 +31,6 @@
 /vendor/
 /metafile
 .DS_Store
+*.env
+*.env.*
+!.env.example
