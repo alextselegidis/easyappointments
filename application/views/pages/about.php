@@ -48,7 +48,8 @@
                         <?php foreach (vars('blog_posts') as $post): ?>
                             <li class="list-group-item d-flex justify-content-between align-items-start">
                                 <div class="me-auto">
-                                    <a href="<?= e($post['link']) ?>" target="_blank" class="text-decoration-none">
+                                    <a href="<?= e($post['link']) ?>" 
+                                       target="_blank" class="text-decoration-none small">
                                         <?= e($post['title']) ?>
                                         <i class="fas fa-external-link-alt ms-1 small"></i>
                                     </a>
