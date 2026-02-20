@@ -148,7 +148,7 @@
                                 <span class="text-danger">*</span>
                             <?php endif; ?>
                         </label>
-                        <input type="number" id="guests" min="2" max="99" value="2"
+                        <input type="number" id="guests" min="1" max="99" value="1"
                                class="<?= $require_guests ? 'required' : '' ?> form-control" />
                     </div>
                 <?php endif; ?>
