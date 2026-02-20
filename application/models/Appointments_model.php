@@ -638,7 +638,13 @@ class Appointments_model extends EA_Model
         }
 
         if (array_key_exists('guests', $appointment)) {
-            $decoded_request['guests'] = $appointment['guests'];
+            $guests = (int) $appointment['guests'];
+
+            if ($guests < 1) {
+                $guests = 1;
+            }
+
+            $decoded_request['guests'] = $guests;
         }
 
         if (array_key_exists('googleCalendarId', $appointment)) {
