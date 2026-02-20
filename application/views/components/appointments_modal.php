@@ -187,10 +187,12 @@
                                 <div class="mb-3">
                                     <label for="guests" class="form-label">
                                         <?= lang('guests') ?>
-                                        <span class="text-danger">*</span>
+                                        <?php if ($require_guests): ?>
+                                            <span class="text-danger">*</span>
+                                        <?php endif; ?>
                                     </label>
                                     <input id="guests" type="number" min="1"
-                                        class="required form-control" />
+                                        class="<?= $require_guests ? 'required ' : '' ?>form-control" />
                                 </div>
 
                                 <div class="mb-3">
