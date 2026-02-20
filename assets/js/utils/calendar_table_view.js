@@ -236,6 +236,18 @@ App.Utils.CalendarTableView = (function () {
                 $appointmentsModal.find('#appointment-location').val(appointment.location);
                 $appointmentsModal.find('#appointment-status').val(appointment.status);
                 $appointmentsModal.find('#appointment-notes').val(appointment.notes);
+                // Ensure guests is a valid integer >= 1
+                let guestsValue = 1;
+                if (
+                    typeof appointment.guests !== 'undefined' &&
+                    appointment.guests !== null &&
+                    appointment.guests !== '' &&
+                    !isNaN(appointment.guests) &&
+                    Number(appointment.guests) >= 1
+                ) {
+                    guestsValue = parseInt(appointment.guests, 10);
+                }
+                $appointmentsModal.find('#guests').val(guestsValue);
                 $appointmentsModal.find('#customer-notes').val(customer.notes);
                 $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
                 $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
@@ -901,6 +913,10 @@ App.Utils.CalendarTableView = (function () {
                 title.push(customerInfo.join(' '));
             }
 
+            if (appointment.guests) {
+                title.push(appointment.guests);
+            }
+
             calendarEvents.push({
                 id: appointment.id,
                 title: title.join(' - '),
@@ -1101,6 +1117,23 @@ App.Utils.CalendarTableView = (function () {
         let $html;
         let displayEdit;
         let displayDelete;
+        let guests = info.event.extendedProps?.data?.guests;
+        // Helper to render guests row
+        function renderGuestsRow() {
+            if (typeof guests !== 'undefined' && guests !== null) {
+                return [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('guests'),
+                    }),
+                    $('<span/>', {
+                        'text': guests,
+                    }),
+                    $('<br/>'),
+                ];
+            }
+            return [];
+        }
 
         // Depending on where the user clicked the event (title or empty space) we need to use different selectors to
         // reach the parent element.
@@ -1169,6 +1202,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+                    ...renderGuestsRow(),
 
                     App.Utils.CalendarEventPopover.renderCustomContent(info),
 
@@ -1443,6 +1477,7 @@ App.Utils.CalendarTableView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+                    ...renderGuestsRow(),
 
                     App.Utils.CalendarEventPopover.renderCustomContent(info),
 

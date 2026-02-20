@@ -13,6 +13,7 @@
  * @var array $require_city
  * @var array $require_zip_code
  * @var array $require_notes
+ * @var array $require_guests
  */
 ?>
 <div id="appointments-modal" class="modal fade">
@@ -78,8 +79,8 @@
                                             foreach ($grouped_services as $key => $group) {
                                                 $group_label =
                                                     $key !== 'uncategorized'
-                                                        ? e($group[0]['category_name'])
-                                                        : 'Uncategorized';
+                                                    ? e($group[0]['category_name'])
+                                                    : 'Uncategorized';
 
                                                 if (count($group) > 0) {
                                                     echo '<optgroup label="' . $group_label . '">';
@@ -148,7 +149,7 @@
                             <div class="col-12 col-sm-6">
                                 <div class="mb-3">
                                     <label for="start-datetime"
-                                           class="form-label"><?= lang('start_date_time') ?></label>
+                                        class="form-label"><?= lang('start_date_time') ?></label>
                                     <input id="start-datetime" class="required form-control">
                                 </div>
 
@@ -184,6 +185,15 @@
                                 </div>
 
                                 <div class="mb-3">
+                                    <label for="guests" class="form-label">
+                                        <?= lang('guests') ?>
+                                        <span class="text-danger">*</span>
+                                    </label>
+                                    <input id="guests" type="number" min="1"
+                                        class="required form-control" />
+                                </div>
+
+                                <div class="mb-3">
                                     <label for="appointment-notes" class="form-label">
                                         <?= lang('notes') ?>
                                         <?php if ($require_notes): ?>
@@ -208,21 +218,20 @@
                         <h5 class="text-black-50 mb-3 fw-light">
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
-                                    data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
+                                data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">
                                 <i class="fas fa-plus-square me-2"></i>
                                 <?= lang('new') ?>
                             </button>
                             <button id="select-customer" class="btn btn-outline-secondary btn-sm" type="button"
-                                    data-tippy-content="<?= lang('pick_existing_customer_hint') ?>">
+                                data-tippy-content="<?= lang('pick_existing_customer_hint') ?>">
                                 <i class="fas fa-hand-pointer me-2"></i>
                                 <span>
                                     <?= lang('select') ?>
                                 </span>
                             </button>
 
-                            <input id="filter-existing-customers"
-                                   placeholder="<?= lang('type_to_filter_customers') ?>"
-                                   style="display: none;" class="input-sm form-control">
+                            <input id="filter-existing-customers" placeholder="<?= lang('type_to_filter_customers') ?>"
+                                style="display: none;" class="input-sm form-control">
                         </h5>
 
                         <div id="existing-customers-list" style="display: none;"></div>
@@ -239,8 +248,8 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="first-name"
-                                           class="<?= $require_first_name ? 'required' : '' ?> form-control"
-                                           maxlength="100"/>
+                                        class="<?= $require_first_name ? 'required' : '' ?> form-control"
+                                        maxlength="100" />
                                 </div>
 
                                 <div class="mb-3">
@@ -251,8 +260,8 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="last-name"
-                                           class="<?= $require_last_name ? 'required' : '' ?> form-control"
-                                           maxlength="120"/>
+                                        class="<?= $require_last_name ? 'required' : '' ?> form-control"
+                                        maxlength="120" />
                                 </div>
 
                                 <div class="mb-3">
@@ -263,8 +272,7 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="email"
-                                           class="<?= $require_email ? 'required' : '' ?> form-control"
-                                           maxlength="120"/>
+                                        class="<?= $require_email ? 'required' : '' ?> form-control" maxlength="120" />
                                 </div>
 
                                 <div class="mb-3">
@@ -275,7 +283,7 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="phone-number" maxlength="60"
-                                           class="<?= $require_phone_number ? 'required' : '' ?> form-control"/>
+                                        class="<?= $require_phone_number ? 'required' : '' ?> form-control" />
                                 </div>
 
                                 <div class="mb-3">
@@ -305,8 +313,8 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="address"
-                                           class="<?= $require_address ? 'required' : '' ?> form-control"
-                                           maxlength="120"/>
+                                        class="<?= $require_address ? 'required' : '' ?> form-control"
+                                        maxlength="120" />
                                 </div>
 
                                 <div class="mb-3">
@@ -317,8 +325,7 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="city"
-                                           class="<?= $require_city ? 'required' : '' ?> form-control"
-                                           maxlength="120"/>
+                                        class="<?= $require_city ? 'required' : '' ?> form-control" maxlength="120" />
                                 </div>
 
                                 <div class="mb-3">
@@ -329,8 +336,8 @@
                                         <?php endif; ?>
                                     </label>
                                     <input type="text" id="zip-code"
-                                           class="<?= $require_zip_code ? 'required' : '' ?> form-control"
-                                           maxlength="120"/>
+                                        class="<?= $require_zip_code ? 'required' : '' ?> form-control"
+                                        maxlength="120" />
                                 </div>
 
                                 <div class="mb-3">

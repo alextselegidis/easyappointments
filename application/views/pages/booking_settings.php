@@ -243,6 +243,30 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group mb-3">
+                                    <label for="guests" class="form-label">
+                                        <?= lang('guests') ?>
+                                            <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="number" id="guests" class="form-control mb-2" readonly/>
+                                        <div class="d-flex">
+                                            <div class="form-check form-switch me-4">
+                                            <input class="form-check-input display-switch" type="checkbox" id="display-guests"
+                                                data-field="display_guests">
+                                            <label class="form-check-label" for="display-guests">
+                                                <?= lang('display') ?>
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input require-switch" type="checkbox" id="require-guests"
+                                                    data-field="require_guests">
+                                                <label class="form-check-label" for="require-guests">
+                                                    <?= lang('require') ?>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

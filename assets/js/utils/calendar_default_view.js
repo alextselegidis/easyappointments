@@ -48,6 +48,8 @@ App.Utils.CalendarDefaultView = (function () {
         $reloadAppointments.on('click', () => {
             const calendarView = fullCalendar.view;
 
+            scrollCalendarToNow();
+
             if ($popoverTarget) {
                 $popoverTarget.popover('dispose');
             }
@@ -150,6 +152,18 @@ App.Utils.CalendarDefaultView = (function () {
 
                 const customer = appointment.customer;
                 $appointmentsModal.find('#customer-id').val(appointment.id_users_customer);
+                // Ensure guests is a valid integer >= 1
+                let guestsValue = 1;
+                if (
+                    typeof appointment.guests !== 'undefined' &&
+                    appointment.guests !== null &&
+                    appointment.guests !== '' &&
+                    !isNaN(appointment.guests) &&
+                    Number(appointment.guests) >= 1
+                ) {
+                    guestsValue = parseInt(appointment.guests, 10);
+                }
+                $appointmentsModal.find('#guests').val(guestsValue);
                 $appointmentsModal.find('#first-name').val(customer.first_name);
                 $appointmentsModal.find('#last-name').val(customer.last_name);
                 $appointmentsModal.find('#email').val(customer.email);
@@ -337,6 +351,30 @@ App.Utils.CalendarDefaultView = (function () {
     }
 
     /**
+     * Scroll the calendar to slightly above current time.
+     * @param {number} scrollOffsetMinutes Minutes of space to leave above "now" (default 30).
+     */
+    function scrollCalendarToNow(scrollOffsetMinutes = 30) {
+        try {
+            const now = moment();
+            let scrollTarget = now.clone().subtract(scrollOffsetMinutes, 'minutes');
+            const dayStart = moment().startOf('day');
+            if (scrollTarget.isBefore(dayStart)) {
+                scrollTarget = dayStart;
+            }
+
+            if (
+                (fullCalendar.view.type === 'timeGridDay' || fullCalendar.view.type === 'timeGridWeek') &&
+                typeof fullCalendar.scrollToTime === 'function'
+            ) {
+                fullCalendar.scrollToTime(scrollTarget.format('HH:mm:ss'));
+            }
+        } catch (e) {
+            // Fail silently if scrolling isn't supported in this FullCalendar version.
+        }
+    }
+
+    /**
      * Get the event notes for the popup widget.
      *
      * @param {Event} event
@@ -369,9 +407,27 @@ App.Utils.CalendarDefaultView = (function () {
         let $html;
         let displayEdit;
         let displayDelete;
+        let guests = info.event.extendedProps?.data?.guests;
 
         // Depending on where the user clicked the event (title or empty space) we
         // need to use different selectors to reach the parent element.
+
+        // Helper to render guests row
+        function renderGuestsRow() {
+            if (typeof guests !== 'undefined' && guests !== null) {
+                return [
+                    $('<strong/>', {
+                        'class': 'd-inline-block me-2',
+                        'text': lang('guests'),
+                    }),
+                    $('<span/>', {
+                        'text': guests,
+                    }),
+                    $('<br/>'),
+                ];
+            }
+            return [];
+        }
 
         if ($target.hasClass('fc-unavailability')) {
             displayEdit =
@@ -436,6 +492,7 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+                    ...renderGuestsRow(),
 
                     App.Utils.CalendarEventPopover.renderCustomContent(info),
 
@@ -710,6 +767,7 @@ App.Utils.CalendarDefaultView = (function () {
                         'text': getEventNotes(info.event),
                     }),
                     $('<br/>'),
+                    ...renderGuestsRow(),
 
                     App.Utils.CalendarEventPopover.renderCustomContent(info),
 
@@ -1217,6 +1275,10 @@ App.Utils.CalendarDefaultView = (function () {
                         title.push(customerInfo.join(' '));
                     }
 
+                    if (appointment.guests) {
+                        title.push(appointment.guests);
+                    }
+
                     const appointmentEvent = {
                         id: appointment.id,
                         title: title.join(' - '),
@@ -1526,6 +1588,8 @@ App.Utils.CalendarDefaultView = (function () {
 
         fullCalendar.render();
 
+        // Auto-scroll to current time with a bit of top offset.
+        scrollCalendarToNow();
         $calendar.data('fullCalendar', fullCalendar);
 
         // Trigger once to set the proper footer position after calendar initialization.
@@ -1553,6 +1617,8 @@ App.Utils.CalendarDefaultView = (function () {
                 }),
             }).appendTo('#select-filter-item');
         }
+        // After refreshing events, auto-scroll slightly above current time for timeGrid views.
+        scrollCalendarToNow();
 
         if (vars('available_services').length > 0) {
             $('<optgroup/>', {
@@ -1626,6 +1692,18 @@ App.Utils.CalendarDefaultView = (function () {
             $appointmentsModal.find('#appointment-status').val(appointment.status);
             $appointmentsModal.find('#appointment-notes').val(appointment.notes);
             $appointmentsModal.find('#customer-notes').val(customer.notes);
+            // Ensure guests is a valid integer >= 1
+            let guestsValue = 1;
+            if (
+                typeof appointment.guests !== 'undefined' &&
+                appointment.guests !== null &&
+                appointment.guests !== '' &&
+                !isNaN(appointment.guests) &&
+                Number(appointment.guests) >= 1
+            ) {
+                guestsValue = parseInt(appointment.guests, 10);
+            }
+            $appointmentsModal.find('#guests').val(guestsValue);
             $appointmentsModal.find('#custom-field-1').val(customer.custom_field_1);
             $appointmentsModal.find('#custom-field-2').val(customer.custom_field_2);
             $appointmentsModal.find('#custom-field-3').val(customer.custom_field_3);

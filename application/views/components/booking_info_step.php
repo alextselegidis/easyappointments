@@ -18,6 +18,8 @@
  * @var string $require_zip_code
  * @var string $display_notes
  * @var string $require_notes
+ * @var string $display_guests
+ * @var string $require_guests
  */
 ?>
 
@@ -124,6 +126,7 @@
                                maxlength="120"/>
                     </div>
                 <?php endif; ?>
+
                 <?php if ($display_notes): ?>
                     <div class="mb-3">
                         <label for="notes" class="form-label">
@@ -134,6 +137,19 @@
                         </label>
                         <textarea id="notes" maxlength="500"
                                   class="<?= $require_notes ? 'required' : '' ?> form-control" rows="1"></textarea>
+                    </div>
+                <?php endif; ?>
+
+                <?php if ($display_guests): ?>
+                    <div class="mb-3">
+                        <label for="guests" class="form-label">
+                            <?= lang('guests') ?>
+                            <?php if ($require_guests): ?>
+                                <span class="text-danger">*</span>
+                            <?php endif; ?>
+                        </label>
+                        <input type="number" id="guests" min="2" max="99" value="2"
+                               class="<?= $require_guests ? 'required' : '' ?> form-control" />
                     </div>
                 <?php endif; ?>
 

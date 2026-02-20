@@ -48,6 +48,7 @@ class Booking extends EA_Controller
         'end_datetime',
         'location',
         'notes',
+        'guests',
         'color',
         'status',
         'is_unavailability',
@@ -162,6 +163,8 @@ class Booking extends EA_Controller
         $require_zip_code = setting('require_zip_code');
         $display_notes = setting('display_notes');
         $require_notes = setting('require_notes');
+        $display_guests = setting('display_guests');
+        $require_guests = setting('require_guests');
         $display_cookie_notice = setting('display_cookie_notice');
         $cookie_notice_content = setting('cookie_notice_content');
         $display_terms_and_conditions = setting('display_terms_and_conditions');
@@ -295,6 +298,8 @@ class Booking extends EA_Controller
             'require_zip_code' => $require_zip_code,
             'display_notes' => $display_notes,
             'require_notes' => $require_notes,
+            'display_guests' => $display_guests,
+            'require_guests' => $require_guests,
             'display_cookie_notice' => $display_cookie_notice,
             'cookie_notice_content' => $cookie_notice_content,
             'display_terms_and_conditions' => $display_terms_and_conditions,
@@ -350,6 +355,11 @@ class Booking extends EA_Controller
 
             if (!array_key_exists('notes', $customer)) {
                 $customer['notes'] = '';
+            }
+
+            // Remove guests from customer, handle in appointment only
+            if (!array_key_exists('guests', $appointment)) {
+                $appointment['guests'] = 2; // Default value for guests.
             }
 
             if (!array_key_exists('phone_number', $customer)) {

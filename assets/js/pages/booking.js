@@ -29,6 +29,7 @@ App.Pages.Booking = (function () {
     const $city = $('#city');
     const $zipCode = $('#zip-code');
     const $notes = $('#notes');
+    const $guests = $('#guests');
     const $captchaTitle = $('.captcha-title');
     const $availableHours = $('#available-hours');
     const $bookAppointmentSubmit = $('#book-appointment-submit');
@@ -805,6 +806,7 @@ App.Pages.Booking = (function () {
                 ':00',
             end_datetime: calculateEndDatetime(),
             notes: $notes.val(),
+            guests: Number($guests.val()),
             is_unavailability: false,
             id_users_provider: $selectProvider.val(),
             id_services: $selectService.val(),

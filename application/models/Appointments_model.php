@@ -27,6 +27,7 @@ class Appointments_model extends EA_Model
         'id_users_provider' => 'integer',
         'id_users_customer' => 'integer',
         'id_services' => 'integer',
+        'guests' => 'integer',
     ];
 
     /**
@@ -41,6 +42,7 @@ class Appointments_model extends EA_Model
         'color' => 'color',
         'status' => 'status',
         'notes' => 'notes',
+        'guests' => 'guests',
         'hash' => 'hash',
         'serviceId' => 'id_services',
         'providerId' => 'id_users_provider',
@@ -568,6 +570,7 @@ class Appointments_model extends EA_Model
             'status' => $appointment['status'],
             'location' => $appointment['location'],
             'notes' => $appointment['notes'],
+            'guests' => array_key_exists('guests', $appointment) && $appointment['guests'] !== null ? (int) $appointment['guests'] : null,
             'customerId' => $appointment['id_users_customer'] !== null ? (int) $appointment['id_users_customer'] : null,
             'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
@@ -632,6 +635,10 @@ class Appointments_model extends EA_Model
 
         if (array_key_exists('serviceId', $appointment)) {
             $decoded_request['id_services'] = $appointment['serviceId'];
+        }
+
+        if (array_key_exists('guests', $appointment)) {
+            $decoded_request['guests'] = $appointment['guests'];
         }
 
         if (array_key_exists('googleCalendarId', $appointment)) {

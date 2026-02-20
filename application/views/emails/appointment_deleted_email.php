@@ -15,19 +15,33 @@
 <html lang="en">
 <head>
     <title><?= lang('appointment_cancelled_title') ?> | Easy!Appointments</title>
+    <style>
+        body{ background:#f5f7f8; margin:0; padding:20px; color:#333; }
+        .email-container{ max-width:650px; margin:30px auto; background:#fff; border-radius:8px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,0.06); border:1px solid #eee; font-family: Arial, Helvetica, sans-serif; }
+        .email-header{ height:60px; padding:14px 20px; display:flex; align-items:center; }
+        .email-logo{ color:#fff; font-size:20px; font-weight:700; text-decoration:none; }
+        .email-content{ padding:20px; }
+        h2{ color:#222; font-size:18px; margin:0 0 10px; }
+        .subject-title{ color: #1a73e8; /* accent color for subject */ }
+        p{ line-height:1.45; margin:0 0 12px; }
+        table{ width:100%; border-collapse:collapse; margin-bottom:12px; }
+        td.label{ width:170px; color:#555; font-weight:700; padding:6px 0; vertical-align:top; }
+        td{ padding:6px 0; vertical-align:top; }
+        .email-footer{ padding:12px 20px; text-align:center; border-top:1px solid #eee; background:#fafafa; font-size:13px; color:#777; }
+        .muted{ color:#777; font-size:13px; }
+    </style>
 </head>
-<body style="font: 13px arial, helvetica, tahoma;">
+<body>
 
-<div class="email-container" style="width: 650px; border: 1px solid #eee; margin: 30px auto;">
-    <div id="header"
-         style="background-color: <?= $settings['company_color'] ?? '#429a82' ?>; height: 45px; padding: 10px 15px;">
-        <strong id="logo" style="color: white; font-size: 20px; margin-top: 10px; display: inline-block">
+<div class="email-container">
+    <div id="header" class="email-header" style="background-color: <?= $settings['company_color'] ?? '#429a82' ?>;">
+        <strong id="logo" class="email-logo">
             <?= e($settings['company_name']) ?>
         </strong>
     </div>
 
-    <div id="content" style="padding: 10px 15px; min-height: 400px;">
-        <h2>
+    <div id="content" class="email-content" style="min-height:400px;">
+        <h2 class="subject-title">
             <?= lang('appointment_cancelled_title') ?>
         </h2>
 
@@ -173,8 +187,7 @@
         </p>
     </div>
 
-    <div id="footer" style="padding: 10px; text-align: center; margin-top: 10px;
-                border-top: 1px solid #EEE; background: #FAFAFA;">
+    <div id="footer" class="email-footer">
         Powered by
         <a href="https://easyappointments.org" style="text-decoration: none;">
             Easy!Appointments

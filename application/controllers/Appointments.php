@@ -29,6 +29,7 @@ class Appointments extends EA_Controller
         'end_datetime',
         'location',
         'notes',
+        'guests',
         'color',
         'status',
         'is_unavailability',

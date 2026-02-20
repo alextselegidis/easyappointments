@@ -118,6 +118,7 @@
     'require_city' => vars('require_city'),
     'require_zip_code' => vars('require_zip_code'),
     'require_notes' => vars('require_notes'),
+    'require_guests' => vars('require_guests'),
 ]); ?>
 
 <?php component('unavailabilities_modal', [
