@@ -566,5 +566,5 @@ $lang['personal_information'] = 'Personal Information';
 $lang['personal_information_updated'] = 'Your personal information has been updated successfully.';
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'We offer end-to-end services for self-hosted software, including custom development, managed hosting, support contracts, rebranding, and ongoing enhancements — so you can focus on your business while we handle the rest.';
-$lang['get_premium'] = 'Get Premium';
+$lang['go_premium'] = 'Go Premium';
 // End
