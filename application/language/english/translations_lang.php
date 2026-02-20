@@ -568,4 +568,7 @@ $lang['verification_complete'] = 'Verification complete';
 $lang['verification_failed'] = 'Verification failed. Click to retry.';
 $lang['click_to_verify'] = 'Click to verify you are human';
 $lang['altcha_verification_failed'] = 'ALTCHA verification failed. Please try again.';
+$lang['premium'] = 'Premium';
+$lang['about_app_premium'] = 'Unlock the full potential of Easy!Appointments with our Premium version. Get priority support, advanced features, and exclusive updates to enhance your scheduling experience.';
+$lang['get_premium'] = 'Get Premium';
 // End

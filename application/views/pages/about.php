@@ -67,6 +67,21 @@
         </div>
 
         <h4 class="fw-light text-black-50 mb-3">
+            <?= lang('premium') ?>
+        </h4>
+
+        <p>
+            <?= lang('about_app_premium') ?>
+        </p>
+
+        <div class="mb-5">
+            <a class="btn btn-primary d-block w-100 btn-lg m-auto" href="https://easyappointments.org/premium" target="_blank">
+                <i class="fas fa-crown me-2 text-warning"></i>
+                <?= lang('get_premium') ?>
+            </a>
+        </div>
+
+        <h4 class="fw-light text-black-50 mb-3">
             <?= lang('support') ?>
         </h4>
 
@@ -109,14 +124,6 @@
                 <a class="btn btn-outline-secondary d-block" href="https://x.com/easyappts" target="_blank">
                     <i class="fas fa-external-link-alt me-2"></i>
                     X.com
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org/get-a-free-quote"
-                   target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    Customize E!A
                 </a>
             </div>
         </div>

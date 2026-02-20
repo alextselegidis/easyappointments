@@ -564,4 +564,7 @@ $lang['manage_privacy'] = 'Manage Privacy';
 $lang['manage_privacy_hint'] = 'Click the link below to view, update or delete your personal information.';
 $lang['personal_information'] = 'Personal Information';
 $lang['personal_information_updated'] = 'Your personal information has been updated successfully.';
+$lang['premium'] = 'Premium';
+$lang['about_app_premium'] = 'Unlock the full potential of Easy!Appointments with our Premium version. Get priority support, advanced features, and exclusive updates to enhance your scheduling experience.';
+$lang['get_premium'] = 'Get Premium';
 // End

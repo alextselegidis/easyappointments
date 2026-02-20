@@ -108,6 +108,10 @@
                         <i class="fas fa-info-circle me-2"></i>
                         <?= lang('about') ?>
                     </a>
+                    <a class="dropdown-item text-danger" href="https://easyappointments.org/premium" target="_blank">
+                        <i class="fas fa-crown text-warning me-2"></i>
+                        Premium
+                    </a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?= site_url('booking') ?>" target="_blank">
                         <i class="fas fa-external-link me-2"></i>
