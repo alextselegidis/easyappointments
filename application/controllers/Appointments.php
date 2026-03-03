@@ -192,6 +192,8 @@ class Appointments extends EA_Controller
                 throw new InvalidArgumentException('Invalid appointment ID provided.');
             }
 
+            $this->check_appointment_access((int) $appointment_id);
+
             $appointment = $this->appointments_model->find($appointment_id);
 
             json_response($appointment);
@@ -219,6 +221,10 @@ class Appointments extends EA_Controller
             // Validate decoded appointment is an array
             if (!is_array($appointment)) {
                 throw new InvalidArgumentException('Invalid appointment data provided.');
+            }
+
+            if (!empty($appointment['id'])) {
+                $this->check_appointment_access((int) $appointment['id']);
             }
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
@@ -257,6 +263,8 @@ class Appointments extends EA_Controller
                 throw new InvalidArgumentException('Invalid appointment ID provided.');
             }
 
+            $this->check_appointment_access((int) $appointment_id);
+
             $appointment = $this->appointments_model->find($appointment_id);
 
             $this->appointments_model->delete($appointment_id);
@@ -268,6 +276,28 @@ class Appointments extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Check whether the current user has access to the appointment's provider.
+     */
+    private function check_appointment_access(int $appointment_id): void
+    {
+        $user_id = (int) session('user_id');
+        $role_slug = session('role_slug');
+        $appointment = $this->appointments_model->find($appointment_id);
+        $provider_id = (int) $appointment['id_users_provider'];
+
+        if (
+            $role_slug === DB_SLUG_SECRETARY &&
+            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
+        ) {
+            abort(403, 'Forbidden');
+        }
+
+        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
+            abort(403, 'Forbidden');
         }
     }
 }

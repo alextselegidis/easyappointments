@@ -173,6 +173,8 @@ class Unavailabilities extends EA_Controller
                 throw new InvalidArgumentException('Invalid unavailability ID provided.');
             }
 
+            $this->check_unavailability_access((int) $unavailability_id);
+
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
             json_response($unavailability);
@@ -196,6 +198,10 @@ class Unavailabilities extends EA_Controller
             check('unavailability', 'array');
 
             $unavailability = request('unavailability');
+
+            if (!empty($unavailability['id'])) {
+                $this->check_unavailability_access((int) $unavailability['id']);
+            }
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
@@ -245,6 +251,8 @@ class Unavailabilities extends EA_Controller
                 throw new InvalidArgumentException('Invalid unavailability ID provided.');
             }
 
+            $this->check_unavailability_access((int) $unavailability_id);
+
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
             $this->unavailabilities_model->delete($unavailability_id);
@@ -256,6 +264,28 @@ class Unavailabilities extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Check whether the current user has access to the unavailability's provider.
+     */
+    private function check_unavailability_access(int $unavailability_id): void
+    {
+        $user_id = (int) session('user_id');
+        $role_slug = session('role_slug');
+        $unavailability = $this->unavailabilities_model->find($unavailability_id);
+        $provider_id = (int) $unavailability['id_users_provider'];
+
+        if (
+            $role_slug === DB_SLUG_SECRETARY &&
+            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
+        ) {
+            abort(403, 'Forbidden');
+        }
+
+        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
+            abort(403, 'Forbidden');
         }
     }
 }
