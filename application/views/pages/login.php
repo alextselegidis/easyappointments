@@ -13,14 +13,14 @@
 <hr>
 <div class="alert d-none"></div>
 
-<form id="login-form">
+<form id="login-form" data-autologin="<?= vars('auto_login') ? '1' : '0' ?>">
     <div class="mb-3 mt-5">
         <label for="username" class="form-label">
             <?= lang('username') ?>
         </label>
         <input type="text" id="username" placeholder="<?= lang(
             'enter_username_here',
-        ) ?>" class="form-control" required/>
+        ) ?>" value="<?= html_escape((string) vars('prefill_username', '')) ?>" class="form-control" required/>
     </div>
 
     <div class="mb-5">
@@ -29,7 +29,7 @@
         </label>
         <input type="password" id="password" placeholder="<?= lang(
             'enter_password_here',
-        ) ?>" class="form-control" required/>
+        ) ?>" value="<?= html_escape((string) vars('prefill_password', '')) ?>" class="form-control" required/>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-5">

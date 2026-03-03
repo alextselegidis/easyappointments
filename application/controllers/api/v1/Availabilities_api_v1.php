@@ -26,6 +26,7 @@ class Availabilities_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
 
         $this->api->auth();
 
@@ -70,6 +71,18 @@ class Availabilities_api_v1 extends EA_Controller
             $provider = $this->providers_model->find($provider_id);
 
             $service = $this->services_model->find($service_id);
+
+            if (!$this->tenant_context->belongs_to_current_tenant($provider)) {
+                response('', 404);
+
+                return;
+            }
+
+            if (!$this->tenant_context->belongs_to_current_tenant($service)) {
+                response('', 404);
+
+                return;
+            }
 
             $available_hours = $this->availability->get_available_hours($date, $service, $provider);
 

@@ -347,6 +347,56 @@ class Notifications
         }
     }
 
+    public function notify_appointment_reminder(
+        array $appointment,
+        array $service,
+        array $provider,
+        array $customer,
+        array $settings,
+    ): bool {
+        try {
+            $current_language = config('language');
+
+            $send_customer =
+                !empty($customer['email']) && filter_var(setting('customer_notifications'), FILTER_VALIDATE_BOOLEAN);
+
+            if (!$send_customer) {
+                return false;
+            }
+
+            $customer_link = site_url('booking/reschedule/' . $appointment['hash']);
+            $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
+
+            config(['language' => $customer['language'] ?? 'english']);
+            $this->CI->lang->load('translations');
+
+            $subject = 'Promemoria appuntamento';
+            $message = 'Ti ricordiamo il tuo appuntamento prenotato.';
+
+            $this->CI->email_messages->send_appointment_saved(
+                $appointment,
+                $provider,
+                $service,
+                $customer,
+                $settings,
+                $subject,
+                $message,
+                $customer_link,
+                $customer['email'],
+                $ics_stream,
+                $customer['timezone'] ?? null,
+            );
+
+            return true;
+        } catch (Throwable $e) {
+            $this->log_exception($e, 'appointment-reminder to customer', $appointment['id'] ?? null);
+            return false;
+        } finally {
+            config(['language' => $current_language ?? 'english']);
+            $this->CI->lang->load('translations');
+        }
+    }
+
     private function log_exception(Throwable $e, string $message, ?int $appointment_id): void
     {
         log_message(

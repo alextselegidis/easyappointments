@@ -85,9 +85,22 @@ $route['translate_uri_dashes'] = FALSE;
 |
 */
 
-header('Access-Control-Allow-Origin: ' . ($_SERVER['HTTP_ORIGIN'] ?? '*')); // NOTICE: Change this header to restrict CORS access.
+$request_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
-header('Access-Control-Allow-Credentials: "true"');
+$allowed_origins = [
+    'http://127.0.0.1:8080',
+    'http://127.0.0.1:8081',
+    'http://127.0.0.1:8082',
+    'http://localhost:8080',
+    'http://localhost:8081',
+    'http://localhost:8082',
+];
+
+if (in_array($request_origin, $allowed_origins, true)) {
+    header('Access-Control-Allow-Origin: ' . $request_origin);
+    header('Access-Control-Allow-Credentials: true');
+    header('Vary: Origin');
+}
 
 if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
 {
@@ -97,7 +110,14 @@ if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']))
 
 if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
 {
-    header('Access-Control-Allow-Headers: ' . $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']);
+    $allowed_headers = [
+        'Content-Type',
+        'Authorization',
+        'X-Requested-With',
+        'Stripe-Signature',
+    ];
+
+    header('Access-Control-Allow-Headers: ' . implode(', ', $allowed_headers));
 }
 
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'OPTIONS')
@@ -154,6 +174,53 @@ $route['api/v1/settings/(:any)']['get'] = 'api/v1/settings_api_v1/show/$1';
 $route['api/v1/settings/(:any)']['put'] = 'api/v1/settings_api_v1/update/$1';
 
 $route['api/v1/availabilities']['get'] = 'api/v1/availabilities_api_v1/get';
+
+$route['api/v1/gdpr/customers/(:num)/export']['get'] = 'api/v1/gdpr_api_v1/export/$1';
+
+$route['api/v1/gdpr/customers/(:num)/delete']['post'] = 'api/v1/gdpr_api_v1/delete/$1';
+
+$route['api/v1/payments/stripe-intents']['get'] = 'api/v1/payments_api_v1/stripe_intents';
+
+$route['api/v1/payments/stripe-intents/(:num)']['get'] = 'api/v1/payments_api_v1/stripe_intent/$1';
+
+/*
+| -------------------------------------------------------------------------
+| PUBLIC BOOKING API ROUTING
+| -------------------------------------------------------------------------
+| These routes expose only the minimum public booking surface needed by
+| the standalone customer frontend, without requiring privileged API tokens.
+|
+*/
+
+$route['public-api/services']['get'] = 'public_api/services';
+
+$route['public-api/providers']['get'] = 'public_api/providers';
+
+$route['public-api/availabilities']['get'] = 'public_api/availabilities';
+
+$route['public-api/payment-options']['get'] = 'public_api/payment_options';
+
+$route['public-api/tenant-settings']['get'] = 'public_api/tenant_settings';
+
+$route['public-api/book']['post'] = 'public_api/book';
+
+$route['api/v1/tenant-settings']['get'] = 'public_api/tenant_settings';
+
+/*
+| -------------------------------------------------------------------------
+| STRIPE API ROUTING
+| -------------------------------------------------------------------------
+| Payment intent creation and webhook callback endpoints.
+|
+*/
+
+$route['stripe-api/payment-intent']['post'] = 'stripe_api/create_payment_intent';
+
+$route['stripe-api/payment-intent-status']['post'] = 'stripe_api/payment_intent_status';
+
+$route['stripe-api/connect/onboard']['post'] = 'stripe_api/connect_onboard';
+
+$route['stripe-api/webhook']['post'] = 'stripe_api/webhook';
 
 /*
 | -------------------------------------------------------------------------

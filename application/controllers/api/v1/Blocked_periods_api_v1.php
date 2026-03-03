@@ -26,6 +26,7 @@ class Blocked_periods_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
         $this->load->library('webhooks_client');
 
         $this->api->auth();
@@ -51,7 +52,7 @@ class Blocked_periods_api_v1 extends EA_Controller
 
             $with = $this->api->request_with();
 
-            $where = null;
+            $where = $this->tenant_context->with_tenant_where('blocked_periods');
 
             // Date query param.
 
@@ -79,7 +80,12 @@ class Blocked_periods_api_v1 extends EA_Controller
 
             $blockedperiods = empty($keyword)
                 ? $this->blocked_periods_model->get($where, $limit, $offset, $order_by)
-                : $this->blocked_periods_model->search($keyword, $limit, $offset, $order_by);
+                : array_values(
+                    array_filter(
+                        $this->blocked_periods_model->search($keyword, $limit, $offset, $order_by),
+                        fn($blocked_period) => $this->tenant_context->belongs_to_current_tenant($blocked_period),
+                    ),
+                );
 
             foreach ($blockedperiods as &$blockedperiod) {
                 $this->blocked_periods_model->api_encode($blockedperiod);
@@ -107,7 +113,9 @@ class Blocked_periods_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
-            $occurrences = $this->blocked_periods_model->get(['id' => $id]);
+            $occurrences = $this->blocked_periods_model->get(
+                $this->tenant_context->with_tenant_where('blocked_periods', ['id' => $id]),
+            );
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -147,6 +155,10 @@ class Blocked_periods_api_v1 extends EA_Controller
 
             $this->blocked_periods_model->api_decode($blocked_period);
 
+            if ($this->tenant_context->table_has_tenant_column('blocked_periods')) {
+                $blocked_period['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
+
             if (array_key_exists('id', $blocked_period)) {
                 unset($blocked_period['id']);
             }
@@ -173,7 +185,9 @@ class Blocked_periods_api_v1 extends EA_Controller
     public function update(int $id): void
     {
         try {
-            $occurrences = $this->blocked_periods_model->get(['id' => $id]);
+            $occurrences = $this->blocked_periods_model->get(
+                $this->tenant_context->with_tenant_where('blocked_periods', ['id' => $id]),
+            );
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -186,6 +200,10 @@ class Blocked_periods_api_v1 extends EA_Controller
             $blocked_period = request();
 
             $this->blocked_periods_model->api_decode($blocked_period, $original_blocked_period);
+
+            if ($this->tenant_context->table_has_tenant_column('blocked_periods')) {
+                $blocked_period['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
@@ -209,7 +227,9 @@ class Blocked_periods_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
-            $occurrences = $this->blocked_periods_model->get(['id' => $id]);
+            $occurrences = $this->blocked_periods_model->get(
+                $this->tenant_context->with_tenant_where('blocked_periods', ['id' => $id]),
+            );
 
             if (empty($occurrences)) {
                 response('', 404);

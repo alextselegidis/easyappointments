@@ -806,10 +806,10 @@ class Providers_model extends EA_Model
                     ? (int) $provider['settings']['sync_past_days']
                     : null,
                 'workingPlan' => array_key_exists('working_plan', $provider['settings'])
-                    ? json_decode($provider['settings']['working_plan'], true)
+                    ? json_decode($provider['settings']['working_plan'] ?? 'null', true)
                     : null,
                 'workingPlanExceptions' => array_key_exists('working_plan_exceptions', $provider['settings'])
-                    ? json_decode($provider['settings']['working_plan_exceptions'], true)
+                    ? json_decode($provider['settings']['working_plan_exceptions'] ?? 'null', true)
                     : null,
             ];
         }

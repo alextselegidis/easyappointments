@@ -46,11 +46,26 @@ class Login extends EA_Controller
             return;
         }
 
+            $prefill_username = trim((string) ($_GET['username'] ?? ''));
+        $http_host = (string) ($_SERVER['HTTP_HOST'] ?? '');
+        $is_local_host = str_contains($http_host, '127.0.0.1') || str_contains($http_host, 'localhost');
+
+            $is_demo_mode = (($_GET['demo'] ?? '') === '1') && (ENVIRONMENT !== 'production' || $is_local_host);
+            $prefill_password = $is_demo_mode ? trim((string) ($_GET['password'] ?? '')) : '';
+            $auto_login = $is_demo_mode && (($_GET['autologin'] ?? '') === '1');
+
+        script_vars([
+            'csrf_token' => $this->security->get_csrf_hash(),
+        ]);
+
         html_vars([
             'page_title' => lang('login'),
             'base_url' => config('base_url'),
             'dest_url' => session('dest_url', site_url('calendar')),
             'company_name' => setting('company_name'),
+            'prefill_username' => $prefill_username,
+            'prefill_password' => $prefill_password,
+            'auto_login' => $auto_login,
         ]);
 
         $this->load->view('pages/login');

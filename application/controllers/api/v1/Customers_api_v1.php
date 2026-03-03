@@ -26,6 +26,7 @@ class Customers_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
         $this->load->library('webhooks_client');
 
         $this->api->auth();
@@ -51,9 +52,16 @@ class Customers_api_v1 extends EA_Controller
 
             $with = $this->api->request_with();
 
+            $where = $this->tenant_context->with_tenant_where('users');
+
             $customers = empty($keyword)
-                ? $this->customers_model->get(null, $limit, $offset, $order_by)
-                : $this->customers_model->search($keyword, $limit, $offset, $order_by);
+                ? $this->customers_model->get($where, $limit, $offset, $order_by)
+                : array_values(
+                    array_filter(
+                        $this->customers_model->search($keyword, $limit, $offset, $order_by),
+                        fn($customer) => $this->tenant_context->belongs_to_current_tenant($customer),
+                    ),
+                );
 
             foreach ($customers as &$customer) {
                 $this->customers_model->api_encode($customer);
@@ -81,7 +89,7 @@ class Customers_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
-            $occurrences = $this->customers_model->get(['id' => $id]);
+            $occurrences = $this->customers_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -115,6 +123,10 @@ class Customers_api_v1 extends EA_Controller
 
             $this->customers_model->api_decode($customer);
 
+            if ($this->tenant_context->table_has_tenant_column('users')) {
+                $customer['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
+
             if (array_key_exists('id', $customer)) {
                 unset($customer['id']);
             }
@@ -141,7 +153,7 @@ class Customers_api_v1 extends EA_Controller
     public function update(int $id): void
     {
         try {
-            $occurrences = $this->customers_model->get(['id' => $id]);
+            $occurrences = $this->customers_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -154,6 +166,10 @@ class Customers_api_v1 extends EA_Controller
             $customer = request();
 
             $this->customers_model->api_decode($customer, $original_customer);
+
+            if ($this->tenant_context->table_has_tenant_column('users')) {
+                $customer['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $customer_id = $this->customers_model->save($customer);
 
@@ -177,7 +193,7 @@ class Customers_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
-            $occurrences = $this->customers_model->get(['id' => $id]);
+            $occurrences = $this->customers_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);

@@ -32,6 +32,7 @@ class Appointments_api_v1 extends EA_Controller
         $this->load->model('settings_model');
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
         $this->load->library('webhooks_client');
         $this->load->library('synchronization');
         $this->load->library('notifications');
@@ -62,6 +63,10 @@ class Appointments_api_v1 extends EA_Controller
             $where = null;
 
             // Date query param.
+
+            if ($this->tenant_context->table_has_tenant_column('appointments')) {
+                $where['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $date = request('date');
 
@@ -111,7 +116,12 @@ class Appointments_api_v1 extends EA_Controller
 
             $appointments = empty($keyword)
                 ? $this->appointments_model->get($where, $limit, $offset, $order_by)
-                : $this->appointments_model->search($keyword, $limit, $offset, $order_by);
+                : array_values(
+                    array_filter(
+                        $this->appointments_model->search($keyword, $limit, $offset, $order_by),
+                        fn($appointment) => $this->tenant_context->belongs_to_current_tenant($appointment),
+                    ),
+                );
 
             foreach ($appointments as &$appointment) {
                 $this->appointments_model->api_encode($appointment);
@@ -172,7 +182,9 @@ class Appointments_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
-            $occurrences = $this->appointments_model->get(['id' => $id]);
+            $occurrences = $this->appointments_model->get(
+                $this->tenant_context->with_tenant_where('appointments', ['id' => $id]),
+            );
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -211,6 +223,10 @@ class Appointments_api_v1 extends EA_Controller
             $appointment = request();
 
             $this->appointments_model->api_decode($appointment);
+
+            if ($this->tenant_context->table_has_tenant_column('appointments')) {
+                $appointment['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             if (array_key_exists('id', $appointment)) {
                 unset($appointment['id']);
@@ -284,7 +300,9 @@ class Appointments_api_v1 extends EA_Controller
     public function update(int $id): void
     {
         try {
-            $occurrences = $this->appointments_model->get(['id' => $id]);
+            $occurrences = $this->appointments_model->get(
+                $this->tenant_context->with_tenant_where('appointments', ['id' => $id]),
+            );
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -297,6 +315,10 @@ class Appointments_api_v1 extends EA_Controller
             $appointment = request();
 
             $this->appointments_model->api_decode($appointment, $original_appointment);
+
+            if ($this->tenant_context->table_has_tenant_column('appointments')) {
+                $appointment['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $appointment_id = $this->appointments_model->save($appointment);
 
@@ -320,7 +342,9 @@ class Appointments_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
-            $occurrences = $this->appointments_model->get(['id' => $id]);
+            $occurrences = $this->appointments_model->get(
+                $this->tenant_context->with_tenant_where('appointments', ['id' => $id]),
+            );
 
             if (empty($occurrences)) {
                 response('', 404);

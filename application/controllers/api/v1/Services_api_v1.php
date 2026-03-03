@@ -26,6 +26,7 @@ class Services_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
         $this->load->library('webhooks_client');
 
         $this->api->auth();
@@ -51,9 +52,16 @@ class Services_api_v1 extends EA_Controller
 
             $with = $this->api->request_with();
 
+            $where = $this->tenant_context->with_tenant_where('services');
+
             $services = empty($keyword)
-                ? $this->services_model->get(null, $limit, $offset, $order_by)
-                : $this->services_model->search($keyword, $limit, $offset, $order_by);
+                ? $this->services_model->get($where, $limit, $offset, $order_by)
+                : array_values(
+                    array_filter(
+                        $this->services_model->search($keyword, $limit, $offset, $order_by),
+                        fn($service) => $this->tenant_context->belongs_to_current_tenant($service),
+                    ),
+                );
 
             foreach ($services as &$service) {
                 $this->services_model->api_encode($service);
@@ -81,7 +89,7 @@ class Services_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
-            $occurrences = $this->services_model->get(['id' => $id]);
+            $occurrences = $this->services_model->get($this->tenant_context->with_tenant_where('services', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -121,6 +129,10 @@ class Services_api_v1 extends EA_Controller
 
             $this->services_model->api_decode($service);
 
+            if ($this->tenant_context->table_has_tenant_column('services')) {
+                $service['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
+
             if (array_key_exists('id', $service)) {
                 unset($service['id']);
             }
@@ -147,7 +159,7 @@ class Services_api_v1 extends EA_Controller
     public function update(int $id): void
     {
         try {
-            $occurrences = $this->services_model->get(['id' => $id]);
+            $occurrences = $this->services_model->get($this->tenant_context->with_tenant_where('services', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -160,6 +172,10 @@ class Services_api_v1 extends EA_Controller
             $service = request();
 
             $this->services_model->api_decode($service, $original_service);
+
+            if ($this->tenant_context->table_has_tenant_column('services')) {
+                $service['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $service_id = $this->services_model->save($service);
 
@@ -183,7 +199,7 @@ class Services_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
-            $occurrences = $this->services_model->get(['id' => $id]);
+            $occurrences = $this->services_model->get($this->tenant_context->with_tenant_where('services', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);

@@ -40,7 +40,6 @@ class Email_messages
         $this->CI->load->model('appointments_model');
         $this->CI->load->model('providers_model');
         $this->CI->load->model('secretaries_model');
-        $this->CI->load->model('secretaries_model');
         $this->CI->load->model('settings_model');
 
         $this->CI->load->library('email');
@@ -211,6 +210,20 @@ class Email_messages
     }
 
     /**
+     * Send a plain test email to verify current transport configuration.
+     *
+     * @throws Exception
+     */
+    public function send_test_message(string $recipient_email, string $subject, string $message): void
+    {
+        $html = '<html><body><h3>' . html_escape($subject) . '</h3><p>' . nl2br(html_escape($message)) . '</p></body></html>';
+
+        $php_mailer = $this->get_php_mailer($recipient_email, $subject, $html);
+
+        $php_mailer->send();
+    }
+
+    /**
      * Create PHP Mailer instance based on the email configuration.
      *
      * @param string|null $recipient_email
@@ -231,7 +244,26 @@ class Email_messages
         $php_mailer->CharSet = 'UTF-8';
         $php_mailer->SMTPDebug = config('smtp_debug') ? SMTP::DEBUG_SERVER : null;
 
-        if (config('protocol') === 'smtp') {
+        if (config('protocol') === 'ses') {
+            $ses_region = config('ses_region') ?: 'eu-west-1';
+            $ses_host = config('ses_smtp_host') ?: ('email-smtp.' . $ses_region . '.amazonaws.com');
+            $ses_user = config('ses_smtp_user');
+            $ses_pass = config('ses_smtp_pass');
+            $ses_port = config('ses_smtp_port') ?: 587;
+            $ses_crypto = config('ses_smtp_crypto') ?: 'tls';
+
+            if (empty($ses_user) || empty($ses_pass)) {
+                throw new RuntimeException('SES SMTP credentials are missing (ses_smtp_user/ses_smtp_pass).');
+            }
+
+            $php_mailer->isSMTP();
+            $php_mailer->Host = $ses_host;
+            $php_mailer->SMTPAuth = true;
+            $php_mailer->Username = $ses_user;
+            $php_mailer->Password = $ses_pass;
+            $php_mailer->SMTPSecure = $ses_crypto;
+            $php_mailer->Port = (int) $ses_port;
+        } elseif (config('protocol') === 'smtp') {
             $php_mailer->isSMTP();
             $php_mailer->Host = config('smtp_host');
             $php_mailer->SMTPAuth = config('smtp_auth');
@@ -245,10 +277,22 @@ class Email_messages
         $from_address = config('from_address') ?: setting('company_email');
         $reply_to_address = config('reply_to') ?: setting('company_email');
 
+        if (!filter_var($from_address, FILTER_VALIDATE_EMAIL)) {
+            $from_address = 'no-reply@buumer.local';
+        }
+
+        if (!filter_var($reply_to_address, FILTER_VALIDATE_EMAIL)) {
+            $reply_to_address = $from_address;
+        }
+
         $php_mailer->setFrom($from_address, $from_name);
         $php_mailer->addReplyTo($reply_to_address);
 
         if ($recipient_email) {
+            if (!filter_var($recipient_email, FILTER_VALIDATE_EMAIL)) {
+                throw new InvalidArgumentException('Invalid recipient email address.');
+            }
+
             $php_mailer->addAddress($recipient_email);
         }
 

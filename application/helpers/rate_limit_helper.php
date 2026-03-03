@@ -36,44 +36,73 @@ if (!function_exists('rate_limit')) {
             return;
         }
 
-        $CI->load->driver('cache', ['adapter' => 'file']);
+        $server = $_SERVER ?? [];
 
-        $cache_key = str_replace(':', '', 'rate_limit_key_' . $ip);
+        $client_ip = '';
 
-        $cache_remain_time_key = str_replace(':', '', 'rate_limit_tmp_' . $ip);
-
-        $current_time = date('Y-m-d H:i:s');
-
-        if ($CI->cache->get($cache_key) === false) {
-            // First request
-            $current_time_plus = date('Y-m-d H:i:s', strtotime('+' . $duration . ' seconds'));
-
-            $CI->cache->save($cache_key, 1, $duration);
-
-            $CI->cache->save($cache_remain_time_key, $current_time_plus, $duration * 2);
+        if (!empty($server['HTTP_CF_CONNECTING_IP'])) {
+            $client_ip = trim((string) $server['HTTP_CF_CONNECTING_IP']);
+        } elseif (!empty($server['HTTP_X_REAL_IP'])) {
+            $client_ip = trim((string) $server['HTTP_X_REAL_IP']);
+        } elseif (!empty($server['HTTP_X_FORWARDED_FOR'])) {
+            $forwarded = explode(',', (string) $server['HTTP_X_FORWARDED_FOR']);
+            $client_ip = trim((string) ($forwarded[0] ?? ''));
         }
-        // Consequent request
-        else {
-            $requests = $CI->cache->get($cache_key);
 
-            $time_lost = $CI->cache->get($cache_remain_time_key);
+        if ($client_ip === '') {
+            $client_ip = $ip;
+        }
 
-            if ($current_time > $time_lost) {
-                $current_time_plus = date('Y-m-d H:i:s', strtotime('+' . $duration . ' seconds'));
+        $route = (string) ($server['REQUEST_URI'] ?? 'global');
+        $signature = sha1($client_ip . '|' . $route);
 
-                $CI->cache->save($cache_key, 1, $duration);
+        $cache_path = (string) ($CI->config->item('cache_path') ?: '');
+        $cache_path = rtrim(str_replace('\\', '/', $cache_path), '/');
 
-                $CI->cache->save($cache_remain_time_key, $current_time_plus, $duration * 2);
-            } else {
-                $CI->cache->save($cache_key, $requests + 1, $duration);
+        if ($cache_path === '') {
+            $cache_path = rtrim(str_replace('\\', '/', sys_get_temp_dir()), '/');
+        }
+
+        $rate_limit_dir = $cache_path . '/rate_limit';
+
+        if (!is_dir($rate_limit_dir) && !@mkdir($rate_limit_dir, 0775, true) && !is_dir($rate_limit_dir)) {
+            return;
+        }
+
+        $rate_limit_file = $rate_limit_dir . '/rl_' . $signature . '.json';
+        $now = time();
+
+        $state = [
+            'count' => 0,
+            'reset_at' => $now + $duration,
+        ];
+
+        if (is_file($rate_limit_file)) {
+            $raw = @file_get_contents($rate_limit_file);
+            $decoded = json_decode((string) $raw, true);
+
+            if (is_array($decoded) && isset($decoded['count'], $decoded['reset_at'])) {
+                $state = [
+                    'count' => (int) $decoded['count'],
+                    'reset_at' => (int) $decoded['reset_at'],
+                ];
             }
+        }
 
-            $requests = $CI->cache->get($cache_key);
+        if ($now > $state['reset_at']) {
+            $state['count'] = 0;
+            $state['reset_at'] = $now + $duration;
+        }
 
-            if ($requests > $max_requests) {
-                header('HTTP/1.0 429 Too Many Requests');
-                exit();
-            }
+        $state['count']++;
+
+        @file_put_contents($rate_limit_file, json_encode($state), LOCK_EX);
+
+        if ($state['count'] > $max_requests) {
+            $retry_after = max(1, $state['reset_at'] - $now);
+            header('Retry-After: ' . $retry_after);
+            header('HTTP/1.0 429 Too Many Requests');
+            exit();
         }
     }
 }

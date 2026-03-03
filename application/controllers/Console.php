@@ -39,10 +39,15 @@ class Console extends EA_Controller
         $this->load->library('instance');
 
         $this->load->model('admins_model');
+        $this->load->model('appointments_model');
         $this->load->model('customers_model');
         $this->load->model('providers_model');
         $this->load->model('services_model');
         $this->load->model('settings_model');
+
+        $this->load->library('email_messages');
+        $this->load->library('notifications');
+        $this->load->library('stripe_service');
     }
 
     /**
@@ -155,6 +160,294 @@ class Console extends EA_Controller
         }
     }
 
+    public function remind(int $hours_ahead = 24, int $window_minutes = 60): void
+    {
+        $hours_ahead = max(1, $hours_ahead);
+        $window_minutes = max(5, min(360, $window_minutes));
+        $has_reminder_sent_at = $this->db->field_exists('reminder_sent_at', 'appointments');
+
+        $start = new DateTime();
+        $start->modify('+' . $hours_ahead . ' hours');
+
+        $end = clone $start;
+        $end->modify('+' . $window_minutes . ' minutes');
+
+        $start_str = $start->format('Y-m-d H:i:s');
+        $end_str = $end->format('Y-m-d H:i:s');
+
+        $appointments = $this->db
+            ->select('appointments.*')
+            ->from('appointments')
+            ->join('users customers', 'customers.id = appointments.id_users_customer', 'inner')
+            ->where('appointments.is_unavailability', 0)
+            ->where('appointments.start_datetime >=', $start_str)
+            ->where('appointments.start_datetime <=', $end_str)
+            ->where('customers.email !=', '')
+            ->order_by('appointments.start_datetime', 'ASC')
+            ->get()
+            ->result_array();
+
+        if ($has_reminder_sent_at) {
+            $appointments = array_values(array_filter(
+                $appointments,
+                static fn(array $appointment): bool => empty($appointment['reminder_sent_at']),
+            ));
+        }
+
+        $sent = 0;
+        $skipped = 0;
+
+        foreach ($appointments as $appointment) {
+            $notes = (string) ($appointment['notes'] ?? '');
+
+            if (str_contains($notes, '[reminder_sent_24h]')) {
+                $skipped++;
+                continue;
+            }
+
+            $service = $this->services_model->find((int) $appointment['id_services']);
+            $provider = $this->providers_model->find((int) $appointment['id_users_provider']);
+            $customer = $this->customers_model->find((int) $appointment['id_users_customer']);
+
+            $settings = [
+                'company_name' => setting('company_name'),
+                'company_email' => setting('company_email'),
+                'company_link' => setting('company_link'),
+                'date_format' => setting('date_format'),
+                'time_format' => setting('time_format'),
+                'company_color' => setting('company_color'),
+            ];
+
+            $sent_ok = $this->notifications->notify_appointment_reminder(
+                $appointment,
+                $service,
+                $provider,
+                $customer,
+                $settings,
+            );
+
+            if (!$sent_ok) {
+                continue;
+            }
+
+            $updated_notes = trim($notes . ' [reminder_sent_24h]');
+
+            $update_payload = [
+                'notes' => $updated_notes,
+                'update_datetime' => date('Y-m-d H:i:s'),
+            ];
+
+            if ($has_reminder_sent_at) {
+                $update_payload['reminder_sent_at'] = date('Y-m-d H:i:s');
+            }
+
+            $this->db
+                ->where('id', (int) $appointment['id'])
+                ->update('appointments', $update_payload);
+
+            $sent++;
+        }
+
+        response(
+            PHP_EOL .
+            '⇾ Reminder job done | window=[' .
+            $start_str .
+            ' - ' .
+            $end_str .
+            '] | matched=' .
+            count($appointments) .
+            ' | sent=' .
+            $sent .
+            ' | skipped=' .
+            $skipped .
+            PHP_EOL .
+            PHP_EOL,
+        );
+    }
+
+    public function email_test(string $recipient_email = ''): void
+    {
+        try {
+            $recipient_email = trim($recipient_email);
+
+            if ($recipient_email === '') {
+                response(
+                    PHP_EOL .
+                    '⇾ Missing recipient email.' .
+                    PHP_EOL .
+                    'Usage: php index.php console email_test you@example.com' .
+                    PHP_EOL .
+                    PHP_EOL,
+                );
+
+                return;
+            }
+
+            $subject = 'BUUMER email test (' . date('Y-m-d H:i:s') . ')';
+            $message =
+                'This is a transport test email sent by BUUMER console.' .
+                PHP_EOL .
+                'If you received this message, the configured mail protocol is working.';
+
+            $this->email_messages->send_test_message($recipient_email, $subject, $message);
+
+            response(
+                PHP_EOL .
+                '⇾ Test email sent successfully to ' .
+                $recipient_email .
+                PHP_EOL .
+                PHP_EOL,
+            );
+        } catch (Throwable $e) {
+            response(
+                PHP_EOL .
+                '⇾ Test email failed: ' .
+                $e->getMessage() .
+                PHP_EOL .
+                PHP_EOL,
+            );
+        }
+    }
+
+    public function stripe_health(): void
+    {
+        $provider = (string) (config('payments_provider') ?: 'none');
+        $secret_set = !empty(config('stripe_secret_key'));
+        $publishable_set = !empty(config('stripe_publishable_key'));
+        $webhook_set = !empty(config('stripe_webhook_secret'));
+        $sdk_available = class_exists('\\Stripe\\StripeClient');
+        $intents_table = $this->db->table_exists('stripe_payment_intents');
+        $tenants_table = $this->db->table_exists('tenants');
+        $configured = $this->stripe_service->is_configured();
+
+        $lines = [
+            '',
+            '⇾ Stripe health check',
+            'provider: ' . $provider,
+            'stripe_secret_key: ' . ($secret_set ? 'set' : 'missing'),
+            'stripe_publishable_key: ' . ($publishable_set ? 'set' : 'missing'),
+            'stripe_webhook_secret: ' . ($webhook_set ? 'set' : 'missing'),
+            'stripe_sdk: ' . ($sdk_available ? 'available' : 'missing'),
+            'table_tenants: ' . ($tenants_table ? 'ok' : 'missing'),
+            'table_stripe_payment_intents: ' . ($intents_table ? 'ok' : 'missing'),
+            'service_is_configured: ' . ($configured ? 'yes' : 'no'),
+            '',
+        ];
+
+        response(implode(PHP_EOL, $lines));
+    }
+
+    public function integrations_check(): void
+    {
+        $this->config->load('email');
+
+        $lines = [''];
+        $overall_ok = true;
+
+        $email_protocol = (string) (config('protocol') ?: 'mail');
+        $company_email = (string) (setting('company_email') ?: '');
+        $from_address = (string) (config('from_address') ?: $company_email);
+        $reply_to = (string) (config('reply_to') ?: $company_email);
+        $customer_notifications = filter_var(setting('customer_notifications'), FILTER_VALIDATE_BOOLEAN);
+
+        $lines[] = '⇾ Integrations readiness check';
+        $lines[] = '';
+        $lines[] = '[EMAIL]';
+        $lines[] = 'protocol: ' . $email_protocol;
+        $lines[] = 'customer_notifications: ' . ($customer_notifications ? 'enabled' : 'disabled');
+
+        if (!filter_var($from_address, FILTER_VALIDATE_EMAIL)) {
+            $lines[] = 'FAIL from_address/company_email: invalid';
+            $overall_ok = false;
+        } else {
+            $lines[] = 'PASS from_address/company_email: valid';
+        }
+
+        if (!filter_var($reply_to, FILTER_VALIDATE_EMAIL)) {
+            $lines[] = 'WARN reply_to: invalid (will fallback to from)';
+        } else {
+            $lines[] = 'PASS reply_to: valid';
+        }
+
+        if ($email_protocol === 'ses') {
+            $ses_user = (string) (config('ses_smtp_user') ?: '');
+            $ses_pass = (string) (config('ses_smtp_pass') ?: '');
+            $ses_region = (string) (config('ses_region') ?: 'eu-west-1');
+            $lines[] = 'ses_region: ' . $ses_region;
+            if ($ses_user === '' || $ses_pass === '') {
+                $lines[] = 'FAIL ses_smtp_user/ses_smtp_pass: missing';
+                $overall_ok = false;
+            } else {
+                $lines[] = 'PASS ses_smtp_user/ses_smtp_pass: set';
+            }
+        } elseif ($email_protocol === 'smtp') {
+            $smtp_host = (string) (config('smtp_host') ?: '');
+            $smtp_user = (string) (config('smtp_user') ?: '');
+            $smtp_pass = (string) (config('smtp_pass') ?: '');
+            if ($smtp_host === '' || $smtp_user === '' || $smtp_pass === '') {
+                $lines[] = 'FAIL smtp_host/smtp_user/smtp_pass: incomplete';
+                $overall_ok = false;
+            } else {
+                $lines[] = 'PASS smtp_host/smtp_user/smtp_pass: set';
+            }
+        } else {
+            $lines[] = 'WARN protocol=mail (acceptable for local/dev, not recommended for production)';
+        }
+
+        $provider = (string) (config('payments_provider') ?: 'none');
+        $secret_set = !empty(config('stripe_secret_key'));
+        $publishable_set = !empty(config('stripe_publishable_key'));
+        $webhook_set = !empty(config('stripe_webhook_secret'));
+        $sdk_available = class_exists('\\Stripe\\StripeClient');
+        $intents_table = $this->db->table_exists('stripe_payment_intents');
+        $tenants_table = $this->db->table_exists('tenants');
+        $service_configured = $this->stripe_service->is_configured();
+
+        $lines[] = '';
+        $lines[] = '[STRIPE]';
+        $lines[] = 'payments_provider: ' . $provider;
+        $lines[] = 'table_tenants: ' . ($tenants_table ? 'ok' : 'missing');
+        $lines[] = 'table_stripe_payment_intents: ' . ($intents_table ? 'ok' : 'missing');
+
+        if (!$tenants_table || !$intents_table) {
+            $lines[] = 'FAIL stripe schema: missing required table(s)';
+            $overall_ok = false;
+        }
+
+        if ($provider !== 'stripe') {
+            $lines[] = 'WARN payments_provider != stripe (Stripe disabled)';
+        } else {
+            if (!$secret_set || !$publishable_set || !$webhook_set) {
+                $lines[] = 'FAIL stripe keys/webhook secret: incomplete';
+                $overall_ok = false;
+            } else {
+                $lines[] = 'PASS stripe keys/webhook secret: set';
+            }
+
+            if (!$sdk_available) {
+                $lines[] = 'FAIL stripe SDK: missing';
+                $overall_ok = false;
+            } else {
+                $lines[] = 'PASS stripe SDK: available';
+            }
+
+            $lines[] = 'service_is_configured: ' . ($service_configured ? 'yes' : 'no');
+            if (!$service_configured) {
+                $overall_ok = false;
+            }
+        }
+
+        $lines[] = '';
+        $lines[] = $overall_ok ? 'RESULT: PASS (readiness baseline OK)' : 'RESULT: FAIL/WARN (see checks above)';
+        $lines[] = '';
+        $lines[] = 'Next commands:';
+        $lines[] = '- php index.php console email_test you@example.com';
+        $lines[] = '- php index.php console stripe_health';
+        $lines[] = '';
+
+        response(implode(PHP_EOL, $lines));
+    }
+
     /**
      * Show help information about the console capabilities.
      *
@@ -184,6 +477,11 @@ class Console extends EA_Controller
             '⇾ php index.php console install',
             '⇾ php index.php console backup',
             '⇾ php index.php console sync',
+            '⇾ php index.php console remind',
+            '⇾ php index.php console remind 24 60',
+            '⇾ php index.php console email_test you@example.com',
+            '⇾ php index.php console stripe_health',
+            '⇾ php index.php console integrations_check',
             '',
             '',
         ];

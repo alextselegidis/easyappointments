@@ -28,6 +28,7 @@ class Admins_api_v1 extends EA_Controller
         $this->load->model('admins_model');
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
         $this->load->library('webhooks_client');
 
         $this->api->auth();
@@ -53,9 +54,16 @@ class Admins_api_v1 extends EA_Controller
 
             $with = $this->api->request_with();
 
+            $where = $this->tenant_context->with_tenant_where('users');
+
             $admins = empty($keyword)
-                ? $this->admins_model->get(null, $limit, $offset, $order_by)
-                : $this->admins_model->search($keyword, $limit, $offset, $order_by);
+                ? $this->admins_model->get($where, $limit, $offset, $order_by)
+                : array_values(
+                    array_filter(
+                        $this->admins_model->search($keyword, $limit, $offset, $order_by),
+                        fn($admin) => $this->tenant_context->belongs_to_current_tenant($admin),
+                    ),
+                );
 
             foreach ($admins as &$admin) {
                 $this->admins_model->api_encode($admin);
@@ -83,7 +91,7 @@ class Admins_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
-            $occurrences = $this->admins_model->get(['id' => $id]);
+            $occurrences = $this->admins_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -123,6 +131,10 @@ class Admins_api_v1 extends EA_Controller
 
             $this->admins_model->api_decode($admin);
 
+            if ($this->tenant_context->table_has_tenant_column('users')) {
+                $admin['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
+
             if (array_key_exists('id', $admin)) {
                 unset($admin['id']);
             }
@@ -153,7 +165,7 @@ class Admins_api_v1 extends EA_Controller
     public function update(int $id): void
     {
         try {
-            $occurrences = $this->admins_model->get(['id' => $id]);
+            $occurrences = $this->admins_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -166,6 +178,10 @@ class Admins_api_v1 extends EA_Controller
             $admin = request();
 
             $this->admins_model->api_decode($admin, $original_admin);
+
+            if ($this->tenant_context->table_has_tenant_column('users')) {
+                $admin['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $admin_id = $this->admins_model->save($admin);
 
@@ -189,7 +205,7 @@ class Admins_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
-            $occurrences = $this->admins_model->get(['id' => $id]);
+            $occurrences = $this->admins_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);

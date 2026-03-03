@@ -26,6 +26,7 @@ class Secretaries_api_v1 extends EA_Controller
         parent::__construct();
 
         $this->load->library('api');
+        $this->load->library('tenant_context');
         $this->load->library('webhooks_client');
 
         $this->api->auth();
@@ -51,9 +52,16 @@ class Secretaries_api_v1 extends EA_Controller
 
             $with = $this->api->request_with();
 
+            $where = $this->tenant_context->with_tenant_where('users');
+
             $secretaries = empty($keyword)
-                ? $this->secretaries_model->get(null, $limit, $offset, $order_by)
-                : $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
+                ? $this->secretaries_model->get($where, $limit, $offset, $order_by)
+                : array_values(
+                    array_filter(
+                        $this->secretaries_model->search($keyword, $limit, $offset, $order_by),
+                        fn($secretary) => $this->tenant_context->belongs_to_current_tenant($secretary),
+                    ),
+                );
 
             foreach ($secretaries as &$secretary) {
                 $this->secretaries_model->api_encode($secretary);
@@ -81,7 +89,7 @@ class Secretaries_api_v1 extends EA_Controller
     public function show(?int $id = null): void
     {
         try {
-            $occurrences = $this->secretaries_model->get(['id' => $id]);
+            $occurrences = $this->secretaries_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -114,6 +122,10 @@ class Secretaries_api_v1 extends EA_Controller
             $secretary = request();
 
             $this->secretaries_model->api_decode($secretary);
+
+            if ($this->tenant_context->table_has_tenant_column('users')) {
+                $secretary['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             if (array_key_exists('id', $secretary)) {
                 unset($secretary['id']);
@@ -149,7 +161,7 @@ class Secretaries_api_v1 extends EA_Controller
     public function update(int $id): void
     {
         try {
-            $occurrences = $this->secretaries_model->get(['id' => $id]);
+            $occurrences = $this->secretaries_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);
@@ -162,6 +174,10 @@ class Secretaries_api_v1 extends EA_Controller
             $secretary = request();
 
             $this->secretaries_model->api_decode($secretary, $original_secretary);
+
+            if ($this->tenant_context->table_has_tenant_column('users')) {
+                $secretary['tenant_id'] = $this->tenant_context->resolve_tenant_id();
+            }
 
             $secretary_id = $this->secretaries_model->save($secretary);
 
@@ -185,7 +201,7 @@ class Secretaries_api_v1 extends EA_Controller
     public function destroy(int $id): void
     {
         try {
-            $occurrences = $this->secretaries_model->get(['id' => $id]);
+            $occurrences = $this->secretaries_model->get($this->tenant_context->with_tenant_where('users', ['id' => $id]));
 
             if (empty($occurrences)) {
                 response('', 404);

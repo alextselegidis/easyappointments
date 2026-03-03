@@ -20,6 +20,9 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/material_green.min.css') ?>">
     <link rel="stylesheet" type="text/css"
           href="<?= asset_url('assets/css/themes/' . setting('theme', 'default') . '.css') ?>">
+    <?php if (setting('theme', 'default') === 'dark_abyss'): ?>
+        <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/themes/dark_abyss_admin.css') ?>">
+    <?php endif; ?>
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/backend_layout.css') ?>">
 
