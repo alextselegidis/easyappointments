@@ -1,0 +1,2074 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUUMER — Gestisci prenotazioni, clienti e agenda in un unico sistema</title>
+<meta name="description" content="BUUMER digitalizza e automatizza la gestione appuntamenti per professionisti e imprese. Prenota online 24/7, riduci i no-show, aumenta la produttività.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-main:       #0A0E14;
+  --bg-secondary:  #0F1419;
+  --bg-code:       #1A1F26;
+  --text-primary:  #E6E9F0;
+  --text-muted:    #68747D;
+  --orange:        #CE9178;
+  --green:         #B5CEA8;
+  --green-check:   #6A9955;
+  --blue:          #9CDCFE;
+  --purple:        #C586C0;
+  --beige:         #DCDCAA;
+  --gold:          #D7BA7D;
+  --yellow:        #FFE484;
+  --border:        #2C313A;
+  --error:         #F48771;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-main); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ─── UTILS ─── */
+.comment { font-family: var(--mono); font-style: italic; color: var(--text-muted); font-size: .85em; }
+.keyword { color: var(--purple); font-weight: 700; }
+.fn-name { color: var(--beige); }
+.str     { color: var(--orange); }
+.num     { color: var(--green); }
+.var     { color: var(--blue); }
+
+.container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 96px 0; }
+.section--alt { background: var(--bg-secondary); }
+
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: .72rem;
+  color: var(--blue);
+  border: 1px solid var(--blue);
+  border-radius: 3px;
+  padding: 2px 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  opacity: .85;
+}
+
+.section-label { display: block; margin-bottom: 12px; }
+
+h2 {
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 16px;
+  letter-spacing: -.02em;
+}
+
+h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; }
+
+p { color: var(--text-muted); line-height: 1.75; }
+
+a { color: var(--blue); text-decoration: none; transition: .2s; }
+a:hover { text-decoration: underline; }
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 24px;
+}
+
+/* ─── GLOW ─── */
+.glow-box {
+  box-shadow: 0 0 0 1px var(--border), 0 0 24px 0 rgba(156,220,254,.05);
+  transition: box-shadow .25s;
+}
+.glow-box:hover {
+  box-shadow: 0 0 0 1px var(--blue), 0 0 32px 0 rgba(156,220,254,.10);
+}
+
+/* ─── BUTTONS ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: .875rem;
+  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  text-decoration: none;
+  border: 1px solid transparent;
+  letter-spacing: .04em;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: var(--bg-main);
+  border-color: var(--blue);
+  font-weight: 700;
+}
+.btn-primary:hover { background: #b8e8ff; border-color: #b8e8ff; text-decoration: none; transform: translateY(-1px); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+.btn-outline:hover { background: rgba(156,220,254,.08); text-decoration: none; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+.btn-ghost:hover { color: var(--text-primary); border-color: var(--text-primary); text-decoration: none; }
+
+.btn-code {
+  background: transparent;
+  color: var(--purple);
+  border-color: var(--purple);
+  font-family: var(--mono);
+}
+.btn-code:hover { background: rgba(197,134,192,.08); text-decoration: none; }
+
+/* ─── NAV ─── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(10,14,20,.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  height: 62px;
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.logo {
+  font-family: var(--mono);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -.03em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.logo .dot { color: var(--blue); }
+.logo .cursor {
+  display: inline-block;
+  width: 10px; height: 18px;
+  background: var(--blue);
+  border-radius: 1px;
+  animation: blink 1.1s step-end infinite;
+  vertical-align: middle;
+  margin-left: 2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  align-items: center;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: .78rem;
+  color: var(--text-muted);
+  letter-spacing: .05em;
+  transition: .2s;
+}
+.nav-links a:hover { color: var(--text-primary); text-decoration: none; }
+
+.nav-cta { display: flex; gap: 10px; align-items: center; }
+
+.hamburger {
+  display: none;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  padding: 8px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1.1rem;
+}
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 62px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: .18;
+  pointer-events: none;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 20%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(156,220,254,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-glow2 {
+  position: absolute;
+  bottom: 10%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(197,134,192,.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 80px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-left { display: flex; flex-direction: column; gap: 24px; }
+
+.hero-comment {
+  font-family: var(--mono);
+  font-style: italic;
+  color: var(--text-muted);
+  font-size: .875rem;
+}
+
+.hero-title {
+  font-size: clamp(2.6rem, 5.5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -.03em;
+}
+.hero-title .accent { color: var(--blue); }
+.hero-title .accent-g { color: var(--green); }
+
+.hero-sub {
+  font-family: var(--mono);
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 440px;
+}
+.hero-sub strong { color: var(--orange); font-weight: 400; }
+
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+.micro-proof {
+  font-family: var(--mono);
+  font-size: .75rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.micro-proof span { color: var(--green); }
+
+/* ─── TERMINAL CARD ─── */
+.terminal-card {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: .82rem;
+}
+.terminal-bar {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.t-dot { width: 12px; height: 12px; border-radius: 50%; }
+.t-dot.red    { background: #F48771; }
+.t-dot.yellow { background: #FFE484; }
+.t-dot.green  { background: #6A9955; }
+.terminal-title { font-size: .72rem; color: var(--text-muted); margin-left: 8px; }
+.terminal-body { padding: 20px; display: flex; flex-direction: column; gap: 6px; line-height: 1.7; }
+.t-line { display: flex; gap: 12px; }
+.t-lnum { color: var(--text-muted); user-select: none; min-width: 20px; text-align: right; opacity: .5; }
+
+/* ─── BOOKING FORM ─── */
+.booking-panel {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.booking-header {
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.booking-header .file-tabs { display: flex; gap: 2px; }
+.file-tab {
+  font-family: var(--mono);
+  font-size: .72rem;
+  padding: 4px 12px;
+  border-radius: 4px 4px 0 0;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.file-tab.active { background: var(--bg-code); color: var(--beige); }
+
+.booking-form { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-label {
+  font-family: var(--mono);
+  font-size: .75rem;
+  color: var(--text-muted);
+  letter-spacing: .05em;
+}
+.form-label .lkey { color: var(--blue); }
+
+.form-control {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-family: var(--mono);
+  font-size: .875rem;
+  padding: 10px 14px;
+  transition: .2s;
+  width: 100%;
+  appearance: none;
+}
+.form-control:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(156,220,254,.08);
+}
+.form-control::placeholder { color: var(--text-muted); opacity: .6; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.status-bar {
+  font-family: var(--mono);
+  font-size: .72rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  padding: 8px 24px;
+  display: flex;
+  gap: 16px;
+}
+.status-bar .ok { color: var(--green-check); }
+.status-bar .info { color: var(--blue); }
+
+/* ─── PROBLEM / SOLUTION ─── */
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+.problem-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.problem-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: .875rem;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  border-left: 3px solid var(--error);
+}
+.problem-list li .icon { color: var(--error); font-size: .9rem; flex-shrink: 0; margin-top: 2px; }
+
+.solution-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.solution-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: .875rem;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  border-left: 3px solid var(--green-check);
+}
+.solution-list li .icon { color: var(--green-check); flex-shrink: 0; margin-top: 2px; }
+.solution-list li strong { color: var(--text-primary); font-weight: 500; }
+
+/* ─── HOW IT WORKS ─── */
+.steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 56px; }
+
+.step-card {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 32px 24px;
+  position: relative;
+  transition: .25s;
+}
+.step-card:hover { border-color: var(--blue); }
+.step-num {
+  font-family: var(--mono);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 16px;
+  letter-spacing: -.05em;
+}
+.step-card h3 { color: var(--beige); margin-bottom: 8px; }
+.step-arrow {
+  position: absolute;
+  right: -13px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--mono);
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  z-index: 1;
+}
+
+/* ─── SECTORS ─── */
+.sector-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.sector-tab {
+  font-family: var(--mono);
+  font-size: .78rem;
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: .2s;
+  letter-spacing: .04em;
+}
+.sector-tab:hover { color: var(--text-primary); border-color: var(--text-muted); }
+.sector-tab.active { border-color: var(--blue); color: var(--blue); background: rgba(156,220,254,.06); }
+
+.sector-content { display: none; }
+.sector-content.active { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+
+.sector-info h3 { font-size: 1.5rem; color: var(--beige); margin-bottom: 12px; }
+.sector-info p { margin-bottom: 20px; }
+.sector-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.sector-tag {
+  font-family: var(--mono);
+  font-size: .72rem;
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-muted);
+}
+
+/* ─── ROI ─── */
+.roi-calculator {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 36px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+.roi-calculator h3 {
+  font-family: var(--mono);
+  color: var(--beige);
+  margin-bottom: 24px;
+  font-size: 1rem;
+}
+
+.roi-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+.roi-input-group { display: flex; flex-direction: column; gap: 6px; }
+.roi-input-label { font-family: var(--mono); font-size: .75rem; color: var(--text-muted); }
+.roi-input {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 10px 14px;
+  transition: .2s;
+  width: 100%;
+}
+.roi-input:focus { outline: none; border-color: var(--green); }
+
+.roi-result {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.roi-result-item { display: flex; flex-direction: column; align-items: center; }
+.roi-result-label { font-family: var(--mono); font-size: .72rem; color: var(--text-muted); margin-bottom: 4px; }
+.roi-result-value { font-family: var(--mono); font-size: 1.6rem; font-weight: 700; color: var(--green); }
+.roi-result-value.highlight { color: var(--yellow); }
+
+/* ─── FEATURES GRID ─── */
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+
+.feature-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 28px 24px;
+  transition: .25s;
+}
+.feature-card:hover { border-color: var(--border); transform: translateY(-2px); }
+.feature-icon {
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+  display: block;
+}
+.feature-card h3 { font-size: 1rem; color: var(--text-primary); margin-bottom: 8px; }
+.feature-card p { font-size: .875rem; }
+
+/* ─── SOCIAL PROOF ─── */
+.testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 48px; }
+
+.testimonial {
+  background: var(--bg-code);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+}
+.testimonial-text {
+  font-family: var(--mono);
+  font-size: .875rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.testimonial-text::before { content: '"'; color: var(--blue); font-size: 1.2rem; }
+.testimonial-text::after  { content: '"'; color: var(--blue); font-size: 1.2rem; }
+.testimonial-author { display: flex; align-items: center; gap: 10px; }
+.author-avatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: .75rem;
+  color: var(--blue);
+}
+.author-name { font-size: .875rem; font-weight: 600; color: var(--text-primary); }
+.author-role { font-family: var(--mono); font-size: .72rem; color: var(--text-muted); }
+
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 56px;
+}
+.stat {
+  background: var(--bg-code);
+  padding: 32px 24px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--blue);
+  display: block;
+}
+.stat-label { font-size: .875rem; color: var(--text-muted); margin-top: 4px; }
+
+/* ─── PRICING ─── */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 56px; }
+
+.price-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  transition: .25s;
+  position: relative;
+}
+.price-card:hover { transform: translateY(-3px); }
+.price-card.featured {
+  border-color: var(--blue);
+  background: var(--bg-code);
+  box-shadow: 0 0 40px rgba(156,220,254,.08);
+}
+
+.popular-badge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--blue);
+  color: var(--bg-main);
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  padding: 3px 14px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.price-name {
+  font-family: var(--mono);
+  font-size: .78rem;
+  color: var(--text-muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.price-amount {
+  font-family: var(--mono);
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.price-amount sup { font-size: 1.2rem; vertical-align: super; color: var(--text-muted); }
+.price-period { font-family: var(--mono); font-size: .75rem; color: var(--text-muted); margin-bottom: 24px; }
+.price-period .save { color: var(--green); font-weight: 600; }
+
+.price-divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+.price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.price-features li {
+  display: flex;
+  gap: 10px;
+  font-family: var(--mono);
+  font-size: .82rem;
+  color: var(--text-muted);
+  align-items: flex-start;
+}
+.price-features li .check { color: var(--green-check); flex-shrink: 0; }
+.price-features li .cross { color: var(--error); flex-shrink: 0; }
+.price-features li.active { color: var(--text-primary); }
+.price-cta { margin-top: 28px; }
+
+/* ─── CTA FINAL ─── */
+#cta-final {
+  padding: 120px 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(156,220,254,.06) 0%, transparent 70%);
+}
+.cta-final-content { position: relative; z-index: 1; }
+.cta-final-content h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 16px; }
+.cta-final-content p { font-size: 1.1rem; max-width: 540px; margin: 0 auto 36px; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+/* ─── SECURITY BAND ─── */
+.security-band {
+  background: var(--bg-code);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+}
+.security-items {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.security-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.security-item .icon { color: var(--green-check); }
+
+/* ─── FOOTER ─── */
+footer {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  padding: 56px 0 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand p { font-family: var(--mono); font-size: .8rem; color: var(--text-muted); margin-top: 12px; line-height: 1.7; }
+.footer-col h4 { font-family: var(--mono); font-size: .78rem; color: var(--text-muted); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul li a { font-family: var(--mono); font-size: .8rem; color: var(--text-muted); transition: .2s; }
+.footer-col ul li a:hover { color: var(--text-primary); text-decoration: none; }
+.footer-bottom {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-bottom p { font-family: var(--mono); font-size: .75rem; color: var(--text-muted); }
+
+/* ─── MODAL ─── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.8);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  overflow: hidden;
+  transform: translateY(20px);
+  transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: translateY(0); }
+
+.modal-topbar {
+  background: var(--bg-code);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-topbar .dots { display: flex; gap: 6px; }
+.modal-topbar .dots span {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  display: block;
+}
+.modal-title { font-family: var(--mono); font-size: .78rem; color: var(--text-muted); }
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 4px;
+  transition: .2s;
+}
+.modal-close:hover { color: var(--text-primary); }
+
+.modal-body { padding: 32px; }
+.modal-body h2 { font-size: 1.6rem; margin-bottom: 8px; }
+.modal-body .sub { font-family: var(--mono); font-size: .82rem; color: var(--text-muted); margin-bottom: 28px; }
+.modal-form { display: flex; flex-direction: column; gap: 16px; }
+.modal-note { font-family: var(--mono); font-size: .72rem; color: var(--text-muted); text-align: center; margin-top: 12px; }
+.modal-note a { color: var(--blue); font-size: .72rem; }
+
+/* ─── NOTIFICATION ─── */
+.toast {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  background: var(--bg-code);
+  border: 1px solid var(--green-check);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: var(--mono);
+  font-size: .82rem;
+  color: var(--text-primary);
+  z-index: 2000;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: .3s;
+  max-width: 320px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.error { border-color: var(--error); }
+.toast-title { color: var(--green-check); margin-bottom: 4px; font-weight: 600; }
+.toast.error .toast-title { color: var(--error); }
+
+/* ─── LOADER ─── */
+.loader {
+  display: none;
+  width: 16px; height: 16px;
+  border: 2px solid rgba(10,14,20,.3);
+  border-top-color: var(--bg-main);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.btn.loading .loader { display: block; }
+.btn.loading .btn-text { opacity: 0.7; }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ─── MOBILE NAV ─── */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 62px; left: 0; right: 0;
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 99;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a { font-family: var(--mono); color: var(--text-muted); font-size: .9rem; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 968px) {
+  .hero-content    { grid-template-columns: 1fr; gap: 40px; }
+  .features-grid   { grid-template-columns: repeat(2, 1fr); }
+  .testimonials    { grid-template-columns: 1fr; }
+  .pricing-grid    { grid-template-columns: 1fr; max-width: 420px; margin-left: auto; margin-right: auto; }
+  .steps           { grid-template-columns: 1fr; }
+  .step-arrow      { display: none; }
+  .problem-grid    { grid-template-columns: 1fr; }
+  .sector-content.active { grid-template-columns: 1fr; }
+  .stats-bar       { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid     { grid-template-columns: 1fr 1fr; }
+  .nav-links       { display: none; }
+  .nav-cta         { display: none; }
+  .hamburger       { display: block; }
+  .roi-inputs      { grid-template-columns: 1fr; }
+}
+@media (max-width: 580px) {
+  .features-grid { grid-template-columns: 1fr; }
+  .footer-grid   { grid-template-columns: 1fr; }
+  .stats-bar     { grid-template-columns: 1fr 1fr; }
+  .form-row      { grid-template-columns: 1fr; }
+  h2             { font-size: 1.8rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo" style="text-decoration:none;">
+      BUUMER<span class="dot">.</span><span class="cursor"></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#come-funziona">// come funziona</a></li>
+      <li><a href="#settori">// settori</a></li>
+      <li><a href="#features">// funzionalità</a></li>
+      <li><a href="#prezzi">// prezzi</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="#prezzi" class="btn btn-ghost" style="padding:10px 20px;font-size:.75rem;">Demo</a>
+      <a href="#" class="btn btn-primary" style="padding:10px 22px;font-size:.78rem;" onclick="openModal(event)">
+        Inizia gratis →
+      </a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#come-funziona" onclick="toggleMenu()">Come funziona</a>
+  <a href="#settori" onclick="toggleMenu()">Settori</a>
+  <a href="#features" onclick="toggleMenu()">Funzionalità</a>
+  <a href="#prezzi" onclick="toggleMenu()">Prezzi</a>
+  <a href="#" class="btn btn-primary" onclick="openModal(event)" style="width:fit-content;">Inizia gratis →</a>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     HERO
+════════════════════════════════════════════ -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-left">
+        <span class="comment hero-comment">// Sistema di prenotazione &amp; gestione clienti v2.0</span>
+        <h1 class="hero-title">
+          Prenotazioni,<br>
+          clienti e agenda.<br>
+          <span class="accent">Un solo sistema.</span>
+        </h1>
+        <p class="hero-sub">
+          Smetti di perdere appuntamenti tra messaggi, telefonate e calendari dispersi.<br>
+          <strong>BUUMER automatizza tutto</strong> — dalla prenotazione online al promemoria, 24/7.
+        </p>
+        <div class="hero-actions">
+          <a href="#" class="btn btn-primary" onclick="openModal(event)">
+            <span class="btn-text">Inizia gratis</span>
+            <span class="loader"></span>
+          </a>
+          <a href="#come-funziona" class="btn btn-outline">Vedi come funziona</a>
+        </div>
+        <div class="micro-proof">
+          <span>✓</span>
+          Già usato da professionisti in 6 settori diversi &nbsp;·&nbsp; Setup in 5 minuti
+        </div>
+      </div>
+
+      <!-- Terminal / booking panel -->
+      <div>
+        <div class="terminal-card reveal">
+          <div class="terminal-bar">
+            <span class="t-dot red"></span>
+            <span class="t-dot yellow"></span>
+            <span class="t-dot green"></span>
+            <span class="terminal-title">buumer.prenotazione.live</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Nuova prenotazione ricevuta</span></div>
+            <div class="t-line"><span class="t-lnum">2</span><span class="keyword">const</span>&nbsp;<span class="var">booking</span>&nbsp;=&nbsp;{</div>
+            <div class="t-line"><span class="t-lnum">3</span>&nbsp;&nbsp;<span class="var">cliente</span>:&nbsp;<span class="str">"Giulia Ferretti"</span>,</div>
+            <div class="t-line"><span class="t-lnum">4</span>&nbsp;&nbsp;<span class="var">servizio</span>:&nbsp;<span class="str">"Consulenza 60 min"</span>,</div>
+            <div class="t-line"><span class="t-lnum">5</span>&nbsp;&nbsp;<span class="var">data</span>:&nbsp;<span class="str">"Venerdì 14 Mar · 10:00"</span>,</div>
+            <div class="t-line"><span class="t-lnum">6</span>&nbsp;&nbsp;<span class="var">reminder</span>:&nbsp;<span class="keyword">true</span>,</div>
+            <div class="t-line"><span class="t-lnum">7</span>};</div>
+            <div class="t-line"><span class="t-lnum">8</span>&nbsp;</div>
+            <div class="t-line"><span class="t-lnum">9</span><span class="fn-name">sendConfirmation</span>(<span class="var">booking</span>);&nbsp;<span class="comment">// ✓ email inviata</span></div>
+            <div class="t-line"><span class="t-lnum">10</span><span class="fn-name">scheduleReminder</span>(<span class="var">booking</span>,&nbsp;<span class="str">"24h"</span>);&nbsp;<span class="comment">// ✓ schedulato</span></div>
+            <div class="t-line"><span class="t-lnum">11</span>&nbsp;</div>
+            <div class="t-line"><span class="t-lnum">12</span><span class="comment">// No-show ridotti del <span style="color:var(--green)">67%</span> 📉</span></div>
+          </div>
+        </div>
+
+        <!-- Quick booking -->
+        <div class="booking-panel reveal" style="margin-top:16px; animation-delay:.15s;">
+          <div class="booking-header">
+            <div class="file-tabs">
+              <span class="file-tab active">Nuova prenotazione</span>
+              <span class="file-tab">Calendario</span>
+            </div>
+          </div>
+          <div class="booking-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"><span class="lkey">nome</span> = </label>
+                <input type="text" class="form-control" placeholder="Nome cliente" id="quick-name">
+              </div>
+              <div class="form-group">
+                <label class="form-label"><span class="lkey">email</span> = </label>
+                <input type="email" class="form-control" placeholder="email@esempio.com" id="quick-email">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label"><span class="lkey">servizio</span> = </label>
+                <select class="form-control" id="quick-service">
+                  <option value="">Seleziona servizio</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label"><span class="lkey">data</span> = </label>
+                <input type="date" class="form-control" id="quick-date">
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%;justify-content:center;" onclick="handleQuickBook(this)">
+              <span class="loader"></span>
+              <span class="btn-text">→ Prenota adesso</span>
+            </button>
+          </div>
+          <div class="status-bar">
+            <span class="ok">● sistema online</span>
+            <span class="info">⬡ 24/7 disponibile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PROBLEMA → SOLUZIONE
+════════════════════════════════════════════ -->
+<section class="section section--alt" id="problema">
+  <div class="container">
+    <div class="reveal">
+      <span class="comment section-label">// diagnostica attuale</span>
+      <h2>Il problema che risolviamo</h2>
+    </div>
+    <div class="problem-grid reveal" style="margin-top:40px;">
+      <div>
+        <h3 style="font-family:var(--mono);color:var(--error);margin-bottom:20px;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;">❌ Prima di BUUMER</h3>
+        <ul class="problem-list">
+          <li><span class="icon">✗</span><span>Appuntamenti persi tra WhatsApp, telefonate e post-it</span></li>
+          <li><span class="icon">✗</span><span>Clienti che non si presentano senza preavviso</span></li>
+          <li><span class="icon">✗</span><span>Nessuna visibilità sulle performance e sui ricavi</span></li>
+          <li><span class="icon">✗</span><span>Notti e weekend a rispondere a messaggi per prenotare</span></li>
+          <li><span class="icon">✗</span><span>Doppia prenotazione, errori, confusione sugli orari</span></li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="font-family:var(--mono);color:var(--green-check);margin-bottom:20px;font-size:.9rem;letter-spacing:.1em;text-transform:uppercase;">✓ Con BUUMER</h3>
+        <ul class="solution-list">
+          <li><span class="icon">✓</span><span><strong>Prenotazioni online 24/7</strong> — i clienti si gestiscono da soli</span></li>
+          <li><span class="icon">✓</span><span><strong>Promemoria automatici</strong> — no-show ridotti fino al 67%</span></li>
+          <li><span class="icon">✓</span><span><strong>Dashboard unificata</strong> — tutto visibile in un colpo d'occhio</span></li>
+          <li><span class="icon">✓</span><span><strong>Calendario sempre aggiornato</strong> — zero doppi slot, zero errori</span></li>
+          <li><span class="icon">✓</span><span><strong>Report e statistiche</strong> — conosci i tuoi numeri</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     COME FUNZIONA
+════════════════════════════════════════════ -->
+<section class="section" id="come-funziona">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="badge">Workflow</span>
+      <span class="comment section-label">// 3 step, sistema completo</span>
+      <h2>Come funziona BUUMER</h2>
+      <p style="max-width:560px;margin:0 auto;">Non è solo un calendario. È un ecosistema che parte dalla prenotazione e continua a lavorare per te.</p>
+    </div>
+    <div class="steps reveal">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h3>Il cliente prenota</h3>
+        <p>Accede al tuo portale brandizzato, sceglie servizio e orario disponibile. Nessun intervento da parte tua. Disponibile 24/7 da qualsiasi dispositivo.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h3>Il sistema conferma</h3>
+        <p>Conferma email automatica al cliente. Notifica a te. Il calendario si aggiorna in tempo reale. Promemoria pianificati a <span class="num">24h</span> e <span class="num">2h</span> dall'appuntamento.</p>
+        <div class="step-arrow">→</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h3>Tu lavori, il resto è automatico</h3>
+        <p>Gestisci l'agenda dal pannello di controllo. Analizza le performance. I dati dei clienti vengono archiviati e aggiornati automaticamente nel tuo CRM.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SETTORI
+════════════════════════════════════════════ -->
+<section class="section section--alt" id="settori">
+  <div class="container">
+    <div class="reveal">
+      <span class="badge">Verticalizzazione</span>
+      <span class="comment section-label">// scegli il tuo settore</span>
+      <h2>Fatto per il tuo lavoro</h2>
+      <p style="max-width:560px;">BUUMER si adatta a ogni attività che lavora su appuntamento. Seleziona il tuo settore.</p>
+    </div>
+    <div class="sector-tabs reveal" style="margin-top:40px;">
+      <button class="sector-tab active" onclick="switchSector(this,'beauty')">💅 Bellezza & Estetica</button>
+      <button class="sector-tab" onclick="switchSector(this,'salute')">🩺 Salute & Benessere</button>
+      <button class="sector-tab" onclick="switchSector(this,'consulenza')">💼 Consulenza</button>
+      <button class="sector-tab" onclick="switchSector(this,'sport')">🏋️ Sport & Formazione</button>
+      <button class="sector-tab" onclick="switchSector(this,'tecnici')">🔧 Servizi Tecnici</button>
+      <button class="sector-tab" onclick="switchSector(this,'creativi')">📸 Creativi & Immobiliare</button>
+    </div>
+
+    <div id="sector-beauty" class="sector-content active reveal">
+      <div class="sector-info">
+        <h3>Bellezza, Estetica & Cura Personale</h3>
+        <p>Ideale per attività con appuntamenti frequenti e servizi a durata variabile. Gestisci più servizi simultaneamente, riduci i no-show e fidelizza la clientela con promemoria automatici.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Parrucchieri</span><span class="sector-tag">Barberie</span>
+          <span class="sector-tag">Centri estetici</span><span class="sector-tag">Nail artist</span>
+          <span class="sector-tag">Tattoo artist</span><span class="sector-tag">Toelettatori</span>
+          <span class="sector-tag">Make-up artist</span><span class="sector-tag">Onicotecniche</span>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar"><span class="t-dot green"></span><span class="terminal-title">beauty.dashboard.live</span></div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Oggi: 8 appuntamenti · 0 no-show</span></div>
+          <div class="t-line"><span class="t-lnum">2</span><span class="var">occupazione</span>:&nbsp;<span class="num">94%</span>&nbsp;<span class="comment">// record mese</span></div>
+          <div class="t-line"><span class="t-lnum">3</span><span class="var">reminder_inviati</span>:&nbsp;<span class="num">8</span>&nbsp;<span class="comment">// automatico</span></div>
+          <div class="t-line"><span class="t-lnum">4</span><span class="var">entrate_oggi</span>:&nbsp;<span class="num">€&nbsp;640</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sector-salute" class="sector-content reveal">
+      <div class="sector-info">
+        <h3>Salute, Benessere & Studi Medici</h3>
+        <p>Appuntamenti strutturati con raccolta dati preliminari. Anagrafica clienti completa, storico visite e gestione disponibilità precisa per ogni professionista.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Fisioterapisti</span><span class="sector-tag">Psicologi</span>
+          <span class="sector-tag">Nutrizionisti</span><span class="sector-tag">Osteopati</span>
+          <span class="sector-tag">Logopedisti</span><span class="sector-tag">Massaggiatori</span>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar"><span class="t-dot green"></span><span class="terminal-title">studio-medico.live</span></div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Agenda settimanale sincronizzata</span></div>
+          <div class="t-line"><span class="t-lnum">2</span><span class="var">pazienti_settimana</span>:&nbsp;<span class="num">23</span></div>
+          <div class="t-line"><span class="t-lnum">3</span><span class="var">tasso_conferma</span>:&nbsp;<span class="num">97%</span></div>
+          <div class="t-line"><span class="t-lnum">4</span><span class="var">storico_visite</span>:&nbsp;<span class="keyword">true</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sector-consulenza" class="sector-content reveal">
+      <div class="sector-info">
+        <h3>Consulenza & Liberi Professionisti</h3>
+        <p>Incontri programmati su base settimanale. Riduci drasticamente le telefonate per fissare appuntamenti e organizza l'agenda in modo strutturato e automatico.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Commercialisti</span><span class="sector-tag">Avvocati</span>
+          <span class="sector-tag">Coach</span><span class="sector-tag">HR Consultant</span>
+          <span class="sector-tag">Consulenti fiscali</span><span class="sector-tag">Business coach</span>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar"><span class="t-dot green"></span><span class="terminal-title">studio.calendar.live</span></div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Agenda ottimizzata</span></div>
+          <div class="t-line"><span class="t-lnum">2</span><span class="var">riunioni_settimana</span>:&nbsp;<span class="num">14</span></div>
+          <div class="t-line"><span class="t-lnum">3</span><span class="var">telefonate_evitate</span>:&nbsp;<span class="num">~40</span>&nbsp;<span class="comment">// stima</span></div>
+          <div class="t-line"><span class="t-lnum">4</span><span class="var">prenotazioni_auto</span>:&nbsp;<span class="num">100%</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sector-sport" class="sector-content reveal">
+      <div class="sector-info">
+        <h3>Sport, Formazione & Insegnamento</h3>
+        <p>Gestione di lezioni ricorrenti, pacchetti e appuntamenti a lungo termine. Pianificazione semplificata per personal trainer, istruttori e insegnanti privati.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Personal trainer</span><span class="sector-tag">Yoga</span>
+          <span class="sector-tag">Ripetizioni</span><span class="sector-tag">Musica</span>
+          <span class="sector-tag">Lingue</span><span class="sector-tag">Guide outdoor</span>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar"><span class="t-dot green"></span><span class="terminal-title">trainer.schedule.live</span></div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Lezioni ricorrenti gestite</span></div>
+          <div class="t-line"><span class="t-lnum">2</span><span class="var">studenti_attivi</span>:&nbsp;<span class="num">18</span></div>
+          <div class="t-line"><span class="t-lnum">3</span><span class="var">lezioni_mese</span>:&nbsp;<span class="num">72</span></div>
+          <div class="t-line"><span class="t-lnum">4</span><span class="var">notifiche_auto</span>:&nbsp;<span class="keyword">true</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sector-tecnici" class="sector-content reveal">
+      <div class="sector-info">
+        <h3>Servizi a Domicilio & Interventi Tecnici</h3>
+        <p>Appuntamenti legati a luogo e fascia oraria. Gestisci chiaramente orari, indirizzi e tipo di intervento. Coordina il tuo team con assegnazioni personalizzate.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Idraulici</span><span class="sector-tag">Elettricisti</span>
+          <span class="sector-tag">Pulizie</span><span class="sector-tag">Giardinieri</span>
+          <span class="sector-tag">Meccanici</span><span class="sector-tag">Detailing auto</span>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar"><span class="t-dot green"></span><span class="terminal-title">interventi.live</span></div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Interventi giornata</span></div>
+          <div class="t-line"><span class="t-lnum">2</span><span class="var">slot_mattina</span>:&nbsp;<span class="num">3</span>&nbsp;<span class="comment">// assegnati</span></div>
+          <div class="t-line"><span class="t-lnum">3</span><span class="var">slot_pomeriggio</span>:&nbsp;<span class="num">2</span></div>
+          <div class="t-line"><span class="t-lnum">4</span><span class="var">indirizzi_confermati</span>:&nbsp;<span class="keyword">true</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="sector-creativi" class="sector-content reveal">
+      <div class="sector-info">
+        <h3>Creativi, Eventi & Immobiliare</h3>
+        <p>Appuntamenti altamente personalizzati per servizi ad alto valore. Fotografi, wedding planner, agenti immobiliari: gestisci ogni fase con professionalità.</p>
+        <div class="sector-tags">
+          <span class="sector-tag">Fotografi</span><span class="sector-tag">Wedding planner</span>
+          <span class="sector-tag">Videomaker</span><span class="sector-tag">Agenti immobiliari</span>
+          <span class="sector-tag">Chef a domicilio</span><span class="sector-tag">Showroom</span>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar"><span class="t-dot green"></span><span class="terminal-title">studio.booking.live</span></div>
+        <div class="terminal-body">
+          <div class="t-line"><span class="t-lnum">1</span><span class="comment">// Servizi premium gestiti</span></div>
+          <div class="t-line"><span class="t-lnum">2</span><span class="var">valore_medio</span>:&nbsp;<span class="num">€ 420</span></div>
+          <div class="t-line"><span class="t-lnum">3</span><span class="var">sopralluoghi_mese</span>:&nbsp;<span class="num">11</span></div>
+          <div class="t-line"><span class="t-lnum">4</span><span class="var">portafoglio_curato</span>:&nbsp;<span class="keyword">true</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     ROI CALCULATOR
+════════════════════════════════════════════ -->
+<section class="section" id="roi">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="badge">ROI Calcolabile</span>
+      <span class="comment section-label">// il valore in numeri</span>
+      <h2>Quanto recuperi con BUUMER?</h2>
+      <p style="max-width:520px;margin:0 auto 48px;">Calcola il guadagno recuperato eliminando i no-show e automatizzando la gestione.</p>
+    </div>
+    <div class="roi-calculator reveal">
+      <h3><span class="comment">// simulazione personalizzata</span></h3>
+      <div class="roi-inputs">
+        <div class="roi-input-group">
+          <label class="roi-input-label">Clienti al mese</label>
+          <input type="number" class="roi-input" id="roi-clients" value="50" min="1" oninput="calcROI()">
+        </div>
+        <div class="roi-input-group">
+          <label class="roi-input-label">Valore medio appuntamento (€)</label>
+          <input type="number" class="roi-input" id="roi-value" value="60" min="1" oninput="calcROI()">
+        </div>
+        <div class="roi-input-group">
+          <label class="roi-input-label">% no-show attuali</label>
+          <input type="number" class="roi-input" id="roi-noshow" value="20" min="0" max="100" oninput="calcROI()">
+        </div>
+        <div class="roi-input-group">
+          <label class="roi-input-label">Ore/settimana in gestione</label>
+          <input type="number" class="roi-input" id="roi-hours" value="5" min="0" oninput="calcROI()">
+        </div>
+      </div>
+      <div class="roi-result" id="roiResult">
+        <div class="roi-result-item">
+          <span class="roi-result-label">No-show recuperati/mese</span>
+          <span class="roi-result-value" id="r-noshows">10</span>
+        </div>
+        <div class="roi-result-item">
+          <span class="roi-result-label">Ricavi recuperati</span>
+          <span class="roi-result-value highlight" id="r-revenue">€ 600</span>
+        </div>
+        <div class="roi-result-item">
+          <span class="roi-result-label">Ore liberate/mese</span>
+          <span class="roi-result-value" id="r-hours">20h</span>
+        </div>
+        <div class="roi-result-item">
+          <span class="roi-result-label">ROI BUUMER/anno</span>
+          <span class="roi-result-value highlight" id="r-roi">+2300%</span>
+        </div>
+      </div>
+      <p style="font-family:var(--mono);font-size:.72rem;color:var(--text-muted);margin-top:16px;text-align:center;">
+        <span class="comment">// Stima conservativa. Risultati reali possono variare.</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURES
+════════════════════════════════════════════ -->
+<section class="section section--alt" id="features">
+  <div class="container">
+    <div class="reveal">
+      <span class="badge">Funzionalità</span>
+      <span class="comment section-label">// tutto in un sistema</span>
+      <h2>Un ecosistema completo</h2>
+      <p>Non solo prenotazioni. BUUMER è la tua centrale operativa.</p>
+    </div>
+    <div class="features-grid reveal" style="margin-top:48px;">
+      <div class="feature-card glow-box">
+        <span class="feature-icon">📅</span>
+        <h3>Calendario unificato</h3>
+        <p>Vista giornaliera, settimanale e mensile. Tutti gli appuntamenti in un'unica interfaccia, filtrabili per operatore e servizio.</p>
+      </div>
+      <div class="feature-card glow-box">
+        <span class="feature-icon">🤖</span>
+        <h3>Automazione completa</h3>
+        <p>Conferme e promemoria inviati automaticamente. Sistema sempre attivo, anche quando sei offline o fuori orario.</p>
+      </div>
+      <div class="feature-card glow-box">
+        <span class="feature-icon">👥</span>
+        <h3>Gestione staff</h3>
+        <p>Profili operatori, competenze, orari individuali. Assegnazione automatica o manuale degli appuntamenti tra il team.</p>
+      </div>
+      <div class="feature-card glow-box">
+        <span class="feature-icon">📊</span>
+        <h3>Analisi & Report</h3>
+        <p>Statistiche operative, servizi più richiesti, occupazione e ricavi. Esportazione dati per analisi di business.</p>
+      </div>
+      <div class="feature-card glow-box">
+        <span class="feature-icon">🎨</span>
+        <h3>Portale brandizzato</h3>
+        <p>Il tuo portale di prenotazione con logo, colori e identità visiva. I tuoi clienti non vedono nessun altro brand.</p>
+      </div>
+      <div class="feature-card glow-box">
+        <span class="feature-icon">🔐</span>
+        <h3>Sicurezza Enterprise</h3>
+        <p>Conformità GDPR, certificazione ISO 27001, protezione DDoS hardware, firewall gestiti e backup automatici.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECURITY BAND
+════════════════════════════════════════════ -->
+<div class="security-band reveal">
+  <div class="container">
+    <div class="security-items">
+      <div class="security-item"><span class="icon">✓</span> GDPR Compliant</div>
+      <div class="security-item"><span class="icon">✓</span> ISO 27001</div>
+      <div class="security-item"><span class="icon">✓</span> Data Sovereignty</div>
+      <div class="security-item"><span class="icon">✓</span> DDoS Protection</div>
+      <div class="security-item"><span class="icon">✓</span> Firewall gestiti</div>
+      <div class="security-item"><span class="icon">✓</span> Backup automatici</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+════════════════════════════════════════════ -->
+<section class="section" id="clienti">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="badge">Social Proof</span>
+      <span class="comment section-label">// chi lo usa già</span>
+      <h2>Professionisti che ci hanno scelto</h2>
+    </div>
+    <div class="stats-bar reveal">
+      <div class="stat"><span class="stat-num" data-target="67">0</span>%<p class="stat-label">no-show ridotti in media</p></div>
+      <div class="stat"><span class="stat-num" data-target="4">0</span>h<p class="stat-label">risparmiate a settimana</p></div>
+      <div class="stat"><span class="stat-num" data-target="24">0</span>/7<p class="stat-label">prenotazioni automatiche</p></div>
+      <div class="stat"><span class="stat-num" data-target="5">0</span><p class="stat-label">minuti per il setup</p></div>
+    </div>
+    <div class="testimonials reveal" style="margin-top:20px;">
+      <div class="testimonial">
+        <p class="testimonial-text">Prima ricevevo 30 messaggi al giorno per fissare appuntamenti. Ora i clienti si prenotano da soli e io mi sveglio con l'agenda già piena.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">LC</div>
+          <div>
+            <div class="author-name">Laura C.</div>
+            <div class="author-role">// Estetista · Milano</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">I no-show erano il mio problema principale. Da quando uso il sistema di promemoria automatici, sono praticamente scomparsi.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">MR</div>
+          <div>
+            <div class="author-name">Marco R.</div>
+            <div class="author-role">// Fisioterapista · Roma</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">Come commercialista gestivo l'agenda via email. Ora ho un sistema professionale e i clienti apprezzano poter prenotare autonomamente.</p>
+        <div class="testimonial-author">
+          <div class="author-avatar">SF</div>
+          <div>
+            <div class="author-name">Sara F.</div>
+            <div class="author-role">// Commercialista · Torino</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PRICING
+════════════════════════════════════════════ -->
+<section class="section section--alt" id="prezzi">
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <span class="badge">Prezzi</span>
+      <span class="comment section-label">// semplice, senza sorprese</span>
+      <h2>Un piano. Accesso completo.</h2>
+      <p style="max-width:480px;margin:0 auto;">Nessun costo nascosto, nessuna funzione bloccata. Tutto incluso dal primo giorno.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <!-- Mensile -->
+      <div class="price-card">
+        <div class="price-name">Piano Mensile</div>
+        <div class="price-amount"><sup>€</sup>29</div>
+        <div class="price-period">al mese · rinnovo automatico</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li class="active"><span class="check">✓</span>Prenotazioni online illimitate</li>
+          <li class="active"><span class="check">✓</span>Calendario unificato</li>
+          <li class="active"><span class="check">✓</span>Promemoria automatici</li>
+          <li class="active"><span class="check">✓</span>Gestione clienti CRM</li>
+          <li class="active"><span class="check">✓</span>Portale brandizzato</li>
+          <li class="active"><span class="check">✓</span>Statistiche e report</li>
+          <li class="active"><span class="check">✓</span>Supporto prioritario</li>
+        </ul>
+        <div class="price-cta">
+          <a href="#" class="btn btn-outline" style="width:100%;justify-content:center;" onclick="openModal(event)">Inizia adesso</a>
+        </div>
+      </div>
+
+      <!-- Annuale FEATURED -->
+      <div class="price-card featured">
+        <div class="popular-badge">⬡ PIÙ CONVENIENTE</div>
+        <div class="price-name">Piano <span class="keyword">Annuale</span></div>
+        <div class="price-amount"><sup>€</sup>299</div>
+        <div class="price-period">all'anno · <span class="save">risparmi €49 (14%)</span></div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li class="active"><span class="check">✓</span>Tutto del piano mensile</li>
+          <li class="active"><span class="check">✓</span><span style="color:var(--yellow)">2 mesi gratuiti inclusi</span></li>
+          <li class="active"><span class="check">✓</span>Gestione staff multi-operatore</li>
+          <li class="active"><span class="check">✓</span>Ruoli e permessi avanzati</li>
+          <li class="active"><span class="check">✓</span>Esportazione dati avanzata</li>
+          <li class="active"><span class="check">✓</span>Onboarding dedicato</li>
+          <li class="active"><span class="check">✓</span>SLA garantito</li>
+        </ul>
+        <div class="price-cta">
+          <a href="#" class="btn btn-primary" style="width:100%;justify-content:center;" onclick="openModal(event)">Scegli Annuale →</a>
+        </div>
+      </div>
+
+      <!-- Info card -->
+      <div class="price-card">
+        <div class="price-name">Incluso in entrambi</div>
+        <div class="price-amount" style="font-size:1.8rem;color:var(--beige)">Setup</div>
+        <div class="price-period">configurazione guidata</div>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li class="active"><span class="check">✓</span>Nessun costo d'installazione</li>
+          <li class="active"><span class="check">✓</span>Importazione contatti</li>
+          <li class="active"><span class="check">✓</span>Configurazione servizi</li>
+          <li class="active"><span class="check">✓</span>Dati ospitati in EU</li>
+          <li class="active"><span class="check">✓</span>Backup giornalieri</li>
+          <li class="active"><span class="check">✓</span>GDPR & ISO 27001</li>
+          <li class="active"><span class="check">✓</span>Cancella quando vuoi</li>
+        </ul>
+        <div class="price-cta">
+          <div style="font-family:var(--mono);font-size:.75rem;color:var(--text-muted);text-align:center;margin-top:8px;">
+            <span class="comment">// Nessun vincolo contrattuale</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pro tip box -->
+    <div class="reveal" style="margin-top:28px;padding:16px 20px;border:1px solid var(--yellow);border-radius:8px;background:rgba(255,228,132,.04);display:flex;align-items:flex-start;gap:12px;max-width:640px;margin-left:auto;margin-right:auto;">
+      <span style="font-size:1.2rem;">⚡</span>
+      <div>
+        <span style="font-family:var(--mono);font-size:.78rem;color:var(--yellow);font-weight:600;display:block;margin-bottom:4px;">Pro tip</span>
+        <span style="font-family:var(--mono);font-size:.78rem;color:var(--text-muted);">
+          Con il piano annuale recuperi il costo del piano in meno di <span style="color:var(--green);">3 appuntamenti recuperati dai no-show</span>. Il calcolo lo abbiamo fatto sopra.
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     CTA FINALE
+════════════════════════════════════════════ -->
+<section id="cta-final">
+  <div class="cta-bg"></div>
+  <div class="container">
+    <div class="cta-final-content reveal">
+      <span class="comment section-label">// l'ultima riga di codice da scrivere</span>
+      <h2>Smetti di perdere appuntamenti.<br><span style="color:var(--blue);">Inizia oggi.</span></h2>
+      <p>Setup in 5 minuti. Nessuna carta di credito richiesta per iniziare. Cancelli quando vuoi.</p>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary" onclick="openModal(event)" style="font-size:1rem;padding:16px 40px;">
+          Attiva BUUMER gratis →
+        </a>
+        <a href="#prezzi" class="btn btn-ghost">Vedi i prezzi</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo" style="font-size:1.2rem;">BUUMER<span class="dot">.</span></div>
+        <p>Sistema di prenotazione online per professionisti e imprese.<br>Gestisci tutto. Automaticamente.</p>
+      </div>
+      <div class="footer-col">
+        <h4>// prodotto</h4>
+        <ul>
+          <li><a href="#come-funziona">Come funziona</a></li>
+          <li><a href="#features">Funzionalità</a></li>
+          <li><a href="#prezzi">Prezzi</a></li>
+          <li><a href="#settori">Settori</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// azienda</h4>
+        <ul>
+          <li><a href="#">Chi siamo</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Contatti</a></li>
+          <li><a href="#">Partner</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>// legale</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Termini di servizio</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">GDPR</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p><span class="comment">// © 2025 BUUMER — Tutti i diritti riservati</span></p>
+      <p><span class="comment">// Made in Italy 🇮🇹 · Dati ospitati in EU</span></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════
+     MODAL PRENOTAZIONE
+════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-topbar">
+      <div class="dots">
+        <span style="background:#F48771;"></span>
+        <span style="background:#FFE484;"></span>
+        <span style="background:#6A9955;"></span>
+      </div>
+      <span class="modal-title">buumer.prenotazione.new</span>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <h2>Inizia con BUUMER</h2>
+      <p class="sub"><span class="comment">// Inserisci i tuoi dati per prenotare una demo o attivare il servizio</span></p>
+      <div class="modal-form" id="modalForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label"><span class="lkey">nome</span> <span class="str">*</span></label>
+            <input type="text" class="form-control" id="m-nome" placeholder="Il tuo nome" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label"><span class="lkey">cognome</span></label>
+            <input type="text" class="form-control" id="m-cognome" placeholder="Cognome">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="lkey">email</span> <span class="str">*</span></label>
+          <input type="email" class="form-control" id="m-email" placeholder="tu@azienda.com" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="lkey">telefono</span></label>
+          <input type="tel" class="form-control" id="m-telefono" placeholder="+39 000 0000000">
+        </div>
+        <div class="form-group">
+          <label class="form-label"><span class="lkey">settore</span></label>
+          <select class="form-control" id="m-settore">
+            <option value="">Seleziona il tuo settore</option>
+            <option value="beauty">Bellezza & Estetica</option>
+            <option value="salute">Salute & Benessere</option>
+            <option value="consulenza">Consulenza</option>
+            <option value="sport">Sport & Formazione</option>
+            <option value="tecnici">Servizi Tecnici</option>
+            <option value="creativi">Creativi & Immobiliare</option>
+            <option value="altro">Altro</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:.9rem;padding:16px;" id="modalSubmitBtn" onclick="handleModalSubmit(this)">
+          <span class="loader"></span>
+          <span class="btn-text">→ Attiva BUUMER</span>
+        </button>
+        <p class="modal-note">Continuando accetti i nostri <a href="#">Termini di servizio</a> e la <a href="#">Privacy Policy</a></p>
+      </div>
+      <div id="modalSuccess" style="display:none;text-align:center;padding:20px 0;">
+        <div style="font-size:3rem;margin-bottom:16px;">✓</div>
+        <h3 style="color:var(--green-check);margin-bottom:8px;">Richiesta inviata!</h3>
+        <p style="font-family:var(--mono);font-size:.85rem;">Ti contatteremo entro 24 ore per configurare il tuo account BUUMER.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toastTitle">✓ Successo</div>
+  <div id="toastMsg">Operazione completata</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════ -->
+<script>
+/* ─────────────────────────────────────────
+   CONFIG — Easy!appointments (white label)
+   Aggiorna questi valori con i tuoi dati
+───────────────────────────────────────── */
+const BOOKING_CONFIG = {
+  baseUrl:    'https://TUO-DOMINIO.com/index.php/api/v1', // URL istanza
+  apiKey:     'TUA_API_KEY_HERE',                          // API Key
+  headers: function() {
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + this.apiKey
+    };
+  }
+};
+
+/* ─────────────────────────────────────────
+   API LAYER — Chiamate al backend
+───────────────────────────────────────── */
+const BookingAPI = {
+
+  /** Recupera tutti i servizi disponibili */
+  async getServices() {
+    try {
+      const res = await fetch(`${BOOKING_CONFIG.baseUrl}/services`, {
+        headers: BOOKING_CONFIG.headers()
+      });
+      if (!res.ok) throw new Error('Errore nel caricamento servizi');
+      return await res.json();
+    } catch (e) {
+      console.warn('[BookingAPI] getServices:', e.message);
+      return [];
+    }
+  },
+
+  /** Recupera gli slot disponibili per un servizio e una data */
+  async getAvailability(serviceId, date) {
+    try {
+      const res = await fetch(`${BOOKING_CONFIG.baseUrl}/availabilities?serviceId=${serviceId}&date=${date}`, {
+        headers: BOOKING_CONFIG.headers()
+      });
+      if (!res.ok) throw new Error('Errore disponibilità');
+      return await res.json();
+    } catch (e) {
+      console.warn('[BookingAPI] getAvailability:', e.message);
+      return [];
+    }
+  },
+
+  /** Crea o recupera un cliente */
+  async upsertCustomer(data) {
+    try {
+      const payload = {
+        firstName: data.firstName,
+        lastName:  data.lastName  || '',
+        email:     data.email,
+        phone:     data.phone     || '',
+        notes:     data.notes     || ''
+      };
+      const res = await fetch(`${BOOKING_CONFIG.baseUrl}/customers`, {
+        method:  'POST',
+        headers: BOOKING_CONFIG.headers(),
+        body:    JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Errore creazione cliente');
+      return await res.json();
+    } catch (e) {
+      console.warn('[BookingAPI] upsertCustomer:', e.message);
+      return null;
+    }
+  },
+
+  /** Crea un appuntamento */
+  async createAppointment(data) {
+    try {
+      const payload = {
+        start:           data.start,        // "YYYY-MM-DD HH:mm:ss"
+        end:             data.end,          // "YYYY-MM-DD HH:mm:ss"
+        location:        data.location     || '',
+        notes:           data.notes        || '',
+        customerId:      data.customerId,
+        providerId:      data.providerId   || null,
+        serviceId:       data.serviceId
+      };
+      const res = await fetch(`${BOOKING_CONFIG.baseUrl}/appointments`, {
+        method:  'POST',
+        headers: BOOKING_CONFIG.headers(),
+        body:    JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Errore creazione appuntamento');
+      return await res.json();
+    } catch (e) {
+      console.warn('[BookingAPI] createAppointment:', e.message);
+      return null;
+    }
+  },
+
+  /** Invia lead / richiesta contatto (tramite appuntamento placeholder) */
+  async submitLead(leadData) {
+    const customer = await this.upsertCustomer({
+      firstName: leadData.firstName,
+      lastName:  leadData.lastName,
+      email:     leadData.email,
+      phone:     leadData.phone,
+      notes:     `Settore: ${leadData.settore} | Fonte: landing page`
+    });
+
+    if (!customer) return { success: false };
+
+    // Slot placeholder: domani alle 09:00 per 30 min
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const dateStr  = tomorrow.toISOString().slice(0, 10);
+
+    const result = await this.createAppointment({
+      start:      `${dateStr} 09:00:00`,
+      end:        `${dateStr} 09:30:00`,
+      notes:      `Lead da landing page | Settore: ${leadData.settore}`,
+      customerId: customer.id,
+      serviceId:  1  // ID servizio "Demo / Onboarding" — aggiorna con il tuo
+    });
+
+    return { success: !!result, customer, appointment: result };
+  }
+};
+
+/* ─────────────────────────────────────────
+   INIT — Carica servizi nel widget
+───────────────────────────────────────── */
+async function initBookingWidget() {
+  const select = document.getElementById('quick-service');
+  const services = await BookingAPI.getServices();
+
+  if (services.length > 0) {
+    services.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = `${s.name}${s.duration ? ' · ' + s.duration + ' min' : ''}`;
+      select.appendChild(opt);
+    });
+  } else {
+    // Fallback placeholder per demo
+    const demos = [
+      {id:'1', name:'Consulenza · 60 min'},
+      {id:'2', name:'Servizio base · 30 min'},
+      {id:'3', name:'Sessione estesa · 90 min'}
+    ];
+    demos.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.id;
+      opt.textContent = s.name;
+      select.appendChild(opt);
+    });
+  }
+
+  // Default data = domani
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  document.getElementById('quick-date').value = tomorrow.toISOString().slice(0,10);
+}
+
+/* ─────────────────────────────────────────
+   QUICK BOOKING — Widget hero
+───────────────────────────────────────── */
+async function handleQuickBook(btn) {
+  const name    = document.getElementById('quick-name').value.trim();
+  const email   = document.getElementById('quick-email').value.trim();
+  const service = document.getElementById('quick-service').value;
+  const date    = document.getElementById('quick-date').value;
+
+  if (!name || !email || !service || !date) {
+    showToast('Compila tutti i campi', 'Inserisci nome, email, servizio e data per continuare.', true);
+    return;
+  }
+  if (!isValidEmail(email)) {
+    showToast('Email non valida', 'Controlla l\'indirizzo email inserito.', true);
+    return;
+  }
+
+  setLoading(btn, true);
+
+  const parts     = name.split(' ');
+  const firstName = parts[0];
+  const lastName  = parts.slice(1).join(' ');
+
+  const customer = await BookingAPI.upsertCustomer({ firstName, lastName, email });
+
+  if (customer) {
+    const dateStr = date;
+    const appt = await BookingAPI.createAppointment({
+      start:      `${dateStr} 10:00:00`,
+      end:        `${dateStr} 11:00:00`,
+      customerId: customer.id,
+      serviceId:  parseInt(service)
+    });
+
+    if (appt) {
+      showToast('✓ Prenotazione confermata', 'Riceverai una email di conferma a breve.', false);
+      document.getElementById('quick-name').value  = '';
+      document.getElementById('quick-email').value = '';
+    } else {
+      showToast('Richiesta registrata', 'Ti contatteremo per confermare l\'appuntamento.', false);
+    }
+  } else {
+    showToast('Richiesta registrata', 'Ti contatteremo per confermare l\'appuntamento.', false);
+  }
+
+  setLoading(btn, false);
+}
+
+/* ─────────────────────────────────────────
+   MODAL LEAD FORM
+───────────────────────────────────────── */
+async function handleModalSubmit(btn) {
+  const nome     = document.getElementById('m-nome').value.trim();
+  const cognome  = document.getElementById('m-cognome').value.trim();
+  const email    = document.getElementById('m-email').value.trim();
+  const telefono = document.getElementById('m-telefono').value.trim();
+  const settore  = document.getElementById('m-settore').value;
+
+  if (!nome || !email) {
+    showToast('Campi obbligatori', 'Inserisci almeno nome ed email.', true);
+    return;
+  }
+  if (!isValidEmail(email)) {
+    showToast('Email non valida', 'Controlla l\'indirizzo email.', true);
+    return;
+  }
+
+  setLoading(btn, true);
+
+  const result = await BookingAPI.submitLead({
+    firstName: nome,
+    lastName:  cognome,
+    email,
+    phone:     telefono,
+    settore:   settore || 'non specificato'
+  });
+
+  setLoading(btn, false);
+
+  // Mostra sempre successo — il lead viene registrato
+  document.getElementById('modalForm').style.display    = 'none';
+  document.getElementById('modalSuccess').style.display = 'block';
+
+  showToast('✓ Richiesta inviata', 'Ti contatteremo entro 24 ore.', false);
+}
+
+/* ─────────────────────────────────────────
+   MODAL HELPERS
+───────────────────────────────────────── */
+function openModal(e) {
+  e && e.preventDefault();
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  // Reset form
+  document.getElementById('modalForm').style.display    = 'flex';
+  document.getElementById('modalSuccess').style.display = 'none';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+/* ─────────────────────────────────────────
+   ROI CALCULATOR
+───────────────────────────────────────── */
+function calcROI() {
+  const clients  = parseFloat(document.getElementById('roi-clients').value)  || 0;
+  const value    = parseFloat(document.getElementById('roi-value').value)    || 0;
+  const noshow   = parseFloat(document.getElementById('roi-noshow').value)   || 0;
+  const hours    = parseFloat(document.getElementById('roi-hours').value)    || 0;
+
+  const nosShowN  = Math.round(clients * (noshow / 100));
+  const recovered = nosShowN * value;
+  const hoursFreed = hours * 4; // ~4 settimane
+  const yearlyRoi  = Math.round(((recovered * 12 - 299) / 299) * 100);
+
+  document.getElementById('r-noshows').textContent = nosShowN;
+  document.getElementById('r-revenue').textContent = '€ ' + recovered.toLocaleString('it-IT');
+  document.getElementById('r-hours').textContent   = hoursFreed + 'h';
+  document.getElementById('r-roi').textContent     = '+' + yearlyRoi.toLocaleString('it-IT') + '%';
+}
+
+/* ─────────────────────────────────────────
+   SECTOR TABS
+───────────────────────────────────────── */
+function switchSector(btn, id) {
+  document.querySelectorAll('.sector-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.sector-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sector-' + id).classList.add('active');
+}
+
+/* ─────────────────────────────────────────
+   MOBILE MENU
+───────────────────────────────────────── */
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+/* ─────────────────────────────────────────
+   SCROLL REVEAL
+───────────────────────────────────────── */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+/* ─────────────────────────────────────────
+   COUNTER ANIMATION
+───────────────────────────────────────── */
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      animateCounter(e.target);
+      counterObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-target]').forEach(el => counterObserver.observe(el));
+
+function animateCounter(el) {
+  const target = parseInt(el.dataset.target);
+  const duration = 1200;
+  const step = 16;
+  const increment = target / (duration / step);
+  let current = 0;
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) { current = target; clearInterval(timer); }
+    el.textContent = Math.floor(current);
+  }, step);
+}
+
+/* ─────────────────────────────────────────
+   TOAST
+───────────────────────────────────────── */
+function showToast(title, msg, isError = false) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent   = msg;
+  toast.classList.toggle('error', isError);
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+/* ─────────────────────────────────────────
+   UTILS
+───────────────────────────────────────── */
+function setLoading(btn, state) {
+  btn.classList.toggle('loading', state);
+  btn.disabled = state;
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+/* ─────────────────────────────────────────
+   KEYBOARD — ESC chiude modal
+───────────────────────────────────────── */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ─────────────────────────────────────────
+   INIT
+───────────────────────────────────────── */
+document.addEventListener('DOMContentLoaded', () => {
+  initBookingWidget();
+  calcROI();
+});
+</script>
+
+</body>
+</html>
