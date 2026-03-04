@@ -81,10 +81,9 @@ class Installation extends EA_Controller
                 empty($admin['first_name']) ||
                 empty($admin['last_name']) ||
                 empty($admin['email']) ||
-                empty($admin['phone_number']) ||
                 empty($admin['username']) ||
                 empty($admin['password'])
-            ) {
+            ){
                 throw new InvalidArgumentException('Missing required admin fields.');
             }
 
@@ -128,7 +127,11 @@ class Installation extends EA_Controller
             // Sanitize string inputs
             $admin['first_name'] = strip_tags(trim($admin['first_name']));
             $admin['last_name'] = strip_tags(trim($admin['last_name']));
-            $admin['phone_number'] = strip_tags(trim($admin['phone_number']));
+
+            if (!empty($admin['phone_number'])) {
+                $admin['phone_number'] = strip_tags(trim($admin['phone_number']));
+            }
+
             $company['company_name'] = strip_tags(trim($company['company_name']));
 
             $this->instance->migrate();
@@ -164,7 +167,7 @@ class Installation extends EA_Controller
                 'duration' => '30',
                 'price' => '0',
                 'currency' => '',
-                'availabilities_type' => 'flexible',
+                'slot_interval' => 15,
                 'attendants_number' => '1',
             ]);
 
