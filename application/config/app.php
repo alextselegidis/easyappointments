@@ -9,10 +9,10 @@
 |
 */
 
-$config['version'] = '1.6.0-alpha.1'; // This must be changed manually.
+$config['version'] = '1.6.0-beta.1'; // This must be changed manually.
 
 $config['url'] = Config::BASE_URL;
 
 $config['debug'] = Config::DEBUG_MODE;
 
-$config['cache_busting_token'] = 'TSJ80';
+$config['cache_busting_token'] = 'TSJ81';
