@@ -1,21 +1,20 @@
-FROM php:8.2-apache
+FROM php:8.2-fpm
 
-# Install required PHP extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nginx git zip unzip curl \
+    && curl -sSL https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions -o - | sh -s \
+    mysqli pdo pdo_mysql \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Enable required Apache modules
-RUN a2enmod rewrite
-
-# Disable all MPM modules except prefork
-RUN a2dismod mpm_worker mpm_event 2>/dev/null || true && \
-    a2enmod mpm_prefork
-
-# Copy application
 COPY . /var/www/html/
+COPY docker/nginx/nginx.conf /etc/nginx/sites-available/default
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html
-
-WORKDIR /var/www/html
+RUN chown -R www-data:www-data /var/www/html && \
+    mkdir -p /var/log/nginx && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 
 EXPOSE 80
+
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
