@@ -50,18 +50,31 @@ RUN cat > /start.sh << 'EOF'
 #!/bin/bash
 cat > /var/www/html/config.php << 'PHPEOF'
 <?php
+// Define BASE_URL using define() to allow runtime expressions
+$baseUrl = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+define('BASE_URL', $baseUrl);
+define('LANGUAGE', 'english');
+define('DEBUG_MODE', false);
+define('DB_HOST', getenv('MYSQLHOST') ?: 'localhost');
+define('DB_NAME', getenv('MYSQLDATABASE') ?: 'easyappointments');
+define('DB_USERNAME', getenv('MYSQLUSER') ?: 'user');
+define('DB_PASSWORD', getenv('MYSQLPASSWORD') ?: 'password');
+define('GOOGLE_SYNC_FEATURE', false);
+define('GOOGLE_CLIENT_ID', '');
+define('GOOGLE_CLIENT_SECRET', '');
+
 class Config
 {
-    const BASE_URL = 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
-    const LANGUAGE = 'english';
-    const DEBUG_MODE = false;
-    const DB_HOST = getenv('PGHOST') ?: 'localhost';
-    const DB_NAME = getenv('PGDATABASE') ?: 'easyappointments';
-    const DB_USERNAME = getenv('PGUSER') ?: 'user';
-    const DB_PASSWORD = getenv('PGPASSWORD') ?: 'password';
-    const GOOGLE_SYNC_FEATURE = false;
-    const GOOGLE_CLIENT_ID = '';
-    const GOOGLE_CLIENT_SECRET = '';
+    const BASE_URL = BASE_URL;
+    const LANGUAGE = LANGUAGE;
+    const DEBUG_MODE = DEBUG_MODE;
+    const DB_HOST = DB_HOST;
+    const DB_NAME = DB_NAME;
+    const DB_USERNAME = DB_USERNAME;
+    const DB_PASSWORD = DB_PASSWORD;
+    const GOOGLE_SYNC_FEATURE = GOOGLE_SYNC_FEATURE;
+    const GOOGLE_CLIENT_ID = GOOGLE_CLIENT_ID;
+    const GOOGLE_CLIENT_SECRET = GOOGLE_CLIENT_SECRET;
 }
 PHPEOF
 chown www-data:www-data /var/www/html/config.php
