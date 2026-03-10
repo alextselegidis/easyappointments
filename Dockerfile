@@ -9,12 +9,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 COPY . /var/www/html/
 
+# Create config.php from sample with environment variables
+RUN cat > /var/www/html/config.php << 'EOF'
+<?php
+class Config
+{
+    const BASE_URL = getenv('BASE_URL') ?: 'http://localhost';
+    const LANGUAGE = 'english';
+    const DEBUG_MODE = getenv('DEBUG_MODE') === 'true';
+    const DB_HOST = getenv('DB_HOST') ?: 'localhost';
+    const DB_NAME = getenv('DB_NAME') ?: 'easyappointments';
+    const DB_USERNAME = getenv('DB_USERNAME') ?: 'user';
+    const DB_PASSWORD = getenv('DB_PASSWORD') ?: 'password';
+    const GOOGLE_SYNC_FEATURE = false;
+    const GOOGLE_CLIENT_ID = '';
+    const GOOGLE_CLIENT_SECRET = '';
+}
+EOF
+
 RUN chown -R www-data:www-data /var/www/html && \
     mkdir -p /var/log/nginx && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
-# Create nginx config that points to localhost PHP-FPM
+# Create nginx config
 RUN cat > /etc/nginx/sites-available/default << 'EOF'
 server {
     listen 80 default;
