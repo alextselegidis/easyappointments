@@ -81,7 +81,7 @@ chown www-data:www-data /var/www/html/config.php
 php-fpm -D
 nginx -g 'daemon off;'
 EOF
-chmod +x /start.sh
+&& chmod +x /start.sh
 
 EXPOSE 80
 
