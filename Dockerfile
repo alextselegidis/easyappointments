@@ -14,26 +14,6 @@ RUN chown -R www-data:www-data /var/www/html && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log
 
-# Create config.php from environment variables
-RUN php -r "
-\$config = '<?php
-class Config
-{
-    const BASE_URL = \"' . (getenv('BASE_URL') ?: 'http://localhost') . '\";
-    const LANGUAGE = \"english\";
-    const DEBUG_MODE = ' . (getenv('DEBUG_MODE') === 'true' ? 'true' : 'false') . ';
-    const DB_HOST = \"' . (getenv('DB_HOST') ?: 'localhost') . '\";
-    const DB_NAME = \"' . (getenv('DB_NAME') ?: 'easyappointments') . '\";
-    const DB_USERNAME = \"' . (getenv('DB_USERNAME') ?: 'user') . '\";
-    const DB_PASSWORD = \"' . (getenv('DB_PASSWORD') ?: 'password') . '\";
-    const GOOGLE_SYNC_FEATURE = false;
-    const GOOGLE_CLIENT_ID = \"\";
-    const GOOGLE_CLIENT_SECRET = \"\";
-}
-';
-file_put_contents('/var/www/html/config.php', \$config);
-"
-
 # Create nginx config
 RUN cat > /etc/nginx/sites-available/default << 'EOF'
 server {
@@ -65,6 +45,31 @@ server {
 }
 EOF
 
+# Create startup script
+RUN cat > /start.sh << 'EOF'
+#!/bin/bash
+cat > /var/www/html/config.php << 'PHPEOF'
+<?php
+class Config
+{
+    const BASE_URL = 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    const LANGUAGE = 'english';
+    const DEBUG_MODE = false;
+    const DB_HOST = getenv('PGHOST') ?: 'localhost';
+    const DB_NAME = getenv('PGDATABASE') ?: 'easyappointments';
+    const DB_USERNAME = getenv('PGUSER') ?: 'user';
+    const DB_PASSWORD = getenv('PGPASSWORD') ?: 'password';
+    const GOOGLE_SYNC_FEATURE = false;
+    const GOOGLE_CLIENT_ID = '';
+    const GOOGLE_CLIENT_SECRET = '';
+}
+PHPEOF
+chown www-data:www-data /var/www/html/config.php
+php-fpm -D
+nginx -g 'daemon off;'
+EOF
+chmod +x /start.sh
+
 EXPOSE 80
 
-CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
+CMD ["/start.sh"]
