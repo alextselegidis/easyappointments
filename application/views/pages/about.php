@@ -77,7 +77,7 @@
         <div class="mb-5">
             <a class="btn btn-primary d-block w-100 btn-lg m-auto" href="https://easyappointments.org/premium" target="_blank">
                 <i class="fas fa-crown me-2 text-warning"></i>
-                <?= lang('get_premium') ?>
+                <?= lang('go_premium') ?>
             </a>
         </div>
 
