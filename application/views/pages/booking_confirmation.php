@@ -19,15 +19,16 @@
         </small>
     </p>
 
-    <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
-        <i class="fas fa-calendar-alt me-2"></i>
-        <?= lang('go_to_booking_page') ?>
-    </a>
-
-    <a href="<?= vars('add_to_google_url') ?>" id="add-to-google-calendar" class="btn btn-primary" target="_blank">
-        <i class="fas fa-plus me-2"></i>
-        <?= lang('add_to_google_calendar') ?>
-    </a>
+   <div class="d-flex flex-wrap justify-content-center gap-2">
+        <a href="<?= site_url() ?>" class="btn btn-primary btn-large">
+            <i class="fas fa-calendar-alt me-2"></i>
+            <?= lang('go_to_booking_page') ?>
+        </a>
+        <a href="<?= vars('add_to_google_url') ?>" id="add-to-google-calendar" class="btn btn-primary" target="_blank">
+            <i class="fas fa-plus me-2"></i>
+            <?= lang('add_to_google_calendar') ?>
+        </a>
+    </div>
 </div>
 
 <?php end_section('content'); ?>
