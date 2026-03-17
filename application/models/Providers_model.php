@@ -126,6 +126,7 @@ class Providers_model extends EA_Model
             if (!$this->validate_username($provider['settings']['username'], $provider_id)) {
                 throw new InvalidArgumentException(
                     'The provided username is already in use, please use a different one.',
+                    409,
                 );
             }
         }
@@ -170,6 +171,7 @@ class Providers_model extends EA_Model
         if ($count > 0) {
             throw new InvalidArgumentException(
                 'The provided email address is already in use, please use a different one.',
+                409,
             );
         }
     }

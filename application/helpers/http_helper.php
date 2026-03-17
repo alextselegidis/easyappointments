@@ -143,7 +143,9 @@ if (!function_exists('json_exception')) {
 
         unset($response['trace']); // Do not send the trace to the browser as it might contain sensitive info
 
-        json_response($response, 500);
+        $status_code = $e->getCode() >= 400 && $e->getCode() < 600 ? $e->getCode() : 500;
+
+        json_response($response, $status_code);
     }
 }
 

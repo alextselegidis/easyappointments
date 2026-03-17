@@ -139,6 +139,7 @@ class Customers_model extends EA_Model
             if ($count > 0) {
                 throw new InvalidArgumentException(
                     'The provided email address is already in use, please use a different one.',
+                    409,
                 );
             }
         }
@@ -414,8 +415,13 @@ class Customers_model extends EA_Model
             ->or_like('notes', $keyword)
             ->group_end()
             ->limit($limit)
-            ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
+            ->offset($offset);
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $customers = $this->db
             ->get()
             ->result_array();
 

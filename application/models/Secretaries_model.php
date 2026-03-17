@@ -124,6 +124,7 @@ class Secretaries_model extends EA_Model
             if (!$this->validate_username($secretary['settings']['username'], $secretary_id)) {
                 throw new InvalidArgumentException(
                     'The provided username is already in use, please use a different one.',
+                    409,
                 );
             }
         }
@@ -168,6 +169,7 @@ class Secretaries_model extends EA_Model
         if ($count > 0) {
             throw new InvalidArgumentException(
                 'The provided email address is already in use, please use a different one.',
+                409,
             );
         }
     }
