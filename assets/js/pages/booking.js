@@ -103,9 +103,13 @@ App.Pages.Booking = (function () {
 
         let monthTimeout;
 
+        // Calculate minimum date based on minimum_advance_booking setting
+        const minimumAdvanceBooking = parseInt(vars('minimum_advance_booking')) || 0;
+        const minDate = moment().add(minimumAdvanceBooking, 'days').startOf('day').toDate();
+
         App.Utils.UI.initializeDatePicker($selectDate, {
             inline: true,
-            minDate: moment().subtract(1, 'day').set({hours: 23, minutes: 59, seconds: 59}).toDate(),
+            minDate: minDate,
             maxDate: moment().add(vars('future_booking_limit'), 'days').toDate(),
             onChange: (selectedDates) => {
                 App.Http.Booking.getAvailableHours(moment(selectedDates[0]).format('YYYY-MM-DD'));
@@ -163,11 +167,15 @@ App.Pages.Booking = (function () {
             },
         });
 
-        App.Utils.UI.setDateTimePickerValue($selectDate, new Date());
+        // Set initial date considering minimum advance booking
+        const initialDate = moment().add(minimumAdvanceBooking, 'days').toDate();
+        App.Utils.UI.setDateTimePickerValue($selectDate, initialDate);
 
-        const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
-        $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
+        if (!$selectTimezone.prop('disabled')) {
+            const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
+            $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
+        }
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
@@ -613,6 +621,50 @@ App.Pages.Booking = (function () {
                 App.Http.Booking.applyPreviousUnavailableDates();
             }, 300);
         });
+
+        /**
+         * Event: Mutual exclusion for Marketplace, Sucursales, Distribuidores fields
+         *
+         * When one of these fields is selected, the other two should be disabled
+         */
+        $(document).on('change', '.custom-field-input[data-field-name="marketplace"], .custom-field-input[data-field-name="sucursales"], .custom-field-input[data-field-name="distribuidores"]', function() {
+            const $changedField = $(this);
+            const changedFieldName = $changedField.data('field-name');
+            const hasValue = $changedField.val() && $changedField.val() !== '';
+
+            // Define the three mutually exclusive fields
+            const exclusiveFields = ['marketplace', 'sucursales', 'distribuidores'];
+
+            if (hasValue) {
+                // Disable and clear the other two fields
+                exclusiveFields.forEach(fieldName => {
+                    if (fieldName !== changedFieldName) {
+                        const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                        $field.prop('disabled', true);
+                        $field.val('');
+                        // Remove visual required indicator while disabled
+                        $field.removeClass('is-invalid');
+                    }
+                });
+            } else {
+                // Check if any of the three fields has a value
+                let anyFieldHasValue = false;
+                exclusiveFields.forEach(fieldName => {
+                    const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                    if ($field.val() && $field.val() !== '' && fieldName !== changedFieldName) {
+                        anyFieldHasValue = true;
+                    }
+                });
+
+                // If no field has value, enable all three fields
+                if (!anyFieldHasValue) {
+                    exclusiveFields.forEach(fieldName => {
+                        const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                        $field.prop('disabled', false);
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -629,8 +681,10 @@ App.Pages.Booking = (function () {
         let missingRequiredField = false;
 
         $('.required').each((index, requiredField) => {
-            if (!$(requiredField).val()) {
-                $(requiredField).addClass('is-invalid');
+            const $field = $(requiredField);
+            // Skip validation for disabled fields (e.g., mutually exclusive fields)
+            if (!$field.prop('disabled') && !$field.val()) {
+                $field.addClass('is-invalid');
                 missingRequiredField = true;
             }
         });
@@ -754,6 +808,20 @@ App.Pages.Booking = (function () {
             addressParts.push(zipCode);
         }
 
+        // Collect dynamic custom fields for display
+        const customFieldsDisplay = [];
+        $('.custom-field-input').each(function () {
+            const $field = $(this);
+            const fieldLabel = $field.data('field-label');
+            const fieldValue = $field.val();
+            if (fieldLabel && fieldValue) {
+                customFieldsDisplay.push({
+                    label: App.Utils.String.escapeHtml(fieldLabel),
+                    value: App.Utils.String.escapeHtml(fieldValue)
+                });
+            }
+        });
+
         $('#customer-details').html(`
             <div>
                 <div class="mb-2 fw-bold fs-3">
@@ -774,6 +842,15 @@ App.Pages.Booking = (function () {
                 <div class="mb-2" ${!addressParts.length ? 'hidden' : ''}>
                     ${addressParts.join(', ')}
                 </div>
+                ${customFieldsDisplay.length > 0 ? `
+                    <div class="mt-3">
+                        ${customFieldsDisplay.map(field => `
+                            <div class="mb-2">
+                                <span class="fw-bold">${field.label}:</span> ${field.value}
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
             </div>
         `);
 
@@ -796,6 +873,21 @@ App.Pages.Booking = (function () {
             custom_field_4: $customField4.val(),
             custom_field_5: $customField5.val(),
         };
+
+        // Collect dynamic custom fields
+        const customFieldsData = {};
+        $('.custom-field-input').each(function () {
+            const $field = $(this);
+            const fieldName = $field.data('field-name');
+            const fieldValue = $field.val();
+            if (fieldName && fieldValue) {
+                customFieldsData[fieldName] = fieldValue;
+            }
+        });
+
+        if (Object.keys(customFieldsData).length > 0) {
+            data.customer.custom_fields_data = customFieldsData;
+        }
 
         data.appointment = {
             start_datetime:
@@ -901,6 +993,17 @@ App.Pages.Booking = (function () {
             $customField3.val(customer.custom_field_3);
             $customField4.val(customer.custom_field_4);
             $customField5.val(customer.custom_field_5);
+
+            // Populate dynamic custom fields
+            if (customer.custom_fields_data) {
+                $('.custom-field-input').each(function () {
+                    const $field = $(this);
+                    const fieldName = $field.data('field-name');
+                    if (fieldName && customer.custom_fields_data[fieldName]) {
+                        $field.val(customer.custom_fields_data[fieldName]);
+                    }
+                });
+            }
 
             App.Pages.Booking.updateConfirmFrame();
 

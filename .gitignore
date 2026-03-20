@@ -2,3 +2,6 @@ config.php
 storage/
 vendor/
 *.log
+node_modules/
+build/
+*.zip

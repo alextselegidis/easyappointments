@@ -342,12 +342,21 @@ App.Http.Booking = (function () {
         );
 
         if (setDate && !vars('manage_mode')) {
+            // Calculate minimum allowed date based on minimum_advance_booking
+            const minimumAdvanceBooking = parseInt(vars('minimum_advance_booking')) || 0;
+            const minAllowedDate = moment().add(minimumAdvanceBooking, 'days').startOf('day');
+
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
+                const currentMoment = moment(currentDate);
 
-                if (unavailableDates.indexOf(moment(currentDate).format('YYYY-MM-DD')) === -1) {
+                // Check if date is available and meets minimum advance booking requirement
+                if (
+                    unavailableDates.indexOf(currentMoment.format('YYYY-MM-DD')) === -1 &&
+                    currentMoment.isSameOrAfter(minAllowedDate)
+                ) {
                     App.Utils.UI.setDateTimePickerValue($selectDate, currentDate);
-                    getAvailableHours(moment(currentDate).format('YYYY-MM-DD'));
+                    getAvailableHours(currentMoment.format('YYYY-MM-DD'));
                     break;
                 }
             }

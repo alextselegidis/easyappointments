@@ -5,7 +5,10 @@
  * @var bool $manage_mode
  * @var string $display_terms_and_conditions
  * @var string $display_privacy_policy
+ * @var array $custom_fields
  */
+
+$custom_fields = $custom_fields ?? [];
 ?>
 
 <div id="wizard-frame-4" class="wizard-frame" style="display:none;">

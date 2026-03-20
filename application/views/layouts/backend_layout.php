@@ -9,10 +9,17 @@
 
     <?php slot('meta'); ?>
 
-    <title><?= vars('page_title') ?? lang('backend_section') ?> | Easy!Appointments</title>
+    <title><?= vars('page_title') ?? lang('backend_section') ?><?= setting('company_name') ? ' | ' . e(setting('company_name')) : '' ?></title>
 
-    <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
-    <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
+    <?php if (setting('company_logo')): ?>
+        <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
+            <link rel="icon" type="image/x-icon" href="<?= setting('company_logo') ?>">
+        <?php else: ?>
+            <link rel="icon" type="image/x-icon" href="<?= base_url('storage/uploads/' . setting('company_logo')) ?>">
+        <?php endif; ?>
+    <?php else: ?>
+        <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
+    <?php endif; ?>
 
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/trumbowyg/trumbowyg.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/select2/select2.min.css') ?>">

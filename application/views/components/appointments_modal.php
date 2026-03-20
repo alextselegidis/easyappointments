@@ -138,7 +138,7 @@
                                     <select id="appointment-status" class="form-select">
                                         <?php foreach ($appointment_status_options as $appointment_status_option): ?>
                                             <option value="<?= e($appointment_status_option) ?>">
-                                                <?= e($appointment_status_option) ?>
+                                                <?= lang($appointment_status_option) ?? e($appointment_status_option) ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>

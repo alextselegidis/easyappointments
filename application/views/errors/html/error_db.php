@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Database Error | Easy!Appointments</title>
+    <title>Database Error</title>
     <style>
         #error-container {
             background: #ffffff;
@@ -70,13 +70,6 @@
     </h1>
 
     <?= $message ?>
-
-    <p>
-        <small>
-            Powered by
-            <a href="https://easyappointments.org">Easy!Appointments</a>
-        </small>
-    </p>
 </div>
 </body>
 </html>

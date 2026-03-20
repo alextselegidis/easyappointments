@@ -9,9 +9,17 @@
 
 <nav id="header" class="navbar navbar-expand-md navbar-dark">
     <div id="header-logo" class="navbar-brand">
-        <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
-        <h6>EASY!APPOINTMENTS</h6>
-        <small>Online Appointment Scheduler</small>
+        <?php if (setting('company_logo')): ?>
+            <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
+                <img src="<?= setting('company_logo') ?>" alt="<?= e(setting('company_name') ?: 'Logo') ?>">
+            <?php else: ?>
+                <img src="<?= base_url('storage/uploads/' . setting('company_logo')) ?>" alt="<?= e(setting('company_name') ?: 'Logo') ?>">
+            <?php endif; ?>
+        <?php else: ?>
+            <img src="<?= base_url('assets/img/logo.png') ?>" alt="logo">
+        <?php endif; ?>
+        <h6><?= e(strtoupper(setting('company_name') ?: 'EASY!APPOINTMENTS')) ?></h6>
+        <small><?= e(setting('company_tagline') ?: 'Online Appointment Scheduler') ?></small>
     </div>
 
     <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#header-menu">
@@ -105,9 +113,7 @@
                     <a class="dropdown-item" href="<?= site_url('account') ?>">
                         <?= lang('account') ?>
                     </a>
-                    <a class="dropdown-item" href="<?= site_url('about') ?>">
-                        <?= lang('about') ?>
-                    </a>
+                    <!-- About link hidden for white label -->
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="<?= site_url('logout') ?>">
                         <?= lang('log_out') ?>

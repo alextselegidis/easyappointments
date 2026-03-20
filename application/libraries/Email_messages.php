@@ -96,6 +96,9 @@ class Email_messages
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
+        // Load custom fields for this appointment
+        $custom_fields_data = $this->get_appointment_custom_fields($appointment);
+
         $html = $this->CI->load->view(
             'emails/appointment_saved_email',
             [
@@ -108,6 +111,7 @@ class Email_messages
                 'settings' => $settings,
                 'timezone' => $timezone,
                 'appointment_link' => $appointment_link,
+                'custom_fields' => $custom_fields_data,
             ],
             true,
         );
@@ -161,6 +165,9 @@ class Email_messages
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
+        // Load custom fields for this appointment
+        $custom_fields_data = $this->get_appointment_custom_fields($appointment);
+
         $html = $this->CI->load->view(
             'emails/appointment_deleted_email',
             [
@@ -171,6 +178,7 @@ class Email_messages
                 'settings' => $settings,
                 'timezone' => $timezone,
                 'reason' => $reason,
+                'custom_fields' => $custom_fields_data,
             ],
             true,
         );
@@ -270,5 +278,68 @@ class Email_messages
         }
 
         return $php_mailer;
+    }
+
+    /**
+     * Get custom fields data for an appointment formatted for email display.
+     *
+     * @param array $appointment
+     * @return array
+     */
+    private function get_appointment_custom_fields(array $appointment): array
+    {
+        try {
+            // Check if custom_fields already exist in the appointment array
+            if (!empty($appointment['custom_fields'])) {
+                $custom_fields_json = $appointment['custom_fields'];
+
+                // Parse if it's a JSON string
+                if (is_string($custom_fields_json)) {
+                    $custom_fields_json = json_decode($custom_fields_json, true);
+                }
+
+                if (is_array($custom_fields_json)) {
+                    $custom_fields_data = [];
+
+                    foreach ($custom_fields_json as $field_id => $field_data) {
+                        if (!empty($field_data['value'])) {
+                            $custom_fields_data[] = [
+                                'label' => $field_data['label'] ?? '',
+                                'value' => $field_data['value'],
+                                'type' => $field_data['type'] ?? 'text',
+                            ];
+                        }
+                    }
+
+                    return $custom_fields_data;
+                }
+            }
+
+            // If custom_fields is not in appointment, load from database
+            if (!empty($appointment['id_users_customer'])) {
+                $this->CI->load->model('custom_field_values_model');
+                $this->CI->load->model('custom_fields_model');
+
+                $custom_field_values = $this->CI->custom_field_values_model->get(['id_users' => $appointment['id_users_customer']]);
+                $custom_fields_data = [];
+
+                foreach ($custom_field_values as $value) {
+                    $custom_field = $this->CI->custom_fields_model->find($value['id_custom_fields']);
+                    if ($custom_field && $custom_field['active']) {
+                        $custom_fields_data[] = [
+                            'label' => $custom_field['label'],
+                            'value' => $value['value'],
+                            'type' => $custom_field['type'],
+                        ];
+                    }
+                }
+
+                return $custom_fields_data;
+            }
+
+            return [];
+        } catch (Exception $e) {
+            return [];
+        }
     }
 }

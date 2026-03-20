@@ -122,6 +122,21 @@
                             </div>
                         </div>
 
+                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('minimum_advance_booking') ?></h5>
+
+                        <div class="mb-5">
+                            <label for="minimum-advance-booking" class="form-label">
+                                <?= lang('minimum_days') ?>
+                            </label>
+                            <input id="minimum-advance-booking" data-field="minimum_advance_booking" class="form-control"
+                                   type="number" min="0" max="30">
+                            <div class="form-text text-muted">
+                                <small>
+                                    <?= lang('minimum_advance_booking_hint') ?>
+                                </small>
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-start align-items-center mb-3">
                             <h5 class="text-black-50 mb-0 me-3 fw-light">
                                 <?= lang('appointment_status_options') ?>

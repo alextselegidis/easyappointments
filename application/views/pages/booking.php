@@ -37,6 +37,7 @@
     'require_zip_code' => vars('require_zip_code'),
     'display_notes' => vars('display_notes'),
     'require_notes' => vars('require_notes'),
+    'custom_fields' => vars('custom_fields'),
 ]); ?>
 
 <!-- Appointment Data Confirmation -->
@@ -45,6 +46,7 @@
     'manage_mode' => vars('manage_mode'),
     'display_terms_and_conditions' => vars('display_terms_and_conditions'),
     'display_privacy_policy' => vars('display_privacy_policy'),
+    'custom_fields' => vars('custom_fields'),
 ]); ?>
 
 <?php end_section('content'); ?>
@@ -54,6 +56,6 @@
 <script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/booking_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/booking.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/booking.js') ?>?v=20260109-002"></script>
 
 <?php end_section('scripts'); ?>

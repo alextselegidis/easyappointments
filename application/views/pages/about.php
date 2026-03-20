@@ -6,10 +6,18 @@
     <div id="about" class="col-lg-8 offset-lg-2">
 
         <div class="text-center my-5">
-            <img src="<?= base_url('assets/img/logo.png') ?>" alt="Easy!Appointments Logo" class="mb-5">
+            <?php if (setting('company_logo')): ?>
+                <?php if (strpos(setting('company_logo'), 'data:image') === 0): ?>
+                    <img src="<?= setting('company_logo') ?>" alt="<?= e(setting('company_name')) ?>" class="mb-5" style="max-width: 200px;">
+                <?php else: ?>
+                    <img src="<?= base_url('storage/uploads/' . setting('company_logo')) ?>" alt="<?= e(setting('company_name')) ?>" class="mb-5" style="max-width: 200px;">
+                <?php endif; ?>
+            <?php else: ?>
+                <img src="<?= base_url('assets/img/logo.png') ?>" alt="Logo" class="mb-5">
+            <?php endif; ?>
 
             <h3>
-                Easy!Appointments
+                <?= e(setting('company_name')) ?: 'Appointment System' ?>
             </h3>
             <h6 class="text-primary">
                 Online Appointment Scheduler
@@ -30,61 +38,6 @@
                 <strong>
                     <?= config('version') ?>
                 </strong>
-            </div>
-        </div>
-
-        <h4 class="fw-light text-black-50 mb-3">
-            <?= lang('support') ?>
-        </h4>
-
-        <p>
-            <?= lang('about_app_support') ?>
-        </p>
-
-        <div class="row mb-5">
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    <?= lang('official_website') ?>
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block"
-                   href="https://groups.google.com/forum/#!forum/easy-appointments" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    <?= lang('support_group') ?>
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block"
-                   href="https://github.com/alextselegidis/easyappointments/issues" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    <?= lang('project_issues') ?>
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://facebook.com/easyappts" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    Facebook
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://x.com/easyappts" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    X.com
-                </a>
-            </div>
-
-            <div class="col-lg-6 mb-3">
-                <a class="btn btn-outline-secondary d-block" href="https://easyappointments.org/get-a-free-quote"
-                   target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>
-                    Customize E!A
-                </a>
             </div>
         </div>
 
