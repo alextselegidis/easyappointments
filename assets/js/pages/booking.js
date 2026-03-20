@@ -621,6 +621,50 @@ App.Pages.Booking = (function () {
                 App.Http.Booking.applyPreviousUnavailableDates();
             }, 300);
         });
+
+        /**
+         * Event: Mutual exclusion for Marketplace, Sucursales, Distribuidores fields
+         *
+         * When one of these fields is selected, the other two should be disabled
+         */
+        $(document).on('change', '.custom-field-input[data-field-name="marketplace"], .custom-field-input[data-field-name="sucursales"], .custom-field-input[data-field-name="distribuidores"]', function() {
+            const $changedField = $(this);
+            const changedFieldName = $changedField.data('field-name');
+            const hasValue = $changedField.val() && $changedField.val() !== '';
+
+            // Define the three mutually exclusive fields
+            const exclusiveFields = ['marketplace', 'sucursales', 'distribuidores'];
+
+            if (hasValue) {
+                // Disable and clear the other two fields
+                exclusiveFields.forEach(fieldName => {
+                    if (fieldName !== changedFieldName) {
+                        const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                        $field.prop('disabled', true);
+                        $field.val('');
+                        // Remove visual required indicator while disabled
+                        $field.removeClass('is-invalid');
+                    }
+                });
+            } else {
+                // Check if any of the three fields has a value
+                let anyFieldHasValue = false;
+                exclusiveFields.forEach(fieldName => {
+                    const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                    if ($field.val() && $field.val() !== '' && fieldName !== changedFieldName) {
+                        anyFieldHasValue = true;
+                    }
+                });
+
+                // If no field has value, enable all three fields
+                if (!anyFieldHasValue) {
+                    exclusiveFields.forEach(fieldName => {
+                        const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                        $field.prop('disabled', false);
+                    });
+                }
+            }
+        });
     }
 
     /**
@@ -637,8 +681,10 @@ App.Pages.Booking = (function () {
         let missingRequiredField = false;
 
         $('.required').each((index, requiredField) => {
-            if (!$(requiredField).val()) {
-                $(requiredField).addClass('is-invalid');
+            const $field = $(requiredField);
+            // Skip validation for disabled fields (e.g., mutually exclusive fields)
+            if (!$field.prop('disabled') && !$field.val()) {
+                $field.addClass('is-invalid');
                 missingRequiredField = true;
             }
         });
