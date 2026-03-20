@@ -25,8 +25,9 @@
                             <?= lang('timezone') ?>
                         </label>
                         <?php component('timezone_dropdown', [
-                            'attributes' => 'id="select-timezone" class="form-select" value="America/Mexico_City" disabled',
+                            'attributes' => 'id="select-timezone" class="form-select" disabled',
                             'grouped_timezones' => $grouped_timezones,
+                            'selected_value' => 'America/Mexico_City',
                         ]); ?>
                     </div>
 
