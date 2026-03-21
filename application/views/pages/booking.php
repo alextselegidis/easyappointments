@@ -53,9 +53,9 @@
 
 <?php section('scripts'); ?>
 
-<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/booking_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/pages/booking.js') ?>?v=20260321-001"></script>
+<script src="<?= asset_url('assets/js/utils/lang.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/ui.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/booking_http_client.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/booking.min.js') ?>?v=20260321-002"></script>
 
 <?php end_section('scripts'); ?>
