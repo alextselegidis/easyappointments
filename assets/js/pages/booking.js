@@ -627,23 +627,26 @@ App.Pages.Booking = (function () {
          *
          * When one of these fields is selected, the other two should be disabled
          */
-        $(document).on('change', '.custom-field-input[data-field-name="marketplace"], .custom-field-input[data-field-name="sucursales"], .custom-field-input[data-field-name="distribuidores"]', function() {
+        $(document).on('change', '.custom-field-input[data-field-name="Marketplace"], .custom-field-input[data-field-name="Sucursales"], .custom-field-input[data-field-name="Distribuidores"]', function() {
             const $changedField = $(this);
             const changedFieldName = $changedField.data('field-name');
             const hasValue = $changedField.val() && $changedField.val() !== '';
 
             // Define the three mutually exclusive fields
-            const exclusiveFields = ['marketplace', 'sucursales', 'distribuidores'];
+            const exclusiveFields = ['Marketplace', 'Sucursales', 'Distribuidores'];
 
             if (hasValue) {
                 // Disable and clear the other two fields
                 exclusiveFields.forEach(fieldName => {
                     if (fieldName !== changedFieldName) {
                         const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
+                        // Save the original required state
+                        if ($field.hasClass('required')) {
+                            $field.attr('data-was-required', 'true');
+                        }
                         $field.prop('disabled', true);
                         $field.val('');
-                        // Remove visual required indicator while disabled
-                        $field.removeClass('is-invalid');
+                        $field.removeClass('is-invalid required');
                     }
                 });
             } else {
@@ -661,6 +664,11 @@ App.Pages.Booking = (function () {
                     exclusiveFields.forEach(fieldName => {
                         const $field = $(`.custom-field-input[data-field-name="${fieldName}"]`);
                         $field.prop('disabled', false);
+                        // Restore the required class if it was originally required
+                        if ($field.attr('data-was-required') === 'true') {
+                            $field.addClass('required');
+                            $field.removeAttr('data-was-required');
+                        }
                     });
                 }
             }
