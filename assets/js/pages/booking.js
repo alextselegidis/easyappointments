@@ -171,11 +171,8 @@ App.Pages.Booking = (function () {
         const initialDate = moment().add(minimumAdvanceBooking, 'days').toDate();
         App.Utils.UI.setDateTimePickerValue($selectDate, initialDate);
 
-        if (!$selectTimezone.prop('disabled')) {
-            const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-            const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
-            $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
-        }
+        // Timezone is pre-selected in the HTML with 'selected' attribute and locked with 'disabled'
+        // No need to override it here
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
