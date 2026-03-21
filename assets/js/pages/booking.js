@@ -330,7 +330,7 @@ App.Pages.Booking = (function () {
         /**
          * Event: Timezone "Changed"
          */
-        $selectTimezone.on('change', () => {
+        $selectTimezone.off('change').on('change', () => {
             const date = App.Utils.UI.getDateTimePickerValue($selectDate);
 
             if (!date) {
@@ -347,7 +347,7 @@ App.Pages.Booking = (function () {
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $selectProvider.on('change', (event) => {
+        $selectProvider.off('change').on('change', (event) => {
             const $target = $(event.target);
 
             const todayDateTimeObject = new Date();
@@ -370,7 +370,7 @@ App.Pages.Booking = (function () {
          * When the user clicks on a service, its available providers should
          * become visible.
          */
-        $selectService.on('change', (event) => {
+        $selectService.off('change').on('change', (event) => {
             const $target = $(event.target);
             const serviceId = $selectService.val();
             $selectProvider.parent().prop('hidden', !Boolean(serviceId));
@@ -421,7 +421,7 @@ App.Pages.Booking = (function () {
          * This handler is triggered every time the user pressed the "next" button on the book wizard.
          * Some special tasks might be performed, depending on the current wizard step.
          */
-        $('.button-next').on('click', (event) => {
+        $('.button-next').off('click').on('click', (event) => {
             const $target = $(event.currentTarget);
 
             // If we are on the first step and there is no provider selected do not continue with the next step.
@@ -478,7 +478,7 @@ App.Pages.Booking = (function () {
          * This handler is triggered every time the user pressed the "back" button on the
          * book wizard.
          */
-        $('.button-back').on('click', (event) => {
+        $('.button-back').off('click').on('click', (event) => {
             const prevTabIndex = parseInt($(event.currentTarget).attr('data-step_index')) - 1;
 
             $(event.currentTarget)
@@ -496,7 +496,7 @@ App.Pages.Booking = (function () {
          *
          * Triggered whenever the user clicks on an available hour for his appointment.
          */
-        $availableHours.on('click', '.available-hour', (event) => {
+        $availableHours.off('click', '.available-hour').on('click', '.available-hour', (event) => {
             $availableHours.find('.selected-hour').removeClass('selected-hour');
             $(event.target).addClass('selected-hour');
             App.Pages.Booking.updateConfirmFrame();
@@ -512,7 +512,7 @@ App.Pages.Booking = (function () {
              *
              * @param {jQuery.Event} event
              */
-            $('#cancel-appointment').on('click', () => {
+            $('#cancel-appointment').off('click').on('click', () => {
                 const $cancelAppointmentForm = $('#cancel-appointment-form');
 
                 let $cancellationReason;
@@ -555,7 +555,7 @@ App.Pages.Booking = (function () {
                 return false;
             });
 
-            $deletePersonalInformation.on('click', () => {
+            $deletePersonalInformation.off('click').on('click', () => {
                 const buttons = [
                     {
                         text: lang('cancel'),
@@ -587,7 +587,7 @@ App.Pages.Booking = (function () {
          *
          * @param {jQuery.Event} event
          */
-        $bookAppointmentSubmit.on('click', () => {
+        $bookAppointmentSubmit.off('click').on('click', () => {
             const $acceptToTermsAndConditions = $('#accept-to-terms-and-conditions');
 
             $acceptToTermsAndConditions.removeClass('is-invalid');
@@ -612,7 +612,7 @@ App.Pages.Booking = (function () {
         /**
          * Event: Refresh captcha image.
          */
-        $captchaTitle.on('click', 'button', () => {
+        $captchaTitle.off('click', 'button').on('click', 'button', () => {
             $('.captcha-image').attr('src', App.Utils.Url.siteUrl('captcha?' + Date.now()));
         });
 
@@ -627,7 +627,7 @@ App.Pages.Booking = (function () {
          *
          * When one of these fields is selected, the other two should be disabled
          */
-        $(document).on('change', '.custom-field-input[data-field-name="Marketplace"], .custom-field-input[data-field-name="Sucursales"], .custom-field-input[data-field-name="Distribuidores"]', function() {
+        $(document).off('change', '.custom-field-input[data-field-name="Marketplace"], .custom-field-input[data-field-name="Sucursales"], .custom-field-input[data-field-name="Distribuidores"]').on('change', '.custom-field-input[data-field-name="Marketplace"], .custom-field-input[data-field-name="Sucursales"], .custom-field-input[data-field-name="Distribuidores"]', function() {
             const $changedField = $(this);
             const changedFieldName = $changedField.data('field-name');
             const hasValue = $changedField.val() && $changedField.val() !== '';
