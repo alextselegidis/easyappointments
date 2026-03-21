@@ -40,14 +40,36 @@ App.Pages.Login = (function () {
 
         $alert.addClass('d-none');
 
-        App.Http.Login.validate(username, password).done((response) => {
-            if (response.success) {
-                window.location.href = vars('dest_url');
-            } else {
-                $alert.text(lang('login_failed'));
+        App.Http.Login.validate(username, password)
+            .done((response) => {
+                if (response.success) {
+                    window.location.href = vars('dest_url');
+                } else {
+                    $alert.text(lang('login_failed'));
+                    $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');
+                }
+            })
+            .fail((jqXHR, textStatus, errorThrown) => {
+                console.error('Error en login:', textStatus, errorThrown);
+                console.error('Respuesta del servidor:', jqXHR.responseText);
+
+                let errorMessage = 'Error al intentar iniciar sesión. ';
+
+                if (jqXHR.status === 0) {
+                    errorMessage += 'No se puede conectar al servidor. Verifica tu conexión a internet.';
+                } else if (jqXHR.status === 403) {
+                    errorMessage += 'Error de CSRF token. Recarga la página e intenta de nuevo.';
+                } else if (jqXHR.status === 404) {
+                    errorMessage += 'Página no encontrada. Verifica la configuración de la aplicación.';
+                } else if (jqXHR.status === 500) {
+                    errorMessage += 'Error del servidor. Verifica los logs de PHP.';
+                } else {
+                    errorMessage += `Error ${jqXHR.status}: ${textStatus}`;
+                }
+
+                $alert.text(errorMessage);
                 $alert.removeClass('d-none alert-danger alert-success').addClass('alert-danger');
-            }
-        });
+            });
     }
 
     $loginForm.on('submit', onLoginFormSubmit);
