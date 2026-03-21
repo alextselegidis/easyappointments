@@ -58,17 +58,17 @@
 <script src="<?= asset_url('assets/vendor/select2/select2.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/flatpickr/flatpickr.min.js') ?>"></script>
 
-<script src="<?= asset_url('assets/js/app.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/date.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/file.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/http.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/lang.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/message.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
-<script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/localization_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/app.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/date.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/file.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/http.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/lang.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/message.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/string.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/url.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/validation.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/layouts/backend_layout.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/localization_http_client.min.js') ?>"></script>
 
 <?php component('js_vars_script'); ?>
 <?php component('js_lang_script'); ?>

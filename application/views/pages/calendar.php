@@ -135,18 +135,18 @@
 <script src="<?= asset_url('assets/vendor/fullcalendar/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/fullcalendar-moment/index.global.min.js') ?>"></script>
 <script src="<?= asset_url('assets/vendor/jquery-jeditable/jquery.jeditable.min.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/ui.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_default_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_table_view.js') ?>"></script>
-<script src="<?= asset_url('assets/js/utils/calendar_event_popover.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/calendar_http_client.js') ?>"></script>
-<script src="<?= asset_url('assets/js/http/customers_http_client.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/ui.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_default_view.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_table_view.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/utils/calendar_event_popover.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/calendar_http_client.min.js') ?>"></script>
+<script src="<?= asset_url('assets/js/http/customers_http_client.min.js') ?>"></script>
 <?php if (vars('calendar_view') === CALENDAR_VIEW_DEFAULT): ?>
-    <script src="<?= asset_url('assets/js/utils/calendar_sync.js') ?>"></script>
-    <script src="<?= asset_url('assets/js/http/google_http_client.js') ?>"></script>
-    <script src="<?= asset_url('assets/js/http/caldav_http_client.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/utils/calendar_sync.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/http/google_http_client.min.js') ?>"></script>
+    <script src="<?= asset_url('assets/js/http/caldav_http_client.min.js') ?>"></script>
 <?php endif; ?>
-<script src="<?= asset_url('assets/js/pages/calendar.js') ?>"></script>
+<script src="<?= asset_url('assets/js/pages/calendar.min.js') ?>"></script>
 
 <?php end_section('scripts'); ?>
 
