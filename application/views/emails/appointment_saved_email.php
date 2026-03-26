@@ -404,7 +404,22 @@
                                 <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:separate;width:100%;line-height:100%;">
                                   <tr>
                                       <td align="center" bgcolor="#000000" role="presentation" style="border:none;border-radius:0px;cursor:auto;mso-padding-alt:20px 25px 20px 25px;background:#000000;" valign="middle">
-                                        <a href="https://staging.inform.ca/shop/services/design-consultation/?appointmentId=<?= vars('appointment_id'); ?>" style="display: inline-block; background: #000000; color: #FFFFFF; font-family: Inform, Helvetica, sans-serif; font-size: 20px; font-weight: normal; line-height: 120%; margin: 0; text-decoration: none; text-transform: uppercase; padding: 20px 25px 20px 25px; mso-padding-alt: 0px; border-radius: 0px; width: 100%;" target="_blank">Complete payment</a>
+                                        <?php
+                                        $inform_craft_checkout_base = 'https://staging.inform.ca/shop/services/design-consultation/';
+                                        $inform_craft_checkout_href =
+                                            $inform_craft_checkout_base .
+                                            '?' .
+                                            http_build_query(
+                                                [
+                                                    'appointmentId' => $appointment['id'],
+                                                    'googleCalendarUrl' => $add_to_google_url,
+                                                ],
+                                                '',
+                                                '&',
+                                                PHP_QUERY_RFC3986,
+                                            );
+                                        ?>
+                                        <a href="<?= e($inform_craft_checkout_href) ?>" style="display: inline-block; background: #000000; color: #FFFFFF; font-family: Inform, Helvetica, sans-serif; font-size: 20px; font-weight: normal; line-height: 120%; margin: 0; text-decoration: none; text-transform: uppercase; padding: 20px 25px 20px 25px; mso-padding-alt: 0px; border-radius: 0px; width: 100%;" target="_blank">Complete payment</a>
                                       </td>
                                     </tr>
                                 </table>

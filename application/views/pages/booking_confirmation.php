@@ -12,8 +12,20 @@
     <p>We look forward to collaborating with you.</p>
     <p>&mdash; Inform Design Team</p>
     
+    <?php
+    $informCraftCheckoutBase = 'https://staging.inform.ca/shop/services/design-consultation/';
+    $informCraftCheckoutQuery = http_build_query(
+        [
+            'appointmentId' => vars('appointment_id'),
+            'googleCalendarUrl' => vars('add_to_google_url'),
+        ],
+        '',
+        '&',
+        PHP_QUERY_RFC3986,
+    );
+    ?>
     <div class="mt-4">
-        <a class="btn btn-primary d-block" href="https://staging.inform.ca/shop/services/design-consultation/?appointmentId=<?= vars('appointment_id'); ?>" target="_blank">Complete payment
+        <a class="btn btn-primary d-block" href="<?= e($informCraftCheckoutBase . '?' . $informCraftCheckoutQuery) ?>" target="_blank">Complete payment
             <?php //lang('go_to_booking_page') ?>
             <?php //vars('services_id'); ?>
         </a>
