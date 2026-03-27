@@ -107,12 +107,12 @@ class Ics_file
             lang('zip_code') . ': ' . $customer['zip_code'],
         ];
 
-        $client_notes = trim((string) ($customer['notes'] ?? ''));
-        if ($client_notes !== '') {
+        $associate_notes = trim((string) ($provider['notes'] ?? ''));
+        if ($associate_notes !== '') {
             $description[] = '';
             $description[] = lang('virtual_meeting');
             $description[] = '';
-            $description[] = $client_notes;
+            $description[] = $associate_notes;
         }
 
         $description[] = '';

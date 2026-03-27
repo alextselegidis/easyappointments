@@ -278,14 +278,14 @@
                                 </tr>
                               <?php endif; ?>
 
-                              <?php if (!empty(trim((string) ($customer['notes'] ?? '')))): ?>
+                              <?php if (!empty(trim((string) ($provider['notes'] ?? '')))): ?>
                                 <tr>
                                     <td class="label" style="padding: 3px 0px; width: 50%;">
                                       <div style="font-family:Inform, Helvetica, sans-serif;font-size:16px;line-height:1.3;text-align:left;color:#666666;"><?= lang('virtual_meeting') ?></div>
                                     </td>
                                     <td style="padding: 3px 0px; width: 50%;">
                                       <div style="font-family:Inform, Helvetica, sans-serif;font-size:16px;line-height:1.3;text-align:left;color:#000000;">
-                                        <?= e($customer['notes']) ?>
+                                        <?= e($provider['notes']) ?>
                                       </div>
                                     </td>
                                 </tr>
