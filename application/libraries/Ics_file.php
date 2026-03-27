@@ -105,11 +105,20 @@ class Ics_file
             lang('address') . ': ' . $customer['address'],
             lang('city') . ': ' . $customer['city'],
             lang('zip_code') . ': ' . $customer['zip_code'],
-            '',
-            lang('notes'),
-            '',
-            $appointment['notes'],
         ];
+
+        $client_notes = trim((string) ($customer['notes'] ?? ''));
+        if ($client_notes !== '') {
+            $description[] = '';
+            $description[] = lang('virtual_meeting');
+            $description[] = '';
+            $description[] = $client_notes;
+        }
+
+        $description[] = '';
+        $description[] = lang('notes');
+        $description[] = '';
+        $description[] = (string) ($appointment['notes'] ?? '');
 
         $event->setDescription(implode("\\n", $description));
 

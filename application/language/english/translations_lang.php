@@ -21,6 +21,7 @@ $lang['address'] = 'Address';
 $lang['city'] = 'City';
 $lang['zip_code'] = 'Zip Code';
 $lang['notes'] = 'Client Notes';
+$lang['virtual_meeting'] = 'Virtual Meeting';
 $lang['language'] = 'Language';
 $lang['no_language'] = 'No language';
 $lang['fields_are_required'] = 'Fields with * are required.';

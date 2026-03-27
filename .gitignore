@@ -1,5 +1,6 @@
 /*.zip
 /.idea/
+/.vscode/
 /.tmp-package/
 /build/
 /docs/apigen/html
