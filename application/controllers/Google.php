@@ -159,16 +159,36 @@ class Google extends EA_Controller
                     }
 
                     // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
-                    $local_event_start = strtotime($local_event['start_datetime']);
-                    $local_event_end = strtotime($local_event['end_datetime']);
-                    $google_event_start = new DateTime(
-                        $google_event->getStart()->getDateTime() ?? $google_event->getEnd()->getDate(),
-                    );
-                    $google_event_start->setTimezone($provider_timezone);
-                    $google_event_end = new DateTime(
-                        $google_event->getEnd()->getDateTime() ?? $google_event->getEnd()->getDate(),
-                    );
-                    $google_event_end->setTimezone($provider_timezone);
+                    // Both sides must be evaluated in the provider's timezone to get consistent timestamps.
+                    // Local datetimes are stored as timezone-naive strings in the provider's timezone, so
+                    // wrap them with the provider timezone before calling getTimestamp().
+                    $local_event_start = (new DateTime($local_event['start_datetime'], $provider_timezone))->getTimestamp();
+                    $local_event_end = (new DateTime($local_event['end_datetime'], $provider_timezone))->getTimestamp();
+
+                    $is_google_all_day = $google_event->getStart()->getDateTime() === null;
+
+                    if ($is_google_all_day) {
+                        // All-day events carry only a date string (no time, no timezone offset).
+                        // Interpret them as midnight in the provider's timezone so the stored
+                        // datetimes stay consistent and is_all_day_event() keeps returning true.
+                        $google_event_start = new DateTime(
+                            $google_event->getStart()->getDate() . ' 00:00:00',
+                            $provider_timezone,
+                        );
+                        $google_event_end = new DateTime(
+                            $google_event->getEnd()->getDate() . ' 00:00:00',
+                            $provider_timezone,
+                        );
+                        $google_event_end->modify('-1 minute'); // Exclusive end → 23:59:00 of the last actual day
+                    } else {
+                        // Timed events carry RFC3339 strings with an embedded timezone offset.
+                        // Create without a timezone so the offset in the string is honoured, then
+                        // convert to the provider's timezone for local storage.
+                        $google_event_start = new DateTime($google_event->getStart()->getDateTime());
+                        $google_event_start->setTimezone($provider_timezone);
+                        $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
+                        $google_event_end->setTimezone($provider_timezone);
+                    }
 
                     $google_event_notes = $local_event['is_unavailability']
                         ? $google_event->getSummary() . ' ' . $google_event->getDescription()
@@ -217,14 +237,30 @@ class Google extends EA_Controller
                     continue;
                 }
 
-                if ($google_event->getStart()->getDateTime() === $google_event->getEnd()->getDateTime()) {
-                    continue;
-                }
+                $is_google_all_day = $google_event->getStart()->getDateTime() === null;
 
-                $google_event_start = new DateTime($google_event->getStart()->getDateTime());
-                $google_event_start->setTimezone($provider_timezone);
-                $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
-                $google_event_end->setTimezone($provider_timezone);
+                if ($is_google_all_day) {
+                    // All-day event: map to 00:00:00 → 23:59:00 of the actual day(s).
+                    // Google's end date is exclusive (e.g. a single all-day on the 27th has end.date = '28th').
+                    $google_event_start = new DateTime(
+                        $google_event->getStart()->getDate() . ' 00:00:00',
+                        $provider_timezone,
+                    );
+                    $google_event_end = new DateTime(
+                        $google_event->getEnd()->getDate() . ' 00:00:00',
+                        $provider_timezone,
+                    );
+                    $google_event_end->modify('-1 minute'); // Exclusive end → 23:59:00 of last actual day
+                } else {
+                    if ($google_event->getStart()->getDateTime() === $google_event->getEnd()->getDateTime()) {
+                        continue; // Zero-duration timed event, skip
+                    }
+
+                    $google_event_start = new DateTime($google_event->getStart()->getDateTime());
+                    $google_event_start->setTimezone($provider_timezone);
+                    $google_event_end = new DateTime($google_event->getEnd()->getDateTime());
+                    $google_event_end->setTimezone($provider_timezone);
+                }
 
                 $appointment_results = $CI->appointments_model->get([
                     'id_google_calendar' => $google_event->getId(),
@@ -332,18 +368,16 @@ class Google extends EA_Controller
             abort(403, 'Forbidden');
         }
 
-        // Verify OAuth state to prevent CSRF attacks
-        check('state', 'string');
-        check('code', 'string|null');
-
+        // Verify OAuth state to prevent CSRF attacks. If state is absent (e.g. a stale redirect
+        // from before CSRF protection was added) or mismatched, abort gracefully.
         $returned_state = request('state');
         $stored_state = session('oauth_state');
 
         if (empty($returned_state) || empty($stored_state) || !hash_equals($stored_state, $returned_state)) {
-            log_security_event('OAUTH_CSRF', 'Invalid OAuth state parameter in callback', [
-                'user_id' => session('user_id'),
-            ]);
-            abort(403, 'Security validation failed. Please try again.');
+            session(['oauth_state' => null]);
+            show_error('Security validation failed. Please try the Google Calendar sync again.', 403);
+
+            return;
         }
 
         // Clear the state after verification
@@ -372,6 +406,11 @@ class Google extends EA_Controller
             $this->providers_model->set_setting($oauth_provider_id, 'google_sync', true);
             $this->providers_model->set_setting($oauth_provider_id, 'google_token', json_encode($token));
             $this->providers_model->set_setting($oauth_provider_id, 'google_calendar', 'primary');
+
+            // Notify the opener that OAuth completed successfully, then close this popup. Using
+            // postMessage ensures the parent only reacts AFTER the server has saved the token,
+            // avoiding the race condition that arises when polling window.document.URL.
+            echo '<script>window.opener && window.opener.postMessage("oauth_success", window.location.origin); window.close();</script>';
         } else {
             response('Sync provider id not specified.');
         }

@@ -122,15 +122,14 @@ class Google_sync
      */
     public function get_auth_url(?string $state = null): string
     {
-        // The "max_auth_age" is needed because the user needs to always log in and not use an existing session.
-        $auth_url = $this->client->createAuthUrl() . '&max_auth_age=0';
-
-        // Add state parameter if provided for CSRF protection
+        // Use the client's setState() so the state is correctly embedded by createAuthUrl()
+        // rather than manually concatenated, which avoids encoding edge-cases.
         if ($state !== null) {
-            $auth_url .= '&state=' . urlencode($state);
+            $this->client->setState($state);
         }
 
-        return $auth_url;
+        // The "max_auth_age" is needed because the user needs to always log in and not use an existing session.
+        return $this->client->createAuthUrl() . '&max_auth_age=0';
     }
 
     /**
@@ -207,14 +206,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($appointment['start_datetime'], $appointment['end_datetime']);
+
+        $start = $this->build_event_datetime($appointment['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end = $this->build_event_datetime($appointment['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         $event->attendees = [];
@@ -301,14 +298,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($appointment['start_datetime'], $appointment['end_datetime']);
+
+        $start = $this->build_event_datetime($appointment['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end = $this->build_event_datetime($appointment['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         $event->attendees = [];
@@ -398,16 +393,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($unavailability['start_datetime'], $unavailability['end_datetime']);
+
+        $start = $this->build_event_datetime($unavailability['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime(
-            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $end = $this->build_event_datetime($unavailability['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         // Add the new event to the Google Calendar.
@@ -436,16 +427,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($unavailability['start_datetime'], $unavailability['end_datetime']);
+
+        $start = $this->build_event_datetime($unavailability['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime(
-            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $end = $this->build_event_datetime($unavailability['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
@@ -587,5 +574,55 @@ class Google_sync
         }
 
         return 'https://calendar.google.com/calendar/render?' . $query;
+    }
+
+    /**
+     * Check whether a start/end datetime pair should be pushed to Google as an all-day event.
+     *
+     * An event is treated as all-day when its start time is 00:00 and its end time is 23:59,
+     * which is how EA stores events that were originally imported from Google as all-day events.
+     */
+    private function is_all_day_event(string $start_datetime, string $end_datetime): bool
+    {
+        return (new DateTime($start_datetime))->format('H:i') === '00:00' &&
+            (new DateTime($end_datetime))->format('H:i') === '23:59';
+    }
+
+    /**
+     * Build a Google Calendar EventDateTime for a given datetime string.
+     *
+     * When the event qualifies as all-day (00:00→23:59), sets only the date so that Google
+     * Calendar renders it as an all-day block. For all-day events Google uses an exclusive
+     * end date, so the end must be advanced by one day (e.g. 23:59 on the 27th → end.date = 28th).
+     * For timed events the full RFC3339 datetime (timezone-aware) is used instead.
+     *
+     * @param string $datetime     Datetime string (Y-m-d H:i:s).
+     * @param DateTimeZone $timezone  Provider timezone.
+     * @param bool $is_all_day     Whether to use date-only format.
+     * @param bool $is_end         For all-day end: advance by one day to make it exclusive.
+     */
+    private function build_event_datetime(
+        string $datetime,
+        DateTimeZone $timezone,
+        bool $is_all_day,
+        bool $is_end = false,
+    ): Google_Service_Calendar_EventDateTime {
+        $event_dt = new Google_Service_Calendar_EventDateTime();
+
+        if ($is_all_day) {
+            $dt = new DateTime($datetime, $timezone);
+
+            if ($is_end) {
+                $dt->modify('+1 day'); // Google's all-day end is exclusive
+            }
+
+            $event_dt->setDate($dt->format('Y-m-d'));
+        } else {
+            $event_dt->setDateTime(
+                (new DateTime($datetime, $timezone))->format(DateTimeInterface::RFC3339),
+            );
+        }
+
+        return $event_dt;
     }
 }
