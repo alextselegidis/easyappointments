@@ -39,7 +39,6 @@ class Customers_model extends EA_Model
         'phone' => 'phone_number',
         'address' => 'address',
         'city' => 'city',
-        'state' => 'state',
         'zip' => 'zip_code',
         'timezone' => 'timezone',
         'language' => 'language',

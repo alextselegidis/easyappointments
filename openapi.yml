@@ -2402,13 +2402,15 @@ components:
           type: string
         description:
           type: string
-        availabilitiesType:
+        color:
           type: string
+        slotInterval:
+          type: integer
         attendantsNumber:
           type: integer
         isPrivate:
           type: boolean
-        categoryId:
+        serviceCategoryId:
           type: integer
       example:
         id: 1
@@ -2418,7 +2420,8 @@ components:
         currency: USD
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
-        availabilitiesType: flexible
+        color: '#7cbae8'
+        slotInterval: 30
         attendantsNumber: 1
         isPrivate: false
         serviceCategoryId: null
@@ -2437,8 +2440,10 @@ components:
           type: string
         description:
           type: string
-        availabilitiesType:
+        color:
           type: string
+        slotInterval:
+          type: integer
         attendantsNumber:
           type: integer
         isPrivate:
@@ -2452,7 +2457,8 @@ components:
         currency: USD
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
-        availabilitiesType: flexible
+        color: '#7cbae8'
+        slotInterval: 30
         attendantsNumber: 1
         isPrivate: false
         serviceCategoryId: null
@@ -2498,6 +2504,8 @@ components:
           type: string
         city:
           type: string
+        state:
+          type: string
         zip:
           type: string
         notes:
@@ -2529,6 +2537,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test admin.
         timezone: UTC
@@ -2555,6 +2564,8 @@ components:
         address:
           type: string
         city:
+          type: string
+        state:
           type: string
         zip:
           type: string
@@ -2586,6 +2597,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test admin.
         timezone: UTC
@@ -2615,6 +2627,8 @@ components:
           type: string
         city:
           type: string
+        state:
+          type: string
         zip:
           type: string
         notes:
@@ -2662,6 +2676,10 @@ components:
               type: string
             workingPlan:
               type: string
+            workingPlanExceptions:
+              type: array
+              items:
+                type: object
       example:
         id: 1
         firstName: Chris
@@ -2675,6 +2693,7 @@ components:
         notes: This is a test provider.
         timezone: UTC
         language: english
+        state: null
         services: [ ]
         isPrivate: false
         ldapDn: null
@@ -2715,6 +2734,7 @@ components:
               end: '17:00'
               breaks: [ ]
             saturday: null
+          workingPlanExceptions: [ ]
     ProviderPayload:
       type: object
       properties:
@@ -2731,6 +2751,8 @@ components:
         address:
           type: string
         city:
+          type: string
+        state:
           type: string
         zip:
           type: string
@@ -2780,6 +2802,10 @@ components:
               type: string
             workingPlan:
               type: string
+            workingPlanExceptions:
+              type: array
+              items:
+                type: object
       example:
         firstName: Chris
         lastName: Doe
@@ -2788,6 +2814,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test provider.
         timezone: UTC
@@ -2832,6 +2859,7 @@ components:
               end: '17:00'
               breaks: [ ]
             saturday: null
+          workingPlanExceptions: [ ]
     SecretaryRecord:
       type: object
       properties:
@@ -2850,6 +2878,8 @@ components:
         address:
           type: string
         city:
+          type: string
+        state:
           type: string
         zip:
           type: string
@@ -2886,6 +2916,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test service.
         timezone: UTC
@@ -2914,6 +2945,8 @@ components:
           type: string
         city:
           type: string
+        state:
+          type: string
         zip:
           type: string
         notes:
@@ -2948,6 +2981,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test service.
         timezone: UTC

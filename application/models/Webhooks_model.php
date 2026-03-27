@@ -317,8 +317,8 @@ class Webhooks_model extends EA_Model
             'name' => $webhook['name'],
             'url' => $webhook['url'],
             'actions' => $webhook['actions'],
-            'secret_token' => $webhook['secret_token'],
-            'is_ssl_verified' => $webhook['is_ssl_verified'],
+            'secretToken' => $webhook['secret_token'],
+            'isSslVerified' => $webhook['is_ssl_verified'],
             'notes' => $webhook['notes'],
         ];
 

@@ -425,6 +425,8 @@ class Unavailabilities_model extends EA_Model
                 $unavailability['id_users_provider'] !== null ? (int) $unavailability['id_users_provider'] : null,
             'googleCalendarId' =>
                 $unavailability['id_google_calendar'] !== null ? (int) $unavailability['id_google_calendar'] : null,
+            'caldavCalendarId' =>
+                $unavailability['id_caldav_calendar'] !== null ? $unavailability['id_caldav_calendar'] : null,
         ];
 
         $unavailability = $encoded_resource;
@@ -474,6 +476,10 @@ class Unavailabilities_model extends EA_Model
 
         if (array_key_exists('googleCalendarId', $unavailability)) {
             $decoded_resource['id_google_calendar'] = $unavailability['googleCalendarId'];
+        }
+
+        if (array_key_exists('caldavCalendarId', $unavailability)) {
+            $decoded_resource['id_caldav_calendar'] = $unavailability['caldavCalendarId'];
         }
 
         $decoded_resource['is_unavailability'] = true;
