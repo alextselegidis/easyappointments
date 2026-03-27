@@ -98,10 +98,18 @@ class Ics_file
             lang('zip_code') . ': ' . $provider['zip_code'],
         ];
 
-        $associate_notes = trim((string) ($provider['notes'] ?? ''));
-        if ($associate_notes !== '') {
+        $virtual_meeting_text = appointment_virtual_meeting_text($appointment, $provider);
+        if ($virtual_meeting_text !== '') {
             $description[] = '';
-            $description[] = lang('virtual_meeting') . ': ' . $associate_notes;
+            $description[] = lang('virtual_meeting') . ':';
+            foreach (
+                array_filter(
+                    array_map('trim', preg_split('/\r\n|\r|\n/', $virtual_meeting_text)),
+                    static fn(string $line): bool => $line !== '',
+                ) as $vm_line
+            ) {
+                $description[] = $vm_line;
+            }
         }
 
         array_push(

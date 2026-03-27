@@ -462,6 +462,8 @@ class Booking extends EA_Controller
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
+            $appointment = $this->appointments_model->find($appointment['id']);
+
             $this->notifications->notify_appointment_saved(
                 $appointment,
                 $service,

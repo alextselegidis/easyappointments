@@ -278,14 +278,17 @@
                                 </tr>
                               <?php endif; ?>
 
-                              <?php if (!empty(trim((string) ($provider['notes'] ?? '')))): ?>
+                              <?php
+                              $virtual_meeting_display = appointment_virtual_meeting_text($appointment, $provider);
+                              ?>
+                              <?php if ($virtual_meeting_display !== ''): ?>
                                 <tr>
                                     <td class="label" style="padding: 3px 0px; width: 50%;">
                                       <div style="font-family:Inform, Helvetica, sans-serif;font-size:16px;line-height:1.3;text-align:left;color:#666666;"><?= lang('virtual_meeting') ?></div>
                                     </td>
                                     <td style="padding: 3px 0px; width: 50%;">
                                       <div style="font-family:Inform, Helvetica, sans-serif;font-size:16px;line-height:1.3;text-align:left;color:#000000;">
-                                        <?= e($provider['notes']) ?>
+                                        <?= nl2br(e($virtual_meeting_display), false) ?>
                                       </div>
                                     </td>
                                 </tr>

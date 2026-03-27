@@ -224,7 +224,7 @@ class Appointments_api_v1 extends EA_Controller
 
             $created_appointment = $this->appointments_model->find($appointment_id);
 
-            $this->notify_and_sync_appointment($created_appointment);
+            $created_appointment = $this->notify_and_sync_appointment($created_appointment);
 
             $this->appointments_model->api_encode($created_appointment);
 
@@ -240,7 +240,7 @@ class Appointments_api_v1 extends EA_Controller
      * @param array $appointment Appointment data.
      * @param string $action Performed action ("store" or "update").
      */
-    private function notify_and_sync_appointment(array $appointment, string $action = 'store'): void
+    private function notify_and_sync_appointment(array $appointment, string $action = 'store'): array
     {
         $manage_mode = $action === 'update';
 
@@ -264,6 +264,8 @@ class Appointments_api_v1 extends EA_Controller
 
         $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
+        $appointment = $this->appointments_model->find($appointment['id']);
+
         $this->notifications->notify_appointment_saved(
             $appointment,
             $service,
@@ -274,6 +276,8 @@ class Appointments_api_v1 extends EA_Controller
         );
 
         $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
+
+        return $appointment;
     }
 
     /**
@@ -302,7 +306,7 @@ class Appointments_api_v1 extends EA_Controller
 
             $updated_appointment = $this->appointments_model->find($appointment_id);
 
-            $this->notify_and_sync_appointment($updated_appointment, 'update');
+            $updated_appointment = $this->notify_and_sync_appointment($updated_appointment, 'update');
 
             $this->appointments_model->api_encode($updated_appointment);
 

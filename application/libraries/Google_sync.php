@@ -189,7 +189,57 @@ class Google_sync
         }
 
         // Add the new event to the Google Calendar.
-        return $this->service->events->insert($provider['settings']['google_calendar'], $event);
+        $optParams = [];
+
+        if ($this->should_create_google_meet_conference()) {
+            $conferenceData = new Google_Service_Calendar_ConferenceData();
+            $createRequest = new Google_Service_Calendar_CreateConferenceRequest();
+            $createRequest->setRequestId(bin2hex(random_bytes(8)));
+            $solutionKey = new Google_Service_Calendar_ConferenceSolutionKey();
+            $solutionKey->setType('hangoutsMeet');
+            $createRequest->setConferenceSolutionKey($solutionKey);
+            $conferenceData->setCreateRequest($createRequest);
+            $event->setConferenceData($conferenceData);
+            $optParams['conferenceDataVersion'] = 1;
+        }
+
+        return $this->service->events->insert($provider['settings']['google_calendar'], $event, $optParams);
+    }
+
+    /**
+     * Read Google Meet / video URL from a Calendar API event response.
+     */
+    public function extract_meet_link_from_event(Event $event): ?string
+    {
+        $hangout = $event->getHangoutLink();
+        if (is_string($hangout) && $hangout !== '') {
+            return $hangout;
+        }
+
+        $conferenceData = $event->getConferenceData();
+        if (!$conferenceData) {
+            return null;
+        }
+
+        foreach ((array) $conferenceData->getEntryPoints() as $entryPoint) {
+            if (!is_object($entryPoint)) {
+                continue;
+            }
+
+            $type = $entryPoint->entryPointType ?? null;
+            $uri = $entryPoint->uri ?? null;
+
+            if ($type === 'video' && is_string($uri) && $uri !== '') {
+                return $uri;
+            }
+        }
+
+        return null;
+    }
+
+    private function should_create_google_meet_conference(): bool
+    {
+        return filter_var(setting('google_calendar_add_video_meet', '1'), FILTER_VALIDATE_BOOLEAN);
     }
 
     /**
