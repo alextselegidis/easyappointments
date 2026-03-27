@@ -174,7 +174,7 @@ body .modal.full-screen .modal-push {
 }
 
 #calendar-page #calendar .fc-unavailability {
-    background-image: url('../../img/unavailability.jpg');
+    background-image: url('../img/unavailability.jpg');
     font-size: 14px;
     border-radius: 0;
     font-weight: bold;
@@ -189,15 +189,15 @@ body .modal.full-screen .modal-push {
 }
 
 #calendar-page #calendar .fc-break {
-    background-image: url('../../img/break.jpg');
+    background-image: url('../img/break.jpg');
 }
 
 #calendar-page #calendar .fc-custom {
-    background-image: url('../../img/custom.jpg');
+    background-image: url('../img/custom.jpg');
 }
 
 #calendar .fc-unavailability {
-    background: var(--bs-secondary-bg) url('../../img/unavailability.jpg');
+    background: var(--bs-secondary-bg) url('../img/unavailability.jpg');
 }
 
 #calendar-page .fc-daygrid-day-top {
