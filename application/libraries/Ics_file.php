@@ -96,6 +96,16 @@ class Ics_file
             lang('address') . ': ' . $provider['address'],
             lang('city') . ': ' . $provider['city'],
             lang('zip_code') . ': ' . $provider['zip_code'],
+        ];
+
+        $associate_notes = trim((string) ($provider['notes'] ?? ''));
+        if ($associate_notes !== '') {
+            $description[] = '';
+            $description[] = lang('virtual_meeting') . ': ' . $associate_notes;
+        }
+
+        array_push(
+            $description,
             '',
             lang('customer'),
             '',
@@ -105,17 +115,8 @@ class Ics_file
             lang('address') . ': ' . $customer['address'],
             lang('city') . ': ' . $customer['city'],
             lang('zip_code') . ': ' . $customer['zip_code'],
-        ];
-
-        $associate_notes = trim((string) ($provider['notes'] ?? ''));
-        if ($associate_notes !== '') {
-            $description[] = '';
-            $description[] = lang('virtual_meeting');
-            $description[] = '';
-            $description[] = $associate_notes;
-        }
-
-        $description[] = '';
+            '',
+        );
         $description[] = lang('notes');
         $description[] = '';
         $description[] = (string) ($appointment['notes'] ?? '');
