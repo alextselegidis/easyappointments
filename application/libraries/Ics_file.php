@@ -76,7 +76,8 @@ class Ics_file
             ->setEnd($appointment_end)
             ->setStatus('CONFIRMED')
             ->setSummary($service['name'])
-            ->setUid($appointment['id_caldav_calendar'] ?: $this->generate_uid($appointment['id']));
+            ->setUid($appointment['id_caldav_calendar'] ?: $this->generate_uid($appointment['id']))
+            ->setSequence($this->generate_sequence($appointment['update_datetime'] ?? null));
 
         if (!empty($service['location'])) {
             $location = new Location();
@@ -179,6 +180,7 @@ class Ics_file
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
+            ->setMethod('REQUEST')
             ->setTimezone(new DateTimeZone($provider['timezone']))
             ->addEvent($event);
 
@@ -211,7 +213,8 @@ class Ics_file
             ->setEnd($unavailability_end)
             ->setStatus('CONFIRMED')
             ->setSummary('Unavailability')
-            ->setUid($unavailability['id_caldav_calendar'] ?: $this->generate_uid($unavailability['id']));
+            ->setUid($unavailability['id_caldav_calendar'] ?: $this->generate_uid($unavailability['id']))
+            ->setSequence($this->generate_sequence($unavailability['update_datetime'] ?? null));
 
         $event->setDescription(str_replace("\n", "\\n", (string) $unavailability['notes']));
 
@@ -227,6 +230,7 @@ class Ics_file
 
         $calendar
             ->setProdId('-//EasyAppointments//Open Source Web Scheduler//EN')
+            ->setMethod('REQUEST')
             ->setTimezone(new DateTimeZone($provider['timezone']))
             ->addEvent($event);
 
@@ -241,5 +245,25 @@ class Ics_file
     public function generate_uid(int $db_record_id): string
     {
         return 'ea-' . md5($db_record_id);
+    }
+
+    /**
+     * Generate a SEQUENCE number for an ICS event derived from the last update timestamp.
+     *
+     * RFC 5545 requires SEQUENCE to be a non-negative integer that increases with each
+     * significant revision. Using the Unix timestamp of update_datetime satisfies this:
+     * it is always greater after a reschedule, with no additional DB columns needed.
+     *
+     * @param string|null $update_datetime The appointment's update_datetime value.
+     *
+     * @return int
+     */
+    public function generate_sequence(?string $update_datetime): int
+    {
+        if (empty($update_datetime)) {
+            return 0;
+        }
+
+        return (int) (new DateTime($update_datetime))->getTimestamp();
     }
 }

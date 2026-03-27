@@ -48,6 +48,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Customer limit must not allow providers to select customers in the appt modal that they are not connected with
 - Improve the CalDAV syncing compatibility with more systems (#1840)
 - Optimize backend query during booking process (#1721)
+- Add the sequence field in the ICS file so that appointments can be updated when multiple changes are made to the same record
 
 ### Removed
 

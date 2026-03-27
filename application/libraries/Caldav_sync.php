@@ -485,7 +485,7 @@ class Caldav_sync
     ): string {
         $ics_file = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
 
-        return str_replace('METHOD:PUBLISH', '', $ics_file);
+        return str_replace('METHOD:REQUEST', '', $ics_file);
     }
 
     /**
@@ -495,7 +495,7 @@ class Caldav_sync
     {
         $ics_file = $this->CI->ics_file->get_unavailability_stream($unavailability, $provider);
 
-        return str_replace('METHOD:PUBLISH', '', $ics_file);
+        return str_replace('METHOD:REQUEST', '', $ics_file);
     }
 
     /**
