@@ -131,19 +131,33 @@ class Booking_cancellation extends EA_Controller
             );
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
+
+            html_vars([
+                'page_title' => lang('appointment_cancelled_title'),
+                'company_color' => setting('company_color'),
+                'google_analytics_code' => setting('google_analytics_code'),
+                'matomo_analytics_url' => setting('matomo_analytics_url'),
+                'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
+            ]);
+
+            $this->load->view('pages/booking_cancellation');
         } catch (Throwable $e) {
             log_message('error', 'Booking Cancellation Exception: ' . $e->getMessage());
+
+            html_vars([
+                'page_title' => lang('appointment_not_found'),
+                'company_color' => setting('company_color'),
+                'message_title' => lang('appointment_not_found'),
+                'message_text' => lang('appointment_does_not_exist_in_db'),
+                'message_icon' => base_url('assets/img/error.png'),
+                'google_analytics_code' => setting('google_analytics_code'),
+                'matomo_analytics_url' => setting('matomo_analytics_url'),
+                'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
+                'display_login_button' => setting('display_login_button'),
+            ]);
+
+            $this->load->view('pages/booking_message');
         }
-
-        html_vars([
-            'page_title' => lang('appointment_cancelled_title'),
-            'company_color' => setting('company_color'),
-            'google_analytics_code' => setting('google_analytics_code'),
-            'matomo_analytics_url' => setting('matomo_analytics_url'),
-            'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
-        ]);
-
-        $this->load->view('pages/booking_cancellation');
     }
 
     /**

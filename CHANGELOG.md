@@ -5,6 +5,10 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
+
 ### Added
 
 - Added request method check on each request so that only allowed methods are accepted
