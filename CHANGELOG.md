@@ -5,13 +5,6 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
-### Fixed
-
-- Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
-- Fixed booking cancellation always failing due to custom CSRF check that was incompatible with CSRF-excluded booking routes
-- Fixed booking cancellation error page showing generic "appointment not found" instead of the actual error message (e.g. rate limit exceeded)
-- Fixed booking cancellation crashing when cache driver fails to initialize
-
 ### Added
 
 - Added request method check on each request so that only allowed methods are accepted
