@@ -7,6 +7,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Added
 
+- Added a "Test" button to the login form
 - Added request method check on each request so that only allowed methods are accepted
 - Add Jitsi integration and link generation for appointments made via the public page
 - Allow providers to toggle the syncing themselves (#1731)
@@ -34,6 +35,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Changed
 
+- Refactored cleanup logic from Console controller into a dedicated Cleanup library
 - Make the phone number field of backend users optional (#1709)
 - Change the main CRUD layout and navigation structure (list first)
 - Replace the availabilities type with the new slot interval field
