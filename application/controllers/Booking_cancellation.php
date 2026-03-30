@@ -164,22 +164,34 @@ class Booking_cancellation extends EA_Controller
      */
     private function apply_cancellation_rate_limit(): void
     {
-        $this->load->driver('cache', ['adapter' => 'file']);
+        try {
+            $this->load->driver('cache', ['adapter' => 'file']);
 
-        $ip = $this->input->ip_address();
-        $cache_key = 'cancellation_attempts_' . str_replace([':', '.'], '_', $ip);
+            if (!isset($this->cache) || !is_object($this->cache)) {
+                log_message('debug', 'Cache driver not available, skipping cancellation rate limit check.');
+                return;
+            }
 
-        $attempts = $this->cache->get($cache_key);
+            $ip = $this->input->ip_address();
+            $cache_key = 'cancellation_attempts_' . str_replace([':', '.'], '_', $ip);
 
-        if ($attempts === false) {
-            $this->cache->save($cache_key, 1, 600); // 10 minutes
-        } else {
+            $attempts = $this->cache->get($cache_key);
+
+            if ($attempts === false) {
+                $this->cache->save($cache_key, 1, 600); // 10 minutes
+                return;
+            }
+
             $this->cache->save($cache_key, $attempts + 1, 600);
 
-            if ($attempts >= 100) {
+            if ($attempts >= 5) {
                 log_message('warning', 'Cancellation rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many cancellation attempts. Please try again later.');
             }
+        } catch (RuntimeException $e) {
+            throw $e;
+        } catch (Throwable $e) {
+            log_message('error', 'Cache error in cancellation rate limiting: ' . $e->getMessage());
         }
     }
 }
