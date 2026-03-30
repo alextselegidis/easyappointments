@@ -142,10 +142,10 @@ class Booking_cancellation extends EA_Controller
             log_message('error', 'Booking Cancellation Exception: ' . $e->getMessage());
 
             html_vars([
-                'page_title' => lang('appointment_not_found'),
+                'page_title' => lang('appointment_cancelled_title'),
                 'company_color' => setting('company_color'),
-                'message_title' => lang('appointment_not_found'),
-                'message_text' => lang('appointment_does_not_exist_in_db'),
+                'message_title' => lang('appointment_cancelled_title'),
+                'message_text' => e($e->getMessage()),
                 'message_icon' => base_url('assets/img/error.png'),
                 'google_analytics_code' => setting('google_analytics_code'),
                 'matomo_analytics_url' => setting('matomo_analytics_url'),
@@ -176,7 +176,7 @@ class Booking_cancellation extends EA_Controller
         } else {
             $this->cache->save($cache_key, $attempts + 1, 600);
 
-            if ($attempts >= 5) {
+            if ($attempts >= 100) {
                 log_message('warning', 'Cancellation rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many cancellation attempts. Please try again later.');
             }
