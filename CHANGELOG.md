@@ -42,6 +42,12 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
+- Fixed booking cancellation always failing due to custom CSRF check that was incompatible with CSRF-excluded booking routes
+- Fixed booking cancellation error page showing generic "appointment not found" instead of the actual error message (e.g. rate limit exceeded)
+- Fixed booking cancellation crashing when cache driver fails to initialize
+- Fixed session cleanup using wrong file prefix (ci_session instead of ea_session)
+- Added automatic storage cleanup with 90-day retention for cache, sessions, and logs
 - Cannot modify appointment if provider changes time zone (#1789)
 - Fix the customer appointment link so that it opens the modal even in the table calendar view
 - Run the session garbage collector once in a while to avoid session bloat (#1793)

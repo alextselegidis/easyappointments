@@ -154,5 +154,7 @@ const WEBHOOK_ADMIN_DELETE = 'admin_delete';
 const WEBHOOK_BLOCKED_PERIOD_SAVE = 'blocked_period_save';
 const WEBHOOK_BLOCKED_PERIOD_DELETE = 'blocked_period_delete';
 
+const STORAGE_RETENTION_DAYS = 90;
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

@@ -182,12 +182,12 @@ class Console extends EA_Controller
     }
 
     /**
-     * Clean up expired session files.
+     * Clean up expired session files (older than retention period).
      */
     private function cleanup_sessions(): void
     {
         $session_path = APPPATH . '../storage/sessions';
-        $session_expiration = config_item('sess_expiration') ?: 7200;
+        $max_age_seconds = STORAGE_RETENTION_DAYS * 86400;
 
         if (!is_dir($session_path)) {
             response(PHP_EOL . '⇾ Session directory not found.' . PHP_EOL);
@@ -195,10 +195,10 @@ class Console extends EA_Controller
         }
 
         $deleted_count = 0;
-        $now = time();
+        $cutoff_time = time() - $max_age_seconds;
 
-        foreach (glob($session_path . '/ci_session*') as $file) {
-            if (is_file($file) && ($now - filemtime($file)) > $session_expiration) {
+        foreach (glob($session_path . '/ea_session*') as $file) {
+            if (is_file($file) && filemtime($file) < $cutoff_time) {
                 if (unlink($file)) {
                     $deleted_count++;
                 }
@@ -209,12 +209,11 @@ class Console extends EA_Controller
     }
 
     /**
-     * Clean up old log files (older than 30 days).
+     * Clean up old log files (older than retention period).
      */
     private function cleanup_logs(): void
     {
         $log_path = APPPATH . '../storage/logs';
-        $max_age_days = 30;
 
         if (!is_dir($log_path)) {
             response('⇾ Log directory not found.' . PHP_EOL);
@@ -222,7 +221,7 @@ class Console extends EA_Controller
         }
 
         $deleted_count = 0;
-        $cutoff_time = time() - ($max_age_days * 86400);
+        $cutoff_time = time() - (STORAGE_RETENTION_DAYS * 86400);
 
         foreach (glob($log_path . '/log-*.php') as $file) {
             if (is_file($file) && filemtime($file) < $cutoff_time) {
@@ -236,12 +235,11 @@ class Console extends EA_Controller
     }
 
     /**
-     * Clean up old cache files (older than 7 days).
+     * Clean up old cache files (older than retention period).
      */
     private function cleanup_cache(): void
     {
         $cache_path = APPPATH . '../storage/cache';
-        $max_age_days = 7;
 
         if (!is_dir($cache_path)) {
             response('⇾ Cache directory not found.' . PHP_EOL);
@@ -249,13 +247,12 @@ class Console extends EA_Controller
         }
 
         $deleted_count = 0;
-        $cutoff_time = time() - ($max_age_days * 86400);
+        $cutoff_time = time() - (STORAGE_RETENTION_DAYS * 86400);
 
         $files = glob($cache_path . '/*');
 
         foreach ($files as $file) {
-            // Skip index.html and .gitkeep files
-            if (is_file($file) && !in_array(basename($file), ['index.html', '.gitkeep'])) {
+            if (is_file($file) && !in_array(basename($file), ['index.html', '.gitkeep', '.htaccess'])) {
                 if (filemtime($file) < $cutoff_time) {
                     if (unlink($file)) {
                         $deleted_count++;

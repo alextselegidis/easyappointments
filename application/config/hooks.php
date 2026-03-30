@@ -22,5 +22,16 @@ $hook['post_controller_constructor'][] = [
     'params' => [],
 ];
 
+/**
+ * Probabilistically clean up old storage files (runs ~1% of requests).
+ */
+$hook['post_system'][] = [
+    'class' => '',
+    'function' => 'storage_cleanup',
+    'filename' => 'storage_cleanup.php',
+    'filepath' => 'hooks',
+    'params' => [],
+];
+
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */
