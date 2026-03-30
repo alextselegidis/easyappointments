@@ -47,6 +47,7 @@
         * `chore:`
         * `refactor:`
 * Commit messages should be concise but descriptive.
+* Skip adding the "Co-authored-by" line
 
 
 ## Automation
