@@ -71,9 +71,6 @@ class Booking_cancellation extends EA_Controller
             // Apply rate limiting for cancellations (5 per 10 minutes per IP)
             $this->apply_cancellation_rate_limit();
 
-            // Verify CSRF token
-            $this->verify_csrf_token();
-
             // Sanitize cancellation reason (limit length and strip dangerous content)
             $cancellation_reason = strip_tags(substr(trim($cancellation_reason), 0, 1000));
 
@@ -183,22 +180,6 @@ class Booking_cancellation extends EA_Controller
                 log_message('warning', 'Cancellation rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many cancellation attempts. Please try again later.');
             }
-        }
-    }
-
-    /**
-     * Verify CSRF token for cancellation requests.
-     *
-     * @throws RuntimeException If CSRF token is invalid.
-     */
-    private function verify_csrf_token(): void
-    {
-        $csrf_token = request('csrf_token') ?? $this->input->get_request_header('X-CSRF');
-        $csrf_cookie = $this->input->cookie('csrf_cookie');
-
-        if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
-            log_message('warning', 'Invalid CSRF token in cancellation request from IP: ' . $this->input->ip_address());
-            throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
         }
     }
 }
