@@ -84,6 +84,12 @@ class Legal_settings extends EA_Controller
 
             check('legal_settings', 'array|null');
 
+            $legal_content_settings = [
+                'cookie_notice_content',
+                'terms_and_conditions_content',
+                'privacy_policy_content',
+            ];
+
             $settings = request('legal_settings', []);
 
             foreach ($settings as $setting) {
@@ -91,6 +97,13 @@ class Legal_settings extends EA_Controller
 
                 if (!empty($existing_setting)) {
                     $setting['id'] = $existing_setting['id'];
+                }
+
+                if (
+                    !empty($setting['name']) &&
+                    in_array($setting['name'], $legal_content_settings, true)
+                ) {
+                    $setting['value'] = pure_html($setting['value'] ?? '');
                 }
 
                 $this->settings_model->save($setting);
