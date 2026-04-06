@@ -571,4 +571,5 @@ $lang['altcha_verification_failed'] = 'ALTCHA-vahvistus epäonnistui. Yritä uud
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Tarjoamme kokonaispalveluja itse ylläpidetylle ohjelmistolle, mukaan lukien räätälöity kehitys, hallittu hosting, tukisopimukset, uudelleenbrändäys ja jatkuvat parannukset — jotta voit keskittyä liiketoimintaasi, kun me hoidamme loput.';
 $lang['go_premium'] = 'Go Premium';
+$lang['select_language'] = 'Valitse kieli';
 // End

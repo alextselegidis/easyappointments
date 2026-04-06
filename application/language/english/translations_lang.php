@@ -571,4 +571,5 @@ $lang['altcha_verification_failed'] = 'ALTCHA verification failed. Please try ag
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'We offer end-to-end services for self-hosted software, including custom development, managed hosting, support contracts, rebranding, and ongoing enhancements — so you can focus on your business while we handle the rest.';
 $lang['go_premium'] = 'Go Premium';
+$lang['select_language'] = 'Select Language';
 // End

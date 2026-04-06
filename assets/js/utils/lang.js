@@ -38,7 +38,7 @@ window.App.Utils.Lang = (function () {
 
         $target.popover({
             placement: 'top',
-            title: 'Select Language',
+            title: lang('select_language'),
             content: $languageList[0],
             html: true,
             container: 'body',
