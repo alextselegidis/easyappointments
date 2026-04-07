@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Ponúkame komplexné služby pre self-hosted softv
 $lang['go_premium'] = 'Prejsť na Premium';
 $lang['notify_customer_on_create_question'] = 'Chcete zákazníka informovať o tomto novom termíne?';
 $lang['notify_customer_on_delete_question'] = 'Chcete zákazníka informovať o zrušení termínu?';
+$lang['select_language'] = 'Select Language';
 // End

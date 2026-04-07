@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Ofrojmë shërbime të plota për softuer të vet�
 $lang['go_premium'] = 'Kaloni në Premium';
 $lang['notify_customer_on_create_question'] = 'Dëshironi të njoftoni klientin për këtë takim të ri?';
 $lang['notify_customer_on_delete_question'] = 'Dëshironi të njoftoni klientin për anulimin e takimit?';
+$lang['select_language'] = 'Select Language';
 // End

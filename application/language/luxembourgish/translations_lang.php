@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Mir bidden End-to-End Servicer fir selbst-gehost S
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_customer_on_create_question'] = 'Wëllt Dir de Client iwwer dësen neien Rendez-vous informéieren?';
 $lang['notify_customer_on_delete_question'] = 'Wëllt Dir de Client iwwer d\'Annulléierung vum Rendez-vous informéieren?';
+$lang['select_language'] = 'Select Language';
 // End

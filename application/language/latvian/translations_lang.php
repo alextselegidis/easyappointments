@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Mēs piedāvājam pilna cikla pakalpojumus pašmit
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_customer_on_create_question'] = 'Vai vēlaties informēt klientu par šo jauno tikšanos?';
 $lang['notify_customer_on_delete_question'] = 'Vai vēlaties informēt klientu par tikšanās atcelšanu?';
+$lang['select_language'] = 'Select Language';
 // End

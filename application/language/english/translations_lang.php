@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'We offer end-to-end services for self-hosted softw
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_customer_on_create_question'] = 'Would you like to notify the customer about this new appointment?';
 $lang['notify_customer_on_delete_question'] = 'Would you like to notify the customer about the appointment cancellation?';
+$lang['select_language'] = 'Select Language';
 // End

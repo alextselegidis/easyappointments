@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Wir bieten umfassende Dienstleistungen für selbst
 $lang['go_premium'] = 'Premium erwerben';
 $lang['notify_customer_on_create_question'] = 'Möchten Sie den Kunden über diesen neuen Termin informieren?';
 $lang['notify_customer_on_delete_question'] = 'Möchten Sie den Kunden über die Stornierung des Termins informieren?';
+$lang['select_language'] = 'Select Language';
 // End

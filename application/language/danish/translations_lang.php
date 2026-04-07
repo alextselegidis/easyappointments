@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Vi tilbyder helhedstjenester for selvhostet softwa
 $lang['go_premium'] = 'Bliv Premium';
 $lang['notify_customer_on_create_question'] = 'Vil du give kunden besked om denne nye aftale?';
 $lang['notify_customer_on_delete_question'] = 'Vil du give kunden besked om aflysningen af aftalen?';
+$lang['select_language'] = 'Select Language';
 // End

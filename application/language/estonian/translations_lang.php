@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Pakume täisteenust ise majutatud tarkvarale, seal
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_customer_on_create_question'] = 'Kas soovite klienti sellest uuest kohtumisest teavitada?';
 $lang['notify_customer_on_delete_question'] = 'Kas soovite klienti kohtumise tühistamisest teavitada?';
+$lang['select_language'] = 'Select Language';
 // End

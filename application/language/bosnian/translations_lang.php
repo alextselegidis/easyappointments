@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Nudimo kompletne usluge za samostalno hostovan sof
 $lang['go_premium'] = 'Postanite Premium';
 $lang['notify_customer_on_create_question'] = 'Želite li obavijestiti klijenta o ovom novom terminu?';
 $lang['notify_customer_on_delete_question'] = 'Želite li obavijestiti klijenta o otkazivanju termina?';
+$lang['select_language'] = 'Select Language';
 // End

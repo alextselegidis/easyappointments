@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Oferim servicii complete pentru software auto-găz
 $lang['go_premium'] = 'Treceți la Premium';
 $lang['notify_customer_on_create_question'] = 'Doriți să notificați clientul despre această nouă programare?';
 $lang['notify_customer_on_delete_question'] = 'Doriți să notificați clientul despre anularea programării?';
+$lang['select_language'] = 'Select Language';
 // End

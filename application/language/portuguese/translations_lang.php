@@ -573,4 +573,5 @@ $lang['about_app_premium'] = 'Oferecemos serviços completos para software auto-
 $lang['go_premium'] = 'Obter Premium';
 $lang['notify_customer_on_create_question'] = 'Gostaria de notificar o cliente sobre este novo agendamento?';
 $lang['notify_customer_on_delete_question'] = 'Gostaria de notificar o cliente sobre o cancelamento do agendamento?';
+$lang['select_language'] = 'Select Language';
 // End
