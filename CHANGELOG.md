@@ -23,7 +23,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Improved
 
-- Simplified all documentation pages for better readability by non-technical users 
+- Simplified all documentation pages for better readability by non-technical users
+- Removed ALTCHA documentation page 
 - Allow users to assign a provider to the service in the services page and update the label (assign the service to)
 - Perform various security optimizations in the app
 - Custom fields are displayed in appointment details popup (#1830)

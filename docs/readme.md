@@ -10,7 +10,7 @@ Welcome to the documentation pages of Easy!Appointments. Navigate through the av
 - [Google Calendar Sync](google-calendar-sync.md)
 - [CalDAV Calendar Sync](caldav-calendar-sync.md)
 - [LDAP Integration](ldap.md)
-- [ALTCHA (CAPTCHA)](altcha.md)
+
 - [Translations](manage-translations.md)
 - [Get Involved](get-involved.md)
 - [FAQ](faq.md)
