@@ -1,144 +1,86 @@
 # ALTCHA Integration
 
-ALTCHA is a privacy-focused, open-source CAPTCHA alternative that uses proof-of-work challenges to verify human users without tracking. Unlike traditional CAPTCHAs, ALTCHA doesn't rely on third-party services or require users to solve visual puzzles.
+ALTCHA is a spam-protection tool that replaces traditional image CAPTCHAs (those "pick the traffic lights" puzzles). Instead of making users solve visual puzzles, it runs a quick background calculation in the browser to verify the user is human.
 
-## How It Works
+**Why use it?**
 
-1. When a form is loaded, the frontend requests a challenge from the server
-2. The user's browser solves the proof-of-work challenge (finding a number that produces a specific hash)
-3. The solution is sent back with the form submission
-4. The server verifies the solution using HMAC signatures
+- No annoying image puzzles for your users
+- No data sent to third-party services (privacy-friendly and GDPR-compliant)
+- Works automatically — users just see a simple checkbox
 
-This approach is:
-- **Privacy-friendly**: No external services, no tracking
-- **GDPR-compliant**: All processing happens on your server
-- **Accessible**: No visual puzzles to solve
-- **Bot-resistant**: Requires computational work that's trivial for humans but costly for automated attacks
+## Setup
 
-## Requirements
+### 1. Install the PHP Package
 
-The ALTCHA integration requires the `altcha-org/altcha` PHP package. Install it via Composer:
+Run this command in your Easy!Appointments folder:
 
 ```bash
 composer require altcha-org/altcha
 ```
 
-## Configuration
+### 2. Enable CAPTCHA
 
-### 1. Access ALTCHA Settings
+Go to **Settings** → **General** and turn on **Require CAPTCHA**.
 
-Navigate to **Settings → Integrations → ALTCHA** in the Easy!Appointments backend.
+### 3. Configure ALTCHA
 
-### 2. Generate HMAC Key
+Go to **Settings** → **Integrations** → **ALTCHA**:
 
-Click the **Generate** button to create a secure random HMAC key. This key is used to sign and verify challenges. Keep this key secret.
+1. Click **Generate** to create a secret key.
+2. Turn on **Enable ALTCHA**.
+3. Click **Save**.
 
-### 3. Configure Options
+That's it! The image CAPTCHA will now be replaced by ALTCHA on all public pages.
 
-| Setting | Description | Default |
+### Settings Explained
+
+| Setting | What It Does | Default |
 |---------|-------------|---------|
-| **Enable ALTCHA** | When enabled (and CAPTCHA is required), ALTCHA replaces the image CAPTCHA | Disabled |
-| **HMAC Key** | Secret key for signing challenges (required) | Empty |
-| **Max Number** | Maximum number for proof-of-work (higher = harder) | 100,000 |
-| **Expires** | Challenge validity in seconds | 300 (5 min) |
+| **Enable ALTCHA** | Turns ALTCHA on (replaces image CAPTCHA) | Off |
+| **HMAC Key** | Secret key used to create challenges (click Generate) | Empty |
+| **Max Number** | How hard the challenge is (higher = harder) | 100,000 |
+| **Expires** | How long a challenge stays valid | 300 seconds (5 min) |
 
-### 4. Enable CAPTCHA Requirement
+## Where It Appears
 
-ALTCHA only activates when CAPTCHA is required. Go to **Settings → General** and enable **Require CAPTCHA**.
+When enabled, ALTCHA replaces the image CAPTCHA on:
 
-## Testing Locally
-
-### Using Docker
-
-No additional Docker services are required. ALTCHA runs entirely within the PHP application.
-
-1. Start the development environment:
-   ```bash
-   docker-compose up -d
-   ```
-
-2. Install Composer dependencies (including ALTCHA):
-   ```bash
-   docker-compose exec php-fpm composer install
-   ```
-
-3. Run database migrations:
-   ```bash
-   docker-compose exec php-fpm php index.php console migrate
-   ```
-
-4. Access the application at `http://localhost` and configure ALTCHA in Settings.
-
-### Verify Installation
-
-1. Go to **Settings → Integrations → ALTCHA**
-2. Click **Generate** to create an HMAC key
-3. Enable ALTCHA
-4. Save settings
-5. Go to **Settings → General** and enable **Require CAPTCHA**
-6. Open the booking page in an incognito window
-7. Complete the booking wizard - on the final step, you should see the ALTCHA verification widget instead of the image CAPTCHA
-
-## Affected Pages
-
-When ALTCHA is enabled, it replaces the image CAPTCHA on:
-
-- Booking page (final confirmation step)
-- Login page
-- Password recovery page
-- Password reset page
+- The booking page (final confirmation step)
+- The login page
+- The password recovery page
+- The password reset page
 
 ## Troubleshooting
 
-### "ALTCHA verification failed"
+**"ALTCHA verification failed"**
 
-- Ensure the HMAC key is set and saved
-- Check that the challenge hasn't expired (increase the expiry time if needed)
-- Verify the `altcha-org/altcha` package is installed
+- Make sure you clicked **Generate** and **saved** the HMAC key.
+- The challenge may have expired — try increasing the expiry time.
+- Verify the PHP package is installed: `composer require altcha-org/altcha`
 
-### Challenge not loading
+**Challenge not loading**
 
-- Check browser console for JavaScript errors
-- Verify the `/captcha/altcha_challenge` endpoint returns a valid JSON response
-- Ensure ALTCHA is enabled in settings
+- Open your browser's developer tools (F12 → Console) and look for errors.
+- Check that ALTCHA is enabled in Settings.
 
-### Package not found
+**Package not found error**
 
-If you see errors about missing `AltchaOrg\Altcha\Altcha` class:
-
+Run:
 ```bash
 composer require altcha-org/altcha
 composer dump-autoload
 ```
 
-## Security Considerations
+## Security Tips
 
-- **Keep the HMAC key secret**: It's used to sign challenges. If compromised, regenerate it immediately.
-- **Set appropriate difficulty**: The default max number (100,000) provides good security. Lower values make challenges easier (faster but less secure).
-- **Set reasonable expiry**: 5 minutes (300 seconds) is usually sufficient. Shorter times increase security but may frustrate slow users.
-
-## API Endpoint
-
-### GET /captcha/altcha_challenge
-
-Returns a new ALTCHA challenge for client-side solving.
-
-**Response:**
-```json
-{
-  "algorithm": "SHA-256",
-  "challenge": "abc123...",
-  "maxnumber": 100000,
-  "salt": "xyz789...",
-  "signature": "sig..."
-}
-```
+- **Keep the HMAC key secret.** If you think it's been exposed, click **Generate** to create a new one.
+- **Don't lower Max Number too much.** The default (100,000) gives good protection. Lower values are faster but less secure.
+- **5 minutes expiry is usually fine.** Only increase it if users have very slow connections.
 
 ## Further Reading
 
 - [ALTCHA Official Website](https://altcha.org/)
 - [ALTCHA PHP Library](https://github.com/altcha-org/altcha-lib-php)
-- [Proof-of-Work Concept](https://en.wikipedia.org/wiki/Proof_of_work)
 
 *This document applies to Easy!Appointments v1.6.0.*
 

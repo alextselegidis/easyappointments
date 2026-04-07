@@ -1,55 +1,66 @@
 # Docker
 
-Run the development containers of Easy!Appointments with Docker and Docker Compose utility. Docker allows you to compose your application in microservices, so that you can easily get started with the local development.
+Docker lets you run Easy!Appointments on your computer without installing Apache, PHP, or MySQL manually. Everything runs inside containers — isolated mini-environments that are easy to start and stop.
 
-Simply clone the project and run `docker compose up` to start the environment.
+## Getting Started
 
-You will need modify the root `config.php` so that it matches the following example:
+1. Make sure you have [Docker](https://www.docker.com/) installed.
+2. Clone or download the project.
+3. Edit the `config.php` file in the root folder to match the Docker setup:
 
-```php 
+```php
 class Config {
-    // ------------------------------------------------------------------------
     // GENERAL SETTINGS
-    // ------------------------------------------------------------------------
-    
-    const BASE_URL      = 'http://localhost'; 
+    const BASE_URL      = 'http://localhost';
     const LANGUAGE      = 'english';
     const DEBUG_MODE    = TRUE;
 
-    // ------------------------------------------------------------------------
     // DATABASE SETTINGS
-    // ------------------------------------------------------------------------
-    
     const DB_HOST       = 'mysql';
     const DB_NAME       = 'easyappointments';
     const DB_USERNAME   = 'user';
     const DB_PASSWORD   = 'password';
 
-    // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC
-    // ------------------------------------------------------------------------
-    
-    const GOOGLE_SYNC_FEATURE   = FALSE; // You can optionally enable the Google Sync feature. 
+    const GOOGLE_SYNC_FEATURE   = FALSE;
     const GOOGLE_CLIENT_ID      = '';
     const GOOGLE_CLIENT_SECRET  = '';
 }
 ```
 
-In the host machine the server is accessible from `http://localhost` and the database from `localhost:3306`.
+4. Start everything with:
 
-You can additionally access phpMyAdmin from `http://localhost:8080` (credentials are `root` / `secret`) and Mailpit from `http://localhost:8025`.
+```bash
+docker compose up
+```
 
-Baikal, a self-hosted CalDAV server used to develop the CalDAV syncing integration is available on `http://localhost:8100` (credentials are `admin` / `admin`). 
+## What's Included
 
-While activating CalDAV sync with the local Docker-based Baikal, you will need to first create a new Baikal user and then the credentials you defined along with the http://baikal/dav.php URL
+Once running, you can access these services in your browser:
 
-Openldap is configured to run through `openldap` container and ports `389` and `636`. 
+| Service | URL | Credentials |
+|---------|-----|-------------|
+| **Easy!Appointments** | http://localhost | (your admin account) |
+| **phpMyAdmin** (database manager) | http://localhost:8080 | `root` / `secret` |
+| **Mailpit** (email testing) | http://localhost:8025 | (no login needed) |
+| **Baikal** (CalDAV testing) | http://localhost:8100 | `admin` / `admin` |
+| **phpLDAPadmin** (LDAP testing) | http://localhost:8200 | `cn=admin,dc=example,dc=org` / `admin` |
 
-Phpldapadmin, an admin portal for openldap is available on `http://localhost:8200` (credentials are `cn=admin,dc=example,dc=org` / `admin`).
+## CalDAV Sync with Baikal
 
-**Attention:** This configuration is meant to make development easier. It is not intended to server as a production environment!
+To test CalDAV syncing locally:
 
-A production image of Easy!Appointments can be found at: https://github.com/alextselegidis/easyappointments-docker
+1. Open Baikal at http://localhost:8100 and create a new user.
+2. In Easy!Appointments, click **Enable Sync** → **CalDAV** and enter:
+   - **URL:** `http://baikal/dav.php/calendars/<your-username>/default/`
+   - **Username:** your Baikal username
+   - **Password:** your Baikal password
+
+## LDAP
+
+OpenLDAP runs on the `openldap` container (ports `389` and `636`). You can manage it through phpLDAPadmin at http://localhost:8200.
+
+> **Note:** This Docker setup is for **development only**. Don't use it in production. For a production Docker image, see: https://github.com/alextselegidis/easyappointments-docker
 
 *This document applies to Easy!Appointments v1.6.0.*
 

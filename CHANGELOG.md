@@ -19,7 +19,11 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add prompt for client notifications so that they are not sent every time an appointment changes
 - Add notification prompt when creating new appointments from the calendar page
 - Add notification prompt when deleting appointments from the calendar page
-- Connect RSS updates from the official blog and show them in the about page 
+- Connect RSS updates from the official blog and show them in the about page
+
+### Improved
+
+- Simplified all documentation pages for better readability by non-technical users 
 - Allow users to assign a provider to the service in the services page and update the label (assign the service to)
 - Perform various security optimizations in the app
 - Custom fields are displayed in appointment details popup (#1830)

@@ -1,20 +1,36 @@
-# FAQ 
+# FAQ
 
-## How do I check that my server has Apache, Php and MySQL already installed?
+## How do I check that my server has Apache, PHP, and MySQL installed?
 
-Easy!Appointments is a php application and needs an apache server with php and mysql installed. Apart from that, the php "curl" extension and the apache module "mod_rewrite" need to be enabled. To check if your server fullfils the needed prerequisites you will need to either contact the web hosting company or create a php file on your web root directory with the content <?php phpinfo(); ?> and then access it from the web (eg "phpinfo.php" >> "http://domain-name.com/phpinfo.php"). This url will display all the server details.
+Easy!Appointments needs three things on your server: **Apache** (the web server), **PHP** (the programming language), and **MySQL** (the database). You also need the PHP **curl** extension and the Apache **mod_rewrite** module enabled.
 
+**Two ways to check:**
+
+1. **Ask your hosting company** — they can confirm what's installed.
+2. **Create a test file** — make a file called `phpinfo.php` in your website's root folder with this content:
+   ```php
+   <?php phpinfo(); ?>
+   ```
+   Then open `http://your-domain.com/phpinfo.php` in your browser. It will show everything installed on your server. **Delete this file when you're done** for security reasons.
 
 ## How do I create a Google Calendar API key?
 
-Google needs to authorize the usage of her services, so you need to create an API key for your Easy!Appointments installation. In order to do that you will need a google account. When logged in, go to the Google Developers Console and create a new project. Enable the Calendar API service and then head to the "APIs & Auth >> Credentials" menu item. There, you will need to create a new OAuth client id. The last step is to enter a valid redirect url for the authrorization process. This is very important because if the redirect url is wrong, you will not be able to use the google synchronization feature on your E!A installation. For your redirect url enter the following value: "http://domain-name/folder-to-ea-installation/google/oauth_callback" (replace the domain name and the path to the Easy!Appointments installation folder with your server values). For example if E!A is installed on the "ea" folder on the web root directory the valid redirect url would be "http://my-domain/ea/google/callback". 
+See the [Google Calendar Sync](google-calendar-sync.md) guide for detailed step-by-step instructions.
 
+## The Installation Page Is Not Working
 
-## Installation Page Is Not Working
+This usually happens for one of two reasons:
 
-Various users have reported on the support group that they cannot complete the installation successfully. This is primarily because of two reasons (a) either the configuration.php file was set incorrectly, or the server settings won't allow AJAX calls to be completed successfully and thus let the installation finish. For the first situation you will have to check that you have properly set the $base_url parameter to "https://url/to/easyappointments/folder/" (last slash is necessary!), for example "http://easyappointments.org/ea-installation/". Then ensure that your database connection credentials is correct. In the second situation the things are more complex. Users have stated that in some web hosts you need to change the .htaccess file in order for the application to work (htacces snippet provided below). If this doesn't work then check the apache error log and open the browser javascript console after you press the "Install E!A" button. There you will find information about what is going wrong with your installation. Contact your hosting company and ask them to resolve these issues.
+**1. Wrong config settings**
 
-.htaccess
+Open `config.php` and double-check:
+
+- `BASE_URL` is set to your exact installation URL (e.g. `http://your-domain.com/easyappointments`)
+- Your database name, username, and password are correct
+
+**2. Server is blocking requests**
+
+Some hosting providers need an `.htaccess` fix. Create or edit the `.htaccess` file in your installation folder and add:
 
 ```
 RewriteEngine On
@@ -23,44 +39,60 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?/$1 [L]
 ```
 
-## Booking Wizard Won't Display Any Hours
+If that doesn't work, check the **Apache error log** and the **browser console** (press F12 → Console tab) for error messages. Contact your hosting company with those details.
 
-This issue comes when the customer is on the appointment book wizard but he is not seeing any available appointment hours and he cannot continue either. If your installation has this problem check the apache error log and open the browser's javascript console to find any issues. This is definetely a server issue and can only fixed by contacting your hosting company. It has to do with your server settings not letting Easy!Appointments run correctly. Normally you or the web hosting company will be able to find what needs to be changed in order to solve the issue.
+## The Booking Page Won't Show Any Available Hours
 
+**If no hours appear at all:**
 
-Booking Wizard Displays "There are no available appointment hours for the selected date. Please choose another date." 
- ... Even though there are available time periods in my plan.
+This is usually a server issue. Check the Apache error log and browser console (F12 → Console) for errors. Contact your hosting company with the details you find.
 
-This is not actually an issue but it happened to a user and it was indeed confusing to resolve. A clean installation of E!A has some default settings such as the default working plan that contains some breaks too during the working days. This was set this way in order for you to see how can a working plan be like and set. So if you add a service that lasts for several hours (eg. 3~4 hours) then because of the default breaks new appointments will not fit in any empty time period of your calendar and thus the customer will not be able to book appointments with you. So if your services last for long you will need to change the working plan of your providers too so new appointments will fit into their schedule.
+**If you see "There are no available appointment hours for the selected date":**
 
+This often happens because the **default working plan includes breaks** that don't leave enough room for your service. For example, if your service lasts 3–4 hours but there are lunch breaks in between, no slot is long enough.
 
-## Installing E!A on Subdomain Won't Load Appointment Hours
+**Fix:** Go to **Users** → **Providers**, select the provider, and adjust their working plan. Remove or shorten breaks so there's enough continuous time for your services.
 
-If you want to install Easy!Appointments on a subdomain you will have to use the subdomain URL in your "configuration.php" file and not the initial URL directory. For example if you have the subdomain "http://book.mysite.com" where E!A resides and this subdomain is mapping on "http://mysite.com/book", you will have to set $base_url = 'http://book.mysite.com' in your "configuration.php" file, otherwise you will get a No 'Access-Control-Allow-Origin' error and you won't get any available appointment hours on frontend.
+## Installing on a Subdomain Doesn't Show Available Hours
 
+If Easy!Appointments is on a subdomain like `http://book.mysite.com`, make sure `BASE_URL` in `config.php` uses the **subdomain URL** — not the folder path.
 
-## Change the gap of the available hours of the booking wizard to 60 minutes (or similar). 
+**Correct:** `BASE_URL = 'http://book.mysite.com'`
 
-The following link points to a common question that many users ask. The default gap between the available appointment hours is 15 minutes. In the following thread there is a file attached which will change this gap to 60 minutes. 
+**Wrong:** `BASE_URL = 'http://mysite.com/book'`
 
-(https://groups.google.com/d/msg/easy-appointments/Mdt98fbF8hE/9CEjOvW7FAAJ)
+Using the wrong URL causes a browser security error that blocks the booking page from loading appointment hours.
 
-## DateTime::__construct(): It is not safe to rely on the system's timezone settings...
+## How Do I Change the Time Slot Interval?
 
-You get this warning because PHP is not configured with a timezone setting. This is a very important setting especially for Easy!Appointments, cause otherwise you might get into trouble with the appointment hours. After
- installing the application, make sure that the php.ini "date.timezone" setting has the correct value depending on 
- your location. You can find a list of the [available timezone setting on php.net](http://www.google.com/url?q=http%3A%2F%2Fphp.net%2Fmanual%2Fen%2Ftimezones.php&sa=D&sntz=1&usg=AFQjCNFtFw3O6UQXAKFKWCXqhSd9Z0UwgQ). If you cannot modify your php.ini file try to add the following command at the top of `index.php`. 
- 
- `date_default_timezone_set('America/Los_Angeles'); // Use your own timezone string.`
+By default, available appointment times are shown every **15 minutes** (e.g. 9:00, 9:15, 9:30…). You can change this from the backend settings of each service by adjusting the availabilities type and duration.
 
-## How should I configure my Caddy server to run Easy!Appointments?
+## I'm Getting a Timezone Warning
 
-It is rather easy:
+If you see an error like `DateTime::__construct(): It is not safe to rely on the system's timezone settings...`, it means PHP doesn't have a timezone set.
 
-1. Install `Caddy`.
-2. Install (and run) `php-fpm`, e.g. `sudo apt install php-fpm`.
-3. Install and configure `Easy!Appointments`, e.g. to `/var/www/html/easyappointments`.
-4. Add this to your `/etc/caddy/Caddyfile` and adapt it to your needs:
+**Fix:** Open your `php.ini` file and set the timezone:
+
+```ini
+date.timezone = America/New_York
+```
+
+Use your own timezone from the [PHP timezone list](https://www.php.net/manual/en/timezones.php).
+
+If you can't edit `php.ini`, add this line to the top of `index.php`:
+
+```php
+date_default_timezone_set('America/New_York'); // Use your own timezone
+```
+
+## How Do I Use Caddy Instead of Apache?
+
+If you prefer [Caddy](https://caddyserver.com/) as your web server:
+
+1. Install Caddy
+2. Install PHP-FPM: `sudo apt install php-fpm`
+3. Set up Easy!Appointments in a folder (e.g. `/var/www/html/easyappointments`)
+4. Add this to `/etc/caddy/Caddyfile`:
 
 ```Caddyfile
 easyappointments.example.com {
@@ -71,8 +103,7 @@ easyappointments.example.com {
 }
 ```
 
-5. Restart `Caddy`, e.g. `sudo systemctl restart caddy.server`
-
+5. Restart Caddy: `sudo systemctl restart caddy.service`
 
 *This document applies to Easy!Appointments v1.6.0.*
 

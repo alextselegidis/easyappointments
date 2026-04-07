@@ -1,49 +1,37 @@
 # CalDAV Calendar Sync
 
-This page will guide you through the local configuration of Baikal, an Open Source DAV server that can be used to test
-the CalDAV integration of Easy!Appointments.
+This guide explains how to set up a local CalDAV server (Baikal) for testing calendar sync with Easy!Appointments.
 
-> Note: This guide refers to the available Docker development configuration using docker-compose.yml
+> **Note:** This guide uses the Docker development setup from `docker-compose.yml`.
 
-## Initial Setup
+## Setting Up Baikal
 
-By default, Baikal is configured to run on localhost:8100, so it can be accessed by opening the browser to this address.
+Baikal is a free, self-hosted calendar server. In the Docker setup, it runs at http://localhost:8100.
 
-The first time the app is executed, it will display a small initial-configuration form that has to be submitted for
-Baikal to work.
+### First-Time Setup
 
-### First Configuration Page
+1. Open http://localhost:8100 in your browser.
+2. You'll see a setup form. Fill it in:
+   - **Time zone:** Choose your local time zone (must match Easy!Appointments).
+   - **WebDAV authentication type:** Select **Basic**.
+   - **Admin password:** Set something simple like `admin` for local testing.
+3. On the next page, keep the default settings and submit.
 
-- The right time zone value needs to be selected for synchronization to match the information Easy!Appointments sends.
-- The "WebDAV authentication type" needs to be set to "Basic"
-- The default username is "admin", so the password for this development account could also be "admin" or something
-  similar (easy to remember)
+### Create a Test User
 
-### Second Configuration Page
+1. After setup, go to **Users and resources** in Baikal.
+2. Create a new user (e.g. username: `testuser`, password: `testpass`).
 
-- The default values can be submitted unless MySQL use is preferred (although totally optional).
+## Connecting Easy!Appointments to Baikal
 
-### Test User
+1. In Easy!Appointments, go to the **Calendar** page.
+2. Click **Enable Sync** → **CalDAV**.
+3. Enter the following:
+   - **URL:** `http://baikal/dav.php/calendars/testuser/default/` (replace `testuser` with your Baikal username)
+   - **Username:** `testuser`
+   - **Password:** `testpass`
 
-After the configuration is completed and Baikal works go to the "Users and resources" page and create a test user that
-will be used to sync with.
-
-## Enabling Sync
-
-After making sure that the local Baikal server works, Easy!Appointments will be able to connect to it and sync the
-appointment data.
-
-Baikal supports multiple user accounts, but for simplicity this guide will refer to the default account created during
-the initial setup.
-
-### Credentials
-
-While trying to enable the CalDAV sync from the Easy!Appointments calendar page, use the following credentials after
-clicking on "Enable Sync" > "CalDAV".
-
-- URL: http://baikal/dav.php/calendars/<username-from-previous-step>/default/
-- Username: <username-from-previous-step>
-- Password: <password-from-previous-step>
+That's it — your appointments will now sync with the Baikal CalDAV server.
 
 *This document applies to Easy!Appointments v1.6.0.*
 
