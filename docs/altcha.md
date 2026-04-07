@@ -139,3 +139,7 @@ Returns a new ALTCHA challenge for client-side solving.
 - [ALTCHA Official Website](https://altcha.org/)
 - [ALTCHA PHP Library](https://github.com/altcha-org/altcha-lib-php)
 - [Proof-of-Work Concept](https://en.wikipedia.org/wiki/Proof_of_work)
+
+*This document applies to Easy!Appointments v1.6.0.*
+
+[Back](readme.md)

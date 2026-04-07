@@ -45,6 +45,6 @@ clicking on "Enable Sync" > "CalDAV".
 - Username: <username-from-previous-step>
 - Password: <password-from-previous-step>
 
-*This document applies to Easy!Appointments v1.5.2.*
+*This document applies to Easy!Appointments v1.6.0.*
 
 [Back](readme.md)
