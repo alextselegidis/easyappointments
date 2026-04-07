@@ -8,104 +8,139 @@
     <br>
 </h1>
 
-<br>
-
 <h4 align="center">
-    A powerful Open Source Appointment Scheduler that can be installed on your server. 
+    A powerful, self-hosted appointment scheduling platform built for flexibility.
 </h4>
 
 <p align="center">
-  <img alt="GitHub" src="https://img.shields.io/github/license/alextselegidis/easyappointments?style=for-the-badge">
-  <img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/alextselegidis/easyappointments?style=for-the-badge">
-  <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/alextselegidis/easyappointments/total?style=for-the-badge">
+  <img alt="License" src="https://img.shields.io/github/license/alextselegidis/easyappointments?style=for-the-badge">
+  <img alt="Latest Release" src="https://img.shields.io/github/v/release/alextselegidis/easyappointments?style=for-the-badge">
+  <img alt="Downloads" src="https://img.shields.io/github/downloads/alextselegidis/easyappointments/total?style=for-the-badge">
   <a href="https://discord.com/invite/UeeSkaw">
-    <img alt="Chat On Discord" src="https://img.shields.io/badge/chat-on%20discord-7289da?style=for-the-badge&logo=discord&logoColor=white">
+    <img alt="Discord" src="https://img.shields.io/badge/chat-on%20discord-7289da?style=for-the-badge&logo=discord&logoColor=white">
   </a>
 </p>
 
 <p align="center">
-  <a href="#about">About</a> •
+  <a href="#why-easyappointments">Why Easy!Appointments</a> •
   <a href="#features">Features</a> •
-  <a href="#setup">Setup</a> •
+  <a href="#quick-start">Quick Start</a> •
   <a href="#installation">Installation</a> •
   <a href="#license">License</a>
 </p>
 
-![screenshot](screenshot.png)
+---
 
-## About
-
-**Easy!Appointments** is a highly customizable web application that allows customers to book appointments with you 
-via a sophisticated web interface. Moreover, it provides the ability to sync your data with Google Calendar so you can 
-use them with other services. It is an open source project that you can download and install **even for commercial use**. 
-Easy!Appointments will run smoothly with your existing website as it can be installed in a single folder of the 
-server and of course share an existing database.
-
-## Features
-
-The application is designed to be flexible enough so that it can handle any enterprise work flow. 
-
-* Customers and appointments management.
-* Services and providers organization.
-* Working plan and booking rules.
-* Google Calendar synchronization.
-* Email notifications system.
-* Self hosted installation.
-* Translated user interface.
-* User community support. 
-
-## Setup
-
-To clone and run this application, you'll need Docker installed on your computer. From your command line:
-
-```bash
-# Clone this repository
-$ git clone https://github.com/alextselegidis/easyappointments.git
-
-# Go into the repository
-$ cd easyappointments
-
-# Install dependencies
-$ npm install && composer install
-
-# Start the file watcher
-$ npm start
-```
-
-Note: the current setup works with Windows and WSL & Docker.
-
-You can build the files by running `npm run build`. This command will bundle everything to a `build` directory.
-
-## Installation
-
-You will need to perform the following steps to install the application on your server:
-
-* Make sure that your server has Apache/Nginx, PHP (8.2+) and MySQL installed.
-* Create a new database (or use an existing one).
-* Copy the "easyappointments" source folder on your server.
-* Make sure that the "storage" directory is writable.
-* Rename the "config-sample.php" file to "config.php" and update its contents based on your environment.
-* Open the browser on the Easy!Appointments URL and follow the installation guide.
-
-That's it! You can now use Easy!Appointments at your will.
-
-You will find the latest release at [easyappointments.org](https://easyappointments.org).
-If you have problems installing or configuring the application visit the
-[official support group](https://groups.google.com/forum/#!forum/easy-appointments).
-You can also report problems on the [issues page](https://github.com/alextselegidis/easyappointments/issues)
-and help the development progress.
-
-## License 
-
-Code Licensed Under [GPL v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html) | Content Under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
+<p align="center">
+  <strong>Looking for advanced capabilities?</strong><br>
+  Explore premium features and professional services at
+  <a href="https://easyappointments.org/premium" target="_blank">easyappointments.org/premium</a>.
+</p>
 
 ---
 
-Website [alextselegidis.com](https://alextselegidis.com) &nbsp;&middot;&nbsp;
-GitHub [alextselegidis](https://github.com/alextselegidis) &nbsp;&middot;&nbsp;
-Twitter [@alextselegidis](https://twitter.com/AlexTselegidis)
+![screenshot](screenshot.png)
 
-###### More Projects On Github
-###### ⇾ [Plainpad &middot; Self Hosted Note Taking App](https://github.com/alextselegidis/plainpad)
-###### ⇾ [Clientverse &middot; Powerful CRM Application](https://github.com/alextselegidis/clientverse)
-###### ⇾ [Timecrack &middot; Online Time Tracking App](https://github.com/alextselegidis/timecrack)
+## Why Easy!Appointments
+
+**Easy!Appointments** is an open-source scheduling system that gives you full control over your booking workflow.
+
+It is designed to adapt to your business — whether you need simple appointment booking or more advanced scheduling logic.
+
+**Key advantages:**
+
+* Fully self-hosted — your data stays under your control
+* Highly customizable and flexible
+* Integrates with your existing website and database
+* Free for both personal and commercial use
+
+
+
+## Features
+
+Built to support a wide range of scheduling needs:
+
+* Appointment and customer management
+* Service and provider organization
+* Working plans and booking rules
+* Google Calendar synchronization
+* Email notification system
+* Multi-language interface
+* Self-hosted deployment
+* Active open-source community
+
+
+## Quick Start (Development)
+
+Clone and run the project locally:
+
+```bash
+# Clone the repository
+git clone https://github.com/alextselegidis/easyappointments.git
+
+# Navigate into the project
+cd easyappointments
+
+# Install dependencies
+npm install && composer install
+
+# Start development watcher
+npm start
+```
+
+Build production assets:
+
+```bash
+npm run build
+```
+
+> Note: Works on Windows (WSL recommended) and Docker-based setups.
+
+
+## Installation (Production)
+
+### Requirements
+
+* Apache or Nginx
+* PHP 8.2+
+* MySQL database
+
+### Steps
+
+1. Create a database (or use an existing one)
+2. Upload the `easyappointments` folder to your server
+3. Ensure the `storage` directory is writable
+4. Rename `config-sample.php` to `config.php`
+5. Update configuration values
+6. Open the application in your browser and follow the setup wizard
+
+Once completed, the system is ready to use.
+
+
+## Resources
+
+* Website: https://easyappointments.org
+* Issues: https://github.com/alextselegidis/easyappointments/issues
+* Support Group: https://groups.google.com/forum/#!forum/easy-appointments
+* Discord: https://discord.com/invite/UeeSkaw
+
+
+## License
+
+* Code: GPL v3.0
+* Content: CC BY 3.0
+
+
+## Author
+
+* Website: https://alextselegidis.com
+* GitHub: https://github.com/alextselegidis
+* Twitter: https://twitter.com/AlexTselegidis
+
+---
+
+## More Projects
+
+* [Plainpad · Self-Hosted Note Taking](https://github.com/alextselegidis/plainpad)
+* [Clientverse · CRM Application](https://github.com/alextselegidis/clientverse)
+* [Timecrack · Time Tracking](https://github.com/alextselegidis/timecrack)
