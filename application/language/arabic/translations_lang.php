@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'فشل التحقق من ALTCHA. يرجى
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'نقدم خدمات شاملة للبرمجيات المستضافة ذاتياً، بما في ذلك التطوير المخصص والاستضافة المُدارة وعقود الدعم وإعادة العلامة التجارية والتحسينات المستمرة — حتى تتمكن من التركيز على عملك بينما نتولى نحن الباقي.';
 $lang['go_premium'] = 'احصل على Premium';
+$lang['notify_customer_on_create_question'] = 'هل ترغب في إبلاغ العميل بهذا الموعد الجديد؟';
+$lang['notify_customer_on_delete_question'] = 'هل ترغب في إبلاغ العميل بإلغاء الموعد؟';
 // End

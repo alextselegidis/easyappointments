@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA Verifizéierung fehlgeschloen. Pro
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Mir bidden End-to-End Servicer fir selbst-gehost Software, inklusiv personaliséiert Entwécklung, geréiert Hosting, Support-Kontrakter, Rebranding an kontinuéierlech Verbesserungen — sou datt Dir Iech op Äert Geschäft konzentréiere kënnt, während mir de Rescht iwwerhuelen.';
 $lang['go_premium'] = 'Go Premium';
+$lang['notify_customer_on_create_question'] = 'Wëllt Dir de Client iwwer dësen neien Rendez-vous informéieren?';
+$lang['notify_customer_on_delete_question'] = 'Wëllt Dir de Client iwwer d\'Annulléierung vum Rendez-vous informéieren?';
 // End

@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA-vahvistus epäonnistui. Yritä uud
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Tarjoamme kokonaispalveluja itse ylläpidetylle ohjelmistolle, mukaan lukien räätälöity kehitys, hallittu hosting, tukisopimukset, uudelleenbrändäys ja jatkuvat parannukset — jotta voit keskittyä liiketoimintaasi, kun me hoidamme loput.';
 $lang['go_premium'] = 'Go Premium';
+$lang['notify_customer_on_create_question'] = 'Haluatko ilmoittaa asiakkaalle tästä uudesta ajanvarauksesta?';
+$lang['notify_customer_on_delete_question'] = 'Haluatko ilmoittaa asiakkaalle ajanvarauksen peruutuksesta?';
 // End

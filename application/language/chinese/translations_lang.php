@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA 验证失败。请重试。';
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = '我们为自托管软件提供端到端服务，包括定制开发、托管主机、支持合同、品牌定制和持续增强——让您专注于业务，其余交给我们。';
 $lang['go_premium'] = '升级 Premium';
+$lang['notify_customer_on_create_question'] = '您想通知客户这个新预约吗？';
+$lang['notify_customer_on_delete_question'] = '您想通知客户预约取消吗？';
 // End

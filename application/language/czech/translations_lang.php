@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'Ověření ALTCHA se nezdařilo. Zkuste t
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Nabízíme komplexní služby pro self-hosted software, včetně vlastního vývoje, spravovaného hostingu, servisních smluv, rebrandingu a průběžných vylepšení — abyste se mohli soustředit na své podnikání, zatímco my se postaráme o zbytek.';
 $lang['go_premium'] = 'Přejít na Premium';
+$lang['notify_customer_on_create_question'] = 'Chcete zákazníka informovat o této nové schůzce?';
+$lang['notify_customer_on_delete_question'] = 'Chcete zákazníka informovat o zrušení schůzky?';
 // End

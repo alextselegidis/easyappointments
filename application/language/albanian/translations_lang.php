@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'Verifikimi ALTCHA dështoi. Ju lutemi pro
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Ofrojmë shërbime të plota për softuer të vetë-strehuar, duke përfshirë zhvillim të personalizuar, strehim të menaxhuar, kontrata mbështetjeje, ri-brendim dhe përmirësime të vazhdueshme — në mënyrë që ju të fokusoheni në biznesin tuaj ndërsa ne kujdesemi për pjesën tjetër.';
 $lang['go_premium'] = 'Kaloni në Premium';
+$lang['notify_customer_on_create_question'] = 'Dëshironi të njoftoni klientin për këtë takim të ri?';
+$lang['notify_customer_on_delete_question'] = 'Dëshironi të njoftoni klientin për anulimin e takimit?';
 // End

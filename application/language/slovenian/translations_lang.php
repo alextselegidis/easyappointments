@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'Preverjanje ALTCHA ni uspelo. Prosimo, po
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Ponujamo celovite storitve za samo-gostovano programsko opremo, vključno z razvojem po meri, upravljanim gostovanjem, pogodbami o podpori, preoblikovanjem blagovne znamke in stalnimi izboljšavami — da se lahko osredotočite na svoje poslovanje, medtem ko mi poskrbimo za ostalo.';
 $lang['go_premium'] = 'Nadgradi na Premium';
+$lang['notify_customer_on_create_question'] = 'Ali želite stranko obvestiti o tem novem terminu?';
+$lang['notify_customer_on_delete_question'] = 'Ali želite stranko obvestiti o preklicu termina?';
 // End

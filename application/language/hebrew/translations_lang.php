@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'אימות ALTCHA נכשל. אנא נסה
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'אנו מציעים שירותים מקצה לקצה לתוכנה באירוח עצמי, כולל פיתוח מותאם אישית, אירוח מנוהל, חוזי תמיכה, מיתוג מחדש ושיפורים מתמשכים — כדי שתוכל להתמקד בעסק שלך בזמן שאנחנו מטפלים בשאר.';
 $lang['go_premium'] = 'עבור ל-Premium';
+$lang['notify_customer_on_create_question'] = 'האם ברצונך להודיע ללקוח על תור חדש זה?';
+$lang['notify_customer_on_delete_question'] = 'האם ברצונך להודיע ללקוח על ביטול התור?';
 // End

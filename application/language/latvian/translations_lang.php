@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA verifikācija neizdevās. Lūdzu, 
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Mēs piedāvājam pilna cikla pakalpojumus pašmitinātai programmatūrai, tostarp pielāgotu izstrādi, pārvaldītu hostingu, atbalsta līgumus, pārzīmošanu un pastāvīgus uzlabojumus — lai jūs varētu koncentrēties uz savu biznesu, kamēr mēs rūpējamies par pārējo.';
 $lang['go_premium'] = 'Go Premium';
+$lang['notify_customer_on_create_question'] = 'Vai vēlaties informēt klientu par šo jauno tikšanos?';
+$lang['notify_customer_on_delete_question'] = 'Vai vēlaties informēt klientu par tikšanās atcelšanu?';
 // End

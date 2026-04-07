@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA-Verifizierung fehlgeschlagen. Bitt
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Wir bieten umfassende Dienstleistungen für selbst gehostete Software, einschließlich individueller Entwicklung, Managed Hosting, Support-Verträge, Rebranding und laufende Verbesserungen — damit Sie sich auf Ihr Geschäft konzentrieren können, während wir uns um den Rest kümmern.';
 $lang['go_premium'] = 'Premium erwerben';
+$lang['notify_customer_on_create_question'] = 'Möchten Sie den Kunden über diesen neuen Termin informieren?';
+$lang['notify_customer_on_delete_question'] = 'Möchten Sie den Kunden über die Stornierung des Termins informieren?';
 // End

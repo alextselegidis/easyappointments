@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'La verificación ALTCHA falló. Por favor
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Ofrecemos servicios integrales para software autoalojado, incluyendo desarrollo personalizado, alojamiento gestionado, contratos de soporte, cambio de marca y mejoras continuas — para que pueda concentrarse en su negocio mientras nosotros nos encargamos del resto.';
 $lang['go_premium'] = 'Obtener Premium';
+$lang['notify_customer_on_create_question'] = '¿Desea notificar al cliente sobre esta nueva cita?';
+$lang['notify_customer_on_delete_question'] = '¿Desea notificar al cliente sobre la cancelación de la cita?';
 // End

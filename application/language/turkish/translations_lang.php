@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA doğrulaması başarısız oldu. L
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Kendi sunucunuzda barındırılan yazılımlar için özel geliştirme, yönetilen barındırma, destek sözleşmeleri, yeniden markalama ve sürekli iyileştirmeler dahil uçtan uca hizmetler sunuyoruz — siz işinize odaklanırken gerisini biz halledelim.';
 $lang['go_premium'] = 'Premium\'a Geç';
+$lang['notify_customer_on_create_question'] = 'Bu yeni randevu hakkında müşteriyi bilgilendirmek ister misiniz?';
+$lang['notify_customer_on_delete_question'] = 'Randevu iptali hakkında müşteriyi bilgilendirmek ister misiniz?';
 // End

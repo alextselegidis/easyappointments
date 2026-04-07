@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA kontrollimine ebaõnnestus. Palun 
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Pakume täisteenust ise majutatud tarkvarale, sealhulgas kohandatud arendust, hallatud hostingut, tugilepinguid, ümberkujundamist ja pidevaid täiustusi — nii et saate keskenduda oma ärile, samal ajal kui meie hoolitseme ülejäänu eest.';
 $lang['go_premium'] = 'Go Premium';
+$lang['notify_customer_on_create_question'] = 'Kas soovite klienti sellest uuest kohtumisest teavitada?';
+$lang['notify_customer_on_delete_question'] = 'Kas soovite klienti kohtumise tühistamisest teavitada?';
 // End

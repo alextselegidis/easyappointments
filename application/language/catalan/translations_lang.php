@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'La verificació ALTCHA ha fallat. Proveu-
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Oferim serveis d\'extrem a extrem per a programari autoallotjat, incloent desenvolupament a mida, gestió d\'allotjaments, contractes de suport, imatge de marca personalitzat i millores en curs, perquè us pogueu centrar en el vostre negoci mentre nosaltres ens encarreguem de la resta.';
 $lang['go_premium'] = 'Passa\'t a Premium';
+$lang['notify_customer_on_create_question'] = 'Voleu notificar el client sobre aquesta nova cita?';
+$lang['notify_customer_on_delete_question'] = 'Voleu notificar el client sobre la cancel·lació de la cita?';
 // End

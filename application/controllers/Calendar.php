@@ -435,9 +435,11 @@ class Calendar extends EA_Controller
 
             check('appointment_id', 'numeric');
             check('cancellation_reason', 'string|null');
+            check('notify_customer', 'bool|null');
 
             $appointment_id = request('appointment_id');
             $cancellation_reason = (string) request('cancellation_reason');
+            $notify_customer = filter_var(request('notify_customer', true), FILTER_VALIDATE_BOOLEAN);
 
             if (empty($appointment_id)) {
                 throw new InvalidArgumentException('No appointment id provided.');
@@ -467,14 +469,16 @@ class Calendar extends EA_Controller
             // Delete appointment record from the database.
             $this->appointments_model->delete($appointment_id);
 
-            $this->notifications->notify_appointment_deleted(
-                $appointment,
-                $service,
-                $provider,
-                $customer,
-                $settings,
-                $cancellation_reason,
-            );
+            if ($notify_customer) {
+                $this->notifications->notify_appointment_deleted(
+                    $appointment,
+                    $service,
+                    $provider,
+                    $customer,
+                    $settings,
+                    $cancellation_reason,
+                );
+            }
 
             $this->synchronization->sync_appointment_deleted($appointment, $provider);
 

@@ -358,10 +358,32 @@ App.Utils.CalendarDefaultView = (function () {
                 text: lang('delete'),
                 click: (event, messageModal) => {
                     const reason = $('#cancellation-reason').val();
-                    App.Http.Calendar.deleteAppointment(appointmentId, reason).done(() => {
-                        messageModal.hide();
-                        $reloadAppointments.trigger('click');
-                    });
+                    messageModal.hide();
+
+                    App.Utils.Message.show(
+                        lang('delete_appointment_title'),
+                        lang('notify_customer_on_delete_question'),
+                        [
+                            {
+                                text: lang('no'),
+                                click: (event, notifyModal) => {
+                                    notifyModal.hide();
+                                    App.Http.Calendar.deleteAppointment(appointmentId, reason, false).done(() => {
+                                        $reloadAppointments.trigger('click');
+                                    });
+                                },
+                            },
+                            {
+                                text: lang('yes'),
+                                click: (event, notifyModal) => {
+                                    notifyModal.hide();
+                                    App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
+                                        $reloadAppointments.trigger('click');
+                                    });
+                                },
+                            },
+                        ],
+                    );
                 },
             },
         ];

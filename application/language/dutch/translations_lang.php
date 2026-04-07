@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA-verificatie mislukt. Probeer het o
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Wij bieden uitgebreide diensten voor zelf gehoste software, waaronder maatwerkontwikkeling, beheerde hosting, ondersteuningscontracten, rebranding en doorlopende verbeteringen — zodat u zich kunt richten op uw bedrijf terwijl wij de rest verzorgen.';
 $lang['go_premium'] = 'Ga Premium';
+$lang['notify_customer_on_create_question'] = 'Wilt u de klant op de hoogte stellen van deze nieuwe afspraak?';
+$lang['notify_customer_on_delete_question'] = 'Wilt u de klant op de hoogte stellen van de annulering van de afspraak?';
 // End

@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA सत्यापन अयशस
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'आम्ही सेल्फ-होस्टेड सॉफ्टवेअरसाठी सानुकूल विकास, व्यवस्थापित होस्टिंग, सपोर्ट करार, रीब्रँडिंग आणि सतत सुधारणांसह संपूर्ण सेवा देतो — जेणेकरून तुम्ही तुमच्या व्यवसायावर लक्ष केंद्रित करू शकता आणि बाकी आम्ही सांभाळतो.';
 $lang['go_premium'] = 'Premium मिळवा';
+$lang['notify_customer_on_create_question'] = 'या नवीन भेटीबद्दल ग्राहकाला सूचित करू इच्छिता?';
+$lang['notify_customer_on_delete_question'] = 'भेट रद्द झाल्याबद्दल ग्राहकाला सूचित करू इच्छिता?';
 // End

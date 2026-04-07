@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'Verificação ALTCHA falhou. Por favor, t
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Oferecemos serviços completos para software auto-hospedado, incluindo desenvolvimento personalizado, hospedagem gerenciada, contratos de suporte, personalização de marca e melhorias contínuas — para que você possa focar no seu negócio enquanto nós cuidamos do resto.';
 $lang['go_premium'] = 'Seja Premium';
+$lang['notify_customer_on_create_question'] = 'Gostaria de notificar o cliente sobre este novo agendamento?';
+$lang['notify_customer_on_delete_question'] = 'Gostaria de notificar o cliente sobre o cancelamento do agendamento?';
 // End

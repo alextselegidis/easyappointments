@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'Weryfikacja ALTCHA nie powiodła się. Sp
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Oferujemy kompleksowe usługi dla samodzielnie hostowanego oprogramowania, w tym niestandardowy rozwój, zarządzany hosting, umowy serwisowe, rebranding i ciągłe ulepszenia — abyś mógł skupić się na swoim biznesie, podczas gdy my zajmiemy się resztą.';
 $lang['go_premium'] = 'Przejdź na Premium';
+$lang['notify_customer_on_create_question'] = 'Czy chcesz powiadomić klienta o tym nowym spotkaniu?';
+$lang['notify_customer_on_delete_question'] = 'Czy chcesz powiadomić klienta o anulowaniu spotkania?';
 // End

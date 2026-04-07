@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA-verifisering mislyktes. Vennligst 
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Vi tilbyr helhetlige tjenester for selvhostet programvare, inkludert tilpasset utvikling, administrert hosting, støttekontrakter, merkevarebygging og løpende forbedringer — slik at du kan fokusere på din virksomhet mens vi tar oss av resten.';
 $lang['go_premium'] = 'Bli Premium';
+$lang['notify_customer_on_create_question'] = 'Vil du varsle kunden om denne nye avtalen?';
+$lang['notify_customer_on_delete_question'] = 'Vil du varsle kunden om avbestillingen av avtalen?';
 // End

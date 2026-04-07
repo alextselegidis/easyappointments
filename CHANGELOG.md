@@ -17,6 +17,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add new Google Meet setting and meeting link support for appointments while syncing with Google (#1589)
 - Add Select All / None buttons to multi-checkbox fields
 - Add prompt for client notifications so that they are not sent every time an appointment changes
+- Add notification prompt when creating new appointments from the calendar page
+- Add notification prompt when deleting appointments from the calendar page
 - Connect RSS updates from the official blog and show them in the about page 
 - Allow users to assign a provider to the service in the services page and update the label (assign the service to)
 - Perform various security optimizations in the app

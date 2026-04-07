@@ -571,4 +571,6 @@ $lang['altcha_verification_failed'] = 'ALTCHA patvirtinimas nepavyko. Bandykite 
 $lang['premium'] = 'Premium';
 $lang['about_app_premium'] = 'Siūlome visapusiškus sprendimus savarankiškai talpinamai programinei įrangai, įskaitant individualų kūrimą, valdomą prieglobą, palaikymo sutartis, prekės ženklo keitimą ir nuolatinius patobulinimus — kad galėtumėte susitelkti ties savo verslu, o mes pasirūpinsime likusiais dalykais.';
 $lang['go_premium'] = 'Go Premium';
+$lang['notify_customer_on_create_question'] = 'Ar norite pranešti klientui apie šį naują susitikimą?';
+$lang['notify_customer_on_delete_question'] = 'Ar norite pranešti klientui apie susitikimo atšaukimą?';
 // End
