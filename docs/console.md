@@ -1,94 +1,87 @@
 # Console
 
-> This page contains information about the CLI support of Easy!Appointments.
+Easy!Appointments includes a set of command-line tools you can run from a terminal. These are useful for automating tasks like backups and database updates.
 
-### Introduction
+## Before You Start
 
-Starting from v1.4.0 Easy!Appointments has introduced CLI support, providing a set of useful utilities to use with your installation. 
-
-The commands can be executed with PHP installed on your server and available from within the terminal. To ensure that you have PHP configured properly run the following command from within a terminal session. 
+Make sure PHP is installed and available in your terminal. You can check by running:
 
 ```
 php -v
 ```
 
-It shall give you information about the currently installed PHP version.
+This should print the PHP version number. If it doesn't, you need to install PHP or add it to your system's PATH.
 
-The available commands are described below.  
+## Available Commands
 
-### Commands
+All commands start with `php index.php console` and are run from the Easy!Appointments root folder.
 
-The entry point for the CLI commands is the root `index.php` file which means that you will be calling this file with additional arguments, depending on which command you want to run. 
+### Migrate
 
-##### Migrate 
+Updates your database to the latest version:
 
 ```
 php index.php console migrate
 ```
 
-This command will migrate the database to the latest state. 
+To reset the database and re-run all migrations from scratch:
 
 ```
 php index.php console migrate fresh
 ```
 
-This command will reset any change made by the previous migrations and start from the beginning. 
+> **Warning:** The `fresh` option deletes all existing data.
 
-##### Seed
+### Seed
+
+Adds sample data (a test admin, provider, customer, and service) so you can try things out:
 
 ```
 php index.php console seed
 ```
 
-This command will add a test admin, provider, customer and service in the app, so that you can already run some tests.  
+### Install
 
-##### Install
+Runs the installer from the command line (instead of using the browser):
 
 ```
 php index.php console install
 ```
 
-This command will perform a CLI installation of Easy!Appointments. 
+Make sure you've already filled in your `config.php` file before running this.
 
-You can run this after your are done configuring your app from the root `config.php` file. 
+### Backup
 
-##### Backup 
+Creates a backup of your data in the `storage/backups` folder:
 
 ```
 php index.php console backup
 ```
 
-This command will create a backup of the application data in the `storage/backups` directory. 
-
+To save the backup to a different folder:
 
 ```
-php index.php console backup /path/to/backup/folter
-``` 
+php index.php console backup /path/to/your/folder
+```
 
-You can also provide a custom directory for your backup files. 
+### Sync
 
-
-##### Sync
+Syncs calendars for all providers who have calendar sync enabled:
 
 ```
 php index.php console sync
-``` 
+```
 
-This command will trigger the calendar synchronization for all the system providers. 
+**Tip:** Set this up as a [cron job](https://en.wikipedia.org/wiki/Cron) to run automatically (e.g. every hour) so your calendars stay up to date without manual work.
 
-It is especially important, because it can be automatically executed on a regular base with a cron job. 
+### Help
 
-This way the app provider schedules will always be updated. 
-
-
-##### Help 
+Shows a summary of all available commands:
 
 ```
 php index.php console help
-``` 
+```
 
-This command will give more information about the console capabilities.
-
-*This document applies to Easy!Appointments v1.5.1.*
+*This document applies to Easy!Appointments v1.6.0.*
 
 [Back](readme.md)

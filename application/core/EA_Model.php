@@ -215,12 +215,16 @@ class EA_Model extends CI_Model
     /**
      * Escape the order by statements in order to avoid SQL injection issues
      *
-     * @param string $order_by
+     * @param string|null $order_by
      *
-     * @return string
+     * @return string|null
      */
-    function quote_order_by(string $order_by): string
+    function quote_order_by(?string $order_by): ?string
     {
+        if (!$order_by) {
+            return null;
+        }
+
         $parts = explode(',', $order_by);
         $quoted_parts = [];
 
@@ -229,8 +233,20 @@ class EA_Model extends CI_Model
             $column = array_shift($tokens); // first token is column
             $direction = strtoupper($tokens[0] ?? ''); // optional ASC/DESC
 
+            // Strict validation: only allow alphanumeric characters, underscores, and dots (for table.column)
+            // This prevents any SQL injection through the column name
+            if (!preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*(\.[a-zA-Z_][a-zA-Z0-9_]*)?$/', $column)) {
+                continue; // Skip invalid column names
+            }
+
             // Add backticks (or quotes) around column name
-            $column = '`' . str_replace('`', '', $column) . '`';
+            // Handle table.column format
+            if (strpos($column, '.') !== false) {
+                $column_parts = explode('.', $column);
+                $column = '`' . $column_parts[0] . '`.`' . $column_parts[1] . '`';
+            } else {
+                $column = '`' . $column . '`';
+            }
 
             if ($direction === 'ASC' || $direction === 'DESC') {
                 $quoted_parts[] = $column . ' ' . $direction;
@@ -239,6 +255,6 @@ class EA_Model extends CI_Model
             }
         }
 
-        return implode(', ', $quoted_parts);
+        return !empty($quoted_parts) ? implode(', ', $quoted_parts) : null;
     }
 }

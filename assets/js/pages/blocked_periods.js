@@ -68,6 +68,16 @@ App.Pages.BlockedPeriods = (function () {
             $('#filter-blocked-periods .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-blocked-period, #delete-blocked-period').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#blocked-periods-page').addClass('editing');
+            $blockedPeriods.find('.add-edit-delete-group').hide();
+            $blockedPeriods.find('.save-cancel-group').show();
+            $blockedPeriods.find('#delete-blocked-period').show(); // Show delete button when editing
+            $blockedPeriods.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $blockedPeriods.find('.record-details .form-label span').prop('hidden', false);
+            $filterBlockedPeriods.find('button').prop('disabled', true);
+            $filterBlockedPeriods.find('.results').css('color', '#AAA');
         });
 
         /**
@@ -75,8 +85,10 @@ App.Pages.BlockedPeriods = (function () {
          */
         $blockedPeriods.on('click', '#add-blocked-period', () => {
             App.Pages.BlockedPeriods.resetForm();
+            $('#blocked-periods-page').addClass('editing');
             $blockedPeriods.find('.add-edit-delete-group').hide();
             $blockedPeriods.find('.save-cancel-group').show();
+            $blockedPeriods.find('#delete-blocked-period').hide(); // Hide delete button when adding
             $blockedPeriods.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $blockedPeriods.find('.record-details .form-label span').prop('hidden', false);
             $filterBlockedPeriods.find('button').prop('disabled', true);
@@ -90,6 +102,7 @@ App.Pages.BlockedPeriods = (function () {
          * Event: Edit Blocked-Period Button "Click"
          */
         $blockedPeriods.on('click', '#edit-blocked-period', () => {
+            $('#blocked-periods-page').addClass('editing');
             $blockedPeriods.find('.add-edit-delete-group').hide();
             $blockedPeriods.find('.save-cancel-group').show();
             $blockedPeriods.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -156,6 +169,7 @@ App.Pages.BlockedPeriods = (function () {
         $blockedPeriods.on('click', '#cancel-blocked-period', () => {
             const id = $id.val();
             App.Pages.BlockedPeriods.resetForm();
+            $('#blocked-periods-page').removeClass('editing');
             if (id !== '') {
                 App.Pages.BlockedPeriods.select(id, true);
             }
@@ -236,6 +250,7 @@ App.Pages.BlockedPeriods = (function () {
         App.Http.BlockedPeriods.save(blockedPeriod).then((response) => {
             App.Layouts.Backend.displayNotification(lang('blocked_period_saved'));
             App.Pages.BlockedPeriods.resetForm();
+            $('#blocked-periods-page').removeClass('editing');
             $filterBlockedPeriods.find('.key').val('');
             App.Pages.BlockedPeriods.filter('', response.id, true);
         });
@@ -250,6 +265,7 @@ App.Pages.BlockedPeriods = (function () {
         App.Http.BlockedPeriods.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('blocked_period_deleted'));
             App.Pages.BlockedPeriods.resetForm();
+            $('#blocked-periods-page').removeClass('editing');
             App.Pages.BlockedPeriods.filter($('#filter-blocked-periods .key').val());
         });
     }

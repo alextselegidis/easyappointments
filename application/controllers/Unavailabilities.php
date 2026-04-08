@@ -55,9 +55,16 @@ class Unavailabilities extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -108,9 +115,13 @@ class Unavailabilities extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('unavailability', 'array');
 
             $unavailability = request('unavailability');
 
@@ -143,11 +154,26 @@ class Unavailabilities extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
+
+            // Validate unavailability_id is a positive integer
+            if (
+                empty($unavailability_id) ||
+                !filter_var($unavailability_id, FILTER_VALIDATE_INT) ||
+                $unavailability_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid unavailability ID provided.');
+            }
+
+            $this->check_unavailability_access((int) $unavailability_id);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -158,16 +184,24 @@ class Unavailabilities extends EA_Controller
     }
 
     /**
-     * Update a unavailability.
+     * Update an unavailability.
      */
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability', 'array');
+
             $unavailability = request('unavailability');
+
+            if (!empty($unavailability['id'])) {
+                $this->check_unavailability_access((int) $unavailability['id']);
+            }
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
@@ -193,16 +227,31 @@ class Unavailabilities extends EA_Controller
     }
 
     /**
-     * Remove a unavailability.
+     * Remove an unavailability.
      */
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_APPOINTMENTS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('unavailability_id', 'numeric');
+
             $unavailability_id = request('unavailability_id');
+
+            // Validate unavailability_id is a positive integer
+            if (
+                empty($unavailability_id) ||
+                !filter_var($unavailability_id, FILTER_VALIDATE_INT) ||
+                $unavailability_id <= 0
+            ) {
+                throw new InvalidArgumentException('Invalid unavailability ID provided.');
+            }
+
+            $this->check_unavailability_access((int) $unavailability_id);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -215,6 +264,28 @@ class Unavailabilities extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Check whether the current user has access to the unavailability's provider.
+     */
+    private function check_unavailability_access(int $unavailability_id): void
+    {
+        $user_id = (int) session('user_id');
+        $role_slug = session('role_slug');
+        $unavailability = $this->unavailabilities_model->find($unavailability_id);
+        $provider_id = (int) $unavailability['id_users_provider'];
+
+        if (
+            $role_slug === DB_SLUG_SECRETARY &&
+            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
+        ) {
+            abort(403, 'Forbidden');
+        }
+
+        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
+            abort(403, 'Forbidden');
         }
     }
 }

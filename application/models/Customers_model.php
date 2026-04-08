@@ -39,7 +39,6 @@ class Customers_model extends EA_Model
         'phone' => 'phone_number',
         'address' => 'address',
         'city' => 'city',
-        'state' => 'state',
         'zip' => 'zip_code',
         'timezone' => 'timezone',
         'language' => 'language',
@@ -304,6 +303,28 @@ class Customers_model extends EA_Model
      */
     public function delete(int $customer_id): void
     {
+        // Anonymize consent records before deleting customer (GDPR compliance)
+        $this->db->where('id_users', $customer_id);
+        $this->db->update('consents', [
+            'id_users' => null,
+            'first_name' => '[DELETED]',
+            'last_name' => '[DELETED]',
+            'email' => '[DELETED]',
+        ]);
+
+        // Also anonymize any consents that match the customer's email
+        $customer = $this->db->get_where('users', ['id' => $customer_id])->row_array();
+
+        if (!empty($customer['email'])) {
+            $this->db->where('email', $customer['email']);
+            $this->db->where('id_users IS NULL', null, false);
+            $this->db->update('consents', [
+                'first_name' => '[DELETED]',
+                'last_name' => '[DELETED]',
+                'email' => '[DELETED]',
+            ]);
+        }
+
         $this->db->delete('users', ['id' => $customer_id]);
     }
 
@@ -424,6 +445,41 @@ class Customers_model extends EA_Model
         }
 
         return $customers;
+    }
+
+    /**
+     * Get customers as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        $role_id = $this->get_customer_role_id();
+
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $customers = $this->db
+            ->select('id, first_name, last_name')
+            ->from('users')
+            ->where('id_roles', $role_id)
+            ->order_by('first_name, last_name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($customers as $customer) {
+            $options[] = [
+                'value' => (int) $customer['id'],
+                'label' => trim($customer['first_name'] . ' ' . $customer['last_name']),
+            ];
+        }
+
+        return $options;
     }
 
     /**

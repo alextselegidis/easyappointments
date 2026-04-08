@@ -14,24 +14,30 @@
     <link rel="icon" type="image/x-icon" href="<?= asset_url('assets/img/favicon.ico') ?>">
     <link rel="icon" sizes="192x192" href="<?= asset_url('assets/img/logo.png') ?>">
 
-    <link rel="stylesheet" type="text/css"
-          href="<?= asset_url('assets/css/themes/' . setting('theme', 'default') . '.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?= asset_url(
+        'assets/css/themes/' . setting('theme', 'default') . '.css',
+    ) ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/layouts/account_layout.css') ?>">
 
     <?php slot('styles'); ?>
 </head>
 <body>
-<div id="login-frame" class="frame-container">
 
-    <?php slot('content'); ?>
+<div class="d-flex align-items-center justify-content-center min-vh-100">
 
-    <div class="mt-4">
-        <small>
-            Powered by
-            <a href="https://easyappointments.org">Easy!Appointments</a>
-        </small>
+    <div class="card w-100 shadow-sm min-vh-mobile" style="max-width: 500px;">
+        <div class="card-body p-5">
+            <?php slot('content'); ?>
+        </div>
+
+        <div class="card-footer text-center py-3">
+            <small>
+                Powered by
+                <a href="https://easyappointments.org">Easy!Appointments</a>
+            </small>
+        </div>
     </div>
+
 </div>
 
 <script src="<?= asset_url('assets/vendor/jquery/jquery.min.js') ?>"></script>
@@ -51,6 +57,9 @@
 <script src="<?= asset_url('assets/js/utils/string.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/url.js') ?>"></script>
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
+<?php if (setting('altcha_enabled') === '1'): ?>
+<script src="<?= asset_url('assets/js/utils/altcha.js') ?>"></script>
+<?php endif; ?>
 <script src="<?= asset_url('assets/js/layouts/account_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/account_http_client.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/localization_http_client.js') ?>"></script>

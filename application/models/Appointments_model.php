@@ -38,6 +38,7 @@ class Appointments_model extends EA_Model
         'start' => 'start_datetime',
         'end' => 'end_datetime',
         'location' => 'location',
+        'meetingLink' => 'meeting_link',
         'color' => 'color',
         'status' => 'status',
         'notes' => 'notes',
@@ -546,6 +547,40 @@ class Appointments_model extends EA_Model
     }
 
     /**
+     * Get appointments as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $appointments = $this->db
+            ->select('appointments.id, appointments.start_datetime, services.name AS service_name')
+            ->from('appointments')
+            ->join('services', 'services.id = appointments.id_services', 'left')
+            ->where('is_unavailability', false)
+            ->order_by('start_datetime', 'DESC')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($appointments as $appointment) {
+            $options[] = [
+                'value' => (int) $appointment['id'],
+                'label' => $appointment['start_datetime'] . ' - ' . ($appointment['service_name'] ?? 'N/A'),
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to an appointment.
      *
      * @param array $appointment Associative array with the appointment data.
@@ -613,6 +648,7 @@ class Appointments_model extends EA_Model
             'customerId' => $appointment['id_users_customer'] !== null ? (int) $appointment['id_users_customer'] : null,
             'providerId' => $appointment['id_users_provider'] !== null ? (int) $appointment['id_users_provider'] : null,
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
+            'meetingLink' => $appointment['meeting_link'],
             'googleCalendarId' =>
                 $appointment['id_google_calendar'] !== null ? $appointment['id_google_calendar'] : null,
             'caldavCalendarId' =>
@@ -630,63 +666,71 @@ class Appointments_model extends EA_Model
      */
     public function api_decode(array &$appointment, ?array $base = null): void
     {
-        $decoded_request = $base ?: [];
+        $decoded_resource = $base ?: [];
 
         if (array_key_exists('id', $appointment)) {
-            $decoded_request['id'] = $appointment['id'];
+            $decoded_resource['id'] = $appointment['id'];
         }
 
         if (array_key_exists('book', $appointment)) {
-            $decoded_request['book_datetime'] = $appointment['book'];
+            $decoded_resource['book_datetime'] = $appointment['book'];
         }
 
         if (array_key_exists('start', $appointment)) {
-            $decoded_request['start_datetime'] = $appointment['start'];
+            $decoded_resource['start_datetime'] = $appointment['start'];
         }
 
         if (array_key_exists('end', $appointment)) {
-            $decoded_request['end_datetime'] = $appointment['end'];
+            $decoded_resource['end_datetime'] = $appointment['end'];
         }
 
         if (array_key_exists('hash', $appointment)) {
-            $decoded_request['hash'] = $appointment['hash'];
+            $decoded_resource['hash'] = $appointment['hash'];
+        }
+
+        if (array_key_exists('color', $appointment)) {
+            $decoded_resource['color'] = $appointment['color'];
         }
 
         if (array_key_exists('location', $appointment)) {
-            $decoded_request['location'] = $appointment['location'];
+            $decoded_resource['location'] = $appointment['location'];
         }
 
         if (array_key_exists('status', $appointment)) {
-            $decoded_request['status'] = $appointment['status'];
+            $decoded_resource['status'] = $appointment['status'];
         }
 
         if (array_key_exists('notes', $appointment)) {
-            $decoded_request['notes'] = $appointment['notes'];
+            $decoded_resource['notes'] = $appointment['notes'];
         }
 
         if (array_key_exists('customerId', $appointment)) {
-            $decoded_request['id_users_customer'] = $appointment['customerId'];
+            $decoded_resource['id_users_customer'] = $appointment['customerId'];
         }
 
         if (array_key_exists('providerId', $appointment)) {
-            $decoded_request['id_users_provider'] = $appointment['providerId'];
+            $decoded_resource['id_users_provider'] = $appointment['providerId'];
         }
 
         if (array_key_exists('serviceId', $appointment)) {
-            $decoded_request['id_services'] = $appointment['serviceId'];
+            $decoded_resource['id_services'] = $appointment['serviceId'];
         }
 
         if (array_key_exists('googleCalendarId', $appointment)) {
-            $decoded_request['id_google_calendar'] = $appointment['googleCalendarId'];
+            $decoded_resource['id_google_calendar'] = $appointment['googleCalendarId'];
         }
 
         if (array_key_exists('caldavCalendarId', $appointment)) {
-            $decoded_request['id_caldav_calendar'] = $appointment['caldavCalendarId'];
+            $decoded_resource['id_caldav_calendar'] = $appointment['caldavCalendarId'];
         }
 
-        $decoded_request['is_unavailability'] = false;
+        if (array_key_exists('meetingLink', $appointment)) {
+            $decoded_resource['meeting_link'] = $appointment['meetingLink'];
+        }
 
-        $appointment = $decoded_request;
+        $decoded_resource['is_unavailability'] = false;
+
+        $appointment = $decoded_resource;
     }
 
     /**
@@ -707,5 +751,39 @@ class Appointments_model extends EA_Model
         $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
 
         return $end_date_time_object->format('Y-m-d H:i:s');
+    }
+
+    /**
+     * Check if the provider has a conflicting appointment at the given time period.
+     *
+     * @param int $provider_id Provider ID.
+     * @param string $start_datetime Start date time of the appointment.
+     * @param string $end_datetime End date time of the appointment.
+     * @param int|null $exclude_appointment_id Exclude an appointment from the conflict check (useful for updates).
+     *
+     * @return bool Returns true if there is a conflict, false otherwise.
+     */
+    public function has_provider_conflict(
+        int $provider_id,
+        string $start_datetime,
+        string $end_datetime,
+        ?int $exclude_appointment_id = null,
+    ): bool {
+        $this->db->select('id')->from('appointments')->where('id_users_provider', $provider_id);
+
+        if ($exclude_appointment_id) {
+            $this->db->where('id !=', $exclude_appointment_id);
+        }
+
+        // Check for overlapping appointments:
+        // An overlap occurs when:  (existing_start < new_end) AND (existing_end > new_start)
+
+        return $this->db
+            ->group_start()
+            ->where('start_datetime <', $end_datetime)
+            ->where('end_datetime >', $start_datetime)
+            ->group_end()
+            ->get()
+            ->num_rows() > 0;
     }
 }

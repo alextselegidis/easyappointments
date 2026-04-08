@@ -39,8 +39,11 @@ App.Pages.Booking = (function () {
     const $customField4 = $('#custom-field-4');
     const $customField5 = $('#custom-field-5');
     const $displayBookingSelection = $('.display-booking-selection');
+    const $rememberMe = $('#remember-me');
     const tippy = window.tippy;
     const moment = window.moment;
+
+    const STORAGE_KEY = 'EasyAppointments.CustomerInfo';
 
     /**
      * Determines the functionality of the page.
@@ -147,7 +150,7 @@ App.Pages.Booking = (function () {
                     const displayedMonthMoment = moment(
                         instance.currentYearElement.value +
                             '-' +
-                            (Number(instance.monthsDropdownContainer.value) + 1) +
+                            String(Number(instance.monthsDropdownContainer.value) + 1).padStart(2, '0') +
                             '-01',
                     );
 
@@ -239,17 +242,15 @@ App.Pages.Booking = (function () {
 
                 $selectService.closest('.wizard-frame').find('.button-next').trigger('click');
 
-                $(document).find('.book-step:first').hide();
+                $('#step-1').hide().removeClass('d-inline-block');
 
                 $(document).find('.button-back:first').css('visibility', 'hidden');
 
-                $(document)
-                    .find('.book-step:not(:first)')
-                    .each((index, bookStepEl) =>
-                        $(bookStepEl)
-                            .find('strong')
-                            .text(index + 1),
-                    );
+                $('#steps .book-step:visible').each((index, bookStepEl) =>
+                    $(bookStepEl)
+                        .find('strong')
+                        .text(index + 1),
+                );
             } else {
                 $('#wizard-frame-1')
                     .css({
@@ -266,6 +267,9 @@ App.Pages.Booking = (function () {
             prefillFromQueryParam('#address', 'address');
             prefillFromQueryParam('#city', 'city');
             prefillFromQueryParam('#zip-code', 'zip');
+
+            // Initialize remember me after prefilling from query params
+            initializeRememberMe();
         }
     }
 
@@ -339,20 +343,7 @@ App.Pages.Booking = (function () {
          *
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
-        $selectProvider.on('change', (event) => {
-            const $target = $(event.target);
-
-            const todayDateTimeObject = new Date();
-            const todayDateTimeMoment = moment(todayDateTimeObject);
-
-            App.Utils.UI.setDateTimePickerValue($selectDate, todayDateTimeObject);
-
-            App.Http.Booking.getUnavailableDates(
-                $target.val(),
-                $selectService.val(),
-                todayDateTimeMoment.format('YYYY-MM-DD'),
-            );
-
+        $selectProvider.on('change', () => {
             App.Pages.Booking.updateConfirmFrame();
         });
 
@@ -365,11 +356,15 @@ App.Pages.Booking = (function () {
         $selectService.on('change', (event) => {
             const $target = $(event.target);
             const serviceId = $selectService.val();
+            const previousProviderId = $selectProvider.val();
+
             $selectProvider.parent().prop('hidden', !Boolean(serviceId));
 
             $selectProvider.empty();
 
             $selectProvider.append(new Option(lang('please_select'), ''));
+
+            let previousProviderCanServe = false;
 
             vars('available_providers').forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
@@ -379,6 +374,10 @@ App.Pages.Booking = (function () {
 
                 if (canServeService) {
                     $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
+
+                    if (String(provider.id) === String(previousProviderId)) {
+                        previousProviderCanServe = true;
+                    }
                 }
             });
 
@@ -396,11 +395,12 @@ App.Pages.Booking = (function () {
                 $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
             }
 
-            App.Http.Booking.getUnavailableDates(
-                $selectProvider.val(),
-                $target.val(),
-                moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD'),
-            );
+            // Restore previous provider selection if they can serve the new service
+            if (previousProviderId && previousProviderCanServe) {
+                $selectProvider.val(previousProviderId);
+            } else if (previousProviderId === 'any-provider' && providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
+                $selectProvider.val('any-provider');
+            }
 
             App.Pages.Booking.updateConfirmFrame();
 
@@ -419,6 +419,21 @@ App.Pages.Booking = (function () {
             // If we are on the first step and there is no provider selected do not continue with the next step.
             if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
                 return;
+            }
+
+            // If we are on the first step, fetch unavailable dates and available hours for step 2.
+            if ($target.attr('data-step_index') === '1') {
+                const todayMoment = moment();
+
+                App.Utils.UI.setDateTimePickerValue($selectDate, todayMoment.toDate());
+
+                App.Http.Booking.getUnavailableDates(
+                    $selectProvider.val(),
+                    $selectService.val(),
+                    todayMoment.format('YYYY-MM-DD'),
+                );
+
+                App.Http.Booking.getAvailableHours(todayMoment.format('YYYY-MM-DD'));
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
@@ -442,18 +457,25 @@ App.Pages.Booking = (function () {
                     return; // Validation failed, do not continue.
                 } else {
                     App.Pages.Booking.updateConfirmFrame();
+                    
+                    // Initialize ALTCHA widget if present
+                    if ($('#altcha-widget').length && App.Utils.Altcha) {
+                        App.Utils.Altcha.initialize('altcha-widget');
+                    }
                 }
             }
 
             // Display the next step tab (uses jquery animation effect).
             const nextTabIndex = parseInt($target.attr('data-step_index')) + 1;
 
+            // Update step indicator immediately
+            $('.active-step').removeClass('active-step');
+            $('#step-' + nextTabIndex).addClass('active-step');
+
             $target
                 .parents()
                 .eq(1)
                 .fadeOut(() => {
-                    $('.active-step').removeClass('active-step');
-                    $('#step-' + nextTabIndex).addClass('active-step');
                     $('#wizard-frame-' + nextTabIndex).fadeIn();
                 });
 
@@ -473,12 +495,14 @@ App.Pages.Booking = (function () {
         $('.button-back').on('click', (event) => {
             const prevTabIndex = parseInt($(event.currentTarget).attr('data-step_index')) - 1;
 
+            // Update step indicator immediately
+            $('.active-step').removeClass('active-step');
+            $('#step-' + prevTabIndex).addClass('active-step');
+
             $(event.currentTarget)
                 .parents()
                 .eq(1)
                 .fadeOut(() => {
-                    $('.active-step').removeClass('active-step');
-                    $('#step-' + prevTabIndex).addClass('active-step');
                     $('#wizard-frame-' + prevTabIndex).fadeIn();
                 });
         });
@@ -969,6 +993,137 @@ App.Pages.Booking = (function () {
                 </div>
             `).appendTo($serviceDescription);
         }
+    }
+
+    /**
+     * Save customer information to localStorage.
+     */
+    function saveCustomerInfo() {
+        const customerInfo = {
+            firstName: $firstName.val(),
+            lastName: $lastName.val(),
+            email: $email.val(),
+            phoneNumber: $phoneNumber.val(),
+            address: $address.val(),
+            city: $city.val(),
+            zipCode: $zipCode.val(),
+            customField1: $customField1.val(),
+            customField2: $customField2.val(),
+            customField3: $customField3.val(),
+            customField4: $customField4.val(),
+            customField5: $customField5.val(),
+            rememberMe: true,
+        };
+
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(customerInfo));
+        } catch (e) {
+            console.warn('Could not save customer info to localStorage:', e);
+        }
+    }
+
+    /**
+     * Load customer information from localStorage.
+     * GET parameters have priority over stored values.
+     */
+    function loadCustomerInfo() {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY);
+
+            if (!stored) {
+                return;
+            }
+
+            const customerInfo = JSON.parse(stored);
+
+            // Restore remember me checkbox state
+            if (customerInfo.rememberMe) {
+                $rememberMe.prop('checked', true);
+            }
+
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+
+            // Only populate fields that don't have GET params and are empty
+            if (!urlParams.has('first_name') && !$firstName.val()) {
+                $firstName.val(customerInfo.firstName || '');
+            }
+            if (!urlParams.has('last_name') && !$lastName.val()) {
+                $lastName.val(customerInfo.lastName || '');
+            }
+            if (!urlParams.has('email') && !$email.val()) {
+                $email.val(customerInfo.email || '');
+            }
+            if (!urlParams.has('phone_number') && !$phoneNumber.val()) {
+                $phoneNumber.val(customerInfo.phoneNumber || '');
+            }
+            if (!urlParams.has('address') && !$address.val()) {
+                $address.val(customerInfo.address || '');
+            }
+            if (!urlParams.has('city') && !$city.val()) {
+                $city.val(customerInfo.city || '');
+            }
+            if (!urlParams.has('zip_code') && !$zipCode.val()) {
+                $zipCode.val(customerInfo.zipCode || '');
+            }
+            if (!urlParams.has('custom_field_1') && !$customField1.val()) {
+                $customField1.val(customerInfo.customField1 || '');
+            }
+            if (!urlParams.has('custom_field_2') && !$customField2.val()) {
+                $customField2.val(customerInfo.customField2 || '');
+            }
+            if (!urlParams.has('custom_field_3') && !$customField3.val()) {
+                $customField3.val(customerInfo.customField3 || '');
+            }
+            if (!urlParams.has('custom_field_4') && !$customField4.val()) {
+                $customField4.val(customerInfo.customField4 || '');
+            }
+            if (!urlParams.has('custom_field_5') && !$customField5.val()) {
+                $customField5.val(customerInfo.customField5 || '');
+            }
+        } catch (e) {
+            console.warn('Could not load customer info from localStorage:', e);
+        }
+    }
+
+    /**
+     * Clear customer information from localStorage.
+     */
+    function clearCustomerInfo() {
+        try {
+            localStorage.removeItem(STORAGE_KEY);
+        } catch (e) {
+            console.warn('Could not clear customer info from localStorage:', e);
+        }
+    }
+
+    /**
+     * Initialize the remember me functionality.
+     */
+    function initializeRememberMe() {
+        // Skip if in manage mode (checkbox not present, use appointment data)
+        if (manageMode || !$rememberMe.length) {
+            return;
+        }
+
+        // Load stored customer info on page load
+        loadCustomerInfo();
+
+        // Handle remember me checkbox change
+        $rememberMe.on('change', function () {
+            if ($(this).prop('checked')) {
+                saveCustomerInfo();
+            } else {
+                clearCustomerInfo();
+            }
+        });
+
+        // Save customer info before form submission if remember me is checked
+        $bookAppointmentSubmit.on('click', function () {
+            if ($rememberMe.prop('checked')) {
+                saveCustomerInfo();
+            }
+        });
     }
 
     document.addEventListener('DOMContentLoaded', initialize);

@@ -5,10 +5,69 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Added
+
+- Added a "Test" button to the login form
+- Added request method check on each request so that only allowed methods are accepted
+- Add Jitsi integration and link generation for appointments made via the public page
+- Allow providers to toggle the syncing themselves (#1731)
+- Add new meeting link field to appointments for storing online video conference locations
+- Create new integration section for the Google Calendar integration (#1690)
+- Add settings to not display the Add to Google Calendar button in the booking confirmation page (#1763)
+- Add new Google Meet setting and meeting link support for appointments while syncing with Google (#1589)
+- Add Select All / None buttons to multi-checkbox fields
+- Add prompt for client notifications so that they are not sent every time an appointment changes
+- Add notification prompt when creating new appointments from the calendar page
+- Add notification prompt when deleting appointments from the calendar page
+- Connect RSS updates from the official blog and show them in the about page
+
+### Improved
+
+- Simplified all documentation pages for better readability by non-technical users
+- Removed ALTCHA documentation page 
+- Allow users to assign a provider to the service in the services page and update the label (assign the service to)
+- Perform various security optimizations in the app
+- Custom fields are displayed in appointment details popup (#1830)
+- When booking in calendar add a new check that will detect if the selected provider is still available or not
+- If the current user has not available services or providers to be displayed in the public booking page, then show an info message instead of the booking page
+- When someone clicks on password reset, implement a link delivery and not just change the password directly
+- Add validation when saving the working plan (#1758)
+- Login / Backend button on the disabled booking page message screen  (#1777)
+- Add CAPTCHA support for all the public forms in order to block abusive requests (#1754)
+- Allow users to define working plan exceptions for multiple dates (#1706)
+- Allow customers to save their information in local storage (#1696)
+- Add a legal notice and imprint links to the booking page and the legal settings page (#1407)
+- Implementation of additional GDPR features in Easy!Appointments (#535)
+- ALTCHA integration added as an alternative CAPTCHA step (#1155)
+
+### Changed
+
+- Refactored cleanup logic from Console controller into a dedicated Cleanup library
+- Make the phone number field of backend users optional (#1709)
+- Change the main CRUD layout and navigation structure (list first)
+- Replace the availabilities type with the new slot interval field
+- Keep the provider option selected in the booking page if possible (#1672)
+- Improve setting language by GET parameter (#1620)
+
 ### Fixed
 
+- Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
+- Fixed booking cancellation always failing due to custom CSRF check that was incompatible with CSRF-excluded booking routes
+- Fixed booking cancellation error page showing generic "appointment not found" instead of the actual error message (e.g. rate limit exceeded)
+- Fixed booking cancellation crashing when cache driver fails to initialize
+- Fixed session cleanup using wrong file prefix (ci_session instead of ea_session)
+- Added automatic storage cleanup with 90-day retention for cache, sessions, and logs
 - Cannot modify appointment if provider changes time zone (#1789)
+- Fix the customer appointment link so that it opens the modal even in the table calendar view
+- Run the session garbage collector once in a while to avoid session bloat (#1793)
+- Customer limit must not allow providers to select customers in the appt modal that they are not connected with
+- Improve the CalDAV syncing compatibility with more systems (#1840)
+- Optimize backend query during booking process (#1721)
+- Add the sequence field in the ICS file so that appointments can be updated when multiple changes are made to the same record
 
+### Removed
+
+- Remove the patch.php file 
 
 
 

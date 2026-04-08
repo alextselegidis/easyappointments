@@ -2,9 +2,14 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="services-page">
+<div class="container backend-page py-3" id="services-page">
     <div class="row" id="services">
-        <div id="filter-services" class="filter-records col col-12 col-md-5">
+        <div id="filter-services" class="filter-records col col-12 mb-4">
+            <button id="add-service" class="btn btn-primary add-record-btn mb-4">
+                <i class="fas fa-plus-square me-2"></i>
+                <?= lang('add') ?>
+            </button>
+
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,27 +25,17 @@
                 <?= lang('services') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-5">
+        <div class="record-details column col-12 mb-4">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-service" class="btn btn-primary">
-                        <i class="fas fa-plus-square me-2"></i>
-                        <?= lang('add') ?>
-                    </button>
                     <button id="edit-service" class="btn btn-outline-secondary" disabled="disabled">
                         <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
-                    </button>
-                    <button id="delete-service" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-trash-alt me-2"></i>
-                        <?= lang('delete') ?>
                     </button>
                 </div>
 
@@ -52,9 +47,12 @@
                     <button id="cancel-service" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
+                    <button id="delete-service" class="btn btn-outline-danger ms-2">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        <?= lang('delete') ?>
+                    </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -122,18 +120,11 @@
             </div>
 
             <div class="mb-3">
-                <label class="form-label" for="availabilities-type">
-                    <?= lang('availabilities_type') ?>
-
+                <label class="form-label" for="slot-interval">
+                    <?= lang('slot_interval') ?>
+                    <span class="text-danger" hidden>*</span>
                 </label>
-                <select id="availabilities-type" class="form-select" disabled>
-                    <option value="<?= AVAILABILITIES_TYPE_FLEXIBLE ?>">
-                        <?= lang('flexible') ?>
-                    </option>
-                    <option value="<?= AVAILABILITIES_TYPE_FIXED ?>">
-                        <?= lang('fixed') ?>
-                    </option>
-                </select>
+                <input id="slot-interval" class="form-control required" type="number" min="1" disabled>
             </div>
 
             <div class="mb-3">
@@ -184,7 +175,33 @@
                 <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
 
-            <?php slot('after_primary_fields'); ?>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <label class="form-label mb-0">
+                    <?= lang('providers') ?>
+                </label>
+                <div class="btn-group btn-group-sm">
+                    <button type="button" id="select-all-providers" class="btn btn-outline-secondary" disabled>
+                        <?= lang('select_all') ?>
+                    </button>
+                    <button type="button" id="select-none-providers" class="btn btn-outline-secondary" disabled>
+                        <?= lang('select_none') ?>
+                    </button>
+                </div>
+            </div>
+
+            <div id="service-providers" class="card card-body bg-white border mb-3">
+                <?php foreach (vars('providers') as $provider): ?>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox"
+                               id="provider-<?= $provider['id'] ?>"
+                               data-id="<?= $provider['id'] ?>" disabled>
+                        <label class="form-check-label" for="provider-<?= $provider['id'] ?>">
+                            <?= e($provider['first_name'] . ' ' . $provider['last_name']) ?>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+
         </div>
     </div>
 </div>

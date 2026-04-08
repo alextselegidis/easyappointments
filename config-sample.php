@@ -44,10 +44,13 @@ class Config
     const DB_PASSWORD = 'password';
 
     // ------------------------------------------------------------------------
-    // GOOGLE CALENDAR SYNC
+    // GOOGLE CALENDAR SYNC (Optional - can also be configured via UI)
     // ------------------------------------------------------------------------
-
-    const GOOGLE_SYNC_FEATURE = false; // Enter TRUE or FALSE
-    const GOOGLE_CLIENT_ID = '';
-    const GOOGLE_CLIENT_SECRET = '';
+    // These settings are optional and can be configured through the admin UI
+    // at Settings > Integrations > Google Calendar. If configured here, they
+    // will be used as fallback values.
+    //
+    // const GOOGLE_SYNC_FEATURE = false;
+    // const GOOGLE_CLIENT_ID = '';
+    // const GOOGLE_CLIENT_SECRET = '';
 }

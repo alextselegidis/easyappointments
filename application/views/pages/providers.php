@@ -2,9 +2,14 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="providers-page">
+<div class="container backend-page py-3" id="providers-page">
     <div class="row" id="providers">
-        <div id="filter-providers" class="filter-records column col-12 col-md-5">
+        <div id="filter-providers" class="filter-records column col-12 mb-4">
+            <button id="add-provider" class="btn btn-primary add-record-btn mb-4">
+                <i class="fas fa-plus-square me-2"></i>
+                <?= lang('add') ?>
+            </button>
+
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,27 +25,17 @@
                 <?= lang('providers') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-7">
+        <div class="record-details column col-12 mb-4">
             <div class="float-md-start mb-4 me-4">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-provider" class="btn btn-primary">
-                        <i class="fas fa-plus-square me-2"></i>
-                        <?= lang('add') ?>
-                    </button>
                     <button id="edit-provider" class="btn btn-outline-secondary" disabled="disabled">
                         <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
-                    </button>
-                    <button id="delete-provider" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-trash-alt me-2"></i>
-                        <?= lang('delete') ?>
                     </button>
                 </div>
 
@@ -52,9 +47,12 @@
                     <button id="cancel-provider" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
+                    <button id="delete-provider" class="btn btn-outline-danger ms-2">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        <?= lang('delete') ?>
+                    </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <ul class="nav nav-pills switch-view">
@@ -86,7 +84,7 @@
                     <input type="hidden" id="id" class="record-id">
 
                     <div class="row">
-                        <div class="details col-12 col-md-6">
+                        <div class="details col-12 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label" for="first-name">
                                     <?= lang('first_name') ?>
@@ -114,9 +112,8 @@
                             <div class="mb-3">
                                 <label class="form-label" for="phone-number">
                                     <?= lang('phone_number') ?>
-                                    <span class="text-danger" hidden>*</span>
                                 </label>
-                                <input id="phone-number" class="form-control required" max="128" disabled>
+                                <input id="phone-number" class="form-control" max="128" disabled>
                             </div>
 
                             <div class="mb-3">
@@ -164,9 +161,8 @@
                                 <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                             </div>
 
-                            <?php slot('after_primary_fields'); ?>
                         </div>
-                        <div class="settings col-12 col-md-6">
+                        <div class="settings col-12 col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label" for="username">
                                     <?= lang('username') ?>
@@ -267,17 +263,24 @@
                                 </div>
                             </div>
 
-                            <div>
-                                <label class="form-label mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <label class="form-label mb-0">
                                     <?= lang('services') ?>
                                 </label>
+                                <div class="btn-group btn-group-sm">
+                                    <button type="button" id="select-all-services" class="btn btn-outline-secondary" disabled>
+                                        <?= lang('select_all') ?>
+                                    </button>
+                                    <button type="button" id="select-none-services" class="btn btn-outline-secondary" disabled>
+                                        <?= lang('select_none') ?>
+                                    </button>
+                                </div>
                             </div>
 
                             <div id="provider-services" class="card card-body bg-white border">
                                 <!-- JS -->
                             </div>
 
-                            <?php slot('after_secondary_fields'); ?>
                         </div>
                     </div>
                 </div>
@@ -301,8 +304,6 @@
                         </thead>
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
-
-                    <?php slot('after_working_plan'); ?>
 
                     <br>
 
@@ -335,8 +336,6 @@
                         <tbody><!-- Dynamic Content --></tbody>
                     </table>
 
-                    <?php slot('after_breaks'); ?>
-
                     <br>
 
                     <h4 class="text-black-50 mb-3 fw-light">
@@ -359,7 +358,7 @@
                     <table class="working-plan-exceptions table table-striped">
                         <thead>
                         <tr>
-                            <th><?= lang('day') ?></th>
+                            <th><?= lang('date') ?></th>
                             <th><?= lang('start') ?></th>
                             <th><?= lang('end') ?></th>
                             <th><?= lang('actions') ?></th>
@@ -370,7 +369,6 @@
 
                     <?php component('working_plan_exceptions_modal'); ?>
 
-                    <?php slot('after_working_plan_exceptions'); ?>
                 </div>
             </div>
         </div>

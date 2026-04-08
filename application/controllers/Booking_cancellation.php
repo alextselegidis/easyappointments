@@ -55,11 +55,24 @@ class Booking_cancellation extends EA_Controller
                 abort(403);
             }
 
+            // Validate hash format to prevent injection
+            if (!preg_match('/^[a-zA-Z0-9]+$/', $appointment_hash)) {
+                abort(400, 'Invalid appointment hash format.');
+            }
+
+            check('cancellation_reason', 'string');
+
             $cancellation_reason = request('cancellation_reason');
 
             if ($this->input->method() !== 'post' || empty($cancellation_reason)) {
                 abort(403, 'Forbidden');
             }
+
+            // Apply rate limiting for cancellations (5 per 10 minutes per IP)
+            $this->apply_cancellation_rate_limit();
+
+            // Sanitize cancellation reason (limit length and strip dangerous content)
+            $cancellation_reason = strip_tags(substr(trim($cancellation_reason), 0, 1000));
 
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
@@ -73,6 +86,7 @@ class Booking_cancellation extends EA_Controller
                     'google_analytics_code' => setting('google_analytics_code'),
                     'matomo_analytics_url' => setting('matomo_analytics_url'),
                     'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
+                    'display_login_button' => setting('display_login_button'),
                 ]);
 
                 $this->load->view('pages/booking_message');
@@ -114,18 +128,70 @@ class Booking_cancellation extends EA_Controller
             );
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_DELETE, $appointment);
+
+            html_vars([
+                'page_title' => lang('appointment_cancelled_title'),
+                'company_color' => setting('company_color'),
+                'google_analytics_code' => setting('google_analytics_code'),
+                'matomo_analytics_url' => setting('matomo_analytics_url'),
+                'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
+            ]);
+
+            $this->load->view('pages/booking_cancellation');
         } catch (Throwable $e) {
             log_message('error', 'Booking Cancellation Exception: ' . $e->getMessage());
+
+            html_vars([
+                'page_title' => lang('appointment_cancelled_title'),
+                'company_color' => setting('company_color'),
+                'message_title' => lang('appointment_cancelled_title'),
+                'message_text' => e($e->getMessage()),
+                'message_icon' => base_url('assets/img/error.png'),
+                'google_analytics_code' => setting('google_analytics_code'),
+                'matomo_analytics_url' => setting('matomo_analytics_url'),
+                'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
+                'display_login_button' => setting('display_login_button'),
+            ]);
+
+            $this->load->view('pages/booking_message');
         }
+    }
 
-        html_vars([
-            'page_title' => lang('appointment_cancelled_title'),
-            'company_color' => setting('company_color'),
-            'google_analytics_code' => setting('google_analytics_code'),
-            'matomo_analytics_url' => setting('matomo_analytics_url'),
-            'matomo_analytics_site_id' => setting('matomo_analytics_site_id'),
-        ]);
+    /**
+     * Apply rate limiting for cancellation attempts.
+     *
+     * @throws RuntimeException If rate limit is exceeded.
+     */
+    private function apply_cancellation_rate_limit(): void
+    {
+        try {
+            $this->load->driver('cache', ['adapter' => 'file']);
 
-        $this->load->view('pages/booking_cancellation');
+            if (!isset($this->cache) || !is_object($this->cache)) {
+                log_message('debug', 'Cache driver not available, skipping cancellation rate limit check.');
+                return;
+            }
+
+            $ip = $this->input->ip_address();
+            $cache_key = 'cancellation_attempts_' . str_replace([':', '.'], '_', $ip);
+
+            $attempts = $this->cache->get($cache_key);
+
+            if ($attempts === false) {
+                $this->cache->save($cache_key, 1, 600); // 10 minutes
+                return;
+            }
+
+            $this->cache->save($cache_key, $attempts + 1, 600);
+
+            if ($attempts >= 5) {
+                log_message('warning', 'Cancellation rate limit exceeded for IP: ' . $ip);
+                throw new RuntimeException('Too many cancellation attempts. Please try again later.');
+            }
+        } catch (RuntimeException $e) {
+            throw $e;
+        } catch (Throwable $e) {
+            log_message('error', 'Cache error in cancellation rate limiting: ' . $e->getMessage());
+        }
     }
 }

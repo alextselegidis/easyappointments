@@ -1,155 +1,153 @@
 # REST API
 
-## Introduction 
+Easy!Appointments has a REST API that lets you read and manage all your data (appointments, customers, services, etc.) through HTTP requests. This is useful if you want to connect Easy!Appointments to other software.
 
-Easy!Appointments offers a flexible REST API that will enables you to handle all the information of your installations through HTTP requests. The API is using JSON as its data transaction format and features many best practices in order to make the resources easily consumable. 
+## OpenAPI Specification
 
-### Open API Specification (Swagger File)
+The project includes a ready-made [OpenAPI file](https://raw.githubusercontent.com/alextselegidis/easyappointments/master/openapi.yml) that describes every endpoint. You can import it into tools like [Postman](https://www.postman.com/) to start making requests right away.
 
-The project has a ready-made [OpenApi file](https://raw.githubusercontent.com/alextselegidis/easyappointments/master/openapi.yml) you can download and use in order to create your client. 
+Learn more about OpenAPI at [swagger.io](https://swagger.io).
 
-This file can also be imported into Postman, so that you can quickly get started making requests towards your installation. 
+## Authentication
 
-You will find more information about Open API and Swagger on [swagger.io](https://swagger.io).
+Every API request must include authentication. There are two options:
 
-## Making Requests
+**Option 1 — Basic Authentication:** Send the username and password of an admin user with each request.
 
-The API (v1) supports [Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) which means that you will have to send the "Authorization" header with every request you make. **Always use SSL/TLS when making requests to a production installation.** That way you can ensure that no passwords will be stolen during the requests. The API expects the username and password of an administrator user.
+**Option 2 — API Key:** Set up an API key in **Settings** and send it as a Bearer Token.
 
-Additionally you can configure your own API key in the settings page and pass it through as a Bearer Token with any of your requests.   
+> **Important:** Always use HTTPS in production so credentials aren't sent in plain text.
 
-The API follows the REST structure which means that the client can use various HTTP verbs in order to perform various operations to the resources. For example you should use a GET request for fetching resources, a POST for creating new and PUT for updating existing ones in the database. Finally a DELETE request will remove a resource from the system. 
+## How It Works
 
-GET requests accept some parameter helpers that enable the sort, search, pagination and minification of the responses information. Take a look in the following examples: 
+The API uses standard HTTP methods:
+
+| Method | What It Does | Example |
+|--------|-------------|---------|
+| **GET** | Read data | Get a list of appointments |
+| **POST** | Create new data | Add a new customer |
+| **PUT** | Update existing data | Change an appointment time |
+| **DELETE** | Remove data | Cancel an appointment |
+
+All data is sent and received as **JSON**.
+
+## Query Parameters
+
+You can add these parameters to any GET request to control what comes back:
 
 ### Search
 
-Provide the `q` parameter to perform a search in the resource.
+Find records matching a keyword:
 
 ```
-http://ea-installation/index.php/api/v1/appointments?q=keyword
+/api/v1/appointments?q=keyword
 ```
 
-### Sort 
+### Sort
 
-Sort the results in ascending (+) or descending (-) direction by providing the the respective sign and the property name to be used for sorting. 
+Sort results by one or more fields. Use `+` for ascending, `-` for descending:
 
 ```
-http://ea-installation/index.php/api/v1/appointments?sort=-id,+book,-hash
+/api/v1/appointments?sort=-id,+book
 ```
-
-You can provide up to three sorting fields which will be applied in the provided order. 
 
 ### Paginate
 
-Paginate the result by providing the `page` parameter along with the optional `length` parameter that defaults to 20. 
+Get results one page at a time (default is 20 per page):
 
 ```
-http://ea-installation/index.php/api/v1/appointments?page=1&length=10
+/api/v1/appointments?page=1&length=10
 ```
 
-### Minimize
+### Select Fields
 
-If you need to get only specific values from each JSON resource provide the `fields` GET parameter with a list of the required property names. 
-
-```
-http://ea-installation/index.php/api/v1/appointments?fields=id,book,hash,notes
-```
-
-### Aggregate (Deprecated)
-
-Aggregate related data into result payload by providing the `aggregates` parameter.
-
-> Notice: this parameter only applies to appointments and will be removed in the future (use the `with` paramter instead).  
+Only return specific fields:
 
 ```
-http://ea-installation/index.php/api/v1/appointments?aggregates
+/api/v1/appointments?fields=id,book,hash,notes
 ```
 
-*This parameter is currently only available for appointment resources.* 
+### Include Related Data
 
-### With
-
-Attach resources to the response payload with this parameter.
+Attach related records to the response:
 
 ```
-http://ea-installation/index.php/api/v1/appointments?with=customer,service,provider
+/api/v1/appointments?with=customer,service,provider
 ```
 
-*This parameter is only available for resources that are related to other resources.* 
-
-### Expected Responses
- 
-Most of the times the API will return the complete requested data in a JSON string but there are some cases that the responses will contain a simple message like the following: 
+### Aggregates (Deprecated)
 
 ```
+/api/v1/appointments?aggregates
+```
+
+> This parameter only works with appointments and will be removed in the future. Use `with` instead.
+
+## Quick Examples
+
+**Get all appointments:**
+
+```bash
+curl http://your-site.com/index.php/api/v1/appointments --user admin:password
+```
+
+**Get a specific customer (ID 34):**
+
+```bash
+curl http://your-site.com/index.php/api/v1/customers/34 --user admin:password
+```
+
+**Update a service category name (ID 23):**
+
+```bash
+curl -H 'Content-Type: application/json' -X PUT -d '{"name": "New Name!"}' \
+  http://your-site.com/index.php/api/v1/service_categories/23 --user admin:password
+```
+
+**Delete a service (ID 15):**
+
+```bash
+curl -X DELETE http://your-site.com/index.php/api/v1/services/15 --user admin:password
+```
+
+You can also test GET requests directly in your browser by visiting the URL.
+
+## Error Responses
+
+If something goes wrong, you'll get a JSON response like this:
+
+```json
 {
     "code": 404,
     "message": "The requested record was not found!"
 }
 ```
 
-Such simple messages contain the HTTP code and a message stating a problem or a success to an operation.
+## Available Resources
 
-### Try it out!
+### Availabilities
 
-At this point you can start experimenting with the API and your installation. The following section of this document describes the available resources and how they can be used. Before building your API consumer you can use [cURL](https://en.wikipedia.org/wiki/CURL) or [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop) to try out the API. 
-
-Get all the registered appointments: 
+Get available appointment times for a provider and service on a given date.
 
 ```
-curl http://ea-installation/index.php/api/v1/appointments --user username:password
+GET /api/v1/availabilities?providerId=1&serviceId=2&date=2016-07-19
 ```
 
-Get the data of a customer with ID 34: 
-
+**Response:**
+```json
+["09:30", "13:00", "13:15", "14:00"]
 ```
-curl http://ea-installation/index.php/api/v1/customers/34 --user username:password
-```
-
-Update the name of a service category with ID 23: 
-
-```
-curl -H 'Content-Type: application/json' -X PUT -d '{"name": "New Name!"}' http://ea-installation/index.php/api/v1/service_categories/23 --user username:password
-```
-
-Delete the service with ID 15: 
-
-```
-curl -X DELETE http://ea-installation/index.php/api/v1/services/15 --user username:password
-```
-
-You can also try the GET requests with your browser by navigating to the respective URLs.
-
-## Resources & URIs
-
-### Availabilities 
-
-**Resource JSON**
-
-```
-[
-    "09:30",
-    "13:00",
-    "13:15",
-    "14:00"
-]
-```
-
-- `GET /api/v1/availabilities?providerId=:id&serviceId=:id[&date=:date]` Get the available appointment hours for a specific provider, service and date. The date must be in the following format `Y-m-d` e.g. `2016-07-19`.
 
 ### Appointments
 
-**Resource JSON**
-
-```
+```json
 {
-    "id": 1, 
-    "book": "2016-07-08 12:57:00", 
-    "start": "2016-07-08 18:00:00", 
-    "end": "2016-07-08 18:30:00", 
-    "hash": "apTWVbSvBJXR", 
-    "location": "Test Street 1A, 12345 Some State, Some Place"
+    "id": 1,
+    "book": "2016-07-08 12:57:00",
+    "start": "2016-07-08 18:00:00",
+    "end": "2016-07-08 18:30:00",
+    "hash": "apTWVbSvBJXR",
+    "location": "Test Street 1A, 12345 Some State, Some Place",
     "notes": "This is a test appointment.",
     "serviceId": 1,
     "providerId": 2,
@@ -158,70 +156,64 @@ You can also try the GET requests with your browser by navigating to the respect
 }
 ```
 
-- `GET /api/v1/appointments[/:id]` Get all the appointments or a specific one by providing the ID in the URI. 
-- `POST /api/v1/appointments` Provide the new appointment JSON in the request body to insert a new record. 
-- `PUT /api/v1/appointments/:id` Provide the updated appointment JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/appointments/:id` Remove an existing appointment record.
+- `GET /api/v1/appointments[/:id]` — Get all or one
+- `POST /api/v1/appointments` — Create new
+- `PUT /api/v1/appointments/:id` — Update
+- `DELETE /api/v1/appointments/:id` — Delete
 
 ### Unavailabilities
 
-**Resource JSON**
-
-```
+```json
 {
-    "id": 1, 
-    "book": "2016-07-08 12:57:00", 
-    "start": "2016-07-08 18:00:00", 
+    "id": 1,
+    "book": "2016-07-08 12:57:00",
+    "start": "2016-07-08 18:00:00",
     "end": "2016-07-08 18:30:00",
     "hash": "apTWVbSvBJXR",
-    "location": "Test Street 1A, 12345 Some State, Some Place", 
+    "location": "Test Street 1A, 12345 Some State, Some Place",
     "notes": "This is a test unavailability.",
     "providerId": 1,
     "googleCalendarId": null
 }
 ```
 
-- `GET /api/v1/unavailabilities[/:id]` Get all the unavailabilities or a specific one by providing the ID in the URI. 
-- `POST /api/v1/unavailabilities` Provide the new unavailability JSON in the request body to insert a new record. 
-- `PUT /api/v1/unavailabilities/:id` Provide the updated unavailability JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/unavailabilities/:id` Remove an existing unavailability record.
+- `GET /api/v1/unavailabilities[/:id]` — Get all or one
+- `POST /api/v1/unavailabilities` — Create new
+- `PUT /api/v1/unavailabilities/:id` — Update
+- `DELETE /api/v1/unavailabilities/:id` — Delete
 
 ### Customers
 
-**Resource JSON**
-
-```
+```json
 {
     "id": 1,
-    "firstName": "John", 
-    "lastName": "Doe", 
-    "email": "john@example.org", 
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.org",
     "phone": "+10000000000",
-    "address": "Test Street 1A", 
-    "city": "Some Place", 
-    "zip": "12345", 
-    "timezone": "UTC", 
-    "language": "english", 
+    "address": "Test Street 1A",
+    "city": "Some Place",
+    "zip": "12345",
+    "timezone": "UTC",
+    "language": "english",
     "notes": "This is a test customer."
 }
 ```
 
-- `GET /api/v1/customers[/:id]` Get all the customers or a specific one by providing the ID in the URI. 
-- `POST /api/v1/customers` Provide the new customer JSON in the request body to insert a new record. 
-- `PUT /api/v1/customers/:id` Provide the updated customer JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/customers/:id` Remove an existing customer record.
+- `GET /api/v1/customers[/:id]` — Get all or one
+- `POST /api/v1/customers` — Create new
+- `PUT /api/v1/customers/:id` — Update
+- `DELETE /api/v1/customers/:id` — Delete
 
 ### Services
 
-**Resource JSON**
-
-```
+```json
 {
-    "id": 1, 
-    "name": "Test Service", 
-    "duration": 15, 
+    "id": 1,
+    "name": "Test Service",
+    "duration": 15,
     "price": 0.00,
-    "currency": "EUR", 
+    "currency": "EUR",
     "description": "This is a test service.",
     "availabilitiesType": "flexible",
     "attendantsNumber": 1,
@@ -229,36 +221,32 @@ You can also try the GET requests with your browser by navigating to the respect
 }
 ```
 
-- `GET /api/v1/services[/:id]` Get all the services or a specific one by providing the ID in the URI. 
-- `POST /api/v1/services` Provide the new service JSON in the request body to insert a new record. 
-- `PUT /api/v1/services/:id` Provide the updated service JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/services/:id` Remove an existing service record.
+- `GET /api/v1/services[/:id]` — Get all or one
+- `POST /api/v1/services` — Create new
+- `PUT /api/v1/services/:id` — Update
+- `DELETE /api/v1/services/:id` — Delete
 
-* The `availabilitiesType` must be either `flexible` or `fixed`.
+> The `availabilitiesType` must be either `flexible` or `fixed`.
 
 ### Service Categories
 
-**Resource JSON**
-
-```
+```json
 {
-    "id": 1, 
-    "name": "Test Category", 
+    "id": 1,
+    "name": "Test Category",
     "description": "This is a test category."
 }
 ```
 
-- `GET /api/v1/service_categories[/:id]` Get all the service categories or a specific one by providing the ID in the URI. 
-- `POST /api/v1/service_categories` Provide the new service category JSON in the request body to insert a new record. 
-- `PUT /api/v1/service_categories/:id` Provide the updated service category JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/service_categories/:id` Remove an existing service category record.
+- `GET /api/v1/service_categories[/:id]` — Get all or one
+- `POST /api/v1/service_categories` — Create new
+- `PUT /api/v1/service_categories/:id` — Update
+- `DELETE /api/v1/service_categories/:id` — Delete
 
 ### Admins
 
-**Resource JSON**
-
-```
-{  
+```json
+{
     "id": 1,
     "firstName": "Jason",
     "lastName": "Doe",
@@ -272,7 +260,7 @@ You can also try the GET requests with your browser by navigating to the respect
     "timezone": "UTC",
     "language": "english",
     "notes": "This is a test admin.",
-    "settings":{  
+    "settings": {
         "username": "chrisdoe",
         "password": "Password@123",
         "notifications": true,
@@ -281,19 +269,17 @@ You can also try the GET requests with your browser by navigating to the respect
 }
 ```
 
-- `GET /api/v1/admins[/:id]` Get all the admins or a specific one by providing the ID in the URI. 
-- `POST /api/v1/admins` Provide the new admin JSON in the request body to insert a new record. 
-- `PUT /api/v1/admins/:id` Provide the updated admin JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/admins/:id` Remove an existing admin record.
+- `GET /api/v1/admins[/:id]` — Get all or one
+- `POST /api/v1/admins` — Create new
+- `PUT /api/v1/admins/:id` — Update
+- `DELETE /api/v1/admins/:id` — Delete
 
-**Note: The `password` field is optional and should only be provided when creating (POST) or updating (PUT) a record.** 
+> The `password` field is optional — only include it when creating or updating a user.
 
 ### Providers
 
-**Resource JSON**
-
-```
-{  
+```json
+{
     "id": 1,
     "firstName": "Chris",
     "lastName": "Doe",
@@ -307,12 +293,8 @@ You can also try the GET requests with your browser by navigating to the respect
     "timezone": "UTC",
     "language": "english",
     "notes": "This is a test provider.",
-    "services": [
-        1,
-        5,
-        9
-    ],
-    "settings":{  
+    "services": [1, 5, 9],
+    "settings": {
         "username": "chrisdoe",
         "password": "Password@123",
         "notifications": true,
@@ -322,47 +304,27 @@ You can also try the GET requests with your browser by navigating to the respect
         "syncFutureDays": 90,
         "syncPastDays": 30,
         "calendarView": "default",
-        "workingPlan":{  
-            "monday":{  
+        "workingPlan": {
+            "monday": {
                 "start": "09:00",
                 "end": "18:00",
-                "breaks":[  
-                    {  
-                        "start": "14:30",
-                        "end": "15:00"
-                    }
-                ]
+                "breaks": [{"start": "14:30", "end": "15:00"}]
             },
-            "tuesday":{  
+            "tuesday": {
                 "start": "09:00",
                 "end": "18:00",
-                "breaks":[  
-                    {  
-                        "start": "14:30",
-                        "end": "15:00"
-                    }
-                ]
+                "breaks": [{"start": "14:30", "end": "15:00"}]
             },
             "wednesday": null,
-            "thursday":{  
+            "thursday": {
                 "start": "09:00",
                 "end": "18:00",
-                "breaks":[  
-                    {  
-                        "start": "14:30",
-                        "end": "15:00"
-                    }
-                ]
+                "breaks": [{"start": "14:30", "end": "15:00"}]
             },
-            "friday": {  
+            "friday": {
                 "start": "09:00",
                 "end": "18:00",
-                "breaks": [  
-                    {  
-                        "start": "14:30",
-                        "end": "15:00"
-                    }
-                ]
+                "breaks": [{"start": "14:30", "end": "15:00"}]
             },
             "saturday": null,
             "sunday": null
@@ -371,31 +333,24 @@ You can also try the GET requests with your browser by navigating to the respect
             "2020-01-01": {
                 "start": "08:00",
                 "end": "20:00",
-                "breaks": [  
-                    {  
-                        "start": "12:00",
-                        "end": "14:00"
-                    }
-                ]
+                "breaks": [{"start": "12:00", "end": "14:00"}]
             }
         }
     }
 }
 ```
 
-- `GET /api/v1/providers[/:id]` Get all the providers or a specific one by providing the ID in the URI. 
-- `POST /api/v1/providers` Provide the new provider JSON in the request body to insert a new record. 
-- `PUT /api/v1/providers/:id` Provide the updated provider JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/providers/:id` Remove an existing provider record.
+- `GET /api/v1/providers[/:id]` — Get all or one
+- `POST /api/v1/providers` — Create new
+- `PUT /api/v1/providers/:id` — Update
+- `DELETE /api/v1/providers/:id` — Delete
 
-**Note: The `password` field is optional and should only be provided when creating (POST) or updating (PUT) a record.** 
+> The `password` field is optional — only include it when creating or updating a user.
 
 ### Secretaries
 
-**Resource JSON**
-
-```
-{  
+```json
+{
     "id": 1,
     "firstName": "Jessy",
     "lastName": "Doe",
@@ -409,95 +364,64 @@ You can also try the GET requests with your browser by navigating to the respect
     "timezone": "UTC",
     "language": "english",
     "notes": "This is a test secretary.",
-    "providers": [
-        53,
-        17
-    ],
-    "settings":{  
-        "username":"jessydoe",
-        "password":"Password@123",
+    "providers": [53, 17],
+    "settings": {
+        "username": "jessydoe",
+        "password": "Password@123",
         "notifications": true,
         "calendarView": "default"
     }
 }
 ```
 
-- `GET /api/v1/secretaries[/:id]` Get all the secretaries or a specific one by providing the ID in the URI. 
-- `POST /api/v1/secretaries` Provide the new secretary JSON in the request body to insert a new record. 
-- `PUT /api/v1/secretaries/:id` Provide the updated secretary JSON in the request body to update an existing record. The ID in the URI is required. 
-- `DELETE /api/v1/secretaries/:id` Remove an existing secretary record.
+- `GET /api/v1/secretaries[/:id]` — Get all or one
+- `POST /api/v1/secretaries` — Create new
+- `PUT /api/v1/secretaries/:id` — Update
+- `DELETE /api/v1/secretaries/:id` — Delete
 
-**Note: The `password` field is optional and should only be provided when creating (POST) or updating (PUT) a record.** 
+> The `password` field is optional — only include it when creating or updating a user.
 
 ### Settings
 
-**Resource JSON**
-
-```
+```json
 {
     "name": "book_advance_timeout",
     "value": "100"
 }
 ```
 
-**Requests**
+- `GET /api/v1/settings[/:name]` — Get all or one setting
+- `PUT /api/v1/settings/:name` — Create or update a setting
+- `DELETE /api/v1/settings/:name` — Remove a setting
 
-- `GET /api/v1/settings[/:name]` Get all the settings or a specific one by providing the setting name in the URI. 
-- `PUT /api/v1/settings/:name` Insert or update a setting in the database. Provide a snake_case name in order to keep the conventions. 
-- `DELETE /api/v1/settings/:name` Remove a setting from the database. **Notice:** Be careful when removing settings that are required by the application because this will cause error later on.
-
-## API Roadmap 
-
-Although the current state should be sufficient for working with the application data there are some other features of that will make the consume more flexible and powerful. These will be added gradually with the future releases of Easy!Appointments. 
-
-[ ] Add auto-generated links whenever external resource IDs are provided.
-
-[ ] Add pagination header links when the client provides pagination parameters.
-
-[ ] Add support for sub-resourcing e.g. /api/v1/customers/:id/appointments must return all the appointments of a specific customer. 
-
-[ ] Add custom filtering parameters e.g. /api/v1/appointments?book=>2016-07-10
-
-[ ] Improved exception handling. 
-
-Feel free to make pull requests if you have the time to develop one of those. 
+> **Be careful** when deleting settings — removing ones the app needs will cause errors.
 
 ## Troubleshooting
 
-### Authorization Issues
+### Authentication Not Working
 
-If your server runs PHP through FastCGI you will the authorization will not work because the `Authorization` header is not available to the PHP scripts. You can easily fix this by applying the following adjustments depending your server software: 
+If your server runs PHP through FastCGI, the `Authorization` header may not reach PHP. Here's how to fix it:
 
-### Apache
-
-Add the following code snippet to an `.htaccess` file in the installation root directory if you have `mod_rewrite` installed and enabled: 
+**Apache** — add one of these to your `.htaccess` file:
 
 ```
 RewriteEngine on
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 ```
 
-[[Source]](http://stackoverflow.com/a/22554102/1718162)
-
-Add the following code snippet to an `.htaccess` file in the installation root directory if you have `mod_setenvif` installed and enabled: 
+Or, if you have `mod_setenvif`:
 
 ```
 SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
 ```
 
-[[Source]](http://stackoverflow.com/a/27229807/1718162)
-
-### NGINX
-
-Add the following code snippet to the NGINX `.conf` file: 
+**NGINX** — add this to your server config:
 
 ```
 fastcgi_param PHP_AUTH_USER $remote_user;
 fastcgi_param PHP_AUTH_PW $http_authorization;
 ```
 
-[[Source]](http://serverfault.com/a/520943)
-
-*This document applies to Easy!Appointments v1.5.1.*
+*This document applies to Easy!Appointments v1.6.0.*
 
 [Back](readme.md)

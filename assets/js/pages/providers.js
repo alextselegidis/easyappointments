@@ -78,6 +78,26 @@ App.Pages.Providers = (function () {
             $filterProviders.find('.selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-provider, #delete-provider').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#providers-page').addClass('editing');
+            $providers.find('.add-edit-delete-group').hide();
+            $providers.find('.save-cancel-group').show();
+            $providers.find('#delete-provider').show(); // Show delete button when editing
+            $filterProviders.find('button').prop('disabled', true);
+            $filterProviders.find('.results').css('color', '#AAA');
+            $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $providers.find('.record-details .form-label span').prop('hidden', false);
+            $('#password, #password-confirm').removeClass('required');
+            $('#provider-services input:checkbox').prop('disabled', false);
+            $('#select-all-services, #select-none-services').prop('disabled', false);
+            $providers
+                .find(
+                    '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan',
+                )
+                .prop('disabled', false);
+            $('#providers input:checkbox').prop('disabled', false);
+            workingPlanManager.timepickers(false);
         });
 
         /**
@@ -85,10 +105,12 @@ App.Pages.Providers = (function () {
          */
         $providers.on('click', '#add-provider', () => {
             App.Pages.Providers.resetForm();
+            $('#providers-page').addClass('editing');
             $filterProviders.find('button').prop('disabled', true);
             $filterProviders.find('.results').css('color', '#AAA');
             $providers.find('.add-edit-delete-group').hide();
             $providers.find('.save-cancel-group').show();
+            $providers.find('#delete-provider').hide(); // Hide delete button when adding
             $providers.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $providers.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').addClass('required');
@@ -98,6 +120,7 @@ App.Pages.Providers = (function () {
                 )
                 .prop('disabled', false);
             $('#provider-services input:checkbox').prop('disabled', false);
+            $('#select-all-services, #select-none-services').prop('disabled', false);
 
             // Apply default working plan
             const companyWorkingPlan = JSON.parse(vars('company_working_plan'));
@@ -109,6 +132,7 @@ App.Pages.Providers = (function () {
          * Event: Edit Provider Button "Click"
          */
         $providers.on('click', '#edit-provider', () => {
+            $('#providers-page').addClass('editing');
             $providers.find('.add-edit-delete-group').hide();
             $providers.find('.save-cancel-group').show();
             $filterProviders.find('button').prop('disabled', true);
@@ -117,6 +141,7 @@ App.Pages.Providers = (function () {
             $providers.find('.record-details .form-label span').prop('hidden', false);
             $('#password, #password-confirm').removeClass('required');
             $('#provider-services input:checkbox').prop('disabled', false);
+            $('#select-all-services, #select-none-services').prop('disabled', false);
             $providers
                 .find(
                     '.add-break, .edit-break, .delete-break, .add-working-plan-exception, .edit-working-plan-exception, .delete-working-plan-exception, #reset-working-plan',
@@ -155,6 +180,12 @@ App.Pages.Providers = (function () {
          * Event: Save Provider Button "Click"
          */
         $providers.on('click', '#save-provider', () => {
+            const workingPlan = workingPlanManager.get();
+
+            if (workingPlan === null) {
+                return;
+            }
+
             const provider = {
                 first_name: $firstName.val(),
                 last_name: $lastName.val(),
@@ -172,7 +203,7 @@ App.Pages.Providers = (function () {
                 ldap_dn: $ldapDn.val(),
                 settings: {
                     username: $username.val(),
-                    working_plan: JSON.stringify(workingPlanManager.get()),
+                    working_plan: JSON.stringify(workingPlan),
                     working_plan_exceptions: JSON.stringify(workingPlanManager.getWorkingPlanExceptions()),
                     notifications: Number($notifications.prop('checked')),
                     calendar_view: $calendarView.val(),
@@ -212,6 +243,7 @@ App.Pages.Providers = (function () {
         $providers.on('click', '#cancel-provider', () => {
             const id = $('#filter-providers .selected').attr('data-id');
             App.Pages.Providers.resetForm();
+            $('#providers-page').removeClass('editing');
             if (id) {
                 App.Pages.Providers.select(id, true);
             }
@@ -228,6 +260,20 @@ App.Pages.Providers = (function () {
             workingPlanManager.setup(companyWorkingPlan);
             workingPlanManager.timepickers(false);
         });
+
+        /**
+         * Event: Select All Services Button "Click"
+         */
+        $providers.on('click', '#select-all-services', () => {
+            $('#provider-services input:checkbox').prop('checked', true);
+        });
+
+        /**
+         * Event: Select None Services Button "Click"
+         */
+        $providers.on('click', '#select-none-services', () => {
+            $('#provider-services input:checkbox').prop('checked', false);
+        });
     }
 
     /**
@@ -240,6 +286,7 @@ App.Pages.Providers = (function () {
         App.Http.Providers.save(provider).then((response) => {
             App.Layouts.Backend.displayNotification(lang('provider_saved'));
             App.Pages.Providers.resetForm();
+            $('#providers-page').removeClass('editing');
             $('#filter-providers .key').val('');
             App.Pages.Providers.filter('', response.id, true);
         });
@@ -254,6 +301,7 @@ App.Pages.Providers = (function () {
         App.Http.Providers.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('provider_deleted'));
             App.Pages.Providers.resetForm();
+            $('#providers-page').removeClass('editing');
             App.Pages.Providers.filter($('#filter-providers .key').val());
         });
     }
@@ -360,6 +408,7 @@ App.Pages.Providers = (function () {
 
         $('#edit-provider, #delete-provider').prop('disabled', true);
         $('#provider-services input:checkbox').prop('disabled', true).prop('checked', false);
+        $('#select-all-services, #select-none-services').prop('disabled', true);
         $('#provider-services a').remove();
         $('#providers .working-plan tbody').empty();
         $('#providers .breaks tbody').empty();

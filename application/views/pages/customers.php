@@ -2,9 +2,19 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="customers-page">
+<div class="container backend-page py-3" id="customers-page">
     <div class="row" id="customers">
-        <div id="filter-customers" class="filter-records col col-12 col-md-5">
+        <div id="filter-customers" class="filter-records col col-12 mb-4">
+            <?php if (
+                can('add', PRIV_CUSTOMERS) &&
+                (!setting('limit_customer_access') || vars('role_slug') === DB_SLUG_ADMIN)
+            ): ?>
+                <button id="add-customer" class="btn btn-primary add-record-btn mb-4">
+                    <i class="fas fa-plus-square me-2"></i>
+                    <?= lang('add') ?>
+                </button>
+            <?php endif; ?>
+
             <form class="mb-4">
                 <div class="input-group mb-3">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,37 +30,19 @@
                 <?= lang('customers') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details col-12 col-md-7">
+        <div class="record-details col-12 mb-4">
             <div class="btn-toolbar mb-4">
                 <div id="add-edit-delete-group" class="btn-group">
-                    <?php if (
-                        can('add', PRIV_CUSTOMERS) &&
-                        (!setting('limit_customer_access') || vars('role_slug') === DB_SLUG_ADMIN)
-                    ): ?>
-                        <button id="add-customer" class="btn btn-primary">
-                            <i class="fas fa-plus-square me-2"></i>
-                            <?= lang('add') ?>
-                        </button>
-                    <?php endif; ?>
 
                     <?php if (can('edit', PRIV_CUSTOMERS)): ?>
                         <button id="edit-customer" class="btn btn-outline-secondary" disabled="disabled">
                             <i class="fas fa-edit me-2"></i>
                             <?= lang('edit') ?>
-                        </button>
-                    <?php endif; ?>
-
-                    <?php if (can('delete', PRIV_CUSTOMERS)): ?>
-                        <button id="delete-customer" class="btn btn-outline-secondary" disabled="disabled">
-                            <i class="fas fa-trash-alt me-2"></i>
-                            <?= lang('delete') ?>
                         </button>
                     <?php endif; ?>
                 </div>
@@ -63,15 +55,20 @@
                     <button id="cancel-customer" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
+                    <?php if (can('delete', PRIV_CUSTOMERS)): ?>
+                        <button id="delete-customer" class="btn btn-outline-danger ms-2">
+                            <i class="fas fa-trash-alt me-2"></i>
+                            <?= lang('delete') ?>
+                        </button>
+                    <?php endif; ?>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <input id="customer-id" type="hidden">
 
             <div class="row">
-                <div class="col-12 col-md-6" style="margin-left: 0;">
+                <div class="col-12 col-lg-6" style="margin-left: 0;">
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('details') ?>
                     </h4>
@@ -205,17 +202,15 @@
                         <textarea id="notes" rows="4" class="form-control" disabled></textarea>
                     </div>
 
-                    <?php slot('after_primary_fields'); ?>
                 </div>
 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-lg-6">
                     <h4 class="text-black-50 mb-3 fw-light">
                         <?= lang('appointments') ?>
                     </h4>
 
-                    <div id="customer-appointments" class="card bg-white border"></div>
+                    <div id="customer-appointments" class="card bg-white border p-3 overflow-auto mb-4" style="min-height: 400px; max-height: 800px; max-width: 330px; width: 100%;"></div>
 
-                    <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>
         </div>

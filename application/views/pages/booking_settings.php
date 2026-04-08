@@ -2,13 +2,13 @@
 
 <?php section('content'); ?>
 
-<div id="booking-settings-page" class="container backend-page">
+<div id="booking-settings-page" class="container backend-page py-3">
     <div id="booking-settings">
         <div class="row">
-            <div class="col-sm-3 offset-sm-1">
+            <div class="col-sm-3">
                 <?php component('settings_nav'); ?>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-9">
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
@@ -252,7 +252,7 @@
 
                         <div class="row mb-5 fields-row">
                             <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <div class="col-sm-6">
+                                <div class="col-sm-9">
                                     <div class="form-group mb-5">
                                         <label for="first-name" class="form-label">
                                             <?= lang('custom_field') ?> #<?= $i ?>
@@ -421,7 +421,6 @@
                             </div>
                         </div>
 
-                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>

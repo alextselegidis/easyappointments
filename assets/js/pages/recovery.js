@@ -19,12 +19,23 @@ App.Pages.Recovery = (function () {
     const $username = $('#username');
     const $email = $('#email');
     const $getNewPassword = $('#get-new-password');
+    const $captchaText = $('.captcha-text');
+    const $captchaTitle = $('.captcha-title');
+    const $captchaHint = $('#captcha-hint');
+    const $altchaPayload = $('#altcha-payload');
+    const $altchaHint = $('#altcha-hint');
 
     /**
-     * Event: Login Button "Click"
+     * Refresh the captcha image.
+     */
+    function refreshCaptcha() {
+        $('.captcha-image').attr('src', App.Utils.Url.siteUrl('captcha?' + Date.now()));
+    }
+
+    /**
+     * Event: Form "Submit"
      *
-     * Make an HTTP request to the server and check whether the user's credentials are right. If yes then redirect the
-     * user to the destination page, otherwise display an error message.
+     * Make an HTTP request to the server to request a password reset link.
      */
     function onFormSubmit(event) {
         event.preventDefault();
@@ -33,32 +44,94 @@ App.Pages.Recovery = (function () {
 
         $alert.addClass('d-none');
 
+        if ($captchaText.length > 0) {
+            $captchaText.removeClass('is-invalid');
+            if ($captchaText.val() === '') {
+                $captchaText.addClass('is-invalid');
+                return;
+            }
+        }
+        
+        if ($altchaPayload.length > 0 && $altchaPayload.val() === '') {
+            $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
+            
+            setTimeout(() => {
+                $altchaHint.fadeTo(400, 0);
+            }, 3000);
+            return;
+        }
+
         $getNewPassword.prop('disabled', true);
 
         const username = $username.val();
         const email = $email.val();
+        const captcha = $captchaText.length > 0 ? $captchaText.val() : null;
+        const altchaPayloadValue = $altchaPayload.length > 0 ? $altchaPayload.val() : null;
 
-        App.Http.Recovery.perform(username, email)
+        App.Http.Recovery.perform(username, email, captcha, altchaPayloadValue)
             .done((response) => {
                 $alert.removeClass('d-none alert-danger alert-success');
 
+                if (response.captcha_verification === false) {
+                    $captchaHint.text(lang('captcha_is_wrong')).fadeTo(400, 1);
+
+                    setTimeout(() => {
+                        $captchaHint.fadeTo(400, 0);
+                    }, 3000);
+
+                    refreshCaptcha();
+
+                    $captchaText.addClass('is-invalid');
+
+                    return;
+                }
+                
+                if (response.altcha_verification === false) {
+                    $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
+                    
+                    setTimeout(() => {
+                        $altchaHint.fadeTo(400, 0);
+                    }, 3000);
+                    
+                    if (App.Utils.Altcha) {
+                        App.Utils.Altcha.reset('altcha-widget');
+                    }
+                    
+                    return;
+                }
+
                 if (response.success) {
                     $alert.addClass('alert-success');
-                    $alert.text(lang('new_password_sent_with_email'));
+                    $alert.text(lang('reset_link_sent_with_email'));
                 } else {
                     $alert.addClass('alert-danger');
                     $alert.text(
                         'The operation failed! Please enter a valid username ' +
-                            'and email address in order to get a new password.',
+                            'and email address in order to receive a password reset link.',
                     );
+                    refreshCaptcha();
                 }
             })
             .always(() => {
                 $getNewPassword.prop('disabled', false);
             });
     }
+    
+    /**
+     * Initialize ALTCHA widget if present.
+     */
+    function initializeAltcha() {
+        if ($('#altcha-widget').length && App.Utils.Altcha) {
+            App.Utils.Altcha.initialize('altcha-widget');
+        }
+    }
 
     $form.on('submit', onFormSubmit);
+
+    $captchaTitle.on('click', 'button', refreshCaptcha);
+    
+    // Initialize ALTCHA
+    initializeAltcha();
 
     return {};
 })();

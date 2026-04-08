@@ -193,18 +193,32 @@ App.Utils.WorkingPlan = (function () {
         }
 
         /**
-         * Setup the dom elements of a given working plan exception.
+         * Setup the dom elements of a given working plan exceptions array.
          *
-         * @param {Object} workingPlanExceptions Contains the working plan exception.
+         * @param {Array} workingPlanExceptions Array of working plan exception objects.
          */
         setupWorkingPlanExceptions(workingPlanExceptions) {
-            for (const date in workingPlanExceptions) {
-                const workingPlanException = workingPlanExceptions[date];
+            if (!Array.isArray(workingPlanExceptions)) {
+                // Handle legacy format (date-keyed object) by converting to array
+                const exceptions = [];
+                for (const date in workingPlanExceptions) {
+                    const exception = workingPlanExceptions[date];
+                    exceptions.push({
+                        startDate: date,
+                        endDate: date,
+                        startTime: exception?.start || null,
+                        endTime: exception?.end || null,
+                        breaks: exception?.breaks || [],
+                    });
+                }
+                workingPlanExceptions = exceptions;
+            }
 
-                this.renderWorkingPlanExceptionRow(date, workingPlanException).appendTo(
+            workingPlanExceptions.forEach((workingPlanException) => {
+                this.renderWorkingPlanExceptionRow(workingPlanException).appendTo(
                     '.working-plan-exceptions tbody',
                 );
-            }
+            });
         }
 
         /**
@@ -298,32 +312,42 @@ App.Utils.WorkingPlan = (function () {
          *
          * This method makes editable the break time cells.
          *
-         * @param {String} date In "Y-m-d" format.
-         * @param {Object} workingPlanException Contains exception information.
+         * @param {Object} workingPlanException Contains exception information (startDate, endDate, startTime, endTime, breaks).
          */
-        renderWorkingPlanExceptionRow(date, workingPlanException) {
+        renderWorkingPlanExceptionRow(workingPlanException) {
             const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
-            const start = workingPlanException?.start;
-            const end = workingPlanException?.end;
+            const startDate = workingPlanException.startDate;
+            const endDate = workingPlanException.endDate;
+            const startTime = workingPlanException.startTime;
+            const endTime = workingPlanException.endTime;
+
+            // Format the date range display
+            let dateDisplay;
+            if (startDate === endDate) {
+                dateDisplay = App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false);
+            } else {
+                dateDisplay = App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false) +
+                    ' - ' +
+                    App.Utils.Date.format(endDate, vars('date_format'), vars('time_format'), false);
+            }
 
             return $('<tr/>', {
                 'data': {
-                    'date': date,
                     'workingPlanException': workingPlanException,
                 },
                 'html': [
                     $('<td/>', {
                         'class': 'working-plan-exception-date',
-                        'text': App.Utils.Date.format(date, vars('date_format'), vars('time_format'), false),
+                        'text': dateDisplay,
                     }),
                     $('<td/>', {
                         'class': 'working-plan-exception--start',
-                        'text': start ? moment(start, 'HH:mm').format(timeFormat).toLowerCase() : '-',
+                        'text': startTime ? moment(startTime, 'HH:mm').format(timeFormat).toLowerCase() : '-',
                     }),
                     $('<td/>', {
                         'class': 'working-plan-exception--end',
-                        'text': end ? moment(end, 'HH:mm').format(timeFormat).toLowerCase() : '-',
+                        'text': endTime ? moment(endTime, 'HH:mm').format(timeFormat).toLowerCase() : '-',
                     }),
                     $('<td/>', {
                         'html': [
@@ -563,23 +587,9 @@ App.Utils.WorkingPlan = (function () {
              * A new row is added on the table and the user can enter the new working plan exception.
              */
             $(document).on('click', '.add-working-plan-exception', () => {
-                App.Components.WorkingPlanExceptionsModal.add().done((date, workingPlanException) => {
-                    let $tr = null;
-
-                    $('.working-plan-exceptions tbody tr').each((index, tr) => {
-                        if (date === $(tr).data('date')) {
-                            $tr = $(tr);
-                            return false;
-                        }
-                    });
-
-                    let $newTr = this.renderWorkingPlanExceptionRow(date, workingPlanException);
-
-                    if ($tr) {
-                        $tr.replaceWith($newTr);
-                    } else {
-                        $newTr.appendTo('.working-plan-exceptions tbody');
-                    }
+                App.Components.WorkingPlanExceptionsModal.add().done((workingPlanException) => {
+                    let $newTr = this.renderWorkingPlanExceptionRow(workingPlanException);
+                    $newTr.appendTo('.working-plan-exceptions tbody');
                 });
             });
 
@@ -592,12 +602,11 @@ App.Utils.WorkingPlan = (function () {
              */
             $(document).on('click', '.edit-working-plan-exception', (event) => {
                 const $tr = $(event.target).closest('tr');
-                const date = $tr.data('date');
                 const workingPlanException = $tr.data('workingPlanException');
 
-                App.Components.WorkingPlanExceptionsModal.edit(date, workingPlanException).done(
-                    (date, workingPlanException) => {
-                        $tr.replaceWith(this.renderWorkingPlanExceptionRow(date, workingPlanException));
+                App.Components.WorkingPlanExceptionsModal.edit(workingPlanException).done(
+                    (updatedWorkingPlanException) => {
+                        $tr.replaceWith(this.renderWorkingPlanExceptionRow(updatedWorkingPlanException));
                     },
                 );
             });
@@ -615,67 +624,261 @@ App.Utils.WorkingPlan = (function () {
         }
 
         /**
-         * Get the working plan settings.
+         * Validate the working plan settings.
          *
-         * @return {Object} Returns the working plan settings object.
+         * Checks that:
+         * 1. Start time is before end time for each working day
+         * 2. Breaks are within working hours
+         * 3. Break start is before break end
+         *
+         * @return {Object} Returns validation result with isValid flag and errors array.
          */
-        get() {
-            const workingPlan = {};
+        validate() {
+            const validationResult = {
+                isValid: true,
+                errors: [],
+            };
 
             const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
             $('.working-plan input:checkbox').each((index, checkbox) => {
                 const id = $(checkbox).attr('id');
+
                 if ($(checkbox).prop('checked') === true) {
-                    workingPlan[id] = {
+                    const dayName = this.convertValueToDay(id);
+                    const startVal = $('#' + id + '-start').val();
+                    const endVal = $('#' + id + '-end').val();
+                    const startMoment = moment(startVal, timeFormat);
+                    const endMoment = moment(endVal, timeFormat);
+                    // Check if start time is before end time
+                    if (!startMoment.isValid() || !endMoment.isValid()) {
+                        validationResult.isValid = false;
+                        validationResult.errors.push({
+                            type: 'invalid_time',
+                            day: dayName,
+                            message: `${dayName}: Invalid time format.`,
+                        });
+                    } else if (startMoment.isSameOrAfter(endMoment)) {
+                        validationResult.isValid = false;
+                        validationResult.errors.push({
+                            type: 'start_after_end',
+                            day: dayName,
+                            message: `${dayName}: Start time must be before end time.`,
+                        });
+                    }
+                }
+            });
+
+            return validationResult;
+        }
+        /**
+         * Check if a break is within the working hours of a day.
+         *
+         * @param {Object} breakItem The break object with start and end times in HH:mm format.
+         * @param {Object} workingDay The working day object with start and end times in HH:mm format.
+         *
+         * @return {Boolean} Returns true if the break is within working hours.
+         */
+        isBreakWithinWorkingHours(breakItem, workingDay) {
+            const breakStart = moment(breakItem.start, 'HH:mm');
+            const breakEnd = moment(breakItem.end, 'HH:mm');
+            const dayStart = moment(workingDay.start, 'HH:mm');
+            const dayEnd = moment(workingDay.end, 'HH:mm');
+
+            return breakStart.isSameOrAfter(dayStart) && breakEnd.isSameOrBefore(dayEnd);
+        }
+        /**
+         * Filter breaks to only include those within working hours.
+         *
+         * Also validates that break start is before break end.
+         *
+         * @param {Array} breaks Array of break objects.
+         * @param {Object} workingDay The working day object with start and end times.
+         *
+         * @return {Array} Returns filtered array of valid breaks.
+         */
+        filterValidBreaks(breaks, workingDay) {
+            return breaks.filter((breakItem) => {
+                const breakStart = moment(breakItem.start, 'HH:mm');
+                const breakEnd = moment(breakItem.end, 'HH:mm');
+
+                // Check break start is before break end
+                if (breakStart.isSameOrAfter(breakEnd)) {
+                    return false;
+                }
+
+                // Check break is within working hours
+                return this.isBreakWithinWorkingHours(breakItem, workingDay);
+            });
+        }
+
+        /**
+         * Remove breaks from the DOM that are outside working hours for a specific day.
+         *
+         * @param {String} dayId The day identifier (e.g., 'monday', 'tuesday').
+         * @param {Object} workingDay The working day object with start and end times.
+         */
+        removeInvalidBreaksFromDOM(dayId, workingDay) {
+            const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
+            const dayStart = moment(workingDay.start, 'HH:mm');
+            const dayEnd = moment(workingDay.end, 'HH:mm');
+
+            $('.breaks tbody tr').each((index, tr) => {
+                const $tr = $(tr);
+                const breakDayText = $tr.find('.break-day').text();
+                const breakDay = this.convertDayToValue(breakDayText);
+                if (breakDay === dayId) {
+                    const breakStartText = $tr.find('.break-start').text();
+                    const breakEndText = $tr.find('.break-end').text();
+                    const breakStart = moment(breakStartText, timeFormat);
+                    const breakEnd = moment(breakEndText, timeFormat);
+                    // Remove if break start >= break end
+                    if (breakStart.isSameOrAfter(breakEnd)) {
+                        $tr.remove();
+                        return;
+                    }
+                    // Remove if break is outside working hours
+                    if (breakStart.isBefore(dayStart) || breakEnd.isAfter(dayEnd)) {
+                        $tr.remove();
+                    }
+                }
+            });
+        }
+        /**
+         * Remove all breaks from the DOM for days that are not working days.
+         */
+        removeBreaksForNonWorkingDays() {
+            const nonWorkingDays = [];
+
+            $('.working-plan input:checkbox').each((index, checkbox) => {
+                const id = $(checkbox).attr('id');
+                if ($(checkbox).prop('checked') !== true) {
+                    nonWorkingDays.push(id);
+                }
+            });
+
+            $('.breaks tbody tr').each((index, tr) => {
+                const $tr = $(tr);
+                const breakDayText = $tr.find('.break-day').text();
+                const breakDay = this.convertDayToValue(breakDayText);
+                if (nonWorkingDays.includes(breakDay)) {
+                    $tr.remove();
+                }
+            });
+        }
+        /**
+         * Clean up all invalid breaks from the DOM.
+         *
+         * Removes breaks that are:
+         * 1. On non-working days
+         * 2. Outside working hours
+         * 3. Have start time >= end time
+         */
+        cleanupInvalidBreaks() {
+            const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
+
+            // First remove breaks for non-working days
+            this.removeBreaksForNonWorkingDays();
+
+            // Then remove breaks outside working hours for each working day
+            $('.working-plan input:checkbox').each((index, checkbox) => {
+                const id = $(checkbox).attr('id');
+                if ($(checkbox).prop('checked') === true) {
+                    const startVal = $('#' + id + '-start').val();
+                    const endVal = $('#' + id + '-end').val();
+                    const workingDay = {
+                        start: moment(startVal, timeFormat).format('HH:mm'),
+                        end: moment(endVal, timeFormat).format('HH:mm'),
+                    };
+
+                    this.removeInvalidBreaksFromDOM(id, workingDay);
+                }
+            });
+        }
+        /**
+         * Get the working plan settings.
+         *
+         * Validates the working plan and automatically removes invalid breaks before returning.
+         *
+         * @param {Boolean} [autoCleanup=true] If true, automatically removes invalid breaks from DOM.
+         *
+         * @return {Object|null} Returns the working plan settings object, or null if validation fails.
+         */
+        get(autoCleanup = true) {
+            // Validate working hours (start must be before end)
+            const validation = this.validate();
+
+            if (!validation.isValid) {
+                const errorMessages = validation.errors.map((e) => e.message).join('\n');
+                App.Layouts.Backend.displayNotification(
+                    lang('working_plan_validation_failed') || 'Working plan validation failed:\n' + errorMessages,
+                );
+                return null;
+            }
+
+            // Clean up invalid breaks from DOM if auto cleanup is enabled
+
+            if (autoCleanup) {
+                this.cleanupInvalidBreaks();
+            }
+
+            const workingPlan = {};
+            const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
+
+            $('.working-plan input:checkbox').each((index, checkbox) => {
+                const id = $(checkbox).attr('id');
+
+                if ($(checkbox).prop('checked') === true) {
+                    const workingDay = {
                         start: moment($('#' + id + '-start').val(), timeFormat).format('HH:mm'),
                         end: moment($('#' + id + '-end').val(), timeFormat).format('HH:mm'),
                         breaks: [],
                     };
 
+                    // Collect breaks for this day
                     $('.breaks tr').each((index, tr) => {
                         const day = this.convertDayToValue($(tr).find('.break-day').text());
-
                         if (day === id) {
                             const start = $(tr).find('.break-start').text();
                             const end = $(tr).find('.break-end').text();
-
-                            workingPlan[id].breaks.push({
-                                start: moment(start, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format(
-                                    'HH:mm',
-                                ),
-                                end: moment(end, vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm').format(
-                                    'HH:mm',
-                                ),
-                            });
+                            const breakItem = {
+                                start: moment(start, timeFormat).format('HH:mm'),
+                                end: moment(end, timeFormat).format('HH:mm'),
+                            };
+                            workingDay.breaks.push(breakItem);
                         }
                     });
 
+                    // Filter out invalid breaks (outside working hours or start >= end)
+                    workingDay.breaks = this.filterValidBreaks(workingDay.breaks, workingDay);
+
                     // Sort breaks increasingly by hour within day
-                    workingPlan[id].breaks.sort((break1, break2) => {
-                        // We can do a direct string comparison since we have time based on 24 hours clock.
+                    workingDay.breaks.sort((break1, break2) => {
                         return break1.start.localeCompare(break2.start);
                     });
+
+                    workingPlan[id] = workingDay;
                 } else {
                     workingPlan[id] = null;
                 }
             });
-
             return workingPlan;
         }
 
         /**
          * Get the working plan exceptions settings.
          *
-         * @return {Object} Returns the working plan exceptions settings object.
+         * @return {Array} Returns an array of working plan exception objects.
          */
         getWorkingPlanExceptions() {
-            const workingPlanExceptions = {};
+            const workingPlanExceptions = [];
 
             $('.working-plan-exceptions tbody tr').each((index, tr) => {
                 const $tr = $(tr);
-                const date = $tr.data('date');
-                workingPlanExceptions[date] = $tr.data('workingPlanException');
+                const workingPlanException = $tr.data('workingPlanException');
+                if (workingPlanException) {
+                    workingPlanExceptions.push(workingPlanException);
+                }
             });
 
             return workingPlanExceptions;

@@ -37,6 +37,7 @@ class Console extends EA_Controller
         $this->load->dbutil();
 
         $this->load->library('instance');
+        $this->load->library('cleanup');
 
         $this->load->model('admins_model');
         $this->load->model('customers_model');
@@ -156,6 +157,22 @@ class Console extends EA_Controller
     }
 
     /**
+     * Clean up old customer data based on data retention settings.
+     *
+     * Use this method in a cronjob to automatically delete customer data older than the configured retention period.
+     *
+     * Usage:
+     *
+     * php index.php console cleanup
+     *
+     * @throws Exception
+     */
+    public function cleanup(): void
+    {
+        $this->cleanup->run();
+    }
+
+    /**
      * Show help information about the console capabilities.
      *
      * Use this method to see the available commands.
@@ -184,6 +201,7 @@ class Console extends EA_Controller
             '⇾ php index.php console install',
             '⇾ php index.php console backup',
             '⇾ php index.php console sync',
+            '⇾ php index.php console cleanup    (cleans sessions, logs, cache, and customer data)',
             '',
             '',
         ];

@@ -2,9 +2,14 @@
 
 <?php section('content'); ?>
 
-<div class="container-fluid backend-page" id="secretaries-page">
+<div class="container backend-page py-3" id="secretaries-page">
     <div class="row" id="secretaries">
-        <div id="filter-secretaries" class="filter-records column col-12 col-md-5">
+        <div id="filter-secretaries" class="filter-records column col-12 mb-4">
+            <button id="add-secretary" class="btn btn-primary add-record-btn mb-4">
+                <i class="fas fa-plus-square me-2"></i>
+                <?= lang('add') ?>
+            </button>
+
             <form class="mb-4">
                 <div class="input-group">
                     <input type="text" class="key form-control" aria-label="keyword">
@@ -20,27 +25,17 @@
                 <?= lang('secretaries') ?>
             </h4>
 
-            <?php slot('after_page_title'); ?>
-
-            <div class="results">
+            <div class="results overflow-auto" style="max-height: 650px;">
                 <!-- JS -->
             </div>
         </div>
 
-        <div class="record-details column col-12 col-md-7">
+        <div class="record-details column col-12 mb-4">
             <div class="btn-toolbar mb-4">
                 <div class="add-edit-delete-group btn-group">
-                    <button id="add-secretary" class="btn btn-primary">
-                        <i class="fas fa-plus-square me-2"></i>
-                        <?= lang('add') ?>
-                    </button>
                     <button id="edit-secretary" class="btn btn-outline-secondary" disabled="disabled">
                         <i class="fas fa-edit me-2"></i>
                         <?= lang('edit') ?>
-                    </button>
-                    <button id="delete-secretary" class="btn btn-outline-secondary" disabled="disabled">
-                        <i class="fas fa-trash-alt me-2"></i>
-                        <?= lang('delete') ?>
                     </button>
                 </div>
 
@@ -52,9 +47,12 @@
                     <button id="cancel-secretary" class="btn btn-secondary">
                         <?= lang('cancel') ?>
                     </button>
+                    <button id="delete-secretary" class="btn btn-outline-danger ms-2">
+                        <i class="fas fa-trash-alt me-2"></i>
+                        <?= lang('delete') ?>
+                    </button>
                 </div>
 
-                <?php slot('after_page_actions'); ?>
             </div>
 
             <h4 class="text-black-50 mb-3 fw-light">
@@ -66,7 +64,7 @@
             <input type="hidden" id="id" class="record-id">
 
             <div class="row">
-                <div class="details col-12 col-md-6">
+                <div class="details col-12 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label" for="first-name">
                             <?= lang('first_name') ?>
@@ -94,9 +92,8 @@
                     <div class="mb-3">
                         <label class="form-label" for="phone-number">
                             <?= lang('phone_number') ?>
-                            <span class="text-danger" hidden>*</span>
                         </label>
-                        <input id="phone-number" class="form-control required" maxlength="128" disabled>
+                        <input id="phone-number" class="form-control" maxlength="128" disabled>
                     </div>
 
                     <div class="mb-3">
@@ -142,9 +139,8 @@
                         <textarea id="notes" class="form-control" rows="3" disabled></textarea>
                     </div>
 
-                    <?php slot('after_primary_fields'); ?>
                 </div>
-                <div class="settings col-12 col-md-6">
+                <div class="settings col-12 col-lg-6">
                     <div class="mb-3">
                         <label class="form-label" for="username">
                             <?= lang('username') ?>
@@ -231,17 +227,24 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="form-label mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <label class="form-label mb-0">
                             <?= lang('providers') ?>
                         </label>
+                        <div class="btn-group btn-group-sm">
+                            <button type="button" id="select-all-providers" class="btn btn-outline-secondary" disabled>
+                                <?= lang('select_all') ?>
+                            </button>
+                            <button type="button" id="select-none-providers" class="btn btn-outline-secondary" disabled>
+                                <?= lang('select_none') ?>
+                            </button>
+                        </div>
                     </div>
 
                     <div id="secretary-providers" class="card card-body bg-white border">
                         <!-- JS -->
                     </div>
 
-                    <?php slot('after_secondary_fields'); ?>
                 </div>
             </div>
         </div>

@@ -30,6 +30,7 @@ tags:
   - name: settings
   - name: unavailabilities
   - name: webhooks
+  - name: working_plan_exceptions
 paths:
   /availabilities:
     get:
@@ -1768,11 +1769,11 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /blocked_peroids:
+  /blocked_periods:
     get:
       tags:
-        - blocked_peroids
-      summary: Get all blocked_peroids
+        - blocked_periods
+      summary: Get all blocked_periods
       parameters:
         - name: page
           in: query
@@ -1806,7 +1807,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/BlockedPeroidRecord'
+                  $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1821,13 +1822,13 @@ paths:
         - BasicAuth: [ ]
     post:
       tags:
-        - blocked_peroids
-      summary: Create an blocked_peroid
+        - blocked_periods
+      summary: Create an blocked_period
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BlockedPeroidPayload'
+              $ref: '#/components/schemas/BlockedPeriodPayload'
         required: true
       responses:
         '201':
@@ -1835,7 +1836,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BlockedPeroidRecord'
+                $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '500':
@@ -1848,13 +1849,13 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
-  /blocked_peroids/{blockedPeroidId}:
+  /blocked_periods/{blockedPeriodId}:
     get:
       tags:
-        - blocked_peroids
-      summary: Get an blocked_peroid
+        - blocked_periods
+      summary: Get an blocked_period
       parameters:
-        - name: blockedPeroidId
+        - name: blockedPeriodId
           in: path
           required: true
           schema:
@@ -1865,7 +1866,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BlockedPeroidRecord'
+                $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '404':
@@ -1881,10 +1882,10 @@ paths:
         - BasicAuth: [ ]
     put:
       tags:
-        - blocked_peroids
-      summary: Update an blocked_peroid
+        - blocked_periods
+      summary: Update an blocked_period
       parameters:
-        - name: blockedPeroidId
+        - name: blockedPeriodId
           in: path
           required: true
           schema:
@@ -1893,7 +1894,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/BlockedPeroidPayload'
+              $ref: '#/components/schemas/BlockedPeriodPayload'
         required: true
       responses:
         '200':
@@ -1901,7 +1902,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BlockedPeroidRecord'
+                $ref: '#/components/schemas/BlockedPeriodRecord'
         '401':
           description: Unauthorized
         '404':
@@ -1918,10 +1919,204 @@ paths:
         - BasicAuth: [ ]
     delete:
       tags:
-        - blocked_peroids
-      summary: Delete an blocked_peroid
+        - blocked_periods
+      summary: Delete an blocked_period
       parameters:
-        - name: blockedPeroidId
+        - name: blockedPeriodId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /working_plan_exceptions:
+    get:
+      tags:
+        - working_plan_exceptions
+      summary: Get all working plan exceptions
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: length
+          in: query
+          schema:
+            type: integer
+        - name: sort
+          in: query
+          schema:
+            type: string
+        - name: q
+          in: query
+          schema:
+            type: string
+        - name: fields
+          in: query
+          schema:
+            type: string
+        - name: with
+          in: query
+          schema:
+            type: string
+        - name: providerId
+          in: query
+          description: Filter by provider ID
+          schema:
+            type: integer
+        - name: date
+          in: query
+          description: Filter by exact date (Y-m-d)
+          schema:
+            type: string
+        - name: from
+          in: query
+          description: Filter exceptions from this date (Y-m-d)
+          schema:
+            type: string
+        - name: till
+          in: query
+          description: Filter exceptions until this date (Y-m-d)
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    post:
+      tags:
+        - working_plan_exceptions
+      summary: Create a working plan exception
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkingPlanExceptionPayload'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+  /working_plan_exceptions/{workingPlanExceptionId}:
+    get:
+      tags:
+        - working_plan_exceptions
+      summary: Get a working plan exception
+      parameters:
+        - name: workingPlanExceptionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    put:
+      tags:
+        - working_plan_exceptions
+      summary: Update a working plan exception
+      parameters:
+        - name: workingPlanExceptionId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkingPlanExceptionPayload'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkingPlanExceptionRecord'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
+    delete:
+      tags:
+        - working_plan_exceptions
+      summary: Delete a working plan exception
+      parameters:
+        - name: workingPlanExceptionId
           in: path
           required: true
           schema:
@@ -1963,6 +2158,8 @@ components:
           type: string
         location:
           type: string
+        meetingLink:
+          type: string
         color:
           type: string
         status:
@@ -1986,6 +2183,7 @@ components:
         end: '2021-01-01 18:00:00'
         hash: apTWVbSvBJXR
         location: Test Street 1A, 12345 Some State, Some Place
+        meetingLink: https://meet.jit.si/example-meeting
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
@@ -2003,6 +2201,8 @@ components:
           type: string
         location:
           type: string
+        meetingLink:
+          type: string
         color:
           type: string
         status:
@@ -2019,6 +2219,7 @@ components:
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
         location: Test Street 1A, 12345 Some State, Some Place
+        meetingLink: https://meet.jit.si/example-meeting
         color: '#123456'
         status: Booked
         notes: This is a test appointment.
@@ -2201,13 +2402,15 @@ components:
           type: string
         description:
           type: string
-        availabilitiesType:
+        color:
           type: string
+        slotInterval:
+          type: integer
         attendantsNumber:
           type: integer
         isPrivate:
           type: boolean
-        categoryId:
+        serviceCategoryId:
           type: integer
       example:
         id: 1
@@ -2217,7 +2420,8 @@ components:
         currency: USD
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
-        availabilitiesType: flexible
+        color: '#7cbae8'
+        slotInterval: 30
         attendantsNumber: 1
         isPrivate: false
         serviceCategoryId: null
@@ -2236,8 +2440,10 @@ components:
           type: string
         description:
           type: string
-        availabilitiesType:
+        color:
           type: string
+        slotInterval:
+          type: integer
         attendantsNumber:
           type: integer
         isPrivate:
@@ -2251,7 +2457,8 @@ components:
         currency: USD
         location: Test Street 1A, 12345 Some State, Some Place
         description: This is a test service.
-        availabilitiesType: flexible
+        color: '#7cbae8'
+        slotInterval: 30
         attendantsNumber: 1
         isPrivate: false
         serviceCategoryId: null
@@ -2297,6 +2504,8 @@ components:
           type: string
         city:
           type: string
+        state:
+          type: string
         zip:
           type: string
         notes:
@@ -2328,6 +2537,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test admin.
         timezone: UTC
@@ -2354,6 +2564,8 @@ components:
         address:
           type: string
         city:
+          type: string
+        state:
           type: string
         zip:
           type: string
@@ -2385,6 +2597,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test admin.
         timezone: UTC
@@ -2414,6 +2627,8 @@ components:
           type: string
         city:
           type: string
+        state:
+          type: string
         zip:
           type: string
         notes:
@@ -2461,6 +2676,10 @@ components:
               type: string
             workingPlan:
               type: string
+            workingPlanExceptions:
+              type: array
+              items:
+                type: object
       example:
         id: 1
         firstName: Chris
@@ -2474,6 +2693,7 @@ components:
         notes: This is a test provider.
         timezone: UTC
         language: english
+        state: null
         services: [ ]
         isPrivate: false
         ldapDn: null
@@ -2514,6 +2734,7 @@ components:
               end: '17:00'
               breaks: [ ]
             saturday: null
+          workingPlanExceptions: [ ]
     ProviderPayload:
       type: object
       properties:
@@ -2530,6 +2751,8 @@ components:
         address:
           type: string
         city:
+          type: string
+        state:
           type: string
         zip:
           type: string
@@ -2579,6 +2802,10 @@ components:
               type: string
             workingPlan:
               type: string
+            workingPlanExceptions:
+              type: array
+              items:
+                type: object
       example:
         firstName: Chris
         lastName: Doe
@@ -2587,6 +2814,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test provider.
         timezone: UTC
@@ -2631,6 +2859,7 @@ components:
               end: '17:00'
               breaks: [ ]
             saturday: null
+          workingPlanExceptions: [ ]
     SecretaryRecord:
       type: object
       properties:
@@ -2649,6 +2878,8 @@ components:
         address:
           type: string
         city:
+          type: string
+        state:
           type: string
         zip:
           type: string
@@ -2685,6 +2916,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test service.
         timezone: UTC
@@ -2713,6 +2945,8 @@ components:
           type: string
         city:
           type: string
+        state:
+          type: string
         zip:
           type: string
         notes:
@@ -2747,6 +2981,7 @@ components:
         phone: '+10000000000'
         address: Test Street 1A
         city: Some Place
+        state: null
         zip: '12345'
         notes: This is a test service.
         timezone: UTC
@@ -2822,7 +3057,7 @@ components:
         secretToken: SecureSecretTokenHere
         isSslVerified: true
         notes: This is a webhook.
-    BlockedPeroidRecord:
+    BlockedPeriodRecord:
       type: object
       properties:
         id:
@@ -2837,11 +3072,11 @@ components:
           type: string
       example:
         id: 1
-        name: Test blocked peroid
+        name: Test blocked period
         start: '2025-07-01 08:00:00'
         end: '2021-07-31 18:00:00'
-        notes: This is a test blocked peroid.
-    BlockedPeroidPayload:
+        notes: This is a test blocked period.
+    BlockedPeriodPayload:
       type: object
       properties:
         name:
@@ -2853,10 +3088,91 @@ components:
         notes:
           type: string
       example:
-        name: Test blocked peroid
+        name: Test blocked period
         start: '2021-01-01 17:00:00'
         end: '2021-01-01 18:00:00'
-        notes: This is a test blocked peroid.
+        notes: This is a test blocked period.
+    WorkingPlanExceptionRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+        startDate:
+          type: string
+          description: Start date in Y-m-d format
+        endDate:
+          type: string
+          description: End date in Y-m-d format
+        startTime:
+          type: string
+          description: Daily start time (HH:MM format), null for day off
+          nullable: true
+        endTime:
+          type: string
+          description: Daily end time (HH:MM format), null for day off
+          nullable: true
+        breaks:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+              end:
+                type: string
+        providerId:
+          type: integer
+      example:
+        id: 1
+        startDate: '2025-01-15'
+        endDate: '2025-01-20'
+        startTime: '09:00'
+        endTime: '17:00'
+        breaks:
+          - start: '12:00'
+            end: '13:00'
+        providerId: 1
+    WorkingPlanExceptionPayload:
+      type: object
+      required:
+        - startDate
+        - endDate
+        - providerId
+      properties:
+        startDate:
+          type: string
+          description: Start date in Y-m-d format
+        endDate:
+          type: string
+          description: End date in Y-m-d format
+        startTime:
+          type: string
+          description: Daily start time (HH:MM format), null for day off
+          nullable: true
+        endTime:
+          type: string
+          description: Daily end time (HH:MM format), null for day off
+          nullable: true
+        breaks:
+          type: array
+          items:
+            type: object
+            properties:
+              start:
+                type: string
+              end:
+                type: string
+        providerId:
+          type: integer
+      example:
+        startDate: '2025-01-15'
+        endDate: '2025-01-20'
+        startTime: '09:00'
+        endTime: '17:00'
+        breaks:
+          - start: '12:00'
+            end: '13:00'
+        providerId: 1
     ErrorResponse:
       type: object
       properties:

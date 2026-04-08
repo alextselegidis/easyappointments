@@ -53,7 +53,41 @@ class Google_sync
         $this->CI->load->model('providers_model');
         $this->CI->load->model('services_model');
 
-        $this->initialize_clients();
+        if (is_app_installed()) {
+            $this->initialize_clients();
+        }
+    }
+
+    /**
+     * Get the Google Client ID from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_id(): string
+    {
+        $setting_value = setting('google_client_id');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_id') ?: '';
+    }
+
+    /**
+     * Get the Google Client Secret from database settings or config fallback.
+     *
+     * @return string
+     */
+    protected function get_client_secret(): string
+    {
+        $setting_value = setting('google_client_secret');
+
+        if (!empty($setting_value)) {
+            return $setting_value;
+        }
+
+        return config('google_client_secret') ?: '';
     }
 
     /**
@@ -68,8 +102,8 @@ class Google_sync
         $this->client = new Google_Client();
         $this->client->setHttpClient($http);
         $this->client->setApplicationName('Easy!Appointments');
-        $this->client->setClientId(config('google_client_id'));
-        $this->client->setClientSecret(config('google_client_secret'));
+        $this->client->setClientId($this->get_client_id());
+        $this->client->setClientSecret($this->get_client_secret());
         $this->client->setRedirectUri(site_url('google/oauth_callback'));
         $this->client->setPrompt('consent');
         $this->client->setAccessType('offline');
@@ -83,9 +117,17 @@ class Google_sync
      *
      * This url must be used to redirect the user to the Google user consent page,
      * where the user grants access to his data for the Easy!Appointments app.
+     *
+     * @param string|null $state Optional state parameter for CSRF protection.
      */
-    public function get_auth_url(): string
+    public function get_auth_url(?string $state = null): string
     {
+        // Use the client's setState() so the state is correctly embedded by createAuthUrl()
+        // rather than manually concatenated, which avoids encoding edge-cases.
+        if ($state !== null) {
+            $this->client->setState($state);
+        }
+
         // The "max_auth_age" is needed because the user needs to always log in and not use an existing session.
         return $this->client->createAuthUrl() . '&max_auth_age=0';
     }
@@ -164,14 +206,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($appointment['start_datetime'], $appointment['end_datetime']);
+
+        $start = $this->build_event_datetime($appointment['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end = $this->build_event_datetime($appointment['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         $event->attendees = [];
@@ -188,8 +228,40 @@ class Google_sync
             $event->attendees[] = $event_customer;
         }
 
+        // Add Google Meet conferencing if enabled
+        if (filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN)) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
         // Add the new event to the Google Calendar.
-        return $this->service->events->insert($provider['settings']['google_calendar'], $event);
+        $created_event = $this->service->events->insert($provider['settings']['google_calendar'], $event, [
+            'conferenceDataVersion' => 1,
+        ]);
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $created_event->getConferenceData() &&
+            $created_event->getConferenceData()->getEntryPoints()
+        ) {
+            $entry_points = $created_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $created_event;
     }
 
     /**
@@ -226,14 +298,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($appointment['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($appointment['start_datetime'], $appointment['end_datetime']);
+
+        $start = $this->build_event_datetime($appointment['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime((new DateTime($appointment['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339));
+        $end = $this->build_event_datetime($appointment['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         $event->attendees = [];
@@ -250,7 +320,46 @@ class Google_sync
             $event->attendees[] = $event_customer;
         }
 
-        return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
+        // Add Google Meet conferencing if enabled and event doesn't already have one
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            !$event->getConferenceData()
+        ) {
+            $conference_data = new Google_Service_Calendar_ConferenceData();
+            $create_request = new Google_Service_Calendar_CreateConferenceRequest();
+            $create_request->setRequestId(uniqid('meet_', true));
+            $conference_solution_key = new Google_Service_Calendar_ConferenceSolutionKey();
+            $conference_solution_key->setType('hangoutsMeet');
+            $create_request->setConferenceSolutionKey($conference_solution_key);
+            $conference_data->setCreateRequest($create_request);
+            $event->setConferenceData($conference_data);
+        }
+
+        $updated_event = $this->service->events->update(
+            $provider['settings']['google_calendar'],
+            $event->getId(),
+            $event,
+            ['conferenceDataVersion' => 1],
+        );
+
+        // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
+        if (
+            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
+            $updated_event->getConferenceData() &&
+            $updated_event->getConferenceData()->getEntryPoints() &&
+            empty($appointment['meeting_link'])
+        ) {
+            $entry_points = $updated_event->getConferenceData()->getEntryPoints();
+            foreach ($entry_points as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    $appointment['meeting_link'] = $entry_point->getUri();
+                    $this->CI->appointments_model->save($appointment);
+                    break;
+                }
+            }
+        }
+
+        return $updated_event;
     }
 
     /**
@@ -284,16 +393,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($unavailability['start_datetime'], $unavailability['end_datetime']);
+
+        $start = $this->build_event_datetime($unavailability['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime(
-            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $end = $this->build_event_datetime($unavailability['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         // Add the new event to the Google Calendar.
@@ -322,16 +427,12 @@ class Google_sync
 
         $timezone = new DateTimeZone($provider['timezone']);
 
-        $start = new Google_Service_Calendar_EventDateTime();
-        $start->setDateTime(
-            (new DateTime($unavailability['start_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $is_all_day = $this->is_all_day_event($unavailability['start_datetime'], $unavailability['end_datetime']);
+
+        $start = $this->build_event_datetime($unavailability['start_datetime'], $timezone, $is_all_day);
         $event->setStart($start);
 
-        $end = new Google_Service_Calendar_EventDateTime();
-        $end->setDateTime(
-            (new DateTime($unavailability['end_datetime'], $timezone))->format(DateTimeInterface::RFC3339),
-        );
+        $end = $this->build_event_datetime($unavailability['end_datetime'], $timezone, $is_all_day, true);
         $event->setEnd($end);
 
         return $this->service->events->update($provider['settings']['google_calendar'], $event->getId(), $event);
@@ -382,6 +483,7 @@ class Google_sync
             'timeMin' => date(DateTimeInterface::RFC3339, $start),
             'timeMax' => date(DateTimeInterface::RFC3339, $end),
             'singleEvents' => true,
+            'maxResults' => 2500,
         ];
 
         return $this->service->events->listEvents($google_calendar, $params);
@@ -472,5 +574,55 @@ class Google_sync
         }
 
         return 'https://calendar.google.com/calendar/render?' . $query;
+    }
+
+    /**
+     * Check whether a start/end datetime pair should be pushed to Google as an all-day event.
+     *
+     * An event is treated as all-day when its start time is 00:00 and its end time is 23:59,
+     * which is how EA stores events that were originally imported from Google as all-day events.
+     */
+    private function is_all_day_event(string $start_datetime, string $end_datetime): bool
+    {
+        return (new DateTime($start_datetime))->format('H:i') === '00:00' &&
+            (new DateTime($end_datetime))->format('H:i') === '23:59';
+    }
+
+    /**
+     * Build a Google Calendar EventDateTime for a given datetime string.
+     *
+     * When the event qualifies as all-day (00:00→23:59), sets only the date so that Google
+     * Calendar renders it as an all-day block. For all-day events Google uses an exclusive
+     * end date, so the end must be advanced by one day (e.g. 23:59 on the 27th → end.date = 28th).
+     * For timed events the full RFC3339 datetime (timezone-aware) is used instead.
+     *
+     * @param string $datetime     Datetime string (Y-m-d H:i:s).
+     * @param DateTimeZone $timezone  Provider timezone.
+     * @param bool $is_all_day     Whether to use date-only format.
+     * @param bool $is_end         For all-day end: advance by one day to make it exclusive.
+     */
+    private function build_event_datetime(
+        string $datetime,
+        DateTimeZone $timezone,
+        bool $is_all_day,
+        bool $is_end = false,
+    ): Google_Service_Calendar_EventDateTime {
+        $event_dt = new Google_Service_Calendar_EventDateTime();
+
+        if ($is_all_day) {
+            $dt = new DateTime($datetime, $timezone);
+
+            if ($is_end) {
+                $dt->modify('+1 day'); // Google's all-day end is exclusive
+            }
+
+            $event_dt->setDate($dt->format('Y-m-d'));
+        } else {
+            $event_dt->setDateTime(
+                (new DateTime($datetime, $timezone))->format(DateTimeInterface::RFC3339),
+            );
+        }
+
+        return $event_dt;
     }
 }

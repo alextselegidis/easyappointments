@@ -63,6 +63,16 @@ App.Pages.ServiceCategories = (function () {
             $('#filter-service-categories .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-service-category, #delete-service-category').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#service-categories-page').addClass('editing');
+            $serviceCategories.find('.add-edit-delete-group').hide();
+            $serviceCategories.find('.save-cancel-group').show();
+            $serviceCategories.find('#delete-service-category').show(); // Show delete button when editing
+            $serviceCategories.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $serviceCategories.find('.record-details .form-label span').prop('hidden', false);
+            $filterServiceCategories.find('button').prop('disabled', true);
+            $filterServiceCategories.find('.results').css('color', '#AAA');
         });
 
         /**
@@ -70,8 +80,10 @@ App.Pages.ServiceCategories = (function () {
          */
         $serviceCategories.on('click', '#add-service-category', () => {
             App.Pages.ServiceCategories.resetForm();
+            $('#service-categories-page').addClass('editing');
             $serviceCategories.find('.add-edit-delete-group').hide();
             $serviceCategories.find('.save-cancel-group').show();
+            $serviceCategories.find('#delete-service-category').hide(); // Hide delete button when adding
             $serviceCategories.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $serviceCategories.find('.record-details .form-label span').prop('hidden', false);
             $filterServiceCategories.find('button').prop('disabled', true);
@@ -82,6 +94,7 @@ App.Pages.ServiceCategories = (function () {
          * Event: Edit Service-Category Button "Click"
          */
         $serviceCategories.on('click', '#edit-service-category', () => {
+            $('#service-categories-page').addClass('editing');
             $serviceCategories.find('.add-edit-delete-group').hide();
             $serviceCategories.find('.save-cancel-group').show();
             $serviceCategories.find('.record-details').find('input, select, textarea').prop('disabled', false);
@@ -141,6 +154,7 @@ App.Pages.ServiceCategories = (function () {
         $serviceCategories.on('click', '#cancel-service-category', () => {
             const id = $id.val();
             App.Pages.ServiceCategories.resetForm();
+            $('#service-categories-page').removeClass('editing');
             if (id !== '') {
                 select(id, true);
             }
@@ -200,6 +214,7 @@ App.Pages.ServiceCategories = (function () {
         App.Http.ServiceCategories.save(serviceCategory).then((response) => {
             App.Layouts.Backend.displayNotification(lang('service_category_saved'));
             App.Pages.ServiceCategories.resetForm();
+            $('#service-categories-page').removeClass('editing');
             $filterServiceCategories.find('.key').val('');
             App.Pages.ServiceCategories.filter('', response.id, true);
         });
@@ -214,6 +229,7 @@ App.Pages.ServiceCategories = (function () {
         App.Http.ServiceCategories.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('service_category_deleted'));
             App.Pages.ServiceCategories.resetForm();
+            $('#service-categories-page').removeClass('editing');
             App.Pages.ServiceCategories.filter($('#filter-service-categories .key').val());
         });
     }

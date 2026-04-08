@@ -402,6 +402,38 @@ class Users_model extends EA_Model
     }
 
     /**
+     * Get users as options for dropdowns.
+     *
+     * @param array|string|null $where Where conditions.
+     *
+     * @return array Returns an array of options with 'value' and 'label' keys.
+     */
+    public function to_options(array|string|null $where = null): array
+    {
+        if ($where !== null) {
+            $this->db->where($where);
+        }
+
+        $users = $this->db
+            ->select('id, first_name, last_name')
+            ->from('users')
+            ->order_by('first_name, last_name')
+            ->get()
+            ->result_array();
+
+        $options = [];
+
+        foreach ($users as $user) {
+            $options[] = [
+                'value' => (int) $user['id'],
+                'label' => trim($user['first_name'] . ' ' . $user['last_name']),
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Load related resources to a user.
      *
      * @param array $user Associative array with the user data.

@@ -21,8 +21,7 @@ const plumber = require('gulp-plumber');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass')(require('sass'));
 const zip = require('zip-dir');
-
-// const debug = require('gulp-debug');
+const debug = require('gulp-debug');
 
 function archive(done) {
     const filename = 'easyappointments-0.0.0.zip';
@@ -55,7 +54,6 @@ function archive(done) {
     fs.copySync('storage/uploads/index.html', 'build/storage/uploads/index.html');
 
     fs.copySync('index.php', 'build/index.php');
-    fs.copySync('patch.php', 'build/patch.php');
     fs.copySync('composer.json', 'build/composer.json');
     fs.copySync('composer.lock', 'build/composer.lock');
     fs.copySync('config-sample.php', 'build/config-sample.php');
@@ -63,7 +61,9 @@ function archive(done) {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
-    childProcess.execSync('cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader');
+    childProcess.execSync(
+        'cd build && composer install --no-interaction --no-dev --no-scripts --optimize-autoloader --ignore-platform-reqs && composer run cleanup-vendor',
+    );
 
     fs.removeSync('build/composer.lock');
     del.sync('**/.DS_Store');
@@ -99,7 +99,13 @@ function styles() {
         .src(['assets/css/**/*.scss', '!assets/css/**/*.min.css'])
         .pipe(plumber())
         .pipe(cached())
-        .pipe(sass().on('error', sass.logError))
+        .pipe(
+            sass({
+                // @link https://github.com/twbs/bootstrap/issues/40962
+                silenceDeprecations: ['legacy-js-api', 'color-functions', 'global-builtin', 'import'],
+                quietDeps: true,
+            }).on('error', sass.logError),
+        )
         .pipe(gulp.dest('assets/css'))
         .pipe(css())
         .pipe(rename({suffix: '.min'}))

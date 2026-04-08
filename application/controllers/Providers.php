@@ -87,6 +87,8 @@ class Providers extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('providers')]);
 
         $user_id = session('user_id');
@@ -141,9 +143,16 @@ class Providers extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -167,9 +176,13 @@ class Providers extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('provider', 'array');
 
             $provider = request('provider');
 
@@ -202,11 +215,20 @@ class Providers extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('provider_id', 'numeric');
+
             $provider_id = request('provider_id');
+
+            // Validate provider_id is a positive integer
+            if (empty($provider_id) || !filter_var($provider_id, FILTER_VALIDATE_INT) || $provider_id <= 0) {
+                throw new InvalidArgumentException('Invalid provider ID provided.');
+            }
 
             $provider = $this->providers_model->find($provider_id);
 
@@ -222,9 +244,13 @@ class Providers extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('provider', 'array');
 
             $provider = request('provider');
 
@@ -257,11 +283,20 @@ class Providers extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_USERS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('provider_id', 'numeric');
+
             $provider_id = request('provider_id');
+
+            // Validate provider_id is a positive integer
+            if (empty($provider_id) || !filter_var($provider_id, FILTER_VALIDATE_INT) || $provider_id <= 0) {
+                throw new InvalidArgumentException('Invalid provider ID provided.');
+            }
 
             $provider = $this->providers_model->find($provider_id);
 

@@ -40,6 +40,7 @@ class Availability
         $this->CI->load->model('settings_model');
         $this->CI->load->model('unavailabilities_model');
         $this->CI->load->model('blocked_periods_model');
+        $this->CI->load->model('working_plan_exceptions_model');
 
         $this->CI->load->library('ics_file');
     }
@@ -108,7 +109,7 @@ class Availability
 
         $working_plan = json_decode($provider['settings']['working_plan'], true);
 
-        $working_plan_exceptions = json_decode($provider['settings']['working_plan_exceptions'], true);
+        $working_plan_exceptions = $this->CI->working_plan_exceptions_model->get_by_provider($provider['id']);
 
         $working_day = strtolower(date('l', strtotime($date)));
 
@@ -138,7 +139,7 @@ class Availability
 
         $hours = [];
 
-        $interval_value = $service['availabilities_type'] == AVAILABILITIES_TYPE_FIXED ? $service['duration'] : '15';
+        $interval_value = !empty($service['slot_interval']) ? $service['slot_interval'] : 15;
         $interval = new DateInterval('PT' . (int) $interval_value . 'M');
         $duration = new DateInterval('PT' . (int) $service['duration'] . 'M');
 
@@ -335,30 +336,28 @@ class Availability
         // Get the service, provider's working plan and provider appointments.
         $working_plan = json_decode($provider['settings']['working_plan'], true);
 
-        // Get the provider's working plan exceptions.
-        $working_plan_exceptions_json = $provider['settings']['working_plan_exceptions'];
+        // Get the provider's working plan exceptions from the new table.
+        $working_plan_exceptions = $this->CI->working_plan_exceptions_model->get_by_provider($provider['id']);
 
-        $working_plan_exceptions = $working_plan_exceptions_json
-            ? json_decode($provider['settings']['working_plan_exceptions'], true)
-            : [];
+        // Validate and sanitize inputs before building query
+        $provider_id = (int) $provider['id'];
 
-        $escaped_provider_id = $this->CI->db->escape($provider['id']);
+        // Validate date format to prevent SQL injection
+        if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+            throw new InvalidArgumentException('Invalid date format provided.');
+        }
 
-        $escaped_date = $this->CI->db->escape($date);
-
-        $where =
-            'id_users_provider = ' .
-            $escaped_provider_id .
-            ' AND DATE(start_datetime) <= ' .
-            $escaped_date .
-            ' AND DATE(end_datetime) >= ' .
-            $escaped_date;
+        // Build query using array-based where clause for safety
+        $where = [
+            'id_users_provider' => $provider_id,
+            'DATE(start_datetime) <=' => $date,
+            'DATE(end_datetime) >=' => $date,
+        ];
 
         // Sometimes it might be necessary to exclude an appointment from the calculation (e.g. when editing an
         // existing appointment).
         if ($exclude_appointment_id) {
-            $escaped_exclude_appointment_id = $this->CI->db->escape($exclude_appointment_id);
-            $where .= ' AND id != ' . $escaped_exclude_appointment_id;
+            $where['id !='] = (int) $exclude_appointment_id;
         }
 
         $appointments = array_values(
@@ -553,7 +552,7 @@ class Availability
 
             $end_hour = new DateTime($date . ' ' . $period['end']);
 
-            $interval = $service['availabilities_type'] === AVAILABILITIES_TYPE_FIXED ? (int) $service['duration'] : 15;
+            $interval = !empty($service['slot_interval']) ? (int) $service['slot_interval'] : 15;
 
             $current_hour = $start_hour;
 
@@ -598,7 +597,9 @@ class Availability
 
         $book_advance_timeout = setting('book_advance_timeout');
 
-        $threshold = new DateTime('+' . $book_advance_timeout . ' minutes', $provider_timezone);
+        $threshold = new DateTime('now', $provider_timezone);
+
+        $threshold->modify('+' . $book_advance_timeout . ' minutes');
 
         foreach ($available_hours as $index => $value) {
             $available_hour = new DateTime($date . ' ' . $value, $provider_timezone);
@@ -635,7 +636,9 @@ class Availability
 
         $future_booking_limit = setting('future_booking_limit'); // in days
 
-        $threshold = new DateTime('+' . $future_booking_limit . ' days', $provider_timezone);
+        $threshold = new DateTime('now', $provider_timezone);
+
+        $threshold->modify('+' . $future_booking_limit . ' days');
 
         $selected_date_time = new DateTime($selected_date);
 

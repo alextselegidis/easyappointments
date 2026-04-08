@@ -11,5 +11,27 @@
 |
 */
 
+/**
+ * Add security headers to all responses.
+ */
+$hook['post_controller_constructor'][] = [
+    'class' => '',
+    'function' => 'add_security_headers',
+    'filename' => 'security_headers.php',
+    'filepath' => 'hooks',
+    'params' => [],
+];
+
+/**
+ * Probabilistically clean up old storage files (runs ~1% of requests).
+ */
+$hook['post_system'][] = [
+    'class' => '',
+    'function' => 'storage_cleanup',
+    'filename' => 'storage_cleanup.php',
+    'filepath' => 'hooks',
+    'params' => [],
+];
+
 /* End of file hooks.php */
 /* Location: ./application/config/hooks.php */

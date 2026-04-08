@@ -57,6 +57,8 @@ class Webhooks extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('webhooks')]);
 
         $user_id = session('user_id');
@@ -115,9 +117,16 @@ class Webhooks extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -141,9 +150,13 @@ class Webhooks extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('webhook', 'array');
 
             $webhook = request('webhook');
 
@@ -168,9 +181,13 @@ class Webhooks extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
+
+            check('webhook', 'array');
 
             $webhook = request('webhook');
 
@@ -195,11 +212,20 @@ class Webhooks extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('webhook_id', 'numeric');
+
             $webhook_id = request('webhook_id');
+
+            // Validate webhook_id is a positive integer
+            if (empty($webhook_id) || !filter_var($webhook_id, FILTER_VALIDATE_INT) || $webhook_id <= 0) {
+                throw new InvalidArgumentException('Invalid webhook ID provided.');
+            }
 
             $this->webhooks_model->delete($webhook_id);
 
@@ -217,11 +243,20 @@ class Webhooks extends EA_Controller
     public function find(): void
     {
         try {
+            method('get');
+
             if (cannot('view', PRIV_WEBHOOKS)) {
                 abort(403, 'Forbidden');
             }
 
+            check('webhook_id', 'numeric');
+
             $webhook_id = request('webhook_id');
+
+            // Validate webhook_id is a positive integer
+            if (empty($webhook_id) || !filter_var($webhook_id, FILTER_VALIDATE_INT) || $webhook_id <= 0) {
+                throw new InvalidArgumentException('Invalid webhook ID provided.');
+            }
 
             $webhook = $this->webhooks_model->find($webhook_id);
 

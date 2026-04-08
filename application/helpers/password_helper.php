@@ -31,15 +31,65 @@ function hash_password(string $salt, string $password): string
         throw new InvalidArgumentException('The provided password is too long, please use a shorter value.');
     }
 
-    $half = (int) (strlen($salt) / 2);
+    // Use bcrypt for secure password hashing (salt parameter is kept for backward compatibility but not used)
+    $hash = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
 
-    $hash = hash('sha256', substr($salt, 0, $half) . $password . substr($salt, $half));
-
-    for ($i = 0; $i < 100000; $i++) {
-        $hash = hash('sha256', $hash);
+    if ($hash === false) {
+        throw new RuntimeException('Password hashing failed.');
     }
 
     return $hash;
+}
+
+/**
+ * Verify a password against a hash.
+ *
+ * This function supports both the new bcrypt hashes and legacy SHA256 hashes for backward compatibility.
+ *
+ * @param string $salt Salt value for the user (used for legacy hash verification).
+ * @param string $password The plain text password to verify.
+ * @param string $hash The stored hash to verify against.
+ *
+ * @return bool Returns true if the password matches the hash.
+ */
+function verify_password(string $salt, string $password, string $hash): bool
+{
+    if (strlen($password) > MAX_PASSWORD_LENGTH) {
+        return false;
+    }
+
+    // Check if it's a bcrypt hash (starts with $2y$ or $2a$ or $2b$)
+    if (preg_match('/^\$2[ayb]\$/', $hash)) {
+        return password_verify($password, $hash);
+    }
+
+    // Legacy SHA256 verification for backward compatibility
+    $half = (int) (strlen($salt) / 2);
+    $legacy_hash = hash('sha256', substr($salt, 0, $half) . $password . substr($salt, $half));
+
+    for ($i = 0; $i < 100000; $i++) {
+        $legacy_hash = hash('sha256', $legacy_hash);
+    }
+
+    return hash_equals($legacy_hash, $hash);
+}
+
+/**
+ * Check if a password hash needs to be rehashed (e.g., migrated from legacy to bcrypt).
+ *
+ * @param string $hash The stored hash to check.
+ *
+ * @return bool Returns true if the hash should be rehashed.
+ */
+function password_needs_rehash_check(string $hash): bool
+{
+    // If it's not a bcrypt hash, it needs rehashing
+    if (!preg_match('/^\$2[ayb]\$/', $hash)) {
+        return true;
+    }
+
+    // Check if bcrypt cost needs updating
+    return password_needs_rehash($hash, PASSWORD_BCRYPT, ['cost' => 12]);
 }
 
 /**

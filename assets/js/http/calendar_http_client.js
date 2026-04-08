@@ -27,15 +27,26 @@ App.Http.Calendar = (function () {
      * @param {Object} [customer] Optional, contains the customer data.
      * @param {Function} [successCallback] Optional, if defined, this function is going to be executed on post success.
      * @param {Function} [errorCallback] Optional, if defined, this function is going to be executed on post failure.
+     * @param {Boolean} [notifyCustomer] Optional, whether to send notification to customer (defaults to true).
+     * @param {Boolean} [forceSave] Optional, whether to force save even if there's a conflict (defaults to false).
      *
      * @return {*|jQuery}
      */
-    function saveAppointment(appointment, customer, successCallback, errorCallback) {
+    function saveAppointment(
+        appointment,
+        customer,
+        successCallback,
+        errorCallback,
+        notifyCustomer = true,
+        forceSave = false,
+    ) {
         const url = App.Utils.Url.siteUrl('calendar/save_appointment');
 
         const data = {
             csrf_token: vars('csrf_token'),
             appointment_data: appointment,
+            notify_customer: notifyCustomer ? 1 : 0,
+            force_save: forceSave ? 1 : 0,
         };
 
         if (customer) {
@@ -63,13 +74,14 @@ App.Http.Calendar = (function () {
      *
      * @return {*|jQuery}
      */
-    function deleteAppointment(appointmentId, cancellationReason) {
+    function deleteAppointment(appointmentId, cancellationReason, notifyCustomer = true) {
         const url = App.Utils.Url.siteUrl('calendar/delete_appointment');
 
         const data = {
             csrf_token: vars('csrf_token'),
             appointment_id: appointmentId,
             cancellation_reason: cancellationReason,
+            notify_customer: notifyCustomer ? 1 : 0,
         };
 
         return $.post(url, data);
@@ -135,22 +147,13 @@ App.Http.Calendar = (function () {
      *
      * @return {*|jQuery}
      */
-    function saveWorkingPlanException(
-        date,
-        workingPlanException,
-        providerId,
-        successCallback,
-        errorCallback,
-        originalDate,
-    ) {
+    function saveWorkingPlanException(workingPlanException, providerId, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/save_working_plan_exception');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            date: date,
             working_plan_exception: workingPlanException,
             provider_id: providerId,
-            original_date: originalDate,
         };
 
         return $.post(url, data)
@@ -169,19 +172,19 @@ App.Http.Calendar = (function () {
     /**
      * Delete working plan exception
      *
-     * @param {String} date
+     * @param {Number} exceptionId
      * @param {Number} providerId
      * @param {Function} [successCallback]
      * @param {Function} [errorCallback]
      *
      * @return {*|jQuery}
      */
-    function deleteWorkingPlanException(date, providerId, successCallback, errorCallback) {
+    function deleteWorkingPlanException(exceptionId, providerId, successCallback, errorCallback) {
         const url = App.Utils.Url.siteUrl('calendar/delete_working_plan_exception');
 
         const data = {
             csrf_token: vars('csrf_token'),
-            date: date,
+            exception_id: exceptionId,
             provider_id: providerId,
         };
 
@@ -242,8 +245,67 @@ App.Http.Calendar = (function () {
         return $.post(url, data);
     }
 
+    /**
+     * Save appointment with conflict handling.
+     *
+     * This method saves an appointment and handles conflict responses by showing a confirmation dialog
+     * that allows the user to force save or cancel the operation.
+     *
+     * @param {Object} appointment The appointment data to save.
+     * @param {Object} [customer] Optional customer data.
+     * @param {Function} successCallback Callback function to execute on successful save.
+     * @param {Function} [errorCallback] Optional callback function to execute on error.
+     * @param {Boolean} notifyCustomer Whether to notify the customer.
+     * @param {Function} [revertCallback] Optional callback function to execute when user cancels on conflict.
+     */
+    function saveAppointmentWithConflictHandling(
+        appointment,
+        customer,
+        successCallback,
+        errorCallback,
+        notifyCustomer,
+        revertCallback,
+    ) {
+        const attemptSave = (forceSave = false) => {
+            saveAppointment(appointment, customer, null, errorCallback, notifyCustomer, forceSave).done((response) => {
+                if (response.conflict) {
+                    // Show conflict confirmation dialog
+                    App.Utils.Message.show(
+                        lang('appointment_update'),
+                        response.message + ' ' + lang('would_you_like_to_proceed'),
+                        [
+                            {
+                                text: lang('cancel'),
+                                click: (event, messageModal) => {
+                                    messageModal.hide();
+                                    if (revertCallback) {
+                                        revertCallback();
+                                    }
+                                },
+                            },
+                            {
+                                text: lang('proceed'),
+                                click: (event, messageModal) => {
+                                    messageModal.hide();
+                                    attemptSave(true);
+                                },
+                            },
+                        ],
+                    );
+                } else if (response.success) {
+                    if (successCallback) {
+                        successCallback(response);
+                    }
+                }
+            });
+        };
+
+        attemptSave();
+    }
+
     return {
         saveAppointment,
+        saveAppointmentWithConflictHandling,
         deleteAppointment,
         saveUnavailability,
         deleteUnavailability,

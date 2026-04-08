@@ -1,136 +1,73 @@
 # Update Guide
 
-This page will guide you through the update procedure of your Easy!Appointments installation. You will need to follow the steps below in order to have successful results.
+This guide explains how to update Easy!Appointments from an older version to a newer one.
 
-If you get a `500 Internal Server Error` message then you must check the error log files, located in the storage/logs directory.
+> **Important:** Always **back up your database and files** before updating. If something goes wrong, you can restore them.
 
-Before you start following the steps below, make sure you **backup** your database and files. 
+If you see a `500 Internal Server Error` after updating, check the error log files in the `storage/logs` folder for details.
 
-### Updating from v1.4.x to v1.5.x
+## General Update Steps
 
-###### Step 1: Update your Easy!Appointments files
+Every update follows the same basic process:
 
-Replace all files and directories in your installation directory (keep root config.php).
+### Step 1: Replace the Files
 
-> Note: If you have any custom developed files in these directories, please make copies of them first.
+Download the new version and replace all the files and folders in your installation directory with the new ones.
 
-###### Step 2: Run the database migrations
+- **Keep your `config.php`** — it has your database credentials and settings.
+- If you've customized any other files, make copies of them first so you don't lose your changes.
 
-Database migrations will bring your database structure to the latest state.
+### Step 2: Run Database Migrations
 
-**Browser**
+The database may need updates to work with the new version. You have two ways to do this:
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+**Option A — From Your Browser:**
 
-**Console**
+Log in to the backend and go to:
+```
+https://your-domain.com/easyappointments/index.php/backend/update
+```
 
-If you have console access to your server then head to the installation directory and run `php index.php console migrate`.
+**Option B — From the Command Line:**
 
+If you have terminal access, go to the installation folder and run:
+```
+php index.php console migrate
+```
 
-### Updating from v1.3.x to v1.4.x
+### Step 3: Version-Specific Steps (If Needed)
 
-###### Step 1: Update your Easy!Appointments files 
+Some updates have extra steps. Check the sections below for your specific version jump.
 
-Replace all files and directories in your installation directory.
-
-> Note: If you have any custom developed files in these directories, please make copies of them first.
-        
-###### Step 2: Run the database migrations 
-
-Database migrations will bring your database structure to the latest state.
-
-**Browser**
-
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
-
-**Console**
-
-If you have console access to your server then head to the installation directory and run `php index.php console migrate`.
-
-###### Step 3: Remove unnecessary files 
-
-The following directories are not needed: 
-
-* /system
-
-The following files are not needed:
-
-* /autoload.php 
-
- 
-### Updating from v1.2.x to v1.3.x
-
-###### Step 1: Update your Easy!Appointments files 
-
-Replace all files and directories in your installation directory.
-
-> Note: If you have any custom developed files in these directories, please make copies of them first.
-        
-###### Step 2: Run the database migrations 
-
-Database migrations will bring your database structure to the latest state.
-
-**Browser**
-
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
-
-
-### Updating from v1.2.x to v1.3.x
-
-###### Step 1: Update your Easy!Appointments files 
-
-Replace all files and directories in your installation directory.
-
-> Note: If you have any custom developed files in these directories, please make copies of them first.
-        
-###### Step 2: Run the database migrations 
-
-Database migrations will bring your database structure to the latest state.
-
-**Browser**
-
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
-
-### Updating from v1.1.x to v1.2.x 
-
-###### Step 1: Update your Easy!Appointments files 
-
-Replace all files and directories in your installation directory.
-
-> Note: If you have any custom developed files in these directories, please make copies of them first.
-        
-###### Step 2: Run the database migrations 
-
-Database migrations will bring your database structure to the latest state.
-
-**Browser**
-
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
-
-###### Step 3: Make storage writable 
-
-Version v1.2.x introduces two new folders in the root directory of the project, the "engine" and the "storage" directory. **Ensure that the storage directory is writable and has the correct permissions.**
+## Version-Specific Notes
 
 ### Updating from v1.0.x to v1.1.x
 
-###### Step 1: Update your Easy!Appointments files 
+After Steps 1 and 2 above, also:
 
-Replace all files and directories in your installation directory.
+- Copy your settings from the old `configuration.php` into the new `config.php` file.
 
-> Note: If you have any custom developed files in these directories, please make copies of them first.
-        
-###### Step 2: Run the database migrations 
+### Updating from v1.1.x to v1.2.x
 
-Database migrations will bring your database structure to the latest state.
+After Steps 1 and 2 above, also:
 
-**Browser**
+- Make sure the `storage` folder has write permissions (it was added in this version).
 
-Open your browser to the Easy!Appointments installation URL, login to the backend and type in the browser address the following URL to complete the database upgrade: `https://url/to/easyappointments/folder/index.php/backend/update`
+### Updating from v1.2.x to v1.3.x
 
-###### Step 3: Migrate the configuration.php values
+No extra steps — just follow Steps 1 and 2.
 
-Use the data of the old `configuration.php` file in the new `config.php`. 
+### Updating from v1.3.x to v1.4.x
 
-*This document applies to Easy!Appointments v1.5.1.*
+After Steps 1 and 2 above, also:
+
+- Delete the `/system` folder — it's no longer needed.
+- Delete the `/autoload.php` file — it's no longer needed.
+
+### Updating from v1.4.x to v1.5.x
+
+No extra steps — just follow Steps 1 and 2.
+
+*This document applies to Easy!Appointments v1.6.0.*
 
 [Back](readme.md)

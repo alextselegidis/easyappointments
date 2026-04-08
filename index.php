@@ -57,6 +57,19 @@ require_once __DIR__ . '/config.php';
 
 /*
  *---------------------------------------------------------------
+ * SESSION GARBAGE COLLECTION
+ *---------------------------------------------------------------
+ *
+ * Configure session garbage collection settings to ensure proper
+ * cleanup of expired session data.
+ *
+ */
+
+ini_set('session.gc_probability', 1);
+ini_set('session.gc_divisor', 100);
+
+/*
+ *---------------------------------------------------------------
  * COMPOSER AUTOLOAD FILE
  *---------------------------------------------------------------
  *

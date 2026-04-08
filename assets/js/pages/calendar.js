@@ -74,29 +74,27 @@ App.Pages.Calendar = (function () {
                 throw new Error('Provider could not be found: ' + providerId);
             }
 
-            App.Components.WorkingPlanExceptionsModal.add().done((date, workingPlanException) => {
-                const successCallback = () => {
+            App.Components.WorkingPlanExceptionsModal.add().done((workingPlanException) => {
+                const successCallback = (response) => {
                     App.Layouts.Backend.displayNotification(lang('working_plan_exception_saved'));
 
-                    const workingPlanExceptions = JSON.parse(provider.settings.working_plan_exceptions) || {};
-
-                    workingPlanExceptions[date] = workingPlanException;
-
-                    for (let index in vars('available_providers')) {
-                        const availableProvider = vars('available_providers')[index];
-
-                        if (Number(availableProvider.id) === Number(providerId)) {
-                            vars('available_providers')[index].settings.working_plan_exceptions =
-                                JSON.stringify(workingPlanExceptions);
-                            break;
-                        }
+                    // Update the in-memory provider data with the new exception
+                    let exceptions = JSON.parse(provider.settings.working_plan_exceptions || '[]');
+                    if (!Array.isArray(exceptions)) {
+                        exceptions = [];
                     }
+
+                    // Add the new exception (with ID from response if available)
+                    if (response && response.id) {
+                        workingPlanException.id = response.id;
+                    }
+                    exceptions.push(workingPlanException);
+                    provider.settings.working_plan_exceptions = JSON.stringify(exceptions);
 
                     $('#select-filter-item').trigger('change'); // Update the calendar.
                 };
 
                 App.Http.Calendar.saveWorkingPlanException(
-                    date,
                     workingPlanException,
                     providerId,
                     successCallback,

@@ -2,7 +2,7 @@
 
 <?php section('content'); ?>
 
-<div id="account-page" class="container backend-page">
+<div id="account-page" class="container backend-page py-3">
     <div id="account">
         <div class="row">
             <div class="col-lg-8 offset-lg-2">

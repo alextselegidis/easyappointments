@@ -1,19 +1,47 @@
-# Manage Translations 
+# Manage Translations
 
-> This page will guide you through the management of Easy!Appointments translations.
+Easy!Appointments supports multiple languages. You can modify existing translations or add your own.
 
-### Introduction 
-Easy!Appointments supports the addition of custom translations in order to display the user interface into many languages and therefore be more user friendly. This page will guide you through the addition of a new translation and the configuration of the application. You can also modify the available translations or even set the default one for the application.
+## How Translations Work
 
-### Details 
-Easy!Appointments is based upon CodeIgniter (PHP Framework) and it uses its build-in libraries in order to translate the content into many languages. Version 1.1 of the application comes with English, German, Greek, Hungarian, Portuguese, Spanish, Italian, Japanese, Dutch, French, Simplified Chinese, Polish, Danish, Luxembourgish, Slovak, Finnish, Russian, Romanian, Turkish, Hindi and Bulgarian already included, but there is also the ability to add you own translation and change the user interface strings and captions. To add a new translation you must do the following:
+Each language has its own folder inside `/application/language/` (e.g. `english`, `german`, `french`). Inside each folder, the `translations_lang.php` file contains all the text shown in the app.
 
-  1. **CREATE A TRANSLATION FOLDER INSIDE "/APPLICATION/LANGUAGE/" DIRECTORY.** If you want for example to translate the application into French then you will need to create a new folder named "french" inside the `/application/language/` directory and copy the contents of the "english" folder. You must also copy the "migration_lang.php" file from another translation directory (e.g. "german") because CodeIgniter requires it when the version migration algorithm is executed.
-  2. **TRANSLATE EACH STRING WITHIN YOUR "TRANSLATION_LANG.PHP" FILE INTO YOUR LANGUAGE.** You will just have to replace the English strings with your translation. Example >> `$lang['page_title'] = 'Write your translation here!';`
-  3. **TELL EASY!APPOINTMENTS THAT YOU HAVE ADDED A NEW TRANSLATION.** When you are finished with the translation you will need to make some changes into the core config file of Easy!Appointments located at "/application/config/config.php" in order to tell the application that there is a new translation available. Find line 90 and add your language to the array. Example >> `$config['available_languages'] = array('english', 'german', 'greek', 'hungarian', 'portuguese', 'french');`. Then change the default language, though this is optional (e.g.` $config['language'] = 'english';`).
+## Adding a New Translation
 
-Follow these steps in order to add or adjust your translations and modify the message of the user interface of Easy!Appointments. If you want contribute to the translation process of Easy!Appointments please read the [Get Involved](https://github.com/alextselegidis/easyappointments/wiki/Get-Involved!) wiki page for more information. Please share your translations with the user community. 
+### 1. Create the Language Folder
 
-*This document applies to Easy!Appointments v1.5.1.*
+Inside `/application/language/`, create a new folder named after your language (e.g. `french`). Copy all files from the `english` folder into it.
+
+Also copy the `migration_lang.php` file from another language folder (e.g. `german`) — the app needs this file to run database updates.
+
+### 2. Translate the Strings
+
+Open `translations_lang.php` in your new folder and replace the English text with your translation:
+
+```php
+$lang['page_title'] = 'Your translation here!';
+```
+
+Keep the key names (the part in square brackets) exactly the same — only change the text after the `=` sign.
+
+### 3. Register Your Translation
+
+Open `/application/config/config.php` and find the `available_languages` array (around line 90). Add your language to it:
+
+```php
+$config['available_languages'] = array('english', 'german', 'greek', 'french');
+```
+
+To change the default language for all users, update:
+
+```php
+$config['language'] = 'english'; // Change to your language
+```
+
+## Sharing Your Translation
+
+If you'd like to contribute your translation to the project, you can submit a [pull request on GitHub](https://github.com/alextselegidis/easyappointments) or email it to [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
+
+*This document applies to Easy!Appointments v1.6.0.*
 
 [Back](readme.md)

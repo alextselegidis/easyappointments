@@ -29,10 +29,11 @@ class Services extends EA_Controller
         'description',
         'color',
         'location',
-        'availabilities_type',
+        'slot_interval',
         'attendants_number',
         'is_private',
         'id_service_categories',
+        'providers',
         'buffer_before',
         'buffer_after',
     ];
@@ -48,6 +49,7 @@ class Services extends EA_Controller
         parent::__construct();
 
         $this->load->model('services_model');
+        $this->load->model('providers_model');
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
@@ -63,6 +65,8 @@ class Services extends EA_Controller
      */
     public function index(): void
     {
+        method('get');
+
         session(['dest_url' => site_url('services')]);
 
         $user_id = session('user_id');
@@ -79,10 +83,13 @@ class Services extends EA_Controller
 
         $role_slug = session('role_slug');
 
+        $providers = $this->providers_model->get();
+
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
             'event_minimum_duration' => EVENT_MINIMUM_DURATION,
+            'providers' => filter_sensitive_users_data($providers),
         ]);
 
         html_vars([
@@ -91,6 +98,7 @@ class Services extends EA_Controller
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'timezones' => $this->timezones->to_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
+            'providers' => filter_sensitive_users_data($providers),
         ]);
 
         $this->load->view('pages/services');
@@ -102,9 +110,16 @@ class Services extends EA_Controller
     public function search(): void
     {
         try {
+            method('post');
+
             if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('keyword', 'string|null');
+            check('order_by', 'string|null');
+            check('limit', 'numeric|null');
+            check('offset', 'numeric|null');
 
             $keyword = request('keyword', '');
 
@@ -115,6 +130,11 @@ class Services extends EA_Controller
             $offset = (int) request('offset', '0');
 
             $services = $this->services_model->search($keyword, $limit, $offset, $order_by);
+
+            // Include provider IDs for each service
+            foreach ($services as &$service) {
+                $service['providers'] = $this->services_model->get_provider_ids($service['id']);
+            }
 
             json_response($services);
         } catch (Throwable $e) {
@@ -128,9 +148,13 @@ class Services extends EA_Controller
     public function store(): void
     {
         try {
+            method('post');
+
             if (cannot('add', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('service', 'array');
 
             $service = request('service');
 
@@ -159,11 +183,20 @@ class Services extends EA_Controller
     public function find(): void
     {
         try {
-            if (cannot('delete', PRIV_SERVICES)) {
+            method('get');
+
+            if (cannot('view', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
+            check('service_id', 'numeric');
+
             $service_id = request('service_id');
+
+            // Validate service_id is a positive integer
+            if (empty($service_id) || !filter_var($service_id, FILTER_VALIDATE_INT) || $service_id <= 0) {
+                throw new InvalidArgumentException('Invalid service ID provided.');
+            }
 
             $service = $this->services_model->find($service_id);
 
@@ -179,9 +212,13 @@ class Services extends EA_Controller
     public function update(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
+
+            check('service', 'array');
 
             $service = request('service');
 
@@ -210,11 +247,20 @@ class Services extends EA_Controller
     public function destroy(): void
     {
         try {
+            method('post');
+
             if (cannot('delete', PRIV_SERVICES)) {
                 abort(403, 'Forbidden');
             }
 
+            check('service_id', 'numeric');
+
             $service_id = request('service_id');
+
+            // Validate service_id is a positive integer
+            if (empty($service_id) || !filter_var($service_id, FILTER_VALIDATE_INT) || $service_id <= 0) {
+                throw new InvalidArgumentException('Invalid service ID provided.');
+            }
 
             $service = $this->services_model->find($service_id);
 

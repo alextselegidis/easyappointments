@@ -2,13 +2,13 @@
 
 <?php section('content'); ?>
 
-<div id="legal-settings-page" class="container backend-page">
+<div id="legal-settings-page" class="container backend-page py-3">
     <div id="legal-contents">
         <div class="row">
-            <div class="col-sm-3 offset-sm-1">
+            <div class="col-sm-3">
                 <?php component('settings_nav'); ?>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-9">
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
@@ -71,15 +71,48 @@
                                     </label>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-5">
                                     <label class="form-label"
                                            for="privacy-policy-content"><?= lang('privacy_policy_content') ?></label>
                                     <textarea id="privacy-policy-content" cols="30" rows="10" class="mb-3"></textarea>
                                 </div>
+
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('legal_notice') ?></h5>
+
+                                <div class="mb-5">
+                                    <label class="form-label" for="legal-notice-url"><?= lang(
+                                        'legal_notice_url',
+                                    ) ?></label>
+                                    <input type="url" id="legal-notice-url" class="form-control" placeholder="https://...">
+                                    <div class="form-text text-muted small">
+                                        <?= lang('legal_notice_url_hint') ?>
+                                    </div>
+                                </div>
+
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('imprint') ?></h5>
+
+                                <div class="mb-5">
+                                    <label class="form-label" for="imprint-url"><?= lang('imprint_url') ?></label>
+                                    <input type="url" id="imprint-url" class="form-control" placeholder="https://...">
+                                    <div class="form-text text-muted small">
+                                        <?= lang('imprint_url_hint') ?>
+                                    </div>
+                                </div>
+
+                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('data_retention') ?></h5>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="data-retention-days"><?= lang(
+                                        'data_retention_days',
+                                    ) ?></label>
+                                    <input type="number" id="data-retention-days" class="form-control" min="0" placeholder="0">
+                                    <div class="form-text text-muted small">
+                                        <?= lang('data_retention_days_hint') ?>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <?php slot('after_primary_fields'); ?>
                     </fieldset>
                 </form>
             </div>

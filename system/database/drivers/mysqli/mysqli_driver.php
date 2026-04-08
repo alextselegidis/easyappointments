@@ -298,7 +298,22 @@ class CI_DB_mysqli_driver extends CI_DB {
 	 */
 	protected function _execute($sql)
 	{
-		return $this->conn_id->query($this->_prep_query($sql));
+		$result = $this->conn_id->query($this->_prep_query($sql));
+
+		// If "MySQL server has gone away" (error 2006), reconnect and retry once
+		if ($result === FALSE && $this->conn_id->errno === 2006)
+		{
+			log_message('debug', 'MySQL server has gone away, attempting reconnect...');
+			$this->conn_id = FALSE;
+			$this->initialize();
+
+			if ($this->conn_id !== FALSE)
+			{
+				$result = $this->conn_id->query($this->_prep_query($sql));
+			}
+		}
+
+		return $result;
 	}
 
 	// --------------------------------------------------------------------

@@ -79,6 +79,16 @@ App.Pages.Customers = (function () {
             $('#filter-customers .selected').removeClass('selected');
             $(event.currentTarget).addClass('selected');
             $('#edit-customer, #delete-customer').prop('disabled', false);
+
+            // Automatically enter edit mode
+            $('#customers-page').addClass('editing');
+            $customers.find('.record-details').find('input, select, textarea').prop('disabled', false);
+            $customers.find('.record-details .form-label span').prop('hidden', false);
+            $customers.find('#add-edit-delete-group').hide();
+            $customers.find('#save-cancel-group').show();
+            $customers.find('#delete-customer').show(); // Show delete button when editing
+            $filterCustomers.find('button').prop('disabled', true);
+            $filterCustomers.find('.results').css('color', '#AAA');
         });
 
         /**
@@ -86,8 +96,10 @@ App.Pages.Customers = (function () {
          */
         $customers.on('click', '#add-customer', () => {
             App.Pages.Customers.resetForm();
+            $('#customers-page').addClass('editing');
             $customers.find('#add-edit-delete-group').hide();
             $customers.find('#save-cancel-group').show();
+            $customers.find('#delete-customer').hide(); // Hide delete button when adding
             $customers.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $customers.find('.record-details .form-label span').prop('hidden', false);
             $filterCustomers.find('button').prop('disabled', true);
@@ -98,6 +110,7 @@ App.Pages.Customers = (function () {
          * Event: Edit Customer Button "Click"
          */
         $customers.on('click', '#edit-customer', () => {
+            $('#customers-page').addClass('editing');
             $customers.find('.record-details').find('input, select, textarea').prop('disabled', false);
             $customers.find('.record-details .form-label span').prop('hidden', false);
             $customers.find('#add-edit-delete-group').hide();
@@ -113,6 +126,7 @@ App.Pages.Customers = (function () {
             const id = $id.val();
 
             App.Pages.Customers.resetForm();
+            $('#customers-page').removeClass('editing');
 
             if (id) {
                 select(id, true);
@@ -187,6 +201,7 @@ App.Pages.Customers = (function () {
         App.Http.Customers.save(customer).then((response) => {
             App.Layouts.Backend.displayNotification(lang('customer_saved'));
             App.Pages.Customers.resetForm();
+            $('#customers-page').removeClass('editing');
             $('#filter-customers .key').val('');
             App.Pages.Customers.filter('', response.id, true);
         });
@@ -201,6 +216,7 @@ App.Pages.Customers = (function () {
         App.Http.Customers.destroy(id).then(() => {
             App.Layouts.Backend.displayNotification(lang('customer_deleted'));
             App.Pages.Customers.resetForm();
+            $('#customers-page').removeClass('editing');
             App.Pages.Customers.filter($('#filter-customers .key').val());
         });
     }

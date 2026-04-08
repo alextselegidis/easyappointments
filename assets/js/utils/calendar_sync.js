@@ -41,8 +41,16 @@ App.Utils.CalendarSync = (function () {
         const hasCaldavSync = Boolean(Number($selectedOption.attr('caldav-sync')));
         const hasSync = hasGoogleSync || hasCaldavSync;
 
-        $enableSync.prop('hidden', !isProvider || hasSync);
-        $syncButtonGroup.prop('hidden', !isProvider || !hasSync);
+        // Check if the logged-in user is a provider viewing their own data
+        const isLoggedInProvider = vars('role_slug') === App.Layouts.Backend.DB_SLUG_PROVIDER;
+        const selectedProviderId = isProvider ? Number($selectedOption.val()) : null;
+        const canManageSync =
+            isProvider &&
+            (!isLoggedInProvider || // Admins and secretaries can manage any provider
+                Number(vars('user_id')) === selectedProviderId); // Providers can only manage their own sync
+
+        $enableSync.prop('hidden', !canManageSync || hasSync);
+        $syncButtonGroup.prop('hidden', !canManageSync || !hasSync);
     }
 
     function enableGoogleSync() {
@@ -50,37 +58,32 @@ App.Utils.CalendarSync = (function () {
 
         const authUrl = App.Utils.Url.siteUrl('google/oauth/' + $('#select-filter-item').val());
 
-        const redirectUrl = App.Utils.Url.siteUrl('google/oauth_callback');
-
         const windowHandle = window.open(authUrl, 'Easy!Appointments', 'width=800, height=600');
 
-        const authInterval = window.setInterval(() => {
-            // When the browser redirects to the Google user consent page the "window.document" variable
-            // becomes "undefined" and when it comes back to the redirect URL it changes back. So check
-            // whether the variable is undefined to avoid javascript errors.
-            try {
-                if (windowHandle.document) {
-                    if (windowHandle.document.URL.indexOf(redirectUrl) !== -1) {
-                        // The user has granted access to his data.
-                        windowHandle.close();
-
-                        window.clearInterval(authInterval);
-
-                        const $selectedOption = $selectFilterItem.find('option:selected');
-
-                        $selectedOption.attr('google-sync', '1');
-
-                        updateSyncButtons();
-
-                        selectGoogleCalendar();
-                    }
-                }
-            } catch (Error) {
-                // Accessing the document object before the window is loaded throws an error, but it will only
-                // happen during the initialization of the window. Attaching "load" event handling is not
-                // possible due to CORS restrictions.
+        // Listen for the postMessage that oauth_callback emits after the token is saved server-side.
+        // This avoids the race condition of URL-polling, which fires as soon as the browser starts
+        // navigating to oauth_callback — before the server has finished processing the request.
+        function onOauthMessage(event) {
+            if (event.origin !== window.location.origin || event.data !== 'oauth_success') {
+                return;
             }
-        }, 100);
+
+            window.removeEventListener('message', onOauthMessage);
+
+            if (windowHandle && !windowHandle.closed) {
+                windowHandle.close();
+            }
+
+            const $selectedOption = $selectFilterItem.find('option:selected');
+
+            $selectedOption.attr('google-sync', '1');
+
+            updateSyncButtons();
+
+            selectGoogleCalendar();
+        }
+
+        window.addEventListener('message', onOauthMessage);
     }
 
     function disableGoogleSync() {
