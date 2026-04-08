@@ -34,6 +34,8 @@ class Services extends EA_Controller
         'is_private',
         'id_service_categories',
         'providers',
+        'buffer_before',
+        'buffer_after',
     ];
     public array $optional_service_fields = [
         'id_service_categories' => null,
