@@ -41,8 +41,8 @@ class Localization extends EA_Controller
                 throw new InvalidArgumentException('Invalid language parameter.');
             }
 
-            // Sanitize language to only allow alphanumeric and underscore characters
-            $language = preg_replace('/[^a-zA-Z0-9_]/', '', $language);
+            // Sanitize language to only allow alphanumeric, underscore, and hyphen characters
+            $language = preg_replace('/[^a-zA-Z0-9_-]/', '', $language);
 
             // Check if language exists in the available languages.
             if (!in_array($language, config('available_languages'), true)) {

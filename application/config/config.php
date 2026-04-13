@@ -116,6 +116,7 @@ $languages = [
     'no' => 'norwegian',
     'pl' => 'polish',
     'pt' => 'portuguese',
+    'pt-br' => 'portuguese-br',
     'ro' => 'romanian',
     'rs' => 'serbian',
     'ru' => 'russian',
@@ -125,6 +126,7 @@ $languages = [
     'th' => 'thai',
     'tr' => 'turkish',
     'zh' => 'chinese',
+    'zh-tw' => 'traditional-chinese',
     'uk' => 'ukrainian',
 ];
 
