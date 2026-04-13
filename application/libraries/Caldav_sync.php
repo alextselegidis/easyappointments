@@ -246,31 +246,18 @@ class Caldav_sync
         $responses = $xml_namespace ? $xml->children($xml_namespace, true) : $xml->children();
 
         foreach ($responses as $response) {
-            // CalDAV namespace can be prefixed as 'cal', 'C', or 'c', try common prefixes used by different CalDAV servers
+            // Use the CalDAV namespace URI to find calendar-data elements regardless of
+            // which prefix the server chose (e.g. 'cal', 'C', 'c', or any other valid prefix).
             $prop = $response->propstat->prop;
 
             $ics_contents = '';
 
-            if (count($prop->children('cal', true)) > 0) {
-                $ics_contents = (string) $prop->children('cal', true);
-            } elseif (count($prop->children('C', true)) > 0) {
-                $caldav_children = $prop->children('C', true);
+            $caldav_children = $prop->children('urn:ietf:params:xml:ns:caldav');
 
-                // Get calendar-data element
-                foreach ($caldav_children as $child) {
-                    if ($child->getName() == 'calendar-data') {
-                        $ics_contents = (string) $child;
-                        break;
-                    }
-                }
-            } elseif (count($prop->children('c', true)) > 0) {
-                $caldav_children = $prop->children('c', true);
-
-                foreach ($caldav_children as $child) {
-                    if ($child->getName() == 'calendar-data') {
-                        $ics_contents = (string) $child;
-                        break;
-                    }
+            foreach ($caldav_children as $child) {
+                if ($child->getName() === 'calendar-data') {
+                    $ics_contents = (string) $child;
+                    break;
                 }
             }
 
