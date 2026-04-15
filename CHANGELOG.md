@@ -57,6 +57,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Fixed language switching failing for hyphenated languages (e.g. portuguese-br, traditional-chinese) due to overly strict input sanitization
 - Added missing language code mappings for portuguese-br (pt-br) and traditional-chinese (zh-tw)
+- Fixed working plan exception break inputs using wrong Bootstrap size class (input-sm → form-control-sm)
+- Fixed working plan exception "no breaks" placeholder not being removed when adding the first break
 - Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
 - Fixed booking cancellation always failing due to custom CSRF check that was incompatible with CSRF-excluded booking routes
 - Fixed booking cancellation error page showing generic "appointment not found" instead of the actual error message (e.g. rate limit exceeded)

@@ -376,6 +376,8 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      * Event: Add Break "Click"
      */
     function onAddBreakClick() {
+        $breaks.find('.no-breaks-row').remove();
+
         const $newBreak = renderBreakRow({
             start: '12:00',
             end: '14:00',
@@ -412,7 +414,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $tr = $(this).closest('tr');
         $tr.find('.working-plan-exceptions-edit-break, .working-plan-exceptions-delete-break').addClass('d-none');
         $tr.find('.working-plan-exceptions-save-break, .working-plan-exceptions-cancel-break').removeClass('d-none');
-        $tr.find('select,input:text').addClass('form-control input-sm');
+        $tr.find('select,input:text').addClass('form-control form-control-sm');
 
         $addBreak.prop('disabled', true);
     }
