@@ -112,11 +112,23 @@ body .modal.full-screen .modal-push {
     .backend-page.container {
         max-width: 800px;
     }
+
+    .backend-page .record-details,
+    .backend-page .filter-records {
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 @media (min-width: 1200px) {
     .backend-page.container {
         max-width: 900px;
+    }
+
+    .backend-page .record-details,
+    .backend-page .filter-records {
+        max-width: 680px;
     }
 }
 
@@ -124,16 +136,21 @@ body .modal.full-screen .modal-push {
     .backend-page.container {
         max-width: 1000px;
     }
+
+    .backend-page .record-details,
+    .backend-page .filter-records {
+        max-width: 760px;
+    }
 }
 
 /* Filter records entry styling */
 .backend-page .filter-records .results .entry {
     padding: 10px 7px;
+    cursor: pointer;
 }
 
 .backend-page .filter-records .results .entry:hover:not(.selected) {
     background-color: var(--bs-light);
-    cursor: pointer;
 }
 
 .backend-page .filter-records .results hr {
@@ -413,10 +430,11 @@ body .modal.full-screen .modal-push {
     table-layout: fixed;
 }
 
-#working-plan-exceptions-breaks .form-control,
-#working-plan-exceptions-breaks .form-select {
-    width: 100% !important;
+#working-plan-exceptions-breaks th:nth-child(1),
+#working-plan-exceptions-breaks th:nth-child(2) {
+    width: 30%;
 }
+
 
 #providers-page #providers .breaks .btn,
 #providers-page #providers .working-plan-exceptions .btn,

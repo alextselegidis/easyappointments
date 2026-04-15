@@ -269,14 +269,14 @@ class Calendar extends EA_Controller
 
             check('customer_data', 'array|null');
             check('appointment_data', 'array');
-            check('notify_customer', 'bool|null');
+            check('notify_users', 'bool|null');
             check('force_save', 'bool|null');
 
             $customer_data = request('customer_data');
 
             $appointment_data = request('appointment_data');
 
-            $notify_customer = filter_var(request('notify_customer', true), FILTER_VALIDATE_BOOLEAN);
+            $notify_users = filter_var(request('notify_users', true), FILTER_VALIDATE_BOOLEAN);
 
             $force_save = filter_var(request('force_save', false), FILTER_VALIDATE_BOOLEAN);
 
@@ -379,7 +379,7 @@ class Calendar extends EA_Controller
 
             $this->synchronization->sync_appointment_saved($appointment, $service, $provider, $customer, $settings);
 
-            if ($notify_customer) {
+            if ($notify_users) {
                 $this->notifications->notify_appointment_saved(
                     $appointment,
                     $service,
@@ -435,11 +435,11 @@ class Calendar extends EA_Controller
 
             check('appointment_id', 'numeric');
             check('cancellation_reason', 'string|null');
-            check('notify_customer', 'bool|null');
+            check('notify_users', 'bool|null');
 
             $appointment_id = request('appointment_id');
             $cancellation_reason = (string) request('cancellation_reason');
-            $notify_customer = filter_var(request('notify_customer', true), FILTER_VALIDATE_BOOLEAN);
+            $notify_users = filter_var(request('notify_users', true), FILTER_VALIDATE_BOOLEAN);
 
             if (empty($appointment_id)) {
                 throw new InvalidArgumentException('No appointment id provided.');
@@ -469,7 +469,7 @@ class Calendar extends EA_Controller
             // Delete appointment record from the database.
             $this->appointments_model->delete($appointment_id);
 
-            if ($notify_customer) {
+            if ($notify_users) {
                 $this->notifications->notify_appointment_deleted(
                     $appointment,
                     $service,

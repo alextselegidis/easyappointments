@@ -20,6 +20,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add notification prompt when creating new appointments from the calendar page
 - Add notification prompt when deleting appointments from the calendar page
 - Connect RSS updates from the official blog and show them in the about page
+- Add warning alert in ALTCHA settings page when CAPTCHA is not active, with link to Booking Settings
 
 ### Improved
 
@@ -42,6 +43,9 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Changed
 
+- Renamed notification prompt from "notify customer" to "notify users" to reflect that notifications are sent to all relevant parties
+- Improved CRUD list entries to show pointer cursor when selected
+- Centered and narrowed CRUD list and form content on larger screens for better readability
 - Refactored cleanup logic from Console controller into a dedicated Cleanup library
 - Make the phone number field of backend users optional (#1709)
 - Change the main CRUD layout and navigation structure (list first)
@@ -53,6 +57,9 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Fixed language switching failing for hyphenated languages (e.g. portuguese-br, traditional-chinese) due to overly strict input sanitization
 - Added missing language code mappings for portuguese-br (pt-br) and traditional-chinese (zh-tw)
+- Fixed working plan exception break inputs using wrong Bootstrap size class (input-sm → form-control-sm)
+- Fixed working plan exception "no breaks" placeholder not being removed when adding the first break
+- Fixed account page save failing when phone number is empty due to Users_model requiring phone_number
 - Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
 - Fixed booking cancellation always failing due to custom CSRF check that was incompatible with CSRF-excluded booking routes
 - Fixed booking cancellation error page showing generic "appointment not found" instead of the actual error message (e.g. rate limit exceeded)
