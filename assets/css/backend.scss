@@ -430,6 +430,10 @@ body .modal.full-screen .modal-push {
     table-layout: fixed;
 }
 
+#working-plan-exceptions-breaks th:nth-child(1),
+#working-plan-exceptions-breaks th:nth-child(2) {
+    width: 30%;
+}
 
 
 #providers-page #providers .breaks .btn,
