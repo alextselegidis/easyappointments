@@ -113,7 +113,8 @@ body .modal.full-screen .modal-push {
         max-width: 800px;
     }
 
-    .backend-page .record-details {
+    .backend-page .record-details,
+    .backend-page .filter-records {
         max-width: 600px;
         margin-left: auto;
         margin-right: auto;
@@ -125,7 +126,8 @@ body .modal.full-screen .modal-push {
         max-width: 900px;
     }
 
-    .backend-page .record-details {
+    .backend-page .record-details,
+    .backend-page .filter-records {
         max-width: 680px;
     }
 }
@@ -135,7 +137,8 @@ body .modal.full-screen .modal-push {
         max-width: 1000px;
     }
 
-    .backend-page .record-details {
+    .backend-page .record-details,
+    .backend-page .filter-records {
         max-width: 760px;
     }
 }
