@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'कालबाह्य (सेकंद)';
 $lang['altcha_expires_hint'] = 'आव्हान किती सेकंद वैध राहते (डीफॉल्ट: 300).';
 $lang['altcha_key_generated'] = 'नवीन HMAC की यशस्वीरित्या तयार झाली.';
 $lang['altcha_enabled'] = 'ALTCHA सक्षम करा';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA सेटिंग सध्या सक्रिय नाही. CAPTCHA सक्षम होईपर्यंत ALTCHA वापरले जाणार नाही';
 $lang['generate'] = 'तयार करा';
 $lang['meeting_link'] = 'मीटिंग लिंक';
 $lang['google_calendar'] = 'गूगल कॅलेंडर';

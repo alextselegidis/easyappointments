@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Skadon (Sekonda)';
 $lang['altcha_expires_hint'] = 'Sa kohë mbetet e vlefshme një sfidë në sekonda (parazgjedhur: 300).';
 $lang['altcha_key_generated'] = 'Çelësi i ri HMAC u gjenerua me sukses.';
 $lang['altcha_enabled'] = 'Aktivizo ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Cilësimi CAPTCHA nuk është aktiv aktualisht. ALTCHA nuk do të përdoret nëse CAPTCHA nuk aktivizohet në';
 $lang['generate'] = 'Gjenero';
 $lang['meeting_link'] = 'Lidhja e Takimit';
 $lang['google_calendar'] = 'Google Calendar';

@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'หมดอายุ (วินาที)';
 $lang['altcha_expires_hint'] = 'ระยะเวลาที่การท้าทายมีผลเป็นวินาที (ค่าเริ่มต้น: 300)';
 $lang['altcha_key_generated'] = 'สร้างคีย์ HMAC ใหม่เรียบร้อยแล้ว';
 $lang['altcha_enabled'] = 'เปิดใช้งาน ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'การตั้งค่า CAPTCHA ไม่ได้ใช้งานอยู่ในขณะนี้ ALTCHA จะไม่ถูกใช้งานจนกว่าจะเปิดใช้งาน CAPTCHA ใน';
 $lang['generate'] = 'สร้าง';
 $lang['meeting_link'] = 'ลิงก์การประชุม';
 $lang['google_calendar'] = 'Google ปฏิทิน';

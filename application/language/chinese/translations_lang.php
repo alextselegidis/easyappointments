@@ -500,6 +500,7 @@ $lang['altcha_expires'] = '过期时间（秒）';
 $lang['altcha_expires_hint'] = '挑战保持有效的秒数（默认值：300）。';
 $lang['altcha_key_generated'] = '新的 HMAC 密钥已成功生成。';
 $lang['altcha_enabled'] = '启用 ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA 设置当前未激活。除非在以下位置启用 CAPTCHA，否则 ALTCHA 将不会被使用：';
 $lang['generate'] = '生成';
 $lang['meeting_link'] = '会议链接';
 $lang['google_calendar'] = 'Google 日历';

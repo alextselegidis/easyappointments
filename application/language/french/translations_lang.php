@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Expiration (Secondes)';
 $lang['altcha_expires_hint'] = 'Durée de validité d\'un défi en secondes (par défaut : 300).';
 $lang['altcha_key_generated'] = 'Nouvelle clé HMAC générée avec succès.';
 $lang['altcha_enabled'] = 'Activer ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Le paramètre CAPTCHA n'est pas actuellement actif. ALTCHA ne sera pas utilisé tant que CAPTCHA n'est pas activé dans les';
 $lang['generate'] = 'Générer';
 $lang['meeting_link'] = 'Lien de réunion';
 $lang['google_calendar'] = 'Google Agenda';

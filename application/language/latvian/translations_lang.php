@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Derīguma termiņš (sekundes)';
 $lang['altcha_expires_hint'] = 'Cik ilgi izaicinājums ir derīgs sekundēs (noklusējums: 300).';
 $lang['altcha_key_generated'] = 'Jauna HMAC atslēga veiksmīgi ģenerēta.';
 $lang['altcha_enabled'] = 'Iespējot ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA iestatījums pašlaik nav aktīvs. ALTCHA netiks izmantota, ja vien CAPTCHA nav iespējota';
 $lang['generate'] = 'Ģenerēt';
 $lang['meeting_link'] = 'Sapulces saite';
 $lang['google_calendar'] = 'Google kalendārs';

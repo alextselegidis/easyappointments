@@ -500,6 +500,7 @@ $lang['altcha_expires'] = '有効期限（秒）';
 $lang['altcha_expires_hint'] = 'チャレンジが有効な秒数（デフォルト：300）。';
 $lang['altcha_key_generated'] = '新しい HMAC キーが正常に生成されました。';
 $lang['altcha_enabled'] = 'ALTCHA を有効にする';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA設定は現在アクティブではありません。CAPTCHAが有効になっていない限り、ALTCHAは使用されません。';
 $lang['generate'] = '生成';
 $lang['meeting_link'] = 'ミーティングリンク';
 $lang['google_calendar'] = 'Google カレンダー';

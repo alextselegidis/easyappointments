@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Expiră (Secunde)';
 $lang['altcha_expires_hint'] = 'Cât timp rămâne valabilă o provocare în secunde (implicit: 300).';
 $lang['altcha_key_generated'] = 'Noua cheie HMAC a fost generată cu succes.';
 $lang['altcha_enabled'] = 'Activare ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Setarea CAPTCHA nu este activă în prezent. ALTCHA nu va fi utilizat decât dacă CAPTCHA este activat în';
 $lang['generate'] = 'Generare';
 $lang['meeting_link'] = 'Link întâlnire';
 $lang['google_calendar'] = 'Google Calendar';

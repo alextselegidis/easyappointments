@@ -20,6 +20,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add notification prompt when creating new appointments from the calendar page
 - Add notification prompt when deleting appointments from the calendar page
 - Connect RSS updates from the official blog and show them in the about page
+- Add warning alert in ALTCHA settings page when CAPTCHA is not active, with link to Booking Settings
 
 ### Improved
 

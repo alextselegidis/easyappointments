@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Caducitat (segons)';
 $lang['altcha_expires_hint'] = 'Durant quant de temps (en segons), un repte es manté vàlid (per defecte: 300).';
 $lang['altcha_key_generated'] = 'La clau HMAC s\'ha generat correctament.';
 $lang['altcha_enabled'] = 'Habilita ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'La configuració CAPTCHA no està activa actualment. ALTCHA no s'utilitzarà si CAPTCHA no està habilitada a';
 $lang['generate'] = 'Genera';
 $lang['meeting_link'] = 'Enllaç de la reunió';
 $lang['google_calendar'] = 'Google Calendar';

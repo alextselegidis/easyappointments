@@ -38,6 +38,16 @@
                                 </div>
                             </div>
 
+                            <?php if (!vars('require_captcha')): ?>
+                                <div class="alert alert-warning mb-4">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    <?= lang('altcha_captcha_not_active_warning') ?>
+                                    <a href="<?= site_url('booking_settings') ?>">
+                                        <?= lang('booking_settings') ?>
+                                    </a>
+                                </div>
+                            <?php endif; ?>
+
                             <div class="mb-3">
                                 <div class="form-check form-switch">
                                     <input class="form-check-input" type="checkbox" id="altcha-enabled"

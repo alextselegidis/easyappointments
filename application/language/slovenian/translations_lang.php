@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Poteče (sekunde)';
 $lang['altcha_expires_hint'] = 'Kako dolgo izziv ostane veljaven v sekundah (privzeto: 300).';
 $lang['altcha_key_generated'] = 'Nov HMAC ključ je bil uspešno ustvarjen.';
 $lang['altcha_enabled'] = 'Omogoči ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Nastavitev CAPTCHA trenutno ni aktivna. ALTCHA ne bo uporabljena, razen če je CAPTCHA omogočena v';
 $lang['generate'] = 'Ustvari';
 $lang['meeting_link'] = 'Povezava do sestanka';
 $lang['google_calendar'] = 'Google Koledar';

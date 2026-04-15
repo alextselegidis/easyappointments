@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Λήξη (δευτερόλεπτα)';
 $lang['altcha_expires_hint'] = 'Πόσο χρόνο παραμένει έγκυρη μια πρόκληση σε δευτερόλεπτα (προεπιλογή: 300).';
 $lang['altcha_key_generated'] = 'Νέο κλειδί HMAC δημιουργήθηκε επιτυχώς.';
 $lang['altcha_enabled'] = 'Ενεργοποίηση ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Η ρύθμιση CAPTCHA δεν είναι ενεργή αυτή τη στιγμή. Το ALTCHA δεν θα χρησιμοποιηθεί εκτός εάν ενεργοποιηθεί το CAPTCHA στις';
 $lang['generate'] = 'Δημιουργία';
 $lang['meeting_link'] = 'Σύνδεσμος συνάντησης';
 $lang['google_calendar'] = 'Ημερολόγιο Google';

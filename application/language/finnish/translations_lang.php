@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Vanhenee (sekuntia)';
 $lang['altcha_expires_hint'] = 'Kuinka kauan haaste on voimassa sekunteina (oletus: 300).';
 $lang['altcha_key_generated'] = 'Uusi HMAC-avain luotu onnistuneesti.';
 $lang['altcha_enabled'] = 'Ota ALTCHA käyttöön';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA-asetus ei ole tällä hetkellä aktiivinen. ALTCHA:ta ei käytetä, ellei CAPTCHA ole käytössä';
 $lang['generate'] = 'Luo';
 $lang['meeting_link'] = 'Kokouslinkki';
 $lang['google_calendar'] = 'Google-kalenteri';

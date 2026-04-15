@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Süre Dolumu (Saniye)';
 $lang['altcha_expires_hint'] = 'Bir meydan okumanın saniye cinsinden ne kadar süre geçerli kalacağı (varsayılan: 300).';
 $lang['altcha_key_generated'] = 'Yeni HMAC anahtarı başarıyla oluşturuldu.';
 $lang['altcha_enabled'] = 'ALTCHA\'yı Etkinleştir';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA ayarı şu anda aktif değil. CAPTCHA etkinleştirilmedikçe ALTCHA kullanılmayacaktır.';
 $lang['generate'] = 'Oluştur';
 $lang['meeting_link'] = 'Toplantı Bağlantısı';
 $lang['google_calendar'] = 'Google Takvim';

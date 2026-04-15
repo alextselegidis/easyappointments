@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Термін дії (секунди)';
 $lang['altcha_expires_hint'] = 'Тривалість дії виклику в секундах (за замовчуванням: 300).';
 $lang['altcha_key_generated'] = 'Новий ключ HMAC успішно згенеровано.';
 $lang['altcha_enabled'] = 'Увімкнути ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Налаштування CAPTCHA наразі не активне. ALTCHA не буде використовуватися, доки CAPTCHA не буде увімкнено в';
 $lang['generate'] = 'Згенерувати';
 $lang['meeting_link'] = 'Посилання на зустріч';
 $lang['google_calendar'] = 'Google Календар';

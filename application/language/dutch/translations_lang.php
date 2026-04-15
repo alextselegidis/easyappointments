@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Verloopt (Seconden)';
 $lang['altcha_expires_hint'] = 'Hoe lang een uitdaging geldig blijft in seconden (standaard: 300).';
 $lang['altcha_key_generated'] = 'Nieuwe HMAC-sleutel succesvol gegenereerd.';
 $lang['altcha_enabled'] = 'ALTCHA inschakelen';
+$lang['altcha_captcha_not_active_warning'] = 'De CAPTCHA-instelling is momenteel niet actief. ALTCHA wordt niet gebruikt tenzij CAPTCHA is ingeschakeld in de';
 $lang['generate'] = 'Genereren';
 $lang['meeting_link'] = 'Vergaderlink';
 $lang['google_calendar'] = 'Google Agenda';

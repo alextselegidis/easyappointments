@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Galioja (sekundės)';
 $lang['altcha_expires_hint'] = 'Kiek laiko iššūkis galioja sekundėmis (numatytoji: 300).';
 $lang['altcha_key_generated'] = 'Naujas HMAC raktas sėkmingai sugeneruotas.';
 $lang['altcha_enabled'] = 'Įjungti ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'CAPTCHA nustatymas šiuo metu neaktyvus. ALTCHA nebus naudojama, nebent CAPTCHA bus įjungta';
 $lang['generate'] = 'Generuoti';
 $lang['meeting_link'] = 'Susitikimo nuoroda';
 $lang['google_calendar'] = 'Google kalendorius';

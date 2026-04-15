@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'תפוגה (שניות)';
 $lang['altcha_expires_hint'] = 'כמה זמן אתגר נשאר תקף בשניות (ברירת מחדל: 300).';
 $lang['altcha_key_generated'] = 'מפתח HMAC חדש נוצר בהצלחה.';
 $lang['altcha_enabled'] = 'הפעל ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'הגדרת CAPTCHA אינה פעילה כרגע. ALTCHA לא ישמש אלא אם CAPTCHA מופעל ב';
 $lang['generate'] = 'צור';
 $lang['meeting_link'] = 'קישור לפגישה';
 $lang['google_calendar'] = 'יומן Google';

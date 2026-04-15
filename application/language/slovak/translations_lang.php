@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Platnosť (sekundy)';
 $lang['altcha_expires_hint'] = 'Doba platnosti výzvy v sekundách (predvolené: 300).';
 $lang['altcha_key_generated'] = 'Nový kľúč HMAC bol úspešne vygenerovaný.';
 $lang['altcha_enabled'] = 'Povoliť ALTCHA';
+$lang['altcha_captcha_not_active_warning'] = 'Nastavenie CAPTCHA nie je momentálne aktívne. ALTCHA sa nepoužije, pokiaľ nie je CAPTCHA povolená v';
 $lang['generate'] = 'Generovať';
 $lang['meeting_link'] = 'Odkaz na stretnutie';
 $lang['google_calendar'] = 'Kalendár Google';

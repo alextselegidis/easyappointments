@@ -500,6 +500,7 @@ $lang['altcha_expires'] = 'Lejárat (másodperc)';
 $lang['altcha_expires_hint'] = 'Mennyi ideig marad érvényes egy kihívás másodpercben (alapértelmezett: 300).';
 $lang['altcha_key_generated'] = 'Az új HMAC kulcs sikeresen létrehozva.';
 $lang['altcha_enabled'] = 'ALTCHA engedélyezése';
+$lang['altcha_captcha_not_active_warning'] = 'A CAPTCHA beállítás jelenleg nem aktív. Az ALTCHA nem kerül használatra, hacsak a CAPTCHA nincs engedélyezve a';
 $lang['generate'] = 'Generálás';
 $lang['meeting_link'] = 'Találkozó linkje';
 $lang['google_calendar'] = 'Google Naptár';
