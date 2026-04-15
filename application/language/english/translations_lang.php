@@ -22,6 +22,8 @@ $lang['city'] = 'City';
 $lang['zip_code'] = 'Zip Code';
 $lang['notes'] = 'Client Notes';
 $lang['virtual_meeting'] = 'Virtual Meeting';
+$lang['virtual_call_invitation_after_payment'] =
+    'Your virtual call invitation will be sent once your payment has been completed.';
 $lang['language'] = 'Language';
 $lang['no_language'] = 'No language';
 $lang['fields_are_required'] = 'Fields with * are required.';

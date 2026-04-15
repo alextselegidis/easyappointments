@@ -85,7 +85,6 @@ $autoload['helper'] = [
     'string',
     'url',
     'validation',
-    'appointment_display',
 ];
 
 /*

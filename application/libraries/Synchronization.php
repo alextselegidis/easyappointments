@@ -78,26 +78,9 @@ class Synchronization
 
                     $appointment['id_google_calendar'] = $google_event->getId();
 
-                    $meet_link = $this->CI->google_sync->extract_meet_link_from_event($google_event);
-                    if ($meet_link) {
-                        $appointment['google_meet_link'] = $meet_link;
-                    }
-
                     $this->CI->appointments_model->save($appointment);
                 } else {
-                    $google_event = $this->CI->google_sync->update_appointment(
-                        $appointment,
-                        $provider,
-                        $service,
-                        $customer,
-                        $settings,
-                    );
-
-                    $meet_link = $this->CI->google_sync->extract_meet_link_from_event($google_event);
-                    if ($meet_link) {
-                        $appointment['google_meet_link'] = $meet_link;
-                        $this->CI->appointments_model->save($appointment);
-                    }
+                    $this->CI->google_sync->update_appointment($appointment, $provider, $service, $customer, $settings);
                 }
             }
 

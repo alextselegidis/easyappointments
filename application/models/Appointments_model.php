@@ -573,8 +573,6 @@ class Appointments_model extends EA_Model
             'serviceId' => $appointment['id_services'] !== null ? (int) $appointment['id_services'] : null,
             'googleCalendarId' =>
                 $appointment['id_google_calendar'] !== null ? $appointment['id_google_calendar'] : null,
-            'googleMeetLink' =>
-                !empty($appointment['google_meet_link']) ? $appointment['google_meet_link'] : null,
             'caldavCalendarId' =>
                 $appointment['id_caldav_calendar'] !== null ? $appointment['id_caldav_calendar'] : null,
         ];

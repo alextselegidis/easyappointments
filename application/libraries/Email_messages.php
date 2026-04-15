@@ -96,9 +96,6 @@ class Email_messages
             $appointment['end_datetime'] = $appointment_end->format('Y-m-d H:i:s');
         }
 
-        $this->CI->load->library('google_sync');
-        $add_to_google_url = $this->CI->google_sync->get_add_to_google_url((int) $appointment['id']);
-
         $html = $this->CI->load->view(
             'emails/appointment_saved_email',
             [
@@ -111,7 +108,6 @@ class Email_messages
                 'settings' => $settings,
                 'timezone' => $timezone,
                 'appointment_link' => $appointment_link,
-                'add_to_google_url' => $add_to_google_url,
             ],
             true,
         );

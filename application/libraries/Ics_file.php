@@ -96,24 +96,6 @@ class Ics_file
             lang('address') . ': ' . $provider['address'],
             lang('city') . ': ' . $provider['city'],
             lang('zip_code') . ': ' . $provider['zip_code'],
-        ];
-
-        $virtual_meeting_text = appointment_virtual_meeting_text($appointment, $provider);
-        if ($virtual_meeting_text !== '') {
-            $description[] = '';
-            $description[] = lang('virtual_meeting') . ':';
-            foreach (
-                array_filter(
-                    array_map('trim', preg_split('/\r\n|\r|\n/', $virtual_meeting_text)),
-                    static fn(string $line): bool => $line !== '',
-                ) as $vm_line
-            ) {
-                $description[] = $vm_line;
-            }
-        }
-
-        array_push(
-            $description,
             '',
             lang('customer'),
             '',
@@ -124,10 +106,12 @@ class Ics_file
             lang('city') . ': ' . $customer['city'],
             lang('zip_code') . ': ' . $customer['zip_code'],
             '',
-        );
-        $description[] = lang('notes');
-        $description[] = '';
-        $description[] = (string) ($appointment['notes'] ?? '');
+            lang('virtual_meeting') . ': ' . lang('virtual_call_invitation_after_payment'),
+            '',
+            lang('notes'),
+            '',
+            (string) ($appointment['notes'] ?? ''),
+        ];
 
         $event->setDescription(implode("\\n", $description));
 
