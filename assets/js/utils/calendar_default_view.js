@@ -362,7 +362,7 @@ App.Utils.CalendarDefaultView = (function () {
 
                     App.Utils.Message.show(
                         lang('delete_appointment_title'),
-                        lang('notify_customer_on_delete_question'),
+                        lang('notify_users_on_delete_question'),
                         [
                             {
                                 text: lang('no'),
@@ -489,12 +489,12 @@ App.Utils.CalendarDefaultView = (function () {
 
         const appointment = prepareAppointmentForSave(eventData);
 
-        const successCallback = (notifyCustomer) => {
+        const successCallback = (notifyUsers) => {
             const undoFunction = () => {
                 appointment.end_datetime = eventData.end_datetime = moment(appointment.end_datetime)
                     .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                     .format('YYYY-MM-DD HH:mm:ss');
-                App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() =>
+                App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyUsers).done(() =>
                     $notification.hide('blind'),
                 );
                 info.revert();
@@ -507,7 +507,7 @@ App.Utils.CalendarDefaultView = (function () {
             info.event.setProp('data', eventData);
         };
 
-        showNotifyCustomerDialog(appointment, successCallback, () => info.revert());
+        showNotifyUsersDialog(appointment, successCallback, () => info.revert());
     }
 
     /**
@@ -589,7 +589,7 @@ App.Utils.CalendarDefaultView = (function () {
         eventData.start_datetime = appointment.start_datetime;
         eventData.end_datetime = appointment.end_datetime;
 
-        const successCallback = (notifyCustomer) => {
+        const successCallback = (notifyUsers) => {
             const undoFunction = () => {
                 const delta = {days: -info.delta.days, milliseconds: -info.delta.milliseconds};
 
@@ -599,7 +599,7 @@ App.Utils.CalendarDefaultView = (function () {
                 appointment.end_datetime = moment(appointment.end_datetime).add(delta).format('YYYY-MM-DD HH:mm:ss');
                 eventData.start_datetime = appointment.start_datetime;
                 eventData.end_datetime = appointment.end_datetime;
-                App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyCustomer).done(() =>
+                App.Http.Calendar.saveAppointment(appointment, null, null, null, notifyUsers).done(() =>
                     $notification.hide('blind'),
                 );
                 info.revert();
@@ -609,7 +609,7 @@ App.Utils.CalendarDefaultView = (function () {
             ]);
         };
 
-        showNotifyCustomerDialog(appointment, successCallback, () => info.revert());
+        showNotifyUsersDialog(appointment, successCallback, () => info.revert());
     }
 
     /**
@@ -668,14 +668,14 @@ App.Utils.CalendarDefaultView = (function () {
     }
 
     /**
-     * Show dialog asking whether to notify customer.
+     * Show dialog asking whether to notify users.
      *
      * @param {Object} appointment - Appointment data.
      * @param {Function} successCallback - Callback on success.
      * @param {Function} revertCallback - Callback to revert changes.
      */
-    function showNotifyCustomerDialog(appointment, successCallback, revertCallback) {
-        App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
+    function showNotifyUsersDialog(appointment, successCallback, revertCallback) {
+        App.Utils.Message.show(lang('appointment_update'), lang('notify_users_on_update_question'), [
             {
                 text: lang('no'),
                 click: (event, messageModal) => {

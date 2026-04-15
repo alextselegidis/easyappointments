@@ -159,7 +159,7 @@ App.Components.AppointmentsModal = (function () {
 
             if (isUpdate) {
                 // Show confirmation dialog for notification preference
-                App.Utils.Message.show(lang('appointment_update'), lang('notify_customer_on_update_question'), [
+                App.Utils.Message.show(lang('appointment_update'), lang('notify_users_on_update_question'), [
                     {
                         text: lang('no'),
                         click: (event, messageModal) => {
@@ -188,10 +188,10 @@ App.Components.AppointmentsModal = (function () {
                     },
                 ]);
             } else {
-                // New appointment - ask whether to notify the customer
+                // New appointment - ask whether to notify users
                 App.Utils.Message.show(
                     lang('new_appointment_title'),
-                    lang('notify_customer_on_create_question'),
+                    lang('notify_users_on_create_question'),
                     [
                         {
                             text: lang('no'),

@@ -42,6 +42,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Changed
 
+- Renamed notification prompt from "notify customer" to "notify users" to reflect that notifications are sent to all relevant parties
 - Refactored cleanup logic from Console controller into a dedicated Cleanup library
 - Make the phone number field of backend users optional (#1709)
 - Change the main CRUD layout and navigation structure (list first)
