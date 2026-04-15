@@ -186,7 +186,7 @@
 
             <br>
 
-            <button type="button" id="install" class="btn btn-primary">
+            <button type="button" id="install" class="btn btn-primary mb-3">
                 <i class="icon-white icon-ok me-2"></i>
                 Install Easy!Appointments
             </button>
