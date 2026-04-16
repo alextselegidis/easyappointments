@@ -242,58 +242,68 @@ class Caldav extends EA_Controller
         $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time);
 
         foreach ($caldav_events as $caldav_event) {
-            if ($caldav_event['status'] === 'CANCELLED') {
-                continue;
-            }
+            try {
+                if ($caldav_event['status'] === 'CANCELLED') {
+                    continue;
+                }
 
-            if ($caldav_event['start_datetime'] === $caldav_event['end_datetime']) {
-                continue; // Cannot sync events with the same start and end date time value
-            }
+                if ($caldav_event['start_datetime'] === $caldav_event['end_datetime']) {
+                    continue; // Cannot sync events with the same start and end date time value
+                }
 
-            $appointment_results = $CI->appointments_model->get(['id_caldav_calendar' => $caldav_event['id']]);
+                $appointment_results = $CI->appointments_model->get(['id_caldav_calendar' => $caldav_event['id']]);
 
-            if (!empty($appointment_results)) {
-                continue;
-            }
+                if (!empty($appointment_results)) {
+                    continue;
+                }
 
-            $unavailability_results = $CI->unavailabilities_model->get([
-                'id_caldav_calendar' => $caldav_event['id'],
-            ]);
+                $unavailability_results = $CI->unavailabilities_model->get([
+                    'id_caldav_calendar' => $caldav_event['id'],
+                ]);
 
-            if (!empty($unavailability_results)) {
-                continue;
-            }
+                if (!empty($unavailability_results)) {
+                    continue;
+                }
 
-            $matching_unavailability = $CI->unavailabilities_model
-                ->query()
-                ->where([
+                $matching_unavailability = $CI->unavailabilities_model
+                    ->query()
+                    ->where([
+                        'start_datetime' => $caldav_event['start_datetime'],
+                        'end_datetime' => $caldav_event['end_datetime'],
+                        'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
+                        'id_users_provider' => $provider_id,
+                    ])
+                    ->get()
+                    ->row_array();
+
+                if ($matching_unavailability) {
+                    // Update the ID of the matching unavailability record.
+                    $matching_unavailability['id_caldav_calendar'] = $caldav_event['id'];
+                    $CI->unavailabilities_model->save($matching_unavailability);
+                    continue;
+                }
+
+                // Record doesn't exist in the Easy!Appointments, so add the event now.
+
+                $local_event = [
                     'start_datetime' => $caldav_event['start_datetime'],
                     'end_datetime' => $caldav_event['end_datetime'],
+                    'location' => $caldav_event['location'],
                     'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
                     'id_users_provider' => $provider_id,
-                ])
-                ->get()
-                ->row_array();
+                    'id_caldav_calendar' => $caldav_event['id'],
+                ];
 
-            if ($matching_unavailability) {
-                // Update the ID of the matching unavailability record.
-                $matching_unavailability['id_caldav_calendar'] = $caldav_event['id'];
-                $CI->unavailabilities_model->save($matching_unavailability);
-                continue;
+                $CI->unavailabilities_model->save($local_event);
+            } catch (Throwable $e) {
+                log_message(
+                    'error',
+                    'CalDAV sync: failed to import event '
+                        . ($caldav_event['id'] ?? 'unknown')
+                        . ': '
+                        . $e->getMessage(),
+                );
             }
-
-            // Record doesn't exist in the Easy!Appointments, so add the event now.
-
-            $local_event = [
-                'start_datetime' => $caldav_event['start_datetime'],
-                'end_datetime' => $caldav_event['end_datetime'],
-                'location' => $caldav_event['location'],
-                'notes' => $caldav_event['summary'] . ' ' . $caldav_event['description'],
-                'id_users_provider' => $provider_id,
-                'id_caldav_calendar' => $caldav_event['id'],
-            ];
-
-            $CI->unavailabilities_model->save($local_event);
         }
 
         json_response([
