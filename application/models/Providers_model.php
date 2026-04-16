@@ -545,15 +545,8 @@ class Providers_model extends EA_Model
             throw new InvalidArgumentException('Working plan exception start date must be before or equal to end date.');
         }
 
-        // If start_time and end_time are provided, validate them
-        if (!empty($start_time) && !empty($end_time)) {
-            $start = date('H:i', strtotime($start_time));
-            $end = date('H:i', strtotime($end_time));
-
-            if ($start > $end) {
-                throw new InvalidArgumentException('Working plan exception start time must be before end time.');
-            }
-        }
+        // Note: We do not validate start_time > end_time, as cross-midnight working hours
+        // (e.g., 18:00 - 02:00) are supported and handled in the Availability library
 
         // Make sure the provider record exists.
         $where = [

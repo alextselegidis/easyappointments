@@ -860,18 +860,47 @@ App.Utils.CalendarTableView = (function () {
 
                 return !filterServiceIds.length || filterServiceIds.includes(appointment.id_services);
             })
-            .map((appointment) => {
+            .flatMap((appointment) => {
                 const customerName = [appointment.customer.first_name, appointment.customer.last_name]
                     .filter(Boolean)
                     .join(' ');
 
                 const title = customerName ? customerName + ' - ' + appointment.service.name : appointment.service.name;
 
+                const start = moment(appointment.start_datetime);
+                const end = moment(appointment.end_datetime);
+
+                // Split multi-day events for proper timeGrid display (e.g., cross-midnight appointments)
+                if (!start.isSame(end, 'day')) {
+                    return [
+                        {
+                            id: appointment.id + '_day1',
+                            title,
+                            start: start.toDate(),
+                            end: start.clone().endOf('day').toDate(),
+                            allDay: false,
+                            color: appointment.color,
+                            display: 'block',
+                            data: appointment,
+                        },
+                        {
+                            id: appointment.id + '_day2',
+                            title,
+                            start: end.clone().startOf('day').toDate(),
+                            end: end.toDate(),
+                            allDay: false,
+                            color: appointment.color,
+                            display: 'block',
+                            data: appointment,
+                        },
+                    ];
+                }
+
                 return {
                     id: appointment.id,
-                    title: title,
-                    start: moment(appointment.start_datetime).toDate(),
-                    end: moment(appointment.end_datetime).toDate(),
+                    title,
+                    start: start.toDate(),
+                    end: end.toDate(),
                     allDay: false,
                     color: appointment.color,
                     display: 'block',
