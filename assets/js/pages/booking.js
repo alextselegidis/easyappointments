@@ -432,8 +432,6 @@ App.Pages.Booking = (function () {
                     $selectService.val(),
                     todayMoment.format('YYYY-MM-DD'),
                 );
-
-                App.Http.Booking.getAvailableHours(todayMoment.format('YYYY-MM-DD'));
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
