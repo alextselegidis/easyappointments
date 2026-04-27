@@ -384,7 +384,30 @@ class Google_sync
             'singleEvents' => true,
         ];
 
-        return $this->service->events->listEvents($google_calendar, $params);
+        $events = $this->service->events->listEvents($google_calendar, $params);
+        $allItems = $events->getItems();
+
+        // Iterate through additional pages because Google Calendar API listEvents
+        // returns at most 250 events per page by default. Without this loop,
+        // calendars with more than 250 events in the sync window silently lose
+        // events from page 2 onwards, which prevents them from being reflected
+        // as unavailabilities in Easy!Appointments.
+        // A safety bound of 50 pages (≈ 12500 events) protects against unexpected
+        // behaviour such as a circular nextPageToken.
+        $maxPages = 50;
+        $page = 0;
+        $pageToken = $events->getNextPageToken();
+        while (!empty($pageToken) && $page < $maxPages) {
+            $page++;
+            $params['pageToken'] = $pageToken;
+            $next = $this->service->events->listEvents($google_calendar, $params);
+            $allItems = array_merge($allItems, $next->getItems());
+            $pageToken = $next->getNextPageToken();
+        }
+
+        $events->setItems($allItems);
+
+        return $events;
     }
 
     /**
