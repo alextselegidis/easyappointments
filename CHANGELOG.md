@@ -14,6 +14,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fixed low-contrast secondary color on the Darkly theme (buttons, outline buttons, text and links) by lifting the secondary palette to a brighter gray
 - Fixed CRUD/settings page section headings (e.g. "Details") being barely readable on dark themes by removing the hardcoded `text-black-50` Bootstrap class so headings inherit the theme's body color
 - Fixed cards (services, providers, secretaries, customers, integrations) forcing a white background that hid text on dark themes by removing the hardcoded `bg-white` class so cards use the theme's card background
+- Fixed Materia theme inputs showing a full border around the field on focus instead of the Material-style bottom underline (and similar issues on Cosmo alerts and Darkly/Flatly pagination), by replacing invalid `border-width: 0%` declarations with `0` so browsers no longer fall back to the default `medium` border width
 
 ### Improved
 
