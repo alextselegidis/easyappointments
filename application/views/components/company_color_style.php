@@ -257,9 +257,10 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         background: rgba(var(--bs-primary-rgb), 0.2);
     }
 
-    /* Body background gradient */
+    /* Body background gradient (kept on top of the theme background so dark themes stay dark) */
     body {
-        background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.03) 0%, rgba(var(--bs-primary-rgb), 0.01) 100%);
+        background-color: var(--bs-body-bg);
+        background-image: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.03) 0%, rgba(var(--bs-primary-rgb), 0.01) 100%);
     }
 
     /* Application-specific overrides */

@@ -25,7 +25,7 @@
 <body>
 <div id="main" class="container min-vh-100">
     <div class="row wrapper min-vh-100 justify-content-center align-items-center py-3">
-        <div id="message-frame" class="col-12 col-md-8 col-lg-6 my-auto frame-container text-center bg-white rounded shadow p-4 p-md-5">
+        <div id="message-frame" class="col-12 col-md-8 col-lg-6 my-auto frame-container text-center bg-body rounded shadow p-4 p-md-5">
 
             <?php slot('content'); ?>
 
