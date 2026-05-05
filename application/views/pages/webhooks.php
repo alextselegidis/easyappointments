@@ -27,7 +27,7 @@
                 </div>
             </form>
 
-            <h4 class="text-black-50 mb-3 fw-light">
+            <h4 class="mb-3 fw-light">
                 <?= lang('webhooks') ?>
             </h4>
 
@@ -61,7 +61,7 @@
 
             </div>
 
-            <h4 class="text-black-50 mb-3 fw-light">
+            <h4 class="mb-3 fw-light">
                 <?= lang('details') ?>
             </h4>
 

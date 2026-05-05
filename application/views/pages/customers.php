@@ -26,7 +26,7 @@
                 </div>
             </form>
 
-            <h4 class="text-black-50 mb-3 fw-light">
+            <h4 class="mb-3 fw-light">
                 <?= lang('customers') ?>
             </h4>
 
@@ -69,7 +69,7 @@
 
             <div class="row">
                 <div class="col-12 col-lg-6" style="margin-left: 0;">
-                    <h4 class="text-black-50 mb-3 fw-light">
+                    <h4 class="mb-3 fw-light">
                         <?= lang('details') ?>
                     </h4>
 
@@ -205,7 +205,7 @@
                 </div>
 
                 <div class="col-12 col-lg-6">
-                    <h4 class="text-black-50 mb-3 fw-light">
+                    <h4 class="mb-3 fw-light">
                         <?= lang('appointments') ?>
                     </h4>
 

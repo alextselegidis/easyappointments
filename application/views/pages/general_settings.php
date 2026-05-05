@@ -12,7 +12,7 @@
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <h4 class="text-black-50 mb-0 fw-light">
+                            <h4 class="mb-0 fw-light">
                                 <?= lang('general_settings') ?>
                             </h4>
 
@@ -26,7 +26,7 @@
 
                         <div class="row mb-5">
                             <div class="col-12">
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('company') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('company') ?></h5>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="company-name">
@@ -141,7 +141,7 @@
 
                         <div class="row mb-5">
                             <div class="col-12">
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('localization') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('localization') ?></h5>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="date-format">

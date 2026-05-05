@@ -21,7 +21,7 @@
                 </div>
             </form>
 
-            <h4 class="text-black-50 mb-3 fw-light">
+            <h4 class="mb-3 fw-light">
                 <?= lang('providers') ?>
             </h4>
 
@@ -77,7 +77,7 @@
 
             <div class="tab-content">
                 <div class="details-view tab-pane fade show active clearfix" id="details">
-                    <h4 class="text-black-50 mb-3 fw-light">
+                    <h4 class="mb-3 fw-light">
                         <?= lang('details') ?>
                     </h4>
 
@@ -286,7 +286,7 @@
                 </div>
 
                 <div class="working-plan-view tab-pane fade clearfix" id="working-plan">
-                    <h4 class="text-black-50 mb-3 fw-light">
+                    <h4 class="mb-3 fw-light">
                         <?= lang('working_plan') ?>
                     </h4>
 
@@ -307,7 +307,7 @@
 
                     <br>
 
-                    <h4 class="text-black-50 mb-3 fw-light">
+                    <h4 class="mb-3 fw-light">
                         <?= lang('breaks') ?>
                     </h4>
 
@@ -338,7 +338,7 @@
 
                     <br>
 
-                    <h4 class="text-black-50 mb-3 fw-light">
+                    <h4 class="mb-3 fw-light">
                         <?= lang('working_plan_exceptions') ?>
                     </h4>
 

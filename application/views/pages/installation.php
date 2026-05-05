@@ -56,7 +56,7 @@
 
             <div class="row">
                 <div class="admin-settings col-lg-6">
-                    <h3 class="text-black-50 mb-3 fw-light">Administrator</h3>
+                    <h3 class="mb-3 fw-light">Administrator</h3>
 
                     <div class="mb-3">
                         <label class="form-label" for="first-name">
@@ -126,7 +126,7 @@
                 </div>
 
                 <div class="company-settings col-lg-6">
-                    <h3 class="text-black-50 mb-3 fw-light"><?= lang('company') ?></h3>
+                    <h3 class="mb-3 fw-light"><?= lang('company') ?></h3>
 
                     <div class="mb-3">
                         <label class="form-label" for="company-name">

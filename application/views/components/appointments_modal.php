@@ -28,7 +28,7 @@
 
                 <form>
                     <fieldset>
-                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('appointment_details_title') ?></h5>
+                        <h5 class="mb-3 fw-light"><?= lang('appointment_details_title') ?></h5>
 
                         <input id="appointment-id" type="hidden">
 
@@ -205,7 +205,7 @@
                     <br>
 
                     <fieldset>
-                        <h5 class="text-black-50 mb-3 fw-light">
+                        <h5 class="mb-3 fw-light">
                             <?= lang('customer_details_title') ?>
                             <button id="new-customer" class="btn btn-outline-secondary btn-sm" type="button"
                                     data-tippy-content="<?= lang('clear_fields_add_existing_customer_hint') ?>">

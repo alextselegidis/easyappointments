@@ -12,7 +12,7 @@
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <h4 class="text-black-50 mb-0 fw-light">
+                            <h4 class="mb-0 fw-light">
                                 <?= lang('business_logic') ?>
                             </h4>
 
@@ -24,7 +24,7 @@
                             <?php endif; ?>
                         </div>
 
-                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('working_plan') ?></h5>
+                        <h5 class="mb-3 fw-light"><?= lang('working_plan') ?></h5>
 
                         <p class="form-text text-muted mb-4">
                             <?= lang('edit_working_plan_hint') ?>
@@ -48,7 +48,7 @@
                             </button>
                         </div>
 
-                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('breaks') ?></h5>
+                        <h5 class="mb-3 fw-light"><?= lang('breaks') ?></h5>
 
                         <p class="form-text text-muted">
                             <?= lang('edit_breaks_hint') ?>
@@ -76,7 +76,7 @@
                         </table>
 
                         <?php if (can('view', PRIV_BLOCKED_PERIODS)): ?>
-                            <h5 class="text-black-50 mb-3 fw-light"><?= lang('blocked_periods') ?></h5>
+                            <h5 class="mb-3 fw-light"><?= lang('blocked_periods') ?></h5>
 
                             <p class="form-text text-muted">
                                 <?= lang('blocked_periods_hint') ?>
@@ -90,7 +90,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <h5 class="text-black-50 mb-3 fw-light"><?= lang(
+                        <h5 class="mb-3 fw-light"><?= lang(
                             'allow_rescheduling_cancellation_before',
                         ) ?></h5>
 
@@ -107,7 +107,7 @@
                             </div>
                         </div>
 
-                        <h5 class="text-black-50 mb-3 fw-light"><?= lang('future_booking_limit') ?></h5>
+                        <h5 class="mb-3 fw-light"><?= lang('future_booking_limit') ?></h5>
 
                         <div class="mb-5">
                             <label for="future-booking-limit" class="form-label">
@@ -123,7 +123,7 @@
                         </div>
 
                         <div class="d-flex justify-content-start align-items-center mb-3">
-                            <h5 class="text-black-50 mb-0 me-3 fw-light">
+                            <h5 class="mb-0 me-3 fw-light">
                                 <?= lang('appointment_status_options') ?>
                             </h5>
                         </div>

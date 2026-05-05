@@ -22,7 +22,7 @@
 
         <div class="card mb-5">
             <div class="card-header">
-                <h5 class="fw-light text-black-50 mb-0">
+                <h5 class="fw-light mb-0">
                     <?= lang('current_version') ?>
                 </h5>
             </div>
@@ -33,7 +33,7 @@
             </div>
         </div>
 
-        <h4 class="fw-light text-black-50 mb-3">
+        <h4 class="fw-light mb-3">
             <?= lang('latest_blog_posts') ?>
         </h4>
 
@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <h4 class="fw-light text-black-50 mb-3">
+        <h4 class="fw-light mb-3">
             <?= lang('premium') ?>
         </h4>
 
@@ -81,7 +81,7 @@
             </a>
         </div>
 
-        <h4 class="fw-light text-black-50 mb-3">
+        <h4 class="fw-light mb-3">
             <?= lang('support') ?>
         </h4>
 
@@ -128,7 +128,7 @@
             </div>
         </div>
 
-        <h4 class="fw-light text-black-50 mb-3">
+        <h4 class="fw-light mb-3">
             <?= lang('license') ?>
         </h4>
 

@@ -12,7 +12,7 @@
                 <form>
                     <fieldset>
                         <div class="d-flex justify-content-between align-items-center border-bottom mb-4 py-2">
-                            <h4 class="text-black-50 mb-0 fw-light">
+                            <h4 class="mb-0 fw-light">
                                 <?= lang('legal_contents') ?>
                             </h4>
 
@@ -26,7 +26,7 @@
 
                         <div class="row">
                             <div class="col-12">
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('cookie_notice') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('cookie_notice') ?></h5>
 
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input display-switch" type="checkbox"
@@ -42,7 +42,7 @@
                                     <textarea id="cookie-notice-content" cols="30" rows="10" class="mb-3"></textarea>
                                 </div>
 
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('terms_and_conditions') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('terms_and_conditions') ?></h5>
 
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input display-switch" type="checkbox"
@@ -61,7 +61,7 @@
                                               class="mb-3"></textarea>
                                 </div>
 
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('privacy_policy') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('privacy_policy') ?></h5>
 
                                 <div class="form-check form-switch mb-3">
                                     <input class="form-check-input display-switch" type="checkbox"
@@ -77,7 +77,7 @@
                                     <textarea id="privacy-policy-content" cols="30" rows="10" class="mb-3"></textarea>
                                 </div>
 
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('legal_notice') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('legal_notice') ?></h5>
 
                                 <div class="mb-5">
                                     <label class="form-label" for="legal-notice-url"><?= lang(
@@ -89,7 +89,7 @@
                                     </div>
                                 </div>
 
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('imprint') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('imprint') ?></h5>
 
                                 <div class="mb-5">
                                     <label class="form-label" for="imprint-url"><?= lang('imprint_url') ?></label>
@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
 
-                                <h5 class="text-black-50 mb-3 fw-light"><?= lang('data_retention') ?></h5>
+                                <h5 class="mb-3 fw-light"><?= lang('data_retention') ?></h5>
 
                                 <div class="mb-3">
                                     <label class="form-label" for="data-retention-days"><?= lang(
