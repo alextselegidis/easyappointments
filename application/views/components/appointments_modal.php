@@ -347,7 +347,7 @@
                                     <label for="customer-notes" class="form-label">
                                         <?= lang('notes') ?>
                                     </label>
-                                    <textarea id="customer-notes" rows="2" class="form-control"></textarea>
+                                    <textarea id="customer-notes" rows="3" class="form-control"></textarea>
                                 </div>
 
                             </div>
