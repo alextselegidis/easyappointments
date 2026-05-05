@@ -31,7 +31,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('webhooks') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
@@ -54,7 +54,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('google_analytics_settings') ?>"
                                class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
@@ -78,7 +78,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('matomo_analytics_settings') ?>"
                                class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
@@ -102,7 +102,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('api_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
@@ -125,7 +125,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('ldap_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
@@ -148,7 +148,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('google_calendar_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
@@ -171,7 +171,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('jitsi_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>
@@ -194,7 +194,7 @@
                                 </small>
                             </div>
                         </div>
-                        <div class="card-footer bg-white border-0">
+                        <div class="card-footer border-0">
                             <a href="<?= site_url('altcha_settings') ?>" class="btn btn-outline-primary w-100">
                                 <i class="fas fa-cogs me-2"></i>
                                 <?= lang('configure') ?>

@@ -209,7 +209,7 @@
                         <?= lang('appointments') ?>
                     </h4>
 
-                    <div id="customer-appointments" class="card bg-white border p-3 overflow-auto mb-4" style="min-height: 400px; max-height: 800px; max-width: 330px; width: 100%;"></div>
+                    <div id="customer-appointments" class="card border p-3 overflow-auto mb-4" style="min-height: 400px; max-height: 800px; max-width: 330px; width: 100%;"></div>
 
                 </div>
             </div>

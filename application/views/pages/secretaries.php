@@ -241,7 +241,7 @@
                         </div>
                     </div>
 
-                    <div id="secretary-providers" class="card card-body bg-white border">
+                    <div id="secretary-providers" class="card card-body border">
                         <!-- JS -->
                     </div>
 

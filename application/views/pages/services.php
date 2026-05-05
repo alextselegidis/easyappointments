@@ -173,7 +173,7 @@
                 </div>
             </div>
 
-            <div id="service-providers" class="card card-body bg-white border mb-3">
+            <div id="service-providers" class="card card-body border mb-3">
                 <?php foreach (vars('providers') as $provider): ?>
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox"

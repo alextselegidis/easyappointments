@@ -13,6 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fixed dark themes being overridden by a light page background in the backend, booking and message layouts by replacing hardcoded white backgrounds with theme-aware ones, even when a custom company color is configured
 - Fixed low-contrast secondary color on the Darkly theme (buttons, outline buttons, text and links) by lifting the secondary palette to a brighter gray
 - Fixed CRUD/settings page section headings (e.g. "Details") being barely readable on dark themes by removing the hardcoded `text-black-50` Bootstrap class so headings inherit the theme's body color
+- Fixed cards (services, providers, secretaries, customers, integrations) forcing a white background that hid text on dark themes by removing the hardcoded `bg-white` class so cards use the theme's card background
 
 ### Improved
 

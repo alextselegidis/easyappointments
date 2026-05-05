@@ -277,7 +277,7 @@
                                 </div>
                             </div>
 
-                            <div id="provider-services" class="card card-body bg-white border">
+                            <div id="provider-services" class="card card-body border">
                                 <!-- JS -->
                             </div>
 
