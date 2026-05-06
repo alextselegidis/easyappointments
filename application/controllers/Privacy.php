@@ -125,7 +125,7 @@ class Privacy extends EA_Controller
             $this->cache->save($cache_key, $attempts + 1, 900);
 
             if ($attempts >= 3) {
-                log_message('warning', 'Privacy deletion rate limit exceeded for IP: ' . $ip);
+                log_message('error', 'Privacy deletion rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many deletion attempts. Please try again later.');
             }
         } catch (RuntimeException $e) {
@@ -146,7 +146,7 @@ class Privacy extends EA_Controller
         $csrf_cookie = $this->input->cookie('csrf_cookie');
 
         if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
-            log_message('warning', 'Invalid CSRF token in privacy request from IP: ' . $this->input->ip_address());
+            log_message('error', 'Invalid CSRF token in privacy request from IP: ' . $this->input->ip_address());
             throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
         }
     }

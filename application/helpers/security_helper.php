@@ -224,7 +224,7 @@ if (!function_exists('log_security_event')) {
             $log_message .= ' | Context: ' . json_encode($context);
         }
 
-        log_message('warning', $log_message);
+        log_message('error', $log_message);
     }
 }
 

@@ -195,7 +195,7 @@ class Login extends EA_Controller
             $this->cache->save($cache_key, $attempts + 1, 300);
 
             if ($attempts >= 5) {
-                log_message('warning', 'Login rate limit exceeded for IP: ' . $ip);
+                log_message('error', 'Login rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many login attempts. Please try again in a few minutes.');
             }
         } catch (RuntimeException $e) {

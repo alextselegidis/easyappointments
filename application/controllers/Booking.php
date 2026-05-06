@@ -93,7 +93,7 @@ class Booking extends EA_Controller
         $csrf_cookie = $this->input->cookie('csrf_cookie');
 
         if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
-            log_message('warning', 'Invalid CSRF token in booking request from IP: ' . $this->input->ip_address());
+            log_message('error', 'Invalid CSRF token in booking request from IP: ' . $this->input->ip_address());
             throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
         }
     }

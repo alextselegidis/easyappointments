@@ -135,7 +135,7 @@ class General_settings extends EA_Controller
 
                 // Only allow whitelisted settings to be modified
                 if (!in_array($setting['name'], $this->allowed_settings, true)) {
-                    log_message('warning', 'Attempt to modify unauthorized setting: ' . $setting['name']);
+                    log_message('error', 'Attempt to modify unauthorized setting: ' . $setting['name']);
                     continue;
                 }
 

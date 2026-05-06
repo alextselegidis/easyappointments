@@ -185,7 +185,7 @@ class Booking_cancellation extends EA_Controller
             $this->cache->save($cache_key, $attempts + 1, 600);
 
             if ($attempts >= 5) {
-                log_message('warning', 'Cancellation rate limit exceeded for IP: ' . $ip);
+                log_message('error', 'Cancellation rate limit exceeded for IP: ' . $ip);
                 throw new RuntimeException('Too many cancellation attempts. Please try again later.');
             }
         } catch (RuntimeException $e) {
