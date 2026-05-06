@@ -145,16 +145,17 @@ body .modal.full-screen .modal-push {
 
 /* Filter records entry styling */
 .backend-page .filter-records .results .entry {
-    padding: 10px 7px;
+    padding: 10px 0px;
     cursor: pointer;
 }
 
 .backend-page .filter-records .results .entry:hover:not(.selected) {
-    background-color: var(--bs-light);
+    background-color: rgba(var(--bs-emphasis-color-rgb), 0.075);
 }
 
 .backend-page .filter-records .results hr {
     margin: 5px 0;
+    opacity: .1; 
 }
 
 /* Calendar page specific styles */
