@@ -219,7 +219,7 @@
                                     </label>
                                     <?php component('timezone_dropdown', [
                                         'attributes' =>
-                                            'id="default-timezone" data-field="default_timezone" class="form-control required"',
+                                            'id="default-timezone" data-field="default_timezone" class="form-select required"',
                                         'grouped_timezones' => vars('grouped_timezones'),
                                     ]); ?>
                                 </div>

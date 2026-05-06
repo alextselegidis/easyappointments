@@ -221,7 +221,7 @@
                                     <span class="text-danger" hidden>*</span>
                                 </label>
                                 <?php component('timezone_dropdown', [
-                                    'attributes' => 'id="timezone" class="form-control required" disabled',
+                                    'attributes' => 'id="timezone" class="form-select required" disabled',
                                     'grouped_timezones' => vars('grouped_timezones'),
                                 ]); ?>
                             </div>

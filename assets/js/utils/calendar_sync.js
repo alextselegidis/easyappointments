@@ -130,7 +130,7 @@ App.Utils.CalendarSync = (function () {
 
         App.Http.Google.getGoogleCalendars(providerId).done((googleCalendars) => {
             const $selectGoogleCalendar = $(`
-                <select class="form-control">
+                <select class="form-select">
                     <!-- JS -->
                 </select>
             `);
