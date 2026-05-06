@@ -15,8 +15,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fixed CRUD/settings page section headings (e.g. "Details") being barely readable on dark themes by removing the hardcoded `text-black-50` Bootstrap class so headings inherit the theme's body color
 - Fixed cards (services, providers, secretaries, customers, integrations) forcing a white background that hid text on dark themes by removing the hardcoded `bg-white` class so cards use the theme's card background
 - Fixed Materia theme inputs showing a full border around the field on focus instead of the Material-style bottom underline (and similar issues on Cosmo alerts and Darkly/Flatly pagination), by replacing invalid `border-width: 0%` declarations with `0` so browsers no longer fall back to the default `medium` border width
-- Fixed missing dropdown caret on timezone select dropdowns and the Google Calendar sync select by switching from Bootstrap's `form-control` class to the correct `form-select` class
-- Fixed filter-records list entry hover background being unreadable on dark themes by using a theme-aware emphasis overlay (`rgba(var(--bs-emphasis-color-rgb), 0.075)`, the same approach used by Bootstrap's table hover) instead of the hardcoded `--bs-light` variable
+- Fixed missing dropdown caret on timezone select dropdowns and the Google Calendar sync select by switching from Bootstrap's `form-control` class to the correct `form-select` class, and by no longer stripping `padding-right` (which hid the caret) on disabled/readonly `.form-select` elements
+- Fixed filter-records list entry hover background being unreadable on dark themes by using a theme-aware emphasis overlay (`rgba(var(--bs-emphasis-color-rgb), 0.075)`, the same approach used by Bootstrap's table hover) instead of the hardcoded `--bs-light` variable, and rebuilt `backend.css`/`backend.min.css` so the change actually ships
 
 ### Improved
 

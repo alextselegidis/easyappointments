@@ -83,7 +83,15 @@ body .modal.full-screen .modal-push {
 
 /* Disabled form controls styling */
 .backend-page .form-control:disabled,
-.backend-page .form-control[readonly],
+.backend-page .form-control[readonly] {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-body-bg);
+    opacity: 1;
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .backend-page .form-select:disabled,
 .backend-page .form-select[readonly] {
     background-color: var(--bs-body-bg);
@@ -91,7 +99,6 @@ body .modal.full-screen .modal-push {
     border-color: var(--bs-body-bg);
     opacity: 1;
     padding-left: 0;
-    padding-right: 0;
 }
 
 /* CRUD List/Form Toggle Layout */
@@ -145,7 +152,7 @@ body .modal.full-screen .modal-push {
 
 /* Filter records entry styling */
 .backend-page .filter-records .results .entry {
-    padding: 10px 0px;
+    padding: 10px 7px;
     cursor: pointer;
 }
 
