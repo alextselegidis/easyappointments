@@ -156,7 +156,7 @@ body .modal.full-screen .modal-push {
     cursor: pointer;
 }
 
-.backend-page .filter-records .results .entry:hover:not(.selected) {
+.backend-page .filter-records .results .entry:hover {
     background-color: rgba(var(--bs-emphasis-color-rgb), 0.075);
 }
 
