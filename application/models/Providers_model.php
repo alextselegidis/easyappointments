@@ -636,7 +636,7 @@ class Providers_model extends EA_Model
             $this->db->where('users.is_private', false);
         }
 
-        $providers = $this->db
+        $this->db
             ->select('users.*')
             ->from('users')
             ->join('roles', 'roles.id = users.id_roles', 'inner')
@@ -701,9 +701,14 @@ class Providers_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
-            ->get()
-            ->result_array();
+            ;
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $providers = $this->db->get()->result_array();
+
 
         foreach ($providers as &$provider) {
             $this->cast($provider);

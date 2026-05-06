@@ -188,7 +188,7 @@ class Appointments_model extends EA_Model
             $this->db->order_by($this->quote_order_by($order_by));
         }
 
-        $appointments = $this->db
+        $this->db
             ->get_where('appointments', ['is_unavailability' => false], $limit, $offset)
             ->result_array();
 
@@ -492,9 +492,14 @@ class Appointments_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
-            ->get()
-            ->result_array();
+            ;
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $appointments = $this->db->get()->result_array();
+
 
         foreach ($appointments as &$appointment) {
             $this->cast($appointment);

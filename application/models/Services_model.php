@@ -278,7 +278,7 @@ class Services_model extends EA_Model
             $this->db->where('services.is_private', false);
         }
 
-        $services = $this->db
+        $this->db
             ->distinct()
             ->select(
                 'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
@@ -361,9 +361,14 @@ class Services_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
-            ->get()
-            ->result_array();
+            ;
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $services = $this->db->get()->result_array();
+
 
         foreach ($services as &$service) {
             $this->cast($service);

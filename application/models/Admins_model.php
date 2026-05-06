@@ -493,7 +493,7 @@ class Admins_model extends EA_Model
     {
         $role_id = $this->get_admin_role_id();
 
-        $admins = $this->db
+        $this->db
             ->select()
             ->from('users')
             ->where('id_roles', $role_id)
@@ -512,9 +512,14 @@ class Admins_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
-            ->get()
-            ->result_array();
+            ;
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $admins = $this->db->get()->result_array();
+
 
         foreach ($admins as &$admin) {
             $this->cast($admin);

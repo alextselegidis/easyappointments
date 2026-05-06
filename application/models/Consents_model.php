@@ -195,7 +195,7 @@ class Consents_model extends EA_Model
      */
     public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
-        $consents = $this->db
+        $this->db
             ->select()
             ->from('consents')
             ->group_start()
@@ -206,9 +206,14 @@ class Consents_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
-            ->get()
-            ->result_array();
+            ;
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $consents = $this->db->get()->result_array();
+
 
         foreach ($consents as &$consent) {
             $this->cast($consent);

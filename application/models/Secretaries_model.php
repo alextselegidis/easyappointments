@@ -519,7 +519,7 @@ class Secretaries_model extends EA_Model
     {
         $role_id = $this->get_secretary_role_id();
 
-        $secretaries = $this->db
+        $this->db
             ->select()
             ->from('users')
             ->where('id_roles', $role_id)
@@ -538,9 +538,14 @@ class Secretaries_model extends EA_Model
             ->group_end()
             ->limit($limit)
             ->offset($offset)
-            ->order_by($this->quote_order_by($order_by))
-            ->get()
-            ->result_array();
+            ;
+
+        if ($order_by !== null) {
+            $this->db->order_by($this->quote_order_by($order_by));
+        }
+
+        $secretaries = $this->db->get()->result_array();
+
 
         foreach ($secretaries as &$secretary) {
             $this->cast($secretary);
