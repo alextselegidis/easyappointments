@@ -509,6 +509,14 @@ li.language {
 
     .flatpickr-current-month {
         padding: 3px;
+        height: auto;
+        line-height: 1.4;
+    }
+
+    .flatpickr-current-month .flatpickr-monthDropdown-months {
+        height: auto;
+        line-height: 1.4;
+        padding: 2px 0 4px 0.5ch;
     }
 
     .flatpickr-innerContainer {
