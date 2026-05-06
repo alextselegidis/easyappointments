@@ -56,7 +56,9 @@ class Webhooks_client
         $webhooks = $this->CI->webhooks_model->get();
 
         foreach ($webhooks as $webhook) {
-            if (str_contains($webhook['actions'], $action)) {
+            $actions = array_filter(array_map('trim', explode(',', (string) $webhook['actions'])));
+
+            if (in_array($action, $actions, true)) {
                 $this->call($webhook, $action, $payload);
             }
         }
