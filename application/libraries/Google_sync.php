@@ -486,7 +486,48 @@ class Google_sync
             'maxResults' => 2500,
         ];
 
-        return $this->service->events->listEvents($google_calendar, $params);
+        $events = $this->service->events->listEvents($google_calendar, $params);
+        $all_items = $events->getItems();
+
+        // Iterate through additional pages because the Google Calendar API may
+        // return fewer events than requested along with a non-empty
+        // nextPageToken (e.g. when singleEvents=true expands recurring events).
+        // Without this loop, calendars with more events than fit on a single
+        // page silently lose the remaining events, so they are never written
+        // as unavailabilities and the corresponding slots remain bookable.
+        // A safety bound of 50 pages (~125000 events at the 2500 page size)
+        // protects against pathological responses such as a circular
+        // nextPageToken.
+        $max_pages = 50;
+        $page = 0;
+        $page_token = $events->getNextPageToken();
+
+        while (!empty($page_token) && $page < $max_pages) {
+            $page++;
+            $params['pageToken'] = $page_token;
+            $next = $this->service->events->listEvents($google_calendar, $params);
+
+            foreach ($next->getItems() as $item) {
+                $all_items[] = $item;
+            }
+
+            $page_token = $next->getNextPageToken();
+        }
+
+        if (!empty($page_token)) {
+            log_message(
+                'error',
+                'Google_sync::get_sync_events - reached the ' .
+                    $max_pages .
+                    '-page safety bound for calendar ' .
+                    $google_calendar .
+                    '; some events may be missing from the sync.',
+            );
+        }
+
+        $events->setItems($all_items);
+
+        return $events;
     }
 
     /**

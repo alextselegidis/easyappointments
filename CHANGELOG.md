@@ -7,6 +7,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Fixed silent data-loss bug in Google Calendar sync where calendars with more events than fit in a single API page (typically > 250 events when `singleEvents=true` expanded recurring events) silently dropped events from page 2 onwards, leaving the corresponding time slots bookable; `Google_sync::get_sync_events()` now follows `nextPageToken` until exhausted, with a 50-page safety bound and an error log if the bound is reached
 - Fixed PHP parse error in Italian, Catalan, French and Luxembourgish translations of `altcha_captcha_not_active_warning` caused by unescaped apostrophes inside single-quoted strings (`L'impostazione`, `s'utilitzarà`, `n'est`, `D'CAPTCHA`)
 - Fixed Flatpickr month dropdown clipping the bottom of month names (descenders) by giving `.flatpickr-current-month` and `.flatpickr-monthDropdown-months` an auto height with proper line-height and padding-bottom
 - Fixed `notify_users_on_update_question` translations in 40 non-English language files to match the correct English meaning ("send out a notification" instead of "notify the client/customer")
