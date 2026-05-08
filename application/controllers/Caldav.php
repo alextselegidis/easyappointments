@@ -342,7 +342,7 @@ class Caldav extends EA_Controller
             json_response(
                 [
                     'success' => false,
-                    'message' => $message,
+                    'message' => 'CalDAV Sync: ' . $message,
                 ],
                 $status_code === 401 ? 401 : 500,
             );
@@ -352,7 +352,10 @@ class Caldav extends EA_Controller
                 'CalDAV - Sync completed with an error (provider ID "' . $provider_id . '"): ' . $e->getMessage(),
             );
 
-            json_exception($e);
+            // Re-wrap so json_exception() prefixes the user-visible message with the
+            // "CalDAV Sync" label (untranslated, so the user knows the failure comes
+            // from the calendar synchronization and not from Easy!Appointments itself).
+            json_exception(new RuntimeException('CalDAV Sync: ' . $e->getMessage(), $e->getCode(), $e));
         }
     }
 
