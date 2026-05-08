@@ -501,6 +501,14 @@ body .modal.full-screen .modal-push {
     white-space: nowrap;
 }
 
+/* On mobile viewports add some breathing room between the providers page tab
+   switcher (Details / Working Plan) and the tab content shown below it. */
+@media (max-width: 767.98px) {
+    #providers-page .switch-view {
+        margin-bottom: 1.5rem;
+    }
+}
+
 /* On mobile viewports compress the working plan, breaks and exceptions tables so
    they fit the available width with little to no horizontal scrolling. */
 @media (max-width: 767.98px) {
