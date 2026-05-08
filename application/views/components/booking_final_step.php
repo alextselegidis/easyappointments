@@ -25,7 +25,7 @@
 
         <?php if (setting('require_captcha')): ?>
             <?php if (setting('altcha_enabled') === '1'): ?>
-                <div class="row frame-content m-auto">
+                <div class="row frame-content m-auto" style="max-width: 630px;">
                     <div class="col">
                         <div id="altcha-widget" class="altcha-widget mb-2"></div>
                         <input type="hidden" id="altcha-payload" value="">
@@ -33,7 +33,7 @@
                     </div>
                 </div>
             <?php else: ?>
-                <div class="row frame-content m-auto">
+                <div class="row frame-content m-auto" style="max-width: 630px;">
                     <div class="col">
                         <label class="captcha-title float-start my-2 mb-2 me-md-4" for="captcha-text">
                             CAPTCHA
@@ -53,7 +53,7 @@
 
     </div>
 
-    <div class="d-flex fs-6 justify-content-around">
+    <div class="d-flex fs-6 justify-content-around m-auto" style="max-width: 630px;">
         <?php if ($display_terms_and_conditions): ?>
             <div class="form-check mb-3">
                 <input type="checkbox" class="required form-check-input" id="accept-to-terms-and-conditions">
