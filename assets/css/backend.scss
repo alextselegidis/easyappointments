@@ -501,6 +501,40 @@ body .modal.full-screen .modal-push {
     white-space: nowrap;
 }
 
+/* On mobile viewports compress the working plan, breaks and exceptions tables so
+   they fit the available width with little to no horizontal scrolling. */
+@media (max-width: 767.98px) {
+    .working-plan,
+    .breaks,
+    .working-plan-exceptions,
+    #working-plan-exceptions-breaks {
+        font-size: 0.8rem;
+    }
+
+    .working-plan th,
+    .working-plan td,
+    .breaks th,
+    .breaks td,
+    .working-plan-exceptions th,
+    .working-plan-exceptions td,
+    #working-plan-exceptions-breaks th,
+    #working-plan-exceptions-breaks td {
+        padding: 0.35rem 0.4rem;
+    }
+
+    .working-plan td .btn-sm,
+    .breaks td .btn-sm,
+    .working-plan-exceptions td .btn-sm,
+    #working-plan-exceptions-breaks td .btn-sm {
+        padding: 0.2rem 0.4rem;
+        font-size: 0.7rem;
+    }
+
+    .working-plan input[type="checkbox"] {
+        margin-right: 0.25rem;
+    }
+}
+
 /* Backend notification z-index */
 .backend-notification {
     z-index: 9999;
@@ -544,5 +578,20 @@ body .modal.full-screen .modal-push {
         width: 3rem;
         padding-left: 0;
         padding-right: 0;
+    }
+}
+
+/* On mobile viewports the calendar table view filters should stack: the
+   provider filter on its own row and the service filter on the next row,
+   each using the full available width. */
+@media (max-width: 767.98px) {
+    #calendar .calendar-header label {
+        flex: 1 0 100%;
+        margin-bottom: -5px;
+    }
+
+    #calendar .calendar-header .select2-container {
+        flex: 1 0 100%;
+        width: 100% !important;
     }
 }
