@@ -59,16 +59,18 @@
 
                 <br>
 
-                <table class="table table-striped" id="working-plan-exceptions-breaks">
-                    <thead>
-                    <tr>
-                        <th><?= lang('start') ?></th>
-                        <th><?= lang('end') ?></th>
-                        <th><?= lang('actions') ?></th>
-                    </tr>
-                    </thead>
-                    <tbody><!-- Dynamic Content --></tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="working-plan-exceptions-breaks">
+                        <thead>
+                        <tr>
+                            <th><?= lang('start') ?></th>
+                            <th><?= lang('end') ?></th>
+                            <th><?= lang('actions') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody><!-- Dynamic Content --></tbody>
+                    </table>
+                </div>
 
             </div>
             <div class="modal-footer">

@@ -294,16 +294,18 @@
                             data-tippy-content="<?= lang('reset_working_plan') ?>">
                         <i class="fas fa-undo-alt me-2"></i>
                         <?= lang('reset_plan') ?></button>
-                    <table class="working-plan table table-striped mt-2">
-                        <thead>
-                        <tr>
-                            <th><?= lang('day') ?></th>
-                            <th><?= lang('start') ?></th>
-                            <th><?= lang('end') ?></th>
-                        </tr>
-                        </thead>
-                        <tbody><!-- Dynamic Content --></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="working-plan table table-striped mt-2">
+                            <thead>
+                            <tr>
+                                <th><?= lang('day') ?></th>
+                                <th><?= lang('start') ?></th>
+                                <th><?= lang('end') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody><!-- Dynamic Content --></tbody>
+                        </table>
+                    </div>
 
                     <br>
 
@@ -324,17 +326,19 @@
 
                     <br>
 
-                    <table class="breaks table table-striped">
-                        <thead>
-                        <tr>
-                            <th><?= lang('day') ?></th>
-                            <th><?= lang('start') ?></th>
-                            <th><?= lang('end') ?></th>
-                            <th><?= lang('actions') ?></th>
-                        </tr>
-                        </thead>
-                        <tbody><!-- Dynamic Content --></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="breaks table table-striped">
+                            <thead>
+                            <tr>
+                                <th><?= lang('day') ?></th>
+                                <th><?= lang('start') ?></th>
+                                <th><?= lang('end') ?></th>
+                                <th><?= lang('actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody><!-- Dynamic Content --></tbody>
+                        </table>
+                    </div>
 
                     <br>
 
@@ -355,17 +359,19 @@
 
                     <br>
 
-                    <table class="working-plan-exceptions table table-striped">
-                        <thead>
-                        <tr>
-                            <th><?= lang('date') ?></th>
-                            <th><?= lang('start') ?></th>
-                            <th><?= lang('end') ?></th>
-                            <th><?= lang('actions') ?></th>
-                        </tr>
-                        </thead>
-                        <tbody><!-- Dynamic Content --></tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="working-plan-exceptions table table-striped">
+                            <thead>
+                            <tr>
+                                <th><?= lang('date') ?></th>
+                                <th><?= lang('start') ?></th>
+                                <th><?= lang('end') ?></th>
+                                <th><?= lang('actions') ?></th>
+                            </tr>
+                            </thead>
+                            <tbody><!-- Dynamic Content --></tbody>
+                        </table>
+                    </div>
 
                     <?php component('working_plan_exceptions_modal'); ?>
 

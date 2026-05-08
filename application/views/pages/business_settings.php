@@ -30,16 +30,18 @@
                             <?= lang('edit_working_plan_hint') ?>
                         </p>
 
-                        <table class="working-plan table table-striped">
-                            <thead>
-                            <tr>
-                                <th><?= lang('day') ?></th>
-                                <th><?= lang('start') ?></th>
-                                <th><?= lang('end') ?></th>
-                            </tr>
-                            </thead>
-                            <tbody><!-- Dynamic Content --></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="working-plan table table-striped">
+                                <thead>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody><!-- Dynamic Content --></tbody>
+                            </table>
+                        </div>
 
                         <div class="text-end mb-5">
                             <button class="btn btn-outline-secondary" id="apply-global-working-plan" type="button">
@@ -63,17 +65,19 @@
 
                         <br>
 
-                        <table class="breaks table table-striped mb-5">
-                            <thead>
-                            <tr>
-                                <th><?= lang('day') ?></th>
-                                <th><?= lang('start') ?></th>
-                                <th><?= lang('end') ?></th>
-                                <th><?= lang('actions') ?></th>
-                            </tr>
-                            </thead>
-                            <tbody><!-- Dynamic Content --></tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="breaks table table-striped mb-5">
+                                <thead>
+                                <tr>
+                                    <th><?= lang('day') ?></th>
+                                    <th><?= lang('start') ?></th>
+                                    <th><?= lang('end') ?></th>
+                                    <th><?= lang('actions') ?></th>
+                                </tr>
+                                </thead>
+                                <tbody><!-- Dynamic Content --></tbody>
+                            </table>
+                        </div>
 
                         <?php if (can('view', PRIV_BLOCKED_PERIODS)): ?>
                             <h5 class="mb-3 fw-light"><?= lang('blocked_periods') ?></h5>

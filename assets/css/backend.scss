@@ -492,6 +492,15 @@ body .modal.full-screen .modal-push {
     max-width: 400px;
 }
 
+/* Keep working plan / breaks / exceptions action buttons on a single line so they
+   stay horizontal even when the table is scrolled inside a .table-responsive wrapper. */
+.working-plan td,
+.breaks td,
+.working-plan-exceptions td,
+#working-plan-exceptions-breaks td {
+    white-space: nowrap;
+}
+
 /* Backend notification z-index */
 .backend-notification {
     z-index: 9999;
