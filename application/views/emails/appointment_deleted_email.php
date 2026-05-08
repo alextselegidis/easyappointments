@@ -402,7 +402,7 @@
                                             <?= lang('appointment_removed_from_schedule') ?>
                                         </p>
 
-                                        <h2>
+                                        <h2 style="text-align: center;">
                                             <?= lang('appointment_details_title') ?>
                                         </h2>
 
@@ -520,7 +520,7 @@
 
                                         <br>
 
-                                        <h2>
+                                        <h2 style="text-align: center;">
                                             <?= lang('customer_details_title') ?>
                                         </h2>
 
