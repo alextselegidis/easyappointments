@@ -170,8 +170,18 @@ App.Utils.CalendarSync = (function () {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_completed'));
                 $reloadAppointments.trigger('click');
             })
-            .fail(() => {
-                App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+            .fail((jqXHR) => {
+                const serverMessage = jqXHR.responseJSON && jqXHR.responseJSON.message;
+
+                let message = lang('calendar_sync_failed');
+
+                if (jqXHR.status === 401) {
+                    message = lang('invalid_credentials_provided');
+                } else if (serverMessage) {
+                    message += ' ' + serverMessage;
+                }
+
+                App.Layouts.Backend.displayNotification(message);
             })
             .always(() => {
                 isSyncing = false;
@@ -326,8 +336,18 @@ App.Utils.CalendarSync = (function () {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_completed'));
                 $reloadAppointments.trigger('click');
             })
-            .fail(() => {
-                App.Layouts.Backend.displayNotification(lang('calendar_sync_failed'));
+            .fail((jqXHR) => {
+                const serverMessage = jqXHR.responseJSON && jqXHR.responseJSON.message;
+
+                let message = lang('calendar_sync_failed');
+
+                if (jqXHR.status === 401) {
+                    message = lang('invalid_credentials_provided');
+                } else if (serverMessage) {
+                    message += ' ' + serverMessage;
+                }
+
+                App.Layouts.Backend.displayNotification(message);
             })
             .always(() => {
                 isSyncing = false;

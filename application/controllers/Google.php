@@ -411,6 +411,18 @@ class Google extends EA_Controller
                 'Google - Sync completed with an error (provider ID "' . $provider_id . '"): ' . $e->getMessage(),
             );
 
+            if ($e->getCode() === 401) {
+                json_response(
+                    [
+                        'success' => false,
+                        'message' => lang('invalid_credentials_provided'),
+                    ],
+                    401,
+                );
+
+                return;
+            }
+
             json_exception($e);
         }
     }
