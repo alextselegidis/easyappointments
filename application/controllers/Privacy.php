@@ -41,8 +41,10 @@ class Privacy extends EA_Controller
             // Apply rate limiting for privacy deletion requests (3 attempts per 15 minutes)
             $this->apply_privacy_rate_limit();
 
-            // Verify CSRF token
-            $this->verify_csrf_token();
+            // Note: CSRF validation is already performed globally by EA_Security
+            // (the privacy/* URI is not in csrf_exclude_uris). Re-checking the cookie
+            // here would always fail because EA_Security unsets the previous CSRF
+            // cookie after validation in order to regenerate a fresh token.
 
             $display_delete_personal_information = setting('display_delete_personal_information');
 
@@ -132,22 +134,6 @@ class Privacy extends EA_Controller
             throw $e;
         } catch (Throwable $e) {
             log_message('error', 'Cache error in privacy rate limiting: ' . $e->getMessage());
-        }
-    }
-
-    /**
-     * Verify CSRF token for privacy requests.
-     *
-     * @throws RuntimeException If CSRF token is invalid.
-     */
-    private function verify_csrf_token(): void
-    {
-        $csrf_token = request('csrf_token') ?? $this->input->get_request_header('X-CSRF');
-        $csrf_cookie = $this->input->cookie('csrf_cookie');
-
-        if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
-            log_message('error', 'Invalid CSRF token in privacy request from IP: ' . $this->input->ip_address());
-            throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
         }
     }
 }
