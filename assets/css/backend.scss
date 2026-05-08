@@ -514,3 +514,18 @@ body .modal.full-screen .modal-push {
         width: 300px !important;
     }
 }
+
+/* On mobile viewports the sync buttons should occupy a full row, with the
+   action buttons (add, reload, view switch) appearing on the next line. */
+@media (max-width: 991.98px) {
+    #calendar-actions #enable-sync,
+    #calendar-actions #sync-button-group {
+        display: flex;
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    #calendar-actions #sync-button-group #trigger-sync {
+        flex: 1 1 auto;
+    }
+}
