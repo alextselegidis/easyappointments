@@ -229,6 +229,14 @@ body .modal.full-screen .modal-push {
     font-size: 11px;
 }
 
+#calendar .fc-daygrid-day-number,
+#calendar .fc-daygrid-day-number:hover,
+#calendar .fc-daygrid-day-number:focus {
+    text-decoration: none !important;
+    color: var(--bs-body-color) !important;
+    cursor: default;
+}
+
 #calendar-page .fc-event-time {
     font-weight: bold;
     font-size: 11px;
