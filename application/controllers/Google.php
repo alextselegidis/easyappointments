@@ -190,9 +190,17 @@ class Google extends EA_Controller
                         $google_event_end->setTimezone($provider_timezone);
                     }
 
-                    $google_event_notes = $local_event['is_unavailability']
-                        ? $google_event->getSummary() . ' ' . $google_event->getDescription()
-                        : $google_event->getDescription();
+                    if ($local_event['is_unavailability']) {
+                        $google_event_summary = $google_event->getSummary();
+                        // Skip the synthetic "Unavailable" summary that EA itself sets when
+                        // pushing unavailabilities to Google so it doesn't get duplicated
+                        // back into the local notes/description.
+                        $google_event_notes = strcasecmp(trim((string) $google_event_summary), 'Unavailable') === 0
+                            ? (string) $google_event->getDescription()
+                            : trim($google_event_summary . ' ' . $google_event->getDescription());
+                    } else {
+                        $google_event_notes = $google_event->getDescription();
+                    }
 
                     $is_different =
                         $local_event_start !== $google_event_start->getTimestamp() ||
@@ -280,13 +288,22 @@ class Google extends EA_Controller
                     continue;
                 }
 
+                // Skip the synthetic "Unavailable" summary that EA itself sets when
+                // pushing unavailabilities to Google so it doesn't get duplicated into
+                // the local notes/description.
+                $google_event_summary = $google_event->getSummary();
+                $google_event_notes =
+                    strcasecmp(trim((string) $google_event_summary), 'Unavailable') === 0
+                        ? (string) $google_event->getDescription()
+                        : trim($google_event_summary . ' ' . $google_event->getDescription());
+
                 // Record doesn't exist in the Easy!Appointments, so add the event now.
                 $local_event = [
                     'start_datetime' => $google_event_start->format('Y-m-d H:i:s'),
                     'end_datetime' => $google_event_end->format('Y-m-d H:i:s'),
                     'is_unavailability' => true,
                     'location' => $google_event->getLocation(),
-                    'notes' => $google_event->getSummary() . ' ' . $google_event->getDescription(),
+                    'notes' => $google_event_notes,
                     'id_users_provider' => $provider_id,
                     'id_google_calendar' => $google_event->getId(),
                     'id_users_customer' => null,
