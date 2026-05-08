@@ -13,6 +13,47 @@ The Docker setup includes OpenLDAP and phpLDAPadmin, ready to use with no extra 
 | **phpLDAPadmin** | http://localhost:8200 | `cn=admin,dc=example,dc=org` / `admin` |
 | **OpenLDAP** | `openldap:389` (inside Docker) | Same as above |
 
+## Creating a Test User in phpLDAPadmin
+
+Before you can log in via LDAP, the directory needs at least one user entry. With a fresh OpenLDAP container the tree is empty, so you have to create a group first (otherwise phpLDAPadmin's user form leaves the **GID Number** dropdown empty and refuses to save) and then the user.
+
+### 1. Create a group
+
+1. Open phpLDAPadmin at <http://localhost:8200> and log in with `cn=admin,dc=example,dc=org` / `admin`.
+2. In the tree on the left, click `dc=example,dc=org` → **Create a child entry**.
+3. Choose the **Generic: Posix Group** template.
+4. Fill in:
+   - **Group** (cn): `users`
+   - **GID Number**: leave the suggested value (e.g. `500`) or set `10000`.
+5. Click **Create Object** → **Commit**.
+
+### 2. Create the user account
+
+1. Click `dc=example,dc=org` → **Create a child entry** again.
+2. Choose the **Generic: User Account** template.
+3. Fill in:
+   - **First name**: `Jane`
+   - **Last name**: `Doe`
+   - **Common Name**: `Jane Doe`
+   - **User ID** (uid): `janedoe` — this is what you will type at the EA login screen.
+   - **GID Number**: pick the `users` group you just created.
+   - **Home directory**: leave the default.
+   - **Login shell**: `/bin/bash` (or any value).
+   - **Password**: `password` (choose **SSHA** as the hash type).
+4. Click **Create Object** → **Commit**.
+5. Open the new entry and copy its full **Distinguished Name**, e.g. `cn=Jane Doe,dc=example,dc=org`. You will need it in the next step.
+
+> **Tip:** If you don't need POSIX attributes, you can skip the group and create the user with only the `inetOrgPerson` + `top` object classes. The GID dropdown then disappears entirely.
+
+### 3. Link the LDAP entry to an Easy!Appointments user
+
+1. Log in to the EA backend as admin.
+2. Open **Users → Providers** (or Admins / Secretaries depending on the role) and edit **Jane Doe**.
+3. Set the **Username** field to the same value as the LDAP `uid`, e.g. `janedoe`. The username **must match exactly** — EA looks up the account by username before it ever attempts an LDAP bind, so a mismatch results in a generic "invalid credentials" response.
+4. Paste the DN from step 2.5 into the **LDAP DN** field.
+5. Save the user.
+6. You can now log in at the EA login screen with `janedoe` / `password`.
+
 ## Enabling LDAP in Easy!Appointments
 
 1. Log in to the backend.
