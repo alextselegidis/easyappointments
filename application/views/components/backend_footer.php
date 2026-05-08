@@ -9,7 +9,7 @@
     <div class="mb-3 me-lg-5 mb-lg-0">
         <img class="me-1" src="<?= base_url('assets/img/logo-16x16.png') ?>" alt="Easy!Appointments Logo">
 
-        <a href="https://easyappointments.org">Easy!Appointments</a>
+        <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
 
         <span>v<?= config('version') ?></span>
     </div>
@@ -17,14 +17,14 @@
     <div class="mb-3 me-lg-5 mb-lg-0">
         <img class="me-1" src="<?= base_url('assets/img/alextselegidis-logo-16x16.png') ?>" alt="Alex Tselegidis Logo">
 
-        <a href="https://alextselegidis.com">Alex Tselegidis</a>
+        <a href="https://alextselegidis.com" target="_blank">Alex Tselegidis</a>
 
         &copy; <?= date('Y') ?> - Software Development
     </div>
 
     <div class="mb-3 me-lg-5 mb-lg-0">
         <?= lang('licensed_under') ?>
-        <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">
+        <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">
             GPL-3.0
         </a>
     </div>
