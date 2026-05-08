@@ -114,6 +114,41 @@ class Google extends EA_Controller
 
             $provider_timezone = new DateTimeZone($provider['timezone']);
 
+            // Pre-fetch Google events in the sync window so we can detect duplicates and
+            // re-link local records to existing Google events when the user disables and
+            // re-enables synchronization on the same calendar. Without this, every local
+            // event would be pushed again and produce visible duplicates.
+            try {
+                $existing_google_events = $CI->google_sync->get_sync_events(
+                    $provider['settings']['google_calendar'],
+                    $start,
+                    $end,
+                );
+            } catch (Throwable) {
+                $existing_google_events = null;
+            }
+
+            $extract_google_event_range = function ($google_event) use ($provider_timezone): ?array {
+                if ($google_event->getStart() === null || $google_event->getEnd() === null) {
+                    return null;
+                }
+
+                $is_all_day = $google_event->getStart()->getDateTime() === null;
+
+                if ($is_all_day) {
+                    $g_start = new DateTime($google_event->getStart()->getDate() . ' 00:00:00', $provider_timezone);
+                    $g_end = new DateTime($google_event->getEnd()->getDate() . ' 00:00:00', $provider_timezone);
+                    $g_end->modify('-1 minute');
+                } else {
+                    $g_start = new DateTime($google_event->getStart()->getDateTime());
+                    $g_start->setTimezone($provider_timezone);
+                    $g_end = new DateTime($google_event->getEnd()->getDateTime());
+                    $g_end->setTimezone($provider_timezone);
+                }
+
+                return [$g_start->getTimestamp(), $g_end->getTimestamp()];
+            };
+
             // Sync each appointment with Google Calendar by following the project's sync protocol (see documentation).
             foreach ($local_events as $local_event) {
                 if (!$local_event['is_unavailability']) {
@@ -128,6 +163,60 @@ class Google extends EA_Controller
 
                 // If current appointment not synced yet, add to Google Calendar.
                 if (!$local_event['id_google_calendar']) {
+                    // Before creating a new Google event, try to match an existing one in the
+                    // calendar by start/end (and, for unavailabilities, the synthetic
+                    // "Unavailable" summary). When the user disables and re-enables sync on
+                    // the same calendar, the local id_google_calendar is wiped but the events
+                    // still exist remotely, and re-pushing them would create duplicates.
+                    $matched_google_event = null;
+
+                    if ($existing_google_events !== null) {
+                        $local_start_ts = (new DateTime($local_event['start_datetime'], $provider_timezone))
+                            ->getTimestamp();
+                        $local_end_ts = (new DateTime($local_event['end_datetime'], $provider_timezone))
+                            ->getTimestamp();
+
+                        foreach ($existing_google_events->getItems() as $candidate) {
+                            if ($candidate->getStatus() === 'cancelled') {
+                                continue;
+                            }
+
+                            $candidate_range = $extract_google_event_range($candidate);
+
+                            if ($candidate_range === null) {
+                                continue;
+                            }
+
+                            if (
+                                $candidate_range[0] !== $local_start_ts ||
+                                $candidate_range[1] !== $local_end_ts
+                            ) {
+                                continue;
+                            }
+
+                            // For unavailabilities require the synthetic "Unavailable" summary
+                            // to avoid hijacking unrelated Google events that just happen to
+                            // overlap the same time window.
+                            if ($local_event['is_unavailability']) {
+                                $candidate_summary = trim((string) $candidate->getSummary());
+
+                                if (strcasecmp($candidate_summary, 'Unavailable') !== 0) {
+                                    continue;
+                                }
+                            }
+
+                            $matched_google_event = $candidate;
+                            break;
+                        }
+                    }
+
+                    if ($matched_google_event !== null) {
+                        $local_event = $events_model->find($local_event['id']);
+                        $local_event['id_google_calendar'] = $matched_google_event->getId();
+                        $events_model->save($local_event);
+                        continue;
+                    }
+
                     if (!$local_event['is_unavailability']) {
                         $google_event = $CI->google_sync->add_appointment(
                             $local_event,
@@ -140,7 +229,7 @@ class Google extends EA_Controller
                         $google_event = $CI->google_sync->add_unavailability($provider, $local_event);
                     }
 
-                    $local_event = $CI->appointments_model->find($local_event['id']);
+                    $local_event = $events_model->find($local_event['id']);
 
                     $local_event['id_google_calendar'] = $google_event->getId();
 
