@@ -479,6 +479,7 @@ App.Pages.Providers = (function () {
             $link = $('<a/>', {
                 'href': dedicatedUrl,
                 'target': '_blank',
+                'class': 'ms-2',
                 'data-bs-toggle': 'tooltip',
                 'title': lang('booking_link'),
                 'aria-label': lang('booking_link'),
