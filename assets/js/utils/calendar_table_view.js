@@ -999,7 +999,8 @@ App.Utils.CalendarTableView = (function () {
 
         if (workingPlanExceptions.hasOwnProperty(selDayDate)) {
             const exceptionData = workingPlanExceptions[selDayDate];
-            workingPlan[selDayName] = exceptionData;
+            // A non-working exception has no start/end times; treat the day as non-working.
+            workingPlan[selDayName] = exceptionData && exceptionData.start ? exceptionData : null;
             const originalException = exceptionsMap[selDayDate] || {
                 startDate: selDayDate,
                 endDate: selDayDate,
