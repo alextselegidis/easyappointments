@@ -87,7 +87,9 @@ class Caldav_sync
             return $caldav_event_id;
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to save CalDAV appointment event');
-            return null;
+
+            // Propagate so the controller can report the failure to the user.
+            throw $e;
         }
     }
 
@@ -127,7 +129,9 @@ class Caldav_sync
             return $caldav_event_id;
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to save CalDAV unavailability event');
-            return null;
+
+            // Propagate so the controller can report the failure to the user.
+            throw $e;
         }
     }
 
@@ -177,7 +181,16 @@ class Caldav_sync
             return $this->convert_caldav_event_to_array_event($vcalendar->VEVENT, $provider_timezone_object);
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to get CalDAV event');
-            return null;
+
+            // Only swallow 404 ("event not found") — every other error (e.g. 401
+            // invalid credentials, 5xx server failure) must propagate so the caller
+            // can surface it to the user instead of silently treating the event as
+            // missing and deleting the local copy.
+            if ($e instanceof RequestException && $e->hasResponse() && $e->getResponse()->getStatusCode() === 404) {
+                return null;
+            }
+
+            throw $e;
         }
     }
 
@@ -229,7 +242,14 @@ class Caldav_sync
             );
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to get CalDAV sync events');
-            return [];
+
+            // Only swallow 404 ("calendar not found") — auth and other errors must
+            // propagate so the caller can surface them to the user.
+            if ($e instanceof RequestException && $e->hasResponse() && $e->getResponse()->getStatusCode() === 404) {
+                return [];
+            }
+
+            throw $e;
         }
     }
 

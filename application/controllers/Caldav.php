@@ -219,6 +219,12 @@ class Caldav extends EA_Controller
                         $local_event['notes'] = $caldav_event['description'];
                         $events_model->save($local_event);
                     }
+                } catch (GuzzleException $e) {
+                    // Authentication / connectivity errors must propagate up so the
+                    // user is notified — otherwise we would silently delete local
+                    // events when the remote server is just unreachable or rejecting
+                    // our credentials.
+                    throw $e;
                 } catch (Throwable) {
                     // Appointment not found on CalDAV Calendar, delete from Easy!Appointments.
                     $events_model->delete($local_event['id']);
