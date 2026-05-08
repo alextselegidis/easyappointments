@@ -143,7 +143,6 @@
             font-size: 24px;
             font-weight: 300;
             text-align: center;
-            text-transform: capitalize;
             margin-bottom: 40px;
         }
 
@@ -208,7 +207,6 @@
             margin: 0;
             padding: 12px 25px;
             text-decoration: none;
-            text-transform: capitalize;
         }
 
         .btn-primary table td {
