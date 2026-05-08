@@ -74,9 +74,18 @@ class CI_Driver_Library {
 
     public function __get(string $name): mixed
     {
-        // $this->load_driver($name);
-        
-        return $this->props[$name] ?? NULL;
+        if (isset($this->props[$name])) {
+            return $this->props[$name];
+        }
+
+        // Lazy-load valid drivers on first access. Without this, calls like
+        // $this->cache->{$this->_adapter}->get(...) would dereference NULL
+        // because the underlying driver class is never instantiated otherwise.
+        if (isset($this->valid_drivers) && in_array($name, $this->valid_drivers, TRUE)) {
+            return $this->load_driver($name);
+        }
+
+        return NULL;
     }
 
     public function __set(string $name, mixed $value): void

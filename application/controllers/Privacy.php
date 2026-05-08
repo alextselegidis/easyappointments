@@ -27,17 +27,7 @@ class Privacy extends EA_Controller
     {
         parent::__construct();
 
-        // Explicitly load and assign the cache driver. CI's loader normally assigns it
-        // to $this->cache automatically, but on some setups (e.g. when rate_limiting is
-        // disabled in the config and the rate_limit() helper has not pre-loaded the
-        // driver) this property can end up unset, which would cause a "Call to a member
-        // function get() on null" further down. Assigning it explicitly here avoids that.
-        if (!class_exists('CI_Cache', false)) {
-            require_once BASEPATH . 'libraries/Cache/Cache.php';
-        }
-
-        $this->cache = new CI_Cache(['adapter' => 'file']);
-
+        $this->load->driver('cache', ['adapter' => 'file']);
         $this->load->model('customers_model');
     }
 
