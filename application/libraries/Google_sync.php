@@ -557,6 +557,8 @@ class Google_sync
             ];
         }
 
+        usort($calendars, fn(array $a, array $b) => strcasecmp($a['summary'] ?? '', $b['summary'] ?? ''));
+
         return $calendars;
     }
 
