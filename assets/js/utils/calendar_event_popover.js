@@ -237,12 +237,15 @@ App.Utils.CalendarEventPopover = (function () {
             return App.Utils.Date.format(date + ' ' + time, vars('date_format'), vars('time_format'), true);
         };
 
+        const isNonWorking = !startTime;
+
         return $('<div/>', {
             html: [
                 ...createPopoverRow('provider', provider.first_name + ' ' + provider.last_name),
                 ...createPopoverRow('start', formatTimeOrDash(startTime)),
                 ...createPopoverRow('end', formatTimeOrDash(endTime)),
                 ...createPopoverRow('timezone', startTime ? vars('timezones')[provider.timezone] : '-'),
+                isNonWorking ? $('<p/>', {class: 'mt-2 mb-0 text-muted', text: lang('make_non_working_day')}) : null,
                 renderCustomContent(info),
                 $('<hr/>'),
                 createPopoverButtons(displayEdit, displayDelete),
