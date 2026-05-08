@@ -26,10 +26,10 @@ Keep the key names (the part in square brackets) exactly the same — only chang
 
 ### 3. Register Your Translation
 
-Open `/application/config/config.php` and find the `available_languages` array (around line 90). Add your language to it:
+Open `/application/config/config.php` and find the `available_languages` array. Add your language to it:
 
 ```php
-$config['available_languages'] = array('english', 'german', 'greek', 'french');
+$config['available_languages'] = ['english', 'german', 'greek', 'your-language'];
 ```
 
 To change the default language for all users, update:

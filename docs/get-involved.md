@@ -8,7 +8,7 @@ Found something broken? Let us know! The more bugs we find and fix, the more rel
 
 ### Suggest Features
 
-Have an idea for a new feature or improvement? We'd love to hear it. Submit your suggestions through the [E!A Submission Form](http://easyappointments.org/submission.php).
+Have an idea for a new feature or improvement? We'd love to hear it. Submit your suggestions through the [E!A Submission Form](https://easyappointments.org/submission.php).
 
 ### Help Translate
 

@@ -261,7 +261,7 @@ GET /api/v1/availabilities?providerId=1&serviceId=2&date=2016-07-19
     "language": "english",
     "notes": "This is a test admin.",
     "settings": {
-        "username": "chrisdoe",
+        "username": "jasondoe",
         "password": "Password@123",
         "notifications": true,
         "calendarView": "default"

@@ -68,6 +68,10 @@ After Steps 1 and 2 above, also:
 
 No extra steps — just follow Steps 1 and 2.
 
+### Updating from v1.5.x to v1.6.x
+
+No extra steps — just follow Steps 1 and 2.
+
 *This document applies to Easy!Appointments v1.6.0.*
 
 [Back](readme.md)

@@ -7,7 +7,7 @@ This guide walks you through installing and setting up Easy!Appointments on your
 Easy!Appointments runs on a web server, just like a regular website. Before you begin, make sure you have:
 
 - **Apache** (v2.4 or newer) — the web server software
-- **PHP** (v7.2 or newer) — the programming language that runs the app
+- **PHP** (v8.2 or newer) — the programming language that runs the app
 - **MySQL** (v5.7 or newer) — the database that stores your data
 
 Most web hosting companies already include all three. If you're installing on your own computer, use a free bundle like [XAMPP](https://www.apachefriends.org/), [MAMP](https://www.mamp.info/), or [WAMP](https://www.wampserver.com/) — they install everything for you.

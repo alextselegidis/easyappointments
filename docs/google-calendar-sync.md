@@ -16,8 +16,8 @@ You need to tell Google that your Easy!Appointments installation is allowed to a
 3. Go to **APIs & Services** > **Credentials** and click **Create Credentials** > **OAuth client ID**.
 4. If prompted, fill in the **OAuth consent screen** information first.
 5. Select **Web Application** as the application type and give it a name.
-6. Under **Authorised JavaScript origins**, add your domain (just the domain, e.g. `http://mywebsite.com`).
-7. Under **Authorised redirect URIs**, add:
+6. Under **Authorized JavaScript origins**, add your domain (just the domain, e.g. `http://mywebsite.com`).
+7. Under **Authorized redirect URIs**, add:
    ```
    https://your-domain.com/easyappointments/index.php/google/oauth_callback
    ```
