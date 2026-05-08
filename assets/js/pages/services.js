@@ -70,18 +70,18 @@ App.Pages.Services = (function () {
             const $link = $('<a/>', {
                 'href': dedicatedUrl,
                 'target': '_blank',
+                'data-bs-toggle': 'tooltip',
+                'title': lang('booking_link'),
+                'aria-label': lang('booking_link'),
                 'html': [
                     $('<i/>', {
-                        'class': 'fas fa-link me-2',
-                    }),
-
-                    $('<span/>', {
-                        'text': lang('booking_link'),
+                        'class': 'fas fa-link',
                     }),
                 ],
             });
 
             $services.find('.record-details h4').find('a').remove().end().append($link);
+            new bootstrap.Tooltip($link[0]);
 
             App.Pages.Services.display(service);
             $filterServices.find('.selected').removeClass('selected');
@@ -375,18 +375,18 @@ App.Pages.Services = (function () {
                 const $link = $('<a/>', {
                     'href': dedicatedUrl,
                     'target': '_blank',
+                    'data-bs-toggle': 'tooltip',
+                    'title': lang('booking_link'),
+                    'aria-label': lang('booking_link'),
                     'html': [
                         $('<i/>', {
-                            'class': 'fas fa-link me-2',
-                        }),
-
-                        $('<span/>', {
-                            'text': lang('booking_link'),
+                            'class': 'fas fa-link',
                         }),
                     ],
                 });
 
                 $checkbox.parent().append($link);
+                new bootstrap.Tooltip($link[0]);
             });
         }
     }

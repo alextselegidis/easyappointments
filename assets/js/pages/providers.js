@@ -446,18 +446,18 @@ App.Pages.Providers = (function () {
         let $link = $('<a/>', {
             'href': dedicatedUrl,
             'target': '_blank',
+            'data-bs-toggle': 'tooltip',
+            'title': lang('booking_link'),
+            'aria-label': lang('booking_link'),
             'html': [
                 $('<i/>', {
-                    'class': 'fas fa-link me-2',
-                }),
-
-                $('<span/>', {
-                    'text': lang('booking_link'),
+                    'class': 'fas fa-link',
                 }),
             ],
         });
 
         $providers.find('.details-view h4').find('a').remove().end().append($link);
+        new bootstrap.Tooltip($link[0]);
 
         $('#provider-services a').remove();
         $('#provider-services input:checkbox').prop('checked', false);
@@ -479,18 +479,18 @@ App.Pages.Providers = (function () {
             $link = $('<a/>', {
                 'href': dedicatedUrl,
                 'target': '_blank',
+                'data-bs-toggle': 'tooltip',
+                'title': lang('booking_link'),
+                'aria-label': lang('booking_link'),
                 'html': [
                     $('<i/>', {
-                        'class': 'fas fa-link me-2',
-                    }),
-
-                    $('<span/>', {
-                        'text': lang('booking_link'),
+                        'class': 'fas fa-link',
                     }),
                 ],
             });
 
             $checkbox.parent().append($link);
+            new bootstrap.Tooltip($link[0]);
         });
 
         // Display working plan

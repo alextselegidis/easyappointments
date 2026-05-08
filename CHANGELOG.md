@@ -7,6 +7,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Replaced the visible "Booking Link" text next to the link icon on the providers and services backend pages with a Bootstrap tooltip shown on hover, so the icon-only link looks cleaner while still surfacing the label
 - Fixed calendar table view filters rendering poorly on mobile viewports by stacking the provider filter and service filter onto separate full-width rows below the date controls, with each label rendered inline next to its select via a `.filter-group` wrapper
 - Fixed calendar month view day numbers showing an unwanted underline and a link-colored text on all Bootstrap themes by removing the default `<a>` text-decoration and forcing the day-number color to match the column headings (`var(--bs-body-color)`)
 - Fixed noisy `Undefined array key "WARNING"` PHP warnings being logged on every security event because seven call sites used `log_message('warning', ...)` but CodeIgniter 3's logger only accepts `error`, `debug`, `info` and `all`; the unknown level produced an internal warning that the framework then logged. All security-relevant log calls (rate-limit hits, invalid CSRF tokens, unauthorized setting modifications, login throttling) now use the `error` level
