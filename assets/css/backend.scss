@@ -527,5 +527,13 @@ body .modal.full-screen .modal-push {
 
     #calendar-actions #sync-button-group #trigger-sync {
         flex: 1 1 auto;
+        text-align: left;
+    }
+
+    #calendar-actions #sync-button-group .dropdown-toggle-split {
+        flex: 0 0 auto;
+        width: 2rem;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
