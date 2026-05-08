@@ -27,6 +27,7 @@ class Privacy extends EA_Controller
     {
         parent::__construct();
 
+        $this->load->driver('cache', ['adapter' => 'file']);
         $this->load->model('customers_model');
     }
 
@@ -65,14 +66,6 @@ class Privacy extends EA_Controller
                 throw new InvalidArgumentException('Invalid customer token format.');
             }
 
-            if (!isset($this->cache) || !is_object($this->cache)) {
-                $this->load->driver('cache', ['adapter' => 'file']);
-            }
-
-            if (!isset($this->cache) || !is_object($this->cache)) {
-                throw new RuntimeException('Cache service is not available, please try again later.');
-            }
-
             $customer_id = $this->cache->get('customer-token-' . $customer_token);
 
             if (empty($customer_id)) {
@@ -107,13 +100,6 @@ class Privacy extends EA_Controller
     private function apply_privacy_rate_limit(): void
     {
         try {
-            $this->load->driver('cache', ['adapter' => 'file']);
-
-            if (!isset($this->cache) || !is_object($this->cache)) {
-                log_message('debug', 'Cache driver not available, skipping privacy rate limit check.');
-                return;
-            }
-
             $ip = $this->input->ip_address();
             $cache_key = 'privacy_delete_attempts_' . str_replace([':', '.'], '_', $ip);
 
