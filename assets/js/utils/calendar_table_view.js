@@ -1228,7 +1228,8 @@ App.Utils.CalendarTableView = (function () {
 
         // Provider filter
 
-        $('<label/>', {text: lang('provider')}).appendTo($calendarHeader);
+        const $providerFilterGroup = $('<div/>', {class: 'filter-group'}).appendTo($calendarHeader);
+        $('<label/>', {text: lang('provider')}).appendTo($providerFilterGroup);
         $filterProvider = $('<select/>', {
             id: 'filter-provider',
             multiple: 'multiple',
@@ -1243,7 +1244,7 @@ App.Utils.CalendarTableView = (function () {
                     createView(startDateMoment.toDate(), endDateMoment.toDate());
                 },
             },
-        }).appendTo($calendarHeader);
+        }).appendTo($providerFilterGroup);
 
         if (vars('role_slug') !== App.Layouts.Backend.DB_SLUG_PROVIDER) {
             providers.forEach((provider) => {
@@ -1266,7 +1267,8 @@ App.Utils.CalendarTableView = (function () {
 
             return vars('role_slug') === App.Layouts.Backend.DB_SLUG_ADMIN || provider;
         });
-        $('<label/>', {text: lang('service')}).appendTo($calendarHeader);
+        const $serviceFilterGroup = $('<div/>', {class: 'filter-group'}).appendTo($calendarHeader);
+        $('<label/>', {text: lang('service')}).appendTo($serviceFilterGroup);
         $filterService = $('<select/>', {
             id: 'filter-service',
             multiple: 'multiple',
@@ -1281,7 +1283,7 @@ App.Utils.CalendarTableView = (function () {
                     createView(startDateMoment.toDate(), endDateMoment.toDate());
                 },
             },
-        }).appendTo($calendarHeader);
+        }).appendTo($serviceFilterGroup);
         services.forEach((service) => {
             $filterService.append(new Option(service.name, service.id));
         });

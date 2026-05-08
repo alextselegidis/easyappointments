@@ -581,17 +581,24 @@ body .modal.full-screen .modal-push {
     }
 }
 
+/* Calendar table view filter groups (label + select side by side). */
+#calendar .calendar-header .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* On mobile viewports the calendar table view filters should stack: the
    provider filter on its own row and the service filter on the next row,
    each using the full available width. */
 @media (max-width: 767.98px) {
-    #calendar .calendar-header label {
+    #calendar .calendar-header .filter-group {
         flex: 1 0 100%;
-        margin-bottom: -5px;
     }
 
-    #calendar .calendar-header .select2-container {
-        flex: 1 0 100%;
-        width: 100% !important;
+    #calendar .calendar-header .filter-group .select2-container {
+        flex: 1 1 auto;
+        width: auto !important;
+        min-width: 0;
     }
 }
