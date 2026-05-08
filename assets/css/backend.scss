@@ -200,11 +200,11 @@ body .modal.full-screen .modal-push {
 
 #calendar-page #calendar .fc-unavailability {
     background-image: url('../img/unavailability.jpg');
+    background-blend-mode: hard-light;
     font-size: 14px;
     border-radius: 0;
     font-weight: bold;
     color: var(--bs-dark);
-    opacity: 0.75;
     border: 1px solid var(--bs-border-color);
 }
 
