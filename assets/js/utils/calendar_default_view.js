@@ -1028,7 +1028,8 @@ App.Utils.CalendarDefaultView = (function () {
             // Apply working plan exception if exists
             if (workingPlanExceptions.hasOwnProperty(weekdayDate)) {
                 const exceptionData = workingPlanExceptions[weekdayDate];
-                sortedWorkingPlan[weekdayName] = exceptionData;
+                // A non-working exception has no start/end times; treat the day as non-working.
+                sortedWorkingPlan[weekdayName] = exceptionData && exceptionData.start ? exceptionData : null;
                 const originalException = exceptionsMap[weekdayDate] || {
                     startDate: weekdayDate,
                     endDate: weekdayDate,
