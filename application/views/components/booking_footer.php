@@ -15,12 +15,12 @@
             <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
 
             <?php if (!empty($legal_notice_url)): ?>
-                <span class="mx-1">|</span>
+                <span>|</span>
                 <a href="<?= e($legal_notice_url) ?>" target="_blank"><?= lang('legal_notice') ?></a>
             <?php endif; ?>
 
             <?php if (!empty($imprint_url)): ?>
-                <span class="mx-1">|</span>
+                <span>|</span>
                 <a href="<?= e($imprint_url) ?>" target="_blank"><?= lang('imprint') ?></a>
             <?php endif; ?>
         </span>
