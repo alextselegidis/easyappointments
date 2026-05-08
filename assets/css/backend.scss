@@ -596,6 +596,10 @@ body .modal.full-screen .modal-push {
         flex: 1 0 100%;
     }
 
+    #calendar .calendar-header .filter-group label {
+        flex: 0 0 5rem;
+    }
+
     #calendar .calendar-header .filter-group .select2-container {
         flex: 1 1 auto;
         width: auto !important;
