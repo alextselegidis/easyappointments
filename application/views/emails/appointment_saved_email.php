@@ -408,7 +408,7 @@
                                             <?= lang('appointment_details_title') ?>
                                         </h2>
 
-                                        <table id="appointment-details" style="margin: 0 auto;">
+                                        <table id="appointment-details" align="center" style="margin: 0 auto; width: auto;">
                                             <tr>
                                                 <td class="label" style="padding: 3px;font-weight: bold;">
                                                     <?= lang('service') ?>
@@ -525,7 +525,7 @@
                                             <?= lang('customer_details_title') ?>
                                         </h2>
 
-                                        <table id="customer-details" style="margin: 0 auto;">
+                                        <table id="customer-details" align="center" style="margin: 0 auto; width: auto;">
                                             <tr>
                                                 <td class="label" style="padding: 3px;font-weight: bold;">
                                                     <?= lang('name') ?>
