@@ -29,6 +29,8 @@ App.Pages.Services = (function () {
     const $description = $('#description');
     const $filterServices = $('#filter-services');
     const $color = $('#color');
+    const $bufferBefore = $('#buffer-before');
+    const $bufferAfter = $('#buffer-after');
     let filterResults = {};
     let filterLimit = 20;
 
@@ -127,6 +129,8 @@ App.Pages.Services = (function () {
             $serviceCategoryId.val('');
             $slotInterval.val('15');
             $attendantsNumber.val('1');
+            $bufferBefore.val('0');
+            $bufferAfter.val('0');
         });
 
         /**
@@ -161,6 +165,8 @@ App.Pages.Services = (function () {
                 attendants_number: $attendantsNumber.val(),
                 is_private: Number($isPrivate.prop('checked')),
                 id_service_categories: $serviceCategoryId.val() || undefined,
+                buffer_before: $bufferBefore.val(),
+                buffer_after: $bufferAfter.val(),
             };
 
             // Include service providers.
@@ -349,6 +355,8 @@ App.Pages.Services = (function () {
         $attendantsNumber.val(service.attendants_number);
         $isPrivate.prop('checked', service.is_private);
         App.Components.ColorSelection.setColor($color, service.color);
+        $bufferBefore.val(service.buffer_before);
+        $bufferAfter.val(service.buffer_after);
 
         const serviceCategoryId = service.id_service_categories !== null ? service.id_service_categories : '';
         $serviceCategoryId.val(serviceCategoryId);
