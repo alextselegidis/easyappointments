@@ -97,7 +97,13 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --ea-primary-subtle: <?= $subtle ?>;
     }
 
-    /* Button component overrides */
+    /*
+     * Button component overrides
+     *
+     * Only set the Bootstrap CSS variables here so the existing theme rules
+     * for .btn-primary / .btn-outline-primary (gradient, border, box-shadow)
+     * keep working without being overridden by the company color style.
+     */
     .btn-primary {
         --bs-btn-bg: var(--bs-primary);
         --bs-btn-border-color: var(--bs-primary);
@@ -107,19 +113,6 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-btn-active-border-color: var(--ea-primary-active);
         --bs-btn-disabled-bg: var(--bs-primary);
         --bs-btn-disabled-border-color: var(--bs-primary);
-        background: linear-gradient(180deg, var(--ea-primary-hover), var(--bs-primary));
-        border: none;
-        box-shadow: 0 1px 3px rgba(var(--bs-primary-rgb), 0.3);
-    }
-
-    .btn-primary:hover {
-        background: linear-gradient(180deg, var(--bs-primary), var(--ea-primary-active));
-        box-shadow: 0 4px 12px rgba(var(--bs-primary-rgb), 0.35);
-    }
-
-    .btn-primary:active,
-    .btn-primary.active {
-        background: var(--ea-primary-active);
     }
 
     .btn-outline-primary {
@@ -133,26 +126,11 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-btn-active-border-color: var(--ea-primary-active);
         --bs-btn-disabled-color: var(--bs-primary);
         --bs-btn-disabled-border-color: var(--bs-primary);
-        color: var(--bs-primary);
-        border-color: var(--bs-primary);
-    }
-
-    .btn-outline-primary:hover {
-        color: var(--bs-white, #fff);
-        background: linear-gradient(180deg, var(--ea-primary-hover), var(--bs-primary));
-        border-color: var(--bs-primary);
-        box-shadow: 0 4px 12px rgba(var(--bs-primary-rgb), 0.35);
-    }
-
-    .btn-outline-primary:active,
-    .btn-outline-primary.active {
-        color: var(--bs-white, #fff);
-        background: var(--ea-primary-active);
-        border-color: var(--ea-primary-active);
     }
 
 
     /* Form component overrides */
+    /*
     .form-control:focus,
     .form-select:focus {
         border-color: var(--bs-primary);
@@ -168,12 +146,14 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         border-color: var(--bs-primary);
         box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
     }
+    */
 
     /* Navigation component overrides */
     .nav-pills {
         --bs-nav-pills-link-active-bg: var(--bs-primary);
     }
 
+    /*
     .nav-pills .nav-link {
         color: var(--bs-primary);
     }
@@ -207,6 +187,7 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         outline: none;
         box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.15);
     }
+    */
 
     .nav-link {
         --bs-nav-link-color: var(--bs-primary);
@@ -217,10 +198,12 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-dropdown-link-active-bg: var(--bs-primary);
     }
 
+    /*
     .dropdown-menu .dropdown-item:hover,
     .dropdown-menu .dropdown-item:focus {
         background: rgba(var(--bs-primary-rgb), 0.08);
     }
+    */
 
     .pagination {
         --bs-pagination-active-bg: var(--bs-primary);
@@ -228,10 +211,12 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
     }
 
     /* Alert component overrides */
+    /*
     .alert-primary {
         background: rgba(var(--bs-primary-rgb), 0.1);
         color: var(--ea-primary-darker);
     }
+    */
 
     /* Other component overrides */
     .progress {
@@ -243,9 +228,11 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-list-group-active-border-color: var(--bs-primary);
     }
 
+    /*
     .list-group-item:hover {
         background: rgba(var(--bs-primary-rgb), 0.03);
     }
+    */
 
     .accordion {
         --bs-accordion-active-color: var(--bs-primary);

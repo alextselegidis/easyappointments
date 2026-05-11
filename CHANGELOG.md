@@ -7,6 +7,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Fixed the dynamic company color style overriding direct CSS properties on Bootstrap components (buttons, forms, navs, dropdowns, alerts, list groups) which was breaking the look of the active theme (including Bootswatch themes); the company color override is now restricted to setting Bootstrap CSS variables (`--bs-btn-bg`, `--bs-nav-link-color`, `--bs-pagination-active-bg`, etc.) so themes keep full control of the actual styles. App-specific selectors (header, booking wizard, filter records, existing customers list) are kept as-is. The previous direct Bootstrap component rules are commented out for now to allow testing before final removal
 - Replaced the visible "Booking Link" text next to the link icon on the providers and services backend pages with a Bootstrap tooltip shown on hover, so the icon-only link looks cleaner while still surfacing the label
 - Fixed calendar table view filters rendering poorly on mobile viewports by stacking the provider filter and service filter onto separate full-width rows below the date controls, with each label rendered inline next to its select via a `.filter-group` wrapper
 - Fixed calendar month view day numbers showing an unwanted underline and a link-colored text on all Bootstrap themes by removing the default `<a>` text-decoration and forcing the day-number color to match the column headings (`var(--bs-body-color)`)
