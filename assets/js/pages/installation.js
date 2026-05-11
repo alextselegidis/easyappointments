@@ -15,7 +15,9 @@
  * This module implements the functionality of the installation page.
  */
 App.Pages.Installation = (function () {
-    const MIN_PASSWORD_LENGTH = 7;
+    const MIN_PASSWORD_LENGTH = 8;
+    const USERNAME_PATTERN = /^[a-zA-Z0-9_@.\-]{3,50}$/;
+    const URL_PATTERN = /^https?:\/\/[^\s/$.?#].[^\s]*$/i;
     const $install = $('#install');
     const $alert = $('.alert');
     const $loading = $('#loading');
@@ -80,7 +82,7 @@ App.Pages.Installation = (function () {
      */
     function validate() {
         try {
-            const $fields = $('input');
+            const $fields = $('input, select');
 
             $alert.removeClass('alert-danger').prop('hidden', true);
 
@@ -89,15 +91,55 @@ App.Pages.Installation = (function () {
             // Check for empty fields.
             let missingRequired = false;
 
-            $fields.each((index, field) => {
-                if (!$(field).val()) {
-                    $(field).addClass('is-invalid');
+            $fields.filter('.required').each((index, field) => {
+                const $field = $(field);
+
+                if (!$field.val() || ($field.is('select') && !$field.val().length)) {
+                    $field.addClass('is-invalid');
                     missingRequired = true;
                 }
             });
 
             if (missingRequired) {
                 throw new Error(lang('fields_are_required'));
+            }
+
+            // Check max length (defensive — also enforced by the maxlength attribute).
+            let exceedsMaxLength = false;
+
+            $fields.filter('input[maxlength]').each((index, field) => {
+                const $field = $(field);
+                const maxLength = parseInt($field.attr('maxlength'), 10);
+
+                if (maxLength > 0 && $field.val().length > maxLength) {
+                    $field.addClass('is-invalid');
+                    exceedsMaxLength = true;
+                }
+            });
+
+            if (exceedsMaxLength) {
+                throw new Error('One or more fields exceed the maximum allowed length.');
+            }
+
+            // Validate name fields (do not allow HTML tags, mirror server-side strip_tags + trim).
+            [$firstName, $lastName, $companyName].forEach(($field) => {
+                if ($field.val().trim() === '') {
+                    $field.addClass('is-invalid');
+                    throw new Error(lang('fields_are_required'));
+                }
+
+                if (/<[^>]*>/.test($field.val())) {
+                    $field.addClass('is-invalid');
+                    throw new Error('HTML tags are not allowed in name fields.');
+                }
+            });
+
+            // Validate username (must match server-side regex: 3-50 alphanumeric, _, @, ., -).
+            if (!USERNAME_PATTERN.test($username.val())) {
+                $username.addClass('is-invalid');
+                throw new Error(
+                    'Invalid username. Use 3-50 characters: letters, numbers, underscores, dashes, @ or dots.',
+                );
             }
 
             // Validate Passwords
@@ -122,6 +164,12 @@ App.Pages.Installation = (function () {
             if (!App.Utils.Validation.email($companyEmail.val())) {
                 $companyEmail.addClass('is-invalid');
                 throw new Error(lang('invalid_email'));
+            }
+
+            // Validate Company Link (must be a valid http(s) URL, mirroring FILTER_VALIDATE_URL on the server).
+            if (!URL_PATTERN.test($companyLink.val().trim())) {
+                $companyLink.addClass('is-invalid');
+                throw new Error('Invalid company link. Please provide a valid URL (e.g. https://example.org).');
             }
 
             return true;
