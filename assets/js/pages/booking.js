@@ -146,9 +146,9 @@ App.Pages.Booking = (function () {
 
                     const displayedMonthMoment = moment(
                         instance.currentYearElement.value +
-                            '-' +
-                            (Number(instance.monthsDropdownContainer.value) + 1) +
-                            '-01',
+                        '-' +
+                        String(Number(instance.monthsDropdownContainer.value) + 1).padStart(2, '0') +
+                        '-01',
                     );
 
                     const monthChangeStep = detectDatepickerMonthChangeStep(previousMoment, displayedMonthMoment);
