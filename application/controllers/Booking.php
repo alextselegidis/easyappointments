@@ -280,6 +280,7 @@ class Booking extends EA_Controller
                 return;
             }
             $customer = $this->customers_model->find($appointment['id_users_customer']);
+            $this->customers_model->only($customer, $this->allowed_customer_fields);
             $customer_token = md5(uniqid(mt_rand(), true));
 
             // Cache the token for 10 minutes.
