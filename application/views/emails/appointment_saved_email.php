@@ -12,6 +12,13 @@
  * @var array $timezone
  * @var string $appointment_link
  */
+
+$customer_first_name = trim((string) ($customer['first_name'] ?? ''));
+$customer_last_name = trim((string) ($customer['last_name'] ?? ''));
+$customer_full_name = trim($customer_first_name . ' ' . $customer_last_name);
+$customer_email = trim((string) ($customer['email'] ?? ''));
+$customer_phone_number = trim((string) ($customer['phone_number'] ?? ''));
+$customer_address = trim((string) ($customer['address'] ?? ''));
 ?>
 
 <!doctype html>
@@ -147,6 +154,11 @@
 
         .label {
             width: 120px;
+        }
+
+        .details-table {
+            margin: 0 0 0 auto;
+            width: 85%;
         }
 
         p,
@@ -408,7 +420,7 @@
                                             <?= lang('appointment_details_title') ?>
                                         </h2>
 
-                                        <table id="appointment-details" align="center" style="margin: 0 auto; width: auto;">
+                                        <table id="appointment-details" class="details-table" align="center">
                                             <tr>
                                                 <td class="label" style="padding: 3px;font-weight: bold;">
                                                     <?= lang('service') ?>
@@ -525,39 +537,50 @@
                                             <?= lang('customer_details_title') ?>
                                         </h2>
 
-                                        <table id="customer-details" align="center" style="margin: 0 auto; width: auto;">
-                                            <tr>
-                                                <td class="label" style="padding: 3px;font-weight: bold;">
-                                                    <?= lang('name') ?>
-                                                </td>
-                                                <td style="padding: 3px;">
-                                                    <?= e($customer['first_name'] . ' ' . $customer['last_name']) ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="label" style="padding: 3px;font-weight: bold;">
-                                                    <?= lang('email') ?>
-                                                </td>
-                                                <td style="padding: 3px;">
-                                                    <?= e($customer['email']) ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="label" style="padding: 3px;font-weight: bold;">
-                                                    <?= lang('phone_number') ?>
-                                                </td>
-                                                <td style="padding: 3px;">
-                                                    <?= e($customer['phone_number']) ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td class="label" style="padding: 3px;font-weight: bold;">
-                                                    <?= lang('address') ?>
-                                                </td>
-                                                <td style="padding: 3px;">
-                                                    <?= e($customer['address']) ?>
-                                                </td>
-                                            </tr>
+                                        <table id="customer-details" class="details-table" align="center">
+                                            <?php if ($customer_full_name !== ''): ?>
+                                                <tr>
+                                                    <td class="label" style="padding: 3px;font-weight: bold;">
+                                                        <?= lang('name') ?>
+                                                    </td>
+                                                    <td style="padding: 3px;">
+                                                        <?= e($customer_full_name) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+
+                                            <?php if ($customer_email !== ''): ?>
+                                                <tr>
+                                                    <td class="label" style="padding: 3px;font-weight: bold;">
+                                                        <?= lang('email') ?>
+                                                    </td>
+                                                    <td style="padding: 3px;">
+                                                        <?= e($customer_email) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+
+                                            <?php if ($customer_phone_number !== ''): ?>
+                                                <tr>
+                                                    <td class="label" style="padding: 3px;font-weight: bold;">
+                                                        <?= lang('phone_number') ?>
+                                                    </td>
+                                                    <td style="padding: 3px;">
+                                                        <?= e($customer_phone_number) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+
+                                            <?php if ($customer_address !== ''): ?>
+                                                <tr>
+                                                    <td class="label" style="padding: 3px;font-weight: bold;">
+                                                        <?= lang('address') ?>
+                                                    </td>
+                                                    <td style="padding: 3px;">
+                                                        <?= e($customer_address) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
 
                                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                                 <?php if (
