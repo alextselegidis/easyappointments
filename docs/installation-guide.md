@@ -60,7 +60,7 @@ After installation, the app comes with some test data. Here's how to set things 
 
 ### 1. Set Your Working Hours
 
-Go to the backend by visiting `http://your-url/index.php/backend` and log in. Click **Settings** → **Business Logic** and set your company's working days and hours. Click **Save**. This becomes the default schedule for any new providers you add.
+Go to the backend by visiting `http://your-url/index.php/calendar` and log in. Click **Settings** → **Business Logic** and set your company's working days and hours. Click **Save**. This becomes the default schedule for any new providers you add.
 
 ### 2. Add Your Services
 
