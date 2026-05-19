@@ -74,6 +74,18 @@ php index.php console sync
 
 **Tip:** Set this up as a [cron job](https://en.wikipedia.org/wiki/Cron) to run automatically (e.g. every hour) so your calendars stay up to date without manual work.
 
+### Cleanup
+
+Runs storage and data cleanup tasks:
+
+```
+php index.php console cleanup
+```
+
+This command removes expired sessions, old logs and cache files, and deletes old customer data based on your configured data retention settings.
+
+**Tip:** Add this command to a [cron job](https://en.wikipedia.org/wiki/Cron) so cleanup runs automatically.
+
 ### Help
 
 Shows a summary of all available commands:

@@ -65,7 +65,7 @@ Using the wrong URL causes a browser security error that blocks the booking page
 
 ## How Do I Change the Time Slot Interval?
 
-By default, available appointment times are shown every **15 minutes** (e.g. 9:00, 9:15, 9:30…). You can change this from the backend settings of each service by adjusting the availabilities type and duration.
+By default, available appointment times are shown every **15 minutes** (e.g. 9:00, 9:15, 9:30…). You can change this from the backend service settings by editing the **Slot Interval (Minutes)** field.
 
 ## I'm Getting a Timezone Warning
 

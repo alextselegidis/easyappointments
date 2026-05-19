@@ -24,16 +24,11 @@ You need to tell Google that your Easy!Appointments installation is allowed to a
    Replace `your-domain.com/easyappointments` with your actual installation URL.
 8. Click **Create**. Google will show you a **Client ID** and **Client Secret** — copy both.
 
-## Step 2: Create a Browser API Key
+## Step 2: Configure Credentials in Easy!Appointments
 
-Customers can add appointments to their own Google Calendar from the booking page. This requires an API key.
+You can now configure the Google **Client ID** and **Client Secret** directly from the Easy!Appointments user interface (Backend **Settings** → **Google Calendar** section).
 
-1. Still in **APIs & Services** > **Credentials**, click **Create Credentials** > **API Key**.
-2. A key will be generated. You can optionally restrict it to your domain for security.
-
-## Step 3: Update Easy!Appointments Config
-
-Open your `config.php` file and update these values:
+As an alternative, you can still define them in `config.php`:
 
 ```php
 const GOOGLE_SYNC_FEATURE   = TRUE;
@@ -41,7 +36,7 @@ const GOOGLE_CLIENT_ID      = 'your-client-id-here';
 const GOOGLE_CLIENT_SECRET  = 'your-client-secret-here';
 ```
 
-## Step 4: Link a Provider's Google Calendar
+## Step 3: Link a Provider's Google Calendar
 
 1. Log in to the Easy!Appointments backend and go to the **Calendar** page.
 2. Select a provider and click **Enable Sync**.
@@ -52,7 +47,7 @@ const GOOGLE_CLIENT_SECRET  = 'your-client-secret-here';
 
 - Sync is triggered from the Easy!Appointments backend or whenever appointments change.
 - Each provider can only be linked to **one** Google Calendar account.
-- Recurring events are **not supported** yet.
+- Recurring events are supported during sync, but they cannot be created or managed directly from Easy!Appointments.
 
 ## Useful Links
 
