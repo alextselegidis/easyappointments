@@ -352,12 +352,27 @@ class Providers_model extends EA_Model
                     $exceptions = [];
                 }
 
-                // Delete existing exceptions for this provider
-                $this->db->where('id_users_provider', $provider_id)->delete('working_plan_exceptions');
+                // Get existing exception IDs for this provider
+                $existing_exceptions = $this->db
+                    ->select('id')
+                    ->from('working_plan_exceptions')
+                    ->where('id_users_provider', $provider_id)
+                    ->get()
+                    ->result_array();
 
-                // Insert new exceptions
+                $existing_ids = array_column($existing_exceptions, 'id');
+                $new_ids = [];
+
+                // Save or update exceptions
                 foreach ($exceptions as $exception) {
-                    $this->save_working_plan_exception($provider_id, $exception);
+                    $exception_id = $this->save_working_plan_exception($provider_id, $exception);
+                    $new_ids[] = $exception_id;
+                }
+
+                // Delete exceptions that were not in the new list
+                $ids_to_delete = array_diff($existing_ids, $new_ids);
+                if (!empty($ids_to_delete)) {
+                    $this->db->where_in('id', $ids_to_delete)->delete('working_plan_exceptions');
                 }
 
                 continue;
