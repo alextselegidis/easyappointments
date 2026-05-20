@@ -41,7 +41,7 @@
 
 ![screenshot](screenshot.png)
 
-## Why Easy!Appointments
+## 🚀 Why Easy!Appointments
 
 **Easy!Appointments** is an open-source scheduling system that gives you full control over your booking workflow.
 
@@ -49,30 +49,31 @@ It is designed to adapt to your business — whether you need simple appointment
 
 **Key advantages:**
 
-* Fully self-hosted — your data stays under your control
-* Highly customizable and flexible
-* Integrates with your existing website and database
-* Free for both personal and commercial use
+- Fully self-hosted — your data stays under your control
+- Highly customizable and flexible
+- Integrates with your existing website and database
+- Free for both personal and commercial use
 
+---
 
-
-## Features
+## ✨ Features
 
 Built to support a wide range of scheduling needs:
 
-* Appointment and customer management
-* Service and provider organization
-* Working plans and booking rules
-* Google Calendar synchronization
-* Email notification system
-* Multi-language interface
-* Self-hosted deployment
-* Active open-source community
+- Appointment and customer management
+- Service and provider organization
+- Working plans and booking rules
+- Google Calendar synchronization
+- Email notification system
+- Multi-language interface
+- Self-hosted deployment
+- Active open-source community
 
+---
 
-## Quick Start (Development)
+## ⚡ Quick Start (Development)
 
-Clone and run the project locally:
+Clone and run the project locally using the provided Docker Compose environment:
 
 ```bash
 # Clone the repository
@@ -81,23 +82,39 @@ git clone https://github.com/alextselegidis/easyappointments.git
 # Navigate into the project
 cd easyappointments
 
-# Install dependencies
-npm install && composer install
+# Start the Docker environment
+docker compose up
+````
 
-# Start development watcher
+Then open a second terminal and enter the application container:
+
+```bash id="app-shell"
+docker compose exec app bash
+```
+
+Inside the container, install dependencies:
+
+```bash id="deps"
+npm install && composer install
+```
+
+Start the development watcher:
+
+```bash id="dev"
 npm start
 ```
 
 Build production assets:
 
-```bash
+```bash id="build"
 npm run build
 ```
 
-> Note: Works on Windows (WSL recommended) and Docker-based setups.
+> Note: Works on Windows (WSL recommended), macOS, and Linux using Docker Compose.
 
+---
 
-## Installation (Production)
+## 🏗️ Installation (Production)
 
 ### Requirements
 
@@ -116,30 +133,33 @@ npm run build
 
 Once completed, the system is ready to use.
 
+---
 
-## Resources
+## 📚 Resources
 
-* Website: https://easyappointments.org
-* Issues: https://github.com/alextselegidis/easyappointments/issues
-* Support Group: https://groups.google.com/forum/#!forum/easy-appointments
-* Discord: https://discord.com/invite/UeeSkaw
+* Website: [https://easyappointments.org](https://easyappointments.org)
+* Issues: [https://github.com/alextselegidis/easyappointments/issues](https://github.com/alextselegidis/easyappointments/issues)
+* Support Group: [https://groups.google.com/forum/#!forum/easy-appointments](https://groups.google.com/forum/#!forum/easy-appointments)
+* Discord: [https://discord.com/invite/UeeSkaw](https://discord.com/invite/UeeSkaw)
 
+---
 
-## License
+## 📜 License
 
 * Code: GPL v3.0
 * Content: CC BY 3.0
 
+---
 
-## Author
+## 👤 Author
 
-* Website: https://alextselegidis.com
-* GitHub: https://github.com/alextselegidis
-* Twitter: https://twitter.com/AlexTselegidis
+* Website: [https://alextselegidis.com](https://alextselegidis.com)
+* GitHub: [https://github.com/alextselegidis](https://github.com/alextselegidis)
+* Twitter: [https://twitter.com/AlexTselegidis](https://twitter.com/AlexTselegidis)
 
 ---
 
-## More Projects
+## 🔥 More Projects
 
 * [Plainpad · Self-Hosted Note Taking](https://github.com/alextselegidis/plainpad)
 * [Clientverse · CRM Application](https://github.com/alextselegidis/clientverse)
