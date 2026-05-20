@@ -298,6 +298,11 @@ class Calendar extends EA_Controller
 
                 $this->customers_model->optional($customer, $this->optional_customer_fields);
 
+                // Reuse existing customers by email (same behavior as public booking).
+                if (empty($customer['id']) && $this->customers_model->exists($customer)) {
+                    $customer['id'] = $this->customers_model->find_record_id($customer);
+                }
+
                 $customer['id'] = $this->customers_model->save($customer);
             }
 
