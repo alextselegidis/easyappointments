@@ -73,7 +73,7 @@
 // visible when the user has working plan view active.
 ?>
 
-            <div class="form-message alert" style="display:none;"></div>
+            <div class="form-message alert mt-4" style="display:none;"></div>
 
             <div class="tab-content">
                 <div class="details-view tab-pane fade show active clearfix" id="details">
