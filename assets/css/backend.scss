@@ -548,6 +548,18 @@ body .modal.full-screen .modal-push {
     z-index: 9999;
 }
 
+/* On mobile viewports center backend toasts horizontally at the bottom. */
+@media (max-width: 767.98px) {
+    .backend-notification {
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%);
+        margin: 0 0 1rem 0 !important;
+        width: calc(100% - 2rem);
+        max-width: 32rem;
+    }
+}
+
 /* Responsive adjustments */
 @media (min-width: 768px) {
     #calendar .fc-header-toolbar .fc-toolbar-chunk {
