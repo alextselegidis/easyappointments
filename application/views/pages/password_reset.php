@@ -33,7 +33,7 @@
                     <i class="fas fa-lock"></i>
                 </span>
                 <input type="password" id="password"
-                       placeholder="<?= lang('enter_password_here') ?>" class="form-control border-start-0 ps-0"/>
+                       placeholder="<?= lang('enter_password_here') ?>" class="form-control border-start-0 ps-2"/>
             </div>
             <small class="text-muted">
                 <?= str_replace('$number', MIN_PASSWORD_LENGTH, lang('password_length_notice')) ?>
@@ -49,7 +49,7 @@
                     <i class="fas fa-lock"></i>
                 </span>
                 <input type="password" id="password-confirm"
-                       placeholder="<?= lang('enter_password_here') ?>" class="form-control border-start-0 ps-0"/>
+                       placeholder="<?= lang('enter_password_here') ?>" class="form-control border-start-0 ps-2"/>
             </div>
         </div>
 

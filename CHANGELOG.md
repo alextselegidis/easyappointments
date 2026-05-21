@@ -9,6 +9,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - Fixed backend calendar appointment modal customer upsert flow to reuse existing customers by email when creating a "new" customer from the modal, so duplicate-email validation no longer blocks saving and the appointment is linked to the existing customer record
 - Fixed login username/password input text touching the left-side add-on icon by restoring horizontal left padding in those input fields
+- Fixed recovery and password reset form inputs with left-side add-on icons so typed text keeps left padding instead of sticking to the icon
 - Fixed backend bottom toast placement on mobile by centering notifications horizontally while keeping them anchored to the bottom
 - Fixed PII disclosure vulnerability in appointment reschedule flow (`application/controllers/Booking.php`): customer data was being inlined into the HTML response without field whitelisting, exposing email, phone, address, timezone, custom fields, and other sensitive information to any user in possession of the appointment hash. Customer record is now filtered to only expose necessary fields (id, first_name, last_name) before being embedded in the page
 - Fixed the page header showing a hardcoded blue border on Bootswatch themes that style `.navbar.bg-primary` with a fixed `border-color` (e.g. Cosmo/Lumen) when a custom company color is configured; the company color override now also forces `border-color: var(--bs-primary)` on `#header`, `#book-appointment-wizard #header` and `#frame-footer .backend-link`

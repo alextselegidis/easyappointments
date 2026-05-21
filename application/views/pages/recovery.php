@@ -27,7 +27,7 @@
                 <i class="fas fa-user"></i>
             </span>
             <input type="text" id="username"
-                   placeholder="<?= lang('enter_username_here') ?>" class="form-control border-start-0 ps-0"/>
+                   placeholder="<?= lang('enter_username_here') ?>" class="form-control border-start-0 ps-2"/>
         </div>
     </div>
     
@@ -40,7 +40,7 @@
                 <i class="fas fa-envelope"></i>
             </span>
             <input type="text" id="email"
-                   placeholder="<?= lang('enter_email_here') ?>" class="form-control border-start-0 ps-0"/>
+                   placeholder="<?= lang('enter_email_here') ?>" class="form-control border-start-0 ps-2"/>
         </div>
     </div>
 
