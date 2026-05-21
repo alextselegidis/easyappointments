@@ -21,7 +21,7 @@
                 <i class="fas fa-user "></i>
             </span>
             <input type="text" id="username" 
-                   placeholder="<?= lang('enter_username_here') ?>" class="form-control border-start-0 ps-0" required/>
+                   placeholder="<?= lang('enter_username_here') ?>" class="form-control border-start-0 ps-2" required/>
         </div>
     </div>
 
@@ -34,7 +34,7 @@
                 <i class="fas fa-lock "></i>
             </span>
             <input type="password" id="password" 
-                   placeholder="<?= lang('enter_password_here') ?>" class="form-control border-start-0 ps-0" required/>
+                   placeholder="<?= lang('enter_password_here') ?>" class="form-control border-start-0 ps-2" required/>
         </div>
     </div>
 
