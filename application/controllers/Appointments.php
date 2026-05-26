@@ -152,13 +152,25 @@ class Appointments extends EA_Controller
 
             $appointment = json_decode(request('appointment'), true);
 
+            // Validate decoded appointment is an array
+            if (!is_array($appointment)) {
+                throw new InvalidArgumentException('Invalid appointment data provided.');
+            }
+
+            $user_id = (int) session('user_id');
+            $role_slug = session('role_slug');
+
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                $appointment['id_users_provider'] = $user_id;
+            }
+
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
 
-            $appointment = $this->appointments_model->find($appointment);
+            $appointment = $this->appointments_model->find($appointment_id);
 
             $this->webhooks_client->trigger(WEBHOOK_APPOINTMENT_SAVE, $appointment);
 
@@ -223,8 +235,15 @@ class Appointments extends EA_Controller
                 throw new InvalidArgumentException('Invalid appointment data provided.');
             }
 
+            $user_id = (int) session('user_id');
+            $role_slug = session('role_slug');
+
             if (!empty($appointment['id'])) {
                 $this->check_appointment_access((int) $appointment['id']);
+            }
+
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                $appointment['id_users_provider'] = $user_id;
             }
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
