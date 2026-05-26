@@ -21,7 +21,7 @@
 
                 <button id="cancel-appointment" class="btn btn-warning btn-sm">
                     <i class="fas fa-trash me-2"></i>
-                    <?= lang('cancel') ?>
+                    <?= lang('delete') ?>
                 </button>
             </form>
         </div>
