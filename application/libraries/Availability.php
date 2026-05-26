@@ -589,7 +589,8 @@ class Availability
     {
         $provider_timezone = new DateTimeZone($provider['timezone']);
 
-        $book_advance_timeout = setting('book_advance_timeout');
+        $book_advance_timeout = setting('book_advance_timeout', 0);
+        $book_advance_timeout = is_numeric($book_advance_timeout) ? max(0, (int) $book_advance_timeout) : 0;
 
         $threshold = new DateTime('now', $provider_timezone);
 
@@ -628,7 +629,8 @@ class Availability
     ): array {
         $provider_timezone = new DateTimeZone($provider['timezone']);
 
-        $future_booking_limit = setting('future_booking_limit'); // in days
+        $future_booking_limit = setting('future_booking_limit', 90); // in days
+        $future_booking_limit = is_numeric($future_booking_limit) ? max(0, (int) $future_booking_limit) : 90;
 
         $threshold = new DateTime('now', $provider_timezone);
 
