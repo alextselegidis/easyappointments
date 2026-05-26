@@ -518,12 +518,20 @@ class Google extends EA_Controller
         }
 
         // Store the token into the database for future reference.
-        $oauth_provider_id = session('oauth_provider_id');
+        $oauth_provider_id = filter_var(session('oauth_provider_id'), FILTER_VALIDATE_INT);
+        $user_id = (int) session('user_id');
 
-        if ($oauth_provider_id) {
+        if ($oauth_provider_id && $oauth_provider_id > 0) {
+            if (cannot('edit', PRIV_USERS) && $user_id !== (int) $oauth_provider_id) {
+                show_error('Forbidden', 403);
+
+                return;
+            }
+
             $this->providers_model->set_setting($oauth_provider_id, 'google_sync', true);
             $this->providers_model->set_setting($oauth_provider_id, 'google_token', json_encode($token));
             $this->providers_model->set_setting($oauth_provider_id, 'google_calendar', 'primary');
+            session(['oauth_provider_id' => null]);
 
             // Notify the opener that OAuth completed successfully, then close this popup. Using
             // postMessage ensures the parent only reacts AFTER the server has saved the token,
