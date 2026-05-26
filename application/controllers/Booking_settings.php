@@ -99,6 +99,10 @@ class Booking_settings extends EA_Controller
 
             check('booking_settings', 'array|null');
 
+            $rich_text_settings = [
+                'disable_booking_message',
+            ];
+
             $settings = request('booking_settings', []);
 
             foreach ($settings as $setting) {
@@ -113,6 +117,13 @@ class Booking_settings extends EA_Controller
                     str_starts_with($setting['name'], 'label_custom_field_')
                 ) {
                     $setting['value'] = strip_tags($setting['value'] ?? '');
+                }
+
+                if (
+                    !empty($setting['name']) &&
+                    in_array($setting['name'], $rich_text_settings, true)
+                ) {
+                    $setting['value'] = pure_html($setting['value'] ?? '');
                 }
 
                 $this->settings_model->only($setting, $this->allowed_setting_fields);

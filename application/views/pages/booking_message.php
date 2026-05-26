@@ -9,7 +9,7 @@
 <div class="mb-5">
     <h4 class="mb-5"><?= vars('message_title') ?></h4>
 
-    <p><?= vars('message_text') ?></p>
+    <p><?= pure_html(vars('message_text')) ?></p>
 </div>
 
 <?php end_section('content'); ?>
@@ -23,4 +23,3 @@
 ]); ?>
 
 <?php end_section('scripts'); ?>
-
