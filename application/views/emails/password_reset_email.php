@@ -379,13 +379,13 @@
                         <td class="wrapper">
                             <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                                 <tr>
-                                    <td>
+                                    <td align="center" style="text-align: center;">
                                         <!-- Logo at the top center, embedded as CID -->
                                         <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
-                                        <h2>
+                                        <h2 style="text-align: center;">
                                             <?= $subject ?>
                                         </h2>
-                                        <p>
+                                        <p style="text-align: center;">
                                             <?= $message ?>
                                         </p>
                                         <!-- Reset Password Button -->
