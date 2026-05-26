@@ -444,6 +444,14 @@ class Caldav_sync
             throw new InvalidArgumentException('Invalid CalDAV URL provided.');
         }
 
+        $allow_private_caldav_hosts = defined('Config::ALLOW_PRIVATE_CALDAV_HOSTS')
+            ? (bool) Config::ALLOW_PRIVATE_CALDAV_HOSTS
+            : false;
+
+        if ($allow_private_caldav_hosts) {
+            return;
+        }
+
         $resolved_ips = $this->resolve_host_ips($host);
 
         if (empty($resolved_ips)) {

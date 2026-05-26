@@ -33,6 +33,7 @@ class Config
     const BASE_URL = 'http://localhost';
     const LANGUAGE = 'english';
     const DEBUG_MODE = false;
+    // const ALLOW_PRIVATE_CALDAV_HOSTS = false; // Enable only for local testing.
 
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
