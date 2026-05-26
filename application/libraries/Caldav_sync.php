@@ -28,6 +28,7 @@ use Sabre\VObject\Reader;
  */
 class Caldav_sync
 {
+    // Toggle SSRF host validation here (enabled by default).
     protected bool $enable_ssrf_check = true;
 
     /**
@@ -43,12 +44,8 @@ class Caldav_sync
      *
      * @throws Exception If there is an issue with the initialization.
      */
-    public function __construct(array $params = [])
+    public function __construct()
     {
-        if (array_key_exists('enable_ssrf_check', $params)) {
-            $this->enable_ssrf_check = (bool) $params['enable_ssrf_check'];
-        }
-
         $this->CI = &get_instance();
 
         $this->CI->load->model('appointments_model');

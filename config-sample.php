@@ -33,7 +33,6 @@ class Config
     const BASE_URL = 'http://localhost';
     const LANGUAGE = 'english';
     const DEBUG_MODE = false;
-    // const ENABLE_CALDAV_SSRF_CHECK = true; // Set to false to disable CalDAV SSRF host checks.
 
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
