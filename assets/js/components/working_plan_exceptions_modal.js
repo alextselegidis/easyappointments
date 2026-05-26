@@ -407,6 +407,10 @@ App.Components.WorkingPlanExceptionsModal = (function () {
         $tr.children().trigger('edit');
         App.Utils.UI.initializeTimePicker(
             $tr.find('.working-plan-exceptions-break-start input, .working-plan-exceptions-break-end input'),
+            {
+                static: false,
+                appendTo: document.body,
+            },
         );
         $(this).closest('tr').find('.working-plan-exceptions-break-start').focus();
 
