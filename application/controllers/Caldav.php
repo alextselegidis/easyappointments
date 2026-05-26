@@ -80,9 +80,17 @@ class Caldav extends EA_Controller
                 'success' => true,
             ]);
         } catch (GuzzleException | InvalidArgumentException $e) {
+            log_message('error', 'CalDAV - Connection test failed: ' . $e->getMessage());
+
+            $message = lang('calendar_sync_failed');
+
+            if ($e instanceof RequestException && $e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
+                $message = lang('invalid_credentials_provided');
+            }
+
             json_response([
                 'success' => false,
-                'message' => $e->getMessage(),
+                'message' => $message,
             ]);
         } catch (Throwable $e) {
             json_exception($e);

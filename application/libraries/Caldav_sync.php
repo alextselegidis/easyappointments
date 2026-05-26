@@ -408,9 +408,7 @@ class Caldav_sync
      */
     private function get_http_client(string $caldav_url, string $caldav_username, string $caldav_password): Client
     {
-        if (!filter_var($caldav_url, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException('Invalid CalDAV URL provided: ' . $caldav_url);
-        }
+        $this->assert_safe_caldav_url($caldav_url);
 
         if (!$caldav_username) {
             throw new InvalidArgumentException('Missing CalDAV username');
@@ -428,6 +426,77 @@ class Caldav_sync
             ],
             'auth' => [$caldav_username, $caldav_password],
         ]);
+    }
+
+    /**
+     * Ensure CalDAV URLs are valid and point to public network destinations.
+     */
+    private function assert_safe_caldav_url(string $caldav_url): void
+    {
+        if (!filter_var($caldav_url, FILTER_VALIDATE_URL)) {
+            throw new InvalidArgumentException('Invalid CalDAV URL provided.');
+        }
+
+        $scheme = strtolower((string) parse_url($caldav_url, PHP_URL_SCHEME));
+        $host = trim((string) parse_url($caldav_url, PHP_URL_HOST), '[]');
+
+        if (!in_array($scheme, ['http', 'https'], true) || empty($host)) {
+            throw new InvalidArgumentException('Invalid CalDAV URL provided.');
+        }
+
+        $resolved_ips = $this->resolve_host_ips($host);
+
+        if (empty($resolved_ips)) {
+            throw new InvalidArgumentException('CalDAV URL host cannot be resolved.');
+        }
+
+        foreach ($resolved_ips as $resolved_ip) {
+            if (
+                !filter_var(
+                    $resolved_ip,
+                    FILTER_VALIDATE_IP,
+                    FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
+                )
+            ) {
+                throw new InvalidArgumentException('CalDAV URL host is not allowed.');
+            }
+        }
+    }
+
+    /**
+     * Resolve all reachable IPv4/IPv6 addresses for the provided host.
+     */
+    private function resolve_host_ips(string $host): array
+    {
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return [$host];
+        }
+
+        $resolved_ips = [];
+
+        $dns_records = dns_get_record($host, DNS_A + DNS_AAAA);
+
+        if ($dns_records !== false) {
+            foreach ($dns_records as $dns_record) {
+                if (!empty($dns_record['ip'])) {
+                    $resolved_ips[] = $dns_record['ip'];
+                }
+
+                if (!empty($dns_record['ipv6'])) {
+                    $resolved_ips[] = $dns_record['ipv6'];
+                }
+            }
+        }
+
+        if (empty($resolved_ips)) {
+            $ipv4_hosts = gethostbynamel($host);
+
+            if (is_array($ipv4_hosts)) {
+                $resolved_ips = array_merge($resolved_ips, $ipv4_hosts);
+            }
+        }
+
+        return array_values(array_unique($resolved_ips));
     }
 
     /**
