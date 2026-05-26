@@ -31,7 +31,11 @@ class Caldav extends EA_Controller
     {
         parent::__construct();
 
-        $this->load->library('caldav_sync');
+        $this->load->library('caldav_sync', [
+            'enable_ssrf_check' => defined('Config::ENABLE_CALDAV_SSRF_CHECK')
+                ? (bool) Config::ENABLE_CALDAV_SSRF_CHECK
+                : true,
+        ]);
 
         $this->load->model('appointments_model');
         $this->load->model('unavailabilities_model');

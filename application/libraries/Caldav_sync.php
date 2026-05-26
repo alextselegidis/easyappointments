@@ -28,6 +28,8 @@ use Sabre\VObject\Reader;
  */
 class Caldav_sync
 {
+    protected bool $enable_ssrf_check = true;
+
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -41,8 +43,12 @@ class Caldav_sync
      *
      * @throws Exception If there is an issue with the initialization.
      */
-    public function __construct()
+    public function __construct(array $params = [])
     {
+        if (array_key_exists('enable_ssrf_check', $params)) {
+            $this->enable_ssrf_check = (bool) $params['enable_ssrf_check'];
+        }
+
         $this->CI = &get_instance();
 
         $this->CI->load->model('appointments_model');
@@ -444,11 +450,12 @@ class Caldav_sync
             throw new InvalidArgumentException('Invalid CalDAV URL provided.');
         }
 
-        $allow_private_caldav_hosts = defined('Config::ALLOW_PRIVATE_CALDAV_HOSTS')
-            ? (bool) Config::ALLOW_PRIVATE_CALDAV_HOSTS
-            : false;
+        // Local Docker CalDAV host explicitly allowed even when SSRF checks are enabled.
+        if ($scheme === 'http' && strtolower($host) === 'baikal') {
+            return;
+        }
 
-        if ($allow_private_caldav_hosts) {
+        if (!$this->enable_ssrf_check) {
             return;
         }
 
