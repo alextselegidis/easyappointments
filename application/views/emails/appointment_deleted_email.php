@@ -603,11 +603,11 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
 
                                         <br>
 
-                                        <h2>
+                                        <h2 style="text-align: center;">
                                             <?= lang('reason') ?>
                                         </h2>
 
-                                        <p>
+                                        <p style="text-align: center;">
                                             <?= e($reason) ?>
                                         </p>
 

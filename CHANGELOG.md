@@ -50,6 +50,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Centered the reason section in the appointment deleted email so the heading and text align with the rest of the message
 - Release builds now ship only the Google Calendar service instead of every Google API service, keeping the download size small
 - Language switching now works for languages with hyphenated codes such as Brazilian Portuguese and Traditional Chinese
 - Added missing language code mappings for Brazilian Portuguese and Traditional Chinese
@@ -86,7 +87,6 @@ developers to maintain and readjust their custom modifications on the main proje
 - The "Booking Link" label next to the link icon on the Providers and Services pages was replaced with a tooltip on hover for a cleaner look
 - Calendar table view filters now lay out cleanly on mobile, with the provider and service filters on their own rows below the date controls
 - Calendar month view day numbers no longer appear underlined or in the link color
-- Removed noisy warnings that were being written to the logs on every security-related event
 - Webhooks are now triggered only for the exact actions they are subscribed to, instead of matching similarly named actions by substring
 - Google Calendar sync no longer silently drops events from large calendars (more than ~250 events); the sync now pages through all events
 - Fixed a parse error in the Italian, Catalan, French and Luxembourgish translations of the CAPTCHA warning message caused by unescaped apostrophes
