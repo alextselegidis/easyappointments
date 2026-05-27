@@ -3,14 +3,10 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
-## [1.5.2] - 2026-05-26
-
-### Improved
-
+## [1.6.0] - 2026-05-27
 
 ### Added
 
-- Added a "Test" button to the login form
 - Added request method check on each request so that only allowed methods are accepted
 - Add Jitsi integration and link generation for appointments made via the public page
 - Allow providers to toggle the syncing themselves (#1731)
@@ -23,11 +19,18 @@ developers to maintain and readjust their custom modifications on the main proje
 - Add notification prompt when creating new appointments from the calendar page
 - Add notification prompt when deleting appointments from the calendar page
 - Connect RSS updates from the official blog and show them in the about page
-- Add warning alert in ALTCHA settings page when CAPTCHA is not active, with link to Booking Settings
+- ALTCHA integration added as an alternative CAPTCHA step (#1155)
+- Add a legal notice and imprint links to the booking page and the legal settings page (#1407)
+- When someone clicks on password reset, implement a link delivery and not just change the password directly
+- Login / Backend button on the disabled booking page message screen  (#1777)
+- Allow customers to save their information in local storage (#1696)
+- Implementation of additional GDPR features in Easy!Appointments (#535)
+- Allow users to define working plan exceptions for multiple dates (#1706)
+- Add CAPTCHA support for all the public forms in order to block abusive requests (#1754)
+- Add validation when saving the working plan (#1758)
 
 ### Changed
 
-- Renamed notification prompt from "notify customer" to "notify users" to reflect that notifications are sent to all relevant parties
 - Improved CRUD list entries to show pointer cursor when selected
 - Centered and narrowed CRUD list and form content on larger screens for better readability
 - Refactored cleanup logic from Console controller into a dedicated Cleanup library
@@ -39,76 +42,66 @@ developers to maintain and readjust their custom modifications on the main proje
 - Improved appointment deletion flow: ask notification question first, only show the cancellation reason dialog when the user chooses to notify users
 - Restyled secondary action buttons (Cancel, Close) to use the outline secondary variant for a consistent UI
 - Simplified all documentation pages for better readability by non-technical users
-- Removed ALTCHA documentation page
 - Allow users to assign a provider to the service in the services page and update the label (assign the service to)
 - Perform various security optimizations in the app
 - Custom fields are displayed in appointment details popup (#1830)
 - When booking in calendar add a new check that will detect if the selected provider is still available or not
 - If the current user has not available services or providers to be displayed in the public booking page, then show an info message instead of the booking page
-- When someone clicks on password reset, implement a link delivery and not just change the password directly
-- Add validation when saving the working plan (#1758)
-- Login / Backend button on the disabled booking page message screen  (#1777)
-- Add CAPTCHA support for all the public forms in order to block abusive requests (#1754)
-- Allow users to define working plan exceptions for multiple dates (#1706)
-- Allow customers to save their information in local storage (#1696)
-- Add a legal notice and imprint links to the booking page and the legal settings page (#1407)
-- Implementation of additional GDPR features in Easy!Appointments (#535)
-- ALTCHA integration added as an alternative CAPTCHA step (#1155)
 
 ### Fixed
 
-- Fixed release build shipping all Google API service classes by removing `--no-scripts` from the build composer install command, so the `Google\Task\Composer::cleanup` task runs and only the Calendar service is kept
-- Fixed language switching failing for hyphenated languages (e.g. portuguese-br, traditional-chinese) due to overly strict input sanitization
-- Added missing language code mappings for portuguese-br (pt-br) and traditional-chinese (zh-tw)
-- Fixed working plan exception break inputs using wrong Bootstrap size class (input-sm → form-control-sm)
-- Fixed working plan exception "no breaks" placeholder not being removed when adding the first break
-- Fixed account page save failing when phone number is empty due to Users_model requiring phone_number
-- Fixed booking cancellation controller showing success page even when the appointment was not actually deleted due to caught exceptions
-- Fixed booking cancellation always failing due to custom CSRF check that was incompatible with CSRF-excluded booking routes
-- Fixed booking cancellation error page showing generic "appointment not found" instead of the actual error message (e.g. rate limit exceeded)
-- Fixed booking cancellation crashing when cache driver fails to initialize
-- Fixed session cleanup using wrong file prefix (ci_session instead of ea_session)
-- Added automatic storage cleanup with 90-day retention for cache, sessions, and logs
-- Cannot modify appointment if provider changes time zone (#1789)
-- Fix the customer appointment link so that it opens the modal even in the table calendar view
-- Run the session garbage collector once in a while to avoid session bloat (#1793)
-- Customer limit must not allow providers to select customers in the appt modal that they are not connected with
-- Improve the CalDAV syncing compatibility with more systems (#1840)
-- Optimize backend query during booking process (#1721)
-- Add the sequence field in the ICS file so that appointments can be updated when multiple changes are made to the same record
-- Fixed backend calendar appointment modal customer upsert flow to reuse existing customers by email when creating a "new" customer from the modal, so duplicate-email validation no longer blocks saving and the appointment is linked to the existing customer record
-- Fixed login username/password input text touching the left-side add-on icon by restoring horizontal left padding in those input fields
-- Fixed recovery and password reset form inputs with left-side add-on icons so typed text keeps left padding instead of sticking to the icon
-- Fixed backend bottom toast placement on mobile by centering notifications horizontally while keeping them anchored to the bottom
-- Fixed stored XSS in the public disabled-booking message by sanitizing `disable_booking_message` rich-text content on save and sanitizing `message_text` before rendering in `booking_message` view
-- Fixed provider appointment isolation bypass in `appointments/store` and `appointments/update` by forcing provider users to save only to their own `id_users_provider`, and fixed `appointments/store` write-before-crash bug by loading the saved row with `$appointment_id` (instead of passing the appointment array to `find()`)
-- Fixed SSRF risk in CalDAV connection testing by validating CalDAV URLs to allow only publicly routable HTTP/HTTPS hosts (blocking private/reserved targets like loopback, RFC1918 and link-local addresses), and stopped reflecting upstream Guzzle error details in `connect_to_server` responses
-- Added CalDAV SSRF-check toggling directly in `Caldav_sync` (enabled by default), and always allow `http://baikal` for local Docker CalDAV testing while keeping normal host validation for other URLs
-- Fixed Google OAuth provider-rebinding authorization gap by enforcing the same provider ownership/admin permission check in `oauth_callback` before persisting `google_sync`/`google_token` settings
-- Fixed availability calculation warning `DateTime::modify(): Failed to parse time string (+ days)` by normalizing `future_booking_limit` and `book_advance_timeout` settings to safe numeric defaults before building `DateTime::modify()` intervals
-- Fixed working plan exception break time picker dropdown being clipped inside the breaks table/modal by rendering inline-edit time pickers outside the table container (`appendTo: document.body`)
-- Fixed PII disclosure vulnerability in appointment reschedule flow (`application/controllers/Booking.php`): customer data was being inlined into the HTML response without field whitelisting, exposing email, phone, address, timezone, custom fields, and other sensitive information to any user in possession of the appointment hash. Customer record is now filtered to only expose necessary fields (id, first_name, last_name) before being embedded in the page
-- Fixed the page header showing a hardcoded blue border on Bootswatch themes that style `.navbar.bg-primary` with a fixed `border-color` (e.g. Cosmo/Lumen) when a custom company color is configured; the company color override now also forces `border-color: var(--bs-primary)` on `#header`, `#book-appointment-wizard #header` and `#frame-footer .backend-link`
-- Fixed the dynamic company color style overriding direct CSS properties on Bootstrap components (buttons, forms, navs, dropdowns, alerts, list groups) which was breaking the look of the active theme (including Bootswatch themes); the company color override is now restricted to setting Bootstrap CSS variables (`--bs-btn-bg`, `--bs-nav-link-color`, `--bs-pagination-active-bg`, etc.) so themes keep full control of the actual styles. App-specific selectors (header, booking wizard, filter records, existing customers list) are kept as-is. The previous direct Bootstrap component rules are commented out for now to allow testing before final removal
-- Replaced the visible "Booking Link" text next to the link icon on the providers and services backend pages with a Bootstrap tooltip shown on hover, so the icon-only link looks cleaner while still surfacing the label
-- Fixed calendar table view filters rendering poorly on mobile viewports by stacking the provider filter and service filter onto separate full-width rows below the date controls, with each label rendered inline next to its select via a `.filter-group` wrapper
-- Fixed calendar month view day numbers showing an unwanted underline and a link-colored text on all Bootstrap themes by removing the default `<a>` text-decoration and forcing the day-number color to match the column headings (`var(--bs-body-color)`)
-- Fixed noisy `Undefined array key "WARNING"` PHP warnings being logged on every security event because seven call sites used `log_message('warning', ...)` but CodeIgniter 3's logger only accepts `error`, `debug`, `info` and `all`; the unknown level produced an internal warning that the framework then logged. All security-relevant log calls (rate-limit hits, invalid CSRF tokens, unauthorized setting modifications, login throttling) now use the `error` level
-- Fixed webhook client firing webhooks for actions that were not enabled in the UI; the action match used `str_contains` against the comma-separated `actions` field, so e.g. a webhook subscribed only to `service_category_save` was also triggered by `service_save` (substring match). Actions are now split on commas and matched exactly via `in_array`
-- Fixed silent data-loss bug in Google Calendar sync where calendars with more events than fit in a single API page (typically > 250 events when `singleEvents=true` expanded recurring events) silently dropped events from page 2 onwards, leaving the corresponding time slots bookable; `Google_sync::get_sync_events()` now follows `nextPageToken` until exhausted, with a 50-page safety bound and an error log if the bound is reached
-- Fixed PHP parse error in Italian, Catalan, French and Luxembourgish translations of `altcha_captcha_not_active_warning` caused by unescaped apostrophes inside single-quoted strings (`L'impostazione`, `s'utilitzarà`, `n'est`, `D'CAPTCHA`)
-- Fixed Flatpickr month dropdown clipping the bottom of month names (descenders) by giving `.flatpickr-current-month` and `.flatpickr-monthDropdown-months` an auto height with proper line-height and padding-bottom
-- Fixed `notify_users_on_update_question` translations in 40 non-English language files to match the correct English meaning ("send out a notification" instead of "notify the client/customer")
-- Fixed "Call to a member function get() on null" error in Privacy controller's `delete_personal_information` method by adding defensive cache driver checks
-- Fixed unreadable readonly/disabled form fields on dark themes (e.g. Darkly) by using theme-aware background and text colors instead of hardcoded white
-- Fixed dark themes being overridden by a light page background in the backend, booking and message layouts by replacing hardcoded white backgrounds with theme-aware ones, even when a custom company color is configured
-- Fixed low-contrast secondary color on the Darkly theme (buttons, outline buttons, text and links) by lifting the secondary palette to a brighter gray
-- Fixed CRUD/settings page section headings (e.g. "Details") being barely readable on dark themes by removing the hardcoded `text-black-50` Bootstrap class so headings inherit the theme's body color
-- Fixed cards (services, providers, secretaries, customers, integrations) forcing a white background that hid text on dark themes by removing the hardcoded `bg-white` class so cards use the theme's card background
-- Fixed Materia theme inputs showing a full border around the field on focus instead of the Material-style bottom underline (and similar issues on Cosmo alerts and Darkly/Flatly pagination), by replacing invalid `border-width: 0%` declarations with `0` so browsers no longer fall back to the default `medium` border width
-- Fixed missing dropdown caret on timezone select dropdowns and the Google Calendar sync select by switching from Bootstrap's `form-control` class to the correct `form-select` class, by no longer stripping `padding-right` (which hid the caret) on disabled/readonly `.form-select` elements, and by replacing the shorthand `background:` rule on `.form-select` in the default theme with `background-color:` so it no longer wipes out Bootstrap's caret SVG `background-image`
-- Fixed filter-records list entry hover background being unreadable on dark themes by using a theme-aware emphasis overlay (`rgba(var(--bs-emphasis-color-rgb), 0.075)`, the same approach used by Bootstrap's table hover) instead of the hardcoded `--bs-light` variable, and rebuilt `backend.css`/`backend.min.css` so the change actually ships
-- 
+- Release builds now ship only the Google Calendar service instead of every Google API service, keeping the download size small
+- Language switching now works for languages with hyphenated codes such as Brazilian Portuguese and Traditional Chinese
+- Added missing language code mappings for Brazilian Portuguese and Traditional Chinese
+- Working plan exception break inputs now use the correct size and no longer look oversized
+- "No breaks" placeholder is now removed when the first break is added to a working plan exception
+- Account page can now be saved when the phone number field is left empty
+- Booking cancellation no longer shows a success page when the appointment was not actually deleted
+- Booking cancellation no longer fails because of a security check mismatch on public booking routes
+- Booking cancellation error page now shows the real reason (for example "rate limit exceeded") instead of a generic "appointment not found" message
+- Booking cancellation no longer crashes when the cache is unavailable
+- Old session files are now cleaned up properly
+- Added automatic cleanup of cache, sessions and logs older than 90 days
+- Appointments can now be modified after a provider changes their time zone (#1789)
+- Customer appointment link in the table calendar view now opens the appointment modal as expected
+- The session garbage collector now runs periodically to prevent session storage bloat (#1793)
+- Providers can no longer pick customers they are not connected with when the customer visibility limit is enabled
+- Improved CalDAV syncing compatibility with more calendar systems (#1840)
+- Optimized backend queries during the booking process (#1721)
+- Added the sequence field to the ICS file so calendar apps correctly update appointments after multiple changes
+- Creating a "new" customer from the backend calendar appointment modal now reuses the existing customer record when the same email already exists
+- Login page username and password fields now keep proper spacing between the icon and the typed text
+- Password recovery and password reset form inputs now keep proper spacing between the icon and the typed text
+- Bottom toast notifications on mobile are now centered horizontally instead of being stuck to the left edge
+- Fixed a security issue where an administrator could inject scripts into the "booking disabled" message that would then run for every visitor of the public booking page
+- Fixed a security issue where a provider could create or modify appointments under another provider's account
+- Fixed a security issue where the CalDAV connection test could be abused to reach internal services on the server's network or leak error details from those services
+- The CalDAV safety check is now enabled by default and can be toggled inside the CalDAV library, with the local Docker test server always allowed so local setups can still test the integration
+- Fixed a security issue where a backend user could hijack another provider's Google Calendar sync by linking it to their own Google account
+- Fixed a warning that appeared in some availability API responses when booking-window settings were left empty
+- The time picker inside the working plan exception break editor is no longer cropped by the modal and now shows the full dropdown
+- Fixed a privacy issue where the appointment reschedule page exposed more customer details (email, phone, address, custom fields, etc.) than needed; only the customer's name is now embedded in the page
+- The page header now correctly picks up the configured company color on themes that previously kept a hardcoded blue border
+- The custom company color no longer overrides theme styles on buttons, forms, menus, dropdowns, alerts and lists, so the selected theme keeps its intended look
+- The "Booking Link" label next to the link icon on the Providers and Services pages was replaced with a tooltip on hover for a cleaner look
+- Calendar table view filters now lay out cleanly on mobile, with the provider and service filters on their own rows below the date controls
+- Calendar month view day numbers no longer appear underlined or in the link color
+- Removed noisy warnings that were being written to the logs on every security-related event
+- Webhooks are now triggered only for the exact actions they are subscribed to, instead of matching similarly named actions by substring
+- Google Calendar sync no longer silently drops events from large calendars (more than ~250 events); the sync now pages through all events
+- Fixed a parse error in the Italian, Catalan, French and Luxembourgish translations of the CAPTCHA warning message caused by unescaped apostrophes
+- Flatpickr month picker no longer cuts off the bottom of month names with descenders
+- Corrected the "notify users on update" question translation in 40 non-English language files so it matches the intended English meaning
+- Fixed an error when deleting personal information from the Privacy page on installations where the cache is unavailable
+- Read-only and disabled form fields are now readable on dark themes
+- Dark themes are no longer overridden by a light page background, even when a custom company color is configured
+- Improved the contrast of the secondary color on the Darkly theme so buttons, links and text are easier to read
+- Section headings on CRUD and settings pages (e.g. "Details") are now readable on dark themes
+- Cards on the services, providers, secretaries, customers and integrations pages now follow the theme background instead of being forced to white
+- Form inputs on the Materia theme now show the Material-style underline on focus instead of a full border (also fixes related visual glitches on Cosmo alerts and Darkly/Flatly pagination)
+- The dropdown caret is now visible on timezone selects and the Google Calendar sync select across all themes
+- Filter list hover background is now readable on dark themes
+
 ### Removed
 
 - Remove the patch.php file 
