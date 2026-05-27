@@ -50,7 +50,6 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
-- Centered the reason section in the appointment deleted email so the heading and text align with the rest of the message
 - Release builds now ship only the Google Calendar service instead of every Google API service, keeping the download size small
 - Language switching now works for languages with hyphenated codes such as Brazilian Portuguese and Traditional Chinese
 - Added missing language code mappings for Brazilian Portuguese and Traditional Chinese
