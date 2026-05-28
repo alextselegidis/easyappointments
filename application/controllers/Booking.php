@@ -127,6 +127,8 @@ class Booking extends EA_Controller
             return;
         }
 
+        header('X-Frame-Options: ALLOWALL'); // We need this for iframe integrations.
+
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
         $company_color = setting('company_color');

@@ -73,7 +73,7 @@ $route['translate_uri_dashes'] = false;
 |
 */
 
-// header('X-Frame-Options: SAMEORIGIN');
+header('X-Frame-Options: SAMEORIGIN');
 
 /*
 | -------------------------------------------------------------------------
