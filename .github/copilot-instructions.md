@@ -48,6 +48,7 @@
         * `refactor:`
 * Commit messages should be concise but descriptive.
 * Skip adding the "Co-authored-by" line
+* Always commit using the repository's configured git author (`git config user.name` / `user.email`). Never pass `-c user.name=Copilot` or `-c user.email=copilot@github.com` (or any other override) when committing; the commits must be attributed to the human user, not to Copilot.
 
 
 ## Automation
