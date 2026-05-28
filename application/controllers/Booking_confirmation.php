@@ -44,6 +44,8 @@ class Booking_confirmation extends EA_Controller
     {
         $appointment_hash = $this->uri->segment(3);
 
+        allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
+
         $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
         if (empty($occurrences)) {

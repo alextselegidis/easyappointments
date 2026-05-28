@@ -43,6 +43,24 @@ if (!function_exists('sanitize_filename')) {
     }
 }
 
+if (!function_exists('allow_iframe_embedding')) {
+    /**
+     * Allow the current response to be embedded inside an iframe by any origin.
+     *
+     * The global security headers hook sets `X-Frame-Options: SAMEORIGIN` on every
+     * response in order to mitigate clickjacking. The public booking flow, however,
+     * is explicitly designed to be embeddable on third-party websites, so each
+     * endpoint that participates in that flow must override the default.
+     *
+     * Call this from any controller method that is reached (directly or via AJAX
+     * subresources) while the public booking page is rendered inside an iframe.
+     */
+    function allow_iframe_embedding(): void
+    {
+        header('X-Frame-Options: ALLOWALL');
+    }
+}
+
 if (!function_exists('validate_id')) {
     /**
      * Validate that an ID is a positive integer.

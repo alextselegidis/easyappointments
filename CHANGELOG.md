@@ -3,6 +3,12 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Public booking flow endpoints (registration, available hours, unavailable dates, booking confirmation, booking cancellation, CAPTCHA image, ALTCHA challenge, personal information deletion) now allow being embedded in an iframe, so the booking page works correctly on third-party websites
+
 ## [1.6.0] - 2026-05-27
 
 ### Added

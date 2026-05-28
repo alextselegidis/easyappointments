@@ -127,7 +127,7 @@ class Booking extends EA_Controller
             return;
         }
 
-        header('X-Frame-Options: ALLOWALL'); // We need this for iframe integrations.
+        allow_iframe_embedding(); // The booking page is designed to be embeddable in third-party sites.
 
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
@@ -371,6 +371,8 @@ class Booking extends EA_Controller
     {
         try {
             method('post');
+
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
 
             // Verify CSRF token for booking submissions
             $this->verify_csrf_token();
@@ -702,6 +704,8 @@ class Booking extends EA_Controller
         try {
             method('post');
 
+            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -791,6 +795,8 @@ class Booking extends EA_Controller
     {
         try {
             method('get');
+
+            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 

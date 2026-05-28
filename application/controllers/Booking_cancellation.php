@@ -49,6 +49,8 @@ class Booking_cancellation extends EA_Controller
     public function of(string $appointment_hash): void
     {
         try {
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
