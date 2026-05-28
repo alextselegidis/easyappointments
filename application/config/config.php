@@ -420,7 +420,7 @@ $config['csrf_protection'] = true;
 $config['csrf_token_name'] = 'csrf_token';
 $config['csrf_cookie_name'] = 'csrf_cookie';
 $config['csrf_expire'] = 7200;
-$config['csrf_exclude_uris'] = ['api/v1/.*', 'booking/.*', 'booking_cancellation/.*', 'booking_confirmation/.*'];
+$config['csrf_exclude_uris'] = ['api/v1/.*', 'booking/.*', 'booking_cancellation/.*', 'booking_confirmation/.*', 'localization/.*'];
 
 /*
 |--------------------------------------------------------------------------

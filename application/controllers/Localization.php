@@ -32,6 +32,8 @@ class Localization extends EA_Controller
         try {
             method('post');
 
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
+
             check('language', 'string');
 
             $language = request('language');

@@ -7,6 +7,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Changing the language from the public booking page no longer fails with "The action you have requested is not allowed" when the booking page is embedded in a cross-origin iframe
 - Public booking flow endpoints (registration, available hours, unavailable dates, booking confirmation, booking cancellation, CAPTCHA image, ALTCHA challenge, personal information deletion) now allow being embedded in an iframe, so the booking page works correctly on third-party websites
 
 ## [1.6.0] - 2026-05-27
