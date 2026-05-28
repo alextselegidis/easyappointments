@@ -83,22 +83,6 @@ class Booking extends EA_Controller
     }
 
     /**
-     * Verify CSRF token for booking submissions.
-     *
-     * @throws RuntimeException If CSRF token is invalid.
-     */
-    private function verify_csrf_token(): void
-    {
-        $csrf_token = request('csrf_token') ?? $this->input->get_request_header('X-CSRF');
-        $csrf_cookie = $this->input->cookie('csrf_cookie');
-
-        if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
-            log_message('error', 'Invalid CSRF token in booking request from IP: ' . $this->input->ip_address());
-            throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
-        }
-    }
-
-    /**
      * Render the booking page and display the selected appointment.
      *
      * This method will call the "index" callback to handle the page rendering.
@@ -373,9 +357,6 @@ class Booking extends EA_Controller
             method('post');
 
             allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
-
-            // Verify CSRF token for booking submissions
-            $this->verify_csrf_token();
 
             $disable_booking = setting('disable_booking');
 
