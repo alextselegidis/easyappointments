@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Vi erbjuder heltäckande tjänster för egen-hosta
 $lang['go_premium'] = 'Bli Premium';
 $lang['notify_users_on_create_question'] = 'Vill du skicka en avisering om det nya mötet till kunden?';
 $lang['notify_users_on_delete_question'] = 'Vill du skicka en avisering om avbokningen till kunden?';
+
+$lang['sort_services_and_categories'] = 'Aktivera sortering av tjänster och kategorier';
+$lang['sort_services_and_categories_hint'] = 'Visa admin-sorteringskontroller och använd anpassad ordning vid bokning.';
+$lang['move_up'] = 'Flytta upp';
+$lang['move_down'] = 'Flytta ner';
+
 // End

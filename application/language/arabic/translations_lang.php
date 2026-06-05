@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'نقدم خدمات شاملة للبرمجيات 
 $lang['go_premium'] = 'احصل على Premium';
 $lang['notify_users_on_create_question'] = 'هل ترغب في إبلاغ العميل بهذا الموعد الجديد؟';
 $lang['notify_users_on_delete_question'] = 'هل ترغب في إبلاغ العميل بإلغاء الموعد؟';
+
+$lang['sort_services_and_categories'] = 'تفعيل ترتيب الخدمات والفئات';
+$lang['sort_services_and_categories_hint'] = 'إظهار عناصر التحكم في الترتيب للمسؤول واستخدام الترتيب المخصص في الحجز.';
+$lang['move_up'] = 'تحريك لأعلى';
+$lang['move_down'] = 'تحريك لأسفل';
+
 // End

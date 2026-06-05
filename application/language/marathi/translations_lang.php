@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'आम्ही सेल्फ-होस्टे
 $lang['go_premium'] = 'Premium मिळवा';
 $lang['notify_users_on_create_question'] = 'या नवीन भेटीबद्दल ग्राहकाला सूचित करू इच्छिता?';
 $lang['notify_users_on_delete_question'] = 'भेट रद्द झाल्याबद्दल ग्राहकाला सूचित करू इच्छिता?';
+
+$lang['sort_services_and_categories'] = 'सेवा आणि श्रेणी क्रमवारी सक्षम करा';
+$lang['sort_services_and_categories_hint'] = 'व्यवस्थापक क्रमवारी नियंत्रणे दाखवा आणि बुकिंगमध्ये सानुकूल क्रम वापरा.';
+$lang['move_up'] = 'वर हलवा';
+$lang['move_down'] = 'खाली हलवा';
+
 // End

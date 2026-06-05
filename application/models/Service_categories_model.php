@@ -25,6 +25,7 @@ class Service_categories_model extends EA_Model
      */
     protected array $casts = [
         'id' => 'integer',
+        'position' => 'integer',
     ];
 
     /**
@@ -97,6 +98,10 @@ class Service_categories_model extends EA_Model
     {
         $service_category['create_datetime'] = date('Y-m-d H:i:s');
         $service_category['update_datetime'] = date('Y-m-d H:i:s');
+
+        if (!isset($service_category['position'])) {
+            $service_category['position'] = $this->get_next_position();
+        }
 
         if (!$this->db->insert('service_categories', $service_category)) {
             throw new RuntimeException('Could not insert service-category.');
@@ -244,6 +249,70 @@ class Service_categories_model extends EA_Model
         }
 
         return $service_categories;
+    }
+
+    /**
+     * Move a service category one position up or down.
+     *
+     * @param int $service_category_id Service category ID.
+     * @param string $direction Direction, either "up" or "down".
+     */
+    public function move_position(int $service_category_id, string $direction): void
+    {
+        $service_categories = $this->normalize_positions();
+
+        $index = array_search($service_category_id, array_column($service_categories, 'id'), true);
+
+        if ($index === false) {
+            throw new InvalidArgumentException(
+                'The provided service-category ID was not found in the database: ' . $service_category_id,
+            );
+        }
+
+        $target_index = $direction === 'up' ? $index - 1 : $index + 1;
+
+        if (!isset($service_categories[$target_index])) {
+            return;
+        }
+
+        $current = $service_categories[$index];
+        $target = $service_categories[$target_index];
+
+        $this->db->update('service_categories', ['position' => $target['position']], ['id' => $current['id']]);
+        $this->db->update('service_categories', ['position' => $current['position']], ['id' => $target['id']]);
+    }
+
+    /**
+     * Normalize positions and return all service categories in custom order.
+     *
+     * @return array
+     */
+    private function normalize_positions(): array
+    {
+        $service_categories = $this->db
+            ->select('id, position')
+            ->from('service_categories')
+            ->order_by($this->quote_order_by('position ASC, update_datetime DESC, id ASC'))
+            ->get()
+            ->result_array();
+
+        foreach ($service_categories as $index => &$service_category) {
+            $service_category['id'] = (int) $service_category['id'];
+            $service_category['position'] = $index + 1;
+            $this->db->update('service_categories', ['position' => $service_category['position']], [
+                'id' => $service_category['id'],
+            ]);
+        }
+
+        return $service_categories;
+    }
+
+    /**
+     * Get the next available position.
+     */
+    private function get_next_position(): int
+    {
+        return ((int) $this->db->select_max('position')->get('service_categories')->row()->position) + 1;
     }
 
     /**

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ofrojmë shërbime të plota për softuer të vet�
 $lang['go_premium'] = 'Kaloni në Premium';
 $lang['notify_users_on_create_question'] = 'Dëshironi të njoftoni klientin për këtë takim të ri?';
 $lang['notify_users_on_delete_question'] = 'Dëshironi të njoftoni klientin për anulimin e takimit?';
+
+$lang['sort_services_and_categories'] = 'Aktivizo renditjen e shërbimeve dhe kategorive';
+$lang['sort_services_and_categories_hint'] = 'Trego kontrollet e renditjes admin dhe përdor rendin e personalizuar në rezervim.';
+$lang['move_up'] = 'Lëviz lart';
+$lang['move_down'] = 'Lëviz poshtë';
+
 // End

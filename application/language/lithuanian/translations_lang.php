@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Siūlome visapusiškus sprendimus savarankiškai t
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Ar norite pranešti klientui apie šį naują susitikimą?';
 $lang['notify_users_on_delete_question'] = 'Ar norite pranešti klientui apie susitikimo atšaukimą?';
+
+$lang['sort_services_and_categories'] = 'Įjungti paslaugų ir kategorijų rūšiavimą';
+$lang['sort_services_and_categories_hint'] = 'Rodyti admin rūšiavimo valdiklius ir naudoti pasirinktinę tvarką rezervuojant.';
+$lang['move_up'] = 'Perkelti aukštyn';
+$lang['move_down'] = 'Perkelti žemyn';
+
 // End

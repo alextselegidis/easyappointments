@@ -574,4 +574,10 @@ $lang['about_app_premium'] = '我们为自托管软件提供端到端服务，�
 $lang['go_premium'] = '升级 Premium';
 $lang['notify_users_on_create_question'] = '您想通知客户这个新预约吗？';
 $lang['notify_users_on_delete_question'] = '您想通知客户预约取消吗？';
+
+$lang['sort_services_and_categories'] = '启用服务和分类排序';
+$lang['sort_services_and_categories_hint'] = '显示管理排序控件并在预订中使用自定义顺序。';
+$lang['move_up'] = '上移';
+$lang['move_down'] = '下移';
+
 // End

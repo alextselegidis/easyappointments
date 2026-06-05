@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferim servicii complete pentru software auto-găz
 $lang['go_premium'] = 'Treceți la Premium';
 $lang['notify_users_on_create_question'] = 'Doriți să notificați clientul despre această nouă programare?';
 $lang['notify_users_on_delete_question'] = 'Doriți să notificați clientul despre anularea programării?';
+
+$lang['sort_services_and_categories'] = 'Activați sortarea serviciilor și categoriilor';
+$lang['sort_services_and_categories_hint'] = 'Afișați comenzile de sortare admin și folosiți ordinea personalizată în rezervare.';
+$lang['move_up'] = 'Mută sus';
+$lang['move_down'] = 'Mută jos';
+
 // End

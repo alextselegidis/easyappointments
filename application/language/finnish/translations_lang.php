@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Tarjoamme kokonaispalveluja itse ylläpidetylle oh
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Haluatko ilmoittaa asiakkaalle tästä uudesta ajanvarauksesta?';
 $lang['notify_users_on_delete_question'] = 'Haluatko ilmoittaa asiakkaalle ajanvarauksen peruutuksesta?';
+
+$lang['sort_services_and_categories'] = 'Ota käyttöön palveluiden ja kategorioiden lajittelu';
+$lang['sort_services_and_categories_hint'] = 'Näytä ylläpidon lajittelusäätimet ja käytä mukautettua järjestystä varauksessa.';
+$lang['move_up'] = 'Siirrä ylös';
+$lang['move_down'] = 'Siirrä alas';
+
 // End

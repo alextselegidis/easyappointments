@@ -122,6 +122,26 @@ App.Http.Services = (function () {
         return $.post(url, data);
     }
 
+    /**
+     * Move a service one position up or down.
+     *
+     * @param {Number} serviceId
+     * @param {String} direction
+     *
+     * @return {Object}
+     */
+    function movePosition(serviceId, direction) {
+        const url = App.Utils.Url.siteUrl('services/move_position');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            service_id: serviceId,
+            direction,
+        };
+
+        return $.post(url, data);
+    }
+
     return {
         save,
         store,
@@ -129,5 +149,6 @@ App.Http.Services = (function () {
         destroy,
         search,
         find,
+        movePosition,
     };
 })();

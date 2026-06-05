@@ -574,4 +574,10 @@ $lang['about_app_premium'] = '我們為自架軟體提供端到端服務，包�
 $lang['go_premium'] = '升級 Premium';
 $lang['notify_users_on_create_question'] = '您想通知客戶這個新預約嗎？';
 $lang['notify_users_on_delete_question'] = '您想通知客戶預約取消嗎？';
+
+$lang['sort_services_and_categories'] = '啟用服務與分類排序';
+$lang['sort_services_and_categories_hint'] = '顯示管理排序控制項並在預訂中使用自訂順序。';
+$lang['move_up'] = '上移';
+$lang['move_down'] = '下移';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Προσφέρουμε ολοκληρωμένες 
 $lang['go_premium'] = 'Αναβάθμιση σε Premium';
 $lang['notify_users_on_create_question'] = 'Θέλετε να ειδοποιήσετε τον πελάτη για αυτό το νέο ραντεβού;';
 $lang['notify_users_on_delete_question'] = 'Θέλετε να ειδοποιήσετε τον πελάτη για την ακύρωση του ραντεβού;';
+
+$lang['sort_services_and_categories'] = 'Ενεργοποίηση ταξινόμησης υπηρεσιών και κατηγοριών';
+$lang['sort_services_and_categories_hint'] = 'Εμφάνιση στοιχείων ελέγχου ταξινόμησης διαχειριστή και χρήση προσαρμοσμένης σειράς στην κράτηση.';
+$lang['move_up'] = 'Μετακίνηση πάνω';
+$lang['move_down'] = 'Μετακίνηση κάτω';
+
 // End

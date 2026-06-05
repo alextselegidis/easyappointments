@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'セルフホスティングソフトウェア向�
 $lang['go_premium'] = 'Premium にアップグレード';
 $lang['notify_users_on_create_question'] = 'この新しい予約についてお客様に通知しますか？';
 $lang['notify_users_on_delete_question'] = '予約のキャンセルについてお客様に通知しますか？';
+
+$lang['sort_services_and_categories'] = 'サービスとカテゴリの並べ替えを有効にする';
+$lang['sort_services_and_categories_hint'] = '管理画面の並べ替えコントロールを表示し、予約時にカスタム順序を使用します。';
+$lang['move_up'] = '上に移動';
+$lang['move_down'] = '下に移動';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Nudimo kompletne usluge za samostalno hostovan sof
 $lang['go_premium'] = 'Postanite Premium';
 $lang['notify_users_on_create_question'] = 'Želite li obavijestiti klijenta o ovom novom terminu?';
 $lang['notify_users_on_delete_question'] = 'Želite li obavijestiti klijenta o otkazivanju termina?';
+
+$lang['sort_services_and_categories'] = 'Omogući sortiranje usluga i kategorija';
+$lang['sort_services_and_categories_hint'] = 'Prikaži kontrole sortiranja za admina i koristi prilagođeni redoslijed pri rezervaciji.';
+$lang['move_up'] = 'Pomjeri gore';
+$lang['move_down'] = 'Pomjeri dolje';
+
 // End

@@ -29,6 +29,7 @@ App.Pages.Services = (function () {
     const $description = $('#description');
     const $filterServices = $('#filter-services');
     const $color = $('#color');
+    const customSortingEnabled = Boolean(vars('custom_sorting_enabled'));
     let filterResults = {};
     let filterLimit = 20;
 
@@ -100,6 +101,26 @@ App.Pages.Services = (function () {
             App.Components.ColorSelection.enable($color);
             $('#service-providers input:checkbox').prop('disabled', false);
             $('#select-all-providers, #select-none-providers').prop('disabled', false);
+        });
+
+        /**
+         * Event: Move Service Button "Click"
+         */
+        $services.on('click', '.move-service', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if ($filterServices.find('.filter').prop('disabled')) {
+                return;
+            }
+
+            const $button = $(event.currentTarget);
+
+            App.Http.Services.movePosition($button.closest('.service-row').data('id'), $button.data('direction')).then(
+                () => {
+                    App.Pages.Services.filter($filterServices.find('.key').val(), $id.val() || null, Boolean($id.val()));
+                },
+            );
         });
 
         /**
@@ -405,9 +426,7 @@ App.Pages.Services = (function () {
 
             $filterServices.find('.results').empty();
 
-            response.forEach((service) => {
-                $filterServices.find('.results').append(App.Pages.Services.getFilterHtml(service)).append($('<hr/>'));
-            });
+            renderGroupedFilterResults(response);
 
             if (response.length === 0) {
                 $filterServices.find('.results').append(
@@ -434,6 +453,56 @@ App.Pages.Services = (function () {
     }
 
     /**
+     * Render services grouped by category.
+     *
+     * @param {Array} services
+     */
+    function renderGroupedFilterResults(services) {
+        const groupedServices = {};
+        const uncategorizedServices = [];
+
+        services.forEach((service) => {
+            if (!service.service_category_id) {
+                uncategorizedServices.push(service);
+                return;
+            }
+
+            const categoryName = service.service_category_name || lang('category');
+
+            if (!groupedServices[categoryName]) {
+                groupedServices[categoryName] = [];
+            }
+
+            groupedServices[categoryName].push(service);
+        });
+
+        Object.keys(groupedServices).forEach((categoryName) => {
+            appendCategoryGroup(categoryName, groupedServices[categoryName]);
+        });
+
+        if (uncategorizedServices.length) {
+            appendCategoryGroup(lang('no_category'), uncategorizedServices);
+        }
+    }
+
+    /**
+     * Append a category group to the results list.
+     *
+     * @param {String} categoryName
+     * @param {Array} services
+     */
+    function appendCategoryGroup(categoryName, services) {
+        $('<div/>', {
+            'class': 'text-muted text-uppercase small fw-bold mb-2 mt-3',
+            'text': categoryName,
+        }).appendTo($filterServices.find('.results'));
+
+        services.forEach((service) => {
+            $filterServices.find('.results').append(App.Pages.Services.getFilterHtml(service)).append($('<hr/>'));
+        });
+    }
+
+    /**
      * Get Filter HTML
      *
      * Get a service row HTML code that is going to be displayed on the filter results list.
@@ -447,10 +516,37 @@ App.Pages.Services = (function () {
 
         const info = service.duration + ' min - ' + service.price + ' ' + service.currency;
 
+        const controls = customSortingEnabled && !$filterServices.find('.key').val()
+            ? $('<span/>', {
+                  'class': 'btn-group btn-group-sm float-end',
+                  'html': [
+                      $('<button/>', {
+                          'type': 'button',
+                          'class': 'btn btn-outline-secondary move-service',
+                          'data-direction': 'up',
+                          'title': lang('move_up'),
+                          'html': $('<i/>', {
+                              'class': 'fas fa-arrow-up',
+                          }),
+                      }),
+                      $('<button/>', {
+                          'type': 'button',
+                          'class': 'btn btn-outline-secondary move-service',
+                          'data-direction': 'down',
+                          'title': lang('move_down'),
+                          'html': $('<i/>', {
+                              'class': 'fas fa-arrow-down',
+                          }),
+                      }),
+                  ],
+              })
+            : null;
+
         return $('<div/>', {
             'class': 'service-row entry',
             'data-id': service.id,
             'html': [
+                controls,
                 $('<strong/>', {
                     'text': name,
                 }),
@@ -524,5 +620,6 @@ App.Pages.Services = (function () {
         display,
         select,
         addEventListeners,
+        renderGroupedFilterResults,
     };
 })();

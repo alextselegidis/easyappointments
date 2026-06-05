@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Kendi sunucunuzda barındırılan yazılımlar iç
 $lang['go_premium'] = 'Premium\'a Geç';
 $lang['notify_users_on_create_question'] = 'Bu yeni randevu hakkında müşteriyi bilgilendirmek ister misiniz?';
 $lang['notify_users_on_delete_question'] = 'Randevu iptali hakkında müşteriyi bilgilendirmek ister misiniz?';
+
+$lang['sort_services_and_categories'] = 'Hizmet ve Kategori Sıralamasını Etkinleştir';
+$lang['sort_services_and_categories_hint'] = 'Yönetici sıralama kontrollerini göster ve rezervasyonda özel sırayı kullan.';
+$lang['move_up'] = 'Yukarı Taşı';
+$lang['move_down'] = 'Aşağı Taşı';
+
 // End

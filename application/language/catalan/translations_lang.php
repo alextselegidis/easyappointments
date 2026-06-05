@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferim serveis d\'extrem a extrem per a programari
 $lang['go_premium'] = 'Passa\'t a Premium';
 $lang['notify_users_on_create_question'] = 'Voleu notificar el client sobre aquesta nova cita?';
 $lang['notify_users_on_delete_question'] = 'Voleu notificar el client sobre la cancel·lació de la cita?';
+
+$lang['sort_services_and_categories'] = 'Activar l\'ordenació de serveis i categories';
+$lang['sort_services_and_categories_hint'] = 'Mostrar els controls d\'ordenació admin i utilitzar l\'ordre personalitzat a la reserva.';
+$lang['move_up'] = 'Pujar';
+$lang['move_down'] = 'Baixar';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'हम स्व-होस्टेड सॉफ�
 $lang['go_premium'] = 'Premium पाएँ';
 $lang['notify_users_on_create_question'] = 'क्या आप इस नई अपॉइंटमेंट के बारे में ग्राहक को सूचित करना चाहेंगे?';
 $lang['notify_users_on_delete_question'] = 'क्या आप अपॉइंटमेंट रद्द होने के बारे में ग्राहक को सूचित करना चाहेंगे?';
+
+$lang['sort_services_and_categories'] = 'सेवा और श्रेणी सॉर्टिंग सक्षम करें';
+$lang['sort_services_and_categories_hint'] = 'व्यवस्थापक सॉर्टिंग नियंत्रण दिखाएं और बुकिंग में कस्टम ऑर्डर का उपयोग करें।';
+$lang['move_up'] = 'ऊपर ले जाएं';
+$lang['move_down'] = 'नीचे ले जाएं';
+
 // End

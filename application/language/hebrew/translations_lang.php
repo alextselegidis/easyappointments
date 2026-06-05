@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'אנו מציעים שירותים מקצה לקצ
 $lang['go_premium'] = 'עבור ל-Premium';
 $lang['notify_users_on_create_question'] = 'האם ברצונך להודיע ללקוח על תור חדש זה?';
 $lang['notify_users_on_delete_question'] = 'האם ברצונך להודיע ללקוח על ביטול התור?';
+
+$lang['sort_services_and_categories'] = 'הפעל מיון שירותים וקטגוריות';
+$lang['sort_services_and_categories_hint'] = 'הצג פקדי מיון מנהל והשתמש בסדר מותאם אישית בהזמנה.';
+$lang['move_up'] = 'העלה למעלה';
+$lang['move_down'] = 'הורד למטה';
+
 // End

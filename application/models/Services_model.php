@@ -29,6 +29,7 @@ class Services_model extends EA_Model
         'attendants_number' => 'integer',
         'is_private' => 'boolean',
         'id_service_categories' => 'integer',
+        'position' => 'integer',
     ];
 
     /**
@@ -146,6 +147,10 @@ class Services_model extends EA_Model
         $provider_ids = $service['providers'] ?? [];
 
         unset($service['providers']);
+
+        if (!isset($service['position'])) {
+            $service['position'] = $this->get_next_position();
+        }
 
         if (!$this->db->insert('services', $service)) {
             throw new RuntimeException('Could not insert service.');
@@ -311,6 +316,10 @@ class Services_model extends EA_Model
      */
     public function get_available_services(bool $without_private = false): array
     {
+        $order_by = setting('sort_services_and_categories', '0')
+            ? 'service_categories.position ASC, services.position ASC, services.update_datetime DESC'
+            : 'services.name ASC';
+
         if ($without_private) {
             $this->db->where('services.is_private', false);
         }
@@ -318,12 +327,12 @@ class Services_model extends EA_Model
         $services = $this->db
             ->distinct()
             ->select(
-                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
+                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id, service_categories.position AS service_category_position',
             )
-            ->from('services')
-            ->join('services_providers', 'services_providers.id_services = services.id', 'inner')
-            ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
-            ->order_by('name ASC')
+            ->from('services AS services')
+            ->join('services_providers AS services_providers', 'services_providers.id_services = services.id', 'inner')
+            ->join('service_categories AS service_categories', 'service_categories.id = services.id_service_categories', 'left')
+            ->order_by($order_by, '', false)
             ->get()
             ->result_array();
 
@@ -332,6 +341,66 @@ class Services_model extends EA_Model
         }
 
         return $services;
+    }
+
+    /**
+     * Move a service one position up or down.
+     *
+     * @param int $service_id Service ID.
+     * @param string $direction Direction, either "up" or "down".
+     */
+    public function move_position(int $service_id, string $direction): void
+    {
+        $services = $this->normalize_positions();
+
+        $index = array_search($service_id, array_column($services, 'id'), true);
+
+        if ($index === false) {
+            throw new InvalidArgumentException('The provided service ID was not found in the database: ' . $service_id);
+        }
+
+        $target_index = $direction === 'up' ? $index - 1 : $index + 1;
+
+        if (!isset($services[$target_index])) {
+            return;
+        }
+
+        $current = $services[$index];
+        $target = $services[$target_index];
+
+        $this->db->update('services', ['position' => $target['position']], ['id' => $current['id']]);
+        $this->db->update('services', ['position' => $current['position']], ['id' => $target['id']]);
+    }
+
+    /**
+     * Normalize positions and return all services in custom order.
+     *
+     * @return array
+     */
+    private function normalize_positions(): array
+    {
+        $services = $this->db
+            ->select('id, position')
+            ->from('services')
+            ->order_by($this->quote_order_by('position ASC, update_datetime DESC, id ASC'))
+            ->get()
+            ->result_array();
+
+        foreach ($services as $index => &$service) {
+            $service['id'] = (int) $service['id'];
+            $service['position'] = $index + 1;
+            $this->db->update('services', ['position' => $service['position']], ['id' => $service['id']]);
+        }
+
+        return $services;
+    }
+
+    /**
+     * Get the next available position.
+     */
+    private function get_next_position(): int
+    {
+        return ((int) $this->db->select_max('position')->get('services')->row()->position) + 1;
     }
 
     /**
@@ -390,11 +459,15 @@ class Services_model extends EA_Model
     public function search(string $keyword, ?int $limit = null, ?int $offset = null, ?string $order_by = null): array
     {
         $services = $this->db
-            ->select()
+            ->select(
+                'services.*, service_categories.name AS service_category_name, service_categories.id AS service_category_id',
+            )
             ->from('services')
+            ->join('service_categories', 'service_categories.id = services.id_service_categories', 'left')
             ->group_start()
-            ->like('name', $keyword)
-            ->or_like('description', $keyword)
+            ->like('services.name', $keyword)
+            ->or_like('services.description', $keyword)
+            ->or_like('service_categories.name', $keyword)
             ->group_end()
             ->limit($limit)
             ->offset($offset)

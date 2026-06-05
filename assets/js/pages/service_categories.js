@@ -20,6 +20,7 @@ App.Pages.ServiceCategories = (function () {
     const $id = $('#id');
     const $name = $('#name');
     const $description = $('#description');
+    const customSortingEnabled = Boolean(vars('custom_sorting_enabled'));
     let filterResults = {};
     let filterLimit = 20;
 
@@ -73,6 +74,31 @@ App.Pages.ServiceCategories = (function () {
             $serviceCategories.find('.record-details .form-label span').prop('hidden', false);
             $filterServiceCategories.find('button').prop('disabled', true);
             $filterServiceCategories.find('.results').css('color', '#AAA');
+        });
+
+        /**
+         * Event: Move Service-Category Button "Click"
+         */
+        $serviceCategories.on('click', '.move-service-category', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if ($filterServiceCategories.find('.filter').prop('disabled')) {
+                return;
+            }
+
+            const $button = $(event.currentTarget);
+
+            App.Http.ServiceCategories.movePosition(
+                $button.closest('.service-category-row').data('id'),
+                $button.data('direction'),
+            ).then(() => {
+                App.Pages.ServiceCategories.filter(
+                    $filterServiceCategories.find('.key').val(),
+                    $id.val() || null,
+                    Boolean($id.val()),
+                );
+            });
         });
 
         /**
@@ -301,10 +327,37 @@ App.Pages.ServiceCategories = (function () {
      * @return {String} Returns the record HTML code.
      */
     function getFilterHtml(serviceCategory) {
+        const controls = customSortingEnabled && !$filterServiceCategories.find('.key').val()
+            ? $('<span/>', {
+                  'class': 'btn-group btn-group-sm float-end',
+                  'html': [
+                      $('<button/>', {
+                          'type': 'button',
+                          'class': 'btn btn-outline-secondary move-service-category',
+                          'data-direction': 'up',
+                          'title': lang('move_up'),
+                          'html': $('<i/>', {
+                              'class': 'fas fa-arrow-up',
+                          }),
+                      }),
+                      $('<button/>', {
+                          'type': 'button',
+                          'class': 'btn btn-outline-secondary move-service-category',
+                          'data-direction': 'down',
+                          'title': lang('move_down'),
+                          'html': $('<i/>', {
+                              'class': 'fas fa-arrow-down',
+                          }),
+                      }),
+                  ],
+              })
+            : null;
+
         return $('<div/>', {
             'class': 'service-category-row entry',
             'data-id': serviceCategory.id,
             'html': [
+                controls,
                 $('<strong/>', {
                     'text': serviceCategory.name,
                 }),

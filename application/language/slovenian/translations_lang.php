@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ponujamo celovite storitve za samo-gostovano progr
 $lang['go_premium'] = 'Nadgradi na Premium';
 $lang['notify_users_on_create_question'] = 'Ali želite stranko obvestiti o tem novem terminu?';
 $lang['notify_users_on_delete_question'] = 'Ali želite stranko obvestiti o preklicu termina?';
+
+$lang['sort_services_and_categories'] = 'Omogoči razvrščanje storitev in kategorij';
+$lang['sort_services_and_categories_hint'] = 'Prikaži kontrole razvrščanja za admina in uporabi prilagojen vrstni red pri rezervaciji.';
+$lang['move_up'] = 'Premakni gor';
+$lang['move_down'] = 'Premakni dol';
+
 // End

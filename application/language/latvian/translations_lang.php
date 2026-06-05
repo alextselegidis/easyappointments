@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Mēs piedāvājam pilna cikla pakalpojumus pašmit
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Vai vēlaties informēt klientu par šo jauno tikšanos?';
 $lang['notify_users_on_delete_question'] = 'Vai vēlaties informēt klientu par tikšanās atcelšanu?';
+
+$lang['sort_services_and_categories'] = 'Aktivizēt pakalpojumu un kategoriju kārtošanu';
+$lang['sort_services_and_categories_hint'] = 'Parādīt admin kārtošanas vadīklas un izmantot pielāgoto secību rezervēšanā.';
+$lang['move_up'] = 'Pārvietot uz augšu';
+$lang['move_down'] = 'Pārvietot uz leju';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ponúkame komplexné služby pre self-hosted softv
 $lang['go_premium'] = 'Prejsť na Premium';
 $lang['notify_users_on_create_question'] = 'Chcete zákazníka informovať o tomto novom termíne?';
 $lang['notify_users_on_delete_question'] = 'Chcete zákazníka informovať o zrušení termínu?';
+
+$lang['sort_services_and_categories'] = 'Povoliť triedenie služieb a kategórií';
+$lang['sort_services_and_categories_hint'] = 'Zobraziť ovládacie prvky triedenia pre admina a použiť vlastné poradie pri rezervácii.';
+$lang['move_up'] = 'Posunúť hore';
+$lang['move_down'] = 'Posunúť dole';
+
 // End

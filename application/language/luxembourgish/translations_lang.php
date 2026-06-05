@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Mir bidden End-to-End Servicer fir selbst-gehost S
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Wëllt Dir de Client iwwer dësen neien Rendez-vous informéieren?';
 $lang['notify_users_on_delete_question'] = 'Wëllt Dir de Client iwwer d\'Annulléierung vum Rendez-vous informéieren?';
+
+$lang['sort_services_and_categories'] = 'Service a Kategorien Zortéierung aktivéieren';
+$lang['sort_services_and_categories_hint'] = 'Admin Zortéierungssteierung uweisen an déi personaliséiert Reiefolleg bei der Buchung benotzen.';
+$lang['move_up'] = 'No uewen';
+$lang['move_down'] = 'No ënnen';
+
 // End

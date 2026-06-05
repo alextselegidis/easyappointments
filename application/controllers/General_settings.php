@@ -97,6 +97,7 @@ class General_settings extends EA_Controller
         'date_format',
         'time_format',
         'first_weekday',
+        'sort_services_and_categories',
         'require_phone_number',
         'display_cookie_notice',
         'cookie_notice_content',

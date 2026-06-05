@@ -105,7 +105,8 @@ class Providers extends EA_Controller
 
         $role_slug = session('role_slug');
 
-        $services = $this->services_model->get();
+        $services_order = setting('sort_services_and_categories', '0') ? 'position ASC, update_datetime DESC' : null;
+        $services = $this->services_model->get(null, null, null, $services_order);
 
         foreach ($services as &$service) {
             $this->services_model->only($service, $this->allowed_service_fields);
@@ -131,7 +132,7 @@ class Providers extends EA_Controller
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
             'grouped_timezones' => $this->timezones->to_grouped_array(),
             'privileges' => $this->roles_model->get_permissions_by_slug($role_slug),
-            'services' => $this->services_model->get(),
+            'services' => $services,
         ]);
 
         $this->load->view('pages/providers');

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Offriamo servizi completi per software self-hosted
 $lang['go_premium'] = 'Passa a Premium';
 $lang['notify_users_on_create_question'] = 'Vuoi notificare il cliente di questo nuovo appuntamento?';
 $lang['notify_users_on_delete_question'] = 'Vuoi notificare il cliente della cancellazione dell\'appuntamento?';
+
+$lang['sort_services_and_categories'] = 'Abilita ordinamento servizi e categorie';
+$lang['sort_services_and_categories_hint'] = 'Mostra i controlli di ordinamento admin e utilizza l\'ordine personalizzato nella prenotazione.';
+$lang['move_up'] = 'Sposta su';
+$lang['move_down'] = 'Sposta giù';
+
 // End

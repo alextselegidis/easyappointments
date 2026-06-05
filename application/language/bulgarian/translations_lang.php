@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Предлагаме цялостни услуги
 $lang['go_premium'] = 'Към Premium';
 $lang['notify_users_on_create_question'] = 'Желаете ли да уведомите клиента за тази нова среща?';
 $lang['notify_users_on_delete_question'] = 'Желаете ли да уведомите клиента за отмяната на срещата?';
+
+$lang['sort_services_and_categories'] = 'Активиране на сортиране на услуги и категории';
+$lang['sort_services_and_categories_hint'] = 'Показване на контроли за сортиране за администратора и използване на персонализиран ред при резервация.';
+$lang['move_up'] = 'Нагоре';
+$lang['move_down'] = 'Надолу';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferecemos serviços completos para software auto-
 $lang['go_premium'] = 'Obter Premium';
 $lang['notify_users_on_create_question'] = 'Gostaria de notificar o cliente sobre este novo agendamento?';
 $lang['notify_users_on_delete_question'] = 'Gostaria de notificar o cliente sobre o cancelamento do agendamento?';
+
+$lang['sort_services_and_categories'] = 'Ativar ordenação de serviços e categorias';
+$lang['sort_services_and_categories_hint'] = 'Mostrar controles de ordenação admin e usar a ordem personalizada na reserva.';
+$lang['move_up'] = 'Mover para cima';
+$lang['move_down'] = 'Mover para baixo';
+
 // End

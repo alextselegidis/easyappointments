@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ми пропонуємо комплексні п�
 $lang['go_premium'] = 'Перейти на Premium';
 $lang['notify_users_on_create_question'] = 'Бажаєте повідомити клієнта про цей новий запис?';
 $lang['notify_users_on_delete_question'] = 'Бажаєте повідомити клієнта про скасування запису?';
+
+$lang['sort_services_and_categories'] = 'Увімкнути сортування послуг і категорій';
+$lang['sort_services_and_categories_hint'] = 'Показувати елементи керування сортуванням і використовувати користувацький порядок при бронюванні.';
+$lang['move_up'] = 'Вгору';
+$lang['move_down'] = 'Вниз';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Pakume täisteenust ise majutatud tarkvarale, seal
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Kas soovite klienti sellest uuest kohtumisest teavitada?';
 $lang['notify_users_on_delete_question'] = 'Kas soovite klienti kohtumise tühistamisest teavitada?';
+
+$lang['sort_services_and_categories'] = 'Luba teenuste ja kategooriate sortimine';
+$lang['sort_services_and_categories_hint'] = 'Kuva administraatori sortimise juhtelemendid ja kasuta broneerimisel kohandatud järjestust.';
+$lang['move_up'] = 'Liiguta üles';
+$lang['move_down'] = 'Liiguta alla';
+
 // End

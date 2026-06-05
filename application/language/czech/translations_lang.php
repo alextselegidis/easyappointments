@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Nabízíme komplexní služby pro self-hosted soft
 $lang['go_premium'] = 'Přejít na Premium';
 $lang['notify_users_on_create_question'] = 'Chcete zákazníka informovat o této nové schůzce?';
 $lang['notify_users_on_delete_question'] = 'Chcete zákazníka informovat o zrušení schůzky?';
+
+$lang['sort_services_and_categories'] = 'Povolit řazení služeb a kategorií';
+$lang['sort_services_and_categories_hint'] = 'Zobrazit ovládací prvky řazení pro admina a použít vlastní pořadí při rezervaci.';
+$lang['move_up'] = 'Posunout nahoru';
+$lang['move_down'] = 'Posunout dolů';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Vi tilbyder helhedstjenester for selvhostet softwa
 $lang['go_premium'] = 'Bliv Premium';
 $lang['notify_users_on_create_question'] = 'Vil du give kunden besked om denne nye aftale?';
 $lang['notify_users_on_delete_question'] = 'Vil du give kunden besked om aflysningen af aftalen?';
+
+$lang['sort_services_and_categories'] = 'Aktiver sortering af tjenester og kategorier';
+$lang['sort_services_and_categories_hint'] = 'Vis admin-sorteringskontroller og brug tilpasset rækkefølge ved booking.';
+$lang['move_up'] = 'Flyt op';
+$lang['move_down'] = 'Flyt ned';
+
 // End

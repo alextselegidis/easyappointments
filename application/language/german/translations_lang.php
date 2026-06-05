@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Wir bieten umfassende Dienstleistungen für selbst
 $lang['go_premium'] = 'Premium erwerben';
 $lang['notify_users_on_create_question'] = 'Möchten Sie den Kunden über diesen neuen Termin informieren?';
 $lang['notify_users_on_delete_question'] = 'Möchten Sie den Kunden über die Stornierung des Termins informieren?';
+
+$lang['sort_services_and_categories'] = 'Sortierung von Dienstleistungen und Kategorien aktivieren';
+$lang['sort_services_and_categories_hint'] = 'Admin-Sortiersteuerung anzeigen und benutzerdefinierte Reihenfolge bei der Buchung verwenden.';
+$lang['move_up'] = 'Nach oben';
+$lang['move_down'] = 'Nach unten';
+
 // End

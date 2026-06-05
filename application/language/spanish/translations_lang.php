@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ofrecemos servicios integrales para software autoa
 $lang['go_premium'] = 'Obtener Premium';
 $lang['notify_users_on_create_question'] = '¿Desea notificar al cliente sobre esta nueva cita?';
 $lang['notify_users_on_delete_question'] = '¿Desea notificar al cliente sobre la cancelación de la cita?';
+
+$lang['sort_services_and_categories'] = 'Activar ordenación de servicios y categorías';
+$lang['sort_services_and_categories_hint'] = 'Mostrar controles de ordenación admin y usar el orden personalizado en la reserva.';
+$lang['move_up'] = 'Subir';
+$lang['move_down'] = 'Bajar';
+
 // End

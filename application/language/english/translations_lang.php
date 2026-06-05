@@ -574,4 +574,8 @@ $lang['about_app_premium'] = 'We offer end-to-end services for self-hosted softw
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Would you like to send out a notification about this change?';
 $lang['notify_users_on_delete_question'] = 'Would you like to send out a notification about this change?';
+$lang['sort_services_and_categories'] = 'Enable Service & Category Sorting';
+$lang['sort_services_and_categories_hint'] = 'Show admin sorting controls and use the custom order in booking.';
+$lang['move_up'] = 'Move Up';
+$lang['move_down'] = 'Move Down';
 // End

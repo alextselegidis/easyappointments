@@ -122,6 +122,26 @@ App.Http.ServiceCategories = (function () {
         return $.post(url, data);
     }
 
+    /**
+     * Move a service-category one position up or down.
+     *
+     * @param {Number} serviceCategoryId
+     * @param {String} direction
+     *
+     * @return {Object}
+     */
+    function movePosition(serviceCategoryId, direction) {
+        const url = App.Utils.Url.siteUrl('service_categories/move_position');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            service_category_id: serviceCategoryId,
+            direction,
+        };
+
+        return $.post(url, data);
+    }
+
     return {
         save,
         store,
@@ -129,5 +149,6 @@ App.Http.ServiceCategories = (function () {
         destroy,
         search,
         find,
+        movePosition,
     };
 })();

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'เรามีบริการครบวง�
 $lang['go_premium'] = 'อัปเกรด Premium';
 $lang['notify_users_on_create_question'] = 'คุณต้องการแจ้งลูกค้าเกี่ยวกับการนัดหมายใหม่นี้หรือไม่?';
 $lang['notify_users_on_delete_question'] = 'คุณต้องการแจ้งลูกค้าเกี่ยวกับการยกเลิกนัดหมายนี้หรือไม่?';
+
+$lang['sort_services_and_categories'] = 'เปิดใช้งานการจัดเรียงบริการและหมวดหมู่';
+$lang['sort_services_and_categories_hint'] = 'แสดงตัวควบคุมการจัดเรียงสำหรับผู้ดูแลและใช้ลำดับที่กำหนดเองในการจอง';
+$lang['move_up'] = 'เลื่อนขึ้น';
+$lang['move_down'] = 'เลื่อนลง';
+
 // End

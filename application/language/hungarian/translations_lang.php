@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Átfogó szolgáltatásokat kínálunk saját üze
 $lang['go_premium'] = 'Premium verzió';
 $lang['notify_users_on_create_question'] = 'Szeretné értesíteni az ügyfelet erről az új időpontról?';
 $lang['notify_users_on_delete_question'] = 'Szeretné értesíteni az ügyfelet az időpont törléséről?';
+
+$lang['sort_services_and_categories'] = 'Szolgáltatások és kategóriák rendezésének engedélyezése';
+$lang['sort_services_and_categories_hint'] = 'Admin rendezési vezérlők megjelenítése és egyéni sorrend használata a foglalásnál.';
+$lang['move_up'] = 'Fel';
+$lang['move_down'] = 'Le';
+
 // End

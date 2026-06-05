@@ -192,6 +192,24 @@
                                     </div>
                                 </div>
 
+                                <div class="border rounded mb-3 p-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox"
+                                               id="sort-services-and-categories"
+                                               data-field="sort_services_and_categories">
+
+                                        <label class="form-check-label" for="sort-services-and-categories">
+                                            <?= lang('sort_services_and_categories') ?>
+                                        </label>
+                                    </div>
+
+                                    <div class="form-text text-muted">
+                                        <small>
+                                            <?= lang('sort_services_and_categories_hint') ?>
+                                        </small>
+                                    </div>
+                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label" for="default-language">
                                         <?= lang('default_language') ?>

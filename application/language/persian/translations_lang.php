@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'ما خدمات جامع برای نرم‌افز�
 $lang['go_premium'] = 'دریافت Premium';
 $lang['notify_users_on_create_question'] = 'آیا می‌خواهید مشتری را از این نوبت جدید مطلع کنید؟';
 $lang['notify_users_on_delete_question'] = 'آیا می‌خواهید مشتری را از لغو نوبت مطلع کنید؟';
+
+$lang['sort_services_and_categories'] = 'فعال‌سازی مرتب‌سازی خدمات و دسته‌بندی‌ها';
+$lang['sort_services_and_categories_hint'] = 'نمایش کنترل‌های مرتب‌سازی مدیر و استفاده از ترتیب سفارشی در رزرو.';
+$lang['move_up'] = 'انتقال به بالا';
+$lang['move_down'] = 'انتقال به پایین';
+
 // End

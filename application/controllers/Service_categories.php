@@ -68,6 +68,7 @@ class Service_categories extends EA_Controller
         script_vars([
             'user_id' => $user_id,
             'role_slug' => $role_slug,
+            'custom_sorting_enabled' => (bool) setting('sort_services_and_categories', '0'),
         ]);
 
         html_vars([
@@ -100,7 +101,10 @@ class Service_categories extends EA_Controller
 
             $keyword = request('keyword', '');
 
-            $order_by = request('order_by', 'update_datetime DESC');
+            $order_by = request(
+                'order_by',
+                setting('sort_services_and_categories', '0') ? 'position ASC, update_datetime DESC' : 'update_datetime DESC',
+            );
 
             $limit = request('limit', 1000);
 
@@ -251,6 +255,40 @@ class Service_categories extends EA_Controller
             json_response([
                 'success' => true,
             ]);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    /**
+     * Move a service category up or down in the custom order.
+     */
+    public function move_position(): void
+    {
+        try {
+            method('post');
+
+            if (cannot('edit', PRIV_SERVICES)) {
+                abort(403, 'Forbidden');
+            }
+
+            if (!setting('sort_services_and_categories', '0')) {
+                abort(403, 'Service category sorting is disabled.');
+            }
+
+            check('service_category_id', 'numeric');
+            check('direction', 'string');
+
+            $service_category_id = (int) request('service_category_id');
+            $direction = request('direction');
+
+            if (!in_array($direction, ['up', 'down'], true)) {
+                throw new InvalidArgumentException('Invalid sorting direction.');
+            }
+
+            $this->service_categories_model->move_position($service_category_id, $direction);
+
+            json_response(['success' => true]);
         } catch (Throwable $e) {
             json_exception($e);
         }
