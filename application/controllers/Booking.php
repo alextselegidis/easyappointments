@@ -379,6 +379,25 @@ class Booking extends EA_Controller
             $customer = $post_data['customer'] ?? [];
             $manage_mode = filter_var($post_data['manage_mode'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
+            // Security: Verify hash when updating an existing appointment
+            if ($manage_mode && !empty($appointment['id'])) {
+                $appointment_hash = $post_data['appointment_hash'] ?? '';
+                
+                if (empty($appointment_hash)) {
+                    throw new RuntimeException('Appointment hash is required for updates.');
+                }
+                
+                // Verify the hash matches the appointment being updated
+                $existing_appointments = $this->appointments_model->get([
+                    'id' => $appointment['id'],
+                    'hash' => $appointment_hash
+                ]);
+                
+                if (empty($existing_appointments)) {
+                    throw new RuntimeException('Invalid appointment hash or appointment not found.');
+                }
+            }
+
             // Validate required appointment fields
             if (empty($appointment) || !is_array($appointment)) {
                 throw new InvalidArgumentException('Invalid appointment data.');
@@ -399,6 +418,11 @@ class Booking extends EA_Controller
 
             // Sanitize appointment fields - only allow expected fields
             $appointment = array_intersect_key($appointment, array_flip($this->allowed_appointment_fields));
+
+            // Security: Remove appointment ID if not in manage mode to prevent IDOR attacks
+            if (!$manage_mode && isset($appointment['id'])) {
+                unset($appointment['id']);
+            }
 
             if (!array_key_exists('address', $customer)) {
                 $customer['address'] = '';
