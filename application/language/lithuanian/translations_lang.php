@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Siūlome visapusiškus sprendimus savarankiškai t
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Ar norite pranešti klientui apie šį naują susitikimą?';
 $lang['notify_users_on_delete_question'] = 'Ar norite pranešti klientui apie susitikimo atšaukimą?';
+
+$lang['available_hours_layout'] = 'Laisvų valandų išdėstymas';
+$lang['available_hours_layout_hint'] = 'Valdo, kaip laisvos susitikimų valandos rodomos rezervavimo puslapyje.';
+$lang['single_column'] = 'Vienas stulpelis';
+$lang['compact_grid'] = 'Kompaktiškas tinklelis';
+
 // End

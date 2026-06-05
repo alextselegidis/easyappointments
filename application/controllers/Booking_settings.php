@@ -126,6 +126,12 @@ class Booking_settings extends EA_Controller
                     $setting['value'] = pure_html($setting['value'] ?? '');
                 }
 
+                if (($setting['name'] ?? '') === 'available_hours_layout') {
+                    $setting['value'] = in_array($setting['value'] ?? '', ['list', 'grid'], true)
+                        ? $setting['value']
+                        : 'list';
+                }
+
                 $this->settings_model->only($setting, $this->allowed_setting_fields);
 
                 $this->settings_model->optional($setting, $this->optional_setting_fields);

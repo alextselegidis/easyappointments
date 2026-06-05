@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Wir bieten umfassende Dienstleistungen für selbst
 $lang['go_premium'] = 'Premium erwerben';
 $lang['notify_users_on_create_question'] = 'Möchten Sie den Kunden über diesen neuen Termin informieren?';
 $lang['notify_users_on_delete_question'] = 'Möchten Sie den Kunden über die Stornierung des Termins informieren?';
+
+$lang['available_hours_layout'] = 'Layout verfügbarer Zeiten';
+$lang['available_hours_layout_hint'] = 'Steuert, wie verfügbare Terminzeiten auf der Buchungsseite angezeigt werden.';
+$lang['single_column'] = 'Einzelne Spalte';
+$lang['compact_grid'] = 'Kompaktes Raster';
+
 // End

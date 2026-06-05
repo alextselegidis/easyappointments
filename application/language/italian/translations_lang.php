@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Offriamo servizi completi per software self-hosted
 $lang['go_premium'] = 'Passa a Premium';
 $lang['notify_users_on_create_question'] = 'Vuoi notificare il cliente di questo nuovo appuntamento?';
 $lang['notify_users_on_delete_question'] = 'Vuoi notificare il cliente della cancellazione dell\'appuntamento?';
+
+$lang['available_hours_layout'] = 'Disposizione orari disponibili';
+$lang['available_hours_layout_hint'] = 'Controlla come vengono visualizzati gli orari degli appuntamenti disponibili nella pagina di prenotazione.';
+$lang['single_column'] = 'Colonna singola';
+$lang['compact_grid'] = 'Griglia compatta';
+
 // End

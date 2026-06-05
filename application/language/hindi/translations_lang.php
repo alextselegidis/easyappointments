@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'हम स्व-होस्टेड सॉफ�
 $lang['go_premium'] = 'Premium पाएँ';
 $lang['notify_users_on_create_question'] = 'क्या आप इस नई अपॉइंटमेंट के बारे में ग्राहक को सूचित करना चाहेंगे?';
 $lang['notify_users_on_delete_question'] = 'क्या आप अपॉइंटमेंट रद्द होने के बारे में ग्राहक को सूचित करना चाहेंगे?';
+
+$lang['available_hours_layout'] = 'उपलब्ध घंटों का लेआउट';
+$lang['available_hours_layout_hint'] = 'नियंत्रित करता है कि बुकिंग पेज पर उपलब्ध अपॉइंटमेंट घंटे कैसे प्रदर्शित होते हैं।';
+$lang['single_column'] = 'एकल कॉलम';
+$lang['compact_grid'] = 'कॉम्पैक्ट ग्रिड';
+
 // End
