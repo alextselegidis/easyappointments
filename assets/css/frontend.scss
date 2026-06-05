@@ -80,3 +80,121 @@
 #book-appointment-wizard .flatpickr-calendar.inline {
     margin: auto; 
 }
+
+#book-appointment-wizard .service-category-panel {
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-white);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#book-appointment-wizard .service-category-panel.active {
+    border-color: var(--bs-border-color);
+}
+
+#book-appointment-wizard .service-category-toggle,
+#book-appointment-wizard .service-accordion-option {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+}
+
+#book-appointment-wizard .service-category-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 54px;
+    padding: 14px 16px;
+    color: var(--bs-secondary-color);
+    font-size: 1.05rem;
+}
+
+#book-appointment-wizard .service-category-panel.active .service-category-toggle {
+    background: color-mix(in srgb, var(--bs-primary) 10%, transparent);
+    color: var(--bs-primary);
+    font-weight: 600;
+}
+
+#book-appointment-wizard .service-category-toggle[aria-expanded='true'] .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+#book-appointment-wizard .service-category-toggle .fa-chevron-down {
+    flex: 0 0 auto;
+    transition: transform 0.2s ease;
+}
+
+#book-appointment-wizard .service-accordion-option {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: center;
+    min-height: 76px;
+    padding: 14px 16px;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+#book-appointment-wizard .service-accordion-option:hover,
+#book-appointment-wizard .service-accordion-option.selected {
+    background: var(--bs-tertiary-bg);
+}
+
+#book-appointment-wizard .service-option-main,
+#book-appointment-wizard .service-option-side {
+    min-width: 0;
+}
+
+#book-appointment-wizard .service-option-name,
+#book-appointment-wizard .service-option-meta,
+#book-appointment-wizard .service-option-price,
+#book-appointment-wizard .service-option-select {
+    display: block;
+}
+
+#book-appointment-wizard .service-option-name {
+    overflow-wrap: anywhere;
+}
+
+#book-appointment-wizard .service-option-meta {
+    color: var(--bs-secondary-color);
+    font-size: 0.9rem;
+}
+
+#book-appointment-wizard .service-option-side {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#book-appointment-wizard .service-option-price {
+    color: var(--bs-primary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#book-appointment-wizard .service-option-select {
+    border: 1px solid var(--bs-success);
+    border-radius: var(--bs-border-radius);
+    color: var(--bs-success);
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 7px 10px;
+    white-space: nowrap;
+}
+
+#book-appointment-wizard .service-accordion-option.selected .service-option-select {
+    background: var(--bs-success);
+    color: var(--bs-white);
+}
+
+@media (max-width: 575.98px) {
+    #book-appointment-wizard .service-accordion-option {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    #book-appointment-wizard .service-option-side {
+        justify-content: space-between;
+    }
+}
