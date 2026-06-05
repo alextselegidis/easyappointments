@@ -319,6 +319,47 @@ App.Pages.Booking = (function () {
         });
     }
 
+    function scrollToBookingError($target) {
+        if (!$target?.length) {
+            return;
+        }
+
+        const headerHeight = $('#header').outerHeight() || 0;
+        const $fieldTarget = $target.closest('.mb-3, .form-check, .field-col').length
+            ? $target.closest('.mb-3, .form-check, .field-col').first()
+            : $target;
+        const offset = headerHeight + 40;
+        const top = Math.max($fieldTarget.offset().top - offset, 0);
+
+        window.scrollTo({
+            top,
+            behavior: 'smooth',
+        });
+
+        if ($target.is('input, select, textarea, button')) {
+            setTimeout(() => $target[0].focus({preventScroll: true}), 350);
+        }
+    }
+
+    function showBookingAlert(message, $frame = $('.wizard-frame:visible'), $target = null) {
+        $('.booking-step-alert').remove();
+
+        const $alert = $('<div/>', {
+            'class': 'booking-step-alert alert alert-warning shadow-sm',
+            'role': 'alert',
+            'html': $('<span/>', {
+                'text': message,
+            }),
+        });
+
+        $frame.find('.frame-container').first().prepend($alert);
+        scrollToBookingError($target?.length ? $target : $alert);
+    }
+
+    function clearBookingAlert() {
+        $('.booking-step-alert').remove();
+    }
+
     /**
      * Add the page event listeners.
      */
@@ -415,9 +456,12 @@ App.Pages.Booking = (function () {
          */
         $('.button-next').on('click', (event) => {
             const $target = $(event.currentTarget);
+            const $frame = $target.closest('.wizard-frame');
 
             // If we are on the first step and there is no provider selected do not continue with the next step.
             if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
+                const $missingSelection = !$selectService.val() ? $selectService : $selectProvider;
+                showBookingAlert(`${lang('select_service')} / ${lang('select_provider')}`, $frame, $missingSelection);
                 return;
             }
 
@@ -437,13 +481,7 @@ App.Pages.Booking = (function () {
             // If we are on the 2nd tab then the user should have an appointment hour selected.
             if ($target.attr('data-step_index') === '2') {
                 if (!$('.selected-hour').length) {
-                    if (!$('#select-hour-prompt').length) {
-                        $('<div/>', {
-                            'id': 'select-hour-prompt',
-                            'class': 'text-danger mb-4',
-                            'text': lang('appointment_hour_missing'),
-                        }).prependTo('#available-hours');
-                    }
+                    showBookingAlert(lang('appointment_hour_missing'), $frame, $availableHours);
                     return;
                 }
             }
@@ -452,6 +490,11 @@ App.Pages.Booking = (function () {
             // step.
             if ($target.attr('data-step_index') === '3') {
                 if (!App.Pages.Booking.validateCustomerForm()) {
+                    showBookingAlert(
+                        $('#form-message').text() || lang('fields_are_required'),
+                        $frame,
+                        $frame.find('.is-invalid:visible').first(),
+                    );
                     return; // Validation failed, do not continue.
                 } else {
                     App.Pages.Booking.updateConfirmFrame();
@@ -462,6 +505,8 @@ App.Pages.Booking = (function () {
                     }
                 }
             }
+
+            clearBookingAlert();
 
             // Display the next step tab (uses jquery animation effect).
             const nextTabIndex = parseInt($target.attr('data-step_index')) + 1;
@@ -491,6 +536,8 @@ App.Pages.Booking = (function () {
          * book wizard.
          */
         $('.button-back').on('click', (event) => {
+            clearBookingAlert();
+
             const prevTabIndex = parseInt($(event.currentTarget).attr('data-step_index')) - 1;
 
             // Update step indicator immediately
@@ -511,6 +558,7 @@ App.Pages.Booking = (function () {
          * Triggered whenever the user clicks on an available hour for his appointment.
          */
         $availableHours.on('click', '.available-hour', (event) => {
+            clearBookingAlert();
             $availableHours.find('.selected-hour').removeClass('selected-hour');
             $(event.target).addClass('selected-hour');
             App.Pages.Booking.updateConfirmFrame();
@@ -608,6 +656,7 @@ App.Pages.Booking = (function () {
 
             if ($acceptToTermsAndConditions.length && !$acceptToTermsAndConditions.prop('checked')) {
                 $acceptToTermsAndConditions.addClass('is-invalid');
+                showBookingAlert(lang('fields_are_required'), $('.wizard-frame:visible'), $acceptToTermsAndConditions);
                 return;
             }
 
@@ -617,8 +666,11 @@ App.Pages.Booking = (function () {
 
             if ($acceptToPrivacyPolicy.length && !$acceptToPrivacyPolicy.prop('checked')) {
                 $acceptToPrivacyPolicy.addClass('is-invalid');
+                showBookingAlert(lang('fields_are_required'), $('.wizard-frame:visible'), $acceptToPrivacyPolicy);
                 return;
             }
+
+            clearBookingAlert();
 
             App.Http.Booking.registerAppointment();
         });
