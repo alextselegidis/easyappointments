@@ -168,9 +168,16 @@ App.Pages.Booking = (function () {
 
         App.Utils.UI.setDateTimePickerValue($selectDate, new Date());
 
-        const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
-        $selectTimezone.val(isTimezoneSupported ? browserTimezone : 'UTC');
+        const allowTimezoneSwitch = Boolean(Number(vars('allow_timezone_switch')));
+        const defaultTimezone = vars('default_timezone') || 'UTC';
+
+        if (allowTimezoneSwitch) {
+            const browserTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+            const isTimezoneSupported = $selectTimezone.find(`option[value="${browserTimezone}"]`).length > 0;
+            $selectTimezone.val(isTimezoneSupported ? browserTimezone : defaultTimezone);
+        } else {
+            $selectTimezone.val(defaultTimezone);
+        }
 
         // Bind the event handlers (might not be necessary every time we use this class).
         addEventListeners();
@@ -912,7 +919,7 @@ App.Pages.Booking = (function () {
             $address.val(customer.address);
             $city.val(customer.city);
             $zipCode.val(customer.zip_code);
-            if (customer.timezone) {
+            if (Boolean(Number(vars('allow_timezone_switch'))) && customer.timezone) {
                 $selectTimezone.val(customer.timezone);
             }
             const appointmentNotes = appointment.notes !== null ? appointment.notes : '';

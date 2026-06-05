@@ -22,7 +22,10 @@
 
 <!-- Pick An Appointment Date -->
 
-<?php component('booking_time_step', ['grouped_timezones' => vars('grouped_timezones')]); ?>
+<?php component('booking_time_step', [
+    'grouped_timezones' => vars('grouped_timezones'),
+    'allow_timezone_switch' => vars('allow_timezone_switch'),
+]); ?>
 
 <!-- Enter Customer Information -->
 

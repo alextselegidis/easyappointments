@@ -394,6 +394,24 @@
                                         </div>
                                     </div>
 
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="allow-timezone-switch"
+                                                   data-field="allow_timezone_switch"
+                                                   checked>
+                                            <label class="form-check-label" for="allow-timezone-switch">
+                                                <?= lang('allow_timezone_switch') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('allow_timezone_switch_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
                                     <div>
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="disable-booking"
@@ -436,6 +454,4 @@
 <script src="<?= asset_url('assets/js/pages/booking_settings.js') ?>"></script>
 
 <?php end_section('scripts'); ?>
-
-
 

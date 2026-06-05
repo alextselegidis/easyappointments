@@ -159,6 +159,7 @@ class Installation extends EA_Controller
                 'company_name' => $company['company_name'],
                 'company_email' => $company['company_email'],
                 'company_link' => $company['company_link'],
+                'allow_timezone_switch' => '1',
             ]);
 
             // Service

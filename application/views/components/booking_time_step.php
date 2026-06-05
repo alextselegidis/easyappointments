@@ -3,6 +3,7 @@
  * Local variables.
  *
  * @var array $grouped_timezones
+ * @var string $allow_timezone_switch
  */
 ?>
 
@@ -19,7 +20,7 @@
 
             <div class="col-12 col-lg-6">
                 <div id="select-time" class="mx-auto py-3" style="max-width: 288px;">
-                    <div class="mb-3">
+                    <div class="mb-3" <?= $allow_timezone_switch === '1' ? '' : 'hidden' ?>>
                         <label for="select-timezone" class="form-label">
                             <?= lang('timezone') ?>
                         </label>

@@ -194,6 +194,7 @@ class Booking extends EA_Controller
         $display_any_provider = setting('display_any_provider');
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
+        $allow_timezone_switch = setting('allow_timezone_switch', '1');
         $book_advance_timeout = setting('book_advance_timeout');
         $legal_notice_url = setting('legal_notice_url');
         $imprint_url = setting('imprint_url');
@@ -303,6 +304,7 @@ class Booking extends EA_Controller
             'display_cookie_notice' => $display_cookie_notice,
             'display_any_provider' => setting('display_any_provider'),
             'future_booking_limit' => setting('future_booking_limit'),
+            'allow_timezone_switch' => $allow_timezone_switch,
             'appointment_data' => $appointment,
             'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,
             'customer_data' => $customer,
@@ -346,6 +348,7 @@ class Booking extends EA_Controller
             'display_any_provider' => $display_any_provider,
             'display_login_button' => $display_login_button,
             'display_delete_personal_information' => $display_delete_personal_information,
+            'allow_timezone_switch' => $allow_timezone_switch,
             'legal_notice_url' => $legal_notice_url,
             'imprint_url' => $imprint_url,
             'google_analytics_code' => $google_analytics_code,
@@ -411,6 +414,10 @@ class Booking extends EA_Controller
 
             // Sanitize customer fields - only allow expected fields
             $customer = array_intersect_key($customer, array_flip($this->allowed_customer_fields));
+
+            if (setting('allow_timezone_switch', '1') !== '1') {
+                $customer['timezone'] = setting('default_timezone', 'UTC');
+            }
 
             // Sanitize appointment fields - only allow expected fields
             $appointment = array_intersect_key($appointment, array_flip($this->allowed_appointment_fields));
