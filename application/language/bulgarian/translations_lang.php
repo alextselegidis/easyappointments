@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed');
 // Bulgarian
-$lang['page_title'] = 'Запазете час с ...';
+$lang['page_title'] = 'Запазете час с';
 $lang['service_and_provider'] = 'Изберете Услуга и Изпълнител';
 $lang['select_service'] = 'Изберете Услуга';
 $lang['select_provider'] = 'Изберете Изпълнител';
@@ -20,7 +20,7 @@ $lang['phone'] = 'Телефон';
 $lang['address'] = 'Адрес';
 $lang['city'] = 'Град';
 $lang['zip_code'] = 'Пощенски Код';
-$lang['notes'] = 'Записки';
+$lang['notes'] = 'Бележка към резервацията';
 $lang['language'] = 'Език';
 $lang['no_language'] = 'Без език';
 $lang['fields_are_required'] = 'Полетата обозначени с * са задължителни.';
@@ -217,7 +217,7 @@ $lang['delete_unavailability'] = 'Заличаване на неработен �
 $lang['delete'] = 'Заличаване';
 $lang['unexpected_issues'] = 'Неочаквани проблеми';
 $lang['unexpected_issues_message'] = 'Операцията не можа да бъде завършена.';
-$lang['close'] = 'Край';
+$lang['close'] = 'Затвори';
 $lang['page_not_found'] = 'Страницата не е намерена.';
 $lang['page_not_found_message'] = 'За съжаление търсената от Вас страница не съществува. Моля проверете интернет адреса или посетете друг сегмент като използвате бутоните по-долу.';
 $lang['error'] = 'Грешка';
@@ -339,7 +339,7 @@ $lang['matomo_analytics_url_hint'] = 'Добавете URL адреса към �
 $lang['invalid_phone'] = 'Невалиден телефонен номер.';
 $lang['legal'] = 'Юридически';
 $lang['business'] = 'Бизнес';
-$lang['account'] = 'Сметка';
+$lang['account'] = 'Профил';
 $lang['disable_booking'] = 'Деактивиране на резервациите';
 $lang['disable_booking_hint'] = 'Страницата за резервации ще бъде деактивирана, докато тази настройка е активна, и клиентите няма да могат да регистрират нови срещи.';
 $lang['display_message'] = 'Съобщение на дисплея';
