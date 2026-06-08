@@ -111,6 +111,8 @@ class Booking extends EA_Controller
             return;
         }
 
+        allow_iframe_embedding(); // The booking page is designed to be embeddable in third-party sites.
+
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
         $company_color = setting('company_color');
@@ -361,6 +363,7 @@ class Booking extends EA_Controller
 
             // Verify CSRF token for booking submissions
             verify_booking_csrf_token();
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 
@@ -383,6 +386,25 @@ class Booking extends EA_Controller
             $customer = $post_data['customer'] ?? [];
             $manage_mode = filter_var($post_data['manage_mode'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
+            // Security: Verify hash when updating an existing appointment
+            if ($manage_mode && !empty($appointment['id'])) {
+                $appointment_hash = $post_data['appointment_hash'] ?? '';
+                
+                if (empty($appointment_hash)) {
+                    throw new RuntimeException('Appointment hash is required for updates.');
+                }
+                
+                // Verify the hash matches the appointment being updated
+                $existing_appointments = $this->appointments_model->get([
+                    'id' => $appointment['id'],
+                    'hash' => $appointment_hash
+                ]);
+                
+                if (empty($existing_appointments)) {
+                    throw new RuntimeException('Invalid appointment hash or appointment not found.');
+                }
+            }
+
             // Validate required appointment fields
             if (empty($appointment) || !is_array($appointment)) {
                 throw new InvalidArgumentException('Invalid appointment data.');
@@ -403,6 +425,11 @@ class Booking extends EA_Controller
 
             // Sanitize appointment fields - only allow expected fields
             $appointment = array_intersect_key($appointment, array_flip($this->allowed_appointment_fields));
+
+            // Security: Remove appointment ID if not in manage mode to prevent IDOR attacks
+            if (!$manage_mode && isset($appointment['id'])) {
+                unset($appointment['id']);
+            }
 
             if (!array_key_exists('address', $customer)) {
                 $customer['address'] = '';
@@ -689,6 +716,8 @@ class Booking extends EA_Controller
         try {
             method('post');
 
+            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -778,6 +807,8 @@ class Booking extends EA_Controller
     {
         try {
             method('get');
+
+            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 

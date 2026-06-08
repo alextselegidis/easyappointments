@@ -3,6 +3,16 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- **Security:** Fixed unauthenticated IDOR vulnerability in Booking::register() that allowed arbitrary appointment takeover by validating appointment hash before allowing updates
+- Provider and secretary "Mobile" number was not persisted after creating or editing the record, because the controller's allowed-field filter dropped `mobile_number` before saving
+- Submitting a booking from the public booking page no longer fails with "Security validation failed. Please refresh the page and try again." when the booking page is embedded in a cross-origin iframe
+- Changing the language from the public booking page no longer fails with "The action you have requested is not allowed" when the booking page is embedded in a cross-origin iframe
+- Public booking flow endpoints (registration, available hours, unavailable dates, booking confirmation, booking cancellation, CAPTCHA image, ALTCHA challenge, personal information deletion) now allow being embedded in an iframe, so the booking page works correctly on third-party websites
+
 ## [1.6.0] - 2026-05-27
 
 ### Added

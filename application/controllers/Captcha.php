@@ -37,6 +37,8 @@ class Captcha extends EA_Controller
     {
         method('get');
 
+        allow_iframe_embedding(); // The CAPTCHA image is loaded from the booking page which may be embedded in an iframe.
+
         $captcha_builder = new CaptchaBuilder();
 
         $captcha_builder->setDistortion(true);
@@ -56,6 +58,8 @@ class Captcha extends EA_Controller
     {
         try {
             method('get');
+
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
 
             $this->load->library('altcha_client');
 
