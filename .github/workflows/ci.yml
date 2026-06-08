@@ -6,6 +6,22 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_DATABASE: easyappointments
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: root
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Git clone
         uses: actions/checkout@v2
@@ -14,10 +30,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
-          extensions: gd
+          extensions: gd, mysqli
 
       - name: Install Composer dependencies
-        run: composer update --prefer-dist --no-interaction --no-progress
+        run: composer install --prefer-dist --no-interaction --no-progress
+
+      - name: Create test config
+        run: |
+          cp config-sample.php config.php
+          sed -i "s/const DB_HOST = 'mysql'/const DB_HOST = '127.0.0.1'/" config.php
 
       - name: Run PHPUnit
         run: vendor/bin/phpunit --configuration phpunit.xml
+        env:
+          APP_ENV: testing
