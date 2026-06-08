@@ -24,6 +24,22 @@ App.Http.Booking = (function () {
     const $captchaHint = $('#captcha-hint');
     const $captchaTitle = $('.captcha-title');
 
+    function getBookingCsrfToken() {
+        const hiddenToken = document.getElementById('booking-csrf-token')?.value;
+
+        if (hiddenToken) {
+            return hiddenToken;
+        }
+
+        const bodyToken = document.body.getAttribute('data-csrf-token');
+
+        if (bodyToken) {
+            return bodyToken;
+        }
+
+        return vars('csrf_token');
+    }
+
     const MONTH_SEARCH_LIMIT = 2; // Months in the future
 
     const moment = window.moment;
@@ -66,7 +82,7 @@ App.Http.Booking = (function () {
         const url = App.Utils.Url.siteUrl('booking/get_available_hours');
 
         const data = {
-            csrf_token: vars('csrf_token'),
+            csrf_token: getBookingCsrfToken(),
             service_id: $selectService.val(),
             provider_id: $selectProvider.val(),
             selected_date: selectedDate,
@@ -181,9 +197,13 @@ App.Http.Booking = (function () {
         const formData = JSON.parse($('input[name="post_data"]').val());
 
         const data = {
-            csrf_token: vars('csrf_token'),
+            csrf_token: getBookingCsrfToken(),
             post_data: formData,
         };
+
+        if ($('body').hasClass('booking-embedded')) {
+            data.embed = 1;
+        }
 
         if ($captchaText.length > 0) {
             data.captcha = $captchaText.val();
@@ -248,9 +268,35 @@ App.Http.Booking = (function () {
                     return false;
                 }
 
-                window.location.href = App.Utils.Url.siteUrl('booking_confirmation/of/' + response.appointment_hash);
+                let confirmationUrl = App.Utils.Url.siteUrl(
+                    'booking_confirmation/of/' + response.appointment_hash,
+                );
+
+                if ($('body').hasClass('booking-embedded')) {
+                    confirmationUrl +=
+                        (confirmationUrl.indexOf('?') >= 0 ? '&' : '?') + 'embed=1';
+                }
+
+                window.location.href = confirmationUrl;
             })
-            .fail(() => {
+            .fail((jqXHR) => {
+                let message = lang('unexpected_issues_message');
+
+                try {
+                    const response = JSON.parse(jqXHR.responseText);
+                    if (response && response.message) {
+                        message = response.message;
+                    }
+                } catch (error) {
+                    if (jqXHR.responseText) {
+                        message = jqXHR.responseText;
+                    }
+                }
+
+                if (App.Utils.Message) {
+                    App.Utils.Message.show('Easy!Appointments', message);
+                }
+
                 $captchaTitle.find('button').trigger('click');
             })
             .always(() => {
@@ -287,7 +333,7 @@ App.Http.Booking = (function () {
             provider_id: providerId,
             service_id: serviceId,
             selected_date: encodeURIComponent(selectedDateString),
-            csrf_token: vars('csrf_token'),
+            csrf_token: getBookingCsrfToken(),
             manage_mode: Number(App.Pages.Booking.manageMode),
             appointment_id: appointmentId,
         };
@@ -413,7 +459,7 @@ App.Http.Booking = (function () {
         const url = App.Utils.Url.siteUrl('privacy/delete_personal_information');
 
         const data = {
-            csrf_token: vars('csrf_token'),
+            csrf_token: getBookingCsrfToken(),
             customer_token: customerToken,
         };
 

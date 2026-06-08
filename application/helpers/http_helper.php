@@ -45,6 +45,18 @@ if (!function_exists('request')) {
     }
 }
 
+if (!function_exists('is_embedded_booking_request')) {
+    /**
+     * Determine whether the booking page is loaded inside an iframe embed.
+     */
+    function is_embedded_booking_request(): bool
+    {
+        $value = strtolower(trim((string) request('embed', '')));
+
+        return in_array($value, ['1', 'true', 'yes', 'on'], true);
+    }
+}
+
 if (!function_exists('response')) {
     /**
      * Return a new response from the application.

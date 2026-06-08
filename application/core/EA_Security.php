@@ -92,4 +92,39 @@ class EA_Security extends CI_Security
         log_message('info', 'CSRF token verified');
         return $this;
     }
+
+    /**
+     * CSRF Set Cookie
+     *
+     * @return CI_Security|false
+     */
+    public function csrf_set_cookie()
+    {
+        $expire = time() + $this->_csrf_expire;
+
+        if (
+            function_exists('cross_site_cookies_required')
+            && function_exists('set_application_cookie')
+            && cross_site_cookies_required()
+        ) {
+            if (!is_https()) {
+                return false;
+            }
+
+            if (set_application_cookie(
+                $this->_csrf_cookie_name,
+                $this->_csrf_hash,
+                $expire,
+                true,
+                (bool) config_item('cookie_httponly'),
+                true,
+            )) {
+                log_message('info', 'CSRF cookie sent');
+            }
+
+            return $this;
+        }
+
+        return parent::csrf_set_cookie();
+    }
 }

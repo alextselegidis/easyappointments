@@ -19,10 +19,12 @@
         </p>
 
         <div class="d-flex flex-column flex-sm-row gap-2 justify-content-center mt-4">
+            <?php if (!vars('embedded')): ?>
             <a href="<?= site_url() ?>" class="btn btn-primary px-4 py-2">
                 <i class="fas fa-calendar-alt me-2"></i>
                 <?= lang('go_to_booking_page') ?>
             </a>
+            <?php endif; ?>
 
             <?php if (vars('display_add_to_google_calendar') === '1'): ?>
             <a href="<?= vars(

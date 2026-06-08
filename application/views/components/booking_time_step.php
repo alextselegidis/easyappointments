@@ -6,19 +6,26 @@
  */
 ?>
 
+<?php $embedded = vars('embedded'); ?>
+
 <div id="wizard-frame-2" class="wizard-frame p-3 p-md-4" style="display:none;">
     <div class="frame-container py-3" style="min-height: 500px;">
 
-        <h2 class="frame-title fw-light text-center mb-4 text-muted"><?= lang('appointment_date_and_time') ?></h2>
+        <?php if (!$embedded): ?>
+            <h2 class="frame-title fw-light text-center mb-4 text-muted"><?= lang('appointment_date_and_time') ?></h2>
+        <?php endif; ?>
 
-        <div class="row frame-content">
-            <div class="col-12 col-lg-6">
-                <div id="select-date" class="mx-auto my-4"></div>
+        <div class="row frame-content<?= $embedded ? ' booking-embed-columns' : '' ?>">
+            <div class="<?= $embedded ? 'booking-embed-column' : 'col-12 col-lg-6' ?>">
+                <?php if ($embedded): ?>
+                    <h3 id="embed-service-name" class="booking-embed-service-name fw-semibold mb-2 text-center"></h3>
+                <?php endif; ?>
+                <div id="select-date" class="mx-auto<?= $embedded ? ' my-2' : ' my-4' ?>"></div>
 
             </div>
 
-            <div class="col-12 col-lg-6">
-                <div id="select-time" class="mx-auto py-3" style="max-width: 288px;">
+            <div class="<?= $embedded ? 'booking-embed-column' : 'col-12 col-lg-6' ?>">
+                <div id="select-time" class="mx-auto py-3"<?= $embedded ? '' : ' style="max-width: 288px;"' ?>>
                     <div class="mb-3">
                         <label for="select-timezone" class="form-label">
                             <?= lang('timezone') ?>

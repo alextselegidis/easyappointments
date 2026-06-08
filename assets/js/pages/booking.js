@@ -39,11 +39,14 @@ App.Pages.Booking = (function () {
     const $customField4 = $('#custom-field-4');
     const $customField5 = $('#custom-field-5');
     const $displayBookingSelection = $('.display-booking-selection');
+    const $embedServiceName = $('#embed-service-name');
     const $rememberMe = $('#remember-me');
     const tippy = window.tippy;
     const moment = window.moment;
 
     const STORAGE_KEY = 'EasyAppointments.CustomerInfo';
+    let lastEmbedHeight = 0;
+    let embedHeightTimer = null;
 
     /**
      * Determines the functionality of the page.
@@ -62,6 +65,54 @@ App.Pages.Booking = (function () {
      */
     function detectDatepickerMonthChangeStep(previousDateTimeMoment, nextDateTimeMoment) {
         return previousDateTimeMoment.isAfter(nextDateTimeMoment) ? -1 : 1;
+    }
+
+    /**
+     * Notify the parent page (embed widget) about content height changes.
+     */
+    function notifyEmbedHeight() {
+        if (!$('body').hasClass('booking-embedded') || window.parent === window) {
+            return;
+        }
+
+        if (embedHeightTimer) {
+            clearTimeout(embedHeightTimer);
+        }
+
+        embedHeightTimer = setTimeout(() => {
+            const height = Math.min(
+                Math.max(
+                    document.body.scrollHeight,
+                    document.documentElement.scrollHeight,
+                    $('#book-appointment-wizard').outerHeight() || 0,
+                ),
+                1400,
+            );
+
+            if (Math.abs(height - lastEmbedHeight) < 24) {
+                return;
+            }
+
+            lastEmbedHeight = height;
+
+            let targetOrigin = '*';
+
+            try {
+                if (document.referrer) {
+                    targetOrigin = new URL(document.referrer).origin;
+                }
+            } catch (error) {
+                // Fall back to wildcard when the referrer is unavailable.
+            }
+
+            window.parent.postMessage(
+                {
+                    event: 'easyappointments.page_height',
+                    payload: { height: height },
+                },
+                targetOrigin,
+            );
+        }, 150);
     }
 
     /**
@@ -270,6 +321,14 @@ App.Pages.Booking = (function () {
 
             // Initialize remember me after prefilling from query params
             initializeRememberMe();
+        }
+
+        if ($('body').hasClass('booking-embedded')) {
+            notifyEmbedHeight();
+            $(window).on('resize', notifyEmbedHeight);
+            $(document).on('click', '.button-next, .button-back, #book-appointment-submit', () => {
+                setTimeout(notifyEmbedHeight, 300);
+            });
         }
     }
 
@@ -696,6 +755,14 @@ App.Pages.Booking = (function () {
 
         if (serviceId || providerId) {
             $displayBookingSelection.text(`${serviceOptionText} │ ${providerOptionText}`);
+        }
+
+        if ($embedServiceName.length) {
+            $embedServiceName.text(serviceId ? serviceOptionText : '');
+        }
+
+        if ($('body').hasClass('booking-embedded')) {
+            notifyEmbedHeight();
         }
 
         if (!$availableHours.find('.selected-hour').text()) {

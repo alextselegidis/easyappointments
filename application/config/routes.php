@@ -59,44 +59,6 @@ $route['translate_uri_dashes'] = false;
 
 /*
 | -------------------------------------------------------------------------
-| FRAME OPTIONS HEADERS
-| -------------------------------------------------------------------------
-| Set the appropriate headers so that iframe control and permissions are 
-| properly configured.
-|
-| This prevents clickjacking attacks by disabling embedding in iframes.
-|
-| Options:
-|
-|   - DENY 
-|   - SAMEORIGIN 
-|
-*/
-
-header('X-Frame-Options: SAMEORIGIN');
-
-/*
-| -------------------------------------------------------------------------
-| SECURITY HEADERS
-| -------------------------------------------------------------------------
-| Additional security headers to protect against common web attacks.
-|
-*/
-
-// Prevent MIME type sniffing
-header('X-Content-Type-Options: nosniff');
-
-// Enable XSS filtering in older browsers
-header('X-XSS-Protection: 1; mode=block');
-
-// Referrer Policy - only send referrer for same-origin requests
-header('Referrer-Policy: strict-origin-when-cross-origin');
-
-// Permissions Policy - restrict browser features
-header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
-
-/*
-| -------------------------------------------------------------------------
 | CORS HEADERS
 | -------------------------------------------------------------------------
 | Set the appropriate headers so that CORS requirements are met and any 

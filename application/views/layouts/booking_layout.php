@@ -32,15 +32,20 @@
     <?php slot('styles'); ?>
 </head>
 
-<body>
-<div id="main" class="container min-vh-100">
-    <div class="row wrapper min-vh-100 justify-content-center align-items-center py-0 py-md-3">
-        <div id="book-appointment-wizard" class="col-12 col-lg-10 col-xl-8 col-xxl-7 bg-body overflow-hidden p-0 my-auto">
+<?php $booking_csrf_token = html_vars('booking_csrf_token') ?? script_vars('csrf_token'); ?>
 
-            <?php component('booking_header', [
-                'company_name' => vars('company_name'),
-                'company_logo' => vars('company_logo'),
-            ]); ?>
+<body<?= vars('embedded') ? ' class="booking-embedded"' : '' ?><?= $booking_csrf_token ? ' data-csrf-token="' . e($booking_csrf_token) . '"' : '' ?>>
+<input type="hidden" id="booking-csrf-token" value="<?= e($booking_csrf_token) ?>">
+<div id="main" class="<?= vars('embedded') ? '' : 'container' ?><?= vars('embedded') ? '' : ' min-vh-100' ?><?= vars('embedded') ? ' booking-embedded-main' : '' ?>">
+    <div class="row wrapper<?= vars('embedded') ? '' : ' min-vh-100 justify-content-center align-items-center py-0 py-md-3' ?>">
+        <div id="book-appointment-wizard" class="col-12<?= vars('embedded') ? '' : ' col-lg-10 col-xl-8 col-xxl-7' ?> bg-body overflow-hidden p-0<?= vars('embedded') ? '' : ' my-auto' ?>">
+
+            <?php if (!vars('embedded')): ?>
+                <?php component('booking_header', [
+                    'company_name' => vars('company_name'),
+                    'company_logo' => vars('company_logo'),
+                ]); ?>
+            <?php endif; ?>
 
             <?php slot('content'); ?>
 
