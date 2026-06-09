@@ -111,8 +111,6 @@ class Booking extends EA_Controller
             return;
         }
 
-        allow_iframe_embedding(); // The booking page is designed to be embeddable in third-party sites.
-
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
         $company_color = setting('company_color');
@@ -363,7 +361,6 @@ class Booking extends EA_Controller
 
             // Verify CSRF token for booking submissions
             verify_booking_csrf_token();
-            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 
@@ -716,8 +713,6 @@ class Booking extends EA_Controller
         try {
             method('post');
 
-            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
-
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -807,8 +802,6 @@ class Booking extends EA_Controller
     {
         try {
             method('get');
-
-            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 
