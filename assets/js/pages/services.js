@@ -404,7 +404,9 @@ App.Pages.Services = (function () {
                 '&provider=' + encodeURIComponent($checkedProvider.attr('data-id'));
         }
 
-        bookingUrl += '&embed=1';
+        const language = vars('language') || 'english';
+
+        bookingUrl += '&embed=1&language=' + encodeURIComponent(language);
 
         return bookingUrl;
     }
