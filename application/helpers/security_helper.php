@@ -451,6 +451,37 @@ if (!function_exists('is_booking_framing_route')) {
     }
 }
 
+if (!function_exists('is_public_booking_flow_route')) {
+    /**
+     * Determine whether the current request is part of the public booking flow.
+     */
+    function is_public_booking_flow_route(): bool
+    {
+        if (!function_exists('get_instance')) {
+            return false;
+        }
+
+        /** @var EA_Controller|null $CI */
+        $CI = &get_instance();
+
+        $router = $CI->router ?? null;
+
+        if (empty($router)) {
+            return false;
+        }
+
+        $public_booking_controllers = [
+            'booking',
+            'booking_confirmation',
+            'booking_cancellation',
+            'captcha',
+            'localization',
+        ];
+
+        return in_array($router->class, $public_booking_controllers, true);
+    }
+}
+
 if (!function_exists('cross_site_cookies_required')) {
     /**
      * Determine whether cookies must be sent in cross-site iframe contexts.
@@ -468,7 +499,7 @@ if (!function_exists('cross_site_cookies_required')) {
             return false;
         }
 
-        if (empty(get_embed_allowed_origins()) || !is_booking_framing_route()) {
+        if (empty(get_embed_allowed_origins()) || !is_public_booking_flow_route()) {
             return false;
         }
 

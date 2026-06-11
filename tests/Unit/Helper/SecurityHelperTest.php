@@ -101,4 +101,20 @@ class SecurityHelperTest extends TestCase {
 
         $this->assertFalse(is_booking_framing_route());
     }
+
+    public function testIsPublicBookingFlowRouteIncludesCaptchaController(): void
+    {
+        $CI = &get_instance();
+        $CI->router->class = 'captcha';
+
+        $this->assertTrue(is_public_booking_flow_route());
+    }
+
+    public function testIsPublicBookingFlowRouteReturnsFalseOnBackendController(): void
+    {
+        $CI = &get_instance();
+        $CI->router->class = 'general_settings';
+
+        $this->assertFalse(is_public_booking_flow_route());
+    }
 }
