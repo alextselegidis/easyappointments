@@ -19,5 +19,8 @@ jobs:
       - name: Install Composer dependencies
         run: composer update --prefer-dist --no-interaction --no-progress
 
+      - name: Create config file
+        run: cp config-sample.php config.php
+
       - name: Run PHPUnit
         run: vendor/bin/phpunit --configuration phpunit.xml
