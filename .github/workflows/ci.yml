@@ -22,5 +22,8 @@ jobs:
       - name: Create config file
         run: cp config-sample.php config.php
 
+      - name: Regenerate autoload for tests
+        run: composer dump-autoload --no-interaction
+
       - name: Run PHPUnit
         run: vendor/bin/phpunit --configuration phpunit.xml
