@@ -114,13 +114,22 @@ class EA_Controller extends CI_Controller
         $session_language = session('language');
         $query_language = request('language');
         $available_languages = config('available_languages');
+        $embedded_booking = function_exists('is_embedded_booking_request') && is_embedded_booking_request();
 
-        // Priority: session > query param > default (english)
+        // Embedded booking pages carry language in the URL; multiple iframes on one
+        // parent page share a session cookie, so the query param must win over session.
+        // Otherwise: session > query param > default (english)
         $language = null;
 
-        if ($session_language && in_array($session_language, $available_languages)) {
+        if (
+            $embedded_booking
+            && $query_language
+            && in_array($query_language, $available_languages, true)
+        ) {
+            $language = $query_language;
+        } elseif ($session_language && in_array($session_language, $available_languages, true)) {
             $language = $session_language;
-        } elseif ($query_language && in_array($query_language, $available_languages)) {
+        } elseif ($query_language && in_array($query_language, $available_languages, true)) {
             $language = $query_language;
         }
 

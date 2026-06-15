@@ -98,20 +98,18 @@ class Booking extends EA_Controller
 
     /**
      * Render the booking page.
-    /**
-     * Render the booking page.
      */
     public function index(): void
     {
         method('get');
+
+        $embedded = is_embedded_booking_request();
 
         if (!is_app_installed()) {
             redirect('installation');
 
             return;
         }
-
-        allow_iframe_embedding(); // The booking page is designed to be embeddable in third-party sites.
 
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
@@ -343,7 +341,12 @@ class Booking extends EA_Controller
             'appointment_data' => $appointment,
             'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,
             'customer_data' => $customer,
+            'embedded' => $embedded,
         ]);
+
+        $csrf_token = prepare_booking_csrf_for_embed($this->security);
+        script_vars(['csrf_token' => $csrf_token]);
+        html_vars(['booking_csrf_token' => $csrf_token]);
 
         $this->load->view('pages/booking');
     }
@@ -356,7 +359,8 @@ class Booking extends EA_Controller
         try {
             method('post');
 
-            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
+            // Verify CSRF token for booking submissions
+            verify_booking_csrf_token();
 
             $disable_booking = setting('disable_booking');
 
@@ -709,8 +713,6 @@ class Booking extends EA_Controller
         try {
             method('post');
 
-            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
-
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -800,8 +802,6 @@ class Booking extends EA_Controller
     {
         try {
             method('get');
-
-            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 

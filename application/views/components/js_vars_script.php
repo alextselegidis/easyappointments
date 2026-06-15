@@ -1,14 +1,13 @@
 <script>
-    window.vars = (function () {
-        const vars = <?= json_encode(script_vars()) ?>;
-
+    window.varsStore = <?= json_encode(script_vars()) ?>;
+    window.vars = (function (store) {
         return (key) => {
             if (!key) {
-                return vars;
+                return store;
             }
 
-            return vars[key] || undefined;
+            return store[key];
         };
-    })();
+    })(window.varsStore);
 </script>
 

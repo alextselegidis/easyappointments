@@ -17,18 +17,22 @@
     <link rel="stylesheet" type="text/css"
           href="<?= asset_url('assets/css/themes/' . setting('theme', 'default') . '.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
+    <?php if (vars('embedded')): ?>
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/frontend.css') ?>">
+    <?php endif; ?>
 
     <?php component('company_color_style', ['company_color' => vars('company_color')]); ?>
 
     <?php slot('styles'); ?>
 </head>
-<body>
-<div id="main" class="container min-vh-100">
-    <div class="row wrapper min-vh-100 justify-content-center align-items-center py-3">
-        <div id="message-frame" class="col-12 col-md-8 col-lg-6 my-auto frame-container text-center bg-body rounded shadow p-4 p-md-5">
+<body<?= vars('embedded') ? ' class="booking-embedded"' : '' ?>>
+<div id="main" class="<?= vars('embedded') ? 'booking-embedded-main' : 'container min-vh-100' ?>">
+    <div class="row wrapper<?= vars('embedded') ? '' : ' min-vh-100 justify-content-center align-items-center py-3' ?>">
+        <div id="message-frame" class="col-12<?= vars('embedded') ? '' : ' col-md-8 col-lg-6 my-auto' ?> frame-container text-center bg-body<?= vars('embedded') ? ' p-3' : ' rounded shadow p-4 p-md-5' ?>">
 
             <?php slot('content'); ?>
 
+            <?php if (!vars('embedded')): ?>
             <div class="mt-2">
                 <small>
                     Powered by
@@ -56,6 +60,7 @@
                     </div>
                 <?php endif; ?>
             </div>
+            <?php endif; ?>
 
         </div>
     </div>

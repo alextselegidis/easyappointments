@@ -29,6 +29,11 @@ App.Pages.Services = (function () {
     const $description = $('#description');
     const $filterServices = $('#filter-services');
     const $color = $('#color');
+    const $embedSection = $('#service-embed-section');
+    const $embedCode = $('#service-embed-code');
+    const $embedPreview = $('#service-embed-preview');
+    const $embedHint = $('#service-embed-hint');
+    const $copyEmbedCode = $('#copy-embed-code');
     let filterResults = {};
     let filterLimit = 20;
 
@@ -227,6 +232,7 @@ App.Pages.Services = (function () {
          */
         $services.on('click', '#select-all-providers', () => {
             $('#service-providers input:checkbox').prop('checked', true);
+            updateEmbedSection();
         });
 
         /**
@@ -234,6 +240,36 @@ App.Pages.Services = (function () {
          */
         $services.on('click', '#select-none-providers', () => {
             $('#service-providers input:checkbox').prop('checked', false);
+            updateEmbedSection();
+        });
+
+        /**
+         * Event: Service Provider Checkbox "Change"
+         */
+        $services.on('change', '#service-providers input:checkbox', () => {
+            updateEmbedSection();
+        });
+
+        /**
+         * Event: Copy Embed Code Button "Click"
+         */
+        $services.on('click', '#copy-embed-code', () => {
+            const embedCode = $embedCode.val();
+
+            if (!embedCode) {
+                return;
+            }
+
+            navigator.clipboard.writeText(embedCode).then(() => {
+                const originalHtml = $copyEmbedCode.html();
+                $copyEmbedCode.html('<i class="fas fa-check me-1"></i>' + lang('copied_to_clipboard'));
+
+                setTimeout(() => {
+                    $copyEmbedCode.html(originalHtml);
+                }, 2000);
+            }).catch(() => {
+                $embedCode.trigger('focus').trigger('select');
+            });
         });
     }
 
@@ -329,7 +365,79 @@ App.Pages.Services = (function () {
         $('#select-all-providers, #select-none-providers').prop('disabled', true);
         $('#service-providers a').remove();
 
+        $embedSection.prop('hidden', true);
+        $embedCode.val('');
+        $embedPreview.attr('src', 'about:blank');
+        $embedHint.prop('hidden', true);
+
         App.Components.ColorSelection.disable($color);
+    }
+
+    /**
+     * Escape a value for use in an HTML attribute.
+     *
+     * @param {String} value
+     *
+     * @return {String}
+     */
+    function escapeHtmlAttribute(value) {
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/</g, '&lt;');
+    }
+
+    /**
+     * Build the booking URL used for embed code and preview.
+     *
+     * @param {Number|String} serviceId
+     *
+     * @return {String}
+     */
+    function getEmbedBookingUrl(serviceId) {
+        let bookingUrl = App.Utils.Url.siteUrl('?service=' + encodeURIComponent(serviceId));
+
+        const $checkedProvider = $('#service-providers input:checkbox:checked').first();
+
+        if ($checkedProvider.length) {
+            bookingUrl +=
+                '&provider=' + encodeURIComponent($checkedProvider.attr('data-id'));
+        }
+
+        const language = vars('language') || 'english';
+
+        bookingUrl += '&embed=1&language=' + encodeURIComponent(language);
+
+        return bookingUrl;
+    }
+
+    /**
+     * Update the embed code block and preview for the selected service.
+     *
+     * @param {Object} service Optional service record; falls back to the current form id.
+     */
+    function updateEmbedSection(service = null) {
+        const serviceId = service?.id || $id.val();
+
+        if (!serviceId) {
+            $embedSection.prop('hidden', true);
+            return;
+        }
+
+        const bookingUrl = getEmbedBookingUrl(serviceId);
+        const widgetUrl = App.Utils.Url.baseUrl('assets/js/booking_embed_widget.js');
+        const embedHtml =
+            '<div class="ea-booking-inline-widget" data-url="' +
+            escapeHtmlAttribute(bookingUrl) +
+            '" style="min-width:320px;height:650px;"></div>\n' +
+            '<script src="' +
+            escapeHtmlAttribute(widgetUrl) +
+            '" async><\/script>';
+
+        $embedCode.val(embedHtml);
+        $embedPreview.attr('src', bookingUrl);
+        $embedHint.prop('hidden', $('#service-providers input:checkbox:checked').length > 0);
+        $embedSection.prop('hidden', false);
     }
 
     /**
@@ -389,6 +497,8 @@ App.Pages.Services = (function () {
                 new bootstrap.Tooltip($link[0]);
             });
         }
+
+        updateEmbedSection(service);
     }
 
     /**

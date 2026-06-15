@@ -23,8 +23,7 @@ function add_security_headers(): void
     // But restrict to same-origin for other resources
     header('X-Content-Type-Options: nosniff');
 
-    // Prevent clickjacking attacks
-    header('X-Frame-Options: SAMEORIGIN');
+    apply_frame_embedding_headers();
 
     // Enable XSS filter in browsers (legacy, but still useful)
     header('X-XSS-Protection: 1; mode=block');

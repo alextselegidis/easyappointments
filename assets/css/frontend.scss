@@ -80,3 +80,103 @@
 #book-appointment-wizard .flatpickr-calendar.inline {
     margin: auto; 
 }
+
+/* Embedded booking (iframe) — full width, no outer chrome, earlier two-column breakpoints */
+body.booking-embedded {
+    margin: 0;
+    min-height: auto !important;
+
+    #main.booking-embedded-main,
+    .booking-embedded-main {
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        min-height: auto !important;
+    }
+
+    .wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: auto !important;
+    }
+
+    #book-appointment-wizard,
+    #message-frame {
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
+    .wizard-frame {
+        padding: 0.75rem !important;
+    }
+
+    .frame-container {
+        min-height: auto !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .frame-title {
+        display: none !important;
+    }
+
+    .frame-container[style*='min-height'] {
+        min-height: auto !important;
+    }
+
+    #select-time {
+        max-width: 100% !important;
+    }
+
+    .booking-embed-columns {
+        @media (min-width: 600px) {
+            flex-wrap: nowrap !important;
+        }
+    }
+
+    .booking-embed-column {
+        flex: 0 0 100%;
+        max-width: 100%;
+        width: 100%;
+
+        @media (min-width: 600px) {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+            width: 50% !important;
+        }
+    }
+
+    #book-appointment-wizard .frame-content > .col-12.col-lg-6,
+    #book-appointment-wizard .frame-content > .field-col.col-lg-6 {
+        @media (min-width: 600px) {
+            flex: 0 0 50% !important;
+            max-width: 50% !important;
+            width: 50% !important;
+        }
+    }
+
+    #book-appointment-wizard .frame-content > .col.col-lg-8,
+    #book-appointment-wizard .frame-content > .col-lg-8 {
+        @media (min-width: 600px) {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            margin-left: 0;
+        }
+    }
+
+    #wizard-frame-2 .flatpickr-calendar.inline {
+        margin-left: 0;
+        margin-right: auto;
+    }
+
+    .booking-embed-service-name {
+        color: var(--bs-body-color);
+        font-size: 1.1rem;
+        line-height: 1.3;
+    }
+
+    #frame-footer {
+        padding: 0.5rem !important;
+    }
+}

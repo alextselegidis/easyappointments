@@ -54,3 +54,14 @@ class Config
     // const GOOGLE_CLIENT_ID = '';
     // const GOOGLE_CLIENT_SECRET = '';
 }
+
+/*
+ * ------------------------------------------------------------------------
+ * BOOKING EMBED (Optional)
+ * ------------------------------------------------------------------------
+ * Comma- or newline-separated origins allowed to embed the public booking
+ * pages in an iframe (e.g. https://www.example.com,https://partner.example.nl).
+ * Leave undefined to keep the default SAMEORIGIN framing policy.
+ *
+ * define('EMBED_ALLOWED_ORIGINS', 'https://www.example.com');
+ */

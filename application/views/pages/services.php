@@ -186,6 +186,32 @@
                 <?php endforeach; ?>
             </div>
 
+            <div id="service-embed-section" class="mb-3" hidden>
+                <h5 class="mb-3 fw-light"><?= lang('booking_embed') ?></h5>
+
+                <label class="form-label" for="service-embed-code">
+                    <?= lang('embed_code') ?>
+                </label>
+                <div class="input-group mb-2">
+                    <textarea id="service-embed-code" class="form-control font-monospace" rows="5" readonly></textarea>
+                    <button type="button" id="copy-embed-code" class="btn btn-outline-secondary">
+                        <i class="fas fa-copy me-1"></i>
+                        <?= lang('copy_to_clipboard') ?>
+                    </button>
+                </div>
+                <p id="service-embed-hint" class="form-text text-muted" hidden>
+                    <small><?= lang('embed_no_provider_hint') ?></small>
+                </p>
+
+                <label class="form-label">
+                    <?= lang('embed_preview') ?>
+                </label>
+                <div class="border rounded bg-light p-2">
+                    <iframe id="service-embed-preview" title="<?= lang('embed_preview') ?>"
+                            width="100%" height="650" style="border:0;" loading="lazy"></iframe>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

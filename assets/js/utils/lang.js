@@ -60,9 +60,14 @@ window.App.Utils.Lang = (function () {
         });
 
         $(document).on('click', 'li.language', (event) => {
-            // Change language with HTTP request and refresh page.
-
             const language = $(event.target).data('language');
+
+            if ($('body').hasClass('booking-embedded')) {
+                const url = new URL(window.location.href);
+                url.searchParams.set('language', language);
+                window.location.href = url.toString();
+                return;
+            }
 
             App.Http.Localization.changeLanguage(language).done(() => document.location.reload());
         });
