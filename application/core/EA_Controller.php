@@ -210,7 +210,16 @@ class EA_Controller extends CI_Controller
         $current_version = (int) $this->migration->current_version();
 
         if ($current_version < $latest_version) {
-            redirect('update');
+            show_error(
+                'There are pending database migrations that must be run before using the application. ' .
+                    'Please log in as an administrator and visit <a href="' .
+                    site_url('update') .
+                    '">' .
+                    site_url('update') .
+                    '</a> to apply them, or run <code>php index.php console migrate</code> from the terminal.',
+                503,
+                'Database Migration Required',
+            );
         }
     }
 

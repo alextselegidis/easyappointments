@@ -13,7 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Submitting a booking from the public booking page no longer fails with "Security validation failed. Please refresh the page and try again." when the booking page is embedded in a cross-origin iframe
 - Changing the language from the public booking page no longer fails with "The action you have requested is not allowed" when the booking page is embedded in a cross-origin iframe
 - Public booking flow endpoints (registration, available hours, unavailable dates, booking confirmation, booking cancellation, CAPTCHA image, ALTCHA challenge, personal information deletion) now allow being embedded in an iframe, so the booking page works correctly on third-party websites
-- Any request to the application now automatically redirects to the update page when pending database migrations are detected, preventing cryptic "Table doesn't exist" errors after a file-only upgrade (e.g. upgrading from 1.5.2 to 1.6.0 without running the DB migration step)
+- Any request to the application now shows a clear "Database Migration Required" error page when pending database migrations are detected, preventing cryptic "Table doesn't exist" errors after a file-only upgrade (e.g. upgrading from 1.5.2 to 1.6.0 without running the DB migration step). The message instructs users to visit the update page or run the migration from the terminal.
 
 ## [1.6.0] - 2026-05-27
 
