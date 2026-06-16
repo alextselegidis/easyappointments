@@ -82,6 +82,7 @@ class EA_Controller extends CI_Controller
         $this->load->library('accounts');
 
         $this->check_storage_writable();
+        $this->check_pending_migrations();
         $this->ensure_user_exists();
         $this->configure_timezone();
         $this->configure_language();
@@ -177,6 +178,40 @@ class EA_Controller extends CI_Controller
         $default_timezone = setting('default_timezone');
 
         date_default_timezone_set($default_timezone);
+    }
+
+    /**
+     * Redirect to the update page if there are pending database migrations.
+     *
+     * This prevents cryptic database errors (e.g. "Table doesn't exist") when a user
+     * upgrades the application files without running the DB migration step.
+     */
+    private function check_pending_migrations(): void
+    {
+        $excluded_controllers = ['update', 'installation', 'console'];
+
+        if (in_array($this->router->class, $excluded_controllers, true)) {
+            return;
+        }
+
+        if (!$this->db->table_exists('migrations')) {
+            return;
+        }
+
+        $this->load->library('migration');
+
+        $migrations = $this->migration->find_migrations();
+
+        if (empty($migrations)) {
+            return;
+        }
+
+        $latest_version = (int) max(array_keys($migrations));
+        $current_version = (int) $this->migration->current_version();
+
+        if ($current_version < $latest_version) {
+            redirect('update');
+        }
     }
 
     /**
