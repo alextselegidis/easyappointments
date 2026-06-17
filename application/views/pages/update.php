@@ -2,16 +2,16 @@
 
 <?php section('content'); ?>
 
-<h3 class="mb-3">Easy!Appointments Update</h3>
+<h3 class="mb-3"><?= lang('update_title') ?></h3>
 
 <?php if (vars('success')): ?>
     <div>
         <div class="alert alert-success">
-            Success! The database got updated successfully.
+            <?= lang('database_update_success') ?>
         </div>
         
         <p>
-            You can now use the latest Easy!Appointments version.
+            <?= lang('update_success_message') ?>
         </p>
         
         <a href="<?= site_url('about') ?>" class="btn btn-primary btn-large mb-3">
@@ -22,13 +22,13 @@
 <?php else: ?>
     <div>
         <div class="alert alert-success">
-            Attention! There was an error during the update process.
+            <?= lang('database_update_error') ?>
         </div>
 
-        <pre>Error Message: <?= vars('exception') ?></pre>
+        <pre><?= lang('error_message_label') ?> <?= vars('exception') ?></pre>
 
         <p>
-            Please restore your database backup.
+            <?= lang('restore_backup_message') ?>
         </p>
 
         <a href="<?= site_url('login') ?>" class="btn btn-primary btn-large mb-3">

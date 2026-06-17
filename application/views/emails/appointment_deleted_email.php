@@ -404,7 +404,7 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                     <td>
 
                                         <!-- Logo at the top center, embedded as CID -->
-                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:67px;margin: auto auto 24px;">
+                                        <img src="cid:logo.png" alt="<?= lang('logo') ?>" style="display:block;max-width:67px;margin: auto auto 24px;">
 
                                         <h1 style="text-align: center;">
                                             <?= lang('appointment_cancelled_title') ?>
@@ -628,7 +628,7 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block powered-by">
-                                Powered by
+                                <?= lang('powered_by') ?>
                                 <a href="https://easyappointments.org" style="text-decoration: none;">
                                     Easy!Appointments
                                 </a>

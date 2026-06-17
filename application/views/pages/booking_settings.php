@@ -262,7 +262,7 @@
                                         <input type="text" id="custom-field-<?= $i ?>" class="form-control mb-2"
                                                placeholder="<?= lang('label') ?>"
                                                data-field="label_custom_field_<?= $i ?>"
-                                               aria-label="label"
+                                               aria-label="<?= lang('label') ?>"
                                         />
 
                                         <div class="d-flex">
@@ -334,7 +334,7 @@
                                             <input class="form-check-input" type="checkbox" id="require-captcha"
                                                    data-field="require_captcha">
                                             <label class="form-check-label" for="require-captcha">
-                                                CAPTCHA
+                                                <?= lang('captcha') ?>
                                             </label>
                                         </div>
 

@@ -83,7 +83,7 @@
                                     <label class="form-label" for="legal-notice-url"><?= lang(
                                         'legal_notice_url',
                                     ) ?></label>
-                                    <input type="url" id="legal-notice-url" class="form-control" placeholder="https://...">
+                                    <input type="url" id="legal-notice-url" class="form-control" placeholder="<?= lang('url') ?>">
                                     <div class="form-text text-muted small">
                                         <?= lang('legal_notice_url_hint') ?>
                                     </div>
@@ -93,7 +93,7 @@
 
                                 <div class="mb-5">
                                     <label class="form-label" for="imprint-url"><?= lang('imprint_url') ?></label>
-                                    <input type="url" id="imprint-url" class="form-control" placeholder="https://...">
+                                    <input type="url" id="imprint-url" class="form-control" placeholder="<?= lang('url') ?>">
                                     <div class="form-text text-muted small">
                                         <?= lang('imprint_url_hint') ?>
                                     </div>

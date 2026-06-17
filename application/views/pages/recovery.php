@@ -54,12 +54,12 @@
         <?php else: ?>
             <div class="mb-4">
                 <label class="captcha-title form-label fw-medium" for="captcha-text">
-                    CAPTCHA
+                    <?= lang('captcha') ?>
                     <button type="button" class="btn btn-link text-dark text-decoration-none py-0 px-1">
                         <i class="fas fa-sync-alt"></i>
                     </button>
                 </label>
-                <img class="captcha-image d-block mb-2 rounded" src="<?= site_url('captcha') ?>" alt="CAPTCHA">
+                <img class="captcha-image d-block mb-2 rounded" src="<?= site_url('captcha') ?>" alt="<?= lang('captcha') ?>">
                 <input id="captcha-text" class="captcha-text form-control" type="text" placeholder="<?= lang('enter_captcha_here') ?>"/>
                 <span id="captcha-hint" class="help-block text-danger small" style="opacity:0">&nbsp;</span>
             </div>

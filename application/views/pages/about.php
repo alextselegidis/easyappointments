@@ -12,7 +12,7 @@
                 Easy!Appointments
             </h3>
             <h6 class="text-primary">
-                Online Appointment Scheduler
+                <?= lang('online_appointment_scheduler') ?>
             </h6>
         </div>
 

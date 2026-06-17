@@ -79,7 +79,7 @@
                                                 $group_label =
                                                     $key !== 'uncategorized'
                                                         ? e($group[0]['service_category_name'])
-                                                        : 'Uncategorized';
+                                                        : lang('uncategorized');
 
                                                 if (count($group) > 0) {
                                                     echo '<optgroup label="' . $group_label . '">';

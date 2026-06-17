@@ -80,7 +80,7 @@
                                     </div>
 
                                     <div class="d-flex justify-content-center">
-                                        <img src="#" alt="Company Logo Preview" id="company-logo-preview"
+                                        <img src="#" alt="<?= lang('company_logo') ?>" id="company-logo-preview"
                                              class="img-thumbnail my-3" hidden>
                                     </div>
 

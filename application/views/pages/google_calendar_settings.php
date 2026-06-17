@@ -76,7 +76,7 @@
                                 <i class="fas fa-info-circle me-2"></i>
                                 <?= lang('google_calendar_setup_info') ?>
                                 <a href="https://console.developers.google.com" target="_blank">
-                                    Google Cloud Console
+                                    <?= lang('google_cloud_console') ?>
                                 </a>
                             </div>
 

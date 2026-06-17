@@ -19,7 +19,7 @@
 
         <a href="https://alextselegidis.com" target="_blank">Alex Tselegidis</a>
 
-        &copy; <?= date('Y') ?> - Software Development
+        &copy; <?= date('Y') ?> - <?= lang('software_development') ?>
     </div>
 
     <div class="mb-3 me-lg-5 mb-lg-0">

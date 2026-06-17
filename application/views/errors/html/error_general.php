@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>Error | Easy!Appointments</title>
+    <title><?= lang('error_general_title') ?> | Easy!Appointments</title>
     <style>
         #error-container {
             background: #ffffff;
@@ -73,7 +73,7 @@
 
     <p>
         <small>
-            Powered by
+            <?= lang('powered_by') ?>
             <a href="https://easyappointments.org">Easy!Appointments</a>
         </small>
     </p>

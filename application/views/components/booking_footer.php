@@ -11,7 +11,7 @@
 <div id="frame-footer" class="p-3 text-center border-top">
     <small class="d-block d-md-flex">
         <span class="footer-powered-by small d-block w-100 w-md-50 text-center text-md-start p-1 pe-md-0">
-            Powered By
+            <?= lang('powered_by') ?>
             <a href="https://easyappointments.org" target="_blank">Easy!Appointments</a>
 
             <?php if (!empty($legal_notice_url)): ?>

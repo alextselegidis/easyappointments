@@ -31,7 +31,7 @@
 
             <div class="mt-2">
                 <small>
-                    Powered by
+                    <?= lang('powered_by') ?>
                     <a href="https://easyappointments.org">Easy!Appointments</a>
 
                     <?php if (vars('legal_notice_url')): ?>

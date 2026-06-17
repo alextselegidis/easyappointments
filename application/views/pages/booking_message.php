@@ -3,7 +3,7 @@
 <?php section('content'); ?>
 
 <div>
-    <img id="message-icon" class="mt-0 mb-5" src="<?= vars('message_icon') ?>" alt="warning">
+    <img id="message-icon" class="mt-0 mb-5" src="<?= vars('message_icon') ?>" alt="<?= lang('warning') ?>">
 </div>
 
 <div class="mb-5">

@@ -18,7 +18,7 @@
 
             <form class="mb-4">
                 <div class="input-group">
-                    <input type="text" class="key form-control" aria-label="keyword">
+                    <input type="text" class="key form-control" aria-label="<?= lang('keyword') ?>">
 
                     <button class="filter btn btn-outline-secondary" type="submit"
                             data-tippy-content="<?= lang('filter') ?>">

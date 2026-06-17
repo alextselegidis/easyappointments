@@ -9,7 +9,7 @@
                 <select id="select-filter-item"
                         class="form-select col mb-2 mb-lg-0"
                         data-tippy-content="<?= lang('select_filter_item_hint') ?>"
-                        aria-label="Filter">
+                        aria-label="<?= lang('filter') ?>">
                     <!-- JS -->
                 </select>
             </div>
@@ -35,7 +35,7 @@
                     <button type="button" class="btn btn-light dropdown-toggle dropdown-toggle-split"
                             data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="visually-hidden">
-                            Toggle Dropdown
+                            <?= lang('toggle_dropdown') ?>
                         </span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">

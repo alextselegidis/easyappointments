@@ -381,7 +381,7 @@
                                 <tr>
                                     <td align="center" style="text-align: center;">
                                         <!-- Logo at the top center, embedded as CID -->
-                                        <img src="cid:logo.png" alt="Logo" style="display:block;max-width:80px;margin: auto auto 24px;">
+                                        <img src="cid:logo.png" alt="<?= lang('logo') ?>" style="display:block;max-width:80px;margin: auto auto 24px;">
                                         <h2 style="text-align: center;">
                                             <?= $subject ?>
                                         </h2>
@@ -430,7 +430,7 @@
                     <table role="presentation" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block powered-by">
-                                Powered by
+                                <?= lang('powered_by') ?>
                                 <a href="https://easyappointments.org" style="text-decoration: none;">
                                     Easy!Appointments
                                 </a>
