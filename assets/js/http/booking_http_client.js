@@ -329,7 +329,7 @@ App.Http.Booking = (function () {
                     searchedMonthCounter++;
 
                     const selectedDateMoment = moment(selectedDateString);
-                    selectedDateMoment.add(1, 'month');
+                    selectedDateMoment.add(monthChangeStep, 'month');
 
                     const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
                     getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);
