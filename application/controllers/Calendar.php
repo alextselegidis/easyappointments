@@ -287,8 +287,8 @@ class Calendar extends EA_Controller
                 $customer = $customer_data;
 
                 $required_permissions = !empty($customer['id'])
-                    ? can('add', PRIV_CUSTOMERS)
-                    : can('edit', PRIV_CUSTOMERS);
+                    ? can('edit', PRIV_CUSTOMERS)
+                    : can('add', PRIV_CUSTOMERS);
 
                 if (!$required_permissions) {
                     throw new RuntimeException('You do not have the required permissions for this task.');
@@ -313,8 +313,8 @@ class Calendar extends EA_Controller
                 $appointment = $appointment_data;
 
                 $required_permissions = !empty($appointment['id'])
-                    ? can('add', PRIV_APPOINTMENTS)
-                    : can('edit', PRIV_APPOINTMENTS);
+                    ? can('edit', PRIV_APPOINTMENTS)
+                    : can('add', PRIV_APPOINTMENTS);
 
                 if (!$required_permissions) {
                     throw new RuntimeException('You do not have the required permissions for this task.');
