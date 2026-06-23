@@ -125,6 +125,14 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = request('unavailability');
 
+            $user_id = (int) session('user_id');
+            $role_slug = session('role_slug');
+
+            // Providers may only manage their own unavailabilities.
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                $unavailability['id_users_provider'] = $user_id;
+            }
+
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $this->unavailabilities_model->optional($unavailability, $this->optional_unavailability_fields);
@@ -199,8 +207,16 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = request('unavailability');
 
+            $user_id = (int) session('user_id');
+            $role_slug = session('role_slug');
+
             if (!empty($unavailability['id'])) {
                 $this->check_unavailability_access((int) $unavailability['id']);
+            }
+
+            // Providers may only manage their own unavailabilities.
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                $unavailability['id_users_provider'] = $user_id;
             }
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
