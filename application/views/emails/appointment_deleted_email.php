@@ -524,7 +524,7 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                                         <?= lang('notes') ?>
                                                     </td>
                                                     <td style="padding: 3px;">
-                                                        <?= e($appointment['notes']) ?>
+                                                        <?= nl2br(e($appointment['notes'])) ?>
                                                     </td>
                                                 </tr>
                                             <?php endif; ?>
