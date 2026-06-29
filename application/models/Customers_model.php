@@ -84,9 +84,17 @@ class Customers_model extends EA_Model
      */
     public function validate(array $customer): void
     {
-        // If a customer ID is provided then check whether the record really exists in the database.
+        // If a customer ID is provided then check whether the record really exists in the database and
+        // that it is bound to the customer role. This prevents an attacker-supplied 'id' from targeting
+        // non-customer accounts (e.g. an administrator) via the update() path.
         if (!empty($customer['id'])) {
-            $count = $this->db->get_where('users', ['id' => $customer['id']])->num_rows();
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('users.id', $customer['id'])
+                ->where('roles.slug', DB_SLUG_CUSTOMER)
+                ->get()
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -287,7 +295,11 @@ class Customers_model extends EA_Model
     {
         $customer['update_datetime'] = date('Y-m-d H:i:s');
 
-        if (!$this->db->update('users', $customer, ['id' => $customer['id']])) {
+        // Security: constrain the update to the customer role so a stray 'id' cannot overwrite a
+        // non-customer row (defense in depth alongside validate()).
+        $where = ['id' => $customer['id'], 'id_roles' => $this->get_customer_role_id()];
+
+        if (!$this->db->update('users', $customer, $where)) {
             throw new RuntimeException('Could not update customer.');
         }
 

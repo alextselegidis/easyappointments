@@ -24,7 +24,8 @@
 class Booking extends EA_Controller
 {
     public array $allowed_customer_fields = [
-        'id',
+        // Security: 'id' is intentionally excluded. Customer record identity must be resolved on the
+        // backend via exists()/find_record_id()
         'first_name',
         'last_name',
         'email',
