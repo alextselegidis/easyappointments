@@ -89,7 +89,7 @@ docker compose up
 Then open a second terminal and enter the application container:
 
 ```bash id="app-shell"
-docker compose exec app bash
+docker compose exec php-fpm bash
 ```
 
 Inside the container, install dependencies:

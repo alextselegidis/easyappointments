@@ -40,14 +40,14 @@
     "trumbowyg": "^2.31.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.5",
-    "@babel/preset-env": "^7.28.5",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
     "@prettier/plugin-php": "^0.24.0",
     "babel-preset-minify": "^0.5.2",
     "del": "^6.0.0",
     "fs-extra": "^11.3.2",
     "gulp": "^5.0.1",
-    "gulp-babel": "^8.0.0",
+    "gulp-babel": "^8.1.0",
     "gulp-cached": "^1.1.1",
     "gulp-changed": "^4.0.3",
     "gulp-clean-css": "^4.3.0",
