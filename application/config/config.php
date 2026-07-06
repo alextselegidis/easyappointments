@@ -128,6 +128,7 @@ $languages = [
     'zh' => 'chinese',
     'zh-tw' => 'traditional-chinese',
     'uk' => 'ukrainian',
+    'uz' => 'uzbek',
 ];
 
 $config['language_codes'] = $languages;
@@ -200,6 +201,7 @@ $config['available_languages'] = [
     'traditional-chinese',
     'turkish',
     'ukrainian',
+    'uzbek',
 ];
 
 /*
