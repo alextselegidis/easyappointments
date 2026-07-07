@@ -43,6 +43,7 @@ class Services_model extends EA_Model
         'description' => 'description',
         'location' => 'location',
         'color' => 'color',
+        'emailNote' => 'email_note',
         'slotInterval' => 'slot_interval',
         'attendantsNumber' => 'attendants_number',
         'isPrivate' => 'is_private',
@@ -478,6 +479,7 @@ class Services_model extends EA_Model
             'price' => (float) $service['price'],
             'currency' => $service['currency'],
             'description' => $service['description'],
+            'emailNote' => $service['email_note'],
             'location' => $service['location'],
             'slotInterval' => (int) $service['slot_interval'],
             'attendantsNumber' => (int) $service['attendants_number'],
@@ -525,6 +527,10 @@ class Services_model extends EA_Model
 
         if (array_key_exists('description', $service)) {
             $decoded_resource['description'] = $service['description'];
+        }
+		
+        if (array_key_exists('emailNote', $service)) {
+            $decoded_resource['email_note'] = $service['emailNote'];
         }
 
         if (array_key_exists('location', $service)) {

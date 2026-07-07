@@ -601,6 +601,12 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                                 <?php endif; ?>
                                             <?php endfor; ?>
                                         </table>
+										
+										<?php if (!empty($service['email_note'])): ?>
+										<br>
+                                        <br>
+										<div><?= $service['email_note'] ?></div>
+										<?php endif; ?>
 
                                         <br>
                                         <br>
