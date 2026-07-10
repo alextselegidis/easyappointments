@@ -28,8 +28,8 @@ use Sabre\VObject\Reader;
  */
 class Caldav_sync
 {
-    // Toggle SSRF host validation here (enabled by default).
-    protected bool $enable_ssrf_check = true;
+    // Toggle SSRF host validation here (disabled by default).
+    protected bool $enable_ssrf_check = false;
 
     /**
      * @var EA_Controller|CI_Controller
