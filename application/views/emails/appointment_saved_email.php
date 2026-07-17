@@ -605,6 +605,10 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                         <br>
                                         <br>
 
+                                        <?php // Private services are not shown on the public booking page, so the
+                                        // customer reschedule/cancel link would error. Suppress it for them; the
+                                        // backend (calendar) link used by staff still works. ?>
+                                        <?php if (empty($service['is_private']) || !str_contains($appointment_link, '/booking/')): ?>
                                         <table class="btn btn-primary" role="presentation" border="0" cellpadding="0" cellspacing="0">
                                             <tbody>
                                                 <tr>
@@ -624,6 +628,7 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                                 </tr>
                                             </tbody>
                                         </table>
+                                        <?php endif; ?>
                                         
                                         
                                     </td>
