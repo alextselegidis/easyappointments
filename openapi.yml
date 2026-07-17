@@ -1787,6 +1787,18 @@ paths:
           in: query
           schema:
             type: string
+        - name: date
+          in: query
+          schema:
+            type: string
+        - name: from
+          in: query
+          schema:
+            type: string
+        - name: till
+          in: query
+          schema:
+            type: string
         - name: q
           in: query
           schema:
