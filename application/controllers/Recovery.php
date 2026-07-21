@@ -124,7 +124,9 @@ class Recovery extends EA_Controller
                 $company_color = setting('company_color');
 
                 if ($reset_data) {
-                    $reset_link = site_url('recovery/reset?token=' . $reset_data['token']);
+                    // Root the emailed link at the operator-configured base URL, not the
+                    // client-supplied Host header (host-header injection -> token disclosure).
+                    $reset_link = trusted_site_url('recovery/reset?token=' . $reset_data['token']);
                     $settings = [
                         'company_name' => setting('company_name'),
                         'company_link' => setting('company_link'),

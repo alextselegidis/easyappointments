@@ -64,9 +64,10 @@ class Notifications
         try {
             $current_language = config('language');
 
-            $customer_link = site_url('booking/reschedule/' . $appointment['hash']);
+            // Emailed links: root at operator base URL, not the client Host header.
+            $customer_link = trusted_site_url('booking/reschedule/' . $appointment['hash']);
 
-            $provider_link = site_url('calendar/reschedule/' . $appointment['hash']);
+            $provider_link = trusted_site_url('calendar/reschedule/' . $appointment['hash']);
 
             $ics_stream = $this->CI->ics_file->get_stream($appointment, $service, $provider, $customer);
 

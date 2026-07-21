@@ -218,6 +218,38 @@ if (!function_exists('is_safe_redirect_url')) {
     }
 }
 
+if (!function_exists('trusted_site_url')) {
+    /**
+     * Build an absolute URL from the operator-configured base URL (Config::BASE_URL),
+     * independent of the client-supplied Host header.
+     *
+     * Use this instead of site_url() for links placed into outbound emails or
+     * notifications. site_url() roots links at the runtime base_url, which is derived
+     * from the client-controlled Host header (see application/config/config.php), so an
+     * anonymous request can poison an emailed link with an attacker-chosen host
+     * (host-header injection -> reset-token disclosure / account takeover).
+     *
+     * @param string $uri Relative URI, e.g. 'recovery/reset?token=abc'.
+     * @param string|null $index_page Front-controller segment; falls back to config when null.
+     *
+     * @return string Absolute URL rooted at Config::BASE_URL.
+     */
+    function trusted_site_url(string $uri = '', ?string $index_page = null): string
+    {
+        if ($index_page === null) {
+            $index_page = get_instance()->config->item('index_page');
+        }
+
+        $base = rtrim(Config::BASE_URL, '/') . '/';
+
+        if (!empty($index_page)) {
+            $base .= $index_page . '/';
+        }
+
+        return $base . ltrim($uri, '/');
+    }
+}
+
 if (!function_exists('log_security_event')) {
     /**
      * Log a security-related event.
