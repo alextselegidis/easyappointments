@@ -147,9 +147,20 @@ class Calendar extends EA_Controller
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
             if ($appointment_hash !== '' && !empty($occurrences)) {
-                $edit_appointment = $occurrences[0];
+                $candidate = $occurrences[0];
+                $provider_id = (int) $candidate['id_users_provider'];
 
-                $this->appointments_model->load($edit_appointment, ['customer']);
+                // Only expose the appointment if the logged-in user is allowed to see this provider.
+                $owns_appointment =
+                    ($role_slug === DB_SLUG_PROVIDER && $provider_id === (int) $user_id) ||
+                    ($role_slug === DB_SLUG_SECRETARY &&
+                        $this->secretaries_model->is_provider_supported((int) $user_id, $provider_id)) ||
+                    ($role_slug !== DB_SLUG_PROVIDER && $role_slug !== DB_SLUG_SECRETARY);
+
+                if ($owns_appointment) {
+                    $edit_appointment = $candidate;
+                    $this->appointments_model->load($edit_appointment, ['customer']);
+                }
             }
         }
 
