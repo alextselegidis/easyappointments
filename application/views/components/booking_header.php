@@ -8,7 +8,7 @@
 
 <div id="header" class="overflow-hidden p-3 p-md-4 d-flex flex-column flex-lg-row align-items-center bg-primary">
     <div id="company-name" class="d-block d-md-inline-block float-md-start text-center text-md-start text-white fs-4 fw-light my-3 my-md-0 mw-100 flex-grow-1" style="min-width: 0; line-height: 1.4;">
-        <img src="<?= vars('company_logo') ?: base_url('assets/img/logo.png') ?>" alt="logo" id="company-logo" 
+        <img src="<?= e(vars('company_logo') ?: base_url('assets/img/logo.png')) ?>" alt="logo" id="company-logo"
              class="d-block d-md-inline-block mx-auto mx-md-0 float-md-start me-md-3 mb-3 mb-md-0" style="max-height: 56px;">
 
         <span>

@@ -19,7 +19,7 @@
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/flatpickr.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/flatpickr/material_green.min.css') ?>">
     <link rel="stylesheet" type="text/css"
-          href="<?= asset_url('assets/css/themes/' . setting('theme', 'default') . '.css') ?>">
+          href="<?= asset_url('assets/css/themes/' . html_escape(setting('theme', 'default')) . '.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/general.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/css/backend.css') ?>">
 
