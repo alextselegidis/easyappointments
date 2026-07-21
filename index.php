@@ -136,7 +136,9 @@ if ($app_env) {
  */
 switch (ENVIRONMENT) {
     case 'development':
-        error_reporting(-1);
+        // Exclude deprecations: vendored libraries (Guzzle, Google API) are not PHP 8.4-clean
+        // and their notices are emitted before headers, breaking the security_headers hook.
+        error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
         ini_set('display_errors', 1);
         break;
 
