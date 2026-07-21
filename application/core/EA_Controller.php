@@ -177,7 +177,9 @@ class EA_Controller extends CI_Controller
 
         $default_timezone = setting('default_timezone');
 
-        date_default_timezone_set($default_timezone);
+        if (!empty($default_timezone)) {
+            date_default_timezone_set($default_timezone);
+        }
     }
 
     /**
