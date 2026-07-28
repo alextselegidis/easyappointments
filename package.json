@@ -44,7 +44,7 @@
     "@babel/preset-env": "^8.0.2",
     "@prettier/plugin-php": "^0.24.0",
     "babel-preset-minify": "^0.5.2",
-    "del": "^6.0.0",
+    "del": "^8.0.1",
     "fs-extra": "^11.3.2",
     "gulp": "^5.0.1",
     "gulp-babel": "^8.1.0",
