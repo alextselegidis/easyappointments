@@ -574,4 +574,10 @@ $lang['about_app_premium'] = '我们为自托管软件提供端到端服务，�
 $lang['go_premium'] = '升级 Premium';
 $lang['notify_users_on_create_question'] = '您想通知客户这个新预约吗？';
 $lang['notify_users_on_delete_question'] = '您想通知客户预约取消吗？';
+
+$lang['available_hours_layout'] = '可用时段布局';
+$lang['available_hours_layout_hint'] = '控制预约页面上可用预约时段的显示方式。';
+$lang['single_column'] = '单列';
+$lang['compact_grid'] = '紧凑网格';
+
 // End

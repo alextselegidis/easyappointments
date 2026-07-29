@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Wij bieden uitgebreide diensten voor zelf gehoste 
 $lang['go_premium'] = 'Ga Premium';
 $lang['notify_users_on_create_question'] = 'Wilt u de klant op de hoogte stellen van deze nieuwe afspraak?';
 $lang['notify_users_on_delete_question'] = 'Wilt u de klant op de hoogte stellen van de annulering van de afspraak?';
+
+$lang['available_hours_layout'] = 'Indeling beschikbare uren';
+$lang['available_hours_layout_hint'] = 'Bepaalt hoe beschikbare afspraakuren worden weergegeven op de boekingspagina.';
+$lang['single_column'] = 'Enkele kolom';
+$lang['compact_grid'] = 'Compact raster';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferujemy kompleksowe usługi dla samodzielnie hos
 $lang['go_premium'] = 'Przejdź na Premium';
 $lang['notify_users_on_create_question'] = 'Czy chcesz powiadomić klienta o tym nowym spotkaniu?';
 $lang['notify_users_on_delete_question'] = 'Czy chcesz powiadomić klienta o anulowaniu spotkania?';
+
+$lang['available_hours_layout'] = 'Układ dostępnych godzin';
+$lang['available_hours_layout_hint'] = 'Kontroluje sposób wyświetlania dostępnych godzin wizyt na stronie rezerwacji.';
+$lang['single_column'] = 'Pojedyncza kolumna';
+$lang['compact_grid'] = 'Kompaktowa siatka';
+
 // End
