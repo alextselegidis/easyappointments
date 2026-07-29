@@ -158,6 +158,14 @@
                 </label>
                 <textarea id="description" rows="4" class="form-control" disabled></textarea>
             </div>
+			
+
+			<div class="mb-3 form-group">
+				<label class="control-label">
+					<?= lang('email_extra_text') ?>
+				</label>
+				<div id="email-note"></div>
+			</div>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <label class="form-label mb-0">

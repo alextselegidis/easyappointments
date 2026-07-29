@@ -26,6 +26,9 @@
     <?php component('company_color_style', ['company_color' => setting('company_color')]); ?>
 
     <?php slot('styles'); ?>
+	
+    <link rel="stylesheet" type="text/css" href="<?= asset_url('assets/vendor/summernote/summernote-bs5.min.css') ?>">
+
 </head>
 <body class="d-flex flex-column h-100">
 
@@ -62,6 +65,8 @@
 <script src="<?= asset_url('assets/js/utils/validation.js') ?>"></script>
 <script src="<?= asset_url('assets/js/layouts/backend_layout.js') ?>"></script>
 <script src="<?= asset_url('assets/js/http/localization_http_client.js') ?>"></script>
+
+<script src="<?= asset_url('assets/vendor/summernote/summernote-bs5.min.js') ?>"></script>
 
 <?php component('js_vars_script'); ?>
 <?php component('js_lang_script'); ?>
