@@ -17,6 +17,196 @@
     }
 }
 
+@media (max-width: 767.98px) {
+    html,
+    body {
+        min-height: 100%;
+        overflow-x: hidden;
+    }
+
+    #main.container {
+        max-width: none;
+        padding: 0;
+    }
+
+    #main .wrapper {
+        min-height: 100vh !important;
+        align-items: stretch !important;
+    }
+
+    #book-appointment-wizard {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-top: 104px !important;
+        padding-bottom: 86px !important;
+    }
+
+    #book-appointment-wizard #header {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+        min-height: 96px;
+        padding: 10px 14px !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    #book-appointment-wizard #company-name {
+        display: grid !important;
+        grid-template-columns: 42px minmax(0, 1fr);
+        column-gap: 10px;
+        align-items: center;
+        width: 100%;
+        margin: 0 !important;
+        text-align: left !important;
+        font-size: 1rem !important;
+        line-height: 1.2 !important;
+    }
+
+    #book-appointment-wizard #company-logo {
+        width: 42px;
+        max-width: 42px;
+        max-height: 42px !important;
+        margin: 0 !important;
+        object-fit: contain;
+    }
+
+    #book-appointment-wizard #company-name > span:not(.display-booking-selection) {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    #book-appointment-wizard #company-name > .d-flex {
+        grid-column: 2;
+        justify-content: flex-start !important;
+        min-width: 0;
+    }
+
+    #book-appointment-wizard .display-booking-selection {
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 0.75rem;
+    }
+
+    #book-appointment-wizard #steps {
+        width: 168px !important;
+        margin: 10px auto 0 !important;
+    }
+
+    #book-appointment-wizard .wizard-frame {
+        flex: 1 1 auto;
+        padding: 20px 25px 0 !important;
+    }
+
+    #book-appointment-wizard .frame-container {
+        min-height: 0 !important;
+        padding: 10px 0 0 !important;
+    }
+
+    #book-appointment-wizard .frame-title {
+        margin: 0 0 16px !important;
+        font-size: 1.35rem;
+    }
+
+    #book-appointment-wizard #select-date {
+        margin-top: 8px !important;
+        margin-bottom: 8px !important;
+    }
+
+    #book-appointment-wizard #select-time {
+        max-width: none !important;
+        padding-top: 8px !important;
+    }
+
+    #book-appointment-wizard #available-hours {
+        max-height: none !important;
+        overflow: visible !important;
+        padding-right: 0 !important;
+    }
+
+    #book-appointment-wizard #available-hours .available-hour {
+        width: 100%;
+    }
+
+    #book-appointment-wizard .command-buttons {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 !important;
+        padding: 12px 14px calc(12px + env(safe-area-inset-bottom));
+        background: var(--bs-body-bg);
+        border-top: 1px solid var(--bs-border-color);
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    #book-appointment-wizard .command-buttons > span {
+        display: none;
+    }
+
+    #book-appointment-wizard .command-buttons .btn,
+    #book-appointment-wizard .command-buttons form {
+        flex: 1 1 0;
+        min-width: 0 !important;
+        margin: 0 !important;
+    }
+
+    #book-appointment-wizard .command-buttons .btn {
+        width: 100%;
+        padding: 10px 12px;
+        white-space: nowrap;
+    }
+
+    #book-appointment-wizard #frame-footer {
+        padding: 10px 14px !important;
+        font-size: 0.75rem;
+    }
+
+    #book-appointment-wizard .altcha-widget {
+        max-width: 100%;
+    }
+
+    #book-appointment-wizard .altcha-challenge {
+        padding: 10px !important;
+        border-radius: var(--bs-border-radius-sm);
+    }
+
+    #book-appointment-wizard .altcha-challenge > .d-flex {
+        gap: 8px;
+        align-items: center !important;
+    }
+
+    #book-appointment-wizard .altcha-verify-btn {
+        flex: 0 0 auto;
+        margin-right: 0 !important;
+        padding: 7px 10px;
+        font-size: 0.875rem;
+        line-height: 1.2;
+    }
+
+    #book-appointment-wizard .altcha-status {
+        min-width: 0;
+        font-size: 0.75rem;
+        line-height: 1.25;
+    }
+
+    #book-appointment-wizard .altcha-progress {
+        margin-top: 8px !important;
+    }
+}
+
 /* Active step indicator - dynamic state that changes via JavaScript */
 #book-appointment-wizard .book-step.active-step {
     height: 45px !important;
@@ -58,6 +248,31 @@
     color: var(--bs-white) !important;
 }
 
+#book-appointment-wizard .booking-step-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(var(--bs-warning-rgb), 0.35);
+    border-left: 4px solid var(--bs-warning);
+    border-radius: var(--bs-border-radius);
+    margin-bottom: 16px;
+    padding: 12px 14px;
+}
+
+#book-appointment-wizard .booking-step-alert::before {
+    content: '!';
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bs-warning);
+    color: var(--bs-dark);
+    font-weight: 700;
+}
+
 /* Captcha refresh icon hover effect */
 #book-appointment-wizard .captcha-title .fa-sync-alt {
     cursor: pointer;
@@ -79,4 +294,36 @@
 
 #book-appointment-wizard .flatpickr-calendar.inline {
     margin: auto; 
+}
+
+#book-appointment-wizard .flatpickr-calendar.arrowTop::before,
+#book-appointment-wizard .flatpickr-calendar.arrowTop::after,
+#book-appointment-wizard .flatpickr-calendar.arrowBottom::before,
+#book-appointment-wizard .flatpickr-calendar.arrowBottom::after {
+    display: none;
+}
+
+@media (max-width: 767.98px) {
+    #book-appointment-wizard .book-step.active-step {
+        height: 34px !important;
+        width: 34px !important;
+        padding: 5px !important;
+        margin-right: 10px !important;
+    }
+
+    #book-appointment-wizard .book-step.active-step strong {
+        font-size: 16px !important;
+    }
+
+    #book-appointment-wizard .book-step:not(.active-step) {
+        height: 28px !important;
+        width: 28px !important;
+        padding: 5px !important;
+        margin-top: 3px !important;
+        margin-right: 8px !important;
+    }
+
+    #book-appointment-wizard .book-step:not(.active-step) strong {
+        font-size: 11px !important;
+    }
 }
