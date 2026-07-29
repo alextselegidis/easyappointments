@@ -18,7 +18,12 @@
 
 <!-- Select Service & Provider -->
 
-<?php component('booking_type_step', ['available_services' => vars('available_services')]); ?>
+<?php component('booking_type_step', [
+    'available_services' => vars('available_services'),
+    'available_providers' => vars('available_providers'),
+    'service_selection_layout' => vars('service_selection_layout'),
+    'hide_single_provider_selection' => vars('hide_single_provider_selection'),
+]); ?>
 
 <!-- Pick An Appointment Date -->
 

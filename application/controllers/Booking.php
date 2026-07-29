@@ -192,6 +192,8 @@ class Booking extends EA_Controller
         $display_privacy_policy = setting('display_privacy_policy');
         $privacy_policy_content = setting('privacy_policy_content');
         $display_any_provider = setting('display_any_provider');
+        $service_selection_layout = setting('service_selection_layout', 'dropdown');
+        $hide_single_provider_selection = setting('hide_single_provider_selection', '0');
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
         $book_advance_timeout = setting('book_advance_timeout');
@@ -302,6 +304,8 @@ class Booking extends EA_Controller
             'first_weekday' => $first_weekday,
             'display_cookie_notice' => $display_cookie_notice,
             'display_any_provider' => setting('display_any_provider'),
+            'service_selection_layout' => $service_selection_layout,
+            'hide_single_provider_selection' => $hide_single_provider_selection,
             'future_booking_limit' => setting('future_booking_limit'),
             'appointment_data' => $appointment,
             'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,
@@ -344,6 +348,7 @@ class Booking extends EA_Controller
             'display_privacy_policy' => $display_privacy_policy,
             'privacy_policy_content' => $privacy_policy_content,
             'display_any_provider' => $display_any_provider,
+            'service_selection_layout' => $service_selection_layout,
             'display_login_button' => $display_login_button,
             'display_delete_personal_information' => $display_delete_personal_information,
             'legal_notice_url' => $legal_notice_url,

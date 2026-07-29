@@ -320,6 +320,47 @@ App.Pages.Booking = (function () {
     }
 
     /**
+     * Keep the service accordion in sync with the underlying service select.
+     */
+    function updateServiceSelectionAccordion() {
+        const serviceId = $selectService.val();
+        const $serviceSelectionAccordion = $('#service-selection-accordion');
+
+        if (!$serviceSelectionAccordion.length) {
+            return;
+        }
+
+        $serviceSelectionAccordion.find('.service-accordion-option').removeClass('selected');
+
+        if (!serviceId) {
+            const $firstCategoryToggle = $serviceSelectionAccordion.find('.service-category-toggle:first');
+
+            if ($firstCategoryToggle.length && $firstCategoryToggle.attr('aria-expanded') !== 'true') {
+                $firstCategoryToggle.trigger('click');
+            }
+
+            return;
+        }
+
+        const $selectedOption = $serviceSelectionAccordion.find(
+            '.service-accordion-option[data-service-id="' + serviceId + '"]',
+        );
+
+        $selectedOption.addClass('selected');
+
+        const $selectedPanel = $selectedOption.closest('.service-category-panel');
+
+        $serviceSelectionAccordion.find('.service-category-panel').each((index, panelEl) => {
+            const $panel = $(panelEl);
+            const isSelectedPanel = $panel.is($selectedPanel);
+
+            $panel.toggleClass('active', isSelectedPanel);
+            $panel.find('.service-category-toggle').attr('aria-expanded', isSelectedPanel);
+            $panel.find('.service-category-services').prop('hidden', !isSelectedPanel);
+        });
+    }
+
+    /**
      * Add the page event listeners.
      */
     function addEventListeners() {
@@ -365,6 +406,7 @@ App.Pages.Booking = (function () {
             $selectProvider.append(new Option(lang('please_select'), ''));
 
             let previousProviderCanServe = false;
+            let availableProviderCount = 0;
 
             vars('available_providers').forEach((provider) => {
                 // If the current provider is able to provide the selected service, add him to the list box.
@@ -373,6 +415,8 @@ App.Pages.Booking = (function () {
                         .length > 0;
 
                 if (canServeService) {
+                    availableProviderCount++;
+
                     $selectProvider.append(new Option(provider.first_name + ' ' + provider.last_name, provider.id));
 
                     if (String(provider.id) === String(previousProviderId)) {
@@ -402,9 +446,39 @@ App.Pages.Booking = (function () {
                 $selectProvider.val('any-provider');
             }
 
+            const hideSingleProviderSelection =
+                Boolean(Number(vars('hide_single_provider_selection'))) && availableProviderCount === 1;
+
+            $selectProvider.parent().prop('hidden', !Boolean(serviceId) || hideSingleProviderSelection);
+
             App.Pages.Booking.updateConfirmFrame();
 
             App.Pages.Booking.updateServiceDescription(serviceId);
+
+            updateServiceSelectionAccordion();
+        });
+
+        $('#service-selection-accordion').on('click', '.service-category-toggle', (event) => {
+            const $toggle = $(event.currentTarget);
+            const $panel = $toggle.closest('.service-category-panel');
+            const $accordion = $panel.closest('#service-selection-accordion');
+            const isExpanded = $toggle.attr('aria-expanded') === 'true';
+
+            $accordion.find('.service-category-panel').removeClass('active');
+            $accordion.find('.service-category-toggle').attr('aria-expanded', false);
+            $accordion.find('.service-category-services').prop('hidden', true);
+
+            if (!isExpanded) {
+                $panel.addClass('active');
+                $panel.find('.service-category-toggle').attr('aria-expanded', true);
+                $panel.find('.service-category-services').prop('hidden', false);
+            }
+        });
+
+        $('#service-selection-accordion').on('click', '.service-accordion-option', (event) => {
+            const serviceId = $(event.currentTarget).data('service-id');
+
+            $selectService.val(serviceId).trigger('change');
         });
 
         /**
