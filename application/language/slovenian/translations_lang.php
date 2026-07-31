@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Sestanek odpovedan';
 $lang['reason'] = 'Razlog';
 $lang['appointment_removed_from_schedule'] = 'Naslednji sestanek je bil odstranjen iz urnika podjetja . ';
 $lang['appointment_details_was_sent_to_you'] = 'E-poštno sporočilo s podrobnostmi o sestanku vam je bilo poslano.';
+$lang['appointment_management_link'] = 'Prestavi / prekliči termin';
 $lang['add_to_google_calendar'] = 'Dodaj v Google Koledar';
 $lang['appointment_booked'] = 'Vaš termin je bil uspešno rezerviran';
 $lang['thank_you_for_appointment'] = 'Hvala, ker ste se dogovorili za sestanek z nami. Spodaj si lahko ogledate podrobnosti termina. Izvedite spremembe s klikom na povezavo za termin.';

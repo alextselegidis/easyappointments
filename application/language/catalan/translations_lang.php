@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Cita cancel·lada';
 $lang['reason'] = 'Motiu';
 $lang['appointment_removed_from_schedule'] = 'La cita següent ha estat eliminada de la planificació de l\'organització.';
 $lang['appointment_details_was_sent_to_you'] = 'Se us ha enviat un correu electrònic amb els detalls de la cita on també podreu modificar-la o anul·lar-la.';
+$lang['appointment_management_link'] = 'Reprogramar / cancel·lar cita';
 $lang['add_to_google_calendar'] = 'Afegeix al Google Calendar';
 $lang['appointment_booked'] = 'La vostra cita s\'ha reservat correctament.';
 $lang['thank_you_for_appointment'] = 'Gràcies per reservar una cita amb nosaltres. A sota, podeu veure els detalls de la cita. Podeu fer canvis clicant a l\'enllaç de la cita.';

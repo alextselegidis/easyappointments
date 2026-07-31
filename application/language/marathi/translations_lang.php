@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'अपॉइंटमेंट रद्
 $lang['reason'] = 'कारण';
 $lang['appointment_removed_from_schedule'] = 'पुढील नियुक्ती कंपनीच्या वेळापत्रकातून वगळण्यात आली.';
 $lang['appointment_details_was_sent_to_you'] = 'अपॉईंटमेंट तपशीलांसह एक ईमेल आपल्याला पाठविला गेला आहे.';
+$lang['appointment_management_link'] = 'अपॉइंटमेंट पुनर्नियोजित करा / रद्द करा';
 $lang['add_to_google_calendar'] = 'गूगल कॅलेंडरमध्ये जोडा';
 $lang['appointment_booked'] = 'आपली भेट यशस्वीरित्या नोंदविली गेली आहे.';
 $lang['thank_you_for_appointment'] = 'आमच्यासोबत भेटीची व्यवस्था केल्याबद्दल धन्यवाद. आपण भेटीची माहिती खाली पाहू शकता. अपॉईंटमेंट लिंकवर क्लिक करून बदल करा.';

@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Varaus peruutettu';
 $lang['reason'] = 'Syy';
 $lang['appointment_removed_from_schedule'] = 'Varaus poistetiin yrityksen varauskirjasta.';
 $lang['appointment_details_was_sent_to_you'] = 'Varauksen tiedot lähetettiin sähköpostilla.';
+$lang['appointment_management_link'] = 'Siirrä / peruuta ajanvaraus';
 $lang['add_to_google_calendar'] = 'Lisää Google-kalenteriin';
 $lang['appointment_booked'] = 'Aikasi varattiin onnistuneesti.';
 $lang['thank_you_for_appointment'] = 'Kiitos ajan varaamisesta. Varauksesi tiedot on lueteltu alla. Tee muutoksia painamalla varauslinkkiä.';

@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Tiden är avbokad';
 $lang['reason'] = 'Anledning';
 $lang['appointment_removed_from_schedule'] = 'Följande tid är avbokad';
 $lang['appointment_details_was_sent_to_you'] = 'Du kommer få ett mejl med din bokningsbekräftelse';
+$lang['appointment_management_link'] = 'Boka om / avboka tid';
 $lang['add_to_google_calendar'] = 'Lägg till i Google-kalendern';
 $lang['appointment_booked'] = 'Din tid är nu bokad';
 $lang['thank_you_for_appointment'] = 'Tack för din bokning hos oss. Här nedan kan du se information om bokningen. Klicka på länken till bokningen för att göra ändringar.';
