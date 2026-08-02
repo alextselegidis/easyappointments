@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Sastanak otkazan';
 $lang['reason'] = 'Razlog';
 $lang['appointment_removed_from_schedule'] = 'Sljedeći sastanak uklonjen je iz rasporeda tvrtke.';
 $lang['appointment_details_was_sent_to_you'] = 'E-pošta s detaljima sastanka poslana vam je.';
+$lang['appointment_management_link'] = 'Promijeni termin / otkaži termin';
 $lang['add_to_google_calendar'] = 'Dodaj u Google kalendar';
 $lang['appointment_booked'] = 'Vaš sastanak je uspješno rezerviran.';
 $lang['thank_you_for_appointment'] = 'Hvala vam što ste dogovorili sastanak s nama. Ispod možete vidjeti detalje sastanka. Promjene napravite klikom na poveznicu sastanka.';

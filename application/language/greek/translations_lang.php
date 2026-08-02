@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Το Ραντεβού Ακυρώθηκε
 $lang['reason'] = 'Αιτία';
 $lang['appointment_removed_from_schedule'] = 'Αυτό το ραντεβού διαγράφηκε από το πλάνο της εταιρείας.';
 $lang['appointment_details_was_sent_to_you'] = 'Ένα email με τις λεπτομέρειες του ραντεβού έχει σταλεί σε εσάς.';
+$lang['appointment_management_link'] = 'Επαναπρογραμματισμός / ακύρωση ραντεβού';
 $lang['add_to_google_calendar'] = 'Προσθήκη στο Google Calendar';
 $lang['appointment_booked'] = 'Το ραντεβού σας κρατήθηκε επιτυχώς.';
 $lang['thank_you_for_appointment'] = 'Ευχαριστούμε για την κράτηση ραντεβού με εμάς. Παρακάτω μπορείτε να δείτε τις λεπτομέρειες του ραντεβού. Πραγματοποιείστε αλλαγές ακολουθώντας τον σύνδεσμο του ραντεβού.';

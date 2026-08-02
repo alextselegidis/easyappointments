@@ -473,7 +473,7 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                             <?php endif; ?>
 
 
-                                            <?php if (!empty($appointment['status'])): ?>
+                                            <?php if (!empty($service['description'])): ?>
                                             <tr>
                                                 <td class="label" style="padding: 3px;font-weight: bold;">
                                                     <?= lang('description') ?>

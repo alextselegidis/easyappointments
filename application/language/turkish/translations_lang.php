@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Randevu İptal Edildi';
 $lang['reason'] = 'Sebep';
 $lang['appointment_removed_from_schedule'] = 'Aşağıdaki randevu şirket programından çıkarıldı.';
 $lang['appointment_details_was_sent_to_you'] = 'Randevu detaylarını içeren bir eposta adresinize gönderildi. ';
+$lang['appointment_management_link'] = 'Randevuyu yeniden planla / iptal et';
 $lang['add_to_google_calendar'] = 'Google Takvim\'e Ekle';
 $lang['appointment_booked'] = 'Randevunuz başarı ile kaydedildi.';
 $lang['thank_you_for_appointment'] = 'Bizden randevu aldığınız için teşekkür ederiz. Randevu detaylarını aşağıda görebilirsiniz. Değişiklik yapmak için randevu linkine tıklayın.';

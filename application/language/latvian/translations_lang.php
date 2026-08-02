@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Susitikimas atšauktas';
 $lang['reason'] = 'Priežastis';
 $lang['appointment_removed_from_schedule'] = 'Toliau pateiktas tikšanās bija pašalintas no uzņēmuma tvarkaraščio.';
 $lang['appointment_details_was_sent_to_you'] = 'El. laiškas su susitikimo informācija tika nosūtīta jums.';
+$lang['appointment_management_link'] = 'Pārplānot / atcelt vizīti';
 $lang['add_to_google_calendar'] = 'Pievienoties pie "Google" kalendāra';
 $lang['appointment_booked'] = 'Jūsu tikšanās bija veiksmīgi pasūtīta';
 $lang['thank_you_for_appointment'] = 'Dėkojame, ka nolīgėte tikšanos ar mums. Žemiau varat redzēt tikšanās detaļas. Atlikite pakeitimus paspaudę susitikimo ieteikumu.';

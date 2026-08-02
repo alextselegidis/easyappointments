@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Întâlnire Anulata';
 $lang['reason'] = 'Motiv';
 $lang['appointment_removed_from_schedule'] = 'Urmatoarea întâlnire a fost stearsa din calendarul companiei.';
 $lang['appointment_details_was_sent_to_you'] = 'Un email cu detaliile întâlnirii v-a fost trimis.';
+$lang['appointment_management_link'] = 'Reprogramează / anulează programarea';
 $lang['add_to_google_calendar'] = 'Adaugati în Calendarul Google';
 $lang['appointment_booked'] = 'Întâlnirea a fost programata.';
 $lang['thank_you_for_appointment'] = 'Va multumim pentru ca ati programat o întâlnire cu noi. Dedesubt puteti vedea detaliile întâlnirii. Puteti face modificari apasând pe linkul întâlnirii.';

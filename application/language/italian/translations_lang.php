@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Appuntamento cancellato';
 $lang['reason'] = 'Motivo';
 $lang['appointment_removed_from_schedule'] = 'Il seguente appuntamento è stato rimosso dalla pianificazione aziendale.';
 $lang['appointment_details_was_sent_to_you'] = 'Ti è stata inviata una e-mail con i dettagli dell\'appuntamento.';
+$lang['appointment_management_link'] = 'Reprogrammare / annullare appuntamento';
 $lang['add_to_google_calendar'] = 'Aggiungi a Google Calendar';
 $lang['appointment_booked'] = 'Il tuo appuntamento è stato riservato con successo.';
 $lang['thank_you_for_appointment'] = 'Grazie per aver pianificato un apputamento con noi. Sotto puoi vedere i dettagli dell\'appuntamento. Effettua le modifiche facendo click sul link dell\'appuntamento.';

@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'הפגישה בוטלה';
 $lang['reason'] = 'סיבה';
 $lang['appointment_removed_from_schedule'] = 'הפגישה הבאה הוסרה מלוח הזמנים של החברה.';
 $lang['appointment_details_was_sent_to_you'] = 'דוא"ל עם פרטי הפגישה נשלח אליך.';
+$lang['appointment_management_link'] = 'שינוי מועד / ביטול פגישה';
 $lang['add_to_google_calendar'] = 'הוספה ליומן של גוגל';
 $lang['appointment_booked'] = 'הפגישה שלך הוזמנה בהצלחה!';
 $lang['thank_you_for_appointment'] = 'תודה שקבעת פגישה איתנו. למטה ניתן לראות את פרטי הפגישה. ניתן לבצע שינויים על ידי לחיצה על קישור הפגישה.';

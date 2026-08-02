@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Schůzka zrušena';
 $lang['reason'] = 'Důvod';
 $lang['appointment_removed_from_schedule'] = 'Následující schůzka byla odstraněna z kalendáře společnosti.';
 $lang['appointment_details_was_sent_to_you'] = 'Byl vám odeslán email s informacemi o schůzce.';
+$lang['appointment_management_link'] = 'Přeplánovat / zrušit schůzku';
 $lang['add_to_google_calendar'] = 'Přidat do Kalendáře Google';
 $lang['appointment_booked'] = 'Vaše schůzka byla úspěšně rezervována.';
 $lang['thank_you_for_appointment'] = 'Děkujeme za vaši rezervaci schůzky u nás. Níže jsou zobrazeny informace o schůzce. Změny můžete provést kliknutím na odkaz na schůzku.';
