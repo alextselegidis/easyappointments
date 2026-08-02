@@ -477,6 +477,7 @@ class Services_model extends EA_Model
             'duration' => (int) $service['duration'],
             'price' => (float) $service['price'],
             'currency' => $service['currency'],
+            'color' => $service['color'],
             'description' => $service['description'],
             'location' => $service['location'],
             'slotInterval' => (int) $service['slot_interval'],
@@ -521,6 +522,10 @@ class Services_model extends EA_Model
 
         if (array_key_exists('currency', $service)) {
             $decoded_resource['currency'] = $service['currency'];
+        }
+
+        if (array_key_exists('color', $service)) {
+            $decoded_resource['color'] = $service['color'];
         }
 
         if (array_key_exists('description', $service)) {
