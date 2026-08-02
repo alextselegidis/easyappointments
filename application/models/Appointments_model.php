@@ -674,6 +674,10 @@ class Appointments_model extends EA_Model
             $decoded_resource['id_services'] = $appointment['serviceId'];
         }
 
+        if (array_key_exists('color', $appointment)) {
+            $decoded_resource['color'] = $appointment['color'];
+        }
+
         if (array_key_exists('googleCalendarId', $appointment)) {
             $decoded_resource['id_google_calendar'] = $appointment['googleCalendarId'];
         }
