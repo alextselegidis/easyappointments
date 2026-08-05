@@ -37,11 +37,73 @@ class Config
     // ------------------------------------------------------------------------
     // DATABASE SETTINGS
     // ------------------------------------------------------------------------
-
-    const DB_HOST = 'mysql';
-    const DB_NAME = 'easyappointments';
-    const DB_USERNAME = 'user';
-    const DB_PASSWORD = 'password';
+    const DB_ACTIVE_GROUP = 'default';  // name of the group, can be anything you want. Defined in DB_SETTINGS below. e.x. "default", "custom1", "example2" etc.
+    const DB_SETTINGS = [
+        'default' => [  // name of the group, can be anything you want
+            /* REQUIRED - Change the following settings to match your database credentials */
+            'hostname' => 'mysql',                  // value of DB_HOST
+            'database' => 'easyappointments',       // value of DB_NAME
+            'username' => 'user',                   // value of DB_USERNAME
+            'password' => 'password',               // value of DB_PASSWORD
+            /* OPTIONAL - Use the following settings if you need different values instead of the defaults only! */
+            // 'dbdriver' => 'mysqli',
+            // 'dbprefix' => 'ea_',
+            // 'pconnect' => FALSE,
+            // 'db_debug' => TRUE,
+            // 'cache_on' => FALSE,
+            // 'cachedir' => '',
+            // 'char_set' => 'utf8mb4',
+            // 'dbcollat' => 'utf8mb4_unicode_ci',
+            // 'swap_pre' => '',
+            // 'autoinit' => TRUE,
+            // 'stricton' => FALSE,
+        ],
+        // 'custom1' => [
+        //     /* REQUIRED - Change the following settings to match your database credentials */
+        //     'hostname' => 'mysql',
+        //     'database' => 'easyappointments',
+        //     'username' => 'user',
+        //     'password' => 'password',
+        //     /* OPTIONAL params see above */
+        // ],
+        // 'example2' => [
+        //     /* REQUIRED - Change the following settings to match your database credentials */
+        //     'hostname' => 'mysql',
+        //     'database' => 'easyappointments',
+        //     'username' => 'user',
+        //     'password' => 'password',
+        //     /* OPTIONAL params see above */
+        // ],
+    ];
+    
+    // ------------------------------------------------------------------------
+    // EMAIL SETTINGS
+    // ------------------------------------------------------------------------
+    const EMAIL_SETTINGS = [
+        /* OPTIONAL - Use the following settings if you need different values instead of the defaults only! */
+        // 'useragent' => 'Easy!Appointments',
+        // 'protocol' => 'mail',   // or 'smtp'
+        // 'smtp_host' => '',
+        // 'smtp_user' => '',
+        // 'smtp_pass' => '',
+        // 'smtp_crypto' => 'ssl',  // or 'tls'
+        // 'smtp_port' => 25,
+        // 'starttls' => FALSE,
+        // 'smtp_debug' => 0,       // or '1'
+        // 'smtp_auth' => TRUE,     // or FALSE for anonymous relay
+        // 'from_name' => '',
+        // 'from_address' => '',
+        // 'reply_to' => '',
+        // 'wordwrap' => TRUE,
+        // 'wrapchars' => 76,
+        // 'mailtype' => 'html',    // or 'text'
+        // 'priority' => 3,
+        // 'bcc_batch_mode' => FALSE,
+        // 'bcc_batch_size' => 200,
+        // 'dsn' => FALSE
+        // 'crlf' => "\r\n",
+        // 'newline' => "\r\n",
+    ];
 
     // ------------------------------------------------------------------------
     // GOOGLE CALENDAR SYNC (Optional - can also be configured via UI)
