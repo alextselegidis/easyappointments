@@ -606,6 +606,8 @@ class Calendar extends EA_Controller
 
             $provider_id = request('provider_id');
 
+            $this->check_event_permissions((int) $provider_id);
+
             $exception_id = $this->providers_model->save_working_plan_exception($provider_id, $working_plan_exception);
 
             json_response([
@@ -634,9 +636,12 @@ class Calendar extends EA_Controller
 
             $exception_id = request('exception_id');
 
-            $provider_id = request('provider_id');
-
             $this->load->model('working_plan_exceptions_model');
+
+            $working_plan_exception = $this->working_plan_exceptions_model->find($exception_id);
+
+            $this->check_event_permissions((int) $working_plan_exception['id_users_provider']);
+
             $this->working_plan_exceptions_model->delete($exception_id);
 
             json_response([

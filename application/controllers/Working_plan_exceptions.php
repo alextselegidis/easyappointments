@@ -36,6 +36,8 @@ class Working_plan_exceptions extends EA_Controller
         'breaks',
     ];
 
+    private ?array $secretary_provider_ids = null;
+
     /**
      * Working_plan_exceptions constructor.
      */
@@ -45,6 +47,7 @@ class Working_plan_exceptions extends EA_Controller
 
         $this->load->model('working_plan_exceptions_model');
         $this->load->model('roles_model');
+        $this->load->model('secretaries_model');
 
         $this->load->library('accounts');
         $this->load->library('timezones');
@@ -88,6 +91,13 @@ class Working_plan_exceptions extends EA_Controller
                 ? $this->working_plan_exceptions_model->get($where, $limit, $offset, $order_by)
                 : $this->working_plan_exceptions_model->search($keyword, $limit, $offset, $order_by);
 
+            // Providers and secretaries must only see the exceptions of the providers they may access.
+            $working_plan_exceptions = array_values(
+                array_filter($working_plan_exceptions, fn($working_plan_exception) => $this->can_access_provider(
+                    (int) $working_plan_exception['id_users_provider'],
+                )),
+            );
+
             json_response($working_plan_exceptions);
         } catch (Throwable $e) {
             json_exception($e);
@@ -109,6 +119,8 @@ class Working_plan_exceptions extends EA_Controller
             check('working_plan_exception', 'array');
 
             $working_plan_exception = request('working_plan_exception');
+
+            $this->check_provider_access((int) ($working_plan_exception['id_users_provider'] ?? 0));
 
             $this->working_plan_exceptions_model->only(
                 $working_plan_exception,
@@ -163,6 +175,8 @@ class Working_plan_exceptions extends EA_Controller
                 throw new InvalidArgumentException('Invalid working plan exception ID provided.');
             }
 
+            $this->check_exception_access((int) $working_plan_exception_id);
+
             $working_plan_exception = $this->working_plan_exceptions_model->find($working_plan_exception_id);
 
             // Decode breaks JSON
@@ -191,6 +205,13 @@ class Working_plan_exceptions extends EA_Controller
             check('working_plan_exception', 'array');
 
             $working_plan_exception = request('working_plan_exception');
+
+            // Check both the current owner of the record and the provider it is about to be assigned to.
+            if (!empty($working_plan_exception['id'])) {
+                $this->check_exception_access((int) $working_plan_exception['id']);
+            }
+
+            $this->check_provider_access((int) ($working_plan_exception['id_users_provider'] ?? 0));
 
             $this->working_plan_exceptions_model->only(
                 $working_plan_exception,
@@ -245,6 +266,8 @@ class Working_plan_exceptions extends EA_Controller
                 throw new InvalidArgumentException('Invalid working plan exception ID provided.');
             }
 
+            $this->check_exception_access((int) $working_plan_exception_id);
+
             $this->working_plan_exceptions_model->delete($working_plan_exception_id);
 
             json_response([
@@ -280,11 +303,50 @@ class Working_plan_exceptions extends EA_Controller
                 throw new InvalidArgumentException('Invalid provider ID provided.');
             }
 
+            $this->check_provider_access((int) $provider_id);
+
             $working_plan_exceptions = $this->working_plan_exceptions_model->get_by_provider((int) $provider_id);
 
             json_response($working_plan_exceptions);
         } catch (Throwable $e) {
             json_exception($e);
         }
+    }
+
+    /**
+     * Check whether the current user may act on the provided provider.
+     */
+    private function can_access_provider(int $provider_id): bool
+    {
+        $user_id = (int) session('user_id');
+
+        return match (session('role_slug')) {
+            DB_SLUG_PROVIDER => $user_id === $provider_id,
+            DB_SLUG_SECRETARY => in_array(
+                $provider_id,
+                $this->secretary_provider_ids ??= $this->secretaries_model->find($user_id)['providers'],
+            ),
+            default => true,
+        };
+    }
+
+    /**
+     * Abort unless the current user may act on the provided provider.
+     */
+    private function check_provider_access(int $provider_id): void
+    {
+        if (!$this->can_access_provider($provider_id)) {
+            abort(403, 'Forbidden');
+        }
+    }
+
+    /**
+     * Abort unless the current user may act on the working plan exception's provider.
+     */
+    private function check_exception_access(int $working_plan_exception_id): void
+    {
+        $working_plan_exception = $this->working_plan_exceptions_model->find($working_plan_exception_id);
+
+        $this->check_provider_access((int) $working_plan_exception['id_users_provider']);
     }
 }
