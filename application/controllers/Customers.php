@@ -262,7 +262,7 @@ class Customers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
-            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_visibility')) {
+            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_access')) {
                 abort(403);
             }
 
