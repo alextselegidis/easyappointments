@@ -90,7 +90,7 @@ $languages = [
     'sq' => 'albanian',
     'ar' => 'arabic',
     'bs' => 'bosnian',
-    'bu' => 'bulgarian',
+    'bg' => 'bulgarian',
     'ca' => 'catalan',
     'cs' => 'czech',
     'da' => 'danish',
@@ -113,19 +113,19 @@ $languages = [
     'lv' => 'latvian',
     'mr' => 'marathi',
     'nl' => 'dutch',
-    'no' => 'norwegian',
+    'nb' => 'norwegian',
     'pl' => 'polish',
     'pt' => 'portuguese',
     'pt-br' => 'portuguese-br',
     'ro' => 'romanian',
-    'rs' => 'serbian',
+    'sr' => 'serbian',
     'ru' => 'russian',
     'sk' => 'slovak',
     'sl' => 'slovenian',
     'sv' => 'swedish',
     'th' => 'thai',
     'tr' => 'turkish',
-    'zh' => 'chinese',
+    'zh-cn' => 'chinese',
     'zh-tw' => 'traditional-chinese',
     'uk' => 'ukrainian',
     'uz' => 'uzbek',
@@ -133,7 +133,21 @@ $languages = [
 
 $config['language_codes'] = $languages;
 
-$language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
+// Match the browser language against the known codes, trying the region specific one first (e.g. "zh-cn"
+// before "zh"), so that codes like "pt-br" and "zh-tw" can be detected as well.
+$accept_language = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '', 0, 5));
+$accept_language_prefix = substr($accept_language, 0, 2);
+
+$detected_language = $languages[$accept_language] ?? ($languages[$accept_language_prefix] ?? null);
+
+if (!$detected_language && strlen($accept_language_prefix) === 2) {
+    foreach ($languages as $code => $name) {
+        if (str_starts_with($code, $accept_language_prefix)) {
+            $detected_language = $name;
+            break;
+        }
+    }
+}
 
 // Validate language parameter to prevent injection - only accept known language values
 $requested_language = $_GET['language'] ?? null;
@@ -141,11 +155,7 @@ if ($requested_language !== null && !in_array($requested_language, $languages, t
     $requested_language = null; // Invalid language, ignore it
 }
 
-$config['language'] =
-    $requested_language ??
-    (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
-        ? $languages[$language_code]
-        : Config::LANGUAGE);
+$config['language'] = $requested_language ?? ($detected_language ?? Config::LANGUAGE);
 
 $config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 
