@@ -21,7 +21,7 @@
     </div>
 <?php else: ?>
     <div>
-        <div class="alert alert-success">
+        <div class="alert alert-danger">
             Attention! There was an error during the update process.
         </div>
 
