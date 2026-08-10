@@ -131,6 +131,7 @@ function vendor(done) {
     gulp.src([
         'node_modules/@fortawesome/fontawesome-free/js/fontawesome.min.js',
         'node_modules/@fortawesome/fontawesome-free/js/solid.min.js',
+        'node_modules/@fortawesome/fontawesome-free/js/brands.min.js',
     ]).pipe(gulp.dest('assets/vendor/@fortawesome-fontawesome-free'));
 
     // cookieconsent
