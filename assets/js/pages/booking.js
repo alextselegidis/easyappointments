@@ -455,7 +455,7 @@ App.Pages.Booking = (function () {
                     return; // Validation failed, do not continue.
                 } else {
                     App.Pages.Booking.updateConfirmFrame();
-                    
+
                     // Initialize ALTCHA widget if present
                     if ($('#altcha-widget').length && App.Utils.Altcha) {
                         App.Utils.Altcha.initialize('altcha-widget');
@@ -963,7 +963,11 @@ App.Pages.Booking = (function () {
         }
 
         if (Number(service.price) > 0) {
-            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+            const docLang = document.documentElement.lang || undefined;
+
+            const localePrice = Number(service.price).toLocaleString(docLang, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+
+            additionalInfoParts.push(`${lang('price')}: ${localePrice} ${service.currency}`);
         }
 
         if (service.location) {
