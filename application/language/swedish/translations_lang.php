@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Tryck på "Avboka tid" för att ta bort bokn
 $lang['cancel'] = 'Avbryt';
 $lang['appointment_registered'] = 'Din bokning är sparad';
 $lang['cancel_appointment_title'] = 'Avboka tid';
+$lang['reschedule_or_cancel_appointment'] = 'Boka om / Avboka tid';
 $lang['appointment_cancelled'] = 'Din tid är nu avbokad';
 $lang['appointment_cancelled_title'] = 'Tiden är avbokad';
 $lang['reason'] = 'Anledning';

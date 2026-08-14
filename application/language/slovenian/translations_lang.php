@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Pritisnite gumb "Prekliči sestanek", da ods
 $lang['cancel'] = 'Prekliči';
 $lang['appointment_registered'] = 'Vaš termin je bil uspešno registriran!';
 $lang['cancel_appointment_title'] = 'Prekliči sestanek';
+$lang['reschedule_or_cancel_appointment'] = 'Prestavi / Prekliči sestanek';
 $lang['appointment_cancelled'] = 'Vaš termin je bil uspešno preklican.';
 $lang['appointment_cancelled_title'] = 'Sestanek odpovedan';
 $lang['reason'] = 'Razlog';

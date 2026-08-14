@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = '点击「取消预约」可从公司时间�
 $lang['cancel'] = '取消';
 $lang['appointment_registered'] = '您的预约已经成功预定了.';
 $lang['cancel_appointment_title'] = '取消预约';
+$lang['reschedule_or_cancel_appointment'] = '改期 / 取消预约';
 $lang['appointment_cancelled'] = '您的预约已经成功取消了.';
 $lang['appointment_cancelled_title'] = '完成预约取消';
 $lang['reason'] = '理由';

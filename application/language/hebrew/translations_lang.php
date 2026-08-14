@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'לחץ על כפתור "ביטול פגיש�
 $lang['cancel'] = 'ביטול';
 $lang['appointment_registered'] = 'הפגישה שלך נרשמה בהצלחה!';
 $lang['cancel_appointment_title'] = 'ביטול פגישה';
+$lang['reschedule_or_cancel_appointment'] = 'שינוי מועד / ביטול פגישה';
 $lang['appointment_cancelled'] = 'הפגישה שלך בוטלה בהצלחה';
 $lang['appointment_cancelled_title'] = 'הפגישה בוטלה';
 $lang['reason'] = 'סיבה';

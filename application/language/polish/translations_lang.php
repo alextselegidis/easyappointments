@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Przyciśnij "Anuluj Wizytę" aby usunąć wi
 $lang['cancel'] = 'Anulować';
 $lang['appointment_registered'] = 'Twoja wizyta została została pozytywnie zarejestrowana.';
 $lang['cancel_appointment_title'] = 'Anuluj Wizytę';
+$lang['reschedule_or_cancel_appointment'] = 'Zmień termin / Anuluj wizytę';
 $lang['appointment_cancelled'] = 'Twoja wizyta została anulowana.';
 $lang['appointment_cancelled_title'] = 'Wizyta Anulowana';
 $lang['reason'] = 'Powód';

@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Presione el botón "Cancelar cita" para elim
 $lang['cancel'] = 'Cancelar';
 $lang['appointment_registered'] = 'Su cita ha sido registrada exitosamente';
 $lang['cancel_appointment_title'] = 'Cancelar cita';
+$lang['reschedule_or_cancel_appointment'] = 'Reprogramar / Cancelar cita';
 $lang['appointment_cancelled'] = 'Su cita ha sido cancelada exitosamente';
 $lang['appointment_cancelled_title'] = 'Cita cancelada';
 $lang['reason'] = 'Razón';

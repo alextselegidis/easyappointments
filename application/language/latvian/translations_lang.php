@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Paspauskite "Atšaukti tikšanos", lai paša
 $lang['cancel'] = 'Atšaukti';
 $lang['appointment_registered'] = 'Jūsu apmeklējums bija veiksmīgi reģistrēts!';
 $lang['cancel_appointment_title'] = 'Atšaukti tikšanos';
+$lang['reschedule_or_cancel_appointment'] = 'Pārplānot / Atcelt tikšanos';
 $lang['appointment_cancelled'] = 'Jūsu tikšanās bija veiksmīgi atšauktas.';
 $lang['appointment_cancelled_title'] = 'Susitikimas atšauktas';
 $lang['reason'] = 'Priežastis';

@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Paina "Peruuta varaus" poistaaksesi varaukse
 $lang['cancel'] = 'Peruuta';
 $lang['appointment_registered'] = 'Varauksen rekisteröinti onnistui.';
 $lang['cancel_appointment_title'] = 'Peruuta varaus';
+$lang['reschedule_or_cancel_appointment'] = 'Siirrä / Peruuta varaus';
 $lang['appointment_cancelled'] = 'Varauksen peruutus onnistui.';
 $lang['appointment_cancelled_title'] = 'Varaus peruutettu';
 $lang['reason'] = 'Syy';

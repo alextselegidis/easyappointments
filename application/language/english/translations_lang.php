@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Press the "Cancel Appointment" button to rem
 $lang['cancel'] = 'Cancel';
 $lang['appointment_registered'] = 'Your appointment has been successfully registered!';
 $lang['cancel_appointment_title'] = 'Cancel Appointment';
+$lang['reschedule_or_cancel_appointment'] = 'Reschedule / Cancel Appointment';
 $lang['appointment_cancelled'] = 'Your appointment has been successfully cancelled.';
 $lang['appointment_cancelled_title'] = 'Appointment Cancelled';
 $lang['reason'] = 'Reason';

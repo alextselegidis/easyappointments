@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Tryk "Slet tid" for at aflyse aftalen.';
 $lang['cancel'] = 'Annuller';
 $lang['appointment_registered'] = 'Din tidbestilling er registret';
 $lang['cancel_appointment_title'] = 'Slet tid';
+$lang['reschedule_or_cancel_appointment'] = 'Flyt / Aflys tid';
 $lang['appointment_cancelled'] = 'Din tid er nu slettet';
 $lang['appointment_cancelled_title'] = 'Tiden er slettet';
 $lang['reason'] = 'Grund';

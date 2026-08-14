@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Vajuta "Tühista broneering" nuppu broneerin
 $lang['cancel'] = 'Tühista';
 $lang['appointment_registered'] = 'Broneeringu kinnitamine õnnestus..';
 $lang['cancel_appointment_title'] = 'Tühista broneering';
+$lang['reschedule_or_cancel_appointment'] = 'Muuda / Tühista broneering';
 $lang['appointment_cancelled'] = 'Broneeringu tühistamine õnnestus.';
 $lang['appointment_cancelled_title'] = 'Broneering tühistatud';
 $lang['reason'] = 'Põhjus';

@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Pro odebrání schůzky z kalendáře spole�
 $lang['cancel'] = 'Zrušit';
 $lang['appointment_registered'] = 'Vaše schůzka byla úspěšně registrována.';
 $lang['cancel_appointment_title'] = 'Zrušit schůzku';
+$lang['reschedule_or_cancel_appointment'] = 'Změnit / Zrušit schůzku';
 $lang['appointment_cancelled'] = 'Vaše schůzka byla úspěšně zrušena.';
 $lang['appointment_cancelled_title'] = 'Schůzka zrušena';
 $lang['reason'] = 'Důvod';

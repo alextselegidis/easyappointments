@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Shtypni butonin "Anulo Takimin" për të heq
 $lang['cancel'] = 'Anulo';
 $lang['appointment_registered'] = 'Takimi juaj u regjistrua me sukses!';
 $lang['cancel_appointment_title'] = 'Anulo Takimin';
+$lang['reschedule_or_cancel_appointment'] = 'Riorganizo / Anulo Takimin';
 $lang['appointment_cancelled'] = 'Takimi juaj u anulua me sukses.';
 $lang['appointment_cancelled_title'] = 'Takimi i Anuluar';
 $lang['reason'] = 'Arsyeja';

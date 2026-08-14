@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Premeu el botó "Cancel·lació de la cita" 
 $lang['cancel'] = 'Cancel·la';
 $lang['appointment_registered'] = 'La vostra cita s\'ha desat correctament!.';
 $lang['cancel_appointment_title'] = 'Cancel·lació de la cita';
+$lang['reschedule_or_cancel_appointment'] = 'Reprogramar / Cancel·lar la cita';
 $lang['appointment_cancelled'] = 'La vostra cita s\'ha cancel·lat correctament.';
 $lang['appointment_cancelled_title'] = 'Cita cancel·lada';
 $lang['reason'] = 'Motiu';

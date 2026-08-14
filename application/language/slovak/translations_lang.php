@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Stlačte tlačidlo "Zrušiť rezerváciu" pr
 $lang['cancel'] = 'Zrušiť';
 $lang['appointment_registered'] = 'Vaša rezervácia bola zaregistrovaná.';
 $lang['cancel_appointment_title'] = 'Zrušiť rezerváciu';
+$lang['reschedule_or_cancel_appointment'] = 'Zmeniť / Zrušiť rezerváciu';
 $lang['appointment_cancelled'] = 'Vaša rezervácia bola zrušená.';
 $lang['appointment_cancelled_title'] = 'Rezervácia zrušená';
 $lang['reason'] = 'Dôvod';

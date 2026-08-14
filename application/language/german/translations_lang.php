@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Bitte klicken Sie auf "Termin stornieren" um
 $lang['cancel'] = 'Abbrechen';
 $lang['appointment_registered'] = 'Ihr Termin ist erfolgreich registriert worden.';
 $lang['cancel_appointment_title'] = 'Termin stornieren';
+$lang['reschedule_or_cancel_appointment'] = 'Termin verschieben / stornieren';
 $lang['appointment_cancelled'] = 'Ihr Termin ist erfolgreich storniert worden.';
 $lang['appointment_cancelled_title'] = 'Termin storniert';
 $lang['reason'] = 'Grund';

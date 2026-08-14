@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Pritisnite dugme "Otkaži termin" da uklonit
 $lang['cancel'] = 'Otkaži';
 $lang['appointment_registered'] = 'Vaš termin je uspješno registrovan!';
 $lang['cancel_appointment_title'] = 'Otkaži termin';
+$lang['reschedule_or_cancel_appointment'] = 'Promijeni / Otkaži termin';
 $lang['appointment_cancelled'] = 'Vaš termin je uspješno otkazan.';
 $lang['appointment_cancelled_title'] = 'Sastanak otkazan';
 $lang['reason'] = 'Razlog';

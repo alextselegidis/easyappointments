@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Uchrashuvni kompaniya jadvalidan olib tashla
 $lang['cancel'] = 'Bekor qilish';
 $lang['appointment_registered'] = 'Uchrashuvingiz muvaffaqiyatli qayd etildi!';
 $lang['cancel_appointment_title'] = 'Uchrashuvni bekor qilish';
+$lang['reschedule_or_cancel_appointment'] = 'Uchrashuvni qayta rejalashtirish / bekor qilish';
 $lang['appointment_cancelled'] = 'Uchrashuvingiz muvaffaqiyatli bekor qilindi.';
 $lang['appointment_cancelled_title'] = 'Uchrashuv bekor qilindi';
 $lang['reason'] = 'Sabab';

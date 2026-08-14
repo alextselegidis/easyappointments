@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'कंपनीच्या वेळाप�
 $lang['cancel'] = 'रद्द करा';
 $lang['appointment_registered'] = 'आपली भेट यशस्वीरित्या नोंदविली गेली आहे.';
 $lang['cancel_appointment_title'] = 'भेट रद्द करा';
+$lang['reschedule_or_cancel_appointment'] = 'भेट पुनर्नियोजित करा / रद्द करा';
 $lang['appointment_cancelled'] = 'आपली भेट यशस्वीरित्या रद्द केली गेली आहे.';
 $lang['appointment_cancelled_title'] = 'अपॉइंटमेंट रद्द केली';
 $lang['reason'] = 'कारण';

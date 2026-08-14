@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Klickt w.e.g. "Termäin ofsoen" fir de Term�
 $lang['cancel'] = 'Ofbriechen';
 $lang['appointment_registered'] = 'Äre Termäin ass erfollegräich gespäichert ginn.';
 $lang['cancel_appointment_title'] = 'Termäin ofsoen';
+$lang['reschedule_or_cancel_appointment'] = 'Termäin verleeën / ofsoen';
 $lang['appointment_cancelled'] = 'Äre Termäin ass erfollegräich ofgesot ginn.';
 $lang['appointment_cancelled_title'] = 'Termäin ofsoen';
 $lang['reason'] = 'Grond';

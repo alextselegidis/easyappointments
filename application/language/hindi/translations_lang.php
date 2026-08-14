@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'कंपनी अनुसूची से
 $lang['cancel'] = 'रद्द करें';
 $lang['appointment_registered'] = 'आपकी अपॉइंटमेंट को सफलतापूर्वक पंजीकृत किया गया है.';
 $lang['cancel_appointment_title'] = 'अपॉइंटमेंट रद्द करें';
+$lang['reschedule_or_cancel_appointment'] = 'अपॉइंटमेंट पुनर्निर्धारित करें / रद्द करें';
 $lang['appointment_cancelled'] = 'आपकी अपॉइंटमेंट सफलतापूर्वक रद्द कर दिया गया है.';
 $lang['appointment_cancelled_title'] = 'अपॉइंटमेंट रद्द';
 $lang['reason'] = 'कारण';

@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = '按下「取消預約」按鈕將預約從�
 $lang['cancel'] = '取消';
 $lang['appointment_registered'] = '您的預約已成功登記！';
 $lang['cancel_appointment_title'] = '取消預約';
+$lang['reschedule_or_cancel_appointment'] = '改期 / 取消預約';
 $lang['appointment_cancelled'] = '您的預約已成功取消。';
 $lang['appointment_cancelled_title'] = '預約已取消';
 $lang['reason'] = '原因';

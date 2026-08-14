@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'برای حذف قرار ملاقات از �
 $lang['cancel'] = 'لغو';
 $lang['appointment_registered'] = 'قرار ملاقات شما با موفقیت ثبت گردید';
 $lang['cancel_appointment_title'] = 'لغو قرار ملاقات';
+$lang['reschedule_or_cancel_appointment'] = 'تغییر زمان / لغو قرار ملاقات';
 $lang['appointment_cancelled'] = 'قرار ملاقات شما با موفقیت لغو گردید';
 $lang['appointment_cancelled_title'] = 'لغو ملاقات';
 $lang['reason'] = 'دلیل';

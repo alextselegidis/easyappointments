@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Randevuyu şirket takviminden çıkarmak iç
 $lang['cancel'] = 'İptal';
 $lang['appointment_registered'] = 'Randevunuz başarı ile kaydedildi.';
 $lang['cancel_appointment_title'] = 'Randevuyu İptal Et';
+$lang['reschedule_or_cancel_appointment'] = 'Randevuyu Ertele / İptal Et';
 $lang['appointment_cancelled'] = 'Randevunuz başarı ile iptal edildi.';
 $lang['appointment_cancelled_title'] = 'Randevu İptal Edildi';
 $lang['reason'] = 'Sebep';

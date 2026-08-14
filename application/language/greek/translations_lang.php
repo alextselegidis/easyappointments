@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Πιέστε το κουμπί "Ακύρωσ
 $lang['cancel'] = 'Άκυρο';
 $lang['appointment_registered'] = 'Το ραντεβού σας καταχωρήθηκε επιτυχώς.';
 $lang['cancel_appointment_title'] = 'Ακύρωση Ραντεβού';
+$lang['reschedule_or_cancel_appointment'] = 'Αλλαγή / Ακύρωση Ραντεβού';
 $lang['appointment_cancelled'] = 'Το ραντεβού σας ακυρώθηκε επιτυχώς.';
 $lang['appointment_cancelled_title'] = 'Το Ραντεβού Ακυρώθηκε';
 $lang['reason'] = 'Αιτία';

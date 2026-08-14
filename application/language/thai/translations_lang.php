@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'กดปุ่ม "ยกเลิกกา
 $lang['cancel'] = 'ยกเลิก';
 $lang['appointment_registered'] = 'การนัดหมายของคุณได้รับการลงทะเบียนเรียบร้อยแล้ว';
 $lang['cancel_appointment_title'] = 'ยกเลิกการนัดหมาย';
+$lang['reschedule_or_cancel_appointment'] = 'เลื่อน / ยกเลิกการนัดหมาย';
 $lang['appointment_cancelled'] = 'การนัดหมายของคุณถูกยกเลิกเรียบร้อยแล้ว';
 $lang['appointment_cancelled_title'] = 'การนัดหมายถูกยกเลิก';
 $lang['reason'] = 'เหตุผล';

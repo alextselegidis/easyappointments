@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Nyomd meg az "Időpont eltávolítása" gomb
 $lang['cancel'] = 'Mégse';
 $lang['appointment_registered'] = 'Az időpontodat sikeresen lefoglaltuk.';
 $lang['cancel_appointment_title'] = 'Időpont eltávolítása';
+$lang['reschedule_or_cancel_appointment'] = 'Időpont módosítása / lemondása';
 $lang['appointment_cancelled'] = 'Az időpontot sikeresen lemondtad.';
 $lang['appointment_cancelled_title'] = 'Időpont lemondva';
 $lang['reason'] = 'Ok';

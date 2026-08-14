@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Натисніть кнопку "Скасу�
 $lang['cancel'] = 'Скасувати';
 $lang['appointment_registered'] = 'Ваш запис успішно зареєстровано!';
 $lang['cancel_appointment_title'] = 'Скасувати запис';
+$lang['reschedule_or_cancel_appointment'] = 'Перенести / Скасувати запис';
 $lang['appointment_cancelled'] = 'Ваш запис успішно скасовано.';
 $lang['appointment_cancelled_title'] = 'Запис скасовано';
 $lang['reason'] = 'Причина';

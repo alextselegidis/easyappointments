@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Pritisnite "Otkažite posetu" da biste uklon
 $lang['cancel'] = 'Otkaži';
 $lang['appointment_registered'] = 'Vreme vaše posete je zavedeno!';
 $lang['cancel_appointment_title'] = 'Otkažite posetu';
+$lang['reschedule_or_cancel_appointment'] = 'Promenite / Otkažite posetu';
 $lang['appointment_cancelled'] = 'Vreme vaše posete je otkazano!';
 $lang['appointment_cancelled_title'] = 'Vreme posete je otkazano';
 $lang['reason'] = 'Razlog';

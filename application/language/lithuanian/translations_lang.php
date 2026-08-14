@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Jei norite atšaukti vizitą, spustelėkite 
 $lang['cancel'] = 'Atšaukti';
 $lang['appointment_registered'] = 'Jūsų vizitas sėkmingai užregistruotas!';
 $lang['cancel_appointment_title'] = 'Vizito atšaukimas';
+$lang['reschedule_or_cancel_appointment'] = 'Perkelti / Atšaukti vizitą';
 $lang['appointment_cancelled'] = 'Jūsų vizitas sėkmingai atšauktas.';
 $lang['appointment_cancelled_title'] = 'Vizitas atšauktas';
 $lang['reason'] = 'Priežastis';

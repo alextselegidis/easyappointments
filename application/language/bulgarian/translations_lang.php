@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Натиснете бутон "Отказ н
 $lang['cancel'] = 'Отказ';
 $lang['appointment_registered'] = 'Часът Ви бе успешно регистриран.';
 $lang['cancel_appointment_title'] = 'Отказ на Час';
+$lang['reschedule_or_cancel_appointment'] = 'Промяна / Отказ на часа';
 $lang['appointment_cancelled'] = 'Часът Ви бе успешно анулиран.';
 $lang['appointment_cancelled_title'] = 'Часът анулиран.';
 $lang['reason'] = 'Причина';

@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Appuyer sur le bouton "Annuler le rendez-vou
 $lang['cancel'] = 'Annuler';
 $lang['appointment_registered'] = 'Votre rendez-vous a été enregistré avec succès.';
 $lang['cancel_appointment_title'] = 'Annuler le rendez-vous';
+$lang['reschedule_or_cancel_appointment'] = 'Reprogrammer / Annuler le rendez-vous';
 $lang['appointment_cancelled'] = 'Votre rendez-vous a bien été annulé.';
 $lang['appointment_cancelled_title'] = 'Rendez-vous annulé';
 $lang['reason'] = 'Motif';

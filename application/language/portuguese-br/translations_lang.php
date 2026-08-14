@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Pressione o botão "Cancelar agendamento" pa
 $lang['cancel'] = 'Cancelar';
 $lang['appointment_registered'] = 'O agendamento foi registrado com sucesso.';
 $lang['cancel_appointment_title'] = 'Cancelar agendamento';
+$lang['reschedule_or_cancel_appointment'] = 'Reagendar / Cancelar agendamento';
 $lang['appointment_cancelled'] = 'Agendamento cancelado com sucesso.';
 $lang['appointment_cancelled_title'] = 'Agendamento cancelado';
 $lang['reason'] = 'Razão';

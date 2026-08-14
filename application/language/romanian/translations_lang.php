@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Apasati butonul "Anulare întâlnire" ca sa 
 $lang['cancel'] = 'Anulare';
 $lang['appointment_registered'] = 'Cererea dumneavoastra a fost înregistrata.';
 $lang['cancel_appointment_title'] = 'Anulare întâlnire';
+$lang['reschedule_or_cancel_appointment'] = 'Reprogramare / Anulare întâlnire';
 $lang['appointment_cancelled'] = 'Întâlnirea a fost anulata.';
 $lang['appointment_cancelled_title'] = 'Întâlnire Anulata';
 $lang['reason'] = 'Motiv';

@@ -619,7 +619,7 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                                                     <td>
                                                                         <a href="<?= e(
                                                                             $appointment_link,
-                                                                        ) ?>" target="_blank">Reschedule / Cancel Appointment</a>
+                                                                        ) ?>" target="_blank"><?= lang('reschedule_or_cancel_appointment') ?></a>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>

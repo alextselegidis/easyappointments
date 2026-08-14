@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Нажмите кнопку "Отмена н
 $lang['cancel'] = 'Отменить';
 $lang['appointment_registered'] = 'Ваше назначение благополучно зарегистрировано.';
 $lang['cancel_appointment_title'] = 'Отмена назначения';
+$lang['reschedule_or_cancel_appointment'] = 'Перенести / Отменить запись';
 $lang['appointment_cancelled'] = 'Ваше назначение успешно отменено.';
 $lang['appointment_cancelled_title'] = 'Назначение отменено';
 $lang['reason'] = 'Причина';

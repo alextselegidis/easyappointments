@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Druk op de knop "Afspraak annuleren" om uw a
 $lang['cancel'] = 'Annuleren';
 $lang['appointment_registered'] = 'Uw afspraak is succesvol geboekt.';
 $lang['cancel_appointment_title'] = 'Afspraak annuleren';
+$lang['reschedule_or_cancel_appointment'] = 'Afspraak verzetten / annuleren';
 $lang['appointment_cancelled'] = 'Uw afspraak is met succes geannuleerd.';
 $lang['appointment_cancelled_title'] = 'Afspraak geannuleerd';
 $lang['reason'] = 'Reden';

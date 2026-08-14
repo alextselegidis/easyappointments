@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = '会社のスケジュールから予約を�
 $lang['cancel'] = 'キャンセル';
 $lang['appointment_registered'] = 'お客様の予約が完了しました。';
 $lang['cancel_appointment_title'] = '予約のキャンセル';
+$lang['reschedule_or_cancel_appointment'] = '予約の変更 / キャンセル';
 $lang['appointment_cancelled'] = 'お客様の予約のキャンセルが完了しました。';
 $lang['appointment_cancelled_title'] = '予約がキャンセルされました。';
 $lang['reason'] = '理由';

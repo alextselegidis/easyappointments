@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = ' .إضغط زر "إلغاء الموعد" ل
 $lang['cancel'] = 'إلغاء';
 $lang['appointment_registered'] = '!تم تسجيل الموعد بنجاح';
 $lang['cancel_appointment_title'] = 'إلغاء الموعد';
+$lang['reschedule_or_cancel_appointment'] = 'إعادة جدولة / إلغاء الموعد';
 $lang['appointment_cancelled'] = '!تم إلغاء الموعد بنجاح';
 $lang['appointment_cancelled_title'] = 'تم إلغاء الموعد';
 $lang['reason'] = 'السبب';

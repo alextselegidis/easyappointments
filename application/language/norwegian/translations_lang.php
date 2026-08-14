@@ -31,6 +31,7 @@ $lang['cancel_appointment_hint'] = 'Trykk på "Avbryt Avtale"-knappen for å fje
 $lang['cancel'] = 'Avbryt';
 $lang['appointment_registered'] = 'Din avtale er registrert!';
 $lang['cancel_appointment_title'] = 'Avbryt Avtale';
+$lang['reschedule_or_cancel_appointment'] = 'Endre / Avbestill avtale';
 $lang['appointment_cancelled'] = 'Din avtale er avbrutt.';
 $lang['appointment_cancelled_title'] = 'Avtale Avbrutt';
 $lang['reason'] = 'Årsak';
