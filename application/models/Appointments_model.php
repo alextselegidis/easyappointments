@@ -114,6 +114,12 @@ class Appointments_model extends EA_Model
             throw new InvalidArgumentException('The appointment end date time is invalid.');
         }
 
+        // Security: reject meeting links with a non-http(s) scheme (e.g. "javascript:") so they cannot be
+        // stored and later rendered as a clickable href on the calendar.
+        if (!empty($appointment['meeting_link'])) {
+            validate_url($appointment['meeting_link']);
+        }
+
         // Make the appointment lasts longer than the minimum duration (in minutes).
         $diff = (strtotime($appointment['end_datetime']) - strtotime($appointment['start_datetime'])) / 60;
 

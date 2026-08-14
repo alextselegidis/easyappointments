@@ -269,7 +269,7 @@ App.Utils.CalendarEventPopover = (function () {
         const meetingLinkElements = data.meeting_link
             ? [
                   $('<strong/>', {class: 'd-inline-block me-2', text: lang('meeting_link')}),
-                  $('<a/>', {href: data.meeting_link, target: '_blank', text: data.meeting_link}),
+                  $('<a/>', {href: data.meeting_link, target: '_blank', rel: 'noopener noreferrer', text: data.meeting_link}),
                   $('<br/>'),
               ]
             : [];
