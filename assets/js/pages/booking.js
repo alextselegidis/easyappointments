@@ -423,15 +423,23 @@ App.Pages.Booking = (function () {
 
             // If we are on the first step, fetch unavailable dates and available hours for step 2.
             if ($target.attr('data-step_index') === '1') {
-                const todayMoment = moment();
+                // While in manage mode the appointment date must stay preselected, instead of resetting to today.
+                const appointmentDate = manageMode ? App.Utils.UI.getDateTimePickerValue($selectDate) : null;
 
-                App.Utils.UI.setDateTimePickerValue($selectDate, todayMoment.toDate());
+                const selectedMoment = appointmentDate ? moment(appointmentDate) : moment();
+
+                App.Utils.UI.setDateTimePickerValue($selectDate, selectedMoment.toDate());
 
                 App.Http.Booking.getUnavailableDates(
                     $selectProvider.val(),
                     $selectService.val(),
-                    todayMoment.format('YYYY-MM-DD'),
+                    selectedMoment.format('YYYY-MM-DD'),
                 );
+
+                if (appointmentDate) {
+                    // The unavailable dates request will not refresh the hours while in manage mode.
+                    App.Http.Booking.getAvailableHours(selectedMoment.format('YYYY-MM-DD'));
+                }
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.

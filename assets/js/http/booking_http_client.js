@@ -125,13 +125,14 @@ App.Http.Booking = (function () {
                 });
 
                 if (App.Pages.Booking.manageMode) {
-                    // Set the appointment's start time as the default selection.
+                    // Set the appointment's start time as the default selection (if still available).
+                    // The button values are in the provider's timezone, just like the appointment start date time.
                     $('.available-hour')
                         .removeClass('selected-hour')
                         .filter(
                             (index, availableHourEl) =>
-                                $(availableHourEl).text() ===
-                                moment(vars('appointment_data').start_datetime).format(timeFormat),
+                                $(availableHourEl).data('value') ===
+                                moment(vars('appointment_data').start_datetime).format('HH:mm'),
                         )
                         .addClass('selected-hour');
                 } else {

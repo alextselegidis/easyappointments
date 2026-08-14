@@ -271,7 +271,7 @@ class Booking extends EA_Controller
             $customer_token = md5(uniqid(mt_rand(), true));
 
             // Cache the token for 10 minutes.
-            $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600);
+            $this->cache->save('customer-token-' . $customer_token, $appointment['id_users_customer'], 600);
         } else {
             $manage_mode = false;
             $customer_token = false;
