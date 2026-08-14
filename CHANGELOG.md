@@ -7,15 +7,18 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
-- **Security:** Fixed unauthenticated IDOR vulnerability in Booking::register() that allowed arbitrary appointment takeover by validating appointment hash before allowing updates
-- GitHub Actions CI workflow now properly bootstraps PHPUnit tests with dedicated test bootstrap and autoload regeneration
-- Provider and secretary "Mobile" number was not persisted after creating or editing the record, because the controller's allowed-field filter dropped `mobile_number` before saving
-- Submitting a booking from the public booking page no longer fails with "Security validation failed. Please refresh the page and try again." when the booking page is embedded in a cross-origin iframe
-- Changing the language from the public booking page no longer fails with "The action you have requested is not allowed" when the booking page is embedded in a cross-origin iframe
-- Public booking flow endpoints (registration, available hours, unavailable dates, booking confirmation, booking cancellation, CAPTCHA image, ALTCHA challenge, personal information deletion) now allow being embedded in an iframe, so the booking page works correctly on third-party websites
-- Any request to the application now shows a clear "Database Migration Required" error page when pending database migrations are detected, preventing cryptic "Table doesn't exist" errors after a file-only upgrade (e.g. upgrading from 1.5.2 to 1.6.0 without running the DB migration step). The message instructs users to visit the update page or run the migration from the terminal.
-- Update month change logic in booking HTTP client (#1862)
-- Format appointment notes in email notifications (#1881)
+- Security: Stop unauthorized users from taking over or changing other people's appointments
+- Security: Block unsafe links in the online meeting field so they cannot run code on the calendar
+- When rescheduling an appointment, its date and time are selected again by default (#1940)
+- Show the cancel appointment text and button on a single line with even spacing
+- Fix the automated test setup
+- The provider and secretary "Mobile" number is now saved when you create or edit them
+- Fix a booking error that appeared when the booking page was embedded on another website
+- Fix a language switch error when the booking page was embedded on another website
+- The booking page now works when embedded on other websites
+- Show a clear message when the database needs to be updated, instead of a confusing error
+- Fix the month switching on the booking calendar (#1862)
+- Show appointment notes correctly in email notifications (#1881)
 
 
 ## [1.6.0] - 2026-05-27
