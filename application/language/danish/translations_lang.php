@@ -573,4 +573,10 @@ $lang['about_app_premium'] = 'Vi tilbyder helhedstjenester for selvhostet softwa
 $lang['go_premium'] = 'Bliv Premium';
 $lang['notify_users_on_create_question'] = 'Vil du give kunden besked om denne nye aftale?';
 $lang['notify_users_on_delete_question'] = 'Vil du give kunden besked om aflysningen af aftalen?';
+$lang['invalid_price'] = 'Invalid price.';
+$lang['invalid_slot_interval'] = 'Invalid slot interval.';
+$lang['invalid_attendants_number'] = 'Invalid attendants number.';
+$lang['scheduling_conflict'] = 'Scheduling Conflict';
+$lang['invalid_time'] = 'Invalid time value.';
+$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
 // End

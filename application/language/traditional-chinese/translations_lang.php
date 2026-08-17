@@ -573,4 +573,10 @@ $lang['about_app_premium'] = '我們為自架軟體提供端到端服務，包�
 $lang['go_premium'] = '升級 Premium';
 $lang['notify_users_on_create_question'] = '您想通知客戶這個新預約嗎？';
 $lang['notify_users_on_delete_question'] = '您想通知客戶預約取消嗎？';
+$lang['invalid_price'] = 'Invalid price.';
+$lang['invalid_slot_interval'] = 'Invalid slot interval.';
+$lang['invalid_attendants_number'] = 'Invalid attendants number.';
+$lang['scheduling_conflict'] = 'Scheduling Conflict';
+$lang['invalid_time'] = 'Invalid time value.';
+$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
 // End

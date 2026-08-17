@@ -573,4 +573,10 @@ $lang['about_app_premium'] = 'Nous proposons des services complets pour les logi
 $lang['go_premium'] = 'Passer à Premium';
 $lang['notify_users_on_create_question'] = 'Souhaitez-vous informer le client de ce nouveau rendez-vous ?';
 $lang['notify_users_on_delete_question'] = 'Souhaitez-vous informer le client de l\'annulation du rendez-vous ?';
+$lang['invalid_price'] = 'Invalid price.';
+$lang['invalid_slot_interval'] = 'Invalid slot interval.';
+$lang['invalid_attendants_number'] = 'Invalid attendants number.';
+$lang['scheduling_conflict'] = 'Scheduling Conflict';
+$lang['invalid_time'] = 'Invalid time value.';
+$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
 // End

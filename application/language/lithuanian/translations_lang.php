@@ -573,4 +573,10 @@ $lang['about_app_premium'] = 'Siūlome visapusiškus sprendimus savarankiškai t
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Ar norite pranešti klientui apie šį naują susitikimą?';
 $lang['notify_users_on_delete_question'] = 'Ar norite pranešti klientui apie susitikimo atšaukimą?';
+$lang['invalid_price'] = 'Invalid price.';
+$lang['invalid_slot_interval'] = 'Invalid slot interval.';
+$lang['invalid_attendants_number'] = 'Invalid attendants number.';
+$lang['scheduling_conflict'] = 'Scheduling Conflict';
+$lang['invalid_time'] = 'Invalid time value.';
+$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
 // End

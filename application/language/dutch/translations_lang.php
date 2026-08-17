@@ -573,4 +573,10 @@ $lang['about_app_premium'] = 'Wij bieden uitgebreide diensten voor zelf gehoste 
 $lang['go_premium'] = 'Ga Premium';
 $lang['notify_users_on_create_question'] = 'Wilt u de klant op de hoogte stellen van deze nieuwe afspraak?';
 $lang['notify_users_on_delete_question'] = 'Wilt u de klant op de hoogte stellen van de annulering van de afspraak?';
+$lang['invalid_price'] = 'Invalid price.';
+$lang['invalid_slot_interval'] = 'Invalid slot interval.';
+$lang['invalid_attendants_number'] = 'Invalid attendants number.';
+$lang['scheduling_conflict'] = 'Scheduling Conflict';
+$lang['invalid_time'] = 'Invalid time value.';
+$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
 // End

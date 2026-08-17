@@ -573,4 +573,10 @@ $lang['about_app_premium'] = 'אנו מציעים שירותים מקצה לקצ
 $lang['go_premium'] = 'עבור ל-Premium';
 $lang['notify_users_on_create_question'] = 'האם ברצונך להודיע ללקוח על תור חדש זה?';
 $lang['notify_users_on_delete_question'] = 'האם ברצונך להודיע ללקוח על ביטול התור?';
+$lang['invalid_price'] = 'Invalid price.';
+$lang['invalid_slot_interval'] = 'Invalid slot interval.';
+$lang['invalid_attendants_number'] = 'Invalid attendants number.';
+$lang['scheduling_conflict'] = 'Scheduling Conflict';
+$lang['invalid_time'] = 'Invalid time value.';
+$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
 // End
