@@ -7,6 +7,19 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Requests with invalid parameters now respond with a "bad request" status instead of a server error
+- Services can no longer be saved with a negative price or with a slot interval of zero
+- The price, slot interval and attendants number of a service are now checked before the form is submitted
+- Show a message with the affected days when the working plan of a provider has an invalid time range
+- Ask for a confirmation when an unavailability is placed over an already booked appointment
+- The appointment dialog now validates the phone number, just like the booking page does
+- Timezone labels display the offset that is currently in effect, also during daylight saving time
+- The timezone list no longer contains duplicate names, deprecated entries or malformed offsets
+- When saving an appointment, the scheduling conflict is now confirmed before the notification question
+- The scheduling conflict dialog of a new appointment is not titled "Appointment Update" anymore
+- Show a message on the booking page when no service or provider has been selected yet
+- The appointment dialog scrolls to its validation message and clears invalid fields while typing
+- Fix the "Start date value is latter than end date." and "The operation could not completed." messages
 - Security: Stop unauthorized users from taking over or changing other people's appointments
 - Security: Block unsafe links in the online meeting field so they cannot run code on the calendar
 - When rescheduling an appointment, its date and time are selected again by default (#1940)
