@@ -98,7 +98,11 @@ class Login extends EA_Controller
                     $captcha = request('captcha');
                     $captcha_phrase = session('captcha_phrase');
 
-                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                    if (
+                        empty($captcha_phrase) ||
+                        empty($captcha) ||
+                        strtoupper($captcha_phrase) !== strtoupper($captcha)
+                    ) {
                         json_response([
                             'success' => false,
                             'captcha_verification' => false,

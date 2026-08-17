@@ -479,7 +479,11 @@ class Booking extends EA_Controller
                     // Validate traditional CAPTCHA
                     $captcha_phrase = session('captcha_phrase');
 
-                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                    if (
+                        empty($captcha_phrase) ||
+                        empty($captcha) ||
+                        strtoupper($captcha_phrase) !== strtoupper($captcha)
+                    ) {
                         json_response([
                             'captcha_verification' => false,
                         ]);
