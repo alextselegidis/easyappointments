@@ -62,11 +62,13 @@ class Customers_model extends EA_Model
      */
     public function save(array $customer): int
     {
-        $this->validate($customer);
-
-        if ($this->exists($customer) && empty($customer['id'])) {
+        // Resolve the record ID before validating, otherwise the email uniqueness check will reject
+        // returning customers whose ID was not provided by the caller (e.g. the booking page).
+        if (empty($customer['id']) && $this->exists($customer)) {
             $customer['id'] = $this->find_record_id($customer);
         }
+
+        $this->validate($customer);
 
         if (empty($customer['id'])) {
             return $this->insert($customer);
