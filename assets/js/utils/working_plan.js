@@ -953,20 +953,24 @@ App.Utils.WorkingPlan = (function () {
          * @param {String} day Day value could be like "Monday", "Tuesday" etc.
          */
         convertDayToValue(day) {
-            switch (day) {
-                case lang('sunday'):
+            // Day cells are rendered with an upper case first letter, which does not match the translation of
+            // languages that write the week days in lower case (e.g. Latvian).
+            const dayName = String(day).toLowerCase();
+
+            switch (dayName) {
+                case lang('sunday').toLowerCase():
                     return 'sunday';
-                case lang('monday'):
+                case lang('monday').toLowerCase():
                     return 'monday';
-                case lang('tuesday'):
+                case lang('tuesday').toLowerCase():
                     return 'tuesday';
-                case lang('wednesday'):
+                case lang('wednesday').toLowerCase():
                     return 'wednesday';
-                case lang('thursday'):
+                case lang('thursday').toLowerCase():
                     return 'thursday';
-                case lang('friday'):
+                case lang('friday').toLowerCase():
                     return 'friday';
-                case lang('saturday'):
+                case lang('saturday').toLowerCase():
                     return 'saturday';
             }
         }
