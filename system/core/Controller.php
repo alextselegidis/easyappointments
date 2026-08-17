@@ -82,6 +82,16 @@ class CI_Controller {
         $this->props[$name] = $value;
     }
 
+    public function __isset(string $name): bool
+    {
+        return isset($this->props[$name]);
+    }
+
+    public function __unset(string $name): void
+    {
+        unset($this->props[$name]);
+    }
+
 	/**
 	 * Class constructor
 	 *
