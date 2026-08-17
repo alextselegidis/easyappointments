@@ -320,6 +320,17 @@ App.Pages.Booking = (function () {
     }
 
     /**
+     * Remove the missing service / provider selection prompt of the first step.
+     */
+    function clearServiceAndProviderPrompt() {
+        $('#select-service-prompt').remove();
+
+        $selectService.removeClass('is-invalid');
+
+        $selectProvider.removeClass('is-invalid');
+    }
+
+    /**
      * Add the page event listeners.
      */
     function addEventListeners() {
@@ -344,6 +355,8 @@ App.Pages.Booking = (function () {
          * Whenever the provider changes the available appointment date - time periods must be updated.
          */
         $selectProvider.on('change', () => {
+            clearServiceAndProviderPrompt();
+
             App.Pages.Booking.updateConfirmFrame();
         });
 
@@ -354,6 +367,8 @@ App.Pages.Booking = (function () {
          * become visible.
          */
         $selectService.on('change', (event) => {
+            clearServiceAndProviderPrompt();
+
             const $target = $(event.target);
             const serviceId = $selectService.val();
             const previousProviderId = $selectProvider.val();
@@ -418,6 +433,20 @@ App.Pages.Booking = (function () {
 
             // If we are on the first step and there is no provider selected do not continue with the next step.
             if ($target.attr('data-step_index') === '1' && !$selectProvider.val()) {
+                if (!$selectService.val()) {
+                    $selectService.addClass('is-invalid');
+                } else {
+                    $selectProvider.addClass('is-invalid');
+                }
+
+                if (!$('#select-service-prompt').length) {
+                    $('<div/>', {
+                        'id': 'select-service-prompt',
+                        'class': 'text-danger mb-4',
+                        'text': lang('service_and_provider_missing'),
+                    }).appendTo('#wizard-frame-1 .frame-content .col');
+                }
+
                 return;
             }
 
