@@ -641,30 +641,39 @@ App.Utils.WorkingPlan = (function () {
 
             const timeFormat = vars('time_format') === 'regular' ? 'h:mm a' : 'HH:mm';
 
+            $('.working-plan input').removeClass('is-invalid');
+
             $('.working-plan input:checkbox').each((index, checkbox) => {
                 const id = $(checkbox).attr('id');
 
                 if ($(checkbox).prop('checked') === true) {
                     const dayName = this.convertValueToDay(id);
-                    const startVal = $('#' + id + '-start').val();
-                    const endVal = $('#' + id + '-end').val();
-                    const startMoment = moment(startVal, timeFormat);
-                    const endMoment = moment(endVal, timeFormat);
+                    const $start = $('#' + id + '-start');
+                    const $end = $('#' + id + '-end');
+                    const startMoment = moment($start.val(), timeFormat);
+                    const endMoment = moment($end.val(), timeFormat);
                     // Check if start time is before end time
+                    let error = null;
+
                     if (!startMoment.isValid() || !endMoment.isValid()) {
-                        validationResult.isValid = false;
-                        validationResult.errors.push({
+                        error = {
                             type: 'invalid_time',
                             day: dayName,
-                            message: `${dayName}: Invalid time format.`,
-                        });
+                            message: `${dayName}: ${lang('invalid_time')}`,
+                        };
                     } else if (startMoment.isSameOrAfter(endMoment)) {
-                        validationResult.isValid = false;
-                        validationResult.errors.push({
+                        error = {
                             type: 'start_after_end',
                             day: dayName,
-                            message: `${dayName}: Start time must be before end time.`,
-                        });
+                            message: `${dayName}: ${lang('start_date_before_end_error')}`,
+                        };
+                    }
+
+                    if (error) {
+                        validationResult.isValid = false;
+                        validationResult.errors.push(error);
+                        $start.addClass('is-invalid');
+                        $end.addClass('is-invalid');
                     }
                 }
             });
@@ -809,10 +818,10 @@ App.Utils.WorkingPlan = (function () {
             const validation = this.validate();
 
             if (!validation.isValid) {
-                const errorMessages = validation.errors.map((e) => e.message).join('\n');
-                App.Layouts.Backend.displayNotification(
-                    lang('working_plan_validation_failed') || 'Working plan validation failed:\n' + errorMessages,
-                );
+                const errorMessages = validation.errors.map((error) => error.message).join('<br>');
+
+                App.Utils.Message.show(lang('working_plan_validation_failed'), errorMessages);
+
                 return null;
             }
 
