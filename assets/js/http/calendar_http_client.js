@@ -67,6 +67,37 @@ App.Http.Calendar = (function () {
     }
 
     /**
+     * Check whether the provider already has an event at the appointment time period.
+     *
+     * @param {Object} appointment Contains the provider ID, the time period and, on updates, the appointment ID.
+     * @param {Function} successCallback Executed with the server response.
+     * @param {Function} [errorCallback] Optional, executed on post failure.
+     *
+     * @return {*|jQuery}
+     */
+    function checkProviderConflict(appointment, successCallback, errorCallback) {
+        const url = App.Utils.Url.siteUrl('calendar/check_provider_conflict');
+
+        const data = {
+            csrf_token: vars('csrf_token'),
+            provider_id: appointment.id_users_provider,
+            start_datetime: appointment.start_datetime,
+            end_datetime: appointment.end_datetime,
+            appointment_id: appointment.id ?? '',
+        };
+
+        return $.post(url, data)
+            .done((response) => {
+                successCallback(response);
+            })
+            .fail(() => {
+                if (errorCallback) {
+                    errorCallback();
+                }
+            });
+    }
+
+    /**
      * Remove an appointment.
      *
      * @param {Number} appointmentId
@@ -93,19 +124,50 @@ App.Http.Calendar = (function () {
      * @param {Object} unavailability Contains the unavailability period data.
      * @param {Function} [successCallback] The ajax success callback function.
      * @param {Function} [errorCallback] The ajax failure callback function.
+     * @param {Boolean} [forceSave] Optional, whether to save even if the period contains an appointment.
+     * @param {Function} [revertCallback] Optional, executed when the user cancels on a conflict.
      *
      * @return {*|jQuery}
      */
-    function saveUnavailability(unavailability, successCallback, errorCallback) {
+    function saveUnavailability(unavailability, successCallback, errorCallback, forceSave = false, revertCallback) {
         const url = App.Utils.Url.siteUrl('calendar/save_unavailability');
 
         const data = {
             csrf_token: vars('csrf_token'),
             unavailability: unavailability,
+            force_save: forceSave ? 1 : 0,
         };
 
         return $.post(url, data)
             .done((response) => {
+                if (response.conflict) {
+                    // The period contains an appointment, ask the user whether to block the time out anyway.
+                    App.Utils.Message.show(
+                        lang('scheduling_conflict'),
+                        response.message + ' ' + lang('would_you_like_to_proceed'),
+                        [
+                            {
+                                text: lang('cancel'),
+                                click: (event, messageModal) => {
+                                    messageModal.hide();
+                                    if (revertCallback) {
+                                        revertCallback();
+                                    }
+                                },
+                            },
+                            {
+                                text: lang('proceed'),
+                                click: (event, messageModal) => {
+                                    messageModal.hide();
+                                    saveUnavailability(unavailability, successCallback, errorCallback, true);
+                                },
+                            },
+                        ],
+                    );
+
+                    return;
+                }
+
                 if (successCallback) {
                     successCallback(response);
                 }
@@ -271,7 +333,7 @@ App.Http.Calendar = (function () {
                 if (response.conflict) {
                     // Show conflict confirmation dialog
                     App.Utils.Message.show(
-                        lang('appointment_update'),
+                        lang('scheduling_conflict'),
                         response.message + ' ' + lang('would_you_like_to_proceed'),
                         [
                             {
@@ -306,6 +368,7 @@ App.Http.Calendar = (function () {
     return {
         saveAppointment,
         saveAppointmentWithConflictHandling,
+        checkProviderConflict,
         deleteAppointment,
         saveUnavailability,
         deleteUnavailability,

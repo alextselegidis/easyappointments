@@ -271,6 +271,49 @@ class Calendar extends EA_Controller
     }
 
     /**
+     * Check whether the provider is already booked for the requested time period.
+     *
+     * The appointment modal uses this before saving, so that the conflict question comes before the notification
+     * question and no changes are performed on the database.
+     */
+    public function check_provider_conflict(): void
+    {
+        try {
+            method('post');
+
+            check('provider_id', 'numeric');
+            check('start_datetime', 'date');
+            check('end_datetime', 'date');
+            check('appointment_id', 'numeric|null');
+
+            if (cannot('add', PRIV_APPOINTMENTS) && cannot('edit', PRIV_APPOINTMENTS)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
+            $provider_id = (int) request('provider_id');
+
+            $this->check_event_permissions($provider_id);
+
+            $appointment_id = request('appointment_id');
+
+            $has_conflict = $this->appointments_model->has_provider_conflict(
+                $provider_id,
+                request('start_datetime'),
+                request('end_datetime'),
+                !empty($appointment_id) ? (int) $appointment_id : null,
+            );
+
+            json_response([
+                'success' => true,
+                'conflict' => $has_conflict,
+                'message' => $has_conflict ? lang('provider_has_conflicting_appointment') : '',
+            ]);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    /**
      * Save appointment changes that are made from the backend calendar page.
      */
     public function save_appointment(): void
@@ -534,6 +577,28 @@ class Calendar extends EA_Controller
             $this->check_event_permissions($provider_id);
 
             $provider = $this->providers_model->find($provider_id);
+
+            // Blocking out time that already contains a customer appointment needs a confirmation, as the operator
+            // has to contact the customer about it.
+            $force_save = filter_var(request('force_save'), FILTER_VALIDATE_BOOLEAN);
+
+            $has_conflict = $this->appointments_model->has_provider_conflict(
+                $provider_id,
+                $unavailability['start_datetime'],
+                $unavailability['end_datetime'],
+                !empty($unavailability['id']) ? (int) $unavailability['id'] : null,
+                true,
+            );
+
+            if ($has_conflict && !$force_save) {
+                json_response([
+                    'success' => false,
+                    'conflict' => true,
+                    'message' => lang('provider_has_conflicting_appointment'),
+                ]);
+
+                return;
+            }
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 

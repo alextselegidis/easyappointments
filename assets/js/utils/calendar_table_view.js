@@ -583,7 +583,9 @@ App.Utils.CalendarTableView = (function () {
                     .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                     .format('YYYY-MM-DD HH:mm:ss');
 
-                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                App.Http.Calendar.saveUnavailability(unavailability, null, null, true).done(() =>
+                    $notification.hide('blind'),
+                );
                 info.revert();
             };
 
@@ -595,7 +597,7 @@ App.Utils.CalendarTableView = (function () {
 
             info.event.setProp('data', eventData);
         };
-        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null, false, () => info.revert());
     }
 
     /**
@@ -691,7 +693,9 @@ App.Utils.CalendarTableView = (function () {
                 unavailability.is_unavailability = 1;
                 eventData.start_datetime = unavailability.start_datetime;
                 eventData.end_datetime = unavailability.end_datetime;
-                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                App.Http.Calendar.saveUnavailability(unavailability, null, null, true).done(() =>
+                    $notification.hide('blind'),
+                );
                 info.revert();
             };
             App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
@@ -699,7 +703,7 @@ App.Utils.CalendarTableView = (function () {
             ]);
             $footer.css('position', 'static');
         };
-        App.Http.Calendar.saveUnavailability(unavailability, successCallback);
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null, false, () => info.revert());
     }
 
     /**

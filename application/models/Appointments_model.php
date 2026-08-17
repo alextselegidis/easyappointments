@@ -724,6 +724,7 @@ class Appointments_model extends EA_Model
      * @param string $start_datetime Start date time of the appointment.
      * @param string $end_datetime End date time of the appointment.
      * @param int|null $exclude_appointment_id Exclude an appointment from the conflict check (useful for updates).
+     * @param bool $appointments_only Ignore unavailability periods, only report conflicting appointments.
      *
      * @return bool Returns true if there is a conflict, false otherwise.
      */
@@ -732,11 +733,16 @@ class Appointments_model extends EA_Model
         string $start_datetime,
         string $end_datetime,
         ?int $exclude_appointment_id = null,
+        bool $appointments_only = false,
     ): bool {
         $this->db->select('id')->from('appointments')->where('id_users_provider', $provider_id);
 
         if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
+        }
+
+        if ($appointments_only) {
+            $this->db->where('is_unavailability', false);
         }
 
         // Check for overlapping appointments:

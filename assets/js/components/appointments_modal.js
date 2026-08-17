@@ -75,6 +75,15 @@ App.Components.AppointmentsModal = (function () {
      */
     function addEventListeners() {
         /**
+         * Event: Invalid Field "Input"
+         *
+         * Clear the invalid state as soon as the user corrects the field, instead of on the next save attempt.
+         */
+        $appointmentsModal.on('input change', '.is-invalid', (event) => {
+            $(event.target).removeClass('is-invalid');
+        });
+
+        /**
          * Event: Manage Appointments Dialog Save Button "Click"
          *
          * Stores the appointment changes or inserts a new appointment depending on the dialog mode.
@@ -157,71 +166,86 @@ App.Components.AppointmentsModal = (function () {
             // Check if this is an update (appointment has an ID)
             const isUpdate = Boolean(appointment.id);
 
-            if (isUpdate) {
-                // Show confirmation dialog for notification preference
-                App.Utils.Message.show(lang('appointment_update'), lang('notify_users_on_update_question'), [
-                    {
-                        text: lang('no'),
-                        click: (event, messageModal) => {
-                            messageModal.hide();
-                            App.Http.Calendar.saveAppointmentWithConflictHandling(
-                                appointment,
-                                customer,
-                                successCallback,
-                                errorCallback,
-                                false,
-                            );
-                        },
-                    },
-                    {
-                        text: lang('yes'),
-                        click: (event, messageModal) => {
-                            messageModal.hide();
-                            App.Http.Calendar.saveAppointmentWithConflictHandling(
-                                appointment,
-                                customer,
-                                successCallback,
-                                errorCallback,
-                                true,
-                            );
-                        },
-                    },
-                ]);
-            } else {
-                // New appointment - ask whether to notify users
+            // Ask for the notification preference and save. The notification question comes last, so that the user
+            // does not commit to it for an appointment that might never be created.
+            const promptNotifyUsersAndSave = (forceSave) => {
+                const save = (notifyUsers) => {
+                    if (forceSave) {
+                        App.Http.Calendar.saveAppointment(
+                            appointment,
+                            customer,
+                            successCallback,
+                            errorCallback,
+                            notifyUsers,
+                            true,
+                        );
+
+                        return;
+                    }
+
+                    // No conflict was reported, but another user might have booked the slot in the meanwhile.
+                    App.Http.Calendar.saveAppointmentWithConflictHandling(
+                        appointment,
+                        customer,
+                        successCallback,
+                        errorCallback,
+                        notifyUsers,
+                    );
+                };
+
                 App.Utils.Message.show(
-                    lang('new_appointment_title'),
-                    lang('notify_users_on_create_question'),
+                    isUpdate ? lang('appointment_update') : lang('new_appointment_title'),
+                    isUpdate ? lang('notify_users_on_update_question') : lang('notify_users_on_create_question'),
                     [
                         {
                             text: lang('no'),
                             click: (event, messageModal) => {
                                 messageModal.hide();
-                                App.Http.Calendar.saveAppointmentWithConflictHandling(
-                                    appointment,
-                                    customer,
-                                    successCallback,
-                                    errorCallback,
-                                    false,
-                                );
+                                save(false);
                             },
                         },
                         {
                             text: lang('yes'),
                             click: (event, messageModal) => {
                                 messageModal.hide();
-                                App.Http.Calendar.saveAppointmentWithConflictHandling(
-                                    appointment,
-                                    customer,
-                                    successCallback,
-                                    errorCallback,
-                                    true,
-                                );
+                                save(true);
                             },
                         },
                     ],
                 );
-            }
+            };
+
+            // Prompt for a conflicting event first, so that the user does not answer the notification question for an
+            // appointment that will not be created after all.
+            const conflictCallback = (response) => {
+                if (!response.conflict) {
+                    promptNotifyUsersAndSave(false);
+
+                    return;
+                }
+
+                App.Utils.Message.show(
+                    lang('scheduling_conflict'),
+                    response.message + ' ' + lang('would_you_like_to_proceed'),
+                    [
+                        {
+                            text: lang('cancel'),
+                            click: (event, messageModal) => {
+                                messageModal.hide();
+                            },
+                        },
+                        {
+                            text: lang('proceed'),
+                            click: (event, messageModal) => {
+                                messageModal.hide();
+                                promptNotifyUsersAndSave(true);
+                            },
+                        },
+                    ],
+                );
+            };
+
+            App.Http.Calendar.checkProviderConflict(appointment, conflictCallback, errorCallback);
         });
 
         /**
@@ -618,6 +642,15 @@ App.Components.AppointmentsModal = (function () {
                 throw new Error(lang('invalid_email'));
             }
 
+            // Check phone number.
+            if (
+                $appointmentsModal.find('#phone-number').val() &&
+                !App.Utils.Validation.phone($appointmentsModal.find('#phone-number').val())
+            ) {
+                $appointmentsModal.find('#phone-number').addClass('is-invalid');
+                throw new Error(lang('invalid_phone'));
+            }
+
             // Check appointment start and end time.
             const startDateTimeObject = App.Utils.UI.getDateTimePickerValue($startDatetime);
             const endDateTimeObject = App.Utils.UI.getDateTimePickerValue($endDatetime);
@@ -635,6 +668,10 @@ App.Components.AppointmentsModal = (function () {
                 .addClass('alert-danger')
                 .text(error.message)
                 .removeClass('d-none');
+
+            // The message is rendered on top of the modal, while the save button is at the bottom of it.
+            $appointmentsModal.find('.modal-body').scrollTop(0);
+
             return false;
         }
     }
