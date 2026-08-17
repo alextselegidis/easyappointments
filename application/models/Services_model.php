@@ -116,8 +116,17 @@ class Services_model extends EA_Model
             }
         }
 
-        // Make sure the slot_interval value is valid.
-        if (!empty($service['slot_interval']) && (int) $service['slot_interval'] < 1) {
+        // Make sure the price value is valid.
+        if (isset($service['price']) && $service['price'] !== '' && (float) $service['price'] < 0) {
+            throw new InvalidArgumentException('The service price cannot be negative: ' . $service['price']);
+        }
+
+        // Make sure the slot_interval value is valid (an empty value falls back to the 15 minute default).
+        if (
+            isset($service['slot_interval']) &&
+            $service['slot_interval'] !== '' &&
+            (int) $service['slot_interval'] < 1
+        ) {
             throw new InvalidArgumentException('The service slot interval must be at least 1 minute.');
         }
 

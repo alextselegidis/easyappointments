@@ -297,6 +297,24 @@ App.Pages.Services = (function () {
                 throw new Error(lang('invalid_duration'));
             }
 
+            // Validate the price.
+            if ($price.val() !== '' && Number($price.val()) < 0) {
+                $price.addClass('is-invalid');
+                throw new Error(lang('invalid_price'));
+            }
+
+            // Validate the slot interval.
+            if ($slotInterval.val() !== '' && Number($slotInterval.val()) < 1) {
+                $slotInterval.addClass('is-invalid');
+                throw new Error(lang('invalid_slot_interval'));
+            }
+
+            // Validate the attendants number.
+            if (Number($attendantsNumber.val()) < 1) {
+                $attendantsNumber.addClass('is-invalid');
+                throw new Error(lang('invalid_attendants_number'));
+            }
+
             return true;
         } catch (error) {
             $services.find('.form-message').addClass('alert-danger').text(error.message).show();
