@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'セルフホスティングソフトウェア向�
 $lang['go_premium'] = 'Premium にアップグレード';
 $lang['notify_users_on_create_question'] = 'この新しい予約についてお客様に通知しますか？';
 $lang['notify_users_on_delete_question'] = '予約のキャンセルについてお客様に通知しますか？';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = '無効な料金です。';
+$lang['invalid_slot_interval'] = '無効なスロット間隔です。';
+$lang['invalid_attendants_number'] = '無効な出席者数です。';
+$lang['scheduling_conflict'] = '予約の重複';
+$lang['invalid_time'] = '無効な時刻です。';
+$lang['service_and_provider_missing'] = '次に行く前にメニューと担当者を選択してください。';
 // End

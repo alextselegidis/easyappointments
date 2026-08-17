@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Nudimo kompletne usluge za samostalno hostovan sof
 $lang['go_premium'] = 'Postanite Premium';
 $lang['notify_users_on_create_question'] = 'Želite li obavijestiti klijenta o ovom novom terminu?';
 $lang['notify_users_on_delete_question'] = 'Želite li obavijestiti klijenta o otkazivanju termina?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Nevažeća cijena.';
+$lang['invalid_slot_interval'] = 'Nevažeći interval termina.';
+$lang['invalid_attendants_number'] = 'Nevažeći broj pratioca.';
+$lang['scheduling_conflict'] = 'Konflikt u rasporedu';
+$lang['invalid_time'] = 'Nevažeće vrijeme.';
+$lang['service_and_provider_missing'] = 'Molimo odaberite uslugu i dobavljača prije nego što nastavite.';
 // End

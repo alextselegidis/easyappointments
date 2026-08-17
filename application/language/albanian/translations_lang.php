@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Ofrojmë shërbime të plota për softuer të vet�
 $lang['go_premium'] = 'Kaloni në Premium';
 $lang['notify_users_on_create_question'] = 'Dëshironi të njoftoni klientin për këtë takim të ri?';
 $lang['notify_users_on_delete_question'] = 'Dëshironi të njoftoni klientin për anulimin e takimit?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Çmim i pavlefshëm.';
+$lang['invalid_slot_interval'] = 'Interval i pavlefshëm i orarit.';
+$lang['invalid_attendants_number'] = 'Numër i pavlefshëm i pjesëmarrësve.';
+$lang['scheduling_conflict'] = 'Konflikt në planifikim';
+$lang['invalid_time'] = 'Vlerë e pavlefshme e kohës.';
+$lang['service_and_provider_missing'] = 'Ju lutemi zgjidhni një shërbim dhe një ofrues përpara se të vazhdoni.';
 // End

@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Biz self-hosted dasturiy ta\'minot uchun to\'liq x
 $lang['go_premium'] = 'Premiumga o\'tish';
 $lang['notify_users_on_create_question'] = 'Bu o\'zgarish haqida bildirishnoma yubormoqchimisiz?';
 $lang['notify_users_on_delete_question'] = 'Bu o\'zgarish haqida bildirishnoma yubormoqchimisiz?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Noto\'g\'ri narx.';
+$lang['invalid_slot_interval'] = 'Noto\'g\'ri slot oralig\'i.';
+$lang['invalid_attendants_number'] = 'Noto\'g\'ri ishtirokchilar soni.';
+$lang['scheduling_conflict'] = 'Jadval to\'qnashuvi';
+$lang['invalid_time'] = 'Noto\'g\'ri vaqt.';
+$lang['service_and_provider_missing'] = 'Davom etishdan oldin xizmat va mutaxassisni tanlang.';
 // End

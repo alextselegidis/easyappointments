@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Pakume täisteenust ise majutatud tarkvarale, seal
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Kas soovite klienti sellest uuest kohtumisest teavitada?';
 $lang['notify_users_on_delete_question'] = 'Kas soovite klienti kohtumise tühistamisest teavitada?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Kehtetu hind.';
+$lang['invalid_slot_interval'] = 'Kehtetu ajavahemik.';
+$lang['invalid_attendants_number'] = 'Kehtetu broneeringute arv.';
+$lang['scheduling_conflict'] = 'Ajakava konflikt';
+$lang['invalid_time'] = 'Kehtetu aeg.';
+$lang['service_and_provider_missing'] = 'Enne jätkamist, vali teenus ja teenusepakkuja';
 // End

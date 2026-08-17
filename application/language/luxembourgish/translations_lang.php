@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Mir bidden End-to-End Servicer fir selbst-gehost S
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Wëllt Dir de Client iwwer dësen neien Rendez-vous informéieren?';
 $lang['notify_users_on_delete_question'] = 'Wëllt Dir de Client iwwer d\'Annulléierung vum Rendez-vous informéieren?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Ongëltege Präis.';
+$lang['invalid_slot_interval'] = 'Ongëltege Slot Intervall.';
+$lang['invalid_attendants_number'] = 'Ongëlteg Zuel vun den Assistenter.';
+$lang['scheduling_conflict'] = 'Terminkonflikt';
+$lang['invalid_time'] = 'Ongëlteg Zäit.';
+$lang['service_and_provider_missing'] = 'Wielt w.e.g. eng Dingschtleeschtung an ee Mataarbechter iert Der weider maacht.';
 // End

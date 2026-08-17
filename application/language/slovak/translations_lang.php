@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Ponúkame komplexné služby pre self-hosted softv
 $lang['go_premium'] = 'Prejsť na Premium';
 $lang['notify_users_on_create_question'] = 'Chcete zákazníka informovať o tomto novom termíne?';
 $lang['notify_users_on_delete_question'] = 'Chcete zákazníka informovať o zrušení termínu?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Neplatná cena.';
+$lang['invalid_slot_interval'] = 'Neplatný interval slotov.';
+$lang['invalid_attendants_number'] = 'Neplatný počet účastníkov.';
+$lang['scheduling_conflict'] = 'Konflikt v rozvrhu';
+$lang['invalid_time'] = 'Neplatný čas.';
+$lang['service_and_provider_missing'] = 'Prosím, vyberte si službu a pracovníka pred pokračovaním.';
 // End

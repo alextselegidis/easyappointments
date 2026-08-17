@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'نقدم خدمات شاملة للبرمجيات 
 $lang['go_premium'] = 'احصل على Premium';
 $lang['notify_users_on_create_question'] = 'هل ترغب في إبلاغ العميل بهذا الموعد الجديد؟';
 $lang['notify_users_on_delete_question'] = 'هل ترغب في إبلاغ العميل بإلغاء الموعد؟';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'سعر غير صحيح.';
+$lang['invalid_slot_interval'] = 'فترة زمنية غير صحيحة.';
+$lang['invalid_attendants_number'] = 'عدد حاضرين غير صحيح.';
+$lang['scheduling_conflict'] = 'تعارض في المواعيد';
+$lang['invalid_time'] = 'وقت غير صحيح.';
+$lang['service_and_provider_missing'] = 'الرجاء اختيار الخدمة والمزود قبل الإكمال';
 // End

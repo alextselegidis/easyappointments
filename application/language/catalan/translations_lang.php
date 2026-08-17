@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Oferim serveis d\'extrem a extrem per a programari
 $lang['go_premium'] = 'Passa\'t a Premium';
 $lang['notify_users_on_create_question'] = 'Voleu notificar el client sobre aquesta nova cita?';
 $lang['notify_users_on_delete_question'] = 'Voleu notificar el client sobre la cancel·lació de la cita?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Preu no vàlid.';
+$lang['invalid_slot_interval'] = 'Interval de ranura no vàlid.';
+$lang['invalid_attendants_number'] = 'Nombre d\'assistents no vàlid.';
+$lang['scheduling_conflict'] = 'Conflicte de planificació';
+$lang['invalid_time'] = 'Hora no vàlida.';
+$lang['service_and_provider_missing'] = 'Seleccioneu un servei i un proveïdor abans de continuar.';
 // End

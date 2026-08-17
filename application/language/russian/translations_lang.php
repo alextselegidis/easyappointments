@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Мы предлагаем комплексные �
 $lang['go_premium'] = 'Перейти на Premium';
 $lang['notify_users_on_create_question'] = 'Хотите уведомить клиента о новой записи?';
 $lang['notify_users_on_delete_question'] = 'Хотите уведомить клиента об отмене записи?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Неверная цена.';
+$lang['invalid_slot_interval'] = 'Неверный интервал слотов.';
+$lang['invalid_attendants_number'] = 'Неверное количество обслуживающего персонала.';
+$lang['scheduling_conflict'] = 'Конфликт расписания';
+$lang['invalid_time'] = 'Неверное время.';
+$lang['service_and_provider_missing'] = 'Пожалуйста выберите услугу и исполнителя перед продолжением.';
 // End

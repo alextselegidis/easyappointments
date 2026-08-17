@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Oferujemy kompleksowe usługi dla samodzielnie hos
 $lang['go_premium'] = 'Przejdź na Premium';
 $lang['notify_users_on_create_question'] = 'Czy chcesz powiadomić klienta o tym nowym spotkaniu?';
 $lang['notify_users_on_delete_question'] = 'Czy chcesz powiadomić klienta o anulowaniu spotkania?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Nieprawidłowa cena.';
+$lang['invalid_slot_interval'] = 'Nieprawidłowy interwał slotów.';
+$lang['invalid_attendants_number'] = 'Nieprawidłowa liczba uczestników.';
+$lang['scheduling_conflict'] = 'Konflikt terminów';
+$lang['invalid_time'] = 'Nieprawidłowa godzina.';
+$lang['service_and_provider_missing'] = 'Proszę wybrać zabieg i personel przed kontynuowaniem.';
 // End

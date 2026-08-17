@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Oferim servicii complete pentru software auto-găz
 $lang['go_premium'] = 'Treceți la Premium';
 $lang['notify_users_on_create_question'] = 'Doriți să notificați clientul despre această nouă programare?';
 $lang['notify_users_on_delete_question'] = 'Doriți să notificați clientul despre anularea programării?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Preț invalid.';
+$lang['invalid_slot_interval'] = 'Interval de programare invalid.';
+$lang['invalid_attendants_number'] = 'Număr de asistenți invalid.';
+$lang['scheduling_conflict'] = 'Conflict de programare';
+$lang['invalid_time'] = 'Oră invalidă.';
+$lang['service_and_provider_missing'] = 'Va rugam selectati un serviciu si un furnizor înainte de a continua.';
 // End

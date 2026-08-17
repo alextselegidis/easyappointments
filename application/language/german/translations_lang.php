@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Wir bieten umfassende Dienstleistungen für selbst
 $lang['go_premium'] = 'Premium erwerben';
 $lang['notify_users_on_create_question'] = 'Möchten Sie den Kunden über diesen neuen Termin informieren?';
 $lang['notify_users_on_delete_question'] = 'Möchten Sie den Kunden über die Stornierung des Termins informieren?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Ungültiger Preis.';
+$lang['invalid_slot_interval'] = 'Ungültiges Zeitfenster-Intervall.';
+$lang['invalid_attendants_number'] = 'Ungültige Anzahl der Begleiter.';
+$lang['scheduling_conflict'] = 'Terminkonflikt';
+$lang['invalid_time'] = 'Ungültige Zeit.';
+$lang['service_and_provider_missing'] = 'Bitte wählen Sie eine Dienstleistung und einen Anbieter aus bevor Sie fortfahren.';
 // End

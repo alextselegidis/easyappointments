@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Mēs piedāvājam pilna cikla pakalpojumus pašmit
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Vai vēlaties informēt klientu par šo jauno tikšanos?';
 $lang['notify_users_on_delete_question'] = 'Vai vēlaties informēt klientu par tikšanās atcelšanu?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Nederīga cena.';
+$lang['invalid_slot_interval'] = 'Nederīgs laika intervāls.';
+$lang['invalid_attendants_number'] = 'Nederīgs apmeklētāju skaits.';
+$lang['scheduling_conflict'] = 'Grafika konflikts';
+$lang['invalid_time'] = 'Nederīgs laiks.';
+$lang['service_and_provider_missing'] = 'Lūdzu, izvēlieties pakalpojumu un tiekēju pirms turpināt.';
 // End

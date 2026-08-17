@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Nudimo kompletne usluge za softver koji sami hostu
 $lang['go_premium'] = 'Pređi na Premium';
 $lang['notify_users_on_create_question'] = 'Да ли желите да обавестите клијента о овом новом термину?';
 $lang['notify_users_on_delete_question'] = 'Да ли желите да обавестите клијента о отказивању термина?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Cena je nevažeća.';
+$lang['invalid_slot_interval'] = 'Interval termina je nevažeći.';
+$lang['invalid_attendants_number'] = 'Broj klijenata je nevažeći.';
+$lang['scheduling_conflict'] = 'Konflikt u rasporedu';
+$lang['invalid_time'] = 'Vreme je nevažeće.';
+$lang['service_and_provider_missing'] = 'Izaberite uslugu i izvršioca usluge pre nego što nastavite!';
 // End

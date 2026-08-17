@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Kendi sunucunuzda barındırılan yazılımlar iç
 $lang['go_premium'] = 'Premium\'a Geç';
 $lang['notify_users_on_create_question'] = 'Bu yeni randevu hakkında müşteriyi bilgilendirmek ister misiniz?';
 $lang['notify_users_on_delete_question'] = 'Randevu iptali hakkında müşteriyi bilgilendirmek ister misiniz?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Geçersiz ücret.';
+$lang['invalid_slot_interval'] = 'Geçersiz zaman aralığı.';
+$lang['invalid_attendants_number'] = 'Geçersiz refakatçi sayısı.';
+$lang['scheduling_conflict'] = 'Randevu çakışması';
+$lang['invalid_time'] = 'Geçersiz zaman.';
+$lang['service_and_provider_missing'] = 'Lütfen devam etmeden önce bir hizmet ve bir hizmet sağlayıcı seçin.';
 // End

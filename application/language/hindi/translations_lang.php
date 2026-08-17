@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'हम स्व-होस्टेड सॉफ�
 $lang['go_premium'] = 'Premium पाएँ';
 $lang['notify_users_on_create_question'] = 'क्या आप इस नई अपॉइंटमेंट के बारे में ग्राहक को सूचित करना चाहेंगे?';
 $lang['notify_users_on_delete_question'] = 'क्या आप अपॉइंटमेंट रद्द होने के बारे में ग्राहक को सूचित करना चाहेंगे?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'अमान्य कीमत।';
+$lang['invalid_slot_interval'] = 'अमान्य स्लॉट अंतराल।';
+$lang['invalid_attendants_number'] = 'अटेंडेंट्स की अमान्य संख्या।';
+$lang['scheduling_conflict'] = 'समय-निर्धारण विरोध';
+$lang['invalid_time'] = 'अमान्य समय।';
+$lang['service_and_provider_missing'] = 'आगे बढ़ने से पहले एक सेवा और एक प्रबन्धक का चयन करें.';
 // End

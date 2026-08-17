@@ -573,10 +573,10 @@ $lang['about_app_premium'] = 'Vi erbjuder heltäckande tjänster för egen-hosta
 $lang['go_premium'] = 'Bli Premium';
 $lang['notify_users_on_create_question'] = 'Vill du skicka en avisering om det nya mötet till kunden?';
 $lang['notify_users_on_delete_question'] = 'Vill du skicka en avisering om avbokningen till kunden?';
-$lang['invalid_price'] = 'Invalid price.';
-$lang['invalid_slot_interval'] = 'Invalid slot interval.';
-$lang['invalid_attendants_number'] = 'Invalid attendants number.';
-$lang['scheduling_conflict'] = 'Scheduling Conflict';
-$lang['invalid_time'] = 'Invalid time value.';
-$lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['invalid_price'] = 'Felaktigt pris';
+$lang['invalid_slot_interval'] = 'Felaktig längd på tidsluckor';
+$lang['invalid_attendants_number'] = 'Felaktigt antal deltagare';
+$lang['scheduling_conflict'] = 'Bokningskonflikt';
+$lang['invalid_time'] = 'Felaktig tid';
+$lang['service_and_provider_missing'] = 'Välj en tjänst och en utförare för att fortsätta';
 // End
