@@ -51,7 +51,8 @@ class Availability
      * @param string $date Selected date (Y-m-d).
      * @param array $service Service data.
      * @param array $provider Provider data.
-     * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
+     * @param int|string|null $exclude_appointment_id Exclude an appointment from the availability generation. Request
+     * values are accepted as is, empty values are treated as "no appointment to exclude".
      *
      * @return array
      *
@@ -61,8 +62,11 @@ class Availability
         string $date,
         array $service,
         array $provider,
-        ?int $exclude_appointment_id = null,
+        int|string|null $exclude_appointment_id = null,
     ): array {
+        $exclude_appointment_id =
+            $exclude_appointment_id !== null && $exclude_appointment_id !== '' ? (int) $exclude_appointment_id : null;
+
         if ($this->CI->blocked_periods_model->is_entire_date_blocked($date)) {
             return [];
         }
