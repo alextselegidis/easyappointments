@@ -62,11 +62,17 @@ class Booking_cancellation extends EA_Controller
                 abort(400, 'Invalid appointment hash format.');
             }
 
+            // The method check comes first, so that a plain GET is refused before any parameter validation can leak an
+            // internal message to the visitor.
+            if ($this->input->method() !== 'post') {
+                abort(403, 'Forbidden');
+            }
+
             check('cancellation_reason', 'string');
 
             $cancellation_reason = request('cancellation_reason');
 
-            if ($this->input->method() !== 'post' || empty($cancellation_reason)) {
+            if (empty($cancellation_reason)) {
                 abort(403, 'Forbidden');
             }
 
@@ -143,11 +149,13 @@ class Booking_cancellation extends EA_Controller
         } catch (Throwable $e) {
             log_message('error', 'Booking Cancellation Exception: ' . $e->getMessage());
 
+            // The cancellation failed, so the visitor must not be told that the appointment was cancelled, and the
+            // internal exception message must not reach them either.
             html_vars([
-                'page_title' => lang('appointment_cancelled_title'),
+                'page_title' => lang('unexpected_issues'),
                 'company_color' => setting('company_color'),
-                'message_title' => lang('appointment_cancelled_title'),
-                'message_text' => e($e->getMessage()),
+                'message_title' => lang('unexpected_issues'),
+                'message_text' => lang('unexpected_issues_message'),
                 'message_icon' => base_url('assets/img/error.png'),
                 'google_analytics_code' => setting('google_analytics_code'),
                 'matomo_analytics_url' => setting('matomo_analytics_url'),
