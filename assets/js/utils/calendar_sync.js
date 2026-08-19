@@ -264,7 +264,7 @@ App.Utils.CalendarSync = (function () {
                                 $caldavUsername.addClass('is-invalid');
                                 $caldavPassword.addClass('is-invalid');
 
-                                $alert.text(lang('login_failed') + ' ' + response.message).prop('hidden', false);
+                                $alert.text(response.message || lang('login_failed')).prop('hidden', false);
 
                                 return;
                             }

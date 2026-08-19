@@ -518,9 +518,17 @@ class Caldav_sync
     public function test_connection(string $caldav_url, string $caldav_username, string $caldav_password): void
     {
         try {
-            // Fetch some events to see if the connection is valid
             $client = $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
 
+            // A PROPFIND on the provided URL is the only request that always requires the read
+            // privilege on that exact resource, which makes it the reliable credential check.
+            // Calendar queries (REPORT) are answered with an empty multistatus by some servers
+            // (e.g. SabreDAV/Baikal) when the URL points to a parent collection, even if the
+            // credentials are wrong - the authentication error would then only surface later,
+            // during the synchronization.
+            $this->assert_caldav_calendar_collection($client);
+
+            // Fetch some events to see if the calendar queries work as expected as well.
             $start_date_time = date('Y-m-d 00:00:00');
             $end_date_time = date('Y-m-d 23:59:59');
 
@@ -528,6 +536,36 @@ class Caldav_sync
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to test CalDAV connection');
             throw $e;
+        }
+    }
+
+    /**
+     * Make sure the client base URL points to a CalDAV calendar collection.
+     *
+     * @throws GuzzleException If there's an issue with the HTTP request (401 for invalid credentials).
+     * @throws InvalidArgumentException If the URL is not a calendar collection.
+     */
+    private function assert_caldav_calendar_collection(Client $client): void
+    {
+        $response = $client->request('PROPFIND', '', [
+            'headers' => [
+                'Content-Type' => 'application/xml',
+                'Depth' => '0',
+            ],
+            'body' => '<d:propfind xmlns:d="DAV:"><d:prop><d:resourcetype /></d:prop></d:propfind>',
+        ]);
+
+        $body = (string) $response->getBody();
+
+        // Match the CalDAV namespace URI instead of a prefix, as servers are free to pick any.
+        $is_calendar =
+            preg_match('/<([a-zA-Z0-9_.-]+:)?calendar\s*\/?>/', $body) &&
+            str_contains($body, 'urn:ietf:params:xml:ns:caldav');
+
+        if (!$is_calendar) {
+            throw new InvalidArgumentException(
+                'The provided URL is not a CalDAV calendar, please use the URL of a specific calendar.',
+            );
         }
     }
 

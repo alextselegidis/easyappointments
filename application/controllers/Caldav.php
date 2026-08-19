@@ -86,6 +86,8 @@ class Caldav extends EA_Controller
 
             if ($e instanceof RequestException && $e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
                 $message = lang('invalid_credentials_provided');
+            } elseif ($e instanceof InvalidArgumentException) {
+                $message = $e->getMessage(); // E.g. invalid URL or non-calendar URL provided.
             }
 
             json_response([
