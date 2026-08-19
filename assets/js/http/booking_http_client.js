@@ -165,6 +165,12 @@ App.Http.Booking = (function () {
             $captchaText.removeClass('is-invalid');
             if ($captchaText.val() === '') {
                 $captchaText.addClass('is-invalid');
+                $captchaHint.text(lang('captcha_is_wrong')).fadeTo(400, 1);
+
+                setTimeout(() => {
+                    $captchaHint.fadeTo(400, 0);
+                }, 3000);
+
                 return;
             }
         }

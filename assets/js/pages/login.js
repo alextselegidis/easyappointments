@@ -44,6 +44,8 @@ App.Pages.Login = (function () {
         const username = $username.val();
         const password = $password.val();
 
+        // Both fields are marked "required" in the markup, so the browser blocks the submit before this runs. The guard
+        // stays as a fallback in case that attribute is ever removed.
         if (!username || !password) {
             return;
         }
@@ -52,6 +54,12 @@ App.Pages.Login = (function () {
             $captchaText.removeClass('is-invalid');
             if ($captchaText.val() === '') {
                 $captchaText.addClass('is-invalid');
+                $captchaHint.text(lang('captcha_is_wrong')).fadeTo(400, 1);
+
+                setTimeout(() => {
+                    $captchaHint.fadeTo(400, 0);
+                }, 3000);
+
                 return;
             }
         }
