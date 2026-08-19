@@ -57,7 +57,10 @@ if (!function_exists('allow_iframe_embedding')) {
      */
     function allow_iframe_embedding(): void
     {
-        header('X-Frame-Options: ALLOWALL');
+        // Remove the header instead of sending a permissive value: "ALLOWALL" is not part of the specification, so
+        // browsers only allow the framing because they ignore values they do not recognise, and a stricter agent or an
+        // intermediate proxy may fall back to denying it. No header at all is the documented way to leave framing open.
+        header_remove('X-Frame-Options');
     }
 }
 
