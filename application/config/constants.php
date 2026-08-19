@@ -159,5 +159,46 @@ const WEBHOOK_BLOCKED_PERIOD_DELETE = 'blocked_period_delete';
 
 const STORAGE_RETENTION_DAYS = 90;
 
+/*
+| -------------------------------------------------------------------------
+| COOKIE ATTRIBUTES
+| -------------------------------------------------------------------------
+| The session and the CSRF cookie have to agree on their attributes, or they
+| stop being available in the same contexts. These live here because this
+| file is loaded before the core classes that write those two cookies.
+|
+*/
+
+if (!function_exists('cookie_samesite')) {
+    /**
+     * Get the configured SameSite attribute of the cookies.
+     */
+    function cookie_samesite(): string
+    {
+        $same_site = (string) config_item('cookie_samesite');
+
+        return $same_site !== '' ? $same_site : 'Lax';
+    }
+}
+
+if (!function_exists('cookie_options')) {
+    /**
+     * Get the cookie options shared by the session and the CSRF cookie.
+     *
+     * @param int $expires Expiry timestamp, or 0 for a cookie that lasts for the browser session.
+     */
+    function cookie_options(int $expires = 0): array
+    {
+        return [
+            'expires' => $expires,
+            'path' => config_item('cookie_path') ?: '/',
+            'domain' => (string) config_item('cookie_domain'),
+            'secure' => (bool) config_item('cookie_secure'),
+            'httponly' => true,
+            'samesite' => cookie_samesite(),
+        ];
+    }
+}
+
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

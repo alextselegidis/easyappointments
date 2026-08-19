@@ -68,3 +68,26 @@ class Config
 // need it either.
 //
 // define('CORS_ALLOWED_ORIGINS', 'https://example.org,https://www.example.org');
+
+// ------------------------------------------------------------------------
+// EMBEDDING THE BOOKING PAGE ON ANOTHER DOMAIN (Optional)
+// ------------------------------------------------------------------------
+// The booking page can be embedded in an iframe on any website out of the
+// box, and booking an appointment works there without any of the settings
+// below.
+//
+// Browsers do withhold the cookies of this installation inside an iframe of
+// another domain, so anything that needs the session does not work there.
+// In practice that is the image CAPTCHA, whose phrase is kept in the
+// session: every request would start a new one and the check could never
+// pass. ALTCHA is verified without the session, so prefer it when the
+// booking page is embedded.
+//
+// Uncomment the line below to send the cookies in that context anyway.
+//
+// IMPORTANT: "None" requires HTTPS, as browsers reject such a cookie over a
+// plain connection, and it makes the cookies of this installation reachable
+// from requests started by other websites. Leave it alone unless the
+// embedded CAPTCHA is actually needed.
+//
+// define('COOKIE_SAMESITE', 'None');

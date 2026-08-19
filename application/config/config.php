@@ -412,9 +412,21 @@ $config['sess_regenerate_destroy'] = true;
 $config['cookie_prefix'] = '';
 $config['cookie_domain'] = '';
 $config['cookie_path'] = '/';
-$config['cookie_secure'] = strpos($config['base_url'], 'https') !== false;
 $config['cookie_httponly'] = true; // Prevent JavaScript access to cookies
-$config['cookie_samesite'] = 'Lax'; // CSRF protection for cookies
+
+// Cross-site request protection for the cookies. "Lax" keeps the cookies away from requests started by other sites,
+// which is what almost every installation wants. Set the COOKIE_SAMESITE constant of the root "config.php" file to
+// "None" when the booking page is embedded in an iframe on another domain and it needs the session there, for example
+// to verify the image CAPTCHA. See config-sample.php for the details.
+$config['cookie_samesite'] = defined('COOKIE_SAMESITE') ? COOKIE_SAMESITE : 'Lax';
+
+// Browsers reject a "SameSite=None" cookie that is not also marked secure, so that choice implies HTTPS.
+$config['cookie_secure'] =
+    strpos($config['base_url'], 'https') !== false || strcasecmp($config['cookie_samesite'], 'None') === 0;
+
+// The session cookie is written by PHP itself, which reads the attribute from this INI setting. It has to be in place
+// before the session starts, and the session library is loaded later than this file.
+ini_set('session.cookie_samesite', $config['cookie_samesite']);
 
 /*
 |--------------------------------------------------------------------------
