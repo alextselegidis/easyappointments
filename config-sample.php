@@ -54,3 +54,17 @@ class Config
     // const GOOGLE_CLIENT_ID = '';
     // const GOOGLE_CLIENT_SECRET = '';
 }
+
+// ------------------------------------------------------------------------
+// CROSS-ORIGIN REQUESTS (Optional)
+// ------------------------------------------------------------------------
+// Uncomment and list the origins that are allowed to send cross-origin
+// requests to this installation, separated by commas. Every origin must
+// include the scheme and, when it is not the default one, the port.
+//
+// Leave this commented out unless another website needs to call this
+// installation from the browser: when it is not defined, all cross-origin
+// requests are denied. Embedding the booking page in an iframe does not
+// need it either.
+//
+// define('CORS_ALLOWED_ORIGINS', 'https://example.org,https://www.example.org');

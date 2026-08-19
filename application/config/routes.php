@@ -99,41 +99,37 @@ header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
 | -------------------------------------------------------------------------
 | CORS HEADERS
 | -------------------------------------------------------------------------
-| Set the appropriate headers so that CORS requirements are met and any 
-| incoming preflight options request succeeds. 
+| Set the appropriate headers so that CORS requirements are met and any
+| incoming preflight options request succeeds.
 |
-| IMPORTANT: For production, restrict this to your specific trusted domains.
+| Cross-origin requests are denied unless the origin is listed in the CORS_ALLOWED_ORIGINS constant of the root
+| "config.php" file (a comma separated list of origins). Same-origin requests carry no Origin header and are never
+| affected by this section.
 |
 */
 
-// Get allowed origins from configuration or use a whitelist
-$allowed_origins = defined('CORS_ALLOWED_ORIGINS') ? explode(',', CORS_ALLOWED_ORIGINS) : [];
+// Get the allowed origins from the configuration. When CORS_ALLOWED_ORIGINS is not defined the list stays empty and
+// no cross-origin request is ever allowed, as the browser only needs CORS headers for other origins anyway.
+$allowed_origins = defined('CORS_ALLOWED_ORIGINS')
+    ? array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)))
+    : [];
 $request_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
-// Only allow CORS for configured origins, or same-origin requests
-if (!empty($request_origin) && (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))) {
+// Requests without an Origin header are same-origin and need no CORS headers at all.
+$cors_origin_allowed = !empty($request_origin) && in_array($request_origin, $allowed_origins, true);
+
+if ($cors_origin_allowed) {
     header('Access-Control-Allow-Origin: ' . $request_origin);
     header('Access-Control-Allow-Credentials: true');
-} elseif (empty($request_origin)) {
-    // No Origin header - same-origin request, no CORS needed
-} else {
-    // Origin not in whitelist - don't set CORS headers (will fail CORS check)
+    header('Vary: Origin');
 }
 
-if (
-    isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) &&
-    !empty($request_origin) &&
-    (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))
-) {
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) && $cors_origin_allowed) {
     // May also be using PUT, PATCH, HEAD etc
     header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD');
 }
 
-if (
-    isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) &&
-    !empty($request_origin) &&
-    (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))
-) {
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) && $cors_origin_allowed) {
     // Only allow safe headers
     $allowed_headers = ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'X-CSRF'];
     $requested_headers = array_map('trim', explode(',', $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']));
