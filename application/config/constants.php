@@ -92,6 +92,9 @@ const AVAILABILITIES_TYPE_FIXED = 'fixed';
 
 const EVENT_MINIMUM_DURATION = 5; // Minutes
 
+const LOGIN_RATE_LIMIT_ATTEMPTS = 5; // Failed login attempts allowed per window
+const LOGIN_RATE_LIMIT_WINDOW = 300; // Seconds
+
 const DEFAULT_COMPANY_COLOR = '#ffffff';
 
 const LDAP_DEFAULT_FILTER = '(&(objectClass=*)(|(cn={{KEYWORD}})(sn={{KEYWORD}})(mail={{KEYWORD}})(givenName={{KEYWORD}})(uid={{KEYWORD}})))';
