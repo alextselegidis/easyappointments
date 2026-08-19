@@ -19,15 +19,28 @@
  */
 function add_security_headers(): void
 {
-    // Prevent XSS attacks - allow inline scripts and styles for the app's functionality
-    // But restrict to same-origin for other resources
+    // Prevent MIME type sniffing
     header('X-Content-Type-Options: nosniff');
 
-    // Prevent clickjacking attacks
+    // Prevent clickjacking attacks. Controllers that are meant to be embedded call allow_iframe_embedding() from their
+    // action, which runs after this hook and overrides the header again.
     header('X-Frame-Options: SAMEORIGIN');
 
-    // Enable XSS filter in browsers (legacy, but still useful)
-    header('X-XSS-Protection: 1; mode=block');
+    // Content Security Policy. The pages use inline scripts and styles, so those stay allowed, but plugins are blocked
+    // outright and every other resource has to come from this installation.
+    //
+    // Framing is deliberately left out of this policy: the booking page is meant to be embedded in other websites and
+    // controls that through the X-Frame-Options header above, which a frame-ancestors directive would override.
+    header(
+        "Content-Security-Policy: default-src 'self'; " .
+            "script-src 'self' 'unsafe-inline'; " .
+            "style-src 'self' 'unsafe-inline'; " .
+            "img-src 'self' data:; " .
+            "font-src 'self' data:; " .
+            "object-src 'none'; " .
+            "base-uri 'self'; " .
+            "form-action 'self'",
+    );
 
     // Referrer policy for privacy
     header('Referrer-Policy: strict-origin-when-cross-origin');

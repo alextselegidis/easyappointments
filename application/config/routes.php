@@ -59,41 +59,15 @@ $route['translate_uri_dashes'] = false;
 
 /*
 | -------------------------------------------------------------------------
-| FRAME OPTIONS HEADERS
-| -------------------------------------------------------------------------
-| Set the appropriate headers so that iframe control and permissions are 
-| properly configured.
-|
-| This prevents clickjacking attacks by disabling embedding in iframes.
-|
-| Options:
-|
-|   - DENY 
-|   - SAMEORIGIN 
-|
-*/
-
-header('X-Frame-Options: SAMEORIGIN');
-
-/*
-| -------------------------------------------------------------------------
 | SECURITY HEADERS
 | -------------------------------------------------------------------------
-| Additional security headers to protect against common web attacks.
+| The frame options, content type, referrer, permissions and content security policy headers are all set by the
+| add_security_headers() hook (application/hooks/security_headers.php), so that there is a single place to adjust
+| them. They used to be duplicated here as well, which meant a change in one file silently had no effect.
+|
+| Only the CORS section below stays here, because a preflight request has to be answered before the controller runs.
 |
 */
-
-// Prevent MIME type sniffing
-header('X-Content-Type-Options: nosniff');
-
-// Enable XSS filtering in older browsers
-header('X-XSS-Protection: 1; mode=block');
-
-// Referrer Policy - only send referrer for same-origin requests
-header('Referrer-Policy: strict-origin-when-cross-origin');
-
-// Permissions Policy - restrict browser features
-header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
 
 /*
 | -------------------------------------------------------------------------
