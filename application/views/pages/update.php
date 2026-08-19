@@ -4,7 +4,30 @@
 
 <h3 class="mb-3">Easy!Appointments Update</h3>
 
-<?php if (vars('success')): ?>
+<?php if (vars('confirmation')): ?>
+    <div>
+        <div class="alert alert-warning">
+            Attention! This will update your database schema and cannot be undone.
+        </div>
+
+        <p>
+            Please back up your database before continuing.
+        </p>
+
+        <form method="post" action="<?= site_url('update/apply') ?>">
+            <input type="hidden" name="csrf_token" value="<?= vars('csrf_token') ?>">
+
+            <button type="submit" class="btn btn-primary btn-large mb-3">
+                <i class="fas fa-wrench me-2"></i>
+                <?= lang('update') ?>
+            </button>
+
+            <a href="<?= site_url('about') ?>" class="btn btn-outline-secondary btn-large mb-3">
+                <?= lang('cancel') ?>
+            </a>
+        </form>
+    </div>
+<?php elseif (vars('success')): ?>
     <div>
         <div class="alert alert-success">
             Success! The database got updated successfully.
@@ -25,7 +48,7 @@
             Attention! There was an error during the update process.
         </div>
 
-        <pre>Error Message: <?= vars('exception') ?></pre>
+        <pre>Error Message: <?= e(vars('exception')) ?></pre>
 
         <p>
             Please restore your database backup.
