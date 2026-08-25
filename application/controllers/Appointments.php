@@ -164,6 +164,8 @@ class Appointments extends EA_Controller
                 $appointment['id_users_provider'] = $user_id;
             }
 
+            authorize_event_write(null, $appointment['id_users_provider'] ?? null);
+
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
@@ -204,7 +206,7 @@ class Appointments extends EA_Controller
                 throw new InvalidArgumentException('Invalid appointment ID provided.');
             }
 
-            $this->check_appointment_access((int) $appointment_id);
+            authorize_event_write($appointment_id, null);
 
             $appointment = $this->appointments_model->find($appointment_id);
 
@@ -238,13 +240,11 @@ class Appointments extends EA_Controller
             $user_id = (int) session('user_id');
             $role_slug = session('role_slug');
 
-            if (!empty($appointment['id'])) {
-                $this->check_appointment_access((int) $appointment['id']);
-            }
-
             if ($role_slug === DB_SLUG_PROVIDER) {
                 $appointment['id_users_provider'] = $user_id;
             }
+
+            authorize_event_write($appointment['id'] ?? null, $appointment['id_users_provider'] ?? null);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
@@ -282,7 +282,7 @@ class Appointments extends EA_Controller
                 throw new InvalidArgumentException('Invalid appointment ID provided.');
             }
 
-            $this->check_appointment_access((int) $appointment_id);
+            authorize_event_write($appointment_id, null);
 
             $appointment = $this->appointments_model->find($appointment_id);
 
@@ -295,28 +295,6 @@ class Appointments extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
-        }
-    }
-
-    /**
-     * Check whether the current user has access to the appointment's provider.
-     */
-    private function check_appointment_access(int $appointment_id): void
-    {
-        $user_id = (int) session('user_id');
-        $role_slug = session('role_slug');
-        $appointment = $this->appointments_model->find($appointment_id);
-        $provider_id = (int) $appointment['id_users_provider'];
-
-        if (
-            $role_slug === DB_SLUG_SECRETARY &&
-            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
-        ) {
-            abort(403, 'Forbidden');
-        }
-
-        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
-            abort(403, 'Forbidden');
         }
     }
 }

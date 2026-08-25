@@ -7,6 +7,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Providers and secretaries can no longer overwrite or reassign the appointments and unavailabilities of other providers
 - Requests with invalid parameters now respond with a "bad request" status instead of a server error
 - Services can no longer be saved with a negative price or with a slot interval of zero
 - The price, slot interval and attendants number of a service are now checked before the form is submitted

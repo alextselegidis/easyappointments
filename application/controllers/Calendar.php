@@ -63,6 +63,16 @@ class Calendar extends EA_Controller
         //
     ];
 
+    public array $allowed_unavailability_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'is_unavailability',
+        'id_users_provider',
+    ];
+
     /**
      * Calendar constructor.
      */
@@ -334,7 +344,7 @@ class Calendar extends EA_Controller
 
             $force_save = filter_var(request('force_save', false), FILTER_VALIDATE_BOOLEAN);
 
-            $this->check_event_permissions((int) $appointment_data['id_users_provider']);
+            authorize_event_write($appointment_data['id'] ?? null, $appointment_data['id_users_provider'] ?? null);
 
             // Save customer changes to the database.
             if ($customer_data) {
@@ -461,17 +471,7 @@ class Calendar extends EA_Controller
 
     private function check_event_permissions(int $provider_id): void
     {
-        $user_id = (int) session('user_id');
-        $role_slug = session('role_slug');
-
-        if (
-            $role_slug === DB_SLUG_SECRETARY &&
-            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
-        ) {
-            abort(403);
-        }
-
-        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
+        if (!can_manage_provider($provider_id)) {
             abort(403);
         }
     }
@@ -574,7 +574,9 @@ class Calendar extends EA_Controller
 
             $provider_id = (int) $unavailability['id_users_provider'];
 
-            $this->check_event_permissions($provider_id);
+            authorize_event_write($unavailability['id'] ?? null, $provider_id);
+
+            $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $provider = $this->providers_model->find($provider_id);
 

@@ -133,6 +133,8 @@ class Unavailabilities extends EA_Controller
                 $unavailability['id_users_provider'] = $user_id;
             }
 
+            authorize_event_write(null, $unavailability['id_users_provider'] ?? null);
+
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $this->unavailabilities_model->optional($unavailability, $this->optional_unavailability_fields);
@@ -181,7 +183,7 @@ class Unavailabilities extends EA_Controller
                 throw new InvalidArgumentException('Invalid unavailability ID provided.');
             }
 
-            $this->check_unavailability_access((int) $unavailability_id);
+            authorize_event_write($unavailability_id, null);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -210,14 +212,12 @@ class Unavailabilities extends EA_Controller
             $user_id = (int) session('user_id');
             $role_slug = session('role_slug');
 
-            if (!empty($unavailability['id'])) {
-                $this->check_unavailability_access((int) $unavailability['id']);
-            }
-
             // Providers may only manage their own unavailabilities.
             if ($role_slug === DB_SLUG_PROVIDER) {
                 $unavailability['id_users_provider'] = $user_id;
             }
+
+            authorize_event_write($unavailability['id'] ?? null, $unavailability['id_users_provider'] ?? null);
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
@@ -267,7 +267,7 @@ class Unavailabilities extends EA_Controller
                 throw new InvalidArgumentException('Invalid unavailability ID provided.');
             }
 
-            $this->check_unavailability_access((int) $unavailability_id);
+            authorize_event_write($unavailability_id, null);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -280,28 +280,6 @@ class Unavailabilities extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
-        }
-    }
-
-    /**
-     * Check whether the current user has access to the unavailability's provider.
-     */
-    private function check_unavailability_access(int $unavailability_id): void
-    {
-        $user_id = (int) session('user_id');
-        $role_slug = session('role_slug');
-        $unavailability = $this->unavailabilities_model->find($unavailability_id);
-        $provider_id = (int) $unavailability['id_users_provider'];
-
-        if (
-            $role_slug === DB_SLUG_SECRETARY &&
-            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
-        ) {
-            abort(403, 'Forbidden');
-        }
-
-        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
-            abort(403, 'Forbidden');
         }
     }
 }

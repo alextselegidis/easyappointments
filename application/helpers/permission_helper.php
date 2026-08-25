@@ -70,3 +70,71 @@ if (!function_exists('cannot')) {
         return !can($action, $resource, $user_id);
     }
 }
+
+if (!function_exists('can_manage_provider')) {
+    /**
+     * Check whether the currently logged-in user is allowed to manage the records of the provided provider.
+     *
+     * Providers may only manage their own records and secretaries only the records of their assigned providers. Every
+     * other role is not bound to a provider scope.
+     *
+     * @param int $provider_id Provider ID.
+     *
+     * @return bool
+     */
+    function can_manage_provider(int $provider_id): bool
+    {
+        /** @var EA_Controller $CI */
+        $CI = &get_instance();
+
+        $user_id = (int) session('user_id');
+
+        $role_slug = session('role_slug');
+
+        if ($role_slug === DB_SLUG_PROVIDER) {
+            return $user_id === $provider_id;
+        }
+
+        if ($role_slug === DB_SLUG_SECRETARY) {
+            $CI->load->model('secretaries_model');
+
+            return $CI->secretaries_model->is_provider_supported($user_id, $provider_id);
+        }
+
+        return true;
+    }
+}
+
+if (!function_exists('authorize_event_write')) {
+    /**
+     * Authorize both sides of the provider boundary before an appointment or unavailability write.
+     *
+     * Checking only one side is not enough: authorizing just the stored record allows a rebind to a foreign provider,
+     * while authorizing just the requested provider allows an existing foreign record to be overwritten.
+     *
+     * Example:
+     *
+     * authorize_event_write($appointment['id'] ?? null, $appointment['id_users_provider'] ?? null);
+     *
+     * @param mixed $record_id ID of the record that is about to be updated, empty for new records.
+     * @param mixed $provider_id Provider ID that the record will be assigned to.
+     */
+    function authorize_event_write(mixed $record_id, mixed $provider_id): void
+    {
+        /** @var EA_Controller $CI */
+        $CI = &get_instance();
+
+        if (!empty($record_id)) {
+            $record = $CI->db->get_where('appointments', ['id' => (int) $record_id])->row_array();
+
+            // Do not disclose whether the record exists to users that are out of scope anyway.
+            if (!$record || !can_manage_provider((int) $record['id_users_provider'])) {
+                abort(403, 'Forbidden');
+            }
+        }
+
+        if (!empty($provider_id) && !can_manage_provider((int) $provider_id)) {
+            abort(403, 'Forbidden');
+        }
+    }
+}
