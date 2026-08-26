@@ -34,6 +34,8 @@ class Config {
 docker compose up
 ```
 
+If you put a reverse proxy in front of the containers, set the `PROXY_IPS` environment variable on the PHP container to the proxy address or subnet (e.g. `PROXY_IPS=172.18.0.0/16`), so the client IP addresses are read from the `X-Forwarded-For` header instead of every visitor looking like the proxy.
+
 ## What's Included
 
 Once running, you can access these services in your browser:

@@ -54,6 +54,18 @@ Open your browser and go to your Easy!Appointments URL (e.g. `http://your-domain
 
 That's it — Easy!Appointments is now installed!
 
+## Behind a Reverse Proxy
+
+If Easy!Appointments sits behind a reverse proxy (nginx, Caddy, Traefik, Nginx Proxy Manager, Cloudflare), you must tell it which proxy addresses to trust, otherwise every visitor looks like the proxy and the rate limiters treat all of them as a single client.
+
+Set the `PROXY_IPS` environment variable to the proxy address, a comma-separated list of addresses, or a CIDR range:
+
+```
+PROXY_IPS=172.18.0.0/16
+```
+
+Leave it unset when there is no proxy in front of the application — trusting the `X-Forwarded-For` header without a whitelist would let clients spoof their IP address.
+
 ## Setting Up Your Business
 
 After installation, the app comes with some test data. Here's how to set things up for your business:

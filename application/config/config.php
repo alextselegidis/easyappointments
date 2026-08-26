@@ -498,10 +498,15 @@ $config['rewrite_short_tags'] = false;
 | If your server is behind a reverse proxy, you must whitelist the proxy IP
 | addresses from which CodeIgniter should trust the HTTP_X_FORWARDED_FOR
 | header in order to properly identify the visitor's IP address.
-| Comma-delimited, e.g. '10.0.1.200,10.0.1.201'
+| Comma-delimited, e.g. '10.0.1.200,10.0.1.201' - CIDR ranges such as
+| '172.18.0.0/16' work as well. The PROXY_IPS environment variable can be
+| used instead of editing this file.
+|
+| Leave this empty when the application is not behind a proxy, as trusting
+| the header without a whitelist would let clients spoof their IP address.
 |
 */
-$config['proxy_ips'] = '';
+$config['proxy_ips'] = getenv('PROXY_IPS') ?: '';
 
 /*
 |--------------------------------------------------------------------------
