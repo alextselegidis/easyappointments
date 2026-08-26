@@ -35,6 +35,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Show a clear message when the database needs to be updated, instead of a confusing error
 - Fix the month switching on the booking calendar (#1862)
 - Show appointment notes correctly in email notifications (#1881)
+- Google Meet link is created but never stored in appointments.meeting_link (#1947)
 
 
 ## [1.6.0] - 2026-05-27

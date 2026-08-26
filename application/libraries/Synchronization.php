@@ -49,7 +49,7 @@ class Synchronization
      * @param array $settings Required settings for the notification content.
      */
     public function sync_appointment_saved(
-        array $appointment,
+        array &$appointment,
         array $service,
         array $provider,
         array $customer,
