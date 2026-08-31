@@ -51,10 +51,10 @@ App.Pages.Recovery = (function () {
                 return;
             }
         }
-        
+
         if ($altchaPayload.length > 0 && $altchaPayload.val() === '') {
             $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
-            
+
             setTimeout(() => {
                 $altchaHint.fadeTo(400, 0);
             }, 3000);
@@ -85,18 +85,18 @@ App.Pages.Recovery = (function () {
 
                     return;
                 }
-                
+
                 if (response.altcha_verification === false) {
                     $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
-                    
+
                     setTimeout(() => {
                         $altchaHint.fadeTo(400, 0);
                     }, 3000);
-                    
+
                     if (App.Utils.Altcha) {
                         App.Utils.Altcha.reset('altcha-widget');
                     }
-                    
+
                     return;
                 }
 
@@ -116,7 +116,7 @@ App.Pages.Recovery = (function () {
                 $getNewPassword.prop('disabled', false);
             });
     }
-    
+
     /**
      * Initialize ALTCHA widget if present.
      */
@@ -129,7 +129,7 @@ App.Pages.Recovery = (function () {
     $form.on('submit', onFormSubmit);
 
     $captchaTitle.on('click', 'button', refreshCaptcha);
-    
+
     // Initialize ALTCHA
     initializeAltcha();
 

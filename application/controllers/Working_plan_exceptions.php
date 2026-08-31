@@ -30,11 +30,7 @@ class Working_plan_exceptions extends EA_Controller
         'id_users_provider',
     ];
 
-    public array $optional_working_plan_exception_fields = [
-        'start_time',
-        'end_time',
-        'breaks',
-    ];
+    public array $optional_working_plan_exception_fields = ['start_time', 'end_time', 'breaks'];
 
     private ?array $secretary_provider_ids = null;
 
@@ -93,9 +89,12 @@ class Working_plan_exceptions extends EA_Controller
 
             // Providers and secretaries must only see the exceptions of the providers they may access.
             $working_plan_exceptions = array_values(
-                array_filter($working_plan_exceptions, fn($working_plan_exception) => $this->can_access_provider(
-                    (int) $working_plan_exception['id_users_provider'],
-                )),
+                array_filter(
+                    $working_plan_exceptions,
+                    fn($working_plan_exception) => $this->can_access_provider(
+                        (int) $working_plan_exception['id_users_provider'],
+                    ),
+                ),
             );
 
             json_response($working_plan_exceptions);
@@ -295,11 +294,7 @@ class Working_plan_exceptions extends EA_Controller
             $provider_id = request('provider_id');
 
             // Validate provider_id is a positive integer
-            if (
-                empty($provider_id) ||
-                !filter_var($provider_id, FILTER_VALIDATE_INT) ||
-                $provider_id <= 0
-            ) {
+            if (empty($provider_id) || !filter_var($provider_id, FILTER_VALIDATE_INT) || $provider_id <= 0) {
                 throw new InvalidArgumentException('Invalid provider ID provided.');
             }
 

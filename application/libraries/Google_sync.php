@@ -695,9 +695,7 @@ class Google_sync
 
             $event_dt->setDate($dt->format('Y-m-d'));
         } else {
-            $event_dt->setDateTime(
-                (new DateTime($datetime, $timezone))->format(DateTimeInterface::RFC3339),
-            );
+            $event_dt->setDateTime((new DateTime($datetime, $timezone))->format(DateTimeInterface::RFC3339));
         }
 
         return $event_dt;

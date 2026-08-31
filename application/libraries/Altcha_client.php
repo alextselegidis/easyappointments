@@ -34,7 +34,7 @@ class Altcha_client
      */
     public function __construct()
     {
-        $this->CI =& get_instance();
+        $this->CI = &get_instance();
     }
 
     /**

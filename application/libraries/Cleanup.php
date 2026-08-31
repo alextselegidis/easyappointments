@@ -88,7 +88,7 @@ class Cleanup
         }
 
         $deleted_count = 0;
-        $cutoff_time = time() - (STORAGE_RETENTION_DAYS * 86400);
+        $cutoff_time = time() - STORAGE_RETENTION_DAYS * 86400;
 
         foreach (glob($log_path . '/log-*.php') as $file) {
             if (is_file($file) && filemtime($file) < $cutoff_time) {
@@ -114,7 +114,7 @@ class Cleanup
         }
 
         $deleted_count = 0;
-        $cutoff_time = time() - (STORAGE_RETENTION_DAYS * 86400);
+        $cutoff_time = time() - STORAGE_RETENTION_DAYS * 86400;
 
         $files = glob($cache_path . '/*');
 
@@ -149,17 +149,26 @@ class Cleanup
 
         $db = $this->CI->db;
 
-        $query = $db->query("
+        $query = $db->query(
+            "
             SELECT DISTINCT c.id, c.email
-            FROM `" . $db->dbprefix('users') . "` c
-            INNER JOIN `" . $db->dbprefix('roles') . "` r ON r.id = c.id_roles AND r.slug = 'customer'
+            FROM `" .
+                $db->dbprefix('users') .
+                "` c
+            INNER JOIN `" .
+                $db->dbprefix('roles') .
+                "` r ON r.id = c.id_roles AND r.slug = 'customer'
             WHERE c.id NOT IN (
                 SELECT DISTINCT id_users_customer
-                FROM `" . $db->dbprefix('appointments') . "`
+                FROM `" .
+                $db->dbprefix('appointments') .
+                "`
                 WHERE end_datetime >= ?
             )
             AND c.create_datetime < ?
-        ", [$cutoff_date, $cutoff_date]);
+        ",
+            [$cutoff_date, $cutoff_date],
+        );
 
         $customers_to_delete = $query->result_array();
         $deleted_count = 0;
@@ -174,6 +183,8 @@ class Cleanup
             }
         }
 
-        response(PHP_EOL . "⇾ Data retention cleanup completed. Deleted {$deleted_count} customer(s)." . PHP_EOL . PHP_EOL);
+        response(
+            PHP_EOL . "⇾ Data retention cleanup completed. Deleted {$deleted_count} customer(s)." . PHP_EOL . PHP_EOL,
+        );
     }
 }

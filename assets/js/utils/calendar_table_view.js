@@ -295,12 +295,7 @@ App.Utils.CalendarTableView = (function () {
 
                 $reloadAppointments.trigger('click');
             };
-            App.Http.Calendar.saveWorkingPlanException(
-                updatedException,
-                provider.id,
-                successCallback,
-                null,
-            );
+            App.Http.Calendar.saveWorkingPlanException(updatedException, provider.id, successCallback, null);
         });
     }
 
@@ -344,60 +339,56 @@ App.Utils.CalendarTableView = (function () {
      * @param {number} appointmentId - Appointment ID to delete.
      */
     function handleDeleteAppointment(appointmentId) {
-        App.Utils.Message.show(
-            lang('delete_appointment_title'),
-            lang('notify_users_on_delete_question'),
-            [
-                {
-                    text: lang('cancel'),
-                    click: (event, notifyModal) => notifyModal.hide(),
+        App.Utils.Message.show(lang('delete_appointment_title'), lang('notify_users_on_delete_question'), [
+            {
+                text: lang('cancel'),
+                click: (event, notifyModal) => notifyModal.hide(),
+            },
+            {
+                text: lang('no'),
+                click: (event, notifyModal) => {
+                    notifyModal.hide();
+                    App.Http.Calendar.deleteAppointment(appointmentId, null, false).done(() => {
+                        $reloadAppointments.trigger('click');
+                    });
                 },
-                {
-                    text: lang('no'),
-                    click: (event, notifyModal) => {
-                        notifyModal.hide();
-                        App.Http.Calendar.deleteAppointment(appointmentId, null, false).done(() => {
-                            $reloadAppointments.trigger('click');
-                        });
-                    },
-                },
-                {
-                    text: lang('yes'),
-                    click: (event, notifyModal) => {
-                        notifyModal.hide();
+            },
+            {
+                text: lang('yes'),
+                click: (event, notifyModal) => {
+                    notifyModal.hide();
 
-                        const reasonButtons = [
-                            {
-                                text: lang('cancel'),
-                                click: (event, messageModal) => messageModal.hide(),
+                    const reasonButtons = [
+                        {
+                            text: lang('cancel'),
+                            click: (event, messageModal) => messageModal.hide(),
+                        },
+                        {
+                            text: lang('delete'),
+                            click: (event, messageModal) => {
+                                const reason = $('#cancellation-reason').val();
+                                messageModal.hide();
+                                App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
+                                    $reloadAppointments.trigger('click');
+                                });
                             },
-                            {
-                                text: lang('delete'),
-                                click: (event, messageModal) => {
-                                    const reason = $('#cancellation-reason').val();
-                                    messageModal.hide();
-                                    App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
-                                        $reloadAppointments.trigger('click');
-                                    });
-                                },
-                            },
-                        ];
+                        },
+                    ];
 
-                        App.Utils.Message.show(
-                            lang('delete_appointment_title'),
-                            lang('write_appointment_removal_reason'),
-                            reasonButtons,
-                        );
+                    App.Utils.Message.show(
+                        lang('delete_appointment_title'),
+                        lang('write_appointment_removal_reason'),
+                        reasonButtons,
+                    );
 
-                        $('<textarea/>', {
-                            class: 'form-control w-100',
-                            id: 'cancellation-reason',
-                            rows: '3',
-                        }).appendTo('#message-modal .modal-body');
-                    },
+                    $('<textarea/>', {
+                        class: 'form-control w-100',
+                        id: 'cancellation-reason',
+                        rows: '3',
+                    }).appendTo('#message-modal .modal-body');
                 },
-            ],
-        );
+            },
+        ]);
     }
 
     // Event Handlers - Popover Actions

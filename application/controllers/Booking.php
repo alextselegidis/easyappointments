@@ -383,17 +383,17 @@ class Booking extends EA_Controller
             // Security: Verify hash when updating an existing appointment
             if ($manage_mode && !empty($appointment['id'])) {
                 $appointment_hash = $post_data['appointment_hash'] ?? '';
-                
+
                 if (empty($appointment_hash)) {
                     throw new RuntimeException('Appointment hash is required for updates.');
                 }
-                
+
                 // Verify the hash matches the appointment being updated
                 $existing_appointments = $this->appointments_model->get([
                     'id' => $appointment['id'],
-                    'hash' => $appointment_hash
+                    'hash' => $appointment_hash,
                 ]);
-                
+
                 if (empty($existing_appointments)) {
                     throw new RuntimeException('Invalid appointment hash or appointment not found.');
                 }

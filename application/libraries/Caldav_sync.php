@@ -463,13 +463,7 @@ class Caldav_sync
         }
 
         foreach ($resolved_ips as $resolved_ip) {
-            if (
-                !filter_var(
-                    $resolved_ip,
-                    FILTER_VALIDATE_IP,
-                    FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
-                )
-            ) {
+            if (!filter_var($resolved_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
                 throw new InvalidArgumentException('CalDAV URL host is not allowed.');
             }
         }

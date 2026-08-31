@@ -162,7 +162,7 @@ body .modal.full-screen .modal-push {
 
 .backend-page .filter-records .results hr {
     margin: 5px 0;
-    opacity: .1; 
+    opacity: 0.1;
 }
 
 /* Calendar page specific styles */
@@ -451,7 +451,6 @@ body .modal.full-screen .modal-push {
     width: 30%;
 }
 
-
 #providers-page #providers .breaks .btn,
 #providers-page #providers .working-plan-exceptions .btn,
 #business-logic .breaks .btn {
@@ -538,7 +537,7 @@ body .modal.full-screen .modal-push {
         font-size: 0.7rem;
     }
 
-    .working-plan input[type="checkbox"] {
+    .working-plan input[type='checkbox'] {
         margin-right: 0.25rem;
     }
 }
@@ -571,7 +570,6 @@ body .modal.full-screen .modal-push {
         display: flex !important;
         text-align: left;
     }
-
 
     #calendar .calendar-header .select2-container {
         width: 300px !important;

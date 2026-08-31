@@ -8,7 +8,8 @@ use ReflectionClass;
 use Tests\TestCase;
 use Timezones;
 
-class TimezonesTest extends TestCase {
+class TimezonesTest extends TestCase
+{
     private function timezones(): Timezones
     {
         require_once APPPATH . 'libraries/Timezones.php';

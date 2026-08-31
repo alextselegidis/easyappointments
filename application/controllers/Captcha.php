@@ -64,9 +64,12 @@ class Captcha extends EA_Controller
             $this->load->library('altcha_client');
 
             if (!$this->altcha_client->is_enabled()) {
-                json_response([
-                    'error' => 'ALTCHA is not enabled',
-                ], 400);
+                json_response(
+                    [
+                        'error' => 'ALTCHA is not enabled',
+                    ],
+                    400,
+                );
                 return;
             }
 

@@ -60,9 +60,7 @@ class GoogleSyncTest extends TestCase
         $service = (new ReflectionClass(Google_Service_Calendar::class))->newInstanceWithoutConstructor();
 
         $service->events = new class ($events) {
-            public function __construct(private array $events)
-            {
-            }
+            public function __construct(private array $events) {}
 
             public function get($calendar_id, $event_id, $params = []): Event
             {

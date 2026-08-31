@@ -174,14 +174,14 @@ App.Http.Booking = (function () {
                 return;
             }
         }
-        
+
         if ($altchaPayload.length > 0 && $altchaPayload.val() === '') {
             $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
-            
+
             setTimeout(() => {
                 $altchaHint.fadeTo(400, 0);
             }, 3000);
-            
+
             return;
         }
 
@@ -195,7 +195,7 @@ App.Http.Booking = (function () {
         if ($captchaText.length > 0) {
             data.captcha = $captchaText.val();
         }
-        
+
         if ($altchaPayload.length > 0 && $altchaPayload.val()) {
             data.altcha_payload = $altchaPayload.val();
         }
@@ -239,14 +239,14 @@ App.Http.Booking = (function () {
 
                     return false;
                 }
-                
+
                 if (response.altcha_verification === false) {
                     $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
 
                     setTimeout(() => {
                         $altchaHint.fadeTo(400, 0);
                     }, 3000);
-                    
+
                     // Reset ALTCHA widget
                     if (App.Utils.Altcha) {
                         App.Utils.Altcha.reset('altcha-widget');

@@ -34,11 +34,17 @@ class Migration_Add_id_users_to_consents_table extends EA_Migration
                 ],
             ]);
 
-            $this->db->query('
-                ALTER TABLE `' . $this->db->dbprefix('consents') . '`
-                ADD CONSTRAINT `consents_users` FOREIGN KEY (`id_users`) REFERENCES `' . $this->db->dbprefix('users') . '` (`id`)
+            $this->db->query(
+                '
+                ALTER TABLE `' .
+                    $this->db->dbprefix('consents') .
+                    '`
+                ADD CONSTRAINT `consents_users` FOREIGN KEY (`id_users`) REFERENCES `' .
+                    $this->db->dbprefix('users') .
+                    '` (`id`)
                 ON DELETE SET NULL
-            ');
+            ',
+            );
         }
     }
 

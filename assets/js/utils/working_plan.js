@@ -215,9 +215,7 @@ App.Utils.WorkingPlan = (function () {
             }
 
             workingPlanExceptions.forEach((workingPlanException) => {
-                this.renderWorkingPlanExceptionRow(workingPlanException).appendTo(
-                    '.working-plan-exceptions tbody',
-                );
+                this.renderWorkingPlanExceptionRow(workingPlanException).appendTo('.working-plan-exceptions tbody');
             });
         }
 
@@ -327,7 +325,8 @@ App.Utils.WorkingPlan = (function () {
             if (startDate === endDate) {
                 dateDisplay = App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false);
             } else {
-                dateDisplay = App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false) +
+                dateDisplay =
+                    App.Utils.Date.format(startDate, vars('date_format'), vars('time_format'), false) +
                     ' - ' +
                     App.Utils.Date.format(endDate, vars('date_format'), vars('time_format'), false);
             }

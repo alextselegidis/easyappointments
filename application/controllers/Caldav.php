@@ -190,7 +190,12 @@ class Caldav extends EA_Controller
 
                 if (!$local_event['id_caldav_calendar']) {
                     if (!$local_event['is_unavailability']) {
-                        $caldav_event_id = $CI->caldav_sync->save_appointment($local_event, $service, $provider, $customer);
+                        $caldav_event_id = $CI->caldav_sync->save_appointment(
+                            $local_event,
+                            $service,
+                            $provider,
+                            $customer,
+                        );
                     } else {
                         $caldav_event_id = $CI->caldav_sync->save_unavailability($local_event, $provider);
                     }
@@ -330,10 +335,10 @@ class Caldav extends EA_Controller
                 } catch (Throwable $e) {
                     log_message(
                         'error',
-                        'CalDAV sync: failed to import event '
-                            . ($caldav_event['id'] ?? 'unknown')
-                            . ': '
-                            . $e->getMessage(),
+                        'CalDAV sync: failed to import event ' .
+                            ($caldav_event['id'] ?? 'unknown') .
+                            ': ' .
+                            $e->getMessage(),
                     );
                 }
             }

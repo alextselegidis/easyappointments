@@ -249,7 +249,6 @@ class Customers extends EA_Controller
         }
     }
 
-
     /**
      * Store a new customer.
      */

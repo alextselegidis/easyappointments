@@ -413,7 +413,11 @@ App.Pages.Booking = (function () {
             // Restore previous provider selection if they can serve the new service
             if (previousProviderId && previousProviderCanServe) {
                 $selectProvider.val(previousProviderId);
-            } else if (previousProviderId === 'any-provider' && providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
+            } else if (
+                previousProviderId === 'any-provider' &&
+                providerOptionCount > 2 &&
+                Boolean(Number(vars('display_any_provider')))
+            ) {
                 $selectProvider.val('any-provider');
             }
 
@@ -492,7 +496,7 @@ App.Pages.Booking = (function () {
                     return; // Validation failed, do not continue.
                 } else {
                     App.Pages.Booking.updateConfirmFrame();
-                    
+
                     // Initialize ALTCHA widget if present
                     if ($('#altcha-widget').length && App.Utils.Altcha) {
                         App.Utils.Altcha.initialize('altcha-widget');

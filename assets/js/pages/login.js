@@ -63,14 +63,14 @@ App.Pages.Login = (function () {
                 return;
             }
         }
-        
+
         if ($altchaPayload.length > 0 && $altchaPayload.val() === '') {
             $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
-            
+
             setTimeout(() => {
                 $altchaHint.fadeTo(400, 0);
             }, 3000);
-            
+
             return;
         }
 
@@ -95,19 +95,19 @@ App.Pages.Login = (function () {
 
                 return;
             }
-            
+
             if (response.altcha_verification === false) {
                 $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
-                
+
                 setTimeout(() => {
                     $altchaHint.fadeTo(400, 0);
                 }, 3000);
-                
+
                 // Reset ALTCHA widget
                 if (App.Utils.Altcha) {
                     App.Utils.Altcha.reset('altcha-widget');
                 }
-                
+
                 return;
             }
 
@@ -120,7 +120,7 @@ App.Pages.Login = (function () {
             }
         });
     }
-    
+
     /**
      * Initialize ALTCHA widget if present.
      */
@@ -133,7 +133,7 @@ App.Pages.Login = (function () {
     $loginForm.on('submit', onLoginFormSubmit);
 
     $captchaTitle.on('click', 'button', refreshCaptcha);
-    
+
     // Initialize ALTCHA
     initializeAltcha();
 

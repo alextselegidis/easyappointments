@@ -84,7 +84,7 @@ cd easyappointments
 
 # Start the Docker environment
 docker compose up
-````
+```
 
 Then open a second terminal and enter the application container:
 
@@ -118,9 +118,9 @@ npm run build
 
 ### Requirements
 
-* Apache or Nginx
-* PHP 8.2+
-* MySQL database
+- Apache or Nginx
+- PHP 8.2+
+- MySQL database
 
 ### Steps
 
@@ -137,30 +137,30 @@ Once completed, the system is ready to use.
 
 ## 📚 Resources
 
-* Website: [https://easyappointments.org](https://easyappointments.org)
-* Issues: [https://github.com/alextselegidis/easyappointments/issues](https://github.com/alextselegidis/easyappointments/issues)
-* Support Group: [https://groups.google.com/forum/#!forum/easy-appointments](https://groups.google.com/forum/#!forum/easy-appointments)
-* Discord: [https://discord.com/invite/UeeSkaw](https://discord.com/invite/UeeSkaw)
+- Website: [https://easyappointments.org](https://easyappointments.org)
+- Issues: [https://github.com/alextselegidis/easyappointments/issues](https://github.com/alextselegidis/easyappointments/issues)
+- Support Group: [https://groups.google.com/forum/#!forum/easy-appointments](https://groups.google.com/forum/#!forum/easy-appointments)
+- Discord: [https://discord.com/invite/UeeSkaw](https://discord.com/invite/UeeSkaw)
 
 ---
 
 ## 📜 License
 
-* Code: GPL v3.0
-* Content: CC BY 3.0
+- Code: GPL v3.0
+- Content: CC BY 3.0
 
 ---
 
 ## 👤 Author
 
-* Website: [https://alextselegidis.com](https://alextselegidis.com)
-* GitHub: [https://github.com/alextselegidis](https://github.com/alextselegidis)
-* Twitter: [https://twitter.com/AlexTselegidis](https://twitter.com/AlexTselegidis)
+- Website: [https://alextselegidis.com](https://alextselegidis.com)
+- GitHub: [https://github.com/alextselegidis](https://github.com/alextselegidis)
+- Twitter: [https://twitter.com/AlexTselegidis](https://twitter.com/AlexTselegidis)
 
 ---
 
 ## 🔥 More Projects
 
-* [Plainpad · Self-Hosted Note Taking](https://github.com/alextselegidis/plainpad)
-* [Clientverse · CRM Application](https://github.com/alextselegidis/clientverse)
-* [Timecrack · Time Tracking](https://github.com/alextselegidis/timecrack)
+- [Plainpad · Self-Hosted Note Taking](https://github.com/alextselegidis/plainpad)
+- [Clientverse · CRM Application](https://github.com/alextselegidis/clientverse)
+- [Timecrack · Time Tracking](https://github.com/alextselegidis/timecrack)

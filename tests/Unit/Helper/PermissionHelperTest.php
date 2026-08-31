@@ -11,7 +11,8 @@ use Tests\TestCase;
  * The helper must reject both sides of the provider boundary: the record that is about to be overwritten and the
  * provider the record will be assigned to.
  */
-class PermissionHelperTest extends TestCase {
+class PermissionHelperTest extends TestCase
+{
     protected function setUp(): void
     {
         // Provider 11 owns appointment 1207, provider 45 owns appointment 481.

@@ -77,7 +77,10 @@ body {
         font-family: var(--bs-body-font-family);
         font-size: 1.1em;
 
-        input, select, textarea, button {
+        input,
+        select,
+        textarea,
+        button {
             font-family: var(--bs-body-font-family);
             font-size: 1rem;
         }
@@ -173,7 +176,8 @@ body {
         }
 
         td {
-            a, span {
+            a,
+            span {
                 border: none !important;
                 background: none !important;
                 color: var(--bs-primary) !important;
@@ -444,13 +448,21 @@ li.language {
 }
 
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 @keyframes spin-reverse {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(-360deg); }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(-360deg);
+    }
 }
 
 .any-element {

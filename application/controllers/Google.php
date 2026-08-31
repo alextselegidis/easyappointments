@@ -171,10 +171,14 @@ class Google extends EA_Controller
                     $matched_google_event = null;
 
                     if ($existing_google_events !== null) {
-                        $local_start_ts = (new DateTime($local_event['start_datetime'], $provider_timezone))
-                            ->getTimestamp();
-                        $local_end_ts = (new DateTime($local_event['end_datetime'], $provider_timezone))
-                            ->getTimestamp();
+                        $local_start_ts = (new DateTime(
+                            $local_event['start_datetime'],
+                            $provider_timezone,
+                        ))->getTimestamp();
+                        $local_end_ts = (new DateTime(
+                            $local_event['end_datetime'],
+                            $provider_timezone,
+                        ))->getTimestamp();
 
                         foreach ($existing_google_events->getItems() as $candidate) {
                             if ($candidate->getStatus() === 'cancelled') {
@@ -187,10 +191,7 @@ class Google extends EA_Controller
                                 continue;
                             }
 
-                            if (
-                                $candidate_range[0] !== $local_start_ts ||
-                                $candidate_range[1] !== $local_end_ts
-                            ) {
+                            if ($candidate_range[0] !== $local_start_ts || $candidate_range[1] !== $local_end_ts) {
                                 continue;
                             }
 
@@ -260,7 +261,10 @@ class Google extends EA_Controller
                     // Both sides must be evaluated in the provider's timezone to get consistent timestamps.
                     // Local datetimes are stored as timezone-naive strings in the provider's timezone, so
                     // wrap them with the provider timezone before calling getTimestamp().
-                    $local_event_start = (new DateTime($local_event['start_datetime'], $provider_timezone))->getTimestamp();
+                    $local_event_start = (new DateTime(
+                        $local_event['start_datetime'],
+                        $provider_timezone,
+                    ))->getTimestamp();
                     $local_event_end = (new DateTime($local_event['end_datetime'], $provider_timezone))->getTimestamp();
 
                     $is_google_all_day = $google_event->getStart()->getDateTime() === null;
@@ -293,9 +297,10 @@ class Google extends EA_Controller
                         // Skip the synthetic "Unavailable" summary that EA itself sets when
                         // pushing unavailabilities to Google so it doesn't get duplicated
                         // back into the local notes/description.
-                        $google_event_notes = strcasecmp(trim((string) $google_event_summary), 'Unavailable') === 0
-                            ? (string) $google_event->getDescription()
-                            : trim($google_event_summary . ' ' . $google_event->getDescription());
+                        $google_event_notes =
+                            strcasecmp(trim((string) $google_event_summary), 'Unavailable') === 0
+                                ? (string) $google_event->getDescription()
+                                : trim($google_event_summary . ' ' . $google_event->getDescription());
                     } else {
                         $google_event_notes = $google_event->getDescription();
                     }

@@ -16,7 +16,6 @@ require_once __DIR__ . '/../vendor/autoload.php';
 require_once APPPATH . 'helpers/array_helper.php';
 require_once APPPATH . 'helpers/validation_helper.php';
 
-
 // Minimal CodeIgniter stand-ins, so the permission helper can be tested without booting the framework.
 define('DB_SLUG_PROVIDER', 'provider');
 define('DB_SLUG_SECRETARY', 'secretary');

@@ -37,7 +37,7 @@ App.Http.Recovery = (function () {
         if (captcha) {
             data.captcha = captcha;
         }
-        
+
         if (altchaPayload) {
             data.altcha_payload = altchaPayload;
         }

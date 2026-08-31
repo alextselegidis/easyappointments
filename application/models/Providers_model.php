@@ -557,7 +557,9 @@ class Providers_model extends EA_Model
         }
 
         if (strtotime($start_date) > strtotime($end_date)) {
-            throw new InvalidArgumentException('Working plan exception start date must be before or equal to end date.');
+            throw new InvalidArgumentException(
+                'Working plan exception start date must be before or equal to end date.',
+            );
         }
 
         // If start_time and end_time are provided, validate them

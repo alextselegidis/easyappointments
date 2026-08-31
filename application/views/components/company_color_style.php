@@ -59,8 +59,9 @@ if (!function_exists('adjustBrightness')) {
 if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
     // Generate color variations
 
-
     // Strip to hex charset so a malformed stored value cannot break out of the <style> block.
+
+
     $company_color = '#' . preg_replace('/[^0-9A-Fa-f]/', '', $company_color);
 
     $rgb = hexToRgb($company_color);

@@ -4,7 +4,8 @@ namespace Tests\Unit\Helper;
 
 use Tests\TestCase;
 
-class ArrayHelperTest extends TestCase {
+class ArrayHelperTest extends TestCase
+{
     public function testIsAssocReturnsTrueOnAssociativeArray(): void
     {
         $this->assertTrue(is_assoc(['test' => 'value']));
@@ -24,13 +25,13 @@ class ArrayHelperTest extends TestCase {
     {
         $arr = [
             [
-                'id' => 1
+                'id' => 1,
             ],
             [
-                'id' => 2
+                'id' => 2,
             ],
             [
-                'id' => 3
+                'id' => 3,
             ],
         ];
 

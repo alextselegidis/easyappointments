@@ -1,6 +1,6 @@
 # Easy!Appointments - Changelog
 
-This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for 
+This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for
 developers to maintain and readjust their custom modifications on the main project codebase.
 
 ## [Unreleased]
@@ -44,7 +44,6 @@ developers to maintain and readjust their custom modifications on the main proje
 - Show appointment notes correctly in email notifications (#1881)
 - Google Meet link is created but never stored in appointments.meeting_link (#1947)
 
-
 ## [1.6.0] - 2026-05-27
 
 ### Added
@@ -64,7 +63,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - ALTCHA integration added as an alternative CAPTCHA step (#1155)
 - Add a legal notice and imprint links to the booking page and the legal settings page (#1407)
 - When someone clicks on password reset, implement a link delivery and not just change the password directly
-- Login / Backend button on the disabled booking page message screen  (#1777)
+- Login / Backend button on the disabled booking page message screen (#1777)
 - Allow customers to save their information in local storage (#1696)
 - Implementation of additional GDPR features in Easy!Appointments (#535)
 - Allow users to define working plan exceptions for multiple dates (#1706)
@@ -145,9 +144,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Removed
 
-- Remove the patch.php file 
-
-
+- Remove the patch.php file
 
 ## [1.5.2] - 2025-08-26
 
@@ -163,7 +160,6 @@ developers to maintain and readjust their custom modifications on the main proje
 - Make sure that any-provider does not include hidden providers while generating availability (#1733)
 - Provide "text" version of the emails in addition to HTML (#1711)
 - Trigger webhook requests when managing records via the API (#1676)
-
 
 ## [1.5.1] - 2025-01-20
 
@@ -188,8 +184,6 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fix loop when going a month back in an edge case (#1577)
 - Dedicated provider links do not pre-select the relevant provider on the booking page (#1651)
 - Correct the service / provider booking header display (#1650)
-
-
 
 ## [1.5.0] - 2024-07-07
 
@@ -254,11 +248,10 @@ developers to maintain and readjust their custom modifications on the main proje
 - Non-working time not showing correctly in the week view of calendar (#1381)
 - Make sure the booking cancellation is a post request and has a reason value provided (#1178)
 
-### Removed 
+### Removed
 
 - Remove the engine directory and files form the app (they're deprecated) (#971)
 - Remove the PHPMailer dependency from the app and use the built-in CodeIgniter mailer (#970)
-
 
 ## [1.4.3] - 2022-03-08
 
@@ -282,7 +275,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [1.4.2] - 2021-07-27
 
-### Added 
+### Added
 
 - #1004: Add support for line breaks when displaying the service description in the frontend.
 - #1040: Support all-day events while syncing with Google Calendar.
@@ -293,7 +286,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - #966: Secretaries are getting notification emails for providers that are not assigned to them.
 - #980: Missing Pacific (and potentially other) timezones.
 - #982: The Any-Provider option might lead to double bookings, if all the providers have the same number of appointments for the selected date.
-- #986: Managed to replicate appointment hash collisions. 
+- #986: Managed to replicate appointment hash collisions.
 - #989: Fix Critical mistake resulting in wrong date
 - #990: The API availabilities controller throws an error when generating availability for services with multiple attendants.
 - #991: Available hours generated with the "Any Provider" option in the booking page, may use the information of a provider that is not assigned to the selected service.
@@ -312,12 +305,12 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [1.4.1] - 2020-12-14
 
-### Added 
+### Added
 
 - #952: Add timezone support in the REST API, when managing users.
 - #955: Display confirmation modal when disabling a connected Google Calendar Sync.
 
-### Fixed 
+### Fixed
 
 - #945: Google Calendar sync throws an error with all day Google Calendar Events.
 - #946: Typo in JavaScript code leads to a broken calendar view, when loading unavailability events with note contents.
@@ -329,7 +322,7 @@ developers to maintain and readjust their custom modifications on the main proje
 ## [1.4.0] - 2020-12-09
 
 ### Added
- 
+
 - #203: Appointment location / 12-hour format / sync notes and location in Google Calendar.
 - #221: Fixed/Improved sort breaks increasingly by hour within day.
 - #247: Add new system-wide setting for removing the "Any Provider" option of the booking page.
@@ -357,14 +350,14 @@ developers to maintain and readjust their custom modifications on the main proje
 - #770: Store customer's language and use it with notifications or when the customer manages and existing appointment.
 - #889: Notify admins and secretaries on appointment changes.
 
-### Changed 
+### Changed
 
 - #386: Service price should be optional.
 - #428: Enable book advance timeout values in days.
 - #568: Sort providers alphabetically in the booking page.
 - #745: Add appointment notes preview in the event popover.
 
-### Fixed 
+### Fixed
 
 - #171: Google calendar sync - wrong timezone for appointments.
 - #195: Fix Google calendar sync activation error (JavaScript).
@@ -396,7 +389,7 @@ developers to maintain and readjust their custom modifications on the main proje
 ### Fixed
 
 - #480: Make the app GDPR - new EU privacy regulations compliant.
-- #485: Make REST API search check with "q" parameter case insensitive. 
+- #485: Make REST API search check with "q" parameter case insensitive.
 - #489: REST API response headers must use the Content-Type application/json value.
 - #500: Performance optimization in backend calendar page, after the user clicks the insert appointment button.
 - #510: Providers should not be able to create appointments for other providers in the backend calendar page.
@@ -408,7 +401,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - #410: Time format from American style to European
 - #441: Added time format selection
-- #452: Provide more information when errors occur during the installation. 
+- #452: Provide more information when errors occur during the installation.
 
 ### Changed
 
@@ -428,11 +421,11 @@ developers to maintain and readjust their custom modifications on the main proje
 - #483: In backend, calendar for providers become unselectable if switched to calendar for service.
 - #491: Replace hardcoded string with translation in appointment details email template.
 - #495: Database migration fixes (from 1.2.1 to 1.3.x).
-- #497: Backend settings are not being displayed on page load when the user is not an admin. 
+- #497: Backend settings are not being displayed on page load when the user is not an admin.
 
 ## [1.3.0] - 2018-02-28
 
-### Added 
+### Added
 
 - #65: Insert new appointment by clicking directly on the calendar.
 - #122: Add customer email and phone number in the event popover of the backend/calendar page.
@@ -445,7 +438,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - #399: Integrate cache busting for assets into the app.
 - #402: Create simple "update" page.
 
-### Changed 
+### Changed
 
 - #276: Update FullCalendar dependency.
 - #394: Corrections in the Bootstrap classes in view files.
@@ -455,8 +448,8 @@ developers to maintain and readjust their custom modifications on the main proje
 ### Fixed
 
 - #155: Appointment management modal is not updated after appointment duration resize.
-- #236: Duplicate availabilities with short service duration and unavailabilities ignorance. 
-- #315: Calendar doesn't update when Attendants number changes. 
+- #236: Duplicate availabilities with short service duration and unavailabilities ignorance.
+- #315: Calendar doesn't update when Attendants number changes.
 - #334: Use of session_start() function may cause issues as the default options are not being used.
 - #336: Deleting provider doesn't work in some languages.
 - #337: Full day appointment with multiple attendants are not being taken into concern during availabilities generation.
@@ -477,19 +470,19 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - #241: Set default sessions save_path directory because many servers do not have this option set.
 
-### Fixed 
+### Fixed
 
-- #306: Back-end login does not work with PHP 7.1. 
+- #306: Back-end login does not work with PHP 7.1.
 
 ## [1.2.0] - 2016-11-09
 
-### Added 
+### Added
 
 - #24: Provide dedicated URL for separate provider/service bookings.
 - #45: Add secure flag to CI_SESSION when HTTPS is enabled.
 - #54: Default auto-complete for the appointment end time according to service duration.
 - #109: Accept multiple attendants in a single service session.
-- #180: Add login link to booking footer. 
+- #180: Add login link to booking footer.
 - #182: Add new appointment dashboard view: Table Scheduler
 - #183: Display the appointments modal when the user clicks in an empty calendar slot.
 - #185: Enable fixed availabilities setting for services.
@@ -511,7 +504,7 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [1.1.1] - 2016-02-14
 
-### Fixed 
+### Fixed
 
 - #116: Book advance timeout not taken into account for proposed appointments.
 - #118: Google Calendar and notification mail problem bug.
@@ -536,7 +529,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - #39: Add latest translations to source code so that user can select them immediately.
 - #42: Place all external assets to "ext" directory.
 
-### Removed 
+### Removed
 
 - #40: Removed `.htaccess` file and updated all the URLs with the `index.php` file so that mod_rewrite problems are eliminated.
 - #41: Removed `cancel.php` file. Frontend must use the `message.php` file for displaying simple messages to user.
@@ -549,6 +542,6 @@ developers to maintain and readjust their custom modifications on the main proje
 - #21: Fix Easy!Appointments installation problems with AJAX requests.
 - #66: Trouble with breaks for providers.
 
-## [1.0.0] - 2014-01-19 
+## [1.0.0] - 2014-01-19
 
 First Easy!Appointments release ever! ☺
