@@ -26,6 +26,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Security: Stop unauthorized users from taking over or changing other people's appointments
 - Security: Block unsafe links in the online meeting field so they cannot run code on the calendar
 - When rescheduling an appointment, its date and time are selected again by default (#1940)
+- Rescheduling an appointment can be saved again, instead of failing with an appointment hash error
 - Show the cancel appointment text and button on a single line with even spacing
 - Fix the automated test setup
 - The provider and secretary "Mobile" number is now saved when you create or edit them

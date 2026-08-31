@@ -873,6 +873,7 @@ App.Pages.Booking = (function () {
 
         if (manageMode) {
             data.appointment.id = vars('appointment_data').id;
+            data.appointment_hash = vars('appointment_data').hash;
             data.customer.id = vars('customer_data').id;
         }
 
