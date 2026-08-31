@@ -52,8 +52,6 @@
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
         "test": "APP_ENV=testing php vendor/bin/phpunit",
-        "post-install-cmd": "@cleanup-vendor",
-        "post-update-cmd": "@cleanup-vendor",
         "cleanup-vendor": [
             "find vendor -type f -name '*.md' -delete",
             "find vendor -type f -name 'CHANGELOG*' -delete",

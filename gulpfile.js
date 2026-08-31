@@ -62,7 +62,7 @@ function archive(done) {
     fs.copySync('LICENSE', 'build/LICENSE');
 
     childProcess.execSync(
-        'cd build && composer install --no-interaction --no-dev --optimize-autoloader --ignore-platform-reqs',
+        'cd build && composer install --no-interaction --no-dev --optimize-autoloader --ignore-platform-reqs && composer run cleanup-vendor',
     );
 
     fs.removeSync('build/composer.lock');
