@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build" type="ShConfigurationType">
+  <configuration default="false" name="Deploy" type="ShConfigurationType">
     <option name="SCRIPT_TEXT" value="bash deploy.sh" />
     <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
     <option name="SCRIPT_PATH" value="" />

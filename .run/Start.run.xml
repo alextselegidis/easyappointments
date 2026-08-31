@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-    <configuration default="false" name="Docker-up" type="ShConfigurationType">
-        <option name="SCRIPT_TEXT" value="docker compose up -d --force-recreate" />
+    <configuration default="false" name="Start" type="ShConfigurationType">
+        <option name="SCRIPT_TEXT" value="docker-port compose up -d --force-recreate" />
         <option name="INDEPENDENT_SCRIPT_PATH" value="true" />
         <option name="SCRIPT_PATH" value="" />
         <option name="SCRIPT_OPTIONS" value="" />
