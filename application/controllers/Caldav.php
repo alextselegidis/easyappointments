@@ -211,6 +211,15 @@ class Caldav extends EA_Controller
                         throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                     }
 
+                    // Honour the CalDAV "free" flag (TRANSP:TRANSPARENT). Scoped to unavailabilities on purpose:
+                    // a real appointment must never be deleted because someone flipped it to free in their client.
+                    if (
+                        $local_event['is_unavailability'] &&
+                        strcasecmp($caldav_event['transparency'] ?? 'OPAQUE', 'TRANSPARENT') === 0
+                    ) {
+                        throw new Exception('Event is marked free in the CalDAV Calendar, remove the record.');
+                    }
+
                     // If CalDAV Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
                     $local_event_start = strtotime($local_event['start_datetime']);
                     $local_event_end = strtotime($local_event['end_datetime']);
@@ -262,6 +271,11 @@ class Caldav extends EA_Controller
             foreach ($caldav_events as $caldav_event) {
                 try {
                     if ($caldav_event['status'] === 'CANCELLED') {
+                        continue;
+                    }
+
+                    // Honour the CalDAV "free" flag (TRANSP:TRANSPARENT), those events must stay bookable.
+                    if (strcasecmp($caldav_event['transparency'] ?? 'OPAQUE', 'TRANSPARENT') === 0) {
                         continue;
                     }
 

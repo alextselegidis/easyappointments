@@ -703,6 +703,7 @@ class Caldav_sync
                 'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
                 'description' => (string) $vevent->DESCRIPTION ?? null ?: '',
                 'status' => (string) $vevent->STATUS ?? null ?: 'CONFIRMED',
+                'transparency' => (string) $vevent->TRANSP ?? null ?: 'OPAQUE',
                 'location' => (string) $vevent->LOCATION ?? null ?: '',
             ];
         } catch (Throwable $e) {

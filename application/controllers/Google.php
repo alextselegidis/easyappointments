@@ -247,6 +247,15 @@ class Google extends EA_Controller
                         throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                     }
 
+                    // Honour the Google Calendar "Free" (transparent) flag. Scoped to unavailabilities on purpose:
+                    // a real appointment must never be deleted because someone flipped it to Free in their phone.
+                    if (
+                        $local_event['is_unavailability'] &&
+                        strcasecmp((string) $google_event->getTransparency(), 'transparent') === 0
+                    ) {
+                        throw new Exception('Event is marked free in Google Calendar, remove the record.');
+                    }
+
                     // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
                     // Both sides must be evaluated in the provider's timezone to get consistent timestamps.
                     // Local datetimes are stored as timezone-naive strings in the provider's timezone, so
@@ -327,6 +336,12 @@ class Google extends EA_Controller
 
             foreach ($google_events->getItems() as $google_event) {
                 if ($google_event->getStatus() === 'cancelled') {
+                    continue;
+                }
+
+                // Honour the Google Calendar "Free" (transparent) flag. Google defaults all-day events and
+                // birthdays to Free, and those must stay bookable.
+                if (strcasecmp((string) $google_event->getTransparency(), 'transparent') === 0) {
                     continue;
                 }
 

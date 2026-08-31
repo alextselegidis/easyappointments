@@ -7,6 +7,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Google Calendar events marked as "Free" no longer block booking, so all-day events and birthdays stay bookable (#1945)
+- CalDAV Calendar events marked as free (TRANSP:TRANSPARENT) no longer block booking (#1945)
 - Providers and secretaries can no longer overwrite or reassign the appointments and unavailabilities of other providers
 - Requests with invalid parameters now respond with a "bad request" status instead of a server error
 - Services can no longer be saved with a negative price or with a slot interval of zero
