@@ -133,7 +133,7 @@ class Services_model extends EA_Model
         // Validate the attendants number value.
         if (empty($service['attendants_number']) || (int) $service['attendants_number'] < 1) {
             throw new InvalidArgumentException(
-                'The provided attendants number is invalid: ' . $service['attendants_number'],
+                'The provided attendants number is invalid: ' . ($service['attendants_number'] ?? ''),
             );
         }
     }
