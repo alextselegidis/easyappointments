@@ -47,7 +47,7 @@
         "symfony/finder": "^6.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "^12.4.2"
+        "phpunit/phpunit": "^11.5.56 || ^12.4.2"
     },
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup",
