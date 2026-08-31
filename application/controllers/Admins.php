@@ -136,7 +136,7 @@ class Admins extends EA_Controller
 
             $admins = $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($admins);
+            json_response(filter_sensitive_users_data($admins));
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -204,7 +204,7 @@ class Admins extends EA_Controller
 
             $admin = $this->admins_model->find($admin_id);
 
-            json_response($admin);
+            json_response(filter_sensitive_user_data($admin));
         } catch (Throwable $e) {
             json_exception($e);
         }

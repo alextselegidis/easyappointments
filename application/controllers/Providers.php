@@ -165,7 +165,7 @@ class Providers extends EA_Controller
 
             $providers = $this->providers_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($providers);
+            json_response(filter_sensitive_users_data($providers));
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -233,7 +233,7 @@ class Providers extends EA_Controller
 
             $provider = $this->providers_model->find($provider_id);
 
-            json_response($provider);
+            json_response(filter_sensitive_user_data($provider));
         } catch (Throwable $e) {
             json_exception($e);
         }

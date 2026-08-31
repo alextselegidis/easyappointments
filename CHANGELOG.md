@@ -25,6 +25,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Security: Login attempts are throttled again, so repeated wrong passwords are blocked as intended
 - Security: Stop unauthorized users from taking over or changing other people's appointments
 - Security: Block unsafe links in the online meeting field so they cannot run code on the calendar
+- Security: Stop the user management pages from returning the calendar sync tokens, CalDAV passwords and password
+  reset tokens of other accounts
 - When rescheduling an appointment, its date and time are selected again by default (#1940)
 - Rescheduling an appointment can be saved again, instead of failing with an appointment hash error
 - Show the cancel appointment text and button on a single line with even spacing

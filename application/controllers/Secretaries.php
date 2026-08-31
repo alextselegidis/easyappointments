@@ -150,7 +150,7 @@ class Secretaries extends EA_Controller
 
             $secretaries = $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($secretaries);
+            json_response(filter_sensitive_users_data($secretaries));
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -218,7 +218,7 @@ class Secretaries extends EA_Controller
 
             $secretary = $this->secretaries_model->find($secretary_id);
 
-            json_response($secretary);
+            json_response(filter_sensitive_user_data($secretary));
         } catch (Throwable $e) {
             json_exception($e);
         }
