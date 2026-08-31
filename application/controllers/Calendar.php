@@ -754,7 +754,9 @@ class Calendar extends EA_Controller
             ];
 
             foreach ($response['appointments'] as &$appointment) {
-                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
+                $appointment['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($appointment['id_users_provider']),
+                );
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
@@ -806,7 +808,9 @@ class Calendar extends EA_Controller
             }
 
             foreach ($response['unavailabilities'] as &$unavailability) {
-                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
+                $unavailability['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($unavailability['id_users_provider']),
+                );
             }
 
             unset($unavailability);
@@ -909,7 +913,9 @@ class Calendar extends EA_Controller
             $response['appointments'] = $this->db->get()->result_array();
 
             foreach ($response['appointments'] as &$appointment) {
-                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
+                $appointment['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($appointment['id_users_provider']),
+                );
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
@@ -995,7 +1001,9 @@ class Calendar extends EA_Controller
             }
 
             foreach ($response['unavailabilities'] as &$unavailability) {
-                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
+                $unavailability['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($unavailability['id_users_provider']),
+                );
             }
 
             unset($unavailability);
