@@ -469,7 +469,7 @@ class Google extends EA_Controller
             show_error('Invalid provider ID', 400);
         }
 
-        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+        if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
             show_error('Forbidden', 403);
         }
 
@@ -539,10 +539,9 @@ class Google extends EA_Controller
 
         // Store the token into the database for future reference.
         $oauth_provider_id = filter_var(session('oauth_provider_id'), FILTER_VALIDATE_INT);
-        $user_id = (int) session('user_id');
 
         if ($oauth_provider_id && $oauth_provider_id > 0) {
-            if (cannot('edit', PRIV_USERS) && $user_id !== (int) $oauth_provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($oauth_provider_id)) {
                 show_error('Forbidden', 403);
 
                 return;
@@ -619,9 +618,7 @@ class Google extends EA_Controller
 
             $provider_id = request('provider_id');
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -657,9 +654,7 @@ class Google extends EA_Controller
                 throw new Exception('Provider id not specified.');
             }
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 

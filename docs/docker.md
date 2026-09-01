@@ -58,6 +58,9 @@ To test CalDAV syncing locally:
    - **Username:** your Baikal username
    - **Password:** your Baikal password
 
+The `baikal` host resolves to a private address, and CalDAV URLs that do are rejected. Add
+`define('CALDAV_ALLOWED_HOSTS', 'baikal');` to your `config.php` before connecting.
+
 ## LDAP
 
 OpenLDAP runs on the `openldap` container (ports `389` and `636`). You can manage it through phpLDAPadmin at http://localhost:8200.

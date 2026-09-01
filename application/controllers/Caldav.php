@@ -55,9 +55,7 @@ class Caldav extends EA_Controller
 
             $provider_id = request('provider_id');
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -65,9 +63,9 @@ class Caldav extends EA_Controller
             $caldav_username = request('caldav_username');
             $caldav_password = request('caldav_password');
 
-            $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
-
             $provider = $this->providers_model->find($provider_id);
+
+            $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
 
             $provider['settings']['caldav_sync'] = true;
             $provider['settings']['caldav_url'] = $caldav_url;
@@ -408,9 +406,7 @@ class Caldav extends EA_Controller
                 throw new Exception('Provider id not specified.');
             }
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 

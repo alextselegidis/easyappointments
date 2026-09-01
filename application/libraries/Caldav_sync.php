@@ -28,9 +28,6 @@ use Sabre\VObject\Reader;
  */
 class Caldav_sync
 {
-    // Toggle SSRF host validation here (disabled by default).
-    protected bool $enable_ssrf_check = false;
-
     /**
      * @var EA_Controller|CI_Controller
      */
@@ -447,12 +444,13 @@ class Caldav_sync
             throw new InvalidArgumentException('Invalid CalDAV URL provided.');
         }
 
-        // Local Docker CalDAV host explicitly allowed even when SSRF checks are enabled.
-        if ($scheme === 'http' && strtolower($host) === 'baikal') {
-            return;
-        }
+        // Hosts listed in the CALDAV_ALLOWED_HOSTS constant of the root config.php are trusted as they are, so that
+        // installations with a CalDAV server on the local network can still reach it.
+        $allowed_hosts = defined('CALDAV_ALLOWED_HOSTS')
+            ? array_filter(array_map('trim', explode(',', strtolower(CALDAV_ALLOWED_HOSTS))))
+            : [];
 
-        if (!$this->enable_ssrf_check) {
+        if (in_array(strtolower($host), $allowed_hosts, true)) {
             return;
         }
 

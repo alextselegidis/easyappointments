@@ -71,6 +71,29 @@ if (!function_exists('cannot')) {
     }
 }
 
+if (!function_exists('is_current_provider')) {
+    /**
+     * Check whether the provided provider ID is the one of the currently logged-in user.
+     *
+     * Requests without a session must never match: the ID of a logged-out visitor reads as zero, which would otherwise
+     * be equal to a "provider_id=0" parameter and pass as a self-check.
+     *
+     * Example:
+     *
+     * if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) abort(403);
+     *
+     * @param mixed $provider_id Provider ID.
+     *
+     * @return bool
+     */
+    function is_current_provider(mixed $provider_id): bool
+    {
+        $user_id = (int) session('user_id');
+
+        return $user_id > 0 && $user_id === (int) $provider_id;
+    }
+}
+
 if (!function_exists('can_manage_provider')) {
     /**
      * Check whether the currently logged-in user is allowed to manage the records of the provided provider.

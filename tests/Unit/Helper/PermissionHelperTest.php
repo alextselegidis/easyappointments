@@ -94,6 +94,25 @@ class PermissionHelperTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
+    public function testLoggedOutVisitorIsNotTheProviderWithIdZero(): void
+    {
+        $GLOBALS['ea_test_session'] = [];
+
+        // A logged out user reads as ID zero, which must not match a "provider_id=0" parameter.
+        $this->assertFalse(is_current_provider(0));
+        $this->assertFalse(is_current_provider('0'));
+        $this->assertFalse(is_current_provider(null));
+    }
+
+    public function testProviderIsOnlyTheirOwnId(): void
+    {
+        $this->login(11, DB_SLUG_PROVIDER);
+
+        $this->assertTrue(is_current_provider(11));
+        $this->assertTrue(is_current_provider('11'));
+        $this->assertFalse(is_current_provider(45));
+    }
+
     public function testAdminIsNotBoundToAProviderScope(): void
     {
         $this->login(1, 'admin');

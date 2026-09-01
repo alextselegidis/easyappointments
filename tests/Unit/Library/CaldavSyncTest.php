@@ -51,6 +51,50 @@ class CaldavSyncTest extends TestCase
         $method->invoke($caldav_sync, $client);
     }
 
+    private function assert_safe_caldav_url(string $caldav_url): void
+    {
+        require_once APPPATH . 'libraries/Caldav_sync.php';
+
+        // The constructor only loads CodeIgniter dependencies that this check does not need.
+        $caldav_sync = (new ReflectionClass(Caldav_sync::class))->newInstanceWithoutConstructor();
+
+        $method = (new ReflectionClass(Caldav_sync::class))->getMethod('assert_safe_caldav_url');
+        $method->setAccessible(true);
+        $method->invoke($caldav_sync, $caldav_url);
+    }
+
+    public function testPublicHostIsAccepted()
+    {
+        $this->assert_safe_caldav_url('https://93.184.216.34/dav.php/calendars/testuser/default/');
+
+        $this->assertTrue(true); // No exception thrown.
+    }
+
+    public function testPrivateHostIsRejected()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->assert_safe_caldav_url('http://127.0.0.1/dav.php/calendars/testuser/default/');
+    }
+
+    public function testLinkLocalMetadataHostIsRejected()
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->assert_safe_caldav_url('http://169.254.169.254/latest/meta-data/');
+    }
+
+    public function testAllowedHostIsAccepted()
+    {
+        if (!defined('CALDAV_ALLOWED_HOSTS')) {
+            define('CALDAV_ALLOWED_HOSTS', 'baikal');
+        }
+
+        $this->assert_safe_caldav_url('http://baikal/dav.php/calendars/testuser/default/');
+
+        $this->assertTrue(true); // No exception thrown.
+    }
+
     public function testCalendarCollectionIsAccepted()
     {
         $this->assert_calendar_collection(self::CALENDAR_RESPONSE);

@@ -23,6 +23,10 @@ developers to maintain and readjust their custom modifications on the main proje
 - Show a message on the booking page when no service or provider has been selected yet
 - The appointment dialog scrolls to its validation message and clears invalid fields while typing
 - Fix the "Start date value is latter than end date." and "The operation could not completed." messages
+- Security: The CalDAV and Google Calendar sync settings of a provider can no longer be reached without logging
+  in first
+- Security: CalDAV URLs that point into the local network are rejected again, unless the host is listed in the
+  new CALDAV_ALLOWED_HOSTS setting of config.php
 - Security: The CAPTCHA can no longer be skipped by leaving the field out of the login, recovery or booking request
 - Security: Login attempts are throttled again, so repeated wrong passwords are blocked as intended
 - Security: Stop unauthorized users from taking over or changing other people's appointments
