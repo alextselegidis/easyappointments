@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Nevažeći broj pratioca.';
 $lang['scheduling_conflict'] = 'Konflikt u rasporedu';
 $lang['invalid_time'] = 'Nevažeće vrijeme.';
 $lang['service_and_provider_missing'] = 'Molimo odaberite uslugu i dobavljača prije nego što nastavite.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sinhronizirajte termine svojih izvršilaca sa serverom kalendara CalDAV i odredite s kojim se serverima sinhronizacija smije povezati.';
+$lang['caldav_allowed_hosts'] = 'Dozvoljene adrese povezivanja';
+$lang['caldav_allowed_hosts_info'] = 'Adrese CalDAV koje upućuju na privatnu ili rezervisanu mrežnu adresu se odbijaju, kako adresa unesena u administraciji ne bi mogla doprijeti do unutrašnje mreže ove instalacije. Dodajte jednu adresu povezivanja ili naziv servera po redu ako je ipak želite dozvoliti. Dodajte samo servere kojima sami upravljate.';
+$lang['caldav_sync_failed'] = 'Sinhronizacija CalDAV nije uspjela';
+$lang['caldav_sync_failed_url'] = 'Sačuvanu adresu povezivanja nije bilo moguće upotrijebiti. Ako vaš CalDAV server radi u lokalnoj mreži, dodajte njegovu adresu u Postavke, Integracije, CalDAV. U suprotnom isključite sinhronizaciju i povežite se ponovo s ispravnom adresom.';
+$lang['caldav_sync_failed_credentials'] = 'Server CalDAV je odbio korisničko ime i lozinku. Isključite sinhronizaciju i povežite se ponovo s ispravnim podacima.';
+$lang['caldav_sync_failed_unreachable'] = 'Server CalDAV nije bilo moguće kontaktirati. Provjerite radi li i je li adresa povezivanja ispravna.';
+$lang['caldav_private_host_warning'] = 'Ovaj server je u privatnoj mreži. Povezivanjem će se njegov naziv dodati u dozvoljene adrese povezivanja.';
+$lang['caldav_allow_host_and_connect'] = 'Dozvoli i poveži';
 // End

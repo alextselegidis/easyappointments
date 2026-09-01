@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Ugyldig antall ledsagere.';
 $lang['scheduling_conflict'] = 'Planleggingskonflikt';
 $lang['invalid_time'] = 'Ugyldig tid.';
 $lang['service_and_provider_missing'] = 'Vennligst velg en tjeneste og en leverandør før du fortsetter.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synkroniser avtalene til tilbyderne dine med en CalDAV-kalenderserver, og styr hvilke verter synkroniseringen har lov til å koble seg til.';
+$lang['caldav_allowed_hosts'] = 'Tillatte tilkoblings-URL-er';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV-URL-er som peker til en privat eller reservert nettverksadresse blir avvist, slik at en URL som legges inn i administrasjonen ikke kan nå det interne nettverket til denne installasjonen. Legg til én tilkoblings-URL eller ett vertsnavn per linje for å tillate den likevel. Legg bare til servere som du drifter selv.';
+$lang['caldav_sync_failed'] = 'CalDAV-synkroniseringen mislyktes';
+$lang['caldav_sync_failed_url'] = 'Den lagrede tilkoblings-URL-en kunne ikke brukes. Hvis CalDAV-serveren din kjører i det lokale nettverket, legg til URL-en under Innstillinger, Integrasjoner, CalDAV. Ellers slår du av synkroniseringen og kobler til på nytt med en riktig URL.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV-serveren avviste brukernavnet og passordet. Slå av synkroniseringen og koble til på nytt med riktig innlogging.';
+$lang['caldav_sync_failed_unreachable'] = 'CalDAV-serveren kunne ikke nås. Kontroller at den kjører og at tilkoblings-URL-en er riktig.';
+$lang['caldav_private_host_warning'] = 'Denne serveren er i et privat nettverk. Når du kobler til, legges verten til blant de tillatte tilkoblings-URL-ene.';
+$lang['caldav_allow_host_and_connect'] = 'Tillat og koble til';
 // End

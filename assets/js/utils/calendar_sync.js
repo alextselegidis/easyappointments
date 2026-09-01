@@ -23,9 +23,43 @@ App.Utils.CalendarSync = (function () {
     const $triggerSync = $('#trigger-sync');
     const $syncButtonGroup = $('#sync-button-group');
     const $reloadAppointments = $('#reload-appointments');
+    const $syncAlert = $('#sync-alert');
 
     const FILTER_TYPE_PROVIDER = 'provider';
     let isSyncing = false;
+
+    /**
+     * Hide the synchronization alert.
+     */
+    function hideSyncAlert() {
+        $syncAlert.prop('hidden', true);
+    }
+
+    /**
+     * Display why the CalDAV synchronization failed and what has to be done about it.
+     *
+     * The status code carries the reason: a "bad request" means the stored connection settings cannot be used as they
+     * are, while anything else means the server did not answer.
+     *
+     * @param {Object} jqXHR
+     */
+    function showSyncAlert(jqXHR) {
+        let hint;
+
+        if (jqXHR.status === 401) {
+            hint = lang('caldav_sync_failed_credentials');
+        } else if (jqXHR.status === 400) {
+            hint = lang('caldav_sync_failed_url');
+        } else {
+            hint = lang('caldav_sync_failed_unreachable');
+        }
+
+        $syncAlert.find('#sync-alert-title').text(lang('caldav_sync_failed'));
+        $syncAlert.find('#sync-alert-hint').text(hint);
+        $syncAlert.find('#sync-alert-details').text((jqXHR.responseJSON && jqXHR.responseJSON.message) || '');
+
+        $syncAlert.prop('hidden', false);
+    }
 
     function hasSync(type) {
         const $selectedOption = $selectFilterItem.find('option:selected');
@@ -213,8 +247,95 @@ App.Utils.CalendarSync = (function () {
                 <div class="alert alert-danger" hidden>
                     <!-- JS -->
                 </div>
+
+                <div class="alert alert-warning" id="caldav-private-host" hidden>
+                    <p class="mb-2">
+                        ${lang('caldav_private_host_warning')}
+                    </p>
+                    <code class="d-block mb-2" id="caldav-private-host-name"></code>
+                    <button type="button" class="btn btn-sm btn-outline-warning" id="caldav-allow-host">
+                        ${lang('caldav_allow_host_and_connect')}
+                    </button>
+                </div>
             </div>
         `);
+
+        /**
+         * Send the connection information to the server.
+         *
+         * @param {Boolean} allowPrivateHost Confirms a host that sits on a private network.
+         */
+        function connect(allowPrivateHost) {
+            const providerId = $selectFilterItem.val();
+
+            $messageModal.find('.is-invalid').removeClass('is-invalid');
+
+            const $alert = $messageModal.find('.alert-danger');
+            $alert.text('').prop('hidden', true);
+
+            const $privateHost = $container.find('#caldav-private-host');
+            $privateHost.prop('hidden', true);
+
+            const $caldavUrl = $container.find('#caldav-url');
+            const caldavUrl = $caldavUrl.val();
+
+            if (!caldavUrl) {
+                $caldavUrl.addClass('is-invalid');
+                return;
+            }
+
+            const $caldavUsername = $container.find('#caldav-username');
+            const caldavUsername = $caldavUsername.val();
+
+            if (!caldavUsername) {
+                $caldavUsername.addClass('is-invalid');
+                return;
+            }
+
+            const $caldavPassword = $container.find('#caldav-password');
+            const caldavPassword = $caldavPassword.val();
+
+            if (!caldavPassword) {
+                $caldavPassword.addClass('is-invalid');
+                return;
+            }
+
+            App.Http.Caldav.connectToServer(
+                providerId,
+                caldavUrl,
+                caldavUsername,
+                caldavPassword,
+                allowPrivateHost,
+            ).done((response) => {
+                if (!response.success) {
+                    // The host only failed the private address check, so offer to allow it instead of just
+                    // reporting the failure.
+                    if (response.blocked_host) {
+                        $container.find('#caldav-private-host-name').text(response.blocked_host);
+                        $privateHost.prop('hidden', false);
+                        return;
+                    }
+
+                    $caldavUrl.addClass('is-invalid');
+                    $caldavUsername.addClass('is-invalid');
+                    $caldavPassword.addClass('is-invalid');
+
+                    $alert.text(response.message || lang('login_failed')).prop('hidden', false);
+
+                    return;
+                }
+
+                const $selectedOption = $selectFilterItem.find('option:selected');
+
+                $selectedOption.attr('caldav-sync', '1');
+
+                updateSyncButtons();
+
+                App.Layouts.Backend.displayNotification(lang('sync_calendar_selected'));
+
+                bootstrap.Modal.getInstance($messageModal[0])?.hide();
+            });
+        }
 
         const $messageModal = App.Utils.Message.show(lang('caldav_server'), lang('caldav_connection_info_prompt'), [
             {
@@ -225,66 +346,17 @@ App.Utils.CalendarSync = (function () {
             },
             {
                 text: lang('connect'),
-                click: (event, messageModal) => {
-                    const providerId = $selectFilterItem.val();
-
-                    $messageModal.find('.is-invalid').removeClass('is-invalid');
-
-                    const $alert = $messageModal.find('.alert');
-                    $alert.text('').prop('hidden', true);
-
-                    const $caldavUrl = $container.find('#caldav-url');
-                    const caldavUrl = $caldavUrl.val();
-
-                    if (!caldavUrl) {
-                        $caldavUrl.addClass('is-invalid');
-                        return;
-                    }
-
-                    const $caldavUsername = $container.find('#caldav-username');
-                    const caldavUsername = $caldavUsername.val();
-
-                    if (!caldavUsername) {
-                        $caldavUsername.addClass('is-invalid');
-                        return;
-                    }
-
-                    const $caldavPassword = $container.find('#caldav-password');
-                    const caldavPassword = $caldavPassword.val();
-
-                    if (!caldavPassword) {
-                        $caldavPassword.addClass('is-invalid');
-                        return;
-                    }
-
-                    App.Http.Caldav.connectToServer(providerId, caldavUrl, caldavUsername, caldavPassword).done(
-                        (response) => {
-                            if (!response.success) {
-                                $caldavUrl.addClass('is-invalid');
-                                $caldavUsername.addClass('is-invalid');
-                                $caldavPassword.addClass('is-invalid');
-
-                                $alert.text(response.message || lang('login_failed')).prop('hidden', false);
-
-                                return;
-                            }
-
-                            const $selectedOption = $selectFilterItem.find('option:selected');
-
-                            $selectedOption.attr('caldav-sync', '1');
-
-                            updateSyncButtons();
-
-                            App.Layouts.Backend.displayNotification(lang('sync_calendar_selected'));
-
-                            messageModal.hide();
-                        },
-                    );
+                click: () => {
+                    connect(false);
                 },
             },
         ]);
 
         $messageModal.find('.modal-body').append($container);
+
+        $container.find('#caldav-allow-host').on('click', () => {
+            connect(true);
+        });
     }
 
     function disableCaldavSync() {
@@ -331,24 +403,14 @@ App.Utils.CalendarSync = (function () {
     function triggerCaldavSync() {
         const providerId = $selectFilterItem.val();
 
+        hideSyncAlert();
+
         App.Http.Caldav.syncWithCaldav(providerId)
             .done(() => {
                 App.Layouts.Backend.displayNotification(lang('calendar_sync_completed'));
                 $reloadAppointments.trigger('click');
             })
-            .fail((jqXHR) => {
-                const serverMessage = jqXHR.responseJSON && jqXHR.responseJSON.message;
-
-                let message = lang('calendar_sync_failed');
-
-                if (jqXHR.status === 401) {
-                    message = lang('invalid_credentials_provided');
-                } else if (serverMessage) {
-                    message += ' ' + serverMessage;
-                }
-
-                App.Layouts.Backend.displayNotification(message);
-            })
+            .fail(showSyncAlert)
             .always(() => {
                 isSyncing = false;
             });
@@ -428,6 +490,7 @@ App.Utils.CalendarSync = (function () {
         $enableSync.on('click', onEnableSyncClick);
         $disableSync.on('click', onDisableSyncClick);
         $triggerSync.on('click', onTriggerSyncClick);
+        $('#sync-alert-close').on('click', hideSyncAlert);
         updateSyncButtons();
     }
 

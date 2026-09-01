@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Numër i pavlefshëm i pjesëmarrësve.';
 $lang['scheduling_conflict'] = 'Konflikt në planifikim';
 $lang['invalid_time'] = 'Vlerë e pavlefshme e kohës.';
 $lang['service_and_provider_missing'] = 'Ju lutemi zgjidhni një shërbim dhe një ofrues përpara se të vazhdoni.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sinkronizoni takimet e ofruesve tuaj me një server kalendari CalDAV dhe përcaktoni me cilët hoste lejohet të lidhet sinkronizimi.';
+$lang['caldav_allowed_hosts'] = 'Adresat e lejuara të lidhjes';
+$lang['caldav_allowed_hosts_info'] = 'Adresat CalDAV që tregojnë drejt një adrese rrjeti private ose të rezervuar refuzohen, që një adresë e vendosur në panelin e administrimit të mos arrijë rrjetin e brendshëm të këtij instalimi. Shtoni një adresë lidhjeje ose një emër hosti për rresht për ta lejuar gjithsesi. Shtoni vetëm serverë që i administroni vetë.';
+$lang['caldav_sync_failed'] = 'Sinkronizimi CalDAV dështoi';
+$lang['caldav_sync_failed_url'] = 'Adresa e ruajtur e lidhjes nuk mund të përdorej. Nëse serveri juaj CalDAV punon në rrjetin tuaj lokal, shtoni adresën e tij te Cilësimet, Integrimet, CalDAV. Përndryshe çaktivizoni sinkronizimin dhe lidhuni sërish me një adresë të saktë.';
+$lang['caldav_sync_failed_credentials'] = 'Serveri CalDAV refuzoi emrin e përdoruesit dhe fjalëkalimin. Çaktivizoni sinkronizimin dhe lidhuni sërish me të dhënat e sakta.';
+$lang['caldav_sync_failed_unreachable'] = 'Serveri CalDAV nuk u arrit. Sigurohuni që është në punë dhe se adresa e lidhjes është e saktë.';
+$lang['caldav_private_host_warning'] = 'Ky server ndodhet në një rrjet privat. Lidhja do ta shtojë hostin e tij te adresat e lejuara të lidhjes.';
+$lang['caldav_allow_host_and_connect'] = 'Lejo dhe lidhu';
 // End

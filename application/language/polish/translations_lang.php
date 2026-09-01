@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Nieprawidłowa liczba uczestników.';
 $lang['scheduling_conflict'] = 'Konflikt terminów';
 $lang['invalid_time'] = 'Nieprawidłowa godzina.';
 $lang['service_and_provider_missing'] = 'Proszę wybrać zabieg i personel przed kontynuowaniem.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synchronizuj wizyty swoich usługodawców z serwerem kalendarza CalDAV i decyduj, z jakimi hostami synchronizacja może się łączyć.';
+$lang['caldav_allowed_hosts'] = 'Dozwolone adresy połączenia';
+$lang['caldav_allowed_hosts_info'] = 'Adresy CalDAV wskazujące na prywatny lub zarezerwowany adres sieciowy są odrzucane, aby adres wpisany w panelu administracyjnym nie mógł sięgnąć do sieci wewnętrznej tej instalacji. Dodaj jeden adres połączenia lub nazwę hosta w wierszu, aby mimo to go dopuścić. Dodawaj wyłącznie serwery, którymi sam zarządzasz.';
+$lang['caldav_sync_failed'] = 'Synchronizacja CalDAV nie powiodła się';
+$lang['caldav_sync_failed_url'] = 'Nie udało się użyć zapisanego adresu połączenia. Jeśli Twój serwer CalDAV działa w sieci lokalnej, dodaj jego adres w Ustawieniach, Integracje, CalDAV. W przeciwnym razie wyłącz synchronizację i połącz się ponownie z poprawnym adresem.';
+$lang['caldav_sync_failed_credentials'] = 'Serwer CalDAV odrzucił nazwę użytkownika i hasło. Wyłącz synchronizację i połącz się ponownie z poprawnymi danymi logowania.';
+$lang['caldav_sync_failed_unreachable'] = 'Nie udało się połączyć z serwerem CalDAV. Upewnij się, że działa i że adres połączenia jest poprawny.';
+$lang['caldav_private_host_warning'] = 'Ten serwer znajduje się w sieci prywatnej. Połączenie doda jego host do dozwolonych adresów połączenia.';
+$lang['caldav_allow_host_and_connect'] = 'Zezwól i połącz';
 // End

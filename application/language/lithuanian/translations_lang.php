@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Neteisingas dalyvių skaičius.';
 $lang['scheduling_conflict'] = 'Tvarkaraščio konfliktas';
 $lang['invalid_time'] = 'Neteisingas laikas.';
 $lang['service_and_provider_missing'] = 'Prieš tęsdami pasirinkite paslaugą ir teikėją.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sinchronizuokite savo paslaugų teikėjų vizitus su CalDAV kalendoriaus serveriu ir nurodykite, prie kurių serverių sinchronizavimui leidžiama jungtis.';
+$lang['caldav_allowed_hosts'] = 'Leidžiami prisijungimo adresai';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV adresai, nukreipiantys į privatų arba rezervuotą tinklo adresą, atmetami, kad administravimo srityje įvestas adresas negalėtų pasiekti šio diegimo vidinio tinklo. Norėdami vis dėlto leisti, kiekvienoje eilutėje pridėkite po vieną prisijungimo adresą arba serverio vardą. Pridėkite tik tuos serverius, kuriuos patys prižiūrite.';
+$lang['caldav_sync_failed'] = 'CalDAV sinchronizavimas nepavyko';
+$lang['caldav_sync_failed_url'] = 'Nepavyko panaudoti įrašyto prisijungimo adreso. Jei jūsų CalDAV serveris veikia vietiniame tinkle, pridėkite jo adresą skiltyje Nustatymai, Integracijos, CalDAV. Kitu atveju išjunkite sinchronizavimą ir prisijunkite iš naujo su teisingu adresu.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV serveris atmetė naudotojo vardą ir slaptažodį. Išjunkite sinchronizavimą ir prisijunkite iš naujo su teisingais duomenimis.';
+$lang['caldav_sync_failed_unreachable'] = 'Nepavyko susisiekti su CalDAV serveriu. Įsitikinkite, kad jis veikia ir kad prisijungimo adresas teisingas.';
+$lang['caldav_private_host_warning'] = 'Šis serveris yra privačiame tinkle. Prisijungus jo serverio vardas bus pridėtas prie leidžiamų prisijungimo adresų.';
+$lang['caldav_allow_host_and_connect'] = 'Leisti ir prisijungti';
 // End

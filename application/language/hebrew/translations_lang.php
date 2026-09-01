@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'מספר משתתפים לא חוקי.';
 $lang['scheduling_conflict'] = 'התנגשות בלוח הזמנים';
 $lang['invalid_time'] = 'זמן לא חוקי.';
 $lang['service_and_provider_missing'] = 'יש לבחור שירות וספק לפני המשך רישום!';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'סנכרנו את הפגישות של נותני השירות שלכם עם שרת יומן CalDAV, וקבעו לאילו מארחים מותר לסנכרון להתחבר.';
+$lang['caldav_allowed_hosts'] = 'כתובות חיבור מותרות';
+$lang['caldav_allowed_hosts_info'] = 'כתובות CalDAV המצביעות על כתובת רשת פרטית או שמורה נדחות, כדי שכתובת שהוזנה בממשק הניהול לא תוכל להגיע לרשת הפנימית של התקנה זו. הוסיפו כתובת חיבור אחת או שם מארח אחד בכל שורה כדי לאפשר אותה בכל זאת. הוסיפו רק שרתים שאתם עצמכם מתפעלים.';
+$lang['caldav_sync_failed'] = 'סנכרון CalDAV נכשל';
+$lang['caldav_sync_failed_url'] = 'לא ניתן היה להשתמש בכתובת החיבור השמורה. אם שרת ה-CalDAV שלכם פועל ברשת המקומית, הוסיפו את כתובתו תחת הגדרות, שילובים, CalDAV. אחרת כבו את הסנכרון והתחברו מחדש עם כתובת תקינה.';
+$lang['caldav_sync_failed_credentials'] = 'שרת ה-CalDAV דחה את שם המשתמש והסיסמה. כבו את הסנכרון והתחברו מחדש עם פרטים נכונים.';
+$lang['caldav_sync_failed_unreachable'] = 'לא ניתן היה להגיע לשרת ה-CalDAV. ודאו שהוא פועל ושכתובת החיבור נכונה.';
+$lang['caldav_private_host_warning'] = 'שרת זה נמצא ברשת פרטית. ההתחברות תוסיף את המארח שלו לכתובות החיבור המותרות.';
+$lang['caldav_allow_host_and_connect'] = 'אפשר והתחבר';
 // End

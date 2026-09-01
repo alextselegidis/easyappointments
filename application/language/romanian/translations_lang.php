@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Număr de asistenți invalid.';
 $lang['scheduling_conflict'] = 'Conflict de programare';
 $lang['invalid_time'] = 'Oră invalidă.';
 $lang['service_and_provider_missing'] = 'Va rugam selectati un serviciu si un furnizor înainte de a continua.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sincronizați programările furnizorilor dumneavoastră cu un server de calendar CalDAV și stabiliți la ce gazde se poate conecta sincronizarea.';
+$lang['caldav_allowed_hosts'] = 'Adrese de conectare permise';
+$lang['caldav_allowed_hosts_info'] = 'Adresele CalDAV care indică o adresă de rețea privată sau rezervată sunt respinse, astfel încât o adresă introdusă în administrare să nu poată ajunge în rețeaua internă a acestei instalări. Adăugați câte o adresă de conectare sau un nume de gazdă pe linie pentru a o permite totuși. Adăugați doar servere pe care le administrați dumneavoastră.';
+$lang['caldav_sync_failed'] = 'Sincronizarea CalDAV a eșuat';
+$lang['caldav_sync_failed_url'] = 'Adresa de conectare salvată nu a putut fi folosită. Dacă serverul dumneavoastră CalDAV rulează în rețeaua locală, adăugați adresa acestuia în Setări, Integrări, CalDAV. În caz contrar, dezactivați sincronizarea și conectați-vă din nou cu o adresă corectă.';
+$lang['caldav_sync_failed_credentials'] = 'Serverul CalDAV a respins numele de utilizator și parola. Dezactivați sincronizarea și conectați-vă din nou cu datele corecte.';
+$lang['caldav_sync_failed_unreachable'] = 'Serverul CalDAV nu a putut fi contactat. Asigurați-vă că funcționează și că adresa de conectare este corectă.';
+$lang['caldav_private_host_warning'] = 'Acest server se află într-o rețea privată. La conectare, gazda sa va fi adăugată la adresele de conectare permise.';
+$lang['caldav_allow_host_and_connect'] = 'Permite și conectează';
 // End

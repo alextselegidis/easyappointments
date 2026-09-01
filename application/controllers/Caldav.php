@@ -52,6 +52,7 @@ class Caldav extends EA_Controller
             check('caldav_url', 'string');
             check('caldav_username', 'string');
             check('caldav_password', 'string');
+            check('allow_private_host', 'bool|null');
 
             $provider_id = request('provider_id');
 
@@ -64,6 +65,16 @@ class Caldav extends EA_Controller
             $caldav_password = request('caldav_password');
 
             $provider = $this->providers_model->find($provider_id);
+
+            // The administrator confirmed the host of a server that sits on a private network, so record it before
+            // the connection is tested, otherwise the private address check rejects it again.
+            if (filter_var(request('allow_private_host'), FILTER_VALIDATE_BOOLEAN)) {
+                if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
+                    throw new RuntimeException('You do not have the required permissions for this task.');
+                }
+
+                $this->caldav_sync->allow_host($caldav_url);
+            }
 
             $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
 
@@ -88,9 +99,16 @@ class Caldav extends EA_Controller
                 $message = $e->getMessage(); // E.g. invalid URL or non-calendar URL provided.
             }
 
+            // Offer to allow a host that only failed the private address check, but only to the users who are
+            // allowed to change the setting that holds the allowed connection URLs.
+            $blocked_host = can('edit', PRIV_SYSTEM_SETTINGS)
+                ? $this->caldav_sync->get_blocked_host($caldav_url)
+                : null;
+
             json_response([
                 'success' => false,
                 'message' => $message,
+                'blocked_host' => $blocked_host,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -373,6 +391,18 @@ class Caldav extends EA_Controller
                 ],
                 $status_code === 401 ? 401 : 500,
             );
+        } catch (InvalidArgumentException $e) {
+            log_message(
+                'error',
+                'CalDAV - Sync failed on the connection settings (provider ID "' .
+                    $provider_id .
+                    '"): ' .
+                    $e->getMessage(),
+            );
+
+            // Keep the exception type, so that json_exception() answers with a "bad request" and the calendar page
+            // can tell a connection setting that needs fixing apart from a server that is merely unreachable.
+            json_exception(new InvalidArgumentException('CalDAV Sync: ' . $e->getMessage(), $e->getCode(), $e));
         } catch (Throwable $e) {
             log_message(
                 'error',

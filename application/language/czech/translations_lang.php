@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Neplatný počet účastníků.';
 $lang['scheduling_conflict'] = 'Konflikt v rozvrhu';
 $lang['invalid_time'] = 'Neplatný čas.';
 $lang['service_and_provider_missing'] = 'Než budete pokračovat, zvolte prosím službu a poskytovatele.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synchronizujte schůzky svých poskytovatelů se serverem kalendáře CalDAV a určete, ke kterým hostitelům se synchronizace smí připojit.';
+$lang['caldav_allowed_hosts'] = 'Povolené adresy připojení';
+$lang['caldav_allowed_hosts_info'] = 'Adresy CalDAV, které míří na privátní nebo vyhrazenou síťovou adresu, jsou odmítnuty, aby se adresa zadaná ve správě nedostala do vnitřní sítě této instalace. Přidejte jednu adresu připojení nebo název hostitele na řádek, pokud ji přesto chcete povolit. Přidávejte pouze servery, které sami provozujete.';
+$lang['caldav_sync_failed'] = 'Synchronizace CalDAV selhala';
+$lang['caldav_sync_failed_url'] = 'Uloženou adresu připojení nebylo možné použít. Pokud váš server CalDAV běží v místní síti, přidejte jeho adresu v Nastavení, Integrace, CalDAV. Jinak synchronizaci vypněte a připojte se znovu se správnou adresou.';
+$lang['caldav_sync_failed_credentials'] = 'Server CalDAV odmítl uživatelské jméno a heslo. Vypněte synchronizaci a připojte se znovu se správnými přihlašovacími údaji.';
+$lang['caldav_sync_failed_unreachable'] = 'Server CalDAV se nepodařilo kontaktovat. Ověřte, že běží a že je adresa připojení správná.';
+$lang['caldav_private_host_warning'] = 'Tento server je v privátní síti. Připojením se jeho hostitel přidá mezi povolené adresy připojení.';
+$lang['caldav_allow_host_and_connect'] = 'Povolit a připojit';
 // End

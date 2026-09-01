@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Virheellinen osallistujien määrä.';
 $lang['scheduling_conflict'] = 'Aikataulun päällekkäisyys';
 $lang['invalid_time'] = 'Virheellinen aika.';
 $lang['service_and_provider_missing'] = 'Valitse palvelupaketti ja palveluntuottaja ennen jatkamista';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synkronoi palveluntarjoajiesi ajanvaraukset CalDAV-kalenteripalvelimen kanssa ja määritä, mihin isäntiin synkronointi saa yhdistää.';
+$lang['caldav_allowed_hosts'] = 'Sallitut yhteysosoitteet';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV-osoitteet, jotka osoittavat yksityiseen tai varattuun verkko-osoitteeseen, hylätään, jotta hallintapaneelissa syötetty osoite ei pääse tämän asennuksen sisäverkkoon. Lisää yksi yhteysosoite tai isäntänimi riviä kohden salliaksesi sen silti. Lisää vain palvelimia, joita ylläpidät itse.';
+$lang['caldav_sync_failed'] = 'CalDAV-synkronointi epäonnistui';
+$lang['caldav_sync_failed_url'] = 'Tallennettua yhteysosoitetta ei voitu käyttää. Jos CalDAV-palvelimesi on paikallisverkossasi, lisää sen osoite kohtaan Asetukset, Integraatiot, CalDAV. Muussa tapauksessa poista synkronointi käytöstä ja yhdistä uudelleen oikealla osoitteella.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV-palvelin hylkäsi käyttäjätunnuksen ja salasanan. Poista synkronointi käytöstä ja yhdistä uudelleen oikeilla tunnuksilla.';
+$lang['caldav_sync_failed_unreachable'] = 'CalDAV-palvelimeen ei saatu yhteyttä. Varmista, että se on käynnissä ja että yhteysosoite on oikein.';
+$lang['caldav_private_host_warning'] = 'Tämä palvelin on yksityisessä verkossa. Yhdistäminen lisää sen isännän sallittuihin yhteysosoitteisiin.';
+$lang['caldav_allow_host_and_connect'] = 'Salli ja yhdistä';
 // End

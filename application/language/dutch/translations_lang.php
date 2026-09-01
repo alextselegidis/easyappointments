@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Ongeldig aantal deelnemers.';
 $lang['scheduling_conflict'] = 'Planningsconflict';
 $lang['invalid_time'] = 'Ongeldige tijd.';
 $lang['service_and_provider_missing'] = 'Kies een dienst en een medewerker voordat u verder gaat.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synchroniseer de afspraken van uw dienstverleners met een CalDAV-agendaserver en bepaal met welke hosts de synchronisatie verbinding mag maken.';
+$lang['caldav_allowed_hosts'] = 'Toegestane verbindings-URL\'s';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV-URL\'s die naar een privé- of gereserveerd netwerkadres verwijzen worden geweigerd, zodat een in de beheeromgeving ingevoerde URL het interne netwerk van deze installatie niet kan bereiken. Voeg per regel één verbindings-URL of hostnaam toe om die alsnog toe te staan. Voeg alleen servers toe die u zelf beheert.';
+$lang['caldav_sync_failed'] = 'CalDAV-synchronisatie mislukt';
+$lang['caldav_sync_failed_url'] = 'De opgeslagen verbindings-URL kon niet worden gebruikt. Als uw CalDAV-server in uw lokale netwerk draait, voeg de URL dan toe onder Instellingen, Integraties, CalDAV. Schakel anders de synchronisatie uit en maak opnieuw verbinding met een juiste URL.';
+$lang['caldav_sync_failed_credentials'] = 'De CalDAV-server heeft de gebruikersnaam en het wachtwoord geweigerd. Schakel de synchronisatie uit en maak opnieuw verbinding met de juiste inloggegevens.';
+$lang['caldav_sync_failed_unreachable'] = 'De CalDAV-server kon niet worden bereikt. Controleer of de server draait en of de verbindings-URL juist is.';
+$lang['caldav_private_host_warning'] = 'Deze server staat in een privénetwerk. Bij het verbinden wordt de host toegevoegd aan de toegestane verbindings-URL\'s.';
+$lang['caldav_allow_host_and_connect'] = 'Toestaan en verbinden';
 // End

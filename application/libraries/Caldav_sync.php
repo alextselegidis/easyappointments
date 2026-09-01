@@ -444,27 +444,83 @@ class Caldav_sync
             throw new InvalidArgumentException('Invalid CalDAV URL provided.');
         }
 
-        // Hosts listed in the CALDAV_ALLOWED_HOSTS constant of the root config.php are trusted as they are, so that
+        // Hosts that an administrator allowed in the CalDAV integration settings are trusted as they are, so that
         // installations with a CalDAV server on the local network can still reach it.
-        $allowed_hosts = defined('CALDAV_ALLOWED_HOSTS')
-            ? array_filter(array_map('trim', explode(',', strtolower(CALDAV_ALLOWED_HOSTS))))
-            : [];
-
-        if (in_array(strtolower($host), $allowed_hosts, true)) {
+        if (in_array(strtolower($host), $this->get_allowed_hosts(), true)) {
             return;
         }
 
         $resolved_ips = $this->resolve_host_ips($host);
 
+        // Name the host in both messages: it is the value the administrator has to add to the allowed connection
+        // URLs, and the calendar page shows the message as it is.
         if (empty($resolved_ips)) {
-            throw new InvalidArgumentException('CalDAV URL host cannot be resolved.');
+            throw new InvalidArgumentException('CalDAV URL host cannot be resolved: ' . $host);
         }
 
         foreach ($resolved_ips as $resolved_ip) {
             if (!filter_var($resolved_ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                throw new InvalidArgumentException('CalDAV URL host is not allowed.');
+                throw new InvalidArgumentException('CalDAV URL host is not allowed: ' . $host);
             }
         }
+    }
+
+    /**
+     * Get the host of the provided CalDAV URL when it may not be reached as things stand.
+     *
+     * Returns NULL when the URL is fine, so that the caller can offer to allow the host instead of only reporting a
+     * failure.
+     */
+    public function get_blocked_host(string $caldav_url): ?string
+    {
+        try {
+            $this->assert_safe_caldav_url($caldav_url);
+        } catch (InvalidArgumentException) {
+            return strtolower(trim((string) parse_url($caldav_url, PHP_URL_HOST), '[]')) ?: null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Add the host of the provided CalDAV URL to the allowed connection URLs.
+     *
+     * Only call this once the administrator has confirmed the host, as it lifts the private address check for it.
+     */
+    public function allow_host(string $caldav_url): void
+    {
+        $host = strtolower(trim((string) parse_url($caldav_url, PHP_URL_HOST), '[]'));
+
+        if (!$host || in_array($host, $this->get_allowed_hosts(), true)) {
+            return;
+        }
+
+        $allowed_hosts = trim((string) setting('caldav_allowed_hosts', ''));
+
+        setting(['caldav_allowed_hosts' => $allowed_hosts === '' ? $host : $allowed_hosts . "\n" . $host]);
+    }
+
+    /**
+     * Get the hosts that are allowed to resolve to a private or reserved address.
+     *
+     * Administrators maintain the list in the CalDAV integration settings, where every line holds either a full
+     * connection URL or a bare host name.
+     */
+    private function get_allowed_hosts(): array
+    {
+        $allowed_hosts = [];
+
+        foreach (preg_split('/[\s,]+/', (string) setting('caldav_allowed_hosts', '')) as $entry) {
+            if ($entry === '') {
+                continue;
+            }
+
+            $host = parse_url($entry, PHP_URL_HOST) ?: $entry;
+
+            $allowed_hosts[] = strtolower(trim((string) $host, '[]'));
+        }
+
+        return $allowed_hosts;
     }
 
     /**

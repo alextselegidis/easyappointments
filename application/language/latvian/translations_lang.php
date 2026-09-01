@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Nederīgs apmeklētāju skaits.';
 $lang['scheduling_conflict'] = 'Grafika konflikts';
 $lang['invalid_time'] = 'Nederīgs laiks.';
 $lang['service_and_provider_missing'] = 'Lūdzu, izvēlieties pakalpojumu un pakalpojumu sniedzēju pirms turpināt.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sinhronizējiet savu pakalpojumu sniedzēju pierakstus ar CalDAV kalendāra serveri un nosakiet, ar kuriem resursdatoriem sinhronizācija drīkst savienoties.';
+$lang['caldav_allowed_hosts'] = 'Atļautās savienojuma adreses';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV adreses, kas norāda uz privātu vai rezervētu tīkla adresi, tiek noraidītas, lai administrācijā ievadīta adrese nevarētu piekļūt šīs instalācijas iekšējam tīklam. Lai to tomēr atļautu, pievienojiet vienu savienojuma adresi vai resursdatora nosaukumu rindā. Pievienojiet tikai tos serverus, kurus pārvaldāt pats.';
+$lang['caldav_sync_failed'] = 'CalDAV sinhronizācija neizdevās';
+$lang['caldav_sync_failed_url'] = 'Saglabāto savienojuma adresi neizdevās izmantot. Ja jūsu CalDAV serveris darbojas lokālajā tīklā, pievienojiet tā adresi sadaļā Iestatījumi, Integrācijas, CalDAV. Pretējā gadījumā izslēdziet sinhronizāciju un pieslēdzieties vēlreiz ar pareizu adresi.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV serveris noraidīja lietotājvārdu un paroli. Izslēdziet sinhronizāciju un pieslēdzieties vēlreiz ar pareiziem datiem.';
+$lang['caldav_sync_failed_unreachable'] = 'Neizdevās sazināties ar CalDAV serveri. Pārliecinieties, ka tas darbojas un ka savienojuma adrese ir pareiza.';
+$lang['caldav_private_host_warning'] = 'Šis serveris atrodas privātā tīklā. Pieslēdzoties tā resursdators tiks pievienots atļautajām savienojuma adresēm.';
+$lang['caldav_allow_host_and_connect'] = 'Atļaut un pieslēgties';
 // End

@@ -23,10 +23,24 @@ define('DB_SLUG_SECRETARY', 'secretary');
 $GLOBALS['ea_test_session'] = [];
 $GLOBALS['ea_test_records'] = [];
 $GLOBALS['ea_test_secretary_providers'] = [];
+$GLOBALS['ea_test_settings'] = [];
 
 function session(?string $key = null, $default = null)
 {
     return $GLOBALS['ea_test_session'][$key] ?? $default;
+}
+
+function setting(array|string|null $key = null, mixed $default = null): mixed
+{
+    if (is_array($key)) {
+        foreach ($key as $name => $value) {
+            $GLOBALS['ea_test_settings'][$name] = $value;
+        }
+
+        return null;
+    }
+
+    return $GLOBALS['ea_test_settings'][$key] ?? $default;
 }
 
 function abort(int $code, string $message = ''): void

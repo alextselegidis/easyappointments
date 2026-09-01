@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = '無効な出席者数です。';
 $lang['scheduling_conflict'] = '予約の重複';
 $lang['invalid_time'] = '無効な時刻です。';
 $lang['service_and_provider_missing'] = '次に行く前にメニューと担当者を選択してください。';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = '担当者の予約を CalDAV カレンダーサーバーと同期し、同期の接続先として許可するホストを設定します。';
+$lang['caldav_allowed_hosts'] = '許可する接続 URL';
+$lang['caldav_allowed_hosts_info'] = 'プライベートまたは予約済みのネットワークアドレスを指す CalDAV の URL は拒否されます。管理画面で入力された URL がこのインストールの内部ネットワークに到達しないようにするためです。それでも許可する場合は、1 行に 1 つずつ接続 URL またはホスト名を追加してください。ご自身で運用しているサーバーのみを追加してください。';
+$lang['caldav_sync_failed'] = 'CalDAV の同期に失敗しました';
+$lang['caldav_sync_failed_url'] = '保存されている接続 URL を使用できませんでした。CalDAV サーバーがローカルネットワーク上にある場合は、設定、連携、CalDAV でその URL を追加してください。そうでない場合は同期を無効にし、正しい URL で接続し直してください。';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV サーバーがユーザー名とパスワードを拒否しました。同期を無効にし、正しい認証情報で接続し直してください。';
+$lang['caldav_sync_failed_unreachable'] = 'CalDAV サーバーに接続できませんでした。サーバーが稼働していること、接続 URL が正しいことを確認してください。';
+$lang['caldav_private_host_warning'] = 'このサーバーはプライベートネットワーク上にあります。接続すると、そのホストが許可する接続 URL に追加されます。';
+$lang['caldav_allow_host_and_connect'] = '許可して接続';
 // End

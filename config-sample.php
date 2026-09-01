@@ -70,19 +70,6 @@ class Config
 // define('CORS_ALLOWED_ORIGINS', 'https://example.org,https://www.example.org');
 
 // ------------------------------------------------------------------------
-// CALDAV SERVERS ON THE LOCAL NETWORK (Optional)
-// ------------------------------------------------------------------------
-// CalDAV URLs that resolve to a private or reserved address are rejected, so
-// that a URL entered in the backend cannot make this installation reach into
-// its own network.
-//
-// Uncomment and list the host names of the CalDAV servers that are allowed to
-// resolve to such an address, separated by commas. Only add hosts you run
-// yourself.
-//
-// define('CALDAV_ALLOWED_HOSTS', 'caldav.internal,baikal');
-
-// ------------------------------------------------------------------------
 // EMBEDDING THE BOOKING PAGE ON ANOTHER DOMAIN (Optional)
 // ------------------------------------------------------------------------
 // The booking page can be embedded in an iframe on any website out of the

@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Neveljavno število spremljevalcev.';
 $lang['scheduling_conflict'] = 'Konflikt urnika';
 $lang['invalid_time'] = 'Neveljaven čas.';
 $lang['service_and_provider_missing'] = 'Prosimo, izberite storitev in ponudnika, preden nadaljujete.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sinhronizirajte termine svojih izvajalcev s strežnikom koledarja CalDAV in določite, s katerimi gostitelji se sinhronizacija lahko poveže.';
+$lang['caldav_allowed_hosts'] = 'Dovoljeni naslovi povezave';
+$lang['caldav_allowed_hosts_info'] = 'Naslovi CalDAV, ki kažejo na zasebni ali rezervirani omrežni naslov, so zavrnjeni, da naslov, vnesen v skrbniškem delu, ne more doseči notranjega omrežja te namestitve. Dodajte en naslov povezave ali ime gostitelja na vrstico, če ga želite kljub temu dovoliti. Dodajte samo strežnike, ki jih upravljate sami.';
+$lang['caldav_sync_failed'] = 'Sinhronizacija CalDAV ni uspela';
+$lang['caldav_sync_failed_url'] = 'Shranjenega naslova povezave ni bilo mogoče uporabiti. Če vaš strežnik CalDAV teče v lokalnem omrežju, dodajte njegov naslov pod Nastavitve, Integracije, CalDAV. Sicer izklopite sinhronizacijo in se znova povežite s pravilnim naslovom.';
+$lang['caldav_sync_failed_credentials'] = 'Strežnik CalDAV je zavrnil uporabniško ime in geslo. Izklopite sinhronizacijo in se znova povežite s pravilnimi podatki.';
+$lang['caldav_sync_failed_unreachable'] = 'Strežnika CalDAV ni bilo mogoče doseči. Preverite, ali deluje in ali je naslov povezave pravilen.';
+$lang['caldav_private_host_warning'] = 'Ta strežnik je v zasebnem omrežju. S povezavo bo njegov gostitelj dodan med dovoljene naslove povezave.';
+$lang['caldav_allow_host_and_connect'] = 'Dovoli in poveži';
 // End

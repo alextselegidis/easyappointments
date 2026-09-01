@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Nombre d\'assistents no vàlid.';
 $lang['scheduling_conflict'] = 'Conflicte de planificació';
 $lang['invalid_time'] = 'Hora no vàlida.';
 $lang['service_and_provider_missing'] = 'Seleccioneu un servei i un proveïdor abans de continuar.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sincronitzeu les cites dels vostres proveïdors amb un servidor de calendari CalDAV i controleu a quins amfitrions es pot connectar la sincronització.';
+$lang['caldav_allowed_hosts'] = 'URL de connexió permesos';
+$lang['caldav_allowed_hosts_info'] = 'Els URL de CalDAV que apunten a una adreça de xarxa privada o reservada es rebutgen, perquè un URL introduït a l\'administració no pugui arribar a la xarxa interna d\'aquesta instal·lació. Afegiu un URL de connexió o un nom d\'amfitrió per línia per permetre\'l igualment. Afegiu només servidors que gestioneu vosaltres mateixos.';
+$lang['caldav_sync_failed'] = 'La sincronització CalDAV ha fallat';
+$lang['caldav_sync_failed_url'] = 'No s\'ha pogut utilitzar l\'URL de connexió desat. Si el vostre servidor CalDAV s\'executa a la xarxa local, afegiu-ne l\'URL a Configuració, Integracions, CalDAV. Altrament, desactiveu la sincronització i torneu a connectar amb un URL correcte.';
+$lang['caldav_sync_failed_credentials'] = 'El servidor CalDAV ha rebutjat el nom d\'usuari i la contrasenya. Desactiveu la sincronització i torneu a connectar amb les credencials correctes.';
+$lang['caldav_sync_failed_unreachable'] = 'No s\'ha pogut contactar amb el servidor CalDAV. Assegureu-vos que està en funcionament i que l\'URL de connexió és correcte.';
+$lang['caldav_private_host_warning'] = 'Aquest servidor es troba en una xarxa privada. En connectar s\'afegirà el seu amfitrió als URL de connexió permesos.';
+$lang['caldav_allow_host_and_connect'] = 'Permet i connecta';
 // End

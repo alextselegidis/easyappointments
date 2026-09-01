@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Ungültige Anzahl der Begleiter.';
 $lang['scheduling_conflict'] = 'Terminkonflikt';
 $lang['invalid_time'] = 'Ungültige Zeit.';
 $lang['service_and_provider_missing'] = 'Bitte wählen Sie eine Dienstleistung und einen Anbieter aus bevor Sie fortfahren.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synchronisieren Sie die Termine Ihrer Anbieter mit einem CalDAV-Kalenderserver und legen Sie fest, mit welchen Hosts sich die Synchronisierung verbinden darf.';
+$lang['caldav_allowed_hosts'] = 'Erlaubte Verbindungs-URLs';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV-URLs, die auf eine private oder reservierte Netzwerkadresse verweisen, werden abgelehnt, damit eine im Backend eingegebene URL nicht in das interne Netzwerk dieser Installation gelangen kann. Tragen Sie pro Zeile eine Verbindungs-URL oder einen Hostnamen ein, um sie dennoch zuzulassen. Fügen Sie nur Server hinzu, die Sie selbst betreiben.';
+$lang['caldav_sync_failed'] = 'CalDAV-Synchronisierung fehlgeschlagen';
+$lang['caldav_sync_failed_url'] = 'Die gespeicherte Verbindungs-URL konnte nicht verwendet werden. Wenn Ihr CalDAV-Server in Ihrem lokalen Netzwerk läuft, tragen Sie seine URL unter Einstellungen, Integrationen, CalDAV ein. Andernfalls deaktivieren Sie die Synchronisierung und verbinden Sie sich erneut mit einer korrekten URL.';
+$lang['caldav_sync_failed_credentials'] = 'Der CalDAV-Server hat den Benutzernamen und das Passwort abgelehnt. Deaktivieren Sie die Synchronisierung und verbinden Sie sich erneut mit den richtigen Zugangsdaten.';
+$lang['caldav_sync_failed_unreachable'] = 'Der CalDAV-Server konnte nicht erreicht werden. Stellen Sie sicher, dass er läuft und dass die Verbindungs-URL korrekt ist.';
+$lang['caldav_private_host_warning'] = 'Dieser Server befindet sich in einem privaten Netzwerk. Beim Verbinden wird sein Host zu den erlaubten Verbindungs-URLs hinzugefügt.';
+$lang['caldav_allow_host_and_connect'] = 'Zulassen und verbinden';
 // End

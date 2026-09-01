@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Érvénytelen résztvevői szám.';
 $lang['scheduling_conflict'] = 'Időpont-ütközés';
 $lang['invalid_time'] = 'Érvénytelen idő.';
 $lang['service_and_provider_missing'] = 'Válassz egy szolgáltatást és egy szolgáltatót mielőtt folytatnád.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Szinkronizálja szolgáltatói időpontjait egy CalDAV naptárkiszolgálóval, és határozza meg, mely gépekhez csatlakozhat a szinkronizálás.';
+$lang['caldav_allowed_hosts'] = 'Engedélyezett kapcsolódási címek';
+$lang['caldav_allowed_hosts_info'] = 'Azok a CalDAV címek, amelyek magán- vagy fenntartott hálózati címre mutatnak, elutasításra kerülnek, hogy az adminisztrációban megadott cím ne érhesse el a telepítés belső hálózatát. Soronként egy kapcsolódási címet vagy gépnevet adjon meg, ha mégis engedélyezni szeretné. Csak olyan kiszolgálókat adjon hozzá, amelyeket saját maga üzemeltet.';
+$lang['caldav_sync_failed'] = 'A CalDAV szinkronizálás sikertelen';
+$lang['caldav_sync_failed_url'] = 'A mentett kapcsolódási cím nem volt használható. Ha a CalDAV kiszolgálója a helyi hálózaton fut, adja hozzá a címét a Beállítások, Integrációk, CalDAV menüpontban. Ellenkező esetben kapcsolja ki a szinkronizálást, és csatlakozzon újra helyes címmel.';
+$lang['caldav_sync_failed_credentials'] = 'A CalDAV kiszolgáló elutasította a felhasználónevet és a jelszót. Kapcsolja ki a szinkronizálást, és csatlakozzon újra a helyes adatokkal.';
+$lang['caldav_sync_failed_unreachable'] = 'A CalDAV kiszolgáló nem érhető el. Győződjön meg róla, hogy fut, és hogy a kapcsolódási cím helyes.';
+$lang['caldav_private_host_warning'] = 'Ez a kiszolgáló magánhálózaton található. A csatlakozáskor a gépneve bekerül az engedélyezett kapcsolódási címek közé.';
+$lang['caldav_allow_host_and_connect'] = 'Engedélyezés és csatlakozás';
 // End

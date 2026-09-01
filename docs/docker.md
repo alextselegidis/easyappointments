@@ -58,8 +58,9 @@ To test CalDAV syncing locally:
    - **Username:** your Baikal username
    - **Password:** your Baikal password
 
-The `baikal` host resolves to a private address, and CalDAV URLs that do are rejected. Add
-`define('CALDAV_ALLOWED_HOSTS', 'baikal');` to your `config.php` before connecting.
+The `baikal` host resolves to a private address, so the connection dialog asks you to confirm it. Click
+**Allow and connect** and the host is added to the allowed connection URLs for you. See
+[CalDAV Calendar Sync](caldav-calendar-sync.md) for the details.
 
 ## LDAP
 

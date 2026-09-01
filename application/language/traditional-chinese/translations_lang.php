@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = '無效的參加人數。';
 $lang['scheduling_conflict'] = '預約時間衝突';
 $lang['invalid_time'] = '無效的時間。';
 $lang['service_and_provider_missing'] = '請選擇服務和提供者後再繼續。';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = '將服務人員的預約與 CalDAV 行事曆伺服器同步，並控制同步可以連線到哪些主機。';
+$lang['caldav_allowed_hosts'] = '允許的連線網址';
+$lang['caldav_allowed_hosts_info'] = '指向私人或保留網路位址的 CalDAV 網址會被拒絕，以免在後台輸入的網址存取本安裝的內部網路。如需仍然允許，請每行新增一個連線網址或主機名稱。請只新增由您自己運行的伺服器。';
+$lang['caldav_sync_failed'] = 'CalDAV 同步失敗';
+$lang['caldav_sync_failed_url'] = '無法使用已儲存的連線網址。如果您的 CalDAV 伺服器執行於本機網路，請在「設定」「整合」「CalDAV」中新增其網址。否則請關閉同步，並使用正確的網址重新連線。';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV 伺服器拒絕了使用者名稱和密碼。請關閉同步，並使用正確的憑證重新連線。';
+$lang['caldav_sync_failed_unreachable'] = '無法連線至 CalDAV 伺服器。請確認伺服器正在執行，且連線網址正確。';
+$lang['caldav_private_host_warning'] = '此伺服器位於私人網路中。連線後會將其主機新增至允許的連線網址中。';
+$lang['caldav_allow_host_and_connect'] = '允許並連線';
 // End

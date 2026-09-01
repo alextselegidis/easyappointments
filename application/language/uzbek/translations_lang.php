@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Noto\'g\'ri ishtirokchilar soni.';
 $lang['scheduling_conflict'] = 'Jadval to\'qnashuvi';
 $lang['invalid_time'] = 'Noto\'g\'ri vaqt.';
 $lang['service_and_provider_missing'] = 'Davom etishdan oldin xizmat va mutaxassisni tanlang.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Xizmat ko\'rsatuvchilaringizning uchrashuvlarini CalDAV kalendar serveri bilan sinxronlang va sinxronlash qaysi xostlarga ulanishi mumkinligini belgilang.';
+$lang['caldav_allowed_hosts'] = 'Ruxsat etilgan ulanish manzillari';
+$lang['caldav_allowed_hosts_info'] = 'Shaxsiy yoki zaxiralangan tarmoq manziliga ishora qiluvchi CalDAV manzillari rad etiladi, shunda boshqaruv panelida kiritilgan manzil ushbu o\'rnatmaning ichki tarmog\'iga yeta olmaydi. Baribir ruxsat berish uchun har bir qatorga bitta ulanish manzili yoki xost nomini qo\'shing. Faqat o\'zingiz boshqaradigan serverlarni qo\'shing.';
+$lang['caldav_sync_failed'] = 'CalDAV sinxronlash amalga oshmadi';
+$lang['caldav_sync_failed_url'] = 'Saqlangan ulanish manzilidan foydalanib bo\'lmadi. Agar CalDAV serveringiz mahalliy tarmoqda ishlasa, uning manzilini Sozlamalar, Integratsiyalar, CalDAV bo\'limiga qo\'shing. Aks holda sinxronlashni o\'chiring va to\'g\'ri manzil bilan qaytadan ulaning.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV serveri foydalanuvchi nomi va parolni rad etdi. Sinxronlashni o\'chiring va to\'g\'ri ma\'lumotlar bilan qaytadan ulaning.';
+$lang['caldav_sync_failed_unreachable'] = 'CalDAV serveriga ulanib bo\'lmadi. U ishlayotganiga va ulanish manzili to\'g\'riligiga ishonch hosil qiling.';
+$lang['caldav_private_host_warning'] = 'Bu server shaxsiy tarmoqda joylashgan. Ulanish uning xostini ruxsat etilgan ulanish manzillariga qo\'shadi.';
+$lang['caldav_allow_host_and_connect'] = 'Ruxsat berish va ulanish';
 // End

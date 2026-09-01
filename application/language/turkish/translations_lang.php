@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Geçersiz refakatçi sayısı.';
 $lang['scheduling_conflict'] = 'Randevu çakışması';
 $lang['invalid_time'] = 'Geçersiz zaman.';
 $lang['service_and_provider_missing'] = 'Lütfen devam etmeden önce bir hizmet ve bir hizmet sağlayıcı seçin.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Hizmet sağlayıcılarınızın randevularını bir CalDAV takvim sunucusuyla eşitleyin ve eşitlemenin hangi sunuculara bağlanabileceğini belirleyin.';
+$lang['caldav_allowed_hosts'] = 'İzin verilen bağlantı adresleri';
+$lang['caldav_allowed_hosts_info'] = 'Özel veya ayrılmış bir ağ adresine işaret eden CalDAV adresleri reddedilir; böylece yönetim panelinde girilen bir adres bu kurulumun iç ağına erişemez. Yine de izin vermek için her satıra bir bağlantı adresi veya sunucu adı ekleyin. Yalnızca kendi işlettiğiniz sunucuları ekleyin.';
+$lang['caldav_sync_failed'] = 'CalDAV eşitlemesi başarısız oldu';
+$lang['caldav_sync_failed_url'] = 'Kayıtlı bağlantı adresi kullanılamadı. CalDAV sunucunuz yerel ağınızda çalışıyorsa adresini Ayarlar, Entegrasyonlar, CalDAV bölümüne ekleyin. Aksi hâlde eşitlemeyi kapatın ve doğru bir adresle yeniden bağlanın.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV sunucusu kullanıcı adını ve parolayı reddetti. Eşitlemeyi kapatın ve doğru bilgilerle yeniden bağlanın.';
+$lang['caldav_sync_failed_unreachable'] = 'CalDAV sunucusuna ulaşılamadı. Sunucunun çalıştığından ve bağlantı adresinin doğru olduğundan emin olun.';
+$lang['caldav_private_host_warning'] = 'Bu sunucu özel bir ağda bulunuyor. Bağlandığınızda adresi izin verilen bağlantı adreslerine eklenecek.';
+$lang['caldav_allow_host_and_connect'] = 'İzin ver ve bağlan';
 // End

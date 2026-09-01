@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Kehtetu broneeringute arv.';
 $lang['scheduling_conflict'] = 'Ajakava konflikt';
 $lang['invalid_time'] = 'Kehtetu aeg.';
 $lang['service_and_provider_missing'] = 'Enne jätkamist, vali teenus ja teenusepakkuja';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sünkroonige oma teenusepakkujate broneeringud CalDAV kalendriserveriga ja määrake, milliste hostidega tohib sünkroonimine ühenduda.';
+$lang['caldav_allowed_hosts'] = 'Lubatud ühenduse aadressid';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV aadressid, mis osutavad privaatsele või reserveeritud võrguaadressile, lükatakse tagasi, et haldusliideses sisestatud aadress ei pääseks selle paigalduse sisevõrku. Lubamiseks lisage üks ühenduse aadress või hostinimi rea kohta. Lisage ainult servereid, mida ise haldate.';
+$lang['caldav_sync_failed'] = 'CalDAV sünkroonimine ebaõnnestus';
+$lang['caldav_sync_failed_url'] = 'Salvestatud ühenduse aadressi ei saanud kasutada. Kui teie CalDAV server töötab kohtvõrgus, lisage selle aadress jaotises Seaded, Sidustused, CalDAV. Vastasel juhul lülitage sünkroonimine välja ja ühenduge uuesti õige aadressiga.';
+$lang['caldav_sync_failed_credentials'] = 'CalDAV server lükkas kasutajanime ja parooli tagasi. Lülitage sünkroonimine välja ja ühenduge uuesti õigete andmetega.';
+$lang['caldav_sync_failed_unreachable'] = 'CalDAV serverini ei õnnestunud ühendust saada. Veenduge, et see töötab ja et ühenduse aadress on õige.';
+$lang['caldav_private_host_warning'] = 'See server asub privaatvõrgus. Ühendamisel lisatakse selle host lubatud ühenduse aadressidele.';
+$lang['caldav_allow_host_and_connect'] = 'Luba ja ühenda';
 // End

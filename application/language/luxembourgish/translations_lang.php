@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Ongëlteg Zuel vun den Assistenter.';
 $lang['scheduling_conflict'] = 'Terminkonflikt';
 $lang['invalid_time'] = 'Ongëlteg Zäit.';
 $lang['service_and_provider_missing'] = 'Wielt w.e.g. eng Dingschtleeschtung an ee Mataarbechter iert Der weider maacht.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Synchroniséiert d\'Terminer vun Ären Ubidder mat engem CalDAV-Kalennerserver a leet fest, mat wéi enge Hoster d\'Synchronisatioun sech verbanne dierf.';
+$lang['caldav_allowed_hosts'] = 'Erlaabte Verbindungs-URLen';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV-URLen, déi op eng privat oder reservéiert Netzadress weisen, ginn ofgeleent, sou datt eng am Backend agedroen URL net an dat intern Netz vun dëser Installatioun kënnt. Fügt pro Zeil eng Verbindungs-URL oder een Hostnumm derbäi, fir se trotzdem zouzeloossen. Fügt nëmme Server derbäi, déi Dir selwer bedreift.';
+$lang['caldav_sync_failed'] = 'CalDAV-Synchronisatioun feelgeschloen';
+$lang['caldav_sync_failed_url'] = 'Déi gespäichert Verbindungs-URL konnt net benotzt ginn. Wann Äre CalDAV-Server am lokalen Netz leeft, fügt seng URL ënner Astellungen, Integratiounen, CalDAV derbäi. Soss schalt d\'Synchronisatioun aus a verbannt Iech nei mat enger korrekter URL.';
+$lang['caldav_sync_failed_credentials'] = 'De CalDAV-Server huet de Benotzernumm an d\'Passwuert ofgeleent. Schalt d\'Synchronisatioun aus a verbannt Iech nei mat de richtegen Zougangsdaten.';
+$lang['caldav_sync_failed_unreachable'] = 'De CalDAV-Server konnt net erreecht ginn. Vergewëssert Iech, datt en leeft an datt d\'Verbindungs-URL richteg ass.';
+$lang['caldav_private_host_warning'] = 'Dëse Server ass an engem private Netz. Beim Verbanne gëtt säin Host bei déi erlaabte Verbindungs-URLen derbäigesat.';
+$lang['caldav_allow_host_and_connect'] = 'Zouloossen a verbannen';
 // End

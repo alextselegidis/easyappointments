@@ -579,4 +579,14 @@ $lang['invalid_attendants_number'] = 'Invalid attendants number.';
 $lang['scheduling_conflict'] = 'Scheduling Conflict';
 $lang['invalid_time'] = 'Invalid time value.';
 $lang['service_and_provider_missing'] = 'Please select a service and a provider before continuing.';
+$lang['caldav'] = 'CalDAV';
+$lang['caldav_info'] = 'Sync the appointments of your providers with a CalDAV calendar server, and control which hosts the synchronization is allowed to connect to.';
+$lang['caldav_allowed_hosts'] = 'Allowed Connection URLs';
+$lang['caldav_allowed_hosts_info'] = 'CalDAV URLs that point to a private or reserved network address are rejected, so that a URL entered in the backend cannot reach into the internal network of this installation. Add one connection URL or host name per line to allow it anyway. Only add servers that you run yourself.';
+$lang['caldav_sync_failed'] = 'CalDAV synchronization failed';
+$lang['caldav_sync_failed_url'] = 'The stored connection URL could not be used. If your CalDAV server runs on your local network, add its URL under Settings, Integrations, CalDAV. Otherwise disable the synchronization and connect again with a correct URL.';
+$lang['caldav_sync_failed_credentials'] = 'The CalDAV server rejected the user name and the password. Disable the synchronization and connect again with the correct credentials.';
+$lang['caldav_sync_failed_unreachable'] = 'The CalDAV server could not be reached. Make sure that it is running and that the connection URL is correct.';
+$lang['caldav_private_host_warning'] = 'This server is on a private network. Connecting will add its host to the allowed connection URLs.';
+$lang['caldav_allow_host_and_connect'] = 'Allow and connect';
 // End
