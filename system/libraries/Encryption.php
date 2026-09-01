@@ -863,7 +863,10 @@ class CI_Encryption {
 			return FALSE;
 		}
 
-		self::strlen($salt) OR $salt = str_repeat("\0", $this->_digests[$digest]);
+		// PHP 8.1+ deprecates passing NULL to strlen() - $salt defaults to NULL (see docblock: "Optional
+		// salt"), and both encrypt() and decrypt() call hkdf() with an explicit NULL salt for their HMAC key
+		// derivation, so this is hit on every encrypt/decrypt call, not just an edge case.
+		self::strlen($salt ?? '') OR $salt = str_repeat("\0", $this->_digests[$digest]);
 
 		$prk = hash_hmac($digest, $key, $salt, TRUE);
 		$key = '';
