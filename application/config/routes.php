@@ -76,17 +76,24 @@ $route['translate_uri_dashes'] = false;
 | Set the appropriate headers so that CORS requirements are met and any
 | incoming preflight options request succeeds.
 |
-| Cross-origin requests are denied unless the origin is listed in the CORS_ALLOWED_ORIGINS constant of the root
-| "config.php" file (a comma separated list of origins). Same-origin requests carry no Origin header and are never
-| affected by this section.
+| Cross-origin requests are denied unless the origin is listed in $allowed_origins below. Same-origin requests carry
+| no Origin header and are never affected by this section.
 |
 */
 
-// Get the allowed origins from the configuration. When CORS_ALLOWED_ORIGINS is not defined the list stays empty and
-// no cross-origin request is ever allowed, as the browser only needs CORS headers for other origins anyway.
-$allowed_origins = defined('CORS_ALLOWED_ORIGINS')
-    ? array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)))
-    : [];
+// List the origins that are allowed to call this installation from the browser, for example:
+//
+// $allowed_origins = ['https://example.org', 'https://www.example.org'];
+//
+// Every origin must include the scheme and, when it is not the default one, the port. An empty list denies every
+// cross-origin request, which is what almost every installation wants: embedding the booking page in an iframe does
+// not need an entry here either.
+$allowed_origins = [];
+
+// Still honoured for the installations that declare the origins in the root "config.php" file.
+if (defined('CORS_ALLOWED_ORIGINS')) {
+    $allowed_origins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
+}
 $request_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
 // Requests without an Origin header are same-origin and need no CORS headers at all.

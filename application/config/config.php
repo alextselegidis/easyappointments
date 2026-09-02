@@ -415,10 +415,18 @@ $config['cookie_path'] = '/';
 $config['cookie_httponly'] = true; // Prevent JavaScript access to cookies
 
 // Cross-site request protection for the cookies. "Lax" keeps the cookies away from requests started by other sites,
-// which is what almost every installation wants. Set the COOKIE_SAMESITE constant of the root "config.php" file to
-// "None" when the booking page is embedded in an iframe on another domain and it needs the session there, for example
-// to verify the image CAPTCHA. See config-sample.php for the details.
-$config['cookie_samesite'] = defined('COOKIE_SAMESITE') ? COOKIE_SAMESITE : 'Lax';
+// which is what almost every installation wants.
+//
+// Change this to "None" only when the booking page is embedded in an iframe on another domain and it needs the
+// session there, for example to verify the image CAPTCHA. ALTCHA is verified without the session, so prefer it when
+// the booking page is embedded. "None" makes these cookies reachable from requests that other websites start, and
+// browsers reject such a cookie over a plain connection, so it implies HTTPS.
+$config['cookie_samesite'] = 'Lax';
+
+// Still honoured for the installations that declare the value in the root "config.php" file.
+if (defined('COOKIE_SAMESITE')) {
+    $config['cookie_samesite'] = COOKIE_SAMESITE;
+}
 
 // Browsers reject a "SameSite=None" cookie that is not also marked secure, so that choice implies HTTPS.
 $config['cookie_secure'] =

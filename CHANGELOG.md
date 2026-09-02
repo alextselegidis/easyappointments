@@ -14,6 +14,11 @@ developers to maintain and readjust their custom modifications on the main proje
 - Connecting to a CalDAV server on a local network now offers to allow its host right in the connection dialog,
   instead of requiring a trip to the settings
 
+### Changed
+
+- The CORS origins and the cookie SameSite policy are now set in application/config/routes.php and
+  application/config/config.php, instead of the root config.php, which keeps only the installation settings
+
 ### Fixed
 
 - Google Calendar events marked as "Free" no longer block booking, so all-day events and birthdays stay bookable (#1945)
