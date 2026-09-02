@@ -1118,7 +1118,6 @@ App.Utils.CalendarDefaultView = (function () {
      */
     function createWorkHoursUnavailability(calendarDate, dayPlan, viewEnd) {
         const events = [];
-        const dateStr = calendarDate.format('YYYY-MM-DD');
 
         // Before work starts
         const [startHour, startMin] = dayPlan.start.split(':').map(Number);
@@ -1128,7 +1127,11 @@ App.Utils.CalendarDefaultView = (function () {
             events.push({
                 title: lang('not_working'),
                 start: calendarDate.clone().toDate(),
-                end: moment(dateStr + ' ' + dayPlan.start + ':00').toDate(),
+                // Reuse the already-parsed workStart rather than re-parsing dayPlan.start as a string: dayPlan.start
+                // may be "HH:mm:ss" (the raw MySQL TIME format returned by working plan exceptions fetched fresh
+                // from the server) rather than "HH:mm", and appending ":00" to the former produces a malformed
+                // 4-segment time string.
+                end: workStart.toDate(),
                 allDay: false,
                 color: EVENT_COLORS.notWorking,
                 editable: false,
@@ -1144,7 +1147,8 @@ App.Utils.CalendarDefaultView = (function () {
         if (viewEnd > workEnd.toDate()) {
             events.push({
                 title: lang('not_working'),
-                start: moment(dateStr + ' ' + dayPlan.end + ':00').toDate(),
+                // See the comment above workStart's usage - same reasoning applies here.
+                start: workEnd.toDate(),
                 end: calendarDate.clone().add(1, 'day').toDate(),
                 allDay: false,
                 color: EVENT_COLORS.notWorking,
