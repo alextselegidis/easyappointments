@@ -53,6 +53,11 @@ class Webhooks_client
      */
     public function trigger(string $action, array $payload)
     {
+        // Global kill-switch: when webhooks are disabled in the general settings, skip all dispatching.
+        if (!setting('webhooks_enabled', '1')) {
+            return;
+        }
+
         $webhooks = $this->CI->webhooks_model->get();
 
         foreach ($webhooks as $webhook) {
