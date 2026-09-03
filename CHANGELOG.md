@@ -21,6 +21,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- HTML texts, such as the privacy policy and the terms & conditions, are now purified with a cache directory
+  inside storage/cache, so installations with a read-only vendor directory no longer fail with a write error
 - The list of Google Calendars of a provider is no longer readable without permission, so only that provider or a
   user who may edit providers can fetch it
 - Searching the LDAP directory now escapes the keyword, so a search term can no longer alter the LDAP filter
