@@ -21,6 +21,9 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- The list of Google Calendars of a provider is no longer readable without permission, so only that provider or a
+  user who may edit providers can fetch it
+- Searching the LDAP directory now escapes the keyword, so a search term can no longer alter the LDAP filter
 - Google Calendar events marked as "Free" no longer block booking, so all-day events and birthdays stay bookable (#1945)
 - CalDAV Calendar events marked as free (TRANSP:TRANSPARENT) no longer block booking (#1945)
 - Providers and secretaries can no longer overwrite or reassign the appointments and unavailabilities of other providers

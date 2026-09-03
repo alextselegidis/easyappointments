@@ -580,6 +580,10 @@ class Google extends EA_Controller
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
             }
 
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
             // Check if selected provider has sync enabled.
             $google_sync = $this->providers_model->get_setting($provider_id, 'google_sync');
 
