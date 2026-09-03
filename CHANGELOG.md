@@ -28,6 +28,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Searching the LDAP directory now escapes the keyword, so a search term can no longer alter the LDAP filter
 - Webhooks created or edited through the REST API can now set their secret header, so the secret token is sent
   with the request as it already is for webhooks configured in the backend
+- Editing a working plan exception now updates the existing entry, instead of adding a duplicate one next to it
+  (#1958)
 - Google Calendar events marked as "Free" no longer block booking, so all-day events and birthdays stay bookable (#1945)
 - CalDAV Calendar events marked as free (TRANSP:TRANSPARENT) no longer block booking (#1945)
 - Providers and secretaries can no longer overwrite or reassign the appointments and unavailabilities of other providers
