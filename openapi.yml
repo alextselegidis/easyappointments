@@ -3033,6 +3033,8 @@ components:
                     type: string
                 actions:
                     type: string
+                secretHeader:
+                    type: string
                 secretToken:
                     type: string
                 isSslVerified:
@@ -3044,6 +3046,7 @@ components:
                 name: Test Webhook
                 url: https://example.org/webhook?withTestQueryParam=Value
                 actions: appointment_create,appointment_update,customer_delete,category_create
+                secretHeader: X-Ea-Signature
                 secretToken: SecureSecretTokenHere
                 isSslVerified: true
                 notes: This is a webhook.
@@ -3056,6 +3059,8 @@ components:
                     type: string
                 actions:
                     type: string
+                secretHeader:
+                    type: string
                 secretToken:
                     type: string
                 isSslVerified:
@@ -3066,6 +3071,7 @@ components:
                 name: Test Webhook
                 url: https://example.org/webhook?withTestQueryParam=Value
                 actions: appointment_create,appointment_update,customer_delete,category_create
+                secretHeader: X-Ea-Signature
                 secretToken: SecureSecretTokenHere
                 isSslVerified: true
                 notes: This is a webhook.

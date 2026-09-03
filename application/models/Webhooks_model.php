@@ -37,6 +37,7 @@ class Webhooks_model extends EA_Model
         'name' => 'name',
         'url' => 'url',
         'action' => 'action',
+        'secretHeader' => 'secret_header',
         'secretToken' => 'secret_token',
         'isActive' => 'is_active',
         'isSslVerified' => 'is_ssl_verified',
@@ -317,6 +318,7 @@ class Webhooks_model extends EA_Model
             'name' => $webhook['name'],
             'url' => $webhook['url'],
             'actions' => $webhook['actions'],
+            'secretHeader' => $webhook['secret_header'],
             'secretToken' => $webhook['secret_token'],
             'isSslVerified' => $webhook['is_ssl_verified'],
             'notes' => $webhook['notes'],
@@ -349,6 +351,10 @@ class Webhooks_model extends EA_Model
 
         if (array_key_exists('actions', $webhook)) {
             $decoded_resource['actions'] = $webhook['actions'];
+        }
+
+        if (array_key_exists('secretHeader', $webhook)) {
+            $decoded_resource['secret_header'] = $webhook['secretHeader'];
         }
 
         if (array_key_exists('secretToken', $webhook)) {
