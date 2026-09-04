@@ -17,6 +17,13 @@ services:
         ports:
             - '${NGINX_PORT:-80}:80'
 
+    node:
+        image: 'node:22-alpine'
+        working_dir: /var/www/html
+        command: sh -c "npm install && npm start"
+        volumes:
+            - '.:/var/www/html'
+
     mysql:
         image: 'mysql:8.0'
         volumes:
