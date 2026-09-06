@@ -700,13 +700,80 @@ class Appointments_model extends EA_Model
      *
      * @throws Exception
      */
+    /**
+     * Save the services linked to an appointment (multi-service / stacked booking).
+     *
+     * Replaces any existing links for the appointment with the provided service IDs.
+     *
+     * @param int $appointment_id Appointment ID.
+     * @param array $service_ids Array of service IDs.
+     */
+    public function save_services(int $appointment_id, array $service_ids): void
+    {
+        $this->db->where('id_appointments', $appointment_id)->delete('appointment_services');
+
+        foreach ($service_ids as $service_id) {
+            $this->db->insert('appointment_services', [
+                'id_appointments' => $appointment_id,
+                'id_services' => (int) $service_id,
+            ]);
+        }
+    }
+
+    /**
+     * Get the services linked to an appointment.
+     *
+     * @param int $appointment_id Appointment ID.
+     *
+     * @return array Array of service records.
+     */
+    public function get_services(int $appointment_id): array
+    {
+        return $this->db
+            ->select('services.*')
+            ->from('appointment_services')
+            ->join('services', 'services.id = appointment_services.id_services', 'inner')
+            ->where('appointment_services.id_appointments', $appointment_id)
+            ->order_by('appointment_services.id', 'asc')
+            ->get()
+            ->result_array();
+    }
+
+    /**
+     * Calculate the end datetime of an appointment.
+     *
+     * Supports multi-service (stacked) bookings: the total duration is the sum of
+     * all linked services' durations, plus a configurable gap (in minutes) between
+     * each service so the provider has time to clean/prepare.
+     *
+     * @param array $appointment Appointment data.
+     *
+     * @return string End datetime.
+     */
     public function calculate_end_datetime(array $appointment): string
     {
-        $duration = $this->db->get_where('services', ['id' => $appointment['id_services']])?->row()?->duration;
+        $service_ids = $appointment['service_ids'] ?? [$appointment['id_services']];
+
+        $total_duration = 0;
+
+        foreach ($service_ids as $service_id) {
+            $duration = $this->db->get_where('services', ['id' => $service_id])?->row()?->duration;
+
+            $total_duration += (int) $duration;
+        }
+
+        // Stacked services run back-to-back with NO internal gap (the provider does
+        // them all in one go). After a stacked booking, add a cleanup buffer so the
+        // next customer cannot book too soon (default 15 minutes, configurable).
+        if (count($service_ids) > 1) {
+            $buffer = (int) setting('appointment_service_gap', 15);
+
+            $total_duration += $buffer;
+        }
 
         $end_date_time_object = new DateTime($appointment['start_datetime']);
 
-        $end_date_time_object->add(new DateInterval('PT' . $duration . 'M'));
+        $end_date_time_object->add(new DateInterval('PT' . $total_duration . 'M'));
 
         return $end_date_time_object->format('Y-m-d H:i:s');
     }

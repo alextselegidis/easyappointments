@@ -405,6 +405,18 @@ App.Pages.Booking = (function () {
             App.Pages.Booking.updateConfirmFrame();
 
             App.Pages.Booking.updateServiceDescription(serviceId);
+
+            App.Pages.Booking.updateBookingTotal();
+        });
+
+        /**
+         * Event: Add Another Treatment Button "Clicked"
+         *
+         * Adds another service select so the customer can stack multiple
+         * treatments into a single appointment.
+         */
+        $('#add-another-treatment').on('click', () => {
+            App.Pages.Booking.addAnotherTreatment();
         });
 
         /**
@@ -728,10 +740,43 @@ App.Pages.Booking = (function () {
 
         const timezoneOptionText = $selectTimezone.find('option:selected').text();
 
+        // Compute the stacked total (all selected services + cleanup buffer).
+        const allServiceIds = [$selectService.val()];
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                allServiceIds.push(val);
+            }
+        });
+        const validIds = allServiceIds.filter((id) => id);
+
+        let totalDuration = 0;
+        let totalPrice = 0;
+        validIds.forEach((id) => {
+            const s = vars('available_services').find((av) => Number(av.id) === Number(id));
+            if (s) {
+                totalDuration += Number(s.duration) || 0;
+                totalPrice += Number(s.price) || 0;
+            }
+        });
+        if (validIds.length > 1) {
+            totalDuration += 15; // cleanup buffer after stacked booking
+        }
+
+        // Build the list of all selected services (for the confirmation display).
+        const serviceNamesList = validIds.map((id) => {
+            const s = vars('available_services').find((av) => Number(av.id) === Number(id));
+            return s ? s.name : '';
+        }).filter(Boolean);
+
+        const serviceDisplay = serviceNamesList.length > 1
+            ? serviceNamesList.join(' + ')
+            : serviceOptionText;
+
         $('#appointment-details').html(`
             <div>
                 <div class="mb-2 fw-bold fs-3">
-                    ${serviceOptionText}
+                    ${serviceDisplay}
                 </div> 
                 <div class="mb-2 fw-bold text-muted">
                     ${providerOptionText}
@@ -742,15 +787,15 @@ App.Pages.Booking = (function () {
                 </div> 
                 <div class="mb-2">
                     <i class="fas fa-clock me-2"></i>
-                    ${service.duration} ${lang('minutes')}
+                    ${totalDuration} ${lang('minutes')}
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-globe me-2"></i>
                     ${timezoneOptionText}
                 </div> 
-                <div class="mb-2" ${!Number(service.price) ? 'hidden' : ''}>
+                <div class="mb-2" ${!totalPrice ? 'hidden' : ''}>
                     <i class="fas fa-cash-register me-2"></i>
-                    ${Number(service.price).toFixed(2)} ${service.currency}
+                    ${totalPrice.toFixed(2)} ${service.currency}
                 </div>
             </div>     
         `);
@@ -819,6 +864,16 @@ App.Pages.Booking = (function () {
             custom_field_5: $customField5.val(),
         };
 
+        // Collect all selected services (primary + any additional stacked treatments).
+        const serviceIds = [$selectService.val()];
+
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                serviceIds.push(val);
+            }
+        });
+
         data.appointment = {
             start_datetime:
                 moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD') +
@@ -830,6 +885,7 @@ App.Pages.Booking = (function () {
             is_unavailability: false,
             id_users_provider: $selectProvider.val(),
             id_services: $selectService.val(),
+            service_ids: serviceIds,
         };
 
         data.manage_mode = Number(manageMode);
@@ -941,6 +997,102 @@ App.Pages.Booking = (function () {
      *
      * @param {Number} serviceId The selected service record id.
      */
+    /**
+     * Add another treatment (multi-service / stacked booking).
+     *
+     * Appends a new service select to the additional-services container so the
+     * customer can stack multiple treatments into one appointment.
+     */
+    function addAnotherTreatment() {
+        const $container = $('#additional-services-container');
+        const $row = $('<div class="mb-2 additional-service-row">');
+
+        const $label = $('<label class="fs-6 mb-1 text-muted d-block">Additional treatment</label>');
+
+        const $select = $('<select class="form-select additional-service-select">');
+        $select.append(new Option(lang('please_select'), ''));
+
+        vars('available_services').forEach((service) => {
+            $select.append(new Option(service.name, service.id));
+        });
+
+        const $removeBtn = $('<button type="button" class="btn btn-link text-danger p-0 ms-2 align-middle" title="Remove">');
+        $removeBtn.html('<i class="fas fa-times-circle"></i>');
+        $removeBtn.on('click', () => {
+            $row.remove();
+            updateBookingTotal();
+            updateServiceDescription($selectService.val());
+        });
+
+        $select.on('change', () => {
+            updateBookingTotal();
+            updateServiceDescription($selectService.val());
+        });
+
+        $row.append($label).append($select).append($removeBtn);
+        $container.append($row);
+    }
+
+    /**
+     * Update the running total (duration + price) of all selected services.
+     */
+    function updateBookingTotal() {
+        const serviceIds = [$selectService.val()];
+
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                serviceIds.push(val);
+            }
+        });
+
+        const validIds = serviceIds.filter((id) => id);
+
+        if (validIds.length === 0) {
+            $('#booking-total').addClass('d-none');
+            return;
+        }
+
+        let totalDuration = 0;
+        let totalPrice = 0;
+
+        const $lineItems = $('#booking-line-items');
+        $lineItems.empty();
+
+        validIds.forEach((id) => {
+            const service = vars('available_services').find(
+                (availableService) => Number(availableService.id) === Number(id),
+            );
+            if (service) {
+                const duration = Number(service.duration) || 0;
+                const price = Number(service.price) || 0;
+                totalDuration += duration;
+                totalPrice += price;
+
+                const $row = $('<div class="d-flex justify-content-between align-items-center py-1">');
+                $row.append($('<span class="small">').text(service.name));
+                $row.append($('<span class="small text-muted">').text(duration + ' min · £' + price.toFixed(2)));
+                $lineItems.append($row);
+            }
+        });
+
+        // Add the gap between stacked services (default 15 min).
+        if (validIds.length > 1) {
+            totalDuration += 15 * (validIds.length - 1);
+        }
+
+        $('#booking-total-duration').text(totalDuration + ' min');
+        $('#booking-total-price').text('£' + totalPrice.toFixed(2));
+        $('#booking-total').removeClass('d-none');
+    }
+
+    /**
+     * This method updates the HTML content with a brief description of the
+     * user selected service (only if available in db). This is useful for the
+     * customers upon selecting the correct service.
+     *
+     * @param {Number} serviceId The selected service record id.
+     */
     function updateServiceDescription(serviceId) {
         const $serviceDescription = $('#service-description');
 
@@ -954,16 +1106,39 @@ App.Pages.Booking = (function () {
             return; // Service not found
         }
 
-        // Render the additional service information
-
+        // Render the additional service information.
+        // For multi-service (stacked) bookings, show the combined total.
         const additionalInfoParts = [];
 
-        if (service.duration) {
-            additionalInfoParts.push(`${lang('duration')}: ${service.duration} ${lang('minutes')}`);
-        }
+        const allServiceIds = [$selectService.val()];
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                allServiceIds.push(val);
+            }
+        });
+        const validIds = allServiceIds.filter((id) => id);
 
-        if (Number(service.price) > 0) {
-            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+        if (validIds.length > 1) {
+            let totalDuration = 0;
+            let totalPrice = 0;
+            validIds.forEach((id) => {
+                const s = vars('available_services').find((av) => Number(av.id) === Number(id));
+                if (s) {
+                    totalDuration += Number(s.duration) || 0;
+                    totalPrice += Number(s.price) || 0;
+                }
+            });
+            totalDuration += 15; // cleanup buffer after stacked booking
+            additionalInfoParts.push(`${lang('duration')}: ${totalDuration} ${lang('minutes')}`);
+            additionalInfoParts.push(`${lang('price')}: ${totalPrice.toFixed(2)} ${service.currency}`);
+        } else {
+            if (service.duration) {
+                additionalInfoParts.push(`${lang('duration')}: ${service.duration} ${lang('minutes')}`);
+            }
+            if (Number(service.price) > 0) {
+                additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+            }
         }
 
         if (service.location) {
@@ -1130,6 +1305,8 @@ App.Pages.Booking = (function () {
         manageMode,
         updateConfirmFrame,
         updateServiceDescription,
+        updateBookingTotal,
+        addAnotherTreatment,
         validateCustomerForm,
     };
 })();

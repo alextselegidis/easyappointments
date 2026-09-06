@@ -261,6 +261,36 @@ App.Utils.CalendarEventPopover = (function () {
      * @param {string} displayDelete - CSS class for delete visibility.
      * @returns {jQuery} Popover content element.
      */
+    /**
+     * Build the service rows for the appointment popover.
+     *
+     * For multi-service (stacked) bookings, lists every linked service with its
+     * duration and price so the provider can see exactly what was booked.
+     *
+     * @param {Object} data - Appointment data.
+     * @returns {Array} Array of popover row elements.
+     */
+    function buildServiceRows(data) {
+        const services = (data.services && data.services.length > 0) ? data.services : [data.service];
+
+        const rows = [];
+
+        services.forEach((service, index) => {
+            const label = index === 0 ? lang('service') : 'Additional';
+            const duration = service.duration ? service.duration + ' min' : '';
+            const price = service.price ? '£' + service.price : '';
+
+            rows.push(
+                $('<strong/>', {class: 'd-inline-block me-2', text: label}),
+                $('<span/>', {class: 'd-inline-block', text: service.name}),
+                $('<span/>', {class: 'd-inline-block text-muted ms-2 small', text: [duration, price].filter(Boolean).join(' · ')}),
+                $('<br/>'),
+            );
+        });
+
+        return rows;
+    }
+
     function buildAppointmentPopover(info, displayEdit, displayDelete) {
         const data = info.event.extendedProps.data;
         const customer = data.customer;
@@ -279,7 +309,7 @@ App.Utils.CalendarEventPopover = (function () {
                 ...createPopoverRow('end', formatDateTime(info.event.end)),
                 ...createPopoverRow('timezone', vars('timezones')[provider.timezone]),
                 ...createPopoverRow('status', data.status || '-'),
-                ...createPopoverRow('service', data.service.name),
+                ...buildServiceRows(data),
                 $('<strong/>', {class: 'd-inline-block me-2', text: lang('provider')}),
                 renderMapIcon(provider),
                 $('<span/>', {text: provider.first_name + ' ' + provider.last_name}),

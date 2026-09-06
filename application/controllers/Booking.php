@@ -55,6 +55,7 @@ class Booking extends EA_Controller
         'id_users_provider',
         'id_users_customer',
         'id_services',
+        'service_ids',
     ];
 
     /**
@@ -543,12 +544,35 @@ class Booking extends EA_Controller
             $appointment_status_options_json = setting('appointment_status_options', '[]');
             $appointment_status_options = json_decode($appointment_status_options_json, true) ?? [];
             $appointment['status'] = $appointment_status_options[0] ?? null;
+            // Multi-service (stacked) booking: collect all service IDs.
+            // The primary service is id_services; any additional services are in service_ids.
+            $service_ids = $appointment['service_ids'] ?? [];
+
+            if (empty($service_ids) && !empty($appointment['id_services'])) {
+                $service_ids = [$appointment['id_services']];
+            }
+
+            if (count($service_ids) > 1) {
+                $appointment['id_services'] = (int) $service_ids[0];
+            }
+
+            $appointment['service_ids'] = $service_ids;
+
             $appointment['end_datetime'] = $this->appointments_model->calculate_end_datetime($appointment);
+
+            // service_ids is only used for the duration calculation above; it is not a
+            // real column on the appointments table, so remove it before saving.
+            unset($appointment['service_ids']);
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $appointment_id = $this->appointments_model->save($appointment);
             $appointment = $this->appointments_model->find($appointment_id);
+
+            // Save the multi-service links (if more than one service was selected).
+            if (count($service_ids) > 1) {
+                $this->appointments_model->save_services($appointment_id, $service_ids);
+            }
 
             $company_color = setting('company_color');
 
