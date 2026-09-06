@@ -674,6 +674,9 @@ class Calendar extends EA_Controller
                 $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
+
+                // Multi-service (stacked) booking: load all linked services.
+                $appointment['services'] = $this->appointments_model->get_services($appointment['id']);
             }
 
             unset($appointment);
@@ -829,6 +832,9 @@ class Calendar extends EA_Controller
                 $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
+
+                // Multi-service (stacked) booking: load all linked services.
+                $appointment['services'] = $this->appointments_model->get_services($appointment['id']);
             }
 
             unset($appointment);

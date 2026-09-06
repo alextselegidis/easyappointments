@@ -78,6 +78,36 @@
                     </select>
                 </div>
 
+                <!-- Multi-service (stacked) booking: additional treatments -->
+                <div id="additional-services-container" class="mb-2">
+                    <!-- Additional service selects are added here via JS -->
+                </div>
+
+                <div class="mb-3">
+                    <button type="button" id="add-another-treatment"
+                            class="btn btn-link btn-sm text-decoration-none p-0 border-0"
+                            style="font-size: 0.9rem;">
+                        <i class="fas fa-plus-circle me-1 text-primary"></i> Add another treatment
+                    </button>
+                </div>
+
+                <div id="booking-total" class="mb-3 p-3 rounded d-none"
+                     style="background: rgba(0,0,0,0.03); border: 1px solid rgba(0,0,0,0.08);">
+                    <div class="fw-semibold mb-2">Your selection</div>
+                    <div id="booking-line-items">
+                        <!-- Each stacked service is listed here via JS -->
+                    </div>
+                    <hr class="my-2">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-semibold">Total time</span>
+                        <span class="fw-semibold" id="booking-total-duration"></span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-1">
+                        <span class="text-muted small">Total cost</span>
+                        <span class="fw-bold fs-5" id="booking-total-price"></span>
+                    </div>
+                </div>
+
                 <div class="mb-3" hidden>
                     <label for="select-provider" class="fs-5 mb-2">
                         <strong><?= lang('provider') ?></strong>

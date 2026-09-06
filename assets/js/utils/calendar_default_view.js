@@ -906,12 +906,17 @@ App.Utils.CalendarDefaultView = (function () {
                 .filter(Boolean)
                 .join(' ');
 
+            // Multi-service (stacked) booking: show all linked services in the title.
+            const serviceNames = (appointment.services && appointment.services.length > 0)
+                ? appointment.services.map((s) => s.name)
+                : [appointment.service.name];
+
             const type =
                 getSelectedFilterType() !== FILTER_TYPE_SERVICE
-                    ? appointment.service.name
+                    ? serviceNames.join(' + ')
                     : [appointment.provider.first_name, appointment.provider.last_name].filter(Boolean).join(' ');
 
-            const title = customerName ? customerName + ' - ' + type : appointment.service.name;
+            const title = customerName ? customerName + ' - ' + type : serviceNames.join(' + ');
 
             return {
                 id: appointment.id,

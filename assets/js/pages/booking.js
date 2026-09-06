@@ -405,6 +405,18 @@ App.Pages.Booking = (function () {
             App.Pages.Booking.updateConfirmFrame();
 
             App.Pages.Booking.updateServiceDescription(serviceId);
+
+            App.Pages.Booking.updateBookingTotal();
+        });
+
+        /**
+         * Event: Add Another Treatment Button "Clicked"
+         *
+         * Adds another service select so the customer can stack multiple
+         * treatments into a single appointment.
+         */
+        $('#add-another-treatment').on('click', () => {
+            App.Pages.Booking.addAnotherTreatment();
         });
 
         /**
@@ -819,6 +831,16 @@ App.Pages.Booking = (function () {
             custom_field_5: $customField5.val(),
         };
 
+        // Collect all selected services (primary + any additional stacked treatments).
+        const serviceIds = [$selectService.val()];
+
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                serviceIds.push(val);
+            }
+        });
+
         data.appointment = {
             start_datetime:
                 moment(App.Utils.UI.getDateTimePickerValue($selectDate)).format('YYYY-MM-DD') +
@@ -830,6 +852,7 @@ App.Pages.Booking = (function () {
             is_unavailability: false,
             id_users_provider: $selectProvider.val(),
             id_services: $selectService.val(),
+            service_ids: serviceIds,
         };
 
         data.manage_mode = Number(manageMode);
@@ -935,6 +958,98 @@ App.Pages.Booking = (function () {
     /**
      * Update the service description and information.
      *
+     * This method updates the HTML content with a brief description of the
+     * user selected service (only if available in db). This is useful for the
+     * customers upon selecting the correct service.
+     *
+     * @param {Number} serviceId The selected service record id.
+     */
+    /**
+     * Add another treatment (multi-service / stacked booking).
+     *
+     * Appends a new service select to the additional-services container so the
+     * customer can stack multiple treatments into one appointment.
+     */
+    function addAnotherTreatment() {
+        const $container = $('#additional-services-container');
+        const $row = $('<div class="mb-2 additional-service-row">');
+
+        const $label = $('<label class="fs-6 mb-1 text-muted d-block">Additional treatment</label>');
+
+        const $select = $('<select class="form-select additional-service-select">');
+        $select.append(new Option(lang('please_select'), ''));
+
+        vars('available_services').forEach((service) => {
+            $select.append(new Option(service.name, service.id));
+        });
+
+        const $removeBtn = $('<button type="button" class="btn btn-link text-danger p-0 ms-2 align-middle" title="Remove">');
+        $removeBtn.html('<i class="fas fa-times-circle"></i>');
+        $removeBtn.on('click', () => {
+            $row.remove();
+            updateBookingTotal();
+        });
+
+        $select.on('change', updateBookingTotal);
+
+        $row.append($label).append($select).append($removeBtn);
+        $container.append($row);
+    }
+
+    /**
+     * Update the running total (duration + price) of all selected services.
+     */
+    function updateBookingTotal() {
+        const serviceIds = [$selectService.val()];
+
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                serviceIds.push(val);
+            }
+        });
+
+        const validIds = serviceIds.filter((id) => id);
+
+        if (validIds.length === 0) {
+            $('#booking-total').addClass('d-none');
+            return;
+        }
+
+        let totalDuration = 0;
+        let totalPrice = 0;
+
+        const $lineItems = $('#booking-line-items');
+        $lineItems.empty();
+
+        validIds.forEach((id) => {
+            const service = vars('available_services').find(
+                (availableService) => Number(availableService.id) === Number(id),
+            );
+            if (service) {
+                const duration = Number(service.duration) || 0;
+                const price = Number(service.price) || 0;
+                totalDuration += duration;
+                totalPrice += price;
+
+                const $row = $('<div class="d-flex justify-content-between align-items-center py-1">');
+                $row.append($('<span class="small">').text(service.name));
+                $row.append($('<span class="small text-muted">').text(duration + ' min · £' + price.toFixed(2)));
+                $lineItems.append($row);
+            }
+        });
+
+        // Add the gap between stacked services (default 15 min).
+        if (validIds.length > 1) {
+            totalDuration += 15 * (validIds.length - 1);
+        }
+
+        $('#booking-total-duration').text(totalDuration + ' min');
+        $('#booking-total-price').text('£' + totalPrice.toFixed(2));
+        $('#booking-total').removeClass('d-none');
+    }
+
+    /**
      * This method updates the HTML content with a brief description of the
      * user selected service (only if available in db). This is useful for the
      * customers upon selecting the correct service.
@@ -1130,6 +1245,8 @@ App.Pages.Booking = (function () {
         manageMode,
         updateConfirmFrame,
         updateServiceDescription,
+        updateBookingTotal,
+        addAnotherTreatment,
         validateCustomerForm,
     };
 })();
