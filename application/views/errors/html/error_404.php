@@ -13,7 +13,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <title>404 Page Not Found | Easy!Appointments</title>
+    <title>404 Page Not Found | Bbeautiful</title>
     <style>
         #error-container {
             background: #ffffff;
@@ -73,8 +73,8 @@
 
     <p>
         <small>
-            Powered by
-            <a href="https://easyappointments.org">Easy!Appointments</a>
+            &copy; <?= date('Y') ?> Bbeautiful
+            
         </small>
     </p>
 </div>

@@ -762,11 +762,13 @@ class Appointments_model extends EA_Model
             $total_duration += (int) $duration;
         }
 
-        // Add a gap between stacked services (default 15 minutes, configurable via setting).
-        $gap = (int) setting('appointment_service_gap', 15);
-
+        // Stacked services run back-to-back with NO internal gap (the provider does
+        // them all in one go). After a stacked booking, add a cleanup buffer so the
+        // next customer cannot book too soon (default 15 minutes, configurable).
         if (count($service_ids) > 1) {
-            $total_duration += $gap * (count($service_ids) - 1);
+            $buffer = (int) setting('appointment_service_gap', 15);
+
+            $total_duration += $buffer;
         }
 
         $end_date_time_object = new DateTime($appointment['start_datetime']);

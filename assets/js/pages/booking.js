@@ -740,10 +740,43 @@ App.Pages.Booking = (function () {
 
         const timezoneOptionText = $selectTimezone.find('option:selected').text();
 
+        // Compute the stacked total (all selected services + cleanup buffer).
+        const allServiceIds = [$selectService.val()];
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                allServiceIds.push(val);
+            }
+        });
+        const validIds = allServiceIds.filter((id) => id);
+
+        let totalDuration = 0;
+        let totalPrice = 0;
+        validIds.forEach((id) => {
+            const s = vars('available_services').find((av) => Number(av.id) === Number(id));
+            if (s) {
+                totalDuration += Number(s.duration) || 0;
+                totalPrice += Number(s.price) || 0;
+            }
+        });
+        if (validIds.length > 1) {
+            totalDuration += 15; // cleanup buffer after stacked booking
+        }
+
+        // Build the list of all selected services (for the confirmation display).
+        const serviceNamesList = validIds.map((id) => {
+            const s = vars('available_services').find((av) => Number(av.id) === Number(id));
+            return s ? s.name : '';
+        }).filter(Boolean);
+
+        const serviceDisplay = serviceNamesList.length > 1
+            ? serviceNamesList.join(' + ')
+            : serviceOptionText;
+
         $('#appointment-details').html(`
             <div>
                 <div class="mb-2 fw-bold fs-3">
-                    ${serviceOptionText}
+                    ${serviceDisplay}
                 </div> 
                 <div class="mb-2 fw-bold text-muted">
                     ${providerOptionText}
@@ -754,15 +787,15 @@ App.Pages.Booking = (function () {
                 </div> 
                 <div class="mb-2">
                     <i class="fas fa-clock me-2"></i>
-                    ${service.duration} ${lang('minutes')}
+                    ${totalDuration} ${lang('minutes')}
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-globe me-2"></i>
                     ${timezoneOptionText}
                 </div> 
-                <div class="mb-2" ${!Number(service.price) ? 'hidden' : ''}>
+                <div class="mb-2" ${!totalPrice ? 'hidden' : ''}>
                     <i class="fas fa-cash-register me-2"></i>
-                    ${Number(service.price).toFixed(2)} ${service.currency}
+                    ${totalPrice.toFixed(2)} ${service.currency}
                 </div>
             </div>     
         `);
@@ -988,9 +1021,13 @@ App.Pages.Booking = (function () {
         $removeBtn.on('click', () => {
             $row.remove();
             updateBookingTotal();
+            updateServiceDescription($selectService.val());
         });
 
-        $select.on('change', updateBookingTotal);
+        $select.on('change', () => {
+            updateBookingTotal();
+            updateServiceDescription($selectService.val());
+        });
 
         $row.append($label).append($select).append($removeBtn);
         $container.append($row);
@@ -1069,16 +1106,39 @@ App.Pages.Booking = (function () {
             return; // Service not found
         }
 
-        // Render the additional service information
-
+        // Render the additional service information.
+        // For multi-service (stacked) bookings, show the combined total.
         const additionalInfoParts = [];
 
-        if (service.duration) {
-            additionalInfoParts.push(`${lang('duration')}: ${service.duration} ${lang('minutes')}`);
-        }
+        const allServiceIds = [$selectService.val()];
+        $('.additional-service-select').each(function () {
+            const val = $(this).val();
+            if (val) {
+                allServiceIds.push(val);
+            }
+        });
+        const validIds = allServiceIds.filter((id) => id);
 
-        if (Number(service.price) > 0) {
-            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+        if (validIds.length > 1) {
+            let totalDuration = 0;
+            let totalPrice = 0;
+            validIds.forEach((id) => {
+                const s = vars('available_services').find((av) => Number(av.id) === Number(id));
+                if (s) {
+                    totalDuration += Number(s.duration) || 0;
+                    totalPrice += Number(s.price) || 0;
+                }
+            });
+            totalDuration += 15; // cleanup buffer after stacked booking
+            additionalInfoParts.push(`${lang('duration')}: ${totalDuration} ${lang('minutes')}`);
+            additionalInfoParts.push(`${lang('price')}: ${totalPrice.toFixed(2)} ${service.currency}`);
+        } else {
+            if (service.duration) {
+                additionalInfoParts.push(`${lang('duration')}: ${service.duration} ${lang('minutes')}`);
+            }
+            if (Number(service.price) > 0) {
+                additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+            }
         }
 
         if (service.location) {

@@ -901,34 +901,71 @@ App.Utils.CalendarDefaultView = (function () {
      * @returns {Array} Calendar event objects.
      */
     function createAppointmentEvents(appointments) {
-        return appointments.map((appointment) => {
+        const events = [];
+
+        appointments.forEach((appointment) => {
             const customerName = [appointment.customer.first_name, appointment.customer.last_name]
                 .filter(Boolean)
                 .join(' ');
 
-            // Multi-service (stacked) booking: show all linked services in the title.
-            const serviceNames = (appointment.services && appointment.services.length > 0)
-                ? appointment.services.map((s) => s.name)
-                : [appointment.service.name];
+            const services = (appointment.services && appointment.services.length > 0)
+                ? appointment.services
+                : [appointment.service];
 
-            const type =
-                getSelectedFilterType() !== FILTER_TYPE_SERVICE
-                    ? serviceNames.join(' + ')
-                    : [appointment.provider.first_name, appointment.provider.last_name].filter(Boolean).join(' ');
+            // Multi-service (stacked) booking: render one calendar block per service,
+            // back-to-back (no gap), so the provider sees each treatment clearly.
+            // The primary service is shown normally; additional services are prefixed
+            // with "+" so it's obvious which is the main treatment and which are add-ons.
+            if (services.length > 1) {
+                let cursor = moment(appointment.start_datetime);
 
-            const title = customerName ? customerName + ' - ' + type : serviceNames.join(' + ');
+                services.forEach((service, index) => {
+                    const duration = Number(service.duration) || 0;
+                    const start = cursor.clone();
+                    const end = cursor.clone().add(duration, 'minutes');
 
-            return {
-                id: appointment.id,
-                title,
-                start: moment(appointment.start_datetime).toDate(),
-                end: moment(appointment.end_datetime).toDate(),
-                allDay: false,
-                color: appointment.color,
-                data: appointment,
-                display: 'block',
-            };
+                    const isPrimary = index === 0;
+                    const serviceLabel = isPrimary ? service.name : '+ ' + service.name;
+
+                    const title = customerName
+                        ? customerName + ' - ' + serviceLabel
+                        : serviceLabel;
+
+                    events.push({
+                        id: appointment.id + '-' + index,
+                        title,
+                        start: start.toDate(),
+                        end: end.toDate(),
+                        allDay: false,
+                        color: appointment.color,
+                        data: appointment,
+                        display: 'block',
+                    });
+
+                    cursor = end;
+                });
+            } else {
+                const type =
+                    getSelectedFilterType() !== FILTER_TYPE_SERVICE
+                        ? services[0].name
+                        : [appointment.provider.first_name, appointment.provider.last_name].filter(Boolean).join(' ');
+
+                const title = customerName ? customerName + ' - ' + type : services[0].name;
+
+                events.push({
+                    id: appointment.id,
+                    title,
+                    start: moment(appointment.start_datetime).toDate(),
+                    end: moment(appointment.end_datetime).toDate(),
+                    allDay: false,
+                    color: appointment.color,
+                    data: appointment,
+                    display: 'block',
+                });
+            }
         });
+
+        return events;
     }
 
     /**
