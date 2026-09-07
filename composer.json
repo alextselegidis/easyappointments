@@ -61,6 +61,8 @@
             "find vendor -type f -name '.gitattributes' -delete",
             "find vendor -type f -name 'phpunit.xml*' -delete",
             "find vendor -type f -name 'phpstan*' -delete",
+            "find vendor -type f -name 'psalm.xml*' -delete",
+            "find vendor -type f -name '.travis.yml' -delete",
             "find vendor -type f -name '.php-cs-fixer*' -delete",
             "find vendor -type d -name 'tests' -exec rm -rf {} + 2>/dev/null || true",
             "find vendor -type d -name 'Tests' -exec rm -rf {} + 2>/dev/null || true",

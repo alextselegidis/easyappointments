@@ -74,6 +74,8 @@ function archive(done) {
     fs.removeSync('build/composer.lock');
     del.sync('build/**/.DS_Store');
     del.sync('build/**/.git');
+    del.sync('build/assets/css/**/*.scss');
+    del.sync(['build/vendor/**/.github', 'build/vendor/**/.editorconfig', 'build/vendor/**/.repo-metadata.json']);
 
     zip('build', {saveTo: filename}, function (error) {
         if (error) {
