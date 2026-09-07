@@ -61,9 +61,16 @@ function archive(done) {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
-    // Composer runs inside the php-fpm container, mapped to the host user so the build output stays writable.
-    const composer =
-        'docker compose exec -T -u $(id -u):$(id -g) -e COMPOSER_HOME=/tmp -w /var/www/html/build php-fpm composer';
+    // Composer runs on the host when it is installed, otherwise inside the php-fpm container, mapped to the host
+    // user so the build output stays writable.
+    let composer = 'composer --working-dir=build';
+
+    try {
+        childProcess.execSync('composer --version', {stdio: 'ignore'});
+    } catch {
+        composer =
+            'docker compose exec -T -u $(id -u):$(id -g) -e COMPOSER_HOME=/tmp -w /var/www/html/build php-fpm composer';
+    }
 
     childProcess.execSync(
         `${composer} install --no-interaction --no-dev --optimize-autoloader --ignore-platform-reqs && ` +

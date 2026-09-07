@@ -18,8 +18,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - The CORS origins and the cookie SameSite policy are now set in application/config/routes.php and
   application/config/config.php, instead of the root config.php, which keeps only the installation settings
-- The release build now runs Composer inside the php-fpm container, so a Composer installation on the host machine
-  is no longer required
+- The release build now falls back to running Composer inside the php-fpm container, so a Composer installation on
+  the host machine is no longer required
 - The release package no longer includes stylesheet sources, dependency development files and unused images, which
   makes the download smaller
 
