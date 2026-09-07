@@ -11,6 +11,8 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use GuzzleHttp\Exception\GuzzleException;
+
 /**
  * Google controller.
  *
@@ -316,6 +318,21 @@ class Google extends EA_Controller
                         $local_event['notes'] = $google_event_notes;
                         $events_model->save($local_event);
                     }
+                } catch (GuzzleException $e) {
+                    // Connectivity errors must propagate up so the user is notified - otherwise we would silently
+                    // delete local events while the Google API is only unreachable.
+                    throw $e;
+                } catch (Google\Service\Exception $e) {
+                    // Only a missing event ("not found" / "deleted") means the record is gone on the Google side.
+                    // Every other API error (401 invalid credentials, 403 quota, 5xx) must propagate, otherwise a
+                    // temporary failure would remove the local appointments of the whole sync period.
+                    if (!in_array($e->getCode(), [404, 410], true)) {
+                        throw $e;
+                    }
+
+                    $events_model->delete($local_event['id']);
+
+                    $local_event['id_google_calendar'] = null;
                 } catch (Throwable) {
                     // Appointment not found on Google Calendar, delete from Easy!Appointments.
                     $events_model->delete($local_event['id']);

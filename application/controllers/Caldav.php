@@ -248,15 +248,22 @@ class Caldav extends EA_Controller
                     $caldav_event_start = new DateTime($caldav_event['start_datetime']);
                     $caldav_event_end = new DateTime($caldav_event['end_datetime']);
 
+                    // The event description is only compared for unavailabilities, as the ICS file of an appointment
+                    // holds the generated provider/customer details block and not the appointment notes. Comparing
+                    // the two would always differ and the notes would be replaced with that block on every sync.
                     $is_different =
                         $local_event_start !== $caldav_event_start->getTimestamp() ||
                         $local_event_end !== $caldav_event_end->getTimestamp() ||
-                        $local_event['notes'] !== $caldav_event['description'];
+                        ($local_event['is_unavailability'] && $local_event['notes'] !== $caldav_event['description']);
 
                     if ($is_different) {
                         $local_event['start_datetime'] = $caldav_event_start->format('Y-m-d H:i:s');
                         $local_event['end_datetime'] = $caldav_event_end->format('Y-m-d H:i:s');
-                        $local_event['notes'] = $caldav_event['description'];
+
+                        if ($local_event['is_unavailability']) {
+                            $local_event['notes'] = $caldav_event['description'];
+                        }
+
                         $events_model->save($local_event);
                     }
                 } catch (GuzzleException $e) {
@@ -287,7 +294,7 @@ class Caldav extends EA_Controller
                 }
             }
 
-            $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time);
+            $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time, $provider['id']);
 
             foreach ($caldav_events as $caldav_event) {
                 try {

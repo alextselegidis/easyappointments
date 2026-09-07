@@ -34,6 +34,7 @@ class Synchronization
 
         $this->CI->load->model('providers_model');
         $this->CI->load->model('appointments_model');
+        $this->CI->load->model('unavailabilities_model');
 
         $this->CI->load->library('google_sync');
         $this->CI->load->library('caldav_sync');
@@ -55,17 +56,11 @@ class Synchronization
         array $customer,
         array $settings,
     ): void {
-        try {
-            // Google
+        // Every integration gets its own try/catch, so that a failing one does not stop the rest from syncing.
 
-            if ($provider['settings']['google_sync']) {
-                if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
-                }
-
-                $google_token = json_decode($provider['settings']['google_token'], true);
-
-                $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+        if ($provider['settings']['google_sync']) {
+            try {
+                $this->refresh_google_token($provider);
 
                 if (empty($appointment['id_google_calendar'])) {
                     $google_event = $this->CI->google_sync->add_appointment(
@@ -82,11 +77,13 @@ class Synchronization
                 } else {
                     $this->CI->google_sync->update_appointment($appointment, $provider, $service, $customer, $settings);
                 }
+            } catch (Throwable $e) {
+                $this->log_sync_failure('appointment', $appointment['id'] ?? null, 'Google', $e);
             }
+        }
 
-            // CalDAV
-
-            if ($provider['settings']['caldav_sync']) {
+        if ($provider['settings']['caldav_sync']) {
+            try {
                 $appointment['id_caldav_calendar'] = $this->CI->caldav_sync->save_appointment(
                     $appointment,
                     $service,
@@ -95,17 +92,9 @@ class Synchronization
                 );
 
                 $this->CI->appointments_model->save($appointment);
+            } catch (Throwable $e) {
+                $this->log_sync_failure('appointment', $appointment['id'] ?? null, 'CalDAV', $e);
             }
-        } catch (Throwable $e) {
-            log_message(
-                'error',
-                'Synchronization - Could not sync confirmation details of appointment (' .
-                    ($appointment['id'] ?? '-') .
-                    ') : ' .
-                    $e->getMessage(),
-            );
-
-            log_message('error', $e->getTraceAsString());
         }
     }
 
@@ -117,35 +106,22 @@ class Synchronization
      */
     public function sync_appointment_deleted(array $appointment, array $provider): void
     {
-        try {
-            // Google
-
-            if ($provider['settings']['google_sync'] && !empty($appointment['id_google_calendar'])) {
-                if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
-                }
-
-                $google_token = json_decode($provider['settings']['google_token'], true);
-
-                $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+        if ($provider['settings']['google_sync'] && !empty($appointment['id_google_calendar'])) {
+            try {
+                $this->refresh_google_token($provider);
 
                 $this->CI->google_sync->delete_appointment($provider, $appointment['id_google_calendar']);
+            } catch (Throwable $e) {
+                $this->log_sync_failure('deleted appointment', $appointment['id'] ?? null, 'Google', $e);
             }
+        }
 
-            // CalDAV
-
-            if ($provider['settings']['caldav_sync'] && !empty($appointment['id_caldav_calendar'])) {
+        if ($provider['settings']['caldav_sync'] && !empty($appointment['id_caldav_calendar'])) {
+            try {
                 $this->CI->caldav_sync->delete_event($provider, $appointment['id_caldav_calendar']);
+            } catch (Throwable $e) {
+                $this->log_sync_failure('deleted appointment', $appointment['id'] ?? null, 'CalDAV', $e);
             }
-        } catch (Throwable $e) {
-            log_message(
-                'error',
-                'Synchronization - Could not sync cancellation details of appointment (' .
-                    ($appointment['id'] ?? '-') .
-                    ') : ' .
-                    $e->getMessage(),
-            );
-            log_message('error', $e->getTraceAsString());
         }
     }
 
@@ -157,17 +133,9 @@ class Synchronization
      */
     public function sync_unavailability_saved(array $unavailability, array $provider): void
     {
-        try {
-            // Google
-
-            if ($provider['settings']['google_sync']) {
-                if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
-                }
-
-                $google_token = json_decode($provider['settings']['google_token'], true);
-
-                $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+        if ($provider['settings']['google_sync']) {
+            try {
+                $this->refresh_google_token($provider);
 
                 if (empty($unavailability['id_google_calendar'])) {
                     $google_event = $this->CI->google_sync->add_unavailability($provider, $unavailability);
@@ -178,27 +146,22 @@ class Synchronization
                 } else {
                     $this->CI->google_sync->update_unavailability($provider, $unavailability);
                 }
+            } catch (Throwable $e) {
+                $this->log_sync_failure('unavailability', $unavailability['id'] ?? null, 'Google', $e);
             }
+        }
 
-            // CalDAV
-
-            if ($provider['settings']['caldav_sync']) {
+        if ($provider['settings']['caldav_sync']) {
+            try {
                 $unavailability['id_caldav_calendar'] = $this->CI->caldav_sync->save_unavailability(
                     $unavailability,
                     $provider,
                 );
 
                 $this->CI->unavailabilities_model->save($unavailability);
+            } catch (Throwable $e) {
+                $this->log_sync_failure('unavailability', $unavailability['id'] ?? null, 'CalDAV', $e);
             }
-        } catch (Throwable $e) {
-            log_message(
-                'error',
-                'Synchronization - Could not sync cancellation details of unavailability (' .
-                    ($appointment['id'] ?? '-') .
-                    ') : ' .
-                    $e->getMessage(),
-            );
-            log_message('error', $e->getTraceAsString());
         }
     }
 
@@ -210,61 +173,99 @@ class Synchronization
      */
     public function sync_unavailability_deleted(array $unavailability, array $provider): void
     {
-        try {
-            // Google
-
-            if ($provider['settings']['google_sync'] && !empty($unavailability['id_google_calendar'])) {
-                if (empty($provider['settings']['google_token'])) {
-                    throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
-                }
-
-                $google_token = json_decode($provider['settings']['google_token'], true);
-
-                $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+        if ($provider['settings']['google_sync'] && !empty($unavailability['id_google_calendar'])) {
+            try {
+                $this->refresh_google_token($provider);
 
                 $this->CI->google_sync->delete_unavailability($provider, $unavailability['id_google_calendar']);
+            } catch (Throwable $e) {
+                $this->log_sync_failure('deleted unavailability', $unavailability['id'] ?? null, 'Google', $e);
             }
+        }
 
-            // CalDAV
-
-            if ($provider['settings']['caldav_sync'] && !empty($unavailability['id_caldav_calendar'])) {
+        if ($provider['settings']['caldav_sync'] && !empty($unavailability['id_caldav_calendar'])) {
+            try {
                 $this->CI->caldav_sync->delete_event($provider, $unavailability['id_caldav_calendar']);
+            } catch (Throwable $e) {
+                $this->log_sync_failure('deleted unavailability', $unavailability['id'] ?? null, 'CalDAV', $e);
             }
-        } catch (Throwable $e) {
-            log_message(
-                'error',
-                'Synchronization - Could not sync cancellation details of unavailability (' .
-                    ($appointment['id'] ?? '-') .
-                    ') : ' .
-                    $e->getMessage(),
-            );
-            log_message('error', $e->getTraceAsString());
         }
     }
 
     /**
      * Make sure a synced appointment is removed from Google/CalDAV Calendar, if its provider is changed.
      *
+     * @param int|string $appointment_id Appointment ID.
+     * @param int|string $new_provider_id Provider ID the appointment is about to be assigned to.
+     *
      * @throws Exception
      */
-    public function remove_appointment_on_provider_change($appointment_id): void
+    public function remove_appointment_on_provider_change($appointment_id, $new_provider_id): void
     {
         $existing_appointment = $this->CI->appointments_model->find($appointment_id);
 
-        $existing_google_id = $existing_appointment['id_google_calendar'];
-        $existing_caldav_id = $existing_appointment['id_caldav_calendar'];
-
-        $existing_provider_id = $existing_appointment['id_users_provider'];
-
-        if (
-            (!empty($existing_google_id) || !empty($existing_caldav_id)) &&
-            (int) $existing_provider_id !== (int) $existing_appointment['id_users_provider']
-        ) {
-            $existing_provider = $this->CI->providers_model->find($existing_provider_id);
-
-            if ($existing_provider['settings']['google_sync'] || $existing_provider['settings']['caldav_sync']) {
-                $this->sync_appointment_deleted($existing_appointment, $existing_provider);
-            }
+        if (empty($existing_appointment['id_google_calendar']) && empty($existing_appointment['id_caldav_calendar'])) {
+            return; // The appointment is not synced with any external calendar.
         }
+
+        $existing_provider_id = (int) $existing_appointment['id_users_provider'];
+
+        if ($existing_provider_id === (int) $new_provider_id) {
+            return; // The provider stays the same, so the existing events remain valid.
+        }
+
+        $existing_provider = $this->CI->providers_model->find($existing_provider_id);
+
+        if ($existing_provider['settings']['google_sync'] || $existing_provider['settings']['caldav_sync']) {
+            $this->sync_appointment_deleted($existing_appointment, $existing_provider);
+        }
+
+        // Forget the event IDs of the previous provider's calendars, otherwise the next synchronization looks for
+        // events that no longer exist and removes the local appointment instead.
+        $existing_appointment['id_google_calendar'] = null;
+        $existing_appointment['id_caldav_calendar'] = null;
+
+        $this->CI->appointments_model->save($existing_appointment);
+    }
+
+    /**
+     * Refresh the access token of the provider's Google Calendar account.
+     *
+     * @param array $provider Provider record.
+     */
+    private function refresh_google_token(array $provider): void
+    {
+        $google_token = json_decode((string) ($provider['settings']['google_token'] ?? ''), true);
+
+        if (empty($google_token['refresh_token'])) {
+            throw new RuntimeException('No google token available for the provider: ' . $provider['id']);
+        }
+
+        $this->CI->google_sync->refresh_token($google_token['refresh_token']);
+    }
+
+    /**
+     * Log a synchronization failure of a single record and integration.
+     *
+     * @param string $record_type Record type, used in the log message.
+     * @param int|string|null $record_id Record ID, used in the log message.
+     * @param string $integration Integration name, used in the log message.
+     * @param Throwable $e Exception that caused the failure.
+     */
+    private function log_sync_failure(string $record_type, $record_id, string $integration, Throwable $e): void
+    {
+        log_message(
+            'error',
+            'Synchronization - Could not sync ' .
+                $record_type .
+                ' (' .
+                ($record_id ?: '-') .
+                ') with ' .
+                $integration .
+                ': ' .
+                $e->getMessage(),
+        );
+
+        log_message('error', $e->getTraceAsString());
     }
 }

@@ -410,7 +410,10 @@ class Calendar extends EA_Controller
                 }
 
                 if ($manage_mode && !empty($appointment['id'])) {
-                    $this->synchronization->remove_appointment_on_provider_change($appointment['id']);
+                    $this->synchronization->remove_appointment_on_provider_change(
+                        $appointment['id'],
+                        $appointment['id_users_provider'],
+                    );
                 }
 
                 // Jitsi integration: if enabled and meeting_link is empty, generate a Jitsi meeting link

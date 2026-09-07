@@ -105,12 +105,9 @@ class Google_sync
      */
     public function initialize_clients(): void
     {
-        $http = new GuzzleHttp\Client([
-            'verify' => false,
-        ]);
-
+        // No custom HTTP client is configured on purpose, so that the Google client keeps its own defaults, which
+        // verify the TLS certificate of the API endpoints.
         $this->client = new Google_Client();
-        $this->client->setHttpClient($http);
         $this->client->setApplicationName('Easy!Appointments');
         $this->client->setClientId($this->get_client_id());
         $this->client->setClientSecret($this->get_client_secret());

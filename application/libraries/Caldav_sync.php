@@ -75,7 +75,11 @@ class Caldav_sync
             $caldav_event_id =
                 $appointment['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($appointment['id']);
 
-            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
+            // An event that is already synced may live under a URI that does not match its UID, so look the
+            // existing resource up instead of writing a second event next to it.
+            $uri = $appointment['id_caldav_calendar']
+                ? $this->get_existing_event_uri($client, $provider['settings']['caldav_url'], $caldav_event_id)
+                : $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -117,7 +121,11 @@ class Caldav_sync
             $caldav_event_id =
                 $unavailability['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($unavailability['id']);
 
-            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
+            // An event that is already synced may live under a URI that does not match its UID, so look the
+            // existing resource up instead of writing a second event next to it.
+            $uri = $unavailability['id_caldav_calendar']
+                ? $this->get_existing_event_uri($client, $provider['settings']['caldav_url'], $caldav_event_id)
+                : $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -148,7 +156,22 @@ class Caldav_sync
 
             $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
-            $client->request('DELETE', $uri);
+            try {
+                $client->request('DELETE', $uri);
+            } catch (RequestException $e) {
+                if (!$e->hasResponse() || $e->getResponse()->getStatusCode() !== 404) {
+                    throw $e;
+                }
+
+                // An imported event may be stored under a URI that does not match its UID.
+                $existing_uri = $this->find_event_uri($client, $caldav_event_id);
+
+                if (!$existing_uri || $existing_uri === $uri) {
+                    throw $e;
+                }
+
+                $client->request('DELETE', $existing_uri);
+            }
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to delete CalDAV event');
         }
@@ -172,7 +195,23 @@ class Caldav_sync
 
             $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
-            $response = $client->request('GET', $uri);
+            try {
+                $response = $client->request('GET', $uri);
+            } catch (RequestException $e) {
+                if (!$e->hasResponse() || $e->getResponse()->getStatusCode() !== 404) {
+                    throw $e;
+                }
+
+                // An imported event may be stored under a URI that does not match its UID, so look it up before the
+                // event is reported as missing and the local record gets removed.
+                $existing_uri = $this->find_event_uri($client, $caldav_event_id);
+
+                if (!$existing_uri || $existing_uri === $uri) {
+                    throw $e;
+                }
+
+                $response = $client->request('GET', $existing_uri);
+            }
 
             $ics_file = $response->getBody()->getContents();
 
@@ -210,7 +249,7 @@ class Caldav_sync
             $client = $this->get_http_client_by_provider_id($provider['id']);
             $provider_timezone_object = new DateTimeZone($provider['timezone']);
 
-            $response = $this->fetch_events($client, $start_date_time, $end_date_time);
+            $response = $this->fetch_events($client, $start_date_time, $end_date_time, $provider_timezone_object);
 
             if (!$response->getBody()) {
                 log_message('error', 'No response body from fetch_events' . PHP_EOL);
@@ -580,7 +619,9 @@ class Caldav_sync
             $start_date_time = date('Y-m-d 00:00:00');
             $end_date_time = date('Y-m-d 23:59:59');
 
-            $this->fetch_events($client, $start_date_time, $end_date_time);
+            $server_timezone_object = new DateTimeZone(date_default_timezone_get());
+
+            $this->fetch_events($client, $start_date_time, $end_date_time, $server_timezone_object);
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to test CalDAV connection');
             throw $e;
@@ -633,6 +674,92 @@ class Caldav_sync
         $caldav_password = $provider['settings']['caldav_password'];
 
         return $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
+    }
+
+    /**
+     * Get the URI of an event that is already stored on the CalDAV server.
+     *
+     * Falls back to the generated "<uid>.ics" URI, which is the one Easy!Appointments uses for the events it creates
+     * itself, when the server does not report a URI for the UID.
+     *
+     * @param Client $client CalDAV HTTP client.
+     * @param string $caldav_calendar CalDAV calendar URL.
+     * @param string $caldav_event_id CalDAV calendar event ID.
+     *
+     * @return string
+     */
+    private function get_existing_event_uri(Client $client, string $caldav_calendar, string $caldav_event_id): string
+    {
+        $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
+
+        // The events that Easy!Appointments creates itself are stored under that generated URI (see
+        // Ics_file::generate_uid()), so only the imported ones have to be looked up.
+        if (str_starts_with($caldav_event_id, 'ea-')) {
+            return $uri;
+        }
+
+        return $this->find_event_uri($client, $caldav_event_id) ?? $uri;
+    }
+
+    /**
+     * Look up the URI of an event on the CalDAV server, based on its UID.
+     *
+     * Servers are free to store an event under any URI and the ones created in a calendar client (Nextcloud, Apple
+     * Calendar, ...) rarely use "<uid>.ics", so the URI of an imported event has to be requested before the event can
+     * be fetched, updated or removed. Without this the requests answer with a "not found" and the local record is
+     * removed and imported again on every synchronization.
+     *
+     * @param Client $client CalDAV HTTP client.
+     * @param string $caldav_event_id CalDAV calendar event ID.
+     *
+     * @return string|null Returns the event URI or NULL if the server does not report one.
+     */
+    private function find_event_uri(Client $client, string $caldav_event_id): ?string
+    {
+        // A single instance of a recurring event has no URI of its own, and looking its UID up would return the URI
+        // of the whole series, which must not be fetched or removed in its place.
+        if (str_contains($caldav_event_id, '-RECURRENCE-')) {
+            return null;
+        }
+
+        try {
+            $response = $client->request('REPORT', '', [
+                'headers' => [
+                    'Content-Type' => 'application/xml',
+                    'Depth' => '1',
+                ],
+                'body' =>
+                    '
+                <c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+                    <d:prop>
+                        <d:getetag />
+                    </d:prop>
+                    <c:filter>
+                        <c:comp-filter name="VCALENDAR">
+                            <c:comp-filter name="VEVENT">
+                                <c:prop-filter name="UID">
+                                    <c:text-match collation="i;octet">' .
+                    htmlspecialchars($caldav_event_id, ENT_QUOTES | ENT_XML1) .
+                    '</c:text-match>
+                                </c:prop-filter>
+                            </c:comp-filter>
+                        </c:comp-filter>
+                    </c:filter>
+                </c:calendar-query>
+            ',
+            ]);
+        } catch (GuzzleException $e) {
+            $this->handle_guzzle_exception($e, 'Failed to look up the CalDAV event URI');
+
+            return null;
+        }
+
+        // Match the href of the first response, no matter which prefix the server picked for the DAV namespace.
+        if (!preg_match('~<([a-zA-Z0-9_.-]+:)?href\s*>([^<]+)</~', (string) $response->getBody(), $matches)) {
+            return null;
+        }
+
+        return trim($matches[2]) ?: null;
     }
 
     /**
@@ -764,11 +891,23 @@ class Caldav_sync
      * @throws GuzzleException
      * @throws Exception
      */
-    private function fetch_events(Client $client, string $start_date_time, string $end_date_time): ResponseInterface
-    {
-        $start_date_time_object = new DateTime($start_date_time);
+    private function fetch_events(
+        Client $client,
+        string $start_date_time,
+        string $end_date_time,
+        DateTimeZone $timezone_object,
+    ): ResponseInterface {
+        // The provided values are naive date-times of the given timezone, while the CalDAV time-range filter is
+        // always in UTC, so they have to be converted first. Formatting them with a "Z" suffix as they are would
+        // shift the requested period by the timezone offset and leave out the events at its edges.
+        $utc_timezone_object = new DateTimeZone('UTC');
+
+        $start_date_time_object = new DateTime($start_date_time, $timezone_object);
+        $start_date_time_object->setTimezone($utc_timezone_object);
         $formatted_start_date_time = $start_date_time_object->format('Ymd\THis\Z');
-        $end_date_time_object = new DateTime($end_date_time);
+
+        $end_date_time_object = new DateTime($end_date_time, $timezone_object);
+        $end_date_time_object->setTimezone($utc_timezone_object);
         $formatted_end_date_time = $end_date_time_object->format('Ymd\THis\Z');
 
         return $client->request('REPORT', '', [

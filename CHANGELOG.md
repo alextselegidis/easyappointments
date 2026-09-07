@@ -21,6 +21,20 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- A failing Google Calendar synchronization no longer removes the local appointments of the sync period, so an
+  expired token, a quota limit or an unreachable API only interrupts the sync
+- Appointment notes are no longer overwritten with the generated provider and customer details block on every
+  CalDAV synchronization
+- CalDAV events that are stored under an address that does not match their UID are now found, so events created in
+  a calendar client are no longer removed and imported again on every synchronization
+- Synchronizing one provider no longer removes the imported recurring CalDAV events of the other providers
+- Moving an appointment to another provider now removes the event from the calendars of the previous provider
+- The CalDAV synchronization period is now requested in UTC, so events at the edges of the period are no longer
+  left out on installations that do not run in UTC
+- Google Calendar and CalDAV are now synchronized independently, so a failure of one of them no longer skips the
+  other
+- The Google Calendar synchronization now fails with a clear error when the provider has no refresh token stored
+- Security: The Google Calendar API requests now verify the TLS certificate of the remote endpoint
 - HTML texts, such as the privacy policy and the terms & conditions, are now purified with a cache directory
   inside storage/cache, so installations with a read-only vendor directory no longer fail with a write error
 - The list of Google Calendars of a provider is no longer readable without permission, so only that provider or a

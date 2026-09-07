@@ -3,6 +3,7 @@
 namespace Tests\Unit\Library;
 
 use Caldav_sync;
+use DateTimeZone;
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
@@ -172,6 +173,89 @@ class CaldavSyncTest extends TestCase
         $this->assert_calendar_collection(self::CALENDAR_RESPONSE);
 
         $this->assertTrue(true); // No exception thrown.
+    }
+
+    private function caldav_client(MockHandler $handler): Client
+    {
+        return new Client([
+            'base_uri' => 'https://example.org/dav.php/calendars/testuser/default/',
+            'handler' => HandlerStack::create($handler),
+        ]);
+    }
+
+    private function invoke_caldav_sync_method(string $method, array $arguments)
+    {
+        require_once APPPATH . 'libraries/Caldav_sync.php';
+
+        $reflection_method = (new ReflectionClass(Caldav_sync::class))->getMethod($method);
+        $reflection_method->setAccessible(true);
+
+        return $reflection_method->invoke($this->caldav_sync(), ...$arguments);
+    }
+
+    public function testFetchEventsRequestsTheTimeRangeInUtc()
+    {
+        $handler = new MockHandler([new Response(207, [], self::CALENDAR_RESPONSE)]);
+
+        $this->invoke_caldav_sync_method('fetch_events', [
+            $this->caldav_client($handler),
+            '2026-09-07 00:00:00',
+            '2026-09-07 23:59:59',
+            new DateTimeZone('Europe/Athens'), // UTC+3 in September
+        ]);
+
+        $body = (string) $handler->getLastRequest()->getBody();
+
+        $this->assertStringContainsString('start="20260906T210000Z"', $body);
+        $this->assertStringContainsString('end="20260907T205959Z"', $body);
+    }
+
+    public function testFindEventUriReadsTheHrefOfTheServerResponse()
+    {
+        $handler = new MockHandler([
+            new Response(
+                207,
+                [],
+                '<?xml version="1.0"?>
+                <D:multistatus xmlns:D="DAV:">
+                    <D:response>
+                        <D:href>/dav.php/calendars/testuser/default/1a2b3c.ics</D:href>
+                    </D:response>
+                </D:multistatus>',
+            ),
+        ]);
+
+        $this->assertSame(
+            '/dav.php/calendars/testuser/default/1a2b3c.ics',
+            $this->invoke_caldav_sync_method('find_event_uri', [$this->caldav_client($handler), 'remote-uid']),
+        );
+    }
+
+    public function testFindEventUriIsNullWhenTheServerReportsNoHref()
+    {
+        $handler = new MockHandler([
+            new Response(207, [], '<?xml version="1.0"?><d:multistatus xmlns:d="DAV:"></d:multistatus>'),
+        ]);
+
+        $this->assertNull(
+            $this->invoke_caldav_sync_method('find_event_uri', [$this->caldav_client($handler), 'remote-uid']),
+        );
+    }
+
+    public function testExistingEventUriOfAnEasyAppointmentsEventNeedsNoLookup()
+    {
+        $handler = new MockHandler(); // Any request would fail, as no response is queued.
+
+        $this->assertSame(
+            'https://example.org/dav.php/calendars/testuser/default/ea-1a2b3c.ics',
+            $this->invoke_caldav_sync_method('get_existing_event_uri', [
+                $this->caldav_client($handler),
+                'https://example.org/dav.php/calendars/testuser/default/',
+                'ea-1a2b3c',
+            ]),
+        );
+
+        $this->assertNull($handler->getLastRequest());
     }
 
     public function testPlainCollectionIsRejected()

@@ -337,17 +337,25 @@ class Appointments_model extends EA_Model
     /**
      * Deletes recurring CalDAV events for the provided date period.
      *
+     * The provider is required, as only the records of the currently syncing provider may be removed, otherwise the
+     * imported events of the other providers would disappear until their own synchronization runs again.
+     *
      * @param string $start_date_time
      * @param string $end_date_time
+     * @param int $provider_id Matching provider ID.
      *
      * @return void
      */
-    public function delete_caldav_recurring_events(string $start_date_time, string $end_date_time): void
-    {
+    public function delete_caldav_recurring_events(
+        string $start_date_time,
+        string $end_date_time,
+        int $provider_id,
+    ): void {
         $this->db
             ->where('start_datetime >=', $start_date_time)
             ->where('end_datetime <=', $end_date_time)
             ->where('is_unavailability', true)
+            ->where('id_users_provider', $provider_id)
             ->like('id_caldav_calendar', 'RECURRENCE')
             ->delete('appointments');
     }
