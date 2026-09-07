@@ -18,9 +18,13 @@ developers to maintain and readjust their custom modifications on the main proje
 
 - The CORS origins and the cookie SameSite policy are now set in application/config/routes.php and
   application/config/config.php, instead of the root config.php, which keeps only the installation settings
+- The release build now runs Composer inside the php-fpm container, so a Composer installation on the host machine
+  is no longer required
 
 ### Fixed
 
+- The asset and release build no longer fails with permission errors on the files that the Docker containers create
+  in the project directory
 - A failing Google Calendar synchronization no longer removes the local appointments of the sync period, so an
   expired token, a quota limit or an unreachable API only interrupts the sync
 - Appointment notes are no longer overwritten with the generated provider and customer details block on every

@@ -61,12 +61,18 @@ function archive(done) {
     fs.copySync('README.md', 'build/README.md');
     fs.copySync('LICENSE', 'build/LICENSE');
 
+    // Composer runs inside the php-fpm container, mapped to the host user so the build output stays writable.
+    const composer =
+        'docker compose exec -T -u $(id -u):$(id -g) -e COMPOSER_HOME=/tmp -w /var/www/html/build php-fpm composer';
+
     childProcess.execSync(
-        'cd build && composer install --no-interaction --no-dev --optimize-autoloader --ignore-platform-reqs && composer run cleanup-vendor',
+        `${composer} install --no-interaction --no-dev --optimize-autoloader --ignore-platform-reqs && ` +
+            `${composer} run cleanup-vendor`,
+        {stdio: 'inherit'},
     );
 
     fs.removeSync('build/composer.lock');
-    del.sync('**/.DS_Store');
+    del.sync('build/**/.DS_Store');
     del.sync('build/**/.git');
 
     zip('build', {saveTo: filename}, function (error) {

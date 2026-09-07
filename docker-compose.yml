@@ -19,6 +19,7 @@ services:
 
     node:
         image: 'node:22-alpine'
+        user: '${DOCKER_UID:-1000}:${DOCKER_GID:-1000}'
         working_dir: /var/www/html
         command: sh -c "npm install && npm start"
         volumes:
