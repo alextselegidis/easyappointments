@@ -28,6 +28,7 @@ tags:
   - name: service_categories
   - name: services
   - name: settings
+  - name: system
   - name: unavailabilities
   - name: webhooks
   - name: working_plan_exceptions
@@ -1596,6 +1597,31 @@ paths:
       security:
         - BearerToken: [ ]
         - BasicAuth: [ ]
+  /system:
+    get:
+      tags:
+        - system
+      summary: Get system informations
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SystemRecord'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      security:
+        - BearerToken: [ ]
+        - BasicAuth: [ ]
   /webhooks:
     get:
       tags:
@@ -2462,6 +2488,13 @@ components:
         attendantsNumber: 1
         isPrivate: false
         serviceCategoryId: null
+    SystemRecord:
+      type: object
+      properties:
+        version:
+          type: string
+      example:
+        version: '1.6.1'
     ServiceCategoryRecord:
       type: object
       properties:
