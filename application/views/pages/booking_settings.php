@@ -362,6 +362,41 @@
                                     </div>
 
                                     <div class="mb-3">
+                                        <label class="form-label" for="service-selection-layout">
+                                            <?= lang('service_selection_layout') ?>
+                                        </label>
+
+                                        <select class="form-select" id="service-selection-layout"
+                                                data-field="service_selection_layout">
+                                            <option value="dropdown"><?= lang('dropdown') ?></option>
+                                            <option value="accordion"><?= lang('accordion') ?></option>
+                                        </select>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('service_selection_layout_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox"
+                                                   id="hide-single-provider-selection"
+                                                   data-field="hide_single_provider_selection">
+                                            <label class="form-check-label" for="hide-single-provider-selection">
+                                                <?= lang('hide_single_provider_selection') ?>
+                                            </label>
+                                        </div>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('hide_single_provider_selection_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="display-login-button"
                                                    data-field="display_login_button">
@@ -436,6 +471,3 @@
 <script src="<?= asset_url('assets/js/pages/booking_settings.js') ?>"></script>
 
 <?php end_section('scripts'); ?>
-
-
-
