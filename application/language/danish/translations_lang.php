@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Tiden er slettet';
 $lang['reason'] = 'Grund';
 $lang['appointment_removed_from_schedule'] = 'Din følgende tid er slettet ';
 $lang['appointment_details_was_sent_to_you'] = 'Du vil modtage en email med oplysninger om din tidsbestilling.';
+$lang['appointment_management_link'] = 'Ombook / annuller aftale';
 $lang['add_to_google_calendar'] = 'Tilføj til google kalenderen';
 $lang['appointment_booked'] = 'Din tid er nu booket';
 $lang['thank_you_for_appointment'] = 'Tak for din tidsbetilling hos os. Nedenfor kan du se oplysninger om aftalen. For at ændre i tids bestillingen tryk på linket.';

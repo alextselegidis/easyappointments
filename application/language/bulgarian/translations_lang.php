@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Часът анулиран.';
 $lang['reason'] = 'Причина';
 $lang['appointment_removed_from_schedule'] = 'Следният час бе отстранен от графика.';
 $lang['appointment_details_was_sent_to_you'] = 'Електронно писмо с информация за часа Ви бе изпратено.';
+$lang['appointment_management_link'] = 'Пренасрочване / отмяна на час';
 $lang['add_to_google_calendar'] = 'Добавяне в Google Calendar';
 $lang['appointment_booked'] = 'Часът Ви бе успешно запазен.';
 $lang['thank_you_for_appointment'] = 'Благодарим Ви , че запазихте час при нас. Можете да намерите подробна информация за часът си по-долу. Можете да направите промени като използвате линкът на часът.';

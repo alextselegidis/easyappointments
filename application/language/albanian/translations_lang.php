@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Takimi i Anuluar';
 $lang['reason'] = 'Arsyeja';
 $lang['appointment_removed_from_schedule'] = 'Takimi i mëposhtëm u hoq nga orari i kompanisë.';
 $lang['appointment_details_was_sent_to_you'] = 'Një email me detajet e takimit ju është dërguar.';
+$lang['appointment_management_link'] = 'Riplanifiko / anulo takimin';
 $lang['add_to_google_calendar'] = 'Shto në Google Calendar';
 $lang['appointment_booked'] = 'Takimi juaj u rezervua me sukses';
 $lang['thank_you_for_appointment'] = 'Faleminderit që rezervuat një takim me ne. Më poshtë mund të shihni detajet e takimit. Bëni ndryshime duke klikuar lidhjen e takimit.';

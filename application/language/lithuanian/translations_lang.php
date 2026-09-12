@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Vizitas atšauktas';
 $lang['reason'] = 'Priežastis';
 $lang['appointment_removed_from_schedule'] = 'Vizitas pašalintas iš įmonės tvarkaraščio.';
 $lang['appointment_details_was_sent_to_you'] = 'Jums išsiųstas el. laiškas su vizito informacija.';
+$lang['appointment_management_link'] = 'Perplanuoti / atšaukti vizitą';
 $lang['add_to_google_calendar'] = 'Įtraukti į „Google“ kalendorių';
 $lang['appointment_booked'] = 'Jūsų vizitas sėkmingai užregistruotas';
 $lang['thank_you_for_appointment'] = 'Dėkojame, kad užsiregistravote vizitui pas mus. Žemiau galite pamatyti informaciją apie vizitą. Pakeitimus galite atlikti, spustelėję vizito nuorodą.';

@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Wizyta Anulowana';
 $lang['reason'] = 'Powód';
 $lang['appointment_removed_from_schedule'] = 'Ta wizyta została usunięta z terminarza.';
 $lang['appointment_details_was_sent_to_you'] = 'Wiadomość e-mail ze szczegółami wizyty została wysłana do Ciebie.';
+$lang['appointment_management_link'] = 'Przełóż / anuluj wizytę';
 $lang['add_to_google_calendar'] = 'Dodaj do Kalendarza Google';
 $lang['appointment_booked'] = 'Twoja wizyta została skutecznie zarezerwowana.';
 $lang['thank_you_for_appointment'] = 'Dziękuje za dokonanie rezerwacji. Poniżej umieszczone są szczegóły wizyty. Aby dokonać zmian kliknij link wizyty.';

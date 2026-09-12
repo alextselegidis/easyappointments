@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Evento cancelado';
 $lang['reason'] = 'Motivo';
 $lang['appointment_removed_from_schedule'] = 'O seu evento foi removido dos eventos da empresa.';
 $lang['appointment_details_was_sent_to_you'] = 'Email enviado com os destalhes do evento.';
+$lang['appointment_management_link'] = 'Reagendar / cancelar consulta';
 $lang['add_to_google_calendar'] = 'Adicionar calendario da google';
 $lang['appointment_booked'] = 'O seu evento foi reservado com sucesso.';
 $lang['thank_you_for_appointment'] = 'Obriagado por marcar um compromisso. Abaixo segue os detalhes do evento. Poderá realizar alterações abrindo o link.';

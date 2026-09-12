@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Termäin ofsoen';
 $lang['reason'] = 'Grond';
 $lang['appointment_removed_from_schedule'] = 'Folgende Termäin ass erfollegräich an eisem Kalenner geläscht ginn.';
 $lang['appointment_details_was_sent_to_you'] = 'Eng E-Mail mat den Donnéeën ass un Iech geschéckt ginn.';
+$lang['appointment_management_link'] = 'Rendez-vous verréckelen / annuléieren';
 $lang['add_to_google_calendar'] = 'Am Google Kalenner bäisetzen';
 $lang['appointment_booked'] = 'Äre Termäin ass erfollegräich gebucht ginn.';
 $lang['thank_you_for_appointment'] = 'Merci dass der Äre Termäin mat eis gewielt hutt. Méi wäit ënne fannt der är Termäin Donnéeën. Ännerungen kënnt Der duerch d\'Klicken op de Termäin Link duerchféieren.';

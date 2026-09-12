@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = '完成预约取消';
 $lang['reason'] = '理由';
 $lang['appointment_removed_from_schedule'] = '以下的预约将从公司时间表上移除';
 $lang['appointment_details_was_sent_to_you'] = '预约详细信息的邮件已经寄到您的电子信箱.';
+$lang['appointment_management_link'] = '重新安排 / 取消预约';
 $lang['add_to_google_calendar'] = '添加到您的谷歌日历';
 $lang['appointment_booked'] = '您已经成功完成预约了.';
 $lang['thank_you_for_appointment'] = '谢谢您与我们预约.下方，您将看到预约的详细信息.如需修改,请点击预约链接.';

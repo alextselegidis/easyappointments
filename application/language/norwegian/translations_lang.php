@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Avtale Avbrutt';
 $lang['reason'] = 'Årsak';
 $lang['appointment_removed_from_schedule'] = 'Den følgende avtalen ble fjernet fra bedriftens timeplan.';
 $lang['appointment_details_was_sent_to_you'] = 'En e-post med avtaledetaljene er sendt til deg.';
+$lang['appointment_management_link'] = 'Endre / avbestille avtale';
 $lang['add_to_google_calendar'] = 'Legg til i Google Kalender';
 $lang['appointment_booked'] = 'Din avtale er bestilt';
 $lang['thank_you_for_appointment'] = 'Takk for at du har bestilt en avtale med oss. Nedenfor kan du se avtaledetaljene. Gjør endringer ved å klikke på avtalen.';

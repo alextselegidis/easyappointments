@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Agendamento cancelado';
 $lang['reason'] = 'Razão';
 $lang['appointment_removed_from_schedule'] = 'O seu agendamento foi removido.';
 $lang['appointment_details_was_sent_to_you'] = 'Email enviado com os destalhes do agendamento.';
+$lang['appointment_management_link'] = 'Reagendar / cancelar agendamento';
 $lang['add_to_google_calendar'] = 'Adicionar ao calendario do google';
 $lang['appointment_booked'] = 'O seu horário foi reservado com sucesso.';
 $lang['thank_you_for_appointment'] = 'Obriagado por agendar um horário conosco. Abaixo segue os detalhes. Para alterações, abrir o link.';

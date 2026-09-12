@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Termin storniert';
 $lang['reason'] = 'Grund';
 $lang['appointment_removed_from_schedule'] = 'Der folgende Termin wurde erfolgreich von der Terminplanung des Unternehmens storniert.';
 $lang['appointment_details_was_sent_to_you'] = 'Eine E-Mail mit den Termindaten ist an Sie gesendet worden.';
+$lang['appointment_management_link'] = 'Termin verschieben / stornieren';
 $lang['add_to_google_calendar'] = 'Zum Google-Kalender hinzufügen';
 $lang['appointment_booked'] = 'Ihr Termin ist erfolgreich gebucht worden.';
 $lang['thank_you_for_appointment'] = 'Vielen Dank für die Terminauswahl mit uns. Weiter unten können Sie Ihre Termindaten sehen. Änderungen können durch Klicken auf den Termin-Link durchgeführt werden.';
