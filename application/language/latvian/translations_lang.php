@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Mēs piedāvājam pilna cikla pakalpojumus pašmit
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Vai vēlaties informēt klientu par šo jauno tikšanos?';
 $lang['notify_users_on_delete_question'] = 'Vai vēlaties informēt klientu par tikšanās atcelšanu?';
+
+$lang['available_hours_layout'] = 'Pieejamo stundu izkārtojums';
+$lang['available_hours_layout_hint'] = 'Kontrolē, kā pieejamās tikšanās stundas tiek parādītas rezervēšanas lapā.';
+$lang['single_column'] = 'Viena kolonna';
+$lang['compact_grid'] = 'Kompakts režģis';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ofrecemos servicios integrales para software autoa
 $lang['go_premium'] = 'Obtener Premium';
 $lang['notify_users_on_create_question'] = '¿Desea notificar al cliente sobre esta nueva cita?';
 $lang['notify_users_on_delete_question'] = '¿Desea notificar al cliente sobre la cancelación de la cita?';
+
+$lang['available_hours_layout'] = 'Disposición de horas disponibles';
+$lang['available_hours_layout_hint'] = 'Controla cómo se muestran las horas de cita disponibles en la página de reserva.';
+$lang['single_column'] = 'Columna única';
+$lang['compact_grid'] = 'Cuadrícula compacta';
+
 // End

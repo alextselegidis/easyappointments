@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Προσφέρουμε ολοκληρωμένες 
 $lang['go_premium'] = 'Αναβάθμιση σε Premium';
 $lang['notify_users_on_create_question'] = 'Θέλετε να ειδοποιήσετε τον πελάτη για αυτό το νέο ραντεβού;';
 $lang['notify_users_on_delete_question'] = 'Θέλετε να ειδοποιήσετε τον πελάτη για την ακύρωση του ραντεβού;';
+
+$lang['available_hours_layout'] = 'Διάταξη Διαθέσιμων Ωρών';
+$lang['available_hours_layout_hint'] = 'Ελέγχει τον τρόπο εμφάνισης των διαθέσιμων ωρών ραντεβού στη σελίδα κράτησης.';
+$lang['single_column'] = 'Μονή Στήλη';
+$lang['compact_grid'] = 'Συμπαγές Πλέγμα';
+
 // End

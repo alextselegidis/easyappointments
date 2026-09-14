@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ofrojmë shërbime të plota për softuer të vet�
 $lang['go_premium'] = 'Kaloni në Premium';
 $lang['notify_users_on_create_question'] = 'Dëshironi të njoftoni klientin për këtë takim të ri?';
 $lang['notify_users_on_delete_question'] = 'Dëshironi të njoftoni klientin për anulimin e takimit?';
+
+$lang['available_hours_layout'] = 'Paraqitja e Orëve të Disponueshme';
+$lang['available_hours_layout_hint'] = 'Kontrollon se si shfaqen orët e disponueshme të takimeve në faqen e rezervimit.';
+$lang['single_column'] = 'Kolona e Vetme';
+$lang['compact_grid'] = 'Rrjetë Kompakte';
+
 // End

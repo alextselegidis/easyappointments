@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'セルフホスティングソフトウェア向�
 $lang['go_premium'] = 'Premium にアップグレード';
 $lang['notify_users_on_create_question'] = 'この新しい予約についてお客様に通知しますか？';
 $lang['notify_users_on_delete_question'] = '予約のキャンセルについてお客様に通知しますか？';
+
+$lang['available_hours_layout'] = '空き時間レイアウト';
+$lang['available_hours_layout_hint'] = '予約ページで利用可能な予約時間の表示方法を制御します。';
+$lang['single_column'] = 'シングルカラム';
+$lang['compact_grid'] = 'コンパクトグリッド';
+
 // End

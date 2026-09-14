@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Kendi sunucunuzda barındırılan yazılımlar iç
 $lang['go_premium'] = 'Premium\'a Geç';
 $lang['notify_users_on_create_question'] = 'Bu yeni randevu hakkında müşteriyi bilgilendirmek ister misiniz?';
 $lang['notify_users_on_delete_question'] = 'Randevu iptali hakkında müşteriyi bilgilendirmek ister misiniz?';
+
+$lang['available_hours_layout'] = 'Müsait Saat Düzeni';
+$lang['available_hours_layout_hint'] = 'Müsait randevu saatlerinin rezervasyon sayfasında nasıl görüntüleneceğini kontrol eder.';
+$lang['single_column'] = 'Tek Sütun';
+$lang['compact_grid'] = 'Kompakt Izgara';
+
 // End

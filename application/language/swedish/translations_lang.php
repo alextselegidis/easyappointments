@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Vi erbjuder heltäckande tjänster för egen-hosta
 $lang['go_premium'] = 'Bli Premium';
 $lang['notify_users_on_create_question'] = 'Vill du skicka en avisering om det nya mötet till kunden?';
 $lang['notify_users_on_delete_question'] = 'Vill du skicka en avisering om avbokningen till kunden?';
+
+$lang['available_hours_layout'] = 'Tillgängliga tider layout';
+$lang['available_hours_layout_hint'] = 'Styr hur tillgängliga bokningstider visas på bokningssidan.';
+$lang['single_column'] = 'Enkel kolumn';
+$lang['compact_grid'] = 'Kompakt rutnät';
+
 // End

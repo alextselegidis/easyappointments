@@ -194,6 +194,7 @@ class Booking extends EA_Controller
         $display_any_provider = setting('display_any_provider');
         $display_login_button = setting('display_login_button');
         $display_delete_personal_information = setting('display_delete_personal_information');
+        $available_hours_layout = setting('available_hours_layout', 'list');
         $book_advance_timeout = setting('book_advance_timeout');
         $legal_notice_url = setting('legal_notice_url');
         $imprint_url = setting('imprint_url');
@@ -303,6 +304,7 @@ class Booking extends EA_Controller
             'display_cookie_notice' => $display_cookie_notice,
             'display_any_provider' => setting('display_any_provider'),
             'future_booking_limit' => setting('future_booking_limit'),
+            'available_hours_layout' => $available_hours_layout,
             'appointment_data' => $appointment,
             'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,
             'customer_data' => $customer,

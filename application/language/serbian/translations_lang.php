@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Nudimo kompletne usluge za softver koji sami hostu
 $lang['go_premium'] = 'Pređi na Premium';
 $lang['notify_users_on_create_question'] = 'Да ли желите да обавестите клијента о овом новом термину?';
 $lang['notify_users_on_delete_question'] = 'Да ли желите да обавестите клијента о отказивању термина?';
+
+$lang['available_hours_layout'] = 'Prikaz dostupnih sati';
+$lang['available_hours_layout_hint'] = 'Kontroliše kako se dostupni sati termina prikazuju na stranici za rezervaciju.';
+$lang['single_column'] = 'Jedna kolona';
+$lang['compact_grid'] = 'Kompaktna mreža';
+
 // End

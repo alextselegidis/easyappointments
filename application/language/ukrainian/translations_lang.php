@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ми пропонуємо комплексні п�
 $lang['go_premium'] = 'Перейти на Premium';
 $lang['notify_users_on_create_question'] = 'Бажаєте повідомити клієнта про цей новий запис?';
 $lang['notify_users_on_delete_question'] = 'Бажаєте повідомити клієнта про скасування запису?';
+
+$lang['available_hours_layout'] = 'Макет доступних годин';
+$lang['available_hours_layout_hint'] = 'Керує відображенням доступних годин запису на сторінці бронювання.';
+$lang['single_column'] = 'Одна колонка';
+$lang['compact_grid'] = 'Компактна сітка';
+
 // End

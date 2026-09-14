@@ -574,4 +574,10 @@ $lang['about_app_premium'] = '我們為自架軟體提供端到端服務，包�
 $lang['go_premium'] = '升級 Premium';
 $lang['notify_users_on_create_question'] = '您想通知客戶這個新預約嗎？';
 $lang['notify_users_on_delete_question'] = '您想通知客戶預約取消嗎？';
+
+$lang['available_hours_layout'] = '可用時段佈局';
+$lang['available_hours_layout_hint'] = '控制預約頁面上可用預約時段的顯示方式。';
+$lang['single_column'] = '單列';
+$lang['compact_grid'] = '緊湊網格';
+
 // End

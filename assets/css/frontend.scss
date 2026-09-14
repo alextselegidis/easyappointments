@@ -47,9 +47,25 @@
     font-size: 12px !important;
 }
 
-/* Selected hour button state */
-#book-appointment-wizard #available-hours .available-hour {
+/* Available hours picker */
+#book-appointment-wizard #available-hours.available-hours-list .available-hour {
     margin-bottom: 10px;
+}
+
+#book-appointment-wizard #available-hours.available-hours-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 10px 14px;
+}
+
+#book-appointment-wizard #available-hours.available-hours-grid .available-hour {
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+}
+
+#book-appointment-wizard #available-hours #select-hour-prompt {
+    grid-column: 1 / -1;
 }
 
 #book-appointment-wizard #available-hours .selected-hour {

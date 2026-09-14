@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferecemos serviços completos para software auto-
 $lang['go_premium'] = 'Seja Premium';
 $lang['notify_users_on_create_question'] = 'Gostaria de notificar o cliente sobre este novo agendamento?';
 $lang['notify_users_on_delete_question'] = 'Gostaria de notificar o cliente sobre o cancelamento do agendamento?';
+
+$lang['available_hours_layout'] = 'Layout de Horários Disponíveis';
+$lang['available_hours_layout_hint'] = 'Controla como os horários de consulta disponíveis são exibidos na página de agendamento.';
+$lang['single_column'] = 'Coluna Única';
+$lang['compact_grid'] = 'Grade Compacta';
+
 // End

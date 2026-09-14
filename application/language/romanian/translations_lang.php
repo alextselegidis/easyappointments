@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferim servicii complete pentru software auto-găz
 $lang['go_premium'] = 'Treceți la Premium';
 $lang['notify_users_on_create_question'] = 'Doriți să notificați clientul despre această nouă programare?';
 $lang['notify_users_on_delete_question'] = 'Doriți să notificați clientul despre anularea programării?';
+
+$lang['available_hours_layout'] = 'Aspectul orelor disponibile';
+$lang['available_hours_layout_hint'] = 'Controlează modul în care orele de programare disponibile sunt afișate pe pagina de rezervare.';
+$lang['single_column'] = 'Coloană unică';
+$lang['compact_grid'] = 'Grilă compactă';
+
 // End
