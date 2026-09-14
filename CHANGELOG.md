@@ -16,6 +16,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Changed
 
+- Changing the password in the account settings page now requires the current password, so that a stolen session
+  alone cannot be used to take over the account
 - The CORS origins and the cookie SameSite policy are now set in application/config/routes.php and
   application/config/config.php, instead of the root config.php, which keeps only the installation settings
 - The release build now falls back to running Composer inside the php-fpm container, so a Composer installation on
