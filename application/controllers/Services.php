@@ -37,6 +37,7 @@ class Services extends EA_Controller
     ];
     public array $optional_service_fields = [
         'id_service_categories' => null,
+        'providers' => [],
     ];
 
     /**

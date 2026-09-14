@@ -25,6 +25,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Removing every provider from a service on the services page is now saved, instead of silently keeping the previous
+  provider assignments (#1965)
 - The asset and release build no longer fails with permission errors on the files that the Docker containers create
   in the project directory
 - A failing Google Calendar synchronization no longer removes the local appointments of the sync period, so an
