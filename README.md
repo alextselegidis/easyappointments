@@ -135,6 +135,15 @@ Once completed, the system is ready to use.
 
 ---
 
+### Easypanel
+
+[Easypanel](https://easypanel.io) is a self-hosted Docker deployment platform, and Easy!Appointments has a one-click deployment template there.
+
+[![Deploy on Easypanel][easypanel-btn]][easypanel-deploy]
+
+[easypanel-btn]: https://easypanel.io/img/deploy-on-easypanel-40.svg
+[easypanel-deploy]: https://easypanel.io/templates/easyappointments
+
 ## 📚 Resources
 
 * Website: [https://easyappointments.org](https://easyappointments.org)
