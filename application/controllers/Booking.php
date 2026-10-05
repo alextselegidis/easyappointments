@@ -65,6 +65,8 @@ class Booking extends EA_Controller
     {
         parent::__construct();
 
+        $this->load->driver('cache', ['adapter' => 'file']);
+
         $this->load->model('appointments_model');
         $this->load->model('providers_model');
         $this->load->model('admins_model');

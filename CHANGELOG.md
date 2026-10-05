@@ -98,6 +98,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Fix the month switching on the booking calendar (#1862)
 - Show appointment notes correctly in email notifications (#1881)
 - Google Meet link is created but never stored in appointments.meeting_link (#1947)
+- Opening the reschedule link of an appointment no longer fails with a fatal error when rate limiting is disabled; the
+  booking controller now loads the cache driver itself instead of relying on the rate limiter to load it
 
 ## [1.6.0] - 2026-05-27
 
