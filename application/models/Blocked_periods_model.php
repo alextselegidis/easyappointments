@@ -428,7 +428,10 @@ class Blocked_periods_model extends EA_Model
     }
 
     /**
-     * Check if a date is blocked by a blocked period.
+     * Check if a blocked period covers the whole date.
+     *
+     * A period that blocks only part of the date, or two periods that block its morning and its evening, leave the
+     * rest of the date to the availability calculation, which removes the blocked hours one by one.
      *
      * @param string $date
      *
@@ -437,9 +440,9 @@ class Blocked_periods_model extends EA_Model
     public function is_entire_date_blocked(string $date): bool
     {
         return $this->query()
-            ->where('DATE(start_datetime) <=', $date)
-            ->where('DATE(end_datetime) >=', $date)
+            ->where('start_datetime <=', $date . ' 00:00:00')
+            ->where('end_datetime >=', $date . ' 23:59:00')
             ->get()
-            ->num_rows() > 1;
+            ->num_rows() > 0;
     }
 }
