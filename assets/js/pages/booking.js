@@ -404,6 +404,9 @@ App.Pages.Booking = (function () {
                 $selectProvider.find('option[value=""]').remove();
             }
 
+            // With a single provider there is nothing to choose: it is selected above and the drop-down stays hidden.
+            $selectProvider.parent().prop('hidden', !Boolean(serviceId) || providerOptionCount === 2);
+
             // Add the "Any Provider" entry
 
             if (providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
