@@ -114,6 +114,16 @@ class Settings_api_v1 extends EA_Controller
 
             $value = request('value');
 
+            // The XSS filter of the JSON input turns an image data URL into "[removed]...", so the company logo could
+            // not be set through the API. A plain image data URL carries no markup and is taken as sent.
+            if ($name === 'company_logo') {
+                $raw_value = $this->input->json('value', false);
+
+                if (is_string($raw_value) && validate_image_data_url($raw_value)) {
+                    $value = $raw_value;
+                }
+            }
+
             setting([$name => $value]);
 
             json_response([
