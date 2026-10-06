@@ -7,6 +7,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Added
 
+- A private service can now be booked through a direct link (`?service=<id>`) and its appointments rescheduled,
+  while it stays off the booking page list (#1969)
 - A CalDAV section under Settings / Integrations, where the connection URLs that may point into the local network
   are listed
 - The calendar page now explains why a CalDAV synchronization failed and what has to be corrected, instead of only
