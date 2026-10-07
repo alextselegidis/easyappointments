@@ -54,6 +54,6 @@ const GOOGLE_CLIENT_SECRET  = 'your-client-secret-here';
 - [Google Calendar API Docs](https://developers.google.com/google-apps/calendar)
 - [E!A Support Group](https://groups.google.com/forum/#!forum/easy-appointments)
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

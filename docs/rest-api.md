@@ -422,6 +422,6 @@ fastcgi_param PHP_AUTH_USER $remote_user;
 fastcgi_param PHP_AUTH_PW $http_authorization;
 ```
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

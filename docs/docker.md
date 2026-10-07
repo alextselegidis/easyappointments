@@ -68,6 +68,6 @@ OpenLDAP runs on the `openldap` container (ports `389` and `636`). You can manag
 
 > **Note:** This Docker setup is for **development only**. Don't use it in production. For a production Docker image, see: https://github.com/alextselegidis/easyappointments-docker
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

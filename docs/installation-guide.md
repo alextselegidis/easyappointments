@@ -96,6 +96,6 @@ Finally, add a link to your website (e.g. "Book an Appointment") that points to 
 
 Happy Bookin'!
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

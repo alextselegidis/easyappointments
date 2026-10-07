@@ -94,6 +94,6 @@ Shows a summary of all available commands:
 php index.php console help
 ```
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

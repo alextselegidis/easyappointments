@@ -18,6 +18,6 @@ The app is already available in many languages, but new features need new transl
 
 Take a few minutes to fill out the [E!A Feedback Form](https://docs.google.com/forms/d/15dw1jl7lUgw4q-XXMn13Gx_e8zJxAiyWYMOdqtZqIHU/viewform). Your experience helps shape the future of the project.
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)
