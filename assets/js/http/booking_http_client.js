@@ -43,7 +43,12 @@ App.Http.Booking = (function () {
      * @param {String} selectedDate The selected date of the available hours we need.
      */
     function getAvailableHours(selectedDate) {
-        $availableHours.empty();
+        const availableHoursLayout = vars('available_hours_layout') === 'grid' ? 'grid' : 'list';
+
+        $availableHours
+            .empty()
+            .removeClass('available-hours-list available-hours-grid')
+            .addClass('available-hours-' + availableHoursLayout);
 
         // Find the selected service duration (it is going to be send within the "data" object).
         const serviceId = $selectService.val();
@@ -115,7 +120,9 @@ App.Http.Booking = (function () {
 
                     $availableHours.append(
                         $('<button/>', {
-                            'class': 'btn btn-outline-secondary w-100 shadow-none available-hour',
+                            'class':
+                                'btn btn-outline-secondary shadow-none available-hour' +
+                                (availableHoursLayout === 'list' ? ' w-100' : ''),
                             'data': {
                                 'value': availableHour,
                             },

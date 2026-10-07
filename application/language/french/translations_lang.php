@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Nous proposons des services complets pour les logi
 $lang['go_premium'] = 'Passer à Premium';
 $lang['notify_users_on_create_question'] = 'Souhaitez-vous informer le client de ce nouveau rendez-vous ?';
 $lang['notify_users_on_delete_question'] = 'Souhaitez-vous informer le client de l\'annulation du rendez-vous ?';
+
+$lang['available_hours_layout'] = 'Disposition des créneaux disponibles';
+$lang['available_hours_layout_hint'] = 'Contrôle la façon dont les créneaux de rendez-vous disponibles sont affichés sur la page de réservation.';
+$lang['single_column'] = 'Colonne unique';
+$lang['compact_grid'] = 'Grille compacte';
+
 // End

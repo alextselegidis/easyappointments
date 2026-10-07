@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'เรามีบริการครบวง�
 $lang['go_premium'] = 'อัปเกรด Premium';
 $lang['notify_users_on_create_question'] = 'คุณต้องการแจ้งลูกค้าเกี่ยวกับการนัดหมายใหม่นี้หรือไม่?';
 $lang['notify_users_on_delete_question'] = 'คุณต้องการแจ้งลูกค้าเกี่ยวกับการยกเลิกนัดหมายนี้หรือไม่?';
+
+$lang['available_hours_layout'] = 'เค้าโครงชั่วโมงที่ว่าง';
+$lang['available_hours_layout_hint'] = 'ควบคุมวิธีแสดงชั่วโมงการนัดหมายที่ว่างบนหน้าจอง';
+$lang['single_column'] = 'คอลัมน์เดียว';
+$lang['compact_grid'] = 'กริดขนาดกะทัดรัด';
+
 // End

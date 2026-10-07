@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'आम्ही सेल्फ-होस्टे
 $lang['go_premium'] = 'Premium मिळवा';
 $lang['notify_users_on_create_question'] = 'या नवीन भेटीबद्दल ग्राहकाला सूचित करू इच्छिता?';
 $lang['notify_users_on_delete_question'] = 'भेट रद्द झाल्याबद्दल ग्राहकाला सूचित करू इच्छिता?';
+
+$lang['available_hours_layout'] = 'उपलब्ध तासांचा लेआउट';
+$lang['available_hours_layout_hint'] = 'बुकिंग पेजवर उपलब्ध भेटीचे तास कसे प्रदर्शित केले जातात हे नियंत्रित करते.';
+$lang['single_column'] = 'एकल स्तंभ';
+$lang['compact_grid'] = 'कॉम्पॅक्ट ग्रिड';
+
 // End

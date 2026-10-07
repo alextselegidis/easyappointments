@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Oferim serveis d\'extrem a extrem per a programari
 $lang['go_premium'] = 'Passa\'t a Premium';
 $lang['notify_users_on_create_question'] = 'Voleu notificar el client sobre aquesta nova cita?';
 $lang['notify_users_on_delete_question'] = 'Voleu notificar el client sobre la cancel·lació de la cita?';
+
+$lang['available_hours_layout'] = 'Disposició d\'hores disponibles';
+$lang['available_hours_layout_hint'] = 'Controla com es mostren les hores de cita disponibles a la pàgina de reserva.';
+$lang['single_column'] = 'Columna única';
+$lang['compact_grid'] = 'Graella compacta';
+
 // End

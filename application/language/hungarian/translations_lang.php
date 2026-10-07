@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Átfogó szolgáltatásokat kínálunk saját üze
 $lang['go_premium'] = 'Premium verzió';
 $lang['notify_users_on_create_question'] = 'Szeretné értesíteni az ügyfelet erről az új időpontról?';
 $lang['notify_users_on_delete_question'] = 'Szeretné értesíteni az ügyfelet az időpont törléséről?';
+
+$lang['available_hours_layout'] = 'Elérhető időpontok elrendezése';
+$lang['available_hours_layout_hint'] = 'Meghatározza, hogy az elérhető foglalási idők hogyan jelenjenek meg a foglalási oldalon.';
+$lang['single_column'] = 'Egyszerű oszlop';
+$lang['compact_grid'] = 'Kompakt rács';
+
 // End

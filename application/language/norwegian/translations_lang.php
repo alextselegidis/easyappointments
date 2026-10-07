@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Vi tilbyr helhetlige tjenester for selvhostet prog
 $lang['go_premium'] = 'Bli Premium';
 $lang['notify_users_on_create_question'] = 'Vil du varsle kunden om denne nye avtalen?';
 $lang['notify_users_on_delete_question'] = 'Vil du varsle kunden om avbestillingen av avtalen?';
+
+$lang['available_hours_layout'] = 'Tilgjengelige timer layout';
+$lang['available_hours_layout_hint'] = 'Styrer hvordan tilgjengelige avtaletider vises på bestillingssiden.';
+$lang['single_column'] = 'Enkelt kolonne';
+$lang['compact_grid'] = 'Kompakt rutenett';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Vi tilbyder helhedstjenester for selvhostet softwa
 $lang['go_premium'] = 'Bliv Premium';
 $lang['notify_users_on_create_question'] = 'Vil du give kunden besked om denne nye aftale?';
 $lang['notify_users_on_delete_question'] = 'Vil du give kunden besked om aflysningen af aftalen?';
+
+$lang['available_hours_layout'] = 'Tilgængelige tider layout';
+$lang['available_hours_layout_hint'] = 'Styrer hvordan tilgængelige aftaletider vises på bookingsiden.';
+$lang['single_column'] = 'Enkelt kolonne';
+$lang['compact_grid'] = 'Kompakt gitter';
+
 // End

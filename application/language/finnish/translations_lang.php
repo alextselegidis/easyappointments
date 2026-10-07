@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Tarjoamme kokonaispalveluja itse ylläpidetylle oh
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Haluatko ilmoittaa asiakkaalle tästä uudesta ajanvarauksesta?';
 $lang['notify_users_on_delete_question'] = 'Haluatko ilmoittaa asiakkaalle ajanvarauksen peruutuksesta?';
+
+$lang['available_hours_layout'] = 'Vapaiden aikojen asettelu';
+$lang['available_hours_layout_hint'] = 'Määrittää, miten vapaat varausajat näytetään varaussivulla.';
+$lang['single_column'] = 'Yksi sarake';
+$lang['compact_grid'] = 'Tiivis ruudukko';
+
 // End

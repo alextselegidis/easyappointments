@@ -298,6 +298,28 @@
                             <div class="col-12">
                                 <div class="border rounded mb-3 p-3">
                                     <div class="mb-3">
+                                        <label for="available-hours-layout" class="form-label">
+                                            <?= lang('available_hours_layout') ?>
+                                        </label>
+
+                                        <select id="available-hours-layout" class="form-select"
+                                                data-field="available_hours_layout">
+                                            <option value="list">
+                                                <?= lang('single_column') ?>
+                                            </option>
+                                            <option value="grid">
+                                                <?= lang('compact_grid') ?>
+                                            </option>
+                                        </select>
+
+                                        <div class="form-text text-muted">
+                                            <small>
+                                                <?= lang('available_hours_layout_hint') ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="customer-notifications"
                                                    data-field="customer_notifications">
@@ -436,6 +458,3 @@
 <script src="<?= asset_url('assets/js/pages/booking_settings.js') ?>"></script>
 
 <?php end_section('scripts'); ?>
-
-
-

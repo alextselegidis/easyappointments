@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'نقدم خدمات شاملة للبرمجيات 
 $lang['go_premium'] = 'احصل على Premium';
 $lang['notify_users_on_create_question'] = 'هل ترغب في إبلاغ العميل بهذا الموعد الجديد؟';
 $lang['notify_users_on_delete_question'] = 'هل ترغب في إبلاغ العميل بإلغاء الموعد؟';
+
+$lang['available_hours_layout'] = 'تخطيط الساعات المتاحة';
+$lang['available_hours_layout_hint'] = 'يتحكم في كيفية عرض ساعات المواعيد المتاحة في صفحة الحجز.';
+$lang['single_column'] = 'عمود واحد';
+$lang['compact_grid'] = 'شبكة مضغوطة';
+
 // End

@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Ponúkame komplexné služby pre self-hosted softv
 $lang['go_premium'] = 'Prejsť na Premium';
 $lang['notify_users_on_create_question'] = 'Chcete zákazníka informovať o tomto novom termíne?';
 $lang['notify_users_on_delete_question'] = 'Chcete zákazníka informovať o zrušení termínu?';
+
+$lang['available_hours_layout'] = 'Rozloženie dostupných hodín';
+$lang['available_hours_layout_hint'] = 'Riadi spôsob zobrazenia dostupných hodín stretnutí na stránke rezervácie.';
+$lang['single_column'] = 'Jeden stĺpec';
+$lang['compact_grid'] = 'Kompaktná mriežka';
+
 // End

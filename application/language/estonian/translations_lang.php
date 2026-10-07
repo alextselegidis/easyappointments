@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Pakume täisteenust ise majutatud tarkvarale, seal
 $lang['go_premium'] = 'Go Premium';
 $lang['notify_users_on_create_question'] = 'Kas soovite klienti sellest uuest kohtumisest teavitada?';
 $lang['notify_users_on_delete_question'] = 'Kas soovite klienti kohtumise tühistamisest teavitada?';
+
+$lang['available_hours_layout'] = 'Saadaolevate tundide paigutus';
+$lang['available_hours_layout_hint'] = 'Juhib, kuidas saadaolevad broneeringuajad broneerimislehel kuvatakse.';
+$lang['single_column'] = 'Üks veerg';
+$lang['compact_grid'] = 'Kompaktne ruudustik';
+
 // End

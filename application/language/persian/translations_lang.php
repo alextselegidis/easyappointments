@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'ما خدمات جامع برای نرم‌افز�
 $lang['go_premium'] = 'دریافت Premium';
 $lang['notify_users_on_create_question'] = 'آیا می‌خواهید مشتری را از این نوبت جدید مطلع کنید؟';
 $lang['notify_users_on_delete_question'] = 'آیا می‌خواهید مشتری را از لغو نوبت مطلع کنید؟';
+
+$lang['available_hours_layout'] = 'چیدمان ساعات موجود';
+$lang['available_hours_layout_hint'] = 'نحوه نمایش ساعات قرار ملاقات موجود در صفحه رزرو را کنترل می‌کند.';
+$lang['single_column'] = 'تک ستون';
+$lang['compact_grid'] = 'شبکه فشرده';
+
 // End

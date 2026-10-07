@@ -574,4 +574,10 @@ $lang['about_app_premium'] = 'Предлагаме цялостни услуги
 $lang['go_premium'] = 'Към Premium';
 $lang['notify_users_on_create_question'] = 'Желаете ли да уведомите клиента за тази нова среща?';
 $lang['notify_users_on_delete_question'] = 'Желаете ли да уведомите клиента за отмяната на срещата?';
+
+$lang['available_hours_layout'] = 'Оформление на наличните часове';
+$lang['available_hours_layout_hint'] = 'Контролира как се показват наличните часове за резервация на страницата за записване.';
+$lang['single_column'] = 'Една колона';
+$lang['compact_grid'] = 'Компактна мрежа';
+
 // End
