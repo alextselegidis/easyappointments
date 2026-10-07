@@ -632,6 +632,12 @@ class Caldav_sync
     private function convert_caldav_event_to_array_event(VEvent $vevent, DateTimeZone $timezone_object): array
     {
         try {
+            if (isset($vevent->TRANSP)) {
+                /* return an empty event for not busy appointments */
+                $transparency = (string) $vevent->TRANSP;
+                if ($transparency == "TRANSPARENT") return [];
+            }
+
             $caldav_start_date_time = (string) $vevent->DTSTART;
             $start_date_time_object = $this->parse_date_time_object($caldav_start_date_time, $timezone_object);
             $start_date_time_object->setTimezone($timezone_object); // Convert to the provider timezone
