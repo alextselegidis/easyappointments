@@ -26,6 +26,7 @@ App.Pages.Services = (function () {
     const $attendantsNumber = $('#attendants-number');
     const $isPrivate = $('#is-private');
     const $location = $('#location');
+    const $emailNote = $('#email-note');
     const $description = $('#description');
     const $filterServices = $('#filter-services');
     const $color = $('#color');
@@ -127,6 +128,8 @@ App.Pages.Services = (function () {
             $serviceCategoryId.val('');
             $slotInterval.val('15');
             $attendantsNumber.val('1');
+			
+			$emailNote.summernote('reset');
         });
 
         /**
@@ -155,6 +158,8 @@ App.Pages.Services = (function () {
                 price: $price.val(),
                 currency: $currency.val(),
                 description: $description.val(),
+                // email_note: $emailNote.val(),
+                email_note: $emailNote.summernote('code'),
                 location: $location.val(),
                 color: App.Components.ColorSelection.getColor($color),
                 slot_interval: $slotInterval.val(),
@@ -330,6 +335,18 @@ App.Pages.Services = (function () {
         $('#service-providers a').remove();
 
         App.Components.ColorSelection.disable($color);
+		
+		$('#email-note').summernote({
+			height: 150,
+			minHeight: 100,
+			maxHeight: 300,
+			toolbar: [
+				['style', ['bold', 'underline']],
+				['para', ['ul', 'ol']], //, 'paragraph'
+			],
+			disableDragAndDrop: true,
+			disableResizeEditor: true
+		});
     }
 
     /**
@@ -344,6 +361,8 @@ App.Pages.Services = (function () {
         $price.val(service.price);
         $currency.val(service.currency);
         $description.val(service.description);
+        // $emailNote.val(service.email_note);
+        $emailNote.summernote('code', service.email_note || '');
         $location.val(service.location);
         $slotInterval.val(service.slot_interval);
         $attendantsNumber.val(service.attendants_number);
