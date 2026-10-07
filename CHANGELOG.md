@@ -27,6 +27,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- A company logo set through the settings API (`PUT /settings/company_logo`) is now saved as sent, instead of being
+  stored as `[removed]...` by the input filter, so the booking page shows the image
 - Removing every provider from a service on the services page is now saved, instead of silently keeping the previous
   provider assignments (#1965)
 - The asset and release build no longer fails with permission errors on the files that the Docker containers create
