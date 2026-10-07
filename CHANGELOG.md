@@ -7,6 +7,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Added
 
+- Emails now show the company logo of the general settings, when it is a PNG, JPEG or GIF image, instead of the
+  Easy!Appointments logo
 - A CalDAV section under Settings / Integrations, where the connection URLs that may point into the local network
   are listed
 - The calendar page now explains why a CalDAV synchronization failed and what has to be corrected, instead of only

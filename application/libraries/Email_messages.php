@@ -298,8 +298,42 @@ class Email_messages
             $php_mailer->AltBody = $plain_text;
         }
 
-        $php_mailer->addEmbeddedImage(FCPATH . 'assets/img/logo.png', 'logo.png', 'logo.png', 'base64', 'image/png');
+        $this->embed_logo($php_mailer);
 
         return $php_mailer;
+    }
+
+    /**
+     * Embed the logo that the email templates show (cid:logo.png).
+     *
+     * The company logo of the general settings is used when it is a PNG, JPEG or GIF data URL, the formats that mail
+     * clients show reliably. Otherwise the Easy!Appointments logo is used, as before.
+     *
+     * @param PHPMailer $php_mailer Mailer of the message.
+     *
+     * @throws Exception
+     */
+    private function embed_logo(PHPMailer $php_mailer): void
+    {
+        $company_logo = setting('company_logo');
+
+        if (
+            is_string($company_logo) &&
+            preg_match('#^data:image/(png|jpe?g|gif);base64,([A-Za-z0-9+/]+={0,2})$#', $company_logo, $matches)
+        ) {
+            $type = $matches[1] === 'jpg' ? 'jpeg' : $matches[1];
+
+            $php_mailer->addStringEmbeddedImage(
+                base64_decode($matches[2]),
+                'logo.png',
+                'logo.png',
+                'base64',
+                'image/' . $type,
+            );
+
+            return;
+        }
+
+        $php_mailer->addEmbeddedImage(FCPATH . 'assets/img/logo.png', 'logo.png', 'logo.png', 'base64', 'image/png');
     }
 }
