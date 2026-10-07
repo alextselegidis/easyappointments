@@ -117,13 +117,19 @@ class EA_Controller extends CI_Controller
         $query_language = request('language');
         $available_languages = config('available_languages');
 
-        // Priority: session > query param > default (english)
+        // Priority: query param > session > default (english). A language in the request also replaces the one in the
+        // session, so a page opened in it (for example through a link with ?language=) keeps it in its next requests:
+        // the available hours, the booking and its confirmation page, and the language saved with the customer.
         $language = null;
 
-        if ($session_language && in_array($session_language, $available_languages)) {
-            $language = $session_language;
-        } elseif ($query_language && in_array($query_language, $available_languages)) {
+        if ($query_language && in_array($query_language, $available_languages, true)) {
             $language = $query_language;
+
+            if ($session_language !== $language) {
+                session(['language' => $language]);
+            }
+        } elseif ($session_language && in_array($session_language, $available_languages)) {
+            $language = $session_language;
         }
 
         if ($language) {

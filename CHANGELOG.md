@@ -27,6 +27,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- A page opened with `?language=` now uses that language even when another one was chosen before in the same
+  browser, and keeps it in the next requests, so a booking made there is confirmed and emailed in that language
 - Removing every provider from a service on the services page is now saved, instead of silently keeping the previous
   provider assignments (#1965)
 - The asset and release build no longer fails with permission errors on the files that the Docker containers create
