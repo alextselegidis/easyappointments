@@ -104,6 +104,7 @@ class General_settings extends EA_Controller
         'terms_and_conditions_content',
         'display_privacy_policy',
         'privacy_policy_content',
+        'webhooks_enabled',
     ];
 
     /**
