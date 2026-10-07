@@ -27,6 +27,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- Two blocked periods on the same date, such as a morning and an evening one, no longer hide the free hours between
+  them; only a blocked period that covers the whole date closes the entire date
 - Removing every provider from a service on the services page is now saved, instead of silently keeping the previous
   provider assignments (#1965)
 - The asset and release build no longer fails with permission errors on the files that the Docker containers create
