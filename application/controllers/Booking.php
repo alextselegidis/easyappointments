@@ -280,6 +280,13 @@ class Booking extends EA_Controller
             $customer = null;
         }
 
+        // A private service stays off the list, but it opens through a direct link (?service=ID) or through the
+        // reschedule link of its appointment.
+        $available_services = $this->add_linked_private_service(
+            $available_services,
+            $manage_mode ? $appointment['id_services'] : request('service'),
+        );
+
         script_vars([
             'manage_mode' => $manage_mode,
             'available_services' => $available_services,
@@ -906,5 +913,42 @@ class Booking extends EA_Controller
         }
 
         return $provider_list;
+    }
+
+    /**
+     * Add a linked private service to the services of the booking page.
+     *
+     * Private services stay off the plain booking page list. When one of them is requested through a direct link
+     * (?service=ID) or belongs to the appointment that is being rescheduled, it is added so that it can be booked or
+     * managed. Only services that are assigned to at least one provider are added.
+     *
+     * @param array $available_services Public services of the booking page.
+     * @param mixed $service_id Requested service ID.
+     *
+     * @return array Returns the services of the booking page.
+     */
+    protected function add_linked_private_service(array $available_services, mixed $service_id): array
+    {
+        $service_id = filter_var($service_id, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+
+        if ($service_id === false) {
+            return $available_services;
+        }
+
+        foreach ($available_services as $available_service) {
+            if ((int) $available_service['id'] === $service_id) {
+                return $available_services; // Already listed as a public service.
+            }
+        }
+
+        foreach ($this->services_model->get_available_services() as $service) {
+            if ((int) $service['id'] === $service_id) {
+                $available_services[] = $service;
+
+                break;
+            }
+        }
+
+        return $available_services;
     }
 }
