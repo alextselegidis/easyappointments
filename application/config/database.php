@@ -4,7 +4,8 @@
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
 | -------------------------------------------------------------------
-| This file will contain the settings needed to access your database.
+| This file contains the database settings.
+| The settings are now saved in the config file for easy future updates.
 |
 | For complete instructions please consult the 'Database Connection'
 | page of the User Guide.
@@ -18,7 +19,7 @@
 |	['password'] The password used to connect to the database
 |	['database'] The name of the database you want to connect to
 |	['dbdriver'] The database type. ie: mysql.  Currently supported:
-				 mysql, mysqli, postgre, odbc, mssql, sqlite, oci8
+|				 mysql, mysqli, postgre, odbc, mssql, sqlite, oci8
 |	['dbprefix'] You can add an optional prefix, which will be added
 |				 to the table name when using the  Active Record class
 |	['pconnect'] TRUE/FALSE - Whether to use a persistent connection
@@ -46,24 +47,55 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = defined('Config::DB_ACTIVE_GROUP') && !empty(Config::DB_ACTIVE_GROUP) ? Config::DB_ACTIVE_GROUP : 'default';
 $query_builder = TRUE;
 
-$db['default']['hostname'] = Config::DB_HOST;
-$db['default']['username'] = Config::DB_USERNAME;
-$db['default']['password'] = Config::DB_PASSWORD;
-$db['default']['database'] = Config::DB_NAME;
-$db['default']['dbdriver'] = 'mysqli';
-$db['default']['dbprefix'] = 'ea_';
-$db['default']['pconnect'] = FALSE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8mb4';
-$db['default']['dbcollat'] = 'utf8mb4_unicode_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+/* ====================================================================
+ * ATTENTION
+ * ====================================================================
+ * The configuration settings below are default values.
+ * To customize them, please set your own values in the main config file
+ * (config.php) to ensure they persist across application updates.
+ * Have a look into "config-sample.php" for an example of how to set your
+ * own database settings.
+ * ====================================================================
+ */
+
+$base_db_settings = [
+    'hostname' => 'mysql',
+    'username' => 'user',
+    'password' => 'password',
+    'database' => 'easyappointments',
+    'dbdriver' => 'mysqli',
+    'dbprefix' => 'ea_',
+    'pconnect' => FALSE,
+    'db_debug' => TRUE,
+    'cache_on' => FALSE,
+    'cachedir' => '',
+    'char_set' => 'utf8mb4',
+    'dbcollat' => 'utf8mb4_unicode_ci',
+    'swap_pre' => '',
+    'autoinit' => TRUE,
+    'stricton' => FALSE,
+];
+
+// The default database settings use the old database settings for backward compatibility.
+$db['default']['hostname'] = defined('Config::DB_HOST') && !empty(Config::DB_HOST) ? Config::DB_HOST : $base_db_settings['hostname'];
+$db['default']['username'] = defined('Config::DB_USERNAME') && !empty(Config::DB_USERNAME) ? Config::DB_USERNAME : $base_db_settings['username'];
+$db['default']['password'] = defined('Config::DB_PASSWORD') && !empty(Config::DB_PASSWORD) ? Config::DB_PASSWORD : $base_db_settings['password'];
+$db['default']['database'] = defined('Config::DB_NAME') && !empty(Config::DB_NAME) ? Config::DB_NAME : $base_db_settings['database'];
+
+// The default database settings use the new database settings for backward compatibility
+$db['default'] = array_replace($base_db_settings, $db['default']);
+
+if (defined(Config::class . '::DB_SETTINGS') && is_array(Config::DB_SETTINGS)) {
+    foreach (Config::DB_SETTINGS as $group => $settings) {
+        $db[$group] = array_replace(
+            $base_db_settings,
+            $settings
+        );
+    }
+}
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
