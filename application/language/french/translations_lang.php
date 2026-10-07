@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Rendez-vous annulé';
 $lang['reason'] = 'Motif';
 $lang['appointment_removed_from_schedule'] = 'Le rendez-vous suivant a été supprimé de l’agenda.';
 $lang['appointment_details_was_sent_to_you'] = 'Un email reprenant les détails de votre rendez-vous vient de vous être envoyé.';
+$lang['appointment_management_link'] = 'Reprogrammer / annuler le rendez-vous';
 $lang['add_to_google_calendar'] = 'Ajouter à Google Calendar';
 $lang['appointment_booked'] = 'Votre rendez-vous a été confirmé avec succès.';
 $lang['thank_you_for_appointment'] = 'Merci de votre prise de rendez-vous avec nous. Vous trouvez ci-joint les détails de votre rendez-vous. Si nécessaire, faites les changements souhaités en cliquant sur le lien du rendez-vous.';

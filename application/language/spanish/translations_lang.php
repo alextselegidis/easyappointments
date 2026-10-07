@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Cita cancelada';
 $lang['reason'] = 'Razón';
 $lang['appointment_removed_from_schedule'] = 'Se eliminó esta cita de la agenda de la empresa.';
 $lang['appointment_details_was_sent_to_you'] = 'Se le ha enviado un correo electrónico con los detalles de la cita.';
+$lang['appointment_management_link'] = 'Reprogramar / cancelar cita';
 $lang['add_to_google_calendar'] = 'Agregar a Google Calendar';
 $lang['appointment_booked'] = 'Su cita ha sido agendada exitosamente';
 $lang['thank_you_for_appointment'] = 'Gracias por utilizar nuestro servicio para agendar su cita.  Debajo encontrará los detalles de su cita. Haga clic en la cita para realizar cambios.';

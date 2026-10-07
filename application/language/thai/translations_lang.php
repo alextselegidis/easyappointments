@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'การนัดหมายถูก�
 $lang['reason'] = 'เหตุผล';
 $lang['appointment_removed_from_schedule'] = 'การนัดหมายต่อไปนี้ถูกลบออกจากกำหนดการของบริษัท';
 $lang['appointment_details_was_sent_to_you'] = 'อีเมลพร้อมรายละเอียดการนัดหมายได้ถูกส่งไปยังคุณแล้ว';
+$lang['appointment_management_link'] = 'เลื่อนนัดหมาย / ยกเลิกนัดหมาย';
 $lang['add_to_google_calendar'] = 'เพิ่มลงใน Google ปฏิทิน';
 $lang['appointment_booked'] = 'การนัดหมายของคุณได้รับการจองเรียบร้อยแล้ว';
 $lang['thank_you_for_appointment'] = 'ขอบคุณที่จัดการการนัดหมายกับเรา คุณสามารถดูรายละเอียดการนัดหมายได้ที่ด้านล่างนี้ คลิกลิงก์การนัดหมายเพื่อทำการเปลี่ยนแปลง';

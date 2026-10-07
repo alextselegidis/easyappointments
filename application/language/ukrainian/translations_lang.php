@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Запис скасовано';
 $lang['reason'] = 'Причина';
 $lang['appointment_removed_from_schedule'] = 'Наступний запис був видалений з розкладу компанії.';
 $lang['appointment_details_was_sent_to_you'] = 'На вашу електронну пошту надіслано лист з деталями запису.';
+$lang['appointment_management_link'] = 'Перенести / скасувати запис';
 $lang['add_to_google_calendar'] = 'Додати в Google Календар';
 $lang['appointment_booked'] = 'Ваш запис успішно заброньовано';
 $lang['thank_you_for_appointment'] = 'Дякуємо, що записались на прийом до нас. Нижче ви можете побачити деталі запису. Зміни можна внести, натиснувши на посилання запису.';

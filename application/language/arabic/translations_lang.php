@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'تم إلغاء الموعد';
 $lang['reason'] = 'السبب';
 $lang['appointment_removed_from_schedule'] = 'المواعيد التالية تم حذفها من الجدول';
 $lang['appointment_details_was_sent_to_you'] = 'تم إرسال تفاصيل الموعد الى البريد الالكتروني الخاص بك';
+$lang['appointment_management_link'] = 'إعادة جدولة / إلغاء الموعد';
 $lang['add_to_google_calendar'] = 'اضافة تقويم جوجل';
 $lang['appointment_booked'] = '!تم حجز الموعد بنجاح';
 $lang['thank_you_for_appointment'] = 'شكرا لحجزك معنا موعد . تستطيع رؤية تفاصيل الموعد والحجز أدناه . يمكنك التعديل عليه بالضغط على الرابط.';

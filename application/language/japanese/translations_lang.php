@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = '予約がキャンセルされました�
 $lang['reason'] = '理由';
 $lang['appointment_removed_from_schedule'] = '以下の予約が会社のスケジュールから削除されました。';
 $lang['appointment_details_was_sent_to_you'] = '予約の詳細についてもメールが送信されました。';
+$lang['appointment_management_link'] = '予約の変更 / キャンセル';
 $lang['add_to_google_calendar'] = 'グーグルカレンダーへの予約の登録';
 $lang['appointment_booked'] = 'お客様の予約が登録完了しました。';
 $lang['thank_you_for_appointment'] = '予約の登録まことにありがとうございました。下記が予約の詳細となります。予約リンクをクリックすると変更が可能です。';

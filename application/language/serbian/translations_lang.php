@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Vreme posete je otkazano';
 $lang['reason'] = 'Razlog';
 $lang['appointment_removed_from_schedule'] = 'Ova poseta je uklonjena iz našeg kalendara.';
 $lang['appointment_details_was_sent_to_you'] = 'E-mail sa detaljima Vaše posete je poslat na Vašu adresu';
+$lang['appointment_management_link'] = 'Promeni termin / otkaži termin';
 $lang['add_to_google_calendar'] = 'Dodajte u Google kalendar';
 $lang['appointment_booked'] = 'Vaše vreme posete je zakazano!';
 $lang['thank_you_for_appointment'] = 'Hvala Vam na poverenju. Detalje posete možete pogledati ispod. Unesite izmene pritiskom na Make changes by clicking the appointment link.';

@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'لغو ملاقات';
 $lang['reason'] = 'دلیل';
 $lang['appointment_removed_from_schedule'] = 'این قرار از برنامه شرکت حذف شده است';
 $lang['appointment_details_was_sent_to_you'] = 'جزئیات قرار ملاقات به پست الکترونیکی شما ارسال گردید';
+$lang['appointment_management_link'] = 'تغییر زمان / لغو نوبت';
 $lang['add_to_google_calendar'] = 'افزودن به تقویم گوگل';
 $lang['appointment_booked'] = 'قرار ملاقات با موفقیت ثبت شد';
 $lang['thank_you_for_appointment'] = 'از اینکه قرار ملاقاتی با ما ثبت کردید، متشکریم. در قسمت زیر می توانید جزئیات قرار را مشاهده کنید و در صورت لزوم با کلیک بر لینک، تغییراتی اعمال نمایید';

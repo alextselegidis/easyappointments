@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Időpont lemondva';
 $lang['reason'] = 'Ok';
 $lang['appointment_removed_from_schedule'] = 'A következő időpont el lett távolítva a cég beosztásából';
 $lang['appointment_details_was_sent_to_you'] = 'Egy emailt küldtünk a foglalás részleteivel.';
+$lang['appointment_management_link'] = 'Időpont módosítása / lemondása';
 $lang['add_to_google_calendar'] = 'Az időpont Google naptárba való felvétele';
 $lang['appointment_booked'] = 'Az időpontod sikeresen lefoglalva.';
 $lang['thank_you_for_appointment'] = 'Köszönjük, hogy nálunk foglaltál időpontot. Lent a foglalás részleteit látod. Változtatni az időpont linkjére kattintva tudsz.';

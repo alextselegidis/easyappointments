@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Afspraak geannuleerd';
 $lang['reason'] = 'Reden';
 $lang['appointment_removed_from_schedule'] = 'De volgende afspraak is verwijderd van de agenda van dit bedrijf.';
 $lang['appointment_details_was_sent_to_you'] = 'Een e-mail met de details van de afspraak is naar u verzonden.';
+$lang['appointment_management_link'] = 'Afspraak verplaatsen / annuleren';
 $lang['add_to_google_calendar'] = 'Voeg toe aan Google Agenda.';
 $lang['appointment_booked'] = 'Uw afspraak is met succes geboekt.';
 $lang['thank_you_for_appointment'] = 'Bedankt voor het maken van een afspraak met ons! Hieronder vindt u de details van de afspraak. Breng  eventuele wijzigingen aan door te klikken op de afspraak link.';

@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Broneering tühistatud';
 $lang['reason'] = 'Põhjus';
 $lang['appointment_removed_from_schedule'] = 'Broneering on kalendrist eemaldatud.';
 $lang['appointment_details_was_sent_to_you'] = 'Broneeringu detailid saadeti ka e-postiga.';
+$lang['appointment_management_link'] = 'Muuda / tühista broneering';
 $lang['add_to_google_calendar'] = 'Lisa Google\'i kalendrisse';
 $lang['appointment_booked'] = 'Aja broneerimine õnnestus.';
 $lang['thank_you_for_appointment'] = 'Suur tänu aja broneerimise eest. Broneeringu info on toodud allpool. Muutusi saab teha vajutades broneeringu nupule.';

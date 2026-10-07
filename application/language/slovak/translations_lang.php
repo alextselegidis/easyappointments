@@ -36,6 +36,7 @@ $lang['appointment_cancelled_title'] = 'Rezervácia zrušená';
 $lang['reason'] = 'Dôvod';
 $lang['appointment_removed_from_schedule'] = 'Rezervácia bola odstránená z nášho kalendára.';
 $lang['appointment_details_was_sent_to_you'] = 'E-mail s podrobnosťami Vašej rezervácie Vám bol odoslaný na email, ktorý ste zadali pri rezervácií.';
+$lang['appointment_management_link'] = 'Preplánovať / zrušiť stretnutie';
 $lang['add_to_google_calendar'] = 'Pridať do Google Calendar';
 $lang['appointment_booked'] = 'Váš termín bol úspešne rezervovaný.';
 $lang['thank_you_for_appointment'] = 'Ďakujeme Vám za Vašu rezerváciu našich služieb. Nižšie si môžete prezrieť podrobnosti.  Zmeny vykonajte kliknutím na odkaz.';
