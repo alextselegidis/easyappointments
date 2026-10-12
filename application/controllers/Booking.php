@@ -446,7 +446,7 @@ class Booking extends EA_Controller
             }
 
             // Check appointment availability before registering it to the database.
-            $appointment['id_users_provider'] = $this->check_datetime_availability();
+            $appointment['id_users_provider'] = $this->check_datetime_availability($appointment);
 
             if (!$appointment['id_users_provider']) {
                 throw new RuntimeException(lang('requested_hour_is_unavailable'));
@@ -610,16 +610,14 @@ class Booking extends EA_Controller
      * Use this method just before the customer confirms the appointment registration. If the selected date was reserved
      * in the meanwhile, the customer must be prompted to select another time.
      *
+     * @param array $appointment Sanitized appointment data, its ID is only kept for a verified manage mode request.
+     *
      * @return int|null Returns the ID of the provider that is available for the appointment.
      *
      * @throws Exception
      */
-    protected function check_datetime_availability(): ?int
+    protected function check_datetime_availability(array $appointment): ?int
     {
-        $post_data = request('post_data');
-
-        $appointment = $post_data['appointment'];
-
         $appointment_start = new DateTime($appointment['start_datetime']);
 
         $date = $appointment_start->format('Y-m-d');

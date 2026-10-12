@@ -104,6 +104,8 @@ developers to maintain and readjust their custom modifications on the main proje
   as an administrator account, than the one in the URL
 - Security: Saving or deleting a provider, secretary or admin now only affects users of that role, so an
   administrator account can no longer be overwritten or deleted, or a role changed, through another user type
+- Security: A new booking can no longer be placed on an already booked time slot by sending the ID of the existing
+  appointment along with the booking request
 
 ## [1.6.0] - 2026-05-27
 
