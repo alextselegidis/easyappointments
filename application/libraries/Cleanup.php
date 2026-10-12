@@ -163,7 +163,7 @@ class Cleanup
                 FROM `" .
                 $db->dbprefix('appointments') .
                 "`
-                WHERE end_datetime >= ?
+                WHERE end_datetime >= ? AND id_users_customer IS NOT NULL
             )
             AND c.create_datetime < ?
         ",

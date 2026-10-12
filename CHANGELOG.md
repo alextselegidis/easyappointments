@@ -110,6 +110,8 @@ developers to maintain and readjust their custom modifications on the main proje
   customers they have no appointments with through the calendar page
 - Enabling ALTCHA without generating an HMAC key no longer rejects every login and booking, the key is now created
   and stored on first use
+- The customer data retention cleanup now removes inactive customers again, instead of removing none of them
+  whenever an unavailability ends after the retention cutoff
 
 ## [1.6.0] - 2026-05-27
 
