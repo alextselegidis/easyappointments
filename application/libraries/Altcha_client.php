@@ -57,8 +57,10 @@ class Altcha_client
         $hmac_key = setting('altcha_hmac_key');
 
         if (empty($hmac_key)) {
-            // Generate a default key if not set
+            // Generate and store a key if not set, so that the challenge and its verification use the same one
             $hmac_key = bin2hex(random_bytes(32));
+
+            setting(['altcha_hmac_key' => $hmac_key]);
         }
 
         return $hmac_key;

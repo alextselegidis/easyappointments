@@ -108,6 +108,8 @@ developers to maintain and readjust their custom modifications on the main proje
   appointment along with the booking request
 - Security: With limited customer access, providers and secretaries can no longer edit or book appointments for
   customers they have no appointments with through the calendar page
+- Enabling ALTCHA without generating an HMAC key no longer rejects every login and booking, the key is now created
+  and stored on first use
 
 ## [1.6.0] - 2026-05-27
 
