@@ -91,6 +91,7 @@
         "classmap-authoritative": true,
         "preferred-install": "dist",
         "sort-packages": true,
-        "apcu-autoloader": true
+        "apcu-autoloader": true,
+        "platform-check": false
     }
 }
