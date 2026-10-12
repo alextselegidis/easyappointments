@@ -85,6 +85,8 @@ class Settings_api_v1 extends EA_Controller
     public function show(string $name): void
     {
         try {
+            $this->check_name($name);
+
             if (in_array($name, self::PROTECTED_SETTINGS, true)) {
                 abort(403, 'This setting cannot be read through the API.');
             }
@@ -108,6 +110,8 @@ class Settings_api_v1 extends EA_Controller
     public function update(string $name): void
     {
         try {
+            $this->check_name($name);
+
             if (in_array($name, self::PROTECTED_SETTINGS, true)) {
                 abort(403, 'This setting cannot be changed through the API.');
             }
@@ -122,6 +126,21 @@ class Settings_api_v1 extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Reject setting names that are not in their canonical form.
+     *
+     * The settings table uses a case and accent insensitive collation, so a name like "API_TOKEN" or "api_token " would
+     * reach a protected setting while passing the exact-match check against PROTECTED_SETTINGS.
+     *
+     * @param string $name Setting name.
+     */
+    private function check_name(string $name): void
+    {
+        if (!preg_match('/^[a-z0-9_]+$/', $name)) {
+            abort(400, 'The setting name may only contain lowercase letters, digits and underscores.');
         }
     }
 }
