@@ -177,6 +177,9 @@ class Providers_api_v1 extends EA_Controller
 
             $this->providers_model->api_decode($provider, $original_provider);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $provider['id'] = $id;
+
             $provider_id = $this->providers_model->save($provider);
 
             $updated_provider = $this->providers_model->find($provider_id);

@@ -161,6 +161,9 @@ class Unavailabilities_api_v1 extends EA_Controller
 
             $this->unavailabilities_model->api_decode($unavailability, $original_unavailability);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $unavailability['id'] = $id;
+
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
             $updated_unavailability = $this->unavailabilities_model->find($unavailability_id);

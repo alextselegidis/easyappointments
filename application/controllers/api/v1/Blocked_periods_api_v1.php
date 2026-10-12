@@ -187,6 +187,9 @@ class Blocked_periods_api_v1 extends EA_Controller
 
             $this->blocked_periods_model->api_decode($blocked_period, $original_blocked_period);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $blocked_period['id'] = $id;
+
             $blocked_period_id = $this->blocked_periods_model->save($blocked_period);
 
             $updated_blocked_period = $this->blocked_periods_model->find($blocked_period_id);
