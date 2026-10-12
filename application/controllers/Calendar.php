@@ -367,6 +367,15 @@ class Calendar extends EA_Controller
                     $customer['id'] = $this->customers_model->find_record_id($customer);
                 }
 
+                if (
+                    !empty($customer['id']) &&
+                    !$this->permissions->has_customer_access((int) session('user_id'), (int) $customer['id'])
+                ) {
+                    abort(403, 'Forbidden');
+                }
+
+                $is_new_customer = empty($customer['id']);
+
                 $customer['id'] = $this->customers_model->save($customer);
             }
 
@@ -388,6 +397,21 @@ class Calendar extends EA_Controller
 
                 if (!isset($appointment['id_users_customer'])) {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
+                }
+
+                // A customer that was just created has no appointments yet, any other one must be accessible.
+                $is_created_customer =
+                    !empty($is_new_customer) && (int) $appointment['id_users_customer'] === (int) $customer['id'];
+
+                if (
+                    !$is_created_customer &&
+                    !empty($appointment['id_users_customer']) &&
+                    !$this->permissions->has_customer_access(
+                        (int) session('user_id'),
+                        (int) $appointment['id_users_customer'],
+                    )
+                ) {
+                    abort(403, 'Forbidden');
                 }
 
                 // Check if the provider has a conflicting appointment at the selected time

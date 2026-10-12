@@ -106,6 +106,8 @@ developers to maintain and readjust their custom modifications on the main proje
   administrator account can no longer be overwritten or deleted, or a role changed, through another user type
 - Security: A new booking can no longer be placed on an already booked time slot by sending the ID of the existing
   appointment along with the booking request
+- Security: With limited customer access, providers and secretaries can no longer edit or book appointments for
+  customers they have no appointments with through the calendar page
 
 ## [1.6.0] - 2026-05-27
 

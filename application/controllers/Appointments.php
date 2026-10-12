@@ -53,6 +53,7 @@ class Appointments extends EA_Controller
         $this->load->model('roles_model');
 
         $this->load->library('accounts');
+        $this->load->library('permissions');
         $this->load->library('timezones');
         $this->load->library('webhooks_client');
     }
@@ -170,6 +171,13 @@ class Appointments extends EA_Controller
 
             $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
+            if (
+                !empty($appointment['id_users_customer']) &&
+                !$this->permissions->has_customer_access($user_id, (int) $appointment['id_users_customer'])
+            ) {
+                abort(403, 'Forbidden');
+            }
+
             $appointment_id = $this->appointments_model->save($appointment);
 
             $appointment = $this->appointments_model->find($appointment_id);
@@ -249,6 +257,13 @@ class Appointments extends EA_Controller
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
             $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
+
+            if (
+                !empty($appointment['id_users_customer']) &&
+                !$this->permissions->has_customer_access($user_id, (int) $appointment['id_users_customer'])
+            ) {
+                abort(403, 'Forbidden');
+            }
 
             $appointment_id = $this->appointments_model->save($appointment);
 
