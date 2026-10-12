@@ -85,6 +85,9 @@ class Recovery extends EA_Controller
                     $captcha = request('captcha');
                     $captcha_phrase = session('captcha_phrase');
 
+                    // A phrase is valid for a single attempt, so that one solved image cannot be replayed
+                    $this->session->unset_userdata('captcha_phrase');
+
                     if (
                         empty($captcha_phrase) ||
                         empty($captcha) ||
@@ -249,6 +252,9 @@ class Recovery extends EA_Controller
                 } else {
                     $captcha = request('captcha');
                     $captcha_phrase = session('captcha_phrase');
+
+                    // A phrase is valid for a single attempt, so that one solved image cannot be replayed
+                    $this->session->unset_userdata('captcha_phrase');
 
                     if (
                         empty($captcha_phrase) ||

@@ -115,6 +115,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Two short blocked periods on the same day no longer hide all the available hours of that day on the booking page
 - Services with multiple attendants no longer offer a time slot that contains a shorter appointment of the same
   provider, which led to double bookings
+- Security: A solved CAPTCHA image is now only valid for one attempt, so it can no longer be reused for repeated
+  login, password recovery or booking requests
 
 ## [1.6.0] - 2026-05-27
 
