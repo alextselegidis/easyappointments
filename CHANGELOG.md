@@ -102,6 +102,8 @@ developers to maintain and readjust their custom modifications on the main proje
   writing their name in a different letter case
 - Security: An ID in the body of a REST API update request no longer redirects the update to another record, such
   as an administrator account, than the one in the URL
+- Security: Saving or deleting a provider, secretary or admin now only affects users of that role, so an
+  administrator account can no longer be overwritten or deleted, or a role changed, through another user type
 
 ## [1.6.0] - 2026-05-27
 

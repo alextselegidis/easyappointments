@@ -81,9 +81,16 @@ class Providers_model extends EA_Model
      */
     public function validate(array $provider): void
     {
-        // If a provider ID is provided then check whether the record really exists in the database.
+        // If a provider ID is provided then check whether the record really exists in the database and that it is
+        // bound to the provider role, so that the ID cannot target another kind of user (e.g. an administrator).
         if (!empty($provider['id'])) {
-            $count = $this->db->get_where('users', ['id' => $provider['id']])->num_rows();
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('users.id', $provider['id'])
+                ->where('roles.slug', DB_SLUG_PROVIDER)
+                ->get()
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -407,6 +414,8 @@ class Providers_model extends EA_Model
      */
     protected function update(array $provider): int
     {
+        $provider['id_roles'] = $this->get_provider_role_id();
+
         $provider['update_datetime'] = date('Y-m-d H:i:s');
 
         $service_ids = $provider['services'];
@@ -469,7 +478,7 @@ class Providers_model extends EA_Model
      */
     public function delete(int $provider_id): void
     {
-        $this->db->delete('users', ['id' => $provider_id]);
+        $this->db->delete('users', ['id' => $provider_id, 'id_roles' => $this->get_provider_role_id()]);
     }
 
     /**
