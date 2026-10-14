@@ -733,6 +733,10 @@ class Appointments_model extends EA_Model
         ?int $exclude_appointment_id = null,
         bool $appointments_only = false,
     ): bool {
+        if (!validate_datetime($start_datetime) || !validate_datetime($end_datetime)) {
+            throw new InvalidArgumentException('The provided start or end date time is invalid.');
+        }
+
         $this->db->select('id')->from('appointments')->where('id_users_provider', $provider_id);
 
         if ($exclude_appointment_id) {
