@@ -51,6 +51,17 @@ class BlockedPeriodsModelTest extends TestCase
         ]);
     }
 
+    public function testValidateThrowsWhenDatetimeIsMalformed(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->blocked_periods_model()->validate([
+            'name' => 'Holiday',
+            'start_datetime' => 'zzz',
+            'end_datetime' => '2026-01-01 17:00:00',
+        ]);
+    }
+
     public function testValidateThrowsWhenStartIsAfterEnd(): void
     {
         $this->expectException(InvalidArgumentException::class);

@@ -91,6 +91,13 @@ class Blocked_periods_model extends EA_Model
             );
         }
 
+        if (
+            !validate_datetime($blocked_period['start_datetime']) ||
+            !validate_datetime($blocked_period['end_datetime'])
+        ) {
+            throw new InvalidArgumentException('The blocked-period start or end date time is invalid.');
+        }
+
         // Make sure that the start date time is before the end.
         $start_date_time_object = new DateTime($blocked_period['start_datetime']);
         $end_date_time_object = new DateTime($blocked_period['end_datetime']);
