@@ -18,6 +18,14 @@
     background: rgba(0, 0, 0, 0.2);
 }
 
+/* Keep the menu links white on the accent background, some themes (e.g. Flatly) recolor them on hover */
+#header #header-menu .nav-link:hover,
+#header #header-menu .nav-link:focus,
+#header #header-menu .nav-link.active,
+#header #header-menu .show > .nav-link {
+    color: var(--bs-white) !important;
+}
+
 /* Notification positioning */
 #notification .alert {
     margin-bottom: 0;
