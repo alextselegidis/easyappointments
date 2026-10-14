@@ -117,6 +117,7 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-btn-active-border-color: var(--ea-primary-active);
         --bs-btn-disabled-bg: var(--bs-primary);
         --bs-btn-disabled-border-color: var(--bs-primary);
+        --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
     }
 
     .btn-outline-primary {
@@ -130,6 +131,7 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-btn-active-border-color: var(--ea-primary-active);
         --bs-btn-disabled-color: var(--bs-primary);
         --bs-btn-disabled-border-color: var(--bs-primary);
+        --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
     }
 
 

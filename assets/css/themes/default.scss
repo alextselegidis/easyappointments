@@ -327,7 +327,7 @@ h6,
 
 // Text primary color fix
 .text-primary {
-    color: $primary !important;
+    color: var(--bs-primary) !important;
 }
 
 // Navbar - Glass effect
@@ -380,26 +380,31 @@ h6,
     }
 }
 
+// Use the CSS variables so a company color set at runtime overrides the theme color.
 .btn-primary {
-    background: linear-gradient(180deg, lighten($primary, 5%) 0%, $primary 100%);
+    background: linear-gradient(180deg, var(--ea-primary-hover, #{lighten($primary, 5%)}) 0%, var(--bs-primary) 100%);
     border: none;
-    box-shadow: 0 1px 3px rgba($primary, 0.3);
+    box-shadow: 0 1px 3px rgba(var(--bs-primary-rgb), 0.3);
 
     &:hover {
-        background: linear-gradient(180deg, $primary 0%, darken($primary, 5%) 100%);
-        box-shadow: 0 4px 12px rgba($primary, 0.35);
+        background: linear-gradient(
+            180deg,
+            var(--bs-primary) 0%,
+            var(--ea-primary-active, #{darken($primary, 5%)}) 100%
+        );
+        box-shadow: 0 4px 12px rgba(var(--bs-primary-rgb), 0.35);
     }
 }
 
 .btn-secondary {
-    color: $primary;
+    color: var(--bs-primary);
     background: $gray-100;
     border: 1px solid $gray-300;
 
     &:hover {
         background: $gray-200;
         border-color: $gray-400;
-        color: darken($primary, 10%);
+        color: var(--ea-primary-active, #{darken($primary, 10%)});
     }
 }
 
