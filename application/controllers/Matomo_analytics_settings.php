@@ -87,6 +87,15 @@ class Matomo_analytics_settings extends EA_Controller
             $settings = request('matomo_analytics_settings', []);
 
             foreach ($settings as $setting) {
+                if (!isset($setting['name']) || !str_starts_with((string) $setting['name'], 'matomo_analytics_')) {
+                    continue;
+                }
+
+                // The booking pages append "matomo.js" to this value, so it must be an absolute URL ending with a slash.
+                if ($setting['name'] === 'matomo_analytics_url' && !empty($setting['value'])) {
+                    $setting['value'] = rtrim(validate_url((string) $setting['value']), '/') . '/';
+                }
+
                 $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
 
                 if (!empty($existing_setting)) {
