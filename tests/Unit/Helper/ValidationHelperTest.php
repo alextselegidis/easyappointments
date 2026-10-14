@@ -15,4 +15,17 @@ class ValidationHelperTest extends TestCase
     {
         $this->assertFalse(validate_datetime('invalid'));
     }
+
+    public function testValidateColorAcceptsHexValues()
+    {
+        $this->assertTrue(validate_color('#7cbae8'));
+        $this->assertTrue(validate_color('#FFF'));
+    }
+
+    public function testValidateColorRejectsNonHexValues()
+    {
+        $this->assertFalse(validate_color('javascript:alert(1)'));
+        $this->assertFalse(validate_color('red" onmouseover="x'));
+        $this->assertFalse(validate_color('#12345'));
+    }
 }

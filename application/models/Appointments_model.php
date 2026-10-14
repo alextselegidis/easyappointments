@@ -122,6 +122,11 @@ class Appointments_model extends EA_Model
             validate_url($appointment['meeting_link']);
         }
 
+        // Make sure the color is a hex value, as it is rendered into the calendar markup.
+        if (!empty($appointment['color']) && !validate_color((string) $appointment['color'])) {
+            throw new InvalidArgumentException('The provided appointment color is invalid: ' . $appointment['color']);
+        }
+
         // Make the appointment lasts longer than the minimum duration (in minutes).
         $diff = (strtotime($appointment['end_datetime']) - strtotime($appointment['start_datetime'])) / 60;
 

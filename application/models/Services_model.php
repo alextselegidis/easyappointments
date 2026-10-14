@@ -107,6 +107,11 @@ class Services_model extends EA_Model
             }
         }
 
+        // Make sure the color is a hex value, as it is rendered into the calendar markup.
+        if (!empty($service['color']) && !validate_color((string) $service['color'])) {
+            throw new InvalidArgumentException('The provided service color is invalid: ' . $service['color']);
+        }
+
         // Make sure the duration value is valid.
         if (!empty($service['duration'])) {
             if ((int) $service['duration'] < EVENT_MINIMUM_DURATION) {

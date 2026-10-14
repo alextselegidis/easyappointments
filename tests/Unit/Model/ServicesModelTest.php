@@ -69,6 +69,17 @@ class ServicesModelTest extends TestCase
         $this->services_model()->validate(['name' => 'Haircut', 'attendants_number' => 0]);
     }
 
+    public function testValidateThrowsWhenColorIsNotAHexValue(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->services_model()->validate([
+            'name' => 'Haircut',
+            'color' => 'red" onmouseover="x',
+            'attendants_number' => 1,
+        ]);
+    }
+
     public function testValidatePassesForAFullyValidPayload(): void
     {
         $this->services_model()->validate(['name' => 'Haircut', 'attendants_number' => 1]);

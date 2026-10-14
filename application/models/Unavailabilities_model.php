@@ -108,6 +108,13 @@ class Unavailabilities_model extends EA_Model
             throw new InvalidArgumentException('The unavailability end date time is invalid.');
         }
 
+        // Make sure the color is a hex value, as it is rendered into the calendar markup.
+        if (!empty($unavailability['color']) && !validate_color((string) $unavailability['color'])) {
+            throw new InvalidArgumentException(
+                'The provided unavailability color is invalid: ' . $unavailability['color'],
+            );
+        }
+
         // Make the unavailability lasts longer than the minimum duration (in minutes).
         $diff = (strtotime($unavailability['end_datetime']) - strtotime($unavailability['start_datetime'])) / 60;
 
