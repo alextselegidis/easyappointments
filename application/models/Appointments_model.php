@@ -147,7 +147,7 @@ class Appointments_model extends EA_Model
             );
         }
 
-        if (!filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!filter_var($appointment['is_unavailability'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
             // Make sure the customer ID really exists in the database.
             $count = $this->db
                 ->select()
