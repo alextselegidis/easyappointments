@@ -117,6 +117,20 @@ class Secretaries_model extends EA_Model
                     );
                 }
             }
+
+            // Make sure the provided providers exist in the database.
+            $provider_ids = array_unique(array_map('intval', $secretary['providers']));
+
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where_in('users.id', $provider_ids)
+                ->where('roles.slug', DB_SLUG_PROVIDER)
+                ->count_all_results();
+
+            if ($count !== count($provider_ids)) {
+                throw new InvalidArgumentException('The provided secretary providers were not found in the database.');
+            }
         }
 
         // Make sure the username is unique.

@@ -119,6 +119,15 @@ class Providers_model extends EA_Model
                     );
                 }
             }
+
+            // Make sure the provided services exist in the database.
+            $service_ids = array_unique(array_map('intval', $provider['services']));
+
+            $count = $this->db->where_in('id', $service_ids)->count_all_results('services');
+
+            if ($count !== count($service_ids)) {
+                throw new InvalidArgumentException('The provided provider services were not found in the database.');
+            }
         }
 
         // Make sure the username is unique.

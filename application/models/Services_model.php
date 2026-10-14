@@ -136,6 +136,22 @@ class Services_model extends EA_Model
                 'The provided attendants number is invalid: ' . ($service['attendants_number'] ?? ''),
             );
         }
+
+        // Make sure the provided providers exist in the database.
+        if (!empty($service['providers'])) {
+            $provider_ids = array_unique(array_map('intval', $service['providers']));
+
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where_in('users.id', $provider_ids)
+                ->where('roles.slug', DB_SLUG_PROVIDER)
+                ->count_all_results();
+
+            if ($count !== count($provider_ids)) {
+                throw new InvalidArgumentException('The provided service providers were not found in the database.');
+            }
+        }
     }
 
     /**
