@@ -71,9 +71,9 @@ class Working_plan_exceptions extends EA_Controller
 
             $order_by = request('order_by', 'date ASC');
 
-            $limit = request('limit', 1000);
+            $limit = max(1, (int) request('limit', 1000));
 
-            $offset = (int) request('offset', '0');
+            $offset = max(0, (int) request('offset', '0'));
 
             $provider_id = request('provider_id');
 
