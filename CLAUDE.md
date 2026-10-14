@@ -41,7 +41,7 @@ CodeIgniter 3 in `system/`, which is framework code and should not be edited.
 ## Changelog
 
 - Add user facing changes to the `[Unreleased]` section of `CHANGELOG.md`, under `Added`, `Changed` or `Fixed`.
-- Keep every changelog line at 120 characters or less, wrapping longer entries.
+- Write every changelog entry on a single line, never wrapping it, regardless of its length.
 - Write entries for end users, describing the effect of the change, and append the issue number when there is one.
 
 ## Commits
