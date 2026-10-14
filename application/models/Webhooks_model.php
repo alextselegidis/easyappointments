@@ -76,6 +76,16 @@ class Webhooks_model extends EA_Model
         if (empty($webhook['name']) || empty($webhook['url'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($webhook, true));
         }
+
+        validate_url($webhook['url']);
+
+        // The secret header is sent as an HTTP header name, so it may only contain RFC 7230 token characters.
+        if (
+            !empty($webhook['secret_header']) &&
+            !preg_match('/^[!#$%&\'*+.^_`|~0-9A-Za-z-]+$/', $webhook['secret_header'])
+        ) {
+            throw new InvalidArgumentException('The provided secret header is not a valid HTTP header name.');
+        }
     }
 
     /**
