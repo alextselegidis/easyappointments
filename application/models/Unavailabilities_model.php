@@ -77,7 +77,9 @@ class Unavailabilities_model extends EA_Model
     {
         // If an unavailability ID is provided then check whether the record really exists in the database.
         if (!empty($unavailability['id'])) {
-            $count = $this->db->get_where('appointments', ['id' => $unavailability['id']])->num_rows();
+            $count = $this->db
+                ->get_where('appointments', ['id' => $unavailability['id'], 'is_unavailability' => true])
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -220,7 +222,7 @@ class Unavailabilities_model extends EA_Model
      */
     public function delete(int $unavailability_id): void
     {
-        $this->db->delete('appointments', ['id' => $unavailability_id]);
+        $this->db->delete('appointments', ['id' => $unavailability_id, 'is_unavailability' => true]);
     }
 
     /**
@@ -234,7 +236,9 @@ class Unavailabilities_model extends EA_Model
      */
     public function find(int $unavailability_id): array
     {
-        $unavailability = $this->db->get_where('appointments', ['id' => $unavailability_id])->row_array();
+        $unavailability = $this->db
+            ->get_where('appointments', ['id' => $unavailability_id, 'is_unavailability' => true])
+            ->row_array();
 
         if (!$unavailability) {
             throw new InvalidArgumentException(

@@ -81,7 +81,9 @@ class Appointments_model extends EA_Model
     {
         // If an appointment ID is provided then check whether the record really exists in the database.
         if (!empty($appointment['id'])) {
-            $count = $this->db->get_where('appointments', ['id' => $appointment['id']])->num_rows();
+            $count = $this->db
+                ->get_where('appointments', ['id' => $appointment['id'], 'is_unavailability' => false])
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -260,7 +262,9 @@ class Appointments_model extends EA_Model
      */
     public function find(int $appointment_id): array
     {
-        $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
+        $appointment = $this->db
+            ->get_where('appointments', ['id' => $appointment_id, 'is_unavailability' => false])
+            ->row_array();
 
         if (!$appointment) {
             throw new InvalidArgumentException(
@@ -369,7 +373,7 @@ class Appointments_model extends EA_Model
      */
     public function delete(int $appointment_id): void
     {
-        $this->db->delete('appointments', ['id' => $appointment_id]);
+        $this->db->delete('appointments', ['id' => $appointment_id, 'is_unavailability' => false]);
     }
 
     /**
