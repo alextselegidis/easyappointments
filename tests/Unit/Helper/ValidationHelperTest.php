@@ -16,6 +16,12 @@ class ValidationHelperTest extends TestCase
         $this->assertFalse(validate_datetime('invalid'));
     }
 
+    public function testValidateDateTimeReturnsFalseOnOutOfRangeValue()
+    {
+        $this->assertFalse(validate_datetime('2024-02-30 10:00:00'));
+        $this->assertFalse(validate_datetime('2024-13-01 25:61:00'));
+    }
+
     public function testValidateColorAcceptsHexValues()
     {
         $this->assertTrue(validate_color('#7cbae8'));
