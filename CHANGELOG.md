@@ -16,6 +16,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Changed
 
+- When the selected service has a single provider, the booking page no longer asks the customer to choose
+  one: the provider is selected and the provider drop-down stays hidden
 - Changing the password in the account settings page now requires the current password, so that a stolen session
   alone cannot be used to take over the account
 - The CORS origins and the cookie SameSite policy are now set in application/config/routes.php and
