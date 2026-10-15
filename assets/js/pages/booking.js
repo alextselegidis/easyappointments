@@ -267,6 +267,11 @@ App.Pages.Booking = (function () {
             prefillFromQueryParam('#address', 'address');
             prefillFromQueryParam('#city', 'city');
             prefillFromQueryParam('#zip-code', 'zip');
+            // The custom fields too (custom_field_1 to custom_field_5), for example a value that a website already
+            // asked for before sending the visitor here.
+            for (let i = 1; i <= 5; i++) {
+                prefillFromQueryParam('#custom-field-' + i, 'custom_field_' + i);
+            }
 
             // Initialize remember me after prefilling from query params
             initializeRememberMe();

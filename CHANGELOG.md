@@ -7,6 +7,8 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Added
 
+- The custom fields of the booking form can be prefilled through the link, like the other fields
+  (`?custom_field_1=...` to `?custom_field_5=...`)
 - A CalDAV section under Settings / Integrations, where the connection URLs that may point into the local network
   are listed
 - The calendar page now explains why a CalDAV synchronization failed and what has to be corrected, instead of only
