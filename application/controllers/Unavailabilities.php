@@ -46,6 +46,7 @@ class Unavailabilities extends EA_Controller
 
         $this->load->library('accounts');
         $this->load->library('timezones');
+        $this->load->library('synchronization');
         $this->load->library('webhooks_client');
     }
 
@@ -271,7 +272,11 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
+            $provider = $this->providers_model->find($unavailability['id_users_provider']);
+
             $this->unavailabilities_model->delete($unavailability_id);
+
+            $this->synchronization->sync_unavailability_deleted($unavailability, $provider);
 
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 
