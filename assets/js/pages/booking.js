@@ -772,10 +772,10 @@ App.Pages.Booking = (function () {
         $('#appointment-details').html(`
             <div>
                 <div class="mb-2 fw-bold fs-3">
-                    ${serviceOptionText}
+                    ${App.Utils.String.escapeHtml(serviceOptionText)}
                 </div> 
                 <div class="mb-2 fw-bold text-muted">
-                    ${providerOptionText}
+                    ${App.Utils.String.escapeHtml(providerOptionText)}
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-calendar-day me-2"></i>
@@ -787,11 +787,11 @@ App.Pages.Booking = (function () {
                 </div>
                 <div class="mb-2">
                     <i class="fas fa-globe me-2"></i>
-                    ${timezoneOptionText}
+                    ${App.Utils.String.escapeHtml(timezoneOptionText)}
                 </div> 
                 <div class="mb-2" ${!Number(service.price) ? 'hidden' : ''}>
                     <i class="fas fa-cash-register me-2"></i>
-                    ${Number(service.price).toFixed(2)} ${service.currency}
+                    ${Number(service.price).toFixed(2)} ${App.Utils.String.escapeHtml(service.currency)}
                 </div>
             </div>     
         `);
@@ -1005,11 +1005,11 @@ App.Pages.Booking = (function () {
         }
 
         if (Number(service.price) > 0) {
-            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${service.currency}`);
+            additionalInfoParts.push(`${lang('price')}: ${Number(service.price).toFixed(2)} ${App.Utils.String.escapeHtml(service.currency)}`);
         }
 
         if (service.location) {
-            additionalInfoParts.push(`${lang('location')}: ${service.location}`);
+            additionalInfoParts.push(`${lang('location')}: ${App.Utils.String.escapeHtml(service.location)}`);
         }
 
         if (additionalInfoParts.length) {
