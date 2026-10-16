@@ -27,16 +27,19 @@ function add_security_headers(): void
     header('X-Frame-Options: SAMEORIGIN');
 
     // Content Security Policy. The pages use inline scripts and styles, so those stay allowed, but plugins are blocked
-    // outright and every other resource has to come from this installation.
+    // outright. The themes load their web fonts from Google Fonts, and the Google Analytics and Matomo integrations load
+    // their scripts and send their tracking requests to external hosts (Matomo to any host the admin configures), so
+    // scripts, images and connections may come from any HTTPS origin.
     //
     // Framing is deliberately left out of this policy: the booking page is meant to be embedded in other websites and
     // controls that through the X-Frame-Options header above, which a frame-ancestors directive would override.
     header(
         "Content-Security-Policy: default-src 'self'; " .
-            "script-src 'self' 'unsafe-inline'; " .
-            "style-src 'self' 'unsafe-inline'; " .
-            "img-src 'self' data:; " .
-            "font-src 'self' data:; " .
+            "script-src 'self' 'unsafe-inline' https:; " .
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " .
+            "img-src 'self' data: https:; " .
+            "font-src 'self' data: https://fonts.gstatic.com; " .
+            "connect-src 'self' https:; " .
             "object-src 'none'; " .
             "base-uri 'self'; " .
             "form-action 'self'",
