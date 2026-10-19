@@ -197,7 +197,8 @@ class EA_Controller extends CI_Controller
             return;
         }
 
-        if (!$this->db->table_exists('migrations')) {
+        // A fresh install has no tables yet, let the controller redirect to the installation page.
+        if (!$this->db->table_exists('migrations') || !is_app_installed()) {
             return;
         }
 
