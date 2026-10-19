@@ -9,7 +9,7 @@
 |
 */
 
-$config['version'] = '1.6.1-beta.1'; // This must be changed manually.
+$config['version'] = '1.6.1'; // This must be changed manually.
 
 $config['url'] = Config::BASE_URL;
 
