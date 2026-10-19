@@ -189,6 +189,12 @@ if (!function_exists('pure_html')) {
     {
         $config = HTMLPurifier_Config::createDefault();
 
+        // By default, HTMLPurifier caches its serialized definitions inside its own vendor directory
+        // (vendor/ezyang/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer), which is commonly
+        // deployed read-only or owned by a different user than the web server. Redirect it to storage/cache,
+        // the app's own writable data directory, to avoid write permission errors.
+        $config->set('Cache.SerializerPath', storage_path('cache'));
+
         $purifier = new HTMLPurifier($config);
 
         return $purifier->purify($markup);

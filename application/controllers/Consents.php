@@ -21,6 +21,16 @@
 class Consents extends EA_Controller
 {
     /**
+     * Fields a client is allowed to provide when recording a consent.
+     *
+     * The "id" field is deliberately excluded, so that this public endpoint can only insert new records and never
+     * update (or re-link) an existing one. The "id_users" and "ip" fields are set server-side only.
+     *
+     * @var array
+     */
+    public array $allowed_consent_fields = ['first_name', 'last_name', 'email', 'type'];
+
+    /**
      * Consents constructor.
      */
     public function __construct()
@@ -41,6 +51,8 @@ class Consents extends EA_Controller
             check('consent', 'array');
 
             $consent = request('consent');
+
+            $this->consents_model->only($consent, $this->allowed_consent_fields);
 
             $consent['ip'] = $this->input->ip_address();
 

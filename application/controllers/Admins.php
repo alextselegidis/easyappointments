@@ -130,13 +130,13 @@ class Admins extends EA_Controller
 
             $order_by = request('order_by', 'update_datetime DESC');
 
-            $limit = request('limit', 1000);
+            $limit = max(1, (int) request('limit', 1000));
 
-            $offset = (int) request('offset', '0');
+            $offset = max(0, (int) request('offset', '0'));
 
             $admins = $this->admins_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($admins);
+            json_response(filter_sensitive_users_data($admins));
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -204,7 +204,7 @@ class Admins extends EA_Controller
 
             $admin = $this->admins_model->find($admin_id);
 
-            json_response($admin);
+            json_response(filter_sensitive_user_data($admin));
         } catch (Throwable $e) {
             json_exception($e);
         }

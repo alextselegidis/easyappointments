@@ -63,6 +63,16 @@ class Calendar extends EA_Controller
         //
     ];
 
+    public array $allowed_unavailability_fields = [
+        'id',
+        'start_datetime',
+        'end_datetime',
+        'location',
+        'notes',
+        'is_unavailability',
+        'id_users_provider',
+    ];
+
     /**
      * Calendar constructor.
      */
@@ -147,9 +157,20 @@ class Calendar extends EA_Controller
             $occurrences = $this->appointments_model->get(['hash' => $appointment_hash]);
 
             if ($appointment_hash !== '' && !empty($occurrences)) {
-                $edit_appointment = $occurrences[0];
+                $candidate = $occurrences[0];
+                $provider_id = (int) $candidate['id_users_provider'];
 
-                $this->appointments_model->load($edit_appointment, ['customer']);
+                // Only expose the appointment if the logged-in user is allowed to see this provider.
+                $owns_appointment =
+                    ($role_slug === DB_SLUG_PROVIDER && $provider_id === (int) $user_id) ||
+                    ($role_slug === DB_SLUG_SECRETARY &&
+                        $this->secretaries_model->is_provider_supported((int) $user_id, $provider_id)) ||
+                    ($role_slug !== DB_SLUG_PROVIDER && $role_slug !== DB_SLUG_SECRETARY);
+
+                if ($owns_appointment) {
+                    $edit_appointment = $candidate;
+                    $this->appointments_model->load($edit_appointment, ['customer']);
+                }
             }
         }
 
@@ -260,6 +281,49 @@ class Calendar extends EA_Controller
     }
 
     /**
+     * Check whether the provider is already booked for the requested time period.
+     *
+     * The appointment modal uses this before saving, so that the conflict question comes before the notification
+     * question and no changes are performed on the database.
+     */
+    public function check_provider_conflict(): void
+    {
+        try {
+            method('post');
+
+            check('provider_id', 'numeric');
+            check('start_datetime', 'date');
+            check('end_datetime', 'date');
+            check('appointment_id', 'numeric|null');
+
+            if (cannot('add', PRIV_APPOINTMENTS) && cannot('edit', PRIV_APPOINTMENTS)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
+            }
+
+            $provider_id = (int) request('provider_id');
+
+            $this->check_event_permissions($provider_id);
+
+            $appointment_id = request('appointment_id');
+
+            $has_conflict = $this->appointments_model->has_provider_conflict(
+                $provider_id,
+                request('start_datetime'),
+                request('end_datetime'),
+                !empty($appointment_id) ? (int) $appointment_id : null,
+            );
+
+            json_response([
+                'success' => true,
+                'conflict' => $has_conflict,
+                'message' => $has_conflict ? lang('provider_has_conflicting_appointment') : '',
+            ]);
+        } catch (Throwable $e) {
+            json_exception($e);
+        }
+    }
+
+    /**
      * Save appointment changes that are made from the backend calendar page.
      */
     public function save_appointment(): void
@@ -280,15 +344,15 @@ class Calendar extends EA_Controller
 
             $force_save = filter_var(request('force_save', false), FILTER_VALIDATE_BOOLEAN);
 
-            $this->check_event_permissions((int) $appointment_data['id_users_provider']);
+            authorize_event_write($appointment_data['id'] ?? null, $appointment_data['id_users_provider'] ?? null);
 
             // Save customer changes to the database.
             if ($customer_data) {
                 $customer = $customer_data;
 
                 $required_permissions = !empty($customer['id'])
-                    ? can('add', PRIV_CUSTOMERS)
-                    : can('edit', PRIV_CUSTOMERS);
+                    ? can('edit', PRIV_CUSTOMERS)
+                    : can('add', PRIV_CUSTOMERS);
 
                 if (!$required_permissions) {
                     throw new RuntimeException('You do not have the required permissions for this task.');
@@ -303,6 +367,15 @@ class Calendar extends EA_Controller
                     $customer['id'] = $this->customers_model->find_record_id($customer);
                 }
 
+                if (
+                    !empty($customer['id']) &&
+                    !$this->permissions->has_customer_access((int) session('user_id'), (int) $customer['id'])
+                ) {
+                    abort(403, 'Forbidden');
+                }
+
+                $is_new_customer = empty($customer['id']);
+
                 $customer['id'] = $this->customers_model->save($customer);
             }
 
@@ -313,8 +386,8 @@ class Calendar extends EA_Controller
                 $appointment = $appointment_data;
 
                 $required_permissions = !empty($appointment['id'])
-                    ? can('add', PRIV_APPOINTMENTS)
-                    : can('edit', PRIV_APPOINTMENTS);
+                    ? can('edit', PRIV_APPOINTMENTS)
+                    : can('add', PRIV_APPOINTMENTS);
 
                 if (!$required_permissions) {
                     throw new RuntimeException('You do not have the required permissions for this task.');
@@ -324,6 +397,21 @@ class Calendar extends EA_Controller
 
                 if (!isset($appointment['id_users_customer'])) {
                     $appointment['id_users_customer'] = $customer['id'] ?? $customer_data['id'];
+                }
+
+                // A customer that was just created has no appointments yet, any other one must be accessible.
+                $is_created_customer =
+                    !empty($is_new_customer) && (int) $appointment['id_users_customer'] === (int) $customer['id'];
+
+                if (
+                    !$is_created_customer &&
+                    !empty($appointment['id_users_customer']) &&
+                    !$this->permissions->has_customer_access(
+                        (int) session('user_id'),
+                        (int) $appointment['id_users_customer'],
+                    )
+                ) {
+                    abort(403, 'Forbidden');
                 }
 
                 // Check if the provider has a conflicting appointment at the selected time
@@ -346,7 +434,10 @@ class Calendar extends EA_Controller
                 }
 
                 if ($manage_mode && !empty($appointment['id'])) {
-                    $this->synchronization->remove_appointment_on_provider_change($appointment['id']);
+                    $this->synchronization->remove_appointment_on_provider_change(
+                        $appointment['id'],
+                        $appointment['id_users_provider'],
+                    );
                 }
 
                 // Jitsi integration: if enabled and meeting_link is empty, generate a Jitsi meeting link
@@ -407,17 +498,7 @@ class Calendar extends EA_Controller
 
     private function check_event_permissions(int $provider_id): void
     {
-        $user_id = (int) session('user_id');
-        $role_slug = session('role_slug');
-
-        if (
-            $role_slug === DB_SLUG_SECRETARY &&
-            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
-        ) {
-            abort(403);
-        }
-
-        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
+        if (!can_manage_provider($provider_id)) {
             abort(403);
         }
     }
@@ -520,9 +601,33 @@ class Calendar extends EA_Controller
 
             $provider_id = (int) $unavailability['id_users_provider'];
 
-            $this->check_event_permissions($provider_id);
+            authorize_event_write($unavailability['id'] ?? null, $provider_id);
+
+            $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $provider = $this->providers_model->find($provider_id);
+
+            // Blocking out time that already contains a customer appointment needs a confirmation, as the operator
+            // has to contact the customer about it.
+            $force_save = filter_var(request('force_save'), FILTER_VALIDATE_BOOLEAN);
+
+            $has_conflict = $this->appointments_model->has_provider_conflict(
+                $provider_id,
+                $unavailability['start_datetime'],
+                $unavailability['end_datetime'],
+                !empty($unavailability['id']) ? (int) $unavailability['id'] : null,
+                true,
+            );
+
+            if ($has_conflict && !$force_save) {
+                json_response([
+                    'success' => false,
+                    'conflict' => true,
+                    'message' => lang('provider_has_conflicting_appointment'),
+                ]);
+
+                return;
+            }
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);
 
@@ -595,6 +700,8 @@ class Calendar extends EA_Controller
 
             $provider_id = request('provider_id');
 
+            $this->check_event_permissions((int) $provider_id);
+
             $exception_id = $this->providers_model->save_working_plan_exception($provider_id, $working_plan_exception);
 
             json_response([
@@ -623,9 +730,12 @@ class Calendar extends EA_Controller
 
             $exception_id = request('exception_id');
 
-            $provider_id = request('provider_id');
-
             $this->load->model('working_plan_exceptions_model');
+
+            $working_plan_exception = $this->working_plan_exceptions_model->find($exception_id);
+
+            $this->check_event_permissions((int) $working_plan_exception['id_users_provider']);
+
             $this->working_plan_exceptions_model->delete($exception_id);
 
             json_response([
@@ -671,7 +781,9 @@ class Calendar extends EA_Controller
             ];
 
             foreach ($response['appointments'] as &$appointment) {
-                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
+                $appointment['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($appointment['id_users_provider']),
+                );
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
@@ -723,7 +835,9 @@ class Calendar extends EA_Controller
             }
 
             foreach ($response['unavailabilities'] as &$unavailability) {
-                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
+                $unavailability['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($unavailability['id_users_provider']),
+                );
             }
 
             unset($unavailability);
@@ -826,7 +940,9 @@ class Calendar extends EA_Controller
             $response['appointments'] = $this->db->get()->result_array();
 
             foreach ($response['appointments'] as &$appointment) {
-                $appointment['provider'] = $this->providers_model->find($appointment['id_users_provider']);
+                $appointment['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($appointment['id_users_provider']),
+                );
                 $appointment['service'] = $this->services_model->find($appointment['id_services']);
                 $appointment['customer'] = $this->customers_model->find($appointment['id_users_customer']);
             }
@@ -912,7 +1028,9 @@ class Calendar extends EA_Controller
             }
 
             foreach ($response['unavailabilities'] as &$unavailability) {
-                $unavailability['provider'] = $this->providers_model->find($unavailability['id_users_provider']);
+                $unavailability['provider'] = filter_sensitive_user_data(
+                    $this->providers_model->find($unavailability['id_users_provider']),
+                );
             }
 
             unset($unavailability);

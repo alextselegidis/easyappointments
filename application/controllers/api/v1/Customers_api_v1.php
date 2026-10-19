@@ -161,6 +161,9 @@ class Customers_api_v1 extends EA_Controller
 
             $this->customers_model->api_decode($customer, $original_customer);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $customer['id'] = $id;
+
             $customer_id = $this->customers_model->save($customer);
 
             $updated_customer = $this->customers_model->find($customer_id);

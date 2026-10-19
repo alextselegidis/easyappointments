@@ -349,60 +349,56 @@ App.Utils.CalendarDefaultView = (function () {
      * @param {number} appointmentId - Appointment ID to delete.
      */
     function handleDeleteAppointment(appointmentId) {
-        App.Utils.Message.show(
-            lang('delete_appointment_title'),
-            lang('notify_users_on_delete_question'),
-            [
-                {
-                    text: lang('cancel'),
-                    click: (event, notifyModal) => notifyModal.hide(),
+        App.Utils.Message.show(lang('delete_appointment_title'), lang('notify_users_on_delete_question'), [
+            {
+                text: lang('cancel'),
+                click: (event, notifyModal) => notifyModal.hide(),
+            },
+            {
+                text: lang('no'),
+                click: (event, notifyModal) => {
+                    notifyModal.hide();
+                    App.Http.Calendar.deleteAppointment(appointmentId, null, false).done(() => {
+                        $reloadAppointments.trigger('click');
+                    });
                 },
-                {
-                    text: lang('no'),
-                    click: (event, notifyModal) => {
-                        notifyModal.hide();
-                        App.Http.Calendar.deleteAppointment(appointmentId, null, false).done(() => {
-                            $reloadAppointments.trigger('click');
-                        });
-                    },
-                },
-                {
-                    text: lang('yes'),
-                    click: (event, notifyModal) => {
-                        notifyModal.hide();
+            },
+            {
+                text: lang('yes'),
+                click: (event, notifyModal) => {
+                    notifyModal.hide();
 
-                        const reasonButtons = [
-                            {
-                                text: lang('cancel'),
-                                click: (event, messageModal) => messageModal.hide(),
+                    const reasonButtons = [
+                        {
+                            text: lang('cancel'),
+                            click: (event, messageModal) => messageModal.hide(),
+                        },
+                        {
+                            text: lang('delete'),
+                            click: (event, messageModal) => {
+                                const reason = $('#cancellation-reason').val();
+                                messageModal.hide();
+                                App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
+                                    $reloadAppointments.trigger('click');
+                                });
                             },
-                            {
-                                text: lang('delete'),
-                                click: (event, messageModal) => {
-                                    const reason = $('#cancellation-reason').val();
-                                    messageModal.hide();
-                                    App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
-                                        $reloadAppointments.trigger('click');
-                                    });
-                                },
-                            },
-                        ];
+                        },
+                    ];
 
-                        App.Utils.Message.show(
-                            lang('delete_appointment_title'),
-                            lang('write_appointment_removal_reason'),
-                            reasonButtons,
-                        );
+                    App.Utils.Message.show(
+                        lang('delete_appointment_title'),
+                        lang('write_appointment_removal_reason'),
+                        reasonButtons,
+                    );
 
-                        $('<textarea/>', {
-                            class: 'form-control w-100',
-                            id: 'cancellation-reason',
-                            rows: '3',
-                        }).appendTo('#message-modal .modal-body');
-                    },
+                    $('<textarea/>', {
+                        class: 'form-control w-100',
+                        id: 'cancellation-reason',
+                        rows: '3',
+                    }).appendTo('#message-modal .modal-body');
                 },
-            ],
-        );
+            },
+        ]);
     }
 
     // Calendar Event Callbacks
@@ -539,7 +535,9 @@ App.Utils.CalendarDefaultView = (function () {
                 unavailability.end_datetime = eventData.end_datetime = moment(unavailability.end_datetime)
                     .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                     .format('YYYY-MM-DD HH:mm:ss');
-                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                App.Http.Calendar.saveUnavailability(unavailability, null, null, true).done(() =>
+                    $notification.hide('blind'),
+                );
                 info.revert();
             };
 
@@ -550,7 +548,7 @@ App.Utils.CalendarDefaultView = (function () {
             info.event.setProp('data', eventData);
         };
 
-        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null, false, () => info.revert());
     }
 
     /**
@@ -646,7 +644,9 @@ App.Utils.CalendarDefaultView = (function () {
                 unavailability.is_unavailability = 1;
                 eventData.start_datetime = unavailability.start_datetime;
                 eventData.end_datetime = unavailability.end_datetime;
-                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                App.Http.Calendar.saveUnavailability(unavailability, null, null, true).done(() =>
+                    $notification.hide('blind'),
+                );
                 info.revert();
             };
 
@@ -655,7 +655,7 @@ App.Utils.CalendarDefaultView = (function () {
             ]);
         };
 
-        App.Http.Calendar.saveUnavailability(unavailability, successCallback);
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null, false, () => info.revert());
     }
 
     /**
@@ -1118,7 +1118,6 @@ App.Utils.CalendarDefaultView = (function () {
      */
     function createWorkHoursUnavailability(calendarDate, dayPlan, viewEnd) {
         const events = [];
-        const dateStr = calendarDate.format('YYYY-MM-DD');
 
         // Before work starts
         const [startHour, startMin] = dayPlan.start.split(':').map(Number);
@@ -1128,7 +1127,11 @@ App.Utils.CalendarDefaultView = (function () {
             events.push({
                 title: lang('not_working'),
                 start: calendarDate.clone().toDate(),
-                end: moment(dateStr + ' ' + dayPlan.start + ':00').toDate(),
+                // Reuse the already-parsed workStart rather than re-parsing dayPlan.start as a string: dayPlan.start
+                // may be "HH:mm:ss" (the raw MySQL TIME format returned by working plan exceptions fetched fresh
+                // from the server) rather than "HH:mm", and appending ":00" to the former produces a malformed
+                // 4-segment time string.
+                end: workStart.toDate(),
                 allDay: false,
                 color: EVENT_COLORS.notWorking,
                 editable: false,
@@ -1144,7 +1147,8 @@ App.Utils.CalendarDefaultView = (function () {
         if (viewEnd > workEnd.toDate()) {
             events.push({
                 title: lang('not_working'),
-                start: moment(dateStr + ' ' + dayPlan.end + ':00').toDate(),
+                // See the comment above workStart's usage - same reasoning applies here.
+                start: workEnd.toDate(),
                 end: calendarDate.clone().add(1, 'day').toDate(),
                 allDay: false,
                 color: EVENT_COLORS.notWorking,

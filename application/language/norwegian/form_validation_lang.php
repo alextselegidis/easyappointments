@@ -38,7 +38,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 $lang['form_validation_required'] = 'Feltet {field} er påkrevd.';
-$lang['form_validation_isset'] = 'Feltet {field} må ha en verdi';
 $lang['form_validation_isset'] = 'Feltet {field} må ha en verdi.';
 $lang['form_validation_valid_email'] = 'Feltet {field} må inneholde en gyldig e-postadresse.';
 $lang['form_validation_valid_emails'] = 'Feltet {field} må inneholde alle gyldige e-postadresser.';

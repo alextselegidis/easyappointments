@@ -298,6 +298,9 @@ class Appointments_api_v1 extends EA_Controller
 
             $this->appointments_model->api_decode($appointment, $original_appointment);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $appointment['id'] = $id;
+
             $appointment_id = $this->appointments_model->save($appointment);
 
             $updated_appointment = $this->appointments_model->find($appointment_id);

@@ -11,6 +11,8 @@
  * @since       v1.0.0
  * ---------------------------------------------------------------------------- */
 
+use GuzzleHttp\Exception\GuzzleException;
+
 /**
  * Google controller.
  *
@@ -171,10 +173,14 @@ class Google extends EA_Controller
                     $matched_google_event = null;
 
                     if ($existing_google_events !== null) {
-                        $local_start_ts = (new DateTime($local_event['start_datetime'], $provider_timezone))
-                            ->getTimestamp();
-                        $local_end_ts = (new DateTime($local_event['end_datetime'], $provider_timezone))
-                            ->getTimestamp();
+                        $local_start_ts = (new DateTime(
+                            $local_event['start_datetime'],
+                            $provider_timezone,
+                        ))->getTimestamp();
+                        $local_end_ts = (new DateTime(
+                            $local_event['end_datetime'],
+                            $provider_timezone,
+                        ))->getTimestamp();
 
                         foreach ($existing_google_events->getItems() as $candidate) {
                             if ($candidate->getStatus() === 'cancelled') {
@@ -187,10 +193,7 @@ class Google extends EA_Controller
                                 continue;
                             }
 
-                            if (
-                                $candidate_range[0] !== $local_start_ts ||
-                                $candidate_range[1] !== $local_end_ts
-                            ) {
+                            if ($candidate_range[0] !== $local_start_ts || $candidate_range[1] !== $local_end_ts) {
                                 continue;
                             }
 
@@ -247,11 +250,23 @@ class Google extends EA_Controller
                         throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                     }
 
+                    // Honour the Google Calendar "Free" (transparent) flag. Scoped to unavailabilities on purpose:
+                    // a real appointment must never be deleted because someone flipped it to Free in their phone.
+                    if (
+                        $local_event['is_unavailability'] &&
+                        strcasecmp((string) $google_event->getTransparency(), 'transparent') === 0
+                    ) {
+                        throw new Exception('Event is marked free in Google Calendar, remove the record.');
+                    }
+
                     // If Google Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
                     // Both sides must be evaluated in the provider's timezone to get consistent timestamps.
                     // Local datetimes are stored as timezone-naive strings in the provider's timezone, so
                     // wrap them with the provider timezone before calling getTimestamp().
-                    $local_event_start = (new DateTime($local_event['start_datetime'], $provider_timezone))->getTimestamp();
+                    $local_event_start = (new DateTime(
+                        $local_event['start_datetime'],
+                        $provider_timezone,
+                    ))->getTimestamp();
                     $local_event_end = (new DateTime($local_event['end_datetime'], $provider_timezone))->getTimestamp();
 
                     $is_google_all_day = $google_event->getStart()->getDateTime() === null;
@@ -284,9 +299,10 @@ class Google extends EA_Controller
                         // Skip the synthetic "Unavailable" summary that EA itself sets when
                         // pushing unavailabilities to Google so it doesn't get duplicated
                         // back into the local notes/description.
-                        $google_event_notes = strcasecmp(trim((string) $google_event_summary), 'Unavailable') === 0
-                            ? (string) $google_event->getDescription()
-                            : trim($google_event_summary . ' ' . $google_event->getDescription());
+                        $google_event_notes =
+                            strcasecmp(trim((string) $google_event_summary), 'Unavailable') === 0
+                                ? (string) $google_event->getDescription()
+                                : trim($google_event_summary . ' ' . $google_event->getDescription());
                     } else {
                         $google_event_notes = $google_event->getDescription();
                     }
@@ -302,6 +318,21 @@ class Google extends EA_Controller
                         $local_event['notes'] = $google_event_notes;
                         $events_model->save($local_event);
                     }
+                } catch (GuzzleException $e) {
+                    // Connectivity errors must propagate up so the user is notified - otherwise we would silently
+                    // delete local events while the Google API is only unreachable.
+                    throw $e;
+                } catch (Google\Service\Exception $e) {
+                    // Only a missing event ("not found" / "deleted") means the record is gone on the Google side.
+                    // Every other API error (401 invalid credentials, 403 quota, 5xx) must propagate, otherwise a
+                    // temporary failure would remove the local appointments of the whole sync period.
+                    if (!in_array($e->getCode(), [404, 410], true)) {
+                        throw $e;
+                    }
+
+                    $events_model->delete($local_event['id']);
+
+                    $local_event['id_google_calendar'] = null;
                 } catch (Throwable) {
                     // Appointment not found on Google Calendar, delete from Easy!Appointments.
                     $events_model->delete($local_event['id']);
@@ -327,6 +358,12 @@ class Google extends EA_Controller
 
             foreach ($google_events->getItems() as $google_event) {
                 if ($google_event->getStatus() === 'cancelled') {
+                    continue;
+                }
+
+                // Honour the Google Calendar "Free" (transparent) flag. Google defaults all-day events and
+                // birthdays to Free, and those must stay bookable.
+                if (strcasecmp((string) $google_event->getTransparency(), 'transparent') === 0) {
                     continue;
                 }
 
@@ -449,7 +486,7 @@ class Google extends EA_Controller
             show_error('Invalid provider ID', 400);
         }
 
-        if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+        if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
             show_error('Forbidden', 403);
         }
 
@@ -519,10 +556,9 @@ class Google extends EA_Controller
 
         // Store the token into the database for future reference.
         $oauth_provider_id = filter_var(session('oauth_provider_id'), FILTER_VALIDATE_INT);
-        $user_id = (int) session('user_id');
 
         if ($oauth_provider_id && $oauth_provider_id > 0) {
-            if (cannot('edit', PRIV_USERS) && $user_id !== (int) $oauth_provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($oauth_provider_id)) {
                 show_error('Forbidden', 403);
 
                 return;
@@ -559,6 +595,10 @@ class Google extends EA_Controller
 
             if (empty($provider_id)) {
                 throw new Exception('Provider id is required in order to fetch the google calendars.');
+            }
+
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
+                throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
             // Check if selected provider has sync enabled.
@@ -599,9 +639,7 @@ class Google extends EA_Controller
 
             $provider_id = request('provider_id');
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -637,9 +675,7 @@ class Google extends EA_Controller
                 throw new Exception('Provider id not specified.');
             }
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 

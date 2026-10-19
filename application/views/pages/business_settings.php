@@ -94,9 +94,7 @@
                             </div>
                         <?php endif; ?>
 
-                        <h5 class="mb-3 fw-light"><?= lang(
-                            'allow_rescheduling_cancellation_before',
-                        ) ?></h5>
+                        <h5 class="mb-3 fw-light"><?= lang('allow_rescheduling_cancellation_before') ?></h5>
 
                         <div class="mb-5">
                             <label for="book-advance-timeout" class="form-label">

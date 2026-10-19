@@ -107,9 +107,9 @@ class Blocked_periods extends EA_Controller
 
             $order_by = request('order_by', 'update_datetime DESC');
 
-            $limit = request('limit', 1000);
+            $limit = max(1, (int) request('limit', 1000));
 
-            $offset = (int) request('offset', '0');
+            $offset = max(0, (int) request('offset', '0'));
 
             $blocked_periods = $this->blocked_periods_model->search($keyword, $limit, $offset, $order_by);
 

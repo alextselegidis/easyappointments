@@ -13,7 +13,7 @@ function storage_cleanup(): void
     }
 
     $storage_path = APPPATH . '../storage';
-    $cutoff_time = time() - (STORAGE_RETENTION_DAYS * 86400);
+    $cutoff_time = time() - STORAGE_RETENTION_DAYS * 86400;
 
     $directories = [
         'sessions' => $storage_path . '/sessions/ea_session*',

@@ -59,6 +59,10 @@ if (!function_exists('adjustBrightness')) {
 if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
     // Generate color variations
 
+    // Strip to hex charset so a malformed stored value cannot break out of the <style> block.
+
+
+    $company_color = '#' . preg_replace('/[^0-9A-Fa-f]/', '', $company_color);
 
     $rgb = hexToRgb($company_color);
     $hover = adjustBrightness($company_color, 15);
@@ -113,6 +117,7 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-btn-active-border-color: var(--ea-primary-active);
         --bs-btn-disabled-bg: var(--bs-primary);
         --bs-btn-disabled-border-color: var(--bs-primary);
+        --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
     }
 
     .btn-outline-primary {
@@ -126,6 +131,7 @@ if (!empty($company_color) && $company_color !== DEFAULT_COMPANY_COLOR):
         --bs-btn-active-border-color: var(--ea-primary-active);
         --bs-btn-disabled-color: var(--bs-primary);
         --bs-btn-disabled-border-color: var(--bs-primary);
+        --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
     }
 
 

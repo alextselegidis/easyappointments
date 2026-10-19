@@ -464,7 +464,8 @@ select.form-control {
     border: 2px solid $gray-400;
 
     &:checked[type='radio'] {
-        background-image: escape-svg(
+        background-image:
+            escape-svg(
                 url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='2' fill='#{$blue}' stroke='#{$white}'/></svg>")
             ),
             var(--bs-gradient);
@@ -560,7 +561,8 @@ select.form-control {
 .form-check:not(.form-switch) {
     .form-check-input {
         &:checked[type='checkbox'] {
-            background-image: escape-svg(
+            background-image:
+                escape-svg(
                     url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='none' stroke='#{$white}' stroke-width='2' d='m6 10 3 3 6-6'/></svg>")
                 ),
                 var(--bs-gradient);

@@ -1,11 +1,16 @@
-.idea
 .github
+.idea
 .run
+**/index.html
 application/language/*
+assets/vendor
 build
+composer.lock
+config.php
 docker
 docs
 node_modules
+package-lock.json
 storage
 system
 vendor

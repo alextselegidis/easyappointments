@@ -336,16 +336,15 @@ class Working_plan_exceptions_model extends EA_Model
     public function api_encode(array &$working_plan_exception): void
     {
         $encoded_resource = [
-            'id' => array_key_exists('id', $working_plan_exception)
-                ? (int) $working_plan_exception['id']
-                : null,
+            'id' => array_key_exists('id', $working_plan_exception) ? (int) $working_plan_exception['id'] : null,
             'startDate' => $working_plan_exception['start_date'] ?? null,
             'endDate' => $working_plan_exception['end_date'] ?? null,
             'startTime' => $working_plan_exception['start_time'] ?? null,
             'endTime' => $working_plan_exception['end_time'] ?? null,
-            'breaks' => array_key_exists('breaks', $working_plan_exception) && $working_plan_exception['breaks']
-                ? json_decode($working_plan_exception['breaks'], true)
-                : [],
+            'breaks' =>
+                array_key_exists('breaks', $working_plan_exception) && $working_plan_exception['breaks']
+                    ? json_decode($working_plan_exception['breaks'], true)
+                    : [],
             'providerId' => array_key_exists('id_users_provider', $working_plan_exception)
                 ? (int) $working_plan_exception['id_users_provider']
                 : null,

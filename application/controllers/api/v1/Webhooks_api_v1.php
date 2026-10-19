@@ -158,6 +158,9 @@ class Webhooks_api_v1 extends EA_Controller
 
             $this->webhooks_model->api_decode($webhook, $original_webhook);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $webhook['id'] = $id;
+
             $webhook_id = $this->webhooks_model->save($webhook);
 
             $updated_webhook = $this->webhooks_model->find($webhook_id);

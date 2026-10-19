@@ -34,6 +34,8 @@ class Config {
 docker compose up
 ```
 
+If you put a reverse proxy in front of the containers, set the `PROXY_IPS` environment variable on the PHP container to the proxy address or subnet (e.g. `PROXY_IPS=172.18.0.0/16`), so the client IP addresses are read from the `X-Forwarded-For` header instead of every visitor looking like the proxy.
+
 ## What's Included
 
 Once running, you can access these services in your browser:
@@ -56,12 +58,16 @@ To test CalDAV syncing locally:
    - **Username:** your Baikal username
    - **Password:** your Baikal password
 
+The `baikal` host resolves to a private address, so the connection dialog asks you to confirm it. Click
+**Allow and connect** and the host is added to the allowed connection URLs for you. See
+[CalDAV Calendar Sync](caldav-calendar-sync.md) for the details.
+
 ## LDAP
 
 OpenLDAP runs on the `openldap` container (ports `389` and `636`). You can manage it through phpLDAPadmin at http://localhost:8200.
 
 > **Note:** This Docker setup is for **development only**. Don't use it in production. For a production Docker image, see: https://github.com/alextselegidis/easyappointments-docker
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

@@ -90,7 +90,7 @@ $languages = [
     'sq' => 'albanian',
     'ar' => 'arabic',
     'bs' => 'bosnian',
-    'bu' => 'bulgarian',
+    'bg' => 'bulgarian',
     'ca' => 'catalan',
     'cs' => 'czech',
     'da' => 'danish',
@@ -113,26 +113,41 @@ $languages = [
     'lv' => 'latvian',
     'mr' => 'marathi',
     'nl' => 'dutch',
-    'no' => 'norwegian',
+    'nb' => 'norwegian',
     'pl' => 'polish',
     'pt' => 'portuguese',
     'pt-br' => 'portuguese-br',
     'ro' => 'romanian',
-    'rs' => 'serbian',
+    'sr' => 'serbian',
     'ru' => 'russian',
     'sk' => 'slovak',
     'sl' => 'slovenian',
     'sv' => 'swedish',
     'th' => 'thai',
     'tr' => 'turkish',
-    'zh' => 'chinese',
+    'zh-cn' => 'chinese',
     'zh-tw' => 'traditional-chinese',
     'uk' => 'ukrainian',
+    'uz' => 'uzbek',
 ];
 
 $config['language_codes'] = $languages;
 
-$language_code = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ? substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2) : 'en';
+// Match the browser language against the known codes, trying the region specific one first (e.g. "zh-cn"
+// before "zh"), so that codes like "pt-br" and "zh-tw" can be detected as well.
+$accept_language = strtolower(substr($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? '', 0, 5));
+$accept_language_prefix = substr($accept_language, 0, 2);
+
+$detected_language = $languages[$accept_language] ?? ($languages[$accept_language_prefix] ?? null);
+
+if (!$detected_language && strlen($accept_language_prefix) === 2) {
+    foreach ($languages as $code => $name) {
+        if (str_starts_with($code, $accept_language_prefix)) {
+            $detected_language = $name;
+            break;
+        }
+    }
+}
 
 // Validate language parameter to prevent injection - only accept known language values
 $requested_language = $_GET['language'] ?? null;
@@ -140,11 +155,7 @@ if ($requested_language !== null && !in_array($requested_language, $languages, t
     $requested_language = null; // Invalid language, ignore it
 }
 
-$config['language'] =
-    $requested_language ??
-    (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'], $languages[$language_code])
-        ? $languages[$language_code]
-        : Config::LANGUAGE);
+$config['language'] = $requested_language ?? ($detected_language ?? Config::LANGUAGE);
 
 $config['language_code'] = array_search($config['language'], $languages) ?: 'en';
 
@@ -200,6 +211,7 @@ $config['available_languages'] = [
     'traditional-chinese',
     'turkish',
     'ukrainian',
+    'uzbek',
 ];
 
 /*
@@ -400,9 +412,29 @@ $config['sess_regenerate_destroy'] = true;
 $config['cookie_prefix'] = '';
 $config['cookie_domain'] = '';
 $config['cookie_path'] = '/';
-$config['cookie_secure'] = strpos($config['base_url'], 'https') !== false;
 $config['cookie_httponly'] = true; // Prevent JavaScript access to cookies
-$config['cookie_samesite'] = 'Lax'; // CSRF protection for cookies
+
+// Cross-site request protection for the cookies. "Lax" keeps the cookies away from requests started by other sites,
+// which is what almost every installation wants.
+//
+// Change this to "None" only when the booking page is embedded in an iframe on another domain and it needs the
+// session there, for example to verify the image CAPTCHA. ALTCHA is verified without the session, so prefer it when
+// the booking page is embedded. "None" makes these cookies reachable from requests that other websites start, and
+// browsers reject such a cookie over a plain connection, so it implies HTTPS.
+$config['cookie_samesite'] = 'Lax';
+
+// Still honoured for the installations that declare the value in the root "config.php" file.
+if (defined('COOKIE_SAMESITE')) {
+    $config['cookie_samesite'] = COOKIE_SAMESITE;
+}
+
+// Browsers reject a "SameSite=None" cookie that is not also marked secure, so that choice implies HTTPS.
+$config['cookie_secure'] =
+    strpos($config['base_url'], 'https') !== false || strcasecmp($config['cookie_samesite'], 'None') === 0;
+
+// The session cookie is written by PHP itself, which reads the attribute from this INI setting. It has to be in place
+// before the session starts, and the session library is loaded later than this file.
+ini_set('session.cookie_samesite', $config['cookie_samesite']);
 
 /*
 |--------------------------------------------------------------------------
@@ -420,7 +452,7 @@ $config['csrf_protection'] = true;
 $config['csrf_token_name'] = 'csrf_token';
 $config['csrf_cookie_name'] = 'csrf_cookie';
 $config['csrf_expire'] = 7200;
-$config['csrf_exclude_uris'] = ['api/v1/.*', 'booking/.*', 'booking_cancellation/.*', 'booking_confirmation/.*'];
+$config['csrf_exclude_uris'] = ['api/v1/.*', 'booking/.*', 'booking_cancellation/.*', 'booking_confirmation/.*', 'localization/.*'];
 
 /*
 |--------------------------------------------------------------------------
@@ -474,10 +506,15 @@ $config['rewrite_short_tags'] = false;
 | If your server is behind a reverse proxy, you must whitelist the proxy IP
 | addresses from which CodeIgniter should trust the HTTP_X_FORWARDED_FOR
 | header in order to properly identify the visitor's IP address.
-| Comma-delimited, e.g. '10.0.1.200,10.0.1.201'
+| Comma-delimited, e.g. '10.0.1.200,10.0.1.201' - CIDR ranges such as
+| '172.18.0.0/16' work as well. The PROXY_IPS environment variable can be
+| used instead of editing this file.
+|
+| Leave this empty when the application is not behind a proxy, as trusting
+| the header without a whitelist would let clients spoof their IP address.
 |
 */
-$config['proxy_ips'] = '';
+$config['proxy_ips'] = getenv('PROXY_IPS') ?: '';
 
 /*
 |--------------------------------------------------------------------------

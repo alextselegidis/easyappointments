@@ -92,4 +92,30 @@ class EA_Security extends CI_Security
         log_message('info', 'CSRF token verified');
         return $this;
     }
+
+    /**
+     * Send the CSRF cookie.
+     *
+     * CI_Security uses the positional setcookie() signature, which carries no SameSite attribute, so the configured
+     * value never reached the browser. Send it with the same attributes as the session cookie, so that both are
+     * available in the same contexts.
+     *
+     * @return CI_Security|false
+     */
+    public function csrf_set_cookie()
+    {
+        $secure_cookie = (bool) config_item('cookie_secure');
+
+        if ($secure_cookie && !is_https()) {
+            log_message('error', 'CSRF cookie not sent, as a secure cookie requires an HTTPS connection.');
+
+            return false;
+        }
+
+        setcookie($this->_csrf_cookie_name, $this->_csrf_hash, cookie_options(time() + $this->_csrf_expire));
+
+        log_message('info', 'CSRF cookie sent');
+
+        return $this;
+    }
 }

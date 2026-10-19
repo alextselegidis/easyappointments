@@ -42,6 +42,6 @@ $config['language'] = 'english'; // Change to your language
 
 If you'd like to contribute your translation to the project, you can submit a [pull request on GitHub](https://github.com/alextselegidis/easyappointments) or email it to [alextselegidis@gmail.com](mailto:alextselegidis@gmail.com).
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

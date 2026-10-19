@@ -84,7 +84,7 @@ App.Http.Caldav = (function () {
         return $.get(url);
     }
 
-    function connectToServer(providerId, caldavUrl, caldavUsername, caldavPassword) {
+    function connectToServer(providerId, caldavUrl, caldavUsername, caldavPassword, allowPrivateHost = false) {
         const url = App.Utils.Url.siteUrl('caldav/connect_to_server');
 
         const data = {
@@ -93,6 +93,7 @@ App.Http.Caldav = (function () {
             caldav_url: caldavUrl,
             caldav_username: caldavUsername,
             caldav_password: caldavPassword,
+            allow_private_host: allowPrivateHost ? 1 : 0,
         };
 
         return $.post(url, data);

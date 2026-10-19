@@ -161,6 +161,9 @@ class Service_categories_api_v1 extends EA_Controller
 
             $this->service_categories_model->api_decode($service_category, $original_category);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $service_category['id'] = $id;
+
             $service_category_id = $this->service_categories_model->save($service_category);
 
             $updated_service_category = $this->service_categories_model->find($service_category_id);

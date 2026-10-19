@@ -83,7 +83,7 @@ class Installation extends EA_Controller
                 empty($admin['email']) ||
                 empty($admin['username']) ||
                 empty($admin['password'])
-            ){
+            ) {
                 throw new InvalidArgumentException('Missing required admin fields.');
             }
 

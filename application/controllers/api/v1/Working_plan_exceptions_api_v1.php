@@ -190,6 +190,9 @@ class Working_plan_exceptions_api_v1 extends EA_Controller
 
             $this->working_plan_exceptions_model->api_decode($working_plan_exception, $original_working_plan_exception);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $working_plan_exception['id'] = $id;
+
             $working_plan_exception_id = $this->working_plan_exceptions_model->save($working_plan_exception);
 
             $updated_working_plan_exception = $this->working_plan_exceptions_model->find($working_plan_exception_id);

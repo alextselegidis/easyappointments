@@ -94,12 +94,7 @@ App.Pages.Calendar = (function () {
                     $('#select-filter-item').trigger('change'); // Update the calendar.
                 };
 
-                App.Http.Calendar.saveWorkingPlanException(
-                    workingPlanException,
-                    providerId,
-                    successCallback,
-                    null,
-                );
+                App.Http.Calendar.saveWorkingPlanException(workingPlanException, providerId, successCallback, null);
             });
         });
     }

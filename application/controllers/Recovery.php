@@ -85,7 +85,14 @@ class Recovery extends EA_Controller
                     $captcha = request('captcha');
                     $captcha_phrase = session('captcha_phrase');
 
-                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                    // A phrase is valid for a single attempt, so that one solved image cannot be replayed
+                    $this->session->unset_userdata('captcha_phrase');
+
+                    if (
+                        empty($captcha_phrase) ||
+                        empty($captcha) ||
+                        strtoupper($captcha_phrase) !== strtoupper($captcha)
+                    ) {
                         json_response([
                             'success' => false,
                             'captcha_verification' => false,
@@ -124,7 +131,9 @@ class Recovery extends EA_Controller
                 $company_color = setting('company_color');
 
                 if ($reset_data) {
-                    $reset_link = site_url('recovery/reset?token=' . $reset_data['token']);
+                    // Root the emailed link at the operator-configured base URL, not the
+                    // client-supplied Host header (host-header injection -> token disclosure).
+                    $reset_link = trusted_site_url('recovery/reset?token=' . $reset_data['token']);
                     $settings = [
                         'company_name' => setting('company_name'),
                         'company_link' => setting('company_link'),
@@ -244,7 +253,14 @@ class Recovery extends EA_Controller
                     $captcha = request('captcha');
                     $captcha_phrase = session('captcha_phrase');
 
-                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                    // A phrase is valid for a single attempt, so that one solved image cannot be replayed
+                    $this->session->unset_userdata('captcha_phrase');
+
+                    if (
+                        empty($captcha_phrase) ||
+                        empty($captcha) ||
+                        strtoupper($captcha_phrase) !== strtoupper($captcha)
+                    ) {
                         json_response([
                             'success' => false,
                             'captcha_verification' => false,

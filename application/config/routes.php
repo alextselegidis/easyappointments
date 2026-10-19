@@ -59,81 +59,58 @@ $route['translate_uri_dashes'] = false;
 
 /*
 | -------------------------------------------------------------------------
-| FRAME OPTIONS HEADERS
-| -------------------------------------------------------------------------
-| Set the appropriate headers so that iframe control and permissions are 
-| properly configured.
-|
-| This prevents clickjacking attacks by disabling embedding in iframes.
-|
-| Options:
-|
-|   - DENY 
-|   - SAMEORIGIN 
-|
-*/
-
-header('X-Frame-Options: SAMEORIGIN');
-
-/*
-| -------------------------------------------------------------------------
 | SECURITY HEADERS
 | -------------------------------------------------------------------------
-| Additional security headers to protect against common web attacks.
+| The frame options, content type, referrer, permissions and content security policy headers are all set by the
+| add_security_headers() hook (application/hooks/security_headers.php), so that there is a single place to adjust
+| them. They used to be duplicated here as well, which meant a change in one file silently had no effect.
+|
+| Only the CORS section below stays here, because a preflight request has to be answered before the controller runs.
 |
 */
-
-// Prevent MIME type sniffing
-header('X-Content-Type-Options: nosniff');
-
-// Enable XSS filtering in older browsers
-header('X-XSS-Protection: 1; mode=block');
-
-// Referrer Policy - only send referrer for same-origin requests
-header('Referrer-Policy: strict-origin-when-cross-origin');
-
-// Permissions Policy - restrict browser features
-header('Permissions-Policy: geolocation=(), microphone=(), camera=()');
 
 /*
 | -------------------------------------------------------------------------
 | CORS HEADERS
 | -------------------------------------------------------------------------
-| Set the appropriate headers so that CORS requirements are met and any 
-| incoming preflight options request succeeds. 
+| Set the appropriate headers so that CORS requirements are met and any
+| incoming preflight options request succeeds.
 |
-| IMPORTANT: For production, restrict this to your specific trusted domains.
+| Cross-origin requests are denied unless the origin is listed in $allowed_origins below. Same-origin requests carry
+| no Origin header and are never affected by this section.
 |
 */
 
-// Get allowed origins from configuration or use a whitelist
-$allowed_origins = defined('CORS_ALLOWED_ORIGINS') ? explode(',', CORS_ALLOWED_ORIGINS) : [];
+// List the origins that are allowed to call this installation from the browser, for example:
+//
+// $allowed_origins = ['https://example.org', 'https://www.example.org'];
+//
+// Every origin must include the scheme and, when it is not the default one, the port. An empty list denies every
+// cross-origin request, which is what almost every installation wants: embedding the booking page in an iframe does
+// not need an entry here either.
+$allowed_origins = [];
+
+// Still honoured for the installations that declare the origins in the root "config.php" file.
+if (defined('CORS_ALLOWED_ORIGINS')) {
+    $allowed_origins = array_filter(array_map('trim', explode(',', CORS_ALLOWED_ORIGINS)));
+}
 $request_origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
-// Only allow CORS for configured origins, or same-origin requests
-if (!empty($request_origin) && (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))) {
+// Requests without an Origin header are same-origin and need no CORS headers at all.
+$cors_origin_allowed = !empty($request_origin) && in_array($request_origin, $allowed_origins, true);
+
+if ($cors_origin_allowed) {
     header('Access-Control-Allow-Origin: ' . $request_origin);
     header('Access-Control-Allow-Credentials: true');
-} elseif (empty($request_origin)) {
-    // No Origin header - same-origin request, no CORS needed
-} else {
-    // Origin not in whitelist - don't set CORS headers (will fail CORS check)
+    header('Vary: Origin');
 }
 
-if (
-    isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) &&
-    !empty($request_origin) &&
-    (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))
-) {
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD']) && $cors_origin_allowed) {
     // May also be using PUT, PATCH, HEAD etc
     header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD');
 }
 
-if (
-    isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) &&
-    !empty($request_origin) &&
-    (empty($allowed_origins) || in_array($request_origin, $allowed_origins, true))
-) {
+if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']) && $cors_origin_allowed) {
     // Only allow safe headers
     $allowed_headers = ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin', 'X-CSRF'];
     $requested_headers = array_map('trim', explode(',', $_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']));
@@ -190,6 +167,8 @@ route_api_resource($route, 'unavailabilities', 'api/v1/');
 route_api_resource($route, 'webhooks', 'api/v1/');
 
 route_api_resource($route, 'blocked_periods', 'api/v1/');
+
+route_api_resource($route, 'working_plan_exceptions', 'api/v1/');
 
 $route['api/v1/settings']['get'] = 'api/v1/settings_api_v1/index';
 

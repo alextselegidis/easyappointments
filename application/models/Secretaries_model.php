@@ -79,9 +79,16 @@ class Secretaries_model extends EA_Model
      */
     public function validate(array $secretary): void
     {
-        // If a secretary ID is provided then check whether the record really exists in the database.
+        // If a secretary ID is provided then check whether the record really exists in the database and that it is
+        // bound to the secretary role, so that the ID cannot target another kind of user (e.g. an administrator).
         if (!empty($secretary['id'])) {
-            $count = $this->db->get_where('users', ['id' => $secretary['id']])->num_rows();
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('users.id', $secretary['id'])
+                ->where('roles.slug', DB_SLUG_SECRETARY)
+                ->get()
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -109,6 +116,20 @@ class Secretaries_model extends EA_Model
                         'The provided secretary providers are invalid: ' . print_r($secretary, true),
                     );
                 }
+            }
+
+            // Make sure the provided providers exist in the database.
+            $provider_ids = array_unique(array_map('intval', $secretary['providers']));
+
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where_in('users.id', $provider_ids)
+                ->where('roles.slug', DB_SLUG_PROVIDER)
+                ->count_all_results();
+
+            if ($count !== count($provider_ids)) {
+                throw new InvalidArgumentException('The provided secretary providers were not found in the database.');
             }
         }
 
@@ -365,6 +386,8 @@ class Secretaries_model extends EA_Model
      */
     protected function update(array $secretary): int
     {
+        $secretary['id_roles'] = $this->get_secretary_role_id();
+
         $secretary['update_datetime'] = date('Y-m-d H:i:s');
 
         $provider_ids = $secretary['providers'] ?? [];
@@ -427,7 +450,7 @@ class Secretaries_model extends EA_Model
      */
     public function delete(int $secretary_id): void
     {
-        $this->db->delete('users', ['id' => $secretary_id]);
+        $this->db->delete('users', ['id' => $secretary_id, 'id_roles' => $this->get_secretary_role_id()]);
     }
 
     /**

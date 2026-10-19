@@ -167,6 +167,9 @@ class Admins_api_v1 extends EA_Controller
 
             $this->admins_model->api_decode($admin, $original_admin);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $admin['id'] = $id;
+
             $admin_id = $this->admins_model->save($admin);
 
             $updated_admin = $this->admins_model->find($admin_id);

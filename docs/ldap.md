@@ -101,6 +101,6 @@ For this to work:
 - The **username** must match between both systems.
 - The **LDAP DN** field must point to the correct LDAP entry.
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

@@ -91,6 +91,13 @@ class Blocked_periods_model extends EA_Model
             );
         }
 
+        if (
+            !validate_datetime($blocked_period['start_datetime']) ||
+            !validate_datetime($blocked_period['end_datetime'])
+        ) {
+            throw new InvalidArgumentException('The blocked-period start or end date time is invalid.');
+        }
+
         // Make sure that the start date time is before the end.
         $start_date_time_object = new DateTime($blocked_period['start_datetime']);
         $end_date_time_object = new DateTime($blocked_period['end_datetime']);
@@ -428,7 +435,9 @@ class Blocked_periods_model extends EA_Model
     }
 
     /**
-     * Check if a date is blocked by a blocked period.
+     * Check if a date is entirely covered by a single blocked period.
+     *
+     * Periods that only cover a part of the date are removed from the available hours separately.
      *
      * @param string $date
      *
@@ -436,10 +445,11 @@ class Blocked_periods_model extends EA_Model
      */
     public function is_entire_date_blocked(string $date): bool
     {
+        // A period that ends at 23:59 counts as covering the rest of the day, as the date pickers have minute precision.
         return $this->query()
-            ->where('DATE(start_datetime) <=', $date)
-            ->where('DATE(end_datetime) >=', $date)
+            ->where('start_datetime <=', $date . ' 00:00:00')
+            ->where('end_datetime >=', $date . ' 23:59:00')
             ->get()
-            ->num_rows() > 1;
+            ->num_rows() > 0;
     }
 }

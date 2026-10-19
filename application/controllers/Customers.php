@@ -194,9 +194,9 @@ class Customers extends EA_Controller
 
             $order_by = request('order_by', 'update_datetime DESC');
 
-            $limit = request('limit', 1000);
+            $limit = max(1, (int) request('limit', 1000));
 
-            $offset = (int) request('offset', '0');
+            $offset = max(0, (int) request('offset', '0'));
 
             $customers = $this->customers_model->search($keyword, $limit, $offset, $order_by);
 
@@ -249,7 +249,6 @@ class Customers extends EA_Controller
         }
     }
 
-
     /**
      * Store a new customer.
      */
@@ -262,7 +261,7 @@ class Customers extends EA_Controller
                 abort(403, 'Forbidden');
             }
 
-            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_visibility')) {
+            if (session('role_slug') !== DB_SLUG_ADMIN && setting('limit_customer_access')) {
                 abort(403);
             }
 

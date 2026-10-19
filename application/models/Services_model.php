@@ -107,6 +107,11 @@ class Services_model extends EA_Model
             }
         }
 
+        // Make sure the color is a hex value, as it is rendered into the calendar markup.
+        if (!empty($service['color']) && !validate_color((string) $service['color'])) {
+            throw new InvalidArgumentException('The provided service color is invalid: ' . $service['color']);
+        }
+
         // Make sure the duration value is valid.
         if (!empty($service['duration'])) {
             if ((int) $service['duration'] < EVENT_MINIMUM_DURATION) {
@@ -116,16 +121,41 @@ class Services_model extends EA_Model
             }
         }
 
-        // Make sure the slot_interval value is valid.
-        if (!empty($service['slot_interval']) && (int) $service['slot_interval'] < 1) {
+        // Make sure the price value is valid.
+        if (isset($service['price']) && $service['price'] !== '' && (float) $service['price'] < 0) {
+            throw new InvalidArgumentException('The service price cannot be negative: ' . $service['price']);
+        }
+
+        // Make sure the slot_interval value is valid (an empty value falls back to the 15 minute default).
+        if (
+            isset($service['slot_interval']) &&
+            $service['slot_interval'] !== '' &&
+            (int) $service['slot_interval'] < 1
+        ) {
             throw new InvalidArgumentException('The service slot interval must be at least 1 minute.');
         }
 
         // Validate the attendants number value.
         if (empty($service['attendants_number']) || (int) $service['attendants_number'] < 1) {
             throw new InvalidArgumentException(
-                'The provided attendants number is invalid: ' . $service['attendants_number'],
+                'The provided attendants number is invalid: ' . ($service['attendants_number'] ?? ''),
             );
+        }
+
+        // Make sure the provided providers exist in the database.
+        if (!empty($service['providers'])) {
+            $provider_ids = array_unique(array_map('intval', $service['providers']));
+
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where_in('users.id', $provider_ids)
+                ->where('roles.slug', DB_SLUG_PROVIDER)
+                ->count_all_results();
+
+            if ($count !== count($provider_ids)) {
+                throw new InvalidArgumentException('The provided service providers were not found in the database.');
+            }
         }
     }
 

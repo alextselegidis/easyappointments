@@ -45,7 +45,7 @@
                             'captcha',
                         ) ?>" alt="CAPTCHA">
                         <input id="captcha-text" class="captcha-text form-control w-100 mb-4" type="text" value=""/>
-                        <span id="captcha-hint" class="help-block" style="opacity:0">&nbsp;</span>
+                        <span id="captcha-hint" class="help-block text-danger small" style="opacity:0">&nbsp;</span>
                     </div>
                 </div>
             <?php endif; ?>

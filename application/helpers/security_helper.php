@@ -43,6 +43,27 @@ if (!function_exists('sanitize_filename')) {
     }
 }
 
+if (!function_exists('allow_iframe_embedding')) {
+    /**
+     * Allow the current response to be embedded inside an iframe by any origin.
+     *
+     * The global security headers hook sets `X-Frame-Options: SAMEORIGIN` on every
+     * response in order to mitigate clickjacking. The public booking flow, however,
+     * is explicitly designed to be embeddable on third-party websites, so each
+     * endpoint that participates in that flow must override the default.
+     *
+     * Call this from any controller method that is reached (directly or via AJAX
+     * subresources) while the public booking page is rendered inside an iframe.
+     */
+    function allow_iframe_embedding(): void
+    {
+        // Remove the header instead of sending a permissive value: "ALLOWALL" is not part of the specification, so
+        // browsers only allow the framing because they ignore values they do not recognise, and a stricter agent or an
+        // intermediate proxy may fall back to denying it. No header at all is the documented way to leave framing open.
+        header_remove('X-Frame-Options');
+    }
+}
+
 if (!function_exists('validate_id')) {
     /**
      * Validate that an ID is a positive integer.
@@ -197,6 +218,38 @@ if (!function_exists('is_safe_redirect_url')) {
 
         // Compare hosts (case-insensitive)
         return strcasecmp($parsed['host'], $current_host) === 0;
+    }
+}
+
+if (!function_exists('trusted_site_url')) {
+    /**
+     * Build an absolute URL from the operator-configured base URL (Config::BASE_URL),
+     * independent of the client-supplied Host header.
+     *
+     * Use this instead of site_url() for links placed into outbound emails or
+     * notifications. site_url() roots links at the runtime base_url, which is derived
+     * from the client-controlled Host header (see application/config/config.php), so an
+     * anonymous request can poison an emailed link with an attacker-chosen host
+     * (host-header injection -> reset-token disclosure / account takeover).
+     *
+     * @param string $uri Relative URI, e.g. 'recovery/reset?token=abc'.
+     * @param string|null $index_page Front-controller segment; falls back to config when null.
+     *
+     * @return string Absolute URL rooted at Config::BASE_URL.
+     */
+    function trusted_site_url(string $uri = '', ?string $index_page = null): string
+    {
+        if ($index_page === null) {
+            $index_page = get_instance()->config->item('index_page');
+        }
+
+        $base = rtrim(Config::BASE_URL, '/') . '/';
+
+        if (!empty($index_page)) {
+            $base .= $index_page . '/';
+        }
+
+        return $base . ltrim($uri, '/');
     }
 }
 

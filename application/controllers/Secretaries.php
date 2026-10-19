@@ -28,6 +28,7 @@ class Secretaries extends EA_Controller
         'email',
         'alt_number',
         'phone_number',
+        'mobile_number',
         'address',
         'city',
         'state',
@@ -143,13 +144,13 @@ class Secretaries extends EA_Controller
 
             $order_by = request('order_by', 'update_datetime DESC');
 
-            $limit = request('limit', 1000);
+            $limit = max(1, (int) request('limit', 1000));
 
-            $offset = (int) request('offset', '0');
+            $offset = max(0, (int) request('offset', '0'));
 
             $secretaries = $this->secretaries_model->search($keyword, $limit, $offset, $order_by);
 
-            json_response($secretaries);
+            json_response(filter_sensitive_users_data($secretaries));
         } catch (Throwable $e) {
             json_exception($e);
         }
@@ -217,7 +218,7 @@ class Secretaries extends EA_Controller
 
             $secretary = $this->secretaries_model->find($secretary_id);
 
-            json_response($secretary);
+            json_response(filter_sensitive_user_data($secretary));
         } catch (Throwable $e) {
             json_exception($e);
         }

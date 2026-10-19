@@ -139,6 +139,15 @@ class General_settings extends EA_Controller
                     continue;
                 }
 
+                // Reject company_color values that are not valid hex colors (prevents CSS/HTML injection).
+                if (
+                    $setting['name'] === 'company_color' &&
+                    !preg_match('/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/', $setting['value'] ?? '')
+                ) {
+                    log_message('error', 'Rejected invalid company_color value: ' . ($setting['value'] ?? ''));
+                    continue;
+                }
+
                 $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();
 
                 if (!empty($existing_setting)) {

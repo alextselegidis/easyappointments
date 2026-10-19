@@ -161,6 +161,9 @@ class Services_api_v1 extends EA_Controller
 
             $this->services_model->api_decode($service, $original_service);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $service['id'] = $id;
+
             $service_id = $this->services_model->save($service);
 
             $updated_service = $this->services_model->find($service_id);

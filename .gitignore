@@ -1,5 +1,6 @@
 /*.zip
 /.idea/
+/.playwright-mcp/
 /.tmp-package/
 /build/
 /docs/apigen/html

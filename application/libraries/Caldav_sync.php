@@ -14,8 +14,13 @@
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
+use GuzzleHttp\Psr7\Uri;
 use Jsvrcek\ICS\Exception\CalendarEventException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\UriInterface;
 use Sabre\VObject\Component\VEvent;
 use Sabre\VObject\Reader;
 
@@ -28,8 +33,10 @@ use Sabre\VObject\Reader;
  */
 class Caldav_sync
 {
-    // Toggle SSRF host validation here (enabled by default).
-    protected bool $enable_ssrf_check = true;
+    /**
+     * Host that the administrator confirmed for the current request, before it is stored.
+     */
+    private ?string $pending_allowed_host = null;
 
     /**
      * @var EA_Controller|CI_Controller
@@ -78,7 +85,11 @@ class Caldav_sync
             $caldav_event_id =
                 $appointment['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($appointment['id']);
 
-            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
+            // An event that is already synced may live under a URI that does not match its UID, so look the
+            // existing resource up instead of writing a second event next to it.
+            $uri = $appointment['id_caldav_calendar']
+                ? $this->get_existing_event_uri($client, $provider['settings']['caldav_url'], $caldav_event_id)
+                : $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -120,7 +131,11 @@ class Caldav_sync
             $caldav_event_id =
                 $unavailability['id_caldav_calendar'] ?: $this->CI->ics_file->generate_uid($unavailability['id']);
 
-            $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
+            // An event that is already synced may live under a URI that does not match its UID, so look the
+            // existing resource up instead of writing a second event next to it.
+            $uri = $unavailability['id_caldav_calendar']
+                ? $this->get_existing_event_uri($client, $provider['settings']['caldav_url'], $caldav_event_id)
+                : $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
             $client->request('PUT', $uri, [
                 'headers' => [
@@ -151,7 +166,22 @@ class Caldav_sync
 
             $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
-            $client->request('DELETE', $uri);
+            try {
+                $client->request('DELETE', $uri);
+            } catch (RequestException $e) {
+                if (!$e->hasResponse() || $e->getResponse()->getStatusCode() !== 404) {
+                    throw $e;
+                }
+
+                // An imported event may be stored under a URI that does not match its UID.
+                $existing_uri = $this->find_event_uri($client, $caldav_event_id);
+
+                if (!$existing_uri || $existing_uri === $uri) {
+                    throw $e;
+                }
+
+                $client->request('DELETE', $existing_uri);
+            }
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to delete CalDAV event');
         }
@@ -175,7 +205,23 @@ class Caldav_sync
 
             $uri = $this->get_caldav_event_uri($provider['settings']['caldav_url'], $caldav_event_id);
 
-            $response = $client->request('GET', $uri);
+            try {
+                $response = $client->request('GET', $uri);
+            } catch (RequestException $e) {
+                if (!$e->hasResponse() || $e->getResponse()->getStatusCode() !== 404) {
+                    throw $e;
+                }
+
+                // An imported event may be stored under a URI that does not match its UID, so look it up before the
+                // event is reported as missing and the local record gets removed.
+                $existing_uri = $this->find_event_uri($client, $caldav_event_id);
+
+                if (!$existing_uri || $existing_uri === $uri) {
+                    throw $e;
+                }
+
+                $response = $client->request('GET', $existing_uri);
+            }
 
             $ics_file = $response->getBody()->getContents();
 
@@ -213,7 +259,7 @@ class Caldav_sync
             $client = $this->get_http_client_by_provider_id($provider['id']);
             $provider_timezone_object = new DateTimeZone($provider['timezone']);
 
-            $response = $this->fetch_events($client, $start_date_time, $end_date_time);
+            $response = $this->fetch_events($client, $start_date_time, $end_date_time, $provider_timezone_object);
 
             if (!$response->getBody()) {
                 log_message('error', 'No response body from fetch_events' . PHP_EOL);
@@ -411,7 +457,7 @@ class Caldav_sync
      */
     private function get_http_client(string $caldav_url, string $caldav_username, string $caldav_password): Client
     {
-        $this->assert_safe_caldav_url($caldav_url);
+        $pinned_ip = $this->assert_safe_caldav_url($caldav_url);
 
         if (!$caldav_username) {
             throw new InvalidArgumentException('Missing CalDAV username');
@@ -421,20 +467,65 @@ class Caldav_sync
             throw new InvalidArgumentException('Missing CalDAV password');
         }
 
-        return new Client([
-            'base_uri' => rtrim($caldav_url, '/') . '/',
+        $base_uri = new Uri(rtrim($caldav_url, '/') . '/');
+
+        $handler_stack = HandlerStack::create();
+
+        // Pushed last, this runs after the redirect middleware, so it also sees the requests that a redirect or an
+        // absolute href in a server response leads to. Neither may leave the server that was checked above.
+        $handler_stack->push(
+            Middleware::mapRequest(function (RequestInterface $request) use ($base_uri) {
+                if (!$this->is_same_origin($request->getUri(), $base_uri)) {
+                    throw new RequestException(
+                        'CalDAV request to another server is not allowed: ' . $request->getUri(),
+                        $request,
+                    );
+                }
+
+                return $request;
+            }),
+        );
+
+        $options = [
+            'base_uri' => $base_uri,
             'connect_timeout' => 15,
             'headers' => [
                 'Content-Type' => 'text/xml',
             ],
             'auth' => [$caldav_username, $caldav_password],
-        ]);
+            'handler' => $handler_stack,
+        ];
+
+        // Connect to the address that was checked, instead of letting cURL resolve the host again, as a second lookup
+        // may return a private address (DNS rebinding).
+        if ($pinned_ip) {
+            $port = $base_uri->getPort() ?? ($base_uri->getScheme() === 'https' ? 443 : 80);
+
+            $address = str_contains($pinned_ip, ':') ? '[' . $pinned_ip . ']' : $pinned_ip;
+
+            $options['curl'] = [CURLOPT_RESOLVE => [$base_uri->getHost() . ':' . $port . ':' . $address]];
+        }
+
+        return new Client($options);
+    }
+
+    /**
+     * Check whether both URIs point to the same scheme, host and port.
+     */
+    private function is_same_origin(UriInterface $uri, UriInterface $base_uri): bool
+    {
+        return strtolower($uri->getScheme()) === strtolower($base_uri->getScheme()) &&
+            strtolower($uri->getHost()) === strtolower($base_uri->getHost()) &&
+            $uri->getPort() === $base_uri->getPort();
     }
 
     /**
      * Ensure CalDAV URLs are valid and point to public network destinations.
+     *
+     * @return string|null The checked address to connect to, or NULL when the host needs no resolving (an IP address
+     * or a host allowed by the administrator).
      */
-    private function assert_safe_caldav_url(string $caldav_url): void
+    private function assert_safe_caldav_url(string $caldav_url): ?string
     {
         if (!filter_var($caldav_url, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException('Invalid CalDAV URL provided.');
@@ -447,32 +538,165 @@ class Caldav_sync
             throw new InvalidArgumentException('Invalid CalDAV URL provided.');
         }
 
-        // Local Docker CalDAV host explicitly allowed even when SSRF checks are enabled.
-        if ($scheme === 'http' && strtolower($host) === 'baikal') {
-            return;
-        }
-
-        if (!$this->enable_ssrf_check) {
-            return;
+        // Hosts that an administrator allowed in the CalDAV integration settings are trusted as they are, so that
+        // installations with a CalDAV server on the local network can still reach it.
+        if (in_array(strtolower($host), $this->get_allowed_hosts(), true)) {
+            return null;
         }
 
         $resolved_ips = $this->resolve_host_ips($host);
 
+        // Name the host in both messages: it is the value the administrator has to add to the allowed connection
+        // URLs, and the calendar page shows the message as it is.
         if (empty($resolved_ips)) {
-            throw new InvalidArgumentException('CalDAV URL host cannot be resolved.');
+            throw new InvalidArgumentException('CalDAV URL host cannot be resolved: ' . $host);
         }
 
         foreach ($resolved_ips as $resolved_ip) {
-            if (
-                !filter_var(
-                    $resolved_ip,
-                    FILTER_VALIDATE_IP,
-                    FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE,
-                )
-            ) {
-                throw new InvalidArgumentException('CalDAV URL host is not allowed.');
+            if (!$this->is_public_ip($resolved_ip)) {
+                throw new InvalidArgumentException('CalDAV URL host is not allowed: ' . $host);
             }
         }
+
+        if (filter_var($host, FILTER_VALIDATE_IP)) {
+            return null;
+        }
+
+        // Prefer IPv4, as servers without IPv6 connectivity would otherwise fail to connect to hosts that have both.
+        $ipv4_ips = array_filter($resolved_ips, fn($ip) => filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4));
+
+        return reset($ipv4_ips) ?: $resolved_ips[0];
+    }
+
+    /**
+     * Check whether the IP address belongs to the public network.
+     */
+    private function is_public_ip(string $ip): bool
+    {
+        if (!filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
+            return false;
+        }
+
+        $binary = inet_pton($ip);
+
+        if (strlen($binary) === 4) {
+            // Shared address space (100.64.0.0/10), used by carrier-grade NAT and some cloud metadata services.
+            return !(ord($binary[0]) === 100 && (ord($binary[1]) & 0xc0) === 64);
+        }
+
+        // Check the IPv4 address that these IPv6 addresses carry: IPv4-compatible (::/96), IPv4-mapped
+        // (::ffff:0:0/96), NAT64 (64:ff9b::/96) and 6to4 (2002::/16). The PHP filter does not look into all of them.
+        $embedded_ipv4 = match (true) {
+            str_starts_with($binary, str_repeat("\0", 12)),
+            str_starts_with($binary, str_repeat("\0", 10) . "\xff\xff"),
+            str_starts_with($binary, "\x00\x64\xff\x9b" . str_repeat("\0", 8))
+                => substr($binary, 12, 4),
+            str_starts_with($binary, "\x20\x02") => substr($binary, 2, 4),
+            default => null,
+        };
+
+        if ($embedded_ipv4 !== null) {
+            return $this->is_public_ip(inet_ntop($embedded_ipv4));
+        }
+
+        // Local-use NAT64 (64:ff9b:1::/48), Teredo (2001::/32), documentation (2001:db8::/32) and discard (100::/64)
+        // addresses either tunnel into other networks or are never public.
+        foreach (
+            ["\x00\x64\xff\x9b\x00\x01", "\x20\x01\x00\x00", "\x20\x01\x0d\xb8", "\x01\x00" . str_repeat("\0", 6)]
+            as $prefix
+        ) {
+            if (str_starts_with($binary, $prefix)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Get the host of the provided CalDAV URL when it may not be reached as things stand.
+     *
+     * Returns NULL when the URL is fine, so that the caller can offer to allow the host instead of only reporting a
+     * failure.
+     */
+    public function get_blocked_host(string $caldav_url): ?string
+    {
+        try {
+            $this->assert_safe_caldav_url($caldav_url);
+        } catch (InvalidArgumentException) {
+            return strtolower(trim((string) parse_url($caldav_url, PHP_URL_HOST), '[]')) ?: null;
+        }
+
+        return null;
+    }
+
+    /**
+     * Add the host of the provided CalDAV URL to the allowed connection URLs.
+     *
+     * Only call this once the administrator has confirmed the host, as it lifts the private address check for it.
+     */
+    public function allow_host(string $caldav_url): void
+    {
+        $host = strtolower(trim((string) parse_url($caldav_url, PHP_URL_HOST), '[]'));
+
+        if (!$host || in_array($host, $this->get_allowed_hosts(), true)) {
+            return;
+        }
+
+        // Only allow the host for the request at hand, so that a connection attempt that turns out to be wrong does
+        // not leave it permanently allowed. Call persist_allowed_host() once the connection actually worked.
+        $this->pending_allowed_host = $host;
+    }
+
+    /**
+     * Store the host that allow_host() confirmed for the current request.
+     *
+     * Only call this after the connection test succeeded, otherwise a failed attempt would widen the allowed
+     * connection URLs for good.
+     */
+    public function persist_allowed_host(): void
+    {
+        if (!$this->pending_allowed_host) {
+            return;
+        }
+
+        $allowed_hosts = trim((string) setting('caldav_allowed_hosts', ''));
+
+        setting([
+            'caldav_allowed_hosts' =>
+                $allowed_hosts === ''
+                    ? $this->pending_allowed_host
+                    : $allowed_hosts . "\n" . $this->pending_allowed_host,
+        ]);
+
+        $this->pending_allowed_host = null;
+    }
+
+    /**
+     * Get the hosts that are allowed to resolve to a private or reserved address.
+     *
+     * Administrators maintain the list in the CalDAV integration settings, where every line holds either a full
+     * connection URL or a bare host name.
+     */
+    private function get_allowed_hosts(): array
+    {
+        $allowed_hosts = [];
+
+        foreach (preg_split('/[\s,]+/', (string) setting('caldav_allowed_hosts', '')) as $entry) {
+            if ($entry === '') {
+                continue;
+            }
+
+            $host = parse_url($entry, PHP_URL_HOST) ?: $entry;
+
+            $allowed_hosts[] = strtolower(trim((string) $host, '[]'));
+        }
+
+        if ($this->pending_allowed_host) {
+            $allowed_hosts[] = $this->pending_allowed_host;
+        }
+
+        return $allowed_hosts;
     }
 
     /**
@@ -518,16 +742,56 @@ class Caldav_sync
     public function test_connection(string $caldav_url, string $caldav_username, string $caldav_password): void
     {
         try {
-            // Fetch some events to see if the connection is valid
             $client = $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
 
+            // A PROPFIND on the provided URL is the only request that always requires the read
+            // privilege on that exact resource, which makes it the reliable credential check.
+            // Calendar queries (REPORT) are answered with an empty multistatus by some servers
+            // (e.g. SabreDAV/Baikal) when the URL points to a parent collection, even if the
+            // credentials are wrong - the authentication error would then only surface later,
+            // during the synchronization.
+            $this->assert_caldav_calendar_collection($client);
+
+            // Fetch some events to see if the calendar queries work as expected as well.
             $start_date_time = date('Y-m-d 00:00:00');
             $end_date_time = date('Y-m-d 23:59:59');
 
-            $this->fetch_events($client, $start_date_time, $end_date_time);
+            $server_timezone_object = new DateTimeZone(date_default_timezone_get());
+
+            $this->fetch_events($client, $start_date_time, $end_date_time, $server_timezone_object);
         } catch (GuzzleException $e) {
             $this->handle_guzzle_exception($e, 'Failed to test CalDAV connection');
             throw $e;
+        }
+    }
+
+    /**
+     * Make sure the client base URL points to a CalDAV calendar collection.
+     *
+     * @throws GuzzleException If there's an issue with the HTTP request (401 for invalid credentials).
+     * @throws InvalidArgumentException If the URL is not a calendar collection.
+     */
+    private function assert_caldav_calendar_collection(Client $client): void
+    {
+        $response = $client->request('PROPFIND', '', [
+            'headers' => [
+                'Content-Type' => 'application/xml',
+                'Depth' => '0',
+            ],
+            'body' => '<d:propfind xmlns:d="DAV:"><d:prop><d:resourcetype /></d:prop></d:propfind>',
+        ]);
+
+        $body = (string) $response->getBody();
+
+        // Match the CalDAV namespace URI instead of a prefix, as servers are free to pick any.
+        $is_calendar =
+            preg_match('/<([a-zA-Z0-9_.-]+:)?calendar\s*\/?>/', $body) &&
+            str_contains($body, 'urn:ietf:params:xml:ns:caldav');
+
+        if (!$is_calendar) {
+            throw new InvalidArgumentException(
+                'The provided URL is not a CalDAV calendar, please use the URL of a specific calendar.',
+            );
         }
     }
 
@@ -547,6 +811,92 @@ class Caldav_sync
         $caldav_password = $provider['settings']['caldav_password'];
 
         return $this->get_http_client($caldav_url, $caldav_username, $caldav_password);
+    }
+
+    /**
+     * Get the URI of an event that is already stored on the CalDAV server.
+     *
+     * Falls back to the generated "<uid>.ics" URI, which is the one Easy!Appointments uses for the events it creates
+     * itself, when the server does not report a URI for the UID.
+     *
+     * @param Client $client CalDAV HTTP client.
+     * @param string $caldav_calendar CalDAV calendar URL.
+     * @param string $caldav_event_id CalDAV calendar event ID.
+     *
+     * @return string
+     */
+    private function get_existing_event_uri(Client $client, string $caldav_calendar, string $caldav_event_id): string
+    {
+        $uri = $this->get_caldav_event_uri($caldav_calendar, $caldav_event_id);
+
+        // The events that Easy!Appointments creates itself are stored under that generated URI (see
+        // Ics_file::generate_uid()), so only the imported ones have to be looked up.
+        if (str_starts_with($caldav_event_id, 'ea-')) {
+            return $uri;
+        }
+
+        return $this->find_event_uri($client, $caldav_event_id) ?? $uri;
+    }
+
+    /**
+     * Look up the URI of an event on the CalDAV server, based on its UID.
+     *
+     * Servers are free to store an event under any URI and the ones created in a calendar client (Nextcloud, Apple
+     * Calendar, ...) rarely use "<uid>.ics", so the URI of an imported event has to be requested before the event can
+     * be fetched, updated or removed. Without this the requests answer with a "not found" and the local record is
+     * removed and imported again on every synchronization.
+     *
+     * @param Client $client CalDAV HTTP client.
+     * @param string $caldav_event_id CalDAV calendar event ID.
+     *
+     * @return string|null Returns the event URI or NULL if the server does not report one.
+     */
+    private function find_event_uri(Client $client, string $caldav_event_id): ?string
+    {
+        // A single instance of a recurring event has no URI of its own, and looking its UID up would return the URI
+        // of the whole series, which must not be fetched or removed in its place.
+        if (str_contains($caldav_event_id, '-RECURRENCE-')) {
+            return null;
+        }
+
+        try {
+            $response = $client->request('REPORT', '', [
+                'headers' => [
+                    'Content-Type' => 'application/xml',
+                    'Depth' => '1',
+                ],
+                'body' =>
+                    '
+                <c:calendar-query xmlns:d="DAV:" xmlns:c="urn:ietf:params:xml:ns:caldav">
+                    <d:prop>
+                        <d:getetag />
+                    </d:prop>
+                    <c:filter>
+                        <c:comp-filter name="VCALENDAR">
+                            <c:comp-filter name="VEVENT">
+                                <c:prop-filter name="UID">
+                                    <c:text-match collation="i;octet">' .
+                    htmlspecialchars($caldav_event_id, ENT_QUOTES | ENT_XML1) .
+                    '</c:text-match>
+                                </c:prop-filter>
+                            </c:comp-filter>
+                        </c:comp-filter>
+                    </c:filter>
+                </c:calendar-query>
+            ',
+            ]);
+        } catch (GuzzleException $e) {
+            $this->handle_guzzle_exception($e, 'Failed to look up the CalDAV event URI');
+
+            return null;
+        }
+
+        // Match the href of the first response, no matter which prefix the server picked for the DAV namespace.
+        if (!preg_match('~<([a-zA-Z0-9_.-]+:)?href\s*>([^<]+)</~', (string) $response->getBody(), $matches)) {
+            return null;
+        }
+
+        return trim($matches[2]) ?: null;
     }
 
     /**
@@ -665,6 +1015,7 @@ class Caldav_sync
                 'end_datetime' => $end_date_time_object->format('Y-m-d H:i:s'),
                 'description' => (string) $vevent->DESCRIPTION ?? null ?: '',
                 'status' => (string) $vevent->STATUS ?? null ?: 'CONFIRMED',
+                'transparency' => (string) $vevent->TRANSP ?? null ?: 'OPAQUE',
                 'location' => (string) $vevent->LOCATION ?? null ?: '',
             ];
         } catch (Throwable $e) {
@@ -677,11 +1028,23 @@ class Caldav_sync
      * @throws GuzzleException
      * @throws Exception
      */
-    private function fetch_events(Client $client, string $start_date_time, string $end_date_time): ResponseInterface
-    {
-        $start_date_time_object = new DateTime($start_date_time);
+    private function fetch_events(
+        Client $client,
+        string $start_date_time,
+        string $end_date_time,
+        DateTimeZone $timezone_object,
+    ): ResponseInterface {
+        // The provided values are naive date-times of the given timezone, while the CalDAV time-range filter is
+        // always in UTC, so they have to be converted first. Formatting them with a "Z" suffix as they are would
+        // shift the requested period by the timezone offset and leave out the events at its edges.
+        $utc_timezone_object = new DateTimeZone('UTC');
+
+        $start_date_time_object = new DateTime($start_date_time, $timezone_object);
+        $start_date_time_object->setTimezone($utc_timezone_object);
         $formatted_start_date_time = $start_date_time_object->format('Ymd\THis\Z');
-        $end_date_time_object = new DateTime($end_date_time);
+
+        $end_date_time_object = new DateTime($end_date_time, $timezone_object);
+        $end_date_time_object->setTimezone($utc_timezone_object);
         $formatted_end_date_time = $end_date_time_object->format('Ymd\THis\Z');
 
         return $client->request('REPORT', '', [

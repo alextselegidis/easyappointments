@@ -105,6 +105,6 @@ easyappointments.example.com {
 
 5. Restart Caddy: `sudo systemctl restart caddy.service`
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

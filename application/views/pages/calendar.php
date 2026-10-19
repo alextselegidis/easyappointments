@@ -98,6 +98,22 @@
         </div>
     </div>
 
+    <div id="sync-alert" class="alert alert-danger alert-dismissible mb-3" role="alert" hidden>
+        <h6 class="alert-heading">
+            <i class="fas fa-triangle-exclamation me-2"></i>
+            <span id="sync-alert-title"></span>
+        </h6>
+        <p id="sync-alert-hint" class="mb-1"></p>
+        <small id="sync-alert-details" class="d-block text-muted"></small>
+        <?php if (can('edit', PRIV_SYSTEM_SETTINGS)): ?>
+            <a href="<?= site_url('caldav_settings') ?>" class="btn btn-sm btn-outline-danger mt-3">
+                <i class="fas fa-cogs me-2"></i>
+                <?= lang('configure') ?>
+            </a>
+        <?php endif; ?>
+        <button type="button" class="btn-close" id="sync-alert-close" aria-label="<?= lang('close') ?>"></button>
+    </div>
+
     <div id="calendar">
         <!-- Dynamically Generated Content -->
     </div>

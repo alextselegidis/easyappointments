@@ -52,12 +52,11 @@ class Caldav extends EA_Controller
             check('caldav_url', 'string');
             check('caldav_username', 'string');
             check('caldav_password', 'string');
+            check('allow_private_host', 'bool|null');
 
             $provider_id = request('provider_id');
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 
@@ -65,9 +64,22 @@ class Caldav extends EA_Controller
             $caldav_username = request('caldav_username');
             $caldav_password = request('caldav_password');
 
+            $provider = $this->providers_model->find($provider_id);
+
+            // The administrator confirmed the host of a server that sits on a private network, so allow it for this
+            // request, otherwise the private address check rejects it again before the connection can be tested.
+            if (filter_var(request('allow_private_host'), FILTER_VALIDATE_BOOLEAN)) {
+                if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
+                    throw new RuntimeException('You do not have the required permissions for this task.');
+                }
+
+                $this->caldav_sync->allow_host($caldav_url);
+            }
+
             $this->caldav_sync->test_connection($caldav_url, $caldav_username, $caldav_password);
 
-            $provider = $this->providers_model->find($provider_id);
+            // Store the confirmed host only now, so that a failed attempt does not leave it allowed for good.
+            $this->caldav_sync->persist_allowed_host();
 
             $provider['settings']['caldav_sync'] = true;
             $provider['settings']['caldav_url'] = $caldav_url;
@@ -86,11 +98,20 @@ class Caldav extends EA_Controller
 
             if ($e instanceof RequestException && $e->hasResponse() && $e->getResponse()->getStatusCode() === 401) {
                 $message = lang('invalid_credentials_provided');
+            } elseif ($e instanceof InvalidArgumentException) {
+                $message = $e->getMessage(); // E.g. invalid URL or non-calendar URL provided.
             }
+
+            // Offer to allow a host that only failed the private address check, but only to the users who are
+            // allowed to change the setting that holds the allowed connection URLs.
+            $blocked_host = can('edit', PRIV_SYSTEM_SETTINGS)
+                ? $this->caldav_sync->get_blocked_host($caldav_url)
+                : null;
 
             json_response([
                 'success' => false,
                 'message' => $message,
+                'blocked_host' => $blocked_host,
             ]);
         } catch (Throwable $e) {
             json_exception($e);
@@ -188,7 +209,12 @@ class Caldav extends EA_Controller
 
                 if (!$local_event['id_caldav_calendar']) {
                     if (!$local_event['is_unavailability']) {
-                        $caldav_event_id = $CI->caldav_sync->save_appointment($local_event, $service, $provider, $customer);
+                        $caldav_event_id = $CI->caldav_sync->save_appointment(
+                            $local_event,
+                            $service,
+                            $provider,
+                            $customer,
+                        );
                     } else {
                         $caldav_event_id = $CI->caldav_sync->save_unavailability($local_event, $provider);
                     }
@@ -209,6 +235,15 @@ class Caldav extends EA_Controller
                         throw new Exception('Event is cancelled, remove the record from Easy!Appointments.');
                     }
 
+                    // Honour the CalDAV "free" flag (TRANSP:TRANSPARENT). Scoped to unavailabilities on purpose:
+                    // a real appointment must never be deleted because someone flipped it to free in their client.
+                    if (
+                        $local_event['is_unavailability'] &&
+                        strcasecmp($caldav_event['transparency'] ?? 'OPAQUE', 'TRANSPARENT') === 0
+                    ) {
+                        throw new Exception('Event is marked free in the CalDAV Calendar, remove the record.');
+                    }
+
                     // If CalDAV Calendar event is different from Easy!Appointments appointment then update Easy!Appointments record.
                     $local_event_start = strtotime($local_event['start_datetime']);
                     $local_event_end = strtotime($local_event['end_datetime']);
@@ -216,15 +251,22 @@ class Caldav extends EA_Controller
                     $caldav_event_start = new DateTime($caldav_event['start_datetime']);
                     $caldav_event_end = new DateTime($caldav_event['end_datetime']);
 
+                    // The event description is only compared for unavailabilities, as the ICS file of an appointment
+                    // holds the generated provider/customer details block and not the appointment notes. Comparing
+                    // the two would always differ and the notes would be replaced with that block on every sync.
                     $is_different =
                         $local_event_start !== $caldav_event_start->getTimestamp() ||
                         $local_event_end !== $caldav_event_end->getTimestamp() ||
-                        $local_event['notes'] !== $caldav_event['description'];
+                        ($local_event['is_unavailability'] && $local_event['notes'] !== $caldav_event['description']);
 
                     if ($is_different) {
                         $local_event['start_datetime'] = $caldav_event_start->format('Y-m-d H:i:s');
                         $local_event['end_datetime'] = $caldav_event_end->format('Y-m-d H:i:s');
-                        $local_event['notes'] = $caldav_event['description'];
+
+                        if ($local_event['is_unavailability']) {
+                            $local_event['notes'] = $caldav_event['description'];
+                        }
+
                         $events_model->save($local_event);
                     }
                 } catch (GuzzleException $e) {
@@ -255,11 +297,16 @@ class Caldav extends EA_Controller
                 }
             }
 
-            $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time);
+            $CI->appointments_model->delete_caldav_recurring_events($start_date_time, $end_date_time, $provider['id']);
 
             foreach ($caldav_events as $caldav_event) {
                 try {
                     if ($caldav_event['status'] === 'CANCELLED') {
+                        continue;
+                    }
+
+                    // Honour the CalDAV "free" flag (TRANSP:TRANSPARENT), those events must stay bookable.
+                    if (strcasecmp($caldav_event['transparency'] ?? 'OPAQUE', 'TRANSPARENT') === 0) {
                         continue;
                     }
 
@@ -314,10 +361,10 @@ class Caldav extends EA_Controller
                 } catch (Throwable $e) {
                     log_message(
                         'error',
-                        'CalDAV sync: failed to import event '
-                            . ($caldav_event['id'] ?? 'unknown')
-                            . ': '
-                            . $e->getMessage(),
+                        'CalDAV sync: failed to import event ' .
+                            ($caldav_event['id'] ?? 'unknown') .
+                            ': ' .
+                            $e->getMessage(),
                     );
                 }
             }
@@ -354,6 +401,18 @@ class Caldav extends EA_Controller
                 ],
                 $status_code === 401 ? 401 : 500,
             );
+        } catch (InvalidArgumentException $e) {
+            log_message(
+                'error',
+                'CalDAV - Sync failed on the connection settings (provider ID "' .
+                    $provider_id .
+                    '"): ' .
+                    $e->getMessage(),
+            );
+
+            // Keep the exception type, so that json_exception() answers with a "bad request" and the calendar page
+            // can tell a connection setting that needs fixing apart from a server that is merely unreachable.
+            json_exception(new InvalidArgumentException('CalDAV Sync: ' . $e->getMessage(), $e->getCode(), $e));
         } catch (Throwable $e) {
             log_message(
                 'error',
@@ -387,9 +446,7 @@ class Caldav extends EA_Controller
                 throw new Exception('Provider id not specified.');
             }
 
-            $user_id = session('user_id');
-
-            if (cannot('edit', PRIV_USERS) && (int) $user_id !== (int) $provider_id) {
+            if (cannot('edit', PRIV_USERS) && !is_current_provider($provider_id)) {
                 throw new RuntimeException('You do not have the required permissions for this task.');
             }
 

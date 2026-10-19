@@ -39,6 +39,8 @@ class Privacy extends EA_Controller
         try {
             method('post');
 
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
+
             // Apply rate limiting for privacy deletion requests (3 attempts per 15 minutes)
             $this->apply_privacy_rate_limit();
 

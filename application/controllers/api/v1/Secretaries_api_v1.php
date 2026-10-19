@@ -163,6 +163,9 @@ class Secretaries_api_v1 extends EA_Controller
 
             $this->secretaries_model->api_decode($secretary, $original_secretary);
 
+            // The ID in the URL is authoritative, a different one in the body must not redirect the update
+            $secretary['id'] = $id;
+
             $secretary_id = $this->secretaries_model->save($secretary);
 
             $updated_secretary = $this->secretaries_model->find($secretary_id);

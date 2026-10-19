@@ -31,6 +31,11 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     let enableSubmit = false;
     let enableCancel = false;
 
+    // The id of the exception currently being edited, or null when adding a new one. Without this, saving an
+    // existing exception always inserts a new row instead of updating it, since the server decides
+    // insert-vs-update purely on whether an id is present in the payload (see Providers_model::save_working_plan_exception()).
+    let editingExceptionId = null;
+
     /**
      * Reset the modal fields back to the original empty state.
      */
@@ -185,6 +190,10 @@ App.Components.WorkingPlanExceptionsModal = (function () {
             breaks: isNonWorkingDay ? [] : getBreaks(),
         };
 
+        if (editingExceptionId) {
+            workingPlanException.id = editingExceptionId;
+        }
+
         deferred.resolve(workingPlanException);
 
         $modal.modal('hide');
@@ -243,6 +252,7 @@ App.Components.WorkingPlanExceptionsModal = (function () {
      */
     function add() {
         deferred = $.Deferred();
+        editingExceptionId = null;
 
         App.Utils.UI.setDateTimePickerValue($startDate, new Date());
         App.Utils.UI.setDateTimePickerValue($endDate, new Date());
@@ -261,12 +271,13 @@ App.Components.WorkingPlanExceptionsModal = (function () {
     /**
      * Modify the provided working plan exception.
      *
-     * @param {Object} workingPlanException Contains startDate, endDate, startTime, endTime, breaks
+     * @param {Object} workingPlanException Contains id, startDate, endDate, startTime, endTime, breaks
      *
      * @return {*|jQuery.Deferred}
      */
     function edit(workingPlanException) {
         deferred = $.Deferred();
+        editingExceptionId = workingPlanException.id || null;
 
         const isNonWorkingDay = !workingPlanException.startTime;
 

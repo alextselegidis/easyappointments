@@ -102,7 +102,7 @@ App.Pages.LdapSettings = (function () {
      */
     function saveSettings() {
         if (isInvalid()) {
-            App.Layouts.Backend.displayNotification(lang('settings_are_invalid'));
+            App.Layouts.Backend.displayNotification(lang('user_settings_are_invalid'));
 
             return;
         }

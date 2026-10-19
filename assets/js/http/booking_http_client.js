@@ -125,13 +125,14 @@ App.Http.Booking = (function () {
                 });
 
                 if (App.Pages.Booking.manageMode) {
-                    // Set the appointment's start time as the default selection.
+                    // Set the appointment's start time as the default selection (if still available).
+                    // The button values are in the provider's timezone, just like the appointment start date time.
                     $('.available-hour')
                         .removeClass('selected-hour')
                         .filter(
                             (index, availableHourEl) =>
-                                $(availableHourEl).text() ===
-                                moment(vars('appointment_data').start_datetime).format(timeFormat),
+                                $(availableHourEl).data('value') ===
+                                moment(vars('appointment_data').start_datetime).format('HH:mm'),
                         )
                         .addClass('selected-hour');
                 } else {
@@ -164,17 +165,23 @@ App.Http.Booking = (function () {
             $captchaText.removeClass('is-invalid');
             if ($captchaText.val() === '') {
                 $captchaText.addClass('is-invalid');
+                $captchaHint.text(lang('captcha_is_wrong')).fadeTo(400, 1);
+
+                setTimeout(() => {
+                    $captchaHint.fadeTo(400, 0);
+                }, 3000);
+
                 return;
             }
         }
-        
+
         if ($altchaPayload.length > 0 && $altchaPayload.val() === '') {
             $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
-            
+
             setTimeout(() => {
                 $altchaHint.fadeTo(400, 0);
             }, 3000);
-            
+
             return;
         }
 
@@ -188,7 +195,7 @@ App.Http.Booking = (function () {
         if ($captchaText.length > 0) {
             data.captcha = $captchaText.val();
         }
-        
+
         if ($altchaPayload.length > 0 && $altchaPayload.val()) {
             data.altcha_payload = $altchaPayload.val();
         }
@@ -232,14 +239,14 @@ App.Http.Booking = (function () {
 
                     return false;
                 }
-                
+
                 if (response.altcha_verification === false) {
                     $altchaHint.text(lang('altcha_verification_failed')).fadeTo(400, 1);
 
                     setTimeout(() => {
                         $altchaHint.fadeTo(400, 0);
                     }, 3000);
-                    
+
                     // Reset ALTCHA widget
                     if (App.Utils.Altcha) {
                         App.Utils.Altcha.reset('altcha-widget');
@@ -329,7 +336,7 @@ App.Http.Booking = (function () {
                     searchedMonthCounter++;
 
                     const selectedDateMoment = moment(selectedDateString);
-                    selectedDateMoment.add(1, 'month');
+                    selectedDateMoment.add(monthChangeStep, 'month');
 
                     const nextSelectedDate = selectedDateMoment.format('YYYY-MM-DD');
                     getUnavailableDates(providerId, serviceId, nextSelectedDate, monthChangeStep);

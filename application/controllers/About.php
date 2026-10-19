@@ -21,6 +21,21 @@
 class About extends EA_Controller
 {
     /**
+     * Cache key of the fetched blog posts.
+     */
+    private const BLOG_POSTS_CACHE_KEY = 'about-blog-posts';
+
+    /**
+     * Refetch the blog posts after this many seconds.
+     */
+    private const BLOG_POSTS_CACHE_TTL = 3600;
+
+    /**
+     * Keep the fetched blog posts around for this long, so that they remain available as a fallback.
+     */
+    private const BLOG_POSTS_CACHE_LIFETIME = 604800;
+
+    /**
      * About constructor.
      */
     public function __construct()
@@ -90,6 +105,15 @@ class About extends EA_Controller
      */
     private function fetch_blog_posts(): array
     {
+        $this->load->driver('cache', ['adapter' => 'file']);
+
+        $cached = $this->cache->get(self::BLOG_POSTS_CACHE_KEY) ?: [];
+
+        // Only hit the remote feed once per hour, and fall back to the last known posts when it is unreachable.
+        if (!empty($cached['posts']) && $cached['fetch_timestamp'] > time() - self::BLOG_POSTS_CACHE_TTL) {
+            return $cached['posts'];
+        }
+
         $blog_posts = [];
 
         try {
@@ -110,14 +134,14 @@ class About extends EA_Controller
 
             if ($rss_content === false) {
                 log_message('error', 'Failed to fetch RSS feed from ' . $rss_url);
-                return [];
+                return $this->reuse_cached_blog_posts($cached);
             }
 
             $xml = @simplexml_load_string($rss_content);
 
             if ($xml === false) {
                 log_message('error', 'Failed to parse RSS feed XML');
-                return [];
+                return $this->reuse_cached_blog_posts($cached);
             }
 
             $count = 0;
@@ -137,8 +161,49 @@ class About extends EA_Controller
             }
         } catch (Throwable $e) {
             log_message('error', 'Error fetching blog posts: ' . $e->getMessage());
+
+            return $this->reuse_cached_blog_posts($cached);
+        }
+
+        if ($blog_posts) {
+            $this->save_cached_blog_posts($blog_posts);
         }
 
         return $blog_posts;
+    }
+
+    /**
+     * Reuse the previously fetched blog posts after a failed fetch attempt.
+     *
+     * The posts are stored again so that the unreachable feed is only retried once per cache TTL, instead of on
+     * every single page load.
+     *
+     * @param array $cached Previously cached blog posts entry.
+     *
+     * @return array
+     */
+    private function reuse_cached_blog_posts(array $cached): array
+    {
+        $blog_posts = $cached['posts'] ?? [];
+
+        if ($blog_posts) {
+            $this->save_cached_blog_posts($blog_posts);
+        }
+
+        return $blog_posts;
+    }
+
+    /**
+     * Store the blog posts in the cache, along with the current fetch timestamp.
+     *
+     * @param array $blog_posts Blog posts to be cached.
+     */
+    private function save_cached_blog_posts(array $blog_posts): void
+    {
+        $this->cache->save(
+            self::BLOG_POSTS_CACHE_KEY,
+            ['fetch_timestamp' => time(), 'posts' => $blog_posts],
+            self::BLOG_POSTS_CACHE_LIFETIME,
+        );
     }
 }

@@ -54,7 +54,9 @@
                     </button>
                 </label>
                 <img class="captcha-image d-block mb-2 rounded" src="<?= site_url('captcha') ?>" alt="CAPTCHA">
-                <input id="captcha-text" class="captcha-text form-control" type="text" placeholder="<?= lang('enter_captcha_here') ?>"/>
+                <input id="captcha-text" class="captcha-text form-control" type="text" placeholder="<?= lang(
+                    'enter_captcha_here',
+                ) ?>"/>
                 <span id="captcha-hint" class="help-block text-danger small" style="opacity:0">&nbsp;</span>
             </div>
         <?php endif; ?>

@@ -81,7 +81,9 @@ class Appointments_model extends EA_Model
     {
         // If an appointment ID is provided then check whether the record really exists in the database.
         if (!empty($appointment['id'])) {
-            $count = $this->db->get_where('appointments', ['id' => $appointment['id']])->num_rows();
+            $count = $this->db
+                ->get_where('appointments', ['id' => $appointment['id'], 'is_unavailability' => false])
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -114,6 +116,17 @@ class Appointments_model extends EA_Model
             throw new InvalidArgumentException('The appointment end date time is invalid.');
         }
 
+        // Security: reject meeting links with a non-http(s) scheme (e.g. "javascript:") so they cannot be
+        // stored and later rendered as a clickable href on the calendar.
+        if (!empty($appointment['meeting_link'])) {
+            validate_url($appointment['meeting_link']);
+        }
+
+        // Make sure the color is a hex value, as it is rendered into the calendar markup.
+        if (!empty($appointment['color']) && !validate_color((string) $appointment['color'])) {
+            throw new InvalidArgumentException('The provided appointment color is invalid: ' . $appointment['color']);
+        }
+
         // Make the appointment lasts longer than the minimum duration (in minutes).
         $diff = (strtotime($appointment['end_datetime']) - strtotime($appointment['start_datetime'])) / 60;
 
@@ -139,7 +152,7 @@ class Appointments_model extends EA_Model
             );
         }
 
-        if (!filter_var($appointment['is_unavailability'], FILTER_VALIDATE_BOOLEAN)) {
+        if (!filter_var($appointment['is_unavailability'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
             // Make sure the customer ID really exists in the database.
             $count = $this->db
                 ->select()
@@ -254,7 +267,9 @@ class Appointments_model extends EA_Model
      */
     public function find(int $appointment_id): array
     {
-        $appointment = $this->db->get_where('appointments', ['id' => $appointment_id])->row_array();
+        $appointment = $this->db
+            ->get_where('appointments', ['id' => $appointment_id, 'is_unavailability' => false])
+            ->row_array();
 
         if (!$appointment) {
             throw new InvalidArgumentException(
@@ -331,17 +346,25 @@ class Appointments_model extends EA_Model
     /**
      * Deletes recurring CalDAV events for the provided date period.
      *
+     * The provider is required, as only the records of the currently syncing provider may be removed, otherwise the
+     * imported events of the other providers would disappear until their own synchronization runs again.
+     *
      * @param string $start_date_time
      * @param string $end_date_time
+     * @param int $provider_id Matching provider ID.
      *
      * @return void
      */
-    public function delete_caldav_recurring_events(string $start_date_time, string $end_date_time): void
-    {
+    public function delete_caldav_recurring_events(
+        string $start_date_time,
+        string $end_date_time,
+        int $provider_id,
+    ): void {
         $this->db
             ->where('start_datetime >=', $start_date_time)
             ->where('end_datetime <=', $end_date_time)
             ->where('is_unavailability', true)
+            ->where('id_users_provider', $provider_id)
             ->like('id_caldav_calendar', 'RECURRENCE')
             ->delete('appointments');
     }
@@ -355,7 +378,7 @@ class Appointments_model extends EA_Model
      */
     public function delete(int $appointment_id): void
     {
-        $this->db->delete('appointments', ['id' => $appointment_id]);
+        $this->db->delete('appointments', ['id' => $appointment_id, 'is_unavailability' => false]);
     }
 
     /**
@@ -383,16 +406,9 @@ class Appointments_model extends EA_Model
         $result = $this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')
-            ->group_start()
-            ->group_start()
-            ->where('start_datetime <=', $start->format('Y-m-d H:i:s'))
-            ->where('end_datetime >', $start->format('Y-m-d H:i:s'))
-            ->group_end()
-            ->or_group_start()
+            // Any overlap counts, including an appointment that lies entirely within the period.
             ->where('start_datetime <', $end->format('Y-m-d H:i:s'))
-            ->where('end_datetime >=', $end->format('Y-m-d H:i:s'))
-            ->group_end()
-            ->group_end()
+            ->where('end_datetime >', $start->format('Y-m-d H:i:s'))
             ->where('id_services', $service_id)
             ->where('id_users_provider', $provider_id)
             ->get()
@@ -427,16 +443,9 @@ class Appointments_model extends EA_Model
         $result = $this->db
             ->select('count(*) AS attendants_number')
             ->from('appointments')
-            ->group_start()
-            ->group_start()
-            ->where('start_datetime <=', $start->format('Y-m-d H:i:s'))
-            ->where('end_datetime >', $start->format('Y-m-d H:i:s'))
-            ->group_end()
-            ->or_group_start()
+            // Any overlap counts, including an appointment that lies entirely within the period.
             ->where('start_datetime <', $end->format('Y-m-d H:i:s'))
-            ->where('end_datetime >=', $end->format('Y-m-d H:i:s'))
-            ->group_end()
-            ->group_end()
+            ->where('end_datetime >', $start->format('Y-m-d H:i:s'))
             ->where('id_services !=', $service_id)
             ->where('id_users_provider', $provider_id)
             ->get()
@@ -718,6 +727,7 @@ class Appointments_model extends EA_Model
      * @param string $start_datetime Start date time of the appointment.
      * @param string $end_datetime End date time of the appointment.
      * @param int|null $exclude_appointment_id Exclude an appointment from the conflict check (useful for updates).
+     * @param bool $appointments_only Ignore unavailability periods, only report conflicting appointments.
      *
      * @return bool Returns true if there is a conflict, false otherwise.
      */
@@ -726,11 +736,20 @@ class Appointments_model extends EA_Model
         string $start_datetime,
         string $end_datetime,
         ?int $exclude_appointment_id = null,
+        bool $appointments_only = false,
     ): bool {
+        if (!validate_datetime($start_datetime) || !validate_datetime($end_datetime)) {
+            throw new InvalidArgumentException('The provided start or end date time is invalid.');
+        }
+
         $this->db->select('id')->from('appointments')->where('id_users_provider', $provider_id);
 
         if ($exclude_appointment_id) {
             $this->db->where('id !=', $exclude_appointment_id);
+        }
+
+        if ($appointments_only) {
+            $this->db->where('is_unavailability', false);
         }
 
         // Check for overlapping appointments:

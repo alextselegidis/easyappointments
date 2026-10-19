@@ -119,7 +119,9 @@ App.Utils.Altcha = (function () {
                     $('#altcha-payload').val(payload);
 
                     // Update UI
-                    $btn.removeClass('btn-outline-primary').addClass('btn-success').html('<i class="fas fa-check me-2"></i>' + lang('verified'));
+                    $btn.removeClass('btn-outline-primary')
+                        .addClass('btn-success')
+                        .html('<i class="fas fa-check me-2"></i>' + lang('verified'));
 
                     $status.text(lang('verification_complete'));
                     $progress.hide();
@@ -264,7 +266,9 @@ App.Utils.Altcha = (function () {
                                   w[i - 7] +
                                   (rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) |
                               0);
-                const temp2 = (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+                const temp2 =
+                    (rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) +
+                    ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
 
                 hash = [(temp1 + temp2) | 0].concat(hash);
                 hash[4] = (hash[4] + temp1) | 0;

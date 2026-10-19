@@ -72,6 +72,6 @@ No extra steps — just follow Steps 1 and 2.
 
 No extra steps — just follow Steps 1 and 2.
 
-*This document applies to Easy!Appointments v1.6.0.*
+*This document applies to Easy!Appointments v1.6.1.*
 
 [Back](readme.md)

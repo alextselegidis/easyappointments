@@ -161,6 +161,12 @@ if (!function_exists('json_exception')) {
             }
         }
 
+        // Engine level errors (TypeError, ArgumentCountError etc.) include the file path and line number of the call
+        // site in their message, so they must never reach the client.
+        if ($e instanceof Error) {
+            $is_sensitive = true;
+        }
+
         // If the error contains sensitive information, use a generic message
         // Allow InvalidArgumentException and RuntimeException with safe messages through
         if ($is_sensitive && !($e instanceof InvalidArgumentException)) {
@@ -177,7 +183,10 @@ if (!function_exists('json_exception')) {
 
         unset($response['trace']); // Do not send the trace to the browser as it might contain sensitive info
 
-        json_response($response, 500);
+        // Invalid client input is a bad request, not an internal server error.
+        $status = $e instanceof InvalidArgumentException ? 400 : 500;
+
+        json_response($response, $status);
     }
 }
 

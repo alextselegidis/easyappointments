@@ -19,15 +19,17 @@ App.Http.Account = (function () {
      * Save account.
      *
      * @param {Object} account
+     * @param {String} [currentPassword]
      *
      * @return {Object}
      */
-    function save(account) {
+    function save(account, currentPassword) {
         const url = App.Utils.Url.siteUrl('account/save');
 
         const data = {
             csrf_token: vars('csrf_token'),
             account,
+            current_password: currentPassword,
         };
 
         return $.post(url, data);

@@ -101,7 +101,7 @@ App.Pages.BusinessSettings = (function () {
      */
     function onSaveSettingsClick() {
         if (isInvalid()) {
-            App.Layouts.Backend.displayNotification(lang('settings_are_invalid'));
+            App.Layouts.Backend.displayNotification(lang('user_settings_are_invalid'));
 
             return;
         }
@@ -131,20 +131,18 @@ App.Pages.BusinessSettings = (function () {
             {
                 text: 'OK',
                 click: (event, messageModal) => {
+                    // Close this dialog first, as the working plan validation displays a dialog of its own.
+                    messageModal.hide();
+
                     const workingPlan = workingPlanManager.get();
 
                     if (workingPlan === null) {
-                        messageModal.hide();
                         return;
                     }
 
-                    App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan)
-                        .done(() => {
-                            App.Layouts.Backend.displayNotification(lang('working_plans_got_updated'));
-                        })
-                        .always(() => {
-                            messageModal.hide();
-                        });
+                    App.Http.BusinessSettings.applyGlobalWorkingPlan(workingPlan).done(() => {
+                        App.Layouts.Backend.displayNotification(lang('working_plans_got_updated'));
+                    });
                 },
             },
         ];

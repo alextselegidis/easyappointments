@@ -295,12 +295,7 @@ App.Utils.CalendarTableView = (function () {
 
                 $reloadAppointments.trigger('click');
             };
-            App.Http.Calendar.saveWorkingPlanException(
-                updatedException,
-                provider.id,
-                successCallback,
-                null,
-            );
+            App.Http.Calendar.saveWorkingPlanException(updatedException, provider.id, successCallback, null);
         });
     }
 
@@ -344,60 +339,56 @@ App.Utils.CalendarTableView = (function () {
      * @param {number} appointmentId - Appointment ID to delete.
      */
     function handleDeleteAppointment(appointmentId) {
-        App.Utils.Message.show(
-            lang('delete_appointment_title'),
-            lang('notify_users_on_delete_question'),
-            [
-                {
-                    text: lang('cancel'),
-                    click: (event, notifyModal) => notifyModal.hide(),
+        App.Utils.Message.show(lang('delete_appointment_title'), lang('notify_users_on_delete_question'), [
+            {
+                text: lang('cancel'),
+                click: (event, notifyModal) => notifyModal.hide(),
+            },
+            {
+                text: lang('no'),
+                click: (event, notifyModal) => {
+                    notifyModal.hide();
+                    App.Http.Calendar.deleteAppointment(appointmentId, null, false).done(() => {
+                        $reloadAppointments.trigger('click');
+                    });
                 },
-                {
-                    text: lang('no'),
-                    click: (event, notifyModal) => {
-                        notifyModal.hide();
-                        App.Http.Calendar.deleteAppointment(appointmentId, null, false).done(() => {
-                            $reloadAppointments.trigger('click');
-                        });
-                    },
-                },
-                {
-                    text: lang('yes'),
-                    click: (event, notifyModal) => {
-                        notifyModal.hide();
+            },
+            {
+                text: lang('yes'),
+                click: (event, notifyModal) => {
+                    notifyModal.hide();
 
-                        const reasonButtons = [
-                            {
-                                text: lang('cancel'),
-                                click: (event, messageModal) => messageModal.hide(),
+                    const reasonButtons = [
+                        {
+                            text: lang('cancel'),
+                            click: (event, messageModal) => messageModal.hide(),
+                        },
+                        {
+                            text: lang('delete'),
+                            click: (event, messageModal) => {
+                                const reason = $('#cancellation-reason').val();
+                                messageModal.hide();
+                                App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
+                                    $reloadAppointments.trigger('click');
+                                });
                             },
-                            {
-                                text: lang('delete'),
-                                click: (event, messageModal) => {
-                                    const reason = $('#cancellation-reason').val();
-                                    messageModal.hide();
-                                    App.Http.Calendar.deleteAppointment(appointmentId, reason, true).done(() => {
-                                        $reloadAppointments.trigger('click');
-                                    });
-                                },
-                            },
-                        ];
+                        },
+                    ];
 
-                        App.Utils.Message.show(
-                            lang('delete_appointment_title'),
-                            lang('write_appointment_removal_reason'),
-                            reasonButtons,
-                        );
+                    App.Utils.Message.show(
+                        lang('delete_appointment_title'),
+                        lang('write_appointment_removal_reason'),
+                        reasonButtons,
+                    );
 
-                        $('<textarea/>', {
-                            class: 'form-control w-100',
-                            id: 'cancellation-reason',
-                            rows: '3',
-                        }).appendTo('#message-modal .modal-body');
-                    },
+                    $('<textarea/>', {
+                        class: 'form-control w-100',
+                        id: 'cancellation-reason',
+                        rows: '3',
+                    }).appendTo('#message-modal .modal-body');
                 },
-            ],
-        );
+            },
+        ]);
     }
 
     // Event Handlers - Popover Actions
@@ -583,7 +574,9 @@ App.Utils.CalendarTableView = (function () {
                     .add({days: -info.endDelta.days, milliseconds: -info.endDelta.milliseconds})
                     .format('YYYY-MM-DD HH:mm:ss');
 
-                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                App.Http.Calendar.saveUnavailability(unavailability, null, null, true).done(() =>
+                    $notification.hide('blind'),
+                );
                 info.revert();
             };
 
@@ -595,7 +588,7 @@ App.Utils.CalendarTableView = (function () {
 
             info.event.setProp('data', eventData);
         };
-        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null);
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null, false, () => info.revert());
     }
 
     /**
@@ -691,7 +684,9 @@ App.Utils.CalendarTableView = (function () {
                 unavailability.is_unavailability = 1;
                 eventData.start_datetime = unavailability.start_datetime;
                 eventData.end_datetime = unavailability.end_datetime;
-                App.Http.Calendar.saveUnavailability(unavailability).done(() => $notification.hide('blind'));
+                App.Http.Calendar.saveUnavailability(unavailability, null, null, true).done(() =>
+                    $notification.hide('blind'),
+                );
                 info.revert();
             };
             App.Layouts.Backend.displayNotification(lang('unavailability_updated'), [
@@ -699,7 +694,7 @@ App.Utils.CalendarTableView = (function () {
             ]);
             $footer.css('position', 'static');
         };
-        App.Http.Calendar.saveUnavailability(unavailability, successCallback);
+        App.Http.Calendar.saveUnavailability(unavailability, successCallback, null, false, () => info.revert());
     }
 
     /**

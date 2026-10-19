@@ -46,6 +46,7 @@ class Unavailabilities extends EA_Controller
 
         $this->load->library('accounts');
         $this->load->library('timezones');
+        $this->load->library('synchronization');
         $this->load->library('webhooks_client');
     }
 
@@ -70,9 +71,9 @@ class Unavailabilities extends EA_Controller
 
             $order_by = request('order_by', 'update_datetime DESC');
 
-            $limit = request('limit', 1000);
+            $limit = max(1, (int) request('limit', 1000));
 
-            $offset = (int) request('offset', '0');
+            $offset = max(0, (int) request('offset', '0'));
 
             $unavailabilities = $this->unavailabilities_model->search($keyword, $limit, $offset, $order_by);
 
@@ -125,6 +126,16 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = request('unavailability');
 
+            $user_id = (int) session('user_id');
+            $role_slug = session('role_slug');
+
+            // Providers may only manage their own unavailabilities.
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                $unavailability['id_users_provider'] = $user_id;
+            }
+
+            authorize_event_write(null, $unavailability['id_users_provider'] ?? null);
+
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
             $this->unavailabilities_model->optional($unavailability, $this->optional_unavailability_fields);
@@ -173,7 +184,7 @@ class Unavailabilities extends EA_Controller
                 throw new InvalidArgumentException('Invalid unavailability ID provided.');
             }
 
-            $this->check_unavailability_access((int) $unavailability_id);
+            authorize_event_write($unavailability_id, null);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
@@ -199,9 +210,15 @@ class Unavailabilities extends EA_Controller
 
             $unavailability = request('unavailability');
 
-            if (!empty($unavailability['id'])) {
-                $this->check_unavailability_access((int) $unavailability['id']);
+            $user_id = (int) session('user_id');
+            $role_slug = session('role_slug');
+
+            // Providers may only manage their own unavailabilities.
+            if ($role_slug === DB_SLUG_PROVIDER) {
+                $unavailability['id_users_provider'] = $user_id;
             }
+
+            authorize_event_write($unavailability['id'] ?? null, $unavailability['id_users_provider'] ?? null);
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
@@ -251,11 +268,15 @@ class Unavailabilities extends EA_Controller
                 throw new InvalidArgumentException('Invalid unavailability ID provided.');
             }
 
-            $this->check_unavailability_access((int) $unavailability_id);
+            authorize_event_write($unavailability_id, null);
 
             $unavailability = $this->unavailabilities_model->find($unavailability_id);
 
+            $provider = $this->providers_model->find($unavailability['id_users_provider']);
+
             $this->unavailabilities_model->delete($unavailability_id);
+
+            $this->synchronization->sync_unavailability_deleted($unavailability, $provider);
 
             $this->webhooks_client->trigger(WEBHOOK_UNAVAILABILITY_DELETE, $unavailability);
 
@@ -264,28 +285,6 @@ class Unavailabilities extends EA_Controller
             ]);
         } catch (Throwable $e) {
             json_exception($e);
-        }
-    }
-
-    /**
-     * Check whether the current user has access to the unavailability's provider.
-     */
-    private function check_unavailability_access(int $unavailability_id): void
-    {
-        $user_id = (int) session('user_id');
-        $role_slug = session('role_slug');
-        $unavailability = $this->unavailabilities_model->find($unavailability_id);
-        $provider_id = (int) $unavailability['id_users_provider'];
-
-        if (
-            $role_slug === DB_SLUG_SECRETARY &&
-            !$this->secretaries_model->is_provider_supported($user_id, $provider_id)
-        ) {
-            abort(403, 'Forbidden');
-        }
-
-        if ($role_slug === DB_SLUG_PROVIDER && $user_id !== $provider_id) {
-            abort(403, 'Forbidden');
         }
     }
 }

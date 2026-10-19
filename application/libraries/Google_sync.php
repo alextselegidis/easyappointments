@@ -24,6 +24,19 @@ use Google\Service\Calendar\Events;
 class Google_sync
 {
     /**
+     * Number of times the event will be fetched again while the Google Meet conference is still pending.
+     *
+     * ponytail: a single retry keeps the booking request short, move the lookup to a background job if the link has
+     * to be available on the very first save every time.
+     */
+    public const MEETING_LINK_ATTEMPTS = 1;
+
+    /**
+     * Microseconds to wait before the pending Google Meet conference is fetched again.
+     */
+    public const MEETING_LINK_ATTEMPT_INTERVAL = 500000;
+
+    /**
      * @var EA_Controller|CI_Controller
      */
     protected EA_Controller|CI_Controller $CI;
@@ -95,12 +108,9 @@ class Google_sync
      */
     public function initialize_clients(): void
     {
-        $http = new GuzzleHttp\Client([
-            'verify' => false,
-        ]);
-
+        // No custom HTTP client is configured on purpose, so that the Google client keeps its own defaults, which
+        // verify the TLS certificate of the API endpoints.
         $this->client = new Google_Client();
-        $this->client->setHttpClient($http);
         $this->client->setApplicationName('Easy!Appointments');
         $this->client->setClientId($this->get_client_id());
         $this->client->setClientSecret($this->get_client_secret());
@@ -193,7 +203,7 @@ class Google_sync
      * @throws Exception
      */
     public function add_appointment(
-        array $appointment,
+        array &$appointment,
         array $provider,
         array $service,
         array $customer,
@@ -246,18 +256,12 @@ class Google_sync
         ]);
 
         // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
-        if (
-            filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
-            $created_event->getConferenceData() &&
-            $created_event->getConferenceData()->getEntryPoints()
-        ) {
-            $entry_points = $created_event->getConferenceData()->getEntryPoints();
-            foreach ($entry_points as $entry_point) {
-                if ($entry_point->getEntryPointType() === 'video') {
-                    $appointment['meeting_link'] = $entry_point->getUri();
-                    $this->CI->appointments_model->save($appointment);
-                    break;
-                }
+        if (filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN)) {
+            $meeting_link = $this->get_meeting_link($created_event, $provider['settings']['google_calendar']);
+
+            if ($meeting_link) {
+                $appointment['meeting_link'] = $meeting_link;
+                $this->CI->appointments_model->save($appointment);
             }
         }
 
@@ -281,7 +285,7 @@ class Google_sync
      * @throws Exception
      */
     public function update_appointment(
-        array $appointment,
+        array &$appointment,
         array $provider,
         array $service,
         array $customer,
@@ -345,21 +349,54 @@ class Google_sync
         // If Google Meet was enabled and a link was generated, update the appointment's meeting_link
         if (
             filter_var(setting('google_meet_link_generation'), FILTER_VALIDATE_BOOLEAN) &&
-            $updated_event->getConferenceData() &&
-            $updated_event->getConferenceData()->getEntryPoints() &&
             empty($appointment['meeting_link'])
         ) {
-            $entry_points = $updated_event->getConferenceData()->getEntryPoints();
-            foreach ($entry_points as $entry_point) {
-                if ($entry_point->getEntryPointType() === 'video') {
-                    $appointment['meeting_link'] = $entry_point->getUri();
-                    $this->CI->appointments_model->save($appointment);
-                    break;
-                }
+            $meeting_link = $this->get_meeting_link($updated_event, $provider['settings']['google_calendar']);
+
+            if ($meeting_link) {
+                $appointment['meeting_link'] = $meeting_link;
+                $this->CI->appointments_model->save($appointment);
             }
         }
 
         return $updated_event;
+    }
+
+    /**
+     * Get the Google Meet link of an event, waiting for the conference to be created if needed.
+     *
+     * Google creates the conference asynchronously, so the entry points are often still missing from the response of
+     * the insert/update request and the event has to be fetched again before the link becomes available.
+     *
+     * @param Event $event Google Calendar event that contains the conference data.
+     * @param string $calendar_id Google Calendar ID, needed for fetching the event again.
+     *
+     * @return string|null Returns the meeting link or NULL if no conference was created.
+     *
+     * @throws \Google\Service\Exception
+     */
+    protected function get_meeting_link(Event $event, string $calendar_id): ?string
+    {
+        for ($attempt = 0; ; $attempt++) {
+            foreach ($event->getConferenceData()?->getEntryPoints() ?? [] as $entry_point) {
+                if ($entry_point->getEntryPointType() === 'video') {
+                    return $entry_point->getUri();
+                }
+            }
+
+            $status = $event->getConferenceData()?->getCreateRequest()?->getStatus()?->getStatusCode();
+
+            // Give up quickly when the conference is still pending: the caller runs inside the booking request and
+            // the next appointment save fills the link in, as update_appointment() looks it up again while it is
+            // still empty.
+            if ($status !== 'pending' || $attempt === self::MEETING_LINK_ATTEMPTS || !$calendar_id) {
+                return null;
+            }
+
+            usleep(self::MEETING_LINK_ATTEMPT_INTERVAL);
+
+            $event = $this->service->events->get($calendar_id, $event->getId());
+        }
     }
 
     /**
@@ -605,7 +642,7 @@ class Google_sync
                 '/' .
                 $appointment_end_instance->format('Ymd\THis\Z'),
             'location' => setting('company_name'),
-            'details' => 'View/Change Appointment: ' . site_url('booking/reschedule/' . $appointment['hash']),
+            'details' => 'View/Change Appointment: ' . trusted_site_url('booking/reschedule/' . $appointment['hash']),
         ];
 
         // Build base query
@@ -661,9 +698,7 @@ class Google_sync
 
             $event_dt->setDate($dt->format('Y-m-d'));
         } else {
-            $event_dt->setDateTime(
-                (new DateTime($datetime, $timezone))->format(DateTimeInterface::RFC3339),
-            );
+            $event_dt->setDateTime((new DateTime($datetime, $timezone))->format(DateTimeInterface::RFC3339));
         }
 
         return $event_dt;

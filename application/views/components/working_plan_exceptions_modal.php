@@ -9,13 +9,17 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="working-plan-exceptions-start-date"><?= lang('start_date') ?></label>
+                            <label class="form-label" for="working-plan-exceptions-start-date"><?= lang(
+                                'start_date',
+                            ) ?></label>
                             <input class="form-control" id="working-plan-exceptions-start-date">
                         </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="working-plan-exceptions-end-date"><?= lang('end_date') ?></label>
+                            <label class="form-label" for="working-plan-exceptions-end-date"><?= lang(
+                                'end_date',
+                            ) ?></label>
                             <input class="form-control" id="working-plan-exceptions-end-date">
                         </div>
                     </div>
@@ -31,7 +35,9 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="mb-3">
-                            <label class="form-label" for="working-plan-exceptions-start-time"><?= lang('start') ?></label>
+                            <label class="form-label" for="working-plan-exceptions-start-time"><?= lang(
+                                'start',
+                            ) ?></label>
                             <input class="form-control" id="working-plan-exceptions-start-time">
                         </div>
                     </div>

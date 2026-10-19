@@ -9,7 +9,7 @@
 | whenever you intend to do a schema migration.
 |
 */
-$config['migration_enabled'] = TRUE;
+$config['migration_enabled'] = true;
 
 /*
 |--------------------------------------------------------------------------

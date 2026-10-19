@@ -79,9 +79,16 @@ class Admins_model extends EA_Model
      */
     public function validate(array $admin): void
     {
-        // If an admin ID is provided then check whether the record really exists in the database.
+        // If an admin ID is provided then check whether the record really exists in the database and that it is
+        // bound to the admin role, so that the ID cannot target another kind of user.
         if (!empty($admin['id'])) {
-            $count = $this->db->get_where('users', ['id' => $admin['id']])->num_rows();
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('users.id', $admin['id'])
+                ->where('roles.slug', DB_SLUG_ADMIN)
+                ->get()
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -330,6 +337,8 @@ class Admins_model extends EA_Model
      */
     protected function update(array $admin): int
     {
+        $admin['id_roles'] = $this->get_admin_role_id();
+
         $settings = $admin['settings'];
 
         $settings['id_users'] = $admin['id'];
@@ -378,7 +387,7 @@ class Admins_model extends EA_Model
             throw new RuntimeException('Record could not be deleted as the app requires at least one admin user.');
         }
 
-        $this->db->delete('users', ['id' => $admin_id]);
+        $this->db->delete('users', ['id' => $admin_id, 'id_roles' => $role_id]);
     }
 
     /**

@@ -29,6 +29,7 @@ App.Pages.Account = (function () {
     const $language = $('#language');
     const $timezone = $('#timezone');
     const $username = $('#username');
+    const $currentPassword = $('#current-password');
     const $password = $('#password');
     const $retypePassword = $('#retype-password');
     const $calendarView = $('#calendar-view');
@@ -70,6 +71,11 @@ App.Pages.Account = (function () {
                 throw new Error(lang('passwords_mismatch'));
             }
 
+            if ($password.val() && !$currentPassword.val()) {
+                $currentPassword.addClass('is-invalid');
+                throw new Error(lang('fields_are_required'));
+            }
+
             // Validate user email.
 
             const emailValue = $email.val();
@@ -97,6 +103,7 @@ App.Pages.Account = (function () {
      */
     function deserialize(account) {
         $userId.val(account.id);
+        $currentPassword.val('');
         $firstName.val(account.first_name);
         $lastName.val(account.last_name);
         $email.val(account.email);
@@ -157,8 +164,12 @@ App.Pages.Account = (function () {
 
         const account = serialize();
 
-        App.Http.Account.save(account).done(() => {
+        App.Http.Account.save(account, $currentPassword.val()).done(() => {
             App.Layouts.Backend.displayNotification(lang('settings_saved'));
+
+            $currentPassword.val('');
+            $password.val('');
+            $retypePassword.val('');
 
             $footerUserDisplayName.text('Hello, ' + $firstName.val() + ' ' + $lastName.val() + '!');
         });

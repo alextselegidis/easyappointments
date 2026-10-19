@@ -24,7 +24,8 @@
 class Booking extends EA_Controller
 {
     public array $allowed_customer_fields = [
-        'id',
+        // Security: 'id' is intentionally excluded. Customer record identity must be resolved on the
+        // backend via exists()/find_record_id()
         'first_name',
         'last_name',
         'email',
@@ -83,22 +84,6 @@ class Booking extends EA_Controller
     }
 
     /**
-     * Verify CSRF token for booking submissions.
-     *
-     * @throws RuntimeException If CSRF token is invalid.
-     */
-    private function verify_csrf_token(): void
-    {
-        $csrf_token = request('csrf_token') ?? $this->input->get_request_header('X-CSRF');
-        $csrf_cookie = $this->input->cookie('csrf_cookie');
-
-        if (empty($csrf_token) || empty($csrf_cookie) || !hash_equals($csrf_cookie, $csrf_token)) {
-            log_message('error', 'Invalid CSRF token in booking request from IP: ' . $this->input->ip_address());
-            throw new RuntimeException('Security validation failed. Please refresh the page and try again.');
-        }
-    }
-
-    /**
      * Render the booking page and display the selected appointment.
      *
      * This method will call the "index" callback to handle the page rendering.
@@ -126,6 +111,8 @@ class Booking extends EA_Controller
 
             return;
         }
+
+        allow_iframe_embedding(); // The booking page is designed to be embeddable in third-party sites.
 
         $company_name = setting('company_name');
         $company_logo = setting('company_logo');
@@ -284,7 +271,7 @@ class Booking extends EA_Controller
             $customer_token = md5(uniqid(mt_rand(), true));
 
             // Cache the token for 10 minutes.
-            $this->cache->save('customer-token-' . $customer_token, $customer['id'], 600);
+            $this->cache->save('customer-token-' . $customer_token, $appointment['id_users_customer'], 600);
         } else {
             $manage_mode = false;
             $customer_token = false;
@@ -370,8 +357,7 @@ class Booking extends EA_Controller
         try {
             method('post');
 
-            // Verify CSRF token for booking submissions
-            $this->verify_csrf_token();
+            allow_iframe_embedding(); // Reached from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 
@@ -394,6 +380,25 @@ class Booking extends EA_Controller
             $customer = $post_data['customer'] ?? [];
             $manage_mode = filter_var($post_data['manage_mode'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
+            // Security: Verify hash when updating an existing appointment
+            if ($manage_mode && !empty($appointment['id'])) {
+                $appointment_hash = $post_data['appointment_hash'] ?? '';
+
+                if (empty($appointment_hash)) {
+                    throw new RuntimeException('Appointment hash is required for updates.');
+                }
+
+                // Verify the hash matches the appointment being updated
+                $existing_appointments = $this->appointments_model->get([
+                    'id' => $appointment['id'],
+                    'hash' => $appointment_hash,
+                ]);
+
+                if (empty($existing_appointments)) {
+                    throw new RuntimeException('Invalid appointment hash or appointment not found.');
+                }
+            }
+
             // Validate required appointment fields
             if (empty($appointment) || !is_array($appointment)) {
                 throw new InvalidArgumentException('Invalid appointment data.');
@@ -414,6 +419,11 @@ class Booking extends EA_Controller
 
             // Sanitize appointment fields - only allow expected fields
             $appointment = array_intersect_key($appointment, array_flip($this->allowed_appointment_fields));
+
+            // Security: Remove appointment ID if not in manage mode to prevent IDOR attacks
+            if (!$manage_mode && isset($appointment['id'])) {
+                unset($appointment['id']);
+            }
 
             if (!array_key_exists('address', $customer)) {
                 $customer['address'] = '';
@@ -436,7 +446,7 @@ class Booking extends EA_Controller
             }
 
             // Check appointment availability before registering it to the database.
-            $appointment['id_users_provider'] = $this->check_datetime_availability();
+            $appointment['id_users_provider'] = $this->check_datetime_availability($appointment);
 
             if (!$appointment['id_users_provider']) {
                 throw new RuntimeException(lang('requested_hour_is_unavailable'));
@@ -469,7 +479,14 @@ class Booking extends EA_Controller
                     // Validate traditional CAPTCHA
                     $captcha_phrase = session('captcha_phrase');
 
-                    if (strtoupper($captcha_phrase) !== strtoupper($captcha)) {
+                    // A phrase is valid for a single attempt, so that one solved image cannot be replayed
+                    $this->session->unset_userdata('captcha_phrase');
+
+                    if (
+                        empty($captcha_phrase) ||
+                        empty($captcha) ||
+                        strtoupper($captcha_phrase) !== strtoupper($captcha)
+                    ) {
                         json_response([
                             'captcha_verification' => false,
                         ]);
@@ -596,16 +613,14 @@ class Booking extends EA_Controller
      * Use this method just before the customer confirms the appointment registration. If the selected date was reserved
      * in the meanwhile, the customer must be prompted to select another time.
      *
+     * @param array $appointment Sanitized appointment data, its ID is only kept for a verified manage mode request.
+     *
      * @return int|null Returns the ID of the provider that is available for the appointment.
      *
      * @throws Exception
      */
-    protected function check_datetime_availability(): ?int
+    protected function check_datetime_availability(array $appointment): ?int
     {
-        $post_data = request('post_data');
-
-        $appointment = $post_data['appointment'];
-
         $appointment_start = new DateTime($appointment['start_datetime']);
 
         $date = $appointment_start->format('Y-m-d');
@@ -700,6 +715,8 @@ class Booking extends EA_Controller
         try {
             method('post');
 
+            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
+
             $disable_booking = setting('disable_booking');
 
             if ($disable_booking) {
@@ -789,6 +806,8 @@ class Booking extends EA_Controller
     {
         try {
             method('get');
+
+            allow_iframe_embedding(); // Called from the booking page which may be embedded in an iframe.
 
             $disable_booking = setting('disable_booking');
 

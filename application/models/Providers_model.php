@@ -81,9 +81,16 @@ class Providers_model extends EA_Model
      */
     public function validate(array $provider): void
     {
-        // If a provider ID is provided then check whether the record really exists in the database.
+        // If a provider ID is provided then check whether the record really exists in the database and that it is
+        // bound to the provider role, so that the ID cannot target another kind of user (e.g. an administrator).
         if (!empty($provider['id'])) {
-            $count = $this->db->get_where('users', ['id' => $provider['id']])->num_rows();
+            $count = $this->db
+                ->from('users')
+                ->join('roles', 'roles.id = users.id_roles', 'inner')
+                ->where('users.id', $provider['id'])
+                ->where('roles.slug', DB_SLUG_PROVIDER)
+                ->get()
+                ->num_rows();
 
             if (!$count) {
                 throw new InvalidArgumentException(
@@ -111,6 +118,15 @@ class Providers_model extends EA_Model
                         'The provided provider services are invalid: ' . print_r($provider, true),
                     );
                 }
+            }
+
+            // Make sure the provided services exist in the database.
+            $service_ids = array_unique(array_map('intval', $provider['services']));
+
+            $count = $this->db->where_in('id', $service_ids)->count_all_results('services');
+
+            if ($count !== count($service_ids)) {
+                throw new InvalidArgumentException('The provided provider services were not found in the database.');
             }
         }
 
@@ -407,6 +423,8 @@ class Providers_model extends EA_Model
      */
     protected function update(array $provider): int
     {
+        $provider['id_roles'] = $this->get_provider_role_id();
+
         $provider['update_datetime'] = date('Y-m-d H:i:s');
 
         $service_ids = $provider['services'];
@@ -469,7 +487,7 @@ class Providers_model extends EA_Model
      */
     public function delete(int $provider_id): void
     {
-        $this->db->delete('users', ['id' => $provider_id]);
+        $this->db->delete('users', ['id' => $provider_id, 'id_roles' => $this->get_provider_role_id()]);
     }
 
     /**
@@ -557,7 +575,9 @@ class Providers_model extends EA_Model
         }
 
         if (strtotime($start_date) > strtotime($end_date)) {
-            throw new InvalidArgumentException('Working plan exception start date must be before or equal to end date.');
+            throw new InvalidArgumentException(
+                'Working plan exception start date must be before or equal to end date.',
+            );
         }
 
         // If start_time and end_time are provided, validate them

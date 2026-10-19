@@ -11,7 +11,7 @@ RUN apt-get update \
         curl gd intl ldap mbstring mysqli odbc pdo pdo_mysql soap sockets xml zip xdebug exif sqlite3 gettext bcmath csv event inotify redis \
     && docker-php-ext-enable xdebug \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && curl -sLS https://deb.nodesource.com/setup_18.x | bash - \
+    && curl -sLS https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get install -y nodejs \
     && npm install -g npm \
     && apt-get install -q -y ssmtp mailutils \
