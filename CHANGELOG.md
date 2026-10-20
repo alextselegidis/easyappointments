@@ -12,6 +12,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Changing the e-mail address or username in the account settings page now requires the current password, so that a stolen session alone cannot redirect the password recovery e-mail and take over the account
 - The ALTCHA, CalDAV, Google Calendar and Jitsi settings can no longer be changed through a forged link, which previously let an attacker overwrite settings when a logged-in administrator opened it
 - Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
+- The appointment confirmation and cancellation emails now include the city and zip code of the customer, next to their address (#1880)
 
 ## [1.6.1] - 2026-10-12
 
