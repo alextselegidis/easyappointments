@@ -3,6 +3,12 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- The appointment confirmation and cancellation emails now include the city and zip code of the customer, next to their address (#1880)
+
 ## [1.6.1] - 2026-10-12
 
 ### Added
