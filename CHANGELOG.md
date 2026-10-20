@@ -3,6 +3,12 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Related records that the REST API includes through the "with" parameter, such as the customer of an appointment, now use the same field names and value types as when they are requested directly, instead of the raw database columns (#1921)
+
 ## [1.6.1] - 2026-10-12
 
 ### Added
