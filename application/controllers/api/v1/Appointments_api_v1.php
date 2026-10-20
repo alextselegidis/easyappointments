@@ -124,6 +124,8 @@ class Appointments_api_v1 extends EA_Controller
 
                 if (!empty($with)) {
                     $this->appointments_model->load($appointment, $with);
+
+                    $this->api_encode_related($appointment, $with);
                 }
             }
 
@@ -165,6 +167,30 @@ class Appointments_api_v1 extends EA_Controller
     }
 
     /**
+     * Convert the related resources attached through the "with" parameter to their API representation.
+     *
+     * @param array $appointment Appointment data with the related resources attached.
+     * @param array $resources Names of the attached resources.
+     */
+    private function api_encode_related(array &$appointment, array $resources): void
+    {
+        if (in_array('service', $resources, true) && !empty($appointment['service'])) {
+            $this->services_model->cast($appointment['service']);
+            $this->services_model->api_encode($appointment['service']);
+        }
+
+        if (in_array('provider', $resources, true) && !empty($appointment['provider'])) {
+            $this->providers_model->cast($appointment['provider']);
+            $this->providers_model->api_encode($appointment['provider']);
+        }
+
+        if (in_array('customer', $resources, true) && !empty($appointment['customer'])) {
+            $this->customers_model->cast($appointment['customer']);
+            $this->customers_model->api_encode($appointment['customer']);
+        }
+    }
+
+    /**
      * Get a single appointment.
      *
      * @param int|null $id Appointment ID.
@@ -194,6 +220,8 @@ class Appointments_api_v1 extends EA_Controller
 
             if (!empty($with)) {
                 $this->appointments_model->load($appointment, $with);
+
+                $this->api_encode_related($appointment, $with);
             }
 
             json_response($appointment);
