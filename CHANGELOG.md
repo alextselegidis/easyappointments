@@ -12,6 +12,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Changing the e-mail address or username in the account settings page now requires the current password, so that a stolen session alone cannot redirect the password recovery e-mail and take over the account
 - The ALTCHA, CalDAV, Google Calendar and Jitsi settings can no longer be changed through a forged link, which previously let an attacker overwrite settings when a logged-in administrator opened it
 - Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
+- Related records that the REST API includes through the "with" parameter, such as the customer of an appointment, now use the same field names and value types as when they are requested directly, instead of the raw database columns (#1921)
 
 ## [1.6.1] - 2026-10-12
 

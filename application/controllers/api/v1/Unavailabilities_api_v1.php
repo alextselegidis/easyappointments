@@ -25,6 +25,8 @@ class Unavailabilities_api_v1 extends EA_Controller
     {
         parent::__construct();
 
+        $this->load->model('providers_model');
+
         $this->load->library('api');
         $this->load->library('webhooks_client');
 
@@ -64,12 +66,28 @@ class Unavailabilities_api_v1 extends EA_Controller
 
                 if (!empty($with)) {
                     $this->unavailabilities_model->load($unavailability, $with);
+
+                    $this->api_encode_related($unavailability, $with);
                 }
             }
 
             json_response($unavailabilities);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Convert the related resources attached through the "with" parameter to their API representation.
+     *
+     * @param array $unavailability Unavailability data with the related resources attached.
+     * @param array $resources Names of the attached resources.
+     */
+    private function api_encode_related(array &$unavailability, array $resources): void
+    {
+        if (in_array('provider', $resources, true) && !empty($unavailability['provider'])) {
+            $this->providers_model->cast($unavailability['provider']);
+            $this->providers_model->api_encode($unavailability['provider']);
         }
     }
 
@@ -103,6 +121,8 @@ class Unavailabilities_api_v1 extends EA_Controller
 
             if (!empty($with)) {
                 $this->unavailabilities_model->load($unavailability, $with);
+
+                $this->api_encode_related($unavailability, $with);
             }
 
             json_response($unavailability);
