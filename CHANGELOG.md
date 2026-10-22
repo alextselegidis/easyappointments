@@ -3,6 +3,12 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Security: The development Docker image now runs PHP 8.5.12, which fixes the critical php2shell remote code execution vulnerabilities (CVE-2026-109618, CVE-2026-109619), rebuild it with `docker compose up --build` (#1983)
+
 ## [1.6.1] - 2026-10-12
 
 ### Added
