@@ -232,6 +232,26 @@
                             </div>
                         </div>
 
+                        <div class="row mb-5">
+                            <div class="col-12">
+                                <h5 class="mb-3 fw-light"><?= lang('webhooks') ?></h5>
+
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="webhooks-enabled" data-field="webhooks_enabled">
+                                    <label class="form-check-label" for="webhooks-enabled">
+                                        <?= lang('webhooks_enabled') ?>
+                                    </label>
+                                </div>
+
+                                <div class="form-text text-muted">
+                                    <small>
+                                        <?= lang('webhooks_enabled_hint') ?>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
                     </fieldset>
                 </form>
             </div>
