@@ -24,8 +24,8 @@ Your `.env` file should look like:
 
 ```
 SCHEDUCAL_ENABLED=true
-SCHEDUCAL_API_KEY=82acd8ec-526d-4e37-88e7-4d2d46074115
-SCHEDUCAL_API_SECRET=70b7e64b-2279-48be-b1ab-55ef15a99ab6
+SCHEDUCAL_API_KEY=<your-api-key>
+SCHEDUCAL_API_SECRET=<your-api-secret>
 SCHEDUCAL_API_URL=https://api.scheducal.com/api/v1/appointments
 SCHEDUCAL_BASE_URL=http://localhost:8000
 ```
