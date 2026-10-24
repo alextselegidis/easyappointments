@@ -117,8 +117,6 @@ class Scheducal_client
 
             // Prepare data for ScheduCal API
             $data = [
-                'apiKey' => $this->config['api_key'],
-                'apiSecret' => $this->config['api_secret'],
                 'appointmentSubject' => $service['name'],
                 'appointmentBody' => 'Appointment with ' . $provider['first_name'] . ' ' . $provider['last_name'] . '.' .
                     (!empty($appointment_link) ? '<br><br>Click <a href="' . $appointment_link . '">here</a> to manage this appointment.' : ''),
@@ -192,8 +190,6 @@ class Scheducal_client
 
             // Prepare data for ScheduCal API
             $data = [
-                'apiKey' => $this->config['api_key'],
-                'apiSecret' => $this->config['api_secret'],
                 'appointmentId' => $appointment['id_google_calendar'],
                 'appointmentStart' => $appointment_start->format('Y-m-d\TH:i:s'),
                 'appointmentEnd' => $appointment_end->format('Y-m-d\TH:i:s'),
@@ -237,13 +233,10 @@ class Scheducal_client
 
         try
         {
-            // Prepare data for ScheduCal API
-            $data = [
-                'apiKey' => $this->config['api_key'],
-                'apiSecret' => $this->config['api_secret'],
-                'appointmentId' => $appointment['id_google_calendar'],
-                'comment' => $reason,
-            ];
+            // The appointment ID travels in the URL and credentials in the
+            // Authorization header, so the only body field the cancel endpoint
+            // reads is the optional comment. With no reason, send no body.
+            $data = $reason !== '' ? ['comment' => $reason] : [];
 
             // Make API request
             $url = $this->config['api_url'] . '/' . urlencode($appointment['id_google_calendar']);
@@ -263,7 +256,8 @@ class Scheducal_client
      *
      * @param string $url API endpoint URL.
      * @param string $method HTTP method (GET, POST, PUT, DELETE).
-     * @param array $data Request data.
+     * @param array $data Request data. Never include credentials here: they are
+     *                    sent in the Authorization header (HTTP Basic).
      *
      * @return array|string|null Response data.
      *
@@ -281,6 +275,11 @@ class Scheducal_client
             'Content-Type: application/json',
         ]);
 
+        // Authorization: Basic base64(apiKey:apiSecret). The API no longer wants
+        // credentials in the JSON body (deprecated there, to be removed).
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($ch, CURLOPT_USERPWD, $this->config['api_key'] . ':' . $this->config['api_secret']);
+
         if ($method === 'POST')
         {
             curl_setopt($ch, CURLOPT_POST, 1);
@@ -294,7 +293,11 @@ class Scheducal_client
         elseif ($method === 'DELETE')
         {
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+            if (!empty($data))
+            {
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+            }
         }
 
         $response = curl_exec($ch);

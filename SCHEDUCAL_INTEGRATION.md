@@ -73,6 +73,15 @@ The `Scheducal_client` library implements:
 - `update_appointment()`: Send an updated calendar invitation
 - `delete_appointment()`: Send a cancellation notice
 
+### Authentication
+
+Every request authenticates with HTTP Basic auth:
+`Authorization: Basic base64(apiKey:apiSecret)`, set through cURL's
+`CURLOPT_HTTPAUTH`/`CURLOPT_USERPWD`. Credentials are never put in a request
+body - the API deprecated body credentials and will remove them. The cancel
+request (DELETE) sends a body only when there is a cancellation reason
+(`{"comment": ...}`); the appointment ID is in the URL.
+
 ## Error Handling
 
 All ScheduCal API errors are logged to the application log file. If ScheduCal is unavailable or returns an error, the appointment will still be saved in Easy!Appointments - the failure won't prevent the appointment from being created locally.
