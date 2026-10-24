@@ -54,6 +54,9 @@ gh pr create -R CalendarUtilityService/easyappointments \
   Service. It already wraps upstream's protocol detection.
 - **`Appointments.php`** — the redirect target is `booking/reschedule/`, not
   upstream's `booking/`. `Notifications.php` and `Google_sync.php` depend on it.
+- **`booking_cancellation_frame.php`** — the manage-appointment button reads
+  "Cancel", not upstream's "Delete", to match its own hint text and the
+  "Cancel Appointment" dialog it opens.
 - **`Graph_mailer.php` / `Email_messages.php`** — mail goes via Microsoft Graph,
   not SMTP, because the tenant blocks legacy auth. Do not reintroduce nodemailer
   or SMTP.
