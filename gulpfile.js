@@ -14,7 +14,7 @@ const changed = require('gulp-changed');
 const cached = require('gulp-cached');
 const childProcess = require('child_process');
 const css = require('gulp-clean-css');
-const del = require('del');
+const {deleteSync} = require('del');
 const fs = require('fs-extra');
 const gulp = require('gulp');
 const plumber = require('gulp-plumber');
@@ -82,10 +82,10 @@ function archive(done) {
     );
 
     fs.removeSync('build/composer.lock');
-    del.sync('build/**/.DS_Store');
-    del.sync('build/**/.git');
-    del.sync('build/assets/css/**/*.scss');
-    del.sync(['build/vendor/**/.github', 'build/vendor/**/.editorconfig', 'build/vendor/**/.repo-metadata.json']);
+    deleteSync('build/**/.DS_Store');
+    deleteSync('build/**/.git');
+    deleteSync('build/assets/css/**/*.scss');
+    deleteSync(['build/vendor/**/.github', 'build/vendor/**/.editorconfig', 'build/vendor/**/.repo-metadata.json']);
 
     zip('build', {saveTo: filename}, function (error) {
         if (error) {
@@ -137,7 +137,7 @@ function watch(done) {
 }
 
 function vendor(done) {
-    del.sync(['assets/vendor/**', '!assets/vendor/index.html']);
+    deleteSync(['assets/vendor/**', '!assets/vendor/index.html']);
 
     // bootstrap
     gulp.src([
