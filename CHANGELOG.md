@@ -3,6 +3,12 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Fixed
+
+- Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
+
 ## [1.6.1] - 2026-10-12
 
 ### Added
