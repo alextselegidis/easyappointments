@@ -71,6 +71,8 @@ class Caldav_settings extends EA_Controller
     public function save(): void
     {
         try {
+            method('post');
+
             if (cannot('edit', PRIV_SYSTEM_SETTINGS)) {
                 abort(403, 'Forbidden');
             }
