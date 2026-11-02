@@ -380,6 +380,8 @@ class Booking extends EA_Controller
             $customer = $post_data['customer'] ?? [];
             $manage_mode = filter_var($post_data['manage_mode'] ?? false, FILTER_VALIDATE_BOOLEAN);
 
+            $managed_customer_id = null;
+
             // Security: Verify hash when updating an existing appointment
             if ($manage_mode && !empty($appointment['id'])) {
                 $appointment_hash = $post_data['appointment_hash'] ?? '';
@@ -397,6 +399,8 @@ class Booking extends EA_Controller
                 if (empty($existing_appointments)) {
                     throw new RuntimeException('Invalid appointment hash or appointment not found.');
                 }
+
+                $managed_customer_id = (int) $existing_appointments[0]['id_users_customer'];
             }
 
             // Validate required appointment fields
@@ -548,9 +552,18 @@ class Booking extends EA_Controller
             // Save customer language (the language which is used to render the booking page).
             $customer['language'] = session('language') ?? config('language');
 
+            $existing_customer_id = $customer['id'] ?? null;
+
             $this->customers_model->only($customer, $this->allowed_customer_fields);
 
-            $customer_id = $this->customers_model->save($customer);
+            // The booking page is not authenticated, so the stored profile of an existing customer is only updated
+            // from the manage link of one of their own appointments, otherwise anyone who knows the e-mail address
+            // could rewrite it.
+            if ($existing_customer_id && $existing_customer_id !== $managed_customer_id) {
+                $customer_id = $existing_customer_id;
+            } else {
+                $customer_id = $this->customers_model->save($customer);
+            }
             $customer = $this->customers_model->find($customer_id);
 
             $appointment['id_users_customer'] = $customer_id;
