@@ -373,7 +373,9 @@ App.Pages.Booking = (function () {
             const serviceId = $selectService.val();
             const previousProviderId = $selectProvider.val();
 
-            $selectProvider.parent().prop('hidden', !Boolean(serviceId));
+            const displayProviderSelection = Boolean(Number(vars('display_provider_selection')));
+
+            $selectProvider.parent().prop('hidden', !Boolean(serviceId) || !displayProviderSelection);
 
             $selectProvider.empty();
 
@@ -406,7 +408,10 @@ App.Pages.Booking = (function () {
 
             // Add the "Any Provider" entry
 
-            if (providerOptionCount > 2 && Boolean(Number(vars('display_any_provider')))) {
+            if (
+                providerOptionCount > 2 &&
+                (Boolean(Number(vars('display_any_provider'))) || !displayProviderSelection)
+            ) {
                 $(new Option(lang('any_provider'), 'any-provider')).insertAfter($selectProvider.find('option:first'));
             }
 
@@ -416,8 +421,10 @@ App.Pages.Booking = (function () {
             } else if (
                 previousProviderId === 'any-provider' &&
                 providerOptionCount > 2 &&
-                Boolean(Number(vars('display_any_provider')))
+                (Boolean(Number(vars('display_any_provider'))) || !displayProviderSelection)
             ) {
+                $selectProvider.val('any-provider');
+            } else if (!displayProviderSelection && providerOptionCount > 2) {
                 $selectProvider.val('any-provider');
             }
 
