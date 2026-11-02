@@ -133,7 +133,17 @@ class Account extends EA_Controller
 
             if (empty($account['settings']['password'])) {
                 unset($account['settings']['password']);
-            } else {
+            }
+
+            // The e-mail and username identify the account in the password recovery flow, so changing them requires
+            // the current password just like a password change does.
+            $user = $this->users_model->find(session('user_id'));
+
+            if (
+                !empty($account['settings']['password']) ||
+                ($account['email'] ?? null) !== $user['email'] ||
+                ($account['settings']['username'] ?? null) !== $user['settings']['username']
+            ) {
                 $this->verify_current_password(request('current_password', ''));
             }
 
@@ -155,7 +165,8 @@ class Account extends EA_Controller
     /**
      * Make sure the provided password matches the one of the current user.
      *
-     * Required before a password change, so that a hijacked session alone is not enough to take over the account.
+     * Required before a password, e-mail or username change, so that a hijacked session alone is not enough to take
+     * over the account.
      *
      * @throws InvalidArgumentException
      */
