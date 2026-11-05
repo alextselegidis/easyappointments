@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Uchrashuvlarni mutaxassisning Google Calendar a
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'Google Cloud Console loyihangizdan olingan Client ID.';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Google Cloud Console loyihangizdan olingan Client Secret.';
 $lang['google_calendar_setup_info'] = 'Google Calendar sinxronlashni yoqish uchun Google Cloud Console-da loyiha yaratish, Google Calendar API-ni yoqish va OAuth 2.0 hisob ma\'lumotlarini yaratish kerak. Tashrif buyuring:';
 $lang['google_meet_link_generation'] = 'Google Meet havolalarini yaratish';

@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = '啟用 Google Calendar 同步，將預約與服
 $lang['google_client_id'] = '用戶端 ID';
 $lang['google_client_id_info'] = '來自您的 Google Cloud Console 專案的用戶端 ID。';
 $lang['google_client_secret'] = '用戶端密鑰';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = '來自您的 Google Cloud Console 專案的用戶端密鑰。';
 $lang['google_calendar_setup_info'] = '要啟用 Google Calendar 同步，您需要在 Google Cloud Console 中建立專案、啟用 Google Calendar API 並建立 OAuth 2.0 憑證。請造訪：';
 $lang['google_meet_link_generation'] = '產生 Google Meet 連結';

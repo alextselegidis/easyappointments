@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Randevuları sağlayıcı Google Calendar hesap
 $lang['google_client_id'] = 'İstemci Kimliği';
 $lang['google_client_id_info'] = 'Google Cloud Console projenizden alınan İstemci Kimliği.';
 $lang['google_client_secret'] = 'İstemci Gizli Anahtarı';
+$lang['google_client_credentials_in_config'] = 'config.php dosyasında tanımlı';
 $lang['google_client_secret_info'] = 'Google Cloud Console projenizden alınan İstemci Gizli Anahtarı.';
 $lang['google_calendar_setup_info'] = 'Google Calendar senkronizasyonunu etkinleştirmek için Google Cloud Console\'da bir proje oluşturmanız, Google Calendar API\'sini etkinleştirmeniz ve OAuth 2.0 kimlik bilgileri oluşturmanız gerekir. Ziyaret edin:';
 $lang['google_meet_link_generation'] = 'Google Meet Bağlantıları Oluştur';

@@ -73,7 +73,7 @@
                                 <label class="form-label" for="ldap-password">
                                     <?= lang('password') ?>
                                 </label>
-                                <input id="ldap-password" type="password" class="form-control"
+                                <input id="ldap-password" type="password" autocomplete="new-password" class="form-control"
                                        data-field="ldap_password">
                             </div>
 

@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Google Calendar 同期を有効にして、予�
 $lang['google_client_id'] = 'クライアント ID';
 $lang['google_client_id_info'] = 'Google Cloud Console プロジェクトのクライアント ID。';
 $lang['google_client_secret'] = 'クライアントシークレット';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Google Cloud Console プロジェクトのクライアントシークレット。';
 $lang['google_calendar_setup_info'] = 'Google Calendar 同期を有効にするには、Google Cloud Console でプロジェクトを作成し、Google Calendar API を有効にし、OAuth 2.0 認証情報を作成する必要があります。以下にアクセスしてください：';
 $lang['google_meet_link_generation'] = 'Google Meet リンクを生成';

@@ -48,13 +48,20 @@
                                 </div>
                             </div>
 
+                            <?php $config_managed_settings = vars('config_managed_settings') ?? []; ?>
+
                             <div class="mb-3">
                                 <label for="google-client-id" class="form-label">
                                     <?= lang('google_client_id') ?>
                                 </label>
-                                <input type="text" class="form-control" id="google-client-id"
-                                       data-field="google_client_id"
-                                       placeholder="<?= lang('google_client_id') ?>">
+                                <?php if (in_array('google_client_id', $config_managed_settings, true)): ?>
+                                    <input type="text" class="form-control" id="google-client-id" disabled
+                                           placeholder="<?= lang('google_client_credentials_in_config') ?>">
+                                <?php else: ?>
+                                    <input type="text" class="form-control" id="google-client-id"
+                                           autocomplete="off" data-field="google_client_id"
+                                           placeholder="<?= lang('google_client_id') ?>">
+                                <?php endif; ?>
                                 <div class="form-text text-muted">
                                     <?= lang('google_client_id_info') ?>
                                 </div>
@@ -64,9 +71,14 @@
                                 <label for="google-client-secret" class="form-label">
                                     <?= lang('google_client_secret') ?>
                                 </label>
-                                <input type="password" class="form-control" id="google-client-secret"
-                                       data-field="google_client_secret"
-                                       placeholder="<?= lang('google_client_secret') ?>">
+                                <?php if (in_array('google_client_secret', $config_managed_settings, true)): ?>
+                                    <input type="password" class="form-control" id="google-client-secret" disabled
+                                           placeholder="<?= lang('google_client_credentials_in_config') ?>">
+                                <?php else: ?>
+                                    <input type="password" class="form-control" id="google-client-secret"
+                                           autocomplete="new-password" data-field="google_client_secret"
+                                           placeholder="<?= lang('google_client_secret') ?>">
+                                <?php endif; ?>
                                 <div class="form-text text-muted">
                                     <?= lang('google_client_secret_info') ?>
                                 </div>

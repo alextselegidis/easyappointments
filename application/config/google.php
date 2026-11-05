@@ -8,9 +8,9 @@
 | Declare some of the global config values of the Google Calendar
 | synchronization feature.
 |
-| These values serve as fallback when database settings are not available.
-| The primary configuration should be done through the admin UI at
-| Settings > Integrations > Google Calendar.
+| Values set here take precedence over the Google Calendar settings page, which
+| then shows them as read-only. Leave them empty to configure the client in the
+| admin UI at Settings > Integrations > Google Calendar.
 |
 */
 

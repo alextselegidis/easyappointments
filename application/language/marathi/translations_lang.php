@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'प्रदात्याच्या Google 
 $lang['google_client_id'] = 'क्लायंट ID';
 $lang['google_client_id_info'] = 'तुमच्या Google Cloud Console प्रोजेक्टमधील क्लायंट ID.';
 $lang['google_client_secret'] = 'क्लायंट सीक्रेट';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'तुमच्या Google Cloud Console प्रोजेक्टमधील क्लायंट सीक्रेट.';
 $lang['google_calendar_setup_info'] = 'Google Calendar सिंक सक्षम करण्यासाठी, तुम्हाला Google Cloud Console मध्ये प्रोजेक्ट तयार करणे, Google Calendar API सक्षम करणे आणि OAuth 2.0 क्रेडेंशियल्स तयार करणे आवश्यक आहे. भेट द्या:';
 $lang['google_meet_link_generation'] = 'Google Meet लिंक्स तयार करा';

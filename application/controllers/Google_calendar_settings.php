@@ -78,6 +78,7 @@ class Google_calendar_settings extends EA_Controller
 
         html_vars([
             'page_title' => lang('settings'),
+            'config_managed_settings' => $this->get_config_managed_settings(),
             'active_menu' => PRIV_SYSTEM_SETTINGS,
             'user_display_name' => $this->accounts->get_user_display_name($user_id),
         ]);
@@ -99,9 +100,15 @@ class Google_calendar_settings extends EA_Controller
 
             check('google_calendar_settings', 'array|null');
 
-            $google_calendar_settings = request('google_calendar_settings', []);
+            $google_calendar_settings = remove_untouched_sensitive_settings(request('google_calendar_settings', []));
+
+            $config_managed_settings = $this->get_config_managed_settings();
 
             foreach ($google_calendar_settings as $google_calendar_setting) {
+                if (in_array($google_calendar_setting['name'] ?? null, $config_managed_settings, true)) {
+                    continue;
+                }
+
                 setting([
                     $google_calendar_setting['name'] => $google_calendar_setting['value'],
                 ]);
@@ -111,5 +118,20 @@ class Google_calendar_settings extends EA_Controller
         } catch (Throwable $e) {
             json_exception($e);
         }
+    }
+
+    /**
+     * Get the Google client settings that are defined in config.php.
+     *
+     * The values in config.php take precedence over the stored settings (see Google_sync), so the settings page shows
+     * these fields as read-only and does not save them.
+     *
+     * @return string[]
+     */
+    private function get_config_managed_settings(): array
+    {
+        return array_values(
+            array_filter(['google_client_id', 'google_client_secret'], fn($name) => !empty(config($name))),
+        );
     }
 }
