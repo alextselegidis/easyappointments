@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Povoliť synchronizáciu s Google Calendar pre 
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'Client ID z vášho projektu Google Cloud Console.';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Client Secret z vášho projektu Google Cloud Console.';
 $lang['google_calendar_setup_info'] = 'Pre povolenie synchronizácie s Google Calendar musíte vytvoriť projekt v Google Cloud Console, povoliť Google Calendar API a vytvoriť prihlasovacie údaje OAuth 2.0. Navštívte:';
 $lang['google_meet_link_generation'] = 'Generovať odkazy Google Meet';

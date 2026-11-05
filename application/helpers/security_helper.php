@@ -294,13 +294,53 @@ if (!function_exists('filter_sensitive_settings')) {
      */
     function filter_sensitive_settings(array $settings): array
     {
-        $sensitive_setting_names = ['api_token', 'google_client_secret', 'ldap_password'];
+        $sensitive_setting_names = sensitive_setting_names();
         return array_values(
             array_filter($settings, function ($setting) use ($sensitive_setting_names) {
                 if (isset($setting['name'])) {
                     return !in_array($setting['name'], $sensitive_setting_names, true);
                 }
                 return true;
+            }),
+        );
+    }
+}
+
+if (!function_exists('sensitive_setting_names')) {
+    /**
+     * Get the names of the settings whose stored value is never sent to the browser.
+     *
+     * @return string[]
+     */
+    function sensitive_setting_names(): array
+    {
+        return ['api_token', 'google_client_secret', 'ldap_password'];
+    }
+}
+
+if (!function_exists('remove_untouched_sensitive_settings')) {
+    /**
+     * Remove the sensitive settings that were submitted with an empty value.
+     *
+     * The settings pages never receive the stored value of a sensitive setting (see filter_sensitive_settings), so
+     * their fields start empty. An empty value on save therefore means that the field was left untouched, and the
+     * stored value must be kept instead of being overwritten.
+     *
+     * @param array $settings Submitted settings, each one with a "name" and a "value".
+     *
+     * @return array
+     */
+    function remove_untouched_sensitive_settings(array $settings): array
+    {
+        $sensitive_setting_names = sensitive_setting_names();
+
+        return array_values(
+            array_filter($settings, function ($setting) use ($sensitive_setting_names) {
+                if (!isset($setting['name']) || !in_array($setting['name'], $sensitive_setting_names, true)) {
+                    return true;
+                }
+
+                return ($setting['value'] ?? '') !== '';
             }),
         );
     }

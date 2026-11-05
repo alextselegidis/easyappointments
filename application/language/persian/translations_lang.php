@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'همگام‌سازی Google Calendar را بر
 $lang['google_client_id'] = 'شناسه کلاینت';
 $lang['google_client_id_info'] = 'شناسه کلاینت از پروژه Google Cloud Console شما.';
 $lang['google_client_secret'] = 'رمز کلاینت';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'رمز کلاینت از پروژه Google Cloud Console شما.';
 $lang['google_calendar_setup_info'] = 'برای فعال‌سازی همگام‌سازی Google Calendar، باید یک پروژه در Google Cloud Console ایجاد کنید، Google Calendar API را فعال کنید و اعتبارنامه‌های OAuth 2.0 بسازید. مراجعه کنید:';
 $lang['google_meet_link_generation'] = 'ایجاد لینک‌های Google Meet';

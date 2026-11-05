@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Omogočite sinhronizacijo z Google Calendar za 
 $lang['google_client_id'] = 'ID odjemalca';
 $lang['google_client_id_info'] = 'ID odjemalca iz vašega projekta v Google Cloud Console.';
 $lang['google_client_secret'] = 'Skrivnost odjemalca';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Skrivnost odjemalca iz vašega projekta v Google Cloud Console.';
 $lang['google_calendar_setup_info'] = 'Za omogočanje sinhronizacije z Google Calendar morate ustvariti projekt v Google Cloud Console, omogočiti Google Calendar API in ustvariti OAuth 2.0 poverilnice. Obiščite:';
 $lang['google_meet_link_generation'] = 'Ustvarjanje povezav Google Meet';

@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'הפעל סנכרון Google Calendar לסנכ�
 $lang['google_client_id'] = 'מזהה לקוח';
 $lang['google_client_id_info'] = 'מזהה הלקוח מפרויקט Google Cloud Console שלך.';
 $lang['google_client_secret'] = 'סוד לקוח';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'סוד הלקוח מפרויקט Google Cloud Console שלך.';
 $lang['google_calendar_setup_info'] = 'כדי להפעיל סנכרון Google Calendar, עליך ליצור פרויקט ב-Google Cloud Console, להפעיל את Google Calendar API וליצור אישורי OAuth 2.0. בקר ב:';
 $lang['google_meet_link_generation'] = 'יצירת קישורי Google Meet';

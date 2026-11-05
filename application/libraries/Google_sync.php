@@ -72,35 +72,29 @@ class Google_sync
     }
 
     /**
-     * Get the Google Client ID from database settings or config fallback.
+     * Get the Google Client ID, preferring the value defined in config.php over the stored setting.
+     *
+     * A value in config.php cannot be replaced from the settings page, which makes it the safe place for a managed
+     * installation.
      *
      * @return string
      */
     protected function get_client_id(): string
     {
-        $setting_value = setting('google_client_id');
-
-        if (!empty($setting_value)) {
-            return $setting_value;
-        }
-
-        return config('google_client_id') ?: '';
+        return config('google_client_id') ?: (setting('google_client_id') ?: '');
     }
 
     /**
-     * Get the Google Client Secret from database settings or config fallback.
+     * Get the Google Client Secret, preferring the value defined in config.php over the stored setting.
+     *
+     * A value in config.php cannot be replaced from the settings page, which makes it the safe place for a managed
+     * installation.
      *
      * @return string
      */
     protected function get_client_secret(): string
     {
-        $setting_value = setting('google_client_secret');
-
-        if (!empty($setting_value)) {
-            return $setting_value;
-        }
-
-        return config('google_client_secret') ?: '';
+        return config('google_client_secret') ?: (setting('google_client_secret') ?: '');
     }
 
     /**

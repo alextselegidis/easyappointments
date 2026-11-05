@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Ενεργοποιήστε τον συγχρο�
 $lang['google_client_id'] = 'Αναγνωριστικό πελάτη';
 $lang['google_client_id_info'] = 'Το Αναγνωριστικό πελάτη από το έργο σας στο Google Cloud Console.';
 $lang['google_client_secret'] = 'Μυστικό πελάτη';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Το Μυστικό πελάτη από το έργο σας στο Google Cloud Console.';
 $lang['google_calendar_setup_info'] = 'Για να ενεργοποιήσετε τον συγχρονισμό Google Calendar, πρέπει να δημιουργήσετε ένα έργο στο Google Cloud Console, να ενεργοποιήσετε το Google Calendar API και να δημιουργήσετε διαπιστευτήρια OAuth 2.0. Επισκεφθείτε:';
 $lang['google_meet_link_generation'] = 'Δημιουργία συνδέσμων Google Meet';
