@@ -73,6 +73,7 @@ App.Http.Booking = (function () {
             service_duration: serviceDuration,
             manage_mode: Number(vars('manage_mode') || 0),
             appointment_id: appointmentId,
+            appointment_hash: vars('manage_mode') ? vars('appointment_data').hash : null,
         };
 
         $.post(url, data).done((response) => {
@@ -297,6 +298,7 @@ App.Http.Booking = (function () {
             csrf_token: vars('csrf_token'),
             manage_mode: Number(App.Pages.Booking.manageMode),
             appointment_id: appointmentId,
+            appointment_hash: App.Pages.Booking.manageMode ? vars('appointment_data').hash : null,
         };
 
         $.ajax({
