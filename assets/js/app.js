@@ -37,7 +37,7 @@ window.App = (function () {
                 'html': [
                     $('<div/>', {
                         'class': 'card-body overflow-auto',
-                        'html': response.message,
+                        'text': response.message,
                     }),
                 ],
             }).appendTo('#message-modal .modal-body');

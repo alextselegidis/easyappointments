@@ -54,12 +54,12 @@ window.App.Layouts.Backend = (function () {
 
         const $toast = $(`
             <div class="toast bg-dark d-flex align-items-center fade show position-fixed p-1 m-4 bottom-0 end-0 backend-notification" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-body w-100 text-white">
-                    ${message}
-                </div>
+                <div class="toast-body w-100 text-white"></div>
                 <button type="button" class="btn-close btn-close-white me-2" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
         `).appendTo('body');
+
+        $toast.find('.toast-body').text(message);
 
         actions.forEach(function (action) {
             $('<button/>', {

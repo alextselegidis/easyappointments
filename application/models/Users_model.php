@@ -94,6 +94,11 @@ class Users_model extends EA_Model
         if (empty($user['first_name']) || empty($user['last_name']) || empty($user['email'])) {
             throw new InvalidArgumentException('Not all required fields are provided: ' . print_r($user, true));
         }
+
+        // Validate the email address.
+        if (!filter_var($user['email'], FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Invalid email address provided.');
+        }
     }
 
     /**
