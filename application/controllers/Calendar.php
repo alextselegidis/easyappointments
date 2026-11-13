@@ -216,8 +216,8 @@ class Calendar extends EA_Controller
 
         $customers = $this->customers_model->get(null, 50, null, 'update_datetime DESC');
 
-        if (setting('limit_customer_access') && $role_slug === DB_SLUG_PROVIDER) {
-            // Only include the customers that the provider is supposed to see (they had past booking together)
+        if (setting('limit_customer_access') && $role_slug !== DB_SLUG_ADMIN) {
+            // Only include the customers that the provider (or the secretary's providers) had past bookings with
             $CI = $this;
 
             $customers = array_values(
