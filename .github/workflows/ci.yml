@@ -15,6 +15,10 @@ jobs:
       - name: Git clone
         uses: actions/checkout@v4
 
+      # Ubuntu ships deprecated timezone aliases (e.g. "Asia/Calcutta") in a separate package.
+      - name: Install legacy timezone data
+        run: sudo apt-get update && sudo apt-get install -y tzdata-legacy
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
