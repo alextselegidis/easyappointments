@@ -70,6 +70,10 @@ class Google extends EA_Controller
                 throw new InvalidArgumentException('No provider ID provided.');
             }
 
+            if (!is_cli() && !can_manage_provider((int) $provider_id)) {
+                abort(403, 'You do not have permission to manage this provider.');
+            }
+
             $provider = $CI->providers_model->find($provider_id);
 
             // Check whether the selected provider has the Google Sync enabled.

@@ -13,6 +13,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - The ALTCHA, CalDAV, Google Calendar and Jitsi settings can no longer be changed through a forged link, which previously let an attacker overwrite settings when a logged-in administrator opened it
 - Anonymous visitors can no longer find out the time of someone else's appointment from the available hours of the booking page by sending its ID, the appointment being rescheduled is now only ignored when its manage link is used
 - Error messages in the backend are now always shown as plain text, and the account settings page now rejects invalid e-mail addresses, so a provider or secretary can no longer plant markup in their e-mail address that runs in the browser of an administrator who edits their account
+- Providers and secretaries can no longer start the CalDAV or Google Calendar synchronization of a provider they do not manage, which previously let them delete or overwrite that provider's appointments
 - Secretaries no longer receive the contact details of customers unrelated to their providers in the calendar page when the customer access limit is enabled
 - Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
 
