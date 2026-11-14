@@ -29,6 +29,8 @@
   <a href="#license">License</a>
 </p>
 
+[![Deploy to Railyard](https://app.railyard.run/deploy/badge)](https://app.railyard.run/deploy?repo=https://github.com/alextselegidis/easyappointments)
+
 ---
 
 <p align="center">
