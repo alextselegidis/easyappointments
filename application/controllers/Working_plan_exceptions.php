@@ -126,6 +126,9 @@ class Working_plan_exceptions extends EA_Controller
                 $this->allowed_working_plan_exception_fields,
             );
 
+            // The store endpoint may only create new records.
+            unset($working_plan_exception['id']);
+
             $this->working_plan_exceptions_model->optional(
                 $working_plan_exception,
                 $this->optional_working_plan_exception_fields,

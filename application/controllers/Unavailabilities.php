@@ -138,6 +138,9 @@ class Unavailabilities extends EA_Controller
 
             $this->unavailabilities_model->only($unavailability, $this->allowed_unavailability_fields);
 
+            // The store endpoint may only create new records.
+            unset($unavailability['id']);
+
             $this->unavailabilities_model->optional($unavailability, $this->optional_unavailability_fields);
 
             $unavailability_id = $this->unavailabilities_model->save($unavailability);

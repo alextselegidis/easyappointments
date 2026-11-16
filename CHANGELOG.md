@@ -15,6 +15,8 @@ developers to maintain and readjust their custom modifications on the main proje
 - Error messages in the backend are now always shown as plain text, and the account settings page now rejects invalid e-mail addresses, so a provider or secretary can no longer plant markup in their e-mail address that runs in the browser of an administrator who edits their account
 - Providers and secretaries can no longer start the CalDAV or Google Calendar synchronization of a provider they do not manage, which previously let them delete or overwrite that provider's appointments
 - Secretaries no longer receive the contact details of customers unrelated to their providers in the calendar page when the customer access limit is enabled
+- Anonymous visitors can no longer take over, reschedule or cancel someone else's appointment from the booking page by sending a number instead of the appointment's manage link code
+- Providers and secretaries can no longer overwrite or take over the appointments, unavailabilities and working plan exceptions of providers they do not manage
 - Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
 
 ## [1.6.1] - 2026-10-12

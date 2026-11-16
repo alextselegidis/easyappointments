@@ -169,6 +169,9 @@ class Appointments extends EA_Controller
 
             $this->appointments_model->only($appointment, $this->allowed_appointment_fields);
 
+            // The store endpoint may only create new records.
+            unset($appointment['id']);
+
             $this->appointments_model->optional($appointment, $this->optional_appointment_fields);
 
             if (

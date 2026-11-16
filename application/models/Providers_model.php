@@ -612,7 +612,14 @@ class Providers_model extends EA_Model
         ];
 
         if ($id) {
-            $exception_data['id'] = $id;
+            // Only allow updating an exception that already belongs to this provider.
+            $existing = $this->db->get_where('working_plan_exceptions', ['id' => (int) $id])->row_array();
+
+            if (!$existing || (int) $existing['id_users_provider'] !== $provider_id) {
+                throw new InvalidArgumentException('Working plan exception was not found: ' . $id);
+            }
+
+            $exception_data['id'] = (int) $id;
         }
 
         return $this->working_plan_exceptions_model->save($exception_data);
