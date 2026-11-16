@@ -391,16 +391,13 @@ class Booking extends EA_Controller
                 }
 
                 // Verify the hash matches the appointment being updated
-                $existing_appointments = $this->appointments_model->get([
-                    'id' => $appointment['id'],
-                    'hash' => $appointment_hash,
-                ]);
+                $existing_appointment = $this->find_managed_appointment($appointment['id'], $appointment_hash);
 
-                if (empty($existing_appointments)) {
+                if (!$existing_appointment) {
                     throw new RuntimeException('Invalid appointment hash or appointment not found.');
                 }
 
-                $managed_customer_id = (int) $existing_appointments[0]['id_users_customer'];
+                $managed_customer_id = (int) $existing_appointment['id_users_customer'];
             }
 
             // Validate required appointment fields
@@ -637,9 +634,37 @@ class Booking extends EA_Controller
             return null;
         }
 
-        $appointments = $this->appointments_model->get(['id' => $appointment_id, 'hash' => $appointment_hash]);
+        return $this->find_managed_appointment($appointment_id, $appointment_hash) ? (int) $appointment_id : null;
+    }
 
-        return empty($appointments) ? null : (int) $appointment_id;
+    /**
+     * Find an appointment by ID, only if the provided hash matches it.
+     *
+     * The hash must be a string: a JSON number would be compared numerically by MySQL and match any hash that starts
+     * with the same digits.
+     *
+     * @param mixed $appointment_id
+     * @param mixed $appointment_hash
+     *
+     * @return array|null
+     */
+    protected function find_managed_appointment(mixed $appointment_id, mixed $appointment_hash): ?array
+    {
+        if (
+            !is_numeric($appointment_id) ||
+            !is_string($appointment_hash) ||
+            !preg_match('/^[a-zA-Z0-9]+$/', $appointment_hash)
+        ) {
+            return null;
+        }
+
+        $appointments = $this->appointments_model->get(['id' => (int) $appointment_id]);
+
+        if (empty($appointments) || !hash_equals((string) $appointments[0]['hash'], $appointment_hash)) {
+            return null;
+        }
+
+        return $appointments[0];
     }
 
     /**
