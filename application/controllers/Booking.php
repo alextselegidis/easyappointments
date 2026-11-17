@@ -289,6 +289,7 @@ class Booking extends EA_Controller
             'first_weekday' => $first_weekday,
             'display_cookie_notice' => $display_cookie_notice,
             'display_any_provider' => setting('display_any_provider'),
+            'display_provider_selection' => setting('display_provider_selection', '1'),
             'future_booking_limit' => setting('future_booking_limit'),
             'appointment_data' => $appointment,
             'provider_data' => $provider ? filter_sensitive_user_data($provider) : null,

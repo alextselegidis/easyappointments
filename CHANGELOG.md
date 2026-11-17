@@ -3,6 +3,12 @@
 This file contains the code changes that were introduced into each release (starting from v1.1.0) so that is easy for
 developers to maintain and readjust their custom modifications on the main project codebase.
 
+## [Unreleased]
+
+### Added
+
+- A "Display Provider Selection" option under Settings / Booking that hides the provider field on the booking page and automatically books with any available provider, so customers only need to pick a service
+
 ## [1.6.1] - 2026-10-12
 
 ### Added
