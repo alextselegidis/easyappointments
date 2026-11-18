@@ -25,6 +25,8 @@ class Services_api_v1 extends EA_Controller
     {
         parent::__construct();
 
+        $this->load->model('service_categories_model');
+
         $this->load->library('api');
         $this->load->library('webhooks_client');
 
@@ -64,12 +66,28 @@ class Services_api_v1 extends EA_Controller
 
                 if (!empty($with)) {
                     $this->services_model->load($service, $with);
+
+                    $this->api_encode_related($service, $with);
                 }
             }
 
             json_response($services);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Convert the related resources attached through the "with" parameter to their API representation.
+     *
+     * @param array $service Service data with the related resources attached.
+     * @param array $resources Names of the attached resources.
+     */
+    private function api_encode_related(array &$service, array $resources): void
+    {
+        if (in_array('category', $resources, true) && !empty($service['category'])) {
+            $this->service_categories_model->cast($service['category']);
+            $this->service_categories_model->api_encode($service['category']);
         }
     }
 
@@ -103,6 +121,8 @@ class Services_api_v1 extends EA_Controller
 
             if (!empty($with)) {
                 $this->services_model->load($service, $with);
+
+                $this->api_encode_related($service, $with);
             }
 
             json_response($service);

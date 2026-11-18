@@ -25,6 +25,8 @@ class Secretaries_api_v1 extends EA_Controller
     {
         parent::__construct();
 
+        $this->load->model('providers_model');
+
         $this->load->library('api');
         $this->load->library('webhooks_client');
 
@@ -64,12 +66,30 @@ class Secretaries_api_v1 extends EA_Controller
 
                 if (!empty($with)) {
                     $this->secretaries_model->load($secretary, $with);
+
+                    $this->api_encode_related($secretary, $with);
                 }
             }
 
             json_response($secretaries);
         } catch (Throwable $e) {
             json_exception($e);
+        }
+    }
+
+    /**
+     * Convert the related resources attached through the "with" parameter to their API representation.
+     *
+     * @param array $secretary Secretary data with the related resources attached.
+     * @param array $resources Names of the attached resources.
+     */
+    private function api_encode_related(array &$secretary, array $resources): void
+    {
+        if (in_array('providers', $resources, true) && !empty($secretary['providers'])) {
+            foreach ($secretary['providers'] as &$provider) {
+                $this->providers_model->cast($provider);
+                $this->providers_model->api_encode($provider);
+            }
         }
     }
 
