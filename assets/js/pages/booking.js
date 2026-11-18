@@ -468,11 +468,6 @@ App.Pages.Booking = (function () {
                     $selectService.val(),
                     selectedMoment.format('YYYY-MM-DD'),
                 );
-
-                if (appointmentDate) {
-                    // The unavailable dates request will not refresh the hours while in manage mode.
-                    App.Http.Booking.getAvailableHours(selectedMoment.format('YYYY-MM-DD'));
-                }
             }
 
             // If we are on the 2nd tab then the user should have an appointment hour selected.
@@ -935,16 +930,8 @@ App.Pages.Booking = (function () {
 
             // Set Appointment Date
             const startMoment = moment(appointment.start_datetime);
+            // The available dates and hours are fetched when the customer moves on to the date step.
             App.Utils.UI.setDateTimePickerValue($selectDate, startMoment.toDate());
-            App.Http.Booking.getAvailableHours(startMoment.format('YYYY-MM-DD'));
-
-            // Update unavailable dates while in manage mode
-
-            App.Http.Booking.getUnavailableDates(
-                appointment.id_users_provider,
-                appointment.id_services,
-                startMoment.format('YYYY-MM-DD'),
-            );
 
             // Apply Customer's Data
             $lastName.val(customer.last_name);

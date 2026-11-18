@@ -16,6 +16,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Providers and secretaries can no longer start the CalDAV or Google Calendar synchronization of a provider they do not manage, which previously let them delete or overwrite that provider's appointments
 - Secretaries no longer receive the contact details of customers unrelated to their providers in the calendar page when the customer access limit is enabled
 - Anonymous visitors can no longer take over, reschedule or cancel someone else's appointment from the booking page by sending a number instead of the appointment's manage link code
+- Rescheduling an appointment from its manage link now opens the calendar on the first month with available dates when the appointment's month is fully blocked, instead of showing every day of that month as selectable, and the dates are no longer loaded twice
 - Providers and secretaries can no longer overwrite or take over the appointments, unavailabilities and working plan exceptions of providers they do not manage
 - Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
 

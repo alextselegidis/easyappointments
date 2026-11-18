@@ -382,7 +382,19 @@ App.Http.Booking = (function () {
             unavailableDates.map((unavailableDate) => new Date(unavailableDate + 'T00:00')),
         );
 
-        if (setDate && !vars('manage_mode')) {
+        const pickerDate = App.Utils.UI.getDateTimePickerValue($selectDate);
+        const pickerDateString = pickerDate ? moment(pickerDate).format('YYYY-MM-DD') : null;
+
+        // While in manage mode keep the appointment date, unless it is not available in the displayed month.
+        const keepCurrentDate =
+            vars('manage_mode') &&
+            pickerDateString &&
+            moment(pickerDate).isSame(selectedDateMoment, 'month') &&
+            !unavailableDates.includes(pickerDateString);
+
+        if (setDate && keepCurrentDate) {
+            getAvailableHours(pickerDateString);
+        } else if (setDate) {
             for (let i = 1; i <= numberOfDays; i++) {
                 const currentDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), i);
 
