@@ -17,6 +17,8 @@ $customer_full_name = trim($customer_first_name . ' ' . $customer_last_name);
 $customer_email = trim((string) ($customer['email'] ?? ''));
 $customer_phone_number = trim((string) ($customer['phone_number'] ?? ''));
 $customer_address = trim((string) ($customer['address'] ?? ''));
+$customer_city = trim((string) ($customer['city'] ?? ''));
+$customer_zip_code = trim((string) ($customer['zip_code'] ?? ''));
 ?>
 
 <!doctype html>
@@ -577,6 +579,28 @@ $customer_address = trim((string) ($customer['address'] ?? ''));
                                                     </td>
                                                     <td style="padding: 3px;">
                                                         <?= e($customer_address) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+
+                                            <?php if ($customer_city !== ''): ?>
+                                                <tr>
+                                                    <td class="label" style="padding: 3px;font-weight: bold;">
+                                                        <?= lang('city') ?>
+                                                    </td>
+                                                    <td style="padding: 3px;">
+                                                        <?= e($customer_city) ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+
+                                            <?php if ($customer_zip_code !== ''): ?>
+                                                <tr>
+                                                    <td class="label" style="padding: 3px;font-weight: bold;">
+                                                        <?= lang('zip_code') ?>
+                                                    </td>
+                                                    <td style="padding: 3px;">
+                                                        <?= e($customer_zip_code) ?>
                                                     </td>
                                                 </tr>
                                             <?php endif; ?>
