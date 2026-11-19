@@ -15,6 +15,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 // Load application helpers needed for tests
 require_once APPPATH . 'helpers/array_helper.php';
 require_once APPPATH . 'helpers/validation_helper.php';
+require_once APPPATH . 'helpers/security_helper.php';
 
 // Minimal CodeIgniter stand-ins, so the permission helper can be tested without booting the framework.
 define('DB_SLUG_PROVIDER', 'provider');
@@ -24,6 +25,7 @@ $GLOBALS['ea_test_session'] = [];
 $GLOBALS['ea_test_records'] = [];
 $GLOBALS['ea_test_secretary_providers'] = [];
 $GLOBALS['ea_test_settings'] = [];
+$GLOBALS['ea_test_config'] = [];
 
 function session(?string $key = null, $default = null)
 {
@@ -41,6 +43,19 @@ function setting(array|string|null $key = null, mixed $default = null): mixed
     }
 
     return $GLOBALS['ea_test_settings'][$key] ?? $default;
+}
+
+function config(array|string|null $key = null, mixed $default = null): mixed
+{
+    if (is_array($key)) {
+        foreach ($key as $name => $value) {
+            $GLOBALS['ea_test_config'][$name] = $value;
+        }
+
+        return null;
+    }
+
+    return $GLOBALS['ea_test_config'][$key] ?? $default;
 }
 
 function abort(int $code, string $message = ''): void

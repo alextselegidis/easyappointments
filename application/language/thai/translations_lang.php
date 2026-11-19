@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'เปิดใช้งานการซิ�
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'Client ID จากโปรเจกต์ Google Cloud Console ของคุณ';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Client Secret จากโปรเจกต์ Google Cloud Console ของคุณ';
 $lang['google_calendar_setup_info'] = 'หากต้องการเปิดใช้งานการซิงค์ Google Calendar คุณต้องสร้างโปรเจกต์ใน Google Cloud Console เปิดใช้งาน Google Calendar API และสร้างข้อมูลรับรอง OAuth 2.0 ไปที่:';
 $lang['google_meet_link_generation'] = 'สร้างลิงก์ Google Meet';

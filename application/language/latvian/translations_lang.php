@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Iespējojiet Google Calendar sinhronizāciju, l
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'Client ID no jūsu Google Cloud Console projekta.';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Client Secret no jūsu Google Cloud Console projekta.';
 $lang['google_calendar_setup_info'] = 'Lai iespējotu Google Calendar sinhronizāciju, jums jāizveido projekts Google Cloud Console, jāiespējo Google Calendar API un jāizveido OAuth 2.0 akreditācijas dati. Apmeklējiet:';
 $lang['google_meet_link_generation'] = 'Ģenerēt Google Meet saites';

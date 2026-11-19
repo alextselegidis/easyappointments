@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'تمكين مزامنة Google Calendar لمز�
 $lang['google_client_id'] = 'معرّف العميل';
 $lang['google_client_id_info'] = 'معرّف العميل من مشروع Google Cloud Console الخاص بك.';
 $lang['google_client_secret'] = 'سر العميل';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'سر العميل من مشروع Google Cloud Console الخاص بك.';
 $lang['google_calendar_setup_info'] = 'لتمكين مزامنة Google Calendar، تحتاج إلى إنشاء مشروع في Google Cloud Console وتمكين Google Calendar API وإنشاء بيانات اعتماد OAuth 2.0. قم بزيارة:';
 $lang['google_meet_link_generation'] = 'إنشاء روابط Google Meet';

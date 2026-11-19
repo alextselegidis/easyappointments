@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Luba Google Calendar sünkroniseerimine, et sü
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'Client ID teie Google Cloud Console projektist.';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Client Secret teie Google Cloud Console projektist.';
 $lang['google_calendar_setup_info'] = 'Google Calendar sünkroniseerimise lubamiseks peate looma projekti Google Cloud Console\'is, lubama Google Calendar API ja looma OAuth 2.0 mandaadid. Külastage:';
 $lang['google_meet_link_generation'] = 'Genereeri Google Meet lingid';

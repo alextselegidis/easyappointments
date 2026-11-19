@@ -98,4 +98,41 @@ class GoogleSyncTest extends TestCase
     {
         $this->assertNull($this->get_meeting_link($this->event(null)));
     }
+
+    private function get_client_value(string $method): string
+    {
+        require_once APPPATH . 'libraries/Google_sync.php';
+
+        $google_sync = (new ReflectionClass(Google_sync::class))->newInstanceWithoutConstructor();
+
+        return (new ReflectionClass(Google_sync::class))->getMethod($method)->invoke($google_sync);
+    }
+
+    public function testClientCredentialsFromConfigTakePrecedenceOverTheStoredSettings(): void
+    {
+        $GLOBALS['ea_test_config'] = ['google_client_id' => 'config-id', 'google_client_secret' => 'config-secret'];
+        $GLOBALS['ea_test_settings'] = ['google_client_id' => 'saved-id', 'google_client_secret' => 'saved-secret'];
+
+        try {
+            $this->assertSame('config-id', $this->get_client_value('get_client_id'));
+            $this->assertSame('config-secret', $this->get_client_value('get_client_secret'));
+        } finally {
+            $GLOBALS['ea_test_config'] = [];
+            $GLOBALS['ea_test_settings'] = [];
+        }
+    }
+
+    public function testClientCredentialsFallBackToTheStoredSettingsWhenConfigIsEmpty(): void
+    {
+        $GLOBALS['ea_test_config'] = ['google_client_id' => '', 'google_client_secret' => ''];
+        $GLOBALS['ea_test_settings'] = ['google_client_id' => 'saved-id', 'google_client_secret' => 'saved-secret'];
+
+        try {
+            $this->assertSame('saved-id', $this->get_client_value('get_client_id'));
+            $this->assertSame('saved-secret', $this->get_client_value('get_client_secret'));
+        } finally {
+            $GLOBALS['ea_test_config'] = [];
+            $GLOBALS['ea_test_settings'] = [];
+        }
+    }
 }

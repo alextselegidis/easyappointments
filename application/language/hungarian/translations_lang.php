@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'A Google Calendar szinkronizáció engedélyez�
 $lang['google_client_id'] = 'Ügyfél-azonosító';
 $lang['google_client_id_info'] = 'Az Ügyfél-azonosító a Google Cloud Console projektjéből.';
 $lang['google_client_secret'] = 'Ügyféltitek';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Az Ügyféltitek a Google Cloud Console projektjéből.';
 $lang['google_calendar_setup_info'] = 'A Google Calendar szinkronizáció engedélyezéséhez létre kell hoznia egy projektet a Google Cloud Console-ban, engedélyeznie kell a Google Calendar API-t, és OAuth 2.0 hitelesítő adatokat kell létrehoznia. Látogasson el:';
 $lang['google_meet_link_generation'] = 'Google Meet linkek generálása';

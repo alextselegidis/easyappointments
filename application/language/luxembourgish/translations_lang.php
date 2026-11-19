@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Aktivéiert Google Calendar Synchronisatioun fi
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'D\'Client ID vun Ärem Google Cloud Console Projet.';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'D\'Client Secret vun Ärem Google Cloud Console Projet.';
 $lang['google_calendar_setup_info'] = 'Fir Google Calendar Synchronisatioun z\'aktivéieren, musst Dir e Projet an der Google Cloud Console erstellen, d\'Google Calendar API aktivéieren an OAuth 2.0 Umeldungsdaten erstellen. Besicht:';
 $lang['google_meet_link_generation'] = 'Google Meet Linken generéieren';

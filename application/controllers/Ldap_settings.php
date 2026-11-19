@@ -88,7 +88,7 @@ class Ldap_settings extends EA_Controller
 
             check('ldap_settings', 'array|null');
 
-            $settings = request('ldap_settings', []);
+            $settings = remove_untouched_sensitive_settings(request('ldap_settings', []));
 
             foreach ($settings as $setting) {
                 $existing_setting = $this->settings_model->query()->where('name', $setting['name'])->get()->row_array();

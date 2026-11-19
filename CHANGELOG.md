@@ -5,8 +5,15 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Changed
+
+- Google Calendar client credentials set in config.php now take precedence over the settings page, which shows them as
+  read-only, so that saving the page can no longer replace them
+
 ### Fixed
 
+- Saving the Google Calendar or LDAP settings no longer clears the stored client secret or bind password when that field
+  is left empty, and browsers no longer fill saved logins into these fields
 - Booking with the e-mail address of an existing customer no longer overwrites their stored name, phone number and address, which previously let anyone who knew the address change the customer's details; returning customers can still update them from the manage link of their own appointment
 - Private services and providers can no longer be booked, and providers can no longer be booked for services they do not offer, by sending requests directly to the booking page endpoints
 - Changing the e-mail address or username in the account settings page now requires the current password, so that a stolen session alone cannot redirect the password recovery e-mail and take over the account

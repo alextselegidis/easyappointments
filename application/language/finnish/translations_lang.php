@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Ota käyttöön Google Calendar -synkronointi s
 $lang['google_client_id'] = 'Client ID';
 $lang['google_client_id_info'] = 'Client ID Google Cloud Console -projektistasi.';
 $lang['google_client_secret'] = 'Client Secret';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'Client Secret Google Cloud Console -projektistasi.';
 $lang['google_calendar_setup_info'] = 'Ottaaksesi Google Calendar -synkronoinnin käyttöön, sinun on luotava projekti Google Cloud Consolessa, otettava käyttöön Google Calendar API ja luotava OAuth 2.0 -tunnistetiedot. Käy osoitteessa:';
 $lang['google_meet_link_generation'] = 'Luo Google Meet -linkkejä';

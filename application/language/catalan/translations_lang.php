@@ -511,6 +511,7 @@ $lang['google_calendar_info'] = 'Habilita la sincronització amb Google Calendar
 $lang['google_client_id'] = 'ID del client';
 $lang['google_client_id_info'] = 'L\'ID del client del teu projecte de Google Cloud Console.';
 $lang['google_client_secret'] = 'Secret de client';
+$lang['google_client_credentials_in_config'] = 'Defined in the config.php file';
 $lang['google_client_secret_info'] = 'El secret de client del vostre projecte a la Google Cloud Console.';
 $lang['google_calendar_setup_info'] = 'Per habilitar la sincronització de Google Calendar, heu de crear un projecte a Google Cloud Console, habiliteu l\'API de Google Calendar i creeu unes credencials de OAuth 2.0. Vegeu:';
 $lang['google_meet_link_generation'] = 'Genera enllaços de Google Meet';
