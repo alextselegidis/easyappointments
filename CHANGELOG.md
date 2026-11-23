@@ -19,7 +19,7 @@ developers to maintain and readjust their custom modifications on the main proje
 - Rescheduling an appointment from its manage link now opens the calendar on the first month with available dates when the appointment's month is fully blocked, instead of showing every day of that month as selectable, and the dates are no longer loaded twice
 - Providers and secretaries can no longer overwrite or take over the appointments, unavailabilities and working plan exceptions of providers they do not manage
 - Several German translations are now more accurate and consistent, and the current password fields are no longer shown in English (#1987)
-- The Swedish booking and administration pages now translate the current password fields and distinguish breaks, schedule exceptions and booking limits
+- The Swedish booking and administration pages now translate the current password fields and distinguish breaks, schedule exceptions and booking limits (#2005)
 
 ## [1.6.1] - 2026-10-12
 
