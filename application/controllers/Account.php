@@ -154,6 +154,7 @@ class Account extends EA_Controller
                 'username' => $account['settings']['username'],
                 'timezone' => $account['timezone'],
                 'language' => $account['language'],
+                'password_fingerprint' => $this->accounts->get_password_fingerprint(session('user_id')),
             ]);
 
             response();

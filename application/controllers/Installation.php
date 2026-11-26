@@ -152,6 +152,7 @@ class Installation extends EA_Controller
                 'language' => $admin['language'],
                 'timezone' => $admin['timezone'],
                 'username' => $admin['settings']['username'],
+                'password_fingerprint' => $this->accounts->get_password_fingerprint($admin['id']),
             ]);
 
             // Save company settings

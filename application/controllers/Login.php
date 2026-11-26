@@ -179,6 +179,8 @@ class Login extends EA_Controller
 
             session($user_data); // Save data in the session.
 
+            session(['password_fingerprint' => $this->accounts->get_password_fingerprint($user_data['user_id'])]);
+
             log_message('info', 'Successful login for user: ' . $username . ' from IP: ' . $this->input->ip_address());
 
             json_response([

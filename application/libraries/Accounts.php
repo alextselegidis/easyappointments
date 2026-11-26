@@ -176,6 +176,25 @@ class Accounts
     }
 
     /**
+     * Get a fingerprint of the user's stored password.
+     *
+     * It is kept in the session at login, so that a password change ends every other session of the user.
+     *
+     * @param int $user_id
+     *
+     * @return string
+     */
+    public function get_password_fingerprint(int $user_id): string
+    {
+        $user_settings = $this->CI->db
+            ->select('password')
+            ->get_where('user_settings', ['id_users' => $user_id])
+            ->row_array();
+
+        return hash('sha256', (string) ($user_settings['password'] ?? ''));
+    }
+
+    /**
      * Get a user record based on the provided username value
      *
      * @param string $username

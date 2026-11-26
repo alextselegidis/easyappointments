@@ -106,6 +106,14 @@ class EA_Controller extends CI_Controller
 
             abort(403, 'Forbidden');
         }
+
+        // A password change ends the other sessions of the user, including those started before this check existed.
+        if (
+            !hash_equals($this->accounts->get_password_fingerprint($user_id), (string) session('password_fingerprint'))
+        ) {
+            session_unset();
+            session_destroy();
+        }
     }
 
     /**
