@@ -142,6 +142,26 @@ class Services_model extends EA_Model
             );
         }
 
+        // Validate the attendants numbers that override the service value for specific providers.
+        if (!empty($service['provider_attendants_numbers'])) {
+            if (!is_array($service['provider_attendants_numbers'])) {
+                throw new InvalidArgumentException('The provided provider attendants numbers are invalid.');
+            }
+
+            foreach ($service['provider_attendants_numbers'] as $provider_attendants_number) {
+                if (
+                    $provider_attendants_number !== null &&
+                    $provider_attendants_number !== '' &&
+                    (!is_numeric($provider_attendants_number) || (int) $provider_attendants_number < 1)
+                ) {
+                    throw new InvalidArgumentException(
+                        'The provided provider attendants number is invalid: ' .
+                            print_r($provider_attendants_number, true),
+                    );
+                }
+            }
+        }
+
         // Make sure the provided providers exist in the database.
         if (!empty($service['providers'])) {
             $provider_ids = array_unique(array_map('intval', $service['providers']));
@@ -175,7 +195,9 @@ class Services_model extends EA_Model
 
         $provider_ids = $service['providers'] ?? [];
 
-        unset($service['providers']);
+        $provider_attendants_numbers = $service['provider_attendants_numbers'] ?? null;
+
+        unset($service['providers'], $service['provider_attendants_numbers']);
 
         if (!$this->db->insert('services', $service)) {
             throw new RuntimeException('Could not insert service.');
@@ -183,7 +205,7 @@ class Services_model extends EA_Model
 
         $service_id = $this->db->insert_id();
 
-        $this->set_provider_ids($service_id, $provider_ids);
+        $this->set_provider_ids($service_id, $provider_ids, $provider_attendants_numbers);
 
         return $service_id;
     }
@@ -203,14 +225,22 @@ class Services_model extends EA_Model
 
         $provider_ids = $service['providers'] ?? null;
 
-        unset($service['providers']);
+        $provider_attendants_numbers = $service['provider_attendants_numbers'] ?? null;
+
+        unset($service['providers'], $service['provider_attendants_numbers']);
 
         if (!$this->db->update('services', $service, ['id' => $service['id']])) {
             throw new RuntimeException('Could not update service.');
         }
 
         if ($provider_ids !== null) {
-            $this->set_provider_ids($service['id'], $provider_ids);
+            $this->set_provider_ids($service['id'], $provider_ids, $provider_attendants_numbers);
+        } elseif ($provider_attendants_numbers !== null) {
+            $this->set_provider_ids(
+                $service['id'],
+                $this->get_provider_ids($service['id']),
+                $provider_attendants_numbers,
+            );
         }
 
         return $service['id'];
@@ -239,20 +269,87 @@ class Services_model extends EA_Model
     }
 
     /**
+     * Get the attendants numbers that override the service value for specific providers.
+     *
+     * @param int $service_id Service ID.
+     *
+     * @return array Returns the attendants numbers keyed by provider ID, providers without an own value are left out.
+     */
+    public function get_provider_attendants_numbers(int $service_id): array
+    {
+        $service_provider_connections = $this->db
+            ->get_where('services_providers', ['id_services' => $service_id])
+            ->result_array();
+
+        $provider_attendants_numbers = [];
+
+        foreach ($service_provider_connections as $service_provider_connection) {
+            if ($service_provider_connection['attendants_number'] !== null) {
+                $provider_attendants_numbers[(int) $service_provider_connection['id_users']] =
+                    (int) $service_provider_connection['attendants_number'];
+            }
+        }
+
+        return $provider_attendants_numbers;
+    }
+
+    /**
+     * Get the number of attendants a provider accepts in a single time slot of a service.
+     *
+     * The value that is set for the provider of the service takes precedence over the attendants number of the service.
+     *
+     * @param array $service Service data.
+     * @param int $provider_id Provider ID.
+     *
+     * @return int Returns the attendants number that applies to the provider.
+     */
+    public function get_attendants_number_for_provider(array $service, int $provider_id): int
+    {
+        $service_provider_connection = $this->db
+            ->get_where('services_providers', ['id_services' => $service['id'], 'id_users' => $provider_id])
+            ->row_array();
+
+        $provider_attendants_number = $service_provider_connection['attendants_number'] ?? null;
+
+        if ($provider_attendants_number !== null && (int) $provider_attendants_number >= 1) {
+            return (int) $provider_attendants_number;
+        }
+
+        return max(1, (int) $service['attendants_number']);
+    }
+
+    /**
      * Save the service provider IDs.
      *
      * @param int $service_id Service ID.
      * @param array $provider_ids Provider IDs.
+     * @param array|null $provider_attendants_numbers Attendants numbers keyed by provider ID, that override the service
+     * value (an empty value removes the override). The stored values are kept if no array is provided.
      */
-    public function set_provider_ids(int $service_id, array $provider_ids): void
-    {
+    public function set_provider_ids(
+        int $service_id,
+        array $provider_ids,
+        ?array $provider_attendants_numbers = null,
+    ): void {
+        // The provided values are applied on top of the stored ones, so that a partial array does not reset the rest.
+        $provider_attendants_numbers = array_replace(
+            $this->get_provider_attendants_numbers($service_id),
+            $provider_attendants_numbers ?? [],
+        );
+
         // Re-insert the service-provider connections.
         $this->db->delete('services_providers', ['id_services' => $service_id]);
 
         foreach ($provider_ids as $provider_id) {
+            $provider_attendants_number = $provider_attendants_numbers[(int) $provider_id] ?? null;
+
             $service_provider_connection = [
                 'id_services' => $service_id,
                 'id_users' => $provider_id,
+                'attendants_number' =>
+                    $provider_attendants_number !== null && $provider_attendants_number !== ''
+                        ? (int) $provider_attendants_number
+                        : null,
             ];
 
             $this->db->insert('services_providers', $service_provider_connection);
@@ -511,6 +608,12 @@ class Services_model extends EA_Model
             'location' => $service['location'],
             'slotInterval' => (int) $service['slot_interval'],
             'attendantsNumber' => (int) $service['attendants_number'],
+            // Keyed by provider ID, an object is used so that an empty value is not encoded as a list.
+            'providerAttendantsNumbers' => (object) (array_key_exists('provider_attendants_numbers', $service)
+                ? $service['provider_attendants_numbers']
+                : (!empty($service['id'])
+                    ? $this->get_provider_attendants_numbers((int) $service['id'])
+                    : [])),
             'isPrivate' => (bool) $service['is_private'],
             'serviceCategoryId' =>
                 $service['id_service_categories'] !== null ? (int) $service['id_service_categories'] : null,
@@ -567,6 +670,10 @@ class Services_model extends EA_Model
 
         if (array_key_exists('attendantsNumber', $service)) {
             $decoded_resource['attendants_number'] = $service['attendantsNumber'];
+        }
+
+        if (array_key_exists('providerAttendantsNumbers', $service)) {
+            $decoded_resource['provider_attendants_numbers'] = (array) $service['providerAttendantsNumbers'];
         }
 
         if (array_key_exists('serviceCategoryId', $service)) {

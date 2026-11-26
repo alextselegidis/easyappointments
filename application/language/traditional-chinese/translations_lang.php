@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV 伺服器拒絕了使用者名
 $lang['caldav_sync_failed_unreachable'] = '無法連線至 CalDAV 伺服器。請確認伺服器正在執行，且連線網址正確。';
 $lang['caldav_private_host_warning'] = '此伺服器位於私人網路中。連線後會將其主機新增至允許的連線網址中。';
 $lang['caldav_allow_host_and_connect'] = '允許並連線';
+$lang['provider_attendants_number'] = '此提供者的參加人數';
+$lang['provider_attendants_number_hint'] = '提供者旁邊的數字會取代服務對該提供者的參加人數。留空則使用服務的值。';
 // End

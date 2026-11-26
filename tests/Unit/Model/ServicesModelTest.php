@@ -80,10 +80,63 @@ class ServicesModelTest extends TestCase
         ]);
     }
 
+    public function testValidateThrowsWhenAProviderAttendantsNumberIsBelowOne(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $this->services_model()->validate([
+            'name' => 'Yoga',
+            'attendants_number' => 10,
+            'provider_attendants_numbers' => [5 => '0'],
+        ]);
+    }
+
+    public function testValidatePassesForTheGroupBookingOptions(): void
+    {
+        $this->services_model()->validate([
+            'name' => 'Yoga',
+            'attendants_number' => 10,
+            'provider_attendants_numbers' => [5 => '6', 7 => ''],
+        ]);
+
+        $this->assertTrue(true); // No exception thrown.
+    }
+
     public function testValidatePassesForAFullyValidPayload(): void
     {
         $this->services_model()->validate(['name' => 'Haircut', 'attendants_number' => 1]);
 
         $this->assertTrue(true); // No exception thrown.
+    }
+
+    public function testApiEncodeExposesTheProviderAttendantsNumbersAsAnObject(): void
+    {
+        $service = [
+            'id' => 1,
+            'name' => 'Yoga',
+            'duration' => 60,
+            'price' => 0,
+            'currency' => 'EUR',
+            'description' => null,
+            'location' => null,
+            'slot_interval' => 15,
+            'attendants_number' => 10,
+            'is_private' => false,
+            'id_service_categories' => null,
+            'provider_attendants_numbers' => [2 => 6],
+        ];
+
+        $this->services_model()->api_encode($service);
+
+        $this->assertSame('{"2":6}', json_encode($service['providerAttendantsNumbers']));
+    }
+
+    public function testApiDecodeReadsTheProviderAttendantsNumbers(): void
+    {
+        $service = ['providerAttendantsNumbers' => ['2' => 6, '3' => null]];
+
+        $this->services_model()->api_decode($service);
+
+        $this->assertSame([2 => 6, 3 => null], $service['provider_attendants_numbers']);
     }
 }

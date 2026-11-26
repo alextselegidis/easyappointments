@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV-serveren afviste brugernavnet 
 $lang['caldav_sync_failed_unreachable'] = 'CalDAV-serveren kunne ikke nås. Kontroller, at den kører, og at forbindelses-URL\'en er korrekt.';
 $lang['caldav_private_host_warning'] = 'Denne server er på et privat netværk. Ved at oprette forbindelse tilføjes dens vært til de tilladte forbindelses-URL\'er.';
 $lang['caldav_allow_host_and_connect'] = 'Tillad og opret forbindelse';
+$lang['provider_attendants_number'] = 'Antal deltagere for denne leverandør';
+$lang['provider_attendants_number_hint'] = 'Tallet ud for en leverandør erstatter tjenestens antal deltagere for den pågældende leverandør. Lad feltet stå tomt for at bruge tjenestens værdi.';
 // End

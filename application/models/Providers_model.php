@@ -465,6 +465,18 @@ class Providers_model extends EA_Model
      */
     public function set_service_ids(int $provider_id, array $service_ids): void
     {
+        // Keep the attendants numbers that were set for the provider in the services that remain assigned.
+        $attendants_numbers = [];
+
+        $service_provider_connections = $this->db
+            ->get_where('services_providers', ['id_users' => $provider_id])
+            ->result_array();
+
+        foreach ($service_provider_connections as $service_provider_connection) {
+            $attendants_numbers[(int) $service_provider_connection['id_services']] =
+                $service_provider_connection['attendants_number'] ?? null;
+        }
+
         // Re-insert the provider-service connections.
         $this->db->delete('services_providers', ['id_users' => $provider_id]);
 
@@ -472,6 +484,7 @@ class Providers_model extends EA_Model
             $service_provider_connection = [
                 'id_users' => $provider_id,
                 'id_services' => $service_id,
+                'attendants_number' => $attendants_numbers[(int) $service_id] ?? null,
             ];
 
             $this->db->insert('services_providers', $service_provider_connection);

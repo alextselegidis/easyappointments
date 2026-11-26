@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'رفض خادم CalDAV اسم الم�
 $lang['caldav_sync_failed_unreachable'] = 'تعذر الوصول إلى خادم CalDAV. تأكد من أنه يعمل وأن عنوان الاتصال صحيح.';
 $lang['caldav_private_host_warning'] = 'هذا الخادم على شبكة خاصة. سيؤدي الاتصال إلى إضافة مضيفه إلى عناوين الاتصال المسموح بها.';
 $lang['caldav_allow_host_and_connect'] = 'السماح والاتصال';
+$lang['provider_attendants_number'] = 'عدد الحاضرين لهذا المزود';
+$lang['provider_attendants_number_hint'] = 'الرقم بجانب المزود يستبدل عدد الحاضرين الخاص بالخدمة لذلك المزود. اتركه فارغاً لاستخدام قيمة الخدمة.';
 // End

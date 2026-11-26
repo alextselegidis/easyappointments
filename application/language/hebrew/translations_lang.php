@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'שרת ה-CalDAV דחה את שם ה�
 $lang['caldav_sync_failed_unreachable'] = 'לא ניתן היה להגיע לשרת ה-CalDAV. ודאו שהוא פועל ושכתובת החיבור נכונה.';
 $lang['caldav_private_host_warning'] = 'שרת זה נמצא ברשת פרטית. ההתחברות תוסיף את המארח שלו לכתובות החיבור המותרות.';
 $lang['caldav_allow_host_and_connect'] = 'אפשר והתחבר';
+$lang['provider_attendants_number'] = 'מספר המשתתפים של ספק זה';
+$lang['provider_attendants_number_hint'] = 'המספר שליד ספק מחליף עבור אותו ספק את מספר המשתתפים של השירות. השאירו ריק כדי להשתמש בערך של השירות.';
 // End

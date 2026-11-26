@@ -2420,6 +2420,12 @@ components:
                     type: integer
                 attendantsNumber:
                     type: integer
+                providerAttendantsNumbers:
+                    type: object
+                    description: Optional attendants numbers that replace the service value for specific providers, keyed by provider ID. Only the providers that offer the service are stored, a null value removes the number of a provider.
+                    additionalProperties:
+                        type: integer
+                        nullable: true
                 isPrivate:
                     type: boolean
                 serviceCategoryId:
@@ -2435,6 +2441,8 @@ components:
                 color: '#7cbae8'
                 slotInterval: 30
                 attendantsNumber: 1
+                providerAttendantsNumbers:
+                    '2': 6
                 isPrivate: false
                 serviceCategoryId: null
         ServicePayload:
@@ -2458,6 +2466,12 @@ components:
                     type: integer
                 attendantsNumber:
                     type: integer
+                providerAttendantsNumbers:
+                    type: object
+                    description: Optional attendants numbers that replace the service value for specific providers, keyed by provider ID. Only the providers that offer the service are stored, a null value removes the number of a provider.
+                    additionalProperties:
+                        type: integer
+                        nullable: true
                 isPrivate:
                     type: boolean
                 serviceCategoryId:
@@ -2472,6 +2486,8 @@ components:
                 color: '#7cbae8'
                 slotInterval: 30
                 attendantsNumber: 1
+                providerAttendantsNumbers:
+                    '2': 6
                 isPrivate: false
                 serviceCategoryId: null
         ServiceCategoryRecord:

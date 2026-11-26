@@ -171,6 +171,12 @@ App.Pages.Services = (function () {
                 }
             });
 
+            // Include the attendants numbers of the providers (an empty value falls back to the service value).
+            service.provider_attendants_numbers = {};
+            $('#service-providers .provider-attendants-number').each((index, inputEl) => {
+                service.provider_attendants_numbers[$(inputEl).attr('data-id')] = $(inputEl).val();
+            });
+
             if ($id.val() !== '') {
                 service.id = $id.val();
             }
@@ -315,6 +321,14 @@ App.Pages.Services = (function () {
                 throw new Error(lang('invalid_attendants_number'));
             }
 
+            // Validate the attendants numbers of the providers.
+            $('#service-providers .provider-attendants-number').each((index, inputEl) => {
+                if ($(inputEl).val() !== '' && Number($(inputEl).val()) < 1) {
+                    $(inputEl).addClass('is-invalid');
+                    throw new Error(lang('invalid_attendants_number'));
+                }
+            });
+
             return true;
         } catch (error) {
             $services.find('.form-message').addClass('alert-danger').text(error.message).show();
@@ -374,10 +388,15 @@ App.Pages.Services = (function () {
         // Display providers
         $('#service-providers a').remove();
         $('#service-providers input:checkbox').prop('checked', false);
+        $('#service-providers .provider-attendants-number').val('');
+
+        Object.entries(service.provider_attendants_numbers || {}).forEach(([providerId, attendantsNumber]) => {
+            $('#service-providers .provider-attendants-number[data-id="' + providerId + '"]').val(attendantsNumber);
+        });
 
         if (service.providers) {
             service.providers.forEach((serviceProviderId) => {
-                const $checkbox = $('#service-providers input[data-id="' + serviceProviderId + '"]');
+                const $checkbox = $('#service-providers input:checkbox[data-id="' + serviceProviderId + '"]');
 
                 if (!$checkbox.length) {
                     return;

@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'Serwer CalDAV odrzucił nazwę użytk
 $lang['caldav_sync_failed_unreachable'] = 'Nie udało się połączyć z serwerem CalDAV. Upewnij się, że działa i że adres połączenia jest poprawny.';
 $lang['caldav_private_host_warning'] = 'Ten serwer znajduje się w sieci prywatnej. Połączenie doda jego host do dozwolonych adresów połączenia.';
 $lang['caldav_allow_host_and_connect'] = 'Zezwól i połącz';
+$lang['provider_attendants_number'] = 'Liczba uczestników dla tej osoby z personelu';
+$lang['provider_attendants_number_hint'] = 'Liczba obok osoby z personelu zastępuje dla niej liczbę uczestników zabiegu. Pozostaw puste, aby użyć wartości zabiegu.';
 // End

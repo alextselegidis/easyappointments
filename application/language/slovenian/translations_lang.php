@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'Strežnik CalDAV je zavrnil uporabni�
 $lang['caldav_sync_failed_unreachable'] = 'Strežnika CalDAV ni bilo mogoče doseči. Preverite, ali deluje in ali je naslov povezave pravilen.';
 $lang['caldav_private_host_warning'] = 'Ta strežnik je v zasebnem omrežju. S povezavo bo njegov gostitelj dodan med dovoljene naslove povezave.';
 $lang['caldav_allow_host_and_connect'] = 'Dovoli in poveži';
+$lang['provider_attendants_number'] = 'Število udeležencev pri tem ponudniku';
+$lang['provider_attendants_number_hint'] = 'Število ob ponudniku za tega ponudnika nadomesti število udeležencev storitve. Pustite prazno, če želite uporabiti vrednost storitve.';
 // End

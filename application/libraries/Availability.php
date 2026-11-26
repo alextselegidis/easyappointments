@@ -37,6 +37,7 @@ class Availability
         $this->CI->load->model('providers_model');
         $this->CI->load->model('secretaries_model');
         $this->CI->load->model('secretaries_model');
+        $this->CI->load->model('services_model');
         $this->CI->load->model('settings_model');
         $this->CI->load->model('unavailabilities_model');
         $this->CI->load->model('blocked_periods_model');
@@ -71,8 +72,17 @@ class Availability
             return [];
         }
 
-        if ($service['attendants_number'] > 1) {
-            $available_hours = $this->consider_multiple_attendants($date, $service, $provider, $exclude_appointment_id);
+        // The attendants number that is set for the provider of the service overrides the value of the service.
+        $capacity = $this->CI->services_model->get_attendants_number_for_provider($service, (int) $provider['id']);
+
+        if ($capacity > 1) {
+            $available_hours = $this->consider_multiple_attendants(
+                $date,
+                $service,
+                $provider,
+                $exclude_appointment_id,
+                $capacity,
+            );
         } else {
             $available_periods = $this->get_available_periods($date, $provider, $exclude_appointment_id);
 
@@ -93,6 +103,7 @@ class Availability
      * @param array $service Service data.
      * @param array $provider Provider data.
      * @param int|null $exclude_appointment_id Exclude an appointment from the availability generation.
+     * @param int|null $capacity Number of attendants a slot accepts, defaults to the attendants number of the service.
      *
      * @return array Returns the available hours array.
      *
@@ -103,7 +114,10 @@ class Availability
         array $service,
         array $provider,
         ?int $exclude_appointment_id = null,
+        ?int $capacity = null,
     ): array {
+        $capacity ??= (int) $service['attendants_number'];
+
         $unavailability_events = $this->CI->unavailabilities_model->get([
             'is_unavailability' => true,
             'DATE(start_datetime) <=' => $date,
@@ -177,7 +191,7 @@ class Availability
                     $exclude_appointment_id,
                 );
 
-                if ($appointment_attendants_number < $service['attendants_number']) {
+                if ($appointment_attendants_number < $capacity) {
                     $hours[] = $slot_start->format('H:i');
                 }
 

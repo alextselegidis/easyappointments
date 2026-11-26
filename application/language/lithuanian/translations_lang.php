@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV serveris atmetė naudotojo var
 $lang['caldav_sync_failed_unreachable'] = 'Nepavyko susisiekti su CalDAV serveriu. Įsitikinkite, kad jis veikia ir kad prisijungimo adresas teisingas.';
 $lang['caldav_private_host_warning'] = 'Šis serveris yra privačiame tinkle. Prisijungus jo serverio vardas bus pridėtas prie leidžiamų prisijungimo adresų.';
 $lang['caldav_allow_host_and_connect'] = 'Leisti ir prisijungti';
+$lang['provider_attendants_number'] = 'Šio paslaugų teikėjo dalyvių skaičius';
+$lang['provider_attendants_number_hint'] = 'Skaičius šalia paslaugų teikėjo pakeičia paslaugos dalyvių skaičių tam teikėjui. Palikite tuščią, jei norite naudoti paslaugos reikšmę.';
 // End

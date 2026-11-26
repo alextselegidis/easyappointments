@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV サーバーがユーザー名
 $lang['caldav_sync_failed_unreachable'] = 'CalDAV サーバーに接続できませんでした。サーバーが稼働していること、接続 URL が正しいことを確認してください。';
 $lang['caldav_private_host_warning'] = 'このサーバーはプライベートネットワーク上にあります。接続すると、そのホストが許可する接続 URL に追加されます。';
 $lang['caldav_allow_host_and_connect'] = '許可して接続';
+$lang['provider_attendants_number'] = 'この担当者の出席者数';
+$lang['provider_attendants_number_hint'] = '担当者の横の数値は、その担当者についてメニューの出席者数を置き換えます。メニューの値を使用する場合は空欄のままにしてください。';
 // End

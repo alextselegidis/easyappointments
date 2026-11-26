@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV सर्व्हरने �
 $lang['caldav_sync_failed_unreachable'] = 'CalDAV सर्व्हरशी संपर्क साधता आला नाही. तो सुरू आहे आणि जोडणी URL योग्य आहे याची खात्री करा.';
 $lang['caldav_private_host_warning'] = 'हा सर्व्हर खाजगी नेटवर्कवर आहे. जोडणी केल्यास त्याचे होस्ट अनुमत जोडणी URL मध्ये जोडले जाईल.';
 $lang['caldav_allow_host_and_connect'] = 'परवानगी द्या आणि जोडा';
+$lang['provider_attendants_number'] = 'या व्यवस्थापकाचा उपस्थिती क्रमांक';
+$lang['provider_attendants_number_hint'] = 'व्यवस्थापकाच्या शेजारील संख्या त्या व्यवस्थापकासाठी सेवेच्या उपस्थिती क्रमांकाची जागा घेते. सेवेचे मूल्य वापरण्यासाठी रिकामे ठेवा.';
 // End

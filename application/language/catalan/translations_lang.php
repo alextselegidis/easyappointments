@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'El servidor CalDAV ha rebutjat el nom
 $lang['caldav_sync_failed_unreachable'] = 'No s\'ha pogut contactar amb el servidor CalDAV. Assegureu-vos que està en funcionament i que l\'URL de connexió és correcte.';
 $lang['caldav_private_host_warning'] = 'Aquest servidor es troba en una xarxa privada. En connectar s\'afegirà el seu amfitrió als URL de connexió permesos.';
 $lang['caldav_allow_host_and_connect'] = 'Permet i connecta';
+$lang['provider_attendants_number'] = 'Nombre d\'assistents d\'aquest proveïdor';
+$lang['provider_attendants_number_hint'] = 'El nombre al costat d\'un proveïdor substitueix el nombre d\'assistents del servei per a aquest proveïdor. Deixeu-lo buit per utilitzar el valor del servei.';
 // End

@@ -591,4 +591,6 @@ $lang['caldav_sync_failed_credentials'] = 'De CalDAV-server heeft de gebruikersn
 $lang['caldav_sync_failed_unreachable'] = 'De CalDAV-server kon niet worden bereikt. Controleer of de server draait en of de verbindings-URL juist is.';
 $lang['caldav_private_host_warning'] = 'Deze server staat in een privénetwerk. Bij het verbinden wordt de host toegevoegd aan de toegestane verbindings-URL\'s.';
 $lang['caldav_allow_host_and_connect'] = 'Toestaan en verbinden';
+$lang['provider_attendants_number'] = 'Aantal deelnemers van deze medewerker';
+$lang['provider_attendants_number_hint'] = 'Het getal naast een medewerker vervangt voor die medewerker het aantal deelnemers van de dienst. Laat leeg om de waarde van de dienst te gebruiken.';
 // End
