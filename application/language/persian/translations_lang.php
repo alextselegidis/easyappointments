@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'سرور CalDAV نام کاربری �
 $lang['caldav_sync_failed_unreachable'] = 'دسترسی به سرور CalDAV ممکن نشد. مطمئن شوید که در حال اجراست و نشانی اتصال درست است.';
 $lang['caldav_private_host_warning'] = 'این سرور در یک شبکه خصوصی است. با اتصال، میزبان آن به نشانی‌های اتصال مجاز افزوده می‌شود.';
 $lang['caldav_allow_host_and_connect'] = 'اجازه بده و متصل شو';
+$lang['provider_attendants_number'] = 'تعداد حاضران این ارائه دهنده';
+$lang['provider_attendants_number_hint'] = 'عدد کنار ارائه دهنده برای همان ارائه دهنده جایگزین تعداد حاضران خدمات می‌شود. برای استفاده از مقدار خدمات، آن را خالی بگذارید.';
 // End

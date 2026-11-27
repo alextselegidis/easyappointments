@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'Server CalDAV odmítl uživatelské j
 $lang['caldav_sync_failed_unreachable'] = 'Server CalDAV se nepodařilo kontaktovat. Ověřte, že běží a že je adresa připojení správná.';
 $lang['caldav_private_host_warning'] = 'Tento server je v privátní síti. Připojením se jeho hostitel přidá mezi povolené adresy připojení.';
 $lang['caldav_allow_host_and_connect'] = 'Povolit a připojit';
+$lang['provider_attendants_number'] = 'Počet účastníků tohoto poskytovatele';
+$lang['provider_attendants_number_hint'] = 'Číslo vedle poskytovatele nahrazuje pro tohoto poskytovatele počet účastníků služby. Ponechte prázdné, chcete-li použít hodnotu služby.';
 // End

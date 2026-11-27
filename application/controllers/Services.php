@@ -34,6 +34,7 @@ class Services extends EA_Controller
         'is_private',
         'id_service_categories',
         'providers',
+        'provider_attendants_numbers',
     ];
     public array $optional_service_fields = [
         'id_service_categories' => null,
@@ -133,6 +134,9 @@ class Services extends EA_Controller
             // Include provider IDs for each service
             foreach ($services as &$service) {
                 $service['providers'] = $this->services_model->get_provider_ids($service['id']);
+                $service['provider_attendants_numbers'] = $this->services_model->get_provider_attendants_numbers(
+                    $service['id'],
+                );
             }
 
             json_response($services);

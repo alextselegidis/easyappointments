@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'De CalDAV-Server huet de Benotzernumm
 $lang['caldav_sync_failed_unreachable'] = 'De CalDAV-Server konnt net erreecht ginn. Vergewëssert Iech, datt en leeft an datt d\'Verbindungs-URL richteg ass.';
 $lang['caldav_private_host_warning'] = 'Dëse Server ass an engem private Netz. Beim Verbanne gëtt säin Host bei déi erlaabte Verbindungs-URLen derbäigesat.';
 $lang['caldav_allow_host_and_connect'] = 'Zouloossen a verbannen';
+$lang['provider_attendants_number'] = 'Zuel vun den Assistenter vun dësem Mataarbechter';
+$lang['provider_attendants_number_hint'] = 'D\'Zuel nieft engem Mataarbechter ersetzt fir dëse Mataarbechter d\'Zuel vun den Assistenter vun der Dingschtleeschtung. Eidel loossen, fir de Wäert vun der Dingschtleeschtung ze benotzen.';
 // End

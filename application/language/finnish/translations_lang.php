@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV-palvelin hylkäsi käyttäjät
 $lang['caldav_sync_failed_unreachable'] = 'CalDAV-palvelimeen ei saatu yhteyttä. Varmista, että se on käynnissä ja että yhteysosoite on oikein.';
 $lang['caldav_private_host_warning'] = 'Tämä palvelin on yksityisessä verkossa. Yhdistäminen lisää sen isännän sallittuihin yhteysosoitteisiin.';
 $lang['caldav_allow_host_and_connect'] = 'Salli ja yhdistä';
+$lang['provider_attendants_number'] = 'Tämän palveluntuottajan osallistujien määrä';
+$lang['provider_attendants_number_hint'] = 'Palveluntuottajan vieressä oleva luku korvaa palvelun osallistujien määrän kyseisen palveluntuottajan osalta. Jätä tyhjäksi, jos haluat käyttää palvelun arvoa.';
 // End

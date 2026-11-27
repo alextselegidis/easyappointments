@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV-servern avvisade användarnamn
 $lang['caldav_sync_failed_unreachable'] = 'Det gick inte att nå CalDAV-servern. Kontrollera att den är igång och att anslutnings-URL:en är korrekt.';
 $lang['caldav_private_host_warning'] = 'Den här servern finns i ett privat nätverk. Vid anslutning läggs dess värd till bland de tillåtna anslutnings-URL:erna.';
 $lang['caldav_allow_host_and_connect'] = 'Tillåt och anslut';
+$lang['provider_attendants_number'] = 'Max antal deltagare för den här utföraren';
+$lang['provider_attendants_number_hint'] = 'Talet bredvid en utförare ersätter tjänstens max antal deltagare för den utföraren. Lämna tomt för att använda tjänstens värde.';
 // End

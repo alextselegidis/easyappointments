@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'เซิร์ฟเวอร์ Cal
 $lang['caldav_sync_failed_unreachable'] = 'ไม่สามารถติดต่อเซิร์ฟเวอร์ CalDAV ได้ โปรดตรวจสอบว่าเซิร์ฟเวอร์ทำงานอยู่และ URL การเชื่อมต่อถูกต้อง';
 $lang['caldav_private_host_warning'] = 'เซิร์ฟเวอร์นี้อยู่ในเครือข่ายส่วนตัว การเชื่อมต่อจะเพิ่มโฮสต์ของเซิร์ฟเวอร์นี้ลงใน URL การเชื่อมต่อที่อนุญาต';
 $lang['caldav_allow_host_and_connect'] = 'อนุญาตและเชื่อมต่อ';
+$lang['provider_attendants_number'] = 'จำนวนผู้เข้าร่วมของผู้ให้บริการรายนี้';
+$lang['provider_attendants_number_hint'] = 'ตัวเลขข้างผู้ให้บริการจะใช้แทนจำนวนผู้เข้าร่วมของบริการสำหรับผู้ให้บริการรายนั้น เว้นว่างไว้เพื่อใช้ค่าของบริการ';
 // End

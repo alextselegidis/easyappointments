@@ -173,17 +173,30 @@
                 </div>
             </div>
 
-            <div id="service-providers" class="card card-body border mb-3">
+            <div id="service-providers" class="card card-body border mb-2">
                 <?php foreach (vars('providers') as $provider): ?>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox"
-                               id="provider-<?= $provider['id'] ?>"
-                               data-id="<?= $provider['id'] ?>" disabled>
-                        <label class="form-check-label" for="provider-<?= $provider['id'] ?>">
-                            <?= e($provider['first_name'] . ' ' . $provider['last_name']) ?>
-                        </label>
+                    <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+                        <div class="form-check mb-0">
+                            <input class="form-check-input" type="checkbox"
+                                   id="provider-<?= $provider['id'] ?>"
+                                   data-id="<?= $provider['id'] ?>" disabled>
+                            <label class="form-check-label" for="provider-<?= $provider['id'] ?>">
+                                <?= e($provider['first_name'] . ' ' . $provider['last_name']) ?>
+                            </label>
+                        </div>
+                        <input class="form-control form-control-sm provider-attendants-number" type="number" min="1"
+                               style="width: 90px;"
+                               data-id="<?= $provider['id'] ?>"
+                               title="<?= e(lang('provider_attendants_number')) ?>"
+                               aria-label="<?= e(lang('provider_attendants_number')) ?>" disabled>
                     </div>
                 <?php endforeach; ?>
+            </div>
+
+            <div class="form-text text-muted mb-3">
+                <small>
+                    <?= lang('provider_attendants_number_hint') ?>
+                </small>
             </div>
 
         </div>

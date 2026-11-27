@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV server lükkas kasutajanime ja
 $lang['caldav_sync_failed_unreachable'] = 'CalDAV serverini ei õnnestunud ühendust saada. Veenduge, et see töötab ja et ühenduse aadress on õige.';
 $lang['caldav_private_host_warning'] = 'See server asub privaatvõrgus. Ühendamisel lisatakse selle host lubatud ühenduse aadressidele.';
 $lang['caldav_allow_host_and_connect'] = 'Luba ja ühenda';
+$lang['provider_attendants_number'] = 'Selle teenusepakkuja üheaegsete broneeringute arv';
+$lang['provider_attendants_number_hint'] = 'Teenusepakkuja kõrval olev arv asendab selle teenusepakkuja puhul teenuse üheaegsete broneeringute arvu. Teenuse väärtuse kasutamiseks jätke tühjaks.';
 // End

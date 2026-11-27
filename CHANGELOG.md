@@ -5,6 +5,10 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ## [Unreleased]
 
+### Added
+
+- The attendants number of a service can now be set differently for each provider on the services page and through the providerAttendantsNumbers field of the services API (#371)
+
 ### Fixed
 
 - SMTP debug output is now written to the log files instead of being shown to visitors when SMTP debugging is enabled

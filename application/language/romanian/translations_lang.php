@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'Serverul CalDAV a respins numele de u
 $lang['caldav_sync_failed_unreachable'] = 'Serverul CalDAV nu a putut fi contactat. Asigurați-vă că funcționează și că adresa de conectare este corectă.';
 $lang['caldav_private_host_warning'] = 'Acest server se află într-o rețea privată. La conectare, gazda sa va fi adăugată la adresele de conectare permise.';
 $lang['caldav_allow_host_and_connect'] = 'Permite și conectează';
+$lang['provider_attendants_number'] = 'Număr asistenți pentru acest furnizor';
+$lang['provider_attendants_number_hint'] = 'Numărul de lângă un furnizor înlocuiește, pentru acel furnizor, numărul de asistenți al serviciului. Lăsați gol pentru a folosi valoarea serviciului.';
 // End

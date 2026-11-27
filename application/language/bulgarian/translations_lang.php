@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'Сървърът CalDAV отхвър�
 $lang['caldav_sync_failed_unreachable'] = 'Сървърът CalDAV не можа да бъде достигнат. Уверете се, че работи и че адресът за връзка е правилен.';
 $lang['caldav_private_host_warning'] = 'Този сървър е в частна мрежа. При свързване хостът му ще бъде добавен към разрешените адреси за връзка.';
 $lang['caldav_allow_host_and_connect'] = 'Разреши и свържи';
+$lang['provider_attendants_number'] = 'Брой посетители за този изпълнител';
+$lang['provider_attendants_number_hint'] = 'Числото до изпълнител заменя броя посетители на услугата за този изпълнител. Оставете празно, за да се използва стойността на услугата.';
 // End

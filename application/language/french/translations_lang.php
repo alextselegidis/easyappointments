@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'Le serveur CalDAV a refusé le nom d\
 $lang['caldav_sync_failed_unreachable'] = 'Le serveur CalDAV n\'a pas pu être contacté. Vérifiez qu\'il fonctionne et que l\'URL de connexion est correcte.';
 $lang['caldav_private_host_warning'] = 'Ce serveur se trouve sur un réseau privé. La connexion ajoutera son hôte aux URL de connexion autorisées.';
 $lang['caldav_allow_host_and_connect'] = 'Autoriser et se connecter';
+$lang['provider_attendants_number'] = 'Nombre de participants de cet exécutant';
+$lang['provider_attendants_number_hint'] = 'Le nombre indiqué à côté d\'un exécutant remplace, pour cet exécutant, le nombre de participants de la prestation. Laissez vide pour utiliser la valeur de la prestation.';
 // End

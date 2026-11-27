@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV sunucusu kullanıcı adını v
 $lang['caldav_sync_failed_unreachable'] = 'CalDAV sunucusuna ulaşılamadı. Sunucunun çalıştığından ve bağlantı adresinin doğru olduğundan emin olun.';
 $lang['caldav_private_host_warning'] = 'Bu sunucu özel bir ağda bulunuyor. Bağlandığınızda adresi izin verilen bağlantı adreslerine eklenecek.';
 $lang['caldav_allow_host_and_connect'] = 'İzin ver ve bağlan';
+$lang['provider_attendants_number'] = 'Bu hizmet sağlayıcının refakatçi sayısı';
+$lang['provider_attendants_number_hint'] = 'Bir hizmet sağlayıcının yanındaki sayı, o hizmet sağlayıcı için hizmetin refakatçi sayısının yerini alır. Hizmetin değerini kullanmak için boş bırakın.';
 // End

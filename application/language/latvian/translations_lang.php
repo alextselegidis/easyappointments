@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'CalDAV serveris noraidīja lietotājv
 $lang['caldav_sync_failed_unreachable'] = 'Neizdevās sazināties ar CalDAV serveri. Pārliecinieties, ka tas darbojas un ka savienojuma adrese ir pareiza.';
 $lang['caldav_private_host_warning'] = 'Šis serveris atrodas privātā tīklā. Pieslēdzoties tā resursdators tiks pievienots atļautajām savienojuma adresēm.';
 $lang['caldav_allow_host_and_connect'] = 'Atļaut un pieslēgties';
+$lang['provider_attendants_number'] = 'Šī pakalpojumu sniedzēja apmeklētāju skaits';
+$lang['provider_attendants_number_hint'] = 'Skaitlis blakus pakalpojumu sniedzējam šim sniedzējam aizstāj pakalpojuma apmeklētāju skaitu. Atstājiet tukšu, lai izmantotu pakalpojuma vērtību.';
 // End

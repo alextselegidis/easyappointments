@@ -217,6 +217,7 @@ GET /api/v1/availabilities?providerId=1&serviceId=2&date=2016-07-19
     "description": "This is a test service.",
     "availabilitiesType": "flexible",
     "attendantsNumber": 1,
+    "providerAttendantsNumbers": {"2": 6},
     "serviceCategoryId": null
 }
 ```

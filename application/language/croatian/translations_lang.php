@@ -592,4 +592,6 @@ $lang['caldav_sync_failed_credentials'] = 'Poslužitelj CalDAV odbio je korisni�
 $lang['caldav_sync_failed_unreachable'] = 'Poslužitelj CalDAV nije bilo moguće dohvatiti. Provjerite radi li i je li adresa povezivanja ispravna.';
 $lang['caldav_private_host_warning'] = 'Ovaj poslužitelj je u privatnoj mreži. Povezivanjem će se njegov naziv dodati u dopuštene adrese povezivanja.';
 $lang['caldav_allow_host_and_connect'] = 'Dopusti i poveži';
+$lang['provider_attendants_number'] = 'Broj prisutnih za ovog pružatelja';
+$lang['provider_attendants_number_hint'] = 'Broj pokraj pružatelja zamjenjuje broj prisutnih usluge za tog pružatelja. Ostavite prazno za korištenje vrijednosti usluge.';
 // End
