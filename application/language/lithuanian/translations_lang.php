@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Atlikti kalendoriaus sinchronizavimą.';
 $lang['appointment_updated'] = 'Vizitas sėkmingai atnaujintas.';
 $lang['undo'] = 'Atšaukti';
 $lang['appointment_details_changed'] = 'Vizito duomenys pakeisti';
+$lang['appointment_details_changed_message'] = 'Jūsų vizitas buvo perkeltas. Jei nauja data ar laikas jums netinka, galite laisvai pakeisti registraciją naudodamiesi šio el. laiško apačioje esančiu mygtuku „Perkelti / Atšaukti vizitą“.';
 $lang['appointment_changes_saved'] = 'Vizito pakeitimai sėkmingai įrašyti.';
 $lang['save'] = 'Įrašyti';
 $lang['new'] = 'Naujas';

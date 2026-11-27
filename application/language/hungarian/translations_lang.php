@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Google naptárral való szinkronizálás indítás
 $lang['appointment_updated'] = 'Az időpont sikeresen frissítve.';
 $lang['undo'] = 'Visszavonás';
 $lang['appointment_details_changed'] = 'A foglalás részletei megváltoztak.';
+$lang['appointment_details_changed_message'] = 'Az időpontod újra lett ütemezve. Ha az új dátum vagy időpont nem megfelelő, szabadon módosíthatod a foglalást az e-mail alján található "Időpont módosítása / Lemondása" gomb segítségével.';
 $lang['appointment_changes_saved'] = 'A változtatások sikeresen elmentve.';
 $lang['save'] = 'Mentés';
 $lang['new'] = 'Új';

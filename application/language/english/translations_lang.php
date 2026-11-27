@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Trigger the calendar synchronization process.';
 $lang['appointment_updated'] = 'Appointment updated successfully.';
 $lang['undo'] = 'Undo';
 $lang['appointment_details_changed'] = 'Appointment details have changed';
+$lang['appointment_details_changed_message'] = 'Your appointment has been rescheduled. If the new date or time is not suitable for you, you can freely change the booking by using the "Reschedule / Cancel Appointment" button at the bottom of this email.';
 $lang['appointment_changes_saved'] = 'Appointment changes have been successfully saved.';
 $lang['save'] = 'Save';
 $lang['new'] = 'New';

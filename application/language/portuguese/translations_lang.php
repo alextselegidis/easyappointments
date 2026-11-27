@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Desencadear o processo de sincronização do Googl
 $lang['appointment_updated'] = 'Evento actualizado com sucesso.';
 $lang['undo'] = 'Desfazer';
 $lang['appointment_details_changed'] = 'Detalhes do evento foram alterados.';
+$lang['appointment_details_changed_message'] = 'O seu evento foi reagendado. Se a nova data ou hora não for adequada, você pode alterar livremente a reserva usando o botão "Reagendar / Cancelar evento" na parte inferior deste e-mail.';
 $lang['appointment_changes_saved'] = 'Detalhes do evento foram guardados com sucesso.';
 $lang['save'] = 'Guardar';
 $lang['new'] = 'Novo';

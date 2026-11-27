@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Nxisni procesin e sinkronizimit të kalendarit.';
 $lang['appointment_updated'] = 'Takimi u përditësua me sukses.';
 $lang['undo'] = 'Anulo';
 $lang['appointment_details_changed'] = 'Detajet e takimit kanë ndryshuar';
+$lang['appointment_details_changed_message'] = 'Takimi juaj është riorganizuar. Nëse data ose ora e re nuk janë të përshtatshme për ju, mund të ndryshoni rezervimin duke përdorur butonin "Riorganizo / Anulo Takimin" në fund të këtij emaili.';
 $lang['appointment_changes_saved'] = 'Ndryshimet e takimit u ruajtën me sukses.';
 $lang['save'] = 'Ruaj';
 $lang['new'] = 'I Ri';

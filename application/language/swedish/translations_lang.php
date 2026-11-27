@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Starta synkroniseringen av kalendern.';
 $lang['appointment_updated'] = 'Bokningen är uppdaterad';
 $lang['undo'] = 'Ångra';
 $lang['appointment_details_changed'] = 'Bokningen har ändrats';
+$lang['appointment_details_changed_message'] = 'Din bokning har ändrats. Om den nya tiden inte passar kan du ändra bokningen med knappen "Ändra / Avboka bokning" längst ner i detta mejl.';
 $lang['appointment_changes_saved'] = 'Ändringarna i bokningen har sparats.';
 $lang['save'] = 'Spara';
 $lang['new'] = 'Ny';

@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Start synkroniseringsprosessen for kalenderen.';
 $lang['appointment_updated'] = 'Avtale oppdatert.';
 $lang['undo'] = 'Angre';
 $lang['appointment_details_changed'] = 'Avtaledetaljer har endret seg';
+$lang['appointment_details_changed_message'] = 'Avtalen din er omplanlagt. Hvis den nye datoen eller tiden ikke passer for deg, kan du fritt endre bestillingen ved å bruke "Endre / Avbryt avtale"-knappen nederst i denne e-posten.';
 $lang['appointment_changes_saved'] = 'Endringer i avtalen er lagret.';
 $lang['save'] = 'Lagre';
 $lang['new'] = 'Ny';

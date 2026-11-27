@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Sproži postopek sinhronizacije koledarja.';
 $lang['appointment_updated'] = 'Sestanek je bil uspešno posodobljen.';
 $lang['undo'] = 'Razveljavi';
 $lang['appointment_details_changed'] = 'Podrobnosti o terminu so spremenjene';
+$lang['appointment_details_changed_message'] = 'Vaš termin je bil ponovno načrtovan. Če vam nov datum ali ura ne ustreza, lahko rezervacijo prosto spremenite z uporabo gumba "Spremeni / prekliči termin" na dnu tega e-poštnega sporočila.';
 $lang['appointment_changes_saved'] = 'Spremembe termina so bile uspešno shranjene.';
 $lang['save'] = 'Shrani';
 $lang['new'] = 'Novo';

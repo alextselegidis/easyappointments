@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Trigger proces synchronizácie kalendára Google.'
 $lang['appointment_updated'] = 'Rezervácia úspešne aktualizovaná.';
 $lang['undo'] = 'Odvolať akciu';
 $lang['appointment_details_changed'] = 'Podrobnosti rezervácie boli zmenené';
+$lang['appointment_details_changed_message'] = 'Vaša rezervácia bola preplánovaná. Ak Vám nový dátum alebo čas nevyhovuje, môžete si rezerváciu kedykoľvek zmeniť pomocou tlačidla "Zmeniť / Zrušiť rezerváciu" v spodnej časti tohto e-mailu.';
 $lang['appointment_changes_saved'] = 'Zmeny rezervácie boli úspešne uložené.';
 $lang['save'] = 'Uložiť';
 $lang['new'] = 'Nová';

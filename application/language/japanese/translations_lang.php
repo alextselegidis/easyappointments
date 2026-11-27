@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Googleカレンダーとの同期を開始しま�
 $lang['appointment_updated'] = '予約情報が更新されました。';
 $lang['undo'] = 'やり直し';
 $lang['appointment_details_changed'] = '予約情報が変更されました。';
+$lang['appointment_details_changed_message'] = '予約が再スケジュールされました。新しい日付や時間が合わない場合は、このメールの下部にある「予約の変更/キャンセル」ボタンを使用して、自由に予約を変更できます。';
 $lang['appointment_changes_saved'] = '予約の変更が保存されました。';
 $lang['save'] = '保存';
 $lang['new'] = '新規';

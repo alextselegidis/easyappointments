@@ -7,6 +7,9 @@ developers to maintain and readjust their custom modifications on the main proje
 
 ### Fixed
 
+- SMTP debug output is now written to the log files instead of being shown to visitors when SMTP debugging is enabled
+- The Italian calendar and date names are now translated
+- The e-mail a customer receives when their appointment is changed from the backend now explains what happened and how to reschedule or cancel it
 - Booking with the e-mail address of an existing customer no longer overwrites their stored name, phone number and address, which previously let anyone who knew the address change the customer's details; returning customers can still update them from the manage link of their own appointment
 - Private services and providers can no longer be booked, and providers can no longer be booked for services they do not offer, by sending requests directly to the booking page endpoints
 - Changing the e-mail address or username in the account settings page now requires the current password, so that a stolen session alone cannot redirect the password recovery e-mail and take over the account

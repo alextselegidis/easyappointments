@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Avvia il processo di sincronizzazione con Google C
 $lang['appointment_updated'] = 'Appuntamento aggiornato con successo.';
 $lang['undo'] = 'Annulla';
 $lang['appointment_details_changed'] = 'I dettagli dell\'appuntamento sono cambiati.';
+$lang['appointment_details_changed_message'] = 'Il tuo appuntamento è stato riprogrammato. Qualora la nuova data o l\'orario assegnato non dovessero essere di tuo gradimento, potrai modificare liberamente la prenotazione utilizzando il pulsante "Riprogramma / Cancella Appuntamento" in calce a questa email.';
 $lang['appointment_changes_saved'] = 'Le modifiche all\'appuntamento sono state salvate con successo.';
 $lang['save'] = 'Salva';
 $lang['new'] = 'Nuovo';

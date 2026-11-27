@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'הפעלת תהליך הסנכרון של יומן
 $lang['appointment_updated'] = 'הפגישה עודכנה בהצלחה!';
 $lang['undo'] = 'לבטל';
 $lang['appointment_details_changed'] = 'פרטי הפגישה השתנו.';
+$lang['appointment_details_changed_message'] = 'הפגישה שלך הוזמנה מחדש. אם התאריך או השעה החדשים אינם מתאימים לך, תוכל לשנות את ההזמנה בחופשיות באמצעות כפתור "שנה / בטל פגישה" בתחתית דוא"ל זה.';
 $lang['appointment_changes_saved'] = 'עדכון פרטי הפגישה נשמרו בהצלחה!';
 $lang['save'] = 'שמירה';
 $lang['new'] = 'חדש';

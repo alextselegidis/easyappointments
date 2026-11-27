@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Zahájit proces synchronizace s Kalendářem Googl
 $lang['appointment_updated'] = 'Provedené změny schůzky byly úspěšně uloženy.';
 $lang['undo'] = 'Zpět';
 $lang['appointment_details_changed'] = 'Informace o schůzce byly změněny.';
+$lang['appointment_details_changed_message'] = 'Vaše schůzka byla přeplánována. Pokud vám nové datum nebo čas nevyhovuje, můžete rezervaci změnit pomocí tlačítka "Přeplánovat / Zrušit schůzku" v dolní části tohoto e-mailu.';
 $lang['appointment_changes_saved'] = 'Provedené změny schůzky byly úspěšně uloženy.';
 $lang['save'] = 'Uložit';
 $lang['new'] = 'Nový';

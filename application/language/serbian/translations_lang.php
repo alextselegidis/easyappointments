@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Pokreni sinhronizaciju Google kalendara.';
 $lang['appointment_updated'] = 'Vreme posete je ažurirano!';
 $lang['undo'] = 'Poništi';
 $lang['appointment_details_changed'] = 'Vreme posete je izmenjeno.';
+$lang['appointment_details_changed_message'] = 'Vaša poseta je ponovo zakazana. Ako Vam novi datum ili vreme ne odgovara, slobodno možete promeniti rezervaciju koristeći dugme "Promenite / Otkazivanje posete" na dnu ovog e-maila.';
 $lang['appointment_changes_saved'] = 'Izmene su sačuvane!';
 $lang['save'] = 'Sačuvajte';
 $lang['new'] = 'Novo';

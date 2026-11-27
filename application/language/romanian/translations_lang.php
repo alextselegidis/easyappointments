@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Porneste procesul de sincronizare cu Calendarul Go
 $lang['appointment_updated'] = 'Întâlnire actualizata cu succes.';
 $lang['undo'] = 'Înapoi';
 $lang['appointment_details_changed'] = 'Detaliile întâlnirii au fost modificate.';
+$lang['appointment_details_changed_message'] = 'Întâlnirea dumneavoastra a fost reprogramata. Daca noua data sau ora nu va convine, puteti modifica liber rezervarea folosind butonul "Reprogramati / Anulati întâlnirea" din partea de jos a acestui e-mail.';
 $lang['appointment_changes_saved'] = 'Modificarile întâlnirii au fost salvate cu succes.';
 $lang['save'] = 'Salvare';
 $lang['new'] = 'Nou';

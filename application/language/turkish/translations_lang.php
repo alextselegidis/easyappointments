@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Google Takvim eşitlemeyi başlat.';
 $lang['appointment_updated'] = 'Randevu başarıyla güncellendi.';
 $lang['undo'] = 'Geri al';
 $lang['appointment_details_changed'] = 'Randevu detayları değiştirildi.';
+$lang['appointment_details_changed_message'] = 'Randevunuz yeniden planlandı. Yeni tarih veya saat sizin için uygun değilse, bu e-postanın altındaki "Randevuyu Yeniden Planla / İptal Et" düğmesini kullanarak rezervasyonu özgürce değiştirebilirsiniz.';
 $lang['appointment_changes_saved'] = 'Randevu değişiklikleri başarıyla kaydedildi.';
 $lang['save'] = 'Kaydet';
 $lang['new'] = 'Yeni';

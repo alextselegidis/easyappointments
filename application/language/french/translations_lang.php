@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Démarrer la procédure de synchronisation du cale
 $lang['appointment_updated'] = 'Rendez-vous mis à jour avec succès.';
 $lang['undo'] = 'Annuler';
 $lang['appointment_details_changed'] = 'Les détails du rendez-vous ont bien été modifiés.';
+$lang['appointment_details_changed_message'] = 'Votre rendez-vous a été reprogrammé. Si la nouvelle date ou l’heure ne vous convient pas, vous pouvez librement modifier la réservation en utilisant le bouton "Reprogrammer / Annuler le rendez-vous" au bas de cet e-mail.';
 $lang['appointment_changes_saved'] = 'Les modifications du rendez-vous ont été enregistrées.';
 $lang['save'] = 'Enregistrer';
 $lang['new'] = 'Nouveau';

@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Dispara el procés de sincronització amb el Googl
 $lang['appointment_updated'] = 'La cita s\'ha actualitzat correctament.';
 $lang['undo'] = 'Desfés';
 $lang['appointment_details_changed'] = 'Els detalls de la cita han canviat.';
+$lang['appointment_details_changed_message'] = 'La vostra cita s\'ha reprogramat. Si la nova data o hora no us convé, podeu canviar la reserva lliurement fent servir el botó "Reprograma / Cancel·la la cita" al final d\'aquest correu electrònic.';
 $lang['appointment_changes_saved'] = 'Els canvis de la cita s\'han desat correctament.';
 $lang['save'] = 'Desa';
 $lang['new'] = 'Nou';

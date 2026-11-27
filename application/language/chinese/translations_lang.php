@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = '激活谷歌日历同步进程.';
 $lang['appointment_updated'] = '预约成功更新.';
 $lang['undo'] = '撤销';
 $lang['appointment_details_changed'] = '预约信息已经修改.';
+$lang['appointment_details_changed_message'] = '您的预约已经重新安排。如果新的日期或时间不适合您，您可以使用此电子邮件底部的“重新安排/取消预约”按钮自由更改预订.';
 $lang['appointment_changes_saved'] = '预约已成功修改并保存.';
 $lang['save'] = '保存';
 $lang['new'] = '新建';

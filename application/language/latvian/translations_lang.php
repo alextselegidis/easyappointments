@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Palaist kalendāra sinhronizācijas procesu.';
 $lang['appointment_updated'] = 'Tikšanās veiksmīgi atjaunināta.';
 $lang['undo'] = 'Atsaukt';
 $lang['appointment_details_changed'] = 'Tikšanās detaļas tika mainītas';
+$lang['appointment_details_changed_message'] = 'Jūsu tikšanās bija pārcelta. Ja jaunais datums vai laiks jums neder, varat brīvi mainīt rezervāciju, izmantojot šī e-pasta apakšā esošo pogu "Pārcelt / Atcelt tikšanos".';
 $lang['appointment_changes_saved'] = 'Tikšanās izmaiņas ir veiksmīgi saglabātas.';
 $lang['save'] = 'Saglabāt';
 $lang['new'] = 'Jauns';

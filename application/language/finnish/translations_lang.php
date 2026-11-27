@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Käynnistä Google-kalenterin synkronointi.';
 $lang['appointment_updated'] = 'Varaus päivitetty onnistuneesti.';
 $lang['undo'] = 'Kumoa';
 $lang['appointment_details_changed'] = 'Varaustiedot ovat muuttuneet';
+$lang['appointment_details_changed_message'] = 'Varaustasi on siirretty. Jos uusi päivämäärä tai aika ei sovi sinulle, voit vapaasti muuttaa varausta käyttämällä tämän sähköpostin alaosassa olevaa "Siirrä / Peruuta varaus" -painiketta.';
 $lang['appointment_changes_saved'] = 'Varauksen muutokset tallennettiin onnistuneesti.';
 $lang['save'] = 'Tallenna';
 $lang['new'] = 'Uusi';

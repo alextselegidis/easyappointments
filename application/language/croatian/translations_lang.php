@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Pokrenite postupak sinkronizacije Google kalendara
 $lang['appointment_updated'] = 'Sastanak uspješno ažuriran.';
 $lang['undo'] = 'Poništi';
 $lang['appointment_details_changed'] = 'Detalji sastanka su promijenjeni.';
+$lang['appointment_details_changed_message'] = 'Vaš sastanak je prebačen na drugi datum. Ako vam novi datum ili vrijeme ne odgovara, slobodno možete promijeniti rezervaciju pomoću gumba "Ponovo zakaži / Otkaži sastanak" na dnu ovog e-maila.';
 $lang['appointment_changes_saved'] = 'Promjene sastanka uspješno su spremljene.';
 $lang['save'] = 'Spremi';
 $lang['new'] = 'Novo';

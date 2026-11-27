@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Start de Synchronisatiounsprozess vum Google Kalen
 $lang['appointment_updated'] = 'D\'Termäiner sinn erfollegräich erneiert ginn.';
 $lang['undo'] = 'Schrëtt zeréck';
 $lang['appointment_details_changed'] = 'D\'Detailer vum Termäin si geännert ginn.';
+$lang['appointment_details_changed_message'] = 'Äre Termäin gouf nei geplangt. Wann den neien Datum oder d\'Zäit Iech net passt, kënnt Dir d\'Buchung fräi änneren andeems Dir de Knäppchen "Termäin nei plangen / Termäin annuléieren" um Enn vun dëser E-Mail benotzt.';
 $lang['appointment_changes_saved'] = 'D\'Detailer vum Termäin sinn erfollegräich gespäichert ginn.';
 $lang['save'] = 'Späicheren';
 $lang['new'] = 'Nei';

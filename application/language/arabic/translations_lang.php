@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'شغل عملية مزامنة التقويم.';
 $lang['appointment_updated'] = 'تم تحديث الموعد بنجاح.';
 $lang['undo'] = 'تراجع';
 $lang['appointment_details_changed'] = 'تم تعديل تفاصيل الموعد بنجاح';
+$lang['appointment_details_changed_message'] = 'تم إعادة جدولة موعدك. إذا لم تكن راضيًا عن التاريخ أو الوقت الجديد، فيمكنك تعديل الحجز بحرية باستخدام زر "إعادة جدولة / إلغاء الموعد" في أسفل هذا البريد الإلكتروني.';
 $lang['appointment_changes_saved'] = 'تم حفظ التعديلات على الموعد بنجاح.';
 $lang['save'] = 'حفظ';
 $lang['new'] = 'جديد';

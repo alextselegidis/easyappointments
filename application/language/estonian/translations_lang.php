@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Sünkroniseeri Google\'iga.';
 $lang['appointment_updated'] = 'Broneeringu muutmine õnnestus.';
 $lang['undo'] = 'Võta tagasi';
 $lang['appointment_details_changed'] = 'Broneeringu detailid on muutunud.';
+$lang['appointment_details_changed_message'] = 'Sinu broneering on ümber planeeritud. Kui uus kuupäev või aeg ei sobi, saad broneeringut vabalt muuta, kasutades selle e-kirja allosas olevat nuppu "Muuda / Tühista broneering".';
 $lang['appointment_changes_saved'] = 'Broneeringu muutused salvestatud.';
 $lang['save'] = 'Salvesta';
 $lang['new'] = 'Uus';

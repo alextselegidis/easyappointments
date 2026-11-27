@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Google कॅलेंडर संकालन �
 $lang['appointment_updated'] = 'नियुक्ती अद्यतनित यशस्वी.';
 $lang['undo'] = 'पूर्ववत करा';
 $lang['appointment_details_changed'] = 'भेटीचे तपशील बदलले आहेत.';
+$lang['appointment_details_changed_message'] = 'आपली अपॉइंटमेंट पुन्हा वेळापत्रकात आहे. जर नवीन तारीख किंवा वेळ आपल्यासाठी योग्य नसेल, तर आपण या ईमेलच्या तळाशी "पुनर्निर्धारित / अपॉइंटमेंट रद्द करा" बटण वापरून बुकिंग स्वतंत्रपणे बदलू शकता.';
 $lang['appointment_changes_saved'] = 'अपॉईंटमेंट बदल यशस्वीरित्या जतन केला गेला आहे.';
 $lang['save'] = 'जतन करा';
 $lang['new'] = 'नवीन';

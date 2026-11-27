@@ -259,6 +259,7 @@ class Email_messages
 
         $php_mailer->CharSet = 'UTF-8';
         $php_mailer->SMTPDebug = config('smtp_debug') ? SMTP::DEBUG_SERVER : null;
+        $php_mailer->Debugoutput = 'error_log'; // Keep SMTP debug output in the logs, never in the response
 
         if (config('protocol') === 'smtp') {
             $php_mailer->isSMTP();

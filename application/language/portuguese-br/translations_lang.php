@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Disparar o processo de sincronização do Google C
 $lang['appointment_updated'] = 'Atualizado com sucesso.';
 $lang['undo'] = 'Desfazer';
 $lang['appointment_details_changed'] = 'Detalhes do agendamento foram alterados.';
+$lang['appointment_details_changed_message'] = 'O seu agendamento foi reagendado. Se a nova data ou hora não for adequada, você pode alterar livremente a reserva usando o botão "Reagendar / Cancelar agendamento" na parte inferior deste e-mail.';
 $lang['appointment_changes_saved'] = 'Detalhes do agendamento foram guardados com sucesso.';
 $lang['save'] = 'Salvar';
 $lang['new'] = 'Novo';

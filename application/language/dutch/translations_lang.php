@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Start het Google Agenda synchronisatieproces.';
 $lang['appointment_updated'] = 'Afspraak succesvol bijgewerkt.';
 $lang['undo'] = 'Ongedaan maken';
 $lang['appointment_details_changed'] = 'Afspraakgegevens veranderd.';
+$lang['appointment_details_changed_message'] = 'Uw afspraak is opnieuw gepland. Als de nieuwe datum of tijd niet geschikt is, kunt u de reservering vrij wijzigen met behulp van de knop "Afspraak opnieuw plannen / annuleren" onderaan deze e-mail.';
 $lang['appointment_changes_saved'] = 'De wijzigingen in de afspraak zijn succesvol opgeslagen.';
 $lang['save'] = 'Opslaan';
 $lang['new'] = 'Nieuw';

@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = '觸發日曆同步程序。';
 $lang['appointment_updated'] = '預約已成功更新。';
 $lang['undo'] = '復原';
 $lang['appointment_details_changed'] = '預約詳細資訊已更改。';
+$lang['appointment_details_changed_message'] = '您的預約已重新安排。如果新的日期或時間不適合您，您可以使用此電子郵件底部的「重新安排/取消預約」按鈕自由更改預約。';
 $lang['appointment_changes_saved'] = '預約更改已成功儲存。';
 $lang['save'] = '儲存';
 $lang['new'] = '新增';

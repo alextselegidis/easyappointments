@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Przełącz proces synchronizacji Kalendarza Google
 $lang['appointment_updated'] = 'Wizyta zaktualizowana poprawnie.';
 $lang['undo'] = 'Cofnij';
 $lang['appointment_details_changed'] = 'Szczegóły wizyty zostały zmienione.';
+$lang['appointment_details_changed_message'] = 'Twoja wizyta została ponownie zaplanowana. Jeśli nowa data lub godzina nie jest odpowiednia, możesz swobodnie zmienić rezerwację, korzystając z przycisku "Zmień / Anuluj wizytę" na dole tego e-maila.';
 $lang['appointment_changes_saved'] = 'Zmiany zostały zapisane.';
 $lang['save'] = 'Zapisz';
 $lang['new'] = 'Nowa';

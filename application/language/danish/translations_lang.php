@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Start kalendersynkroniseringsprocessen.';
 $lang['appointment_updated'] = 'Tiden er opdateret.';
 $lang['undo'] = 'Fortryd';
 $lang['appointment_details_changed'] = 'Tidens oplysninger er ændret.';
+$lang['appointment_details_changed_message'] = 'Din tid er blevet ændret. Hvis den nye dato eller tid ikke passer dig, kan du ændre din booking ved at bruge knappen "Omplanlæg / Annuller aftale" nederst i denne e-mail.';
 $lang['appointment_changes_saved'] = 'Aftalens ændring er blevet gemt';
 $lang['save'] = 'Gem';
 $lang['new'] = 'Ny';

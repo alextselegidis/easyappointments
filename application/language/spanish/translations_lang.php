@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Iniciar el proceso de sincronización del calendar
 $lang['appointment_updated'] = 'Cita actualizada exitosamente';
 $lang['undo'] = 'Deshacer';
 $lang['appointment_details_changed'] = 'Se han modificado los detalles de la cita.';
+$lang['appointment_details_changed_message'] = 'Su cita ha sido reprogramada. Si la nueva fecha u hora no es adecuada, puede cambiar libremente la reserva utilizando el botón "Reprogramar / Cancelar cita" en la parte inferior de este correo electrónico.';
 $lang['appointment_changes_saved'] = 'Se han guardado exitosamente los cambios en la cita';
 $lang['save'] = 'Guardar';
 $lang['new'] = 'Nuevo';

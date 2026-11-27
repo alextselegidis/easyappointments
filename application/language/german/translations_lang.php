@@ -92,6 +92,7 @@ $lang['trigger_sync_hint'] = 'Starten Sie den Synchronisationsprozess mit extern
 $lang['appointment_updated'] = 'Die Termine sind erfolgreich erneuert worden.';
 $lang['undo'] = 'Schritt zurück';
 $lang['appointment_details_changed'] = 'Die Termindetails haben sich geändert.';
+$lang['appointment_details_changed_message'] = 'Ihr Termin wurde neu geplant. Wenn das neue Datum oder die neue Uhrzeit für Sie nicht geeignet ist, können Sie die Buchung frei ändern, indem Sie die Schaltfläche "Termin neu planen / Termin stornieren" am Ende dieser E-Mail verwenden.';
 $lang['appointment_changes_saved'] = 'Die Terminänderungen wurden erfolgreich gespeichert.';
 $lang['save'] = 'Speichern';
 $lang['new'] = 'Neu';
